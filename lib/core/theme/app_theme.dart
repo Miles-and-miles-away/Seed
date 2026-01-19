@@ -1,10 +1,12 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
 /// App theme configuration
 /// Uses Material 3 design system
-abstract class AppTheme {
+abstract final class AppTheme {
   /// Light theme
   static ThemeData get light => ThemeData(
         useMaterial3: true,

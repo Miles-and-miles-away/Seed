@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
 import 'router.dart';
-// import '../core/l10n/generated/app_localizations.dart';
 
 class SeedApp extends ConsumerWidget {
   const SeedApp({super.key});
@@ -30,8 +30,7 @@ class SeedApp extends ConsumerWidget {
         Locale('ja'),
       ],
       localizationsDelegates: const [
-        // TODO: Uncomment after generating localizations
-        // AppLocalizations.delegate,
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

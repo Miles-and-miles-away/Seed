@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/auth/presentation/providers/auth_providers.dart';
+import '../features/auth/presentation/screens/email_verification_screen.dart';
+import '../features/auth/presentation/screens/login_screen.dart';
+import '../features/auth/presentation/screens/register_screen.dart';
+import '../features/sdg/sdg.dart';
+
 // Import feature screens as you create them
-// import '../features/auth/presentation/screens/login_screen.dart';
-// import '../features/actions/presentation/screens/home_screen.dart';
 // import '../features/mascot/presentation/screens/mascot_screen.dart';
 // import '../features/profile/presentation/screens/profile_screen.dart';
 // import '../features/settings/presentation/screens/settings_screen.dart';
@@ -16,44 +22,65 @@ abstract class AppRoutes {
   static const splash = '/';
   static const login = '/login';
   static const register = '/register';
+  static const emailVerification = '/verify-email';
   static const home = '/home';
   static const mascot = '/mascot';
   static const profile = '/profile';
   static const settings = '/settings';
   static const actionLog = '/log-action';
   static const actionHistory = '/history';
+  static const sdgDetail = '/sdg/:goalNumber';
 }
 
 @riverpod
 GoRouter router(Ref ref) {
-  // TODO: Watch auth state to redirect unauthenticated users
-  // final authState = ref.watch(authStateProvider);
+  // Watch auth state to redirect unauthenticated users
+  final authState = ref.watch(authStateChangesProvider);
 
   return GoRouter(
     initialLocation: AppRoutes.splash,
     debugLogDiagnostics: true,
+
+    // Refresh router when auth state changes
+    refreshListenable: GoRouterRefreshStream(
+      ref.watch(firebaseAuthProvider).authStateChanges(),
+    ),
+
     routes: [
       // Splash / Loading screen
       GoRoute(
         path: AppRoutes.splash,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Seed'),
+        builder: (context, state) => const _SplashScreen(),
       ),
 
       // Auth routes
       GoRoute(
         path: AppRoutes.login,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Login'),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.register,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Register'),
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.emailVerification,
+        builder: (context, state) => const EmailVerificationScreen(),
       ),
 
       // Main app routes (use ShellRoute for bottom nav later)
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Home'),
+        builder: (context, state) => const HomeScreen(),
+      ),
+
+      // SDG detail route
+      GoRoute(
+        path: '/sdg/:goalNumber',
+        builder: (context, state) {
+          final goalNumber =
+              int.tryParse(state.pathParameters['goalNumber'] ?? '1') ?? 1;
+          return SdgDetailScreen(goalNumber: goalNumber);
+        },
       ),
       GoRoute(
         path: AppRoutes.mascot,
@@ -80,19 +107,48 @@ GoRouter router(Ref ref) {
       ),
     ],
 
-    // Redirect logic
+    // Redirect logic based on auth state
     redirect: (context, state) {
-      // TODO: Implement auth redirect
-      // final isLoggedIn = authState.isLoggedIn;
-      // final isLoggingIn = state.matchedLocation == AppRoutes.login;
-      //
-      // if (!isLoggedIn && !isLoggingIn) {
-      //   return AppRoutes.login;
-      // }
-      // if (isLoggedIn && isLoggingIn) {
-      //   return AppRoutes.home;
-      // }
-      return null;
+      // Pattern match on auth state
+      return authState.when(
+        data: (user) {
+          final currentPath = state.matchedLocation;
+          final isOnAuthPage = currentPath == AppRoutes.login ||
+              currentPath == AppRoutes.register;
+          final isOnSplash = currentPath == AppRoutes.splash;
+          final isOnVerification = currentPath == AppRoutes.emailVerification;
+
+          // Not logged in - redirect to login
+          if (user == null) {
+            return isOnAuthPage ? null : AppRoutes.login;
+          }
+
+          // Logged in but email not verified (for email/password users only)
+          final isEmailPasswordUser =
+              user.providerData.any((p) => p.providerId == 'password');
+          if (!user.emailVerified && isEmailPasswordUser) {
+            return isOnVerification ? null : AppRoutes.emailVerification;
+          }
+
+          // Logged in and verified - redirect away from auth pages
+          if (isOnAuthPage || isOnSplash || isOnVerification) {
+            return AppRoutes.home;
+          }
+
+          return null;
+        },
+        loading: () {
+          // Show splash while loading
+          final isOnSplash = state.matchedLocation == AppRoutes.splash;
+          return isOnSplash ? null : AppRoutes.splash;
+        },
+        error: (_, __) {
+          // On error, redirect to login
+          final isOnAuthPage = state.matchedLocation == AppRoutes.login ||
+              state.matchedLocation == AppRoutes.register;
+          return isOnAuthPage ? null : AppRoutes.login;
+        },
+      );
     },
 
     // Error handling
@@ -106,7 +162,6 @@ GoRouter router(Ref ref) {
 
 /// Temporary placeholder screen for development
 class _PlaceholderScreen extends StatelessWidget {
-
   const _PlaceholderScreen({required this.title});
   final String title;
 
@@ -130,5 +185,46 @@ class _PlaceholderScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Splash screen shown while determining auth state.
+class _SplashScreen extends StatelessWidget {
+  const _SplashScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.eco,
+              size: 80,
+              color: theme.colorScheme.primary,
+            ),
+            const SizedBox(height: 24),
+            const CircularProgressIndicator(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Helper class that notifies GoRouter when auth state changes.
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    _subscription = stream.listen((_) => notifyListeners());
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }
