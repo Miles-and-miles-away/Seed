@@ -1,0 +1,122 @@
+{
+  "@@locale": "ja",
+  "@@last_modified": "2025-01-18",
+
+  "appTitle": "Seed",
+  "appTagline": "サステナブルな習慣を育てよう",
+
+  "navHome": "ホーム",
+  "navMascot": "マスコット",
+  "navProfile": "プロフィール",
+  "navSettings": "設定",
+
+  "authLogin": "ログイン",
+  "authRegister": "新規登録",
+  "authLogout": "ログアウト",
+  "authEmail": "メールアドレス",
+  "authPassword": "パスワード",
+  "authConfirmPassword": "パスワード確認",
+  "authForgotPassword": "パスワードをお忘れですか？",
+  "authContinueWithGoogle": "Googleで続ける",
+  "authContinueWithApple": "Appleで続ける",
+  "authOrDivider": "または",
+
+  "homeWelcome": "おかえりなさい、{name}さん！",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeLogAction": "アクションを記録",
+  "homeRecentActions": "最近のアクション",
+  "homeNoActions": "まだアクションがありません。始めましょう！",
+
+  "actionLogTitle": "アクションを記録",
+  "actionSearchHint": "アクションを検索...",
+  "actionLogged": "記録しました！ +{points}ポイント",
+  "@actionLogged": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+
+  "pointsLabel": "{count}ポイント",
+  "@pointsLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "levelLabel": "レベル{level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "streakLabel": "{days}日連続",
+  "@streakLabel": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "co2Saved": "{amount} CO₂削減",
+  "@co2Saved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "mascotName": "{name}",
+  "@mascotName": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "mascotRename": "名前を変更",
+  "mascotEvolution": "進化段階 {stage}",
+  "@mascotEvolution": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
+
+  "profileTitle": "プロフィール",
+  "profileStats": "統計",
+  "profileTotalActions": "合計アクション",
+  "profileTotalCO2": "合計CO₂削減量",
+  "profileMemberSince": "登録日",
+
+  "settingsTitle": "設定",
+  "settingsNotifications": "通知",
+  "settingsReminderTime": "毎日のリマインダー",
+  "settingsLanguage": "言語",
+  "settingsTheme": "テーマ",
+  "settingsThemeSystem": "システム",
+  "settingsThemeLight": "ライト",
+  "settingsThemeDark": "ダーク",
+  "settingsAccount": "アカウント",
+  "settingsSubscription": "サブスクリプション",
+  "settingsAbout": "このアプリについて",
+  "settingsPrivacy": "プライバシーポリシー",
+  "settingsTerms": "利用規約",
+
+  "subscriptionFree": "無料",
+  "subscriptionPremium": "プレミアム",
+  "subscriptionUpgrade": "プレミアムにアップグレード",
+
+  "categoryRecycling": "リサイクル",
+  "categoryTransport": "移動",
+  "categoryFood": "食事",
+  "categoryEnergy": "エネルギー",
+  "categoryConsumption": "消費",
+  "categoryWater": "水",
+
+  "errorGeneric": "エラーが発生しました。もう一度お試しください。",
+  "errorNetwork": "インターネット接続がありません。",
+  "errorAuth": "認証に失敗しました。もう一度お試しください。",
+
+  "buttonSave": "保存",
+  "buttonCancel": "キャンセル",
+  "buttonConfirm": "確認",
+  "buttonRetry": "再試行",
+  "buttonContinue": "続ける"
+}

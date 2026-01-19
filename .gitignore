@@ -1,0 +1,79 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+
+# Generated files
+*.g.dart
+*.freezed.dart
+lib/core/l10n/generated/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+*.pem
+
+# Android
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/local.properties
+android/key.properties
+android/*.jks
+android/*.keystore
+
+# iOS
+ios/.symlinks/
+ios/Pods/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Firebase
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
+firebase.json
+
+# Environment / Secrets
+.env
+.env.*
+*.env
+secrets/
+credentials/
+
+# Coverage
+coverage/
+*.lcov
+
+# Test
+test/.test_coverage.dart
+
+# Pub
+.pub-cache/
+.pub/
+pubspec.lock
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/

@@ -1,0 +1,122 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2025-01-18",
+
+  "appTitle": "Seed",
+  "appTagline": "Grow your sustainability habits",
+
+  "navHome": "Home",
+  "navMascot": "Mascot",
+  "navProfile": "Profile",
+  "navSettings": "Settings",
+
+  "authLogin": "Log In",
+  "authRegister": "Sign Up",
+  "authLogout": "Log Out",
+  "authEmail": "Email",
+  "authPassword": "Password",
+  "authConfirmPassword": "Confirm Password",
+  "authForgotPassword": "Forgot Password?",
+  "authContinueWithGoogle": "Continue with Google",
+  "authContinueWithApple": "Continue with Apple",
+  "authOrDivider": "or",
+
+  "homeWelcome": "Welcome back, {name}!",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeLogAction": "Log Action",
+  "homeRecentActions": "Recent Actions",
+  "homeNoActions": "No actions logged yet. Start your journey!",
+
+  "actionLogTitle": "Log an Action",
+  "actionSearchHint": "Search actions...",
+  "actionLogged": "Action logged! +{points} points",
+  "@actionLogged": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+
+  "pointsLabel": "{count} points",
+  "@pointsLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "levelLabel": "Level {level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "streakLabel": "{days} day streak",
+  "@streakLabel": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "co2Saved": "{amount} CO₂ saved",
+  "@co2Saved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "mascotName": "{name}",
+  "@mascotName": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "mascotRename": "Rename",
+  "mascotEvolution": "Evolution Stage {stage}",
+  "@mascotEvolution": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
+
+  "profileTitle": "Profile",
+  "profileStats": "Statistics",
+  "profileTotalActions": "Total Actions",
+  "profileTotalCO2": "Total CO₂ Saved",
+  "profileMemberSince": "Member Since",
+
+  "settingsTitle": "Settings",
+  "settingsNotifications": "Notifications",
+  "settingsReminderTime": "Daily Reminder",
+  "settingsLanguage": "Language",
+  "settingsTheme": "Theme",
+  "settingsThemeSystem": "System",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsAccount": "Account",
+  "settingsSubscription": "Subscription",
+  "settingsAbout": "About",
+  "settingsPrivacy": "Privacy Policy",
+  "settingsTerms": "Terms of Service",
+
+  "subscriptionFree": "Free",
+  "subscriptionPremium": "Premium",
+  "subscriptionUpgrade": "Upgrade to Premium",
+
+  "categoryRecycling": "Recycling",
+  "categoryTransport": "Transport",
+  "categoryFood": "Food",
+  "categoryEnergy": "Energy",
+  "categoryConsumption": "Consumption",
+  "categoryWater": "Water",
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorNetwork": "No internet connection.",
+  "errorAuth": "Authentication failed. Please try again.",
+
+  "buttonSave": "Save",
+  "buttonCancel": "Cancel",
+  "buttonConfirm": "Confirm",
+  "buttonRetry": "Retry",
+  "buttonContinue": "Continue"
+}

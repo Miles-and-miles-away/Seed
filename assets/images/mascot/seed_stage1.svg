@@ -1,0 +1,83 @@
+<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for shiny seed body -->
+    <radialGradient id="seedGradient" cx="45%" cy="40%">
+      <stop offset="0%" style="stop-color:#A89070;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B6F47;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B5535;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Eye gradient -->
+    <radialGradient id="eyeGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#5C9FFF;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#3A7FE8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563C8;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Seed body with gradient -->
+  <ellipse cx="100" cy="125" rx="62" ry="82" fill="url(#seedGradient)" stroke="#5C4A33" stroke-width="2.5"/>
+  
+  <!-- Seed shine highlight -->
+  <ellipse cx="85" cy="90" rx="25" ry="35" fill="#FFFFFF" opacity="0.25"/>
+  
+  <!-- Seed texture lines (subtle) -->
+  <path d="M 70 95 Q 100 100 130 95" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+  <path d="M 65 115 Q 100 120 135 115" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+  <path d="M 70 135 Q 100 140 130 135" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- ANIME EYES (much bigger and more detailed) -->
+  <!-- Left eye white -->
+  <ellipse cx="78" cy="105" rx="22" ry="28" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+  <!-- Right eye white -->
+  <ellipse cx="122" cy="105" rx="22" ry="28" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+  
+  <!-- Left iris -->
+  <ellipse cx="78" cy="110" rx="16" ry="20" fill="url(#eyeGradient)"/>
+  <!-- Right iris -->
+  <ellipse cx="122" cy="110" rx="16" ry="20" fill="url(#eyeGradient)"/>
+  
+  <!-- Left pupil -->
+  <ellipse cx="78" cy="112" rx="7" ry="10" fill="#1A1A2E"/>
+  <!-- Right pupil -->
+  <ellipse cx="122" cy="112" rx="7" ry="10" fill="#1A1A2E"/>
+  
+  <!-- Main eye highlights (large anime style) -->
+  <ellipse cx="72" cy="100" rx="8" ry="10" fill="#FFFFFF" opacity="0.9"/>
+  <ellipse cx="116" cy="100" rx="8" ry="10" fill="#FFFFFF" opacity="0.9"/>
+  
+  <!-- Secondary smaller highlights -->
+  <circle cx="82" cy="118" r="4" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="126" cy="118" r="4" fill="#FFFFFF" opacity="0.7"/>
+  
+  <!-- Tiny sparkle highlights -->
+  <circle cx="85" cy="98" r="2" fill="#FFFFFF"/>
+  <circle cx="129" cy="98" r="2" fill="#FFFFFF"/>
+  
+  <!-- Eye shine lines (anime style) -->
+  <path d="M 70 95 L 68 92" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 114 95 L 112 92" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- Rosy cheeks (more vibrant) -->
+  <ellipse cx="55" cy="120" rx="13" ry="9" fill="#FF9EAA" opacity="0.7"/>
+  <ellipse cx="145" cy="120" rx="13" ry="9" fill="#FF9EAA" opacity="0.7"/>
+  
+  <!-- Small anime-style mouth -->
+  <path d="M 95 135 Q 100 138 105 135" fill="#8B4A47" stroke="#5C4A33" stroke-width="1.5"/>
+  
+  <!-- Little sprout on top (more dynamic) -->
+  <path d="M 100 45 Q 102 35 108 28 Q 112 22 110 16" fill="none" stroke="#6B8E23" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 100 45 Q 98 35 92 28 Q 88 22 90 16" fill="none" stroke="#6B8E23" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Leaves on sprout (more vibrant) -->
+  <ellipse cx="110" cy="16" rx="10" ry="14" fill="#8BC34A" stroke="#689F38" stroke-width="2" transform="rotate(25 110 16)"/>
+  <ellipse cx="90" cy="16" rx="10" ry="14" fill="#8BC34A" stroke="#689F38" stroke-width="2" transform="rotate(-25 90 16)"/>
+  
+  <!-- Leaf highlights -->
+  <ellipse cx="108" cy="12" rx="4" ry="6" fill="#AED581" opacity="0.6" transform="rotate(25 108 12)"/>
+  <ellipse cx="92" cy="12" rx="4" ry="6" fill="#AED581" opacity="0.6" transform="rotate(-25 92 12)"/>
+  
+  <!-- Tiny arms (cuter) -->
+  <path d="M 42 135 Q 32 138 28 143" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 158 135 Q 168 138 172 143" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+</svg>
