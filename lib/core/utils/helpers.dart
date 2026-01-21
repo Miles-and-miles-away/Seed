@@ -71,13 +71,21 @@ int getEvolutionStage(int level) {
   return 1;
 }
 
-/// Format CO2 amount for display
+/// Format CO2 amount for display (full format with CO₂ suffix)
 String formatCO2(int grams) {
   if (grams >= 1000) {
     final kg = grams / 1000;
     return '${kg.toStringAsFixed(1)} kg CO₂';
   }
   return '$grams g CO₂';
+}
+
+/// Format CO2 amount in compact form (e.g., "1.2kg" or "500g")
+String formatCO2Compact(int grams) {
+  if (grams >= 1000) {
+    return '${(grams / 1000).toStringAsFixed(1)}kg';
+  }
+  return '${grams}g';
 }
 
 /// Format points with suffix
