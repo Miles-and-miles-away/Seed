@@ -6,7 +6,11 @@ import 'package:seed_app/features/sdg/presentation/screens/home_screen.dart';
 
 void main() {
   group('HomeScreen', () {
-    testWidgets('renders app title and logo', (tester) async {
+    // Helper to pump widget and wait for initial frame
+    // Note: We use pump() instead of pumpAndSettle() because the SDG carousel
+    // contains CachedNetworkImage with CircularProgressIndicator placeholders
+    // that never settle due to infinite animations.
+    Future<void> pumpHomeScreen(WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -14,6 +18,12 @@ void main() {
           ),
         ),
       );
+      // Allow time for the initial frame to render
+      await tester.pump();
+    }
+
+    testWidgets('renders app title and logo', (tester) async {
+      await pumpHomeScreen(tester);
 
       // Verify app bar elements
       expect(find.text('Seed'), findsOneWidget);
@@ -21,13 +31,7 @@ void main() {
     });
 
     testWidgets('displays welcome hero section', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Verify hero section content
       expect(find.textContaining('Welcome to Seed'), findsOneWidget);
@@ -39,13 +43,7 @@ void main() {
     });
 
     testWidgets('displays SDG section header', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Verify SDG section
       expect(find.text('Explore the Goals'), findsOneWidget);
@@ -56,13 +54,7 @@ void main() {
     });
 
     testWidgets('displays SDG carousel', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // The SDG carousel should be present (contains SDG items)
       // Looking for SDG goal indicators - there should be 17 goals
@@ -71,13 +63,7 @@ void main() {
     });
 
     testWidgets('hero section has proper styling', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Find the hero container (has gradient decoration)
       final heroContainer = find.ancestor(
@@ -88,13 +74,7 @@ void main() {
     });
 
     testWidgets('app bar is floating', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Verify SliverAppBar exists
       expect(find.byType(SliverAppBar), findsOneWidget);
@@ -106,13 +86,7 @@ void main() {
     });
 
     testWidgets('scrolls content properly', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Verify CustomScrollView is present and can scroll
       expect(find.byType(CustomScrollView), findsOneWidget);
@@ -128,26 +102,14 @@ void main() {
     });
 
     testWidgets('uses SafeArea for proper padding', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       // Verify SafeArea is used (may be multiple in widget tree)
       expect(find.byType(SafeArea), findsAtLeast(1));
     });
 
     testWidgets('app bar title is centered', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
-      );
+      await pumpHomeScreen(tester);
 
       final sliverAppBar =
           tester.widget<SliverAppBar>(find.byType(SliverAppBar));
