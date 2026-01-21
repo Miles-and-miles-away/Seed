@@ -10,13 +10,9 @@ import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/auth/presentation/screens/email_verification_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
+import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
-
-// Import feature screens as you create them
-// import '../features/mascot/presentation/screens/mascot_screen.dart';
-// import '../features/profile/presentation/screens/profile_screen.dart';
-// import '../features/settings/presentation/screens/settings_screen.dart';
 
 part 'router.g.dart';
 
@@ -92,7 +88,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.profile,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Profile'),
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: AppRoutes.settings,

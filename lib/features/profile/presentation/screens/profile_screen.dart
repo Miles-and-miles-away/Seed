@@ -1,0 +1,355 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../core/utils/helpers.dart';
+import '../../../../shared/widgets/widgets.dart';
+import '../../../auth/data/models/app_user_model.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../providers/profile_providers.dart';
+
+/// User profile screen displaying stats, level progress, and achievements.
+class ProfileScreen extends ConsumerWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = theme.colorScheme;
+
+    final userAsync = ref.watch(currentUserProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.profileTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
+      body: userAsync.when(
+        data: (user) {
+          if (user == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // User header
+                _buildUserHeader(context, theme, colorScheme, user, l10n),
+
+                const SizedBox(height: 24),
+
+                // Level progress
+                _buildLevelSection(context, ref, theme, colorScheme, user, l10n),
+
+                const SizedBox(height: 24),
+
+                // Statistics section
+                _buildStatsSection(context, ref, theme, l10n),
+
+                const SizedBox(height: 24),
+
+                // Sign out button
+                OutlinedButton.icon(
+                  onPressed: () =>
+                      ref.read(authProvider.notifier).signOut(),
+                  icon: const Icon(Icons.logout),
+                  label: Text(l10n.authLogout),
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(
+          child: Text('Error: $error'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserHeader(
+    BuildContext context,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    AppUserModel user,
+    AppLocalizations l10n,
+  ) {
+    final displayName = user.displayName ?? user.email.split('@').first;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          // Avatar
+          CircleAvatar(
+            radius: 40,
+            backgroundColor: colorScheme.primary,
+            backgroundImage:
+                user.photoUrl != null ? NetworkImage(user.photoUrl!) : null,
+            child: user.photoUrl == null
+                ? Text(
+                    displayName[0].toUpperCase(),
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      color: colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : null,
+          ),
+          const SizedBox(width: 16),
+          // User info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  displayName,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  user.email,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                  ),
+                ),
+                if (user.createdAt != null) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        size: 14,
+                        color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${l10n.profileMemberSince} ${DateFormat.yMMMd().format(user.createdAt!)}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLevelSection(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    AppUserModel user,
+    AppLocalizations l10n,
+  ) {
+    final levelProgress = ref.watch(levelProgressProvider);
+    final pointsToNext = ref.watch(pointsToNextLevelProvider);
+    final evolutionStage = ref.watch(evolutionStageProvider);
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Level and points header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.levelLabel(user.level),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.pointsLabel(user.points),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+              // Evolution stage badge
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: colorScheme.tertiaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      size: 16,
+                      color: colorScheme.tertiary,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      l10n.profileEvolutionStage(evolutionStage),
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colorScheme.onTertiaryContainer,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          // Level progress bar
+          LevelProgressBar(
+            progress: levelProgress,
+            currentLevel: user.level,
+          ),
+
+          const SizedBox(height: 8),
+
+          // Points to next level
+          Text(
+            l10n.profileNextLevel(pointsToNext),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatsSection(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    final colorScheme = theme.colorScheme;
+    final userAsync = ref.watch(currentUserProvider);
+    final totalCo2Async = ref.watch(totalCo2SavedProvider);
+    final totalActionsAsync = ref.watch(totalActionsCountProvider);
+    final daysSinceJoined = ref.watch(daysSinceJoinedProvider);
+
+    final user = userAsync.value;
+    if (user == null) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.profileStats,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // First row: Current streak & Longest streak
+        StatCardRow(
+          left: StatCard(
+            icon: Icons.local_fire_department,
+            value: '${user.currentStreak}',
+            label: l10n.profileCurrentStreak,
+            iconColor: Colors.orange,
+          ),
+          right: StatCard(
+            icon: Icons.emoji_events,
+            value: '${user.longestStreak}',
+            label: l10n.profileLongestStreak,
+            iconColor: Colors.amber,
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Second row: Total CO2 & Total actions
+        StatCardRow(
+          left: totalCo2Async.when(
+            data: (co2) => StatCard(
+              icon: Icons.eco,
+              value: formatCO2Compact(co2),
+              label: l10n.profileTotalCO2,
+              iconColor: colorScheme.primary,
+            ),
+            loading: () => StatCard(
+              icon: Icons.eco,
+              value: '...',
+              label: l10n.profileTotalCO2,
+              iconColor: colorScheme.primary,
+            ),
+            error: (_, __) => StatCard(
+              icon: Icons.eco,
+              value: '-',
+              label: l10n.profileTotalCO2,
+              iconColor: colorScheme.primary,
+            ),
+          ),
+          right: totalActionsAsync.when(
+            data: (count) => StatCard(
+              icon: Icons.check_circle,
+              value: '$count',
+              label: l10n.profileTotalActions,
+              iconColor: colorScheme.secondary,
+            ),
+            loading: () => StatCard(
+              icon: Icons.check_circle,
+              value: '...',
+              label: l10n.profileTotalActions,
+              iconColor: colorScheme.secondary,
+            ),
+            error: (_, __) => StatCard(
+              icon: Icons.check_circle,
+              value: '-',
+              label: l10n.profileTotalActions,
+              iconColor: colorScheme.secondary,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Days active (single card)
+        StatCard(
+          icon: Icons.calendar_month,
+          value: l10n.profileDaysActive(daysSinceJoined),
+          label: l10n.profileMemberSince,
+          iconColor: colorScheme.tertiary,
+        ),
+      ],
+    );
+  }
+}

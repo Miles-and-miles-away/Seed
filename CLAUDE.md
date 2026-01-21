@@ -127,4 +127,4 @@ Defined in `lib/core/constants/app_constants.dart`:
 
 ## Architecture Documentation
 
-Detailed architecture, data models, security rules, and development phases are documented in `Plan/ARCHITECTURE.md`.
+Detailed architecture, data models, security rules, and development phases are documented in `Plan/MASTER_PLAN.md`.

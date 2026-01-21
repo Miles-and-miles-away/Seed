@@ -90,6 +90,26 @@
   "profileTotalActions": "Total Actions",
   "profileTotalCO2": "Total CO₂ Saved",
   "profileMemberSince": "Member Since",
+  "profileCurrentStreak": "Current Streak",
+  "profileLongestStreak": "Longest Streak",
+  "profileNextLevel": "{points} pts to next level",
+  "@profileNextLevel": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "profileDaysActive": "{days} days",
+  "@profileDaysActive": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileEvolutionStage": "Evolution Stage {stage}",
+  "@profileEvolutionStage": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
 
   "settingsTitle": "Settings",
   "settingsNotifications": "Notifications",

@@ -12,7 +12,8 @@
 ✅ Localization infrastructure set up (EN/JP)
 ✅ Firebase project configured (seed-3d48d)
 ✅ Mascot assets added (vector SVGs)
-⏳ Phase 1 in progress
+✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
+⏳ Phase 2 in progress (Level system logic done, Mascot UI pending)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -601,23 +602,28 @@ flutter build apk --dart-define=REVENUECAT_KEY=pk_xxxxx
 | Project setup | Flutter project, Firebase connection, folder structure | P0 | ✅ Done |
 | Basic UI shell | Navigation, theme, placeholder screens | P0 | ✅ Done |
 | Localization setup | EN/JP infrastructure (can translate later) | P1 | ✅ Done |
-| Authentication | Email/password + Google + Apple sign-in | P0 | ⏳ Next |
-| Action logging | Log action → points awarded → stored in Firestore | P0 | Pending |
-| Action library | Seed database with 20-30 common actions | P0 | Pending |
-| User profile | Display points, level, basic stats | P0 | Pending |
+| Authentication | Email/password + Google + Apple sign-in | P0 | ✅ Done |
+| Action logging | Log action → points awarded → stored in Firestore | P0 | ✅ Done |
+| Action library | Seed database with 20-30 common actions | P0 | ✅ Done |
+| Action history | View past logged actions with filtering | P1 | ✅ Done |
+| Progress tracking | Calendar view with daily summaries | P1 | ✅ Done |
+| SDG integration | Link actions to UN SDGs with info cards | P1 | ✅ Done |
+| User profile | Display points, level, basic stats | P0 | ✅ Done |
 
-**Deliverable:** You can sign up, log actions, see points accumulate.
+**Deliverable:** You can sign up, log actions, see points accumulate, view profile with stats. ✅ Core loop complete!
 
 ### Phase 2: Mascot MVP (Weeks 7-12)
 **Goal:** Engaging mascot system
 
-| Task | Description | Priority |
-|------|-------------|----------|
-| Mascot selection | Choose starter mascot on signup | P0 |
-| Level system | Points → levels with thresholds | P0 |
-| Evolution stages | Mascot appearance changes at milestones | P0 |
-| Basic animations | Idle animation, happy reaction on action log | P1 |
-| Mascot naming | User can name their mascot | P1 |
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Level system (logic) | Points → levels with thresholds | P0 | ✅ Done |
+| Evolution thresholds | Define stages at levels 1, 10, 25, 50 | P0 | ✅ Done |
+| Mascot selection | Choose starter mascot on signup | P0 | ⏳ Next |
+| Mascot display | Render mascot on home screen | P0 | Pending |
+| Evolution stages | Mascot appearance changes at milestones | P0 | Pending |
+| Basic animations | Idle animation, happy reaction on action log | P1 | Pending |
+| Mascot naming | User can name their mascot | P1 | Pending |
 
 **Deliverable:** Mascot that evolves as user levels up.
 
@@ -797,18 +803,25 @@ This keeps small actions rewarding while making big actions feel appropriately i
 
 ## Next Steps
 
+### Completed ✅
 1. ~~**Run `flutterfire configure`**~~ ✅ Done (project: seed-3d48d)
-2. **Implement authentication:**
-   - Email/password sign-in
-   - Google Sign-In
-   - Apple Sign-In (required for iOS)
-3. **Build action logging flow:**
-   - Seed action library in Firestore
-   - Log action screen
-   - Points calculation
-4. **User profile screen:**
-   - Display points and level
-   - Basic stats
+2. ~~**Implement authentication**~~ ✅ Done (Email/Google/Apple)
+3. ~~**Build action logging flow**~~ ✅ Done (atomic transactions, points calculation)
+4. ~~**Action library**~~ ✅ Done (Firestore integration)
+5. ~~**Progress tracking**~~ ✅ Done (calendar view, daily summaries)
+6. ~~**SDG integration**~~ ✅ Done (carousel, goal details)
+7. ~~**Level system logic**~~ ✅ Done (logarithmic scaling formula)
+
+### Current Priority
+1. **User profile screen:**
+   - Display points, level, and stats
+   - Show current streak
+2. **Mascot selection flow:**
+   - Choose starter mascot on signup
+   - Store mascot in user document
+3. **Mascot display:**
+   - Render mascot on home screen
+   - Show evolution stage based on level
 
 ### Development Commands
 ```bash

@@ -90,6 +90,26 @@
   "profileTotalActions": "合計アクション",
   "profileTotalCO2": "合計CO₂削減量",
   "profileMemberSince": "登録日",
+  "profileCurrentStreak": "現在の連続日数",
+  "profileLongestStreak": "最長連続日数",
+  "profileNextLevel": "次のレベルまで{points}ポイント",
+  "@profileNextLevel": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "profileDaysActive": "{days}日",
+  "@profileDaysActive": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileEvolutionStage": "進化段階{stage}",
+  "@profileEvolutionStage": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
 
   "settingsTitle": "設定",
   "settingsNotifications": "通知",
