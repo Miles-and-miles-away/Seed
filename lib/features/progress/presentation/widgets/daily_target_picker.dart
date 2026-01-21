@@ -1,0 +1,173 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../core/l10n/generated/app_localizations.dart';
+import '../providers/progress_providers.dart';
+
+/// First-time setup screen for selecting daily goal target.
+///
+/// Uses a ListWheelScrollView for picking a target between 1-10 goals.
+class DailyTargetPicker extends ConsumerStatefulWidget {
+  const DailyTargetPicker({
+    super.key,
+    required this.onComplete,
+  });
+
+  /// Called when the user has selected and confirmed their target.
+  final VoidCallback onComplete;
+
+  @override
+  ConsumerState<DailyTargetPicker> createState() => _DailyTargetPickerState();
+}
+
+class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
+  int _selectedTarget = 3; // Default recommendation
+  late final FixedExtentScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start with default selected (index 2 for value 3)
+    _scrollController = FixedExtentScrollController(initialItem: 2);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  String _getDescriptionForTarget(int target, AppLocalizations l10n) {
+    return switch (target) {
+      1 || 2 => l10n.progressTargetDescriptionEasy,
+      3 || 4 => l10n.progressTargetDescriptionModerate,
+      5 || 6 => l10n.progressTargetDescriptionChallenge,
+      _ => l10n.progressTargetDescriptionExpert,
+    };
+  }
+
+  Future<void> _saveTarget() async {
+    await ref
+        .read(dailyTargetProvider.notifier)
+        .saveTarget(_selectedTarget);
+
+    final state = ref.read(dailyTargetProvider);
+    if (state.hasError && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${state.error}'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    } else if (!state.hasError) {
+      widget.onComplete();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final notifierState = ref.watch(dailyTargetProvider);
+
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Spacer(),
+          // Title
+          Text(
+            l10n.progressSetDailyGoal,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.progressSetDailyGoalSubtitle,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 48),
+
+          // Number picker
+          SizedBox(
+            height: 180,
+            child: ListWheelScrollView.useDelegate(
+              controller: _scrollController,
+              itemExtent: 60,
+              physics: const FixedExtentScrollPhysics(),
+              diameterRatio: 1.5,
+              perspective: 0.003,
+              onSelectedItemChanged: (index) {
+                setState(() {
+                  _selectedTarget = index + 1;
+                });
+              },
+              childDelegate: ListWheelChildBuilderDelegate(
+                childCount: 10,
+                builder: (context, index) {
+                  final value = index + 1;
+                  final isSelected = value == _selectedTarget;
+
+                  return Center(
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 200),
+                      style: theme.textTheme.headlineLarge!.copyWith(
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        color: isSelected
+                            ? colorScheme.primary
+                            : colorScheme.onSurface.withValues(alpha: 0.4),
+                      ),
+                      child: Text('$value'),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Dynamic description
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Text(
+              _getDescriptionForTarget(_selectedTarget, l10n),
+              key: ValueKey(_selectedTarget),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const Spacer(),
+
+          // Confirm button
+          FilledButton(
+            onPressed: notifierState.isLoading ? null : _saveTarget,
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+            child: notifierState.isLoading
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : Text(l10n.progressStartJourney),
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
+}

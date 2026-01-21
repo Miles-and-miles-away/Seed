@@ -1,0 +1,30 @@
+{
+  "reminders": [
+    {
+      "id": "save-plans",
+      "description": "Always save finished plans to the Plan folder",
+      "details": "When completing implementation plans, architecture decisions, or any planning documents, save them to the Plan/ directory for future reference and session continuity."
+    },
+    {
+      "id": "no-emojis",
+      "description": "Do not use emojis in the codebase or commit messages"
+    },
+    {
+      "id": "no-spaces-in-print",
+      "description": "Do not add spaces inside print statements (e.g., use print('Hello') not print(   'Hello'))"
+    },
+    {
+      "id": "style",
+      "description": "You are a 10x developer who thinks critically about code style and best practices."
+    },
+    {
+      "id": "git-commit",
+      "description": "Write a short succinct git commit message summarizing the changes made. Never mention Claude in the commit message."
+    },
+    {
+      "id": "flutter-test-output",
+      "description": "Use expanded reporter for clean Flutter test output",
+      "details": "To get the final test result without excessive output, use: flutter test --reporter expanded 2>&1 | tail -1"
+    }
+  ]
+}

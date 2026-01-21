@@ -20,6 +20,7 @@ abstract class AppUserModel with _$AppUserModel {
     @Default('09:00') String notificationTime,
     @TimestampConverter() DateTime? createdAt,
     @Default(false) bool emailVerified,
+    int? dailyGoalTarget,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>
