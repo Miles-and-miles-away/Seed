@@ -39,6 +39,12 @@
       "points": {"type": "int"}
     }
   },
+  "noActionsFound": "アクションが見つかりません",
+  "actionHistoryTitle": "アクション履歴",
+  "today": "今日",
+  "yesterday": "昨日",
+  "addNoteOptional": "メモを追加（任意）",
+  "noteHint": "例：お店でマイバッグを使った",
 
   "pointsLabel": "{count}ポイント",
   "@pointsLabel": {
@@ -118,5 +124,16 @@
   "buttonCancel": "キャンセル",
   "buttonConfirm": "確認",
   "buttonRetry": "再試行",
-  "buttonContinue": "続ける"
+  "buttonContinue": "続ける",
+
+  "progressTitle": "進捗",
+  "progressGoalsToday": "今日の目標",
+  "progressGoalReached": "日目標達成！",
+  "progressSetDailyGoal": "毎日の目標を設定",
+  "progressSetDailyGoalSubtitle": "毎日いくつのエコアクションを達成したいですか？",
+  "progressStartJourney": "始める",
+  "progressTargetDescriptionEasy": "優しいスタート — 初心者にぴったり！",
+  "progressTargetDescriptionModerate": "バランスの取れたチャレンジ — ほとんどのユーザーにおすすめ。",
+  "progressTargetDescriptionChallenge": "野心的！環境への影響を与えることに真剣です。",
+  "progressTargetDescriptionExpert": "エキスパートレベル — あなたはサステナビリティチャンピオンです！"
 }

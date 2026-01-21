@@ -39,6 +39,12 @@
       "points": {"type": "int"}
     }
   },
+  "noActionsFound": "No actions found",
+  "actionHistoryTitle": "Action History",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "addNoteOptional": "Add a note (optional)",
+  "noteHint": "e.g., Used my own bag at the store",
 
   "pointsLabel": "{count} points",
   "@pointsLabel": {
@@ -118,5 +124,16 @@
   "buttonCancel": "Cancel",
   "buttonConfirm": "Confirm",
   "buttonRetry": "Retry",
-  "buttonContinue": "Continue"
+  "buttonContinue": "Continue",
+
+  "progressTitle": "Progress",
+  "progressGoalsToday": "goals today",
+  "progressGoalReached": "Daily goal reached!",
+  "progressSetDailyGoal": "Set Your Daily Goal",
+  "progressSetDailyGoalSubtitle": "How many eco-friendly actions do you want to complete each day?",
+  "progressStartJourney": "Start My Journey",
+  "progressTargetDescriptionEasy": "A gentle start — perfect for beginners!",
+  "progressTargetDescriptionModerate": "A balanced challenge — recommended for most users.",
+  "progressTargetDescriptionChallenge": "Ambitious! You're committed to making an impact.",
+  "progressTargetDescriptionExpert": "Expert level — you're a sustainability champion!"
 }

@@ -284,7 +284,7 @@ class SdgDetailScreen extends StatelessWidget {
   }
 
   Future<void> _launchUnSdgPage(int goalNumber) async {
-    final url = Uri.parse('https://sdgs.un.org/goals/goal$goalNumber');
+    final url = Uri.parse('https://sdgs.un.org/goals');
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     }

@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/actions/presentation/screens/action_history_screen.dart';
+import '../features/actions/presentation/screens/action_log_screen.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/auth/presentation/screens/email_verification_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
+import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
 
 // Import feature screens as you create them
@@ -30,6 +33,7 @@ abstract class AppRoutes {
   static const actionLog = '/log-action';
   static const actionHistory = '/history';
   static const sdgDetail = '/sdg/:goalNumber';
+  static const progress = '/progress';
 }
 
 @riverpod
@@ -97,13 +101,15 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.actionLog,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Log Action'),
+        builder: (context, state) => const ActionLogScreen(),
       ),
       GoRoute(
         path: AppRoutes.actionHistory,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Action History'),
+        builder: (context, state) => const ActionHistoryScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.progress,
+        builder: (context, state) => const ProgressScreen(),
       ),
     ],
 
