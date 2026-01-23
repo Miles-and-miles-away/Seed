@@ -89,6 +89,7 @@ void main() {
     });
 
     testWidgets('button is enabled when not loading', (tester) async {
+      // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(isLoading: false));
       await tester.pumpAndSettle();
 

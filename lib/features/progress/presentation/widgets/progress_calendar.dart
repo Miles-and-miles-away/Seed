@@ -105,7 +105,7 @@ class ProgressCalendar extends ConsumerWidget {
     List<CalendarDayData> calendarData,
   ) {
     // Get the first day of the month
-    final firstDayOfMonth = DateTime(selectedMonth.year, selectedMonth.month, 1);
+    final firstDayOfMonth = DateTime(selectedMonth.year, selectedMonth.month);
     // Get the weekday of the first day (0 = Sunday in our grid)
     final startingWeekday = firstDayOfMonth.weekday % 7;
 

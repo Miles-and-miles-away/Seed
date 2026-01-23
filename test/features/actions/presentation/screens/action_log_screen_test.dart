@@ -44,6 +44,7 @@ void main() {
     const testUser = AppUserModel(
       uid: 'test-uid',
       email: 'test@example.com',
+      // ignore: avoid_redundant_argument_values
       language: 'en',
     );
 

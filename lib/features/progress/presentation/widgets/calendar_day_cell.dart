@@ -8,17 +8,17 @@ import '../../domain/entities/calendar_day_data.dart';
 /// styling for today and empty days.
 class CalendarDayCell extends StatelessWidget {
   const CalendarDayCell({
-    super.key,
     required this.data,
+    super.key,
   });
 
   final CalendarDayData data;
 
   /// Minimum ball size in logical pixels
-  static const double _minBallSize = 8.0;
+  static const double _minBallSize = 8;
 
   /// Maximum ball size in logical pixels
-  static const double _maxBallSize = 28.0;
+  static const double _maxBallSize = 28;
 
   @override
   Widget build(BuildContext context) {

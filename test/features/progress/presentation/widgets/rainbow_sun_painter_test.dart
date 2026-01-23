@@ -9,13 +9,13 @@ void main() {
         final oldPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         final newPainter = RainbowSunPainter(
           completionRatio: 0.7,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         expect(newPainter.shouldRepaint(oldPainter), isTrue);
@@ -25,13 +25,13 @@ void main() {
         final oldPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         final newPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3, 4],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         expect(newPainter.shouldRepaint(oldPainter), isTrue);
@@ -47,7 +47,7 @@ void main() {
         final newPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         expect(newPainter.shouldRepaint(oldPainter), isTrue);
@@ -57,13 +57,13 @@ void main() {
         final oldPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         final newPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         expect(newPainter.shouldRepaint(oldPainter), isFalse);
@@ -73,13 +73,13 @@ void main() {
         final oldPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [1, 2, 3],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         final newPainter = RainbowSunPainter(
           completionRatio: 0.5,
           completedSdgs: const [3, 2, 1],
-          animationValue: 1.0,
+          animationValue: 1,
         );
 
         // Different order means different list, should repaint
@@ -97,7 +97,7 @@ void main() {
                 painter: RainbowSunPainter(
                   completionRatio: 0.5,
                   completedSdgs: const [1, 2, 3],
-                  animationValue: 1.0,
+                  animationValue: 1,
                 ),
               ),
             ),
@@ -114,9 +114,9 @@ void main() {
               body: CustomPaint(
                 size: const Size(300, 300),
                 painter: RainbowSunPainter(
-                  completionRatio: 0.0,
+                  completionRatio: 0,
                   completedSdgs: const [],
-                  animationValue: 1.0,
+                  animationValue: 1,
                 ),
               ),
             ),
@@ -133,11 +133,11 @@ void main() {
               body: CustomPaint(
                 size: const Size(300, 300),
                 painter: RainbowSunPainter(
-                  completionRatio: 1.0,
+                  completionRatio: 1,
                   completedSdgs: const [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
                   ],
-                  animationValue: 1.0,
+                  animationValue: 1,
                 ),
               ),
             ),

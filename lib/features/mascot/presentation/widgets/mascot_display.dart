@@ -208,7 +208,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       mascot = mascot
           .animate()
           .scaleXY(
-            begin: 1.0,
+            begin: 1,
             end: 0.9,
             duration: 100.ms,
           )
@@ -222,7 +222,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
           .then()
           .scaleXY(
             begin: 1.15,
-            end: 1.0,
+            end: 1,
             duration: 200.ms,
             curve: Curves.bounceOut,
           );

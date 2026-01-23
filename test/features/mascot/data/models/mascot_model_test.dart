@@ -136,8 +136,9 @@ void main() {
           name: 'Sprouty',
         );
 
-        original.copyWith(name: 'Leafy');
+        final copy = original.copyWith(name: 'Leafy');
 
+        expect(copy.name, 'Leafy');
         expect(original.name, 'Sprouty');
       });
     });

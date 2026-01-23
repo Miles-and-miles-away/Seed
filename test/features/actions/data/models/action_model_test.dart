@@ -50,6 +50,7 @@ void main() {
           co2Grams: 150,
           iconName: 'recycling',
           relatedSdgs: ['12', '13'],
+          // ignore: avoid_redundant_argument_values
           isActive: true,
           sortOrder: 1,
         );

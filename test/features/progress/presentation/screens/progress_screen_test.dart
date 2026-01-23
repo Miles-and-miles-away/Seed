@@ -100,6 +100,7 @@ void main() {
 
     testWidgets('shows main content for users with daily target set',
         (tester) async {
+      // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(needsSetup: false));
       await tester.pumpAndSettle();
 
@@ -118,6 +119,7 @@ void main() {
 
     testWidgets('displays EmptyRainbowSun when no goals completed',
         (tester) async {
+      // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(todaySummary: null));
       await tester.pumpAndSettle();
 
@@ -226,7 +228,9 @@ void main() {
                   email: 'test@example.com',
                   dailyGoalTarget: 5,
                 ),
-              )),
+              ),
+            ),
+          // ignore: avoid_redundant_argument_values
           needsDailyTargetSetupProvider.overrideWithValue(false),
           dailyGoalTargetProvider.overrideWithValue(5),
           // Use stream that hasn't emitted yet (loading state)
@@ -278,6 +282,7 @@ void main() {
       const testUser = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',
+        // ignore: avoid_redundant_argument_values
         dailyGoalTarget: null,
       );
 
@@ -289,15 +294,17 @@ void main() {
           currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
           needsDailyTargetSetupProvider.overrideWithValue(false),
           dailyGoalTargetProvider.overrideWithValue(null),
-          todaySummaryProvider.overrideWith((ref) => Stream.value(
-                const DailySummaryModel(
-                  date: '2024-01-15',
-                  goalCount: 3,
-                  completedSdgs: [1, 2, 3],
-                  totalPoints: 30,
-                  totalCo2Grams: 500,
-                ),
-              )),
+          todaySummaryProvider.overrideWith(
+            (ref) => Stream.value(
+              const DailySummaryModel(
+                date: '2024-01-15',
+                goalCount: 3,
+                completedSdgs: [1, 2, 3],
+                totalPoints: 30,
+                totalCo2Grams: 500,
+              ),
+            ),
+          ),
           selectedMonthProvider.overrideWith(() => TestSelectedMonth(DateTime(now.year, now.month))),
           monthCalendarDataProvider.overrideWith((ref) async => <CalendarDayData>[]),
         ],

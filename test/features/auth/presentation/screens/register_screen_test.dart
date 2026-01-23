@@ -45,7 +45,7 @@ void main() {
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Confirm Password'), findsOneWidget);
       expect(find.text('or sign up with'), findsOneWidget);
-      expect(find.text("Already have an account? "), findsOneWidget);
+      expect(find.text('Already have an account? '), findsOneWidget);
       expect(find.text('Sign In'), findsOneWidget);
     });
 
@@ -140,7 +140,9 @@ void main() {
 
       // Verify password validation error
       expect(
-          find.text('Password must be at least 6 characters'), findsOneWidget);
+        find.text('Password must be at least 6 characters'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('shows validation error for password mismatch', (tester) async {

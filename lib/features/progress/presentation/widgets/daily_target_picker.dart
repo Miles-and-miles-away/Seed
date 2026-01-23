@@ -9,8 +9,8 @@ import '../providers/progress_providers.dart';
 /// Uses a ListWheelScrollView for picking a target between 1-10 goals.
 class DailyTargetPicker extends ConsumerStatefulWidget {
   const DailyTargetPicker({
-    super.key,
     required this.onComplete,
+    super.key,
   });
 
   /// Called when the user has selected and confirmed their target.
@@ -103,7 +103,6 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
               itemExtent: 60,
               physics: const FixedExtentScrollPhysics(),
               diameterRatio: 1.5,
-              perspective: 0.003,
               onSelectedItemChanged: (index) {
                 setState(() {
                   _selectedTarget = index + 1;

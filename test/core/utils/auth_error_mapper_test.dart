@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
 
-// Mock class that extends FirebaseAuthException
+// Mock class for FirebaseAuthException
+// ignore: avoid_implementing_value_types
 class MockFirebaseAuthException extends Mock implements FirebaseAuthException {}
 
 void main() {
@@ -40,7 +41,9 @@ void main() {
         final message = mapAuthErrorToMessage(mockError);
 
         expect(
-            message, 'This sign-in method is not enabled. Please contact support.');
+          message,
+          'This sign-in method is not enabled. Please contact support.',
+        );
       });
 
       test('maps weak-password', () {
@@ -50,7 +53,9 @@ void main() {
         final message = mapAuthErrorToMessage(mockError);
 
         expect(
-            message, 'Password is too weak. Please use at least 6 characters.');
+          message,
+          'Password is too weak. Please use at least 6 characters.',
+        );
       });
     });
 
@@ -62,7 +67,9 @@ void main() {
         final message = mapAuthErrorToMessage(mockError);
 
         expect(
-            message, 'This account has been disabled. Please contact support.');
+          message,
+          'This account has been disabled. Please contact support.',
+        );
       });
 
       test('maps user-not-found', () {
@@ -101,7 +108,9 @@ void main() {
         final message = mapAuthErrorToMessage(mockError);
 
         expect(
-            message, 'Too many attempts. Please wait a moment and try again.');
+          message,
+          'Too many attempts. Please wait a moment and try again.',
+        );
       });
     });
 
@@ -113,7 +122,9 @@ void main() {
         final message = mapAuthErrorToMessage(mockError);
 
         expect(
-            message, 'Network error. Please check your internet connection.');
+          message,
+          'Network error. Please check your internet connection.',
+        );
       });
     });
 
@@ -134,8 +145,10 @@ void main() {
 
         final message = mapAuthErrorToMessage(mockError);
 
-        expect(message,
-            'An account already exists with this email using a different sign-in method.');
+        expect(
+          message,
+          'An account already exists with this email using a different sign-in method.',
+        );
       });
     });
 

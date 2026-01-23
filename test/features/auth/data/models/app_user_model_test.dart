@@ -165,8 +165,9 @@ void main() {
           points: 100,
         );
 
-        original.copyWith(points: 200);
+        final copy = original.copyWith(points: 200);
 
+        expect(copy.points, 200);
         expect(original.points, 100);
       });
     });

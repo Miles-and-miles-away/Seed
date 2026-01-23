@@ -47,6 +47,7 @@ void main() {
     }
 
     testWidgets('displays action name in English', (tester) async {
+      // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(languageCode: 'en'));
       await tester.pumpAndSettle();
 
@@ -77,9 +78,11 @@ void main() {
 
     testWidgets('is tappable', (tester) async {
       var tapped = false;
-      await tester.pumpWidget(createTestWidget(
-        onTap: () => tapped = true,
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          onTap: () => tapped = true,
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionCard));
@@ -133,6 +136,7 @@ void main() {
         nameJa: 'エコアクション',
         category: 'recycling',
         points: 10,
+        // ignore: avoid_redundant_argument_values
         iconName: 'eco',
       );
 

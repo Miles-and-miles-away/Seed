@@ -25,6 +25,11 @@
       "id": "flutter-test-output",
       "description": "Use expanded reporter for clean Flutter test output",
       "details": "To get the final test result without excessive output, use: flutter test --reporter expanded 2>&1 | tail -1"
-    }
+    },
+    {                                                                                                                           
+      "id": "diagnostic-problems",                                                                                              
+      "description": "Always check and fix any issues in the IDE Problems panel before committing changes.",                    
+      "details": "Review the Problems tab (Cmd+Shift+M) for linting errors, type errors, and warnings. And run 'flutter analyze' to identify issues."                         
+    }  
   ]
 }

@@ -1,0 +1,183 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Seed body gradient -->
+    <radialGradient id="seedGradient" cx="45%" cy="40%">
+      <stop offset="0%" style="stop-color:#A89070;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B6F47;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B5535;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Eye gradient -->
+    <radialGradient id="eyeGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#5C9FFF;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#3A7FE8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563C8;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Central sun gradient -->
+    <radialGradient id="sunGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#FFEB3B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFC107;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF9800;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Circular clip path for clean outer edge -->
+    <clipPath id="circleClip">
+      <circle cx="512" cy="512" r="512"/>
+    </clipPath>
+  </defs>
+
+  <!-- Apply circular clip to entire icon -->
+  <g clip-path="url(#circleClip)">
+
+    <!-- 17 SDG Pie Slices - each 21.176° (360/17) -->
+    <!-- Triangles from center (512,512) to points on circle r=800 -->
+    <!-- Starting from top, clockwise -->
+    <!-- Calculated: x = 512 + 800*cos(angle), y = 512 + 800*sin(angle) -->
+    <!-- angle_i = -90° + i*(360/17)° -->
+
+    <!-- Points on circle (r=800, angles in degrees from top, clockwise):
+         P0:  -90.00° → (512.0, -288.0)
+         P1:  -68.82° → (800.7, -233.6)
+         P2:  -47.65° → (1050.0, -79.3)
+         P3:  -26.47° → (1228.1, 155.9)
+         P4:   -5.29° → (1309.2, 438.1)
+         P5:   15.88° → (1281.3, 730.6)
+         P6:   37.06° → (1150.5, 994.1)
+         P7:   58.24° → (931.8, 1191.2)
+         P8:   79.41° → (658.5, 1298.8)
+         P9:  100.59° → (365.5, 1298.8)
+         P10: 121.76° → (92.2, 1191.2)
+         P11: 142.94° → (-126.5, 994.1)
+         P12: 164.12° → (-257.3, 730.6)
+         P13: 185.29° → (-285.2, 438.1)
+         P14: 206.47° → (-204.1, 155.9)
+         P15: 227.65° → (-26.0, -79.3)
+         P16: 248.82° → (223.3, -233.6)
+         P17: 270.00° → (512.0, -288.0) [same as P0]
+    -->
+
+    <!-- SDG 1 - No Poverty #E5233D -->
+    <polygon points="512,512 512,-288 800.7,-233.6" fill="#E5233D"/>
+
+    <!-- SDG 2 - Zero Hunger #DDA73A -->
+    <polygon points="512,512 800.7,-233.6 1050,-79.3" fill="#DDA73A"/>
+
+    <!-- SDG 3 - Good Health #4CA146 -->
+    <polygon points="512,512 1050,-79.3 1228.1,155.9" fill="#4CA146"/>
+
+    <!-- SDG 4 - Education #C5192D -->
+    <polygon points="512,512 1228.1,155.9 1309.2,438.1" fill="#C5192D"/>
+
+    <!-- SDG 5 - Gender Equality #EF402C -->
+    <polygon points="512,512 1309.2,438.1 1281.3,730.6" fill="#EF402C"/>
+
+    <!-- SDG 6 - Clean Water #27BFE6 -->
+    <polygon points="512,512 1281.3,730.6 1150.5,994.1" fill="#27BFE6"/>
+
+    <!-- SDG 7 - Clean Energy #FBC412 -->
+    <polygon points="512,512 1150.5,994.1 931.8,1191.2" fill="#FBC412"/>
+
+    <!-- SDG 8 - Decent Work #A31C44 -->
+    <polygon points="512,512 931.8,1191.2 658.5,1298.8" fill="#A31C44"/>
+
+    <!-- SDG 9 - Innovation #F26A2D -->
+    <polygon points="512,512 658.5,1298.8 365.5,1298.8" fill="#F26A2D"/>
+
+    <!-- SDG 10 - Equality #E01483 -->
+    <polygon points="512,512 365.5,1298.8 92.2,1191.2" fill="#E01483"/>
+
+    <!-- SDG 11 - Sustainable Cities #F89D2A -->
+    <polygon points="512,512 92.2,1191.2 -126.5,994.1" fill="#F89D2A"/>
+
+    <!-- SDG 12 - Responsible Consumption #BF8D2C -->
+    <polygon points="512,512 -126.5,994.1 -257.3,730.6" fill="#BF8D2C"/>
+
+    <!-- SDG 13 - Climate Action #407F46 -->
+    <polygon points="512,512 -257.3,730.6 -285.2,438.1" fill="#407F46"/>
+
+    <!-- SDG 14 - Life Below Water #1F97D4 -->
+    <polygon points="512,512 -285.2,438.1 -204.1,155.9" fill="#1F97D4"/>
+
+    <!-- SDG 15 - Life on Land #59BA48 -->
+    <polygon points="512,512 -204.1,155.9 -26,-79.3" fill="#59BA48"/>
+
+    <!-- SDG 16 - Peace & Justice #126A9F -->
+    <polygon points="512,512 -26,-79.3 223.3,-233.6" fill="#126A9F"/>
+
+    <!-- SDG 17 - Partnerships #13496B -->
+    <polygon points="512,512 223.3,-233.6 512,-288" fill="#13496B"/>
+
+  </g>
+
+  <!-- Central sun ball -->
+  <circle cx="512" cy="512" r="200" fill="url(#sunGradient)"/>
+
+  <!-- Sun shine highlight -->
+  <ellipse cx="460" cy="450" rx="55" ry="65" fill="#FFFFFF" opacity="0.35"/>
+
+  <!-- SEED CHARACTER (scaled and centered) -->
+  <g transform="translate(512, 540) scale(2.0)">
+    <!-- Seed body with gradient -->
+    <ellipse cx="0" cy="0" rx="62" ry="82" fill="url(#seedGradient)" stroke="#5C4A33" stroke-width="2.5"/>
+
+    <!-- Seed shine highlight -->
+    <ellipse cx="-15" cy="-35" rx="25" ry="35" fill="#FFFFFF" opacity="0.25"/>
+
+    <!-- Seed texture lines (subtle) -->
+    <path d="M -30 -30 Q 0 -25 30 -30" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+    <path d="M -35 -10 Q 0 -5 35 -10" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+    <path d="M -30 10 Q 0 15 30 10" fill="none" stroke="#6B5535" stroke-width="1.5" opacity="0.3"/>
+
+    <!-- ANIME EYES -->
+    <!-- Left eye white -->
+    <ellipse cx="-22" cy="-20" rx="22" ry="28" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+    <!-- Right eye white -->
+    <ellipse cx="22" cy="-20" rx="22" ry="28" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+
+    <!-- Left iris -->
+    <ellipse cx="-22" cy="-15" rx="16" ry="20" fill="url(#eyeGradient)"/>
+    <!-- Right iris -->
+    <ellipse cx="22" cy="-15" rx="16" ry="20" fill="url(#eyeGradient)"/>
+
+    <!-- Left pupil -->
+    <ellipse cx="-22" cy="-13" rx="7" ry="10" fill="#1A1A2E"/>
+    <!-- Right pupil -->
+    <ellipse cx="22" cy="-13" rx="7" ry="10" fill="#1A1A2E"/>
+
+    <!-- Main eye highlights (large anime style) -->
+    <ellipse cx="-28" cy="-25" rx="8" ry="10" fill="#FFFFFF" opacity="0.9"/>
+    <ellipse cx="16" cy="-25" rx="8" ry="10" fill="#FFFFFF" opacity="0.9"/>
+
+    <!-- Secondary smaller highlights -->
+    <circle cx="-18" cy="-7" r="4" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="26" cy="-7" r="4" fill="#FFFFFF" opacity="0.7"/>
+
+    <!-- Tiny sparkle highlights -->
+    <circle cx="-15" cy="-27" r="2" fill="#FFFFFF"/>
+    <circle cx="29" cy="-27" r="2" fill="#FFFFFF"/>
+
+    <!-- Rosy cheeks (more vibrant) -->
+    <ellipse cx="-45" cy="-5" rx="13" ry="9" fill="#FF9EAA" opacity="0.7"/>
+    <ellipse cx="45" cy="-5" rx="13" ry="9" fill="#FF9EAA" opacity="0.7"/>
+
+    <!-- Small anime-style mouth -->
+    <path d="M -5 10 Q 0 13 5 10" fill="#8B4A47" stroke="#5C4A33" stroke-width="1.5"/>
+
+    <!-- Little sprout on top (more dynamic) -->
+    <path d="M 0 -80 Q 2 -90 8 -97 Q 12 -103 10 -109" fill="none" stroke="#6B8E23" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 0 -80 Q -2 -90 -8 -97 Q -12 -103 -10 -109" fill="none" stroke="#6B8E23" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Leaves on sprout (more vibrant) -->
+    <ellipse cx="10" cy="-109" rx="10" ry="14" fill="#8BC34A" stroke="#689F38" stroke-width="2" transform="rotate(25 10 -109)"/>
+    <ellipse cx="-10" cy="-109" rx="10" ry="14" fill="#8BC34A" stroke="#689F38" stroke-width="2" transform="rotate(-25 -10 -109)"/>
+
+    <!-- Leaf highlights -->
+    <ellipse cx="8" cy="-113" rx="4" ry="6" fill="#AED581" opacity="0.6" transform="rotate(25 8 -113)"/>
+    <ellipse cx="-8" cy="-113" rx="4" ry="6" fill="#AED581" opacity="0.6" transform="rotate(-25 -8 -113)"/>
+
+    <!-- Tiny arms (cuter) -->
+    <path d="M -58 10 Q -68 13 -72 18" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 58 10 Q 68 13 72 18" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -13,8 +13,8 @@ abstract class ActionLogModel with _$ActionLogModel {
     required String actionName,
     required String category,
     required int points,
-    @Default(0) int co2Grams,
     @RequiredTimestampConverter() required DateTime loggedAt,
+    @Default(0) int co2Grams,
     String? note,
     @Default([]) List<String> relatedSdgs,
   }) = _ActionLogModel;

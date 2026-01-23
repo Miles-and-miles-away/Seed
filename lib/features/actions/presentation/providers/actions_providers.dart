@@ -84,6 +84,7 @@ class SelectedCategory extends _$SelectedCategory {
   @override
   ActionCategory? build() => null;
 
+  // ignore: use_setters_to_change_properties
   void select(ActionCategory? category) {
     state = category;
   }
@@ -99,6 +100,7 @@ class ActionSearchQuery extends _$ActionSearchQuery {
   @override
   String build() => '';
 
+  // ignore: use_setters_to_change_properties
   void setQuery(String query) {
     state = query;
   }

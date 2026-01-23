@@ -45,6 +45,7 @@ void main() {
     });
 
     testWidgets('All tab is selected when selectedCategory is null', (tester) async {
+      // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(selectedCategory: null));
       await tester.pumpAndSettle();
 
@@ -53,9 +54,11 @@ void main() {
     });
 
     testWidgets('category tab is selected when matching selectedCategory', (tester) async {
-      await tester.pumpWidget(createTestWidget(
-        selectedCategory: ActionCategory.recycling,
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          selectedCategory: ActionCategory.recycling,
+        ),
+      );
       await tester.pumpAndSettle();
 
       // All chip should not be selected
@@ -66,10 +69,12 @@ void main() {
     testWidgets('tapping All tab calls onCategorySelected with null', (tester) async {
       ActionCategory? selectedValue = ActionCategory.recycling;
 
-      await tester.pumpWidget(createTestWidget(
-        selectedCategory: ActionCategory.recycling,
-        onCategorySelected: (category) => selectedValue = category,
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          selectedCategory: ActionCategory.recycling,
+          onCategorySelected: (category) => selectedValue = category,
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('All'));
@@ -81,10 +86,13 @@ void main() {
     testWidgets('tapping category tab calls onCategorySelected with category', (tester) async {
       ActionCategory? selectedValue;
 
-      await tester.pumpWidget(createTestWidget(
-        selectedCategory: null,
-        onCategorySelected: (category) => selectedValue = category,
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          // ignore: avoid_redundant_argument_values
+          selectedCategory: null,
+          onCategorySelected: (category) => selectedValue = category,
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Find and tap the recycling category chip

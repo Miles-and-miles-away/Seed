@@ -120,7 +120,6 @@ class HomeScreen extends ConsumerWidget {
             onTap: () => context.push('/mascot'),
             child: const MascotDisplay(
               size: 160,
-              showGlow: true,
             ),
           ),
 
@@ -250,7 +249,6 @@ class HomeScreen extends ConsumerWidget {
           // Preview mascot
           MascotPreview(
             assetPath: defaultMascotSpecies.first.evolutionStages.first.assetPath,
-            size: 120,
           ),
 
           const SizedBox(height: 16),

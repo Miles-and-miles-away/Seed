@@ -77,6 +77,7 @@ void main() {
       setMobileScreenSize(tester);
       addTearDown(() => resetScreenSize(tester));
 
+      // ignore: avoid_redundant_argument_values
       final testMonth = DateTime(2024, 1);
       await tester.pumpWidget(createTestWidget(selectedMonth: testMonth));
       await tester.pumpAndSettle();
@@ -121,6 +122,7 @@ void main() {
 
       final widget = ProviderScope(
         overrides: [
+          // ignore: avoid_redundant_argument_values
           selectedMonthProvider.overrideWith(() => TestSelectedMonth(DateTime(2024, 1))),
           monthCalendarDataProvider.overrideWith((ref) => completer.future),
         ],
@@ -146,6 +148,7 @@ void main() {
       setMobileScreenSize(tester);
       addTearDown(() => resetScreenSize(tester));
 
+      // ignore: avoid_redundant_argument_values
       final testMonth = DateTime(2024, 1);
       await tester.pumpWidget(createTestWidget(selectedMonth: testMonth));
       await tester.pumpAndSettle();

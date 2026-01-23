@@ -7,7 +7,8 @@ import '../../../sdg/data/sdg_data.dart';
 /// CustomPainter that draws the Rainbow Sun visualization.
 ///
 /// The sun consists of:
-/// - A central ball that grows based on goal completion (up to 50% screen width)
+/// - A central ball that grows based on goal completion
+/// - 17 evenly-spaced bar segments forming a ring around the sun
 /// - 17 rays extending to screen edges for each completed SDG category
 class RainbowSunPainter extends CustomPainter {
   RainbowSunPainter({
@@ -31,6 +32,12 @@ class RainbowSunPainter extends CustomPainter {
   /// Maximum ball radius as a fraction of half the container width
   static const double _maxRadiusFraction = 0.25;
 
+  /// Each SDG gets exactly 360/17 degrees
+  static const double _angleStep = 2 * math.pi / 17;
+
+  /// Start from top (-90 degrees or -π/2)
+  static const double _startAngle = -math.pi / 2;
+
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
@@ -41,10 +48,13 @@ class RainbowSunPainter extends CustomPainter {
     final currentRadius =
         minRadius + (maxRadius - minRadius) * completionRatio * animationValue;
 
-    // Draw rays first (behind the ball)
+    // Draw rays first (behind everything)
     _drawRays(canvas, size, center, currentRadius);
 
-    // Draw the central ball
+    // Draw the bar segments (ring around the sun)
+    _drawBarSegments(canvas, center, currentRadius);
+
+    // Draw the central ball on top
     _drawBall(canvas, center, currentRadius);
   }
 
@@ -69,35 +79,114 @@ class RainbowSunPainter extends CustomPainter {
     final glowPaint = Paint()
       ..color = const Color(0xFFFFEB3B).withValues(alpha: 0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
-    canvas.drawCircle(center, radius * 1.2, glowPaint);
 
     // Draw the main ball
-    canvas.drawCircle(center, radius, paint);
+    canvas
+      ..drawCircle(center, radius * 1.2, glowPaint)
+      ..drawCircle(center, radius, paint);
+  }
+
+  void _drawBarSegments(Canvas canvas, Offset center, double ballRadius) {
+    final completedSet = completedSdgs.toSet();
+
+    // Bar segment dimensions
+    final innerRadius = ballRadius + 8; // Gap from ball
+    final outerRadius = ballRadius + 40; // Bar thickness of 32
+
+    for (var sdgNumber = 1; sdgNumber <= 17; sdgNumber++) {
+      final isCompleted = completedSet.contains(sdgNumber);
+      final sdgColor = sdgGoals[sdgNumber - 1].color;
+
+      // Calculate start angle for this segment
+      final segmentStartAngle = _startAngle + (sdgNumber - 1) * _angleStep;
+
+      // Draw the arc segment
+      _drawArcSegment(
+        canvas,
+        center,
+        innerRadius,
+        outerRadius,
+        segmentStartAngle,
+        _angleStep,
+        isCompleted ? sdgColor : sdgColor.withValues(alpha: 0.15),
+        isCompleted,
+      );
+    }
+  }
+
+  void _drawArcSegment(
+    Canvas canvas,
+    Offset center,
+    double innerRadius,
+    double outerRadius,
+    double startAngle,
+    double sweepAngle,
+    Color color,
+    bool isCompleted,
+  ) {
+    // Apply animation to completed segments
+    final animatedOuterRadius = isCompleted
+        ? innerRadius + (outerRadius - innerRadius) * animationValue
+        : outerRadius;
+
+    final animatedColor = isCompleted
+        ? color.withValues(alpha: color.a * animationValue)
+        : color;
+
+    // Create path for the arc segment (pie slice with hole)
+    final innerEndAngle = startAngle + sweepAngle - 0.02;
+    final path = Path()
+      // Outer arc
+      ..arcTo(
+        Rect.fromCircle(center: center, radius: animatedOuterRadius),
+        startAngle,
+        sweepAngle - 0.02, // Tiny gap between segments for visual separation
+        true,
+      )
+      // Line to inner arc end point
+      ..lineTo(
+        center.dx + innerRadius * math.cos(innerEndAngle),
+        center.dy + innerRadius * math.sin(innerEndAngle),
+      )
+      // Inner arc (reverse direction)
+      ..arcTo(
+        Rect.fromCircle(center: center, radius: innerRadius),
+        innerEndAngle,
+        -(sweepAngle - 0.02),
+        false,
+      )
+      ..close();
+
+    final paint = Paint()
+      ..color = animatedColor
+      ..style = PaintingStyle.fill;
+
+    canvas.drawPath(path, paint);
   }
 
   void _drawRays(Canvas canvas, Size size, Offset center, double ballRadius) {
     final completedSet = completedSdgs.toSet();
 
-    // Calculate angle for each SDG (17 rays equally spaced)
-    // Start from top (-90 degrees or -π/2)
-    const startAngle = -math.pi / 2;
-    const angleStep = 2 * math.pi / 17;
+    // Rays start from outside the bar segments
+    final rayStartRadius = ballRadius + 48;
 
     for (var sdgNumber = 1; sdgNumber <= 17; sdgNumber++) {
       if (!completedSet.contains(sdgNumber)) continue;
 
-      final angle = startAngle + (sdgNumber - 1) * angleStep;
+      // Ray is centered in the middle of its segment
+      final segmentCenterAngle =
+          _startAngle + (sdgNumber - 1) * _angleStep + _angleStep / 2;
       final sdgColor = sdgGoals[sdgNumber - 1].color;
 
       // Calculate ray endpoint (extend to screen edge)
-      final endpoint = _calculateRayEndpoint(center, angle, size);
+      final endpoint = _calculateRayEndpoint(center, segmentCenterAngle, size);
 
       // Draw the ray
       _drawRay(
         canvas,
         center,
-        ballRadius,
-        angle,
+        rayStartRadius,
+        segmentCenterAngle,
         endpoint,
         sdgColor,
       );
@@ -107,13 +196,11 @@ class RainbowSunPainter extends CustomPainter {
   void _drawRay(
     Canvas canvas,
     Offset center,
-    double ballRadius,
+    double startRadius,
     double angle,
     Offset endpoint,
     Color color,
   ) {
-    // Ray starts just outside the ball
-    final startRadius = ballRadius + 4;
     final startPoint = Offset(
       center.dx + startRadius * math.cos(angle),
       center.dy + startRadius * math.sin(angle),
@@ -124,18 +211,17 @@ class RainbowSunPainter extends CustomPainter {
     final direction = Offset(math.cos(angle), math.sin(angle));
 
     final gradient = LinearGradient(
-      begin: Alignment.center,
-      end: Alignment.centerRight,
       colors: [
-        color.withValues(alpha: 0.9 * animationValue),
-        color.withValues(alpha: 0.4 * animationValue),
-        color.withValues(alpha: 0.0),
+        color.withValues(alpha: 0.7 * animationValue),
+        color.withValues(alpha: 0.3 * animationValue),
+        color.withValues(alpha: 0),
       ],
       stops: const [0.0, 0.5, 1.0],
     );
 
     // Create a path for the ray (tapered shape)
-    final rayWidth = 8.0;
+    // Width based on segment angle for even visual spacing
+    const rayWidth = 10.0;
     final perpendicular = Offset(-direction.dy, direction.dx);
 
     final path = Path()
@@ -172,7 +258,7 @@ class RainbowSunPainter extends CustomPainter {
     final dy = math.sin(angle);
 
     // Check intersection with each edge
-    double t = double.infinity;
+    var t = double.infinity;
 
     // Right edge (x = width)
     if (dx > 0) {

@@ -14,8 +14,8 @@ void main() {
 
   setUp(() {
     mockUser = createMockUser(
+      // ignore: avoid_redundant_argument_values
       email: 'test@example.com',
-      emailVerified: false,
     );
 
     mockFirebaseAuth = createMockFirebaseAuth(
@@ -217,8 +217,8 @@ void main() {
         authStateChanges: Stream.value(userWithEmail),
       );
 
-      when(() => userWithEmail.reload()).thenAnswer((_) async {});
-      when(() => authWithUser.signOut()).thenAnswer((_) async {});
+      when(userWithEmail.reload).thenAnswer((_) async {});
+      when(authWithUser.signOut).thenAnswer((_) async {});
 
       await tester.pumpWidget(
         createTestWidget(
@@ -237,11 +237,12 @@ void main() {
       setLargeScreenSize(tester);
       // Create auth with null user
       final authWithNoUser = createMockFirebaseAuth(
+        // ignore: avoid_redundant_argument_values
         currentUser: null,
         authStateChanges: Stream.value(null),
       );
 
-      when(() => authWithNoUser.signOut()).thenAnswer((_) async {});
+      when(authWithNoUser.signOut).thenAnswer((_) async {});
 
       await tester.pumpWidget(
         createTestWidget(

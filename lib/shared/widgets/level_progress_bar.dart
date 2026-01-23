@@ -119,10 +119,11 @@ class _AnimatedFractionallySizedBoxState
       widget.widthFactor ?? 1.0,
       (dynamic value) => Tween<double>(begin: value as double),
     ) as Tween<double>?;
-    if (widget.heightFactor != null) {
+    final heightFactor = widget.heightFactor;
+    if (heightFactor != null) {
       _heightFactor = visitor(
         _heightFactor,
-        widget.heightFactor!,
+        heightFactor,
         (dynamic value) => Tween<double>(begin: value as double),
       ) as Tween<double>?;
     }

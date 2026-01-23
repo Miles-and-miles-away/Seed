@@ -55,14 +55,16 @@ class ProgressRepository {
           date.day == today.day;
       final isFuture = date.isAfter(today);
 
-      calendarData.add(CalendarDayData(
-        date: date,
-        goalCount: summary?.goalCount ?? 0,
-        goalTarget: goalTarget,
-        completedSdgs: summary?.completedSdgs ?? [],
-        isToday: isToday,
-        isFuture: isFuture,
-      ));
+      calendarData.add(
+        CalendarDayData(
+          date: date,
+          goalCount: summary?.goalCount ?? 0,
+          goalTarget: goalTarget,
+          completedSdgs: summary?.completedSdgs ?? [],
+          isToday: isToday,
+          isFuture: isFuture,
+        ),
+      );
     }
 
     return calendarData;

@@ -36,8 +36,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   @override
   void dispose() {
     _debounceTimer?.cancel();
-    _searchController.removeListener(_onSearchChanged);
-    _searchController.dispose();
+    _searchController
+      ..removeListener(_onSearchChanged)
+      ..dispose();
     super.dispose();
   }
 

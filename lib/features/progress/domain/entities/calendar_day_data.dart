@@ -30,7 +30,7 @@ class CalendarDayData {
 
   /// Completion ratio (0.0 to 1.0).
   double get completionRatio {
-    if (goalTarget <= 0) return 0.0;
+    if (goalTarget <= 0) return 0;
     return (goalCount / goalTarget).clamp(0.0, 1.0);
   }
 

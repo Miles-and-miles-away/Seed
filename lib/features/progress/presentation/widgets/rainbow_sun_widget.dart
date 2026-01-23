@@ -8,10 +8,10 @@ import 'rainbow_sun_painter.dart';
 /// based on daily goal completion and SDG categories completed.
 class RainbowSunWidget extends StatefulWidget {
   const RainbowSunWidget({
-    super.key,
     required this.goalCount,
     required this.goalTarget,
     required this.completedSdgs,
+    super.key,
   });
 
   /// Number of goals completed today
@@ -32,7 +32,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  double _previousCompletionRatio = 0.0;
+  double _previousCompletionRatio = 0;
   List<int> _previousCompletedSdgs = [];
 
   @override
@@ -62,13 +62,13 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     if (newCompletionRatio != _previousCompletionRatio || hasNewSdgs) {
       _previousCompletionRatio = newCompletionRatio;
       _previousCompletedSdgs = List.from(widget.completedSdgs);
-      _controller.forward(from: 0.0);
+      _controller.forward(from: 0);
     }
   }
 
   double _calculateCompletionRatio() {
-    if (widget.goalTarget <= 0) return 0.0;
-    return (widget.goalCount / widget.goalTarget).clamp(0.0, 1.0);
+    if (widget.goalTarget <= 0) return 0;
+    return (widget.goalCount / widget.goalTarget).clamp(0, 1);
   }
 
   bool _listEquals(List<int> a, List<int> b) {

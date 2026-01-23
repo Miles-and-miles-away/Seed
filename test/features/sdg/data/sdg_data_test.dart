@@ -74,7 +74,7 @@ void main() {
     });
 
     test('all goals have unique colors', () {
-      final colors = sdgGoals.map((g) => g.color.value).toSet();
+      final colors = sdgGoals.map((g) => g.color.toARGB32()).toSet();
       expect(colors.length, sdgGoals.length);
     });
 
