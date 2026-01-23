@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../mascot/data/models/mascot_model.dart';
+
 part 'app_user_model.freezed.dart';
 part 'app_user_model.g.dart';
 
@@ -21,6 +23,9 @@ abstract class AppUserModel with _$AppUserModel {
     @TimestampConverter() DateTime? createdAt,
     @Default(false) bool emailVerified,
     int? dailyGoalTarget,
+
+    /// The user's mascot (null if not yet selected).
+    MascotModel? mascot,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>

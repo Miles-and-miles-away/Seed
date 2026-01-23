@@ -1,0 +1,145 @@
+<svg viewBox="0 0 220 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for trunk -->
+    <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6B5535;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B6F47;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5C4A33;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Eye gradient -->
+    <radialGradient id="eyeGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#5C9FFF;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#3A7FE8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563C8;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Leaf gradient -->
+    <radialGradient id="leafGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#8BC34A;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#388E3C;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Golden glow gradient -->
+    <radialGradient id="goldenGlow" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Golden aura glow behind -->
+  <ellipse cx="110" cy="140" rx="90" ry="100" fill="url(#goldenGlow)"/>
+
+  <!-- ROOT SYSTEM at bottom -->
+  <path d="M 90 290 Q 70 300 60 310" fill="none" stroke="#5C4A33" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 130 290 Q 150 300 160 310" fill="none" stroke="#5C4A33" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 110 295 Q 110 305 110 315" fill="none" stroke="#5C4A33" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 100 292 Q 85 302 75 310" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 120 292 Q 135 302 145 310" fill="none" stroke="#5C4A33" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- TRUNK (thick and sturdy) -->
+  <path d="M 85 290 Q 80 240 85 190 Q 90 160 95 140 L 125 140 Q 130 160 135 190 Q 140 240 135 290 Z"
+        fill="url(#trunkGradient)" stroke="#5C4A33" stroke-width="2"/>
+
+  <!-- Trunk texture lines -->
+  <path d="M 95 280 Q 100 250 98 220" fill="none" stroke="#5C4A33" stroke-width="1.5" opacity="0.4"/>
+  <path d="M 125 280 Q 120 250 122 220" fill="none" stroke="#5C4A33" stroke-width="1.5" opacity="0.4"/>
+  <path d="M 110 285 Q 110 250 110 215" fill="none" stroke="#5C4A33" stroke-width="1" opacity="0.3"/>
+
+  <!-- LEAFY CROWN - Back layer -->
+  <ellipse cx="60" cy="85" rx="35" ry="40" fill="#388E3C"/>
+  <ellipse cx="160" cy="85" rx="35" ry="40" fill="#388E3C"/>
+  <ellipse cx="110" cy="50" rx="40" ry="35" fill="#388E3C"/>
+
+  <!-- LEAFY CROWN - Middle layer -->
+  <ellipse cx="70" cy="90" rx="38" ry="42" fill="#4CAF50"/>
+  <ellipse cx="150" cy="90" rx="38" ry="42" fill="#4CAF50"/>
+  <ellipse cx="110" cy="60" rx="45" ry="40" fill="#4CAF50"/>
+  <ellipse cx="50" cy="110" rx="30" ry="32" fill="#4CAF50"/>
+  <ellipse cx="170" cy="110" rx="30" ry="32" fill="#4CAF50"/>
+
+  <!-- LEAFY CROWN - Front layer -->
+  <ellipse cx="80" cy="95" rx="35" ry="38" fill="url(#leafGradient)"/>
+  <ellipse cx="140" cy="95" rx="35" ry="38" fill="url(#leafGradient)"/>
+  <ellipse cx="110" cy="75" rx="42" ry="38" fill="url(#leafGradient)"/>
+
+  <!-- Leaf highlights -->
+  <ellipse cx="70" cy="80" rx="15" ry="18" fill="#AED581" opacity="0.5"/>
+  <ellipse cx="130" cy="75" rx="12" ry="15" fill="#AED581" opacity="0.5"/>
+  <ellipse cx="100" cy="55" rx="18" ry="14" fill="#AED581" opacity="0.4"/>
+
+  <!-- Small golden fruit/flowers -->
+  <circle cx="55" cy="105" r="6" fill="#FFD700" stroke="#FFA000" stroke-width="1.5"/>
+  <circle cx="165" cy="100" r="6" fill="#FFD700" stroke="#FFA000" stroke-width="1.5"/>
+  <circle cx="85" cy="65" r="5" fill="#FFD700" stroke="#FFA000" stroke-width="1"/>
+  <circle cx="145" cy="60" r="5" fill="#FFD700" stroke="#FFA000" stroke-width="1"/>
+  <circle cx="110" cy="40" r="5" fill="#FFD700" stroke="#FFA000" stroke-width="1"/>
+
+  <!-- FACE AREA (on trunk) -->
+  <!-- Face background for contrast -->
+  <ellipse cx="110" cy="195" rx="35" ry="40" fill="#A89070" opacity="0.3"/>
+
+  <!-- CONFIDENT ANIME EYES -->
+  <!-- Left eye white -->
+  <ellipse cx="95" cy="185" rx="18" ry="22" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+  <!-- Right eye white -->
+  <ellipse cx="125" cy="185" rx="18" ry="22" fill="#FFFFFF" stroke="#2C1810" stroke-width="2.5"/>
+
+  <!-- Left iris -->
+  <ellipse cx="95" cy="188" rx="13" ry="16" fill="url(#eyeGradient)"/>
+  <!-- Right iris -->
+  <ellipse cx="125" cy="188" rx="13" ry="16" fill="url(#eyeGradient)"/>
+
+  <!-- Left pupil -->
+  <ellipse cx="95" cy="190" rx="5" ry="8" fill="#1A1A2E"/>
+  <!-- Right pupil -->
+  <ellipse cx="125" cy="190" rx="5" ry="8" fill="#1A1A2E"/>
+
+  <!-- Main eye highlights -->
+  <ellipse cx="90" cy="181" rx="6" ry="8" fill="#FFFFFF" opacity="0.9"/>
+  <ellipse cx="120" cy="181" rx="6" ry="8" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Secondary highlights -->
+  <circle cx="99" cy="195" r="3" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="129" cy="195" r="3" fill="#FFFFFF" opacity="0.7"/>
+
+  <!-- Tiny sparkles -->
+  <circle cx="100" cy="179" r="1.5" fill="#FFFFFF"/>
+  <circle cx="130" cy="179" r="1.5" fill="#FFFFFF"/>
+
+  <!-- Confident eyebrows (slightly angled) -->
+  <path d="M 82 168 Q 90 165 102 168" fill="none" stroke="#5C4A33" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 138 168 Q 130 165 118 168" fill="none" stroke="#5C4A33" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Subtle rosy cheeks -->
+  <ellipse cx="75" cy="198" rx="10" ry="7" fill="#FF9EAA" opacity="0.4"/>
+  <ellipse cx="145" cy="198" rx="10" ry="7" fill="#FF9EAA" opacity="0.4"/>
+
+  <!-- Confident smile -->
+  <path d="M 98 212 Q 110 220 122 212" fill="none" stroke="#5C4A33" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- BRANCH ARMS -->
+  <!-- Left branch arm -->
+  <path d="M 85 175 Q 55 165 35 145" fill="none" stroke="#5C4A33" stroke-width="10" stroke-linecap="round"/>
+  <!-- Left branch twigs -->
+  <path d="M 45 155 Q 38 148 32 142" fill="none" stroke="#5C4A33" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 50 150 Q 45 142 40 135" fill="none" stroke="#5C4A33" stroke-width="3" stroke-linecap="round"/>
+  <!-- Left branch leaves -->
+  <ellipse cx="30" cy="140" rx="12" ry="8" fill="#8BC34A" stroke="#689F38" stroke-width="1.5" transform="rotate(-30 30 140)"/>
+  <ellipse cx="38" cy="132" rx="10" ry="6" fill="#8BC34A" stroke="#689F38" stroke-width="1.5" transform="rotate(-45 38 132)"/>
+
+  <!-- Right branch arm (waving) -->
+  <path d="M 135 175 Q 165 160 185 130" fill="none" stroke="#5C4A33" stroke-width="10" stroke-linecap="round"/>
+  <!-- Right branch twigs -->
+  <path d="M 178 140 Q 188 132 195 125" fill="none" stroke="#5C4A33" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 182 145 Q 190 140 198 138" fill="none" stroke="#5C4A33" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right branch leaves -->
+  <ellipse cx="198" cy="122" rx="12" ry="8" fill="#8BC34A" stroke="#689F38" stroke-width="1.5" transform="rotate(30 198 122)"/>
+  <ellipse cx="202" cy="135" rx="10" ry="6" fill="#8BC34A" stroke="#689F38" stroke-width="1.5" transform="rotate(45 202 135)"/>
+
+  <!-- Small golden star sparkles around (achievement feel) -->
+  <path d="M 40 70 L 42 75 L 47 75 L 43 78 L 45 83 L 40 80 L 35 83 L 37 78 L 33 75 L 38 75 Z" fill="#FFD700" opacity="0.8"/>
+  <path d="M 180 65 L 182 70 L 187 70 L 183 73 L 185 78 L 180 75 L 175 78 L 177 73 L 173 70 L 178 70 Z" fill="#FFD700" opacity="0.8"/>
+  <path d="M 110 25 L 112 30 L 117 30 L 113 33 L 115 38 L 110 35 L 105 38 L 107 33 L 103 30 L 108 30 Z" fill="#FFD700" opacity="0.9"/>
+</svg>

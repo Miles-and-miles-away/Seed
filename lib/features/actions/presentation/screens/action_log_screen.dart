@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../mascot/mascot.dart';
 import '../../data/models/action_model.dart';
 import '../../domain/enums/action_category.dart';
 import '../providers/actions_providers.dart';
@@ -235,6 +236,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         points: action.points,
         color: color,
       );
+
+      // Trigger mascot happy bounce animation
+      ref.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
 
       // Show success snackbar
       ScaffoldMessenger.of(context).showSnackBar(

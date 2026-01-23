@@ -10,9 +10,11 @@ import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/auth/presentation/screens/email_verification_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
+import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
+import 'main_shell.dart';
 
 part 'router.g.dart';
 
@@ -23,13 +25,14 @@ abstract class AppRoutes {
   static const register = '/register';
   static const emailVerification = '/verify-email';
   static const home = '/home';
+  static const progress = '/progress';
   static const mascot = '/mascot';
   static const profile = '/profile';
   static const settings = '/settings';
   static const actionLog = '/log-action';
   static const actionHistory = '/history';
   static const sdgDetail = '/sdg/:goalNumber';
-  static const progress = '/progress';
+  static const mascotSelection = '/mascot-selection';
 }
 
 @riverpod
@@ -67,13 +70,92 @@ GoRouter router(Ref ref) {
         builder: (context, state) => const EmailVerificationScreen(),
       ),
 
-      // Main app routes (use ShellRoute for bottom nav later)
+      // Mascot selection (shown after signup if user has no mascot)
       GoRoute(
-        path: AppRoutes.home,
-        builder: (context, state) => const HomeScreen(),
+        path: AppRoutes.mascotSelection,
+        builder: (context, state) => const MascotSelectionScreen(),
       ),
 
-      // SDG detail route
+      // Main app routes with bottom navigation
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return MainShell(navigationShell: navigationShell);
+        },
+        branches: [
+          // Home tab (index 0)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.home,
+                builder: (context, state) => const HomeScreen(),
+                routes: [
+                  // SDG detail is nested under home
+                  GoRoute(
+                    path: 'sdg/:goalNumber',
+                    builder: (context, state) {
+                      final goalNumber =
+                          int.tryParse(state.pathParameters['goalNumber'] ?? '1') ?? 1;
+                      return SdgDetailScreen(goalNumber: goalNumber);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Progress tab (index 1)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.progress,
+                builder: (context, state) => const ProgressScreen(),
+                routes: [
+                  // Action history nested under progress
+                  GoRoute(
+                    path: 'history',
+                    builder: (context, state) => const ActionHistoryScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Mascot tab (index 2)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.mascot,
+                builder: (context, state) => const MascotScreen(),
+              ),
+            ],
+          ),
+
+          // Profile tab (index 3)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.profile,
+                builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'settings',
+                    builder: (context, state) =>
+                        const _PlaceholderScreen(title: 'Settings'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      // Action log (modal/push route, not in bottom nav)
+      GoRoute(
+        path: AppRoutes.actionLog,
+        builder: (context, state) => const ActionLogScreen(),
+      ),
+
+      // Standalone SDG route (for deep links)
       GoRoute(
         path: '/sdg/:goalNumber',
         builder: (context, state) {
@@ -82,30 +164,18 @@ GoRouter router(Ref ref) {
           return SdgDetailScreen(goalNumber: goalNumber);
         },
       ),
-      GoRoute(
-        path: AppRoutes.mascot,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Mascot'),
-      ),
-      GoRoute(
-        path: AppRoutes.profile,
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.settings,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Settings'),
-      ),
-      GoRoute(
-        path: AppRoutes.actionLog,
-        builder: (context, state) => const ActionLogScreen(),
-      ),
+
+      // Standalone action history (for deep links)
       GoRoute(
         path: AppRoutes.actionHistory,
         builder: (context, state) => const ActionHistoryScreen(),
       ),
+
+      // Standalone settings (for deep links)
       GoRoute(
-        path: AppRoutes.progress,
-        builder: (context, state) => const ProgressScreen(),
+        path: AppRoutes.settings,
+        builder: (context, state) =>
+            const _PlaceholderScreen(title: 'Settings'),
       ),
     ],
 

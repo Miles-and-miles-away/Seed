@@ -6,6 +6,8 @@
   "appTagline": "Grow your sustainability habits",
 
   "navHome": "Home",
+  "navProgress": "Progress",
+  "navLogAction": "Log",
   "navMascot": "Mascot",
   "navProfile": "Profile",
   "navSettings": "Settings",
@@ -84,6 +86,18 @@
       "stage": {"type": "int"}
     }
   },
+  "mascotSelectionTitle": "Choose Your Companion",
+  "mascotSelectionSubtitle": "This little friend will grow with you on your sustainability journey!",
+  "mascotNameLabel": "Give your companion a name",
+  "mascotNameHint": "e.g., Sprouty, Leafy, Bud...",
+  "mascotNameRequired": "Please enter a name",
+  "mascotNameTooShort": "Name must be at least 2 characters",
+  "mascotNameTooLong": "Name must be 20 characters or less",
+  "mascotSelectionConfirm": "Let's Grow Together!",
+
+  "evolutionTitle": "Evolution!",
+  "evolutionSubtitle": "Your companion has grown stronger!",
+  "evolutionContinue": "Amazing!",
 
   "profileTitle": "Profile",
   "profileStats": "Statistics",
