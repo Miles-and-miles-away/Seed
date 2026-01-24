@@ -115,7 +115,7 @@ class MascotNotifier extends _$MascotNotifier {
     if (user == null) return;
 
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final repository = ref.read(mascotRepositoryProvider);
       await repository.selectMascot(
         userId: user.uid,
@@ -123,6 +123,8 @@ class MascotNotifier extends _$MascotNotifier {
         name: name,
       );
     });
+    if (!ref.mounted) return;
+    state = result;
   }
 
   /// Renames the current user's mascot.
@@ -131,10 +133,12 @@ class MascotNotifier extends _$MascotNotifier {
     if (user == null) return;
 
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final repository = ref.read(mascotRepositoryProvider);
       await repository.updateMascotName(user.uid, name);
     });
+    if (!ref.mounted) return;
+    state = result;
   }
 
   /// Marks the current evolution stage as seen.
@@ -146,10 +150,12 @@ class MascotNotifier extends _$MascotNotifier {
     if (user == null) return;
 
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final repository = ref.read(mascotRepositoryProvider);
       await repository.updateLastSeenStage(user.uid, currentStage);
     });
+    if (!ref.mounted) return;
+    state = result;
   }
 }
 

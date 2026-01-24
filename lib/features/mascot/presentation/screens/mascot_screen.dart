@@ -347,12 +347,17 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: Opacity(
-              opacity: isUnlocked ? 1.0 : 0.4,
-              child: SvgPicture.asset(
-                stage.assetPath,
-              ),
-            ),
+            child: isUnlocked
+                ? SvgPicture.asset(stage.assetPath)
+                : ColorFiltered(
+                    colorFilter: const ColorFilter.matrix(<double>[
+                      0.2126, 0.7152, 0.0722, 0, 0,
+                      0.2126, 0.7152, 0.0722, 0, 0,
+                      0.2126, 0.7152, 0.0722, 0, 0,
+                      0, 0, 0, 0.4, 0,
+                    ]),
+                    child: SvgPicture.asset(stage.assetPath),
+                  ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -432,8 +437,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Opacity(
-              opacity: 0.6,
+            child: ColorFiltered(
+              colorFilter: const ColorFilter.matrix(<double>[
+                1, 0, 0, 0, 0,
+                0, 1, 0, 0, 0,
+                0, 0, 1, 0, 0,
+                0, 0, 0, 0.6, 0,
+              ]),
               child: SvgPicture.asset(
                 nextStage.assetPath,
               ),

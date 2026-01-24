@@ -166,6 +166,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     final userAsync = ref.read(currentUserProvider);
     final user = userAsync.asData?.value;
     if (user == null) {
+      if (!ref.mounted) return null;
       state = AsyncValue.error(
         Exception('User not authenticated'),
         StackTrace.current,
@@ -173,7 +174,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       return null;
     }
 
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       return ref.read(actionLogRepositoryProvider).logAction(
             userId: user.uid,
             action: action,
@@ -182,7 +183,9 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           );
     });
 
-    return state.asData?.value;
+    if (!ref.mounted) return result.asData?.value;
+    state = result;
+    return result.asData?.value;
   }
 
   /// Resets the state after showing confirmation.

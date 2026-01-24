@@ -87,18 +87,20 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        return CustomPaint(
-          painter: RainbowSunPainter(
-            completionRatio: _calculateCompletionRatio(),
-            completedSdgs: widget.completedSdgs,
-            animationValue: _animation.value,
-          ),
-          size: Size.infinite,
-        );
-      },
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          return CustomPaint(
+            painter: RainbowSunPainter(
+              completionRatio: _calculateCompletionRatio(),
+              completedSdgs: widget.completedSdgs,
+              animationValue: _animation.value,
+            ),
+            size: Size.infinite,
+          );
+        },
+      ),
     );
   }
 }
@@ -115,24 +117,26 @@ class EmptyRainbowSun extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  Colors.amber.shade200,
-                  Colors.orange.shade200,
+          RepaintBoundary(
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.amber.shade200,
+                    Colors.orange.shade200,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.amber.withValues(alpha: 0.3),
+                    blurRadius: 20,
+                    spreadRadius: 5,
+                  ),
                 ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.amber.withValues(alpha: 0.3),
-                  blurRadius: 20,
-                  spreadRadius: 5,
-                ),
-              ],
             ),
           ),
           const SizedBox(height: 16),

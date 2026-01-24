@@ -88,12 +88,17 @@ class DailyTargetNotifier extends _$DailyTargetNotifier {
 
   Future<void> saveTarget(int target) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final user = ref.read(currentUserProvider).value;
       if (user == null) throw Exception('Not logged in');
 
       final repository = ref.read(progressRepositoryProvider);
       await repository.saveDailyGoalTarget(user.uid, target);
     });
+
+    // Only update state if provider is still mounted
+    if (ref.mounted) {
+      state = result;
+    }
   }
 }

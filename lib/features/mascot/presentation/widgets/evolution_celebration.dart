@@ -109,32 +109,36 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
       color: Colors.transparent,
       child: Stack(
         children: [
-          // Backdrop
-          Container(
-            color: Colors.black.withValues(alpha: 0.85),
-          )
-              .animate()
-              .fadeIn(duration: 300.ms),
+          // Backdrop (wrapped in RepaintBoundary for Impeller compatibility)
+          RepaintBoundary(
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.85),
+            )
+                .animate()
+                .fadeIn(duration: 300.ms),
+          ),
 
-          // Confetti particles
-          AnimatedBuilder(
-            animation: _particleController,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: _ConfettiPainter(
-                  particles: _particles,
-                  progress: _particleController.value,
-                  colors: [
-                    const Color(0xFFFFD700), // Gold
-                    colorScheme.primary,
-                    colorScheme.secondary,
-                    const Color(0xFF4CAF50), // Green
-                    const Color(0xFFFF69B4), // Pink
-                  ],
-                ),
-              );
-            },
+          // Confetti particles (wrapped in RepaintBoundary for Impeller compatibility)
+          RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: _particleController,
+              builder: (context, child) {
+                return CustomPaint(
+                  size: Size.infinite,
+                  painter: _ConfettiPainter(
+                    particles: _particles,
+                    progress: _particleController.value,
+                    colors: [
+                      const Color(0xFFFFD700), // Gold
+                      colorScheme.primary,
+                      colorScheme.secondary,
+                      const Color(0xFF4CAF50), // Green
+                      const Color(0xFFFF69B4), // Pink
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
 
           // Main content
@@ -181,8 +185,13 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                       children: [
                         // Previous stage (faded)
                         if (previousAssetPath != null) ...[
-                          Opacity(
-                            opacity: 0.5,
+                          ColorFiltered(
+                            colorFilter: const ColorFilter.matrix(<double>[
+                              1, 0, 0, 0, 0,
+                              0, 1, 0, 0, 0,
+                              0, 0, 1, 0, 0,
+                              0, 0, 0, 0.5, 0,
+                            ]),
                             child: SvgPicture.asset(
                               previousAssetPath,
                               width: 100,

@@ -146,36 +146,32 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Glow effect
+            // Glow effect (wrapped in RepaintBoundary for Impeller compatibility)
             if (widget.showGlow)
-              Animate(
-                onPlay: (controller) => controller.repeat(reverse: true),
-                effects: [
-                  FadeEffect(
-                    begin: 0.3,
-                    end: 0.6,
-                    duration: 2.seconds,
-                    curve: Curves.easeInOut,
-                  ),
-                  ScaleEffect(
-                    begin: const Offset(0.95, 0.95),
-                    end: const Offset(1.05, 1.05),
-                    duration: 2.seconds,
-                    curve: Curves.easeInOut,
-                  ),
-                ],
-                child: Container(
-                  width: widget.size * 0.9,
-                  height: widget.size * 0.9,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: glowColor.withValues(alpha: 0.3),
-                        blurRadius: 40,
-                        spreadRadius: 10,
-                      ),
-                    ],
+              RepaintBoundary(
+                child: Animate(
+                  onPlay: (controller) => controller.repeat(reverse: true),
+                  effects: [
+                    ScaleEffect(
+                      begin: const Offset(0.95, 0.95),
+                      end: const Offset(1.05, 1.05),
+                      duration: 2.seconds,
+                      curve: Curves.easeInOut,
+                    ),
+                  ],
+                  child: Container(
+                    width: widget.size * 0.9,
+                    height: widget.size * 0.9,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: glowColor.withValues(alpha: 0.3),
+                          blurRadius: 40,
+                          spreadRadius: 10,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -75,14 +75,22 @@ class RainbowSunPainter extends CustomPainter {
       )
       ..style = PaintingStyle.fill;
 
-    // Draw soft glow around the ball
+    // Draw soft glow around the ball using a gradient instead of blur
+    // (MaskFilter.blur causes Impeller crashes on iOS)
+    final glowGradient = RadialGradient(
+      colors: [
+        const Color(0xFFFFEB3B).withValues(alpha: 0.3),
+        const Color(0xFFFFEB3B).withValues(alpha: 0),
+      ],
+    );
     final glowPaint = Paint()
-      ..color = const Color(0xFFFFEB3B).withValues(alpha: 0.3)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
+      ..shader = glowGradient.createShader(
+        Rect.fromCircle(center: center, radius: radius * 1.5),
+      );
 
     // Draw the main ball
     canvas
-      ..drawCircle(center, radius * 1.2, glowPaint)
+      ..drawCircle(center, radius * 1.5, glowPaint)
       ..drawCircle(center, radius, paint);
   }
 

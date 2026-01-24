@@ -143,6 +143,35 @@ For testing on real hardware once development progresses:
 
 ## Common Commands
 
+### Development Workflow
+
+For seeing changes during development, you typically only need:
+
+```bash
+flutter run
+```
+
+Hot reload (`r`) and hot restart (`R`) handle most changes automatically.
+
+### When to Run Specific Commands
+
+| Command | When Needed |
+|---------|-------------|
+| `flutter pub get` | After modifying `pubspec.yaml` (adding/removing packages) |
+| `dart run build_runner build` | After modifying `@riverpod` or `@freezed` classes |
+| `flutter gen-l10n` | After modifying ARB localization files |
+| `flutter clean` | Only when you have weird build issues (rare) |
+| `flutter build apk` | Only for release builds to distribute |
+| `flutter build appbundle` | Only for Play Store uploads |
+
+### Typical Development Cycle
+
+1. Make code changes
+2. Hot reload happens automatically (or press `r`)
+3. If hot reload doesn't work, press `R` for hot restart
+4. If that doesn't work, stop and `flutter run` again
+
+### All Commands Reference
 ```bash
 # Run in debug mode
 flutter run
@@ -162,13 +191,13 @@ flutter run -d <device_id>
 # Hot restart (while running)
 # Press 'R' in terminal
 
-# Build APK
+# Build APK (for distribution, not needed for development)
 flutter build apk
 
 # Build App Bundle (for Play Store)
 flutter build appbundle
 
-# Clean build
+# Clean build (only when having issues)
 flutter clean && flutter pub get
 ```
 
