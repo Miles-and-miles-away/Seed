@@ -175,4 +175,54 @@ class AuthNotifier extends _$AuthNotifier {
     if (!ref.mounted) return;
     state = result;
   }
+
+  /// Re-authenticates the user with email/password.
+  /// Required before sensitive operations.
+  Future<void> reauthenticateWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).reauthenticateWithEmailPassword(
+            email,
+            password,
+          );
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Updates the user's email address.
+  /// Requires re-authentication first.
+  Future<void> updateEmail(String newEmail) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).updateEmail(newEmail);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Updates the user's password.
+  /// Requires re-authentication first.
+  Future<void> updatePassword(String newPassword) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).updatePassword(newPassword);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Deletes the user's account and all data.
+  /// Requires re-authentication first.
+  Future<void> deleteAccount() async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).deleteAccount();
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
 }

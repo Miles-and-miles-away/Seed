@@ -9,6 +9,8 @@ import '../../data/repositories/action_library_repository.dart';
 import '../../data/repositories/action_log_repository.dart';
 import '../../domain/enums/action_category.dart';
 
+export '../../data/repositories/action_log_repository.dart' show ActionLogResult;
+
 part 'actions_providers.g.dart';
 
 // =============================================================================
@@ -110,6 +112,22 @@ class ActionSearchQuery extends _$ActionSearchQuery {
   }
 }
 
+/// Gets today's action logs for the current user.
+///
+/// Used by smart reminders to check if user has logged an action today.
+@riverpod
+Future<List<ActionLogModel>> todayActions(Ref ref) async {
+  final userAsync = ref.watch(currentUserProvider);
+  final user = userAsync.asData?.value;
+  if (user == null) return [];
+
+  final now = DateTime.now();
+  final startOfDay = DateTime(now.year, now.month, now.day);
+
+  final logs = await ref.watch(userActionLogsProvider.future);
+  return logs.where((log) => log.loggedAt.isAfter(startOfDay)).toList();
+}
+
 /// Filtered actions based on selected category and search query.
 @riverpod
 List<ActionModel> filteredActions(Ref ref) {
@@ -153,10 +171,13 @@ List<ActionModel> filteredActions(Ref ref) {
 @riverpod
 class ActionLogNotifier extends _$ActionLogNotifier {
   @override
-  AsyncValue<ActionLogModel?> build() => const AsyncValue.data(null);
+  AsyncValue<ActionLogResult?> build() => const AsyncValue.data(null);
 
   /// Logs an action for the current user.
-  Future<ActionLogModel?> logAction(
+  ///
+  /// Returns an [ActionLogResult] containing the logged action and
+  /// any streak milestone information.
+  Future<ActionLogResult?> logAction(
     ActionModel action, {
     String? note,
     String languageCode = 'en',

@@ -169,5 +169,77 @@
   "progressTargetDescriptionEasy": "優しいスタート — 初心者にぴったり！",
   "progressTargetDescriptionModerate": "バランスの取れたチャレンジ — ほとんどのユーザーにおすすめ。",
   "progressTargetDescriptionChallenge": "野心的！環境への影響を与えることに真剣です。",
-  "progressTargetDescriptionExpert": "エキスパートレベル — あなたはサステナビリティチャンピオンです！"
+  "progressTargetDescriptionExpert": "エキスパートレベル — あなたはサステナビリティチャンピオンです！",
+
+  "languageSettingsTitle": "言語",
+  "languageSettingsDescription": "希望の言語を選択してください。アプリはすぐに更新されます。",
+  "languageSettingsNote": "アクションライブラリの一部のコンテンツは元の言語のままになる場合があります。",
+
+  "settingsNotificationsSubtitle": "{count}件のリマインダーが有効",
+  "@settingsNotificationsSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsNotificationsOff": "通知はオフです",
+  "settingsLanguageSubtitle": "{language}",
+  "@settingsLanguageSubtitle": {
+    "placeholders": {
+      "language": {"type": "String"}
+    }
+  },
+  "settingsAccountSubtitle": "メール、パスワード、アカウント削除",
+  "settingsAboutSubtitle": "バージョン、ライセンス、お問い合わせ",
+
+  "accountSettingsTitle": "アカウント",
+  "accountSettingsEmail": "メールアドレス",
+  "accountSettingsChangeEmail": "メールアドレスを変更",
+  "accountSettingsChangePassword": "パスワードを変更",
+  "accountSettingsDeleteAccount": "アカウントを削除",
+  "accountSettingsDeleteAccountWarning": "この操作は取り消せません。すべてのデータが完全に削除されます。",
+  "accountSettingsDeleteConfirmTitle": "アカウントを削除しますか？",
+  "accountSettingsDeleteConfirmMessage": "本当にアカウントを削除しますか？マスコット、アクション履歴、進捗などすべてのデータが完全に削除されます。",
+  "accountSettingsDeleteConfirmButton": "アカウントを削除",
+  "accountSettingsCurrentEmail": "現在のメールアドレス",
+  "accountSettingsNewEmail": "新しいメールアドレス",
+  "accountSettingsCurrentPassword": "現在のパスワード",
+  "accountSettingsNewPassword": "新しいパスワード",
+  "accountSettingsConfirmNewPassword": "新しいパスワードを確認",
+  "accountSettingsPasswordMismatch": "パスワードが一致しません",
+  "accountSettingsEmailUpdated": "メールアドレスが更新されました",
+  "accountSettingsPasswordUpdated": "パスワードが更新されました",
+  "accountSettingsReauthRequired": "続行するには、パスワードを再入力してください",
+
+  "aboutSettingsTitle": "このアプリについて",
+  "aboutSettingsVersion": "バージョン",
+  "aboutSettingsLicenses": "オープンソースライセンス",
+  "aboutSettingsContact": "お問い合わせ",
+  "aboutSettingsPrivacy": "プライバシーポリシー",
+  "aboutSettingsTerms": "利用規約",
+
+  "streakMilestoneTitle": "すごい！",
+  "streakMilestoneWeeks": "{count}週間連続達成！",
+  "@streakMilestoneWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneDays": "{count}日連続でアクションを記録しました！",
+  "@streakMilestoneDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneKeepGoing": "この調子で続けましょう！",
+  "streakMilestoneContinue": "続ける",
+
+  "streakBrokenTitle": "連続記録が途切れました",
+  "streakBrokenMessage": "大丈夫！今日から新しい記録を始めましょう。",
+  "streakBrokenPrevious": "前回の記録: {count}日",
+  "@streakBrokenPrevious": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakBrokenStartNew": "新しい記録を始める"
 }

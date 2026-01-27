@@ -2,7 +2,6 @@
 
 **Version:** 1.0
 **Created:** January 2026
-**Target Duration:** Weeks 7-12
 **Status:** In Progress
 
 ---
@@ -285,7 +284,6 @@ abstract class AppUserModel with _$AppUserModel {
 ### Feature 2.1: Mascot Data Layer
 
 **Priority:** P0
-**Estimated Effort:** 2-3 hours
 
 **Tasks:**
 1. Create `MascotModel` with Freezed
@@ -318,7 +316,6 @@ abstract class AppUserModel with _$AppUserModel {
 ### Feature 2.2: Mascot Providers
 
 **Priority:** P0
-**Estimated Effort:** 1-2 hours
 
 **Tasks:**
 1. Create `currentMascotProvider` - streams user's mascot
@@ -359,7 +356,6 @@ class MascotNotifier extends _$MascotNotifier {
 ### Feature 2.3: Mascot Selection Screen
 
 **Priority:** P0
-**Estimated Effort:** 3-4 hours
 
 **Tasks:**
 1. Create `SpeciesCard` widget - shows species preview and description
@@ -380,6 +376,7 @@ class MascotNotifier extends _$MascotNotifier {
 **Files to Modify:**
 - `lib/app/router.dart` - add selection route and redirect logic
 - `lib/core/l10n/app_en.arb` - add selection strings
+- `lib/core/l10n/app_es.arb` - add selection strings
 - `lib/core/l10n/app_ja.arb` - add selection strings
 
 **Screen Layout:**
@@ -414,7 +411,6 @@ class MascotNotifier extends _$MascotNotifier {
 ### Feature 2.4: Mascot Display Widget
 
 **Priority:** P0
-**Estimated Effort:** 2-3 hours
 
 **Tasks:**
 1. Create `MascotDisplay` widget - renders SVG at correct evolution stage
@@ -456,7 +452,6 @@ class MascotAvatar extends ConsumerWidget {
 ### Feature 2.5: Home Screen Integration
 
 **Priority:** P0
-**Estimated Effort:** 2-3 hours
 
 **Tasks:**
 1. Add `MascotDisplay` to home screen (prominent position)
@@ -501,7 +496,6 @@ class MascotAvatar extends ConsumerWidget {
 ### Feature 2.6: Evolution System
 
 **Priority:** P0
-**Estimated Effort:** 3-4 hours
 
 **Tasks:**
 1. Create `evolutionDetectorProvider` - compares previous vs current stage
@@ -535,7 +529,6 @@ Action Logged → Points Update → Level Check → Stage Check
 ### Feature 2.7: Mascot Naming/Renaming
 
 **Priority:** P1
-**Estimated Effort:** 1-2 hours
 
 **Tasks:**
 1. Add rename button to mascot screen
@@ -567,7 +560,6 @@ Action Logged → Points Update → Level Check → Stage Check
 ### Feature 2.8: Action Reaction Animations
 
 **Priority:** P1
-**Estimated Effort:** 2-3 hours
 
 **Tasks:**
 1. Create `MascotReaction` overlay widget
@@ -597,7 +589,6 @@ User Logs Action → Optimistic UI Update → Show Reaction Animation
 ### Feature 2.9: Full Mascot Screen
 
 **Priority:** P1
-**Estimated Effort:** 2-3 hours
 
 **Tasks:**
 1. Replace placeholder with full mascot screen
@@ -668,45 +659,45 @@ User Logs Action → Optimistic UI Update → Show Reaction Animation
 
 ## Implementation Order
 
-### Week 7-8: Data Foundation
+### Step 1: Data Foundation
 
-| Day | Task | Est. Hours |
-|-----|------|------------|
-| 1 | Create mascot data models | 2 |
-| 2 | Create mascot repository & datasource | 3 |
-| 3 | Update AppUserModel, run code gen | 1 |
-| 4 | Create mascot providers | 2 |
-| 5 | Write unit tests for data layer | 2 |
-| 6 | Seed Firestore with species data | 1 |
-| 7 | Create MascotDisplay widget | 2 |
+| Step | Task |
+|------|------|
+| 1.1 | Create mascot data models |
+| 1.2 | Create mascot repository & datasource |
+| 1.3 | Update AppUserModel, run code gen |
+| 1.4 | Create mascot providers |
+| 1.5 | Write unit tests for data layer |
+| 1.6 | Seed Firestore with species data |
+| 1.7 | Create MascotDisplay widget |
 
 **Milestone:** Mascot data flows from Firestore to UI
 
-### Week 9-10: Selection & Display
+### Step 2: Selection & Display
 
-| Day | Task | Est. Hours |
-|-----|------|------------|
-| 8 | Create SpeciesCard widget | 2 |
-| 9 | Create MascotSelectionScreen | 3 |
-| 10 | Integrate selection into auth flow | 2 |
-| 11 | Add home screen mascot display | 3 |
-| 12 | Create MascotAvatar widget | 1 |
-| 13 | Add idle animations | 2 |
-| 14 | Write widget tests | 2 |
+| Step | Task |
+|------|------|
+| 2.1 | Create SpeciesCard widget |
+| 2.2 | Create MascotSelectionScreen |
+| 2.3 | Integrate selection into auth flow |
+| 2.4 | Add home screen mascot display |
+| 2.5 | Create MascotAvatar widget |
+| 2.6 | Add idle animations |
+| 2.7 | Write widget tests |
 
 **Milestone:** New users can select mascot, see it on home screen
 
-### Week 11-12: Evolution & Polish
+### Step 3: Evolution & Polish
 
-| Day | Task | Est. Hours |
-|-----|------|------------|
-| 15 | Create evolution detection provider | 2 |
-| 16 | Create EvolutionCelebration widget | 3 |
-| 17 | Create MascotReaction widget | 2 |
-| 18 | Build full MascotScreen | 3 |
-| 19 | Add rename functionality | 2 |
-| 20 | Create Stage 4 mascot asset | 2 |
-| 21 | Integration testing & polish | 3 |
+| Step | Task |
+|------|------|
+| 3.1 | Create evolution detection provider |
+| 3.2 | Create EvolutionCelebration widget |
+| 3.3 | Create MascotReaction widget |
+| 3.4 | Build full MascotScreen |
+| 3.5 | Add rename functionality |
+| 3.6 | Create Stage 4 mascot asset |
+| 3.7 | Integration testing & polish |
 
 **Milestone:** Complete mascot MVP with evolution celebrations
 
@@ -887,6 +878,25 @@ match /mascotSpecies/{speciesId} {
   "mascotEvolutionMessage": "{name} evolved into {stageName}!",
   "mascotStatsActions": "{count} Actions",
   "mascotStatsCo2": "{amount}kg CO₂ Saved"
+}
+```
+
+### Spanish (app_es.arb)
+```json
+{
+  "mascotSelectionTitle": "Elige a tu compañero",
+  "mascotSelectionSubtitle": "Tu mascota crecerá con tu viaje de sostenibilidad",
+  "mascotNameLabel": "Dale un nombre a tu mascota",
+  "mascotNameHint": "Ingresa un nombre...",
+  "mascotStartJourney": "Comenzar viaje",
+  "mascotRenamTitle": "Renombrar mascota",
+  "mascotRenameButton": "Renombrar",
+  "mascotEvolutionStage": "Etapa {stage}",
+  "mascotNextEvolution": "Siguiente: Nivel {level}",
+  "mascotEvolutionCongrats": "¡Felicidades!",
+  "mascotEvolutionMessage": "¡{name} evolucionó a {stageName}!",
+  "mascotStatsActions": "{count} Acciones",
+  "mascotStatsCo2": "{amount}kg CO₂ Ahorrado"
 }
 ```
 

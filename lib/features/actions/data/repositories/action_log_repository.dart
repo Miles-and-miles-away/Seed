@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../shared/services/streak_service.dart';
 import '../datasources/action_log_remote_datasource.dart';
 import '../models/action_log_model.dart';
 import '../models/action_model.dart';
@@ -33,7 +34,10 @@ class ActionLogRepository {
   /// This uses a Firestore transaction to:
   /// 1. Create the action log document
   /// 2. Update user points, level, and streak information
-  Future<ActionLogModel> logAction({
+  ///
+  /// Returns an [ActionLogResult] containing the logged action and
+  /// any streak milestone information.
+  Future<ActionLogResult> logAction({
     required String userId,
     required ActionModel action,
     required String languageCode,
@@ -56,6 +60,9 @@ class ActionLogRepository {
       relatedSdgs: action.relatedSdgs,
     );
 
+    int? crossedMilestoneWeek;
+    var newCurrentStreak = 1;
+
     await firestore.runTransaction((transaction) async {
       // Get current user data
       final userDoc = await transaction.get(userRef);
@@ -66,14 +73,21 @@ class ActionLogRepository {
       final newPoints = currentPoints + action.points;
       final newLevel = _calculateLevel(newPoints);
 
-      // Calculate streak
+      // Calculate streak using the StreakService for milestone detection
       final lastActionDate = _parseDate(userData['lastActionDate']);
-      final streakData = _calculateStreak(
+      final currentStreak = (userData['currentStreak'] as int?) ?? 0;
+      final longestStreak = (userData['longestStreak'] as int?) ?? 0;
+
+      final streakResult = StreakService.instance.calculateStreakUpdate(
         lastActionDate: lastActionDate,
-        currentStreak: (userData['currentStreak'] as int?) ?? 0,
-        longestStreak: (userData['longestStreak'] as int?) ?? 0,
+        currentStreak: currentStreak,
+        longestStreak: longestStreak,
         now: now,
       );
+
+      // Capture the milestone info for return value
+      crossedMilestoneWeek = streakResult.crossedMilestoneWeek;
+      newCurrentStreak = streakResult.currentStreak;
 
       // Prepare action log data
       final logData = actionLog.toJson()..remove('id'); // Don't store id
@@ -84,13 +98,17 @@ class ActionLogRepository {
         ..update(userRef, {
           'points': newPoints,
           'level': newLevel,
-          'currentStreak': streakData.currentStreak,
-          'longestStreak': streakData.longestStreak,
+          'currentStreak': streakResult.currentStreak,
+          'longestStreak': streakResult.longestStreak,
           'lastActionDate': Timestamp.fromDate(now),
         });
     });
 
-    return actionLog;
+    return ActionLogResult(
+      actionLog: actionLog,
+      crossedMilestoneWeek: crossedMilestoneWeek,
+      newStreakDays: newCurrentStreak,
+    );
   }
 
   /// Calculates the user's level based on total points.
@@ -114,51 +132,6 @@ class ActionLogRepository {
     return math.max(1, level);
   }
 
-  /// Calculates streak data based on the last action date.
-  _StreakData _calculateStreak({
-    required DateTime? lastActionDate,
-    required int currentStreak,
-    required int longestStreak,
-    required DateTime now,
-  }) {
-    if (lastActionDate == null) {
-      // First action ever
-      return _StreakData(
-        currentStreak: 1,
-        longestStreak: math.max(1, longestStreak),
-      );
-    }
-
-    final today = DateTime(now.year, now.month, now.day);
-    final lastDate = DateTime(
-      lastActionDate.year,
-      lastActionDate.month,
-      lastActionDate.day,
-    );
-    final difference = today.difference(lastDate).inDays;
-
-    if (difference == 0) {
-      // Same day - streak continues but doesn't increment
-      return _StreakData(
-        currentStreak: math.max(1, currentStreak),
-        longestStreak: longestStreak,
-      );
-    } else if (difference == 1) {
-      // Consecutive day - increment streak
-      final newStreak = currentStreak + 1;
-      return _StreakData(
-        currentStreak: newStreak,
-        longestStreak: math.max(newStreak, longestStreak),
-      );
-    } else {
-      // Gap in days - reset streak
-      return _StreakData(
-        currentStreak: 1,
-        longestStreak: longestStreak,
-      );
-    }
-  }
-
   /// Parses a date from Firestore data.
   DateTime? _parseDate(Object? value) {
     if (value == null) return null;
@@ -168,13 +141,26 @@ class ActionLogRepository {
   }
 }
 
-/// Internal class to hold streak calculation results.
-class _StreakData {
-  const _StreakData({
-    required this.currentStreak,
-    required this.longestStreak,
+/// Result of logging an action.
+///
+/// Contains the logged action and any streak milestone information.
+class ActionLogResult {
+  const ActionLogResult({
+    required this.actionLog,
+    required this.newStreakDays,
+    this.crossedMilestoneWeek,
   });
 
-  final int currentStreak;
-  final int longestStreak;
+  /// The logged action.
+  final ActionLogModel actionLog;
+
+  /// The week milestone that was crossed (if any).
+  /// Only set when the streak crosses a weekly milestone threshold (7, 14, 21, etc.).
+  final int? crossedMilestoneWeek;
+
+  /// The new streak in days after logging.
+  final int newStreakDays;
+
+  /// Whether a milestone celebration should be shown.
+  bool get shouldShowMilestone => crossedMilestoneWeek != null;
 }

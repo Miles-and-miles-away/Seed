@@ -16,6 +16,9 @@ abstract class UserRemoteDataSource {
 
   /// Watches a user document for real-time updates.
   Stream<AppUserModel?> watchUser(String uid);
+
+  /// Deletes a user document and all subcollections.
+  Future<void> deleteUser(String uid);
 }
 
 /// Implementation of [UserRemoteDataSource] using Cloud Firestore.
@@ -53,5 +56,21 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (!doc.exists || doc.data() == null) return null;
       return AppUserModel.fromJson({...doc.data()!, 'uid': uid});
     });
+  }
+
+  @override
+  Future<void> deleteUser(String uid) async {
+    final userDoc = _usersCollection.doc(uid);
+
+    // Delete action log subcollection
+    final actionLogs = await userDoc
+        .collection(AppConstants.collectionActionLog)
+        .get();
+    for (final doc in actionLogs.docs) {
+      await doc.reference.delete();
+    }
+
+    // Delete the user document itself
+    await userDoc.delete();
   }
 }

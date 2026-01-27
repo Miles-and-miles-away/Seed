@@ -135,4 +135,35 @@ class AuthRepository {
     await _userDataSource.createUser(newUser);
     return newUser;
   }
+
+  /// Re-authenticates the user with email/password.
+  /// Required before sensitive operations.
+  Future<void> reauthenticateWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    await _authDataSource.reauthenticateWithEmailPassword(email, password);
+  }
+
+  /// Updates the current user's email address.
+  /// Sends verification to new email before update takes effect.
+  Future<void> updateEmail(String newEmail) async {
+    await _authDataSource.updateEmail(newEmail);
+  }
+
+  /// Updates the current user's password.
+  Future<void> updatePassword(String newPassword) async {
+    await _authDataSource.updatePassword(newPassword);
+  }
+
+  /// Deletes the current user's account and all associated data.
+  Future<void> deleteAccount() async {
+    final user = currentUser;
+    if (user != null) {
+      // Delete Firestore user document first
+      await _userDataSource.deleteUser(user.uid);
+    }
+    // Then delete the Firebase Auth account
+    await _authDataSource.deleteAccount();
+  }
 }

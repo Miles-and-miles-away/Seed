@@ -169,5 +169,77 @@
   "progressTargetDescriptionEasy": "A gentle start — perfect for beginners!",
   "progressTargetDescriptionModerate": "A balanced challenge — recommended for most users.",
   "progressTargetDescriptionChallenge": "Ambitious! You're committed to making an impact.",
-  "progressTargetDescriptionExpert": "Expert level — you're a sustainability champion!"
+  "progressTargetDescriptionExpert": "Expert level — you're a sustainability champion!",
+
+  "languageSettingsTitle": "Language",
+  "languageSettingsDescription": "Choose your preferred language. The app will update immediately.",
+  "languageSettingsNote": "Some content from the action library may remain in its original language.",
+
+  "settingsNotificationsSubtitle": "{count} reminders enabled",
+  "@settingsNotificationsSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsNotificationsOff": "Notifications are off",
+  "settingsLanguageSubtitle": "{language}",
+  "@settingsLanguageSubtitle": {
+    "placeholders": {
+      "language": {"type": "String"}
+    }
+  },
+  "settingsAccountSubtitle": "Email, password, delete account",
+  "settingsAboutSubtitle": "Version, licenses, contact",
+
+  "accountSettingsTitle": "Account",
+  "accountSettingsEmail": "Email Address",
+  "accountSettingsChangeEmail": "Change Email",
+  "accountSettingsChangePassword": "Change Password",
+  "accountSettingsDeleteAccount": "Delete Account",
+  "accountSettingsDeleteAccountWarning": "This action cannot be undone. All your data will be permanently deleted.",
+  "accountSettingsDeleteConfirmTitle": "Delete Account?",
+  "accountSettingsDeleteConfirmMessage": "Are you sure you want to delete your account? This will permanently delete all your data including your mascot, action history, and progress.",
+  "accountSettingsDeleteConfirmButton": "Delete My Account",
+  "accountSettingsCurrentEmail": "Current email",
+  "accountSettingsNewEmail": "New email",
+  "accountSettingsCurrentPassword": "Current password",
+  "accountSettingsNewPassword": "New password",
+  "accountSettingsConfirmNewPassword": "Confirm new password",
+  "accountSettingsPasswordMismatch": "Passwords do not match",
+  "accountSettingsEmailUpdated": "Email updated successfully",
+  "accountSettingsPasswordUpdated": "Password updated successfully",
+  "accountSettingsReauthRequired": "Please re-enter your password to continue",
+
+  "aboutSettingsTitle": "About",
+  "aboutSettingsVersion": "Version",
+  "aboutSettingsLicenses": "Open Source Licenses",
+  "aboutSettingsContact": "Contact Us",
+  "aboutSettingsPrivacy": "Privacy Policy",
+  "aboutSettingsTerms": "Terms of Service",
+
+  "streakMilestoneTitle": "Amazing!",
+  "streakMilestoneWeeks": "{count} Week Streak!",
+  "@streakMilestoneWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneDays": "You've logged actions for {count} days in a row!",
+  "@streakMilestoneDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneKeepGoing": "Keep up the amazing work!",
+  "streakMilestoneContinue": "Continue",
+
+  "streakBrokenTitle": "Streak Broken",
+  "streakBrokenMessage": "Don't worry! Start a new streak today.",
+  "streakBrokenPrevious": "Previous streak: {count} days",
+  "@streakBrokenPrevious": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakBrokenStartNew": "Start New Streak"
 }

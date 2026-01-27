@@ -1,0 +1,245 @@
+{
+  "@@locale": "es",
+  "@@last_modified": "2025-01-27",
+
+  "appTitle": "Seed",
+  "appTagline": "Cultiva tus hábitos sostenibles",
+
+  "navHome": "Inicio",
+  "navProgress": "Progreso",
+  "navLogAction": "Registrar",
+  "navMascot": "Mascota",
+  "navProfile": "Perfil",
+  "navSettings": "Ajustes",
+
+  "authLogin": "Iniciar sesión",
+  "authRegister": "Registrarse",
+  "authLogout": "Cerrar sesión",
+  "authEmail": "Correo electrónico",
+  "authPassword": "Contraseña",
+  "authConfirmPassword": "Confirmar contraseña",
+  "authForgotPassword": "¿Olvidaste tu contraseña?",
+  "authContinueWithGoogle": "Continuar con Google",
+  "authContinueWithApple": "Continuar con Apple",
+  "authOrDivider": "o",
+
+  "homeWelcome": "¡Bienvenido de nuevo, {name}!",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeLogAction": "Registrar acción",
+  "homeRecentActions": "Acciones recientes",
+  "homeNoActions": "Aún no hay acciones registradas. ¡Comienza tu viaje!",
+
+  "actionLogTitle": "Registrar una acción",
+  "actionSearchHint": "Buscar acciones...",
+  "actionLogged": "¡Acción registrada! +{points} puntos",
+  "@actionLogged": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "noActionsFound": "No se encontraron acciones",
+  "actionHistoryTitle": "Historial de acciones",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "addNoteOptional": "Añadir una nota (opcional)",
+  "noteHint": "Ej.: Usé mi propia bolsa en la tienda",
+
+  "pointsLabel": "{count} puntos",
+  "@pointsLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "levelLabel": "Nivel {level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "streakLabel": "Racha de {days} días",
+  "@streakLabel": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "co2Saved": "{amount} CO₂ ahorrado",
+  "@co2Saved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "mascotName": "{name}",
+  "@mascotName": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "mascotRename": "Renombrar",
+  "mascotEvolution": "Etapa de evolución {stage}",
+  "@mascotEvolution": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
+  "mascotSelectionTitle": "Elige a tu compañero",
+  "mascotSelectionSubtitle": "¡Este pequeño amigo crecerá contigo en tu viaje hacia la sostenibilidad!",
+  "mascotNameLabel": "Dale un nombre a tu compañero",
+  "mascotNameHint": "Ej.: Brotecito, Hojita, Capullo...",
+  "mascotNameRequired": "Por favor ingresa un nombre",
+  "mascotNameTooShort": "El nombre debe tener al menos 2 caracteres",
+  "mascotNameTooLong": "El nombre debe tener 20 caracteres o menos",
+  "mascotSelectionConfirm": "¡Crezcamos juntos!",
+
+  "evolutionTitle": "¡Evolución!",
+  "evolutionSubtitle": "¡Tu compañero se ha vuelto más fuerte!",
+  "evolutionContinue": "¡Increíble!",
+
+  "profileTitle": "Perfil",
+  "profileStats": "Estadísticas",
+  "profileTotalActions": "Total de acciones",
+  "profileTotalCO2": "Total CO₂ ahorrado",
+  "profileMemberSince": "Miembro desde",
+  "profileCurrentStreak": "Racha actual",
+  "profileLongestStreak": "Racha más larga",
+  "profileNextLevel": "{points} pts para el siguiente nivel",
+  "@profileNextLevel": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "profileDaysActive": "{days} días",
+  "@profileDaysActive": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileEvolutionStage": "Etapa de evolución {stage}",
+  "@profileEvolutionStage": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  },
+
+  "settingsTitle": "Ajustes",
+  "settingsNotifications": "Notificaciones",
+  "settingsReminderTime": "Recordatorio diario",
+  "settingsLanguage": "Idioma",
+  "settingsTheme": "Tema",
+  "settingsThemeSystem": "Sistema",
+  "settingsThemeLight": "Claro",
+  "settingsThemeDark": "Oscuro",
+  "settingsAccount": "Cuenta",
+  "settingsSubscription": "Suscripción",
+  "settingsAbout": "Acerca de",
+  "settingsPrivacy": "Política de privacidad",
+  "settingsTerms": "Términos de servicio",
+
+  "subscriptionFree": "Gratis",
+  "subscriptionPremium": "Premium",
+  "subscriptionUpgrade": "Actualizar a Premium",
+
+  "categoryRecycling": "Reciclaje",
+  "categoryTransport": "Transporte",
+  "categoryFood": "Alimentación",
+  "categoryEnergy": "Energía",
+  "categoryConsumption": "Consumo",
+  "categoryWater": "Agua",
+
+  "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
+  "errorNetwork": "Sin conexión a internet.",
+  "errorAuth": "Error de autenticación. Por favor intenta de nuevo.",
+
+  "buttonSave": "Guardar",
+  "buttonCancel": "Cancelar",
+  "buttonConfirm": "Confirmar",
+  "buttonRetry": "Reintentar",
+  "buttonContinue": "Continuar",
+
+  "progressTitle": "Progreso",
+  "progressGoalsToday": "metas hoy",
+  "progressGoalReached": "¡Meta diaria alcanzada!",
+  "progressSetDailyGoal": "Establece tu meta diaria",
+  "progressSetDailyGoalSubtitle": "¿Cuántas acciones ecológicas quieres completar cada día?",
+  "progressStartJourney": "Comenzar mi viaje",
+  "progressTargetDescriptionEasy": "Un comienzo suave — ¡perfecto para principiantes!",
+  "progressTargetDescriptionModerate": "Un desafío equilibrado — recomendado para la mayoría.",
+  "progressTargetDescriptionChallenge": "¡Ambicioso! Estás comprometido con hacer un impacto.",
+  "progressTargetDescriptionExpert": "Nivel experto — ¡eres un campeón de la sostenibilidad!",
+
+  "languageSettingsTitle": "Idioma",
+  "languageSettingsDescription": "Elige tu idioma preferido. La aplicación se actualizará inmediatamente.",
+  "languageSettingsNote": "Parte del contenido de la biblioteca de acciones puede permanecer en su idioma original.",
+
+  "settingsNotificationsSubtitle": "{count} recordatorios activados",
+  "@settingsNotificationsSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsNotificationsOff": "Las notificaciones están desactivadas",
+  "settingsLanguageSubtitle": "{language}",
+  "@settingsLanguageSubtitle": {
+    "placeholders": {
+      "language": {"type": "String"}
+    }
+  },
+  "settingsAccountSubtitle": "Correo, contraseña, eliminar cuenta",
+  "settingsAboutSubtitle": "Versión, licencias, contacto",
+
+  "accountSettingsTitle": "Cuenta",
+  "accountSettingsEmail": "Correo electrónico",
+  "accountSettingsChangeEmail": "Cambiar correo",
+  "accountSettingsChangePassword": "Cambiar contraseña",
+  "accountSettingsDeleteAccount": "Eliminar cuenta",
+  "accountSettingsDeleteAccountWarning": "Esta acción no se puede deshacer. Todos tus datos serán eliminados permanentemente.",
+  "accountSettingsDeleteConfirmTitle": "¿Eliminar cuenta?",
+  "accountSettingsDeleteConfirmMessage": "¿Estás seguro de que quieres eliminar tu cuenta? Esto eliminará permanentemente todos tus datos incluyendo tu mascota, historial de acciones y progreso.",
+  "accountSettingsDeleteConfirmButton": "Eliminar mi cuenta",
+  "accountSettingsCurrentEmail": "Correo actual",
+  "accountSettingsNewEmail": "Nuevo correo",
+  "accountSettingsCurrentPassword": "Contraseña actual",
+  "accountSettingsNewPassword": "Nueva contraseña",
+  "accountSettingsConfirmNewPassword": "Confirmar nueva contraseña",
+  "accountSettingsPasswordMismatch": "Las contraseñas no coinciden",
+  "accountSettingsEmailUpdated": "Correo actualizado exitosamente",
+  "accountSettingsPasswordUpdated": "Contraseña actualizada exitosamente",
+  "accountSettingsReauthRequired": "Por favor ingresa tu contraseña nuevamente para continuar",
+
+  "aboutSettingsTitle": "Acerca de",
+  "aboutSettingsVersion": "Versión",
+  "aboutSettingsLicenses": "Licencias de código abierto",
+  "aboutSettingsContact": "Contáctanos",
+  "aboutSettingsPrivacy": "Política de privacidad",
+  "aboutSettingsTerms": "Términos de servicio",
+
+  "streakMilestoneTitle": "¡Increíble!",
+  "streakMilestoneWeeks": "¡{count} semanas de racha!",
+  "@streakMilestoneWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneDays": "¡Has registrado acciones por {count} días seguidos!",
+  "@streakMilestoneDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakMilestoneKeepGoing": "¡Sigue con el increíble trabajo!",
+  "streakMilestoneContinue": "Continuar",
+
+  "streakBrokenTitle": "Racha interrumpida",
+  "streakBrokenMessage": "¡No te preocupes! Comienza una nueva racha hoy.",
+  "streakBrokenPrevious": "Racha anterior: {count} días",
+  "@streakBrokenPrevious": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "streakBrokenStartNew": "Comenzar nueva racha"
+}

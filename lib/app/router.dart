@@ -14,6 +14,10 @@ import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
+import '../features/settings/presentation/screens/account_settings_screen.dart';
+import '../features/settings/presentation/screens/language_settings_screen.dart';
+import '../features/settings/presentation/screens/notification_settings_screen.dart';
+import '../features/settings/presentation/screens/settings_screen.dart';
 import 'main_shell.dart';
 
 part 'router.g.dart';
@@ -139,8 +143,29 @@ GoRouter router(Ref ref) {
                 routes: [
                   GoRoute(
                     path: 'settings',
-                    builder: (context, state) =>
-                        const _PlaceholderScreen(title: 'Settings'),
+                    builder: (context, state) => const SettingsScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'notifications',
+                        builder: (context, state) =>
+                            const NotificationSettingsScreen(),
+                      ),
+                      GoRoute(
+                        path: 'language',
+                        builder: (context, state) =>
+                            const LanguageSettingsScreen(),
+                      ),
+                      GoRoute(
+                        path: 'account',
+                        builder: (context, state) =>
+                            const AccountSettingsScreen(),
+                      ),
+                      GoRoute(
+                        path: 'about',
+                        builder: (context, state) =>
+                            const _PlaceholderScreen(title: 'About'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -174,8 +199,29 @@ GoRouter router(Ref ref) {
       // Standalone settings (for deep links)
       GoRoute(
         path: AppRoutes.settings,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Settings'),
+        builder: (context, state) => const SettingsScreen(),
+        routes: [
+          GoRoute(
+            path: 'notifications',
+            builder: (context, state) =>
+                const NotificationSettingsScreen(),
+          ),
+          GoRoute(
+            path: 'language',
+            builder: (context, state) =>
+                const _PlaceholderScreen(title: 'Language'),
+          ),
+          GoRoute(
+            path: 'account',
+            builder: (context, state) =>
+                const _PlaceholderScreen(title: 'Account'),
+          ),
+          GoRoute(
+            path: 'about',
+            builder: (context, state) =>
+                const _PlaceholderScreen(title: 'About'),
+          ),
+        ],
       ),
     ],
 

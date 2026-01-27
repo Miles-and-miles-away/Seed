@@ -6,6 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../mascot/mascot.dart';
+import '../../../settings/data/models/user_settings_model.dart';
+import '../../../settings/presentation/providers/settings_providers.dart';
+import '../../../settings/presentation/widgets/streak_milestone_dialog.dart';
 import '../../data/models/action_model.dart';
 import '../../domain/enums/action_category.dart';
 import '../providers/actions_providers.dart';
@@ -216,7 +219,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     if (!mounted) return;
 
     // Log the action
-    final loggedAction = await ref
+    final logResult = await ref
         .read(actionLogProvider.notifier)
         .logAction(
           action,
@@ -226,7 +229,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
 
     if (!mounted) return;
 
-    if (loggedAction != null) {
+    if (logResult != null) {
       // Get category color for animation
       final category = ActionCategory.fromString(action.category);
       final color = category?.color;
@@ -251,6 +254,23 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
       );
+
+      // Check if a streak milestone was crossed
+      if (logResult.shouldShowMilestone && mounted) {
+        // Check if this milestone has been seen before
+        final settings = await ref.read(userSettingsProvider.future);
+        final milestoneWeek = logResult.crossedMilestoneWeek!;
+        final alreadySeen = settings.hasSeenMilestone(milestoneWeek);
+
+        if (!alreadySeen && mounted) {
+          // Show milestone celebration dialog
+          await showStreakMilestoneCelebration(
+            context,
+            weekNumber: milestoneWeek,
+            totalDays: logResult.newStreakDays,
+          );
+        }
+      }
     } else {
       // Show error snackbar
       ScaffoldMessenger.of(context).showSnackBar(

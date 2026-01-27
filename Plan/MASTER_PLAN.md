@@ -1,7 +1,7 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.1
+**Version:** 1.2
 **Last Updated:** January 2026
 **Author:** Miles
 
@@ -9,11 +9,12 @@
 ✅ Project initialized with Flutter 3.38.7 / Dart 3.10.7
 ✅ Directory structure implemented
 ✅ Dependencies configured and resolved
-✅ Localization infrastructure set up (EN/JP)
+✅ Localization infrastructure set up (EN/ES/JP)
 ✅ Firebase project configured (seed-3d48d)
 ✅ Mascot assets added (vector SVGs)
 ✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
-⏳ Phase 2 in progress (Level system logic done, Mascot UI pending)
+✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
+⏳ **Phase 3 in progress (~65%)** (Settings ✅, Notifications ✅, Streak tracking ⏳)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -118,6 +119,7 @@ lib/
 │   │   └── helpers.dart         # Level calculation, formatting helpers
 │   └── l10n/
 │       ├── app_en.arb           # English strings
+│       ├── app_es.arb           # Spanish strings
 │       ├── app_ja.arb           # Japanese strings
 │       └── generated/           # Auto-generated localization code
 ├── features/
@@ -367,6 +369,7 @@ lib/
 └── core/
     └── l10n/
         ├── app_en.arb          # English strings
+        ├── app_es.arb          # Spanish strings
         ├── app_ja.arb          # Japanese strings
         └── l10n.dart           # Generated code
 ```
@@ -408,8 +411,10 @@ users/
 │   ├── level: number
 │   ├── currentStreak: number
 │   ├── longestStreak: number
-│   ├── language: "en" | "ja"
+│   ├── lastActionDate: timestamp          # For streak calculation (Phase 3)
+│   ├── language: "en" | "es" | "ja"
 │   ├── notificationTime: string (e.g., "09:00")
+│   ├── notificationsEnabled: boolean      # Phase 3 addition
 │   ├── subscription/
 │   │   ├── status: "free" | "premium"
 │   │   ├── expiresAt: timestamp | null
@@ -594,63 +599,254 @@ flutter build apk --dart-define=REVENUECAT_KEY=pk_xxxxx
 
 ## Development Phases
 
-### Phase 1: Foundation (Weeks 1-6)
+### Phase 1: Foundation ✅ COMPLETE
 **Goal:** Working app with core loop
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
 | Project setup | Flutter project, Firebase connection, folder structure | P0 | ✅ Done |
-| Basic UI shell | Navigation, theme, placeholder screens | P0 | ✅ Done |
-| Localization setup | EN/JP infrastructure (can translate later) | P1 | ✅ Done |
+| Basic UI shell | Navigation (4-tab bottom nav), theme, screens | P0 | ✅ Done |
+| Localization setup | EN/ES/JP infrastructure with ARB files | P1 | ✅ Done |
 | Authentication | Email/password + Google + Apple sign-in | P0 | ✅ Done |
-| Action logging | Log action → points awarded → stored in Firestore | P0 | ✅ Done |
-| Action library | Seed database with 20-30 common actions | P0 | ✅ Done |
-| Action history | View past logged actions with filtering | P1 | ✅ Done |
-| Progress tracking | Calendar view with daily summaries | P1 | ✅ Done |
-| SDG integration | Link actions to UN SDGs with info cards | P1 | ✅ Done |
-| User profile | Display points, level, basic stats | P0 | ✅ Done |
+| Action logging | Log action → points → Firestore with confirmation dialog | P0 | ✅ Done |
+| Action library | 30+ actions with category filtering and search | P0 | ✅ Done |
+| Action history | View past logged actions grouped by date | P1 | ✅ Done |
+| Progress tracking | Rainbow Sun widget + Calendar view + Daily target | P1 | ✅ Done |
+| SDG integration | Infinite carousel + detailed goal screens | P1 | ✅ Done |
+| User profile | Points, level, streaks, CO₂ saved, stats cards | P0 | ✅ Done |
 
-**Deliverable:** You can sign up, log actions, see points accumulate, view profile with stats. ✅ Core loop complete!
+**Deliverable:** Full core loop with sign up, log actions, track progress, view profile. ✅ Complete!
 
-### Phase 2: Mascot MVP (Weeks 7-12)
+### Phase 2: Mascot MVP ✅ COMPLETE
 **Goal:** Engaging mascot system
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Level system (logic) | Points → levels with thresholds | P0 | ✅ Done |
-| Evolution thresholds | Define stages at levels 1, 10, 25, 50 | P0 | ✅ Done |
-| Mascot selection | Choose starter mascot on signup | P0 | ⏳ Next |
-| Mascot display | Render mascot on home screen | P0 | Pending |
-| Evolution stages | Mascot appearance changes at milestones | P0 | Pending |
-| Basic animations | Idle animation, happy reaction on action log | P1 | Pending |
-| Mascot naming | User can name their mascot | P1 | Pending |
+| Level system (logic) | Points → levels with logarithmic scaling | P0 | ✅ Done |
+| Evolution thresholds | 4 stages at levels 1, 10, 25, 50 | P0 | ✅ Done |
+| Mascot selection | Choose starter mascot + name on signup | P0 | ✅ Done |
+| Mascot display | Render mascot on home screen with quick stats | P0 | ✅ Done |
+| Evolution stages | Mascot SVG changes at level milestones | P0 | ✅ Done |
+| Basic animations | Idle float, tap feedback, glow pulse, bounce | P1 | ✅ Done |
+| Mascot naming | Initial naming + inline rename on mascot screen | P1 | ✅ Done |
+| Evolution celebration | Confetti animation on evolution with before/after | P1 | ✅ Done |
+| Evolution timeline | Visual progress showing all 4 stages | P1 | ✅ Done |
+| Mascot detail screen | Full mascot view with rename, stats, timeline | P1 | ✅ Done |
 
-**Deliverable:** Mascot that evolves as user levels up.
+**Deliverable:** Mascot that evolves as user levels up. ✅ Complete!
 
-### Phase 3: Engagement (Weeks 13-18)
-**Goal:** Habit formation features
+### Phase 3: Engagement & Settings ⏳ IN PROGRESS (~65%)
+**Goal:** Habit formation features and user preferences
 
-| Task | Description | Priority |
-|------|-------------|----------|
-| Local notifications | Daily reminder at user-set time | P0 |
-| Streak tracking | Consecutive day tracking | P0 |
-| SDG education | Action categories mapped to SDGs, info cards | P1 |
-| Action history | View past logged actions | P1 |
-| Settings screen | Notification time, language, account | P1 |
+**Overview:** The core app loop is complete. Phase 3 focuses on features that drive daily engagement: reminders, streak tracking, and user control over settings.
 
-**Deliverable:** App that helps form habits with reminders and streaks.
+#### 3.1 Settings Feature ✅ COMPLETE
 
-### Phase 4: Polish & Cosmetics (Weeks 19-24)
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Settings screen | Main settings hub with navigation to sub-screens | P0 | ✅ Done |
+| Notification settings | Enable/disable, multiple reminders, smart logic | P0 | ✅ Done |
+| Language settings | Switch between EN/ES/JP with live preview | P1 | ✅ Done |
+| Account settings | Email/password change, delete account | P1 | ✅ Done |
+| About screen | App version, privacy policy, terms links | P2 | ✅ Done |
+| Settings repository | Persist settings to Firestore user document | P0 | ✅ Done |
+| Settings providers | Riverpod providers for settings state | P0 | ✅ Done |
+
+**Settings Screen Structure:**
+```
+/profile/settings (SettingsScreen)
+├── /notifications (NotificationSettingsScreen)
+├── /language (LanguageSettingsScreen)
+├── /account (AccountSettingsScreen)
+└── /about (AboutScreen)
+```
+
+**Data Model (already in AppUserModel):**
+- `language: String` - "en" | "es" | "ja"
+- `notificationTime: String` - "09:00" format
+- `notificationsEnabled: bool` - (need to add)
+
+#### 3.2 Notification System ✅ COMPLETE
+
+Local and push notification infrastructure fully implemented.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Notification service | NotificationService singleton with scheduling | P0 | ✅ Done |
+| FCM service | FCMService for push notifications | P0 | ✅ Done |
+| Permission handling | Request iOS/Android notification permissions | P0 | ✅ Done |
+| Schedule daily reminder | Multiple reminders with timezone support | P0 | ✅ Done |
+| Notification tap handling | Navigate to action log on tap | P1 | ✅ Done |
+| Reschedule on time change | NotificationScheduler auto-reschedules | P0 | ✅ Done |
+| Localized notification text | EN/ES/JP notification content | P1 | ✅ Done |
+| Cancel notifications | Disable when user turns off setting | P0 | ✅ Done |
+| Smart reminders | Skip reminder if action logged today | P1 | ✅ Done |
+
+**Implementation Details:**
+```dart
+// Notification channel (Android)
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'daily_reminder',
+  'Daily Reminder',
+  description: 'Daily reminder to log sustainable actions',
+  importance: Importance.high,
+);
+
+// Schedule at user's preferred time
+await flutterLocalNotificationsPlugin.zonedSchedule(
+  0,  // Notification ID
+  'Time to make a difference!',
+  'Log a sustainable action today',
+  _nextInstanceOfTime(userTime),
+  notificationDetails,
+  androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+  matchDateTimeComponents: DateTimeComponents.time,  // Repeat daily
+  uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+);
+```
+
+**iOS Setup Required:**
+- Add notification capabilities in Xcode
+- Configure `ios/Runner/AppDelegate.swift` for local notifications
+
+**Android Setup Required:**
+- Add notification channel in `AndroidManifest.xml`
+- Configure exact alarm permission for Android 12+
+
+#### 3.3 Streak Tracking ⏳ PARTIAL
+
+Track consecutive days of action logging. Fields exist but calculation logic pending.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Streak fields in model | `currentStreak`, `longestStreak`, `lastActionDate` | P0 | ✅ Done |
+| Streak display (profile) | Show current + longest streak | P0 | ✅ Done |
+| Streak display (home) | Show streak on mascot card | P0 | ✅ Done |
+| Milestone tracking fields | `seenStreakMilestones` in settings | P1 | ✅ Done |
+| Streak calculation logic | Determine if user logged action yesterday | P0 | ❌ Pending |
+| Update streak on action log | Increment/reset streak when logging | P0 | ❌ Pending |
+| Streak milestone celebrations | Celebrate 7, 14, 30, 100 day streaks | P2 | ❌ Pending |
+| Streak broken dialog | Notify user when streak resets | P2 | ❌ Pending |
+| Streak recovery (premium?) | Allow 1 missed day grace period | P2 | ❌ Pending |
+
+**Streak Logic:**
+```dart
+/// Called when user logs an action
+Future<void> updateStreakOnActionLog(String userId) async {
+  final user = await getUser(userId);
+  final lastActionDate = await getLastActionDate(userId);
+  final today = DateTime.now().dateOnly;
+  final yesterday = today.subtract(Duration(days: 1));
+
+  int newStreak = user.currentStreak;
+  int newLongest = user.longestStreak;
+
+  if (lastActionDate == null || lastActionDate.isBefore(yesterday)) {
+    // First action or streak broken - start fresh
+    newStreak = 1;
+  } else if (lastActionDate == yesterday) {
+    // Logged yesterday, continuing streak
+    newStreak = user.currentStreak + 1;
+  }
+  // If lastActionDate == today, streak already counted
+
+  if (newStreak > newLongest) {
+    newLongest = newStreak;
+  }
+
+  await updateUser(userId, {
+    'currentStreak': newStreak,
+    'longestStreak': newLongest,
+  });
+}
+```
+
+**Edge Cases:**
+- User's timezone vs server time
+- Multiple actions same day (don't double-count)
+- First action ever (streak = 1)
+
+#### 3.4 Additional Polish
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Loading states | Consistent shimmer/skeleton loading | P2 | Pending |
+| Error handling | User-friendly error messages | P1 | Pending |
+| Empty states | Friendly messages when no data | P2 | Pending |
+| Haptic feedback | Subtle vibration on key actions | P2 | Pending |
+| Dark mode refinement | Ensure all screens look good in dark mode | P2 | Pending |
+
+#### Phase 3 File Structure
+
+```
+lib/features/settings/
+├── settings.dart                           # Barrel file
+├── data/
+│   ├── repositories/
+│   │   └── settings_repository.dart        # Firestore settings operations
+│   └── models/
+│       └── notification_settings_model.dart # Notification preferences
+├── domain/
+│   └── services/
+│       └── notification_service.dart       # flutter_local_notifications wrapper
+└── presentation/
+    ├── providers/
+    │   └── settings_providers.dart         # Settings state management
+    ├── screens/
+    │   ├── settings_screen.dart            # Main settings hub
+    │   ├── notification_settings_screen.dart
+    │   ├── language_settings_screen.dart
+    │   ├── account_settings_screen.dart
+    │   └── about_screen.dart
+    └── widgets/
+        ├── settings_tile.dart              # Reusable settings row
+        └── time_picker_tile.dart           # Notification time picker
+```
+
+#### Phase 3 Localization Strings Needed
+
+```json
+{
+  "settings": "Settings",
+  "notifications": "Notifications",
+  "notificationSettings": "Notification Settings",
+  "enableDailyReminder": "Enable daily reminder",
+  "reminderTime": "Reminder time",
+  "language": "Language",
+  "languageSettings": "Language Settings",
+  "account": "Account",
+  "accountSettings": "Account Settings",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirm": "Are you sure? This cannot be undone.",
+  "about": "About",
+  "version": "Version",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "streakDays": "{count} day streak",
+  "streakMilestone7": "One week streak!",
+  "streakMilestone30": "One month streak!",
+  "notificationTitle": "Time to make a difference!",
+  "notificationBody": "Log a sustainable action today"
+}
+```
+
+**Deliverable:** Complete settings system with notifications and active streak tracking.
+
+---
+
+### Phase 4: Polish & Cosmetics (Upcoming)
 **Goal:** Premium features and monetization prep
 
-| Task | Description | Priority |
-|------|-------------|----------|
-| Cosmetic shop | Browse items, purchase with points | P1 |
-| Item equipping | Visual customization on mascot | P1 |
-| Multiple mascot species | Unlock additional mascots | P2 |
-| RevenueCat integration | Subscription infrastructure | P1 |
-| Premium tier | Define free vs premium features | P1 |
-| App Store prep | Screenshots, descriptions, review | P0 |
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Cosmetic shop | Browse items, purchase with points | P1 | Planned |
+| Item equipping | Visual customization on mascot | P1 | Planned |
+| Multiple mascot species | Unlock additional mascots | P2 | Planned |
+| RevenueCat integration | Subscription infrastructure | P1 | Planned |
+| Premium tier | Define free vs premium features | P1 | Planned |
+| App Store prep | Screenshots, descriptions, review | P0 | Planned |
+| Android release prep | Play Store listing, signing | P0 | Planned |
 
 **Deliverable:** Shippable MVP with monetization.
 
@@ -804,24 +1000,72 @@ This keeps small actions rewarding while making big actions feel appropriately i
 ## Next Steps
 
 ### Completed ✅
+
+**Phase 1:**
 1. ~~**Run `flutterfire configure`**~~ ✅ Done (project: seed-3d48d)
 2. ~~**Implement authentication**~~ ✅ Done (Email/Google/Apple)
 3. ~~**Build action logging flow**~~ ✅ Done (atomic transactions, points calculation)
 4. ~~**Action library**~~ ✅ Done (Firestore integration)
-5. ~~**Progress tracking**~~ ✅ Done (calendar view, daily summaries)
+5. ~~**Progress tracking**~~ ✅ Done (calendar view, rainbow sun, daily summaries)
 6. ~~**SDG integration**~~ ✅ Done (carousel, goal details)
-7. ~~**Level system logic**~~ ✅ Done (logarithmic scaling formula)
+7. ~~**User profile**~~ ✅ Done (stats cards, level progress, CO₂ saved)
 
-### Current Priority
-1. **User profile screen:**
-   - Display points, level, and stats
-   - Show current streak
-2. **Mascot selection flow:**
-   - Choose starter mascot on signup
-   - Store mascot in user document
-3. **Mascot display:**
-   - Render mascot on home screen
-   - Show evolution stage based on level
+**Phase 2:**
+8. ~~**Level system logic**~~ ✅ Done (logarithmic scaling formula)
+9. ~~**Mascot selection**~~ ✅ Done (species selection + naming)
+10. ~~**Mascot display**~~ ✅ Done (home screen + detail screen)
+11. ~~**Evolution stages**~~ ✅ Done (4 stages with SVG assets)
+12. ~~**Mascot animations**~~ ✅ Done (idle, tap, glow, bounce, confetti)
+13. ~~**Evolution celebration**~~ ✅ Done (full-screen confetti overlay)
+14. ~~**Evolution timeline**~~ ✅ Done (visual progress widget)
+
+### Current Priority (Phase 3)
+
+1. **Settings feature (build from scratch):**
+   - Create settings screen structure
+   - Implement notification settings screen
+   - Implement language settings screen
+   - Implement account settings screen
+   - Add settings repository and providers
+
+2. **Local notifications:**
+   - Initialize flutter_local_notifications
+   - Request permissions (iOS/Android)
+   - Schedule daily reminder at user-set time
+   - Handle notification tap → navigate to action log
+
+3. **Streak tracking logic:**
+   - Implement streak calculation on action log
+   - Update currentStreak/longestStreak in Firestore
+   - Handle timezone edge cases
+
+### Implementation Order (Recommended)
+
+```
+Week 1: Settings Foundation
+├── Create settings screen with navigation
+├── Create settings repository
+├── Create settings providers
+└── Wire up routes in router.dart
+
+Week 2: Notification System
+├── Initialize notification service
+├── Add platform-specific setup (iOS/Android)
+├── Implement notification settings screen
+├── Schedule/cancel notifications based on settings
+
+Week 3: Streak & Language
+├── Implement streak tracking logic
+├── Add streak milestones (optional)
+├── Implement language settings with live switching
+├── Test all flows end-to-end
+
+Week 4: Polish & Testing
+├── Account settings (delete account flow)
+├── About screen with version info
+├── Loading/error/empty states
+├── Unit tests for new features
+```
 
 ### Development Commands
 ```bash

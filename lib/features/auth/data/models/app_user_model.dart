@@ -26,6 +26,21 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// The user's mascot (null if not yet selected).
     MascotModel? mascot,
+
+    // Phase 3 fields
+
+    /// Master toggle for notifications.
+    @Default(true) bool notificationsEnabled,
+
+    /// Date of the user's last logged action (for streak calculation).
+    @TimestampConverter() DateTime? lastActionDate,
+
+    /// Whether streak grace period is available (Phase 4 foundation).
+    /// Resets to true when streak breaks.
+    @Default(true) bool streakGracePeriodAvailable,
+
+    /// FCM token for push notifications.
+    String? fcmToken,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>

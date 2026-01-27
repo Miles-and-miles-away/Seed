@@ -11,8 +11,5 @@ export '../../features/auth/presentation/providers/auth_providers.dart'
         currentUserProvider,
         firebaseAuthProvider;
 
-// Example providers to be implemented:
-//
-// export 'connectivity_provider.dart';
-// export 'theme_provider.dart';
-// export 'locale_provider.dart';
+// Notification providers
+export 'notification_providers.dart';

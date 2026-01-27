@@ -41,6 +41,22 @@ abstract class AuthRemoteDataSource {
 
   /// Reloads the current user to get updated emailVerified status.
   Future<void> reloadCurrentUser();
+
+  /// Re-authenticates the user with email/password.
+  /// Required before sensitive operations like email/password change or account deletion.
+  Future<void> reauthenticateWithEmailPassword(String email, String password);
+
+  /// Updates the current user's email address.
+  /// Requires re-authentication before calling.
+  Future<void> updateEmail(String newEmail);
+
+  /// Updates the current user's password.
+  /// Requires re-authentication before calling.
+  Future<void> updatePassword(String newPassword);
+
+  /// Deletes the current user's account.
+  /// Requires re-authentication before calling.
+  Future<void> deleteAccount();
 }
 
 /// Implementation of [AuthRemoteDataSource] using Firebase Auth.
@@ -176,6 +192,67 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> reloadCurrentUser() async {
     await _firebaseAuth.currentUser?.reload();
+  }
+
+  @override
+  Future<void> reauthenticateWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      throw AuthException(
+        code: 'no-user',
+        message: 'No user signed in',
+      );
+    }
+
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+
+    await user.reauthenticateWithCredential(credential);
+  }
+
+  @override
+  Future<void> updateEmail(String newEmail) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      throw AuthException(
+        code: 'no-user',
+        message: 'No user signed in',
+      );
+    }
+
+    // verifyBeforeUpdateEmail sends a verification to new email first
+    await user.verifyBeforeUpdateEmail(newEmail);
+  }
+
+  @override
+  Future<void> updatePassword(String newPassword) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      throw AuthException(
+        code: 'no-user',
+        message: 'No user signed in',
+      );
+    }
+
+    await user.updatePassword(newPassword);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      throw AuthException(
+        code: 'no-user',
+        message: 'No user signed in',
+      );
+    }
+
+    await user.delete();
   }
 }
 
