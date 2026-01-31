@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "firebase": "firebase"
+    "firebase": "firebase",
+    "seed": "node scripts/seed_action_library.js"
   },
   "dependencies": {
+    "firebase-admin": "^13.0.0",
     "firebase-tools": "^15.3.1"
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/daily_summary_model.dart';
@@ -81,34 +82,46 @@ class DailySummaryRemoteDataSource {
     final todayId = _todayDateString();
     final docRef = _summariesCollection(userId).doc(todayId);
 
-    await _firestore.runTransaction((transaction) async {
-      final doc = await transaction.get(docRef);
+    debugPrint('DailySummary: Recording action for $userId on $todayId');
+    debugPrint('DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
 
-      if (!doc.exists) {
-        // Create new summary for today
-        final newSummary = DailySummaryModel(
-          date: todayId,
-          goalCount: 1,
-          completedSdgs: sdgNumbers.toSet().toList(),
-          totalPoints: points,
-          totalCo2Grams: co2Grams,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-        transaction.set(docRef, newSummary.toJson());
-      } else {
-        // Update existing summary
-        final existing = DailySummaryModel.fromJson(doc.data()!);
-        final updatedSdgs = {...existing.completedSdgs, ...sdgNumbers}.toList();
-        transaction.update(docRef, {
-          'goalCount': FieldValue.increment(1),
-          'completedSdgs': updatedSdgs,
-          'totalPoints': FieldValue.increment(points),
-          'totalCo2Grams': FieldValue.increment(co2Grams),
-          'updatedAt': FieldValue.serverTimestamp(),
-        });
-      }
-    });
+    try {
+      await _firestore.runTransaction((transaction) async {
+        final doc = await transaction.get(docRef);
+
+        if (!doc.exists) {
+          // Create new summary for today
+          debugPrint('DailySummary: Creating new summary for today');
+          final newSummary = DailySummaryModel(
+            date: todayId,
+            goalCount: 1,
+            completedSdgs: sdgNumbers.toSet().toList(),
+            totalPoints: points,
+            totalCo2Grams: co2Grams,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
+          transaction.set(docRef, newSummary.toJson());
+        } else {
+          // Update existing summary
+          debugPrint('DailySummary: Updating existing summary');
+          final existing = DailySummaryModel.fromJson(doc.data()!);
+          final updatedSdgs = {...existing.completedSdgs, ...sdgNumbers}.toList();
+          transaction.update(docRef, {
+            'goalCount': FieldValue.increment(1),
+            'completedSdgs': updatedSdgs,
+            'totalPoints': FieldValue.increment(points),
+            'totalCo2Grams': FieldValue.increment(co2Grams),
+            'updatedAt': FieldValue.serverTimestamp(),
+          });
+        }
+      });
+      debugPrint('DailySummary: Transaction completed successfully');
+    } catch (e, stack) {
+      debugPrint('DailySummary ERROR: $e');
+      debugPrint('DailySummary STACK: $stack');
+      rethrow;
+    }
   }
 }
 

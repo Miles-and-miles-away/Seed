@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../progress/data/repositories/progress_repository.dart';
 import '../../data/datasources/action_library_remote_datasource.dart';
 import '../../data/datasources/action_log_remote_datasource.dart';
 import '../../data/models/action_log_model.dart';
@@ -182,6 +184,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
   }) async {
+    debugPrint('ActionLog: logAction called for ${action.nameEn}');
     state = const AsyncValue.loading();
 
     final userAsync = ref.read(currentUserProvider);
@@ -195,14 +198,39 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       return null;
     }
 
+    // Capture repositories before async operations
+    final actionLogRepo = ref.read(actionLogRepositoryProvider);
+    final progressRepo = ref.read(progressRepositoryProvider);
+
     final result = await AsyncValue.guard(() async {
-      return ref.read(actionLogRepositoryProvider).logAction(
+      return actionLogRepo.logAction(
             userId: user.uid,
             action: action,
             languageCode: languageCode,
             note: note,
           );
     });
+
+    // Update daily summary for progress tracking
+    if (result.hasValue && result.asData?.value != null) {
+      final sdgNumbers = action.relatedSdgs
+          .map((s) => int.tryParse(s))
+          .whereType<int>()
+          .toList();
+
+      debugPrint('ActionLog: Calling recordAction for progress tracking');
+      try {
+        await progressRepo.recordAction(
+              userId: user.uid,
+              points: action.points,
+              co2Grams: action.co2Grams,
+              sdgNumbers: sdgNumbers,
+            );
+        debugPrint('ActionLog: recordAction completed');
+      } catch (e) {
+        debugPrint('ActionLog: recordAction failed: $e');
+      }
+    }
 
     if (!ref.mounted) return result.asData?.value;
     state = result;

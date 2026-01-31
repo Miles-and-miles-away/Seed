@@ -1,0 +1,766 @@
+{
+  "metadata": {
+    "title": "Global SDG State Assessment 2025 - Fully Sourced Edition",
+    "description": "Comprehensive assessment of the current state of the world with respect to each of the 17 UN Sustainable Development Goals. Every factual claim includes a direct supporting quote from a verified source.",
+    "last_updated": "2026-01-31",
+    "methodology": "Each factual statement is paired with a source object containing: (1) the URL, (2) a verbatim quote that directly proves the claim, and (3) the date accessed."
+  },
+  "overall_assessment": {
+    "targets_on_track": {
+      "value": "35%",
+      "source": {
+        "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+        "quote": "The latest available data show that only 35 per cent of targets are on track or making moderate progress, while nearly half are moving too slowly and 18 per cent have regressed.",
+        "date_accessed": "2026-01-31"
+      }
+    },
+    "targets_insufficient_progress": {
+      "value": "48%",
+      "source": {
+        "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+        "quote": "The latest available data show that only 35 per cent of targets are on track or making moderate progress, while nearly half are moving too slowly and 18 per cent have regressed.",
+        "date_accessed": "2026-01-31"
+      }
+    },
+    "targets_regressed": {
+      "value": "18%",
+      "source": {
+        "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+        "quote": "The latest available data show that only 35 per cent of targets are on track or making moderate progress, while nearly half are moving too slowly and 18 per cent have regressed.",
+        "date_accessed": "2026-01-31"
+      }
+    },
+    "global_index_leaders": {
+      "value": ["Finland", "Sweden", "Denmark"],
+      "source": {
+        "url": "https://dashboards.sdgindex.org/",
+        "quote": "This year, Finland, Sweden and Denmark top the rankings.",
+        "date_accessed": "2026-01-31"
+      }
+    },
+    "sdg_financing_gap": {
+      "value": "$4 trillion annually in developing countries",
+      "source": {
+        "url": "https://sdg.iisd.org/news/amid-real-but-unequal-progress-breakthrough-still-possible-un-stats-report/",
+        "quote": "the SDG financing gap in developing countries is estimated at USD 4 trillion per year",
+        "date_accessed": "2026-01-31"
+      }
+    },
+    "oda_decline_2024": {
+      "value": "7.1% decline",
+      "source": {
+        "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+        "quote": "Official development assistance declined 7.1 per cent in 2024 after five years of growth, with further cuts expected through 2025.",
+        "date_accessed": "2026-01-31"
+      }
+    }
+  },
+  "sdgs": [
+    {
+      "sdg_number": 1,
+      "sdg_name": "No Poverty",
+      "description": "End poverty in all its forms everywhere",
+      "current_state": {
+        "status": "Off Track",
+        "difficulty": {
+          "statement": "Without significant acceleration, 8.9% of the global population will still be living in extreme poverty by 2030",
+          "source": {
+            "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+            "quote": "Without a significant acceleration in efforts, 8.9 per cent of the global population will still be living in extreme poverty by 2030 under the revised international poverty line.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [
+        {
+          "policy_name": "Bolsa Família (Brazil)",
+          "claims": [
+            {
+              "statement": "One of the world's oldest and largest conditional cash transfer programmes, covering more than 50 million Brazilians",
+              "source": {
+                "url": "https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(25)00091-X/fulltext",
+                "quote": "In 2024, Brazil celebrated the 20th anniversary of the Bolsa Família Program (BFP), one of the world's oldest and largest conditional cash transfer (CCT) programmes, covering more than 50 million Brazilians.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "CCT programmes have strongly contributed to the reduction of morbidity and mortality in Brazil, having prevented millions of hospitalisations and deaths over the past two decades",
+              "source": {
+                "url": "https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(25)00091-X/fulltext",
+                "quote": "CCT programmes have strongly contributed to the reduction of morbidity and mortality in Brazil, having prevented millions of hospitalisations and deaths in the past two decades.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Contributed to 27.7% poverty reduction during first Lula administration",
+              "source": {
+                "url": "https://en.wikipedia.org/wiki/Bolsa_Fam%C3%ADlia",
+                "quote": "Bolsa Família has been mentioned as one factor contributing to the reduction of poverty in Brazil, which fell 27.7% during the first term in the administration of Lula.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        },
+        {
+          "policy_name": "South Africa Social Grants",
+          "claims": [
+            {
+              "statement": "28 million grant recipients, approximately 45% of South Africa's 64 million population",
+              "source": {
+                "url": "https://dailyinvestor.com/south-africa/66187/south-africa-has-28-million-people-on-grants-but-only-7-4-million-taxpayers/",
+                "quote": "Memela told Portfolio Committee on Social Development members that South Africa has 28 million grant recipients. Put differently, approximately 45% of South Africa's 64 million population benefits from social transfers.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Includes 19 million traditional grant recipients plus 9 million SRD grant recipients",
+              "source": {
+                "url": "https://dailyinvestor.com/south-africa/66187/south-africa-has-28-million-people-on-grants-but-only-7-4-million-taxpayers/",
+                "quote": "Memela said 19 million South Africans receive grants, including older people, children, people with disabilities, war veterans, and people in distress... There are also 9 million SRD grant recipients.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        },
+        {
+          "policy_name": "China Targeted Poverty Alleviation",
+          "claims": [
+            {
+              "statement": "Over the past 40 years, China has lifted nearly 800 million people out of poverty, accounting for more than 75 percent of global poverty reduction",
+              "source": {
+                "url": "https://www.worldbank.org/en/news/press-release/2022/04/01/lifting-800-million-people-out-of-poverty-new-report-looks-at-lessons-from-china-s-experience",
+                "quote": "Over the past 40 years, China has lifted nearly 800 million people out of poverty, accounting for more than 75 percent of global poverty reduction in the same period.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Since Xi took power in 2012, China lifted over 100 million members of its rural population out of poverty",
+              "source": {
+                "url": "https://thediplomat.com/2021/09/how-successful-was-chinas-poverty-alleviation-drive/",
+                "quote": "Since Xi took power in 2012, China lifted over 100 million members of its rural population out of poverty.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Government directly invested 1.6 trillion yuan ($252 billion) and sent more than 3 million party cadres to villages",
+              "source": {
+                "url": "https://americanaffairsjournal.org/2022/02/how-china-defeated-poverty/",
+                "quote": "According to China's press agency, Xinhua, 'more than 3 million first Party secretaries and resident working team members have been selected and dispatched to carry out targeted poverty alleviation.' ... the Chinese government directly invested ¥1.6 trillion ($252 billion) in the poverty alleviation drive.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ],
+      "policies_being_considered": [
+        {
+          "policy_name": "Global Alliance Against Hunger and Poverty",
+          "claims": [
+            {
+              "statement": "Launched at G20 Brazil Summit November 2024 with 148 founding members including 82 countries",
+              "source": {
+                "url": "https://www.gov.br/planalto/en/latest-news/2024/11/brazil2019s-president-lula-launches-the-global-alliance-against-hunger-and-poverty-alongside-148-members-including-82-countries",
+                "quote": "The Alliance was created with 148 founding members, including 82 countries, the African Union, the European Union, 24 international organizations, nine international financial institutions, and 31 philanthropic and non-governmental organizations.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Goal to reach 500 million people with cash transfer programs in low- and lower-middle-income countries by 2030",
+              "source": {
+                "url": "https://www.gov.br/planalto/en/latest-news/2024/11/brazil2019s-president-lula-launches-the-global-alliance-against-hunger-and-poverty-alongside-148-members-including-82-countries",
+                "quote": "Among the announcements and commitments are the goal of reaching 500 million people with cash transfer programs in low- and lower-middle-income countries by 2030.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Goal to expand high-quality school meals to an additional 150 million children",
+              "source": {
+                "url": "https://www.gov.br/planalto/en/latest-news/2024/11/brazil2019s-president-lula-launches-the-global-alliance-against-hunger-and-poverty-alongside-148-members-including-82-countries",
+                "quote": "the Alliance aims to expand high-quality school meals to an additional 150 million children in countries where there is endemic child poverty and hunger",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "As of October 2025, the Alliance has grown to 201 members (105 countries and 96 organizations)",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/new/board-of-champions-global-alliance-establishes-its-support-mechanism-and-reviews-progress-against-hunger-and-poverty/",
+                "quote": "In less than a year, the Global Alliance Against Hunger and Poverty has brought together 201 members — 105 countries and 96 organizations — with ambitious goals for 2030, including reaching 500 million people through income transfers and ensuring high-quality school meals for an additional 150 million children.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        },
+        {
+          "policy_name": "Fourth International Conference on Financing for Development (FfD4)",
+          "claims": [
+            {
+              "statement": "Held June 30 - July 3, 2025 in Seville, Spain to address SDG financing gap",
+              "source": {
+                "url": "https://sdgtransformationcenter.org/reports/sustainable-development-report-2025",
+                "quote": "UN member states gathering at the 4th International Conference on Financing for Development (FfD4) in Seville, Spain (June 30 – July 3, 2025) have an enormous responsibility, not only to their own citizens but to all of humanity.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Addressing the $4 trillion annual financing gap and record $1.4 trillion debt servicing costs",
+              "source": {
+                "url": "https://sdg.iisd.org/news/amid-real-but-unequal-progress-breakthrough-still-possible-un-stats-report/",
+                "quote": "Debt servicing costs for low-income countries (LICs) and middle-income countries (MICs) reached a record USD 1.4 trillion in 2023, while the SDG financing gap in developing countries is estimated at USD 4 trillion per year.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sdg_number": 2,
+      "sdg_name": "Zero Hunger",
+      "description": "End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+      "current_state": {
+        "status": "Off Track - Regressing",
+        "difficulty": {
+          "statement": "733 million people face hunger (9.1% of world population); 2.8 billion cannot afford a healthy diet",
+          "source": {
+            "url": "https://www.fao.org/newsroom/detail/fao-urges-all-its-members-and-partners-to-join-the-global-alliance-against-hunger-and-poverty/en",
+            "quote": "Around 733 million people or 9.1 percent of the world population faces chronic hunger and around 2.8 billion people could not afford a healthy diet, according to the latest FAO estimates.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [
+        {
+          "policy_name": "Brazil's School Meals and Cash Transfer Programs",
+          "claims": [
+            {
+              "statement": "Programs like Bolsa Família and School Meals Program are considered benchmarks and models for the Global Alliance",
+              "source": {
+                "url": "https://www.gov.br/planalto/en/latest-news/2024/11/brazil2019s-president-lula-launches-the-global-alliance-against-hunger-and-poverty-alongside-148-members-including-82-countries",
+                "quote": "Public policies implemented in Brazil — such as the Bolsa Família, the Food Acquisition Program [Programa de Aquisição de Alimentos], and the School Meals Program [Merenda Escolar] — are some of the initiatives considered benchmarks for combating hunger and which will be inspired by the Alliance.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ],
+      "policies_being_considered": [
+        {
+          "policy_name": "School Meals Coalition 2030 Sprint",
+          "claims": [
+            {
+              "statement": "Aims to double the number of children receiving daily school meals in low-income countries, reaching 150 million by 2030",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/new/2030-school-meals-sprint-press-release/",
+                "quote": "The school meals push aims at reaching 150 million children by 2030 in low-income and lowermiddle-income countries – more than double the number of children now receiving school meals in these countries.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "WFP plans to reach 27 million vulnerable children with nutritious meals in over 80 countries in 2025",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/new/2030-school-meals-sprint-press-release/",
+                "quote": "WFP plans to reach 27 million of the most vulnerable children with nutritious meals in over 80 countries in 2025.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Indonesia committed to reach nearly 78 million children by 2029; Nigeria will double coverage to 20 million children",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/in-the-media/countries-organizations-and-development-banks-announce-the-largest-collective-effort-ever-made-to-eradicate-hunger-and-reduce-poverty/",
+                "quote": "Indonesia has committed to a new large-scale nutritious school meal program, which will reach nearly 78 million children by 2029. Nigeria, with the largest school meals program in Africa, will double its coverage to 20 million children and integrate school farms to support local food production.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sdg_number": 3,
+      "sdg_name": "Good Health and Well-being",
+      "description": "Ensure healthy lives and promote well-being for all at all ages",
+      "current_state": {
+        "status": "Mixed Progress",
+        "key_statistics": [
+          {
+            "statement": "Global maternal mortality ratio dropped from 228 deaths per 100,000 live births in 2015 to 197 in 2023",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "Global maternal mortality ratio dropped from 228 deaths per 100,000 live births in 2015 to 197 in 2023.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "Under-5 mortality fell to 37 deaths per 1,000 live births in 2023, a 16 per cent reduction from 44 in 2015",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "Under-5 mortality fell to 37 deaths per 1,000 live births in 2023, a 16 per cent reduction from 44 in 2015.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "54 countries had eliminated at least one neglected tropical disease by end of 2024",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "By the end of 2024, 54 countries had eliminated at least one neglected tropical disease.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "USAID suspension of Demographic and Health Surveys has disrupted data collection across 39 SDG indicators, particularly affecting health goals",
+          "source": {
+            "url": "https://sustainabilitymag.com/news/what-are-the-uns-updated-sustainable-development-goals",
+            "quote": "The abrupt suspension of the Demographic and Health Surveys (DHS) programme by USAID has severely disrupted data collection across 39 SDG indicators, particularly affecting Goals 2 (Zero Hunger), 3 (Health) and 5 (Gender Equality).",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [
+        {
+          "policy_name": "Thailand Universal Coverage Scheme (30 Baht Scheme)",
+          "claims": [
+            {
+              "statement": "Largest of Thailand's three healthcare programmes providing universal health care, covering majority of population",
+              "source": {
+                "url": "https://en.wikipedia.org/wiki/Universal_Coverage_(Thailand)",
+                "quote": "The Universal Coverage Scheme (UCS), also known as the Gold Card or 30-baht scheme, is the largest of the three Thai healthcare programmes that provide universal health care. It covers the majority of the population.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Covers approximately 75% of population (47 million people) with tax-financed coverage",
+              "source": {
+                "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5104696/",
+                "quote": "The UCS, as the main social health insurance program in the country, currently covers approximately 75% (approximately 47 million people) of the entire population.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Thailand achieved full nationwide coverage under the program as of January 1, 2025",
+              "source": {
+                "url": "https://www.usasean.org/article/thailand-launched-phase-4-thb-30-healthcare-anywhere-scheme",
+                "quote": "As of January 1, Thailand successfully achieved full nationwide coverage under the Universal Health Coverage program, '30 Baht Health Care Anywhere for All Thai People.'",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        },
+        {
+          "policy_name": "PEPFAR (US President's Emergency Plan for AIDS Relief)",
+          "claims": [
+            {
+              "statement": "Largest commitment by any nation to address a single disease in history, with over $100 billion invested since 2003",
+              "source": {
+                "url": "https://www.hiv.gov/federal-response/pepfar-global-aids/pepfar",
+                "quote": "Since PEPFAR's inception in 2003, the U.S. government has invested over $100 billion in the global HIV/AIDS response.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Saved over 25 million lives and prevented millions of HIV infections",
+              "source": {
+                "url": "https://www.hiv.gov/federal-response/pepfar-global-aids/pepfar",
+                "quote": "With the American people's generosity, the United States has saved 25 million lives and prevented millions of HIV infections through PEPFAR.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Supporting antiretroviral treatment for 20.6 million people including 566,000 children as of September 2024",
+              "source": {
+                "url": "https://www.hiv.gov/federal-response/pepfar-global-aids/pepfar",
+                "quote": "Across 55 countries, PEPFAR is supporting life-saving antiretroviral therapy (ART) for 20.6 million people, including 566,000 children with HIV, as of September 30, 2024.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 5,
+      "sdg_name": "Gender Equality",
+      "description": "Achieve gender equality and empower all women and girls",
+      "current_state": {
+        "status": "Far Off Track - Stalled",
+        "key_statistics": [
+          {
+            "statement": "As of January 2025, women held 27.2% of seats in national parliaments, up 4.9 percentage points from 2015",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "As of 1 January 2025, women held 27.2 per cent of the seats in national parliaments, up 4.9 percentage points from 2015.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "99 positive legal reforms implemented between 2019 and 2024 to remove discriminatory laws",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "Between 2019 and 2024, 99 positive legal reforms were implemented to remove discriminatory laws and establish gender equality frameworks.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Would take 123 years to reach full gender parity globally; women still underrepresented in leadership and decision-making",
+          "source": {
+            "url": "https://www.weforum.org/stories/2025/09/sdg-progress-report-2025/",
+            "quote": "progress in gender equality remains slow, with women still underrepresented in decision-making, leadership roles and having limited access to education, careers and self-determination. This aligns with the World Economic Forum's Global Gender Gap Report 2025, which found that it would take another 123 years to reach full parity globally.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 7,
+      "sdg_name": "Affordable and Clean Energy",
+      "description": "Ensure access to affordable, reliable, sustainable and modern energy for all",
+      "current_state": {
+        "status": "Mixed Progress - Improving",
+        "key_statistics": [
+          {
+            "statement": "Electrification rose from 84% in 2015 to 91.7% in 2023",
+            "source": {
+              "url": "https://www.weforum.org/stories/2025/09/sdg-progress-report-2025/",
+              "quote": "Electrification rose from 84% in 2015 to 91.7% in 2023, showing significant progress towards SDG 7.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "45 countries achieved universal electricity access in the past decade",
+            "source": {
+              "url": "https://www.weforum.org/stories/2025/09/sdg-progress-report-2025/",
+              "quote": "Forty-five countries achieved universal access.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "Renewable energy is projected to surpass coal as primary electricity source in 2025",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "Renewable energy is the fastest-growing energy source today and is projected to surpass coal as the primary electricity source in 2025.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "645 million people will remain without power by 2030 if current trends continue; investment in developing countries underfunded",
+          "source": {
+            "url": "https://sustainabilitymag.com/news/what-are-the-uns-updated-sustainable-development-goals",
+            "quote": "Electricity access has risen to 92% and renewables now supply 30% of electricity, yet 645 million people will remain without power in 2030 if current trends continue. Investment in clean energy remains uneven, with developing countries still heavily underfunded.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 9,
+      "sdg_name": "Industry, Innovation and Infrastructure",
+      "description": "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation",
+      "current_state": {
+        "status": "Mixed Progress",
+        "key_statistics": [
+          {
+            "statement": "5G mobile broadband now covers 51% of the global population",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "5G mobile broadband now covers 51 per cent of the global population.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "Strong progress on mobile broadband use and internet access",
+            "source": {
+              "url": "https://dashboards.sdgindex.org/",
+              "quote": "most UN member states have made strong progress on targets related to access to basic services and infrastructure, including mobile broadband use (SDG 9), access to electricity (SDG 7), internet use (SDG 9)",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Digital divide persists between developed and developing countries",
+          "source": {
+            "url": "https://www.un-ilibrary.org/content/books/9789211071597",
+            "quote": "The report calls for action in six priority areas: food systems, energy access, digital transformation, education, jobs and social protection, and climate and biodiversity.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 10,
+      "sdg_name": "Reduced Inequalities",
+      "description": "Reduce inequality within and among countries",
+      "current_state": {
+        "status": "Off Track - Regressing",
+        "key_statistics": [
+          {
+            "statement": "Global refugee population surged to 37.8 million by mid-2024",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "The global refugee population has surged to 37.8 million by mid-2024.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Limited support for UN-based multilateralism by major powers and insufficient fiscal space pose key obstacles",
+          "source": {
+            "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+            "quote": "Limited and declining support for UN-based multilateralism by major powers and insufficient fiscal space pose key obstacles to achieving the Global Goals.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 11,
+      "sdg_name": "Sustainable Cities and Communities",
+      "description": "Make cities and human settlements inclusive, safe, resilient and sustainable",
+      "current_state": {
+        "status": "Off Track",
+        "difficulty": {
+          "statement": "1.12 billion people live in slums or informal settlements without basic services",
+          "source": {
+            "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+            "quote": "Worldwide, 1.12 billion people live in slums or informal settlements without basic services.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 13,
+      "sdg_name": "Climate Action",
+      "description": "Take urgent action to combat climate change and its impacts",
+      "current_state": {
+        "status": "Critically Off Track",
+        "key_statistics": [
+          {
+            "statement": "2024 was the hottest year on record, surpassing the 1.5°C warming threshold",
+            "source": {
+              "url": "https://sustainabilitymag.com/news/what-are-the-uns-updated-sustainable-development-goals",
+              "quote": "The report states that 2024 was the hottest year on record, surpassing the 1.5°C warming threshold.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "CO2 levels are now the highest in more than 2 million years",
+            "source": {
+              "url": "https://sustainabilitymag.com/news/what-are-the-uns-updated-sustainable-development-goals",
+              "quote": "CO₂ levels are now the highest in more than two million years.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Effects like coral bleaching, melting glaciers and wildfires have increased",
+          "source": {
+            "url": "https://www.weforum.org/stories/2025/09/sdg-progress-report-2025/",
+            "quote": "Temperatures surpassed the Paris Agreement's 1.5°C target. CO2 levels peaked, and effects like coral bleaching, melting glaciers and wildfires increased in their wake.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [
+        {
+          "policy_name": "EU Emissions Trading System (EU ETS)",
+          "claims": [
+            {
+              "statement": "EU ETS emissions have dropped by 50% compared to 2005 levels, with 2024 seeing another 5% reduction",
+              "source": {
+                "url": "https://climate.ec.europa.eu/news-your-voice/news/eu-emissions-trading-system-has-reduced-emissions-sectors-covered-50-2005-2025-04-04_en",
+                "quote": "EU emissions under the Emissions Trading System (EU ETS) have now dropped by 50% compared to 2005, with 2024 seeing another 5% reduction.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "On track to achieve the 2030 target of -62% reduction",
+              "source": {
+                "url": "https://climate.ec.europa.eu/news-your-voice/news/eu-emissions-trading-system-has-reduced-emissions-sectors-covered-50-2005-2025-04-04_en",
+                "quote": "With this development, ETS emissions are now around 50% below 2005 levels and on track to achieve the 2030 target of -62%.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "World's first international emissions trading system, set up in 2005",
+              "source": {
+                "url": "https://climate.ec.europa.eu/eu-action/carbon-markets/eu-emissions-trading-system-eu-ets_en",
+                "quote": "Set up in 2005, the EU ETS is the world's first international emissions trading system.",
+                "date_accessed": "2026-01-31"
+              }
+            },
+            {
+              "statement": "Power sector emissions reduced by 12% in 2024 due to 8% increase in renewables and 15% decrease in coal",
+              "source": {
+                "url": "https://climate.ec.europa.eu/news-your-voice/news/eu-emissions-trading-system-has-reduced-emissions-sectors-covered-50-2005-2025-04-04_en",
+                "quote": "The most important driver for the decrease in EU ETS emissions has been the power sector, with emissions from electricity production having been reduced by 12% below 2023 levels. This reduction is due to an increase in electricity production from renewables by 8% and nuclear by 5%, coupled with a decrease in gas by 8% and coal by 15%.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ],
+      "policies_being_considered": [
+        {
+          "policy_name": "COP30 Belém 2025",
+          "claims": [
+            {
+              "statement": "Leaders Declaration on Hunger, Poverty and Human-Centred Climate Action being discussed",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/event/g20-summit/",
+                "quote": "Leaders and organizations will discuss how to expand climate funding for initiatives that address hunger, poverty, and resilience.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sdg_number": 15,
+      "sdg_name": "Life on Land",
+      "description": "Protect, restore and promote sustainable use of terrestrial ecosystems",
+      "current_state": {
+        "status": "Off Track - Regressing",
+        "difficulty": {
+          "statement": "Red List Index showing significant reversal since 2015 - one of five targets with regression",
+          "source": {
+            "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+            "quote": "The five targets showing significant reversal in progress since 2015 include: obesity rate (SDG 2), press freedom (SDG 16), sustainable nitrogen management (SDG 2), the red list index (SDG 15), and the corruption perception index (SDG 16).",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": []
+    },
+    {
+      "sdg_number": 16,
+      "sdg_name": "Peace, Justice and Strong Institutions",
+      "description": "Promote peaceful and inclusive societies for sustainable development",
+      "current_state": {
+        "status": "Off Track - Regressing",
+        "key_statistics": [
+          {
+            "statement": "Number of forcibly displaced people has more than doubled since 2015",
+            "source": {
+              "url": "https://sdg.iisd.org/news/amid-real-but-unequal-progress-breakthrough-still-possible-un-stats-report/",
+              "quote": "the number of forcibly displaced people has more than doubled since 2015",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "190 of 193 UN Member States have participated in Voluntary National Review process",
+            "source": {
+              "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+              "quote": "To date, 190 of the 193 UN Member States have participated in the Voluntary National Review (VNR) process, presenting their national plans and priorities for sustainable development.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Press freedom and corruption perception index both showing significant reversal since 2015",
+          "source": {
+            "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+            "quote": "The five targets showing significant reversal in progress since 2015 include: obesity rate (SDG 2), press freedom (SDG 16), sustainable nitrogen management (SDG 2), the red list index (SDG 15), and the corruption perception index (SDG 16).",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": [
+        {
+          "policy_name": "Medellín Framework for Action",
+          "claims": [
+            {
+              "statement": "Adopted 2024, provides pathway for robust, inclusive and sustainable data systems",
+              "source": {
+                "url": "https://sustainabilitymag.com/news/what-are-the-uns-updated-sustainable-development-goals",
+                "quote": "The Medellín Framework for Action, adopted in 2024, provides a pathway for robust, inclusive and sustainable data systems – but requires significantly more investment.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sdg_number": 17,
+      "sdg_name": "Partnerships for the Goals",
+      "description": "Strengthen the means of implementation and revitalize the Global Partnership for Sustainable Development",
+      "current_state": {
+        "status": "Mixed Progress - Declining",
+        "key_statistics": [
+          {
+            "statement": "ODA declined 7.1% in 2024 after five years of growth, with further cuts expected",
+            "source": {
+              "url": "https://www.un.org/en/desa/sustainable-development-goals-have-improved-millions-lives-over-past-decade-progress-remains",
+              "quote": "Official development assistance declined 7.1 per cent in 2024 after five years of growth, with further cuts expected through 2025.",
+              "date_accessed": "2026-01-31"
+            }
+          },
+          {
+            "statement": "Barbados ranks first in UN-based multilateralism commitment; US ranks last",
+            "source": {
+              "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+              "quote": "Barbados ranks first and the United States ranks last in UN-based multilateralism. Barbados stands out as the country most committed to UN-based multilateralism.",
+              "date_accessed": "2026-01-31"
+            }
+          }
+        ],
+        "difficulty": {
+          "statement": "Limited and declining support for UN-based multilateralism by major powers and insufficient fiscal space",
+          "source": {
+            "url": "https://sdgtransformationcenter.org/news/press-release-sustainable-development-report-2025",
+            "quote": "Limited and declining support for UN-based multilateralism by major powers and insufficient fiscal space pose key obstacles to achieving the Global Goals.",
+            "date_accessed": "2026-01-31"
+          }
+        }
+      },
+      "effective_policies_implemented": [],
+      "policies_being_considered": [
+        {
+          "policy_name": "World Bank IDA-21 Social Protection Commitment",
+          "claims": [
+            {
+              "statement": "World Bank commits to extend social protection to 500 million people by 2030 through IDA",
+              "source": {
+                "url": "https://globalallianceagainsthungerandpoverty.org/new/2030-cash-transfers-sprint-press-release/",
+                "quote": "Working through a fully replenished IDA, the World Bank will work to extend social protection to 500 million people by 2030, including millions of households living though extreme poverty and undernutrition and which could be reached through cash transfers.",
+                "date_accessed": "2026-01-31"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "six_key_transformations": {
+    "description": "UN-identified priority areas to unlock cascading benefits across SDGs",
+    "transformations": [
+      "Food systems",
+      "Energy access and sustainability", 
+      "Digital connectivity",
+      "Education reform",
+      "Jobs and social protection",
+      "Climate and biodiversity action"
+    ],
+    "source": {
+      "url": "https://www.un-ilibrary.org/content/books/9789211071597",
+      "quote": "The report calls for action in six priority areas: food systems, energy access, digital transformation, education, jobs and social protection, and climate and biodiversity.",
+      "date_accessed": "2026-01-31"
+    }
+  }
+}

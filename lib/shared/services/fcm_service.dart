@@ -45,11 +45,16 @@ class FCMService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
-      // Get and store token
-      final token = await _messaging.getToken();
-      if (token != null) {
-        await _storeToken(token);
-        debugPrint('FCM token: ${token.substring(0, 20)}...');
+      // Get and store token (may fail on simulators - no APNS support)
+      try {
+        final token = await _messaging.getToken();
+        if (token != null) {
+          await _storeToken(token);
+          debugPrint('FCM token: ${token.substring(0, 20)}...');
+        }
+      } on Exception catch (e) {
+        // Expected on iOS simulator - APNS tokens not available
+        debugPrint('FCM token unavailable (expected on simulator): $e');
       }
 
       // Listen for token refresh

@@ -1138,7 +1138,7 @@ User taps "Delete Account"
 
 ## Implementation Order
 
-### Week 1: Settings Foundation
+### Stage 1: Settings Foundation
 
 | Step | Task | Priority |
 |------|------|----------|
@@ -1153,7 +1153,7 @@ User taps "Delete Account"
 
 **Milestone:** Settings screen navigable from Profile, shows sections
 
-### Week 2: Notification System
+### Stage 2: Notification System
 
 | Step | Task | Priority |
 |------|------|----------|
@@ -1169,7 +1169,7 @@ User taps "Delete Account"
 
 **Milestone:** Users can set multiple reminders, receive smart notifications
 
-### Week 3: Streak System
+### Stage 3: Streak System
 
 | Step | Task | Priority |
 |------|------|----------|
@@ -1183,7 +1183,7 @@ User taps "Delete Account"
 
 **Milestone:** Streaks update correctly, weekly milestones celebrated
 
-### Week 4: Account Management
+### Stage 4: Account Management
 
 | Step | Task | Priority |
 |------|------|----------|
@@ -1198,7 +1198,7 @@ User taps "Delete Account"
 
 **Milestone:** Complete settings system with account management
 
-### Week 5: Polish & Testing
+### Stage 5: Polish & Testing
 
 | Step | Task | Priority |
 |------|------|----------|

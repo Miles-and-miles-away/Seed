@@ -14,7 +14,7 @@
 ✅ Mascot assets added (vector SVGs)
 ✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
 ✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
-⏳ **Phase 3 in progress (~65%)** (Settings ✅, Notifications ✅, Streak tracking ⏳)
+✅ **Phase 3 complete (~98%)** (Settings, Notifications, Streak tracking, 256 tests)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -635,7 +635,7 @@ flutter build apk --dart-define=REVENUECAT_KEY=pk_xxxxx
 
 **Deliverable:** Mascot that evolves as user levels up. ✅ Complete!
 
-### Phase 3: Engagement & Settings ⏳ IN PROGRESS (~65%)
+### Phase 3: Engagement & Settings ✅ COMPLETE (~98%)
 **Goal:** Habit formation features and user preferences
 
 **Overview:** The core app loop is complete. Phase 3 focuses on features that drive daily engagement: reminders, streak tracking, and user control over settings.
@@ -706,17 +706,13 @@ await flutterLocalNotificationsPlugin.zonedSchedule(
 );
 ```
 
-**iOS Setup Required:**
-- Add notification capabilities in Xcode
-- Configure `ios/Runner/AppDelegate.swift` for local notifications
+**iOS Setup:** ✅ Complete (AppDelegate.swift configured, Info.plist updated)
 
-**Android Setup Required:**
-- Add notification channel in `AndroidManifest.xml`
-- Configure exact alarm permission for Android 12+
+**Android Setup:** ✅ Complete (AndroidManifest.xml permissions and receivers configured)
 
-#### 3.3 Streak Tracking ⏳ PARTIAL
+#### 3.3 Streak Tracking ✅ COMPLETE
 
-Track consecutive days of action logging. Fields exist but calculation logic pending.
+Track consecutive days of action logging with weekly milestone celebrations.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
@@ -724,58 +720,24 @@ Track consecutive days of action logging. Fields exist but calculation logic pen
 | Streak display (profile) | Show current + longest streak | P0 | ✅ Done |
 | Streak display (home) | Show streak on mascot card | P0 | ✅ Done |
 | Milestone tracking fields | `seenStreakMilestones` in settings | P1 | ✅ Done |
-| Streak calculation logic | Determine if user logged action yesterday | P0 | ❌ Pending |
-| Update streak on action log | Increment/reset streak when logging | P0 | ❌ Pending |
-| Streak milestone celebrations | Celebrate 7, 14, 30, 100 day streaks | P2 | ❌ Pending |
-| Streak broken dialog | Notify user when streak resets | P2 | ❌ Pending |
-| Streak recovery (premium?) | Allow 1 missed day grace period | P2 | ❌ Pending |
+| Streak calculation logic | StreakService with timezone handling | P0 | ✅ Done |
+| Update streak on action log | Integrated in action_log_repository | P0 | ✅ Done |
+| Streak milestone celebrations | Weekly milestones (7, 14, 21, 28+ days) | P1 | ✅ Done |
+| Streak broken dialog | Show on app open if streak was lost | P2 | ✅ Done |
+| Streak break push notification | Server-triggered reminder | P2 | ⏳ Phase 4 |
+| Streak recovery (premium?) | Grace period foundation in data model | P2 | ⏳ Phase 4 |
 
-**Streak Logic:**
-```dart
-/// Called when user logs an action
-Future<void> updateStreakOnActionLog(String userId) async {
-  final user = await getUser(userId);
-  final lastActionDate = await getLastActionDate(userId);
-  final today = DateTime.now().dateOnly;
-  final yesterday = today.subtract(Duration(days: 1));
+**Implementation:** See `lib/shared/services/streak_service.dart` for full implementation with 25 unit tests covering all edge cases (timezone handling, multiple actions same day, first action ever).
 
-  int newStreak = user.currentStreak;
-  int newLongest = user.longestStreak;
-
-  if (lastActionDate == null || lastActionDate.isBefore(yesterday)) {
-    // First action or streak broken - start fresh
-    newStreak = 1;
-  } else if (lastActionDate == yesterday) {
-    // Logged yesterday, continuing streak
-    newStreak = user.currentStreak + 1;
-  }
-  // If lastActionDate == today, streak already counted
-
-  if (newStreak > newLongest) {
-    newLongest = newStreak;
-  }
-
-  await updateUser(userId, {
-    'currentStreak': newStreak,
-    'longestStreak': newLongest,
-  });
-}
-```
-
-**Edge Cases:**
-- User's timezone vs server time
-- Multiple actions same day (don't double-count)
-- First action ever (streak = 1)
-
-#### 3.4 Additional Polish
+#### 3.4 Additional Polish ⏳ DEFERRED TO PHASE 4
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Loading states | Consistent shimmer/skeleton loading | P2 | Pending |
-| Error handling | User-friendly error messages | P1 | Pending |
-| Empty states | Friendly messages when no data | P2 | Pending |
-| Haptic feedback | Subtle vibration on key actions | P2 | Pending |
-| Dark mode refinement | Ensure all screens look good in dark mode | P2 | Pending |
+| Loading states | Consistent shimmer/skeleton loading | P2 | ⏳ Phase 4 |
+| Error handling | User-friendly error messages | P1 | ⏳ Phase 4 |
+| Empty states | Friendly messages when no data | P2 | ⏳ Phase 4 |
+| Haptic feedback | Subtle vibration on key actions | P2 | ⏳ Phase 4 |
+| Dark mode refinement | Ensure all screens look good in dark mode | P2 | ⏳ Phase 4 |
 
 #### Phase 3 File Structure
 
@@ -831,33 +793,77 @@ lib/features/settings/
 }
 ```
 
-**Deliverable:** Complete settings system with notifications and active streak tracking.
+**Deliverable:** Complete settings system with notifications and active streak tracking. ✅ Complete!
 
 ---
 
-### Phase 4: Polish & Cosmetics (Upcoming)
-**Goal:** Premium features and monetization prep
+### Phase 4: Action Library Expansion & Core Features ⏳ PLANNED
+**Goal:** Expand action library to ~100 actions covering all 17 SDGs, add cosmetic shop, complete core features
+
+See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for detailed implementation plan.
+See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodology.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Cosmetic shop | Browse items, purchase with points | P1 | Planned |
-| Item equipping | Visual customization on mascot | P1 | Planned |
-| Multiple mascot species | Unlock additional mascots | P2 | Planned |
-| RevenueCat integration | Subscription infrastructure | P1 | Planned |
-| Premium tier | Define free vs premium features | P1 | Planned |
-| App Store prep | Screenshots, descriptions, review | P0 | Planned |
-| Android release prep | Play Store listing, signing | P0 | Planned |
+| Action library expansion | Research and add ~71 new actions | P0 | Planned |
+| Action library UI | Search, sort, filter by SDG | P0 | Planned |
+| SDG detail enhancement | Related actions + personal stats | P0 | Planned |
+| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Planned |
+| Mascot species unlocking | 3 species, point-based unlocks | P0 | Planned |
+| Streak break Cloud Function | Push notification for at-risk streaks | P1 | Planned |
+| Firebase Analytics | Event tracking implementation | P0 | Planned |
+| Firebase Crashlytics | Crash reporting setup | P0 | Planned |
+| Privacy policy & terms | Generate and display legal docs | P0 | Planned |
 
-**Deliverable:** Shippable MVP with monetization.
+**Deliverable:** Complete action library covering all SDGs, cosmetic shop, analytics, legal compliance.
 
-### Phase 5: Post-Launch (Ongoing)
-**Goal:** Iterate based on feedback
+### Phase 5: Mascot Art & Premium Features (Future)
+**Goal:** Final mascot art, RevenueCat integration, premium tier
 
-- Analytics review
+See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Final mascot art | Commission/create art for 3 species × 4 stages | P0 | Planned |
+| RevenueCat integration | Subscription infrastructure + entitlements | P0 | Planned |
+| Premium tier definition | Define free vs premium features | P0 | Planned |
+| Paywall UI | Subscription screen with benefits | P0 | Planned |
+| Restore purchases | Handle subscription restoration | P0 | Planned |
+| Premium cosmetic items | Premium-only shop items | P1 | Planned |
+| Streak grace period | Premium feature for streak recovery | P1 | Planned |
+| Ad-free experience | Remove ads for premium (if ads added) | P2 | Planned |
+| Premium mascot species | Exclusive species for subscribers | P2 | Planned |
+
+**Deliverable:** Polished mascot art and working subscription monetization.
+
+### Phase 6: CO₂ Dashboard & Achievements (Future)
+**Goal:** Visualize environmental impact, gamify with achievements
+
+See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| CO₂ dashboard | Visualize total/daily/monthly CO₂ saved | P0 | Planned |
+| Impact comparisons | "Equivalent to X trees" visualizations | P1 | Planned |
+| CO₂ trends | Charts showing progress over time | P1 | Planned |
+| Achievement system | Unlockable badges and rewards | P0 | Planned |
+| Achievement categories | Action, streak, level, SDG achievements | P1 | Planned |
+| Achievement notifications | Celebrate when achievements unlock | P1 | Planned |
+| Achievement display | Profile section showing earned badges | P1 | Planned |
+
+**Deliverable:** Comprehensive impact visualization and achievement-based gamification.
+
+### Phase 7+: App Store & Post-Launch (Future)
+**Goal:** App store submission and iteration
+
+- App Store prep (screenshots, descriptions, review guidelines)
+- Play Store prep (listing, signing, review)
+- Beta testing (TestFlight, internal testing)
+- Soft launch (limited markets)
+- Analytics review and optimization
 - User feedback integration
 - Social features (if validated)
-- CO₂ dashboard
-- Achievement system
+- Leaderboards (optional)
 
 ---
 
@@ -1019,53 +1025,52 @@ This keeps small actions rewarding while making big actions feel appropriately i
 13. ~~**Evolution celebration**~~ ✅ Done (full-screen confetti overlay)
 14. ~~**Evolution timeline**~~ ✅ Done (visual progress widget)
 
-### Current Priority (Phase 3)
+### Phase 3 Complete ✅
 
-1. **Settings feature (build from scratch):**
-   - Create settings screen structure
-   - Implement notification settings screen
-   - Implement language settings screen
-   - Implement account settings screen
-   - Add settings repository and providers
+**Settings Feature:**
+- ~~Create settings screen structure~~ ✅ Done
+- ~~Implement notification settings screen~~ ✅ Done (multiple reminders, smart logic)
+- ~~Implement language settings screen~~ ✅ Done (EN/ES/JP)
+- ~~Implement account settings screen~~ ✅ Done (email/password change, delete account)
+- ~~Add settings repository and providers~~ ✅ Done
 
-2. **Local notifications:**
-   - Initialize flutter_local_notifications
-   - Request permissions (iOS/Android)
-   - Schedule daily reminder at user-set time
-   - Handle notification tap → navigate to action log
+**Notification System:**
+- ~~Initialize flutter_local_notifications~~ ✅ Done
+- ~~Request permissions (iOS/Android)~~ ✅ Done
+- ~~Schedule daily reminders~~ ✅ Done (up to 5 reminders)
+- ~~Handle notification tap~~ ✅ Done
+- ~~FCM push notifications~~ ✅ Done
 
-3. **Streak tracking logic:**
-   - Implement streak calculation on action log
-   - Update currentStreak/longestStreak in Firestore
-   - Handle timezone edge cases
+**Streak Tracking:**
+- ~~Implement streak calculation~~ ✅ Done (StreakService)
+- ~~Update currentStreak/longestStreak~~ ✅ Done (integrated in action log)
+- ~~Handle timezone edge cases~~ ✅ Done
+- ~~Streak milestone celebrations~~ ✅ Done (weekly milestones)
 
-### Implementation Order (Recommended)
+**Testing:**
+- ~~Unit & widget tests~~ ✅ Done (256 Phase 3 tests, 657 total)
 
-```
-Week 1: Settings Foundation
-├── Create settings screen with navigation
-├── Create settings repository
-├── Create settings providers
-└── Wire up routes in router.dart
+### Current Priority (Phase 4)
 
-Week 2: Notification System
-├── Initialize notification service
-├── Add platform-specific setup (iOS/Android)
-├── Implement notification settings screen
-├── Schedule/cancel notifications based on settings
+See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
 
-Week 3: Streak & Language
-├── Implement streak tracking logic
-├── Add streak milestones (optional)
-├── Implement language settings with live switching
-├── Test all flows end-to-end
+1. **Action Library Expansion (Major Focus):**
+   - Research ~71 new actions with CO₂ data
+   - Cover all 17 UN SDGs
+   - Add search, sort, filter functionality
+   - Enhance SDG detail screen with related actions
 
-Week 4: Polish & Testing
-├── Account settings (delete account flow)
-├── About screen with version info
-├── Loading/error/empty states
-├── Unit tests for new features
-```
+2. **Cosmetic Shop:**
+   - 5 initial items (hats, accessories, backgrounds)
+   - Purchase with points
+   - Equip items on mascot
+
+3. **Core Features:**
+   - Mascot species unlocking (3 species)
+   - Streak break Cloud Function
+   - Firebase Analytics events
+   - Firebase Crashlytics
+   - Privacy policy & terms of service
 
 ### Development Commands
 ```bash
