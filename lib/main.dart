@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,37 +13,58 @@ import 'firebase_options.dart';
 import 'shared/services/services.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  // Configure Firestore offline persistence
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-  );
+    // Configure Crashlytics
+    // Disable in debug mode to avoid noise during development
+    await FirebaseCrashlytics.instance
+        .setCrashlyticsCollectionEnabled(!kDebugMode);
 
-  // Register background message handler for FCM
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    // Pass all uncaught Flutter errors to Crashlytics
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
 
-  // Initialize notification services
-  await NotificationService.instance.initialize(
-    onTap: _handleNotificationTap,
-  );
+    // Pass all uncaught asynchronous errors to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
 
-  await FCMService.instance.initialize(
-    onForeground: _handleForegroundMessage,
-    onTap: _handleFCMMessageTap,
-  );
+    // Configure Firestore offline persistence
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
 
-  runApp(
-    const ProviderScope(
-      child: SeedApp(),
-    ),
-  );
+    // Register background message handler for FCM
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    // Initialize notification services
+    await NotificationService.instance.initialize(
+      onTap: _handleNotificationTap,
+    );
+
+    await FCMService.instance.initialize(
+      onForeground: _handleForegroundMessage,
+      onTap: _handleFCMMessageTap,
+    );
+
+    runApp(
+      const ProviderScope(
+        child: SeedApp(),
+      ),
+    );
+  }, (error, stack) {
+    // Catch any errors that weren't caught by the Flutter framework
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  });
 }
 
 /// Handle local notification tap.

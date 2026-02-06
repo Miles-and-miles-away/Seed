@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../shared/services/analytics_service.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../progress/data/repositories/progress_repository.dart';
 import '../../data/datasources/action_library_remote_datasource.dart';
@@ -10,8 +11,10 @@ import '../../data/models/action_model.dart';
 import '../../data/repositories/action_library_repository.dart';
 import '../../data/repositories/action_log_repository.dart';
 import '../../domain/enums/action_category.dart';
+import '../../domain/enums/action_sort_option.dart';
 
 export '../../data/repositories/action_log_repository.dart' show ActionLogResult;
+export '../../domain/enums/action_sort_option.dart' show ActionSortOption;
 
 part 'actions_providers.g.dart';
 
@@ -114,6 +117,35 @@ class ActionSearchQuery extends _$ActionSearchQuery {
   }
 }
 
+/// Currently selected sort option for the action library.
+@riverpod
+class SelectedSortOption extends _$SelectedSortOption {
+  @override
+  ActionSortOption build() => ActionSortOption.alphabeticalAsc;
+
+  // ignore: use_setters_to_change_properties
+  void select(ActionSortOption option) {
+    state = option;
+  }
+}
+
+/// Selected SDG for filtering actions.
+/// Null means "All" SDGs.
+@riverpod
+class SelectedSdgFilter extends _$SelectedSdgFilter {
+  @override
+  int? build() => null;
+
+  // ignore: use_setters_to_change_properties
+  void select(int? sdgNumber) {
+    state = sdgNumber;
+  }
+
+  void clear() {
+    state = null;
+  }
+}
+
 /// Gets today's action logs for the current user.
 ///
 /// Used by smart reminders to check if user has logged an action today.
@@ -130,12 +162,14 @@ Future<List<ActionLogModel>> todayActions(Ref ref) async {
   return logs.where((log) => log.loggedAt.isAfter(startOfDay)).toList();
 }
 
-/// Filtered actions based on selected category and search query.
+/// Filtered and sorted actions based on selected filters.
 @riverpod
 List<ActionModel> filteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
   final searchQuery = ref.watch(actionSearchQueryProvider).toLowerCase();
+  final sortOption = ref.watch(selectedSortOptionProvider);
+  final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
   return actionsAsync.when(
     data: (actions) {
@@ -145,6 +179,13 @@ List<ActionModel> filteredActions(Ref ref) {
       if (selectedCategory != null) {
         filtered = filtered
             .where((a) => a.category == selectedCategory.name)
+            .toList();
+      }
+
+      // Filter by SDG
+      if (selectedSdg != null) {
+        filtered = filtered
+            .where((a) => a.relatedSdgs.contains(selectedSdg.toString()))
             .toList();
       }
 
@@ -158,11 +199,37 @@ List<ActionModel> filteredActions(Ref ref) {
         }).toList();
       }
 
-      return filtered;
+      // Apply sorting
+      return _sortActions(filtered, sortOption);
     },
     loading: () => [],
     error: (_, __) => [],
   );
+}
+
+/// Sorts a list of actions based on the selected sort option.
+List<ActionModel> _sortActions(
+  List<ActionModel> actions,
+  ActionSortOption sortOption,
+) {
+  final sorted = List<ActionModel>.from(actions);
+
+  switch (sortOption) {
+    case ActionSortOption.alphabeticalAsc:
+      sorted.sort((a, b) => a.nameEn.compareTo(b.nameEn));
+    case ActionSortOption.alphabeticalDesc:
+      sorted.sort((a, b) => b.nameEn.compareTo(a.nameEn));
+    case ActionSortOption.co2HighToLow:
+      sorted.sort((a, b) => b.co2Grams.compareTo(a.co2Grams));
+    case ActionSortOption.co2LowToHigh:
+      sorted.sort((a, b) => a.co2Grams.compareTo(b.co2Grams));
+    case ActionSortOption.pointsHighToLow:
+      sorted.sort((a, b) => b.points.compareTo(a.points));
+    case ActionSortOption.pointsLowToHigh:
+      sorted.sort((a, b) => a.points.compareTo(b.points));
+  }
+
+  return sorted;
 }
 
 // =============================================================================
@@ -211,10 +278,10 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           );
     });
 
-    // Update daily summary for progress tracking
+    // Update daily summary for progress tracking and log analytics
     if (result.hasValue && result.asData?.value != null) {
       final sdgNumbers = action.relatedSdgs
-          .map((s) => int.tryParse(s))
+          .map(int.tryParse)
           .whereType<int>()
           .toList();
 
@@ -227,7 +294,24 @@ class ActionLogNotifier extends _$ActionLogNotifier {
               sdgNumbers: sdgNumbers,
             );
         debugPrint('ActionLog: recordAction completed');
-      } catch (e) {
+
+        // Track analytics event
+        await AnalyticsService.instance.logActionLogged(
+          actionId: action.id,
+          category: action.category,
+          points: action.points,
+          co2Grams: action.co2Grams,
+          sdgs: action.relatedSdgs,
+        );
+
+        // Track streak milestone if applicable
+        final actionResult = result.asData?.value;
+        if (actionResult?.shouldShowMilestone ?? false) {
+          await AnalyticsService.instance.logStreakMilestone(
+            days: actionResult!.newStreakDays,
+          );
+        }
+      } on Exception catch (e) {
         debugPrint('ActionLog: recordAction failed: $e');
       }
     }

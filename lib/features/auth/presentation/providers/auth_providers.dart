@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../shared/services/analytics_service.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/datasources/user_remote_datasource.dart';
 import '../../data/models/app_user_model.dart';
@@ -94,6 +95,7 @@ class AuthNotifier extends _$AuthNotifier {
             email,
             password,
           );
+      await AnalyticsService.instance.logLogin(method: 'email');
     });
     if (!ref.mounted) return;
     state = result;
@@ -111,6 +113,7 @@ class AuthNotifier extends _$AuthNotifier {
             email,
             password,
           );
+      await AnalyticsService.instance.logSignUp(method: 'email');
     });
     if (!ref.mounted) return;
     state = result;
@@ -121,6 +124,9 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signInWithGoogle();
+      // Note: For social sign-in, we track as login since we can't easily
+      // distinguish first-time from returning users without modifying the repo.
+      await AnalyticsService.instance.logLogin(method: 'google');
     });
     if (!ref.mounted) return;
     state = result;
@@ -131,6 +137,7 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signInWithApple();
+      await AnalyticsService.instance.logLogin(method: 'apple');
     });
     if (!ref.mounted) return;
     state = result;
@@ -171,6 +178,8 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signOut();
+      await AnalyticsService.instance.logLogout();
+      await AnalyticsService.instance.setUserId(null);
     });
     if (!ref.mounted) return;
     state = result;

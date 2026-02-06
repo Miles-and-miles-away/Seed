@@ -16,6 +16,7 @@ export 'data/repositories/settings_repository.dart';
 export 'presentation/providers/settings_providers.dart';
 
 // Presentation layer - Screens
+export 'presentation/screens/about_screen.dart';
 export 'presentation/screens/account_settings_screen.dart';
 export 'presentation/screens/language_settings_screen.dart';
 export 'presentation/screens/notification_settings_screen.dart';

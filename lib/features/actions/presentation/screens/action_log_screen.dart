@@ -15,7 +15,9 @@ import '../providers/actions_providers.dart';
 import '../widgets/action_card.dart';
 import '../widgets/action_category_tabs.dart';
 import '../widgets/action_log_confirmation_dialog.dart';
+import '../widgets/action_sort_dropdown.dart';
 import '../widgets/points_animation_overlay.dart';
+import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
 class ActionLogScreen extends ConsumerStatefulWidget {
@@ -117,6 +119,18 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               ref.read(selectedCategoryProvider.notifier).select(category);
             },
           ),
+          // Sort dropdown row
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const ActionSortDropdown(),
+              ],
+            ),
+          ),
+          // SDG filter chips
+          const SdgFilterChips(),
           const SizedBox(height: 8),
           // Actions grid
           Expanded(

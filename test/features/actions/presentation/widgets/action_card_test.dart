@@ -162,5 +162,113 @@ void main() {
       // Should fall back to eco icon
       expect(find.byIcon(Icons.eco), findsOneWidget);
     });
+
+    group('SDG badges', () {
+      testWidgets('displays SDG badges when action has related SDGs',
+          (tester) async {
+        const actionWithSdgs = ActionModel(
+          id: 'action5',
+          nameEn: 'Recycle Paper',
+          nameJa: '紙リサイクル',
+          category: 'recycling',
+          points: 5,
+          iconName: 'recycling',
+          relatedSdgs: ['12', '13'],
+        );
+
+        await tester.pumpWidget(createTestWidget(action: actionWithSdgs));
+        await tester.pumpAndSettle();
+
+        // Should display SDG numbers 12 and 13
+        expect(find.text('12'), findsOneWidget);
+        expect(find.text('13'), findsOneWidget);
+      });
+
+      testWidgets('does not display SDG badges when no related SDGs',
+          (tester) async {
+        // testAction has no relatedSdgs
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        // Should not find any SDG numbers (1-17)
+        for (var i = 1; i <= 17; i++) {
+          expect(find.text('$i'), findsNothing);
+        }
+      });
+
+      testWidgets('limits visible SDG badges to 3 with +N indicator',
+          (tester) async {
+        const actionWithManySdgs = ActionModel(
+          id: 'action6',
+          nameEn: 'Sustainable Action',
+          nameJa: 'サステナブルアクション',
+          category: 'consumption',
+          points: 25,
+          iconName: 'eco',
+          relatedSdgs: ['1', '2', '3', '4', '5'],
+        );
+
+        await tester.pumpWidget(createTestWidget(action: actionWithManySdgs));
+        await tester.pumpAndSettle();
+
+        // Should show first 3 SDGs
+        expect(find.text('1'), findsOneWidget);
+        expect(find.text('2'), findsOneWidget);
+        expect(find.text('3'), findsOneWidget);
+
+        // Should show +2 indicator for remaining SDGs
+        expect(find.text('+2'), findsOneWidget);
+      });
+
+      testWidgets('displays 4 badges without +N when exactly 4 SDGs',
+          (tester) async {
+        const actionWith4Sdgs = ActionModel(
+          id: 'action7',
+          nameEn: 'Four SDG Action',
+          nameJa: '4つのSDGアクション',
+          category: 'energy',
+          points: 15,
+          iconName: 'bolt',
+          relatedSdgs: ['7', '11', '12', '13'],
+        );
+
+        await tester.pumpWidget(createTestWidget(action: actionWith4Sdgs));
+        await tester.pumpAndSettle();
+
+        // Should show all 4 SDGs
+        expect(find.text('7'), findsOneWidget);
+        expect(find.text('11'), findsOneWidget);
+        expect(find.text('12'), findsOneWidget);
+        expect(find.text('13'), findsOneWidget);
+
+        // Should not show +N indicator
+        expect(find.textContaining('+'), findsNothing);
+      });
+
+      testWidgets('filters out invalid SDG numbers', (tester) async {
+        const actionWithInvalidSdgs = ActionModel(
+          id: 'action8',
+          nameEn: 'Invalid SDG Action',
+          nameJa: '無効SDGアクション',
+          category: 'water',
+          points: 10,
+          iconName: 'water_drop',
+          relatedSdgs: ['0', '12', '18', '13', 'invalid'],
+        );
+
+        await tester.pumpWidget(
+          createTestWidget(action: actionWithInvalidSdgs),
+        );
+        await tester.pumpAndSettle();
+
+        // Should only show valid SDGs (12 and 13)
+        expect(find.text('12'), findsOneWidget);
+        expect(find.text('13'), findsOneWidget);
+
+        // Should not show invalid values
+        expect(find.text('0'), findsNothing);
+        expect(find.text('18'), findsNothing);
+      });
+    });
   });
 }

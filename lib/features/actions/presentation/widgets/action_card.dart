@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/generated/app_localizations.dart';
+import '../../../sdg/data/sdg_data.dart';
 import '../../data/models/action_model.dart';
 import '../../domain/enums/action_category.dart';
 
@@ -78,6 +79,11 @@ class ActionCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // SDG badges
+                    if (action.relatedSdgs.isNotEmpty) ...[
+                      const SizedBox(height: 6),
+                      _buildSdgBadges(action.relatedSdgs),
+                    ],
                   ],
                 ),
               ),
@@ -112,5 +118,78 @@ class ActionCard extends StatelessWidget {
       'takeout' => Icons.takeout_dining,
       _ => Icons.eco,
     };
+  }
+
+  /// Builds a row of small SDG badges showing which goals this action supports.
+  Widget _buildSdgBadges(List<String> sdgNumbers) {
+    // Parse and sort SDG numbers, limit to 4 visible badges
+    final parsedNumbers = sdgNumbers
+        .map(int.tryParse)
+        .whereType<int>()
+        .where((n) => n >= 1 && n <= 17)
+        .toList()
+      ..sort();
+
+    final visibleCount = parsedNumbers.length > 4 ? 3 : parsedNumbers.length;
+    final remainingCount = parsedNumbers.length - visibleCount;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < visibleCount; i++) ...[
+          if (i > 0) const SizedBox(width: 3),
+          _buildSdgBadge(parsedNumbers[i]),
+        ],
+        if (remainingCount > 0) ...[
+          const SizedBox(width: 3),
+          Container(
+            width: 18,
+            height: 18,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade400,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                '+$remainingCount',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  /// Builds a single SDG badge with the goal number and color.
+  Widget _buildSdgBadge(int sdgNumber) {
+    final sdg = sdgGoals.firstWhere(
+      (g) => g.number == sdgNumber,
+      orElse: () => sdgGoals.first,
+    );
+
+    return Container(
+      width: 18,
+      height: 18,
+      decoration: BoxDecoration(
+        color: sdg.color,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          '$sdgNumber',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

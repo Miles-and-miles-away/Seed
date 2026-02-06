@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../shared/services/analytics_service.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/settings_remote_datasource.dart';
 import '../../data/models/notification_schedule_model.dart';
@@ -142,6 +143,13 @@ class SettingsNotifier extends _$SettingsNotifier {
       await ref
           .read(settingsRepositoryProvider)
           .setNotificationsEnabled(uid, enabled: enabled);
+
+      // Track analytics
+      if (enabled) {
+        await AnalyticsService.instance.logNotificationEnabled();
+      } else {
+        await AnalyticsService.instance.logNotificationDisabled();
+      }
     });
     if (!ref.mounted) return;
     state = result;
@@ -170,6 +178,7 @@ class SettingsNotifier extends _$SettingsNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       await ref.read(settingsRepositoryProvider).setLanguage(uid, language);
+      await AnalyticsService.instance.logLanguageChanged(language: language);
     });
     if (!ref.mounted) return;
     state = result;

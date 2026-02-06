@@ -241,5 +241,17 @@
       "count": {"type": "int"}
     }
   },
-  "streakBrokenStartNew": "Start New Streak"
+  "streakBrokenStartNew": "Start New Streak",
+
+  "sortLabel": "Sort",
+  "sortAlphabeticalAZ": "Name (A-Z)",
+  "sortAlphabeticalZA": "Name (Z-A)",
+  "sortCo2HighToLow": "CO₂ (High to Low)",
+  "sortCo2LowToHigh": "CO₂ (Low to High)",
+  "sortPointsHighToLow": "Points (High to Low)",
+  "sortPointsLowToHigh": "Points (Low to High)",
+
+  "filterBySDG": "Filter by SDG",
+  "allCategories": "All",
+  "co2PerAction": "{amount}g CO₂"
 }

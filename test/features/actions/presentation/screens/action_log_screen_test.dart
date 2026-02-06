@@ -9,6 +9,8 @@ import 'package:seed_app/features/actions/presentation/providers/actions_provide
 import 'package:seed_app/features/actions/presentation/screens/action_log_screen.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_category_tabs.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 
@@ -184,6 +186,34 @@ void main() {
 
       // Should display action cards for test data (some may be off-screen in GridView)
       expect(find.byType(ActionCard), findsAtLeast(2));
+    });
+
+    testWidgets('displays sort dropdown', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ActionSortDropdown), findsOneWidget);
+    });
+
+    testWidgets('displays SDG filter chips', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SdgFilterChips), findsOneWidget);
+    });
+
+    testWidgets('sort dropdown shows Sort label', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Sort'), findsOneWidget);
+    });
+
+    testWidgets('SDG filter shows All chip', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('All'), findsAtLeast(1));
     });
   });
 }

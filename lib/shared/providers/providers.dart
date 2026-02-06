@@ -11,5 +11,8 @@ export '../../features/auth/presentation/providers/auth_providers.dart'
         currentUserProvider,
         firebaseAuthProvider;
 
+// Analytics provider
+export 'analytics_provider.dart';
+
 // Notification providers
 export 'notification_providers.dart';

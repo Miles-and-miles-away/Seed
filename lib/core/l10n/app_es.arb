@@ -241,5 +241,17 @@
       "count": {"type": "int"}
     }
   },
-  "streakBrokenStartNew": "Comenzar nueva racha"
+  "streakBrokenStartNew": "Comenzar nueva racha",
+
+  "sortLabel": "Ordenar",
+  "sortAlphabeticalAZ": "Nombre (A-Z)",
+  "sortAlphabeticalZA": "Nombre (Z-A)",
+  "sortCo2HighToLow": "CO₂ (Mayor a menor)",
+  "sortCo2LowToHigh": "CO₂ (Menor a mayor)",
+  "sortPointsHighToLow": "Puntos (Mayor a menor)",
+  "sortPointsLowToHigh": "Puntos (Menor a mayor)",
+
+  "filterBySDG": "Filtrar por ODS",
+  "allCategories": "Todos",
+  "co2PerAction": "{amount}g CO₂"
 }

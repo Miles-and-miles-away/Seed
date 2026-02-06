@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../shared/services/analytics_service.dart';
 import '../../data/sdg_data.dart';
 
 /// Detail screen showing information about a specific SDG
-class SdgDetailScreen extends StatelessWidget {
+class SdgDetailScreen extends StatefulWidget {
   const SdgDetailScreen({
     required this.goalNumber,
     super.key,
@@ -14,10 +15,22 @@ class SdgDetailScreen extends StatelessWidget {
   final int goalNumber;
 
   @override
+  State<SdgDetailScreen> createState() => _SdgDetailScreenState();
+}
+
+class _SdgDetailScreenState extends State<SdgDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Track SDG view event
+    AnalyticsService.instance.logSdgViewed(sdgNumber: widget.goalNumber);
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Find the goal by number
     final goal = sdgGoals.firstWhere(
-      (g) => g.number == goalNumber,
+      (g) => g.number == widget.goalNumber,
       orElse: () => sdgGoals.first,
     );
 

@@ -241,5 +241,17 @@
       "count": {"type": "int"}
     }
   },
-  "streakBrokenStartNew": "新しい記録を始める"
+  "streakBrokenStartNew": "新しい記録を始める",
+
+  "sortLabel": "並べ替え",
+  "sortAlphabeticalAZ": "名前 (A-Z)",
+  "sortAlphabeticalZA": "名前 (Z-A)",
+  "sortCo2HighToLow": "CO₂ (多い順)",
+  "sortCo2LowToHigh": "CO₂ (少ない順)",
+  "sortPointsHighToLow": "ポイント (多い順)",
+  "sortPointsLowToHigh": "ポイント (少ない順)",
+
+  "filterBySDG": "SDGでフィルター",
+  "allCategories": "すべて",
+  "co2PerAction": "{amount}g CO₂"
 }

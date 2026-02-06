@@ -851,6 +851,9 @@ See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
 | Achievement notifications | Celebrate when achievements unlock | P1 | Planned |
 | Achievement display | Profile section showing earned badges | P1 | Planned |
 
+Note: We need to think of a good way to make the app somewhat addictive. As in users are motivated to come back every day. The clothes incentive will only work of e have an artist to produce lots of these all the time. But we currently don't have an artist. Can we think of something else that the user could spend their earned carbon credits on. Like energy for exploring a world. But something that doesn't require an artist, at least for the time being. 
+We also need to think of how to balance some acts (no long haul flight), which save a lot of C02, over recylcing. These are different orders of magnitude. So we need to balance that users notice how big some acts are, while not demotivating small acts because of how overpowering other acts are. 
+
 **Deliverable:** Comprehensive impact visualization and achievement-based gamification.
 
 ### Phase 7+: App Store & Post-Launch (Future)

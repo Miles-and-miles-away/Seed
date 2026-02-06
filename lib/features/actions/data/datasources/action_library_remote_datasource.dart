@@ -29,12 +29,9 @@ class ActionLibraryRemoteDataSourceImpl implements ActionLibraryRemoteDataSource
         .where('isActive', isEqualTo: true)
         .snapshots()
         .map((snapshot) {
-          final actions = snapshot.docs
-              .map(ActionModel.fromFirestore)
-              .toList();
-          // Sort client-side by sortOrder
-          actions.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-          return actions;
+          return snapshot.docs.map(ActionModel.fromFirestore).toList()
+            // Sort client-side by sortOrder
+            ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
         });
   }
 

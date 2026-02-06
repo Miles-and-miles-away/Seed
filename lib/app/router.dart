@@ -14,6 +14,7 @@ import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
+import '../features/settings/presentation/screens/about_screen.dart';
 import '../features/settings/presentation/screens/account_settings_screen.dart';
 import '../features/settings/presentation/screens/language_settings_screen.dart';
 import '../features/settings/presentation/screens/notification_settings_screen.dart';
@@ -162,8 +163,7 @@ GoRouter router(Ref ref) {
                       ),
                       GoRoute(
                         path: 'about',
-                        builder: (context, state) =>
-                            const _PlaceholderScreen(title: 'About'),
+                        builder: (context, state) => const AboutScreen(),
                       ),
                     ],
                   ),
@@ -208,18 +208,15 @@ GoRouter router(Ref ref) {
           ),
           GoRoute(
             path: 'language',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: 'Language'),
+            builder: (context, state) => const LanguageSettingsScreen(),
           ),
           GoRoute(
             path: 'account',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: 'Account'),
+            builder: (context, state) => const AccountSettingsScreen(),
           ),
           GoRoute(
             path: 'about',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: 'About'),
+            builder: (context, state) => const AboutScreen(),
           ),
         ],
       ),
@@ -276,34 +273,6 @@ GoRouter router(Ref ref) {
       ),
     ),
   );
-}
-
-/// Temporary placeholder screen for development
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.eco, size: 64, color: Colors.green),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 8),
-            const Text('Placeholder - implement this screen'),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 /// Splash screen shown while determining auth state.
