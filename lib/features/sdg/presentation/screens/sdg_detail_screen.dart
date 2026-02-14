@@ -1,14 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../shared/services/analytics_service.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/sdg_data.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
+import '../widgets/sdg_infographic_viewer.dart';
 import '../widgets/sdg_resources_list.dart';
 
 /// Detail screen showing information about a specific SDG.
@@ -80,7 +82,11 @@ class _SdgDetailScreenState
                     languageCode,
                   ),
                 const SizedBox(height: 24),
-                _buildLearnMoreButton(context, goal),
+                SdgInfographicViewer(
+                  goal: goal,
+                ),
+                const SizedBox(height: 32),
+                _buildGoalNavigation(context, goal),
                 const SizedBox(height: 48),
               ]),
             ),
@@ -286,6 +292,53 @@ class _SdgDetailScreenState
     );
   }
 
+  Widget _buildGoalNavigation(
+    BuildContext context,
+    SdgGoal goal,
+  ) {
+    final hasPrev =
+        goal.number > AppConstants.sdgMinGoal;
+    final hasNext =
+        goal.number < AppConstants.sdgMaxGoal;
+    final prevGoal = hasPrev
+        ? sdgGoals.firstWhere(
+            (g) => g.number == goal.number - 1,
+          )
+        : null;
+    final nextGoal = hasNext
+        ? sdgGoals.firstWhere(
+            (g) => g.number == goal.number + 1,
+          )
+        : null;
+
+    return Row(
+      mainAxisAlignment:
+          MainAxisAlignment.spaceBetween,
+      children: [
+        if (prevGoal != null)
+          _GoalNavButton(
+            goal: prevGoal,
+            isPrevious: true,
+            onTap: () => context.pushReplacement(
+              '/home/sdg/${prevGoal.number}',
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+        if (nextGoal != null)
+          _GoalNavButton(
+            goal: nextGoal,
+            isPrevious: false,
+            onTap: () => context.pushReplacement(
+              '/home/sdg/${nextGoal.number}',
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+      ],
+    );
+  }
+
   Widget _buildDescriptionSection(
     BuildContext context,
     SdgGoal goal,
@@ -335,32 +388,63 @@ class _SdgDetailScreenState
       ),
     );
   }
+}
 
-  Widget _buildLearnMoreButton(
-    BuildContext context,
-    SdgGoal goal,
-  ) {
-    return FilledButton.icon(
-      onPressed: () => _launchUnSdgPage(goal.number),
-      style: FilledButton.styleFrom(
-        backgroundColor: goal.color,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 16,
+class _GoalNavButton extends StatelessWidget {
+  const _GoalNavButton({
+    required this.goal,
+    required this.isPrevious,
+    required this.onTap,
+  });
+
+  final SdgGoal goal;
+  final bool isPrevious;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: goal.color.withValues(alpha: 0.1),
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 12,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isPrevious)
+                Icon(
+                  Icons.arrow_circle_left_rounded,
+                  color: goal.color,
+                  size: 22,
+                ),
+              if (isPrevious)
+                const SizedBox(width: 6),
+              Text(
+                '${goal.number}',
+                style: TextStyle(
+                  color: goal.color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              if (!isPrevious)
+                const SizedBox(width: 6),
+              if (!isPrevious)
+                Icon(
+                  Icons.arrow_circle_right_rounded,
+                  color: goal.color,
+                  size: 22,
+                ),
+            ],
+          ),
         ),
       ),
-      icon: const Icon(Icons.open_in_new),
-      label: const Text('Learn More at UN.org'),
     );
-  }
-
-  Future<void> _launchUnSdgPage(int goalNumber) async {
-    final url = Uri.parse('https://sdgs.un.org/goals');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-    }
   }
 }

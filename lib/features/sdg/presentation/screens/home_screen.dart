@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../mascot/mascot.dart';
@@ -82,8 +84,21 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
 
+            // Learn more at UN.org
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 16,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _buildLearnMoreLink(context),
+              ),
+            ),
+
             // Bottom padding
-            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+            const SliverPadding(
+              padding: EdgeInsets.only(bottom: 100),
+            ),
           ],
         ),
       ),
@@ -282,5 +297,37 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildLearnMoreLink(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: TextButton.icon(
+        onPressed: _launchUnSdgPage,
+        icon: Icon(
+          Icons.open_in_new,
+          size: 16,
+          color: theme.colorScheme.primary,
+        ),
+        label: Text(
+          'Learn more at UN.org',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _launchUnSdgPage() async {
+    final url = Uri.parse(AppConstants.sdgGoalsUrl);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    }
   }
 }

@@ -19,6 +19,10 @@ class SdgGoal {
   final Color color;
   final String iconUrl;
   final bool isLearnOnly;
+
+  String get infographicAsset =>
+      'assets/images/sdg_infographics/'
+      'sdg_infographic_$number.jpg';
 }
 
 /// All 17 UN Sustainable Development Goals

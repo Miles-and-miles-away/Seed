@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router.dart';
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../actions/presentation/providers/actions_providers.dart';
+import '../../../actions/presentation/utils/handle_action_tap.dart';
 import '../../../actions/presentation/widgets/action_card.dart';
 import '../providers/sdg_stats_provider.dart';
 
@@ -86,7 +87,12 @@ class SdgActionsGrid extends ConsumerWidget {
               child: ActionCard(
                 action: visible[index],
                 languageCode: languageCode,
-                onTap: () {},
+                onTap: () => handleActionTap(
+                  context,
+                  ref,
+                  action: visible[index],
+                  languageCode: languageCode,
+                ),
               ),
             ),
           ),
