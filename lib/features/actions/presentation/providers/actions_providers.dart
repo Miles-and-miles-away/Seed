@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/utils/app_logger.dart';
 import '../../../../shared/services/analytics_service.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../progress/data/repositories/progress_repository.dart';
@@ -194,8 +194,10 @@ List<ActionModel> filteredActions(Ref ref) {
         filtered = filtered.where((a) {
           return a.nameEn.toLowerCase().contains(searchQuery) ||
               a.nameJa.toLowerCase().contains(searchQuery) ||
+              a.nameEs.toLowerCase().contains(searchQuery) ||
               a.descriptionEn.toLowerCase().contains(searchQuery) ||
-              a.descriptionJa.toLowerCase().contains(searchQuery);
+              a.descriptionJa.toLowerCase().contains(searchQuery) ||
+              a.descriptionEs.toLowerCase().contains(searchQuery);
         }).toList();
       }
 
@@ -251,7 +253,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
   }) async {
-    debugPrint('ActionLog: logAction called for ${action.nameEn}');
+    AppLogger.debug('ActionLog: logAction called for ${action.nameEn}');
     state = const AsyncValue.loading();
 
     final userAsync = ref.read(currentUserProvider);
@@ -285,7 +287,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           .whereType<int>()
           .toList();
 
-      debugPrint('ActionLog: Calling recordAction for progress tracking');
+      AppLogger.debug('ActionLog: Calling recordAction for progress tracking');
       try {
         await progressRepo.recordAction(
               userId: user.uid,
@@ -293,7 +295,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
               co2Grams: action.co2Grams,
               sdgNumbers: sdgNumbers,
             );
-        debugPrint('ActionLog: recordAction completed');
+        AppLogger.debug('ActionLog: recordAction completed');
 
         // Track analytics event
         await AnalyticsService.instance.logActionLogged(
@@ -312,7 +314,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           );
         }
       } on Exception catch (e) {
-        debugPrint('ActionLog: recordAction failed: $e');
+        AppLogger.error('ActionLog: recordAction failed', error: e);
       }
     }
 

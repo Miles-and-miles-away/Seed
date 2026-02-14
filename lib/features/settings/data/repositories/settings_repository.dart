@@ -111,6 +111,14 @@ class SettingsRepository {
     });
   }
 
+  /// Enables or disables analytics and crashlytics collection.
+  Future<void> setAnalyticsEnabled(
+    String uid, {
+    required bool enabled,
+  }) {
+    return _dataSource.updateAnalyticsEnabled(uid, enabled: enabled);
+  }
+
   /// Marks a streak milestone as seen.
   Future<void> markMilestoneSeen(String uid, int weekNumber) {
     return _dataSource.markMilestoneSeen(uid, weekNumber);

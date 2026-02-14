@@ -57,6 +57,14 @@ describe('getNotificationText', () => {
     expect(result.body).toContain('10日連続');
   });
 
+  it('returns Spanish text for es', () => {
+    const result = getNotificationText('es', 8);
+    expect(result.title).toBe(
+      'No pierdas tu racha!',
+    );
+    expect(result.body).toContain('racha de 8 dias');
+  });
+
   it('falls back to English for unknown languages', () => {
     const result = getNotificationText('fr', 3);
     expect(result.title).toBe(
@@ -219,7 +227,7 @@ describe('sendReminders', () => {
       const docs = [
         fakeDoc('user-unknown', {
           fcmToken: 'token-unknown',
-          language: 'es',
+          language: 'fr',
           currentStreak: 2,
         }),
       ];

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../core/constants/app_constants.dart';
+
 import '../features/actions/presentation/screens/action_history_screen.dart';
 import '../features/actions/presentation/screens/action_log_screen.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
@@ -22,6 +24,15 @@ import '../features/settings/presentation/screens/settings_screen.dart';
 import 'main_shell.dart';
 
 part 'router.g.dart';
+
+int _parseSdgGoalNumber(String? value) {
+  final parsed =
+      int.tryParse(value ?? '') ?? AppConstants.sdgMinGoal;
+  return parsed.clamp(
+    AppConstants.sdgMinGoal,
+    AppConstants.sdgMaxGoal,
+  );
+}
 
 /// Route paths as constants to avoid typos
 abstract class AppRoutes {
@@ -98,8 +109,9 @@ GoRouter router(Ref ref) {
                   GoRoute(
                     path: 'sdg/:goalNumber',
                     builder: (context, state) {
-                      final goalNumber =
-                          int.tryParse(state.pathParameters['goalNumber'] ?? '1') ?? 1;
+                      final goalNumber = _parseSdgGoalNumber(
+                        state.pathParameters['goalNumber'],
+                      );
                       return SdgDetailScreen(goalNumber: goalNumber);
                     },
                   ),
@@ -184,8 +196,9 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: '/sdg/:goalNumber',
         builder: (context, state) {
-          final goalNumber =
-              int.tryParse(state.pathParameters['goalNumber'] ?? '1') ?? 1;
+          final goalNumber = _parseSdgGoalNumber(
+            state.pathParameters['goalNumber'],
+          );
           return SdgDetailScreen(goalNumber: goalNumber);
         },
       ),

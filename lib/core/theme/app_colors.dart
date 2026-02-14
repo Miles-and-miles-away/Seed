@@ -40,6 +40,8 @@ abstract class AppColors {
   static const categoryConsumption = Color(0xFF9C27B0);
   static const categoryWater = Color(0xFF00BCD4);
   static const categoryCommunity = Color(0xFF8D6E63);
+  static const categoryAdvocacy = Color(0xFFE91E63);
+  static const categoryLearning = Color(0xFF607D8B);
 
   // Semantic colors
   static const success = Color(0xFF4CAF50);

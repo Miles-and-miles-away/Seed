@@ -6,7 +6,7 @@ void main() {
   group('ActionCategory', () {
     group('values', () {
       test('has correct number of categories', () {
-        expect(ActionCategory.values.length, 7);
+        expect(ActionCategory.values.length, 9);
       });
 
       test('contains all expected categories', () {
@@ -17,6 +17,8 @@ void main() {
         expect(ActionCategory.values, contains(ActionCategory.consumption));
         expect(ActionCategory.values, contains(ActionCategory.water));
         expect(ActionCategory.values, contains(ActionCategory.community));
+        expect(ActionCategory.values, contains(ActionCategory.advocacy));
+        expect(ActionCategory.values, contains(ActionCategory.learning));
       });
     });
 
@@ -47,6 +49,14 @@ void main() {
 
       test('community has a color', () {
         expect(ActionCategory.community.color, isA<Color>());
+      });
+
+      test('advocacy has a color', () {
+        expect(ActionCategory.advocacy.color, isA<Color>());
+      });
+
+      test('learning has a color', () {
+        expect(ActionCategory.learning.color, isA<Color>());
       });
     });
 
@@ -81,6 +91,14 @@ void main() {
           Icons.volunteer_activism,
         );
       });
+
+      test('advocacy has campaign icon', () {
+        expect(ActionCategory.advocacy.icon, Icons.campaign);
+      });
+
+      test('learning has menu_book icon', () {
+        expect(ActionCategory.learning.icon, Icons.menu_book);
+      });
     });
 
     group('fromString', () {
@@ -94,6 +112,14 @@ void main() {
         expect(
           ActionCategory.fromString('community'),
           ActionCategory.community,
+        );
+        expect(
+          ActionCategory.fromString('advocacy'),
+          ActionCategory.advocacy,
+        );
+        expect(
+          ActionCategory.fromString('learning'),
+          ActionCategory.learning,
         );
       });
 

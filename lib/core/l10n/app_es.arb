@@ -150,6 +150,8 @@
   "categoryConsumption": "Consumo",
   "categoryWater": "Agua",
   "categoryCommunity": "Comunidad",
+  "categoryAdvocacy": "Defensa",
+  "categoryLearning": "Aprendizaje",
 
   "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
   "errorNetwork": "Sin conexión a internet.",
@@ -256,9 +258,32 @@
   "allCategories": "Todos",
   "co2PerAction": "{amount}g CO₂",
 
+  "sdgYourImpact": "Tu impacto",
+  "sdgActionsLogged": "{count} acciones registradas",
+  "@sdgActionsLogged": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "sdgCo2SavedForGoal": "{amount} CO₂ ahorrado para este objetivo",
+  "@sdgCo2SavedForGoal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sdgRelatedActions": "Acciones relacionadas",
+  "sdgViewAllActions": "Ver todo",
+  "sdgResources": "Recursos",
+  "sdgLearnOnlyExplanation": "Este objetivo aborda problemas sistemicos que requieren accion colectiva. Aunque no puedes registrar acciones diarias directamente, aprender sobre el te ayuda a entender el panorama completo y encontrar formas de contribuir.",
+  "sdgWaysToContribute": "Formas de contribuir",
+  "sdgNoActionsYet": "Aun no hay acciones registradas para este objetivo",
+
   "learnOnlyBadge": "Aprender",
   "learnOnlyTitle": "Conoce esta accion",
   "learnOnlyDescription": "Esta accion apoya objetivos de sostenibilidad mas amplios. Aunque no se puede registrar directamente, aprender sobre ella te ayuda a entender el panorama completo.",
   "learnOnlyRelatedSdgs": "Objetivos relacionados",
-  "learnOnlyDismiss": "Entendido"
+  "learnOnlyDismiss": "Entendido",
+
+  "settingsAnalytics": "Privacidad",
+  "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anonimos"
 }

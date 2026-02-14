@@ -150,6 +150,8 @@
   "categoryConsumption": "Consumption",
   "categoryWater": "Water",
   "categoryCommunity": "Community",
+  "categoryAdvocacy": "Advocacy",
+  "categoryLearning": "Learning",
 
   "errorGeneric": "Something went wrong. Please try again.",
   "errorNetwork": "No internet connection.",
@@ -256,9 +258,32 @@
   "allCategories": "All",
   "co2PerAction": "{amount}g CO₂",
 
+  "sdgYourImpact": "Your Impact",
+  "sdgActionsLogged": "{count} actions logged",
+  "@sdgActionsLogged": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "sdgCo2SavedForGoal": "{amount} CO₂ saved for this goal",
+  "@sdgCo2SavedForGoal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sdgRelatedActions": "Related Actions",
+  "sdgViewAllActions": "View All",
+  "sdgResources": "Resources",
+  "sdgLearnOnlyExplanation": "This goal addresses systemic issues that require collective action. While you can't log daily actions for it directly, learning about it helps you understand the bigger picture and find ways to contribute.",
+  "sdgWaysToContribute": "Ways to Contribute",
+  "sdgNoActionsYet": "No actions logged for this goal yet",
+
   "learnOnlyBadge": "Learn",
   "learnOnlyTitle": "Learn About This Action",
   "learnOnlyDescription": "This action supports broader sustainability goals. While it can't be logged directly, learning about it helps you understand the bigger picture.",
   "learnOnlyRelatedSdgs": "Related Goals",
-  "learnOnlyDismiss": "Got It"
+  "learnOnlyDismiss": "Got It",
+
+  "settingsAnalytics": "Privacy",
+  "settingsAnalyticsSubtitle": "Help improve Seed by sharing anonymous usage data"
 }

@@ -9,6 +9,7 @@ class SdgGoal {
     required this.description,
     required this.color,
     required this.iconUrl,
+    this.isLearnOnly = false,
   });
 
   final int number;
@@ -17,6 +18,7 @@ class SdgGoal {
   final String description;
   final Color color;
   final String iconUrl;
+  final bool isLearnOnly;
 }
 
 /// All 17 UN Sustainable Development Goals
@@ -38,6 +40,7 @@ const sdgGoals = <SdgGoal>[
         'disasters and other shocks.',
     color: Color(0xFFE5233D),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-01.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 2,
@@ -82,6 +85,7 @@ const sdgGoals = <SdgGoal>[
         'children were still out of school in 2018.',
     color: Color(0xFFC5192D),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-04.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 5,
@@ -97,6 +101,7 @@ const sdgGoals = <SdgGoal>[
         'benefit societies and humanity at large.',
     color: Color(0xFFEF402C),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-05.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 6,
@@ -140,6 +145,7 @@ const sdgGoals = <SdgGoal>[
         'retool our economic and social policies aimed at eradicating poverty.',
     color: Color(0xFFA31C44),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-08.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 9,
@@ -155,6 +161,7 @@ const sdgGoals = <SdgGoal>[
         'technologies.',
     color: Color(0xFFF26A2D),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-09.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 10,
@@ -169,6 +176,7 @@ const sdgGoals = <SdgGoal>[
         'policies to empower lower income earners.',
     color: Color(0xFFE01483),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-10.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 11,
@@ -256,6 +264,7 @@ const sdgGoals = <SdgGoal>[
         'often resulting in long-standing grievances.',
     color: Color(0xFF126A9F),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-16.jpg',
+    isLearnOnly: true,
   ),
   SdgGoal(
     number: 17,
@@ -271,5 +280,6 @@ const sdgGoals = <SdgGoal>[
         'shared goals that place people and the planet at the centre.',
     color: Color(0xFF13496B),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-17.jpg',
+    isLearnOnly: true,
   ),
 ];

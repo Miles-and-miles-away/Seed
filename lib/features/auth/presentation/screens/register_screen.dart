@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
@@ -27,13 +29,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _acceptedTerms = false;
+  bool _isCooldown = false;
+  Timer? _cooldownTimer;
 
   @override
   void dispose() {
+    _cooldownTimer?.cancel();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _startCooldown() {
+    setState(() => _isCooldown = true);
+    _cooldownTimer?.cancel();
+    _cooldownTimer = Timer(
+      const Duration(seconds: AppConstants.authCooldownSeconds),
+      () {
+        if (mounted) setState(() => _isCooldown = false);
+      },
+    );
   }
 
   @override
@@ -54,6 +70,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         },
         loading: () {},
         error: (error, _) {
+          _startCooldown();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(mapAuthErrorToMessage(error)),
@@ -208,7 +225,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                 // Sign up button
                 FilledButton(
-                  onPressed: isLoading ? null : _handleSignUp,
+                  onPressed: isLoading || _isCooldown ? null : _handleSignUp,
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                   ),
@@ -249,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading: isLoading,
+                        isLoading: isLoading || _isCooldown,
                         onPressed: () => ref
                             .read(authProvider.notifier)
                             .signInWithGoogle(),
@@ -260,7 +277,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading: isLoading,
+                          isLoading: isLoading || _isCooldown,
                           onPressed: () => ref
                               .read(authProvider.notifier)
                               .signInWithApple(),

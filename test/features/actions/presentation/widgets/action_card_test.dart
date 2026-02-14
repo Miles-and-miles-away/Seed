@@ -204,7 +204,6 @@ void main() {
           nameJa: 'サステナブルアクション',
           category: 'consumption',
           points: 25,
-          iconName: 'eco',
           relatedSdgs: ['1', '2', '3', '4', '5'],
         );
 

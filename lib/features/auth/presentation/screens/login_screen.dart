@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
@@ -24,12 +26,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isCooldown = false;
+  Timer? _cooldownTimer;
 
   @override
   void dispose() {
+    _cooldownTimer?.cancel();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _startCooldown() {
+    setState(() => _isCooldown = true);
+    _cooldownTimer?.cancel();
+    _cooldownTimer = Timer(
+      const Duration(seconds: AppConstants.authCooldownSeconds),
+      () {
+        if (mounted) setState(() => _isCooldown = false);
+      },
+    );
   }
 
   @override
@@ -38,10 +54,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final theme = Theme.of(context);
     final isLoading = authState.isLoading;
 
-    // Listen for auth errors
+    // Listen for auth errors and trigger cooldown
     ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
       next.whenOrNull(
         error: (error, _) {
+          _startCooldown();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(mapAuthErrorToMessage(error)),
@@ -132,7 +149,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Sign in button
                 FilledButton(
-                  onPressed: isLoading ? null : _handleSignIn,
+                  onPressed: isLoading || _isCooldown ? null : _handleSignIn,
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                   ),
@@ -173,7 +190,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading: isLoading,
+                        isLoading: isLoading || _isCooldown,
                         onPressed: () => ref
                             .read(authProvider.notifier)
                             .signInWithGoogle(),
@@ -184,7 +201,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading: isLoading,
+                          isLoading: isLoading || _isCooldown,
                           onPressed: () => ref
                               .read(authProvider.notifier)
                               .signInWithApple(),

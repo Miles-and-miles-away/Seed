@@ -34,6 +34,9 @@ abstract class UserSettingsModel with _$UserSettingsModel {
     /// Whether the streak grace period has been used (Phase 4 foundation).
     /// When true, user cannot use grace period again until streak resets.
     @Default(false) bool streakGracePeriodUsed,
+
+    /// Whether analytics and crashlytics collection is enabled.
+    @Default(true) bool analyticsEnabled,
   }) = _UserSettingsModel;
 
   const UserSettingsModel._();

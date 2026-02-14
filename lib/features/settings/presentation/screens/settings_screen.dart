@@ -65,6 +65,25 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
 
+            // Privacy Section
+            SettingsSection(
+              title: l10n.settingsAnalytics,
+              showTopDivider: true,
+              children: [
+                SettingsSwitchTile(
+                  title: l10n.settingsAnalytics,
+                  subtitle: l10n.settingsAnalyticsSubtitle,
+                  leading: const Icon(Icons.analytics_outlined),
+                  value: settings.analyticsEnabled,
+                  onChanged: (value) {
+                    ref
+                        .read(settingsProvider.notifier)
+                        .toggleAnalytics(enabled: value);
+                  },
+                ),
+              ],
+            ),
+
             // Account Section
             SettingsSection(
               title: l10n.settingsAccount,

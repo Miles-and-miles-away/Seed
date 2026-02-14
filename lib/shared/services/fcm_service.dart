@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+
+import '../../core/constants/app_constants.dart';
+import '../../core/utils/app_logger.dart';
 
 /// Service for managing Firebase Cloud Messaging (push notifications).
 ///
@@ -41,7 +43,7 @@ class FCMService {
     // Request permission
     final settings = await _messaging.requestPermission();
 
-    debugPrint('FCM authorization status: ${settings.authorizationStatus}');
+    AppLogger.debug('FCM auth status: ${settings.authorizationStatus}');
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
@@ -50,11 +52,11 @@ class FCMService {
         final token = await _messaging.getToken();
         if (token != null) {
           await _storeToken(token);
-          debugPrint('FCM token: ${token.substring(0, 20)}...');
+          AppLogger.debug('FCM token: ${token.substring(0, 20)}...');
         }
       } on Exception catch (e) {
         // Expected on iOS simulator - APNS tokens not available
-        debugPrint('FCM token unavailable (expected on simulator): $e');
+        AppLogger.warning('FCM token unavailable (expected on simulator): $e');
       }
 
       // Listen for token refresh
@@ -74,7 +76,7 @@ class FCMService {
     }
 
     _initialized = true;
-    debugPrint('FCMService initialized');
+    AppLogger.debug('FCMService initialized');
   }
 
   /// Request notification permissions.
@@ -93,45 +95,46 @@ class FCMService {
   /// Delete the FCM token (e.g., on logout).
   Future<void> deleteToken() async {
     await _messaging.deleteToken();
-    debugPrint('FCM token deleted');
+    AppLogger.debug('FCM token deleted');
   }
 
   /// Subscribe to a topic for group notifications.
   Future<void> subscribeToTopic(String topic) async {
     await _messaging.subscribeToTopic(topic);
-    debugPrint('Subscribed to topic: $topic');
+    AppLogger.debug('Subscribed to topic: $topic');
   }
 
   /// Unsubscribe from a topic.
   Future<void> unsubscribeFromTopic(String topic) async {
     await _messaging.unsubscribeFromTopic(topic);
-    debugPrint('Unsubscribed from topic: $topic');
+    AppLogger.debug('Unsubscribed from topic: $topic');
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    debugPrint('Foreground message received: ${message.notification?.title}');
+    AppLogger.debug('Foreground message: ${message.notification?.title}');
     onForegroundMessage?.call(message);
   }
 
   void _handleMessageTap(RemoteMessage message) {
-    debugPrint('Message tapped: ${message.notification?.title}');
+    AppLogger.debug('Message tapped: ${message.notification?.title}');
     onMessageTap?.call(message);
   }
 
   Future<void> _storeToken(String token) async {
     final userId = _auth.currentUser?.uid;
     if (userId == null) {
-      debugPrint('Cannot store FCM token: no user logged in');
+      AppLogger.warning('Cannot store FCM token: no user logged in');
       return;
     }
 
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'fcmToken': token,
-      });
-      debugPrint('FCM token stored for user $userId');
+      await _firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(userId)
+          .update({'fcmToken': token});
+      AppLogger.debug('FCM token stored for user $userId');
     } on Exception catch (e) {
-      debugPrint('Failed to store FCM token: $e');
+      AppLogger.warning('Failed to store FCM token: $e');
     }
   }
 
@@ -141,12 +144,13 @@ class FCMService {
     if (userId == null) return;
 
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'fcmToken': FieldValue.delete(),
-      });
-      debugPrint('FCM token removed for user $userId');
+      await _firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(userId)
+          .update({'fcmToken': FieldValue.delete()});
+      AppLogger.debug('FCM token removed for user $userId');
     } on Exception catch (e) {
-      debugPrint('Failed to remove FCM token: $e');
+      AppLogger.warning('Failed to remove FCM token: $e');
     }
   }
 }
@@ -157,7 +161,7 @@ class FCMService {
 /// Register this in main.dart: FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  debugPrint('Background message received: ${message.notification?.title}');
+  AppLogger.debug('Background message: ${message.notification?.title}');
   // Handle the background message
   // Note: This runs in a separate isolate, so you can't access instance state
 }

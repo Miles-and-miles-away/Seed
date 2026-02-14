@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/utils/app_logger.dart';
 
 import '../models/daily_summary_model.dart';
 
@@ -17,9 +19,9 @@ class DailySummaryRemoteDataSource {
     String userId,
   ) =>
       _firestore
-          .collection('users')
+          .collection(AppConstants.collectionUsers)
           .doc(userId)
-          .collection('dailySummaries');
+          .collection(AppConstants.collectionDailySummaries);
 
   /// Get today's date string in YYYY-MM-DD format.
   String _todayDateString() {
@@ -82,8 +84,8 @@ class DailySummaryRemoteDataSource {
     final todayId = _todayDateString();
     final docRef = _summariesCollection(userId).doc(todayId);
 
-    debugPrint('DailySummary: Recording action for $userId on $todayId');
-    debugPrint('DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
+    AppLogger.debug('DailySummary: Recording action for $userId on $todayId');
+    AppLogger.debug('DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
 
     try {
       await _firestore.runTransaction((transaction) async {
@@ -91,7 +93,7 @@ class DailySummaryRemoteDataSource {
 
         if (!doc.exists) {
           // Create new summary for today
-          debugPrint('DailySummary: Creating new summary for today');
+          AppLogger.debug('DailySummary: Creating new summary for today');
           final newSummary = DailySummaryModel(
             date: todayId,
             goalCount: 1,
@@ -104,7 +106,7 @@ class DailySummaryRemoteDataSource {
           transaction.set(docRef, newSummary.toJson());
         } else {
           // Update existing summary
-          debugPrint('DailySummary: Updating existing summary');
+          AppLogger.debug('DailySummary: Updating existing summary');
           final existing = DailySummaryModel.fromJson(doc.data()!);
           final updatedSdgs = {...existing.completedSdgs, ...sdgNumbers}.toList();
           transaction.update(docRef, {
@@ -116,10 +118,13 @@ class DailySummaryRemoteDataSource {
           });
         }
       });
-      debugPrint('DailySummary: Transaction completed successfully');
+      AppLogger.debug('DailySummary: Transaction completed');
     } catch (e, stack) {
-      debugPrint('DailySummary ERROR: $e');
-      debugPrint('DailySummary STACK: $stack');
+      AppLogger.error(
+        'DailySummary transaction failed',
+        error: e,
+        stackTrace: stack,
+      );
       rethrow;
     }
   }

@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
 import '../features/settings/settings.dart';
+import '../shared/services/analytics_service.dart';
 import 'router.dart';
 
 class SeedApp extends ConsumerWidget {
@@ -14,6 +17,14 @@ class SeedApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final appLocale = ref.watch(appLocaleProvider);
+
+    // Sync analytics opt-out when setting loads from Firestore
+    final analyticsOn = ref.watch(analyticsEnabledProvider);
+    AnalyticsService.instance.setEnabled(enabled: analyticsOn);
+    FirebaseAnalytics.instance
+        .setAnalyticsCollectionEnabled(analyticsOn);
+    FirebaseCrashlytics.instance
+        .setCrashlyticsCollectionEnabled(analyticsOn);
 
     return MaterialApp.router(
       title: 'Seed',

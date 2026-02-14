@@ -150,6 +150,8 @@
   "categoryConsumption": "消費",
   "categoryWater": "水",
   "categoryCommunity": "コミュニティ",
+  "categoryAdvocacy": "アドボカシー",
+  "categoryLearning": "学習",
 
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
   "errorNetwork": "インターネット接続がありません。",
@@ -256,9 +258,32 @@
   "allCategories": "すべて",
   "co2PerAction": "{amount}g CO₂",
 
+  "sdgYourImpact": "あなたの影響",
+  "sdgActionsLogged": "{count}件のアクションを記録",
+  "@sdgActionsLogged": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "sdgCo2SavedForGoal": "この目標への{amount} CO₂削減",
+  "@sdgCo2SavedForGoal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sdgRelatedActions": "関連アクション",
+  "sdgViewAllActions": "すべて表示",
+  "sdgResources": "リソース",
+  "sdgLearnOnlyExplanation": "この目標は集団的な行動を必要とする体系的な問題に取り組んでいます。直接的な日々のアクションは記録できませんが、学ぶことで全体像を理解し、貢献する方法を見つけることができます。",
+  "sdgWaysToContribute": "貢献する方法",
+  "sdgNoActionsYet": "この目標に関連するアクションはまだ記録されていません",
+
   "learnOnlyBadge": "学ぶ",
   "learnOnlyTitle": "このアクションについて学ぶ",
   "learnOnlyDescription": "このアクションはより広いサステナビリティ目標を支援します。直接記録はできませんが、学ぶことで全体像を理解できます。",
   "learnOnlyRelatedSdgs": "関連する目標",
-  "learnOnlyDismiss": "了解"
+  "learnOnlyDismiss": "了解",
+
+  "settingsAnalytics": "プライバシー",
+  "settingsAnalyticsSubtitle": "匿名の使用データを共有してSeedの改善にご協力ください"
 }

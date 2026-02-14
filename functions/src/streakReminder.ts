@@ -29,6 +29,12 @@ const NOTIFICATION_MESSAGES: Record<
       `${streak}日連続ストリーク中。` +
       '今日もアクションを記録しよう!',
   }),
+  es: (streak) => ({
+    title: 'No pierdas tu racha!',
+    body:
+      `Tienes una racha de ${streak} dias. ` +
+      'Registra una accion hoy!',
+  }),
 };
 
 const DEFAULT_LANGUAGE = 'en';

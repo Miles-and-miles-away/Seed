@@ -13,8 +13,10 @@ abstract class ActionModel with _$ActionModel {
     required String nameJa,
     required String category,
     required int points,
+    @Default('') String nameEs,
     @Default('') String descriptionEn,
     @Default('') String descriptionJa,
+    @Default('') String descriptionEs,
     @Default(0) int co2Grams,
     @Default('eco') String iconName,
     @Default([]) List<String> relatedSdgs,
@@ -40,11 +42,19 @@ abstract class ActionModel with _$ActionModel {
 extension ActionModelLocalization on ActionModel {
   /// Returns the action name in the specified language.
   String name(String languageCode) {
-    return languageCode == 'ja' ? nameJa : nameEn;
+    return switch (languageCode) {
+      'ja' => nameJa,
+      'es' when nameEs.isNotEmpty => nameEs,
+      _ => nameEn,
+    };
   }
 
   /// Returns the action description in the specified language.
   String description(String languageCode) {
-    return languageCode == 'ja' ? descriptionJa : descriptionEn;
+    return switch (languageCode) {
+      'ja' => descriptionJa,
+      'es' when descriptionEs.isNotEmpty => descriptionEs,
+      _ => descriptionEn,
+    };
   }
 }

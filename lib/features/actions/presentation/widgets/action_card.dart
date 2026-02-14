@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../sdg/data/sdg_data.dart';
 import '../../data/models/action_model.dart';
+import '../../domain/constants/action_icons.dart';
 import '../../domain/enums/action_category.dart';
 
 /// A card widget displaying an action that can be logged.
@@ -45,7 +46,7 @@ class ActionCard extends StatelessWidget {
                   children: [
                     // Icon
                     Icon(
-                      _getIconData(action.iconName),
+                      getActionIcon(action.iconName),
                       size: 36,
                       color: action.isLearnOnly
                           ? theme.colorScheme.outline
@@ -128,46 +129,6 @@ class ActionCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// Maps icon name strings to IconData.
-  IconData _getIconData(String iconName) {
-    return switch (iconName) {
-      'recycling' => Icons.recycling,
-      'delete' => Icons.delete_outline,
-      'local_drink' => Icons.local_drink,
-      'shopping_bag' => Icons.shopping_bag,
-      'coffee' => Icons.coffee,
-      'bike' || 'pedal_bike' => Icons.pedal_bike,
-      'bus' => Icons.directions_bus,
-      'train' => Icons.directions_transit,
-      'directions_walk' => Icons.directions_walk,
-      'restaurant' => Icons.restaurant,
-      'eco' => Icons.eco,
-      'compost' => Icons.compost,
-      'shopping' => Icons.shopping_cart,
-      'bolt' => Icons.bolt,
-      'power' => Icons.power_off,
-      'dry_cleaning' => Icons.dry_cleaning,
-      'water_drop' => Icons.water_drop,
-      'shower' => Icons.shower,
-      'local_grocery' || 'storefront' =>
-        Icons.local_grocery_store,
-      'takeout' => Icons.takeout_dining,
-      'people' => Icons.people,
-      'electric_car' => Icons.electric_car,
-      'forest' => Icons.forest,
-      'lightbulb' => Icons.lightbulb_outline,
-      'inventory_2' => Icons.inventory_2,
-      'food_bank' => Icons.food_bank,
-      'local_laundry_service' => Icons.local_laundry_service,
-      'local_cafe' => Icons.local_cafe,
-      'no_drinks' => Icons.no_drinks,
-      'autorenew' => Icons.autorenew,
-      'plumbing' => Icons.plumbing,
-      'dishwasher' => Icons.kitchen,
-      _ => Icons.eco,
-    };
   }
 
   /// Builds a row of small SDG badges showing which goals this action supports.

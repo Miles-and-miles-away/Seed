@@ -37,6 +37,12 @@ abstract class SettingsRemoteDataSource {
   /// Updates the language preference.
   Future<void> updateLanguage(String uid, String language);
 
+  /// Updates the analytics enabled flag.
+  Future<void> updateAnalyticsEnabled(
+    String uid, {
+    required bool enabled,
+  });
+
   /// Marks a streak milestone as seen.
   Future<void> markMilestoneSeen(String uid, int weekNumber);
 }
@@ -188,6 +194,16 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
       'settings.language': language,
       // Also update top-level field for backwards compatibility
       'language': language,
+    });
+  }
+
+  @override
+  Future<void> updateAnalyticsEnabled(
+    String uid, {
+    required bool enabled,
+  }) async {
+    await _userDoc(uid).update({
+      'settings.analyticsEnabled': enabled,
     });
   }
 

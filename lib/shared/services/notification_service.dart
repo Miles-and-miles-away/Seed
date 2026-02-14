@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../../core/utils/app_logger.dart';
 
 /// Service for managing local notifications.
 ///
@@ -74,7 +75,7 @@ class NotificationService {
     }
 
     _initialized = true;
-    debugPrint('NotificationService initialized');
+    AppLogger.debug('NotificationService initialized');
   }
 
   Future<void> _createAndroidChannel() async {
@@ -92,7 +93,7 @@ class NotificationService {
   }
 
   void _handleNotificationResponse(NotificationResponse response) {
-    debugPrint('Notification tapped: ${response.payload}');
+    AppLogger.debug('Notification tapped: ${response.payload}');
     onNotificationTap?.call(response.payload);
   }
 
@@ -162,13 +163,13 @@ class NotificationService {
     String? payload,
   }) async {
     if (!_initialized) {
-      debugPrint('NotificationService not initialized');
+      AppLogger.warning('NotificationService not initialized');
       return;
     }
 
     final scheduledTime = _nextInstanceOfTime(hour, minute);
 
-    debugPrint(
+    AppLogger.debug(
       'Scheduling notification $id at $hour:$minute '
       '(next: ${scheduledTime.toLocal()})',
     );
@@ -188,13 +189,13 @@ class NotificationService {
   /// Cancel a specific notification.
   Future<void> cancelNotification(int id) async {
     await _plugin.cancel(id);
-    debugPrint('Cancelled notification $id');
+    AppLogger.debug('Cancelled notification $id');
   }
 
   /// Cancel all scheduled notifications.
   Future<void> cancelAllNotifications() async {
     await _plugin.cancelAll();
-    debugPrint('Cancelled all notifications');
+    AppLogger.debug('Cancelled all notifications');
   }
 
   /// Get all pending notifications.

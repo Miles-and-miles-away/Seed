@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/helpers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 
@@ -41,14 +42,14 @@ Stream<int> totalCo2Saved(Ref ref) async* {
   final firestore = ref.watch(firestoreProvider);
 
   yield* firestore
-      .collection('users')
+      .collection(AppConstants.collectionUsers)
       .doc(user.uid)
-      .collection('actionLog')
+      .collection(AppConstants.collectionActionLog)
       .snapshots()
       .map((snapshot) {
     var total = 0;
     for (final doc in snapshot.docs) {
-      final co2 = doc.data()['co2Saved'] as int? ?? 0;
+      final co2 = doc.data()['co2Grams'] as int? ?? 0;
       total += co2;
     }
     return total;
@@ -67,9 +68,9 @@ Stream<int> totalActionsCount(Ref ref) async* {
   final firestore = ref.watch(firestoreProvider);
 
   yield* firestore
-      .collection('users')
+      .collection(AppConstants.collectionUsers)
       .doc(user.uid)
-      .collection('actionLog')
+      .collection(AppConstants.collectionActionLog)
       .snapshots()
       .map((snapshot) => snapshot.docs.length);
 }

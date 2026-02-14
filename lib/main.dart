@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'core/utils/app_logger.dart';
 import 'firebase_options.dart';
 import 'shared/services/services.dart';
 
@@ -69,18 +70,18 @@ void main() async {
 
 /// Handle local notification tap.
 void _handleNotificationTap(String? payload) {
-  debugPrint('Local notification tapped: $payload');
+  AppLogger.debug('Local notification tapped: $payload');
   // Navigation will be handled via router based on payload
 }
 
 /// Handle FCM foreground message.
 void _handleForegroundMessage(RemoteMessage message) {
-  debugPrint('FCM foreground message: ${message.notification?.title}');
+  AppLogger.debug('FCM foreground: ${message.notification?.title}');
   // Show in-app notification or update UI
 }
 
 /// Handle FCM message tap (from background/terminated).
 void _handleFCMMessageTap(RemoteMessage message) {
-  debugPrint('FCM message tapped: ${message.notification?.title}');
+  AppLogger.debug('FCM tapped: ${message.notification?.title}');
   // Navigation will be handled via router based on message data
 }

@@ -807,9 +807,9 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Action library expansion | Research and add ~66 new actions (34/~100 done) | P0 | In Progress |
+| Action library expansion | 100 actions across 9 categories, all 17 SDGs | P0 | ✅ Done |
 | Action library UI | Search, sort, filter by SDG | P0 | ✅ Done |
-| SDG detail enhancement | Related actions + personal stats | P0 | Pending |
+| SDG detail enhancement | Impact stats, related actions, learn-only variant | P0 | ✅ Done |
 | Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Pending |
 | Mascot species unlocking | 3 species, point-based unlocks | P0 | Pending |
 | Streak break Cloud Function | Push notification for at-risk streaks | P1 | ✅ Done |
@@ -819,10 +819,27 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 
 **Deliverable:** Complete action library covering all SDGs, cosmetic shop, analytics, legal compliance.
 
-### Phase 5: Mascot Art & Premium Features (Future)
-**Goal:** Final mascot art, RevenueCat integration, premium tier
+### Phase 5: Gamification & Daily Engagement (Future)
+**Goal:** Daily engagement hooks -- garden, challenges, collection, facts
 
 See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Growing Ecosystem | Personal garden derived from action history | P0 | Planned |
+| Garden assets | 15-18 simple SVG elements for garden | P0 | Planned |
+| Biome system | 4 unlockable garden themes | P1 | Planned |
+| Daily Challenges | 3 rotating daily missions with bonus points | P0 | Planned |
+| Challenge templates | ~30 parameterized challenge definitions | P0 | Planned |
+| Eco-Dex | Collection album with ~50 discoverable entries | P0 | Planned |
+| Daily Eco-Fact | 365 curated sustainability facts | P0 | Planned |
+
+**Deliverable:** Four interlocking engagement systems that give users a reason to open the app every day.
+
+### Phase 6: Mascot Art & Premium Features (Future)
+**Goal:** Final mascot art, RevenueCat integration, premium tier
+
+See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
@@ -838,10 +855,10 @@ See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for detailed implementation plan.
 
 **Deliverable:** Polished mascot art and working subscription monetization.
 
-### Phase 6: CO₂ Dashboard & Achievements (Future)
+### Phase 7: CO₂ Dashboard & Achievements (Future)
 **Goal:** Visualize environmental impact, gamify with achievements
 
-See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
+See [PHASE_7_PLAN.md](./PHASE_7_PLAN.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
@@ -853,12 +870,9 @@ See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
 | Achievement notifications | Celebrate when achievements unlock | P1 | Planned |
 | Achievement display | Profile section showing earned badges | P1 | Planned |
 
-Note: We need to think of a good way to make the app somewhat addictive. As in users are motivated to come back every day. The clothes incentive will only work of e have an artist to produce lots of these all the time. But we currently don't have an artist. Can we think of something else that the user could spend their earned carbon credits on. Like energy for exploring a world. But something that doesn't require an artist, at least for the time being. 
-We also need to think of how to balance some acts (no long haul flight), which save a lot of C02, over recylcing. These are different orders of magnitude. So we need to balance that users notice how big some acts are, while not demotivating small acts because of how overpowering other acts are. 
-
 **Deliverable:** Comprehensive impact visualization and achievement-based gamification.
 
-### Phase 7+: App Store & Post-Launch (Future)
+### Phase 8+: App Store & Post-Launch (Future)
 **Goal:** App store submission and iteration
 
 - App Store prep (screenshots, descriptions, review guidelines)

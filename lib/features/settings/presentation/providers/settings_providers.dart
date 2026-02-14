@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -109,6 +111,17 @@ bool smartRemindersEnabled(Ref ref) {
   );
 }
 
+/// Returns whether analytics collection is enabled.
+@riverpod
+bool analyticsEnabled(Ref ref) {
+  final settings = ref.watch(userSettingsProvider);
+  return settings.when(
+    data: (s) => s.analyticsEnabled,
+    loading: () => true,
+    error: (_, __) => true,
+  );
+}
+
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
 @riverpod
@@ -150,6 +163,26 @@ class SettingsNotifier extends _$SettingsNotifier {
       } else {
         await AnalyticsService.instance.logNotificationDisabled();
       }
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Toggles analytics and crashlytics collection.
+  Future<void> toggleAnalytics({required bool enabled}) async {
+    final uid = _currentUserId;
+    if (uid == null) return;
+
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref
+          .read(settingsRepositoryProvider)
+          .setAnalyticsEnabled(uid, enabled: enabled);
+      await FirebaseAnalytics.instance
+          .setAnalyticsCollectionEnabled(enabled);
+      await FirebaseCrashlytics.instance
+          .setCrashlyticsCollectionEnabled(enabled);
+      AnalyticsService.instance.setEnabled(enabled: enabled);
     });
     if (!ref.mounted) return;
     state = result;

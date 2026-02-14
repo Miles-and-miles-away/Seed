@@ -1,9 +1,9 @@
 # Phase 4: Action Library Expansion & Core Features
 
-**Version:** 1.1
+**Version:** 1.2
 **Created:** January 2026
-**Updated:** February 2026
-**Status:** In Progress
+**Updated:** February 14, 2026
+**Status:** In Progress (6/10 features complete)
 
 ---
 
@@ -73,9 +73,9 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 4.1 Action Library Research | P0 | High | In Progress |
+| 4.1 Action Library Research | P0 | High | Complete |
 | 4.2 Action Library UI Enhancement | P0 | Medium | Complete |
-| 4.3 SDG Detail Screen Enhancement | P0 | Medium | Pending |
+| 4.3 SDG Detail Screen Enhancement | P0 | Medium | Complete |
 | 4.4 Cosmetic Shop | P0 | Medium | Pending |
 | 4.5 Mascot Species Unlocking | P0 | Low | Pending |
 | 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
@@ -94,15 +94,17 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 
 This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for detailed methodology.
 
-#### Current State (Updated Feb 9, 2026)
+#### Current State (Updated Feb 14, 2026)
 
-- **34 actions** across 7 categories (up from 29 across 6)
-- **Community category added** with volunteer/advocacy actions
-- **isLearnOnly field** added to ActionModel for non-loggable educational actions
-- **Learn-only info dialog** created for non-loggable actions
+- **100 actions** across 9 categories (expanded from 34 across 7)
+- **Advocacy and Learning categories** added
+- **8 learn-only actions** covering SDGs 1, 4, 5, 8, 9, 10, 16, 17
+- **All 17 SDGs covered** (direct actions or learn-only)
+- **Spanish localization** added (nameEs, descriptionEs on all actions)
 - **CO2 values research-backed** from DEFRA 2024, EPA, Poore & Nemecek 2018, Our World in Data
-- **9 SDGs covered** (2, 3, 6, 7, 11, 12, 13, 14, 15) - more to come
-- **8 SDGs still missing** (1, 4, 5, 8, 9, 10, 16, 17)
+- **Centralized icon mapping** in action_icons.dart
+- **SDG detail screen enhanced** with impact stats, related actions, resources
+- **Bug fix:** totalCo2Saved provider corrected (co2Saved -> co2Grams)
 
 #### Target State
 
@@ -134,50 +136,38 @@ This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRAT
 | 16 - Peace & Justice | Learn Only | Educational resources, civic participation |
 | 17 - Partnerships | Learn Only | Community engagement, collaboration resources |
 
-#### Action Target by Category
+#### Action Count by Category (Final)
 
-| Category | Current | Target | New Actions Needed |
-|----------|---------|--------|-------------------|
-| Recycling | 5 | 10 | 5 |
-| Transport | 5 | 12 | 7 |
-| Food | 4 | 15 | 11 |
-| Energy | 5 | 12 | 7 |
-| Consumption | 5 | 15 | 10 |
-| Water | 5 | 10 | 5 |
-| Community | 5 | 10 | 5 |
-| Advocacy | 0 | 8 | 8 (NEW) |
-| Learning | 0 | 8 | 8 (NEW - for Learn Only SDGs) |
-| **TOTAL** | **34** | **~100** | **~66** |
+| Category | Count |
+|----------|-------|
+| Recycling | 10 |
+| Transport | 12 |
+| Food | 15 |
+| Energy | 12 |
+| Consumption | 15 |
+| Water | 10 |
+| Community | 10 |
+| Advocacy | 8 |
+| Learning | 8 (all isLearnOnly) |
+| **TOTAL** | **100** |
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create RESEARCH_STRATEGY.md | Document research methodology and sources | Pending |
-| Initial CO2 research batch | 25 actions researched with sources (co2_actions_database.json) | Done |
-| Research SDG 1 actions | No Poverty - indirect/learn actions | Pending |
-| Research SDG 2 actions | Zero Hunger - expand food actions | Partial |
-| Research SDG 3 actions | Good Health - expand wellness/transport | Partial |
-| Research SDG 4 actions | Quality Education - learn/indirect | Pending |
-| Research SDG 5 actions | Gender Equality - learn/indirect | Pending |
-| Research SDG 6 actions | Clean Water - expand water actions | Partial |
-| Research SDG 7 actions | Affordable Energy - expand energy actions | Partial |
-| Research SDG 8 actions | Decent Work - learn/indirect | Pending |
-| Research SDG 9 actions | Industry/Innovation - learn/indirect | Pending |
-| Research SDG 10 actions | Reduced Inequalities - learn/indirect | Pending |
-| Research SDG 11 actions | Sustainable Cities - expand urban actions | Partial |
-| Research SDG 12 actions | Responsible Consumption - expand | Partial |
-| Research SDG 13 actions | Climate Action - expand | Partial |
-| Research SDG 14 actions | Life Below Water - expand ocean actions | Partial |
-| Research SDG 15 actions | Life on Land - expand biodiversity actions | Partial |
-| Research SDG 16 actions | Peace & Justice - learn only | Pending |
-| Research SDG 17 actions | Partnerships - learn only | Pending |
-| Validate CO₂ data | Cross-reference with multiple sources | Partial |
-| Add community category | New category with color, icon, localization (EN/ES/JA) | Done |
+| Create RESEARCH_STRATEGY.md | Document research methodology and sources | Done |
+| CO2 research | Actions researched with sources (co2_actions_database.json) | Done |
+| Research all 17 SDGs | Direct or learn-only coverage for every SDG | Done |
+| Validate CO2 data | Cross-reference with multiple sources | Done |
+| Add community category | Category with color, icon, localization | Done |
+| Add advocacy category | Category with color, icon, localization | Done |
+| Add learning category | Category with color, icon, localization | Done |
 | Add isLearnOnly to ActionModel | Support non-loggable educational actions | Done |
+| Add nameEs/descriptionEs to ActionModel | Spanish localization fields | Done |
 | Create learn-only info dialog | Dialog shown when tapping non-loggable actions | Done |
-| Localize action names | EN/ES/JA for all new actions | In Progress |
-| Update seed script | 34 research-backed actions in seed_action_library.js | Done |
+| Centralize icon mapping | action_icons.dart with actionIconMap | Done |
+| Localize action names | EN/ES/JA for all 100 actions | Done |
+| Update seed script | 100 research-backed actions in seed_action_library.js | Done |
 | Seed Firestore | Run seed script to populate actionLibrary | Pending |
 
 #### Files Created/Modified
@@ -187,12 +177,14 @@ This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRAT
 - **Created:** `Plan/co2_actions_database.csv` / `.json` - CO2 data
 - **Created:** `Plan/sdg_world_state_fully_sourced.json` - SDG data
 - **Created:** `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart`
-- **Modified:** `scripts/seed_action_library.js` - expanded to 34 actions
-- **Modified:** `lib/core/l10n/app_en.arb`, `app_es.arb`, `app_ja.arb` - community category + learn-only strings
-- **Modified:** `lib/features/actions/domain/enums/action_category.dart` - added community
-- **Modified:** `lib/features/actions/data/models/action_model.dart` - added isLearnOnly field
-- **Modified:** `lib/core/theme/app_colors.dart` - added categoryCommunity color
-- **Modified:** `lib/features/actions/presentation/widgets/action_card.dart` - expanded icon map + learn-only badge
+- **Created:** `lib/features/actions/domain/constants/action_icons.dart` - centralized icon map
+- **Modified:** `scripts/seed_action_library.js` - expanded to 100 actions
+- **Modified:** `lib/core/l10n/app_en.arb`, `app_es.arb`, `app_ja.arb` - 9 categories + SDG strings
+- **Modified:** `lib/features/actions/domain/enums/action_category.dart` - added community, advocacy, learning
+- **Modified:** `lib/features/actions/data/models/action_model.dart` - added isLearnOnly, nameEs, descriptionEs
+- **Modified:** `lib/core/theme/app_colors.dart` - added 3 new category colors
+- **Modified:** `lib/features/actions/presentation/widgets/action_card.dart` - uses centralized icons
+- **Modified:** `lib/features/actions/presentation/providers/actions_providers.dart` - ES search filter
 
 ---
 
@@ -290,28 +282,19 @@ Search, sort, and filter capabilities fully implemented in the action library.
 
 ### 4.3 SDG Detail Screen v2
 
-**Priority:** P0 | **Complexity:** Medium
+**Priority:** P0 | **Complexity:** Medium | **Status:** Complete
 
-Enhance the SDG detail screen to show related actions and personal statistics.
+Enhanced SDG detail screen with related actions, personal statistics, and learn-only variant.
 
-#### Current State
+#### Implementation (Completed Feb 14, 2026)
 
-- Shows SDG description and info
-- "Learn More" link to UN website
-- No related actions displayed
-- No personal stats
-
-#### Target State
-
-- **SDG Info Section** - Description, icon, goal number (existing)
-- **Your Impact Section** - Personal stats for this SDG:
-  - Actions logged for this SDG
-  - Total CO₂ saved for this SDG
-  - Streak for this SDG (optional)
-- **Related Actions Section** - Actions linked to this SDG:
-  - Grid of loggable actions
-  - "Learn Only" resources for difficult SDGs
-- **Resources Section** - External links (for Learn Only SDGs)
+- **SdgImpactCard** - Personal stats (actions logged + CO2 saved) per SDG
+- **SdgActionsGrid** - Horizontal scrollable row of related actions (max 6)
+- **SdgResourcesList** - External resource links for each SDG
+- **Learn-only variant** - Explanatory text + resources for SDGs 1,4,5,8,9,10,16,17
+- **SdgStats Freezed model** + stream provider
+- **SDG resources data** - 2 resources per SDG (official + actionable)
+- **ConsumerStatefulWidget** with conditional layout based on `isLearnOnly`
 
 #### UI Design
 
@@ -386,15 +369,16 @@ Enhance the SDG detail screen to show related actions and personal statistics.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create SDG stats provider | Calculate actions/CO₂ per SDG for user | Pending |
-| Create SDG actions provider | Filter actions by SDG | Pending |
-| Add "Your Impact" section | Stats card with actions logged, CO₂ saved | Pending |
-| Add "Log an Action" section | Grid of related actions | Pending |
-| Add "Learn Only" variant | Educational content for difficult SDGs | Pending |
-| Create SDG resources data | Links and tips for each SDG | Pending |
-| Update SdgDetailScreen | Rebuild with new sections | Pending |
-| Localize new strings | Section headers, descriptions | Pending |
-| Write widget tests | Test stats display, action grid | Pending |
+| Create SDG stats provider | Calculate actions/CO2 per SDG for user | Done |
+| Create SDG actions provider | Filter actions by SDG | Done |
+| Add "Your Impact" section | Stats card with actions logged, CO2 saved | Done |
+| Add related actions grid | Horizontal scrollable row of ActionCards | Done |
+| Add "Learn Only" variant | Educational content for learn-only SDGs | Done |
+| Create SDG resources data | 2 resources per SDG (all 17) | Done |
+| Add isLearnOnly to SdgGoal | Flag SDGs 1,4,5,8,9,10,16,17 | Done |
+| Update SdgDetailScreen | Rebuilt as ConsumerStatefulWidget | Done |
+| Localize new strings | Section headers, descriptions (EN/ES/JA) | Done |
+| Update widget tests | ProviderScope wrapper, new expectations | Done |
 
 #### Files to Create/Modify
 
@@ -569,7 +553,7 @@ Add 2 additional mascot species (3 total) with point-based unlocking.
 - 3 mascot species total
 - First species free (starter)
 - Additional species unlockable with points
-- Placeholder images for now (final art in Phase 5)
+- Placeholder images for now (final art in Phase 6)
 
 #### Species Data
 
@@ -620,7 +604,7 @@ Implemented a Cloud Function (Firebase Functions v2) to send push notifications 
    - Have `notificationsEnabled: true`
    - Have `currentStreak > 0`
    - Have NOT logged an action today (`lastActionDate` < today UTC)
-3. Sends localized FCM push notification (EN/JA) to users with valid tokens
+3. Sends localized FCM push notification (EN/JA/ES) to users with valid tokens
 4. Cleans up invalid/expired FCM tokens automatically
 5. Processes in batches of 500 for scalability
 
@@ -628,7 +612,7 @@ Implemented a Cloud Function (Firebase Functions v2) to send push notifications 
 
 - **API:** Firebase Functions v2 (`onSchedule` from `firebase-functions/v2/scheduler`)
 - **Schedule:** `0 20 * * *` (8 PM UTC daily)
-- **Localization:** EN and JA notification text, falls back to EN for unknown languages
+- **Localization:** EN, JA, and ES notification text, falls back to EN for unknown languages
 - **Error handling:** Invalid FCM tokens are nullified in Firestore; send failures are counted but don't halt the batch
 - **Memory:** 256 MiB allocation
 - **Retry:** 1 retry on failure
@@ -648,8 +632,8 @@ Firebase will prompt to create this index on first deployment.
 |------|-------------|--------|
 | Initialize Firebase Functions | Set up functions folder with TypeScript | Done |
 | Create streakReminder function | Scheduled Cloud Function (v2) | Done |
-| Localize notification text | EN/JA messages with fallback | Done |
-| Write unit tests | 16 tests covering all edge cases | Done |
+| Localize notification text | EN/JA/ES messages with fallback | Done |
+| Write unit tests | 17 tests covering all edge cases | Done |
 | Deploy to Firebase | `firebase deploy --only functions` | Pending |
 | Test with emulator | Local testing with emulator suite | Pending |
 | Monitor logs | Verify function runs correctly in prod | Pending |
@@ -662,7 +646,7 @@ functions/
 │   ├── index.ts              # Entry point, exports all functions
 │   ├── streakReminder.ts     # Scheduled streak reminder function
 │   └── __tests__/
-│       └── streakReminder.test.ts  # 16 unit tests
+│       └── streakReminder.test.ts  # 17 unit tests
 ├── package.json
 ├── tsconfig.json
 ├── jest.config.js
@@ -896,21 +880,16 @@ Based on estimated user activity levels:
 ### Recommended Sequence
 
 ```
-Stage 4.1: Foundation                          -- COMPLETE
-├── Create RESEARCH_STRATEGY.md                   DONE
-├── Set up Firebase Analytics                     DONE
-├── Set up Firebase Crashlytics                   PENDING
-├── Create privacy policy and terms               PENDING
-└── Update About screen with legal links          DONE
+4.1  Action Library Research                   -- COMPLETE
+├── Research actions for all 17 SDGs              DONE (100 actions)
+├── Document CO2 sources                          DONE
+├── Add advocacy + learning categories            DONE
+├── Add nameEs/descriptionEs to ActionModel       DONE
+├── Centralize icon mapping                       DONE
+├── Localize all action names (EN/ES/JA)          DONE
+└── Update seed script to 100 actions             DONE
 
-Stage 4.2: Action Research                     -- IN PROGRESS
-├── Research actions for each SDG                 PARTIAL (9/17 SDGs)
-├── Document CO₂ sources                          DONE
-├── Create action entries                         34/~100
-├── Localize action names                         IN PROGRESS
-└── Update seed script incrementally              DONE (34 actions)
-
-Stage 4.3: Action Library UI                   -- COMPLETE
+4.2  Action Library UI Enhancement             -- COMPLETE
 ├── Add search functionality                      DONE
 ├── Add sort options                              DONE
 ├── Add SDG filter                                DONE
@@ -918,15 +897,17 @@ Stage 4.3: Action Library UI                   -- COMPLETE
 ├── Add learn-only badge + info dialog            DONE
 └── Write tests                                   DONE
 
-Stage 4.4: SDG Detail Screen                   -- PENDING
-├── Create SDG stats provider
-├── Add "Your Impact" section
-├── Add related actions grid
-├── Create "Learn Only" variant
-├── Add resources section
-└── Write tests
+4.3  SDG Detail Screen Enhancement             -- COMPLETE
+├── Add isLearnOnly to SdgGoal                    DONE
+├── Create SDG stats provider                     DONE
+├── Add "Your Impact" section                     DONE
+├── Add related actions grid                      DONE
+├── Create "Learn Only" variant                   DONE
+├── Create SDG resources data (all 17 SDGs)       DONE
+├── Localize strings (EN/ES/JA)                   DONE
+└── Update tests                                  DONE
 
-Stage 4.5: Cosmetic Shop                       -- PENDING
+4.4  Cosmetic Shop                             -- PENDING
 ├── Create data models
 ├── Create repository
 ├── Build shop UI
@@ -935,20 +916,40 @@ Stage 4.5: Cosmetic Shop                       -- PENDING
 ├── Integrate with mascot display
 └── Write tests
 
-Stage 4.6: Mascot Species                      -- PENDING
+4.5  Mascot Species Unlocking                  -- PENDING
 ├── Update species model
 ├── Create placeholder SVGs
 ├── Implement unlock flow
 ├── Update selection screen
 └── Write tests
 
-Stage 4.7: Cloud Function                      -- COMPLETE
+4.6  Streak Break Cloud Function               -- COMPLETE
 ├── Set up Firebase Functions                     DONE
 ├── Create streak reminder function               DONE
+├── Add EN/JA/ES notification text                DONE
+├── Write unit tests (17 tests)                   DONE
+├── Create .firebaserc + firestore indexes        DONE
 ├── Deploy and test                               PENDING
 └── Monitor logs                                  PENDING
 
-Stage 4.8: Polish & Testing                    -- PENDING
+4.7  Firebase Analytics                        -- COMPLETE
+├── Create AnalyticsService                       DONE
+├── Add all event tracking                        DONE
+└── Write tests                                   DONE
+
+4.8  Firebase Crashlytics                      -- PENDING
+├── Add dependency
+├── Configure native platforms
+├── Initialize in main.dart
+└── Test crash reporting
+
+4.9  Privacy Policy & Terms                    -- PENDING
+├── Generate legal documents
+├── Create display screens
+├── Host documents
+└── Localize (EN/ES/JA)
+
+4.10 Polish & Testing                          -- PENDING
 ├── End-to-end testing
 ├── Bug fixes
 ├── Performance optimization
@@ -1084,7 +1085,7 @@ Stage 4.8: Polish & Testing                    -- PENDING
 - ACTIONS_RESEARCH.md contains currently up-to-date researched data
 - `co2_actions_database.csv` and `co2_actions_database.json` contain data to be used in the app. These files should be moved to appropriate location as needed. 
 - `sdg_world_state_fully_sourced.json` contains lots of infomation on the SDGs. This should also be incorporated into the SDG info carousel
-- Cosmetic items should be simple initially; can add more in Phase 5
+- Cosmetic items should be simple initially; can add more in Phase 6
 - Placeholder mascot art is acceptable for soft launch
 - Monitor Cloud Function costs after deployment
 

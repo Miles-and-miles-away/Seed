@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/constants/app_constants.dart';
+
 import '../../domain/entities/calendar_day_data.dart';
 import '../datasources/daily_summary_remote_datasource.dart';
 import '../models/daily_summary_model.dart';
@@ -72,7 +74,7 @@ class ProgressRepository {
 
   /// Save user's daily goal target to their profile.
   Future<void> saveDailyGoalTarget(String userId, int target) async {
-    await _firestore.collection('users').doc(userId).update({
+    await _firestore.collection(AppConstants.collectionUsers).doc(userId).update({
       'dailyGoalTarget': target,
     });
   }

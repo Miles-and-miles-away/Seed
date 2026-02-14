@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
+
+import '../../core/utils/app_logger.dart';
 
 /// Service for tracking analytics events.
 ///
@@ -15,15 +16,23 @@ class AnalyticsService {
   static final AnalyticsService instance = AnalyticsService._();
 
   FirebaseAnalytics? _analytics;
+  bool _enabled = true;
+
+  /// Enable or disable analytics collection at runtime.
+  // ignore: use_setters_to_change_properties
+  void setEnabled({required bool enabled}) {
+    _enabled = enabled;
+  }
 
   /// Get the Firebase Analytics instance, initializing lazily.
-  /// Returns null if Firebase is not available.
+  /// Returns null if Firebase is not available or disabled.
   FirebaseAnalytics? get _safeAnalytics {
+    if (!_enabled) return null;
     try {
       return _analytics ??= FirebaseAnalytics.instance;
     } on Object catch (e) {
       // Firebase not initialized (e.g., in tests)
-      debugPrint('Analytics: Firebase not available - $e');
+      AppLogger.warning('Analytics: Firebase not available - $e');
       return null;
     }
   }
@@ -41,7 +50,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.setUserId(id: userId);
-    debugPrint('Analytics: Set user ID: $userId');
+    AppLogger.debug('Analytics: Set user ID: $userId');
   }
 
   /// Set user properties for segmentation.
@@ -78,7 +87,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logSignUp(signUpMethod: method);
-    debugPrint('Analytics: sign_up - method: $method');
+    AppLogger.debug('Analytics: sign_up - method: $method');
   }
 
   /// Log when a user logs in.
@@ -86,7 +95,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logLogin(loginMethod: method);
-    debugPrint('Analytics: login - method: $method');
+    AppLogger.debug('Analytics: login - method: $method');
   }
 
   /// Log when a user logs out.
@@ -94,7 +103,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'logout');
-    debugPrint('Analytics: logout');
+    AppLogger.debug('Analytics: logout');
   }
 
   // ============================================================
@@ -122,7 +131,7 @@ class AnalyticsService {
         'sdgs': sdgs.take(5).join(','), // Limit to avoid param size issues
       },
     );
-    debugPrint('Analytics: action_logged - $actionId, $points pts, $co2Grams g');
+    AppLogger.debug('Analytics: action_logged - $actionId, $points pts, $co2Grams g');
   }
 
   /// Log when a user views an action's details.
@@ -161,7 +170,7 @@ class AnalyticsService {
         'user_level': userLevel,
       },
     );
-    debugPrint('Analytics: mascot_evolved - $species stage $newStage');
+    AppLogger.debug('Analytics: mascot_evolved - $species stage $newStage');
   }
 
   /// Log when a user selects their initial mascot.
@@ -178,7 +187,7 @@ class AnalyticsService {
         'mascot_name': mascotName,
       },
     );
-    debugPrint('Analytics: mascot_selected - $species named $mascotName');
+    AppLogger.debug('Analytics: mascot_selected - $species named $mascotName');
   }
 
   /// Log when a user unlocks a new mascot species.
@@ -195,7 +204,7 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    debugPrint('Analytics: mascot_unlocked - $species for $pointsSpent pts');
+    AppLogger.debug('Analytics: mascot_unlocked - $species for $pointsSpent pts');
   }
 
   /// Log when a user renames their mascot.
@@ -225,7 +234,7 @@ class AnalyticsService {
         'weeks': days ~/ 7,
       },
     );
-    debugPrint('Analytics: streak_milestone - $days days');
+    AppLogger.debug('Analytics: streak_milestone - $days days');
   }
 
   /// Log when a user's streak is broken.
@@ -240,7 +249,7 @@ class AnalyticsService {
         'previous_streak': previousStreak,
       },
     );
-    debugPrint('Analytics: streak_broken - was $previousStreak days');
+    AppLogger.debug('Analytics: streak_broken - was $previousStreak days');
   }
 
   // ============================================================
@@ -257,7 +266,7 @@ class AnalyticsService {
         'sdg_number': sdgNumber,
       },
     );
-    debugPrint('Analytics: sdg_viewed - SDG $sdgNumber');
+    AppLogger.debug('Analytics: sdg_viewed - SDG $sdgNumber');
   }
 
   // ============================================================
@@ -298,7 +307,7 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    debugPrint('Analytics: shop_item_purchased - $itemId for $pointsSpent pts');
+    AppLogger.debug('Analytics: shop_item_purchased - $itemId for $pointsSpent pts');
   }
 
   // ============================================================
@@ -310,7 +319,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'notification_enabled');
-    debugPrint('Analytics: notification_enabled');
+    AppLogger.debug('Analytics: notification_enabled');
   }
 
   /// Log when a user disables notifications.
@@ -318,7 +327,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'notification_disabled');
-    debugPrint('Analytics: notification_disabled');
+    AppLogger.debug('Analytics: notification_disabled');
   }
 
   /// Log when a user changes their language setting.
@@ -329,7 +338,7 @@ class AnalyticsService {
       name: 'language_changed',
       parameters: {'language': language},
     );
-    debugPrint('Analytics: language_changed - $language');
+    AppLogger.debug('Analytics: language_changed - $language');
   }
 
   // ============================================================
@@ -368,7 +377,7 @@ class AnalyticsService {
         'total_points': totalPoints,
       },
     );
-    debugPrint('Analytics: level_up - level $newLevel');
+    AppLogger.debug('Analytics: level_up - level $newLevel');
   }
 
   // ============================================================
@@ -395,6 +404,6 @@ class AnalyticsService {
         if (screen != null) 'screen': screen,
       },
     );
-    debugPrint('Analytics: app_error - $errorType');
+    AppLogger.debug('Analytics: app_error - $errorType');
   }
 }

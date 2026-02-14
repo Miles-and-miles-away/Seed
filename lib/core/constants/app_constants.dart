@@ -38,6 +38,14 @@ abstract class AppConstants {
   static const collectionActionLibrary = 'actionLibrary';
   static const collectionMascotSpecies = 'mascotSpecies';
   static const collectionCosmeticItems = 'cosmeticItems';
+  static const collectionDailySummaries = 'dailySummaries';
+
+  // SDG bounds
+  static const sdgMinGoal = 1;
+  static const sdgMaxGoal = 17;
+
+  // Auth throttling
+  static const authCooldownSeconds = 3;
 }
 
 /// Point values for common actions (move to database later)
