@@ -149,6 +149,7 @@
   "categoryEnergy": "Energía",
   "categoryConsumption": "Consumo",
   "categoryWater": "Agua",
+  "categoryCommunity": "Comunidad",
 
   "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
   "errorNetwork": "Sin conexión a internet.",
@@ -253,5 +254,11 @@
 
   "filterBySDG": "Filtrar por ODS",
   "allCategories": "Todos",
-  "co2PerAction": "{amount}g CO₂"
+  "co2PerAction": "{amount}g CO₂",
+
+  "learnOnlyBadge": "Aprender",
+  "learnOnlyTitle": "Conoce esta accion",
+  "learnOnlyDescription": "Esta accion apoya objetivos de sostenibilidad mas amplios. Aunque no se puede registrar directamente, aprender sobre ella te ayuda a entender el panorama completo.",
+  "learnOnlyRelatedSdgs": "Objetivos relacionados",
+  "learnOnlyDismiss": "Entendido"
 }

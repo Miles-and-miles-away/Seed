@@ -18,6 +18,7 @@ abstract class ActionModel with _$ActionModel {
     @Default(0) int co2Grams,
     @Default('eco') String iconName,
     @Default([]) List<String> relatedSdgs,
+    @Default(false) bool isLearnOnly,
     @Default(true) bool isActive,
     @Default(0) int sortOrder,
   }) = _ActionModel;

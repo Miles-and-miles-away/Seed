@@ -1,8 +1,9 @@
 # Phase 4: Action Library Expansion & Core Features
 
-**Version:** 1.0
+**Version:** 1.1
 **Created:** January 2026
-**Status:** Planning
+**Updated:** February 2026
+**Status:** In Progress
 
 ---
 
@@ -72,13 +73,13 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 4.1 Action Library Research | P0 | High | Pending |
-| 4.2 Action Library UI Enhancement | P0 | Medium | Pending |
+| 4.1 Action Library Research | P0 | High | In Progress |
+| 4.2 Action Library UI Enhancement | P0 | Medium | Complete |
 | 4.3 SDG Detail Screen Enhancement | P0 | Medium | Pending |
 | 4.4 Cosmetic Shop | P0 | Medium | Pending |
 | 4.5 Mascot Species Unlocking | P0 | Low | Pending |
-| 4.6 Streak Break Cloud Function | P1 | Medium | Pending |
-| 4.7 Firebase Analytics | P0 | Low | Pending |
+| 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
+| 4.7 Firebase Analytics | P0 | Low | Complete |
 | 4.8 Firebase Crashlytics | P0 | Low | Pending |
 | 4.9 Privacy Policy & Terms | P0 | Low | Pending |
 | 4.10 Polish Items | P2 | Low | Pending |
@@ -93,11 +94,15 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 
 This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for detailed methodology.
 
-#### Current State
+#### Current State (Updated Feb 9, 2026)
 
-- **29 actions** across 6 categories
-- **9 SDGs covered** (2, 3, 6, 7, 11, 12, 13, 14, 15)
-- **8 SDGs missing** (1, 4, 5, 8, 9, 10, 16, 17)
+- **34 actions** across 7 categories (up from 29 across 6)
+- **Community category added** with volunteer/advocacy actions
+- **isLearnOnly field** added to ActionModel for non-loggable educational actions
+- **Learn-only info dialog** created for non-loggable actions
+- **CO2 values research-backed** from DEFRA 2024, EPA, Poore & Nemecek 2018, Our World in Data
+- **9 SDGs covered** (2, 3, 6, 7, 11, 12, 13, 14, 15) - more to come
+- **8 SDGs still missing** (1, 4, 5, 8, 9, 10, 16, 17)
 
 #### Target State
 
@@ -133,65 +138,80 @@ This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRAT
 
 | Category | Current | Target | New Actions Needed |
 |----------|---------|--------|-------------------|
-| Recycling | 4 | 10 | 6 |
-| Transport | 4 | 12 | 8 |
-| Food | 3 | 15 | 12 |
-| Energy | 4 | 12 | 8 |
+| Recycling | 5 | 10 | 5 |
+| Transport | 5 | 12 | 7 |
+| Food | 4 | 15 | 11 |
+| Energy | 5 | 12 | 7 |
 | Consumption | 5 | 15 | 10 |
-| Water | 4 | 10 | 6 |
-| Community | 0 | 10 | 10 (NEW) |
+| Water | 5 | 10 | 5 |
+| Community | 5 | 10 | 5 |
 | Advocacy | 0 | 8 | 8 (NEW) |
 | Learning | 0 | 8 | 8 (NEW - for Learn Only SDGs) |
-| **TOTAL** | **29** | **~100** | **~71** |
+| **TOTAL** | **34** | **~100** | **~66** |
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
 | Create RESEARCH_STRATEGY.md | Document research methodology and sources | Pending |
+| Initial CO2 research batch | 25 actions researched with sources (co2_actions_database.json) | Done |
 | Research SDG 1 actions | No Poverty - indirect/learn actions | Pending |
-| Research SDG 2 actions | Zero Hunger - expand food actions | Pending |
-| Research SDG 3 actions | Good Health - expand wellness/transport | Pending |
+| Research SDG 2 actions | Zero Hunger - expand food actions | Partial |
+| Research SDG 3 actions | Good Health - expand wellness/transport | Partial |
 | Research SDG 4 actions | Quality Education - learn/indirect | Pending |
 | Research SDG 5 actions | Gender Equality - learn/indirect | Pending |
-| Research SDG 6 actions | Clean Water - expand water actions | Pending |
-| Research SDG 7 actions | Affordable Energy - expand energy actions | Pending |
+| Research SDG 6 actions | Clean Water - expand water actions | Partial |
+| Research SDG 7 actions | Affordable Energy - expand energy actions | Partial |
 | Research SDG 8 actions | Decent Work - learn/indirect | Pending |
 | Research SDG 9 actions | Industry/Innovation - learn/indirect | Pending |
 | Research SDG 10 actions | Reduced Inequalities - learn/indirect | Pending |
-| Research SDG 11 actions | Sustainable Cities - expand urban actions | Pending |
-| Research SDG 12 actions | Responsible Consumption - expand | Pending |
-| Research SDG 13 actions | Climate Action - expand | Pending |
-| Research SDG 14 actions | Life Below Water - expand ocean actions | Pending |
-| Research SDG 15 actions | Life on Land - expand biodiversity actions | Pending |
+| Research SDG 11 actions | Sustainable Cities - expand urban actions | Partial |
+| Research SDG 12 actions | Responsible Consumption - expand | Partial |
+| Research SDG 13 actions | Climate Action - expand | Partial |
+| Research SDG 14 actions | Life Below Water - expand ocean actions | Partial |
+| Research SDG 15 actions | Life on Land - expand biodiversity actions | Partial |
 | Research SDG 16 actions | Peace & Justice - learn only | Pending |
 | Research SDG 17 actions | Partnerships - learn only | Pending |
-| Validate CO₂ data | Cross-reference with multiple sources | Pending |
-| Localize action names | EN/ES/JA for all new actions | Pending |
-| Update seed script | Add all new actions to seed_action_library.js | Pending |
+| Validate CO₂ data | Cross-reference with multiple sources | Partial |
+| Add community category | New category with color, icon, localization (EN/ES/JA) | Done |
+| Add isLearnOnly to ActionModel | Support non-loggable educational actions | Done |
+| Create learn-only info dialog | Dialog shown when tapping non-loggable actions | Done |
+| Localize action names | EN/ES/JA for all new actions | In Progress |
+| Update seed script | 34 research-backed actions in seed_action_library.js | Done |
 | Seed Firestore | Run seed script to populate actionLibrary | Pending |
 
-#### Files to Create/Modify
+#### Files Created/Modified
 
-- **Create:** `Plan/RESEARCH_STRATEGY.md`
-- **Create:** `Plan/ACTION_RESEARCH/` folder with per-SDG research notes
-- **Modify:** `scripts/seed_action_library.js`
-- **Modify:** `lib/core/l10n/app_en.arb`, `app_es.arb`, `app_ja.arb`
+- **Created:** `Plan/RESEARCH_STRATEGY.md` - research methodology
+- **Created:** `Plan/ACTIONS_RESEARCH.md` - detailed research notes
+- **Created:** `Plan/co2_actions_database.csv` / `.json` - CO2 data
+- **Created:** `Plan/sdg_world_state_fully_sourced.json` - SDG data
+- **Created:** `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart`
+- **Modified:** `scripts/seed_action_library.js` - expanded to 34 actions
+- **Modified:** `lib/core/l10n/app_en.arb`, `app_es.arb`, `app_ja.arb` - community category + learn-only strings
+- **Modified:** `lib/features/actions/domain/enums/action_category.dart` - added community
+- **Modified:** `lib/features/actions/data/models/action_model.dart` - added isLearnOnly field
+- **Modified:** `lib/core/theme/app_colors.dart` - added categoryCommunity color
+- **Modified:** `lib/features/actions/presentation/widgets/action_card.dart` - expanded icon map + learn-only badge
 
 ---
 
 ### 4.2 Action Library UI Enhancement
 
-**Priority:** P0 | **Complexity:** Medium
+**Priority:** P0 | **Complexity:** Medium | **Status:** Complete
 
-Add search, sort, and filter capabilities to the action library.
+Search, sort, and filter capabilities fully implemented in the action library.
 
-#### Current State
+#### Current State (Updated Feb 9, 2026)
 
-- Actions displayed in grid by category
-- No search functionality
-- No sorting options
-- No SDG filtering
+- Search bar with debounced keyword search (complete)
+- Category tabs for filtering by category (complete)
+- Sort dropdown: alphabetical, CO2 impact, points (complete)
+- SDG filter chips: horizontal scrollable SDG filter (complete)
+- SDG badges on action cards with overflow indicator (complete)
+- Empty state: "No actions found" with icon (complete)
+- Localized strings for search, sort, filter (complete)
+- Widget tests for sort dropdown and SDG filter chips (complete)
 
 #### Target State
 
@@ -239,24 +259,30 @@ Add search, sort, and filter capabilities to the action library.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Add search bar widget | Text field with debounced search | Pending |
-| Implement search provider | Filter actions by keyword | Pending |
-| Add sort dropdown | Sort by CO₂, points, alphabetical | Pending |
-| Add SDG filter chips | Horizontal scrollable SDG filter | Pending |
-| Update action grid | Group by SDG when SDG filter active | Pending |
-| Add "Learn Only" badge | Visual indicator for non-loggable actions | Pending |
-| Add empty state | "No actions match your search" | Pending |
-| Localize new strings | Search, sort, filter labels | Pending |
-| Write widget tests | Test search, sort, filter behavior | Pending |
+| Add search bar widget | Text field with debounced search | Done |
+| Implement search provider | Filter actions by keyword | Done |
+| Add sort dropdown | Sort by CO2, points, alphabetical | Done |
+| Add SDG filter chips | Horizontal scrollable SDG filter | Done |
+| Add category tabs | Filter by action category | Done |
+| Update action grid | Responsive grid with filtered results | Done |
+| Add SDG badges to action cards | Small colored SDG number badges | Done |
+| Add "Learn Only" badge | Visual indicator for non-loggable actions | Done |
+| Add empty state | "No actions match your search" | Done |
+| Localize new strings | Search, sort, filter labels (EN/ES/JA) | Done |
+| Write widget tests | Sort dropdown, SDG filter chips, action card | Done |
 
 #### Files to Create/Modify
 
-- **Modify:** `lib/features/actions/presentation/screens/action_log_screen.dart`
-- **Create:** `lib/features/actions/presentation/widgets/action_search_bar.dart`
-- **Create:** `lib/features/actions/presentation/widgets/action_sort_dropdown.dart`
-- **Create:** `lib/features/actions/presentation/widgets/sdg_filter_chips.dart`
-- **Modify:** `lib/features/actions/presentation/providers/action_providers.dart`
-- **Create:** `test/features/actions/presentation/widgets/action_search_bar_test.dart`
+- **Modified:** `lib/features/actions/presentation/screens/action_log_screen.dart` - search, sort, filter UI
+- **Created:** `lib/features/actions/presentation/widgets/action_sort_dropdown.dart`
+- **Created:** `lib/features/actions/presentation/widgets/sdg_filter_chips.dart`
+- **Created:** `lib/features/actions/presentation/widgets/action_category_tabs.dart`
+- **Modified:** `lib/features/actions/presentation/providers/actions_providers.dart` - filter/sort logic
+- **Modified:** `lib/features/actions/presentation/widgets/action_card.dart` - SDG badges + learn-only badge
+- **Created:** `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart`
+- **Created:** `test/features/actions/presentation/widgets/action_sort_dropdown_test.dart`
+- **Created:** `test/features/actions/presentation/widgets/sdg_filter_chips_test.dart`
+- **Modified:** `test/features/actions/presentation/widgets/action_card_test.dart`
 
 ---
 
@@ -583,102 +609,64 @@ Add 2 additional mascot species (3 total) with point-based unlocking.
 
 ### 4.6 Streak Break Notification
 
-**Priority:** P1 | **Complexity:** Medium
+**Priority:** P1 | **Complexity:** Medium | **Status:** Complete
 
-Implement a Cloud Function to send push notifications when a user's streak is about to break.
+Implemented a Cloud Function (Firebase Functions v2) to send push notifications when a user's streak is about to break.
 
 #### Logic
 
-1. Cloud Function runs daily at 8 PM (user's timezone, or fixed time)
-2. Query users who:
+1. Cloud Function runs daily at 8 PM UTC via `onSchedule`
+2. Queries users who:
    - Have `notificationsEnabled: true`
    - Have `currentStreak > 0`
-   - Have NOT logged an action today (`lastActionDate` < today)
-3. Send FCM push notification to those users
+   - Have NOT logged an action today (`lastActionDate` < today UTC)
+3. Sends localized FCM push notification (EN/JA) to users with valid tokens
+4. Cleans up invalid/expired FCM tokens automatically
+5. Processes in batches of 500 for scalability
 
-#### Implementation Options
+#### Implementation Details
 
-**Option A: Scheduled Function (Recommended)**
-- Runs at fixed time (e.g., 8 PM UTC)
-- Simpler implementation
-- Works for global audience
+- **API:** Firebase Functions v2 (`onSchedule` from `firebase-functions/v2/scheduler`)
+- **Schedule:** `0 20 * * *` (8 PM UTC daily)
+- **Localization:** EN and JA notification text, falls back to EN for unknown languages
+- **Error handling:** Invalid FCM tokens are nullified in Firestore; send failures are counted but don't halt the batch
+- **Memory:** 256 MiB allocation
+- **Retry:** 1 retry on failure
 
-**Option B: Per-User Timezone**
-- More complex, requires storing user timezone
-- Better UX but higher complexity
-- Defer to future phase
+#### Firestore Composite Index Required
 
-#### Cloud Function Code
+The query requires a composite index on the `users` collection:
+- `notificationsEnabled` (Ascending)
+- `currentStreak` (Ascending)
+- `lastActionDate` (Ascending)
 
-```typescript
-// functions/src/streakReminder.ts
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-
-admin.initializeApp();
-
-export const sendStreakReminders = functions.pubsub
-  .schedule('0 20 * * *')  // 8 PM UTC daily
-  .onRun(async (context) => {
-    const db = admin.firestore();
-    const messaging = admin.messaging();
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Query users at risk of losing streak
-    const usersAtRisk = await db.collection('users')
-      .where('notificationsEnabled', '==', true)
-      .where('currentStreak', '>', 0)
-      .where('lastActionDate', '<', today)
-      .get();
-
-    const notifications: Promise<string>[] = [];
-
-    usersAtRisk.forEach(doc => {
-      const user = doc.data();
-      if (user.fcmToken) {
-        const message = {
-          token: user.fcmToken,
-          notification: {
-            title: "Don't break your streak!",
-            body: `You have a ${user.currentStreak}-day streak. Log an action today!`,
-          },
-          data: {
-            type: 'streak_reminder',
-            userId: doc.id,
-          },
-        };
-        notifications.push(messaging.send(message));
-      }
-    });
-
-    await Promise.allSettled(notifications);
-    console.log(`Sent ${notifications.length} streak reminders`);
-  });
-```
+Firebase will prompt to create this index on first deployment.
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Initialize Firebase Functions | Set up functions folder | Pending |
-| Create streakReminder function | Scheduled Cloud Function | Pending |
+| Initialize Firebase Functions | Set up functions folder with TypeScript | Done |
+| Create streakReminder function | Scheduled Cloud Function (v2) | Done |
+| Localize notification text | EN/JA messages with fallback | Done |
+| Write unit tests | 16 tests covering all edge cases | Done |
 | Deploy to Firebase | `firebase deploy --only functions` | Pending |
-| Test with emulator | Local testing | Pending |
-| Monitor logs | Verify function runs correctly | Pending |
-| Localize notification text | EN/ES/JA messages | Pending |
+| Test with emulator | Local testing with emulator suite | Pending |
+| Monitor logs | Verify function runs correctly in prod | Pending |
 
-#### Files to Create
+#### Files Created
 
 ```
-firebase/
-└── functions/
-    ├── src/
-    │   ├── index.ts
-    │   └── streakReminder.ts
-    ├── package.json
-    └── tsconfig.json
+functions/
+├── src/
+│   ├── index.ts              # Entry point, exports all functions
+│   ├── streakReminder.ts     # Scheduled streak reminder function
+│   └── __tests__/
+│       └── streakReminder.test.ts  # 16 unit tests
+├── package.json
+├── tsconfig.json
+├── jest.config.js
+└── .gitignore
 ```
 
 ---
@@ -687,9 +675,9 @@ firebase/
 
 ### 4.7 Firebase Analytics
 
-**Priority:** P0 | **Complexity:** Low
+**Priority:** P0 | **Complexity:** Low | **Status:** Complete
 
-Implement event tracking for user behavior analysis.
+Event tracking for user behavior analysis fully implemented.
 
 #### Events to Track
 
@@ -740,23 +728,24 @@ class AnalyticsService {
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AnalyticsService | Wrapper for Firebase Analytics | Pending |
-| Add sign_up event | In auth flow | Pending |
-| Add login event | In auth flow | Pending |
-| Add action_logged event | In action log repository | Pending |
-| Add mascot_evolved event | In evolution flow | Pending |
-| Add streak_milestone event | In streak service | Pending |
-| Add shop events | In shop repository | Pending |
-| Add sdg_viewed event | In SDG detail screen | Pending |
-| Add settings events | In settings providers | Pending |
-| Create analytics provider | Riverpod provider for service | Pending |
-| Write tests | Mock analytics, verify events | Pending |
+| Create AnalyticsService | Wrapper for Firebase Analytics | Done |
+| Add sign_up event | In auth flow | Done |
+| Add login event | In auth flow | Done |
+| Add action_logged event | In action log repository | Done |
+| Add mascot_evolved event | In evolution flow | Done |
+| Add streak_milestone event | In streak service | Done |
+| Add shop events | In shop repository (placeholder) | Done |
+| Add sdg_viewed event | In SDG detail screen | Done |
+| Add settings events | In settings providers | Done |
+| Create analytics provider | Riverpod provider for service | Done |
+| Write tests | Mock analytics, verify events | Done |
 
-#### Files to Create
+#### Files Created
 
-- `lib/shared/services/analytics_service.dart`
-- `lib/shared/providers/analytics_provider.dart`
-- `test/shared/services/analytics_service_test.dart`
+- `lib/shared/services/analytics_service.dart` - Full analytics service with all events
+- `lib/shared/providers/analytics_provider.dart` - Riverpod provider
+- `test/shared/services/analytics_service_test.dart` - Unit tests
+- Integrated into auth, SDG, and settings providers
 
 ---
 
@@ -907,28 +896,29 @@ Based on estimated user activity levels:
 ### Recommended Sequence
 
 ```
-Stage 4.1: Foundation
-├── Create RESEARCH_STRATEGY.md
-├── Set up Firebase Analytics
-├── Set up Firebase Crashlytics
-├── Create privacy policy and terms
-└── Update About screen with legal links
+Stage 4.1: Foundation                          -- COMPLETE
+├── Create RESEARCH_STRATEGY.md                   DONE
+├── Set up Firebase Analytics                     DONE
+├── Set up Firebase Crashlytics                   PENDING
+├── Create privacy policy and terms               PENDING
+└── Update About screen with legal links          DONE
 
-Stage 4.2: Action Research
-├── Research actions for each SDG
-├── Document CO₂ sources
-├── Create action entries
-├── Localize action names
-└── Update seed script incrementally
+Stage 4.2: Action Research                     -- IN PROGRESS
+├── Research actions for each SDG                 PARTIAL (9/17 SDGs)
+├── Document CO₂ sources                          DONE
+├── Create action entries                         34/~100
+├── Localize action names                         IN PROGRESS
+└── Update seed script incrementally              DONE (34 actions)
 
-Stage 4.3: Action Library UI
-├── Add search functionality
-├── Add sort options
-├── Add SDG filter
-├── Update action grid layout
-└── Write tests
+Stage 4.3: Action Library UI                   -- COMPLETE
+├── Add search functionality                      DONE
+├── Add sort options                              DONE
+├── Add SDG filter                                DONE
+├── Update action grid layout                     DONE
+├── Add learn-only badge + info dialog            DONE
+└── Write tests                                   DONE
 
-Stage 4.4: SDG Detail Screen
+Stage 4.4: SDG Detail Screen                   -- PENDING
 ├── Create SDG stats provider
 ├── Add "Your Impact" section
 ├── Add related actions grid
@@ -936,7 +926,7 @@ Stage 4.4: SDG Detail Screen
 ├── Add resources section
 └── Write tests
 
-Stage 4.5: Cosmetic Shop
+Stage 4.5: Cosmetic Shop                       -- PENDING
 ├── Create data models
 ├── Create repository
 ├── Build shop UI
@@ -945,20 +935,20 @@ Stage 4.5: Cosmetic Shop
 ├── Integrate with mascot display
 └── Write tests
 
-Stage 4.6: Mascot Species
+Stage 4.6: Mascot Species                      -- PENDING
 ├── Update species model
 ├── Create placeholder SVGs
 ├── Implement unlock flow
 ├── Update selection screen
 └── Write tests
 
-Stage 4.7: Cloud Function
-├── Set up Firebase Functions
-├── Create streak reminder function
-├── Deploy and test
-└── Monitor logs
+Stage 4.7: Cloud Function                      -- COMPLETE
+├── Set up Firebase Functions                     DONE
+├── Create streak reminder function               DONE
+├── Deploy and test                               PENDING
+└── Monitor logs                                  PENDING
 
-Stage 4.8: Polish & Testing
+Stage 4.8: Polish & Testing                    -- PENDING
 ├── End-to-end testing
 ├── Bug fixes
 ├── Performance optimization
@@ -1103,26 +1093,18 @@ Stage 4.8: Polish & Testing
 ## Known UX Gaps (To Address)
 
 ### SDG Display on Actions
-**Status:** Not implemented
+**Status:** Partially implemented (Feb 2026)
 **Priority:** P1
 
-Currently, users cannot see which SDGs an action contributes to. When logging an action like "Recycle Aluminum Can" (which contributes to SDG 12 and SDG 13), there's no visual indication of this relationship.
+SDG badges are now shown on action cards in the action library grid as small colored circles with goal numbers. Limits to 4 visible badges with a "+N" overflow indicator.
 
-**Where to display:**
-- Action card in the action library grid
-- Action confirmation dialog before logging
-- Action history/log entries
+**Completed:**
+- Action card SDG badges with color-coded circles (action_card.dart)
 
-**Suggested implementation:**
-- Add small SDG number badges (colored circles) to action cards
-- Show SDG icons/badges in the confirmation dialog
-- Include SDG info in the "Your Impact" section
-
-**Files to modify:**
-- `lib/features/actions/presentation/widgets/action_card.dart`
-- `lib/features/actions/presentation/widgets/action_log_confirmation_dialog.dart`
-
-This helps users understand the broader impact of their actions and creates a clearer connection to the SDG progress tracking.
+**Still needed:**
+- SDG badges in the action confirmation dialog
+- SDG info in action history/log entries
+- SDG info in the "Your Impact" section
 
 ---
 

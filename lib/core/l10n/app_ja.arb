@@ -149,6 +149,7 @@
   "categoryEnergy": "エネルギー",
   "categoryConsumption": "消費",
   "categoryWater": "水",
+  "categoryCommunity": "コミュニティ",
 
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
   "errorNetwork": "インターネット接続がありません。",
@@ -253,5 +254,11 @@
 
   "filterBySDG": "SDGでフィルター",
   "allCategories": "すべて",
-  "co2PerAction": "{amount}g CO₂"
+  "co2PerAction": "{amount}g CO₂",
+
+  "learnOnlyBadge": "学ぶ",
+  "learnOnlyTitle": "このアクションについて学ぶ",
+  "learnOnlyDescription": "このアクションはより広いサステナビリティ目標を支援します。直接記録はできませんが、学ぶことで全体像を理解できます。",
+  "learnOnlyRelatedSdgs": "関連する目標",
+  "learnOnlyDismiss": "了解"
 }

@@ -6,7 +6,7 @@ void main() {
   group('ActionCategory', () {
     group('values', () {
       test('has correct number of categories', () {
-        expect(ActionCategory.values.length, 6);
+        expect(ActionCategory.values.length, 7);
       });
 
       test('contains all expected categories', () {
@@ -16,6 +16,7 @@ void main() {
         expect(ActionCategory.values, contains(ActionCategory.energy));
         expect(ActionCategory.values, contains(ActionCategory.consumption));
         expect(ActionCategory.values, contains(ActionCategory.water));
+        expect(ActionCategory.values, contains(ActionCategory.community));
       });
     });
 
@@ -43,6 +44,10 @@ void main() {
       test('water has a color', () {
         expect(ActionCategory.water.color, isA<Color>());
       });
+
+      test('community has a color', () {
+        expect(ActionCategory.community.color, isA<Color>());
+      });
     });
 
     group('icon', () {
@@ -69,6 +74,13 @@ void main() {
       test('water has water drop icon', () {
         expect(ActionCategory.water.icon, Icons.water_drop);
       });
+
+      test('community has volunteer activism icon', () {
+        expect(
+          ActionCategory.community.icon,
+          Icons.volunteer_activism,
+        );
+      });
     });
 
     group('fromString', () {
@@ -79,6 +91,10 @@ void main() {
         expect(ActionCategory.fromString('energy'), ActionCategory.energy);
         expect(ActionCategory.fromString('consumption'), ActionCategory.consumption);
         expect(ActionCategory.fromString('water'), ActionCategory.water);
+        expect(
+          ActionCategory.fromString('community'),
+          ActionCategory.community,
+        );
       });
 
       test('returns correct category for mixed case string', () {

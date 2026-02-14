@@ -78,4 +78,10 @@ logs/
 # Node
 node_modules/
 
+# Firebase Functions build output
+functions/lib/
+
+# Service account keys
+**/serviceAccountKey.json
+
 Plan/notes.md

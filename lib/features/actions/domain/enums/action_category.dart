@@ -10,7 +10,8 @@ enum ActionCategory {
   food,
   energy,
   consumption,
-  water;
+  water,
+  community;
 
   /// Returns the color associated with this category.
   Color get color {
@@ -19,8 +20,10 @@ enum ActionCategory {
       ActionCategory.transport => AppColors.categoryTransport,
       ActionCategory.food => AppColors.categoryFood,
       ActionCategory.energy => AppColors.categoryEnergy,
-      ActionCategory.consumption => AppColors.categoryConsumption,
+      ActionCategory.consumption =>
+        AppColors.categoryConsumption,
       ActionCategory.water => AppColors.categoryWater,
+      ActionCategory.community => AppColors.categoryCommunity,
     };
   }
 
@@ -33,6 +36,7 @@ enum ActionCategory {
       ActionCategory.energy => Icons.bolt,
       ActionCategory.consumption => Icons.shopping_bag,
       ActionCategory.water => Icons.water_drop,
+      ActionCategory.community => Icons.volunteer_activism,
     };
   }
 
@@ -45,6 +49,7 @@ enum ActionCategory {
       ActionCategory.energy => l10n.categoryEnergy,
       ActionCategory.consumption => l10n.categoryConsumption,
       ActionCategory.water => l10n.categoryWater,
+      ActionCategory.community => l10n.categoryCommunity,
     };
   }
 

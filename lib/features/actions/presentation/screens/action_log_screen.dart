@@ -16,6 +16,7 @@ import '../widgets/action_card.dart';
 import '../widgets/action_category_tabs.dart';
 import '../widgets/action_log_confirmation_dialog.dart';
 import '../widgets/action_sort_dropdown.dart';
+import '../widgets/learn_only_info_dialog.dart';
 import '../widgets/points_animation_overlay.dart';
 import '../widgets/sdg_filter_chips.dart';
 
@@ -222,6 +223,15 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     ActionModel action,
     String languageCode,
   ) async {
+    if (action.isLearnOnly) {
+      await LearnOnlyInfoDialog.show(
+        context,
+        action: action,
+        languageCode: languageCode,
+      );
+      return;
+    }
+
     // Show confirmation dialog
     final result = await ActionLogConfirmationDialog.show(
       context,

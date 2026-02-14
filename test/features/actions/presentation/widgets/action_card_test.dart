@@ -126,7 +126,7 @@ void main() {
       await tester.pumpWidget(createTestWidget(action: bikeAction));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.directions_bike), findsOneWidget);
+      expect(find.byIcon(Icons.pedal_bike), findsOneWidget);
     });
 
     testWidgets('handles default eco icon', (tester) async {

@@ -47,7 +47,9 @@ class ActionCard extends StatelessWidget {
                     Icon(
                       _getIconData(action.iconName),
                       size: 36,
-                      color: categoryColor,
+                      color: action.isLearnOnly
+                          ? theme.colorScheme.outline
+                          : categoryColor,
                     ),
                     const SizedBox(height: 8),
                     // Action name
@@ -61,24 +63,58 @@ class ActionCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
-                    // Points badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: categoryColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        l10n.pointsLabel(action.points),
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: categoryColor,
-                          fontWeight: FontWeight.bold,
+                    // Points badge or Learn Only badge
+                    if (action.isLearnOnly)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.outline
+                              .withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.menu_book,
+                              size: 12,
+                              color: theme.colorScheme.outline,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              l10n.learnOnlyBadge,
+                              style: theme.textTheme.labelSmall
+                                  ?.copyWith(
+                                color: theme.colorScheme.outline,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: categoryColor
+                              .withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          l10n.pointsLabel(action.points),
+                          style:
+                              theme.textTheme.labelSmall?.copyWith(
+                            color: categoryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
                     // SDG badges
                     if (action.relatedSdgs.isNotEmpty) ...[
                       const SizedBox(height: 6),
@@ -102,9 +138,10 @@ class ActionCard extends StatelessWidget {
       'local_drink' => Icons.local_drink,
       'shopping_bag' => Icons.shopping_bag,
       'coffee' => Icons.coffee,
-      'bike' => Icons.directions_bike,
+      'bike' || 'pedal_bike' => Icons.pedal_bike,
       'bus' => Icons.directions_bus,
       'train' => Icons.directions_transit,
+      'directions_walk' => Icons.directions_walk,
       'restaurant' => Icons.restaurant,
       'eco' => Icons.eco,
       'compost' => Icons.compost,
@@ -114,8 +151,21 @@ class ActionCard extends StatelessWidget {
       'dry_cleaning' => Icons.dry_cleaning,
       'water_drop' => Icons.water_drop,
       'shower' => Icons.shower,
-      'local_grocery' => Icons.local_grocery_store,
+      'local_grocery' || 'storefront' =>
+        Icons.local_grocery_store,
       'takeout' => Icons.takeout_dining,
+      'people' => Icons.people,
+      'electric_car' => Icons.electric_car,
+      'forest' => Icons.forest,
+      'lightbulb' => Icons.lightbulb_outline,
+      'inventory_2' => Icons.inventory_2,
+      'food_bank' => Icons.food_bank,
+      'local_laundry_service' => Icons.local_laundry_service,
+      'local_cafe' => Icons.local_cafe,
+      'no_drinks' => Icons.no_drinks,
+      'autorenew' => Icons.autorenew,
+      'plumbing' => Icons.plumbing,
+      'dishwasher' => Icons.kitchen,
       _ => Icons.eco,
     };
   }

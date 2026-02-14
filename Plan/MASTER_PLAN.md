@@ -1,8 +1,8 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.2
-**Last Updated:** January 2026
+**Version:** 1.3
+**Last Updated:** February 2026
 **Author:** Miles
 
 ### Current Status
@@ -14,7 +14,9 @@
 ✅ Mascot assets added (vector SVGs)
 ✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
 ✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
-✅ **Phase 3 complete (~98%)** (Settings, Notifications, Streak tracking, 256 tests)
+✅ **Phase 3 complete!** (Settings, Notifications, Streak tracking)
+⏳ **Phase 4 in progress** (Action library expansion, UI enhancements, Cloud Functions, Analytics)
+📊 **713 tests passing** (up from 657)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -635,7 +637,7 @@ flutter build apk --dart-define=REVENUECAT_KEY=pk_xxxxx
 
 **Deliverable:** Mascot that evolves as user levels up. ✅ Complete!
 
-### Phase 3: Engagement & Settings ✅ COMPLETE (~98%)
+### Phase 3: Engagement & Settings ✅ COMPLETE
 **Goal:** Habit formation features and user preferences
 
 **Overview:** The core app loop is complete. Phase 3 focuses on features that drive daily engagement: reminders, streak tracking, and user control over settings.
@@ -797,7 +799,7 @@ lib/features/settings/
 
 ---
 
-### Phase 4: Action Library Expansion & Core Features ⏳ PLANNED
+### Phase 4: Action Library Expansion & Core Features ⏳ IN PROGRESS
 **Goal:** Expand action library to ~100 actions covering all 17 SDGs, add cosmetic shop, complete core features
 
 See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for detailed implementation plan.
@@ -805,15 +807,15 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Action library expansion | Research and add ~71 new actions | P0 | Planned |
-| Action library UI | Search, sort, filter by SDG | P0 | Planned |
-| SDG detail enhancement | Related actions + personal stats | P0 | Planned |
-| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Planned |
-| Mascot species unlocking | 3 species, point-based unlocks | P0 | Planned |
-| Streak break Cloud Function | Push notification for at-risk streaks | P1 | Planned |
-| Firebase Analytics | Event tracking implementation | P0 | Planned |
-| Firebase Crashlytics | Crash reporting setup | P0 | Planned |
-| Privacy policy & terms | Generate and display legal docs | P0 | Planned |
+| Action library expansion | Research and add ~66 new actions (34/~100 done) | P0 | In Progress |
+| Action library UI | Search, sort, filter by SDG | P0 | ✅ Done |
+| SDG detail enhancement | Related actions + personal stats | P0 | Pending |
+| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Pending |
+| Mascot species unlocking | 3 species, point-based unlocks | P0 | Pending |
+| Streak break Cloud Function | Push notification for at-risk streaks | P1 | ✅ Done |
+| Firebase Analytics | Event tracking implementation | P0 | ✅ Done |
+| Firebase Crashlytics | Crash reporting setup | P0 | Pending |
+| Privacy policy & terms | Generate and display legal docs | P0 | Pending |
 
 **Deliverable:** Complete action library covering all SDGs, cosmetic shop, analytics, legal compliance.
 
@@ -1051,27 +1053,35 @@ This keeps small actions rewarding while making big actions feel appropriately i
 - ~~Streak milestone celebrations~~ ✅ Done (weekly milestones)
 
 **Testing:**
-- ~~Unit & widget tests~~ ✅ Done (256 Phase 3 tests, 657 total)
+- ~~Unit & widget tests~~ ✅ Done (256 Phase 3 tests, 713 total)
 
 ### Current Priority (Phase 4)
 
 See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
 
+**Completed so far:**
+- ✅ Action Library UI (search, sort, filter, SDG badges, learn-only badge)
+- ✅ Firebase Analytics (AnalyticsService with all events, Riverpod provider)
+- ✅ Streak break Cloud Function (scheduled, localized, with 16 tests)
+- ✅ About screen with legal link placeholders
+- ✅ Community category added (7 categories total)
+- ✅ isLearnOnly support for educational actions
+- ✅ 34 research-backed actions in seed script
+
+**Remaining work:**
 1. **Action Library Expansion (Major Focus):**
-   - Research ~71 new actions with CO₂ data
-   - Cover all 17 UN SDGs
-   - Add search, sort, filter functionality
-   - Enhance SDG detail screen with related actions
+   - Research ~66 more actions with CO₂ data
+   - Cover remaining 8 SDGs (1, 4, 5, 8, 9, 10, 16, 17)
+   - Seed Firestore with expanded action library
 
-2. **Cosmetic Shop:**
-   - 5 initial items (hats, accessories, backgrounds)
-   - Purchase with points
-   - Equip items on mascot
+2. **SDG Detail Screen Enhancement:**
+   - Personal stats per SDG, related actions grid
 
-3. **Core Features:**
+3. **Cosmetic Shop:**
+   - 5 initial items, purchase with points, equip on mascot
+
+4. **Remaining Core Features:**
    - Mascot species unlocking (3 species)
-   - Streak break Cloud Function
-   - Firebase Analytics events
    - Firebase Crashlytics
    - Privacy policy & terms of service
 
