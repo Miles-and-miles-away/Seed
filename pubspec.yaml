@@ -63,6 +63,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mascot/
+    - assets/images/sdg_infographics/
     - assets/icons/
     - assets/animations/
 

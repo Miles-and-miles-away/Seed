@@ -3,7 +3,7 @@
 **Version:** 1.2
 **Created:** January 2026
 **Updated:** February 14, 2026
-**Status:** In Progress (6/10 features complete)
+**Status:** In Progress (5.5/10 features complete)
 
 ---
 
@@ -75,7 +75,7 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 |---------|----------|------------|--------|
 | 4.1 Action Library Research | P0 | High | Complete |
 | 4.2 Action Library UI Enhancement | P0 | Medium | Complete |
-| 4.3 SDG Detail Screen Enhancement | P0 | Medium | Complete |
+| 4.3 SDG Detail Screen Enhancement | P0 | Medium | In Progress |
 | 4.4 Cosmetic Shop | P0 | Medium | Pending |
 | 4.5 Mascot Species Unlocking | P0 | Low | Pending |
 | 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
@@ -282,9 +282,9 @@ Search, sort, and filter capabilities fully implemented in the action library.
 
 ### 4.3 SDG Detail Screen v2
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** Complete
+**Priority:** P0 | **Complexity:** Medium | **Status:** In Progress
 
-Enhanced SDG detail screen with related actions, personal statistics, and learn-only variant.
+Enhanced SDG detail screen with related actions, personal statistics, targets data, and learn-only variant.
 
 #### Implementation (Completed Feb 14, 2026)
 
@@ -295,6 +295,18 @@ Enhanced SDG detail screen with related actions, personal statistics, and learn-
 - **SdgStats Freezed model** + stream provider
 - **SDG resources data** - 2 resources per SDG (official + actionable)
 - **ConsumerStatefulWidget** with conditional layout based on `isLearnOnly`
+
+#### Remaining: SDG Goal Targets Section
+
+Display the official UN targets for each SDG on the Goal detail page. Data source: `Plan/sdg_indicator_metadata/sdg_goal_*.json` (extracted from official UN indicator metadata documents).
+
+- **SdgTargetsList widget** - Expandable list of targets for the current Goal
+  - Each target shows its code (e.g. "12.1") and full target text
+  - Tappable to expand and show associated indicators with definitions
+  - Collapsed by default to keep the page scannable
+- **Data loading** - Parse target/indicator data from bundled JSON or Dart data file
+- **Placement** - Between "Your Impact" and "Log an Action" sections (or after description for learn-only SDGs)
+- Localize section header (EN/ES/JA)
 
 #### UI Design
 
@@ -379,6 +391,11 @@ Enhanced SDG detail screen with related actions, personal statistics, and learn-
 | Update SdgDetailScreen | Rebuilt as ConsumerStatefulWidget | Done |
 | Localize new strings | Section headers, descriptions (EN/ES/JA) | Done |
 | Update widget tests | ProviderScope wrapper, new expectations | Done |
+| Create SDG targets data | Dart data file or bundled JSON with targets per Goal from `Plan/sdg_indicator_metadata/` | Pending |
+| Create SdgTargetsList widget | Expandable list showing target code, text, and indicator details | Pending |
+| Integrate targets into detail screen | Add targets section to SdgDetailScreen layout | Pending |
+| Localize targets section header | "Targets" header string (EN/ES/JA) | Pending |
+| Write targets widget tests | Expand/collapse, correct target count per Goal | Pending |
 
 #### Files to Create/Modify
 
@@ -386,8 +403,10 @@ Enhanced SDG detail screen with related actions, personal statistics, and learn-
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_impact_card.dart`
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_actions_grid.dart`
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_resources_list.dart`
+- **Create:** `lib/features/sdg/presentation/widgets/sdg_targets_list.dart`
 - **Create:** `lib/features/sdg/presentation/providers/sdg_stats_provider.dart`
 - **Create:** `lib/features/sdg/data/sdg_resources.dart`
+- **Create:** `lib/features/sdg/data/sdg_targets_data.dart` (targets + indicators per Goal)
 - **Modify:** `lib/features/sdg/data/sdg_data.dart` (add isLearnOnly flag)
 
 ---
@@ -897,7 +916,7 @@ Based on estimated user activity levels:
 ├── Add learn-only badge + info dialog            DONE
 └── Write tests                                   DONE
 
-4.3  SDG Detail Screen Enhancement             -- COMPLETE
+4.3  SDG Detail Screen Enhancement             -- IN PROGRESS
 ├── Add isLearnOnly to SdgGoal                    DONE
 ├── Create SDG stats provider                     DONE
 ├── Add "Your Impact" section                     DONE
@@ -905,7 +924,11 @@ Based on estimated user activity levels:
 ├── Create "Learn Only" variant                   DONE
 ├── Create SDG resources data (all 17 SDGs)       DONE
 ├── Localize strings (EN/ES/JA)                   DONE
-└── Update tests                                  DONE
+├── Update tests                                  DONE
+├── Create SDG targets data file                  PENDING
+├── Create SdgTargetsList widget                  PENDING
+├── Integrate targets into detail screen          PENDING
+└── Write targets widget tests                    PENDING
 
 4.4  Cosmetic Shop                             -- PENDING
 ├── Create data models
@@ -1083,8 +1106,10 @@ Based on estimated user activity levels:
 - Action library expansion is the largest effort; track progress by SDG completion
 - Use RESEARCH_STRATEGY.md to maintain consistency
 - ACTIONS_RESEARCH.md contains currently up-to-date researched data
-- `co2_actions_database.csv` and `co2_actions_database.json` contain data to be used in the app. These files should be moved to appropriate location as needed. 
+- `co2_actions_database.csv` and `co2_actions_database.json` contain data to be used in the app. These files should be moved to appropriate location as needed.
 - `sdg_world_state_fully_sourced.json` contains lots of infomation on the SDGs. This should also be incorporated into the SDG info carousel
+- `Plan/sdg_indicator_metadata/` contains 17 JSON files (`sdg_goal_01.json` through `sdg_goal_17.json`) with structured UN SDG indicator metadata extracted from official documents. Each file contains targets, indicators, definitions, concepts, classifications, rationale, and custodian agencies for one Goal. Extracted using `../SeedResources/extract_sdg_metadata.py` from the `.docx` files in `../SeedResources/SDG-indicator-metadata/`
+- `assets/images/sdg_infographics/` contains `sdg_infographic_1.jpg` through `sdg_infographic_17.jpg` -- one infographic per SDG from the UN SDG Report 2022. These should be displayed in the SDG detail screen or info carousel to give users a visual overview of each goal's global progress
 - Cosmetic items should be simple initially; can add more in Phase 6
 - Placeholder mascot art is acceptable for soft launch
 - Monitor Cloud Function costs after deployment

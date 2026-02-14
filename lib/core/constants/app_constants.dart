@@ -44,6 +44,9 @@ abstract class AppConstants {
   static const sdgMinGoal = 1;
   static const sdgMaxGoal = 17;
 
+  // SDG URLs
+  static const sdgGoalsUrl = 'https://sdgs.un.org/goals';
+
   // Auth throttling
   static const authCooldownSeconds = 3;
 }
