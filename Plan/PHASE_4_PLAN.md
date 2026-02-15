@@ -2,8 +2,8 @@
 
 **Version:** 1.2
 **Created:** January 2026
-**Updated:** February 14, 2026
-**Status:** In Progress (6.5/10 features complete)
+**Updated:** February 15, 2026
+**Status:** In Progress (7.5/10 features complete)
 
 ---
 
@@ -75,14 +75,14 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 |---------|----------|------------|--------|
 | 4.1 Action Library Research | P0 | High | Complete |
 | 4.2 Action Library UI Enhancement | P0 | Medium | Complete |
-| 4.3 SDG Detail Screen Enhancement | P0 | Medium | In Progress |
+| 4.3 SDG Detail Screen Enhancement | P0 | Medium | Complete |
 | 4.4 Cosmetic Shop | P0 | Medium | Pending |
 | 4.5 Mascot Species Unlocking | P0 | Low | Pending |
 | 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
 | 4.7 Firebase Analytics | P0 | Low | Complete |
-| 4.8 Firebase Crashlytics | P0 | Low | Pending |
+| 4.8 Firebase Crashlytics | P0 | Low | Complete |
 | 4.9 Privacy Policy & Terms | P0 | Low | Complete |
-| 4.10 Polish Items | P2 | Low | Pending |
+| 4.10 Polish Items | P2 | Low | In Progress |
 
 ---
 
@@ -282,7 +282,7 @@ Search, sort, and filter capabilities fully implemented in the action library.
 
 ### 4.3 SDG Detail Screen v2
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** In Progress
+**Priority:** P0 | **Complexity:** Medium | **Status:** Complete
 
 Enhanced SDG detail screen with related actions, personal statistics, targets data, and learn-only variant.
 
@@ -296,17 +296,18 @@ Enhanced SDG detail screen with related actions, personal statistics, targets da
 - **SDG resources data** - 2 resources per SDG (official + actionable)
 - **ConsumerStatefulWidget** with conditional layout based on `isLearnOnly`
 
-#### Remaining: SDG Goal Targets Section
+#### SDG Goal Targets Section (Completed Feb 15, 2026)
 
-Display the official UN targets for each SDG on the Goal detail page. Data source: `Plan/sdg_indicator_metadata/sdg_goal_*.json` (extracted from official UN indicator metadata documents).
+All 169 official UN targets displayed on the Goal detail page. Data extracted from `Plan/sdg_indicator_metadata/sdg_goal_*.json`.
 
-- **SdgTargetsList widget** - Expandable list of targets for the current Goal
-  - Each target shows its code (e.g. "12.1") and full target text
-  - Tappable to expand and show associated indicators with definitions
-  - Collapsed by default to keep the page scannable
-- **Data loading** - Parse target/indicator data from bundled JSON or Dart data file
-- **Placement** - Between "Your Impact" and "Log an Action" sections (or after description for learn-only SDGs)
-- Localize section header (EN/ES/JA)
+- **SdgTargetsSection widget** - "About this Goal" section with animated expand/collapse
+  - Shows goal description by default
+  - Tap chevron to expand and reveal all targets for the Goal
+  - Each target shows its code badge (e.g. "12.1") in goal color + description text
+  - Uses const Dart data (no async loading needed)
+- **sdg_targets.dart** - Const `Map<int, List<SdgTarget>>` with all 169 targets across 17 goals
+- **Placement** - Between goal title and content sections
+- Localized section headers (EN/ES/JA): "About this Goal", "UN Targets", "View targets"
 
 #### UI Design
 
@@ -391,10 +392,10 @@ Display the official UN targets for each SDG on the Goal detail page. Data sourc
 | Update SdgDetailScreen | Rebuilt as ConsumerStatefulWidget | Done |
 | Localize new strings | Section headers, descriptions (EN/ES/JA) | Done |
 | Update widget tests | ProviderScope wrapper, new expectations | Done |
-| Create SDG targets data | Dart data file or bundled JSON with targets per Goal from `Plan/sdg_indicator_metadata/` | Pending |
-| Create SdgTargetsList widget | Expandable list showing target code, text, and indicator details | Pending |
-| Integrate targets into detail screen | Add targets section to SdgDetailScreen layout | Pending |
-| Localize targets section header | "Targets" header string (EN/ES/JA) | Pending |
+| Create SDG targets data | Const Dart map with all 169 targets in `sdg_targets.dart` | Done |
+| Create SdgTargetsSection widget | Expandable section with animated chevron, target code badges | Done |
+| Integrate targets into detail screen | Replaced static description with SdgTargetsSection | Done |
+| Localize targets section header | sdgAboutGoal, sdgViewTargets, sdgTargetsTitle (EN/ES/JA) | Done |
 | Write targets widget tests | Expand/collapse, correct target count per Goal | Pending |
 
 #### Files to Create/Modify
@@ -403,10 +404,10 @@ Display the official UN targets for each SDG on the Goal detail page. Data sourc
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_impact_card.dart`
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_actions_grid.dart`
 - **Create:** `lib/features/sdg/presentation/widgets/sdg_resources_list.dart`
-- **Create:** `lib/features/sdg/presentation/widgets/sdg_targets_list.dart`
+- **Create:** `lib/features/sdg/presentation/widgets/sdg_targets_section.dart`
 - **Create:** `lib/features/sdg/presentation/providers/sdg_stats_provider.dart`
 - **Create:** `lib/features/sdg/data/sdg_resources.dart`
-- **Create:** `lib/features/sdg/data/sdg_targets_data.dart` (targets + indicators per Goal)
+- **Create:** `lib/features/sdg/data/sdg_targets.dart` (const map of all 169 targets)
 - **Modify:** `lib/features/sdg/data/sdg_data.dart` (add isLearnOnly flag)
 
 ---
@@ -756,7 +757,7 @@ class AnalyticsService {
 
 ### 4.8 Firebase Crashlytics
 
-**Priority:** P0 | **Complexity:** Low
+**Priority:** P0 | **Complexity:** Low | **Status:** Complete
 
 Configure crash reporting for production monitoring.
 
@@ -919,7 +920,7 @@ Based on estimated user activity levels:
 ├── Add learn-only badge + info dialog            DONE
 └── Write tests                                   DONE
 
-4.3  SDG Detail Screen Enhancement             -- IN PROGRESS
+4.3  SDG Detail Screen Enhancement             -- COMPLETE
 ├── Add isLearnOnly to SdgGoal                    DONE
 ├── Create SDG stats provider                     DONE
 ├── Add "Your Impact" section                     DONE
@@ -928,9 +929,9 @@ Based on estimated user activity levels:
 ├── Create SDG resources data (all 17 SDGs)       DONE
 ├── Localize strings (EN/ES/JA)                   DONE
 ├── Update tests                                  DONE
-├── Create SDG targets data file                  PENDING
-├── Create SdgTargetsList widget                  PENDING
-├── Integrate targets into detail screen          PENDING
+├── Create SDG targets data (sdg_targets.dart)    DONE
+├── Create SdgTargetsSection widget               DONE
+├── Integrate targets into detail screen          DONE
 └── Write targets widget tests                    PENDING
 
 4.4  Cosmetic Shop                             -- PENDING
@@ -978,12 +979,16 @@ Based on estimated user activity levels:
 ├── In-app rendering (no hosting needed)         DONE
 └── Localize (EN/ES/JA)                          DONE
 
-4.10 Polish & Testing                          -- PENDING
-├── End-to-end testing
-├── Bug fixes
-├── Performance optimization
-├── Documentation updates
-└── Prepare for Phase 5
+4.10 Polish & Testing                          -- IN PROGRESS
+├── Remove "+" prefix from points displays       DONE
+├── Improve bottom sheet text readability         DONE
+├── Add close button to science bottom sheet      DONE
+├── Change points animation icon to sparkle       DONE
+├── End-to-end testing                           PENDING
+├── Bug fixes                                    PENDING
+├── Performance optimization                     PENDING
+├── Documentation updates                        PENDING
+└── Prepare for Phase 5                          PENDING
 ```
 
 ---

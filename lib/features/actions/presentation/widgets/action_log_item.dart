@@ -106,7 +106,7 @@ class ActionLogItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
-                '+${actionLog.points}',
+                '${actionLog.points}',
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: categoryColor,
                   fontWeight: FontWeight.bold,

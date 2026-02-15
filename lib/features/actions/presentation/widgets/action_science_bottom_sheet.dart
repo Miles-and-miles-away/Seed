@@ -63,16 +63,31 @@ class ActionScienceBottomSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                action.name(languageCode),
-                style:
-                    theme.textTheme.titleLarge?.copyWith(
-                  color: categoryColor,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              padding: const EdgeInsets.only(
+                left: 24,
+                right: 8,
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 40),
+                  Expanded(
+                    child: Text(
+                      action.name(languageCode),
+                      style: theme.textTheme
+                          .titleLarge
+                          ?.copyWith(
+                        color: categoryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () =>
+                        Navigator.of(context).pop(),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
@@ -87,8 +102,9 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   configs: [
                     PConfig(
                       textStyle: TextStyle(
-                        fontSize: 15,
-                        height: 1.6,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        height: 1.7,
                         color: theme
                             .colorScheme.onSurface,
                       ),

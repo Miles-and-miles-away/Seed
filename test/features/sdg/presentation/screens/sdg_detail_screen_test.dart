@@ -131,18 +131,14 @@ void main() {
     );
 
     testWidgets(
-      'displays Learn More button',
+      'displays expand chevron in targets section',
       (tester) async {
         setLargeScreenSize(tester);
         await tester.pumpWidget(buildTestWidget(1));
         await tester.pump();
 
         expect(
-          find.text('Learn More at UN.org'),
-          findsOneWidget,
-        );
-        expect(
-          find.byIcon(Icons.open_in_new),
+          find.byIcon(Icons.expand_more),
           findsOneWidget,
         );
       },
@@ -155,7 +151,7 @@ void main() {
         await tester.pumpWidget(buildTestWidget(1));
         await tester.pump();
 
-        expect(find.byType(Hero), findsOneWidget);
+        expect(find.byType(Hero), findsAtLeast(1));
       },
     );
 

@@ -7,7 +7,7 @@
 
   "navHome": "ホーム",
   "navProgress": "進捗",
-  "navLogAction": "記録",
+  "navLogAction": "アクション",
   "navMascot": "マスコット",
   "navProfile": "プロフィール",
   "navSettings": "設定",
@@ -35,7 +35,7 @@
 
   "actionLogTitle": "アクションを記録",
   "actionSearchHint": "アクションを検索...",
-  "actionLogged": "記録しました！ +{points}ポイント",
+  "actionLogged": "記録しました！ {points}ポイント獲得",
   "@actionLogged": {
     "placeholders": {
       "points": {"type": "int"}
@@ -327,5 +327,9 @@
 
   "maxEvolutionTitle": "最大進化！",
   "maxEvolutionSubtitle": "あなたの相棒は最高の姿に到達しました！",
-  "maxEvolutionEggHint": "タマゴを育てて新しい相棒を見つけよう！"
+  "maxEvolutionEggHint": "タマゴを育てて新しい相棒を見つけよう！",
+
+  "sdgAboutGoal": "この目標について",
+  "sdgViewTargets": "ターゲットを見る",
+  "sdgTargetsTitle": "国連ターゲット"
 }

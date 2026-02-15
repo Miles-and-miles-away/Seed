@@ -158,7 +158,7 @@ class _DateGroup extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '+$totalPoints pts',
+                  '$totalPoints pts',
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: theme.colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.bold,

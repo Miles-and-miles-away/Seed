@@ -72,25 +72,11 @@ class _MainShellState extends ConsumerState<MainShell> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: widget.navigationShell,
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'log_action_fab',
-        onPressed: () => context.push('/log-action'),
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        elevation: 4,
-        child: const Icon(Icons.add, size: 28),
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
         padding: EdgeInsets.zero,
         height: 65,
         child: Row(
@@ -112,7 +98,13 @@ class _MainShellState extends ConsumerState<MainShell> {
                   widget.navigationShell.currentIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
-            const SizedBox(width: 56),
+            _NavBarItem(
+              icon: Icons.add_circle_outline,
+              selectedIcon: Icons.add_circle,
+              label: l10n.navLogAction,
+              isSelected: false,
+              onTap: () => context.push('/log-action'),
+            ),
             _NavBarItem(
               icon: Icons.pets_outlined,
               selectedIcon: Icons.pets,

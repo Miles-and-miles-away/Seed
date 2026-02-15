@@ -108,7 +108,7 @@ class _ActionLogConfirmationDialogState
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '+${widget.action.points} points',
+                    l10n.pointsLabel(widget.action.points),
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -134,24 +134,12 @@ class _ActionLogConfirmationDialogState
                   ),
                   const SizedBox(height: 16),
                 ],
-                // CO2 savings if available
+                // CO2 savings - tappable to show science
                 if (widget.action.co2Grams > 0) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.eco,
-                        size: 16,
-                        color: theme.colorScheme.primary,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ],
+                  _buildCo2Row(
+                    theme,
+                    l10n,
+                    categoryColor,
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -208,15 +196,105 @@ class _ActionLogConfirmationDialogState
         .descriptionLong(widget.languageCode)
         .isNotEmpty;
 
-    if (!hasLong) {
-      return Text(
-        desc,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
+    // Learn-only actions (co2=0) keep description
+    // as the hyperlink to science info
+    if (hasLong && widget.action.co2Grams == 0) {
+      return GestureDetector(
+        onTap: () => ActionScienceBottomSheet.show(
+          context,
+          action: widget.action,
+          languageCode: widget.languageCode,
         ),
-        textAlign: TextAlign.center,
+        child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                desc,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(
+                  color: categoryColor,
+                  fontWeight: FontWeight.w500,
+                  decoration:
+                      TextDecoration.underline,
+                  decorationColor: categoryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              Icons.info_outline,
+              size: 16,
+              color: categoryColor,
+            ),
+          ],
+        ),
       );
     }
+
+    return Text(
+      desc,
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildCo2Row(
+    ThemeData theme,
+    AppLocalizations l10n,
+    Color categoryColor,
+  ) {
+    final hasLong = widget.action
+        .descriptionLong(widget.languageCode)
+        .isNotEmpty;
+    final co2Text = l10n.co2Saved(
+      formatCO2Compact(widget.action.co2Grams),
+    );
+
+    final row = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.eco,
+          size: 16,
+          color: hasLong
+              ? categoryColor
+              : theme.colorScheme.primary,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          co2Text,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: hasLong
+                ? categoryColor
+                : theme.colorScheme.primary,
+            fontWeight:
+                hasLong ? FontWeight.w500 : null,
+            decoration: hasLong
+                ? TextDecoration.underline
+                : null,
+            decorationColor:
+                hasLong ? categoryColor : null,
+          ),
+        ),
+        if (hasLong) ...[
+          const SizedBox(width: 4),
+          Icon(
+            Icons.info_outline,
+            size: 14,
+            color: categoryColor,
+          ),
+        ],
+      ],
+    );
+
+    if (!hasLong) return row;
 
     return GestureDetector(
       onTap: () => ActionScienceBottomSheet.show(
@@ -224,30 +302,7 @@ class _ActionLogConfirmationDialogState
         action: widget.action,
         languageCode: widget.languageCode,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Text(
-              desc,
-              style:
-                  theme.textTheme.bodyMedium?.copyWith(
-                color: categoryColor,
-                decoration: TextDecoration.underline,
-                decorationColor: categoryColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Icon(
-            Icons.info_outline,
-            size: 16,
-            color: categoryColor,
-          ),
-        ],
-      ),
+      child: row,
     );
   }
 }

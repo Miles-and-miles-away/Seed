@@ -266,7 +266,7 @@ const actions = [
       'Llevar electronica vieja a un centro '
       + 'de reciclaje',
     category: 'recycling',
-    co2Grams: 5000, // mixed electronics drop-off batch
+    co2Grams: 2000, // per-phone: one device
     effort: 3, // collect, transport to center
     frequency: 1, // rare: few times per year
     impact: 4, // prevents toxic contamination
@@ -289,7 +289,7 @@ const actions = [
       'Donar o reciclar ropa y textiles '
       + 'viejos',
     category: 'recycling',
-    co2Grams: 14000, // ~0.5-1kg; reuse saves 25kg/kg
+    co2Grams: 40000, // per-bag: ~3kg x 13kg/kg
     effort: 2, // sort, bag, donate/drop off
     frequency: 2, // seasonal decluttering
     impact: 3, // high-impact industry
@@ -346,7 +346,7 @@ const actions = [
   },
 
   // ---------------------------------------------------------
-  // TRANSPORT (12 actions)
+  // TRANSPORT (11 actions)
   // Research: DEFRA 2024 petrol car avg 164g CO2/km
   // ---------------------------------------------------------
   {
@@ -355,8 +355,8 @@ const actions = [
     nameJa: '車の代わりに徒歩',
     nameEs: 'Caminar en vez de conducir',
     descriptionEn:
-      'Walk to your destination instead '
-      + 'of driving',
+      'Walk to your destination (~1.5 km) '
+      + 'instead of driving',
     descriptionJa:
       '車を使わずに目的地まで歩く',
     descriptionEs:
@@ -370,7 +370,7 @@ const actions = [
     iconName: 'directions_walk',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
-    sortOrder: 10,
+    sortOrder: 1,
   },
   {
     id: 'bike_short_trip',
@@ -394,7 +394,7 @@ const actions = [
     iconName: 'pedal_bike',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
-    sortOrder: 11,
+    sortOrder: 2,
   },
   {
     id: 'bike_medium_trip',
@@ -418,7 +418,7 @@ const actions = [
     iconName: 'pedal_bike',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
-    sortOrder: 12,
+    sortOrder: 3,
   },
   {
     id: 'public_transport',
@@ -426,7 +426,8 @@ const actions = [
     nameJa: '公共交通機関を利用',
     nameEs: 'Usar transporte publico',
     descriptionEn:
-      'Take bus or train instead of driving',
+      'Take bus or train instead of driving '
+      + '(~10 km trip)',
     descriptionJa:
       '車の代わりにバスや電車を利用',
     descriptionEs:
@@ -440,7 +441,7 @@ const actions = [
     iconName: 'train',
     relatedSdgs: ['9', '11', '13'],
     isActive: true,
-    sortOrder: 13,
+    sortOrder: 4,
   },
   {
     id: 'carpool',
@@ -448,7 +449,8 @@ const actions = [
     nameJa: '相乗りで移動',
     nameEs: 'Compartir auto',
     descriptionEn:
-      'Share a ride instead of driving alone',
+      'Share a ride instead of driving '
+      + 'alone (~10 km trip)',
     descriptionJa:
       '一人で運転する代わりに相乗りする',
     descriptionEs:
@@ -462,29 +464,31 @@ const actions = [
     iconName: 'people',
     relatedSdgs: ['11', '13'],
     isActive: true,
-    sortOrder: 14,
+    sortOrder: 5,
   },
   {
-    id: 'electric_car_commute',
-    nameEn: 'Electric Car Commute',
-    nameJa: '電気自動車で通勤',
-    nameEs: 'Ir al trabajo en auto electrico',
+    id: 'electric_car_purchase',
+    nameEn: 'Purchase Electric Vehicle',
+    nameJa: '電気自動車を購入',
+    nameEs: 'Comprar vehiculo electrico',
     descriptionEn:
-      'Drive an EV instead of a gasoline car',
+      'Purchase an electric vehicle '
+      + 'instead of a gasoline car',
     descriptionJa:
-      'ガソリン車の代わりに電気自動車を使用',
+      'ガソリン車の代わりに電気自動車を'
+      + '購入する',
     descriptionEs:
-      'Conducir un auto electrico en vez de '
-      + 'uno de gasolina',
+      'Comprar un vehiculo electrico en '
+      + 'vez de uno de gasolina',
     category: 'transport',
-    co2Grams: 1500, // 16km; EV ~70g/km vs 164g petrol
-    effort: 2, // same as driving gas car
-    frequency: 4, // daily commuters
-    impact: 3, // drives EV market demand
+    co2Grams: 3400000, // one-time milestone
+    effort: 5,
+    frequency: 1,
+    impact: 4,
     iconName: 'electric_car',
     relatedSdgs: ['7', '11', '13'],
     isActive: true,
-    sortOrder: 15,
+    sortOrder: 6,
   },
   {
     id: 'train_vs_flight',
@@ -507,7 +511,7 @@ const actions = [
     iconName: 'train',
     relatedSdgs: ['13'],
     isActive: true,
-    sortOrder: 16,
+    sortOrder: 7,
   },
   {
     id: 'take_bus',
@@ -516,7 +520,7 @@ const actions = [
     nameEs: 'Tomar el autobus',
     descriptionEn:
       'Take a bus instead of driving '
-      + 'for your commute',
+      + '(~7 km trip)',
     descriptionJa:
       '通勤に車の代わりにバスを利用',
     descriptionEs:
@@ -530,30 +534,7 @@ const actions = [
     iconName: 'bus',
     relatedSdgs: ['9', '11', '13'],
     isActive: true,
-    sortOrder: 17,
-  },
-  {
-    id: 'work_from_home',
-    nameEn: 'Work From Home',
-    nameJa: '在宅勤務',
-    nameEs: 'Trabajar desde casa',
-    descriptionEn:
-      'Work from home to avoid commute '
-      + 'emissions',
-    descriptionJa:
-      '通勤による排出を避けるため在宅勤務',
-    descriptionEs:
-      'Trabajar desde casa para evitar '
-      + 'emisiones del traslado',
-    category: 'transport',
-    co2Grams: 4500, // avg ~15km x 2 x 164g/km commute
-    effort: 1, // trivial if job allows it
-    frequency: 4, // most workdays
-    impact: 2, // individual behavior change
-    iconName: 'bolt',
-    relatedSdgs: ['8', '11', '13'],
-    isActive: true,
-    sortOrder: 18,
+    sortOrder: 8,
   },
   {
     id: 'escooter_trip',
@@ -577,7 +558,7 @@ const actions = [
     iconName: 'electric_bolt',
     relatedSdgs: ['11', '13'],
     isActive: true,
-    sortOrder: 19,
+    sortOrder: 9,
   },
   {
     id: 'ev_charging_green',
@@ -601,7 +582,7 @@ const actions = [
     iconName: 'ev_station',
     relatedSdgs: ['7', '11', '13'],
     isActive: true,
-    sortOrder: 20,
+    sortOrder: 10,
   },
   {
     id: 'combine_errands',
@@ -625,81 +606,60 @@ const actions = [
     iconName: 'local_shipping',
     relatedSdgs: ['11', '13'],
     isActive: true,
-    sortOrder: 21,
+    sortOrder: 11,
   },
 
   // ---------------------------------------------------------
-  // FOOD (15 actions)
+  // FOOD (10 actions)
   // Research: Poore & Nemecek 2018, Our World in Data, EPA
   // ---------------------------------------------------------
   {
-    id: 'meatless_meal_beef',
-    nameEn: 'Skip Beef Meal',
-    nameJa: '牛肉なしの食事',
-    nameEs: 'Evitar comida con carne de res',
+    id: 'skip_high_impact_food',
+    nameEn: 'Skip High-Impact Meal',
+    nameJa: '高インパクトの食事をスキップ',
+    nameEs: 'Evitar comida de alto impacto',
     descriptionEn:
       'Choose a plant-based meal instead '
-      + 'of beef',
+      + 'of beef or lamb today',
     descriptionJa:
-      '牛肉の代わりに植物性の食事を選択',
+      '今日は牛肉やラム肉の代わりに'
+      + '植物性の食事を選択する',
     descriptionEs:
       'Elegir una comida vegetal en vez '
-      + 'de carne de res',
+      + 'de carne de res o cordero hoy',
     category: 'food',
-    co2Grams: 6000, // ~150g beef; Poore 2018 ~60kg/kg
-    effort: 2, // choose plant option instead
-    frequency: 3, // weekly: not daily for most
-    impact: 4, // land use, methane, deforestation
+    co2Grams: 6000,
+    effort: 2,
+    frequency: 3,
+    impact: 4,
     iconName: 'eco',
     relatedSdgs: ['2', '12', '13', '15'],
     isActive: true,
-    sortOrder: 20,
+    sortOrder: 1,
   },
   {
-    id: 'meatless_meal_chicken',
-    nameEn: 'Skip Chicken Meal',
-    nameJa: '鶏肉なしの食事',
-    nameEs: 'Evitar comida con pollo',
+    id: 'skip_medium_impact_food',
+    nameEn: 'Skip Medium-Impact Meal',
+    nameJa: '中程度インパクトの食事をスキップ',
+    nameEs: 'Evitar comida de impacto medio',
     descriptionEn:
       'Choose a plant-based meal instead '
-      + 'of chicken',
+      + 'of chicken, pork, or fish today',
     descriptionJa:
-      '鶏肉の代わりに植物性の食事を選択',
+      '今日は鶏肉、豚肉、魚の代わりに'
+      + '植物性の食事を選択する',
     descriptionEs:
       'Elegir una comida vegetal en vez '
-      + 'de pollo',
+      + 'de pollo, cerdo o pescado hoy',
     category: 'food',
-    co2Grams: 1000, // ~150g x 6.9kg/kg (Poore 2018)
-    effort: 2, // choose plant option instead
-    frequency: 3, // weekly: common meat choice
-    impact: 2, // lower land/methane than beef
+    co2Grams: 1000,
+    effort: 2,
+    frequency: 3,
+    impact: 2,
     iconName: 'eco',
-    relatedSdgs: ['2', '12', '13'],
+    relatedSdgs: ['2', '12', '13', '14'],
     isActive: true,
-    sortOrder: 21,
-  },
-  {
-    id: 'meatless_meal_pork',
-    nameEn: 'Skip Pork Meal',
-    nameJa: '豚肉なしの食事',
-    nameEs: 'Evitar comida con cerdo',
-    descriptionEn:
-      'Choose a plant-based meal instead '
-      + 'of pork',
-    descriptionJa:
-      '豚肉の代わりに植物性の食事を選択',
-    descriptionEs:
-      'Elegir una comida vegetal en vez '
-      + 'de cerdo',
-    category: 'food',
-    co2Grams: 1100, // ~150g x 7.6kg/kg (Poore 2018)
-    effort: 2, // choose plant option instead
-    frequency: 3, // weekly: varies by culture
-    impact: 2, // moderate systemic impact
-    iconName: 'eco',
-    relatedSdgs: ['2', '12', '13'],
-    isActive: true,
-    sortOrder: 22,
+    sortOrder: 2,
   },
   {
     id: 'no_food_waste',
@@ -721,30 +681,7 @@ const actions = [
     iconName: 'food_bank',
     relatedSdgs: ['2', '12', '13'],
     isActive: true,
-    sortOrder: 23,
-  },
-  {
-    id: 'local_produce',
-    nameEn: 'Buy Local Produce',
-    nameJa: '地元の農産物を購入',
-    nameEs: 'Comprar productos locales',
-    descriptionEn:
-      'Buy locally grown fruits or '
-      + 'vegetables',
-    descriptionJa:
-      '地元で栽培された野菜や果物を購入',
-    descriptionEs:
-      'Comprar frutas o verduras cultivadas '
-      + 'localmente',
-    category: 'food',
-    co2Grams: 100, // transport only ~6% of food CO2
-    effort: 2, // find local/farmers market
-    frequency: 3, // weekly grocery trips
-    impact: 2, // limited climate impact (Ritchie)
-    iconName: 'storefront',
-    relatedSdgs: ['12', '13'],
-    isActive: true,
-    sortOrder: 24,
+    sortOrder: 3,
   },
   {
     id: 'plant_milk',
@@ -767,7 +704,7 @@ const actions = [
     iconName: 'local_cafe',
     relatedSdgs: ['12', '13', '15'],
     isActive: true,
-    sortOrder: 25,
+    sortOrder: 4,
   },
   {
     id: 'seasonal_produce',
@@ -790,53 +727,31 @@ const actions = [
     iconName: 'grass',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 26,
+    sortOrder: 5,
   },
   {
-    id: 'home_cooked_meal',
-    nameEn: 'Cook at Home',
-    nameJa: '自炊する',
-    nameEs: 'Cocinar en casa',
+    id: 'skip_food_delivery',
+    nameEn: 'Skip Food Delivery',
+    nameJa: 'フードデリバリーをスキップ',
+    nameEs: 'Evitar delivery de comida',
     descriptionEn:
-      'Cook a meal at home instead of '
-      + 'ordering takeout',
+      'Cook at home instead of ordering '
+      + 'food delivery today',
     descriptionJa:
-      'テイクアウトの代わりに自炊する',
+      '今日はフードデリバリーの代わりに'
+      + '自炊する',
     descriptionEs:
       'Cocinar en casa en vez de pedir '
-      + 'comida a domicilio',
+      + 'delivery de comida hoy',
     category: 'food',
-    co2Grams: 350, // saves packaging + delivery CO2
-    effort: 3, // time to cook and plan
-    frequency: 4, // most days
-    impact: 2, // modest: packaging reduction
+    co2Grams: 600,
+    effort: 3,
+    frequency: 4,
+    impact: 2,
     iconName: 'kitchen',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 27,
-  },
-  {
-    id: 'skip_fish_meal',
-    nameEn: 'Skip Fish Meal',
-    nameJa: '魚なしの食事',
-    nameEs: 'Evitar comida con pescado',
-    descriptionEn:
-      'Choose a plant-based meal instead '
-      + 'of fish',
-    descriptionJa:
-      '魚の代わりに植物性の食事を選択',
-    descriptionEs:
-      'Elegir una comida vegetal en vez '
-      + 'de pescado',
-    category: 'food',
-    co2Grams: 500, // ~150g; avg fish ~4kg CO2/kg
-    effort: 2, // choose plant option instead
-    frequency: 3, // weekly: 1-3 fish meals
-    impact: 3, // overfishing, bycatch, ecosystems
-    iconName: 'eco',
-    relatedSdgs: ['2', '12', '13', '14'],
-    isActive: true,
-    sortOrder: 28,
+    sortOrder: 6,
   },
   {
     id: 'vegan_day',
@@ -859,7 +774,7 @@ const actions = [
     iconName: 'restaurant',
     relatedSdgs: ['2', '12', '13', '15'],
     isActive: true,
-    sortOrder: 29,
+    sortOrder: 7,
   },
   {
     id: 'bring_lunch',
@@ -882,99 +797,7 @@ const actions = [
     iconName: 'takeout',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 30,
-  },
-  {
-    id: 'use_leftovers',
-    nameEn: 'Use Leftovers',
-    nameJa: '残り物を活用',
-    nameEs: 'Aprovechar las sobras',
-    descriptionEn:
-      'Make a meal from leftovers instead '
-      + 'of throwing them out',
-    descriptionJa:
-      '残り物を捨てずに新しい料理にする',
-    descriptionEs:
-      'Preparar una comida con sobras en '
-      + 'vez de tirarlas',
-    category: 'food',
-    co2Grams: 400, // prevents ~300g food waste
-    effort: 2, // reheat or repurpose
-    frequency: 4, // several times per week
-    impact: 3, // reduces embedded food CO2
-    iconName: 'food_bank',
-    relatedSdgs: ['2', '12', '13'],
-    isActive: true,
-    sortOrder: 31,
-  },
-  {
-    id: 'no_single_use_cutlery',
-    nameEn: 'Refuse Disposable Cutlery',
-    nameJa: '使い捨てカトラリーを断る',
-    nameEs: 'Rechazar cubiertos desechables',
-    descriptionEn:
-      'Refuse single-use plastic cutlery '
-      + 'when ordering food',
-    descriptionJa:
-      '注文時に使い捨てカトラリーを断る',
-    descriptionEs:
-      'Rechazar cubiertos de plastico al '
-      + 'pedir comida',
-    category: 'food',
-    co2Grams: 5, // ~5-12g per piece (plastic LCA)
-    effort: 1, // trivial: just say no
-    frequency: 4, // each takeout order
-    impact: 2, // plastic pollution reduction
-    iconName: 'restaurant',
-    relatedSdgs: ['12', '14'],
-    isActive: true,
-    sortOrder: 32,
-  },
-  {
-    id: 'drink_tap_water',
-    nameEn: 'Drink Tap Water',
-    nameJa: '水道水を飲む',
-    nameEs: 'Beber agua del grifo',
-    descriptionEn:
-      'Drink tap water instead of bottled '
-      + 'water',
-    descriptionJa:
-      'ペットボトルの水の代わりに水道水を飲む',
-    descriptionEs:
-      'Beber agua del grifo en vez de agua '
-      + 'embotellada',
-    category: 'food',
-    co2Grams: 80, // 500ml PET bottle ~83g CO2
-    effort: 1, // trivial where tap is safe
-    frequency: 5, // daily hydration
-    impact: 3, // plastic waste reduction
-    iconName: 'local_drink',
-    relatedSdgs: ['6', '12', '14'],
-    isActive: true,
-    sortOrder: 33,
-  },
-  {
-    id: 'reduce_dairy',
-    nameEn: 'Skip Dairy Product',
-    nameJa: '乳製品なしの食事',
-    nameEs: 'Evitar producto lacteo',
-    descriptionEn:
-      'Choose a plant-based alternative '
-      + 'instead of dairy',
-    descriptionJa:
-      '乳製品の代わりに植物性の代替品を選択',
-    descriptionEs:
-      'Elegir una alternativa vegetal '
-      + 'en vez de lacteos',
-    category: 'food',
-    co2Grams: 350, // blended avg across dairy types
-    effort: 2, // widely available alternatives
-    frequency: 4, // frequent dairy consumption
-    impact: 3, // dairy: methane, land, water
-    iconName: 'eco',
-    relatedSdgs: ['12', '13', '15'],
-    isActive: true,
-    sortOrder: 34,
+    sortOrder: 8,
   },
 
   // ---------------------------------------------------------
@@ -1002,7 +825,7 @@ const actions = [
     iconName: 'dry_cleaning',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
-    sortOrder: 30,
+    sortOrder: 1,
   },
   {
     id: 'cold_wash',
@@ -1025,30 +848,30 @@ const actions = [
     iconName: 'local_laundry_service',
     relatedSdgs: ['6', '7', '12', '13'],
     isActive: true,
-    sortOrder: 31,
+    sortOrder: 2,
   },
   {
-    id: 'led_bulb',
-    nameEn: 'Use LED Lighting',
-    nameJa: 'LED照明を使用',
-    nameEs: 'Usar iluminacion LED',
+    id: 'install_led_bulb',
+    nameEn: 'Install LED Bulb',
+    nameJa: 'LED電球を設置',
+    nameEs: 'Instalar bombilla LED',
     descriptionEn:
-      'Use LED bulbs instead of '
-      + 'incandescent',
+      'Replace an incandescent or halogen '
+      + 'bulb with an LED',
     descriptionJa:
-      '白熱電球の代わりにLED照明を使用',
+      '白熱電球やハロゲン電球をLEDに交換',
     descriptionEs:
-      'Usar bombillas LED en vez de '
-      + 'incandescentes',
+      'Reemplazar una bombilla '
+      + 'incandescente o halogena por LED',
     category: 'energy',
-    co2Grams: 75, // 50W saved x 4hrs x 386g/kWh
-    effort: 1, // one-time: buy and install
-    frequency: 1, // rare: one-time switch
-    impact: 3, // permanent daily savings
+    co2Grams: 28000, // first-year savings
+    effort: 1,
+    frequency: 1,
+    impact: 3,
     iconName: 'lightbulb',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
-    sortOrder: 32,
+    sortOrder: 3,
   },
   {
     id: 'unplug_devices',
@@ -1064,14 +887,14 @@ const actions = [
       'Desenchufar dispositivos electronicos '
       + 'cuando no se usen',
     category: 'energy',
-    co2Grams: 40, // avg device standby 1-5W/day
+    co2Grams: 45, // per-day: avg standby draw
     effort: 1, // trivial: pull plug
     frequency: 5, // daily habit
     impact: 1, // immediate, small scale
     iconName: 'power',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
-    sortOrder: 33,
+    sortOrder: 4,
   },
   {
     id: 'turn_off_lights',
@@ -1086,14 +909,14 @@ const actions = [
       'Apagar las luces al salir de '
       + 'una habitacion',
     category: 'energy',
-    co2Grams: 30, // ~40W bulb x 1hr (LED/CFL mix)
+    co2Grams: 60, // per-day: ~4hrs x 40W x 386g/kWh
     effort: 1, // trivial: flip switch
     frequency: 5, // multiple times daily
     impact: 1, // immediate, small scale
     iconName: 'lightbulb',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 34,
+    sortOrder: 5,
   },
   {
     id: 'lower_thermostat',
@@ -1116,7 +939,7 @@ const actions = [
     iconName: 'thermostat',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 35,
+    sortOrder: 6,
   },
   {
     id: 'raise_ac_thermostat',
@@ -1140,7 +963,7 @@ const actions = [
     iconName: 'thermostat',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 36,
+    sortOrder: 7,
   },
   {
     id: 'use_natural_light',
@@ -1157,14 +980,14 @@ const actions = [
       'Abrir cortinas y usar luz natural '
       + 'en vez de electrica',
     category: 'energy',
-    co2Grams: 20, // ~40W bulb x 1hr avoided
+    co2Grams: 90, // per-day: ~6hrs x 40W x 386g/kWh
     effort: 1, // trivial: open curtains
     frequency: 5, // daily during daylight
     impact: 1, // immediate, small scale
     iconName: 'wb_sunny',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 37,
+    sortOrder: 8,
   },
   {
     id: 'full_laundry_load',
@@ -1187,7 +1010,7 @@ const actions = [
     iconName: 'local_laundry_service',
     relatedSdgs: ['6', '7', '12'],
     isActive: true,
-    sortOrder: 38,
+    sortOrder: 9,
   },
   {
     id: 'eco_mode_appliance',
@@ -1210,7 +1033,7 @@ const actions = [
     iconName: 'dishwasher',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
-    sortOrder: 39,
+    sortOrder: 10,
   },
   {
     id: 'microwave_vs_oven',
@@ -1234,34 +1057,36 @@ const actions = [
     iconName: 'microwave',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 40,
+    sortOrder: 11,
   },
   {
-    id: 'close_windows_ac',
-    nameEn: 'Close Windows While Using AC',
-    nameJa: '冷房使用時に窓を閉める',
-    nameEs: 'Cerrar ventanas al usar el aire',
+    id: 'use_fan_instead_of_ac',
+    nameEn: 'Use Fan Instead of AC',
+    nameJa: 'エアコンの代わりに扇風機を使用',
+    nameEs: 'Usar ventilador en vez de aire '
+      + 'acondicionado',
     descriptionEn:
-      'Keep windows and doors closed while '
-      + 'AC is running',
+      'Use a fan instead of air '
+      + 'conditioning today',
     descriptionJa:
-      '冷暖房使用中は窓やドアを閉める',
+      '今日はエアコンの代わりに扇風機を'
+      + '使用する',
     descriptionEs:
-      'Mantener ventanas y puertas cerradas '
-      + 'con el aire encendido',
+      'Usar un ventilador en vez del aire '
+      + 'acondicionado hoy',
     category: 'energy',
-    co2Grams: 100, // open windows add ~20-40% AC waste
-    effort: 1, // trivial: close window
-    frequency: 4, // during cooling season
-    impact: 1, // immediate, small scale
+    co2Grams: 1200,
+    effort: 2,
+    frequency: 4,
+    impact: 2,
     iconName: 'air',
     relatedSdgs: ['7', '13'],
     isActive: true,
-    sortOrder: 41,
+    sortOrder: 12,
   },
 
   // ---------------------------------------------------------
-  // CONSUMPTION (15 actions)
+  // CONSUMPTION (14 actions)
   // Research: Danish EPA LCA, WRAP UK, Carbon Trust
   // ---------------------------------------------------------
   {
@@ -1285,7 +1110,7 @@ const actions = [
     iconName: 'shopping_bag',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 40,
+    sortOrder: 1,
   },
   {
     id: 'reusable_cup',
@@ -1308,7 +1133,7 @@ const actions = [
     iconName: 'coffee',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 41,
+    sortOrder: 2,
   },
   {
     id: 'reusable_water_bottle',
@@ -1325,14 +1150,14 @@ const actions = [
       'Usar una botella reutilizable en vez '
       + 'de plastico desechable',
     category: 'consumption',
-    co2Grams: 80, // 500ml PET bottle ~83g CO2
+    co2Grams: 160, // per-day: ~2 bottles avoided
     effort: 1, // trivial: carry bottle
     frequency: 5, // daily hydration
     impact: 3, // long-term plastic reduction
     iconName: 'water_drop',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 42,
+    sortOrder: 3,
   },
   {
     id: 'bring_own_container',
@@ -1355,29 +1180,33 @@ const actions = [
     iconName: 'takeout',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 43,
+    sortOrder: 4,
   },
   {
-    id: 'refuse_straw',
-    nameEn: 'Refuse Plastic Straw',
-    nameJa: 'ストローを断る',
-    nameEs: 'Rechazar pajita de plastico',
+    id: 'refuse_disposables',
+    nameEn: 'Refuse Disposables',
+    nameJa: '使い捨てを断る',
+    nameEs: 'Rechazar desechables',
     descriptionEn:
-      'Say no to single-use plastic straws',
+      'Refuse disposable straws, cutlery, '
+      + 'napkins, or other single-use items '
+      + 'today',
     descriptionJa:
-      '使い捨てプラスチックストローを断る',
+      '今日はストロー、カトラリー、ナプキン'
+      + 'などの使い捨て品を断る',
     descriptionEs:
-      'Decir no a las pajitas de plastico '
-      + 'desechables',
+      'Rechazar pajitas, cubiertos, '
+      + 'servilletas u otros articulos '
+      + 'desechables hoy',
     category: 'consumption',
-    co2Grams: 1, // ~1.4g per plastic straw
-    effort: 1, // trivial: just say no
-    frequency: 4, // each drink purchase
-    impact: 2, // plastic pollution awareness
+    co2Grams: 15,
+    effort: 1,
+    frequency: 5,
+    impact: 2,
     iconName: 'no_drinks',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 44,
+    sortOrder: 5,
   },
   {
     id: 'secondhand_clothing',
@@ -1393,14 +1222,14 @@ const actions = [
       'Comprar ropa de segunda mano en vez '
       + 'de nueva',
     category: 'consumption',
-    co2Grams: 13000, // avoids ~13kg for new garment
+    co2Grams: 15000, // scenario review
     effort: 3, // find, browse, select items
     frequency: 2, // monthly shopping
     impact: 4, // reduces fast fashion demand
     iconName: 'autorenew',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 45,
+    sortOrder: 6,
   },
   {
     id: 'repair_item',
@@ -1416,14 +1245,14 @@ const actions = [
       'Reparar un objeto roto en vez de '
       + 'comprar uno nuevo',
     category: 'consumption',
-    co2Grams: 5000, // avoids new manufacture ~5kg avg
+    co2Grams: 7500, // weighted avg across item types
     effort: 3, // requires skill/time/parts
     frequency: 2, // when items break
     impact: 4, // circular economy mindset
     iconName: 'build',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 46,
+    sortOrder: 7,
   },
   {
     id: 'borrow_instead_buy',
@@ -1439,61 +1268,40 @@ const actions = [
       'Pedir prestada una herramienta en '
       + 'vez de comprar una nueva',
     category: 'consumption',
-    co2Grams: 2000, // avoids manufacturing ~2kg avg
+    co2Grams: 8000, // excl. books
     effort: 2, // arrange loan, return item
     frequency: 2, // occasional tool/item needs
     impact: 3, // sharing economy, less waste
     iconName: 'handshake',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 47,
+    sortOrder: 8,
   },
   {
-    id: 'bar_soap',
-    nameEn: 'Use Bar Soap',
-    nameJa: '固形石鹸を使用',
-    nameEs: 'Usar jabon en barra',
+    id: 'plastic_free_hygiene',
+    nameEn: 'Plastic-Free Hygiene',
+    nameJa: 'プラスチックフリーの衛生用品',
+    nameEs: 'Higiene sin plastico',
     descriptionEn:
-      'Use bar soap instead of liquid soap '
-      + 'in a plastic bottle',
+      'Use bar soap, shampoo bars, or '
+      + 'other plastic-free hygiene '
+      + 'products today',
     descriptionJa:
-      'プラスチック容器の液体石鹸の代わりに'
-      + '固形石鹸を使用',
+      '今日は固形石鹸やシャンプーバーなど'
+      + 'プラスチックフリーの衛生用品を使用',
     descriptionEs:
-      'Usar jabon en barra en vez de jabon '
-      + 'liquido en botella plastica',
+      'Usar jabon en barra, champu '
+      + 'solido u otros productos de '
+      + 'higiene sin plastico hoy',
     category: 'consumption',
-    co2Grams: 2, // avoids plastic bottle ~2g/use
-    effort: 1, // trivial: use bar instead
-    frequency: 5, // daily hygiene
-    impact: 2, // reduces plastic packaging
+    co2Grams: 15,
+    effort: 1,
+    frequency: 5,
+    impact: 2,
     iconName: 'soap',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 48,
-  },
-  {
-    id: 'digital_receipt',
-    nameEn: 'Choose Digital Receipt',
-    nameJa: '電子レシートを選択',
-    nameEs: 'Elegir recibo digital',
-    descriptionEn:
-      'Opt for a digital receipt instead of '
-      + 'a paper one',
-    descriptionJa:
-      '紙のレシートの代わりに電子レシートを選択',
-    descriptionEs:
-      'Optar por recibo digital en vez de '
-      + 'uno de papel',
-    category: 'consumption',
-    co2Grams: 3, // ~3g paper receipt CO2
-    effort: 1, // trivial: choose digital
-    frequency: 4, // each purchase
-    impact: 1, // immediate, small scale
-    iconName: 'smartphone',
-    relatedSdgs: ['12', '15'],
-    isActive: true,
-    sortOrder: 49,
+    sortOrder: 9,
   },
   {
     id: 'buy_bulk',
@@ -1509,14 +1317,14 @@ const actions = [
       'Comprar a granel para reducir '
       + 'residuos de embalaje',
     category: 'consumption',
-    co2Grams: 85, // reduces per-unit packaging CO2
+    co2Grams: 200, // per-trip: multiple items reframe
     effort: 2, // plan larger purchases
     frequency: 3, // weekly shopping
     impact: 2, // less packaging waste
     iconName: 'shopping',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 50,
+    sortOrder: 10,
   },
   {
     id: 'donate_items',
@@ -1532,14 +1340,14 @@ const actions = [
       'Donar cosas que ya no necesitas en '
       + 'vez de tirarlas',
     category: 'consumption',
-    co2Grams: 500, // avoids landfill + new purchase
+    co2Grams: 12000, // per-donation-run: multiple items
     effort: 2, // sort, bag, find drop-off
     frequency: 2, // seasonal decluttering
     impact: 3, // extends product lifecycle
     iconName: 'volunteer_activism',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 51,
+    sortOrder: 11,
   },
   {
     id: 'no_impulse_buy',
@@ -1562,7 +1370,7 @@ const actions = [
     iconName: 'shopping',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 52,
+    sortOrder: 12,
   },
   {
     id: 'choose_minimal_packaging',
@@ -1585,30 +1393,33 @@ const actions = [
     iconName: 'inventory_2',
     relatedSdgs: ['12', '14'],
     isActive: true,
-    sortOrder: 53,
+    sortOrder: 13,
   },
   {
-    id: 'use_cloth_napkin',
-    nameEn: 'Use Cloth Napkin',
-    nameJa: '布ナプキンを使用',
-    nameEs: 'Usar servilleta de tela',
+    id: 'used_car_purchase',
+    nameEn: 'Purchase Used Car',
+    nameJa: '中古車を購入',
+    nameEs: 'Comprar auto usado',
     descriptionEn:
-      'Use a cloth napkin instead of paper '
-      + 'ones',
+      'Buy a used car instead of a new '
+      + 'one to avoid manufacturing '
+      + 'emissions',
     descriptionJa:
-      '紙ナプキンの代わりに布ナプキンを使用',
+      '製造時の排出を避けるため新車ではなく'
+      + '中古車を購入する',
     descriptionEs:
-      'Usar una servilleta de tela en vez '
-      + 'de papel',
+      'Comprar un auto usado en vez de '
+      + 'nuevo para evitar emisiones de '
+      + 'fabricacion',
     category: 'consumption',
-    co2Grams: 5, // ~5g per paper napkin
-    effort: 1, // trivial: use cloth
-    frequency: 5, // daily meals
-    impact: 1, // immediate, small scale
-    iconName: 'cleaning_services',
-    relatedSdgs: ['12', '15'],
+    co2Grams: 3000000,
+    effort: 3,
+    frequency: 1,
+    impact: 4,
+    iconName: 'directions_car',
+    relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 54,
+    sortOrder: 14,
   },
 
   // ---------------------------------------------------------
@@ -1635,7 +1446,7 @@ const actions = [
     iconName: 'shower',
     relatedSdgs: ['6', '7', '13'],
     isActive: true,
-    sortOrder: 50,
+    sortOrder: 1,
   },
   {
     id: 'turn_off_tap',
@@ -1658,7 +1469,7 @@ const actions = [
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 51,
+    sortOrder: 2,
   },
   {
     id: 'full_dishwasher',
@@ -1680,7 +1491,7 @@ const actions = [
     iconName: 'dishwasher',
     relatedSdgs: ['6', '7'],
     isActive: true,
-    sortOrder: 52,
+    sortOrder: 3,
   },
   {
     id: 'fix_leak',
@@ -1695,14 +1506,14 @@ const actions = [
       'Reparar un grifo que gotea o una '
       + 'fuga de agua',
     category: 'water',
-    co2Grams: 500, // drip wastes ~22L/day hot water
+    co2Grams: 100000, // lifetime water + energy return
     effort: 3, // requires tools or plumber
     frequency: 1, // rare: when leaks occur
     impact: 4, // prevents waste for years
     iconName: 'plumbing',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 53,
+    sortOrder: 4,
   },
   {
     id: 'cold_water_rinse',
@@ -1725,30 +1536,32 @@ const actions = [
     iconName: 'water_drop',
     relatedSdgs: ['6', '7'],
     isActive: true,
-    sortOrder: 54,
+    sortOrder: 5,
   },
   {
-    id: 'collect_rainwater',
-    nameEn: 'Collect Rainwater',
-    nameJa: '雨水を集める',
-    nameEs: 'Recolectar agua de lluvia',
+    id: 'install_rain_collector',
+    nameEn: 'Install Rain Collector',
+    nameJa: '雨水タンクを設置',
+    nameEs: 'Instalar recolector de lluvia',
     descriptionEn:
-      'Use collected rainwater for '
-      + 'watering plants',
+      'Set up a rain barrel or collection '
+      + 'system for garden watering',
     descriptionJa:
-      '集めた雨水を植物の水やりに使用',
+      '庭の水やり用に雨水タンクや集水'
+      + 'システムを設置する',
     descriptionEs:
-      'Usar agua de lluvia recolectada '
-      + 'para regar plantas',
+      'Instalar un barril de lluvia o '
+      + 'sistema de recoleccion para '
+      + 'regar el jardin',
     category: 'water',
-    co2Grams: 15, // displaces ~40L mains water
-    effort: 3, // set up, maintain containers
-    frequency: 3, // depends on rain + garden
-    impact: 3, // water independence mindset
+    co2Grams: 750, // one-time install
+    effort: 3,
+    frequency: 1,
+    impact: 3,
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 55,
+    sortOrder: 6,
   },
   {
     id: 'water_plants_morning',
@@ -1771,7 +1584,7 @@ const actions = [
     iconName: 'yard',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 56,
+    sortOrder: 7,
   },
   {
     id: 'reuse_cooking_water',
@@ -1794,7 +1607,7 @@ const actions = [
     iconName: 'kitchen',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 57,
+    sortOrder: 8,
   },
   {
     id: 'turn_off_tap_dishes',
@@ -1817,7 +1630,7 @@ const actions = [
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
-    sortOrder: 58,
+    sortOrder: 9,
   },
   {
     id: 'shorter_bath',
@@ -1841,11 +1654,11 @@ const actions = [
     iconName: 'shower',
     relatedSdgs: ['6', '7', '13'],
     isActive: true,
-    sortOrder: 59,
+    sortOrder: 10,
   },
 
   // ---------------------------------------------------------
-  // COMMUNITY (10 actions)
+  // COMMUNITY (13 actions)
   // Research: EPA greenhouse gas equivalencies
   // ---------------------------------------------------------
   {
@@ -1869,7 +1682,7 @@ const actions = [
     iconName: 'forest',
     relatedSdgs: ['13', '15'],
     isActive: true,
-    sortOrder: 60,
+    sortOrder: 1,
   },
   {
     id: 'beach_cleanup',
@@ -1892,32 +1705,33 @@ const actions = [
     iconName: 'park',
     relatedSdgs: ['14', '15'],
     isActive: true,
-    sortOrder: 61,
+    sortOrder: 2,
   },
   {
-    id: 'farmers_market',
-    nameEn: 'Visit Farmers Market',
-    nameJa: 'ファーマーズマーケットに行く',
-    nameEs: 'Visitar mercado de agricultores',
+    id: 'buy_local_produce',
+    nameEn: 'Buy Local Produce',
+    nameJa: '地元の農産物を購入',
+    nameEs: 'Comprar productos locales',
     descriptionEn:
-      'Shop at a local farmers market '
-      + 'instead of a supermarket',
+      'Buy locally grown food from a '
+      + 'farmers market, farm stand, or '
+      + 'local supplier',
     descriptionJa:
-      'スーパーの代わりに地元のファーマーズ'
-      + 'マーケットで買い物',
+      'ファーマーズマーケット、直売所、'
+      + '地元の業者から地産食材を購入する',
     descriptionEs:
-      'Comprar en un mercado de '
-      + 'agricultores local en vez de '
-      + 'un supermercado',
+      'Comprar alimentos cultivados '
+      + 'localmente en un mercado de '
+      + 'agricultores o proveedor local',
     category: 'community',
-    co2Grams: 300, // reduced food miles vs supermarket
-    effort: 2, // slightly less convenient
-    frequency: 3, // weekly visits
-    impact: 3, // supports local agriculture
+    co2Grams: 300,
+    effort: 2,
+    frequency: 3,
+    impact: 3,
     iconName: 'storefront',
     relatedSdgs: ['2', '11', '12'],
     isActive: true,
-    sortOrder: 62,
+    sortOrder: 3,
   },
   {
     id: 'share_sustainability_tip',
@@ -1941,7 +1755,7 @@ const actions = [
     iconName: 'share',
     relatedSdgs: ['13'],
     isActive: true,
-    sortOrder: 63,
+    sortOrder: 4,
   },
   {
     id: 'community_garden',
@@ -1964,7 +1778,7 @@ const actions = [
     iconName: 'grass',
     relatedSdgs: ['2', '11', '15'],
     isActive: true,
-    sortOrder: 64,
+    sortOrder: 5,
   },
   {
     id: 'volunteer_environment',
@@ -1987,7 +1801,7 @@ const actions = [
     iconName: 'volunteer_activism',
     relatedSdgs: ['13', '15'],
     isActive: true,
-    sortOrder: 65,
+    sortOrder: 6,
   },
   {
     id: 'teach_child_eco',
@@ -2010,7 +1824,7 @@ const actions = [
     iconName: 'school',
     relatedSdgs: ['4', '13'],
     isActive: true,
-    sortOrder: 66,
+    sortOrder: 7,
   },
   {
     id: 'support_eco_business',
@@ -2033,7 +1847,7 @@ const actions = [
     iconName: 'storefront',
     relatedSdgs: ['8', '12'],
     isActive: true,
-    sortOrder: 67,
+    sortOrder: 8,
   },
   {
     id: 'organize_swap',
@@ -2056,7 +1870,7 @@ const actions = [
     iconName: 'groups',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 68,
+    sortOrder: 9,
   },
   {
     id: 'pick_up_litter',
@@ -2079,11 +1893,88 @@ const actions = [
     iconName: 'cleaning_services',
     relatedSdgs: ['11', '14', '15'],
     isActive: true,
-    sortOrder: 69,
+    sortOrder: 10,
+  },
+  {
+    id: 'take_on_household_task',
+    nameEn: 'Take On a Household Task',
+    nameJa: '家事を一つ引き受ける',
+    nameEs: 'Asumir una tarea del hogar',
+    descriptionEn:
+      'Take on a household chore to '
+      + 'support a fair division of '
+      + 'domestic labor today',
+    descriptionJa:
+      '今日は家事を一つ引き受けて家庭内'
+      + 'の公平な分担を実践する',
+    descriptionEs:
+      'Asumir una tarea del hogar para '
+      + 'apoyar una division justa del '
+      + 'trabajo domestico hoy',
+    category: 'community',
+    co2Grams: 0,
+    effort: 3,
+    frequency: 5,
+    impact: 4,
+    iconName: 'home',
+    relatedSdgs: ['5', '3', '8', '10'],
+    isActive: true,
+    sortOrder: 11,
+  },
+  {
+    id: 'use_library',
+    nameEn: 'Use the Library',
+    nameJa: '図書館を利用する',
+    nameEs: 'Usar la biblioteca',
+    descriptionEn:
+      'Borrow books, media, or resources '
+      + 'from the library instead of buying '
+      + 'new',
+    descriptionJa:
+      '新品を買う代わりに図書館で本やメディア'
+      + 'を借りる',
+    descriptionEs:
+      'Tomar prestados libros, medios '
+      + 'o recursos de la biblioteca en '
+      + 'vez de comprar nuevos',
+    category: 'community',
+    co2Grams: 1000,
+    effort: 2,
+    frequency: 3,
+    impact: 3,
+    iconName: 'local_library',
+    relatedSdgs: ['4', '12'],
+    isActive: true,
+    sortOrder: 12,
+  },
+  {
+    id: 'support_community_business',
+    nameEn: 'Support a Community Business',
+    nameJa: 'コミュニティのお店を利用',
+    nameEs: 'Apoyar negocio comunitario',
+    descriptionEn:
+      'Buy from a local minority-owned or '
+      + 'underrepresented community business',
+    descriptionJa:
+      '地域のマイノリティ経営や地元密着の'
+      + 'ビジネスを利用する',
+    descriptionEs:
+      'Comprar en un negocio local de '
+      + 'minorias o comunidades '
+      + 'subrepresentadas',
+    category: 'community',
+    co2Grams: 0, // economic equity action
+    effort: 2, // research and choose
+    frequency: 3, // weekly purchases
+    impact: 4, // community economic resilience
+    iconName: 'diversity_3',
+    relatedSdgs: ['10', '1', '8', '11'],
+    isActive: true,
+    sortOrder: 13,
   },
 
   // ---------------------------------------------------------
-  // ADVOCACY (8 actions)
+  // ADVOCACY (9 actions)
   // ---------------------------------------------------------
   {
     id: 'sign_petition',
@@ -2106,7 +1997,7 @@ const actions = [
     iconName: 'edit_note',
     relatedSdgs: ['13', '16'],
     isActive: true,
-    sortOrder: 70,
+    sortOrder: 1,
   },
   {
     id: 'contact_representative',
@@ -2129,7 +2020,7 @@ const actions = [
     iconName: 'campaign',
     relatedSdgs: ['13', '16'],
     isActive: true,
-    sortOrder: 71,
+    sortOrder: 2,
   },
   {
     id: 'share_eco_content',
@@ -2153,7 +2044,7 @@ const actions = [
     iconName: 'share',
     relatedSdgs: ['13', '17'],
     isActive: true,
-    sortOrder: 72,
+    sortOrder: 3,
   },
   {
     id: 'attend_climate_event',
@@ -2176,7 +2067,7 @@ const actions = [
     iconName: 'campaign',
     relatedSdgs: ['13', '16'],
     isActive: true,
-    sortOrder: 73,
+    sortOrder: 4,
   },
   {
     id: 'support_green_policy',
@@ -2200,7 +2091,7 @@ const actions = [
     iconName: 'balance',
     relatedSdgs: ['7', '13', '16'],
     isActive: true,
-    sortOrder: 74,
+    sortOrder: 5,
   },
   {
     id: 'write_eco_review',
@@ -2223,30 +2114,31 @@ const actions = [
     iconName: 'edit_note',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 75,
+    sortOrder: 6,
   },
   {
-    id: 'join_eco_group',
-    nameEn: 'Join an Eco Group',
-    nameJa: '環境団体に加入',
-    nameEs: 'Unirse a un grupo ecologico',
+    id: 'attend_eco_meeting',
+    nameEn: 'Attend Eco Group Meeting',
+    nameJa: '環境グループの会合に参加',
+    nameEs: 'Asistir a reunion de grupo '
+      + 'ecologico',
     descriptionEn:
-      'Join a local or online '
-      + 'environmental group',
+      'Attend a meeting or event with '
+      + 'your environmental group',
     descriptionJa:
-      '地域またはオンラインの環境団体に加入',
+      '環境グループの会合やイベントに参加',
     descriptionEs:
-      'Unirse a un grupo ambiental local '
-      + 'o en linea',
+      'Asistir a una reunion o evento '
+      + 'con tu grupo ambiental',
     category: 'advocacy',
-    co2Grams: 0, // indirect: collective action
-    effort: 2, // research and sign up
-    frequency: 1, // rare: join once
-    impact: 4, // amplifies voice, enables action
+    co2Grams: 0,
+    effort: 2,
+    frequency: 2,
+    impact: 4,
     iconName: 'groups',
     relatedSdgs: ['13', '17'],
     isActive: true,
-    sortOrder: 76,
+    sortOrder: 7,
   },
   {
     id: 'request_green_option',
@@ -2269,11 +2161,38 @@ const actions = [
     iconName: 'campaign',
     relatedSdgs: ['12', '13'],
     isActive: true,
-    sortOrder: 77,
+    sortOrder: 8,
+  },
+  {
+    id: 'donate_women_climate_org',
+    nameEn: 'Donate to a Women-Led Climate '
+      + 'Organization',
+    nameJa: '女性主導の気候団体に寄付',
+    nameEs: 'Donar a organizacion climatica '
+      + 'liderada por mujeres',
+    descriptionEn:
+      'Donate to an organization led by '
+      + 'women working on climate justice',
+    descriptionJa:
+      '気候正義に取り組む女性主導の団体に'
+      + '寄付する',
+    descriptionEs:
+      'Donar a una organizacion liderada '
+      + 'por mujeres que trabaja en '
+      + 'justicia climatica',
+    category: 'advocacy',
+    co2Grams: 0,
+    effort: 2,
+    frequency: 1,
+    impact: 5,
+    iconName: 'volunteer_activism',
+    relatedSdgs: ['5', '10', '13', '17'],
+    isActive: true,
+    sortOrder: 9,
   },
 
   // ---------------------------------------------------------
-  // SDG-TARGETED (5 actions)
+  // SDG-TARGETED (4 actions)
   // Actions for SDGs previously without coverage
   // ---------------------------------------------------------
   {
@@ -2299,7 +2218,7 @@ const actions = [
     iconName: 'handshake',
     relatedSdgs: ['1', '2', '8', '10', '12'],
     isActive: true,
-    sortOrder: 80,
+    sortOrder: 15,
   },
   {
     id: 'fund_micro_loan',
@@ -2325,7 +2244,7 @@ const actions = [
     iconName: 'currency_exchange',
     relatedSdgs: ['1', '8', '10', '17'],
     isActive: true,
-    sortOrder: 81,
+    sortOrder: 14,
   },
   {
     id: 'support_women_owned_business',
@@ -2349,62 +2268,11 @@ const actions = [
     iconName: 'storefront',
     relatedSdgs: ['5', '8', '10', '12'],
     isActive: true,
-    sortOrder: 82,
-  },
-  {
-    id: 'share_domestic_work',
-    nameEn: 'Share Domestic Work Equally',
-    nameJa: '家事を平等に分担',
-    nameEs: 'Compartir tareas del hogar',
-    descriptionEn:
-      'Take on an equal share of '
-      + 'household chores to support a fair '
-      + 'division of domestic labor',
-    descriptionJa:
-      '家事を平等に分担してジェンダー平等を'
-      + '実践する',
-    descriptionEs:
-      'Asumir una parte equitativa de '
-      + 'las tareas domesticas para una '
-      + 'division justa del trabajo',
-    category: 'community',
-    co2Grams: 0, // gender equity action
-    effort: 3, // sustained behavior change
-    frequency: 5, // daily household tasks
-    impact: 4, // generational family dynamics
-    iconName: 'home',
-    relatedSdgs: ['5', '3', '8', '10'],
-    isActive: true,
-    sortOrder: 83,
-  },
-  {
-    id: 'support_community_business',
-    nameEn: 'Support a Community Business',
-    nameJa: 'コミュニティのお店を利用',
-    nameEs: 'Apoyar negocio comunitario',
-    descriptionEn:
-      'Buy from a local minority-owned or '
-      + 'underrepresented community business',
-    descriptionJa:
-      '地域のマイノリティ経営や地元密着の'
-      + 'ビジネスを利用する',
-    descriptionEs:
-      'Comprar en un negocio local de '
-      + 'minorias o comunidades '
-      + 'subrepresentadas',
-    category: 'community',
-    co2Grams: 0, // economic equity action
-    effort: 2, // research and choose
-    frequency: 3, // weekly purchases
-    impact: 4, // community economic resilience
-    iconName: 'diversity_3',
-    relatedSdgs: ['10', '1', '8', '11'],
-    isActive: true,
-    sortOrder: 84,
+    sortOrder: 16,
   },
 
   // ---------------------------------------------------------
-  // SDG-TARGETED PART 2 (3 actions)
+  // SDG-TARGETED PART 2 (2 actions)
   // Filling coverage gaps for Goals 4 and 5
   // ---------------------------------------------------------
   {
@@ -2433,7 +2301,7 @@ const actions = [
     iconName: 'biotech',
     relatedSdgs: ['4', '13', '15'],
     isActive: true,
-    sortOrder: 85,
+    sortOrder: 15,
   },
   {
     id: 'volunteer_nature_walk',
@@ -2459,34 +2327,7 @@ const actions = [
     iconName: 'forest',
     relatedSdgs: ['4', '11', '13', '15'],
     isActive: true,
-    sortOrder: 86,
-  },
-  {
-    id: 'donate_women_climate_org',
-    nameEn: 'Donate to a Women-Led Climate '
-      + 'Organization',
-    nameJa: '女性主導の気候団体に寄付',
-    nameEs: 'Donar a organizacion climatica '
-      + 'liderada por mujeres',
-    descriptionEn:
-      'Donate to an organization led by '
-      + 'women working on climate justice',
-    descriptionJa:
-      '気候正義に取り組む女性主導の団体に'
-      + '寄付する',
-    descriptionEs:
-      'Donar a una organizacion liderada '
-      + 'por mujeres que trabaja en '
-      + 'justicia climatica',
-    category: 'advocacy',
-    co2Grams: 0,
-    effort: 2,
-    frequency: 1,
-    impact: 5,
-    iconName: 'volunteer_activism',
-    relatedSdgs: ['5', '10', '13', '17'],
-    isActive: true,
-    sortOrder: 87,
+    sortOrder: 16,
   },
 ];
 
@@ -2540,6 +2381,29 @@ async function seedActionLibrary() {
   console.log(
     `\nSuccessfully seeded ${actions.length} actions!`,
   );
+
+  // Clean up orphaned action documents
+  const validIds = new Set(actions.map((a) => a.id));
+  const snapshot = await db
+    .collection('actionLibrary')
+    .get();
+  const orphanBatch = db.batch();
+  let orphanCount = 0;
+  for (const doc of snapshot.docs) {
+    if (!validIds.has(doc.id)) {
+      orphanBatch.delete(doc.ref);
+      orphanCount++;
+      console.log(`  - Removing orphan: ${doc.id}`);
+    }
+  }
+  if (orphanCount > 0) {
+    await orphanBatch.commit();
+    console.log(
+      `\nRemoved ${orphanCount} orphaned actions.`,
+    );
+  } else {
+    console.log('\nNo orphaned actions found.');
+  }
 
   console.log('\n--- Points by category ---');
   for (const [cat, stats] of

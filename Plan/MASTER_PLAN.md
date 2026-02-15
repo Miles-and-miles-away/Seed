@@ -30,14 +30,16 @@
 
 1. [Executive Summary](#executive-summary)
 2. [Architecture Overview](#architecture-overview)
-3. [Tech Stack Recommendations](#tech-stack-recommendations)
-4. [Infrastructure & Services](#infrastructure--services)
-5. [Data Architecture](#data-architecture)
-6. [Security Best Practices](#security-best-practices)
-7. [Development Phases](#development-phases)
-8. [Key Decisions Checklist](#key-decisions-checklist)
-9. [CO₂ Data Sources](#co2-data-sources)
-10. [Cost Projections](#cost-projections)
+3. [Jargon](#jargon)
+4. [Screen Map & Navigation](#screen-map--navigation)
+5. [Tech Stack Recommendations](#tech-stack-recommendations)
+6. [Infrastructure & Services](#infrastructure--services)
+7. [Data Architecture](#data-architecture)
+8. [Security Best Practices](#security-best-practices)
+9. [Development Phases](#development-phases)
+10. [Key Decisions Checklist](#key-decisions-checklist)
+11. [CO₂ Data Sources](#co2-data-sources)
+12. [Cost Projections](#cost-projections)
 
 ---
 
@@ -163,6 +165,253 @@ lib/
 - Each feature can be developed/tested independently
 - Barrel files provide clean public APIs for each module
 - Generated files (*.g.dart, *.freezed.dart) excluded from linting
+
+---
+
+## Jargon
+
+Key terms used throughout the codebase and documentation.
+
+### Core Concepts
+
+| Term | Definition |
+|------|------------|
+| **Action** | A pre-defined eco-friendly activity from the action library (e.g., "Recycled an aluminum can"). Stored in `actionLibrary` collection. |
+| **Action Log** | A user's recorded instance of completing an action. Stored per-user in `users/{uid}/actionLog`. Immutable once created. |
+| **Action Category** | Grouping for actions: `recycling`, `transport`, `food`, `energy`, `consumption`, `water`, `community`, `advocacy`, `learning`. |
+| **Points** | Virtual currency earned by logging actions. Drives leveling and mascot evolution. |
+| **Level** | User progression tier calculated from total points. Geometric scaling: base 100 pts, 1.5x per level. |
+| **CO2 Savings** | Environmental impact measured in grams of CO2 saved per action. Aggregated per user and per SDG. |
+| **Daily Goal** | User-defined target number of actions to log per day. |
+| **Daily Summary** | Aggregated snapshot of a single day's activity (action count, points, CO2). Stored at `users/{uid}/dailySummaries/{YYYY-MM-DD}`. |
+
+### Mascot & Gamification
+
+| Term | Definition |
+|------|------------|
+| **Mascot** | A virtual pet that grows and evolves as the user levels up. Users can own up to 20 mascots. |
+| **Active Mascot** | The currently displayed mascot (one at a time), tracked by `activeMascotId` on the user doc. |
+| **Mascot Species** | Template defining a type of mascot (e.g., "seed"). Each has 4 evolution stages and SVG assets. Stored in `mascotSpecies` collection. |
+| **Evolution Stage** | Visual form of a mascot at a level threshold. 4 stages: Stage 1 (L1), Stage 2 (L10), Stage 3 (L25), Stage 4 (L50). |
+| **Evolution Celebration** | Full-screen confetti overlay shown when a mascot advances to the next stage. |
+| **Egg** | Reward received when a mascot reaches max evolution (level 50). Requires 30 consecutive days of activity to hatch into a new species. |
+| **Cosmetic Item** | Optional decoration equippable on mascots (hats, accessories, backgrounds). Stored in `cosmeticItems` collection. |
+
+### Streaks & Engagement
+
+| Term | Definition |
+|------|------------|
+| **Streak** | Consecutive days of logging at least one action. Tracked as `currentStreak` and `longestStreak`. |
+| **Streak Bonus** | Points multiplier for maintaining a streak: +3.3% per day, capped at 2x at 30+ days. |
+| **Streak Milestone** | Weekly achievement for sustaining a streak (7, 14, 21, 28 days). Tracked in `seenStreakMilestones`. |
+| **Streak Grace Period** | One-time buffer preventing streak loss when a user misses a day. Premium feature (future). |
+| **Smart Reminders** | Notification logic that skips the reminder if the user already logged an action today. |
+
+### SDGs
+
+| Term | Definition |
+|------|------------|
+| **SDG** | UN Sustainable Development Goal. 17 global goals (numbered 1-17) for peace and prosperity. |
+| **SDG Stats** | Per-user aggregated actions and CO2 saved for each SDG. Stored in user doc as `sdgStats` map. |
+| **SDG Target** | Specific sub-goal within an SDG (e.g., SDG 12.3: "Halve per capita food waste"). |
+| **SDG Resource** | External educational link tied to an SDG. Types: `official`, `action`, `education`. |
+| **Learn-Only** | Flag on actions/SDGs with no loggable action (educational only). SDGs 4, 8, 9, 16, 17 are learn-only. |
+
+### Auth & Settings
+
+| Term | Definition |
+|------|------------|
+| **App User** | A registered Seed user. Model: `AppUserModel`. Holds points, level, streaks, mascot refs, settings. |
+| **Email Verification** | Required step for email/password auth users before accessing the app. |
+| **Subscription** | Premium tier via RevenueCat. Status: `free` or `premium`. Provider: `apple` or `google`. |
+| **FCM Token** | Firebase Cloud Messaging device token for push notifications. Stored on user doc. |
+| **Barrel File** | A Dart file that re-exports a feature's public API (e.g., `actions.dart`, `mascot.dart`). |
+
+### Architecture
+
+| Term | Definition |
+|------|------------|
+| **Feature Module** | Self-contained directory under `lib/features/` with `data/`, `domain/`, and `presentation/` layers. |
+| **Clean Architecture** | Three-layer pattern: data (repos, models), domain (entities, services), presentation (screens, widgets, providers). |
+| **Riverpod Provider** | Reactive state holder generated via `@riverpod` annotation. Uses `Ref` (not generated `*Ref` types). |
+| **Freezed** | Code generation tool producing immutable data classes with `copyWith`, `==`, and JSON serialization. |
+| **go_router** | Declarative navigation library. Routes defined in `lib/app/router.dart`. |
+| **StatefulShellRoute** | go_router construct that powers the bottom navigation with independent navigation stacks per tab. |
+| **MainShell** | The scaffold wrapping all tabbed screens, providing the bottom nav bar and FAB. |
+
+---
+
+## Screen Map & Navigation
+
+### Bottom Navigation Tabs
+
+```
+ ┌─────────────────────────────────────────────────────┐
+ │                    MainShell                         │
+ │  ┌────────┬──────────┬──────────┬─────────────┐     │
+ │  │  Home  │ Progress │  Mascot  │   Profile    │     │
+ │  │ Tab 0  │  Tab 1   │  Tab 2   │   Tab 3     │     │
+ │  └────────┴──────────┴──────────┴─────────────┘     │
+ │              [ + ] FAB (Log Action)                  │
+ └─────────────────────────────────────────────────────┘
+```
+
+### Full Navigation Map
+
+```
+UNAUTHENTICATED
+===============
+/ (Splash)
+├── /login (Login)
+│   └── /register (Register)
+└── /verify-email (Email Verification)
+
+POST-SIGNUP
+===========
+/mascot-selection (Choose First Mascot)
+
+AUTHENTICATED (Bottom Nav Tabs)
+===============================
+/home ··························· Tab 0: Home
+│                                 SDG carousel, mascot card,
+│                                 streak display
+└── /home/sdg/:goalNumber ······ SDG Detail
+                                  Targets, resources,
+                                  infographic, related actions
+
+/progress ······················ Tab 1: Progress
+│                                Calendar view, daily summary,
+│                                rainbow sun widget
+└── /progress/history ·········· Action History
+                                  Past logged actions by date
+
+/mascot ························ Tab 2: Mascot
+                                 Active mascot display,
+                                 evolution timeline, rename,
+                                 stats, egg status
+
+/profile ······················· Tab 3: Profile
+│                                Points, level, streaks,
+│                                CO2 saved, stats cards
+└── /profile/settings ·········· Settings Hub
+    ├── /notifications ········· Notification Settings
+    │                            Reminder schedules, smart
+    │                            reminders, enable/disable
+    ├── /language ·············· Language Settings
+    │                            EN / ES / JA
+    ├── /account ··············· Account Settings
+    │                            Email, password, delete
+    └── /about ················· About
+        ├── /privacy ··········· Privacy Policy
+        └── /terms ············· Terms of Service
+
+MODAL (outside tab navigation)
+==============================
+/log-action ···················· Action Log
+                                 Browse action library,
+                                 search/filter/sort,
+                                 log an action
+                                 (opened via FAB)
+
+DEEP LINKS (standalone routes)
+==============================
+/sdg/:goalNumber ··············· SDG Detail (standalone)
+/history ······················· Action History (standalone)
+/settings ······················ Settings (standalone)
+/settings/notifications
+/settings/language
+/settings/account
+/settings/about
+/settings/about/privacy
+/settings/about/terms
+/settings/privacy
+/settings/terms
+```
+
+### Screen Inventory
+
+| # | Route | Screen | File |
+|---|-------|--------|------|
+| 1 | `/` | Splash | `lib/app/router.dart` (internal) |
+| 2 | `/login` | Login | `lib/features/auth/.../login_screen.dart` |
+| 3 | `/register` | Register | `lib/features/auth/.../register_screen.dart` |
+| 4 | `/verify-email` | Email Verification | `lib/features/auth/.../email_verification_screen.dart` |
+| 5 | `/mascot-selection` | Mascot Selection | `lib/features/mascot/.../mascot_selection_screen.dart` |
+| 6 | `/home` | Home | `lib/features/sdg/.../home_screen.dart` |
+| 7 | `/home/sdg/:n` | SDG Detail | `lib/features/sdg/.../sdg_detail_screen.dart` |
+| 8 | `/progress` | Progress | `lib/features/progress/.../progress_screen.dart` |
+| 9 | `/progress/history` | Action History | `lib/features/actions/.../action_history_screen.dart` |
+| 10 | `/mascot` | Mascot | `lib/features/mascot/.../mascot_screen.dart` |
+| 11 | `/profile` | Profile | `lib/features/profile/.../profile_screen.dart` |
+| 12 | `/profile/settings` | Settings | `lib/features/settings/.../settings_screen.dart` |
+| 13 | `.../notifications` | Notification Settings | `lib/features/settings/.../notification_settings_screen.dart` |
+| 14 | `.../language` | Language Settings | `lib/features/settings/.../language_settings_screen.dart` |
+| 15 | `.../account` | Account Settings | `lib/features/settings/.../account_settings_screen.dart` |
+| 16 | `.../about` | About | `lib/features/settings/.../about_screen.dart` |
+| 17 | `.../privacy` | Privacy Policy | `lib/features/settings/.../privacy_policy_screen.dart` |
+| 18 | `.../terms` | Terms of Service | `lib/features/settings/.../terms_of_service_screen.dart` |
+| 19 | `/log-action` | Action Log | `lib/features/actions/.../action_log_screen.dart` |
+
+### Navigation Flow Diagram
+
+```
+                    ┌─────────┐
+                    │  Splash │
+                    └────┬────┘
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+         [not authed]          [authed]
+              │                     │
+         ┌────▼────┐          ┌─────▼─────┐
+         │  Login  │◄────────►│ Register  │
+         └────┬────┘          └─────┬─────┘
+              │                     │
+              │  [email/password]   │
+              │    ┌────────────┐   │
+              └───►│  Verify    │◄──┘
+                   │  Email     │
+                   └─────┬─────┘
+                         │
+                   [no mascot?]
+                   ┌─────▼─────┐
+                   │  Mascot   │
+                   │ Selection │
+                   └─────┬─────┘
+                         │
+    ┌────────────────────▼────────────────────┐
+    │          MAIN APP (Bottom Nav)          │
+    │                                         │
+    │  ┌──────┐ ┌────────┐ ┌──────┐ ┌──────┐│
+    │  │ Home │ │Progress│ │Mascot│ │Profil││
+    │  │      │ │        │ │      │ │  e   ││
+    │  └──┬───┘ └───┬────┘ └──────┘ └──┬───┘│
+    │     │         │                   │    │
+    │     │    ┌────▼────┐    ┌────────▼───┐│
+    │     │    │ History │    │  Settings  ││
+    │     │    └─────────┘    └──┬──┬──┬──┬┘│
+    │  ┌──▼──────┐   ┌──────┐┌──▼┐ │  │  │ │
+    │  │SDG      │   │Notif.││Lang│ │  │  │ │
+    │  │Detail   │   └──────┘└────┘ │  │  │ │
+    │  └─────────┘           ┌──────▼┐ │  │ │
+    │                        │Account│ │  │ │
+    │                        └───────┘ │  │ │
+    │                           ┌──────▼┐ │ │
+    │                           │ About │ │ │
+    │                           └─┬──┬──┘ │ │
+    │                      ┌─────▼┐ │     │ │
+    │                      │Privcy│ │     │ │
+    │                      └──────┘ │     │ │
+    │                         ┌─────▼──┐  │ │
+    │                         │ Terms  │  │ │
+    │                         └────────┘  │ │
+    │                                     │ │
+    │  ┌─────────────┐                    │ │
+    │  │  Log Action  │◄── FAB (+) button │ │
+    │  │  (modal)     │                   │ │
+    │  └─────────────┘                    │ │
+    └─────────────────────────────────────┘
+```
 
 ---
 
@@ -1115,6 +1364,13 @@ flutter analyze
 
 # Run tests
 flutter test
+
+# Update firestore
+npm run firebase -- deploy --only firestore
+
+# Update actions
+node scripts/seed_action_library.js 
+
 ```
 
 ---

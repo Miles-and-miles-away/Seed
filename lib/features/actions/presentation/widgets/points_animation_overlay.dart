@@ -153,7 +153,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(
-                      Icons.add_circle,
+                      Icons.auto_awesome,
                       color: Colors.white,
                       size: 32,
                     ),

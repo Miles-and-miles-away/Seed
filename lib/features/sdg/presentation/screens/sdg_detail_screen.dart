@@ -12,6 +12,7 @@ import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
 import '../widgets/sdg_infographic_viewer.dart';
 import '../widgets/sdg_resources_list.dart';
+import '../widgets/sdg_targets_section.dart';
 
 /// Detail screen showing information about a specific SDG.
 class SdgDetailScreen extends ConsumerStatefulWidget {
@@ -67,7 +68,7 @@ class _SdgDetailScreenState
                   ),
                 ),
                 const SizedBox(height: 24),
-                _buildDescriptionSection(context, goal),
+                SdgTargetsSection(goal: goal),
                 const SizedBox(height: 24),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(
@@ -331,55 +332,6 @@ class _SdgDetailScreenState
     );
   }
 
-  Widget _buildDescriptionSection(
-    BuildContext context,
-    SdgGoal goal,
-  ) {
-    final theme = Theme.of(context);
-
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: theme.colorScheme.outlineVariant
-              .withValues(alpha: 0.5),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.info_outline,
-                color: goal.color,
-                size: 20,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'About this Goal',
-                style:
-                    theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            goal.description,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              height: 1.6,
-              color:
-                  theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _GoalNavButton extends StatelessWidget {
