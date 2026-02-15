@@ -108,18 +108,21 @@ const descriptions = {
 
   reusable_water_bottle: {
     en:
-      'Every single-use PET water bottle '
-      + 'generates about **80g of CO2** from '
-      + 'resin production, bottle molding, '
-      + 'and transportation. The '
+      'Carrying a reusable water bottle '
+      + 'instead of buying disposable ones '
+      + 'saves about **160g of CO2 per '
+      + 'day**, assuming two single-use '
+      + 'bottles avoided. Each PET bottle '
+      + 'generates roughly 80g of CO2 from '
+      + 'resin production, molding, and '
+      + 'transportation. The '
       + '[Carbon Trust]'
       + '(https://www.carbontrust.com/) '
       + 'notes that reusable bottles break '
-      + 'even within 10-30 uses. Drinking '
-      + 'the recommended eight glasses daily '
-      + 'from reusable bottles instead of '
-      + 'disposables saves roughly 29kg of '
-      + 'CO2 per year '
+      + 'even within 10-30 uses. Over a '
+      + 'year, this daily switch prevents '
+      + 'nearly 60kg of CO2 and hundreds '
+      + 'of bottles from reaching landfills '
       + '([EPA WARM](https://www.epa.gov'
       + '/warm)).',
     ja:
@@ -195,65 +198,73 @@ const descriptions = {
       + 'suma mas de 5kg de CO2 al ano.',
   },
 
-  refuse_straw: {
+  refuse_disposables: {
     en:
-      'A single plastic straw produces '
-      + 'roughly **1g of CO2** across its '
-      + 'lifecycle, from petroleum-based '
-      + 'manufacturing to disposal. While '
-      + 'small individually, the '
-      + '[EPA WARM model](https://www.epa.gov'
-      + '/warm) shows that scaled avoidance '
-      + 'of single-use plastics creates '
-      + 'meaningful cumulative impact. '
-      + 'With billions of straws used '
-      + 'globally each year, refusing one '
-      + 'per day saves over 365g of CO2 '
-      + 'annually. This simple habit also '
-      + 'keeps plastic out of oceans and '
-      + 'waterways.',
+      'Refusing disposable straws, cutlery, '
+      + 'napkins, and other single-use items '
+      + 'today saves roughly **15g of CO2** '
+      + 'from the petroleum-based '
+      + 'manufacturing and disposal of these '
+      + 'products. While each item is small, '
+      + 'the [EPA WARM model]'
+      + '(https://www.epa.gov/warm) shows '
+      + 'that scaled avoidance of single-use '
+      + 'plastics creates meaningful '
+      + 'cumulative impact. Carrying a simple '
+      + 'reusable kit with a spork and cloth '
+      + 'napkin makes refusing easy. Over a '
+      + 'year of daily refusals, this habit '
+      + 'prevents over 5kg of CO2 and keeps '
+      + 'hundreds of items out of landfills.',
     ja:
-      'プラスチック製ストロー1本は、石油'
-      + 'ベースの製造から廃棄まで約**1gの'
-      + 'CO2**を排出します。1本あたりは'
-      + '少量ですが、[EPA WARMモデル]'
-      + '(https://www.epa.gov/warm)によると'
-      + '使い捨てプラスチックの回避を積み'
-      + '重ねることで大きな累積効果が生まれ'
-      + 'ます。毎日1本断るだけで年間365g'
-      + '以上のCO2を削減でき、海や水路への'
-      + 'プラスチック流出防止にも貢献します。',
+      '使い捨てストロー、カトラリー、'
+      + 'ナプキンなどを断ると1日あたり約'
+      + '**15gのCO2**を削減できます。'
+      + '石油由来の製造・廃棄を回避する'
+      + 'ためです。1つ1つは小さくても'
+      + '[EPA WARMモデル](https://www.epa'
+      + '.gov/warm)によると使い捨て'
+      + 'プラスチックの回避は大きな累積'
+      + '効果を生みます。スポークと布ナプ'
+      + 'キンの簡単なマイセットを持ち歩けば'
+      + '断るのも簡単です。毎日続ければ年間'
+      + '5kg以上のCO2を防ぎ数百個のごみを'
+      + '埋立地から守ります。',
     es:
-      'Un popote de plastico produce '
-      + 'aproximadamente **1g de CO2** en su '
-      + 'ciclo de vida, desde la manufactura '
-      + 'a base de petroleo hasta su '
-      + 'eliminacion. Aunque es poco '
-      + 'individualmente, el [modelo EPA WARM]'
+      'Rechazar pajitas, cubiertos, '
+      + 'servilletas y otros articulos '
+      + 'desechables ahorra unos **15g de '
+      + 'CO2** al dia al evitar la fabricacion '
+      + 'y eliminacion de productos derivados '
+      + 'del petroleo. Aunque cada articulo es '
+      + 'pequeno, el [modelo WARM de la EPA]'
       + '(https://www.epa.gov/warm) muestra '
       + 'que evitar plasticos de un solo uso '
       + 'genera un impacto acumulativo '
-      + 'significativo. Rechazar uno al dia '
-      + 'ahorra mas de 365g de CO2 al ano y '
-      + 'evita que el plastico llegue a los '
-      + 'oceanos.',
+      + 'significativo. Llevar un kit '
+      + 'reutilizable con cubiertos y '
+      + 'servilleta de tela facilita el '
+      + 'rechazo. En un ano de habito diario, '
+      + 'se evitan mas de 5kg de CO2 y '
+      + 'cientos de articulos en vertederos.',
   },
 
   secondhand_clothing: {
     en:
-      'Manufacturing a new garment emits '
-      + 'roughly **13,000g (13kg) of CO2** '
-      + 'when accounting for fiber production, '
-      + 'dyeing, and global shipping. Buying '
-      + 'secondhand bypasses this entire '
-      + 'production chain. According to '
+      'Buying a secondhand garment instead '
+      + 'of new avoids roughly **15,000g '
+      + '(15kg) of CO2** from fiber '
+      + 'production, dyeing, and global '
+      + 'shipping. According to '
       + '[WRAP UK](https://wrap.org.uk/), '
       + 'extending a garment\'s life by just '
       + 'nine months reduces its carbon '
-      + 'footprint by about 30%. Secondhand '
-      + 'shopping is one of the highest-impact '
-      + 'individual actions in the consumption '
-      + 'category.',
+      + 'footprint by about 30%. The fashion '
+      + 'industry accounts for roughly 10% '
+      + 'of global carbon emissions, making '
+      + 'secondhand shopping one of the '
+      + 'highest-impact individual actions '
+      + 'in the consumption category.',
     ja:
       '新しい衣類1着の製造では、繊維生産'
       + '・染色・国際輸送を含め約**13,000g'
@@ -286,8 +297,8 @@ const descriptions = {
     en:
       'Repairing a broken item instead of '
       + 'replacing it avoids roughly '
-      + '**5,000g (5kg) of CO2** from new '
-      + 'manufacturing, raw material '
+      + '**7,500g (7.5kg) of CO2** from '
+      + 'new manufacturing, raw material '
       + 'extraction, and shipping. The '
       + '[WRAP UK](https://wrap.org.uk/) '
       + 'organization promotes repair as '
@@ -298,8 +309,8 @@ const descriptions = {
       + '([Carbon Trust]'
       + '(https://www.carbontrust.com/)). '
       + 'From electronics to furniture, '
-      + 'every repair keeps embodied carbon '
-      + 'in service longer.',
+      + 'repair skills pay back in both '
+      + 'carbon savings and money saved.',
     ja:
       '壊れた物を買い替えずに修理すること'
       + 'で、新品の製造・原料採掘・輸送に'
@@ -337,23 +348,22 @@ const descriptions = {
 
   borrow_instead_buy: {
     en:
-      'Manufacturing a typical power tool '
-      + 'emits roughly 15kg of CO2, so '
-      + 'borrowing one instead saves about '
-      + '**2,000g (2kg) of CO2** per avoided '
-      + 'purchase when amortized across '
-      + 'shared use. The sharing economy '
-      + 'reduces demand for new production '
-      + 'and its associated emissions '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Items used infrequently, like '
-      + 'specialty tools and party supplies, '
-      + 'are ideal candidates for borrowing. '
-      + 'This approach also reduces waste '
-      + 'sent to landfills '
-      + '([EPA WARM](https://www.epa.gov'
-      + '/warm)).',
+      'Borrowing a tool, appliance, or '
+      + 'other item instead of buying new '
+      + 'avoids roughly **8,000g (8kg) of '
+      + 'CO2** from manufacturing and '
+      + 'shipping. Most household tools are '
+      + 'used for only 10-15 minutes across '
+      + 'their entire lifetime '
+      + '([European Environment Agency]'
+      + '(https://www.eea.europa.eu/)). '
+      + 'Borrowing maximises the useful life '
+      + 'of items already produced and keeps '
+      + 'demand for new manufacturing in '
+      + 'check. Sharing networks and tool '
+      + 'libraries are growing worldwide, '
+      + 'making borrowing more convenient '
+      + 'than ever.',
     ja:
       '一般的な電動工具の製造で約15kgの'
       + 'CO2が排出されるため、借りることで'
@@ -391,22 +401,25 @@ const descriptions = {
       + '/warm)).',
   },
 
-  bar_soap: {
+  plastic_free_hygiene: {
     en:
-      'Switching from liquid soap to bar '
-      + 'soap saves roughly **2g of CO2** '
-      + 'per hand wash by eliminating the '
-      + 'plastic pump bottle and reducing '
-      + 'water content in manufacturing. '
-      + 'An ETH Zurich lifecycle analysis '
-      + 'found liquid soap produces about '
-      + '25% more emissions than bar soap '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Bar soap also requires less '
-      + 'packaging and weighs less for '
-      + 'transport, further cutting '
-      + 'supply-chain emissions.',
+      'Choosing plastic-free hygiene '
+      + 'products like bar soap, shampoo '
+      + 'bars, and bamboo toothbrushes '
+      + 'saves roughly **15g of CO2 per '
+      + 'day** by eliminating the '
+      + 'petroleum-based plastic packaging '
+      + 'that wraps most bathroom products. '
+      + 'A single plastic shampoo bottle '
+      + 'takes 450-1,000 years to decompose '
+      + '([EPA WARM](https://www.epa.gov'
+      + '/warm)). Bar alternatives often '
+      + 'last longer, use simpler '
+      + 'ingredients, and ship more '
+      + 'compactly. Switching your daily '
+      + 'routine to package-free options '
+      + 'compounds into several kilograms '
+      + 'of CO2 savings per year.',
     ja:
       '液体ソープからバーソープに替える'
       + 'ことで、プラスチックポンプボトルの'
@@ -439,71 +452,23 @@ const descriptions = {
       + 'emisiones.',
   },
 
-  digital_receipt: {
-    en:
-      'A single paper receipt accounts for '
-      + 'roughly **3g of CO2** when you '
-      + 'include paper manufacturing, '
-      + 'chemical coating, and disposal. '
-      + 'The [EPA WARM model]'
-      + '(https://www.epa.gov/warm) '
-      + 'tracks paper waste emissions and '
-      + 'confirms that avoiding thermal '
-      + 'paper reduces both carbon output '
-      + 'and chemical pollution. Choosing '
-      + 'a digital receipt eliminates this '
-      + 'waste stream entirely. Over a year '
-      + 'of regular shopping, this saves '
-      + 'roughly 1kg of CO2.',
-    ja:
-      '紙のレシート1枚は、紙の製造・化学'
-      + 'コーティング・廃棄を含め約**3gの'
-      + 'CO2**に相当します。'
-      + '[EPA WARMモデル]'
-      + '(https://www.epa.gov/warm)は紙廃棄'
-      + '物の排出を追跡し、感熱紙の回避が'
-      + '炭素排出と化学物質汚染の両方を削減'
-      + 'すると確認しています。デジタル'
-      + 'レシートを選ぶことでこの廃棄物の'
-      + '流れを完全に排除できます。年間の'
-      + '買い物全体で約1kgのCO2を節約'
-      + 'できます。',
-    es:
-      'Un recibo de papel representa '
-      + 'aproximadamente **3g de CO2** '
-      + 'incluyendo la fabricacion del '
-      + 'papel, el recubrimiento quimico '
-      + 'y la eliminacion. El [modelo EPA '
-      + 'WARM](https://www.epa.gov/warm) '
-      + 'rastrea las emisiones de residuos '
-      + 'de papel y confirma que evitar el '
-      + 'papel termico reduce tanto el '
-      + 'carbono como la contaminacion '
-      + 'quimica. Elegir un recibo digital '
-      + 'elimina este flujo de residuos por '
-      + 'completo. En un ano de compras '
-      + 'regulares, esto ahorra '
-      + 'aproximadamente 1kg de CO2.',
-  },
-
   buy_bulk: {
     en:
-      'Buying in bulk reduces per-unit '
-      + 'packaging and saves roughly **85g '
-      + 'of CO2 per kilogram** of product '
-      + 'purchased. Less packaging means '
-      + 'fewer resources for manufacturing '
-      + 'containers, labels, and wrapping '
+      'Buying food or household items in '
+      + 'bulk saves roughly **200g of CO2 '
+      + 'per shopping trip** by reducing '
+      + 'packaging per unit weight. '
+      + 'Single-serve and individually '
+      + 'wrapped items carry a '
+      + 'disproportionate '
+      + 'packaging-to-product ratio '
       + '([WRAP UK](https://wrap.org.uk/)). '
-      + 'Bulk purchasing also reduces '
-      + 'transportation frequency since '
-      + 'larger quantities ship more '
-      + 'efficiently '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'For pantry staples like rice, '
-      + 'beans, and grains, the savings '
-      + 'compound quickly.',
+      + 'Bulk buying also reduces the '
+      + 'frequency of shopping trips and '
+      + 'their associated transport '
+      + 'emissions. Bringing your own '
+      + 'containers further eliminates the '
+      + 'need for store-provided packaging.',
     ja:
       'まとめ買いにより個包装が減り、製品'
       + '1kgあたり約**85gのCO2**を節約'
@@ -540,21 +505,21 @@ const descriptions = {
 
   donate_items: {
     en:
-      'Donating an unwanted item extends '
-      + 'its useful life and displaces the '
-      + 'need for new production, saving '
-      + 'roughly **500g of CO2** per item '
-      + 'on average. The '
+      'Donating a bag of usable items '
+      + 'instead of discarding them prevents '
+      + 'roughly **12,000g (12kg) of CO2** '
+      + 'by extending product lifespans and '
+      + 'displacing new manufacturing. The '
       + '[WRAP UK](https://wrap.org.uk/) '
-      + 'estimates that textile reuse alone '
-      + 'saves 3.6kg of CO2 per kilogram '
-      + 'diverted from landfill. Donated '
-      + 'goods also avoid methane emissions '
-      + 'from decomposition in landfills '
-      + '([EPA WARM](https://www.epa.gov'
-      + '/warm)). Every donation supports '
-      + 'a circular economy that keeps '
-      + 'resources in use.',
+      + 'circular economy model shows that '
+      + 'reuse avoids the full production '
+      + 'chain of replacement goods. '
+      + 'Clothing, electronics, furniture, '
+      + 'and household items all carry '
+      + 'significant embedded carbon. A '
+      + 'single donation run can have the '
+      + 'same climate impact as weeks of '
+      + 'dietary changes.',
     ja:
       '不要品を寄付することで製品寿命が'
       + '延び、新品製造の必要性が減り、'
@@ -694,53 +659,52 @@ const descriptions = {
       + 'industria.',
   },
 
-  use_cloth_napkin: {
+  used_car_purchase: {
     en:
-      'Each disposable paper napkin '
-      + 'produces roughly **5g of CO2** '
-      + 'from wood pulp processing, '
-      + 'bleaching, and transportation. '
-      + 'The [EPA WARM model]'
-      + '(https://www.epa.gov/warm) '
-      + 'accounts for paper product '
-      + 'emissions from production through '
-      + 'landfill decomposition. A reusable '
-      + 'cloth napkin replaces hundreds of '
-      + 'paper napkins per year, saving '
-      + 'over 1.5kg of CO2 annually. '
-      + 'Washing cloth napkins with regular '
-      + 'laundry adds negligible extra '
-      + 'emissions.',
+      'Buying a quality used car instead '
+      + 'of a new one avoids roughly '
+      + '**3 tonnes of CO2** from vehicle '
+      + 'manufacturing. Producing a new car '
+      + 'generates 6-35 tonnes of CO2 '
+      + 'before it ever hits the road, '
+      + 'depending on the model '
+      + '([IEA](https://www.iea.org/)). '
+      + 'A well-maintained used vehicle '
+      + 'extends the useful life of '
+      + 'materials already extracted and '
+      + 'processed. This is one of the '
+      + 'single highest-impact consumer '
+      + 'decisions you can make, rivalling '
+      + 'years of dietary changes in a '
+      + 'single choice.',
     ja:
-      '使い捨て紙ナプキン1枚は、木材パルプ'
-      + 'の加工・漂白・輸送を含め約**5gの'
-      + 'CO2**を排出します。'
-      + '[EPA WARMモデル]'
-      + '(https://www.epa.gov/warm)は紙製品'
-      + 'の生産から埋立分解までの排出を算出'
-      + 'しています。布ナプキン1枚で年間'
-      + '数百枚の紙ナプキンを代替し、'
-      + '年間1.5kg以上のCO2を節約でき'
-      + 'ます。布ナプキンは通常の洗濯と'
-      + '一緒に洗えるため、追加の排出は'
-      + 'ごくわずかです。',
+      '新車の代わりに良質な中古車を購入'
+      + 'すると車両製造による約**3トンの'
+      + 'CO2**を回避できます。新車は走行前'
+      + 'にモデルにより6〜35トンのCO2を'
+      + '排出します（[IEA](https://www.iea'
+      + '.org/)）。整備の行き届いた中古車は'
+      + '既に採掘・加工された素材の有効寿命'
+      + 'を延ばします。食生活の変化を何年も'
+      + '続けるのに匹敵するほど1回の選択で'
+      + '最もインパクトの大きい消費行動の'
+      + '1つです。',
     es:
-      'Cada servilleta de papel desechable '
-      + 'produce aproximadamente **5g de '
-      + 'CO2** por el procesamiento de pulpa '
-      + 'de madera, el blanqueo y el '
-      + 'transporte. El [modelo EPA WARM]'
-      + '(https://www.epa.gov/warm) contabiliza '
-      + 'las emisiones de productos de papel '
-      + 'desde la produccion hasta la '
-      + 'descomposicion en vertederos. Una '
-      + 'servilleta de tela reutilizable '
-      + 'reemplaza cientos de servilletas de '
-      + 'papel al ano, ahorrando mas de '
-      + '1.5kg de CO2 anualmente. Lavar '
-      + 'servilletas de tela con la colada '
-      + 'regular agrega emisiones '
-      + 'insignificantes.',
+      'Comprar un coche usado de calidad '
+      + 'en lugar de uno nuevo evita '
+      + 'aproximadamente **3 toneladas de '
+      + 'CO2** de la fabricacion del vehiculo. '
+      + 'Producir un coche nuevo genera entre '
+      + '6 y 35 toneladas de CO2 antes de '
+      + 'salir a la carretera, segun el modelo '
+      + '([IEA](https://www.iea.org/)). '
+      + 'Un vehiculo usado bien mantenido '
+      + 'extiende la vida util de materiales '
+      + 'ya extraidos y procesados. Es una de '
+      + 'las decisiones de consumo con mayor '
+      + 'impacto que puedes tomar, comparable '
+      + 'a anos de cambios en la dieta en una '
+      + 'sola eleccion.',
   },
 };
 

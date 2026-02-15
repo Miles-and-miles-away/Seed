@@ -80,8 +80,11 @@ String formatCO2(int grams) {
   return '$grams g CO₂';
 }
 
-/// Format CO2 amount in compact form (e.g., "1.2kg" or "500g")
+/// Format CO2 amount in compact form (e.g., "3.4t", "1.2kg", "500g")
 String formatCO2Compact(int grams) {
+  if (grams >= 1000000) {
+    return '${(grams / 1000000).toStringAsFixed(1)}t';
+  }
   if (grams >= 1000) {
     return '${(grams / 1000).toStringAsFixed(1)}kg';
   }

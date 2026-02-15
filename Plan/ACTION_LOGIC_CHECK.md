@@ -1,774 +1,509 @@
-# Action Logic Check
+# Action Design Guide
 
-Systematic review of seed_action_library.js for unclear
-time-scope, confusing logging semantics, and inconsistent
-CO2 estimation. Each section identifies problems and ends
-with a concrete plan.
-
-
-## Guiding Principle: Logging Units
-
-Every action must have an unambiguous "logging unit."
-Three types:
-
-1. **Per instance** - Discrete, countable events.
-   User logs each occurrence. (recycle a can, choose
-   plant milk for one coffee)
-2. **Per day** - Continuous daily habits.
-   User logs once per day. Description should say "today."
-   CO2 reflects a typical full-day estimate.
-3. **One-time** - Rare or milestone actions.
-   User logs once when the event happens. CO2 should
-   reflect the expected long-term return, not just one
-   day's savings.
-
-Each action description must make the logging unit
-obvious to the user.
+Reference for adding, modifying, or reviewing actions in
+the Seed action library. Covers the principles refined
+during the initial action audit so future additions are
+consistent, honest, and well-calibrated.
 
 ---
 
-## 1. One-Time Actions
+## 1. The Logging Unit
 
-### led_bulb -> install_led_bulb
-**Decision:** Reframe as installing LEDs, not using them.
-CO2 should reflect expected first-year savings.
-- Calculation: 50W saved x 4hrs/day x 365 days = 73kWh
-  x 386g/kWh = ~28,000g (28kg) first-year savings
-- Name: "Install LED Lighting"
-- Description: "Replace an incandescent or halogen bulb
-  with an LED bulb"
-- co2Grams: 28000
-- effort: 2 (buy bulb, swap it)
-- frequency: 1 (rare: one-time per bulb)
-- impact: 3 (permanent daily savings for years)
-- Comment: "first-year savings; 50W diff x 4hrs/day x
-  365 x 386g/kWh"
+Every action must have one unambiguous "logging unit" so
+the user knows exactly what one tap of the log button
+represents. Three types exist:
 
-### fix_leak
-**Decision:** Keep action, update CO2 to reflect expected
-lifetime return of the fix.
-- A dripping tap wastes ~22L/day of hot water
-- Energy to heat 22L: ~0.77 kWh/day x 386g/kWh = ~300g
-  CO2/day
-- Conservative 1-year expected benefit: 300 x 365 =
-  ~109,000g. Round to 100,000g (100kg)
-- Name: "Fix a Water Leak"
-- Description: "Fix a dripping tap or leaking pipe"
-- co2Grams: 100000
-- effort: 3 (requires tools or plumber)
-- frequency: 1 (rare: when leaks occur)
-- impact: 4 (prevents ongoing waste for years)
-- Comment: "~300g CO2/day from heating wasted water;
-  conservative 1-year projected savings"
+| Type | User logs... | CO2 represents... |
+|------|-------------|-------------------|
+| **Per instance** | Each occurrence | One discrete event |
+| **Per day** | Once per day | A full day of the habit |
+| **One-time** | Once ever | Long-term projected return |
 
-### join_eco_group -> attend_eco_meeting
-**Decision:** Change from "join" (one-time) to "attend a
-meeting/event" (repeatable).
-- Name: "Attend Eco Group Meeting"
-- Description: "Attend a meeting or event with a local or
-  online environmental group"
-- co2Grams: 0 (indirect: collective action)
-- effort: 2 (attend, participate)
-- frequency: 2 (monthly meetings)
-- impact: 4 (amplifies voice, enables action)
+### Rules
 
-### collect_rainwater -> install_rain_collector
-**Decision:** Reframe as installing a rainwater collection
-system. CO2 reflects first-year savings.
-- A typical rain barrel collects ~1000-2000L/year
-- Displaces mains water (treatment + pumping ~0.5g
-  CO2/L): ~500-1000g/year
-- Also avoids garden irrigation energy
-- co2Grams: 750 (first-year mains displacement)
-- Name: "Install Rain Collector"
-- Description: "Set up a rain barrel or water collection
-  system for garden use"
-- effort: 3 (purchase, set up, maintain)
-- frequency: 1 (rare: one-time installation)
-- impact: 3 (water independence, ongoing savings)
-- Note: CO2 is modest but water conservation value is
-  high; impact score reflects ecological importance
-  beyond just CO2
+- The **description must make the unit obvious** to the
+  user without requiring them to guess.
+- Per-day actions should include "today" in the
+  description (e.g., "...instead of electric lighting
+  today").
+- Per-instance actions should name the countable thing
+  (e.g., "Recycle an aluminum can", "Choose plant-based
+  milk for a drink or meal").
+- One-time actions should describe the milestone event
+  (e.g., "Install an LED bulb", "Purchase an electric
+  vehicle").
+- One-time CO2 values reflect **projected first-year (or
+  multi-year) savings**, not a single day's benefit. The
+  inline comment must state the projection window.
+
+### Why this matters
+
+If the unit is ambiguous, users either over-log (inflating
+their impact) or under-log (feeling unrewarded). Both
+erode trust. The unit also determines how CO2 is
+calculated -- a "per day" action must use a full-day
+estimate, not a per-instance one.
 
 ---
 
-## 2. Unclear Unit Per Log
+## 2. CO2 Estimation Principles
 
-These are good habits worth reinforcing. The solution is
-to define each as either "per day" or "per instance" and
-adjust CO2 to match that unit.
+### Be honest, not generous
 
-### use_natural_light
-**Decision:** Frame as per-day habit.
-- Description: "Use natural light instead of electric
-  lighting today"
-- Estimate: avoided ~3hrs of lighting x 2 rooms avg x
-  40W = 240Wh x 0.386g/Wh = ~93g
-- co2Grams: 90 (up from 20)
-- Comment: "daily est: 3hrs x 2 rooms x 40W x 386g/kWh"
+Round conservatively. Users who discover inflated numbers
+lose trust permanently. Users who see the app acknowledge
+complexity trust it more.
 
-### turn_off_lights
-**Decision:** Frame as per-day habit.
-- Description: "Turn off lights in empty rooms today"
-- Estimate: typical household wastes ~2hrs of unnecessary
-  lighting across rooms per day. 2hrs x 80W (2 rooms) =
-  160Wh x 0.386 = ~62g
-- co2Grams: 60 (up from 30)
-- Comment: "daily est: ~2hrs wasted lighting x 80W avg"
+### Be specific in the inline comment
 
-### unplug_devices
-**Decision:** Frame as per-day habit.
-- Description: "Unplug standby devices when not in use
-  today"
-- Estimate: ~5 devices x 3W avg standby x 8hrs = 120Wh
-  x 0.386 = ~46g
-- co2Grams: 45 (up from 40)
-- Comment: "daily est: 5 devices x 3W x 8hrs standby"
+Every `co2Grams` value MUST have an inline comment in the
+JSON that shows the calculation chain. Format:
 
-### reusable_water_bottle (keeping; removing drink_tap_water)
-**Decision:** Frame as per-day habit.
-- Description: "Use your reusable bottle instead of
-  buying disposable bottles today"
-- Estimate: avoids ~2 plastic bottles per day = ~160g
-- co2Grams: 160 (up from 80)
-- Comment: "daily est: ~2 PET bottles avoided x 83g each"
+```javascript
+co2Grams: 90, // daily: 3hrs x 2 rooms x 40W x 386g/kWh
+```
 
-### plant_milk
-**Decision:** Keep as per-instance (per serving).
-Description should clarify this.
-- Description: "Choose plant-based milk instead of dairy
-  for a drink or meal"
-- co2Grams: 550 (unchanged, per 250ml serving)
-- Comment clarified: "per serving (250ml); dairy 3.2 vs
-  oat 0.45 kg CO2/L (Poore 2018)"
-- Users log each conscious switch (coffee, cereal, etc.)
+The comment should contain:
+1. **The unit** (daily, per can, per bag, first-year, etc.)
+2. **The arithmetic** (show the multiplication chain)
+3. **The source assumption** (grid factor, Poore 2018,
+   DEFRA 2024, etc.)
 
-### bar_soap
-**Decision:** Frame as per-day habit. Expand scope to
-cover all plastic-free personal care.
-- Rename: plastic_free_hygiene
-- Name: "Plastic-Free Personal Care"
-- Description: "Use bar soap, shampoo bars, or refillable
-  products instead of plastic-bottled ones today"
-- Estimate: ~3-4 uses/day, avoiding ~1/100 of a plastic
-  bottle per use = ~6 bottles/year avoided. 6 bottles x
-  100g CO2 / 365 = ~2g/day. Very small.
-- co2Grams: 15 (accounting for full lifecycle of
-  refillable vs disposable including transport)
-- Comment: "daily est; modest CO2 but meaningful plastic
-  reduction habit"
-- Note: Small CO2 is honest. The habit value is in
-  plastic waste reduction, not carbon. Impact score
-  compensates.
+### Use a standard grid emission factor
 
-### refuse_straw + no_single_use_cutlery + use_cloth_napkin
-**Decision:** Merge into one daily action. Individually
-these are 1-5g and not worth separate logging friction.
-- Rename: refuse_disposables
-- Name: "Refuse Single-Use Disposables"
-- Description: "Refuse disposable straws, cutlery,
-  napkins, or other single-use items today"
-- Estimate: straw (1g) + cutlery (5g) + napkin (5g) +
-  misc (4g) = ~15g per day of conscious refusal
-- co2Grams: 15
-- effort: 1
-- frequency: 5 (daily: meals and drinks)
-- impact: 2 (plastic pollution awareness)
-- Comment: "daily est: combined straw + cutlery + napkin
-  + misc disposable avoidance"
-- REMOVES: refuse_straw, no_single_use_cutlery,
-  use_cloth_napkin (3 actions -> 1)
+All energy calculations use **386 g CO2/kWh** as the
+global average baseline (midpoint of US 370 and UK 210,
+biased toward global average). Document any deviation.
 
-### digital_receipt
-**Decision:** Keep as per-instance. It is a quick one-tap
-decision at checkout and doesn't need merging. CO2 is
-tiny (3g) but the action is clearly scoped already.
-No changes needed.
+### Handle variable-scope actions with a defined unit
+
+When what a user logs could vary wildly (e.g., "recycle
+textiles" could be one sock or a bin bag of coats),
+**define a standard unit** in the description:
+
+- "Donate a bag of old clothing" (per bag, ~4-5kg)
+- "Take old electronics to recycling" (per smartphone)
+- "Donate a box of unused household items" (per box)
+
+Then calculate CO2 for that standard unit with
+**scenario-based averaging**: list 3-5 realistic scenarios,
+calculate each, and take a weighted average biased toward
+the most common case. Document all scenarios in the
+ACTION_LOGIC_CHECK or in longer comments.
+
+### Zero-CO2 actions are valid
+
+Actions like "attend eco group meeting" or "take on a
+household task" have co2Grams: 0. They earn points through
+the zero-CO2 formula (see section 4). Their value is in
+behavior change, community, or social equity -- not carbon.
+The `impact` score should reflect this broader value.
 
 ---
 
-## 3. Wildly Variable Scope
+## 3. The Action JSON Schema
 
-### recycle_textiles
-**Decision:** Define as "per bag" (standard garbage bag).
-This normalizes the variance: 10 small shirts and 1
-winter coat both fill roughly similar bag volume.
+```javascript
+{
+  id: 'snake_case_id',        // unique, descriptive
+  nameEn: 'Short Title',      // max ~30 chars
+  nameJa: '...',
+  nameEs: '...',
+  descriptionEn:              // 1-2 sentences
+    'Verb phrase that makes the logging unit '
+    + 'obvious to the user',
+  descriptionJa: '...',
+  descriptionEs: '...',
+  category: 'recycling',      // see category list
+  co2Grams: 100,              // inline comment REQUIRED
+  effort: 2,                  // 1-5, see scale below
+  frequency: 4,               // 1-5, see scale below
+  impact: 3,                  // 1-5, see scale below
+  iconName: 'recycling',      // Material Icons name
+  relatedSdgs: ['12', '13'],  // string array of SDG #s
+  isActive: true,
+  sortOrder: 1,               // within category
+}
+```
 
-Scenarios for a standard bag (~4-5kg of textiles):
-- A: 10 lightweight (t-shirts, underwear) ~0.4kg each =
-  4kg; saves 4 x 20 = 80kg CO2
-- B: 5 medium (jeans, sweaters) ~0.8kg each = 4kg;
-  saves 4 x 20 = 80kg CO2
-- C: 3 heavy (coats, jackets) ~1.5kg each = 4.5kg;
-  saves 4.5 x 20 = 90kg CO2
-- D: Mixed 7 items ~0.6kg avg = 4.2kg;
-  saves 4.2 x 20 = 84kg CO2
-- Applying ~50% effective reuse rate (not all donations
-  get reused): 84kg x 0.5 = 42kg
+### Categories (9)
 
-Average across scenarios with reuse adjustment: ~40,000g
+`recycling`, `transport`, `food`, `energy`,
+`consumption`, `water`, `community`, `advocacy`,
+`learning`
 
-- Name: "Recycle or Donate a Bag of Textiles"
-- Description: "Donate or recycle a bag of old clothing
-  and textiles"
-- co2Grams: 40000
-- Comment: "per bag (~4-5kg); scenarios: 10 tees=80kg,
-  5 jeans=80kg, 3 coats=90kg, mixed=84kg raw;
-  x50% effective reuse rate -> ~40kg; 20kg CO2/kg
-  textile (Poore 2018)"
+### Localization
 
-### recycle_ewaste
-**Decision:** Base on recycling one smartphone (most
-common e-waste item). Keep description open for other
-electronics.
-
-Phone recycling CO2 analysis:
-- Recoverable metals per phone: ~0.034g gold, 0.34g
-  silver, 15g copper, plus rare earths
-- Gold mining CO2: ~20,000 kg/kg. 0.034g saves ~680g
-- Silver: ~100 kg/kg. 0.34g saves ~34g
-- Copper: ~5 kg/kg. 15g saves ~75g
-- Rare earths + avoided toxic landfill: ~500g
-- Avoided manufacturing energy for recovered materials:
-  ~700g
-- Total per phone: ~2,000g (conservative)
-
-- Name: "Recycle E-Waste"
-- Description: "Take old electronics to an e-waste
-  recycling drop-off point"
-- co2Grams: 2000
-- Comment: "est. per smartphone: ~680g gold recovery +
-  ~34g silver + ~75g copper + ~500g rare earth/toxicity
-  + ~700g manufacturing energy; conservative est.
-  Actual item may vary but rewards the habit"
-
-### secondhand_clothing
-**Decision:** This one is inherently per-item and the
-variance is real. Use a median garment weight.
-
-Scenarios:
-- T-shirt (0.2kg): new = ~8kg CO2; savings = ~8,000g
-- Jeans (0.8kg): new = ~33kg CO2; savings = ~33,000g
-- Sweater (0.4kg): new = ~15kg CO2; savings = ~15,000g
-- Winter coat (1.2kg): new = ~35kg CO2; savings = ~35,000g
-- Dress (0.3kg): new = ~12kg CO2; savings = ~12,000g
-
-Median common purchase (jeans/sweater/shirt): ~15,000g
-
-- co2Grams: 15000 (up slightly from 13000)
-- Description: "Buy a secondhand clothing item instead of
-  new (est. based on avg garment)"
-- Comment: "per item, median garment; tee=8kg,
-  jeans=33kg, sweater=15kg, coat=35kg, dress=12kg;
-  median ~15kg"
-
-### repair_item
-**Decision:** Complete review. Keep as one action with
-scenario-based average.
-
-Scenarios for "repair instead of replace":
-- Sew button / patch clothing: avoids new garment
-  purchase. Savings: ~3,000g
-- Fix zipper on bag/jacket: avoids replacement.
-  Savings: ~5,000g
-- Repair small appliance (lamp, iron, toaster):
-  Savings: ~7,000g
-- Fix furniture (chair leg, shelf): Savings: ~15,000g
-- Replace phone screen: avoids new device.
-  Savings: ~20,000g
-
-Weighted toward common repairs (clothing + small items):
-(3000 + 5000 + 7000 + 15000 + 20000) / 5 = 10,000g
-But most repairs are small: clothing/zipper/small items.
-Weighted avg (50% small, 30% medium, 20% large):
-0.5*4000 + 0.3*7000 + 0.2*17500 = 2000+2100+3500 = 7600
-
-- co2Grams: 7500 (up from 5000)
-- Description: "Repair a broken item instead of buying
-  new (clothing, appliance, furniture, etc.)"
-- Comment: "weighted avg: 50% small repairs (clothing/
-  zipper ~4kg), 30% medium (small appliance ~7kg), 20%
-  large (furniture/electronics ~17.5kg) = ~7.5kg"
-
-### borrow_instead_buy
-**Decision:** Complete review. Most common borrowing is
-tools, equipment, and occasion-specific items.
-
-Scenarios:
-- Library book: avoids ~1,000g manufacturing
-- Power tool from neighbor: avoids ~10,000g
-- Camping/sports gear: avoids ~15,000g
-- Formal/occasion clothing: avoids ~10,000g
-- Kitchen appliance (bread maker, etc.): avoids ~7,000g
-
-Books are the most common borrow-instead-buy but also
-the lowest impact. Tools/equipment are the target use
-case for this action.
-Weighted avg (30% book, 30% tool, 20% gear, 20% other):
-0.3*1000 + 0.3*10000 + 0.2*15000 + 0.2*8500 =
-300 + 3000 + 3000 + 1700 = 8000
-
-But the description says "tool or item," suggesting
-non-book items. If we exclude books:
-(10000 + 15000 + 10000 + 7000) / 4 = 10,500g
-
-Split the difference: ~8,000g
-
-- co2Grams: 8000 (up from 2000)
-- Description: "Borrow or rent a tool, appliance, or item
-  instead of buying new"
-- Comment: "per item; tool ~10kg, camping gear ~15kg,
-  formal wear ~10kg, appliance ~7kg; weighted avg ~8kg"
-- Note: Reframed away from books (library usage could be
-  its own action if needed)
-
-### donate_items
-**Decision:** Complete review. This is for non-clothing
-household items (textiles covered separately). Define as
-"a donation run" (a box/bag of items).
-
-Scenarios for a typical donation box:
-- 5 books + 3 kitchen items: ~5 x 1kg + 3 x 3kg =
-  ~14,000g saved
-- Box of toys/games: ~8 items x 1,500g = ~12,000g
-- Small appliances + misc: ~3 x 5,000g = ~15,000g
-- Mixed bag (books, kitchenware, decor): ~10,000g
-
-Average: ~12,000g
-
-- co2Grams: 12000 (up from 500 which was way too low)
-- Name: "Donate Unused Items"
-- Description: "Donate a box or bag of unused household
-  items instead of trashing them"
-- Comment: "per donation run; books+kitchen ~14kg,
-  toys ~12kg, appliances ~15kg, mixed ~10kg; avg ~12kg;
-  excludes textiles (separate action)"
-
-### buy_bulk
-**Decision:** Complete review. Reframe as per shopping
-trip rather than per item.
-
-Scenarios for a bulk shopping trip:
-- 3 dry staples in own containers (rice, pasta, nuts):
-  saves 3 plastic bags x 30g = ~90g
-- 1 cleaning product refill: saves ~80g (bottle)
-- 1-2 large-format items vs small: saves ~50g packaging
-
-Per trip total: ~150-250g
-
-- co2Grams: 200 (up from 85)
-- Description: "Buy groceries or supplies in bulk or
-  using refill containers"
-- Comment: "per shopping trip; 3 bulk staples ~90g +
-  cleaning refill ~80g + misc ~30g = ~200g packaging
-  CO2 avoided"
-- Note: CO2 is modest, but the action rewards the
-  habit of low-waste shopping. Impact score should
-  reflect the waste reduction.
+All three languages (EN, JA, ES) are required for name
+and description. Long descriptions go in separate files
+under `scripts/action_descriptions_*.js`.
 
 ---
 
-## 4. Logging Existing Habits / Lifestyle
+## 4. Point Calculation
 
-### work_from_home
-**Decision:** REMOVE entirely.
-- Rewards privilege, not behavioral change
-- Not all users have this option
-- Gameable: permanent remote workers log 4.5kg daily
-  for doing nothing different
+Points are pre-computed by `seed_action_library.js` and
+stored in Firestore. The app does NOT recalculate them.
 
-### close_windows_ac
-**Decision:** REPLACE with a better action.
-- Current action is "don't do something dumb" which most
-  people already do.
+### Formula (CO2 > 0)
 
-Proposed replacement: use_fan_instead_of_ac
-- Name: "Use Fan Instead of AC"
-- Description: "Use a fan or natural ventilation instead
-  of air conditioning today"
-- co2Grams: 1200
-  (avg AC unit: ~1.5kW x 4hrs = 6kWh x 386g = ~2300g;
-  fan: ~50W x 4hrs = 0.2kWh x 386g = ~77g;
-  savings: ~2200g. Conservative at 1200g to account
-  for partial use / not fully replacing AC)
-- effort: 2 (comfort trade-off on hot days)
-- frequency: 3 (cooling season, not every day)
-- impact: 2 (individual behavior change)
-- Comment: "daily est; AC 6kWh vs fan 0.2kWh;
-  conservative assuming partial AC replacement"
+```
+points = max(1, round(
+  co2Grams^0.4
+    * effortMultiplier
+    * rarityMultiplier
+    * impactMultiplier
+))
+```
 
-### share_domestic_work
-**Decision:** Keep but reframe with a concrete, loggable
-metric. The SDG 5 (Gender Equality) value is important.
+### Formula (CO2 = 0)
 
-Problem: "share equally" is vague and unverifiable.
-Better framing: focus on taking initiative on a specific
-task.
+```
+points = max(1, round(
+  effort * 3
+    * rarityMultiplier
+    * impactMultiplier
+))
+```
 
-- Name: "Take On a Household Task"
-- Description: "Take initiative on a household task
-  (cooking, cleaning, laundry, childcare) to support
-  fair division of domestic labor"
-- Logging metric: each time you deliberately take on a
-  task your partner usually handles
-- co2Grams: 0 (social equity action)
-- effort: 2 (sustained awareness + action)
-- frequency: 4 (several times per week)
-- impact: 4 (generational family dynamics)
-- relatedSdgs: ['5', '3', '8', '10']
-- Note: frequency changed from 5 to 4 since it's about
-  deliberate extra effort, not daily routine
+### Constants
 
-### electric_car_commute -> electric_car_purchase
-**Decision:** Reframe as a one-time purchase milestone.
-This is one of the biggest environmental decisions a
-person can make.
+```
+CO2_EXPONENT     = 0.4
+EFFORT_BASE      = 0.7     EFFORT_SCALE  = 0.15
+RARITY_BASE      = 1.3     RARITY_SCALE  = 0.1
+IMPACT_BASE      = 0.85    IMPACT_SCALE  = 0.075
+ZERO_CO2_SCALE   = 3
+```
 
-CO2 analysis:
-- Average annual driving: ~15,000 km
-- Gas car: 164g/km (DEFRA 2024)
-- EV: ~50g/km (including grid average)
-- Annual savings: 15,000 x 114g = ~1,710,000g (1.7 tons)
-- Using first-year savings: ~1,700,000g
+### Multiplier Ranges
 
-- Name: "Purchase an Electric Vehicle"
-- co2Grams: 1700000
-- effort: 5 (major financial + research decision)
-- frequency: 1 (rare: once every 5-10 years)
-- impact: 5 (systemic: drives EV market, permanent
-  shift from fossil fuels)
-- Comment: "first-year savings; 15,000km x (164-50)g/km
-  = ~1.7 tons; DEFRA 2024 petrol vs avg grid EV"
-- Note: The points formula's 0.4 exponent compresses
-  this (1700000^0.4 = ~238 base), so it won't break
-  the point economy.
+| Factor | Input | Multiplier formula | Range |
+|--------|-------|--------------------|-------|
+| Effort | 1-5 | 0.7 + (effort * 0.15) | 0.85x - 1.45x |
+| Rarity | 1-5 | 1.3 - (frequency * 0.1) | 0.8x - 1.2x |
+| Impact | 1-5 | 0.85 + (impact * 0.075) | 0.925x - 1.225x |
 
-### NEW: used_car_purchase
-**Decision:** Add new action. Buying used instead of new
-avoids manufacturing emissions entirely.
+### Why the 0.4 exponent?
 
-CO2 analysis:
-- Manufacturing a new car: ~6,000-17,000 kg CO2
-  (varies by size/type; mid-size ~8,000 kg)
-- Buying used extends existing vehicle's life, avoiding
-  100% of new manufacturing CO2
-- Conservative estimate (avg car, partial credit since
-  the car was already manufactured for someone):
-  ~6,000,000g (6 tons)
-- This is the CO2 embedded in manufacturing that would
-  have been emitted for a new car purchase
+Linear CO2-to-points would make "purchase an EV"
+(3,400,000g) worth 34,000x more than "recycle a can"
+(100g). The 0.4 power compresses this:
+- 100^0.4 = 6.3
+- 3,400,000^0.4 = 410
 
-- id: used_car_purchase
-- Name: "Buy a Used Car Instead of New"
-- Description: "Purchase a used vehicle instead of a
-  brand new one"
-- co2Grams: 6000000
-- effort: 3 (research, inspect, negotiate)
-- frequency: 1 (rare: major purchase)
-- impact: 4 (reduces manufacturing demand)
-- category: consumption
-- relatedSdgs: ['12', '13']
-- Comment: "avoids ~6 tons new car manufacturing CO2;
-  conservative mid-size est (range 6-17 tons)"
+So the EV is ~65x the can in points, not 34,000x. This
+keeps daily habits competitive with rare big actions --
+logging recycling every day for a year accumulates far
+more than one EV purchase.
 
----
+### Worked Examples
 
-## 5. Transport Distance Assumptions
+**Recycle Aluminum Can** (co2:100, eff:1, freq:5, imp:2)
+```
+effortMult = 0.7 + (1 * 0.15) = 0.85
+rarityMult = 1.3 - (5 * 0.1) = 0.80
+impactMult = 0.85 + (2 * 0.075) = 1.00
+points = round(100^0.4 * 0.85 * 0.8 * 1.0)
+       = round(6.31 * 0.68)
+       = round(4.29) = 4 pts
+```
 
-**Decision:** Not a critical issue. Distances are
-reasonable averages. Plan: update each description to
-state the assumed distance so users understand what
-they're logging. The CO2 is an estimate, and for a
-habit-tracking app, this level of precision is fine.
+**Shorter Shower** (co2:275, eff:2, freq:5, imp:2)
+```
+effortMult = 0.7 + (2 * 0.15) = 1.00
+rarityMult = 1.3 - (5 * 0.1) = 0.80
+impactMult = 0.85 + (2 * 0.075) = 1.00
+points = round(275^0.4 * 1.0 * 0.8 * 1.0)
+       = round(9.34 * 0.8)
+       = round(7.47) = 7 pts
+```
 
-Changes to descriptions:
-- walk_instead_drive: "Walk instead of driving for a
-  short trip (~1.5km)"
-- bike_short_trip: already says "under 3km" - OK
-- bike_medium_trip: already says "3-10km" - OK
-- public_transport: "Take public transport instead of
-  driving (~10km trip)"
-- carpool: "Share a ride instead of driving alone
-  (~10km trip)"
-- take_bus: "Take the bus instead of driving (~7km trip)"
-- Note: electric_car_commute is being replaced by
-  electric_car_purchase (see section 4)
+**Install LED Bulb** (co2:28000, eff:2, freq:1, imp:3)
+```
+effortMult = 0.7 + (2 * 0.15) = 1.00
+rarityMult = 1.3 - (1 * 0.1) = 1.20
+impactMult = 0.85 + (3 * 0.075) = 1.075
+points = round(28000^0.4 * 1.0 * 1.2 * 1.075)
+       = round(52.4 * 1.29)
+       = round(67.6) = 68 pts
+```
 
----
+**Attend Eco Meeting** (co2:0, eff:2, freq:2, imp:4)
+```
+effortMult = (not used directly for zero-CO2)
+rarityMult = 1.3 - (2 * 0.1) = 1.10
+impactMult = 0.85 + (4 * 0.075) = 1.15
+points = round(2 * 3 * 1.1 * 1.15)
+       = round(7.59) = 8 pts
+```
 
-## 6. Overlap / Double-Counting
+**Purchase EV** (co2:3400000, eff:5, freq:1, imp:5)
+```
+effortMult = 0.7 + (5 * 0.15) = 1.45
+rarityMult = 1.3 - (1 * 0.1) = 1.20
+impactMult = 0.85 + (5 * 0.075) = 1.225
+points = round(3400000^0.4 * 1.45 * 1.2 * 1.225)
+       = round(410 * 2.13)
+       = round(873) = 873 pts
+```
 
-### drink_tap_water + reusable_water_bottle
-**Decision:** REMOVE drink_tap_water. Keep only
-reusable_water_bottle (reframed as per-day; see
-section 2).
+### Point Sanity Check Table
 
-### local_produce + farmers_market
-**Decision:** MERGE into one action.
-- id: buy_local_produce
-- Name: "Buy Local Produce"
-- Description: "Buy locally grown food from a farmers
-  market, farm stand, or local supplier"
-- co2Grams: 300 (using the higher farmers_market
-  estimate since it accounts for the full local food
-  system benefit beyond just transport miles)
-- category: community (supports local agriculture)
-- effort: 2
-- frequency: 3 (weekly)
-- impact: 3 (supports local agriculture ecosystem)
-- relatedSdgs: ['2', '11', '12', '13']
-- Comment: "per shopping trip; reduced food miles +
-  less refrigerated supply chain vs supermarket"
-- REMOVES: local_produce, farmers_market (2 -> 1)
+Use this table to gut-check new actions. Points should
+fall in a believable range relative to existing actions.
 
-### Meat/Fish Actions -> Impact Tiers
-**Decision:** Replace 4 individual meat actions
-(meatless_meal_beef, meatless_meal_chicken,
-meatless_meal_pork, skip_fish_meal) + reduce_dairy
-with a clearer tiered system:
-
-#### skip_high_impact_food (replaces meatless_meal_beef)
-- Name: "Skip High-Impact Food"
-- Description: "Choose a plant-based alternative instead
-  of high-impact animal products (beef, lamb, cheese,
-  farmed shrimp) or destructively sourced seafood
-  (bottom-trawled fish, overfished species)"
-- co2Grams: 6000 (based on beef/lamb meal, the primary
-  target; cheese and shrimp are similar per serving)
-- effort: 2
-- frequency: 3 (weekly)
-- impact: 4 (deforestation, methane, ocean destruction)
-- relatedSdgs: ['2', '12', '13', '14', '15']
-- Comment: "per meal; beef ~60kg/kg, lamb ~24kg/kg,
-  cheese ~21kg/kg, shrimp ~18kg/kg (Poore 2018);
-  also covers destructively fished species (bottom
-  trawling, overfishing) due to ecosystem damage"
-
-Why combine CO2 + ecological destruction: Beef and lamb
-are the clear CO2 leaders. But farmed shrimp destroys
-mangroves, bottom trawling devastates ocean floors, and
-overfished species (bluefin tuna, Atlantic cod) threaten
-ecosystem collapse. These may have "lower" CO2 per kg
-but their ecological harm is comparable. Grouping them
-as "high impact" gives users a simple mental model:
-these are the foods that do the most total damage.
-
-The long description should list specific examples:
-- CO2 giants: beef, lamb, goat
-- Ecosystem destroyers: farmed shrimp (mangroves),
-  bottom-trawled fish (seafloor), overfished species
-- High land-use: cheese (methane + land)
-
-#### skip_medium_impact_food (replaces chicken/pork/fish)
-- Name: "Skip Medium-Impact Food"
-- Description: "Choose a plant-based alternative instead
-  of medium-impact animal products (chicken, pork, eggs,
-  farmed salmon, dairy)"
-- co2Grams: 1000 (avg of chicken ~6.9, pork ~7.6,
-  eggs ~4.7, salmon ~5-8 kg CO2/kg; per ~150g serving)
-- effort: 2
-- frequency: 3 (weekly)
-- impact: 2 (lower land/methane than high-impact)
-- relatedSdgs: ['2', '12', '13']
-- Comment: "per meal; chicken ~6.9, pork ~7.6, eggs ~4.7,
-  farmed fish ~5-8 kg CO2/kg (Poore 2018); ~150g
-  serving"
-
-#### vegan_day (keep as-is)
-- No changes needed. Already well-scoped as a full day.
-- co2Grams: 3000 (omnivore ~5.6 vs vegan ~2.9 kg/day)
-- Good synergy: users can log skip_high_impact or
-  skip_medium_impact for individual meals, OR vegan_day
-  for a full commitment. These should not be logged
-  together for the same day.
-
-#### veganuary (new? or defer?)
-**Decision:** DEFER to a future "challenges" feature.
-- A month-long commitment doesn't fit the daily logging
-  model well. When do you log it? Day 30?
-- Better as a streak-based challenge: "Log vegan_day for
-  30 consecutive days" with a bonus reward.
-- Note for Phase 5+: implement challenge system with
-  streak bonuses.
-
-#### reduce_dairy -> REMOVE
-- Absorbed into skip_medium_impact_food (dairy is listed)
-- Also partially covered by plant_milk (specific dairy
-  swap)
-
-**Net change:** 5 actions (beef, chicken, pork, fish,
-dairy) -> 2 actions (high_impact, medium_impact) +
-vegan_day stays. Cleaner, less overlap.
-
-### home_cooked_meal + bring_lunch + use_leftovers
-**Decision:**
-- REMOVE use_leftovers (absorbed into general food waste
-  avoidance / no_food_waste action)
-- Keep bring_lunch as-is (well-scoped: per day at work)
-- Reframe home_cooked_meal -> skip_food_delivery
-
-#### skip_food_delivery (replaces home_cooked_meal)
-- Name: "Skip Food Delivery"
-- Description: "Cook at home instead of ordering food
-  delivery"
-- co2Grams: 600 (up from 350)
-  Breakdown:
-  - Delivery vehicle: ~1-3km urban trip = ~250g
-  - Disposable packaging (containers, bags, cutlery,
-    napkins): ~200g
-  - Restaurant food waste overhead: ~150g
-- effort: 3 (time to cook and plan)
-- frequency: 4 (near-daily temptation)
-- impact: 2 (reduces delivery emissions + packaging)
-- Comment: "per meal; delivery vehicle ~250g + packaging
-  ~200g + restaurant waste ~150g vs home cooking"
-
-The reframe matters: the original "cook at home" was
-vague about WHY it was better. The real comparison is
-specifically vs. delivery apps (Uber Eats, DoorDash),
-where the delivery trip + excessive packaging is the
-main environmental cost. Cooking at home vs. eating at
-a restaurant in person is a much smaller difference.
+| Action | CO2 (g) | E | F | I | Pts | Type |
+|--------|---------|---|---|---|-----|------|
+| Recycle can | 100 | 1 | 5 | 2 | ~4 | instance |
+| Turn off lights | 60 | 1 | 5 | 2 | ~3 | daily |
+| Shorter shower | 275 | 2 | 5 | 2 | ~7 | daily |
+| Reusable bottle | 160 | 1 | 5 | 2 | ~5 | daily |
+| Plant milk | 550 | 2 | 3 | 3 | ~16 | instance |
+| Compost scraps | 200 | 2 | 5 | 3 | ~6 | daily |
+| Skip delivery | 600 | 3 | 4 | 2 | ~17 | instance |
+| Bike medium trip | 900 | 3 | 3 | 3 | ~25 | instance |
+| Skip high-impact food | 6000 | 2 | 3 | 4 | ~57 | instance |
+| Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
+| Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
+| Install LED | 28000 | 2 | 1 | 3 | ~68 | one-time |
+| Fix water leak | 100000 | 3 | 1 | 4 | ~153 | one-time |
+| Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
+| Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |
+| Purchase EV | 3400000 | 5 | 1 | 5 | ~873 | one-time |
+| Eco meeting (0 CO2) | 0 | 2 | 2 | 4 | ~8 | instance |
+| Household task (0 CO2) | 0 | 2 | 4 | 4 | ~5 | instance |
 
 ---
 
-## Summary of All Changes
+## 5. Scoring the Three Multiplier Axes
 
-### Actions to REMOVE (7):
-- work_from_home (privilege, not behavioral change)
-- drink_tap_water (overlap with reusable_water_bottle)
-- local_produce (merged into buy_local_produce)
-- farmers_market (merged into buy_local_produce)
-- use_leftovers (absorbed by no_food_waste)
-- reduce_dairy (absorbed by skip_medium_impact_food)
-- digital_receipt (3g too small; not worth the action)
+Each axis is 1-5. The scores must be **discrete,
+comparable, and consistent** across all actions.
 
-### Actions to MERGE (6 -> 2):
-- refuse_straw + no_single_use_cutlery + use_cloth_napkin
-  -> refuse_disposables
-- local_produce + farmers_market -> buy_local_produce
+### Effort (how hard is this for the user?)
 
-### Actions to RENAME/REFRAME (10):
-- led_bulb -> install_led_bulb (one-time install)
-- fix_leak (updated CO2 to lifetime return)
-- join_eco_group -> attend_eco_meeting (repeatable)
-- collect_rainwater -> install_rain_collector (one-time)
-- close_windows_ac -> use_fan_instead_of_ac
-- share_domestic_work -> take_on_household_task
-- electric_car_commute -> electric_car_purchase
-- bar_soap -> plastic_free_hygiene (daily scope)
-- home_cooked_meal -> skip_food_delivery
-- meatless_meal_beef -> skip_high_impact_food
-- meatless_meal_chicken/pork/fish -> skip_medium_impact
+| Score | Label | Definition | Examples |
+|-------|-------|------------|----------|
+| 1 | Trivial | Single gesture, no planning | Toss can in bin |
+| 2 | Easy | Minor inconvenience or habit | Bring reusable bag, turn off lights |
+| 3 | Moderate | Requires time, planning, or discomfort | Cook instead of ordering, bike 5km |
+| 4 | Notable | Significant time/money/lifestyle change | Install solar, fix plumbing |
+| 5 | Major | Life-altering financial or logistical decision | Buy EV, major home renovation |
 
-### Actions to ADD (2):
-- used_car_purchase
-- use_library (see below)
+### Frequency (how often can a user realistically do this?)
 
-### NEW: use_library
-- id: use_library
-- Name: "Borrow From the Library"
-- Description: "Borrow a book, audiobook, or media from
-  your local library instead of buying new"
-- co2Grams: 1000
-  (avg book: ~1kg CO2 manufacturing + shipping;
-  library copy serves ~20-50 borrowers over its life,
-  so each borrow avoids ~1kg of new production)
-- effort: 2 (visit library or use app)
-- frequency: 3 (weekly or biweekly visits)
-- impact: 3 (supports public infrastructure, reduces
-  consumption, promotes knowledge access)
-- category: community
-- relatedSdgs: ['4', '12', '13']
-- iconName: 'menu_book'
-- Comment: "per visit/borrow; avg book ~1kg CO2 to
-  produce; library copy shared by 20-50 readers"
+| Score | Label | Definition | Examples |
+|-------|-------|------------|----------|
+| 1 | Rare | Once ever or once in years | Install solar, buy EV |
+| 2 | Monthly | Monthly or a few times a year | Donate textiles, attend meeting |
+| 3 | Weekly | Once or twice per week | Farmers market, secondhand shop |
+| 4 | Frequent | Several times per week | Skip delivery, bike commute |
+| 5 | Daily | Every day or nearly so | Recycle can, turn off lights |
 
-### Actions with CO2 Updates Only (8):
-- use_natural_light: 20 -> 90g (per-day reframe)
-- turn_off_lights: 30 -> 60g (per-day reframe)
-- unplug_devices: 40 -> 45g (per-day reframe)
-- reusable_water_bottle: 80 -> 160g (per-day reframe)
-- recycle_textiles: 14000 -> 40000g (per-bag reframe)
-- recycle_ewaste: 5000 -> 2000g (per-phone reframe)
-- donate_items: 500 -> 12000g (per-donation-run reframe)
-- buy_bulk: 85 -> 200g (per-trip reframe)
+Note: frequency is **inverted** in the formula (rarity
+multiplier). Rare actions get a 1.2x bonus; daily actions
+get a 0.8x penalty. This prevents daily micro-actions
+from dominating the leaderboard per-log while still
+rewarding consistency through volume.
 
-### Actions with Scenario-Based Review (3):
-- secondhand_clothing: 13000 -> 15000g
-- repair_item: 5000 -> 7500g
-- borrow_instead_buy: 2000 -> 8000g
+### Impact (broader environmental ripple effect)
 
-### Transport Descriptions (5):
-- walk_instead_drive: add "~1.5km" to description
-- public_transport: add "~10km" to description
-- carpool: add "~10km" to description
-- take_bus: add "~7km" to description
-- (electric_car_commute removed; see purchase reframe)
+| Score | Label | Definition | Examples |
+|-------|-------|------------|----------|
+| 1 | Immediate | Benefit ends when action ends | Turn off a light |
+| 2 | Short-term | Prevents waste in the near term | Recycle, refuse disposables |
+| 3 | Medium-term | Shifts consumption patterns | Secondhand buying, composting |
+| 4 | Long-lasting | Years of ongoing benefit or systemic signal | Fix leak, install solar, attend advocacy |
+| 5 | Systemic | Generational or market-shifting | Buy EV (drives adoption), plant trees |
 
-### EV vs Used Car Points Rebalancing
+Impact is NOT the same as CO2 magnitude. A zero-CO2
+action like "attend eco meeting" can have impact 4 because
+collective action enables policy change. Impact captures
+what CO2 grams alone cannot.
 
-The raw CO2 values give used_car (6M) more points than
-electric_car (1.7M), which feels backwards. EV purchase
-has a systemic adoption multiplier -- the more people
-buy EVs, the faster prices drop and infrastructure
-builds for everyone. This network effect deserves
-recognition.
+---
 
-The core issue: these measure different things.
-- EV: ongoing operational savings (1.7M = first year)
-- Used car: one-time manufacturing avoidance (6M total)
+## 6. Avoiding Common Pitfalls
 
-Also, used car CO2 of 6M assumes you would have bought
-brand new otherwise, and that your purchase fully
-prevents one new car from being made. In reality, market
-elasticity means buying one used car prevents ~0.3-0.5
-new cars at the margin.
+### Do not reward existing lifestyle
 
-**Revised used_car_purchase:**
-- co2Grams: 3000000 (down from 6M; adjusted for ~50%
-  demand elasticity -- buying used doesn't prevent a
-  full new car from being made)
-- Comment updated: "avoids ~3 tons manufacturing CO2;
-  adjusted for demand elasticity (~50% of full 6-ton
-  mid-size manufacturing footprint)"
+Actions must represent a **deliberate behavioral change**,
+not logging what someone already does. "Work from home"
+was removed because permanent remote workers would earn
+4.5kg/day for doing nothing different. Ask: "Would a user
+need to change their behavior to log this?"
 
-**Revised electric_car_purchase:**
-- co2Grams: 3400000 (up from 1.7M; 2-year projected
-  savings better reflects the ongoing nature of the
-  benefit vs the one-time used car avoidance)
-- Comment updated: "2-year projected savings;
-  15,000km/yr x (164-50)g/km x 2 = ~3.4 tons;
-  DEFRA 2024 petrol vs avg grid EV"
+### Do not split what should be merged
 
-**Revised points comparison:**
-- electric_car_purchase: 3400000^0.4 * 1.45 * 1.2 *
-  1.225 = ~410 * 2.13 = ~874 pts
-- used_car_purchase: 3000000^0.4 * 1.15 * 1.2 *
-  1.15 = ~390 * 1.587 = ~619 pts
-- EV now appropriately higher (~40% more) reflecting
-  the ongoing + systemic adoption value
-- Both still large but these are once-in-a-decade
-  purchases; daily habits accumulate far more over time
+If two actions are both <15g CO2 and occur in the same
+context, merge them. Individual actions like "refuse
+straw" (1g), "refuse cutlery" (5g), and "use cloth
+napkin" (5g) were merged into "refuse single-use
+disposables" (15g). The friction of finding and logging
+three separate 1-5g actions is not worth the
+granularity.
 
-### Net Action Count Change:
-- Current: 85 actions
-- Removed: 7
-- Merged: 6 -> 2 (net -4)
-- Added: 2
-- New total: 76 actions
+### Do not keep what should be split
 
-### Resolved Questions:
-1. plant_milk: KEEP separate from skip_medium_impact.
-   Different lifestyle context (coffee shop / drinks vs
-   meals). Both stay.
-2. Library action: ADDED as use_library (see above).
-3. digital_receipt: REMOVED. Too small at 3g to be
-   worth a standalone action.
-4. Veganuary: DEFERRED to Phase 5 challenge system.
-   Added as a multi-day challenge template in
-   PHASE_5_PLAN.md.
-5. EV vs used car: REBALANCED. See analysis above.
-   EV boosted to 2-year projection, used car adjusted
-   for demand elasticity. EV now correctly scores
-   higher.
+If one action description could mean vastly different
+things, either:
+1. Define a standard unit (per bag, per smartphone)
+2. Split into tiers (high-impact food vs medium-impact)
+
+The meat actions were split into high-impact (beef, lamb,
+shrimp: ~6000g) and medium-impact (chicken, pork, eggs:
+~1000g) because lumping them together would either
+overvalue chicken or undervalue beef.
+
+### Do not double-count
+
+Check for overlap with existing actions before adding.
+"Drink tap water" overlapped with "use reusable bottle"
+-- both reward avoiding plastic bottles. "Local produce"
+and "farmers market" described the same shopping trip.
+Merge or remove the weaker one.
+
+### Beware of one-time vs ongoing framing
+
+If an action is logged once but produces ongoing savings,
+the CO2 value must reflect the **projected benefit over
+a stated period** (typically first year), not a single
+day's savings. Conversely, do not give a daily action
+a lifetime CO2 value.
+
+Examples:
+- Install LED: 28,000g = first-year savings (50W diff
+  x 4hrs/day x 365 x 386g/kWh)
+- Fix leak: 100,000g = conservative 1-year savings
+  (~300g/day x 365)
+- EV purchase: 3,400,000g = 2-year projected savings
+
+Always state the projection window in the comment.
+
+---
+
+## 7. Adding a New Action: Checklist
+
+1. **Define the logging unit.** Is it per instance, per
+   day, or one-time? Write the description so a user
+   cannot misinterpret it.
+
+2. **Research the CO2.** Use tier-1 sources (DEFRA 2024,
+   EPA, Poore & Nemecek 2018, Our World in Data). Show
+   the full calculation chain. If the scope varies,
+   use scenario-based averaging and document scenarios.
+
+3. **Write the inline comment.** Format:
+   `co2Grams: 200, // per trip; 3 bulk x 30g + refill 80g + misc 30g`
+
+4. **Score effort, frequency, impact.** Use the tables
+   in section 5. Compare against similar existing actions
+   to ensure consistency.
+
+5. **Compute points.** Run the formula manually or use
+   the script. Check the result against the sanity table
+   in section 4. Does it feel right relative to nearby
+   actions?
+
+6. **Check for overlap.** Search existing actions for
+   similar descriptions, same category, or shared SDGs.
+   Would a user reasonably log both this and an existing
+   action for the same real-world event?
+
+7. **Check the "lifestyle test".** Would a user need to
+   deliberately change behavior to log this? If not,
+   reconsider.
+
+8. **Write all three languages.** EN, JA, ES for both
+   name and short description.
+
+9. **Write the long description.** 3-5 sentences with
+   markdown bold for CO2 figures and source links. Add
+   to the appropriate `action_descriptions_*.js` file.
+
+10. **Assign relatedSdgs.** Every action should map to
+    at least one SDG. SDG 13 (Climate Action) applies to
+    nearly all CO2-based actions. Add others where the
+    action directly supports that goal's targets.
+
+---
+
+## 8. Key Sources
+
+These are the tier-1 sources used for CO2 estimation.
+New actions should cite from this list where possible.
+
+- **DEFRA 2024** - UK Government Greenhouse Gas
+  Conversion Factors (transport, energy, waste)
+- **Poore & Nemecek 2018** - Science meta-analysis of
+  38,700 farms (food lifecycle emissions)
+- **US EPA** - Greenhouse Gas Equivalencies Calculator,
+  WARM Model (recycling, waste)
+- **Our World in Data** - Compiled visualizations of
+  peer-reviewed data (transport, food, energy)
+- **IEA** - International Energy Agency (energy, grid
+  factors)
+- **Carbon Trust** - Product lifecycle assessments
+  (reusables, packaging)
+- **Aluminum Association LCA 2021** - Recycling savings
+- **Danish EPA 2018** - Bag lifecycle assessment
+
+### Grid Factor
+
+Global average baseline: **386 g CO2/kWh**
+(midpoint of US 370g and UK 210g, biased toward
+global average). Actions using a different factor
+must document the deviation.
+
+---
+
+## 9. Reference: Full Formula in Code
+
+Located in `scripts/seed_action_library.js`:
+
+```javascript
+const EFFORT_BASE = 0.7;
+const EFFORT_SCALE = 0.15;
+const RARITY_BASE = 1.3;
+const RARITY_SCALE = 0.1;
+const IMPACT_BASE = 0.85;
+const IMPACT_SCALE = 0.075;
+const CO2_EXPONENT = 0.4;
+const ZERO_CO2_EFFORT_SCALE = 3;
+
+function computePoints(action) {
+  if (action.isLearnOnly) return 0;
+  const effortMult =
+    EFFORT_BASE + (action.effort * EFFORT_SCALE);
+  const rarityMult =
+    RARITY_BASE
+      - (action.frequency * RARITY_SCALE);
+  const impactMult =
+    IMPACT_BASE + (action.impact * IMPACT_SCALE);
+
+  if (action.co2Grams > 0) {
+    return Math.max(1, Math.round(
+      Math.pow(action.co2Grams, CO2_EXPONENT)
+        * effortMult * rarityMult * impactMult,
+    ));
+  }
+  return Math.max(1, Math.round(
+    action.effort * ZERO_CO2_EFFORT_SCALE
+      * rarityMult * impactMult,
+  ));
+}
+```
+
+### Streak Bonus (applied at log time in Dart)
+
+Points earned per log are multiplied by a streak bonus:
+- Formula: `bonus = 1.0 + (streakDays * 0.033)`
+- Capped at 2.0x (reached at 30-day streak)
+- This means a 30-day streak doubles all points earned
+
+### Level Curve
+
+- Base: 100 points per level
+- Scaling factor: 1.5x per level (geometric)
+- Level N requires: sum of 100 * 1.5^(i-1) for i=1..N-1

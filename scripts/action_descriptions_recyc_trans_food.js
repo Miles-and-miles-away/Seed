@@ -273,13 +273,15 @@ const descriptions = {
 
   recycle_ewaste: {
     en:
-      'Recycling one kilogram of e-waste '
-      + 'prevents roughly **2,350g of CO2** by '
+      'Recycling an old smartphone prevents '
+      + 'roughly **2,000g (2kg) of CO2** by '
       + 'recovering precious metals and rare '
-      + 'earth elements. Electronic devices '
-      + 'contain gold, copper, and palladium '
-      + 'that are energy-intensive to mine from '
-      + 'ore. The [EPA GHG Equivalencies '
+      + 'earth elements that would otherwise '
+      + 'require energy-intensive mining. '
+      + 'Electronic devices contain gold, '
+      + 'copper, and palladium whose extraction '
+      + 'from ore is highly carbon-intensive. '
+      + 'The [EPA GHG Equivalencies '
       + 'Calculator](https://www.epa.gov/energy'
       + '/greenhouse-gas-equivalencies-'
       + 'calculator) helps quantify these '
@@ -318,9 +320,10 @@ const descriptions = {
 
   recycle_textiles: {
     en:
-      'Recycling or donating clothing saves '
-      + 'roughly **14,000g of CO2 per '
-      + 'kilogram** by displacing new textile '
+      'Recycling a bag of textiles prevents '
+      + 'roughly **40,000g (40kg) of CO2** by '
+      + 'diverting fabric from landfills and '
+      + 'reducing demand for virgin fiber '
       + 'production. The fashion industry '
       + 'accounts for up to 10% of global '
       + 'carbon emissions. Reusing textiles '
@@ -694,22 +697,25 @@ const descriptions = {
       + 'la mayoria de rutas de autobus.',
   },
 
-  electric_car_commute: {
+  electric_car_purchase: {
     en:
-      'Commuting by electric vehicle instead '
-      + 'of a petrol car saves roughly '
-      + '**1,500g of CO2** on a 12km trip. '
-      + 'EVs emit about 43g/km compared to '
-      + '164g/km for a petrol car '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). As the electricity grid '
-      + 'becomes greener, EV emissions drop '
-      + 'further automatically. Over a '
-      + 'vehicle\'s lifetime, an EV typically '
-      + 'produces 50-70% fewer total emissions '
-      + 'than a comparable petrol car.',
+      'Choosing an electric vehicle over a '
+      + 'comparable petrol car avoids roughly '
+      + '**3.4 tonnes of CO2 per year** in '
+      + 'tailpipe and fuel-cycle emissions. '
+      + 'Over a typical 12-year ownership '
+      + 'period the cumulative saving exceeds '
+      + '40 tonnes ([IEA Global EV Outlook]'
+      + '(https://www.iea.org/reports'
+      + '/global-ev-outlook)). While '
+      + 'manufacturing an EV has a higher '
+      + 'upfront carbon cost, most studies '
+      + 'show breakeven within 1-3 years of '
+      + 'driving ([Carbon Brief]'
+      + '(https://www.carbonbrief.org/)). '
+      + 'Pairing an EV with renewable-energy '
+      + 'charging maximises the climate '
+      + 'benefit.',
     ja:
       'ガソリン車の代わりに電気自動車で通勤'
       + 'すると12kmの移動で約**1,500gのCO2**'
@@ -833,56 +839,6 @@ const descriptions = {
       + 'del autobus apoya la expansion de '
       + 'rutas y mejoras de servicio para toda '
       + 'la comunidad.',
-  },
-
-  work_from_home: {
-    en:
-      'Working from home avoids a 16km '
-      + 'roundtrip car commute, saving roughly '
-      + '**2,640g of CO2** per day. At 164g/km '
-      + 'for a petrol car, this is one of the '
-      + 'highest-impact daily actions '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). Over a year of remote work '
-      + '(~230 days), this adds up to over '
-      + '600kg of CO2 avoided. Home office '
-      + 'energy use is typically far less than '
-      + 'commuting emissions '
-      + '([Energy Saving Trust]'
-      + '(https://energysavingtrust.org.uk/)).',
-    ja:
-      '在宅勤務で往復16kmの車通勤を避ける'
-      + 'と1日あたり約**2,640gのCO2**を削減'
-      + 'できます。ガソリン車の164g/km換算で'
-      + '最も効果の高い日常行動の一つです'
-      + '（[DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)）。年間約230日のリモートワーク'
-      + 'で600kg以上のCO2を回避できます。'
-      + '自宅オフィスのエネルギー消費は通常、'
-      + '通勤の排出量よりはるかに少ないです'
-      + '（[Energy Saving Trust]'
-      + '(https://energysavingtrust.org.uk/)）。',
-    es:
-      'Trabajar desde casa evita un trayecto '
-      + 'de ida y vuelta de 16km en auto, '
-      + 'ahorrando aproximadamente **2.640g de '
-      + 'CO2** por dia. A 164g/km para un coche '
-      + 'de gasolina, esta es una de las '
-      + 'acciones diarias de mayor impacto '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). En un ano de trabajo remoto '
-      + '(~230 dias), se evitan mas de 600kg '
-      + 'de CO2. El consumo energetico en casa '
-      + 'es tipicamente mucho menor que las '
-      + 'emisiones de desplazamiento '
-      + '([Energy Saving Trust]'
-      + '(https://energysavingtrust.org.uk/)).',
   },
 
   escooter_trip: {
@@ -1036,23 +992,28 @@ const descriptions = {
   // -------------------------------------------------------
   // FOOD (15 actions)
   // -------------------------------------------------------
-  meatless_meal_beef: {
+  skip_high_impact_food: {
     en:
-      'Skipping a 100g beef serving avoids '
+      'Replacing one beef-based meal with a '
+      + 'plant-based alternative avoids '
       + 'roughly **6,000g (6kg) of CO2 '
-      + 'equivalent**. Beef has the highest '
-      + 'carbon footprint of any common food at '
-      + '60kg CO2e/kg across its lifecycle '
-      + '([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). This includes '
-      + 'methane from cattle, feed production, '
-      + 'and land-use change. Replacing beef '
-      + 'with plant protein even once a week '
-      + 'saves over 300kg of CO2 per year '
+      + 'equivalent**. Beef carries the '
+      + 'heaviest climate footprint of any '
+      + 'common food, requiring vast land, '
+      + 'water, and feed inputs '
       + '([Our World in Data]'
       + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)).',
+      + '/food-choice-vs-eating-local)). '
+      + 'A single kilogram of beef produces '
+      + '60-100kg of CO2eq across its supply '
+      + 'chain, compared to just 1-3kg for '
+      + 'most plant proteins '
+      + '([Poore & Nemecek, Science 2018]'
+      + '(https://www.science.org/doi/10.1126'
+      + '/science.aaq0216)). Choosing to skip '
+      + 'high-impact animal products even '
+      + 'once a week compounds into hundreds '
+      + 'of kilograms of savings per year.',
     ja:
       '牛肉100gの1食分を避けると約'
       + '**6,000g（6kg）のCO2相当**を削減'
@@ -1087,100 +1048,70 @@ const descriptions = {
       + '/environmental-impacts-of-food)).',
   },
 
-  meatless_meal_chicken: {
+  skip_medium_impact_food: {
     en:
-      'Choosing a meatless meal instead of '
-      + 'chicken saves about **600g of CO2 '
-      + 'equivalent** per 100g serving. Chicken '
-      + 'emits ~6kg CO2e/kg across its '
-      + 'lifecycle, including feed crops, '
-      + 'processing, and transport '
-      + '([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). While lower-impact '
-      + 'than beef, chicken still has 10-20x '
-      + 'the footprint of most plant proteins '
+      'Replacing a meal of chicken, pork, '
+      + 'or fish with a plant-based option '
+      + 'saves roughly **1,000g of CO2 '
+      + 'equivalent**. While these proteins '
+      + 'carry a lighter footprint than beef, '
+      + 'they still require significant land, '
+      + 'water, and feed resources '
       + '([Our World in Data]'
       + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)). '
-      + 'Legumes, tofu, and tempeh are '
-      + 'excellent protein alternatives.',
+      + '/food-choice-vs-eating-local)). '
+      + 'Chicken produces about 6kg CO2eq per '
+      + 'kilogram, pork about 7kg, and farmed '
+      + 'fish 5-13kg, versus 1-3kg for most '
+      + 'plant proteins '
+      + '([Poore & Nemecek, Science 2018]'
+      + '(https://www.science.org/doi/10.1126'
+      + '/science.aaq0216)). Swapping a few '
+      + 'medium-impact meals per week is a '
+      + 'practical way to lower your dietary '
+      + 'carbon footprint without going fully '
+      + 'vegetarian.',
     ja:
-      '鶏肉の代わりに肉なし料理を選ぶと'
-      + '100gあたり約**600gのCO2相当**を'
-      + '節約できます。鶏肉はライフサイクル'
-      + '全体で約6kg CO2e/kgの排出で、飼料'
-      + '作物、加工、輸送が含まれます'
-      + '（[Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)）。牛肉より低い'
-      + 'ものの植物性タンパク質の10〜20倍の'
-      + 'フットプリントです（[Our World in '
-      + 'Data](https://ourworldindata.org'
-      + '/environmental-impacts-of-food)）。'
-      + '豆類、豆腐、テンペが優れた代替品'
-      + 'です。',
-    es:
-      'Elegir una comida sin carne en vez de '
-      + 'pollo ahorra unos **600g de CO2 '
-      + 'equivalente** por porcion de 100g. '
-      + 'El pollo emite ~6kg CO2e/kg en su '
-      + 'ciclo de vida, incluyendo cultivos '
-      + 'para pienso, procesamiento y '
-      + 'transporte ([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). Aunque menor que '
-      + 'la res, el pollo tiene 10-20 veces la '
-      + 'huella de la mayoria de proteinas '
-      + 'vegetales ([Our World in Data]'
+      '鶏肉、豚肉、魚の1食分を植物性の'
+      + '選択肢に替えると約**1,000gのCO2'
+      + '相当**を削減できます。牛肉ほどでは'
+      + 'ないものの相当な土地、水、飼料資源'
+      + 'を必要とします（[Our World in Data]'
       + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)). '
-      + 'Legumbres, tofu y tempeh son '
-      + 'excelentes alternativas.',
-  },
-
-  meatless_meal_pork: {
-    en:
-      'Replacing a 100g pork serving with '
-      + 'a plant-based meal saves about '
-      + '**700g of CO2 equivalent**. Pork '
-      + 'emits approximately 7kg CO2e/kg '
-      + 'across its lifecycle, driven by feed '
-      + 'production and manure management '
-      + '([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). Pork production '
-      + 'also requires significant water and '
-      + 'generates nitrate runoff that pollutes '
-      + 'waterways. Mushrooms, lentils, and '
-      + 'jackfruit offer satisfying texture '
-      + 'alternatives.',
-    ja:
-      '豚肉100gを植物性の食事に替えると約'
-      + '**700gのCO2相当**を削減できます。'
-      + '豚肉はライフサイクル全体で約7kg '
-      + 'CO2e/kgを排出し、飼料生産と糞尿'
-      + '管理が主な要因です（[Poore & '
-      + 'Nemecek 2018](https://ourworldindata'
-      + '.org/food-choice-vs-eating-local)）。'
-      + '豚肉生産は大量の水も必要とし、水路を'
-      + '汚染する硝酸塩流出も発生させます。'
-      + 'きのこ、レンズ豆、ジャックフルーツが'
-      + '食感の良い代替食品です。',
+      + '/food-choice-vs-eating-local)）。'
+      + '鶏肉は約6kg CO2eq/kg、豚肉は約'
+      + '7kg、養殖魚は5〜13kgで植物性'
+      + 'タンパクの1〜3kgと比較されます'
+      + '（[Poore & Nemecek, Science 2018]'
+      + '(https://www.science.org/doi/10.1126'
+      + '/science.aaq0216)）。週に数食を'
+      + '中程度インパクトの食品から替えるのは'
+      + '完全菜食にならずとも食事のカーボン'
+      + 'フットプリントを下げる実用的な'
+      + '方法です。',
     es:
-      'Reemplazar una porcion de 100g de '
-      + 'cerdo con una comida vegetal ahorra '
-      + 'unos **700g de CO2 equivalente**. '
-      + 'El cerdo emite aproximadamente 7kg '
-      + 'CO2e/kg en su ciclo de vida, impulsado '
-      + 'por la produccion de pienso y el '
-      + 'manejo de estiercol ([Poore & '
-      + 'Nemecek 2018](https://ourworldindata'
-      + '.org/food-choice-vs-eating-local)). '
-      + 'La produccion porcina tambien requiere '
-      + 'mucha agua y genera escorrentia de '
-      + 'nitratos. Hongos, lentejas y jackfruit '
-      + 'ofrecen alternativas satisfactorias.',
+      'Reemplazar una comida de pollo, cerdo '
+      + 'o pescado por una opcion vegetal '
+      + 'ahorra aproximadamente **1.000g de '
+      + 'CO2 equivalente**. Aunque estas '
+      + 'proteinas tienen menor huella que la '
+      + 'carne de res, aun requieren '
+      + 'importantes recursos de tierra, agua '
+      + 'y pienso ([Our World in Data]'
+      + '(https://ourworldindata.org'
+      + '/food-choice-vs-eating-local)). '
+      + 'El pollo produce unos 6kg CO2eq/kg, '
+      + 'el cerdo 7kg y el pescado de '
+      + 'acuicultura 5-13kg, frente a 1-3kg '
+      + 'de la mayoria de proteinas vegetales '
+      + '([Poore & Nemecek, Science 2018]'
+      + '(https://www.science.org/doi/10.1126'
+      + '/science.aaq0216)). Sustituir '
+      + 'algunas comidas de impacto medio por '
+      + 'semana es una forma practica de '
+      + 'reducir la huella de carbono '
+      + 'alimentaria sin ser completamente '
+      + 'vegetariano.',
   },
 
   no_food_waste: {
@@ -1227,50 +1158,6 @@ const descriptions = {
       + 'correctamente son estrategias '
       + 'efectivas. Globalmente, un tercio de '
       + 'los alimentos producidos se desperdicia.',
-  },
-
-  local_produce: {
-    en:
-      'Buying local produce saves about '
-      + '**200g of CO2** per shopping trip by '
-      + 'cutting transportation emissions. '
-      + '[Our World in Data]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local) shows that transport '
-      + 'accounts for 5-6% of total food '
-      + 'emissions. Local sourcing eliminates '
-      + 'long-haul trucking and airfreight. '
-      + 'Farmers markets and community-supported '
-      + 'agriculture programs connect consumers '
-      + 'directly with regional growers, also '
-      + 'supporting the local economy.',
-    ja:
-      '地元の農産物を買うと1回の買い物で約'
-      + '**200gのCO2**を削減でき、輸送時の'
-      + '排出を抑えられます。[Our World in '
-      + 'Data](https://ourworldindata.org'
-      + '/food-choice-vs-eating-local)によると'
-      + '輸送は食品排出量全体の5〜6%を占め'
-      + 'ます。地元調達は長距離トラック輸送や'
-      + '航空貨物をなくします。農産物直売所や'
-      + '産直提携で消費者と地域の生産者が直接'
-      + 'つながり、地域経済の活性化にも貢献'
-      + 'します。',
-    es:
-      'Comprar productos locales ahorra '
-      + 'unos **200g de CO2** por compra al '
-      + 'reducir emisiones de transporte. '
-      + '[Our World in Data]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local) muestra que el '
-      + 'transporte representa el 5-6% de las '
-      + 'emisiones totales de alimentos. '
-      + 'El abastecimiento local elimina el '
-      + 'transporte de larga distancia. Los '
-      + 'mercados de agricultores y programas '
-      + 'de agricultura comunitaria conectan '
-      + 'directamente a consumidores con '
-      + 'productores regionales.',
   },
 
   plant_milk: {
@@ -1370,22 +1257,24 @@ const descriptions = {
       + 'con los ritmos agricolas locales.',
   },
 
-  home_cooked_meal: {
+  skip_food_delivery: {
     en:
-      'Cooking at home instead of ordering '
-      + 'out saves roughly **350g of CO2** by '
-      + 'avoiding delivery transport, excess '
-      + 'packaging, and restaurant energy '
-      + 'overhead. Takeout meals generate 3-5x '
-      + 'more packaging waste than home-cooked '
-      + 'equivalents. Home cooking also gives '
-      + 'you control over ingredient sourcing '
-      + 'and portion sizes, further reducing '
-      + 'food waste. Batch cooking multiplies '
-      + 'these savings across several meals '
-      + '([Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)).',
+      'Skipping a food delivery order and '
+      + 'eating from your own kitchen avoids '
+      + 'roughly **600g of CO2** from extra '
+      + 'vehicle trips, disposable packaging, '
+      + 'and commercial cooking energy. '
+      + 'Delivery services add a last-mile '
+      + 'transport leg that home cooking '
+      + 'eliminates entirely '
+      + '([Carbon Trust]'
+      + '(https://www.carbontrust.com/)). '
+      + 'Single-use containers, cutlery, and '
+      + 'bags from delivery orders generate '
+      + 'additional waste and embedded '
+      + 'emissions. Cooking at home also tends '
+      + 'to produce less food waste, since '
+      + 'portions are self-managed.',
     ja:
       '外食やデリバリーの代わりに自炊すると'
       + '約**350gのCO2**を削減できます。'
@@ -1415,55 +1304,6 @@ const descriptions = {
       + '/environmental-impacts-of-food)). '
       + 'Cocinar por lotes multiplica estos '
       + 'ahorros en varias comidas.',
-  },
-
-  skip_fish_meal: {
-    en:
-      'Skipping a 100g fish serving saves '
-      + 'roughly **400g of CO2 equivalent**, '
-      + 'depending on the species. Fish emits '
-      + '4-6kg CO2e/kg when accounting for '
-      + 'fuel-intensive trawling, refrigeration, '
-      + 'and transport ([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). Wild-caught '
-      + 'shrimp has among the highest footprints '
-      + 'in seafood. Choosing plant-based '
-      + 'alternatives also helps protect marine '
-      + 'ecosystems from overfishing '
-      + '([Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)).',
-    ja:
-      '魚料理100gを避けると種類により約'
-      + '**400gのCO2相当**を削減できます。'
-      + '魚介類は燃料集約的なトロール漁、冷蔵、'
-      + '輸送を含めると4〜6kg CO2e/kgを排出'
-      + 'します（[Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)）。天然エビは水産物'
-      + 'の中で最大級のフットプリントです。'
-      + '植物性の代替食品は海洋生態系の乱獲'
-      + '防止にも貢献します（[Our World in '
-      + 'Data](https://ourworldindata.org'
-      + '/environmental-impacts-of-food)）。',
-    es:
-      'Evitar una porcion de 100g de pescado '
-      + 'ahorra aproximadamente **400g de CO2 '
-      + 'equivalente**, dependiendo de la '
-      + 'especie. El pescado emite 4-6kg '
-      + 'CO2e/kg considerando la pesca con '
-      + 'arrastre, refrigeracion y transporte '
-      + '([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). El camaron '
-      + 'silvestre tiene una de las mayores '
-      + 'huellas entre los mariscos. Elegir '
-      + 'alternativas vegetales tambien ayuda a '
-      + 'proteger los ecosistemas marinos '
-      + '([Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)).',
   },
 
   vegan_day: {
@@ -1561,197 +1401,6 @@ const descriptions = {
       + '/environmental-impacts-of-food)).',
   },
 
-  use_leftovers: {
-    en:
-      'Using leftovers instead of discarding '
-      + 'them prevents roughly **400g of CO2 '
-      + 'equivalent** by keeping food out of '
-      + 'landfills. The [EPA](https://www.epa'
-      + '.gov/land-research/quantifying-methane'
-      + '-emissions-landfilled-food-waste) '
-      + 'confirms that landfilled food waste is '
-      + 'a major source of methane, a potent '
-      + 'greenhouse gas. Repurposing leftovers '
-      + 'into new meals also saves the embedded '
-      + 'carbon from producing that food in the '
-      + 'first place. Creative recipes can '
-      + 'transform yesterday\'s dinner into '
-      + 'today\'s lunch.',
-    ja:
-      '残り物を捨てずに活用すると約**400g'
-      + 'のCO2相当**を防ぎ、食品を埋立地から'
-      + '遠ざけられます。[EPA]'
-      + '(https://www.epa.gov/land-research'
-      + '/quantifying-methane-emissions-'
-      + 'landfilled-food-waste)は埋立地の'
-      + '食品廃棄物が強力な温室効果ガスである'
-      + 'メタンの主要発生源であると報告して'
-      + 'います。残り物を新しい料理にリメイク'
-      + 'すれば食品生産に含まれる炭素も節約'
-      + 'できます。工夫次第で昨日の夕食が今日'
-      + 'のランチに生まれ変わります。',
-    es:
-      'Usar las sobras en vez de tirarlas '
-      + 'evita aproximadamente **400g de CO2 '
-      + 'equivalente** al mantener alimentos '
-      + 'fuera de vertederos. La [EPA]'
-      + '(https://www.epa.gov/land-research'
-      + '/quantifying-methane-emissions-'
-      + 'landfilled-food-waste) confirma que '
-      + 'los residuos alimentarios en '
-      + 'vertederos son una fuente importante '
-      + 'de metano. Reutilizar sobras en nuevas '
-      + 'comidas tambien ahorra el carbono '
-      + 'incorporado en producir esos alimentos. '
-      + 'Recetas creativas pueden transformar '
-      + 'la cena de ayer en el almuerzo de hoy.',
-  },
-
-  no_single_use_cutlery: {
-    en:
-      'Refusing single-use plastic cutlery '
-      + 'saves about **5g of CO2** per utensil '
-      + 'set by avoiding petroleum-based '
-      + 'manufacturing. While small per '
-      + 'instance, disposable cutlery adds up '
-      + 'quickly: a daily habit saves nearly '
-      + '2kg of CO2 per year. Carrying reusable '
-      + 'utensils also keeps plastic out of '
-      + 'landfills where it persists for '
-      + 'centuries ([Danish EPA]'
-      + '(https://www2.mst.dk/udgiv'
-      + '/publications/2018/02'
-      + '/978-87-93614-73-4.pdf)). '
-      + 'Bamboo and stainless steel sets are '
-      + 'durable, portable alternatives.',
-    ja:
-      '使い捨てプラスチック製カトラリーを'
-      + '断ると1セットあたり約**5gのCO2**を'
-      + '削減でき、石油由来の製造を回避します。'
-      + '1回あたりは小さくても毎日の習慣で'
-      + '年間約2kgのCO2を節約できます。'
-      + 'マイカトラリーの持参はプラスチックが'
-      + '何百年も残る埋立地への流出も防ぎます'
-      + '（[デンマーク環境庁](https://www2'
-      + '.mst.dk/udgiv/publications/2018/02'
-      + '/978-87-93614-73-4.pdf)）。'
-      + '竹やステンレス製のセットが丈夫で'
-      + '持ち運びやすい代替品です。',
-    es:
-      'Rechazar cubiertos de plastico de un '
-      + 'solo uso ahorra unos **5g de CO2** por '
-      + 'juego de utensilios al evitar la '
-      + 'fabricacion con petroleo. Aunque '
-      + 'pequeno por instancia, los cubiertos '
-      + 'desechables se acumulan: un habito '
-      + 'diario ahorra casi 2kg de CO2 al ano. '
-      + 'Llevar cubiertos reutilizables tambien '
-      + 'evita que el plastico llegue a '
-      + 'vertederos donde persiste por siglos '
-      + '([EPA Danesa](https://www2.mst.dk'
-      + '/udgiv/publications/2018/02'
-      + '/978-87-93614-73-4.pdf)). '
-      + 'Sets de bambu y acero inoxidable son '
-      + 'alternativas duraderas y portatiles.',
-  },
-
-  drink_tap_water: {
-    en:
-      'Drinking tap water instead of bottled '
-      + 'saves roughly **80g of CO2** per '
-      + '500ml bottle avoided. Bottled water '
-      + 'has approximately 300 times the carbon '
-      + 'footprint of tap water when accounting '
-      + 'for plastic production, filling, and '
-      + 'transport. A reusable bottle pays back '
-      + 'its carbon cost after just a few uses '
-      + '([EPA GHG Equivalencies]'
-      + '(https://www.epa.gov/energy/greenhouse'
-      + '-gas-equivalencies-calculator)). '
-      + 'Tap water is also subject to stricter '
-      + 'safety testing than bottled water in '
-      + 'most countries.',
-    ja:
-      'ペットボトルの代わりに水道水を飲むと'
-      + '500mlボトル1本あたり約**80gのCO2**'
-      + 'を削減できます。ペットボトルの水は'
-      + 'プラスチック製造、充填、輸送を含める'
-      + 'と水道水の約300倍のカーボンフット'
-      + 'プリントがあります。マイボトルは数回'
-      + 'の使用で炭素コストを回収できます'
-      + '（[EPA温室効果ガス等価計算ツール]'
-      + '(https://www.epa.gov/energy/greenhouse'
-      + '-gas-equivalencies-calculator)）。'
-      + '多くの国で水道水はペットボトル水より'
-      + '厳しい安全検査が義務付けられています。',
-    es:
-      'Beber agua del grifo en vez de '
-      + 'embotellada ahorra aproximadamente '
-      + '**80g de CO2** por botella de 500ml '
-      + 'evitada. El agua embotellada tiene '
-      + 'unas 300 veces la huella de carbono '
-      + 'del agua del grifo considerando '
-      + 'produccion de plastico, llenado y '
-      + 'transporte. Una botella reutilizable '
-      + 'recupera su costo de carbono en pocos '
-      + 'usos ([Calculadora GEI EPA]'
-      + '(https://www.epa.gov/energy/greenhouse'
-      + '-gas-equivalencies-calculator)). '
-      + 'En la mayoria de paises, el agua del '
-      + 'grifo tiene controles de seguridad mas '
-      + 'estrictos que la embotellada.',
-  },
-
-  reduce_dairy: {
-    en:
-      'Reducing dairy intake by swapping a '
-      + '50g cheese serving saves roughly '
-      + '**350g of CO2 equivalent**. Cheese '
-      + 'emits about 21kg CO2e/kg due to '
-      + 'methane from cattle, energy-intensive '
-      + 'processing, and refrigeration '
-      + '([Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)). Plant-based cheese '
-      + 'alternatives emit a fraction of this '
-      + '([Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)). '
-      + 'Even small reductions in dairy '
-      + 'consumption make a meaningful '
-      + 'difference over time.',
-    ja:
-      'チーズ50gを植物性に替えると約**350g'
-      + 'のCO2相当**を削減できます。チーズは'
-      + '牛のメタン排出、エネルギー集約的な'
-      + '加工、冷蔵により約21kg CO2e/kgを'
-      + '排出します（[Poore & Nemecek 2018]'
-      + '(https://ourworldindata.org/food-choice'
-      + '-vs-eating-local)）。植物性チーズの'
-      + '代替品はその何分の一かの排出量です'
-      + '（[Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)）。'
-      + '乳製品の消費を少し減らすだけでも長期'
-      + '的には大きな違いを生みます。',
-    es:
-      'Reducir el consumo de lacteos '
-      + 'sustituyendo una porcion de 50g de '
-      + 'queso ahorra aproximadamente **350g '
-      + 'de CO2 equivalente**. El queso emite '
-      + 'unos 21kg CO2e/kg debido al metano '
-      + 'del ganado, procesamiento intensivo '
-      + 'y refrigeracion ([Poore & '
-      + 'Nemecek 2018](https://ourworldindata'
-      + '.org/food-choice-vs-eating-local)). '
-      + 'Las alternativas vegetales emiten una '
-      + 'fraccion de esto ([Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/environmental-impacts-of-food)). '
-      + 'Incluso pequenas reducciones en el '
-      + 'consumo de lacteos marcan la '
-      + 'diferencia con el tiempo.',
-  },
 };
 
 module.exports = descriptions;

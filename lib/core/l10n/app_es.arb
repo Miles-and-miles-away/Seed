@@ -7,7 +7,7 @@
 
   "navHome": "Inicio",
   "navProgress": "Progreso",
-  "navLogAction": "Registrar",
+  "navLogAction": "Acción",
   "navMascot": "Mascota",
   "navProfile": "Perfil",
   "navSettings": "Ajustes",
@@ -35,7 +35,7 @@
 
   "actionLogTitle": "Registrar una acción",
   "actionSearchHint": "Buscar acciones...",
-  "actionLogged": "¡Acción registrada! +{points} puntos",
+  "actionLogged": "¡Acción registrada! {points} puntos ganados",
   "@actionLogged": {
     "placeholders": {
       "points": {"type": "int"}
@@ -327,5 +327,9 @@
 
   "maxEvolutionTitle": "Evolucion maxima!",
   "maxEvolutionSubtitle": "Tu companero ha alcanzado su maximo potencial!",
-  "maxEvolutionEggHint": "Cuida tu huevo para descubrir un nuevo companero!"
+  "maxEvolutionEggHint": "Cuida tu huevo para descubrir un nuevo companero!",
+
+  "sdgAboutGoal": "Acerca de este objetivo",
+  "sdgViewTargets": "Ver metas",
+  "sdgTargetsTitle": "Metas de la ONU"
 }

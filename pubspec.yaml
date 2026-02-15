@@ -67,6 +67,7 @@ flutter:
     - assets/images/sdg_infographics/
     - assets/icons/
     - assets/animations/
+    - assets/data/
 
   # ===================
   # Fonts (add custom fonts here)

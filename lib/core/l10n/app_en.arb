@@ -7,7 +7,7 @@
 
   "navHome": "Home",
   "navProgress": "Progress",
-  "navLogAction": "Log",
+  "navLogAction": "Action",
   "navMascot": "Mascot",
   "navProfile": "Profile",
   "navSettings": "Settings",
@@ -35,7 +35,7 @@
 
   "actionLogTitle": "Log an Action",
   "actionSearchHint": "Search actions...",
-  "actionLogged": "Action logged! +{points} points",
+  "actionLogged": "Action logged! {points} points earned",
   "@actionLogged": {
     "placeholders": {
       "points": {"type": "int"}
@@ -327,5 +327,9 @@
 
   "maxEvolutionTitle": "Maximum Evolution!",
   "maxEvolutionSubtitle": "Your companion has reached their full potential!",
-  "maxEvolutionEggHint": "Nurture your egg to discover a new companion!"
+  "maxEvolutionEggHint": "Nurture your egg to discover a new companion!",
+
+  "sdgAboutGoal": "About this Goal",
+  "sdgViewTargets": "View targets",
+  "sdgTargetsTitle": "UN Targets"
 }
