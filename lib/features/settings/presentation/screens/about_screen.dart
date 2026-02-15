@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,9 +11,6 @@ import '../widgets/settings_tile.dart';
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
-  // URLs for legal documents (replace with actual hosted URLs)
-  static const _privacyPolicyUrl = 'https://seed-app.example.com/privacy';
-  static const _termsOfServiceUrl = 'https://seed-app.example.com/terms';
   static const _contactEmail = 'support@seed-app.example.com';
 
   @override
@@ -59,14 +57,16 @@ class AboutScreen extends StatelessWidget {
               SettingsTile(
                 leading: const Icon(Icons.privacy_tip_outlined),
                 title: l10n.aboutSettingsPrivacy,
-                trailing: const Icon(Icons.open_in_new, size: 18),
-                onTap: () => _launchUrl(_privacyPolicyUrl),
+                onTap: () => context.push(
+                  '/profile/settings/about/privacy',
+                ),
               ),
               SettingsTile(
                 leading: const Icon(Icons.description_outlined),
                 title: l10n.aboutSettingsTerms,
-                trailing: const Icon(Icons.open_in_new, size: 18),
-                onTap: () => _launchUrl(_termsOfServiceUrl),
+                onTap: () => context.push(
+                  '/profile/settings/about/terms',
+                ),
               ),
               SettingsTile(
                 leading: const Icon(Icons.source_outlined),
@@ -161,13 +161,6 @@ class AboutScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
   }
 
   Future<void> _launchEmail() async {

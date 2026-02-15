@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../mascot/data/models/egg_model.dart';
 import '../../../mascot/data/models/mascot_model.dart';
 
 part 'app_user_model.freezed.dart';
@@ -24,19 +25,30 @@ abstract class AppUserModel with _$AppUserModel {
     @Default(false) bool emailVerified,
     int? dailyGoalTarget,
 
-    /// The user's mascot (null if not yet selected).
-    MascotModel? mascot,
+    /// All owned mascots.
+    @Default([]) List<MascotModel> mascots,
+
+    /// ID of the currently active mascot.
+    String? activeMascotId,
+
+    /// Pending egg waiting to hatch.
+    EggModel? egg,
+
+    /// Flag set when a mascot maxes out evolution.
+    @Default(false) bool eggPendingDiscovery,
+
+    /// When the egg pending discovery flag was set.
+    @TimestampConverter() DateTime? eggPendingDiscoverySince,
 
     // Phase 3 fields
 
     /// Master toggle for notifications.
     @Default(true) bool notificationsEnabled,
 
-    /// Date of the user's last logged action (for streak calculation).
+    /// Date of the user's last logged action.
     @TimestampConverter() DateTime? lastActionDate,
 
-    /// Whether streak grace period is available (Phase 4 foundation).
-    /// Resets to true when streak breaks.
+    /// Whether streak grace period is available.
     @Default(true) bool streakGracePeriodAvailable,
 
     /// FCM token for push notifications.
@@ -48,11 +60,13 @@ abstract class AppUserModel with _$AppUserModel {
 }
 
 /// Converts Firestore Timestamp to/from DateTime.
-class TimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
+class TimestampConverter
+    implements JsonConverter<DateTime?, Timestamp?> {
   const TimestampConverter();
 
   @override
-  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
+  DateTime? fromJson(Timestamp? timestamp) =>
+      timestamp?.toDate();
 
   @override
   Timestamp? toJson(DateTime? date) =>

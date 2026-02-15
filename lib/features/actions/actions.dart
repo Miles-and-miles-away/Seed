@@ -25,4 +25,5 @@ export 'presentation/widgets/action_card.dart';
 export 'presentation/widgets/action_category_tabs.dart';
 export 'presentation/widgets/action_log_confirmation_dialog.dart';
 export 'presentation/widgets/action_log_item.dart';
+export 'presentation/widgets/action_science_bottom_sheet.dart';
 export 'presentation/widgets/points_animation_overlay.dart';

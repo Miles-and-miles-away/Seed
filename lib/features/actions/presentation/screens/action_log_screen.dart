@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/models/action_model.dart';
 import '../providers/actions_providers.dart';
 import '../utils/handle_action_tap.dart';
@@ -59,11 +58,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final selectedCategory = ref.watch(selectedCategoryProvider);
-    final filteredActions = ref.watch(filteredActionsProvider);
-    final actionsAsync = ref.watch(actionLibraryProvider);
-    final currentUserAsync = ref.watch(currentUserProvider);
-    final currentUser = currentUserAsync.asData?.value;
-    final languageCode = currentUser?.language ?? 'en';
+    final filteredActionsAsync = ref.watch(filteredActionsProvider);
+    final languageCode = ref.watch(userLanguageCodeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -128,9 +124,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           const SizedBox(height: 8),
           // Actions grid
           Expanded(
-            child: actionsAsync.when(
-              data: (_) => _buildActionsGrid(
-                filteredActions,
+            child: filteredActionsAsync.when(
+              data: (actions) => _buildActionsGrid(
+                actions,
                 languageCode,
               ),
               loading: () => const Center(
@@ -152,7 +148,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                     ),
                     const SizedBox(height: 8),
                     FilledButton.icon(
-                      onPressed: () => ref.invalidate(actionLibraryProvider),
+                      onPressed: () => ref.invalidate(
+                        actionLibraryProvider,
+                      ),
                       icon: const Icon(Icons.refresh),
                       label: Text(l10n.buttonRetry),
                     ),

@@ -56,7 +56,10 @@ class ActionSortDropdown extends ConsumerWidget {
         );
       }).toList(),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(20),
@@ -65,22 +68,22 @@ class ActionSortDropdown extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.sort,
+              _getIconForOption(selectedOption),
               size: 18,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.colorScheme.primary,
             ),
             const SizedBox(width: 6),
             Text(
-              l10n.sortLabel,
+              selectedOption.displayName(l10n),
               style: theme.textTheme.labelLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.colorScheme.primary,
               ),
             ),
             const SizedBox(width: 4),
             Icon(
               Icons.arrow_drop_down,
               size: 18,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.colorScheme.primary,
             ),
           ],
         ),

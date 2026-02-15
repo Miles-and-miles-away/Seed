@@ -285,5 +285,47 @@
   "learnOnlyDismiss": "了解",
 
   "settingsAnalytics": "プライバシー",
-  "settingsAnalyticsSubtitle": "匿名の使用データを共有してSeedの改善にご協力ください"
+  "settingsAnalyticsSubtitle": "匿名の使用データを共有してSeedの改善にご協力ください",
+
+  "privacyPolicyTitle": "プライバシーポリシー",
+  "termsOfServiceTitle": "利用規約",
+  "legalLastUpdated": "最終更新日: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+
+  "eggDiscoveryTitle": "不思議なタマゴ！",
+  "eggDiscoveryMessage": "一晩で、{mascotName}のそばに不思議なタマゴが現れました！",
+  "@eggDiscoveryMessage": {
+    "placeholders": {
+      "mascotName": {"type": "String"}
+    }
+  },
+  "eggDiscoverySubtitle": "30日間毎日アクションを記録して孵化させよう。",
+  "eggDiscoveryDismiss": "わくわくする！",
+
+  "eggHatchingTitle": "孵化中！",
+  "eggHatchingNamePrompt": "新しい相棒に名前をつけよう",
+  "eggHatchingConfirm": "ようこそ！",
+
+  "eggProgressLabel": "{current}日目/{total}日",
+  "@eggProgressLabel": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "mascotCollectionTitle": "マイマスコット",
+  "mascotSwitchConfirm": "マスコットを切り替える？",
+  "switchToMascot": "切り替え先:",
+  "switchMascotButton": "切り替え",
+
+  "actionLearnMore": "タップして科学を学ぶ",
+
+  "maxEvolutionTitle": "最大進化！",
+  "maxEvolutionSubtitle": "あなたの相棒は最高の姿に到達しました！",
+  "maxEvolutionEggHint": "タマゴを育てて新しい相棒を見つけよう！"
 }

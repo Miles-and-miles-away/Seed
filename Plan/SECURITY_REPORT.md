@@ -31,24 +31,14 @@ Five issues have been fixed in the current branch:
 
 ## Critical
 
-### C1. No Firestore Security Rules in Repository
+### ~~C1. No Firestore Security Rules in Repository~~ RESOLVED
 
-**Risk:** Without auditable rules, there is no guarantee that
-server-side access control is enforced. A misconfigured or missing
-`firestore.rules` file means any authenticated user could potentially
-read/write any document.
+**Status:** Fixed. `firestore.rules` created in the project root
+with user-scoped access, immutable action logs, and read-only
+collections (actionLibrary, mascotSpecies, cosmeticItems).
 
-**Evidence:** No `firestore.rules` file exists in the project root.
-The only copy is the default template inside
-`node_modules/firebase-tools/templates/`.
-
-**Recommendation:**
-- Create `firestore.rules` in the project root
-- Enforce user-scoped access (`request.auth.uid == userId`)
-- Lock down read-only collections (actionLibrary, mascotSpecies,
-  cosmeticItems) to authenticated reads only
-- Deploy rules via `firebase deploy --only firestore:rules`
-- Add rules deployment to the release checklist
+**Remaining:** Deploy via `firebase deploy --only firestore:rules`
+before release.
 
 ### C2. Release Build Uses Debug Signing Keys
 
@@ -288,7 +278,8 @@ These areas are already well-implemented:
 
 ## Pre-Release Checklist
 
-- [ ] Create and deploy `firestore.rules` with user-scoped access
+- [x] Create `firestore.rules` with user-scoped access
+- [ ] Deploy `firestore.rules` and `firestore.indexes.json` to Firebase
 - [ ] Configure Android release signing (keystore + key.properties)
 - [ ] Integrate Firebase App Check
 - [x] Replace all hardcoded collection names with `AppConstants`

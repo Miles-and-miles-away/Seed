@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../features/mascot/mascot.dart';
 
-/// Main shell widget that provides bottom navigation for the app.
+/// Main shell widget that provides bottom navigation.
 ///
-/// Uses [StatefulShellRoute] from go_router to preserve state across tabs.
-/// Also handles showing the evolution celebration when the mascot evolves.
+/// Handles showing celebrations in priority order:
+/// Evolution > Egg Discovery
 class MainShell extends ConsumerStatefulWidget {
   const MainShell({
     required this.navigationShell,
@@ -18,11 +18,14 @@ class MainShell extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   @override
-  ConsumerState<MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() =>
+      _MainShellState();
 }
 
 class _MainShellState extends ConsumerState<MainShell> {
   bool _hasShownEvolutionCelebration = false;
+  bool _hasShownEggDiscovery = false;
+  bool _hasMigrated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,18 @@ class _MainShellState extends ConsumerState<MainShell> {
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
 
-    // Check for evolution and show celebration if needed
-    _checkAndShowEvolution();
+    // Run migration on first build
+    if (!_hasMigrated) {
+      _hasMigrated = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref
+            .read(mascotProvider.notifier)
+            .runMigrationIfNeeded();
+      });
+    }
+
+    // Check for celebrations (priority order)
+    _checkAndShowCelebrations();
 
     return Scaffold(
       body: widget.navigationShell,
@@ -43,7 +56,8 @@ class _MainShellState extends ConsumerState<MainShell> {
         elevation: 4,
         child: const Icon(Icons.add, size: 28),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
@@ -52,38 +66,37 @@ class _MainShellState extends ConsumerState<MainShell> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // Home tab
             _NavBarItem(
               icon: Icons.home_outlined,
               selectedIcon: Icons.home,
               label: l10n.navHome,
-              isSelected: widget.navigationShell.currentIndex == 0,
+              isSelected:
+                  widget.navigationShell.currentIndex == 0,
               onTap: () => _onItemTapped(0),
             ),
-            // Progress tab
             _NavBarItem(
               icon: Icons.calendar_today_outlined,
               selectedIcon: Icons.calendar_today,
               label: l10n.navProgress,
-              isSelected: widget.navigationShell.currentIndex == 1,
+              isSelected:
+                  widget.navigationShell.currentIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
-            // Spacer for FAB
             const SizedBox(width: 56),
-            // Mascot tab
             _NavBarItem(
               icon: Icons.pets_outlined,
               selectedIcon: Icons.pets,
               label: l10n.navMascot,
-              isSelected: widget.navigationShell.currentIndex == 2,
+              isSelected:
+                  widget.navigationShell.currentIndex == 2,
               onTap: () => _onItemTapped(2),
             ),
-            // Profile tab
             _NavBarItem(
               icon: Icons.person_outline,
               selectedIcon: Icons.person,
               label: l10n.navProfile,
-              isSelected: widget.navigationShell.currentIndex == 3,
+              isSelected:
+                  widget.navigationShell.currentIndex == 3,
               onTap: () => _onItemTapped(3),
             ),
           ],
@@ -92,31 +105,44 @@ class _MainShellState extends ConsumerState<MainShell> {
     );
   }
 
-  void _checkAndShowEvolution() {
-    // Only show once per MainShell lifecycle
-    if (_hasShownEvolutionCelebration) return;
+  void _checkAndShowCelebrations() {
+    // 1. Evolution celebration (highest priority)
+    if (!_hasShownEvolutionCelebration) {
+      final hasNewEvolution =
+          ref.watch(hasNewEvolutionProvider);
+      if (hasNewEvolution) {
+        _hasShownEvolutionCelebration = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) showEvolutionCelebration(context);
+        });
+        return;
+      }
+    }
 
-    final hasNewEvolution = ref.watch(hasNewEvolutionProvider);
-    if (hasNewEvolution) {
-      _hasShownEvolutionCelebration = true;
-      // Use post-frame callback to avoid showing dialog during build
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          showEvolutionCelebration(context);
-        }
-      });
+    // 2. Egg discovery celebration
+    if (!_hasShownEggDiscovery) {
+      final shouldShow =
+          ref.watch(shouldShowEggDiscoveryProvider);
+      if (shouldShow) {
+        _hasShownEggDiscovery = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            showEggDiscoveryCelebration(context, ref);
+          }
+        });
+      }
     }
   }
 
   void _onItemTapped(int index) {
     widget.navigationShell.goBranch(
       index,
-      initialLocation: index == widget.navigationShell.currentIndex,
+      initialLocation:
+          index == widget.navigationShell.currentIndex,
     );
   }
 }
 
-/// Individual navigation bar item widget.
 class _NavBarItem extends StatelessWidget {
   const _NavBarItem({
     required this.icon,
@@ -136,13 +162,18 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final color = isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant;
+    final color = isSelected
+        ? colorScheme.primary
+        : colorScheme.onSurfaceVariant;
 
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -154,9 +185,12 @@ class _NavBarItem extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               label,
-              style: theme.textTheme.labelSmall?.copyWith(
+              style:
+                  theme.textTheme.labelSmall?.copyWith(
                 color: color,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                fontWeight: isSelected
+                    ? FontWeight.w600
+                    : FontWeight.normal,
               ),
             ),
           ],

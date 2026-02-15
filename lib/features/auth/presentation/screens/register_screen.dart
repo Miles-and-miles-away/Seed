@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -180,41 +181,54 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       onChanged: isLoading
                           ? null
                           : (value) {
-                              setState(() => _acceptedTerms = value ?? false);
+                              setState(
+                                () => _acceptedTerms =
+                                    value ?? false,
+                              );
                             },
                     ),
                     Expanded(
-                      child: GestureDetector(
-                        onTap: isLoading
-                            ? null
-                            : () {
-                                setState(
-                                    () => _acceptedTerms = !_acceptedTerms,);
-                              },
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 12),
-                          child: Text.rich(
-                            TextSpan(
-                              text: 'I agree to the ',
-                              style: theme.textTheme.bodyMedium,
-                              children: [
-                                TextSpan(
-                                  text: 'Terms of Service',
-                                  style: TextStyle(
-                                    color: theme.colorScheme.primary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Text.rich(
+                          TextSpan(
+                            text: 'I agree to the ',
+                            style: theme.textTheme.bodyMedium,
+                            children: [
+                              TextSpan(
+                                text: 'Terms of Service',
+                                style: TextStyle(
+                                  color:
+                                      theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  decoration:
+                                      TextDecoration.underline,
                                 ),
-                                const TextSpan(text: ' and '),
-                                TextSpan(
-                                  text: 'Privacy Policy',
-                                  style: TextStyle(
-                                    color: theme.colorScheme.primary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = () =>
+                                          context.push(
+                                            '/settings/terms',
+                                          ),
+                              ),
+                              const TextSpan(text: ' and '),
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(
+                                  color:
+                                      theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  decoration:
+                                      TextDecoration.underline,
                                 ),
-                              ],
-                            ),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = () =>
+                                          context.push(
+                                            '/settings/privacy',
+                                          ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

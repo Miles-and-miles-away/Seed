@@ -285,5 +285,47 @@
   "learnOnlyDismiss": "Entendido",
 
   "settingsAnalytics": "Privacidad",
-  "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anonimos"
+  "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anonimos",
+
+  "privacyPolicyTitle": "Politica de privacidad",
+  "termsOfServiceTitle": "Terminos de servicio",
+  "legalLastUpdated": "Ultima actualizacion: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+
+  "eggDiscoveryTitle": "Un huevo misterioso!",
+  "eggDiscoveryMessage": "Durante la noche, un huevo misterioso aparecio junto a {mascotName}!",
+  "@eggDiscoveryMessage": {
+    "placeholders": {
+      "mascotName": {"type": "String"}
+    }
+  },
+  "eggDiscoverySubtitle": "Registra acciones todos los dias durante 30 dias para incubarlo.",
+  "eggDiscoveryDismiss": "Que emocionante!",
+
+  "eggHatchingTitle": "Esta eclosionando!",
+  "eggHatchingNamePrompt": "Dale un nombre a tu nuevo companero",
+  "eggHatchingConfirm": "Bienvenido!",
+
+  "eggProgressLabel": "Dia {current}/{total}",
+  "@eggProgressLabel": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "mascotCollectionTitle": "Mis mascotas",
+  "mascotSwitchConfirm": "Cambiar mascota?",
+  "switchToMascot": "Cambiar a",
+  "switchMascotButton": "Cambiar",
+
+  "actionLearnMore": "Toca para conocer la ciencia",
+
+  "maxEvolutionTitle": "Evolucion maxima!",
+  "maxEvolutionSubtitle": "Tu companero ha alcanzado su maximo potencial!",
+  "maxEvolutionEggHint": "Cuida tu huevo para descubrir un nuevo companero!"
 }

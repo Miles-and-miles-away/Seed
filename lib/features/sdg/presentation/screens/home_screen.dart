@@ -111,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
 
-    final mascot = ref.watch(currentMascotProvider).value;
+    final mascot = ref.watch(activeMascotProvider).value;
     final user = ref.watch(currentUserProvider).value;
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
 
@@ -168,7 +168,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '$stageName (${l10n.levelLabel(user?.level ?? 1)})',
+                  '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w600,

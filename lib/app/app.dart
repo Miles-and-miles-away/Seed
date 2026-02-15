@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
+import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/settings/settings.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
@@ -25,6 +26,12 @@ class SeedApp extends ConsumerWidget {
         .setAnalyticsCollectionEnabled(analyticsOn);
     FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(analyticsOn);
+
+    // Sync Crashlytics user identifier with auth state
+    ref.watch(authStateChangesProvider).whenData((user) {
+      FirebaseCrashlytics.instance
+          .setUserIdentifier(user?.uid ?? '');
+    });
 
     return MaterialApp.router(
       title: 'Seed',

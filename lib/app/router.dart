@@ -20,7 +20,9 @@ import '../features/settings/presentation/screens/about_screen.dart';
 import '../features/settings/presentation/screens/account_settings_screen.dart';
 import '../features/settings/presentation/screens/language_settings_screen.dart';
 import '../features/settings/presentation/screens/notification_settings_screen.dart';
+import '../features/settings/presentation/screens/privacy_policy_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
+import '../features/settings/presentation/screens/terms_of_service_screen.dart';
 import 'main_shell.dart';
 
 part 'router.g.dart';
@@ -175,7 +177,20 @@ GoRouter router(Ref ref) {
                       ),
                       GoRoute(
                         path: 'about',
-                        builder: (context, state) => const AboutScreen(),
+                        builder: (context, state) =>
+                            const AboutScreen(),
+                        routes: [
+                          GoRoute(
+                            path: 'privacy',
+                            builder: (context, state) =>
+                                const PrivacyPolicyScreen(),
+                          ),
+                          GoRoute(
+                            path: 'terms',
+                            builder: (context, state) =>
+                                const TermsOfServiceScreen(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -230,6 +245,28 @@ GoRouter router(Ref ref) {
           GoRoute(
             path: 'about',
             builder: (context, state) => const AboutScreen(),
+            routes: [
+              GoRoute(
+                path: 'privacy',
+                builder: (context, state) =>
+                    const PrivacyPolicyScreen(),
+              ),
+              GoRoute(
+                path: 'terms',
+                builder: (context, state) =>
+                    const TermsOfServiceScreen(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'privacy',
+            builder: (context, state) =>
+                const PrivacyPolicyScreen(),
+          ),
+          GoRoute(
+            path: 'terms',
+            builder: (context, state) =>
+                const TermsOfServiceScreen(),
           ),
         ],
       ),
