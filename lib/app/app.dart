@@ -24,30 +24,30 @@ class _SeedAppState extends ConsumerState<SeedApp> {
     super.initState();
 
     // Sync analytics toggle only on change
-    ref.listenManual(
-      analyticsEnabledProvider,
-      (_, on) {
-        AnalyticsService.instance
-            .setEnabled(enabled: on);
-        FirebaseAnalytics.instance
-            .setAnalyticsCollectionEnabled(on);
-        FirebaseCrashlytics.instance
-            .setCrashlyticsCollectionEnabled(on);
-      },
-      fireImmediately: true,
-    );
-
-    // Sync Crashlytics user ID only on auth change
-    ref.listenManual(
-      authStateChangesProvider,
-      (_, next) {
-        next.whenData((user) {
+    ref
+      ..listenManual(
+        analyticsEnabledProvider,
+        (_, on) {
+          AnalyticsService.instance
+              .setEnabled(enabled: on);
+          FirebaseAnalytics.instance
+              .setAnalyticsCollectionEnabled(on);
           FirebaseCrashlytics.instance
-              .setUserIdentifier(user?.uid ?? '');
-        });
-      },
-      fireImmediately: true,
-    );
+              .setCrashlyticsCollectionEnabled(on);
+        },
+        fireImmediately: true,
+      )
+      // Sync Crashlytics user ID only on auth change
+      ..listenManual(
+        authStateChangesProvider,
+        (_, next) {
+          next.whenData((user) {
+            FirebaseCrashlytics.instance
+                .setUserIdentifier(user?.uid ?? '');
+          });
+        },
+        fireImmediately: true,
+      );
   }
 
   @override

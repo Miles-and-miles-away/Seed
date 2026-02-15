@@ -93,8 +93,8 @@ class ActionSortDropdown extends ConsumerWidget {
 
   IconData _getIconForOption(ActionSortOption option) {
     return switch (option) {
-      ActionSortOption.alphabeticalAsc => Icons.sort_by_alpha,
-      ActionSortOption.alphabeticalDesc => Icons.sort_by_alpha,
+      ActionSortOption.alphabeticalAsc => Icons.arrow_downward,
+      ActionSortOption.alphabeticalDesc => Icons.arrow_upward,
       ActionSortOption.co2HighToLow => Icons.arrow_downward,
       ActionSortOption.co2LowToHigh => Icons.arrow_upward,
       ActionSortOption.pointsHighToLow => Icons.arrow_downward,
