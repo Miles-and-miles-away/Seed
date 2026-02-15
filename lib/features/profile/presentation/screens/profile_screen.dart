@@ -260,8 +260,8 @@ class ProfileScreen extends ConsumerWidget {
   ) {
     final colorScheme = theme.colorScheme;
     final userAsync = ref.watch(currentUserProvider);
-    final totalCo2Async = ref.watch(totalCo2SavedProvider);
-    final totalActionsAsync = ref.watch(totalActionsCountProvider);
+    final totalCo2 = ref.watch(totalCo2SavedProvider);
+    final totalActions = ref.watch(totalActionsCountProvider);
     final daysSinceJoined = ref.watch(daysSinceJoinedProvider);
 
     final user = userAsync.value;
@@ -298,45 +298,17 @@ class ProfileScreen extends ConsumerWidget {
 
         // Second row: Total CO2 & Total actions
         StatCardRow(
-          left: totalCo2Async.when(
-            data: (co2) => StatCard(
-              icon: Icons.eco,
-              value: formatCO2Compact(co2),
-              label: l10n.profileTotalCO2,
-              iconColor: colorScheme.primary,
-            ),
-            loading: () => StatCard(
-              icon: Icons.eco,
-              value: '...',
-              label: l10n.profileTotalCO2,
-              iconColor: colorScheme.primary,
-            ),
-            error: (_, __) => StatCard(
-              icon: Icons.eco,
-              value: '-',
-              label: l10n.profileTotalCO2,
-              iconColor: colorScheme.primary,
-            ),
+          left: StatCard(
+            icon: Icons.eco,
+            value: formatCO2Compact(totalCo2),
+            label: l10n.profileTotalCO2,
+            iconColor: colorScheme.primary,
           ),
-          right: totalActionsAsync.when(
-            data: (count) => StatCard(
-              icon: Icons.check_circle,
-              value: '$count',
-              label: l10n.profileTotalActions,
-              iconColor: colorScheme.secondary,
-            ),
-            loading: () => StatCard(
-              icon: Icons.check_circle,
-              value: '...',
-              label: l10n.profileTotalActions,
-              iconColor: colorScheme.secondary,
-            ),
-            error: (_, __) => StatCard(
-              icon: Icons.check_circle,
-              value: '-',
-              label: l10n.profileTotalActions,
-              iconColor: colorScheme.secondary,
-            ),
+          right: StatCard(
+            icon: Icons.check_circle,
+            value: '$totalActions',
+            label: l10n.profileTotalActions,
+            iconColor: colorScheme.secondary,
           ),
         ),
 

@@ -58,19 +58,27 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     });
   }
 
+  static const _batchLimit = 500;
+
   @override
   Future<void> deleteUser(String uid) async {
     final userDoc = _usersCollection.doc(uid);
+    final logCollection =
+        userDoc.collection(AppConstants.collectionActionLog);
 
-    // Delete action log subcollection
-    final actionLogs = await userDoc
-        .collection(AppConstants.collectionActionLog)
-        .get();
-    for (final doc in actionLogs.docs) {
-      await doc.reference.delete();
-    }
+    // Batch-delete action logs (up to 500 per batch)
+    QuerySnapshot<Map<String, dynamic>> snapshot;
+    do {
+      snapshot = await logCollection.limit(_batchLimit).get();
+      if (snapshot.docs.isEmpty) break;
 
-    // Delete the user document itself
+      final batch = _firestore.batch();
+      for (final doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+    } while (snapshot.docs.length == _batchLimit);
+
     await userDoc.delete();
   }
 }

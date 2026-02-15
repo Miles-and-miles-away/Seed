@@ -25,26 +25,50 @@ class MainShell extends ConsumerStatefulWidget {
 class _MainShellState extends ConsumerState<MainShell> {
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
-  bool _hasMigrated = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Run migration once
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(mascotProvider.notifier)
+          .runMigrationIfNeeded();
+    });
+
+    // React to evolution changes only when value flips
+    ref.listenManual(hasNewEvolutionProvider, (_, next) {
+      if (next && !_hasShownEvolutionCelebration) {
+        _hasShownEvolutionCelebration = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) showEvolutionCelebration(context);
+        });
+      }
+    });
+
+    // React to egg discovery flag
+    ref.listenManual(
+      shouldShowEggDiscoveryProvider,
+      (_, next) {
+        if (next && !_hasShownEggDiscovery) {
+          _hasShownEggDiscovery = true;
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) {
+            if (mounted) {
+              showEggDiscoveryCelebration(context, ref);
+            }
+          });
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-
-    // Run migration on first build
-    if (!_hasMigrated) {
-      _hasMigrated = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref
-            .read(mascotProvider.notifier)
-            .runMigrationIfNeeded();
-      });
-    }
-
-    // Check for celebrations (priority order)
-    _checkAndShowCelebrations();
 
     return Scaffold(
       body: widget.navigationShell,
@@ -103,35 +127,6 @@ class _MainShellState extends ConsumerState<MainShell> {
         ),
       ),
     );
-  }
-
-  void _checkAndShowCelebrations() {
-    // 1. Evolution celebration (highest priority)
-    if (!_hasShownEvolutionCelebration) {
-      final hasNewEvolution =
-          ref.watch(hasNewEvolutionProvider);
-      if (hasNewEvolution) {
-        _hasShownEvolutionCelebration = true;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) showEvolutionCelebration(context);
-        });
-        return;
-      }
-    }
-
-    // 2. Egg discovery celebration
-    if (!_hasShownEggDiscovery) {
-      final shouldShow =
-          ref.watch(shouldShowEggDiscoveryProvider);
-      if (shouldShow) {
-        _hasShownEggDiscovery = true;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            showEggDiscoveryCelebration(context, ref);
-          }
-        });
-      }
-    }
   }
 
   void _onItemTapped(int index) {

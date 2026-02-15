@@ -108,14 +108,20 @@ void main() {
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);
     });
 
-    testWidgets('renders external link icons for Privacy and Terms',
+    testWidgets('renders external link icon for Contact',
         (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // External link icons for Privacy Policy and Terms
-      // Contact section may not be visible without scrolling
-      expect(find.byIcon(Icons.open_in_new), findsAtLeast(2));
+      // Scroll to Contact tile which has the external link icon
+      await tester.scrollUntilVisible(
+        find.byIcon(Icons.open_in_new),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.open_in_new), findsOneWidget);
     });
 
     testWidgets('has correct app bar title', (tester) async {

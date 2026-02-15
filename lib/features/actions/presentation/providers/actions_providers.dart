@@ -120,7 +120,7 @@ class ActionSearchQuery extends _$ActionSearchQuery {
 }
 
 /// Currently selected sort option for the action library.
-@Riverpod(keepAlive: true)
+@riverpod
 class SelectedSortOption extends _$SelectedSortOption {
   @override
   ActionSortOption build() => ActionSortOption.alphabeticalAsc;
@@ -171,21 +171,20 @@ final userLanguageCodeProvider = Provider<String>((ref) {
   return user?.language ?? 'en';
 });
 
-/// Filtered and sorted actions based on selected filters.
+/// Filtered actions (category, SDG, search) -- no sort.
+/// Separated so that changing sort doesn't re-filter.
 @riverpod
-AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
+AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
-  final selectedCategory = ref.watch(selectedCategoryProvider);
+  final selectedCategory =
+      ref.watch(selectedCategoryProvider);
   final searchQuery =
       ref.watch(actionSearchQueryProvider).toLowerCase();
-  final sortOption = ref.watch(selectedSortOptionProvider);
   final selectedSdg = ref.watch(selectedSdgFilterProvider);
-  final lang = ref.watch(userLanguageCodeProvider);
 
   return actionsAsync.whenData((actions) {
     var filtered = actions;
 
-    // Filter by category
     if (selectedCategory != null) {
       filtered = filtered
           .where(
@@ -194,7 +193,6 @@ AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
           .toList();
     }
 
-    // Filter by SDG
     if (selectedSdg != null) {
       filtered = filtered
           .where(
@@ -204,7 +202,6 @@ AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
           .toList();
     }
 
-    // Filter by search query
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((a) {
         return a.nameEn
@@ -228,8 +225,22 @@ AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
       }).toList();
     }
 
-    return _sortActions(filtered, sortOption, lang);
+    return filtered;
   });
+}
+
+/// Filtered + sorted actions. Only re-sorts when sort
+/// option or language changes; filter changes propagate
+/// through baseFilteredActions.
+@riverpod
+AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
+  final baseAsync = ref.watch(baseFilteredActionsProvider);
+  final sortOption = ref.watch(selectedSortOptionProvider);
+  final lang = ref.watch(userLanguageCodeProvider);
+
+  return baseAsync.whenData(
+    (actions) => _sortActions(actions, sortOption, lang),
+  );
 }
 
 /// Sorts actions by the selected option, using locale-aware

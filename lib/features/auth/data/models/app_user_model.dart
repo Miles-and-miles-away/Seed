@@ -53,6 +53,17 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// FCM token for push notifications.
     String? fcmToken,
+
+    // Denormalized aggregates (avoid reading entire actionLog)
+
+    /// Total CO2 saved across all actions (grams).
+    @Default(0) int totalCo2Grams,
+
+    /// Total number of actions logged.
+    @Default(0) int totalActionsCount,
+
+    /// Per-SDG aggregated stats: { "1": { "count": 5, "co2": 1200 } }
+    @Default({}) Map<String, Map<String, int>> sdgStats,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>

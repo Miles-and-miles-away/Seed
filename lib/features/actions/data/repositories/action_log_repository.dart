@@ -101,6 +101,32 @@ class ActionLogRepository {
           streakResult.crossedMilestoneWeek;
       newCurrentStreak = streakResult.currentStreak;
 
+      // 2b. Denormalized aggregate counters
+      final currentCo2 =
+          (userData['totalCo2Grams'] as int?) ?? 0;
+      final currentActionCount =
+          (userData['totalActionsCount'] as int?) ?? 0;
+
+      // Per-SDG stats
+      final sdgStatsRaw = (userData['sdgStats']
+              as Map<String, dynamic>?) ??
+          {};
+      final updatedSdgStats =
+          Map<String, dynamic>.from(sdgStatsRaw);
+      for (final sdg in action.relatedSdgs) {
+        final existing = (updatedSdgStats[sdg]
+                as Map<String, dynamic>?) ??
+            {};
+        final oldCount =
+            (existing['count'] as int?) ?? 0;
+        final oldCo2 =
+            (existing['co2'] as int?) ?? 0;
+        updatedSdgStats[sdg] = {
+          'count': oldCount + 1,
+          'co2': oldCo2 + action.co2Grams,
+        };
+      }
+
       // Base update map
       final updates = <String, dynamic>{
         'points': newPoints,
@@ -108,6 +134,9 @@ class ActionLogRepository {
         'currentStreak': streakResult.currentStreak,
         'longestStreak': streakResult.longestStreak,
         'lastActionDate': Timestamp.fromDate(now),
+        'totalCo2Grams': currentCo2 + action.co2Grams,
+        'totalActionsCount': currentActionCount + 1,
+        'sdgStats': updatedSdgStats,
       };
 
       // 3. Per-mascot leveling

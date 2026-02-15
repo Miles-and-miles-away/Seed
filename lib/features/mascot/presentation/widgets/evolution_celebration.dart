@@ -90,10 +90,16 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     final locale = Localizations.localeOf(context).languageCode;
 
     final assetPath = ref.watch(mascotAssetPathProvider);
-    final stageName = ref.watch(stageLocalizedNameProvider(locale));
+    final stageName = ref.watch(
+      stageLocalizedNameProvider(locale),
+    );
     final species = ref.watch(currentSpeciesProvider);
-    final currentStage = ref.watch(currentMascotStageProvider);
-    final mascot = ref.watch(currentMascotProvider).value;
+    final currentStage =
+        ref.watch(currentMascotStageProvider);
+    final mascotName = ref.watch(
+      currentMascotProvider
+          .select((a) => a.value?.name),
+    );
 
     // Get the previous stage asset path
     String? previousAssetPath;
@@ -165,7 +171,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
                   // Mascot name
                   Text(
-                    mascot?.name ?? '',
+                    mascotName ?? '',
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: colorScheme.primary,
                       fontWeight: FontWeight.w600,

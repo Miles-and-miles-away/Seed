@@ -284,3 +284,8 @@ const sdgGoals = <SdgGoal>[
     isLearnOnly: true,
   ),
 ];
+
+/// O(1) lookup by goal number.
+final Map<int, SdgGoal> sdgGoalMap = {
+  for (final g in sdgGoals) g.number: g,
+};

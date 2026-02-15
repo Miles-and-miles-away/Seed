@@ -82,13 +82,18 @@ MascotSpeciesModel? activeSpecies(Ref ref) {
 }
 
 /// Evolution stage index (1-4) for the active mascot.
-/// Uses mascotLevel (per-mascot), not global user level.
+/// Computes species inline to avoid double-watching
+/// activeMascotProvider through activeSpeciesProvider.
 @riverpod
 int activeMascotStage(Ref ref) {
-  final species = ref.watch(activeSpeciesProvider);
-  final mascot = ref.watch(activeMascotProvider).value;
-  if (species == null || mascot == null) return 1;
-  return species.getStageIndexForLevel(mascot.mascotLevel);
+  final mascot =
+      ref.watch(activeMascotProvider).value;
+  if (mascot == null) return 1;
+  final species = getSpeciesById(mascot.speciesId);
+  if (species == null) return 1;
+  return species.getStageIndexForLevel(
+    mascot.mascotLevel,
+  );
 }
 
 /// Evolution stage data for the active mascot.

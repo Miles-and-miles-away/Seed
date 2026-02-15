@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/helpers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 
@@ -30,49 +29,21 @@ int evolutionStage(Ref ref) {
   return getEvolutionStage(user.level);
 }
 
-/// Total CO₂ saved across all actions (in grams).
+/// Total CO2 saved across all actions (grams).
+/// Reads denormalized field from user doc instead of
+/// streaming entire actionLog subcollection.
 @riverpod
-Stream<int> totalCo2Saved(Ref ref) async* {
+int totalCo2Saved(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
-    yield 0;
-    return;
-  }
-
-  final firestore = ref.watch(firestoreProvider);
-
-  yield* firestore
-      .collection(AppConstants.collectionUsers)
-      .doc(user.uid)
-      .collection(AppConstants.collectionActionLog)
-      .snapshots()
-      .map((snapshot) {
-    var total = 0;
-    for (final doc in snapshot.docs) {
-      final co2 = doc.data()['co2Grams'] as int? ?? 0;
-      total += co2;
-    }
-    return total;
-  });
+  return user?.totalCo2Grams ?? 0;
 }
 
 /// Total number of actions logged.
+/// Reads denormalized field from user doc.
 @riverpod
-Stream<int> totalActionsCount(Ref ref) async* {
+int totalActionsCount(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
-    yield 0;
-    return;
-  }
-
-  final firestore = ref.watch(firestoreProvider);
-
-  yield* firestore
-      .collection(AppConstants.collectionUsers)
-      .doc(user.uid)
-      .collection(AppConstants.collectionActionLog)
-      .snapshots()
-      .map((snapshot) => snapshot.docs.length);
+  return user?.totalActionsCount ?? 0;
 }
 
 /// Number of days since the user joined.

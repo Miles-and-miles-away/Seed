@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../actions/data/models/action_model.dart';
 import '../../../actions/presentation/providers/actions_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
@@ -8,37 +7,21 @@ import '../../domain/models/sdg_stats.dart';
 
 part 'sdg_stats_provider.g.dart';
 
-/// Streams aggregated stats for a specific SDG from
-/// the user's action log.
+/// Aggregated stats for a specific SDG from the
+/// denormalized sdgStats map on the user document.
 @riverpod
-Stream<SdgStats> sdgStats(Ref ref, int sdgNumber) async* {
+SdgStats sdgStats(Ref ref, int sdgNumber) {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
-    yield SdgStats(sdgNumber: sdgNumber);
-    return;
-  }
+  if (user == null) return SdgStats(sdgNumber: sdgNumber);
 
-  final firestore = ref.watch(firestoreProvider);
   final sdgStr = sdgNumber.toString();
+  final stats = user.sdgStats[sdgStr];
 
-  yield* firestore
-      .collection(AppConstants.collectionUsers)
-      .doc(user.uid)
-      .collection(AppConstants.collectionActionLog)
-      .where('relatedSdgs', arrayContains: sdgStr)
-      .snapshots()
-      .map((snapshot) {
-    var totalCo2 = 0;
-    for (final doc in snapshot.docs) {
-      final co2 = doc.data()['co2Grams'] as int? ?? 0;
-      totalCo2 += co2;
-    }
-    return SdgStats(
-      sdgNumber: sdgNumber,
-      actionsLogged: snapshot.docs.length,
-      co2SavedGrams: totalCo2,
-    );
-  });
+  return SdgStats(
+    sdgNumber: sdgNumber,
+    actionsLogged: stats?['count'] ?? 0,
+    co2SavedGrams: stats?['co2'] ?? 0,
+  );
 }
 
 /// Filters the action library to only actions related

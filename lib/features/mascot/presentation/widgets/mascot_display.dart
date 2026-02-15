@@ -113,7 +113,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   @override
   Widget build(BuildContext context) {
     final assetPath = ref.watch(mascotAssetPathProvider);
-    final currentStage = ref.watch(currentMascotStageProvider);
+    final glowColor = ref.watch(
+      currentMascotStageProvider
+          .select(_getGlowColor),
+    );
 
     // Watch for external bounce triggers (e.g., after logging an action)
     final shouldBounceFromProvider = ref.watch(mascotAnimationTriggerProvider);
@@ -133,8 +136,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
         ),
       );
     }
-
-    final glowColor = _getGlowColor(currentStage);
 
     return GestureDetector(
       onTapDown: _onTapDown,
@@ -243,20 +244,15 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     return mascot;
   }
 
-  Color _getGlowColor(int stage) {
-    switch (stage) {
-      case 1:
-        return const Color(0xFF8B6F47); // Brown - earth glow
-      case 2:
-        return const Color(0xFF8BC34A); // Light green - fresh aura
-      case 3:
-        return const Color(0xFF4CAF50); // Forest green - vibrant pulse
-      case 4:
-        return const Color(0xFFFFD700); // Gold - golden radiance
-      default:
-        return const Color(0xFF8B6F47);
-    }
-  }
+  static const _glowColors = {
+    1: Color(0xFF8B6F47), // Brown - earth
+    2: Color(0xFF8BC34A), // Light green - fresh
+    3: Color(0xFF4CAF50), // Forest green - vibrant
+    4: Color(0xFFFFD700), // Gold - radiance
+  };
+
+  static Color _getGlowColor(int stage) =>
+      _glowColors[stage] ?? _glowColors[1]!;
 }
 
 /// A simpler mascot display widget for previews (e.g., selection screen).

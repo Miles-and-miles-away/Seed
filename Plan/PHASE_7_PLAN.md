@@ -13,21 +13,23 @@
 3. [Feature Breakdown](#feature-breakdown)
 4. [CO₂ Dashboard](#co2-dashboard)
 5. [Achievement System](#achievement-system)
-6. [Data Models](#data-models)
-7. [Implementation Order](#implementation-order)
-8. [Testing Strategy](#testing-strategy)
-9. [Acceptance Criteria](#acceptance-criteria)
+6. [User Feedback](#user-feedback)
+7. [Data Models](#data-models)
+8. [Implementation Order](#implementation-order)
+9. [Testing Strategy](#testing-strategy)
+10. [Acceptance Criteria](#acceptance-criteria)
 
 ---
 
 ## Phase Overview
 
-Phase 7 adds two major engagement features:
+Phase 7 adds two major engagement features and a user feedback channel:
 
 1. **CO₂ Dashboard** - Visualize environmental impact with charts, trends, and relatable equivalencies
 2. **Achievement System** - Gamify the experience with unlockable badges and bonus point rewards
+3. **User Feedback** - In-app feedback form so users can report issues and suggest features
 
-Both features deepen user engagement by making progress tangible and rewarding consistent behavior.
+These features deepen user engagement by making progress tangible, rewarding consistent behavior, and giving users a voice.
 
 ### Key Objectives
 
@@ -54,6 +56,8 @@ Both features deepen user engagement by making progress tangible and rewarding c
 | Achievement Categories | Action, streak, level, SDG, milestone, special |
 | Achievement Rewards | Bonus points + celebration screen |
 | Achievement Display | Profile section with badges and "next up" |
+| Feedback Form | In-app form with category, description, and device info |
+| Feedback Submission | mailto-based delivery with auto-populated metadata |
 
 ---
 
@@ -72,6 +76,7 @@ Both features deepen user engagement by making progress tangible and rewarding c
 | 7.7 Achievement Tracking | P0 | Medium | Pending |
 | 7.8 Achievement UI | P0 | Medium | Pending |
 | 7.9 Achievement Celebrations | P1 | Low | Pending |
+| 7.10 User Feedback | P1 | Low | Pending |
 
 ---
 
@@ -772,6 +777,144 @@ lib/features/achievements/presentation/
 
 ---
 
+## User Feedback
+
+### 7.10 User Feedback
+
+**Priority:** P1 | **Complexity:** Low
+
+Give users a clear, low-friction way to report bugs, suggest features, or
+share general feedback — without leaving the app.
+
+#### Current State
+
+The About screen (`about_screen.dart`) already has a basic "Contact" tile
+that opens a `mailto:` link with a generic subject line. This works but
+provides no structure — the developer receives unformatted emails with
+no device or app context.
+
+#### Approach: Structured Feedback Form + mailto
+
+Use a dedicated in-app form that collects structured input, then submits
+via a pre-populated `mailto:` URI. This keeps the implementation simple
+(no backend endpoint or Firestore writes needed), while still giving the
+user a polished experience and the developer useful context.
+
+**Why mailto over Firestore:**
+- Zero additional backend cost or security rules
+- Feedback lands directly in an inbox that can be triaged
+- No new Firestore collection to maintain or monitor
+- `url_launcher` is already a dependency
+
+#### UI Design
+
+**Entry Point** — Replace the existing "Contact" tile in the About
+screen's Support section with a "Send Feedback" tile that navigates
+to the new feedback screen.
+
+```
+┌─────────────────────────────────────────┐
+│  <-         Send Feedback               │
+├─────────────────────────────────────────┤
+│                                         │
+│  Category                               │
+│  ┌─────────────────────────────────┐   │
+│  │ [Bug Report] [Feature Request]  │   │
+│  │ [General Feedback]              │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  Describe your feedback                 │
+│  ┌─────────────────────────────────┐   │
+│  │                                 │   │
+│  │  (multiline text field)         │   │
+│  │                                 │   │
+│  │                                 │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  The following info is included to      │
+│  help us investigate:                   │
+│  App v1.2.0 (42) | iOS 18.3 | en       │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │        Submit Feedback          │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+└─────────────────────────────────────────┘
+```
+
+#### Feedback Categories
+
+| Category | mailto Subject Prefix |
+|----------|----------------------|
+| Bug Report | `[Bug]` |
+| Feature Request | `[Feature]` |
+| General Feedback | `[Feedback]` |
+
+#### mailto Body Template
+
+```
+Category: Bug Report
+---
+<user's description text>
+---
+App: Seed v1.2.0 (42)
+Platform: iOS 18.3
+Device: iPhone 15 Pro
+Locale: en
+User ID: <uid, if authenticated>
+```
+
+Device metadata is gathered automatically via `package_info_plus`
+(already a dependency) and `dart:io` Platform info. The user ID is
+included only if the user is signed in and helps correlate feedback
+with account state.
+
+#### Navigation
+
+```
+Profile -> Settings -> About -> Send Feedback (new screen)
+Route: /profile/settings/about/feedback
+```
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Create FeedbackCategory enum | bug, featureRequest, general | Pending |
+| Create FeedbackScreen | Form with category chips and text field | Pending |
+| Build mailto URI with metadata | Category prefix, body template, device info | Pending |
+| Add route to go_router | /profile/settings/about/feedback | Pending |
+| Replace About screen Contact tile | Point to new feedback screen | Pending |
+| Localize all strings | EN/JA | Pending |
+| Write widget tests | Form validation, category selection | Pending |
+
+#### Files to Create / Modify
+
+```
+lib/features/settings/presentation/screens/
+└── feedback_screen.dart              # New
+
+lib/features/settings/presentation/screens/
+└── about_screen.dart                 # Modify: update Support section
+
+lib/app/router.dart                   # Modify: add feedback route
+```
+
+#### Considerations
+
+- **Validation:** Require a non-empty description before enabling the
+  submit button. No minimum length — even a short note is useful.
+- **Confirmation:** After launching the mail client, show a SnackBar
+  thanking the user for their feedback.
+- **Offline:** `mailto:` works offline — it queues in the user's mail
+  app. No connectivity check needed.
+- **Future upgrade path:** If feedback volume grows, swap the mailto
+  submission for a Firestore write to a `feedback` collection or
+  integrate a third-party tool (e.g., Instabug). The form UI stays
+  the same.
+
+---
+
 ## Data Models
 
 ### CO₂ Stats Model
@@ -907,7 +1050,14 @@ Stage 7.7: Achievement Celebrations
 ├── Queue multiple achievements
 └── Write tests
 
-Stage 7.8: Polish & Testing
+Stage 7.8: User Feedback
+├── Create FeedbackScreen with category chips
+├── Build mailto URI with device metadata
+├── Add route and update About screen
+├── Localize strings
+└── Write widget tests
+
+Stage 7.9: Polish & Testing
 ├── End-to-end testing
 ├── Localization (EN/ES/JA)
 ├── Bug fixes
@@ -941,6 +1091,7 @@ Stage 7.8: Polish & Testing
 | AchievementCard | `achievement_card_test.dart` | Progress display |
 | AchievementsScreen | `achievements_screen_test.dart` | List rendering |
 | CelebrationScreen | `achievement_celebration_test.dart` | Display, dismiss |
+| FeedbackScreen | `feedback_screen_test.dart` | Category selection, validation, mailto URI |
 
 ---
 
@@ -1001,6 +1152,16 @@ Stage 7.8: Polish & Testing
 - [ ] Points shown
 - [ ] Auto-dismiss works
 - [ ] Queue handles multiple
+
+### 7.10 User Feedback
+- [ ] Feedback screen accessible from About > Support
+- [ ] Category selector works (Bug / Feature / General)
+- [ ] Description field validates non-empty
+- [ ] Submit builds correct mailto URI with category prefix
+- [ ] Device metadata (app version, OS, locale) included in body
+- [ ] Mail client opens on submit
+- [ ] Confirmation SnackBar shown after submission
+- [ ] All strings localized (EN/JA)
 
 ---
 

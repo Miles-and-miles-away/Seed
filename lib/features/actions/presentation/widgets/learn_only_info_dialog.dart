@@ -191,10 +191,8 @@ class LearnOnlyInfoDialog extends StatelessWidget {
       spacing: 6,
       runSpacing: 6,
       children: parsed.map((number) {
-        final sdg = sdgGoals.firstWhere(
-          (g) => g.number == number,
-          orElse: () => sdgGoals.first,
-        );
+        final sdg =
+            sdgGoalMap[number] ?? sdgGoals.first;
         return Container(
           width: 28,
           height: 28,
