@@ -41,9 +41,11 @@ class _SdgDetailScreenState
   Widget build(BuildContext context) {
     final goal =
         sdgGoalMap[widget.goalNumber] ?? sdgGoals.first;
-    final currentUser =
-        ref.watch(currentUserProvider).asData?.value;
-    final languageCode = currentUser?.language ?? 'en';
+    final languageCode = ref.watch(
+      currentUserProvider.select(
+        (u) => u.value?.language ?? 'en',
+      ),
+    );
 
     return Scaffold(
       body: CustomScrollView(

@@ -23,7 +23,6 @@ class ActionLibraryRemoteDataSourceImpl implements ActionLibraryRemoteDataSource
 
   @override
   Stream<List<ActionModel>> watchActions() {
-    // Requires composite index: (isActive ASC, sortOrder ASC)
     return _collection
         .where('isActive', isEqualTo: true)
         .orderBy('sortOrder')

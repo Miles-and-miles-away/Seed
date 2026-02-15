@@ -247,8 +247,8 @@
   "streakBrokenStartNew": "新しい記録を始める",
 
   "sortLabel": "並べ替え",
-  "sortAlphabeticalAZ": "名前 (A-Z)",
-  "sortAlphabeticalZA": "名前 (Z-A)",
+  "sortAlphabeticalAZ": "名前 (あ→わ)",
+  "sortAlphabeticalZA": "名前 (わ→あ)",
   "sortCo2HighToLow": "CO₂ (多い順)",
   "sortCo2LowToHigh": "CO₂ (少ない順)",
   "sortPointsHighToLow": "ポイント (多い順)",

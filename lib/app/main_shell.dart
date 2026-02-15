@@ -37,31 +37,37 @@ class _MainShellState extends ConsumerState<MainShell> {
           .runMigrationIfNeeded();
     });
 
-    // React to evolution changes only when value flips
-    ref.listenManual(hasNewEvolutionProvider, (_, next) {
-      if (next && !_hasShownEvolutionCelebration) {
-        _hasShownEvolutionCelebration = true;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) showEvolutionCelebration(context);
-        });
-      }
-    });
-
-    // React to egg discovery flag
-    ref.listenManual(
-      shouldShowEggDiscoveryProvider,
-      (_, next) {
-        if (next && !_hasShownEggDiscovery) {
-          _hasShownEggDiscovery = true;
+    ref
+      // React to evolution changes only when value flips
+      ..listenManual(hasNewEvolutionProvider, (_, next) {
+        if (next && !_hasShownEvolutionCelebration) {
+          _hasShownEvolutionCelebration = true;
           WidgetsBinding.instance
               .addPostFrameCallback((_) {
             if (mounted) {
-              showEggDiscoveryCelebration(context, ref);
+              showEvolutionCelebration(context);
             }
           });
         }
-      },
-    );
+      })
+      // React to egg discovery flag
+      ..listenManual(
+        shouldShowEggDiscoveryProvider,
+        (_, next) {
+          if (next && !_hasShownEggDiscovery) {
+            _hasShownEggDiscovery = true;
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) {
+              if (mounted) {
+                showEggDiscoveryCelebration(
+                  context,
+                  ref,
+                );
+              }
+            });
+          }
+        },
+      );
   }
 
   @override
