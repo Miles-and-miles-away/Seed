@@ -47,6 +47,11 @@ abstract class AppConstants {
   // SDG URLs
   static const sdgGoalsUrl = 'https://sdgs.un.org/goals';
 
+  // Egg & hatching system
+  static const eggHatchingStreakRequired = 30;
+  static const maxEvolutionLevel = 50;
+  static const maxMascotsPerUser = 20;
+
   // Auth throttling
   static const authCooldownSeconds = 3;
 }

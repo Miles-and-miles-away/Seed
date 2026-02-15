@@ -1,6 +1,7 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
 
@@ -13,204 +14,404 @@ void main() {
     repository = MascotRepository(firestore: fakeFirestore);
   });
 
-  group('MascotRepository', () {
-    group('getUserMascot', () {
-      test('returns null when user has no mascot', () async {
-        // Create user without mascot
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-        });
-
-        final mascot = await repository.getUserMascot('user123');
-
-        expect(mascot, isNull);
-      });
-
-      test('returns mascot when user has one', () async {
-        // Create user with mascot
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': {
-            'speciesId': 'seed',
-            'name': 'Sprouty',
-            'equippedItems': <String>[],
-            'lastSeenStage': 1,
-          },
-        });
-
-        final mascot = await repository.getUserMascot('user123');
-
-        expect(mascot, isNotNull);
-        expect(mascot!.speciesId, 'seed');
-        expect(mascot.name, 'Sprouty');
-      });
-
-      test('returns null when mascot field is null', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': null,
-        });
-
-        final mascot = await repository.getUserMascot('user123');
-
-        expect(mascot, isNull);
-      });
+  /// Helper to create a user doc with mascots array.
+  Future<void> createUserWithMascots(
+    String userId,
+    List<Map<String, dynamic>> mascots, {
+    String? activeMascotId,
+    Map<String, dynamic>? extra,
+  }) async {
+    await fakeFirestore
+        .collection('users')
+        .doc(userId)
+        .set({
+      'uid': userId,
+      'email': 'test@example.com',
+      if (mascots.isNotEmpty) 'mascots': mascots,
+      if (activeMascotId != null)
+        'activeMascotId': activeMascotId,
+      ...?extra,
     });
+  }
 
-    group('watchUserMascot', () {
-      test('emits null when user has no mascot', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-        });
+  Map<String, dynamic> mascotJson({
+    required String id,
+    String speciesId = 'seed',
+    String name = 'Sprouty',
+    int mascotPoints = 0,
+    int mascotLevel = 1,
+    bool isFullyEvolved = false,
+    int lastSeenStage = 1,
+  }) =>
+      {
+        'id': id,
+        'speciesId': speciesId,
+        'name': name,
+        'mascotPoints': mascotPoints,
+        'mascotLevel': mascotLevel,
+        'isFullyEvolved': isFullyEvolved,
+        'equippedItems': <String>[],
+        'lastSeenStage': lastSeenStage,
+      };
 
-        final stream = repository.watchUserMascot('user123');
+  group('MascotRepository', () {
+    group('watchAllMascots', () {
+      test('emits empty list when no mascots', () async {
+        await createUserWithMascots('user1', []);
 
-        await expectLater(stream, emits(isNull));
+        final stream = repository.watchAllMascots('user1');
+
+        await expectLater(stream, emits(isEmpty));
       });
 
-      test('emits mascot when user has one', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': {
-            'speciesId': 'seed',
-            'name': 'Leafy',
-            'equippedItems': <String>[],
-            'lastSeenStage': 2,
-          },
-        });
+      test('emits mascot list', () async {
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1', name: 'Leafy'),
+          mascotJson(id: 'm2', name: 'Mossy'),
+        ]);
 
-        final stream = repository.watchUserMascot('user123');
+        final stream = repository.watchAllMascots('user1');
 
         await expectLater(
           stream,
           emits(
-            predicate<MascotModel?>(
-              (m) => m != null && m.speciesId == 'seed' && m.name == 'Leafy',
+            predicate<List<MascotModel>>(
+              (list) =>
+                  list.length == 2 &&
+                  list[0].id == 'm1' &&
+                  list[1].id == 'm2',
             ),
           ),
         );
       });
     });
 
-    group('setUserMascot', () {
-      test('creates mascot field on user document', () async {
-        // Create user without mascot
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-        });
+    group('watchActiveMascot', () {
+      test('emits null when no active mascot', () async {
+        await createUserWithMascots('user1', []);
+
+        final stream =
+            repository.watchActiveMascot('user1');
+
+        await expectLater(stream, emits(isNull));
+      });
+
+      test('emits active mascot', () async {
+        await createUserWithMascots(
+          'user1',
+          [
+            mascotJson(id: 'm1', name: 'Leafy'),
+            mascotJson(id: 'm2', name: 'Mossy'),
+          ],
+          activeMascotId: 'm2',
+        );
+
+        final stream =
+            repository.watchActiveMascot('user1');
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<MascotModel?>(
+              (m) =>
+                  m != null &&
+                  m.id == 'm2' &&
+                  m.name == 'Mossy',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('watchEgg', () {
+      test('emits null when no egg', () async {
+        await createUserWithMascots('user1', []);
+
+        final stream = repository.watchEgg('user1');
+
+        await expectLater(stream, emits(isNull));
+      });
+
+      test('emits egg when present', () async {
+        final now = DateTime(2024, 6, 15);
+        await createUserWithMascots(
+          'user1',
+          [],
+          extra: {
+            'egg': {
+              'receivedAt': now.toIso8601String(),
+              'hatchingStreakDays': 5,
+            },
+          },
+        );
+
+        final stream = repository.watchEgg('user1');
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<EggModel?>(
+              (e) => e != null && e.hatchingStreakDays == 5,
+            ),
+          ),
+        );
+      });
+    });
+
+    group('watchHasMascot', () {
+      test('emits false when no mascots', () async {
+        await createUserWithMascots('user1', []);
+
+        final stream =
+            repository.watchHasMascot('user1');
+
+        await expectLater(stream, emits(isFalse));
+      });
+
+      test('emits true when mascots exist', () async {
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1'),
+        ]);
+
+        final stream =
+            repository.watchHasMascot('user1');
+
+        await expectLater(stream, emits(isTrue));
+      });
+    });
+
+    group('addMascot', () {
+      test('adds mascot and sets active', () async {
+        await createUserWithMascots('user1', []);
 
         const mascot = MascotModel(
+          id: 'm1',
           speciesId: 'seed',
           name: 'Sprouty',
         );
+        await repository.addMascot('user1', mascot);
 
-        await repository.setUserMascot('user123', mascot);
-
-        final doc = await fakeFirestore.collection('users').doc('user123').get();
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
         final data = doc.data()!;
-        expect(data['mascot'], isNotNull);
-        expect(data['mascot']['speciesId'], 'seed');
-        expect(data['mascot']['name'], 'Sprouty');
+        final mascots =
+            data['mascots'] as List<dynamic>;
+        expect(mascots, hasLength(1));
+        expect(
+          (mascots[0] as Map)['speciesId'],
+          'seed',
+        );
+        expect(data['activeMascotId'], 'm1');
+      });
+    });
+
+    group('setActiveMascot', () {
+      test('updates activeMascotId', () async {
+        await createUserWithMascots(
+          'user1',
+          [
+            mascotJson(id: 'm1'),
+            mascotJson(id: 'm2'),
+          ],
+          activeMascotId: 'm1',
+        );
+
+        await repository.setActiveMascot('user1', 'm2');
+
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        expect(doc.data()!['activeMascotId'], 'm2');
+      });
+    });
+
+    group('updateMascotInArray', () {
+      test('updates mascot by id', () async {
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1', name: 'Old'),
+        ]);
+
+        const updated = MascotModel(
+          id: 'm1',
+          speciesId: 'seed',
+          name: 'Updated',
+          mascotPoints: 100,
+        );
+        await repository.updateMascotInArray(
+          'user1',
+          updated,
+        );
+
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        final mascots =
+            doc.data()!['mascots'] as List<dynamic>;
+        final first = mascots[0] as Map;
+        expect(first['name'], 'Updated');
+        expect(first['mascotPoints'], 100);
       });
     });
 
     group('updateMascotName', () {
-      test('updates only the mascot name', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': {
-            'speciesId': 'seed',
-            'name': 'OldName',
-            'equippedItems': <String>[],
-            'lastSeenStage': 1,
-          },
-        });
+      test('renames mascot in array', () async {
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1', name: 'OldName'),
+          mascotJson(id: 'm2', name: 'Other'),
+        ]);
 
-        await repository.updateMascotName('user123', 'NewName');
+        await repository.updateMascotName(
+          'user1',
+          'm1',
+          'NewName',
+        );
 
-        final doc = await fakeFirestore.collection('users').doc('user123').get();
-        expect(doc.data()!['mascot']['name'], 'NewName');
-        expect(doc.data()!['mascot']['speciesId'], 'seed');
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        final mascots =
+            doc.data()!['mascots'] as List<dynamic>;
+        expect(
+          (mascots[0] as Map)['name'],
+          'NewName',
+        );
+        // Other mascot unchanged
+        expect(
+          (mascots[1] as Map)['name'],
+          'Other',
+        );
       });
     });
 
     group('updateLastSeenStage', () {
-      test('updates the last seen stage', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': {
-            'speciesId': 'seed',
-            'name': 'Sprouty',
-            'equippedItems': <String>[],
-            'lastSeenStage': 1,
+      test('updates stage for specific mascot', () async {
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1'),
+        ]);
+
+        await repository.updateLastSeenStage(
+          'user1',
+          'm1',
+          3,
+        );
+
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        final mascots =
+            doc.data()!['mascots'] as List<dynamic>;
+        expect(
+          (mascots[0] as Map)['lastSeenStage'],
+          3,
+        );
+      });
+    });
+
+    group('createEgg', () {
+      test('creates egg and clears pending flag', () async {
+        await createUserWithMascots(
+          'user1',
+          [],
+          extra: {'eggPendingDiscovery': true},
+        );
+
+        final egg = EggModel(
+          receivedAt: DateTime(2024, 6, 15),
+        );
+        await repository.createEgg('user1', egg);
+
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        final data = doc.data()!;
+        expect(data['egg'], isNotNull);
+        expect(data['eggPendingDiscovery'], false);
+      });
+    });
+
+    group('removeEgg', () {
+      test('removes egg from user', () async {
+        await createUserWithMascots(
+          'user1',
+          [],
+          extra: {
+            'egg': {
+              'receivedAt':
+                  DateTime(2024, 6, 15).toIso8601String(),
+              'hatchingStreakDays': 10,
+            },
           },
-        });
+        );
 
-        await repository.updateLastSeenStage('user123', 2);
+        await repository.removeEgg('user1');
 
-        final doc = await fakeFirestore.collection('users').doc('user123').get();
-        expect(doc.data()!['mascot']['lastSeenStage'], 2);
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        expect(doc.data()!.containsKey('egg'), isFalse);
+      });
+    });
+
+    group('clearEggPendingDiscovery', () {
+      test('clears the flag', () async {
+        await createUserWithMascots(
+          'user1',
+          [],
+          extra: {'eggPendingDiscovery': true},
+        );
+
+        await repository.clearEggPendingDiscovery(
+          'user1',
+        );
+
+        final doc = await fakeFirestore
+            .collection('users')
+            .doc('user1')
+            .get();
+        expect(
+          doc.data()!['eggPendingDiscovery'],
+          false,
+        );
       });
     });
 
     group('selectMascot', () {
-      test('creates mascot with species and name', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-        });
+      test(
+        'creates mascot array with one mascot',
+        () async {
+          await createUserWithMascots('user1', []);
 
-        await repository.selectMascot(
-          userId: 'user123',
-          speciesId: 'seed',
-          name: 'MyPlant',
-        );
+          await repository.selectMascot(
+            userId: 'user1',
+            speciesId: 'seed',
+            name: 'MyPlant',
+          );
 
-        final doc = await fakeFirestore.collection('users').doc('user123').get();
-        final mascotData = doc.data()!['mascot'] as Map<String, dynamic>;
-        expect(mascotData['speciesId'], 'seed');
-        expect(mascotData['name'], 'MyPlant');
-        expect(mascotData['lastSeenStage'], 1);
-        expect(mascotData['createdAt'], isNotNull);
-      });
-    });
-
-    group('hasMascot', () {
-      test('returns false when user has no mascot', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-        });
-
-        final result = await repository.hasMascot('user123');
-
-        expect(result, isFalse);
-      });
-
-      test('returns true when user has a mascot', () async {
-        await fakeFirestore.collection('users').doc('user123').set({
-          'uid': 'user123',
-          'email': 'test@example.com',
-          'mascot': {
-            'speciesId': 'seed',
-            'name': 'Sprouty',
-            'equippedItems': <String>[],
-            'lastSeenStage': 1,
-          },
-        });
-
-        final result = await repository.hasMascot('user123');
-
-        expect(result, isTrue);
-      });
+          final doc = await fakeFirestore
+              .collection('users')
+              .doc('user1')
+              .get();
+          final data = doc.data()!;
+          final mascots =
+              data['mascots'] as List<dynamic>;
+          expect(mascots, hasLength(1));
+          final first =
+              mascots[0] as Map<String, dynamic>;
+          expect(first['speciesId'], 'seed');
+          expect(first['name'], 'MyPlant');
+          expect(first['lastSeenStage'], 1);
+          expect(first['id'], isNotNull);
+          expect(data['activeMascotId'], first['id']);
+        },
+      );
     });
 
     group('getAllSpecies', () {
@@ -224,7 +425,8 @@ void main() {
 
     group('getSpecies', () {
       test('returns species by id', () async {
-        final species = await repository.getSpecies('seed');
+        final species =
+            await repository.getSpecies('seed');
 
         expect(species, isNotNull);
         expect(species!.id, 'seed');
@@ -232,7 +434,8 @@ void main() {
       });
 
       test('returns null for unknown species', () async {
-        final species = await repository.getSpecies('unknown');
+        final species =
+            await repository.getSpecies('unknown');
 
         expect(species, isNull);
       });

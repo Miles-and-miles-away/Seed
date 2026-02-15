@@ -4,6 +4,7 @@ import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../sdg/data/sdg_data.dart';
 import '../../data/models/action_model.dart';
 import '../../domain/enums/action_category.dart';
+import 'action_science_bottom_sheet.dart';
 
 /// A dialog showing educational info for learn-only actions.
 class LearnOnlyInfoDialog extends StatelessWidget {
@@ -81,13 +82,10 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                 if (action
                     .description(languageCode)
                     .isNotEmpty) ...[
-                  Text(
-                    action.description(languageCode),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color:
-                          theme.colorScheme.onSurfaceVariant,
-                    ),
-                    textAlign: TextAlign.center,
+                  _buildDescription(
+                    context,
+                    theme,
+                    categoryColor,
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -122,6 +120,58 @@ class LearnOnlyInfoDialog extends StatelessWidget {
           child: Text(l10n.learnOnlyDismiss),
         ),
       ],
+    );
+  }
+
+  Widget _buildDescription(
+    BuildContext context,
+    ThemeData theme,
+    Color categoryColor,
+  ) {
+    final desc = action.description(languageCode);
+    final hasLong =
+        action.descriptionLong(languageCode).isNotEmpty;
+
+    if (!hasLong) {
+      return Text(
+        desc,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        textAlign: TextAlign.center,
+      );
+    }
+
+    return GestureDetector(
+      onTap: () => ActionScienceBottomSheet.show(
+        context,
+        action: action,
+        languageCode: languageCode,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              desc,
+              style:
+                  theme.textTheme.bodyMedium?.copyWith(
+                color: categoryColor,
+                decoration: TextDecoration.underline,
+                decorationColor: categoryColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.info_outline,
+            size: 16,
+            color: categoryColor,
+          ),
+        ],
+      ),
     );
   }
 

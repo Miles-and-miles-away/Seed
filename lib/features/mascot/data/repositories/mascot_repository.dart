@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../mascot_species_data.dart';
+import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
 import '../models/mascot_species_model.dart';
 
+const _uuid = Uuid();
+
 /// Repository for mascot-related data operations.
 ///
-/// Handles CRUD operations for user mascots and species data.
+/// Handles CRUD for multi-mascot array and egg system.
 class MascotRepository {
   MascotRepository({
     FirebaseFirestore? firestore,
@@ -15,90 +19,230 @@ class MascotRepository {
 
   final FirebaseFirestore _firestore;
 
-  /// Gets the users collection reference.
-  CollectionReference<Map<String, dynamic>> get _usersCollection =>
-      _firestore.collection(AppConstants.collectionUsers);
+  DocumentReference<Map<String, dynamic>> _userDoc(
+    String userId,
+  ) =>
+      _firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(userId);
 
-  /// Streams the user's mascot data.
-  ///
-  /// Returns `null` if the user has no mascot selected yet.
-  Stream<MascotModel?> watchUserMascot(String userId) {
-    return _usersCollection.doc(userId).snapshots().map((doc) {
+  // =========================================================
+  // Multi-mascot operations
+  // =========================================================
+
+  /// Streams all mascots for a user.
+  Stream<List<MascotModel>> watchAllMascots(String userId) {
+    return _userDoc(userId).snapshots().map((doc) {
       final data = doc.data();
-      if (data == null || !data.containsKey('mascot') || data['mascot'] == null) {
-        return null;
+      if (data == null || !data.containsKey('mascots')) {
+        return <MascotModel>[];
       }
-      return MascotModel.fromJson(data['mascot'] as Map<String, dynamic>);
+      final list = data['mascots'] as List<dynamic>? ?? [];
+      return list
+          .map(
+            (e) => MascotModel.fromJson(
+              Map<String, dynamic>.from(e as Map),
+            ),
+          )
+          .toList();
     });
   }
 
-  /// Gets the user's mascot data once.
-  Future<MascotModel?> getUserMascot(String userId) async {
-    final doc = await _usersCollection.doc(userId).get();
-    final data = doc.data();
-    if (data == null || !data.containsKey('mascot') || data['mascot'] == null) {
+  /// Streams the active mascot for a user.
+  Stream<MascotModel?> watchActiveMascot(String userId) {
+    return _userDoc(userId).snapshots().map((doc) {
+      final data = doc.data();
+      if (data == null) return null;
+      final activeId = data['activeMascotId'] as String?;
+      if (activeId == null) return null;
+      final list = data['mascots'] as List<dynamic>? ?? [];
+      for (final item in list) {
+        final map = Map<String, dynamic>.from(item as Map);
+        if (map['id'] == activeId) {
+          return MascotModel.fromJson(map);
+        }
+      }
       return null;
-    }
-    return MascotModel.fromJson(data['mascot'] as Map<String, dynamic>);
-  }
-
-  /// Creates or updates the user's mascot.
-  Future<void> setUserMascot(String userId, MascotModel mascot) async {
-    await _usersCollection.doc(userId).update({
-      'mascot': mascot.toJson(),
     });
   }
 
-  /// Updates only the mascot name.
-  Future<void> updateMascotName(String userId, String name) async {
-    await _usersCollection.doc(userId).update({
-      'mascot.name': name,
+  /// Streams the user's egg.
+  Stream<EggModel?> watchEgg(String userId) {
+    return _userDoc(userId).snapshots().map((doc) {
+      final data = doc.data();
+      if (data == null || data['egg'] == null) return null;
+      return EggModel.fromJson(
+        Map<String, dynamic>.from(data['egg'] as Map),
+      );
     });
   }
 
-  /// Updates the last seen evolution stage.
-  Future<void> updateLastSeenStage(String userId, int stage) async {
-    await _usersCollection.doc(userId).update({
-      'mascot.lastSeenStage': stage,
+  /// Whether the user has any mascot in the array.
+  Stream<bool> watchHasMascot(String userId) {
+    return _userDoc(userId).snapshots().map((doc) {
+      final data = doc.data();
+      if (data == null) return false;
+      final list = data['mascots'] as List<dynamic>? ?? [];
+      return list.isNotEmpty;
     });
   }
 
-  /// Selects a mascot for a new user (creates the mascot field).
+  /// Adds a mascot to the user's array.
+  Future<void> addMascot(
+    String userId,
+    MascotModel mascot,
+  ) async {
+    await _userDoc(userId).update({
+      'mascots': FieldValue.arrayUnion([mascot.toJson()]),
+      'activeMascotId': mascot.id,
+    });
+  }
+
+  /// Sets the active mascot by ID.
+  Future<void> setActiveMascot(
+    String userId,
+    String mascotId,
+  ) async {
+    await _userDoc(userId).update({
+      'activeMascotId': mascotId,
+    });
+  }
+
+  /// Updates a single mascot in the array via transaction.
+  Future<void> updateMascotInArray(
+    String userId,
+    MascotModel updated,
+  ) async {
+    final ref = _userDoc(userId);
+    await _firestore.runTransaction((tx) async {
+      final doc = await tx.get(ref);
+      final data = doc.data() ?? {};
+      final list =
+          (data['mascots'] as List<dynamic>? ?? [])
+              .map(
+                (e) => Map<String, dynamic>.from(e as Map),
+              )
+              .toList();
+
+      final idx = list.indexWhere(
+        (m) => m['id'] == updated.id,
+      );
+      if (idx == -1) return;
+      list[idx] = updated.toJson();
+      tx.update(ref, {'mascots': list});
+    });
+  }
+
+  /// Updates the last seen stage for a mascot in the array.
+  Future<void> updateLastSeenStage(
+    String userId,
+    String mascotId,
+    int stage,
+  ) async {
+    final ref = _userDoc(userId);
+    await _firestore.runTransaction((tx) async {
+      final doc = await tx.get(ref);
+      final data = doc.data() ?? {};
+      final list =
+          (data['mascots'] as List<dynamic>? ?? [])
+              .map(
+                (e) => Map<String, dynamic>.from(e as Map),
+              )
+              .toList();
+
+      final idx =
+          list.indexWhere((m) => m['id'] == mascotId);
+      if (idx == -1) return;
+      list[idx]['lastSeenStage'] = stage;
+      tx.update(ref, {'mascots': list});
+    });
+  }
+
+  /// Renames a mascot in the array.
+  Future<void> updateMascotName(
+    String userId,
+    String mascotId,
+    String name,
+  ) async {
+    final ref = _userDoc(userId);
+    await _firestore.runTransaction((tx) async {
+      final doc = await tx.get(ref);
+      final data = doc.data() ?? {};
+      final list =
+          (data['mascots'] as List<dynamic>? ?? [])
+              .map(
+                (e) => Map<String, dynamic>.from(e as Map),
+              )
+              .toList();
+
+      final idx =
+          list.indexWhere((m) => m['id'] == mascotId);
+      if (idx == -1) return;
+      list[idx]['name'] = name;
+      tx.update(ref, {'mascots': list});
+    });
+  }
+
+  /// Creates an egg for the user.
+  Future<void> createEgg(String userId, EggModel egg) async {
+    await _userDoc(userId).update({
+      'egg': egg.toJson(),
+      'eggPendingDiscovery': false,
+      'eggPendingDiscoverySince': FieldValue.delete(),
+    });
+  }
+
+  /// Removes the egg from the user.
+  Future<void> removeEgg(String userId) async {
+    await _userDoc(userId).update({
+      'egg': FieldValue.delete(),
+    });
+  }
+
+  /// Clears the egg pending discovery flag.
+  Future<void> clearEggPendingDiscovery(
+    String userId,
+  ) async {
+    await _userDoc(userId).update({
+      'eggPendingDiscovery': false,
+      'eggPendingDiscoverySince': FieldValue.delete(),
+    });
+  }
+
+  // =========================================================
+  // Mascot selection (first-time setup)
+  // =========================================================
+
+  /// Selects a mascot for a new user.
   Future<void> selectMascot({
     required String userId,
     required String speciesId,
     required String name,
   }) async {
     final mascot = MascotModel(
+      id: _uuid.v4(),
       speciesId: speciesId,
       name: name,
       createdAt: DateTime.now(),
     );
 
-    await _usersCollection.doc(userId).update({
-      'mascot': mascot.toJson(),
+    await _userDoc(userId).update({
+      'mascots': [mascot.toJson()],
+      'activeMascotId': mascot.id,
     });
   }
 
-  /// Gets all available mascot species.
-  ///
-  /// Currently uses hardcoded data. In the future, this will fetch from
-  /// the `mascotSpecies` Firestore collection.
+  // =========================================================
+  // Species data (hardcoded for now)
+  // =========================================================
+
   Future<List<MascotSpeciesModel>> getAllSpecies() async {
-    // For MVP, return hardcoded species data
-    // TODO: Fetch from Firestore in Phase 4 when adding more species
     return defaultMascotSpecies;
   }
 
-  /// Gets a specific mascot species by ID.
-  Future<MascotSpeciesModel?> getSpecies(String speciesId) async {
-    // For MVP, return hardcoded species data
+  Future<MascotSpeciesModel?> getSpecies(
+    String speciesId,
+  ) async {
     return getSpeciesById(speciesId);
-  }
-
-  /// Checks if a user has selected a mascot.
-  Future<bool> hasMascot(String userId) async {
-    final mascot = await getUserMascot(userId);
-    return mascot != null;
   }
 }

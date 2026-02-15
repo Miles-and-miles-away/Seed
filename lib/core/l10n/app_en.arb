@@ -285,5 +285,47 @@
   "learnOnlyDismiss": "Got It",
 
   "settingsAnalytics": "Privacy",
-  "settingsAnalyticsSubtitle": "Help improve Seed by sharing anonymous usage data"
+  "settingsAnalyticsSubtitle": "Help improve Seed by sharing anonymous usage data",
+
+  "privacyPolicyTitle": "Privacy Policy",
+  "termsOfServiceTitle": "Terms of Service",
+  "legalLastUpdated": "Last updated: {date}",
+  "@legalLastUpdated": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+
+  "eggDiscoveryTitle": "A Mysterious Egg!",
+  "eggDiscoveryMessage": "Overnight, a mysterious egg appeared beside {mascotName}!",
+  "@eggDiscoveryMessage": {
+    "placeholders": {
+      "mascotName": {"type": "String"}
+    }
+  },
+  "eggDiscoverySubtitle": "Log actions every day for 30 days to hatch it.",
+  "eggDiscoveryDismiss": "How exciting!",
+
+  "eggHatchingTitle": "It's Hatching!",
+  "eggHatchingNamePrompt": "Give your new companion a name",
+  "eggHatchingConfirm": "Welcome!",
+
+  "eggProgressLabel": "Day {current}/{total}",
+  "@eggProgressLabel": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "mascotCollectionTitle": "My Mascots",
+  "mascotSwitchConfirm": "Switch Mascot?",
+  "switchToMascot": "Switch to",
+  "switchMascotButton": "Switch",
+
+  "actionLearnMore": "Tap to learn the science",
+
+  "maxEvolutionTitle": "Maximum Evolution!",
+  "maxEvolutionSubtitle": "Your companion has reached their full potential!",
+  "maxEvolutionEggHint": "Nurture your egg to discover a new companion!"
 }

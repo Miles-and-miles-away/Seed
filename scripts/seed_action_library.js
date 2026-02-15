@@ -19,6 +19,8 @@
 
 const admin = require('firebase-admin');
 const path = require('path');
+const longDescs =
+  require('./action_long_descriptions.js');
 
 const serviceAccountPath = path.join(
   __dirname,
@@ -47,6 +49,63 @@ try {
 const db = admin.firestore();
 
 // ===========================================================
+// Points formula
+//
+// CO2 actions:
+//   points = max(1, round(
+//     co2Grams^0.4 * effortMult * rarityMult * impactMult
+//   ))
+//
+// Zero-CO2 actions (advocacy, community):
+//   points = max(1, round(
+//     effort * 3 * rarityMult * impactMult
+//   ))
+//
+// Effort (1-5): How hard/inconvenient is the action?
+//   1=trivial  2=easy  3=moderate  4=notable  5=major
+//   mult = 0.7 + (effort * 0.15) -> 0.85x to 1.45x
+//
+// Frequency (1-5): How often can you do this?
+//   1=rare  2=monthly  3=weekly  4=frequent  5=daily
+//   Inverted to reward rarity:
+//   mult = 1.3 - (frequency * 0.1) -> 1.2x to 0.8x
+//
+// Impact (1-5): Broader long-term environmental ripple
+//   1=immediate-only  2=short-term  3=medium-term
+//   4=long-lasting  5=systemic/generational
+//   mult = 0.85 + (impact * 0.075) -> 0.925x to 1.225x
+// ===========================================================
+const EFFORT_BASE = 0.7;
+const EFFORT_SCALE = 0.15;
+const RARITY_BASE = 1.3;
+const RARITY_SCALE = 0.1;
+const IMPACT_BASE = 0.85;
+const IMPACT_SCALE = 0.075;
+const CO2_EXPONENT = 0.4;
+const ZERO_CO2_EFFORT_SCALE = 3;
+
+function computePoints(action) {
+  if (action.isLearnOnly) return 0;
+  const effortMult =
+    EFFORT_BASE + (action.effort * EFFORT_SCALE);
+  const rarityMult =
+    RARITY_BASE - (action.frequency * RARITY_SCALE);
+  const impactMult =
+    IMPACT_BASE + (action.impact * IMPACT_SCALE);
+
+  if (action.co2Grams > 0) {
+    return Math.max(1, Math.round(
+      Math.pow(action.co2Grams, CO2_EXPONENT)
+        * effortMult * rarityMult * impactMult,
+    ));
+  }
+  return Math.max(1, Math.round(
+    action.effort * ZERO_CO2_EFFORT_SCALE
+      * rarityMult * impactMult,
+  ));
+}
+
+// ===========================================================
 // Action library seed data
 // CO2 values sourced from DEFRA 2024, EPA,
 // Poore & Nemecek (2018), Our World in Data, and other
@@ -72,8 +131,10 @@ const actions = [
       'Reciclar una lata de aluminio en vez '
       + 'de tirarla a la basura',
     category: 'recycling',
-    points: 5,
-    co2Grams: 100,
+    co2Grams: 100, // ~99g/can (Aluminum Assoc LCA)
+    effort: 1, // trivial: toss in bin
+    frequency: 5, // daily: common beverage
+    impact: 2, // mature closed-loop stream
     iconName: 'recycling',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -92,8 +153,10 @@ const actions = [
       'Reciclar correctamente una botella '
       + 'de plastico PET',
     category: 'recycling',
-    points: 3,
-    co2Grams: 50,
+    co2Grams: 50, // ~35-50g PET bottle (rPET LCA)
+    effort: 1, // trivial: toss in bin
+    frequency: 5, // daily: common beverage
+    impact: 2, // low recycle rate, downcycling
     iconName: 'recycling',
     relatedSdgs: ['12', '13', '14'],
     isActive: true,
@@ -111,8 +174,10 @@ const actions = [
     descriptionEs:
       'Aplanar y reciclar cajas de carton',
     category: 'recycling',
-    points: 3,
-    co2Grams: 50,
+    co2Grams: 500, // avg box ~200g; EPA WARM ~3.4g/g
+    effort: 1, // flatten and recycle
+    frequency: 4, // frequent: deliveries
+    impact: 2, // mature recycling stream
     iconName: 'inventory_2',
     relatedSdgs: ['12', '15'],
     isActive: true,
@@ -132,8 +197,10 @@ const actions = [
       'Compostar restos de comida en vez '
       + 'de enviarlos al vertedero',
     category: 'recycling',
-    points: 8,
-    co2Grams: 200,
+    co2Grams: 200, // daily scraps; avoids landfill CH4
+    effort: 2, // collect scraps, maintain bin
+    frequency: 5, // daily kitchen waste
+    impact: 3, // avoids methane, builds soil
     iconName: 'compost',
     relatedSdgs: ['12', '13', '15'],
     isActive: true,
@@ -153,8 +220,10 @@ const actions = [
       'Reciclar frascos y botellas de vidrio '
       + 'en vez de tirarlos',
     category: 'recycling',
-    points: 3,
-    co2Grams: 40,
+    co2Grams: 120, // avg 250g bottle; ~480g CO2/kg
+    effort: 1, // trivial: sort into bin
+    frequency: 4, // regular but not daily
+    impact: 2, // mature recycling stream
     iconName: 'recycling',
     relatedSdgs: ['12'],
     isActive: true,
@@ -174,8 +243,10 @@ const actions = [
       'Reciclar papel en vez de tirarlo '
       + 'a la basura',
     category: 'recycling',
-    points: 3,
-    co2Grams: 50,
+    co2Grams: 50, // ~100g paper; 0.5kg CO2/kg saved
+    effort: 1, // trivial: toss in bin
+    frequency: 5, // daily: mail and paper
+    impact: 2, // mature recycling stream
     iconName: 'recycling',
     relatedSdgs: ['12', '15'],
     isActive: true,
@@ -195,8 +266,10 @@ const actions = [
       'Llevar electronica vieja a un centro '
       + 'de reciclaje',
     category: 'recycling',
-    points: 20,
-    co2Grams: 2350,
+    co2Grams: 5000, // mixed electronics drop-off batch
+    effort: 3, // collect, transport to center
+    frequency: 1, // rare: few times per year
+    impact: 4, // prevents toxic contamination
     iconName: 'smartphone',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -216,8 +289,10 @@ const actions = [
       'Donar o reciclar ropa y textiles '
       + 'viejos',
     category: 'recycling',
-    points: 50,
-    co2Grams: 14000,
+    co2Grams: 14000, // ~0.5-1kg; reuse saves 25kg/kg
+    effort: 2, // sort, bag, donate/drop off
+    frequency: 2, // seasonal decluttering
+    impact: 3, // high-impact industry
     iconName: 'dry_cleaning',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -237,8 +312,10 @@ const actions = [
       'Llevar pilas usadas a un punto de '
       + 'reciclaje adecuado',
     category: 'recycling',
-    points: 5,
-    co2Grams: 95,
+    co2Grams: 95, // batch ~4 AA; 1-2kg CO2/kg
+    effort: 2, // collect, find drop-off
+    frequency: 2, // accumulate over months
+    impact: 2, // modest CO2; toxicity benefit
     iconName: 'electric_bolt',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -258,8 +335,10 @@ const actions = [
       'Llevar aceite usado a un punto de '
       + 'recogida para reciclaje',
     category: 'recycling',
-    points: 5,
-    co2Grams: 150,
+    co2Grams: 1500, // ~0.5L to biodiesel; ~2.5kg/L
+    effort: 2, // store, transport to collection
+    frequency: 2, // accumulates slowly
+    impact: 3, // water pollution + biodiesel
     iconName: 'kitchen',
     relatedSdgs: ['6', '12', '14'],
     isActive: true,
@@ -284,8 +363,10 @@ const actions = [
       'Caminar hasta tu destino en vez '
       + 'de conducir',
     category: 'transport',
-    points: 10,
-    co2Grams: 250,
+    co2Grams: 250, // 1.5km x 164g/km (DEFRA 2024)
+    effort: 2, // takes more time than driving
+    frequency: 4, // many short trips walkable
+    impact: 2, // individual behavior change
     iconName: 'directions_walk',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
@@ -293,7 +374,7 @@ const actions = [
   },
   {
     id: 'bike_short_trip',
-    nameEn: 'Bike Short Trip',
+    nameEn: 'Short Bike Trip',
     nameJa: '近距離を自転車で移動',
     nameEs: 'Bicicleta para viaje corto',
     descriptionEn:
@@ -306,8 +387,10 @@ const actions = [
       'Usar bicicleta en vez de auto para '
       + 'un viaje corto (menos de 3km)',
     category: 'transport',
-    points: 15,
-    co2Grams: 450,
+    co2Grams: 490, // 3km x 164g/km (DEFRA 2024)
+    effort: 2, // easy for most people
+    frequency: 4, // many short trips bikeable
+    impact: 2, // individual behavior change
     iconName: 'pedal_bike',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
@@ -315,7 +398,7 @@ const actions = [
   },
   {
     id: 'bike_medium_trip',
-    nameEn: 'Bike Medium Trip',
+    nameEn: 'Medium Bike Trip',
     nameJa: '中距離を自転車で移動',
     nameEs: 'Bicicleta para viaje medio',
     descriptionEn:
@@ -328,16 +411,18 @@ const actions = [
       'Usar bicicleta en vez de auto para '
       + 'un viaje medio (3-10km)',
     category: 'transport',
-    points: 25,
-    co2Grams: 1000,
+    co2Grams: 1000, // ~6km x 164g/km (DEFRA 2024)
+    effort: 3, // moderate effort and time
+    frequency: 3, // weekly: less than short trips
+    impact: 2, // individual behavior change
     iconName: 'pedal_bike',
     relatedSdgs: ['3', '11', '13'],
     isActive: true,
     sortOrder: 12,
   },
   {
-    id: 'public_transit',
-    nameEn: 'Take Public Transit',
+    id: 'public_transport',
+    nameEn: 'Take Public Transport',
     nameJa: '公共交通機関を利用',
     nameEs: 'Usar transporte publico',
     descriptionEn:
@@ -348,8 +433,10 @@ const actions = [
       'Tomar autobus o tren en vez de '
       + 'conducir',
     category: 'transport',
-    points: 20,
-    co2Grams: 1000,
+    co2Grams: 1000, // 10km; car-bus net ~1040g saved
+    effort: 2, // minimal: wait, walk to stop
+    frequency: 4, // daily commuters
+    impact: 3, // supports transit infrastructure
     iconName: 'train',
     relatedSdgs: ['9', '11', '13'],
     isActive: true,
@@ -368,8 +455,10 @@ const actions = [
       'Compartir viaje en vez de conducir '
       + 'solo',
     category: 'transport',
-    points: 15,
-    co2Grams: 800,
+    co2Grams: 800, // ~10km; halve per-person emissions
+    effort: 2, // coordinate with one person
+    frequency: 4, // regular commuters
+    impact: 2, // individual behavior change
     iconName: 'people',
     relatedSdgs: ['11', '13'],
     isActive: true,
@@ -388,8 +477,10 @@ const actions = [
       'Conducir un auto electrico en vez de '
       + 'uno de gasolina',
     category: 'transport',
-    points: 20,
-    co2Grams: 1500,
+    co2Grams: 1500, // 16km; EV ~70g/km vs 164g petrol
+    effort: 2, // same as driving gas car
+    frequency: 4, // daily commuters
+    impact: 3, // drives EV market demand
     iconName: 'electric_car',
     relatedSdgs: ['7', '11', '13'],
     isActive: true,
@@ -409,8 +500,10 @@ const actions = [
       'Tomar un tren en vez de un vuelo '
       + 'de corta distancia',
     category: 'transport',
-    points: 100,
-    co2Grams: 110000,
+    co2Grams: 110000, // 500km; ~200g/km flight vs 40g rail
+    effort: 3, // longer travel, advance booking
+    frequency: 1, // rare: few times per year
+    impact: 4, // shifts demand from aviation
     iconName: 'train',
     relatedSdgs: ['13'],
     isActive: true,
@@ -430,8 +523,10 @@ const actions = [
       'Tomar el autobus en vez de conducir '
       + 'para ir al trabajo',
     category: 'transport',
-    points: 10,
-    co2Grams: 500,
+    co2Grams: 500, // ~7km; bus 89g/pkm vs car 164g/km
+    effort: 2, // minimal: wait, ride
+    frequency: 4, // daily commuters
+    impact: 2, // individual behavior change
     iconName: 'bus',
     relatedSdgs: ['9', '11', '13'],
     isActive: true,
@@ -451,8 +546,10 @@ const actions = [
       'Trabajar desde casa para evitar '
       + 'emisiones del traslado',
     category: 'transport',
-    points: 30,
-    co2Grams: 2640,
+    co2Grams: 4500, // avg ~15km x 2 x 164g/km commute
+    effort: 1, // trivial if job allows it
+    frequency: 4, // most workdays
+    impact: 2, // individual behavior change
     iconName: 'bolt',
     relatedSdgs: ['8', '11', '13'],
     isActive: true,
@@ -460,7 +557,7 @@ const actions = [
   },
   {
     id: 'escooter_trip',
-    nameEn: 'E-Scooter Instead of Drive',
+    nameEn: 'E-Scooter Instead of Driving',
     nameJa: '電動キックボードで移動',
     nameEs: 'Patinete electrico en vez de auto',
     descriptionEn:
@@ -473,8 +570,10 @@ const actions = [
       'Usar un patinete electrico en vez de '
       + 'conducir para un viaje corto',
     category: 'transport',
-    points: 8,
-    co2Grams: 375,
+    co2Grams: 375, // ~2.5km; car-scooter net ~322g
+    effort: 2, // easy for short distances
+    frequency: 4, // daily: short urban trips
+    impact: 2, // individual behavior change
     iconName: 'electric_bolt',
     relatedSdgs: ['11', '13'],
     isActive: true,
@@ -495,8 +594,10 @@ const actions = [
       'Cargar tu auto electrico con fuentes '
       + 'de energia renovable',
     category: 'transport',
-    points: 10,
-    co2Grams: 400,
+    co2Grams: 3500, // ~10kWh charge; grid ~386g/kWh
+    effort: 2, // green tariff or home solar
+    frequency: 3, // weekly: few charges per week
+    impact: 3, // drives renewable deployment
     iconName: 'ev_station',
     relatedSdgs: ['7', '11', '13'],
     isActive: true,
@@ -517,8 +618,10 @@ const actions = [
       'Combinar varias diligencias en un '
       + 'solo viaje para conducir menos',
     category: 'transport',
-    points: 8,
-    co2Grams: 300,
+    co2Grams: 600, // save ~4km + cold-start penalty
+    effort: 2, // requires some planning
+    frequency: 3, // weekly errands
+    impact: 2, // individual behavior change
     iconName: 'local_shipping',
     relatedSdgs: ['11', '13'],
     isActive: true,
@@ -543,8 +646,10 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de carne de res',
     category: 'food',
-    points: 25,
-    co2Grams: 6000,
+    co2Grams: 6000, // ~150g beef; Poore 2018 ~60kg/kg
+    effort: 2, // choose plant option instead
+    frequency: 3, // weekly: not daily for most
+    impact: 4, // land use, methane, deforestation
     iconName: 'eco',
     relatedSdgs: ['2', '12', '13', '15'],
     isActive: true,
@@ -564,8 +669,10 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de pollo',
     category: 'food',
-    points: 10,
-    co2Grams: 600,
+    co2Grams: 1000, // ~150g x 6.9kg/kg (Poore 2018)
+    effort: 2, // choose plant option instead
+    frequency: 3, // weekly: common meat choice
+    impact: 2, // lower land/methane than beef
     iconName: 'eco',
     relatedSdgs: ['2', '12', '13'],
     isActive: true,
@@ -585,8 +692,10 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de cerdo',
     category: 'food',
-    points: 10,
-    co2Grams: 700,
+    co2Grams: 1100, // ~150g x 7.6kg/kg (Poore 2018)
+    effort: 2, // choose plant option instead
+    frequency: 3, // weekly: varies by culture
+    impact: 2, // moderate systemic impact
     iconName: 'eco',
     relatedSdgs: ['2', '12', '13'],
     isActive: true,
@@ -605,8 +714,10 @@ const actions = [
       'Terminar toda la comida hoy sin '
       + 'desperdiciar nada',
     category: 'food',
-    points: 10,
-    co2Grams: 400,
+    co2Grams: 500, // avoidable daily waste ~150g x 3/kg
+    effort: 2, // requires meal planning
+    frequency: 5, // daily goal
+    impact: 3, // avoids methane, upstream waste
     iconName: 'food_bank',
     relatedSdgs: ['2', '12', '13'],
     isActive: true,
@@ -626,8 +737,10 @@ const actions = [
       'Comprar frutas o verduras cultivadas '
       + 'localmente',
     category: 'food',
-    points: 5,
-    co2Grams: 200,
+    co2Grams: 100, // transport only ~6% of food CO2
+    effort: 2, // find local/farmers market
+    frequency: 3, // weekly grocery trips
+    impact: 2, // limited climate impact (Ritchie)
     iconName: 'storefront',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -647,8 +760,10 @@ const actions = [
       'Elegir leche vegetal en vez de '
       + 'leche de vaca',
     category: 'food',
-    points: 10,
-    co2Grams: 460,
+    co2Grams: 550, // 250ml; dairy 3.2 vs oat 0.45/L
+    effort: 2, // widely available alternative
+    frequency: 5, // daily: coffee, cereal
+    impact: 3, // dairy: methane, land, water
     iconName: 'local_cafe',
     relatedSdgs: ['12', '13', '15'],
     isActive: true,
@@ -668,8 +783,10 @@ const actions = [
       'Comprar frutas y verduras de '
       + 'temporada local',
     category: 'food',
-    points: 15,
-    co2Grams: 500,
+    co2Grams: 500, // avoids heated greenhouse produce
+    effort: 2, // know what is in season
+    frequency: 3, // weekly grocery trips
+    impact: 3, // reduces energy-intensive growing
     iconName: 'grass',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -689,8 +806,10 @@ const actions = [
       'Cocinar en casa en vez de pedir '
       + 'comida a domicilio',
     category: 'food',
-    points: 5,
-    co2Grams: 350,
+    co2Grams: 350, // saves packaging + delivery CO2
+    effort: 3, // time to cook and plan
+    frequency: 4, // most days
+    impact: 2, // modest: packaging reduction
     iconName: 'kitchen',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -710,8 +829,10 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de pescado',
     category: 'food',
-    points: 8,
-    co2Grams: 400,
+    co2Grams: 500, // ~150g; avg fish ~4kg CO2/kg
+    effort: 2, // choose plant option instead
+    frequency: 3, // weekly: 1-3 fish meals
+    impact: 3, // overfishing, bycatch, ecosystems
     iconName: 'eco',
     relatedSdgs: ['2', '12', '13', '14'],
     isActive: true,
@@ -731,8 +852,10 @@ const actions = [
       'Comer solo alimentos vegetales '
       + 'durante todo el dia',
     category: 'food',
-    points: 40,
-    co2Grams: 7000,
+    co2Grams: 3000, // omnivore ~5.6 vs vegan ~2.9kg/day
+    effort: 3, // plan all-plant meals for a day
+    frequency: 3, // weekly: e.g. Meatless Monday
+    impact: 4, // systemic food system impact
     iconName: 'restaurant',
     relatedSdgs: ['2', '12', '13', '15'],
     isActive: true,
@@ -752,8 +875,10 @@ const actions = [
       'Llevar almuerzo casero en vez de '
       + 'comprar comida empaquetada',
     category: 'food',
-    points: 5,
-    co2Grams: 300,
+    co2Grams: 300, // saves packaging + transport CO2
+    effort: 2, // prep lunch in advance
+    frequency: 4, // most work days
+    impact: 2, // modest: less packaging
     iconName: 'takeout',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -773,8 +898,10 @@ const actions = [
       'Preparar una comida con sobras en '
       + 'vez de tirarlas',
     category: 'food',
-    points: 8,
-    co2Grams: 400,
+    co2Grams: 400, // prevents ~300g food waste
+    effort: 2, // reheat or repurpose
+    frequency: 4, // several times per week
+    impact: 3, // reduces embedded food CO2
     iconName: 'food_bank',
     relatedSdgs: ['2', '12', '13'],
     isActive: true,
@@ -794,8 +921,10 @@ const actions = [
       'Rechazar cubiertos de plastico al '
       + 'pedir comida',
     category: 'food',
-    points: 1,
-    co2Grams: 5,
+    co2Grams: 5, // ~5-12g per piece (plastic LCA)
+    effort: 1, // trivial: just say no
+    frequency: 4, // each takeout order
+    impact: 2, // plastic pollution reduction
     iconName: 'restaurant',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -815,8 +944,10 @@ const actions = [
       'Beber agua del grifo en vez de agua '
       + 'embotellada',
     category: 'food',
-    points: 3,
-    co2Grams: 80,
+    co2Grams: 80, // 500ml PET bottle ~83g CO2
+    effort: 1, // trivial where tap is safe
+    frequency: 5, // daily hydration
+    impact: 3, // plastic waste reduction
     iconName: 'local_drink',
     relatedSdgs: ['6', '12', '14'],
     isActive: true,
@@ -836,8 +967,10 @@ const actions = [
       'Elegir una alternativa vegetal '
       + 'en vez de lacteos',
     category: 'food',
-    points: 8,
-    co2Grams: 350,
+    co2Grams: 350, // blended avg across dairy types
+    effort: 2, // widely available alternatives
+    frequency: 4, // frequent dairy consumption
+    impact: 3, // dairy: methane, land, water
     iconName: 'eco',
     relatedSdgs: ['12', '13', '15'],
     isActive: true,
@@ -862,8 +995,10 @@ const actions = [
       'Secar la ropa al aire en vez de '
       + 'usar la secadora',
     category: 'energy',
-    points: 20,
-    co2Grams: 1700,
+    co2Grams: 1700, // 4.5kWh dryer x 386g/kWh (US)
+    effort: 2, // hang clothes, takes more time
+    frequency: 3, // few loads per week
+    impact: 2, // individual behavior change
     iconName: 'dry_cleaning',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
@@ -883,8 +1018,10 @@ const actions = [
       'Lavar la ropa con agua fria en vez '
       + 'de caliente',
     category: 'energy',
-    points: 10,
-    co2Grams: 600,
+    co2Grams: 600, // warm-to-cold saves ~1.5kWh/load
+    effort: 1, // trivial: turn dial
+    frequency: 3, // few loads per week
+    impact: 2, // individual behavior change
     iconName: 'local_laundry_service',
     relatedSdgs: ['6', '7', '12', '13'],
     isActive: true,
@@ -904,8 +1041,10 @@ const actions = [
       'Usar bombillas LED en vez de '
       + 'incandescentes',
     category: 'energy',
-    points: 3,
-    co2Grams: 75,
+    co2Grams: 75, // 50W saved x 4hrs x 386g/kWh
+    effort: 1, // one-time: buy and install
+    frequency: 1, // rare: one-time switch
+    impact: 3, // permanent daily savings
     iconName: 'lightbulb',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
@@ -925,8 +1064,10 @@ const actions = [
       'Desenchufar dispositivos electronicos '
       + 'cuando no se usen',
     category: 'energy',
-    points: 2,
-    co2Grams: 10,
+    co2Grams: 40, // avg device standby 1-5W/day
+    effort: 1, // trivial: pull plug
+    frequency: 5, // daily habit
+    impact: 1, // immediate, small scale
     iconName: 'power',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
@@ -945,8 +1086,10 @@ const actions = [
       'Apagar las luces al salir de '
       + 'una habitacion',
     category: 'energy',
-    points: 2,
-    co2Grams: 30,
+    co2Grams: 30, // ~40W bulb x 1hr (LED/CFL mix)
+    effort: 1, // trivial: flip switch
+    frequency: 5, // multiple times daily
+    impact: 1, // immediate, small scale
     iconName: 'lightbulb',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -966,8 +1109,10 @@ const actions = [
       'Bajar el termostato de calefaccion '
       + '1 grado hoy',
     category: 'energy',
-    points: 10,
-    co2Grams: 450,
+    co2Grams: 450, // US DOE: 3% savings per degree
+    effort: 2, // slight comfort trade-off
+    frequency: 4, // most heating season days
+    impact: 2, // individual behavior change
     iconName: 'thermostat',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -988,8 +1133,10 @@ const actions = [
       'Subir la temperatura del aire '
       + 'acondicionado 1 grado hoy',
     category: 'energy',
-    points: 8,
-    co2Grams: 350,
+    co2Grams: 350, // US DOE: 3%/degree (cooling)
+    effort: 2, // slight comfort trade-off
+    frequency: 4, // most cooling season days
+    impact: 2, // individual behavior change
     iconName: 'thermostat',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -1010,8 +1157,10 @@ const actions = [
       'Abrir cortinas y usar luz natural '
       + 'en vez de electrica',
     category: 'energy',
-    points: 2,
-    co2Grams: 20,
+    co2Grams: 20, // ~40W bulb x 1hr avoided
+    effort: 1, // trivial: open curtains
+    frequency: 5, // daily during daylight
+    impact: 1, // immediate, small scale
     iconName: 'wb_sunny',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -1031,8 +1180,10 @@ const actions = [
       'Esperar hasta tener carga completa '
       + 'antes de lavar',
     category: 'energy',
-    points: 5,
-    co2Grams: 300,
+    co2Grams: 300, // avoids ~35% wasted energy/load
+    effort: 1, // wait for enough clothes
+    frequency: 3, // few loads per week
+    impact: 2, // individual behavior change
     iconName: 'local_laundry_service',
     relatedSdgs: ['6', '7', '12'],
     isActive: true,
@@ -1052,8 +1203,10 @@ const actions = [
       'Usar modo ecologico en el '
       + 'lavavajillas o lavadora',
     category: 'energy',
-    points: 5,
-    co2Grams: 200,
+    co2Grams: 200, // saves ~0.5kWh/cycle (Bosch/Miele)
+    effort: 1, // trivial: press different button
+    frequency: 3, // few cycles per week
+    impact: 2, // individual behavior change
     iconName: 'dishwasher',
     relatedSdgs: ['7', '12', '13'],
     isActive: true,
@@ -1074,8 +1227,10 @@ const actions = [
       'Usar el microondas en vez del horno '
       + 'para recalentar comida',
     category: 'energy',
-    points: 3,
-    co2Grams: 150,
+    co2Grams: 300, // oven ~1kWh vs microwave ~0.1kWh
+    effort: 1, // trivial: choose appliance
+    frequency: 4, // near-daily reheating
+    impact: 1, // immediate, small scale
     iconName: 'microwave',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -1095,8 +1250,10 @@ const actions = [
       'Mantener ventanas y puertas cerradas '
       + 'con el aire encendido',
     category: 'energy',
-    points: 3,
-    co2Grams: 100,
+    co2Grams: 100, // open windows add ~20-40% AC waste
+    effort: 1, // trivial: close window
+    frequency: 4, // during cooling season
+    impact: 1, // immediate, small scale
     iconName: 'air',
     relatedSdgs: ['7', '13'],
     isActive: true,
@@ -1121,8 +1278,10 @@ const actions = [
       'Usar una bolsa reutilizable en vez '
       + 'de plastica',
     category: 'consumption',
-    points: 2,
-    co2Grams: 10,
+    co2Grams: 10, // one plastic bag ~10g CO2
+    effort: 1, // trivial: remember to bring
+    frequency: 4, // each shopping trip
+    impact: 2, // reduces plastic pollution
     iconName: 'shopping_bag',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1142,8 +1301,10 @@ const actions = [
       'Llevar tu propio vaso reutilizable '
       + 'para bebidas',
     category: 'consumption',
-    points: 3,
-    co2Grams: 60,
+    co2Grams: 60, // disposable cup ~60g CO2
+    effort: 2, // remember and carry cup
+    frequency: 5, // daily coffee/drinks
+    impact: 2, // reduces disposable waste
     iconName: 'coffee',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1151,7 +1312,7 @@ const actions = [
   },
   {
     id: 'reusable_water_bottle',
-    nameEn: 'Reusable Water Bottle',
+    nameEn: 'Use Reusable Water Bottle',
     nameJa: 'マイボトルを使用',
     nameEs: 'Botella de agua reutilizable',
     descriptionEn:
@@ -1164,8 +1325,10 @@ const actions = [
       'Usar una botella reutilizable en vez '
       + 'de plastico desechable',
     category: 'consumption',
-    points: 5,
-    co2Grams: 80,
+    co2Grams: 80, // 500ml PET bottle ~83g CO2
+    effort: 1, // trivial: carry bottle
+    frequency: 5, // daily hydration
+    impact: 3, // long-term plastic reduction
     iconName: 'water_drop',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1185,8 +1348,10 @@ const actions = [
       'Usar tu propio recipiente para '
       + 'comida para llevar',
     category: 'consumption',
-    points: 5,
-    co2Grams: 100,
+    co2Grams: 100, // takeout container ~100g CO2
+    effort: 2, // remember and carry container
+    frequency: 3, // weekly takeout orders
+    impact: 2, // reduces disposable waste
     iconName: 'takeout',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1205,8 +1370,10 @@ const actions = [
       'Decir no a las pajitas de plastico '
       + 'desechables',
     category: 'consumption',
-    points: 1,
-    co2Grams: 1,
+    co2Grams: 1, // ~1.4g per plastic straw
+    effort: 1, // trivial: just say no
+    frequency: 4, // each drink purchase
+    impact: 2, // plastic pollution awareness
     iconName: 'no_drinks',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1226,8 +1393,10 @@ const actions = [
       'Comprar ropa de segunda mano en vez '
       + 'de nueva',
     category: 'consumption',
-    points: 30,
-    co2Grams: 13000,
+    co2Grams: 13000, // avoids ~13kg for new garment
+    effort: 3, // find, browse, select items
+    frequency: 2, // monthly shopping
+    impact: 4, // reduces fast fashion demand
     iconName: 'autorenew',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1247,8 +1416,10 @@ const actions = [
       'Reparar un objeto roto en vez de '
       + 'comprar uno nuevo',
     category: 'consumption',
-    points: 20,
-    co2Grams: 5000,
+    co2Grams: 5000, // avoids new manufacture ~5kg avg
+    effort: 3, // requires skill/time/parts
+    frequency: 2, // when items break
+    impact: 4, // circular economy mindset
     iconName: 'build',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1268,8 +1439,10 @@ const actions = [
       'Pedir prestada una herramienta en '
       + 'vez de comprar una nueva',
     category: 'consumption',
-    points: 15,
-    co2Grams: 2000,
+    co2Grams: 2000, // avoids manufacturing ~2kg avg
+    effort: 2, // arrange loan, return item
+    frequency: 2, // occasional tool/item needs
+    impact: 3, // sharing economy, less waste
     iconName: 'handshake',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1290,8 +1463,10 @@ const actions = [
       'Usar jabon en barra en vez de jabon '
       + 'liquido en botella plastica',
     category: 'consumption',
-    points: 1,
-    co2Grams: 2,
+    co2Grams: 2, // avoids plastic bottle ~2g/use
+    effort: 1, // trivial: use bar instead
+    frequency: 5, // daily hygiene
+    impact: 2, // reduces plastic packaging
     iconName: 'soap',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1311,8 +1486,10 @@ const actions = [
       'Optar por recibo digital en vez de '
       + 'uno de papel',
     category: 'consumption',
-    points: 1,
-    co2Grams: 3,
+    co2Grams: 3, // ~3g paper receipt CO2
+    effort: 1, // trivial: choose digital
+    frequency: 4, // each purchase
+    impact: 1, // immediate, small scale
     iconName: 'smartphone',
     relatedSdgs: ['12', '15'],
     isActive: true,
@@ -1332,8 +1509,10 @@ const actions = [
       'Comprar a granel para reducir '
       + 'residuos de embalaje',
     category: 'consumption',
-    points: 5,
-    co2Grams: 85,
+    co2Grams: 85, // reduces per-unit packaging CO2
+    effort: 2, // plan larger purchases
+    frequency: 3, // weekly shopping
+    impact: 2, // less packaging waste
     iconName: 'shopping',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1353,8 +1532,10 @@ const actions = [
       'Donar cosas que ya no necesitas en '
       + 'vez de tirarlas',
     category: 'consumption',
-    points: 10,
-    co2Grams: 500,
+    co2Grams: 500, // avoids landfill + new purchase
+    effort: 2, // sort, bag, find drop-off
+    frequency: 2, // seasonal decluttering
+    impact: 3, // extends product lifecycle
     iconName: 'volunteer_activism',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1374,8 +1555,10 @@ const actions = [
       'Evitar una compra impulsiva '
       + 'innecesaria hoy',
     category: 'consumption',
-    points: 5,
-    co2Grams: 200,
+    co2Grams: 200, // avg product ~200g embedded CO2
+    effort: 2, // self-discipline required
+    frequency: 4, // frequent temptation
+    impact: 2, // reduces consumption cycle
     iconName: 'shopping',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1395,8 +1578,10 @@ const actions = [
       'Elegir productos con poco o ningun '
       + 'embalaje',
     category: 'consumption',
-    points: 3,
-    co2Grams: 50,
+    co2Grams: 50, // ~50g packaging CO2 avoided
+    effort: 1, // trivial: choose less wrapped
+    frequency: 4, // each shopping trip
+    impact: 2, // reduces waste stream
     iconName: 'inventory_2',
     relatedSdgs: ['12', '14'],
     isActive: true,
@@ -1416,8 +1601,10 @@ const actions = [
       'Usar una servilleta de tela en vez '
       + 'de papel',
     category: 'consumption',
-    points: 1,
-    co2Grams: 5,
+    co2Grams: 5, // ~5g per paper napkin
+    effort: 1, // trivial: use cloth
+    frequency: 5, // daily meals
+    impact: 1, // immediate, small scale
     iconName: 'cleaning_services',
     relatedSdgs: ['12', '15'],
     isActive: true,
@@ -1441,8 +1628,10 @@ const actions = [
       'Reducir el tiempo de ducha en mas '
       + 'de 2 minutos',
     category: 'water',
-    points: 5,
-    co2Grams: 230,
+    co2Grams: 230, // 2min x 115g/min (co2data.org)
+    effort: 2, // mild discipline needed
+    frequency: 5, // daily showers
+    impact: 2, // individual behavior change
     iconName: 'shower',
     relatedSdgs: ['6', '7', '13'],
     isActive: true,
@@ -1462,8 +1651,10 @@ const actions = [
       'Cerrar el grifo mientras te cepillas '
       + 'los dientes',
     category: 'water',
-    points: 2,
-    co2Grams: 30,
+    co2Grams: 20, // mostly cold; pump/treat CO2 only
+    effort: 1, // trivial: turn tap off
+    frequency: 5, // twice daily brushing
+    impact: 1, // immediate, small scale
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1482,8 +1673,10 @@ const actions = [
       'Usar el lavavajillas solo cuando '
       + 'este lleno',
     category: 'water',
-    points: 3,
-    co2Grams: 80,
+    co2Grams: 80, // avoids partial load waste
+    effort: 1, // wait for full load
+    frequency: 4, // several times per week
+    impact: 2, // water + energy savings
     iconName: 'dishwasher',
     relatedSdgs: ['6', '7'],
     isActive: true,
@@ -1502,8 +1695,10 @@ const actions = [
       'Reparar un grifo que gotea o una '
       + 'fuga de agua',
     category: 'water',
-    points: 15,
-    co2Grams: 500,
+    co2Grams: 500, // drip wastes ~22L/day hot water
+    effort: 3, // requires tools or plumber
+    frequency: 1, // rare: when leaks occur
+    impact: 4, // prevents waste for years
     iconName: 'plumbing',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1523,8 +1718,10 @@ const actions = [
       'Enjuagar los platos con agua fria '
       + 'en vez de caliente',
     category: 'water',
-    points: 2,
-    co2Grams: 30,
+    co2Grams: 30, // avoids heating 6-18L rinse water
+    effort: 1, // trivial: choose cold tap
+    frequency: 5, // daily dish rinsing
+    impact: 1, // immediate, small scale
     iconName: 'water_drop',
     relatedSdgs: ['6', '7'],
     isActive: true,
@@ -1544,8 +1741,10 @@ const actions = [
       'Usar agua de lluvia recolectada '
       + 'para regar plantas',
     category: 'water',
-    points: 2,
-    co2Grams: 15,
+    co2Grams: 15, // displaces ~40L mains water
+    effort: 3, // set up, maintain containers
+    frequency: 3, // depends on rain + garden
+    impact: 3, // water independence mindset
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1553,7 +1752,7 @@ const actions = [
   },
   {
     id: 'water_plants_morning',
-    nameEn: 'Water Plants in Morning',
+    nameEn: 'Water Plants in the Morning',
     nameJa: '朝に植物に水やり',
     nameEs: 'Regar plantas por la manana',
     descriptionEn:
@@ -1565,8 +1764,10 @@ const actions = [
       'Regar el jardin por la manana para '
       + 'reducir la evaporacion',
     category: 'water',
-    points: 2,
-    co2Grams: 10,
+    co2Grams: 5, // reduces evaporation loss ~25%
+    effort: 1, // trivial: adjust timing
+    frequency: 4, // growing season days
+    impact: 1, // immediate, small scale
     iconName: 'yard',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1586,8 +1787,10 @@ const actions = [
       'Reutilizar agua de coccion de pasta '
       + 'o verduras para regar',
     category: 'water',
-    points: 1,
-    co2Grams: 5,
+    co2Grams: 5, // displaces ~3L mains for plants
+    effort: 1, // trivial: pour on plants
+    frequency: 4, // each time you boil water
+    impact: 2, // reuse mindset, nutrients
     iconName: 'kitchen',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1607,8 +1810,10 @@ const actions = [
       'Cerrar el grifo mientras frotas '
       + 'los platos',
     category: 'water',
-    points: 2,
-    co2Grams: 25,
+    co2Grams: 75, // 3-5min hot tap = 60-100g CO2
+    effort: 1, // trivial: turn tap off
+    frequency: 5, // daily dish washing
+    impact: 1, // immediate, small scale
     iconName: 'water_drop',
     relatedSdgs: ['6'],
     isActive: true,
@@ -1629,8 +1834,10 @@ const actions = [
       'Tomar una ducha corta en vez de '
       + 'un bano completo',
     category: 'water',
-    points: 8,
-    co2Grams: 300,
+    co2Grams: 450, // bath ~800g vs 5min shower ~300g
+    effort: 2, // comfort habit change
+    frequency: 5, // daily bathing
+    impact: 2, // individual behavior change
     iconName: 'shower',
     relatedSdgs: ['6', '7', '13'],
     isActive: true,
@@ -1655,8 +1862,10 @@ const actions = [
       'Plantar un arbol para absorber CO2 '
       + 'en los anos venideros',
     category: 'community',
-    points: 50,
-    co2Grams: 15000,
+    co2Grams: 15000, // ~15kg first-year absorption
+    effort: 4, // source tree, dig, plant, water
+    frequency: 1, // rare: once or twice per year
+    impact: 5, // generational: decades of CO2
     iconName: 'forest',
     relatedSdgs: ['13', '15'],
     isActive: true,
@@ -1676,8 +1885,10 @@ const actions = [
       'Participar en una jornada de '
       + 'limpieza de playa o parque',
     category: 'community',
-    points: 15,
-    co2Grams: 100,
+    co2Grams: 0, // ecological; not CO2-measurable
+    effort: 3, // travel, collect waste, hours
+    frequency: 2, // monthly: organized events
+    impact: 4, // marine/ecosystem protection
     iconName: 'park',
     relatedSdgs: ['14', '15'],
     isActive: true,
@@ -1699,8 +1910,10 @@ const actions = [
       + 'agricultores local en vez de '
       + 'un supermercado',
     category: 'community',
-    points: 5,
-    co2Grams: 300,
+    co2Grams: 300, // reduced food miles vs supermarket
+    effort: 2, // slightly less convenient
+    frequency: 3, // weekly visits
+    impact: 3, // supports local agriculture
     iconName: 'storefront',
     relatedSdgs: ['2', '11', '12'],
     isActive: true,
@@ -1721,8 +1934,10 @@ const actions = [
       'Compartir un consejo ecologico con '
       + 'un amigo o familiar',
     category: 'community',
-    points: 3,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: knowledge cascades
+    effort: 1, // trivial: quick conversation
+    frequency: 4, // frequent social interactions
+    impact: 3, // spreads awareness over time
     iconName: 'share',
     relatedSdgs: ['13'],
     isActive: true,
@@ -1742,8 +1957,10 @@ const actions = [
       'Participar en una sesion de huerto '
       + 'comunitario',
     category: 'community',
-    points: 10,
-    co2Grams: 200,
+    co2Grams: 200, // sequestration + local food miles
+    effort: 3, // physical gardening work
+    frequency: 3, // weekly during growing season
+    impact: 4, // food resilience, community
     iconName: 'grass',
     relatedSdgs: ['2', '11', '15'],
     isActive: true,
@@ -1763,8 +1980,10 @@ const actions = [
       'Hacer voluntariado para una '
       + 'organizacion o evento ambiental',
     category: 'community',
-    points: 15,
-    co2Grams: 100,
+    co2Grams: 0, // systemic; not CO2-measurable
+    effort: 4, // significant time + travel
+    frequency: 2, // monthly or less
+    impact: 4, // lasting ecological benefits
     iconName: 'volunteer_activism',
     relatedSdgs: ['13', '15'],
     isActive: true,
@@ -1784,8 +2003,10 @@ const actions = [
       'Dedicar tiempo a ensenar a un nino '
       + 'sobre el medio ambiente',
     category: 'community',
-    points: 5,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: generational change
+    effort: 2, // prepare and engage
+    frequency: 3, // weekly interactions
+    impact: 5, // generational behavior change
     iconName: 'school',
     relatedSdgs: ['4', '13'],
     isActive: true,
@@ -1805,8 +2026,10 @@ const actions = [
       'Comprar en un negocio con buenas '
       + 'practicas de sostenibilidad',
     category: 'community',
-    points: 5,
-    co2Grams: 200,
+    co2Grams: 200, // eco biz ~20-50% lower footprint
+    effort: 2, // research, find businesses
+    frequency: 3, // weekly purchases
+    impact: 3, // market signals for change
     iconName: 'storefront',
     relatedSdgs: ['8', '12'],
     isActive: true,
@@ -1826,8 +2049,10 @@ const actions = [
       'Organizar o asistir a un evento de '
       + 'intercambio de ropa o articulos',
     category: 'community',
-    points: 15,
-    co2Grams: 1000,
+    co2Grams: 1000, // multiple items reused; conserv.
+    effort: 4, // plan, coordinate, host
+    frequency: 1, // rare: few times per year
+    impact: 4, // builds reuse culture
     iconName: 'groups',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -1847,8 +2072,10 @@ const actions = [
       'Recoger basura en tu vecindario o '
       + 'durante un paseo',
     category: 'community',
-    points: 5,
-    co2Grams: 0,
+    co2Grams: 0, // ecological; not CO2-measurable
+    effort: 2, // simple physical task
+    frequency: 4, // on walks, in neighborhood
+    impact: 3, // local aesthetic + awareness
     iconName: 'cleaning_services',
     relatedSdgs: ['11', '14', '15'],
     isActive: true,
@@ -1856,7 +2083,7 @@ const actions = [
   },
 
   // ---------------------------------------------------------
-  // ADVOCACY (8 actions) - all NEW
+  // ADVOCACY (8 actions)
   // ---------------------------------------------------------
   {
     id: 'sign_petition',
@@ -1872,8 +2099,10 @@ const actions = [
       'Firmar una peticion que apoye '
       + 'politicas ambientales',
     category: 'advocacy',
-    points: 3,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: collective policy push
+    effort: 1, // trivial: sign online
+    frequency: 2, // monthly: as petitions arise
+    impact: 4, // collective policy pressure
     iconName: 'edit_note',
     relatedSdgs: ['13', '16'],
     isActive: true,
@@ -1893,8 +2122,10 @@ const actions = [
       'Contactar a tu representante electo '
       + 'sobre politica climatica',
     category: 'advocacy',
-    points: 10,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: highest leverage action
+    effort: 3, // compose message, research
+    frequency: 2, // monthly or less
+    impact: 5, // highest-leverage for climate
     iconName: 'campaign',
     relatedSdgs: ['13', '16'],
     isActive: true,
@@ -1915,8 +2146,10 @@ const actions = [
       'Compartir contenido ambiental en '
       + 'redes sociales',
     category: 'advocacy',
-    points: 3,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: awareness multiplier
+    effort: 1, // trivial: share/repost
+    frequency: 4, // multiple times per week
+    impact: 3, // normalizes sustainability
     iconName: 'share',
     relatedSdgs: ['13', '17'],
     isActive: true,
@@ -1936,8 +2169,10 @@ const actions = [
       'Asistir a una marcha, evento o '
       + 'reunion sobre el clima',
     category: 'advocacy',
-    points: 15,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: media + policy pressure
+    effort: 4, // significant time + travel
+    frequency: 1, // rare: once or twice per year
+    impact: 5, // drives policy + cultural shift
     iconName: 'campaign',
     relatedSdgs: ['13', '16'],
     isActive: true,
@@ -1958,8 +2193,10 @@ const actions = [
       'Votar o abogar por politicas de '
       + 'energia verde y clima',
     category: 'advocacy',
-    points: 10,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: systemic policy change
+    effort: 3, // research + advocacy effort
+    frequency: 1, // rare: elections, campaigns
+    impact: 5, // policy is highest leverage
     iconName: 'balance',
     relatedSdgs: ['7', '13', '16'],
     isActive: true,
@@ -1967,7 +2204,7 @@ const actions = [
   },
   {
     id: 'write_eco_review',
-    nameEn: 'Write Eco-Friendly Review',
+    nameEn: 'Write an Eco-Friendly Review',
     nameJa: 'エコ商品のレビューを書く',
     nameEs: 'Escribir resena ecologica',
     descriptionEn:
@@ -1979,8 +2216,10 @@ const actions = [
       'Escribir una resena positiva para un '
       + 'producto o negocio sostenible',
     category: 'advocacy',
-    points: 3,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: influences purchases
+    effort: 2, // write thoughtful review
+    frequency: 2, // monthly
+    impact: 3, // influences consumer choices
     iconName: 'edit_note',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -2000,8 +2239,10 @@ const actions = [
       'Unirse a un grupo ambiental local '
       + 'o en linea',
     category: 'advocacy',
-    points: 5,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: collective action
+    effort: 2, // research and sign up
+    frequency: 1, // rare: join once
+    impact: 4, // amplifies voice, enables action
     iconName: 'groups',
     relatedSdgs: ['13', '17'],
     isActive: true,
@@ -2021,8 +2262,10 @@ const actions = [
       'Pedir a un negocio o restaurante '
       + 'que ofrezca una opcion mas verde',
     category: 'advocacy',
-    points: 5,
-    co2Grams: 0,
+    co2Grams: 0, // indirect: demand signal
+    effort: 2, // conversation or email
+    frequency: 3, // weekly: at businesses
+    impact: 3, // aggregate demand drives change
     iconName: 'campaign',
     relatedSdgs: ['12', '13'],
     isActive: true,
@@ -2030,200 +2273,218 @@ const actions = [
   },
 
   // ---------------------------------------------------------
-  // LEARNING (8 actions) - all NEW, isLearnOnly: true
-  // One per missing SDG: 1, 4, 5, 8, 9, 10, 16, 17
+  // SDG-TARGETED (5 actions)
+  // Actions for SDGs previously without coverage
   // ---------------------------------------------------------
   {
-    id: 'learn_sdg1_no_poverty',
-    nameEn: 'Learn: No Poverty (SDG 1)',
-    nameJa: '学ぶ：貧困をなくそう（SDG 1）',
-    nameEs: 'Aprender: Fin de la pobreza '
-      + '(ODS 1)',
+    id: 'buy_fair_trade',
+    nameEn: 'Buy Fair Trade Product',
+    nameJa: 'フェアトレード商品を購入',
+    nameEs: 'Comprar producto de comercio justo',
     descriptionEn:
-      'Learn how sustainability connects '
-      + 'to ending poverty worldwide',
+      'Choose a Fair Trade certified product '
+      + 'to support fair wages for producers',
     descriptionJa:
-      '持続可能性と世界の貧困撲滅の関連を学ぶ',
+      'フェアトレード認証商品を選んで生産者の'
+      + '公正な賃金を支援する',
     descriptionEs:
-      'Aprender como la sostenibilidad se '
-      + 'relaciona con acabar la pobreza',
-    category: 'learning',
-    points: 0,
-    co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'public',
-    relatedSdgs: ['1'],
+      'Elegir un producto certificado de '
+      + 'comercio justo para apoyar '
+      + 'salarios justos',
+    category: 'consumption',
+    co2Grams: 0, // social equity + env co-benefits
+    effort: 2, // find fair trade products
+    frequency: 3, // weekly shopping
+    impact: 4, // systemic supply chain change
+    iconName: 'handshake',
+    relatedSdgs: ['1', '2', '8', '10', '12'],
     isActive: true,
     sortOrder: 80,
   },
   {
-    id: 'learn_sdg4_education',
-    nameEn: 'Learn: Quality Education (SDG 4)',
-    nameJa: '学ぶ：質の高い教育（SDG 4）',
-    nameEs: 'Aprender: Educacion de calidad '
-      + '(ODS 4)',
+    id: 'fund_micro_loan',
+    nameEn: 'Fund a Micro-Loan',
+    nameJa: 'マイクロローンに出資',
+    nameEs: 'Financiar un microprestamo',
     descriptionEn:
-      'Learn how environmental education '
-      + 'improves sustainability outcomes',
+      'Lend to an entrepreneur in a '
+      + 'developing country through a '
+      + 'micro-lending platform',
     descriptionJa:
-      '環境教育が持続可能性に与える影響を学ぶ',
+      'マイクロレンディングを通じて途上国の'
+      + '起業家に融資する',
     descriptionEs:
-      'Aprender como la educacion ambiental '
-      + 'mejora la sostenibilidad',
-    category: 'learning',
-    points: 0,
-    co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'school',
-    relatedSdgs: ['4'],
+      'Prestar a un emprendedor en un pais '
+      + 'en desarrollo a traves de una '
+      + 'plataforma de microprestamos',
+    category: 'community',
+    co2Grams: 0, // economic dev + env co-benefits
+    effort: 3, // research platforms, select
+    frequency: 2, // monthly or less
+    impact: 5, // generational poverty reduction
+    iconName: 'currency_exchange',
+    relatedSdgs: ['1', '8', '10', '17'],
     isActive: true,
     sortOrder: 81,
   },
   {
-    id: 'learn_sdg5_gender',
-    nameEn: 'Learn: Gender Equality (SDG 5)',
-    nameJa: '学ぶ：ジェンダー平等（SDG 5）',
-    nameEs: 'Aprender: Igualdad de genero '
-      + '(ODS 5)',
+    id: 'support_women_owned_business',
+    nameEn: 'Support a Women-Owned Business',
+    nameJa: '女性経営の店舗を利用',
+    nameEs: 'Apoyar negocio de mujeres',
     descriptionEn:
-      'Learn how gender equality is key '
-      + 'to climate resilience',
+      'Purchase from a women-owned or '
+      + 'women-led business',
     descriptionJa:
-      'ジェンダー平等が気候変動対策に重要な'
-      + '理由を学ぶ',
+      '女性が経営するビジネスの商品や'
+      + 'サービスを利用する',
     descriptionEs:
-      'Aprender como la igualdad de genero '
-      + 'es clave para la resiliencia '
-      + 'climatica',
-    category: 'learning',
-    points: 0,
-    co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'diversity_3',
-    relatedSdgs: ['5'],
+      'Comprar en un negocio propiedad '
+      + 'de mujeres o liderado por mujeres',
+    category: 'consumption',
+    co2Grams: 0, // gender equity action
+    effort: 2, // research and choose
+    frequency: 3, // weekly purchases
+    impact: 4, // economic empowerment
+    iconName: 'storefront',
+    relatedSdgs: ['5', '8', '10', '12'],
     isActive: true,
     sortOrder: 82,
   },
   {
-    id: 'learn_sdg8_decent_work',
-    nameEn: 'Learn: Decent Work (SDG 8)',
-    nameJa: '学ぶ：働きがいと経済成長（SDG 8）',
-    nameEs: 'Aprender: Trabajo decente '
-      + '(ODS 8)',
+    id: 'share_domestic_work',
+    nameEn: 'Share Domestic Work Equally',
+    nameJa: '家事を平等に分担',
+    nameEs: 'Compartir tareas del hogar',
     descriptionEn:
-      'Learn how green jobs drive '
-      + 'sustainable economic growth',
+      'Take on an equal share of '
+      + 'household chores to support a fair '
+      + 'division of domestic labor',
     descriptionJa:
-      'グリーン雇用が持続可能な経済成長を'
-      + '推進する仕組みを学ぶ',
+      '家事を平等に分担してジェンダー平等を'
+      + '実践する',
     descriptionEs:
-      'Aprender como los empleos verdes '
-      + 'impulsan el crecimiento sostenible',
-    category: 'learning',
-    points: 0,
-    co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'work',
-    relatedSdgs: ['8'],
+      'Asumir una parte equitativa de '
+      + 'las tareas domesticas para una '
+      + 'division justa del trabajo',
+    category: 'community',
+    co2Grams: 0, // gender equity action
+    effort: 3, // sustained behavior change
+    frequency: 5, // daily household tasks
+    impact: 4, // generational family dynamics
+    iconName: 'home',
+    relatedSdgs: ['5', '3', '8', '10'],
     isActive: true,
     sortOrder: 83,
   },
   {
-    id: 'learn_sdg9_infrastructure',
-    nameEn: 'Learn: Innovation (SDG 9)',
-    nameJa: '学ぶ：産業と技術革新（SDG 9）',
-    nameEs: 'Aprender: Innovacion (ODS 9)',
+    id: 'support_community_business',
+    nameEn: 'Support a Community Business',
+    nameJa: 'コミュニティのお店を利用',
+    nameEs: 'Apoyar negocio comunitario',
     descriptionEn:
-      'Learn how sustainable infrastructure '
-      + 'reduces emissions',
+      'Buy from a local minority-owned or '
+      + 'underrepresented community business',
     descriptionJa:
-      '持続可能なインフラが排出削減に繋がる'
-      + '仕組みを学ぶ',
+      '地域のマイノリティ経営や地元密着の'
+      + 'ビジネスを利用する',
     descriptionEs:
-      'Aprender como la infraestructura '
-      + 'sostenible reduce emisiones',
-    category: 'learning',
-    points: 0,
-    co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'engineering',
-    relatedSdgs: ['9'],
+      'Comprar en un negocio local de '
+      + 'minorias o comunidades '
+      + 'subrepresentadas',
+    category: 'community',
+    co2Grams: 0, // economic equity action
+    effort: 2, // research and choose
+    frequency: 3, // weekly purchases
+    impact: 4, // community economic resilience
+    iconName: 'diversity_3',
+    relatedSdgs: ['10', '1', '8', '11'],
     isActive: true,
     sortOrder: 84,
   },
+
+  // ---------------------------------------------------------
+  // SDG-TARGETED PART 2 (3 actions)
+  // Filling coverage gaps for Goals 4 and 5
+  // ---------------------------------------------------------
   {
-    id: 'learn_sdg10_inequality',
-    nameEn: 'Learn: Reduced Inequality '
-      + '(SDG 10)',
-    nameJa: '学ぶ：人や国の不平等を'
-      + 'なくそう（SDG 10）',
-    nameEs: 'Aprender: Reducir desigualdades '
-      + '(ODS 10)',
+    id: 'citizen_science_project',
+    nameEn: 'Participate in a Citizen Science '
+      + 'Project',
+    nameJa: '市民科学プロジェクトに参加',
+    nameEs: 'Participar en un proyecto de '
+      + 'ciencia ciudadana',
     descriptionEn:
-      'Learn how climate change '
-      + 'disproportionately affects '
-      + 'vulnerable communities',
+      'Join a community biodiversity survey '
+      + 'or citizen science project like '
+      + 'iNaturalist',
     descriptionJa:
-      '気候変動が脆弱なコミュニティに与える'
-      + '不均等な影響を学ぶ',
+      'iNaturalistなどの市民科学プロジェクト'
+      + 'や生物多様性調査に参加する',
     descriptionEs:
-      'Aprender como el cambio climatico '
-      + 'afecta desproporcionadamente a '
-      + 'comunidades vulnerables',
-    category: 'learning',
-    points: 0,
+      'Participar en un proyecto de ciencia '
+      + 'ciudadana o estudio de biodiversidad '
+      + 'como iNaturalist',
+    category: 'community',
     co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'balance',
-    relatedSdgs: ['10'],
+    effort: 3,
+    frequency: 1,
+    impact: 4,
+    iconName: 'biotech',
+    relatedSdgs: ['4', '13', '15'],
     isActive: true,
     sortOrder: 85,
   },
   {
-    id: 'learn_sdg16_peace_justice',
-    nameEn: 'Learn: Peace & Justice (SDG 16)',
-    nameJa: '学ぶ：平和と公正（SDG 16）',
-    nameEs: 'Aprender: Paz y justicia '
-      + '(ODS 16)',
+    id: 'volunteer_nature_walk',
+    nameEn: 'Volunteer for a Nature Walk',
+    nameJa: '自然散策ボランティアに参加',
+    nameEs: 'Voluntariado en caminata por '
+      + 'la naturaleza',
     descriptionEn:
-      'Learn how strong institutions '
-      + 'support climate action',
+      'Volunteer to help with a guided '
+      + 'nature walk for your community',
     descriptionJa:
-      '強固な制度が気候変動対策を支える仕組み'
-      + 'を学ぶ',
+      '地域のガイド付き自然散策の'
+      + 'ボランティアに参加する',
     descriptionEs:
-      'Aprender como instituciones fuertes '
-      + 'apoyan la accion climatica',
-    category: 'learning',
-    points: 0,
+      'Ser voluntario en una caminata '
+      + 'guiada por la naturaleza para '
+      + 'tu comunidad',
+    category: 'community',
     co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'balance',
-    relatedSdgs: ['16'],
+    effort: 3,
+    frequency: 1,
+    impact: 5,
+    iconName: 'forest',
+    relatedSdgs: ['4', '11', '13', '15'],
     isActive: true,
     sortOrder: 86,
   },
   {
-    id: 'learn_sdg17_partnerships',
-    nameEn: 'Learn: Partnerships (SDG 17)',
-    nameJa: '学ぶ：パートナーシップ（SDG 17）',
-    nameEs: 'Aprender: Alianzas (ODS 17)',
+    id: 'donate_women_climate_org',
+    nameEn: 'Donate to a Women-Led Climate '
+      + 'Organization',
+    nameJa: '女性主導の気候団体に寄付',
+    nameEs: 'Donar a organizacion climatica '
+      + 'liderada por mujeres',
     descriptionEn:
-      'Learn how global partnerships '
-      + 'accelerate sustainability goals',
+      'Donate to an organization led by '
+      + 'women working on climate justice',
     descriptionJa:
-      'グローバルなパートナーシップが持続可能な'
-      + '目標を加速させる仕組みを学ぶ',
+      '気候正義に取り組む女性主導の団体に'
+      + '寄付する',
     descriptionEs:
-      'Aprender como las alianzas globales '
-      + 'aceleran los objetivos de '
-      + 'sostenibilidad',
-    category: 'learning',
-    points: 0,
+      'Donar a una organizacion liderada '
+      + 'por mujeres que trabaja en '
+      + 'justicia climatica',
+    category: 'advocacy',
     co2Grams: 0,
-    isLearnOnly: true,
-    iconName: 'handshake',
-    relatedSdgs: ['17'],
+    effort: 2,
+    frequency: 1,
+    impact: 5,
+    iconName: 'volunteer_activism',
+    relatedSdgs: ['5', '10', '13', '17'],
     isActive: true,
     sortOrder: 87,
   },
@@ -2234,30 +2495,63 @@ async function seedActionLibrary() {
   console.log(`Total actions: ${actions.length}\n`);
 
   const batch = db.batch();
+  const categoryStats = {};
 
   for (const action of actions) {
     const { id, ...data } = action;
+    const points = computePoints(action);
+    const desc = longDescs[id] || {};
     const docRef = db
       .collection('actionLibrary')
       .doc(id);
     batch.set(docRef, {
       isLearnOnly: false,
       ...data,
+      points,
+      descriptionLongEn: desc.en || '',
+      descriptionLongJa: desc.ja || '',
+      descriptionLongEs: desc.es || '',
     });
     const co2Display = action.co2Grams >= 1000
       ? `${(action.co2Grams / 1000).toFixed(1)}kg`
       : `${action.co2Grams}g`;
     console.log(
       `  + ${action.nameEn} `
-      + `(${action.points} pts, `
-      + `${co2Display} CO2)`,
+      + `(${points} pts, `
+      + `${co2Display} CO2, `
+      + `e${action.effort}/f${action.frequency}`
+      + `/i${action.impact})`,
     );
+
+    if (!categoryStats[action.category]) {
+      categoryStats[action.category] = {
+        count: 0, totalPts: 0,
+        minPts: Infinity, maxPts: 0,
+      };
+    }
+    const cat = categoryStats[action.category];
+    cat.count++;
+    cat.totalPts += points;
+    cat.minPts = Math.min(cat.minPts, points);
+    cat.maxPts = Math.max(cat.maxPts, points);
   }
 
   await batch.commit();
   console.log(
     `\nSuccessfully seeded ${actions.length} actions!`,
   );
+
+  console.log('\n--- Points by category ---');
+  for (const [cat, stats] of
+    Object.entries(categoryStats)) {
+    const avg = (stats.totalPts / stats.count)
+      .toFixed(1);
+    console.log(
+      `  ${cat}: ${stats.count} actions, `
+      + `${stats.minPts}-${stats.maxPts} pts `
+      + `(avg ${avg})`,
+    );
+  }
 }
 
 seedActionLibrary()

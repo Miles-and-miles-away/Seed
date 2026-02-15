@@ -3,7 +3,7 @@
 **Version:** 1.2
 **Created:** January 2026
 **Updated:** February 14, 2026
-**Status:** In Progress (5.5/10 features complete)
+**Status:** In Progress (6.5/10 features complete)
 
 ---
 
@@ -81,7 +81,7 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 | 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
 | 4.7 Firebase Analytics | P0 | Low | Complete |
 | 4.8 Firebase Crashlytics | P0 | Low | Pending |
-| 4.9 Privacy Policy & Terms | P0 | Low | Pending |
+| 4.9 Privacy Policy & Terms | P0 | Low | Complete |
 | 4.10 Polish Items | P2 | Low | Pending |
 
 ---
@@ -643,7 +643,8 @@ The query requires a composite index on the `users` collection:
 - `currentStreak` (Ascending)
 - `lastActionDate` (Ascending)
 
-Firebase will prompt to create this index on first deployment.
+Index is defined in `firestore.indexes.json`. Deploy with
+`firebase deploy --only firestore:indexes`.
 
 #### Tasks
 
@@ -653,7 +654,8 @@ Firebase will prompt to create this index on first deployment.
 | Create streakReminder function | Scheduled Cloud Function (v2) | Done |
 | Localize notification text | EN/JA/ES messages with fallback | Done |
 | Write unit tests | 17 tests covering all edge cases | Done |
-| Deploy to Firebase | `firebase deploy --only functions` | Pending |
+| Create firestore.rules | Security rules from MASTER_PLAN | Done |
+| Deploy to Firebase | `firebase deploy --only functions,firestore` | Pending |
 | Test with emulator | Local testing with emulator suite | Pending |
 | Monitor logs | Verify function runs correctly in prod | Pending |
 
@@ -790,12 +792,12 @@ void main() async {
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Add firebase_crashlytics dependency | pubspec.yaml | Pending |
-| Configure iOS | GoogleService-Info.plist, Podfile | Pending |
-| Configure Android | build.gradle | Pending |
-| Initialize in main.dart | Error handlers | Pending |
-| Set user identifier | After login | Pending |
-| Add custom keys | App version, mascot species, etc. | Pending |
+| Add firebase_crashlytics dependency | pubspec.yaml | Done |
+| Configure iOS | Pods installed via Flutter tooling | Done |
+| Configure Android | build.gradle plugins added | Done |
+| Initialize in main.dart | Error handlers | Done |
+| Set user identifier | Synced in app.dart via auth state | Done |
+| Add custom keys | App version captured automatically | Done |
 | Test crash reporting | Force a crash, verify in console | Pending |
 
 #### Files to Modify
@@ -849,14 +851,15 @@ Create and display legal documents required for app store submission.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Generate privacy policy | Use Termly or similar | Pending |
-| Generate terms of service | Use Termly or similar | Pending |
-| Review and customize | Ensure accuracy | Pending |
-| Create PrivacyPolicyScreen | WebView or markdown display | Pending |
-| Create TermsOfServiceScreen | WebView or markdown display | Pending |
-| Host documents | Firebase Hosting | Pending |
-| Add links to About screen | Already have placeholders | Pending |
-| Localize documents | EN/ES/JA versions | Pending |
+| Generate privacy policy | In-app Dart content per locale | Done |
+| Generate terms of service | In-app Dart content per locale | Done |
+| Review and customize | Ensure accuracy | Done |
+| Create PrivacyPolicyScreen | Shared LegalDocumentScreen widget | Done |
+| Create TermsOfServiceScreen | Shared LegalDocumentScreen widget | Done |
+| Host documents | N/A - rendered in-app | Done |
+| Add links to About screen | In-app navigation via go_router | Done |
+| Add links to Register screen | TapGestureRecognizer on text | Done |
+| Localize documents | EN/ES/JA versions | Done |
 
 #### Files to Create/Modify
 
@@ -952,6 +955,7 @@ Based on estimated user activity levels:
 ├── Add EN/JA/ES notification text                DONE
 ├── Write unit tests (17 tests)                   DONE
 ├── Create .firebaserc + firestore indexes        DONE
+├── Create firestore.rules                        DONE
 ├── Deploy and test                               PENDING
 └── Monitor logs                                  PENDING
 
@@ -960,17 +964,19 @@ Based on estimated user activity levels:
 ├── Add all event tracking                        DONE
 └── Write tests                                   DONE
 
-4.8  Firebase Crashlytics                      -- PENDING
-├── Add dependency
-├── Configure native platforms
-├── Initialize in main.dart
-└── Test crash reporting
+4.8  Firebase Crashlytics                      -- COMPLETE
+├── Add dependency                               DONE
+├── Configure Android Gradle plugins             DONE
+├── Configure iOS pods                           DONE
+├── Initialize in main.dart                      DONE
+├── Set user identifier via auth state           DONE
+└── Test crash reporting                         PENDING
 
-4.9  Privacy Policy & Terms                    -- PENDING
-├── Generate legal documents
-├── Create display screens
-├── Host documents
-└── Localize (EN/ES/JA)
+4.9  Privacy Policy & Terms                    -- DONE
+├── Generate legal documents                     DONE
+├── Create display screens                       DONE
+├── In-app rendering (no hosting needed)         DONE
+└── Localize (EN/ES/JA)                          DONE
 
 4.10 Polish & Testing                          -- PENDING
 ├── End-to-end testing
@@ -1068,10 +1074,12 @@ Based on estimated user activity levels:
 - [ ] Custom keys visible
 
 ### 4.9 Legal Compliance
-- [ ] Privacy policy accessible from app
-- [ ] Terms of service accessible from app
-- [ ] Documents hosted and loading
-- [ ] EN/ES/JA versions available
+- [x] Privacy policy accessible from app
+- [x] Terms of service accessible from app
+- [x] Documents rendered in-app (no hosting needed)
+- [x] EN/ES/JA versions available
+- [x] Links from About screen navigate in-app
+- [x] Links from Register screen navigate in-app
 
 ---
 

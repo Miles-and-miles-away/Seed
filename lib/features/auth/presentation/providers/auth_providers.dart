@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../shared/services/analytics_service.dart';
@@ -180,6 +181,8 @@ class AuthNotifier extends _$AuthNotifier {
       await ref.read(authRepositoryProvider).signOut();
       await AnalyticsService.instance.logLogout();
       await AnalyticsService.instance.setUserId(null);
+      await FirebaseCrashlytics.instance
+          .setUserIdentifier('');
     });
     if (!ref.mounted) return;
     state = result;

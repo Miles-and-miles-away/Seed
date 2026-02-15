@@ -1,112 +1,207 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/mascot_species_data.dart';
+import '../../data/models/egg_model.dart';
 import '../../data/models/evolution_stage_model.dart';
 import '../../data/models/mascot_model.dart';
 import '../../data/models/mascot_species_model.dart';
 import '../../data/repositories/mascot_repository.dart';
+import '../../data/services/mascot_migration_service.dart';
 
 part 'mascot_providers.g.dart';
 
-/// Provides the MascotRepository instance.
+// =============================================================
+// Repository & Migration Providers
+// =============================================================
+
 @riverpod
 MascotRepository mascotRepository(Ref ref) {
-  return MascotRepository(firestore: ref.watch(firestoreProvider));
+  return MascotRepository(
+    firestore: ref.watch(firestoreProvider),
+  );
 }
 
-/// Streams the current user's mascot data.
-///
-/// Returns `null` if the user hasn't selected a mascot yet.
 @riverpod
-Stream<MascotModel?> currentMascot(Ref ref) async* {
+MascotMigrationService mascotMigrationService(Ref ref) {
+  return MascotMigrationService(
+    firestore: ref.watch(firestoreProvider),
+  );
+}
+
+// =============================================================
+// Multi-Mascot Providers
+// =============================================================
+
+/// Streams all mascots for the current user.
+@riverpod
+Stream<List<MascotModel>> allMascots(Ref ref) async* {
+  final user = ref.watch(currentUserProvider).value;
+  if (user == null) {
+    yield <MascotModel>[];
+    return;
+  }
+  yield* ref
+      .watch(mascotRepositoryProvider)
+      .watchAllMascots(user.uid);
+}
+
+/// Streams the active mascot for the current user.
+@riverpod
+Stream<MascotModel?> activeMascot(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
   if (user == null) {
     yield null;
     return;
   }
-
-  final repository = ref.watch(mascotRepositoryProvider);
-  yield* repository.watchUserMascot(user.uid);
+  yield* ref
+      .watch(mascotRepositoryProvider)
+      .watchActiveMascot(user.uid);
 }
 
-/// Whether the current user has selected a mascot.
+/// Whether the current user has at least one mascot.
 @riverpod
 bool hasMascot(Ref ref) {
-  final mascot = ref.watch(currentMascotProvider).value;
-  return mascot != null;
+  final mascots = ref.watch(allMascotsProvider).value;
+  return mascots != null && mascots.isNotEmpty;
 }
 
 /// Gets all available mascot species.
 @riverpod
 Future<List<MascotSpeciesModel>> allSpecies(Ref ref) async {
-  final repository = ref.watch(mascotRepositoryProvider);
-  return repository.getAllSpecies();
+  return ref.watch(mascotRepositoryProvider).getAllSpecies();
 }
 
-/// Gets the species data for the current mascot.
+/// Species data for the active mascot.
 @riverpod
-MascotSpeciesModel? currentSpecies(Ref ref) {
-  final mascot = ref.watch(currentMascotProvider).value;
+MascotSpeciesModel? activeSpecies(Ref ref) {
+  final mascot = ref.watch(activeMascotProvider).value;
   if (mascot == null) return null;
   return getSpeciesById(mascot.speciesId);
 }
 
-/// Gets the current evolution stage for the user's mascot (1-4).
-///
-/// This is computed from the user's level, not stored on the mascot.
+/// Evolution stage index (1-4) for the active mascot.
+/// Uses mascotLevel (per-mascot), not global user level.
 @riverpod
-int currentMascotStage(Ref ref) {
-  final species = ref.watch(currentSpeciesProvider);
-  final user = ref.watch(currentUserProvider).value;
-  if (species == null || user == null) return 1;
-  return species.getStageIndexForLevel(user.level);
+int activeMascotStage(Ref ref) {
+  final species = ref.watch(activeSpeciesProvider);
+  final mascot = ref.watch(activeMascotProvider).value;
+  if (species == null || mascot == null) return 1;
+  return species.getStageIndexForLevel(mascot.mascotLevel);
 }
 
-/// Gets the current evolution stage data.
+/// Evolution stage data for the active mascot.
 @riverpod
-EvolutionStageModel? currentStageData(Ref ref) {
-  final species = ref.watch(currentSpeciesProvider);
-  final user = ref.watch(currentUserProvider).value;
-  if (species == null || user == null) return null;
-  return species.getStageForLevel(user.level);
+EvolutionStageModel? activeStageData(Ref ref) {
+  final species = ref.watch(activeSpeciesProvider);
+  final mascot = ref.watch(activeMascotProvider).value;
+  if (species == null || mascot == null) return null;
+  return species.getStageForLevel(mascot.mascotLevel);
 }
 
-/// Gets the asset path for the current mascot's current evolution stage.
+/// Asset path for the active mascot's current stage.
 @riverpod
-String? mascotAssetPath(Ref ref) {
-  final stageData = ref.watch(currentStageDataProvider);
+String? activeMascotAssetPath(Ref ref) {
+  final stageData = ref.watch(activeStageDataProvider);
   return stageData?.assetPath;
 }
 
-/// Gets the next evolution stage data, or null if at max.
+/// Next evolution stage for the active mascot, or null.
 @riverpod
-EvolutionStageModel? nextStageData(Ref ref) {
-  final species = ref.watch(currentSpeciesProvider);
-  final user = ref.watch(currentUserProvider).value;
-  if (species == null || user == null) return null;
-  return species.getNextStage(user.level);
+EvolutionStageModel? activeNextStageData(Ref ref) {
+  final species = ref.watch(activeSpeciesProvider);
+  final mascot = ref.watch(activeMascotProvider).value;
+  if (species == null || mascot == null) return null;
+  return species.getNextStage(mascot.mascotLevel);
 }
 
-/// Detects if the user has evolved to a new stage.
-///
-/// Compares the current stage to the last seen stage stored on the mascot.
-/// Returns true if the current stage is greater than the last seen stage.
+/// Whether the active mascot has a new unseen evolution.
 @riverpod
 bool hasNewEvolution(Ref ref) {
-  final mascot = ref.watch(currentMascotProvider).value;
-  final currentStage = ref.watch(currentMascotStageProvider);
+  final mascot = ref.watch(activeMascotProvider).value;
+  final currentStage = ref.watch(activeMascotStageProvider);
   if (mascot == null) return false;
   return currentStage > mascot.lastSeenStage;
 }
 
-/// Notifier for mascot mutations (select, rename, update).
+// =============================================================
+// Egg Providers
+// =============================================================
+
+/// The user's current egg (derived from user data).
+@riverpod
+EggModel? currentEgg(Ref ref) {
+  final user = ref.watch(currentUserProvider).value;
+  return user?.egg;
+}
+
+/// Whether the user has an egg.
+@riverpod
+bool hasEgg(Ref ref) {
+  return ref.watch(currentEggProvider) != null;
+}
+
+/// Egg hatching progress (0.0 to 1.0).
+@riverpod
+double eggHatchingProgress(Ref ref) {
+  final egg = ref.watch(currentEggProvider);
+  if (egg == null) return 0;
+  return (egg.hatchingStreakDays /
+          AppConstants.eggHatchingStreakRequired)
+      .clamp(0.0, 1.0);
+}
+
+/// Days remaining until egg hatches.
+@riverpod
+int eggDaysRemaining(Ref ref) {
+  final egg = ref.watch(currentEggProvider);
+  if (egg == null) {
+    return AppConstants.eggHatchingStreakRequired;
+  }
+  return (AppConstants.eggHatchingStreakRequired -
+          egg.hatchingStreakDays)
+      .clamp(0, AppConstants.eggHatchingStreakRequired);
+}
+
+/// Whether to show the egg discovery celebration.
+/// True if eggPendingDiscovery flag is set.
+@riverpod
+bool shouldShowEggDiscovery(Ref ref) {
+  final user = ref.watch(currentUserProvider).value;
+  if (user == null) return false;
+  return user.eggPendingDiscovery;
+}
+
+// =============================================================
+// Localized Name Providers
+// =============================================================
+
+/// Localized name for the active mascot's species.
+@riverpod
+String? speciesLocalizedName(Ref ref, String locale) {
+  final species = ref.watch(activeSpeciesProvider);
+  return species?.getName(locale);
+}
+
+/// Localized name for the active mascot's stage.
+@riverpod
+String? stageLocalizedName(Ref ref, String locale) {
+  final stageData = ref.watch(activeStageDataProvider);
+  if (stageData == null) return null;
+  return locale == 'ja' ? stageData.nameJa : stageData.nameEn;
+}
+
+// =============================================================
+// MascotNotifier -- mutations
+// =============================================================
+
 @riverpod
 class MascotNotifier extends _$MascotNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Selects a mascot for the current user.
+  /// Selects a mascot for a new user.
   Future<void> selectMascot({
     required String speciesId,
     required String name,
@@ -116,8 +211,8 @@ class MascotNotifier extends _$MascotNotifier {
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      final repository = ref.read(mascotRepositoryProvider);
-      await repository.selectMascot(
+      final repo = ref.read(mascotRepositoryProvider);
+      await repo.selectMascot(
         userId: user.uid,
         speciesId: speciesId,
         name: name,
@@ -127,74 +222,168 @@ class MascotNotifier extends _$MascotNotifier {
     state = result;
   }
 
-  /// Renames the current user's mascot.
+  /// Renames the active mascot.
   Future<void> renameMascot(String name) async {
     final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
+    final mascot =
+        ref.read(activeMascotProvider).value;
+    if (user == null || mascot == null) return;
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      final repository = ref.read(mascotRepositoryProvider);
-      await repository.updateMascotName(user.uid, name);
+      final repo = ref.read(mascotRepositoryProvider);
+      await repo.updateMascotName(
+        user.uid,
+        mascot.id,
+        name,
+      );
     });
     if (!ref.mounted) return;
     state = result;
   }
 
   /// Marks the current evolution stage as seen.
-  ///
-  /// Call this after showing the evolution celebration.
   Future<void> markEvolutionSeen() async {
     final user = ref.read(currentUserProvider).value;
-    final currentStage = ref.read(currentMascotStageProvider);
-    if (user == null) return;
+    final mascot =
+        ref.read(activeMascotProvider).value;
+    final stage = ref.read(activeMascotStageProvider);
+    if (user == null || mascot == null) return;
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      final repository = ref.read(mascotRepositoryProvider);
-      await repository.updateLastSeenStage(user.uid, currentStage);
+      final repo = ref.read(mascotRepositoryProvider);
+      await repo.updateLastSeenStage(
+        user.uid,
+        mascot.id,
+        stage,
+      );
     });
     if (!ref.mounted) return;
     state = result;
   }
+
+  /// Switches the active mascot.
+  Future<void> switchActiveMascot(
+    String mascotId,
+  ) async {
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) return;
+
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      final repo = ref.read(mascotRepositoryProvider);
+      await repo.setActiveMascot(user.uid, mascotId);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Acknowledges egg discovery -- creates the egg.
+  Future<void> acknowledgeEggDiscovery() async {
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) return;
+
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      final repo = ref.read(mascotRepositoryProvider);
+      final egg = EggModel(receivedAt: DateTime.now());
+      await repo.createEgg(user.uid, egg);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Names a newly hatched mascot and makes it active.
+  Future<void> nameHatchedMascot(
+    String mascotId,
+    String name,
+  ) async {
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) return;
+
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      final repo = ref.read(mascotRepositoryProvider);
+      await repo.updateMascotName(
+        user.uid,
+        mascotId,
+        name,
+      );
+      await repo.setActiveMascot(user.uid, mascotId);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Runs migration if needed on first load.
+  Future<void> runMigrationIfNeeded() async {
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) return;
+
+    final migrationService =
+        ref.read(mascotMigrationServiceProvider);
+    await migrationService.migrateIfNeeded(user.uid);
+  }
 }
 
-/// Gets the localized name for the current mascot's species.
-@riverpod
-String? speciesLocalizedName(Ref ref, String locale) {
-  final species = ref.watch(currentSpeciesProvider);
-  return species?.getName(locale);
-}
-
-/// Gets the localized name for the current evolution stage.
-@riverpod
-String? stageLocalizedName(Ref ref, String locale) {
-  final stageData = ref.watch(currentStageDataProvider);
-  if (stageData == null) return null;
-  return locale == 'ja' ? stageData.nameJa : stageData.nameEn;
-}
-
-// =============================================================================
+// =============================================================
 // Animation Providers
-// =============================================================================
+// =============================================================
 
-/// State class that tracks if a mascot bounce animation should be triggered.
-///
-/// The MascotDisplay widget watches this and triggers a bounce animation
-/// when [shouldBounce] becomes true. The state auto-resets after animation.
 @riverpod
 class MascotAnimationTrigger extends _$MascotAnimationTrigger {
   @override
   bool build() => false;
 
-  /// Triggers the happy bounce animation on the mascot.
-  ///
-  /// Call this after a successful action log to reward the user visually.
   void triggerBounce() {
     state = true;
-    // Auto-reset after a brief delay
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (state) state = false;
-    });
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        if (state) state = false;
+      },
+    );
   }
+}
+
+// =============================================================
+// Backward-compatible aliases (old names -> new names)
+// Keeps existing widgets working during migration.
+// =============================================================
+
+/// Alias: currentMascotProvider -> activeMascotProvider
+@riverpod
+AsyncValue<MascotModel?> currentMascot(Ref ref) {
+  return ref.watch(activeMascotProvider);
+}
+
+/// Alias: currentSpeciesProvider -> activeSpeciesProvider
+@riverpod
+MascotSpeciesModel? currentSpecies(Ref ref) {
+  return ref.watch(activeSpeciesProvider);
+}
+
+/// Alias: currentMascotStageProvider -> activeMascotStageProvider
+@riverpod
+int currentMascotStage(Ref ref) {
+  return ref.watch(activeMascotStageProvider);
+}
+
+/// Alias: currentStageDataProvider -> activeStageDataProvider
+@riverpod
+EvolutionStageModel? currentStageData(Ref ref) {
+  return ref.watch(activeStageDataProvider);
+}
+
+/// Alias: mascotAssetPathProvider -> activeMascotAssetPathProvider
+@riverpod
+String? mascotAssetPath(Ref ref) {
+  return ref.watch(activeMascotAssetPathProvider);
+}
+
+/// Alias: nextStageDataProvider -> activeNextStageDataProvider
+@riverpod
+EvolutionStageModel? nextStageData(Ref ref) {
+  return ref.watch(activeNextStageDataProvider);
 }

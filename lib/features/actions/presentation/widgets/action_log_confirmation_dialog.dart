@@ -4,6 +4,7 @@ import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../core/utils/helpers.dart';
 import '../../data/models/action_model.dart';
 import '../../domain/enums/action_category.dart';
+import 'action_science_bottom_sheet.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -123,13 +124,13 @@ class _ActionLogConfirmationDialogState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (widget.action.description(widget.languageCode).isNotEmpty) ...[
-                  Text(
-                    widget.action.description(widget.languageCode),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    textAlign: TextAlign.center,
+                if (widget.action
+                    .description(widget.languageCode)
+                    .isNotEmpty) ...[
+                  _buildDescription(
+                    theme,
+                    l10n,
+                    categoryColor,
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -193,6 +194,60 @@ class _ActionLogConfirmationDialogState
           child: Text(l10n.buttonConfirm),
         ),
       ],
+    );
+  }
+
+  Widget _buildDescription(
+    ThemeData theme,
+    AppLocalizations l10n,
+    Color categoryColor,
+  ) {
+    final desc =
+        widget.action.description(widget.languageCode);
+    final hasLong = widget.action
+        .descriptionLong(widget.languageCode)
+        .isNotEmpty;
+
+    if (!hasLong) {
+      return Text(
+        desc,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        textAlign: TextAlign.center,
+      );
+    }
+
+    return GestureDetector(
+      onTap: () => ActionScienceBottomSheet.show(
+        context,
+        action: widget.action,
+        languageCode: widget.languageCode,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              desc,
+              style:
+                  theme.textTheme.bodyMedium?.copyWith(
+                color: categoryColor,
+                decoration: TextDecoration.underline,
+                decorationColor: categoryColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.info_outline,
+            size: 16,
+            color: categoryColor,
+          ),
+        ],
+      ),
     );
   }
 }

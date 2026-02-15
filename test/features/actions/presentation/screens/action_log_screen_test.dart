@@ -67,12 +67,23 @@ void main() {
             return Stream.value(actions ?? testActions);
           }),
           filteredActionsProvider.overrideWith((ref) {
-            final selected = ref.watch(selectedCategoryProvider);
+            if (isLoading) {
+              return const AsyncValue<
+                  List<ActionModel>>.loading();
+            }
+            final selected =
+                ref.watch(selectedCategoryProvider);
             final allActions = actions ?? testActions;
-            if (selected == null) return allActions;
-            return allActions
-                .where((a) => a.category == selected.name)
-                .toList();
+            if (selected == null) {
+              return AsyncValue.data(allActions);
+            }
+            return AsyncValue.data(
+              allActions
+                  .where(
+                    (a) => a.category == selected.name,
+                  )
+                  .toList(),
+            );
           }),
         ],
         child: const MaterialApp(
@@ -206,7 +217,7 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Sort'), findsOneWidget);
+      expect(find.text('Name (A-Z)'), findsOneWidget);
     });
 
     testWidgets('SDG filter shows All chip', (tester) async {

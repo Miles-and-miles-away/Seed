@@ -296,45 +296,39 @@ class _SdgDetailScreenState
     BuildContext context,
     SdgGoal goal,
   ) {
-    final hasPrev =
-        goal.number > AppConstants.sdgMinGoal;
-    final hasNext =
-        goal.number < AppConstants.sdgMaxGoal;
-    final prevGoal = hasPrev
-        ? sdgGoals.firstWhere(
-            (g) => g.number == goal.number - 1,
-          )
-        : null;
-    final nextGoal = hasNext
-        ? sdgGoals.firstWhere(
-            (g) => g.number == goal.number + 1,
-          )
-        : null;
+    final prevNumber =
+        goal.number == AppConstants.sdgMinGoal
+            ? AppConstants.sdgMaxGoal
+            : goal.number - 1;
+    final nextNumber =
+        goal.number == AppConstants.sdgMaxGoal
+            ? AppConstants.sdgMinGoal
+            : goal.number + 1;
+    final prevGoal = sdgGoals.firstWhere(
+      (g) => g.number == prevNumber,
+    );
+    final nextGoal = sdgGoals.firstWhere(
+      (g) => g.number == nextNumber,
+    );
 
     return Row(
       mainAxisAlignment:
           MainAxisAlignment.spaceBetween,
       children: [
-        if (prevGoal != null)
-          _GoalNavButton(
-            goal: prevGoal,
-            isPrevious: true,
-            onTap: () => context.pushReplacement(
-              '/home/sdg/${prevGoal.number}',
-            ),
-          )
-        else
-          const SizedBox.shrink(),
-        if (nextGoal != null)
-          _GoalNavButton(
-            goal: nextGoal,
-            isPrevious: false,
-            onTap: () => context.pushReplacement(
-              '/home/sdg/${nextGoal.number}',
-            ),
-          )
-        else
-          const SizedBox.shrink(),
+        _GoalNavButton(
+          goal: prevGoal,
+          isPrevious: true,
+          onTap: () => context.pushReplacement(
+            '/home/sdg/${prevGoal.number}',
+          ),
+        ),
+        _GoalNavButton(
+          goal: nextGoal,
+          isPrevious: false,
+          onTap: () => context.pushReplacement(
+            '/home/sdg/${nextGoal.number}',
+          ),
+        ),
       ],
     );
   }

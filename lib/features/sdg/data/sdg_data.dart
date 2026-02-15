@@ -44,7 +44,6 @@ const sdgGoals = <SdgGoal>[
         'disasters and other shocks.',
     color: Color(0xFFE5233D),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-01.jpg',
-    isLearnOnly: true,
   ),
   SdgGoal(
     number: 2,
@@ -105,7 +104,6 @@ const sdgGoals = <SdgGoal>[
         'benefit societies and humanity at large.',
     color: Color(0xFFEF402C),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-05.jpg',
-    isLearnOnly: true,
   ),
   SdgGoal(
     number: 6,
@@ -180,7 +178,6 @@ const sdgGoals = <SdgGoal>[
         'policies to empower lower income earners.',
     color: Color(0xFFE01483),
     iconUrl: 'https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-10.jpg',
-    isLearnOnly: true,
   ),
   SdgGoal(
     number: 11,

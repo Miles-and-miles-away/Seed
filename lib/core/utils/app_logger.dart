@@ -1,16 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-/// Centralized logger that suppresses output in release builds.
+/// Centralized logging that suppresses output in release builds.
 ///
 /// Wraps the `logger` package with kDebugMode gating so
 /// no log strings leak into production binaries.
-abstract final class AppLogger {
-  static final _logger = Logger(
-    printer: PrettyPrinter(methodCount: 0),
-    level: kDebugMode ? Level.debug : Level.off,
-  );
+final _logger = Logger(
+  printer: PrettyPrinter(methodCount: 0),
+  level: kDebugMode ? Level.debug : Level.off,
+);
 
+// ignore: avoid_classes_with_only_static_members
+/// Namespace for app-wide logging functions.
+abstract final class AppLogger {
   static void debug(String message) {
     if (kDebugMode) _logger.d(message);
   }
@@ -29,7 +31,11 @@ abstract final class AppLogger {
     StackTrace? stackTrace,
   }) {
     if (kDebugMode) {
-      _logger.e(message, error: error, stackTrace: stackTrace);
+      _logger.e(
+        message,
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 }

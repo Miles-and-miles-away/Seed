@@ -1,25 +1,35 @@
-import 'dart:math' as math;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/utils/helpers.dart';
 import '../../../../shared/services/streak_service.dart';
+import '../../../mascot/data/mascot_species_data.dart';
+import '../../../mascot/data/models/egg_model.dart';
+import '../../../mascot/data/models/mascot_model.dart';
+import '../../../mascot/data/services/egg_hatching_service.dart';
 import '../datasources/action_log_remote_datasource.dart';
 import '../models/action_log_model.dart';
 import '../models/action_model.dart';
+
+const _uuid = Uuid();
 
 /// Repository for logging actions and managing user statistics.
 class ActionLogRepository {
   ActionLogRepository({
     required this.dataSource,
     required this.firestore,
+    this.eggHatchingService = const EggHatchingService(),
   });
 
   final ActionLogRemoteDataSource dataSource;
   final FirebaseFirestore firestore;
+  final EggHatchingService eggHatchingService;
 
   /// Watches all action logs for the current user.
-  Stream<List<ActionLogModel>> watchUserActionLogs(String userId) =>
+  Stream<List<ActionLogModel>> watchUserActionLogs(
+    String userId,
+  ) =>
       dataSource.watchUserActionLogs(userId);
 
   /// Gets recent action logs for the home screen.
@@ -31,12 +41,8 @@ class ActionLogRepository {
 
   /// Logs an action and updates user statistics atomically.
   ///
-  /// This uses a Firestore transaction to:
-  /// 1. Create the action log document
-  /// 2. Update user points, level, and streak information
-  ///
-  /// Returns an [ActionLogResult] containing the logged action and
-  /// any streak milestone information.
+  /// Handles: global points/level, per-mascot leveling,
+  /// egg discovery flag, and egg hatching streak.
   Future<ActionLogResult> logAction({
     required String userId,
     required ActionModel action,
@@ -44,9 +50,11 @@ class ActionLogRepository {
     String? note,
   }) async {
     final now = DateTime.now();
-    final userRef =
-        firestore.collection(AppConstants.collectionUsers).doc(userId);
-    final actionLogRef = dataSource.getActionLogCollection(userId).doc();
+    final userRef = firestore
+        .collection(AppConstants.collectionUsers)
+        .doc(userId);
+    final actionLogRef =
+        dataSource.getActionLogCollection(userId).doc();
 
     final actionLog = ActionLogModel(
       id: actionLogRef.id,
@@ -62,74 +70,156 @@ class ActionLogRepository {
 
     int? crossedMilestoneWeek;
     var newCurrentStreak = 1;
+    String? hatchedMascotId;
 
     await firestore.runTransaction((transaction) async {
-      // Get current user data
       final userDoc = await transaction.get(userRef);
       final userData = userDoc.data() ?? {};
 
-      // Calculate new points and level
-      final currentPoints = (userData['points'] as int?) ?? 0;
+      // 1. Global points/level -- always update
+      final currentPoints =
+          (userData['points'] as int?) ?? 0;
       final newPoints = currentPoints + action.points;
-      final newLevel = _calculateLevel(newPoints);
+      final newLevel = calculateLevel(newPoints);
 
-      // Calculate streak using the StreakService for milestone detection
-      final lastActionDate = _parseDate(userData['lastActionDate']);
-      final currentStreak = (userData['currentStreak'] as int?) ?? 0;
-      final longestStreak = (userData['longestStreak'] as int?) ?? 0;
+      // 2. Streak calculation
+      final lastActionDate =
+          _parseDate(userData['lastActionDate']);
+      final currentStreak =
+          (userData['currentStreak'] as int?) ?? 0;
+      final longestStreak =
+          (userData['longestStreak'] as int?) ?? 0;
 
-      final streakResult = StreakService.instance.calculateStreakUpdate(
+      final streakResult =
+          StreakService.instance.calculateStreakUpdate(
         lastActionDate: lastActionDate,
         currentStreak: currentStreak,
         longestStreak: longestStreak,
         now: now,
       );
-
-      // Capture the milestone info for return value
-      crossedMilestoneWeek = streakResult.crossedMilestoneWeek;
+      crossedMilestoneWeek =
+          streakResult.crossedMilestoneWeek;
       newCurrentStreak = streakResult.currentStreak;
 
-      // Prepare action log data
-      final logData = actionLog.toJson()..remove('id'); // Don't store id
+      // Base update map
+      final updates = <String, dynamic>{
+        'points': newPoints,
+        'level': newLevel,
+        'currentStreak': streakResult.currentStreak,
+        'longestStreak': streakResult.longestStreak,
+        'lastActionDate': Timestamp.fromDate(now),
+      };
 
-      // Create action log document and update user document
+      // 3. Per-mascot leveling
+      final activeMascotId =
+          userData['activeMascotId'] as String?;
+      final mascotsRaw =
+          (userData['mascots'] as List<dynamic>?) ?? [];
+      final mascots = mascotsRaw
+          .map(
+            (e) => Map<String, dynamic>.from(e as Map),
+          )
+          .toList();
+
+      if (activeMascotId != null && mascots.isNotEmpty) {
+        final idx = mascots.indexWhere(
+          (m) => m['id'] == activeMascotId,
+        );
+        if (idx != -1) {
+          final isFullyEvolved =
+              (mascots[idx]['isFullyEvolved'] as bool?) ??
+                  false;
+
+          if (!isFullyEvolved) {
+            final oldMascotPts =
+                (mascots[idx]['mascotPoints'] as int?) ?? 0;
+            final newMascotPts =
+                oldMascotPts + action.points;
+            final newMascotLevel =
+                calculateLevel(newMascotPts);
+            final nowFullyEvolved = newMascotLevel >=
+                AppConstants.maxEvolutionLevel;
+
+            mascots[idx]['mascotPoints'] = newMascotPts;
+            mascots[idx]['mascotLevel'] = newMascotLevel;
+            mascots[idx]['isFullyEvolved'] =
+                nowFullyEvolved;
+            updates['mascots'] = mascots;
+
+            // 4. Egg pending discovery
+            if (nowFullyEvolved &&
+                userData['egg'] == null &&
+                !(userData['eggPendingDiscovery']
+                        as bool? ??
+                    false)) {
+              updates['eggPendingDiscovery'] = true;
+              updates['eggPendingDiscoverySince'] =
+                  Timestamp.fromDate(now);
+            }
+          }
+        }
+      }
+
+      // 5. Egg hatching streak
+      if (userData['egg'] != null) {
+        final eggMap = Map<String, dynamic>.from(
+          userData['egg'] as Map,
+        );
+        final egg = EggModel.fromJson(eggMap);
+        final eggResult = eggHatchingService
+            .calculateEggStreakUpdate(egg, now);
+
+        if (eggResult.shouldHatch) {
+          // Hatch the egg
+          final species =
+              eggHatchingService.selectHatchingSpecies(
+            mascots
+                .map(MascotModel.fromJson)
+                .toList(),
+            defaultMascotSpecies,
+          );
+          final newMascotId = _uuid.v4();
+          hatchedMascotId = newMascotId;
+
+          final newMascot = MascotModel(
+            id: newMascotId,
+            speciesId: species.id,
+            createdAt: now,
+          ).toJson();
+
+          // Ensure we have latest mascots list
+          final currentMascots =
+              updates.containsKey('mascots')
+                  ? updates['mascots'] as List
+                  : mascots;
+          updates['mascots'] = [
+            ...currentMascots,
+            newMascot,
+          ];
+          updates['egg'] = FieldValue.delete();
+        } else {
+          updates['egg'] = {
+            ...eggMap,
+            'hatchingStreakDays': eggResult.newStreakDays,
+            'lastHatchingActivityDate':
+                Timestamp.fromDate(now),
+          };
+        }
+      }
+
+      // Write action log + user updates
+      final logData = actionLog.toJson()..remove('id');
       transaction
         ..set(actionLogRef, logData)
-        ..update(userRef, {
-          'points': newPoints,
-          'level': newLevel,
-          'currentStreak': streakResult.currentStreak,
-          'longestStreak': streakResult.longestStreak,
-          'lastActionDate': Timestamp.fromDate(now),
-        });
+        ..update(userRef, updates);
     });
 
     return ActionLogResult(
       actionLog: actionLog,
       crossedMilestoneWeek: crossedMilestoneWeek,
       newStreakDays: newCurrentStreak,
+      hatchedMascotId: hatchedMascotId,
     );
-  }
-
-  /// Calculates the user's level based on total points.
-  ///
-  /// Uses the formula: level = floor(log(points/100 * (scaling-1) + 1) / log(scaling)) + 1
-  /// This creates a scaling progression where each level requires more points.
-  int _calculateLevel(int totalPoints) {
-    if (totalPoints < AppConstants.pointsPerLevel) {
-      return 1;
-    }
-
-    const scalingFactor = AppConstants.levelScalingFactor;
-    const basePoints = AppConstants.pointsPerLevel;
-
-    // Calculate level using logarithmic formula
-    // Points needed for level n: basePoints * (scalingFactor^(n-1) - 1) / (scalingFactor - 1)
-    // Solving for n: n = log((points * (scalingFactor - 1) / basePoints) + 1) / log(scalingFactor) + 1
-    final ratio = (totalPoints * (scalingFactor - 1) / basePoints) + 1;
-    final level = (math.log(ratio) / math.log(scalingFactor)).floor() + 1;
-
-    return math.max(1, level);
   }
 
   /// Parses a date from Firestore data.
@@ -142,25 +232,27 @@ class ActionLogRepository {
 }
 
 /// Result of logging an action.
-///
-/// Contains the logged action and any streak milestone information.
 class ActionLogResult {
   const ActionLogResult({
     required this.actionLog,
     required this.newStreakDays,
     this.crossedMilestoneWeek,
+    this.hatchedMascotId,
   });
 
-  /// The logged action.
   final ActionLogModel actionLog;
 
-  /// The week milestone that was crossed (if any).
-  /// Only set when the streak crosses a weekly milestone threshold (7, 14, 21, etc.).
+  /// Weekly milestone crossed (if any).
   final int? crossedMilestoneWeek;
 
   /// The new streak in days after logging.
   final int newStreakDays;
 
-  /// Whether a milestone celebration should be shown.
-  bool get shouldShowMilestone => crossedMilestoneWeek != null;
+  /// ID of newly hatched mascot (if egg hatched).
+  final String? hatchedMascotId;
+
+  bool get shouldShowMilestone =>
+      crossedMilestoneWeek != null;
+
+  bool get didHatchEgg => hatchedMascotId != null;
 }

@@ -6,18 +6,30 @@ part 'mascot_model.g.dart';
 
 /// Represents a user's mascot instance.
 ///
-/// This is stored as a nested object in the user's Firestore document.
-/// It contains the user's chosen species, custom name, and equipped items.
+/// Stored in the user's `mascots` array in Firestore.
+/// Each mascot has its own identity, progression, and evolution state.
 @freezed
 abstract class MascotModel with _$MascotModel {
   const factory MascotModel({
+    /// Unique mascot instance ID.
+    required String id,
+
     /// The species ID of the mascot (e.g., "seed").
     required String speciesId,
 
     /// The user-given name for the mascot.
     @Default('') String name,
 
-    /// List of equipped cosmetic item IDs (for Phase 4).
+    /// Points earned by this mascot for its evolution.
+    @Default(0) int mascotPoints,
+
+    /// Level computed from mascotPoints.
+    @Default(1) int mascotLevel,
+
+    /// Whether this mascot has reached max evolution (level >= 50).
+    @Default(false) bool isFullyEvolved,
+
+    /// List of equipped cosmetic item IDs.
     @Default([]) List<String> equippedItems,
 
     /// When this mascot was created.
@@ -32,11 +44,13 @@ abstract class MascotModel with _$MascotModel {
 }
 
 /// Converts Firestore Timestamp to/from DateTime for mascot model.
-class MascotTimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
+class MascotTimestampConverter
+    implements JsonConverter<DateTime?, Timestamp?> {
   const MascotTimestampConverter();
 
   @override
-  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
+  DateTime? fromJson(Timestamp? timestamp) =>
+      timestamp?.toDate();
 
   @override
   Timestamp? toJson(DateTime? date) =>

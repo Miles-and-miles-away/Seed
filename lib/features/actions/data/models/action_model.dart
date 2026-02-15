@@ -17,6 +17,9 @@ abstract class ActionModel with _$ActionModel {
     @Default('') String descriptionEn,
     @Default('') String descriptionJa,
     @Default('') String descriptionEs,
+    @Default('') String descriptionLongEn,
+    @Default('') String descriptionLongJa,
+    @Default('') String descriptionLongEs,
     @Default(0) int co2Grams,
     @Default('eco') String iconName,
     @Default([]) List<String> relatedSdgs,
@@ -55,6 +58,18 @@ extension ActionModelLocalization on ActionModel {
       'ja' => descriptionJa,
       'es' when descriptionEs.isNotEmpty => descriptionEs,
       _ => descriptionEn,
+    };
+  }
+
+  /// Returns the long scientific description in the
+  /// specified language.
+  String descriptionLong(String languageCode) {
+    return switch (languageCode) {
+      'ja' when descriptionLongJa.isNotEmpty =>
+        descriptionLongJa,
+      'es' when descriptionLongEs.isNotEmpty =>
+        descriptionLongEs,
+      _ => descriptionLongEn,
     };
   }
 }
