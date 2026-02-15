@@ -179,10 +179,7 @@ class ActionCard extends StatelessWidget {
 
   /// Builds a single SDG badge with the goal number and color.
   Widget _buildSdgBadge(int sdgNumber) {
-    final sdg = sdgGoals.firstWhere(
-      (g) => g.number == sdgNumber,
-      orElse: () => sdgGoals.first,
-    );
+    final sdg = sdgGoalMap[sdgNumber] ?? sdgGoals.first;
 
     return Container(
       width: 18,

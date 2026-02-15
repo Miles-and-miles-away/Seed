@@ -47,15 +47,16 @@ void main() async {
     // Register background message handler for FCM
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    // Initialize notification services
-    await NotificationService.instance.initialize(
-      onTap: _handleNotificationTap,
-    );
-
-    await FCMService.instance.initialize(
-      onForeground: _handleForegroundMessage,
-      onTap: _handleFCMMessageTap,
-    );
+    // Initialize notification services in parallel
+    await Future.wait([
+      NotificationService.instance.initialize(
+        onTap: _handleNotificationTap,
+      ),
+      FCMService.instance.initialize(
+        onForeground: _handleForegroundMessage,
+        onTap: _handleFCMMessageTap,
+      ),
+    ]);
 
     runApp(
       const ProviderScope(

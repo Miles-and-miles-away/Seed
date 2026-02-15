@@ -23,16 +23,16 @@ class ActionLibraryRemoteDataSourceImpl implements ActionLibraryRemoteDataSource
 
   @override
   Stream<List<ActionModel>> watchActions() {
-    // Note: Using only where() to avoid composite index requirement.
-    // Sorting is done client-side instead.
+    // Requires composite index: (isActive ASC, sortOrder ASC)
     return _collection
         .where('isActive', isEqualTo: true)
+        .orderBy('sortOrder')
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs.map(ActionModel.fromFirestore).toList()
-            // Sort client-side by sortOrder
-            ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-        });
+      return snapshot.docs
+          .map(ActionModel.fromFirestore)
+          .toList();
+    });
   }
 
   @override

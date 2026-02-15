@@ -572,6 +572,28 @@ difficulty tiers.
 | `h_high_impact_n` | Log {n} actions worth 20+ pts | n: 2, 3 |
 | **Total** | **~10 variants** | |
 
+#### Multi-Day Challenge Templates (future)
+
+Extended challenges that span multiple days. These reward
+sustained commitment rather than single-day effort.
+
+| ID | Template | Duration | Bonus |
+|----|----------|----------|-------|
+| `md_vegan_week` | Log vegan_day for 7 consecutive days | 7 days | +100 pts |
+| `md_veganuary` | Log vegan_day for 30 consecutive days | 30 days | +500 pts |
+| `md_zero_waste_week` | Log refuse_disposables + reusable actions daily for 7 days | 7 days | +75 pts |
+| `md_transport_week` | Log only non-car transport for 7 days | 7 days | +75 pts |
+| `md_streak_n` | Log any action for {n} consecutive days | n: 7, 14, 30 | +50, +100, +250 pts |
+
+These require a streak-tracking mechanism. The daily
+challenge engine tracks single-day completion; multi-day
+challenges need a separate streak counter that persists
+across days and resets on a missed day.
+
+Note: Veganuary (30-day plant-based challenge) is the
+flagship multi-day challenge -- a well-known real-world
+campaign that fits naturally into the app's habit system.
+
 #### Template Data Structure
 
 ```dart

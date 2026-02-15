@@ -20,7 +20,7 @@ class SdgImpactCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final statsAsync = ref.watch(
+    final stats = ref.watch(
       sdgStatsProvider(goalNumber),
     );
 
@@ -47,51 +47,42 @@ class SdgImpactCard extends ConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 l10n.sdgYourImpact,
-                style: theme.textTheme.titleMedium?.copyWith(
+                style:
+                    theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          statsAsync.when(
-            data: (stats) => Row(
-              children: [
-                Expanded(
-                  child: _StatTile(
-                    icon: Icons.check_circle_outline,
-                    value: stats.actionsLogged.toString(),
-                    label: l10n.sdgActionsLogged(
-                      stats.actionsLogged,
-                    ),
-                    color: goalColor,
+          Row(
+            children: [
+              Expanded(
+                child: _StatTile(
+                  icon: Icons.check_circle_outline,
+                  value: stats.actionsLogged.toString(),
+                  label: l10n.sdgActionsLogged(
+                    stats.actionsLogged,
                   ),
+                  color: goalColor,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _StatTile(
-                    icon: Icons.eco,
-                    value: formatCO2Compact(stats.co2SavedGrams),
-                    label: l10n.sdgCo2SavedForGoal(
-                      formatCO2Compact(stats.co2SavedGrams),
-                    ),
-                    color: goalColor,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _StatTile(
+                  icon: Icons.eco,
+                  value: formatCO2Compact(
+                    stats.co2SavedGrams,
                   ),
+                  label: l10n.sdgCo2SavedForGoal(
+                    formatCO2Compact(
+                      stats.co2SavedGrams,
+                    ),
+                  ),
+                  color: goalColor,
                 ),
-              ],
-            ),
-            loading: () => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
               ),
-            ),
-            error: (_, __) => Text(
-              l10n.sdgNoActionsYet,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+            ],
           ),
         ],
       ),

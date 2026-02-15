@@ -39,10 +39,8 @@ class _SdgDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final goal = sdgGoals.firstWhere(
-      (g) => g.number == widget.goalNumber,
-      orElse: () => sdgGoals.first,
-    );
+    final goal =
+        sdgGoalMap[widget.goalNumber] ?? sdgGoals.first;
     final currentUser =
         ref.watch(currentUserProvider).asData?.value;
     final languageCode = currentUser?.language ?? 'en';
@@ -304,12 +302,10 @@ class _SdgDetailScreenState
         goal.number == AppConstants.sdgMaxGoal
             ? AppConstants.sdgMinGoal
             : goal.number + 1;
-    final prevGoal = sdgGoals.firstWhere(
-      (g) => g.number == prevNumber,
-    );
-    final nextGoal = sdgGoals.firstWhere(
-      (g) => g.number == nextNumber,
-    );
+    final prevGoal =
+        sdgGoalMap[prevNumber] ?? sdgGoals.first;
+    final nextGoal =
+        sdgGoalMap[nextNumber] ?? sdgGoals.first;
 
     return Row(
       mainAxisAlignment:

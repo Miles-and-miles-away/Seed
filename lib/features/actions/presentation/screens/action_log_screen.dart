@@ -22,12 +22,12 @@ class ActionLogScreen extends ConsumerStatefulWidget {
 
 class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   final _searchController = TextEditingController();
+  final _showClear = ValueNotifier(false);
   Timer? _debounceTimer;
 
   @override
   void initState() {
     super.initState();
-    // Listen to controller for clear button visibility
     _searchController.addListener(_onSearchChanged);
   }
 
@@ -37,20 +37,23 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     _searchController
       ..removeListener(_onSearchChanged)
       ..dispose();
+    _showClear.dispose();
     super.dispose();
   }
 
   void _onSearchChanged() {
-    // Trigger rebuild for clear button visibility
-    setState(() {});
+    _showClear.value =
+        _searchController.text.isNotEmpty;
 
-    // Debounce the actual search query update
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      ref.read(actionSearchQueryProvider.notifier).setQuery(
-            _searchController.text,
-          );
-    });
+    _debounceTimer = Timer(
+      const Duration(milliseconds: 300),
+      () {
+        ref
+            .read(actionSearchQueryProvider.notifier)
+            .setQuery(_searchController.text);
+      },
+    );
   }
 
   @override
@@ -68,31 +71,40 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           preferredSize: const Size.fromHeight(56),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: l10n.actionSearchHint,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          // Immediately update query without debounce
-                          _debounceTimer?.cancel();
-                          ref.read(actionSearchQueryProvider.notifier).clear();
-                        },
-                      )
-                    : null,
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(28),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+            child: ValueListenableBuilder<bool>(
+              valueListenable: _showClear,
+              builder: (context, show, _) => TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: l10n.actionSearchHint,
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: show
+                      ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                            _debounceTimer?.cancel();
+                            ref
+                                .read(
+                                  actionSearchQueryProvider
+                                      .notifier,
+                                )
+                                .clear();
+                          },
+                        )
+                      : null,
+                  filled: true,
+                  fillColor: theme
+                      .colorScheme.surfaceContainerHighest,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(28),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                 ),
               ),
             ),

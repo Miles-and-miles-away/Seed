@@ -11,27 +11,49 @@ import '../features/settings/settings.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
 
-class SeedApp extends ConsumerWidget {
+class SeedApp extends ConsumerStatefulWidget {
   const SeedApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SeedApp> createState() => _SeedAppState();
+}
+
+class _SeedAppState extends ConsumerState<SeedApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Sync analytics toggle only on change
+    ref.listenManual(
+      analyticsEnabledProvider,
+      (_, on) {
+        AnalyticsService.instance
+            .setEnabled(enabled: on);
+        FirebaseAnalytics.instance
+            .setAnalyticsCollectionEnabled(on);
+        FirebaseCrashlytics.instance
+            .setCrashlyticsCollectionEnabled(on);
+      },
+      fireImmediately: true,
+    );
+
+    // Sync Crashlytics user ID only on auth change
+    ref.listenManual(
+      authStateChangesProvider,
+      (_, next) {
+        next.whenData((user) {
+          FirebaseCrashlytics.instance
+              .setUserIdentifier(user?.uid ?? '');
+        });
+      },
+      fireImmediately: true,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     final appLocale = ref.watch(appLocaleProvider);
-
-    // Sync analytics opt-out when setting loads from Firestore
-    final analyticsOn = ref.watch(analyticsEnabledProvider);
-    AnalyticsService.instance.setEnabled(enabled: analyticsOn);
-    FirebaseAnalytics.instance
-        .setAnalyticsCollectionEnabled(analyticsOn);
-    FirebaseCrashlytics.instance
-        .setCrashlyticsCollectionEnabled(analyticsOn);
-
-    // Sync Crashlytics user identifier with auth state
-    ref.watch(authStateChangesProvider).whenData((user) {
-      FirebaseCrashlytics.instance
-          .setUserIdentifier(user?.uid ?? '');
-    });
 
     return MaterialApp.router(
       title: 'Seed',
