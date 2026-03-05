@@ -26,8 +26,7 @@ void main() {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales:
-          AppLocalizations.supportedLocales,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: SingleChildScrollView(
           child: SdgTargetsSection(
@@ -99,8 +98,7 @@ void main() {
         await tester.pump();
 
         // AnimatedCrossFade should show first child
-        final crossFade =
-            tester.widget<AnimatedCrossFade>(
+        final crossFade = tester.widget<AnimatedCrossFade>(
           find.byType(AnimatedCrossFade),
         );
         expect(
@@ -188,8 +186,7 @@ void main() {
           find.text('About this Goal'),
         );
         await tester.pumpAndSettle();
-        final expanded =
-            tester.widget<AnimatedCrossFade>(
+        final expanded = tester.widget<AnimatedCrossFade>(
           find.byType(AnimatedCrossFade),
         );
         expect(
@@ -202,8 +199,7 @@ void main() {
           find.text('About this Goal'),
         );
         await tester.pumpAndSettle();
-        final collapsed =
-            tester.widget<AnimatedCrossFade>(
+        final collapsed = tester.widget<AnimatedCrossFade>(
           find.byType(AnimatedCrossFade),
         );
         expect(

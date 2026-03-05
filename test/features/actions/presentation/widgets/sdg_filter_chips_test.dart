@@ -17,8 +17,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales:
-              AppLocalizations.supportedLocales,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: SdgFilterChips(),
           ),
@@ -36,7 +35,6 @@ void main() {
         finder,
         -200,
         scrollable: find.byType(Scrollable),
-        maxScrolls: 50,
       );
       await tester.ensureVisible(finder);
       await tester.pumpAndSettle();
@@ -99,8 +97,7 @@ void main() {
         );
         expect(allChipFinder, findsOneWidget);
 
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isTrue);
       },
     );
@@ -165,8 +162,7 @@ void main() {
           of: find.text('All'),
           matching: find.byType(FilterChip),
         );
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isFalse);
 
         // Scroll back to No Poverty - should be selected
@@ -178,8 +174,7 @@ void main() {
           of: find.text('No Poverty'),
           matching: find.byType(FilterChip),
         );
-        final sdgChip =
-            tester.widget<FilterChip>(sdgChipFinder);
+        final sdgChip = tester.widget<FilterChip>(sdgChipFinder);
         expect(sdgChip.selected, isTrue);
       },
     );
@@ -260,8 +255,7 @@ void main() {
           of: find.text('All'),
           matching: find.byType(FilterChip),
         );
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isTrue);
       },
     );
@@ -293,8 +287,7 @@ void main() {
           of: find.text('All'),
           matching: find.byType(FilterChip),
         );
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isTrue);
       },
     );

@@ -71,13 +71,11 @@ abstract class AppUserModel with _$AppUserModel {
 }
 
 /// Converts Firestore Timestamp to/from DateTime.
-class TimestampConverter
-    implements JsonConverter<DateTime?, Timestamp?> {
+class TimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
   const TimestampConverter();
 
   @override
-  DateTime? fromJson(Timestamp? timestamp) =>
-      timestamp?.toDate();
+  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
 
   @override
   Timestamp? toJson(DateTime? date) =>

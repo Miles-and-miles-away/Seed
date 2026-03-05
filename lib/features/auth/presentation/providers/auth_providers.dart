@@ -181,8 +181,7 @@ class AuthNotifier extends _$AuthNotifier {
       await ref.read(authRepositoryProvider).signOut();
       await AnalyticsService.instance.logLogout();
       await AnalyticsService.instance.setUserId(null);
-      await FirebaseCrashlytics.instance
-          .setUserIdentifier('');
+      await FirebaseCrashlytics.instance.setUserIdentifier('');
     });
     if (!ref.mounted) return;
     state = result;

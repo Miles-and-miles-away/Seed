@@ -50,11 +50,9 @@ class ActionLogRepository {
     String? note,
   }) async {
     final now = DateTime.now();
-    final userRef = firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(userId);
-    final actionLogRef =
-        dataSource.getActionLogCollection(userId).doc();
+    final userRef =
+        firestore.collection(AppConstants.collectionUsers).doc(userId);
+    final actionLogRef = dataSource.getActionLogCollection(userId).doc();
 
     final actionLog = ActionLogModel(
       id: actionLogRef.id,
@@ -77,50 +75,35 @@ class ActionLogRepository {
       final userData = userDoc.data() ?? {};
 
       // 1. Global points/level -- always update
-      final currentPoints =
-          (userData['points'] as int?) ?? 0;
+      final currentPoints = (userData['points'] as int?) ?? 0;
       final newPoints = currentPoints + action.points;
       final newLevel = calculateLevel(newPoints);
 
       // 2. Streak calculation
-      final lastActionDate =
-          _parseDate(userData['lastActionDate']);
-      final currentStreak =
-          (userData['currentStreak'] as int?) ?? 0;
-      final longestStreak =
-          (userData['longestStreak'] as int?) ?? 0;
+      final lastActionDate = _parseDate(userData['lastActionDate']);
+      final currentStreak = (userData['currentStreak'] as int?) ?? 0;
+      final longestStreak = (userData['longestStreak'] as int?) ?? 0;
 
-      final streakResult =
-          StreakService.instance.calculateStreakUpdate(
+      final streakResult = StreakService.instance.calculateStreakUpdate(
         lastActionDate: lastActionDate,
         currentStreak: currentStreak,
         longestStreak: longestStreak,
         now: now,
       );
-      crossedMilestoneWeek =
-          streakResult.crossedMilestoneWeek;
+      crossedMilestoneWeek = streakResult.crossedMilestoneWeek;
       newCurrentStreak = streakResult.currentStreak;
 
       // 2b. Denormalized aggregate counters
-      final currentCo2 =
-          (userData['totalCo2Grams'] as int?) ?? 0;
-      final currentActionCount =
-          (userData['totalActionsCount'] as int?) ?? 0;
+      final currentCo2 = (userData['totalCo2Grams'] as int?) ?? 0;
+      final currentActionCount = (userData['totalActionsCount'] as int?) ?? 0;
 
       // Per-SDG stats
-      final sdgStatsRaw = (userData['sdgStats']
-              as Map<String, dynamic>?) ??
-          {};
-      final updatedSdgStats =
-          Map<String, dynamic>.from(sdgStatsRaw);
+      final sdgStatsRaw = (userData['sdgStats'] as Map<String, dynamic>?) ?? {};
+      final updatedSdgStats = Map<String, dynamic>.from(sdgStatsRaw);
       for (final sdg in action.relatedSdgs) {
-        final existing = (updatedSdgStats[sdg]
-                as Map<String, dynamic>?) ??
-            {};
-        final oldCount =
-            (existing['count'] as int?) ?? 0;
-        final oldCo2 =
-            (existing['co2'] as int?) ?? 0;
+        final existing = (updatedSdgStats[sdg] as Map<String, dynamic>?) ?? {};
+        final oldCount = (existing['count'] as int?) ?? 0;
+        final oldCo2 = (existing['co2'] as int?) ?? 0;
         updatedSdgStats[sdg] = {
           'count': oldCount + 1,
           'co2': oldCo2 + action.co2Grams,
@@ -140,10 +123,8 @@ class ActionLogRepository {
       };
 
       // 3. Per-mascot leveling
-      final activeMascotId =
-          userData['activeMascotId'] as String?;
-      final mascotsRaw =
-          (userData['mascots'] as List<dynamic>?) ?? [];
+      final activeMascotId = userData['activeMascotId'] as String?;
+      final mascotsRaw = (userData['mascots'] as List<dynamic>?) ?? [];
       final mascots = mascotsRaw
           .map(
             (e) => Map<String, dynamic>.from(e as Map),
@@ -156,34 +137,26 @@ class ActionLogRepository {
         );
         if (idx != -1) {
           final isFullyEvolved =
-              (mascots[idx]['isFullyEvolved'] as bool?) ??
-                  false;
+              (mascots[idx]['isFullyEvolved'] as bool?) ?? false;
 
           if (!isFullyEvolved) {
-            final oldMascotPts =
-                (mascots[idx]['mascotPoints'] as int?) ?? 0;
-            final newMascotPts =
-                oldMascotPts + action.points;
-            final newMascotLevel =
-                calculateLevel(newMascotPts);
-            final nowFullyEvolved = newMascotLevel >=
-                AppConstants.maxEvolutionLevel;
+            final oldMascotPts = (mascots[idx]['mascotPoints'] as int?) ?? 0;
+            final newMascotPts = oldMascotPts + action.points;
+            final newMascotLevel = calculateLevel(newMascotPts);
+            final nowFullyEvolved =
+                newMascotLevel >= AppConstants.maxEvolutionLevel;
 
             mascots[idx]['mascotPoints'] = newMascotPts;
             mascots[idx]['mascotLevel'] = newMascotLevel;
-            mascots[idx]['isFullyEvolved'] =
-                nowFullyEvolved;
+            mascots[idx]['isFullyEvolved'] = nowFullyEvolved;
             updates['mascots'] = mascots;
 
             // 4. Egg pending discovery
             if (nowFullyEvolved &&
                 userData['egg'] == null &&
-                !(userData['eggPendingDiscovery']
-                        as bool? ??
-                    false)) {
+                !(userData['eggPendingDiscovery'] as bool? ?? false)) {
               updates['eggPendingDiscovery'] = true;
-              updates['eggPendingDiscoverySince'] =
-                  Timestamp.fromDate(now);
+              updates['eggPendingDiscoverySince'] = Timestamp.fromDate(now);
             }
           }
         }
@@ -195,16 +168,12 @@ class ActionLogRepository {
           userData['egg'] as Map,
         );
         final egg = EggModel.fromJson(eggMap);
-        final eggResult = eggHatchingService
-            .calculateEggStreakUpdate(egg, now);
+        final eggResult = eggHatchingService.calculateEggStreakUpdate(egg, now);
 
         if (eggResult.shouldHatch) {
           // Hatch the egg
-          final species =
-              eggHatchingService.selectHatchingSpecies(
-            mascots
-                .map(MascotModel.fromJson)
-                .toList(),
+          final species = eggHatchingService.selectHatchingSpecies(
+            mascots.map(MascotModel.fromJson).toList(),
             defaultMascotSpecies,
           );
           final newMascotId = _uuid.v4();
@@ -217,10 +186,9 @@ class ActionLogRepository {
           ).toJson();
 
           // Ensure we have latest mascots list
-          final currentMascots =
-              updates.containsKey('mascots')
-                  ? updates['mascots'] as List
-                  : mascots;
+          final currentMascots = updates.containsKey('mascots')
+              ? updates['mascots'] as List
+              : mascots;
           updates['mascots'] = [
             ...currentMascots,
             newMascot,
@@ -230,8 +198,7 @@ class ActionLogRepository {
           updates['egg'] = {
             ...eggMap,
             'hatchingStreakDays': eggResult.newStreakDays,
-            'lastHatchingActivityDate':
-                Timestamp.fromDate(now),
+            'lastHatchingActivityDate': Timestamp.fromDate(now),
           };
         }
       }
@@ -280,8 +247,7 @@ class ActionLogResult {
   /// ID of newly hatched mascot (if egg hatched).
   final String? hatchedMascotId;
 
-  bool get shouldShowMilestone =>
-      crossedMilestoneWeek != null;
+  bool get shouldShowMilestone => crossedMilestoneWeek != null;
 
   bool get didHatchEgg => hatchedMascotId != null;
 }

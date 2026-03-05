@@ -17,8 +17,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales:
-              AppLocalizations.supportedLocales,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: ActionSortDropdown(),
           ),

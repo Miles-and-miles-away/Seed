@@ -178,8 +178,7 @@ class SettingsNotifier extends _$SettingsNotifier {
       await ref
           .read(settingsRepositoryProvider)
           .setAnalyticsEnabled(uid, enabled: enabled);
-      await FirebaseAnalytics.instance
-          .setAnalyticsCollectionEnabled(enabled);
+      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
       await FirebaseCrashlytics.instance
           .setCrashlyticsCollectionEnabled(enabled);
       AnalyticsService.instance.setEnabled(enabled: enabled);
@@ -247,7 +246,9 @@ class SettingsNotifier extends _$SettingsNotifier {
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      await ref.read(settingsRepositoryProvider).removeReminder(uid, scheduleId);
+      await ref
+          .read(settingsRepositoryProvider)
+          .removeReminder(uid, scheduleId);
     });
     if (!ref.mounted) return;
     state = result;
@@ -269,7 +270,8 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   /// Toggles a specific reminder on/off.
-  Future<void> toggleReminder(String scheduleId, {required bool enabled}) async {
+  Future<void> toggleReminder(String scheduleId,
+      {required bool enabled}) async {
     final uid = _currentUserId;
     if (uid == null) return;
 

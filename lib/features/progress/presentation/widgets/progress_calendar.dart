@@ -17,7 +17,8 @@ class ProgressCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final calendarDataAsync = ref.watch(monthCalendarDataProvider);
-    final canGoNext = ref.watch(selectedMonthProvider.notifier).canGoToNextMonth;
+    final canGoNext =
+        ref.watch(selectedMonthProvider.notifier).canGoToNextMonth;
 
     return Column(
       children: [
@@ -80,16 +81,12 @@ class ProgressCalendar extends ConsumerWidget {
 
   Widget _buildWeekdayLabels(BuildContext context) {
     final theme = Theme.of(context);
-    final locale =
-        Localizations.localeOf(context).toString();
+    final locale = Localizations.localeOf(context).toString();
     // Generate Sun..Sat labels using intl
     final weekdays = List.generate(7, (i) {
       // Jan 5, 2025 is a Sunday
       final date = DateTime(2025, 1, 5 + i);
-      return DateFormat.E(locale)
-          .format(date)
-          .substring(0, 1)
-          .toUpperCase();
+      return DateFormat.E(locale).format(date).substring(0, 1).toUpperCase();
     });
 
     return Row(

@@ -18,8 +18,7 @@ class MascotScreen extends ConsumerStatefulWidget {
   const MascotScreen({super.key});
 
   @override
-  ConsumerState<MascotScreen> createState() =>
-      _MascotScreenState();
+  ConsumerState<MascotScreen> createState() => _MascotScreenState();
 }
 
 class _MascotScreenState extends ConsumerState<MascotScreen> {
@@ -37,20 +36,14 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final locale =
-        Localizations.localeOf(context).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
 
-    final mascot =
-        ref.watch(activeMascotProvider).value;
+    final mascot = ref.watch(activeMascotProvider).value;
     final species = ref.watch(activeSpeciesProvider);
-    final currentStage =
-        ref.watch(activeMascotStageProvider);
-    final stageName =
-        ref.watch(stageLocalizedNameProvider(locale));
-    final nextStageData =
-        ref.watch(activeNextStageDataProvider);
-    final allMascots =
-        ref.watch(allMascotsProvider).value ?? [];
+    final currentStage = ref.watch(activeMascotStageProvider);
+    final stageName = ref.watch(stageLocalizedNameProvider(locale));
+    final nextStageData = ref.watch(activeNextStageDataProvider);
+    final allMascots = ref.watch(allMascotsProvider).value ?? [];
     final hasEgg = ref.watch(hasEggProvider);
 
     if (mascot == null || species == null) {
@@ -93,8 +86,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                         ),
                         const SizedBox(height: 8),
                         _buildStageBadge(
-                          stageName ??
-                              'Stage $currentStage',
+                          stageName ?? 'Stage $currentStage',
                           mascot.mascotLevel,
                           colorScheme,
                           l10n,
@@ -119,8 +111,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                   // Evolution Timeline
                   Text(
                     l10n.mascotEvolutionTimeline,
-                    style:
-                        theme.textTheme.titleLarge?.copyWith(
+                    style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -138,8 +129,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                   if (nextStageData != null) ...[
                     Text(
                       l10n.mascotNextEvolution,
-                      style: theme.textTheme.titleLarge
-                          ?.copyWith(
+                      style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -190,8 +180,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: mascots.length + (hasEgg ? 1 : 0),
-          separatorBuilder: (_, __) =>
-              const SizedBox(width: 12),
+          separatorBuilder: (_, __) => const SizedBox(width: 12),
           itemBuilder: (context, index) {
             if (index < mascots.length) {
               final m = mascots[index];
@@ -218,17 +207,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     String locale,
     ColorScheme colorScheme,
   ) {
-    final species =
-        _getSpeciesForMascot(mascot.speciesId);
+    final species = _getSpeciesForMascot(mascot.speciesId);
     if (species == null) return const SizedBox.shrink();
 
-    final stage =
-        species.getStageForLevel(mascot.mascotLevel);
+    final stage = species.getStageForLevel(mascot.mascotLevel);
 
     return GestureDetector(
-      onTap: isActive
-          ? null
-          : () => _showSwitchConfirmation(mascot),
+      onTap: isActive ? null : () => _showSwitchConfirmation(mascot),
       child: Container(
         width: 80,
         padding: const EdgeInsets.all(6),
@@ -254,27 +239,17 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              mascot.name.isEmpty
-                  ? species.getName(locale)
-                  : mascot.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(
-                    fontWeight:
-                        isActive ? FontWeight.bold : null,
+              mascot.name.isEmpty ? species.getName(locale) : mascot.name,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: isActive ? FontWeight.bold : null,
                   ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
             Text(
-              AppLocalizations.of(context)
-                  .mascotLevelShort(mascot.mascotLevel),
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(
+              AppLocalizations.of(context).mascotLevelShort(mascot.mascotLevel),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontSize: 10,
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -306,9 +281,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              ref
-                  .read(mascotProvider.notifier)
-                  .switchActiveMascot(target.id);
+              ref.read(mascotProvider.notifier).switchActiveMascot(target.id);
             },
             child: Text(l10n.switchMascotButton),
           ),
@@ -395,8 +368,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   }
 
   void _startRename() {
-    final mascot =
-        ref.read(activeMascotProvider).value;
+    final mascot = ref.read(activeMascotProvider).value;
     _renameController.text = mascot?.name ?? '';
     setState(() => _isRenaming = true);
   }
@@ -407,15 +379,11 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
 
   Future<void> _submitRename() async {
     final newName = _renameController.text.trim();
-    if (newName.isEmpty ||
-        newName.length < 2 ||
-        newName.length > 20) {
+    if (newName.isEmpty || newName.length < 2 || newName.length > 20) {
       return;
     }
 
-    await ref
-        .read(mascotProvider.notifier)
-        .renameMascot(newName);
+    await ref.read(mascotProvider.notifier).renameMascot(newName);
     if (mounted) setState(() => _isRenaming = false);
   }
 
@@ -451,8 +419,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           Text(
             '$stageName'
             ' - ${l10n.levelLabel(mascotLevel)}',
-            style:
-                Theme.of(context).textTheme.labelLarge?.copyWith(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: colorScheme.onPrimaryContainer,
                   fontWeight: FontWeight.w600,
                 ),
@@ -473,17 +440,14 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     return SizedBox(
       height: 140,
       child: Row(
-        children:
-            List.generate(stages.length * 2 - 1, (index) {
+        children: List.generate(stages.length * 2 - 1, (index) {
           if (index.isOdd) {
             final stageIndex = index ~/ 2;
-            final isUnlocked =
-                currentStage > stageIndex + 1;
+            final isUnlocked = currentStage > stageIndex + 1;
             return Expanded(
               child: Container(
                 height: 4,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 4),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   color: isUnlocked
                       ? colorScheme.primary
@@ -496,13 +460,11 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
 
           final stageIndex = index ~/ 2;
           final stage = stages[stageIndex];
-          final isCurrentStage =
-              currentStage == stageIndex + 1;
+          final isCurrentStage = currentStage == stageIndex + 1;
           final isUnlocked = currentStage >= stageIndex + 1;
           final stageName = switch (locale) {
             'ja' => stage.nameJa,
-            'es' when stage.nameEs.isNotEmpty =>
-              stage.nameEs,
+            'es' when stage.nameEs.isNotEmpty => stage.nameEs,
             _ => stage.nameEn,
           };
 
@@ -535,8 +497,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             ? colorScheme.primaryContainer
             : isUnlocked
                 ? colorScheme.surfaceContainerLow
-                : colorScheme.surfaceContainerHighest
-                    .withValues(alpha: 0.5),
+                : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
         border: isCurrentStage
             ? Border.all(
@@ -552,46 +513,50 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             child: isUnlocked
                 ? SvgPicture.asset(stage.assetPath)
                 : ColorFiltered(
-                    colorFilter:
-                        const ColorFilter.matrix(<double>[
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0, 0, 0, 0.4, 0,
+                    colorFilter: const ColorFilter.matrix(<double>[
+                      0.2126,
+                      0.7152,
+                      0.0722,
+                      0,
+                      0,
+                      0.2126,
+                      0.7152,
+                      0.0722,
+                      0,
+                      0,
+                      0.2126,
+                      0.7152,
+                      0.0722,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0.4,
+                      0,
                     ]),
-                    child:
-                        SvgPicture.asset(stage.assetPath),
+                    child: SvgPicture.asset(stage.assetPath),
                   ),
           ),
           const SizedBox(height: 4),
           Text(
             stageName,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: isUnlocked
                       ? colorScheme.onSurface
-                      : colorScheme.onSurface
-                          .withValues(alpha: 0.5),
-                  fontWeight:
-                      isCurrentStage ? FontWeight.bold : null,
+                      : colorScheme.onSurface.withValues(alpha: 0.5),
+                  fontWeight: isCurrentStage ? FontWeight.bold : null,
                 ),
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            AppLocalizations.of(context)
-                .mascotLevelShort(stage.level),
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(
+            AppLocalizations.of(context).mascotLevelShort(stage.level),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: isUnlocked
                       ? colorScheme.primary
-                      : colorScheme.onSurface
-                          .withValues(alpha: 0.4),
+                      : colorScheme.onSurface.withValues(alpha: 0.4),
                   fontSize: 10,
                 ),
           ),
@@ -625,8 +590,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     final l10n = AppLocalizations.of(context);
     final stageName = switch (locale) {
       'ja' => nextStage.nameJa,
-      'es' when nextStage.nameEs.isNotEmpty =>
-        nextStage.nameEs,
+      'es' when nextStage.nameEs.isNotEmpty => nextStage.nameEs,
       _ => nextStage.nameEn,
     };
     final levelsNeeded = nextStage.level - mascotLevel;
@@ -639,10 +603,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            colorScheme.primaryContainer
-                .withValues(alpha: 0.5),
-            colorScheme.secondaryContainer
-                .withValues(alpha: 0.5),
+            colorScheme.primaryContainer.withValues(alpha: 0.5),
+            colorScheme.secondaryContainer.withValues(alpha: 0.5),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
@@ -661,12 +623,27 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: ColorFiltered(
-              colorFilter:
-                  const ColorFilter.matrix(<double>[
-                1, 0, 0, 0, 0,
-                0, 1, 0, 0, 0,
-                0, 0, 1, 0, 0,
-                0, 0, 0, 0.6, 0,
+              colorFilter: const ColorFilter.matrix(<double>[
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0.6,
+                0,
               ]),
               child: SvgPicture.asset(
                 nextStage.assetPath,
@@ -680,16 +657,14 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               children: [
                 Text(
                   stageName,
-                  style:
-                      theme.textTheme.titleMedium?.copyWith(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.mascotLevelsToGo(levelsNeeded),
-                  style:
-                      theme.textTheme.bodyMedium?.copyWith(
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -699,8 +674,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                   child: LinearProgressIndicator(
                     value: progress.clamp(0.0, 1.0),
                     minHeight: 8,
-                    backgroundColor:
-                        colorScheme.surfaceContainerHighest,
+                    backgroundColor: colorScheme.surfaceContainerHighest,
                     valueColor: AlwaysStoppedAnimation(
                       colorScheme.primary,
                     ),
@@ -712,8 +686,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     mascotLevel,
                     nextStage.level,
                   ),
-                  style:
-                      theme.textTheme.labelSmall?.copyWith(
+                  style: theme.textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -744,8 +717,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD700)
-                .withValues(alpha: 0.3),
+            color: const Color(0xFFFFD700).withValues(alpha: 0.3),
             blurRadius: 16,
             spreadRadius: 2,
           ),
@@ -772,21 +744,16 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               children: [
                 Text(
                   l10n.maxEvolutionTitle,
-                  style:
-                      theme.textTheme.titleMedium?.copyWith(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  hasEgg
-                      ? l10n.maxEvolutionEggHint
-                      : l10n.maxEvolutionSubtitle,
-                  style:
-                      theme.textTheme.bodyMedium?.copyWith(
-                    color:
-                        Colors.white.withValues(alpha: 0.9),
+                  hasEgg ? l10n.maxEvolutionEggHint : l10n.maxEvolutionSubtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
               ],

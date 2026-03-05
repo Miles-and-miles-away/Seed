@@ -74,8 +74,10 @@ void main() {
           currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
           needsDailyTargetSetupProvider.overrideWithValue(needsSetup),
           dailyGoalTargetProvider.overrideWithValue(testUser.dailyGoalTarget),
-          todaySummaryProvider.overrideWith((ref) => Stream.value(todaySummary)),
-          selectedMonthProvider.overrideWith(() => TestSelectedMonth(testMonth)),
+          todaySummaryProvider
+              .overrideWith((ref) => Stream.value(todaySummary)),
+          selectedMonthProvider
+              .overrideWith(() => TestSelectedMonth(testMonth)),
           monthCalendarDataProvider.overrideWith((ref) async => calendarData),
         ],
         child: const MaterialApp(
@@ -222,21 +224,24 @@ void main() {
         overrides: [
           firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
           firestoreProvider.overrideWithValue(fakeFirestore),
-          currentUserProvider.overrideWith((ref) => Stream.value(
-                const AppUserModel(
-                  uid: 'test-uid',
-                  email: 'test@example.com',
-                  dailyGoalTarget: 5,
-                ),
+          currentUserProvider.overrideWith(
+            (ref) => Stream.value(
+              const AppUserModel(
+                uid: 'test-uid',
+                email: 'test@example.com',
+                dailyGoalTarget: 5,
               ),
             ),
+          ),
           // ignore: avoid_redundant_argument_values
           needsDailyTargetSetupProvider.overrideWithValue(false),
           dailyGoalTargetProvider.overrideWithValue(5),
           // Use stream that hasn't emitted yet (loading state)
           todaySummaryProvider.overrideWith((ref) => summaryController.stream),
-          selectedMonthProvider.overrideWith(() => TestSelectedMonth(DateTime(now.year, now.month))),
-          monthCalendarDataProvider.overrideWith((ref) async => <CalendarDayData>[]),
+          selectedMonthProvider.overrideWith(
+              () => TestSelectedMonth(DateTime(now.year, now.month))),
+          monthCalendarDataProvider
+              .overrideWith((ref) async => <CalendarDayData>[]),
         ],
         child: const MaterialApp(
           localizationsDelegates: [
@@ -305,8 +310,10 @@ void main() {
               ),
             ),
           ),
-          selectedMonthProvider.overrideWith(() => TestSelectedMonth(DateTime(now.year, now.month))),
-          monthCalendarDataProvider.overrideWith((ref) async => <CalendarDayData>[]),
+          selectedMonthProvider.overrideWith(
+              () => TestSelectedMonth(DateTime(now.year, now.month))),
+          monthCalendarDataProvider
+              .overrideWith((ref) async => <CalendarDayData>[]),
         ],
         child: const MaterialApp(
           localizationsDelegates: [

@@ -58,8 +58,7 @@ double calculateLevelProgress(int totalPoints) {
 double calculateStreakBonus(int streakDays) {
   if (streakDays <= 0) return 1;
 
-  final bonus =
-      1.0 + (streakDays * AppConstants.streakBonusPerDay);
+  final bonus = 1.0 + (streakDays * AppConstants.streakBonusPerDay);
   return min(bonus, AppConstants.maxStreakBonus);
 }
 

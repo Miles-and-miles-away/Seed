@@ -19,9 +19,8 @@ class MascotMigrationService {
   /// Checks and migrates user if they have old `mascot` field
   /// but no `mascots` array.
   Future<void> migrateIfNeeded(String userId) async {
-    final userRef = _firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(userId);
+    final userRef =
+        _firestore.collection(AppConstants.collectionUsers).doc(userId);
 
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(userRef);
@@ -38,8 +37,7 @@ class MascotMigrationService {
       final oldMascot = data['mascot'];
       if (oldMascot == null || oldMascot is! Map) return;
 
-      final mascotMap =
-          Map<String, dynamic>.from(oldMascot);
+      final mascotMap = Map<String, dynamic>.from(oldMascot);
 
       // Generate ID and copy global stats to mascot
       final userPoints = (data['points'] as int?) ?? 0;

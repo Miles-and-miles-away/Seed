@@ -119,7 +119,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify password validation error
-      expect(find.text('Password must be at least 6 characters'), findsOneWidget);
+      expect(
+          find.text('Password must be at least 6 characters'), findsOneWidget);
     });
 
     testWidgets('toggles password visibility', (tester) async {

@@ -18,13 +18,11 @@ void main() {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales:
-            AppLocalizations.supportedLocales,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: ActionCategoryTabs(
             selectedCategory: selectedCategory,
-            onCategorySelected:
-                onCategorySelected ?? (_) {},
+            onCategorySelected: onCategorySelected ?? (_) {},
           ),
         ),
       );
@@ -39,7 +37,6 @@ void main() {
         finder,
         -200,
         scrollable: find.byType(Scrollable),
-        maxScrolls: 50,
       );
     }
 
@@ -88,8 +85,7 @@ void main() {
           of: find.text('All'),
           matching: find.byType(FilterChip),
         );
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isTrue);
       },
     );
@@ -113,8 +109,7 @@ void main() {
           of: find.text('All'),
           matching: find.byType(FilterChip),
         );
-        final allChip =
-            tester.widget<FilterChip>(allChipFinder);
+        final allChip = tester.widget<FilterChip>(allChipFinder);
         expect(allChip.selected, isFalse);
       },
     );
@@ -122,14 +117,12 @@ void main() {
     testWidgets(
       'tapping All calls onCategorySelected with null',
       (tester) async {
-        ActionCategory? selectedValue =
-            ActionCategory.recycling;
+        ActionCategory? selectedValue = ActionCategory.recycling;
 
         await tester.pumpWidget(
           createTestWidget(
             selectedCategory: ActionCategory.recycling,
-            onCategorySelected: (category) =>
-                selectedValue = category,
+            onCategorySelected: (category) => selectedValue = category,
           ),
         );
         await tester.pumpAndSettle();
@@ -154,8 +147,7 @@ void main() {
           createTestWidget(
             // ignore: avoid_redundant_argument_values
             selectedCategory: null,
-            onCategorySelected: (category) =>
-                selectedValue = category,
+            onCategorySelected: (category) => selectedValue = category,
           ),
         );
         await tester.pumpAndSettle();

@@ -47,9 +47,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
   }
 
   Future<void> _saveTarget() async {
-    await ref
-        .read(dailyTargetProvider.notifier)
-        .saveTarget(_selectedTarget);
+    await ref.read(dailyTargetProvider.notifier).saveTarget(_selectedTarget);
 
     final state = ref.read(dailyTargetProvider);
     if (state.hasError && mounted) {

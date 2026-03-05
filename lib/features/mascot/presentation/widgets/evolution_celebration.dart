@@ -94,11 +94,9 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
       stageLocalizedNameProvider(locale),
     );
     final species = ref.watch(currentSpeciesProvider);
-    final currentStage =
-        ref.watch(currentMascotStageProvider);
+    final currentStage = ref.watch(currentMascotStageProvider);
     final mascotName = ref.watch(
-      currentMascotProvider
-          .select((a) => a.value?.name),
+      currentMascotProvider.select((a) => a.value?.name),
     );
 
     // Get the previous stage asset path
@@ -107,7 +105,8 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
       final previousStageIndex = currentStage - 2; // 0-indexed
       if (previousStageIndex >= 0 &&
           previousStageIndex < species.evolutionStages.length) {
-        previousAssetPath = species.evolutionStages[previousStageIndex].assetPath;
+        previousAssetPath =
+            species.evolutionStages[previousStageIndex].assetPath;
       }
     }
 
@@ -119,9 +118,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
           RepaintBoundary(
             child: Container(
               color: Colors.black.withValues(alpha: 0.85),
-            )
-                .animate()
-                .fadeIn(duration: 300.ms),
+            ).animate().fadeIn(duration: 300.ms),
           ),
 
           // Confetti particles (wrapped in RepaintBoundary for Impeller compatibility)
@@ -177,9 +174,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center,
-                  )
-                      .animate()
-                      .fadeIn(delay: 200.ms, duration: 400.ms),
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
 
                   const Spacer(),
 
@@ -193,19 +188,33 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                         if (previousAssetPath != null) ...[
                           ColorFiltered(
                             colorFilter: const ColorFilter.matrix(<double>[
-                              1, 0, 0, 0, 0,
-                              0, 1, 0, 0, 0,
-                              0, 0, 1, 0, 0,
-                              0, 0, 0, 0.5, 0,
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0.5,
+                              0,
                             ]),
                             child: SvgPicture.asset(
                               previousAssetPath,
                               width: 100,
                               height: 100,
                             ),
-                          )
-                              .animate()
-                              .fadeIn(delay: 300.ms, duration: 400.ms),
+                          ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                           const SizedBox(width: 16),
                           Icon(
                             Icons.arrow_forward,
@@ -308,10 +317,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                         ),
                       ],
                     ),
-                  )
-                      .animate()
-                      .fadeIn(delay: 1000.ms, duration: 400.ms)
-                      .scale(
+                  ).animate().fadeIn(delay: 1000.ms, duration: 400.ms).scale(
                         begin: const Offset(0.5, 0.5),
                         end: const Offset(1, 1),
                         curve: Curves.elasticOut,
@@ -326,9 +332,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                       color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
-                  )
-                      .animate()
-                      .fadeIn(delay: 1100.ms, duration: 400.ms),
+                  ).animate().fadeIn(delay: 1100.ms, duration: 400.ms),
 
                   const Spacer(flex: 2),
 

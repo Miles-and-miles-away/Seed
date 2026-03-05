@@ -49,7 +49,8 @@ class ProfileScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
 
                 // Level progress
-                _buildLevelSection(context, ref, theme, colorScheme, user, l10n),
+                _buildLevelSection(
+                    context, ref, theme, colorScheme, user, l10n),
 
                 const SizedBox(height: 24),
 
@@ -60,8 +61,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 // Sign out button
                 OutlinedButton.icon(
-                  onPressed: () =>
-                      ref.read(authProvider.notifier).signOut(),
+                  onPressed: () => ref.read(authProvider.notifier).signOut(),
                   icon: const Icon(Icons.logout),
                   label: Text(l10n.authLogout),
                 ),
@@ -126,7 +126,8 @@ class ProfileScreen extends ConsumerWidget {
                 Text(
                   user.email,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                    color:
+                        colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
                   ),
                 ),
                 if (user.createdAt != null) ...[
@@ -136,13 +137,15 @@ class ProfileScreen extends ConsumerWidget {
                       Icon(
                         Icons.calendar_today_outlined,
                         size: 14,
-                        color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                        color: colorScheme.onPrimaryContainer
+                            .withValues(alpha: 0.7),
                       ),
                       const SizedBox(width: 4),
                       Text(
                         '${l10n.profileMemberSince} ${DateFormat.yMMMd().format(user.createdAt!)}',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                          color: colorScheme.onPrimaryContainer
+                              .withValues(alpha: 0.7),
                         ),
                       ),
                     ],

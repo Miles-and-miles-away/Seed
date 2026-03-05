@@ -97,7 +97,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
                         Icon(
                           Icons.alarm_off,
                           size: 48,
-                          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                          color: colorScheme.onSurfaceVariant
+                              .withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -191,8 +192,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final time = await showTimePicker(
       context: context,
-      initialTime: initialTime ??
-          const TimeOfDay(hour: 9, minute: 0),
+      initialTime: initialTime ?? const TimeOfDay(hour: 9, minute: 0),
       helpText: existingScheduleId != null
           ? l10n.notifEditTime
           : l10n.notifSelectTime,
@@ -281,8 +281,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(
-              backgroundColor:
-                  Theme.of(ctx).colorScheme.error,
+              backgroundColor: Theme.of(ctx).colorScheme.error,
             ),
             child: Text(l10n.buttonDelete),
           ),

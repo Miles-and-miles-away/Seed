@@ -307,8 +307,7 @@ void main() {
       expect(checkboxAncestor, findsOneWidget);
     });
 
-    testWidgets(
-        'calls createUserWithEmailAndPassword on valid form submission',
+    testWidgets('calls createUserWithEmailAndPassword on valid form submission',
         (tester) async {
       await tester.pumpWidget(
         createTestWidget(

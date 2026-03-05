@@ -28,12 +28,9 @@ class _SeedAppState extends ConsumerState<SeedApp> {
       ..listenManual(
         analyticsEnabledProvider,
         (_, on) {
-          AnalyticsService.instance
-              .setEnabled(enabled: on);
-          FirebaseAnalytics.instance
-              .setAnalyticsCollectionEnabled(on);
-          FirebaseCrashlytics.instance
-              .setCrashlyticsCollectionEnabled(on);
+          AnalyticsService.instance.setEnabled(enabled: on);
+          FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
+          FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(on);
         },
         fireImmediately: true,
       )
@@ -42,8 +39,7 @@ class _SeedAppState extends ConsumerState<SeedApp> {
         authStateChangesProvider,
         (_, next) {
           next.whenData((user) {
-            FirebaseCrashlytics.instance
-                .setUserIdentifier(user?.uid ?? '');
+            FirebaseCrashlytics.instance.setUserIdentifier(user?.uid ?? '');
           });
         },
         fireImmediately: true,

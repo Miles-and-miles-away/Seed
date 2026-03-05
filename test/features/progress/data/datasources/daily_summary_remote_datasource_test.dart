@@ -16,11 +16,10 @@ void main() {
     dataSource = DailySummaryRemoteDataSource(fakeFirestore);
   });
 
-  CollectionReference summariesCollection(String uid) =>
-      fakeFirestore
-          .collection(AppConstants.collectionUsers)
-          .doc(uid)
-          .collection(AppConstants.collectionDailySummaries);
+  CollectionReference summariesCollection(String uid) => fakeFirestore
+      .collection(AppConstants.collectionUsers)
+      .doc(uid)
+      .collection(AppConstants.collectionDailySummaries);
 
   Future<void> seedSummary(
     String uid,
@@ -44,8 +43,7 @@ void main() {
       test(
         'emits null when no summary exists',
         () async {
-          final stream =
-              dataSource.watchTodaySummary(userId);
+          final stream = dataSource.watchTodaySummary(userId);
 
           await expectLater(stream, emits(isNull));
         },
@@ -65,17 +63,13 @@ void main() {
             totalPoints: 50,
           );
 
-          final stream =
-              dataSource.watchTodaySummary(userId);
+          final stream = dataSource.watchTodaySummary(userId);
 
           await expectLater(
             stream,
             emits(
               predicate<DailySummaryModel?>(
-                (s) =>
-                    s != null &&
-                    s.goalCount == 3 &&
-                    s.totalPoints == 50,
+                (s) => s != null && s.goalCount == 3 && s.totalPoints == 50,
               ),
             ),
           );
@@ -104,7 +98,7 @@ void main() {
       test('returns null for missing date', () async {
         final result = await dataSource.getSummary(
           userId,
-          DateTime(2024, 1, 1),
+          DateTime(2024),
         );
 
         expect(result, isNull);
@@ -144,10 +138,9 @@ void main() {
       test(
         'returns empty list for range with no data',
         () async {
-          final result =
-              await dataSource.getSummariesInRange(
+          final result = await dataSource.getSummariesInRange(
             userId,
-            DateTime(2024, 1, 1),
+            DateTime(2024),
             DateTime(2024, 1, 31),
           );
 
@@ -170,13 +163,10 @@ void main() {
           final now = DateTime.now();
           final todayId =
               '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId)
-              .doc(todayId)
-              .get();
+          final doc = await summariesCollection(userId).doc(todayId).get();
 
           expect(doc.exists, isTrue);
-          final data =
-              doc.data() as Map<String, dynamic>?;
+          final data = doc.data() as Map<String, dynamic>?;
           expect(data, isNotNull);
           expect(data!['goalCount'], 1);
           expect(data['totalPoints'], 25);
@@ -207,11 +197,8 @@ void main() {
           final now = DateTime.now();
           final todayId =
               '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId)
-              .doc(todayId)
-              .get();
-          final data =
-              doc.data() as Map<String, dynamic>?;
+          final doc = await summariesCollection(userId).doc(todayId).get();
+          final data = doc.data() as Map<String, dynamic>?;
 
           expect(data!['goalCount'], 2);
           expect(data['completedSdgs'], containsAll([1, 7]));
@@ -238,11 +225,8 @@ void main() {
           final now = DateTime.now();
           final todayId =
               '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId)
-              .doc(todayId)
-              .get();
-          final data =
-              doc.data() as Map<String, dynamic>?;
+          final doc = await summariesCollection(userId).doc(todayId).get();
+          final data = doc.data() as Map<String, dynamic>?;
           final sdgs = data!['completedSdgs'] as List;
 
           // Should contain 7, 13, 1 with no duplication

@@ -25,20 +25,17 @@ class ActionCategoryTabs extends StatefulWidget {
   final ValueChanged<ActionCategory?> onCategorySelected;
 
   @override
-  State<ActionCategoryTabs> createState() =>
-      _ActionCategoryTabsState();
+  State<ActionCategoryTabs> createState() => _ActionCategoryTabsState();
 }
 
-class _ActionCategoryTabsState
-    extends State<ActionCategoryTabs> {
+class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     final midCycle = _repeatCount ~/ 2;
-    final offset =
-        midCycle * _cycleLength * _estimatedChipWidth;
+    final offset = midCycle * _cycleLength * _estimatedChipWidth;
     _scrollController = ScrollController(
       initialScrollOffset: offset,
     );
@@ -69,34 +66,26 @@ class _ActionCategoryTabsState
 
           if (i == 0) {
             return Padding(
-              padding:
-                  const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 8),
               child: _CategoryChip(
                 label: l10n.allCategories,
                 icon: Icons.grid_view,
                 color: theme.colorScheme.primary,
-                isSelected:
-                    widget.selectedCategory == null,
-                onTap: () => widget
-                    .onCategorySelected(null),
+                isSelected: widget.selectedCategory == null,
+                onTap: () => widget.onCategorySelected(null),
               ),
             );
           }
 
-          final category =
-              ActionCategory.values[i - 1];
+          final category = ActionCategory.values[i - 1];
           return Padding(
-            padding:
-                const EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: _CategoryChip(
               label: category.displayName(l10n),
               icon: category.icon,
               color: category.color,
-              isSelected:
-                  widget.selectedCategory ==
-                      category,
-              onTap: () => widget
-                  .onCategorySelected(category),
+              isSelected: widget.selectedCategory == category,
+              onTap: () => widget.onCategorySelected(category),
             ),
           );
         },
@@ -133,22 +122,16 @@ class _CategoryChip extends StatelessWidget {
         color: isSelected ? Colors.white : color,
       ),
       label: Text(label),
-      labelStyle:
-          theme.textTheme.labelMedium?.copyWith(
-        color: isSelected
-            ? Colors.white
-            : theme.colorScheme.onSurface,
-        fontWeight: isSelected
-            ? FontWeight.bold
-            : FontWeight.normal,
+      labelStyle: theme.textTheme.labelMedium?.copyWith(
+        color: isSelected ? Colors.white : theme.colorScheme.onSurface,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
       backgroundColor: theme.colorScheme.surface,
       selectedColor: color,
       side: BorderSide(
         color: isSelected
             ? color
-            : theme.colorScheme.outline
-                .withValues(alpha: 0.3),
+            : theme.colorScheme.outline.withValues(alpha: 0.3),
       ),
       onSelected: (_) => onTap(),
     );

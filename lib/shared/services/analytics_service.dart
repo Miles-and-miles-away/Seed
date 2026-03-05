@@ -131,7 +131,8 @@ class AnalyticsService {
         'sdgs': sdgs.take(5).join(','), // Limit to avoid param size issues
       },
     );
-    AppLogger.debug('Analytics: action_logged - $actionId, $points pts, $co2Grams g');
+    AppLogger.debug(
+        'Analytics: action_logged - $actionId, $points pts, $co2Grams g');
   }
 
   /// Log when a user views an action's details.
@@ -204,7 +205,8 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    AppLogger.debug('Analytics: mascot_unlocked - $species for $pointsSpent pts');
+    AppLogger.debug(
+        'Analytics: mascot_unlocked - $species for $pointsSpent pts');
   }
 
   /// Log when a user renames their mascot.
@@ -307,7 +309,8 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    AppLogger.debug('Analytics: shop_item_purchased - $itemId for $pointsSpent pts');
+    AppLogger.debug(
+        'Analytics: shop_item_purchased - $itemId for $pointsSpent pts');
   }
 
   // ============================================================

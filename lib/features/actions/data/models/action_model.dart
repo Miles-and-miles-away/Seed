@@ -65,10 +65,8 @@ extension ActionModelLocalization on ActionModel {
   /// specified language.
   String descriptionLong(String languageCode) {
     return switch (languageCode) {
-      'ja' when descriptionLongJa.isNotEmpty =>
-        descriptionLongJa,
-      'es' when descriptionLongEs.isNotEmpty =>
-        descriptionLongEs,
+      'ja' when descriptionLongJa.isNotEmpty => descriptionLongJa,
+      'es' when descriptionLongEs.isNotEmpty => descriptionLongEs,
       _ => descriptionLongEn,
     };
   }

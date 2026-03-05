@@ -42,8 +42,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   }
 
   void _onSearchChanged() {
-    _showClear.value =
-        _searchController.text.isNotEmpty;
+    _showClear.value = _searchController.text.isNotEmpty;
 
     _debounceTimer?.cancel();
     _debounceTimer = Timer(
@@ -86,22 +85,19 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                             _debounceTimer?.cancel();
                             ref
                                 .read(
-                                  actionSearchQueryProvider
-                                      .notifier,
+                                  actionSearchQueryProvider.notifier,
                                 )
                                 .clear();
                           },
                         )
                       : null,
                   filled: true,
-                  fillColor: theme
-                      .colorScheme.surfaceContainerHighest,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(28),
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
                   ),

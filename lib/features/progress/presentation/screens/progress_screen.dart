@@ -139,7 +139,8 @@ class _ProgressContent extends ConsumerWidget {
                 text: '$goalCount',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: isGoalMet ? colorScheme.primary : colorScheme.onSurface,
+                  color:
+                      isGoalMet ? colorScheme.primary : colorScheme.onSurface,
                 ),
               ),
               TextSpan(

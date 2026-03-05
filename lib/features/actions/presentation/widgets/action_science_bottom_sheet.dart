@@ -45,15 +45,11 @@ class ActionScienceBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final category =
-        ActionCategory.fromString(action.category);
-    final categoryColor =
-        category?.color ?? theme.colorScheme.primary;
-    final isDark =
-        theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
+    final category = ActionCategory.fromString(action.category);
+    final categoryColor = category?.color ?? theme.colorScheme.primary;
+    final isDark = theme.brightness == Brightness.dark;
+    final mdConfig =
+        isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
 
     return DraggableScrollableSheet(
       maxChildSize: _kMaxChildSize,
@@ -73,9 +69,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       action.name(languageCode),
-                      style: theme.textTheme
-                          .titleLarge
-                          ?.copyWith(
+                      style: theme.textTheme.titleLarge?.copyWith(
                         color: categoryColor,
                         fontWeight: FontWeight.bold,
                       ),
@@ -84,8 +78,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
-                    onPressed: () =>
-                        Navigator.of(context).pop(),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
               ),
@@ -105,17 +98,14 @@ class ActionScienceBottomSheet extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         height: 1.7,
-                        color: theme
-                            .colorScheme.onSurface,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     LinkConfig(
                       style: TextStyle(
                         color: categoryColor,
-                        decoration:
-                            TextDecoration.underline,
-                        decorationColor:
-                            categoryColor,
+                        decoration: TextDecoration.underline,
+                        decorationColor: categoryColor,
                       ),
                       onTap: _onLinkTap,
                     ),

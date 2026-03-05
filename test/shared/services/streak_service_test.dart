@@ -55,7 +55,8 @@ void main() {
         expect(result.streakWasBroken, isFalse);
       });
 
-      test('action on consecutive day updates longest streak when exceeded', () {
+      test('action on consecutive day updates longest streak when exceeded',
+          () {
         final result = service.calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 10,

@@ -85,7 +85,8 @@ class DailySummaryRemoteDataSource {
     final docRef = _summariesCollection(userId).doc(todayId);
 
     AppLogger.debug('DailySummary: Recording action for $userId on $todayId');
-    AppLogger.debug('DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
+    AppLogger.debug(
+        'DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
 
     try {
       await _firestore.runTransaction((transaction) async {
@@ -108,7 +109,8 @@ class DailySummaryRemoteDataSource {
           // Update existing summary
           AppLogger.debug('DailySummary: Updating existing summary');
           final existing = DailySummaryModel.fromJson(doc.data()!);
-          final updatedSdgs = {...existing.completedSdgs, ...sdgNumbers}.toList();
+          final updatedSdgs =
+              {...existing.completedSdgs, ...sdgNumbers}.toList();
           transaction.update(docRef, {
             'goalCount': FieldValue.increment(1),
             'completedSdgs': updatedSdgs,

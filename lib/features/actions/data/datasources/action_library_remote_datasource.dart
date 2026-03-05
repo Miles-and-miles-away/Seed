@@ -13,7 +13,8 @@ abstract class ActionLibraryRemoteDataSource {
 }
 
 /// Implementation of [ActionLibraryRemoteDataSource] using Firestore.
-class ActionLibraryRemoteDataSourceImpl implements ActionLibraryRemoteDataSource {
+class ActionLibraryRemoteDataSourceImpl
+    implements ActionLibraryRemoteDataSource {
   ActionLibraryRemoteDataSourceImpl({required this.firestore});
 
   final FirebaseFirestore firestore;
@@ -28,9 +29,7 @@ class ActionLibraryRemoteDataSourceImpl implements ActionLibraryRemoteDataSource
         .orderBy('sortOrder')
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs
-          .map(ActionModel.fromFirestore)
-          .toList();
+      return snapshot.docs.map(ActionModel.fromFirestore).toList();
     });
   }
 

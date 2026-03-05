@@ -56,7 +56,8 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     super.didUpdateWidget(oldWidget);
 
     final newCompletionRatio = _calculateCompletionRatio();
-    final hasNewSdgs = !_listEquals(widget.completedSdgs, _previousCompletedSdgs);
+    final hasNewSdgs =
+        !_listEquals(widget.completedSdgs, _previousCompletedSdgs);
 
     // Animate when completion changes or new SDGs are completed
     if (newCompletionRatio != _previousCompletionRatio || hasNewSdgs) {

@@ -69,14 +69,12 @@ void main() {
       test('writes document to Firestore', () async {
         final log = createLog();
 
-        final result =
-            await dataSource.createActionLog(userId, log);
+        final result = await dataSource.createActionLog(userId, log);
 
         expect(result.id, isNotEmpty);
         expect(result.actionName, 'Recycle');
 
-        final snapshot =
-            await logsCollection(userId).get();
+        final snapshot = await logsCollection(userId).get();
         expect(snapshot.docs, hasLength(1));
       });
 
@@ -85,8 +83,7 @@ void main() {
         () async {
           final log = createLog(id: 'ignored');
 
-          final result =
-              await dataSource.createActionLog(userId, log);
+          final result = await dataSource.createActionLog(userId, log);
 
           expect(result.id, isNot('ignored'));
           expect(result.id, isNotEmpty);
@@ -102,12 +99,9 @@ void main() {
             category: 'energy',
           );
 
-          final result =
-              await dataSource.createActionLog(userId, log);
+          final result = await dataSource.createActionLog(userId, log);
 
-          final doc = await logsCollection(userId)
-              .doc(result.id)
-              .get();
+          final doc = await logsCollection(userId).doc(result.id).get();
           final data = doc.data()!;
           expect(data['points'], 25);
           expect(data['co2Grams'], 100);
@@ -138,8 +132,7 @@ void main() {
             loggedAt: DateTime(2024, 6, 14),
           );
 
-          final stream =
-              dataSource.watchUserActionLogs(userId);
+          final stream = dataSource.watchUserActionLogs(userId);
 
           await expectLater(
             stream,
@@ -157,8 +150,7 @@ void main() {
       );
 
       test('returns empty list for no logs', () async {
-        final stream =
-            dataSource.watchUserActionLogs(userId);
+        final stream = dataSource.watchUserActionLogs(userId);
 
         await expectLater(stream, emits(isEmpty));
       });
@@ -206,8 +198,7 @@ void main() {
 
     group('getActionLogCollection', () {
       test('returns correct collection path', () {
-        final collection =
-            dataSource.getActionLogCollection(userId);
+        final collection = dataSource.getActionLogCollection(userId);
 
         expect(collection.path, 'users/$userId/actionLog');
       });

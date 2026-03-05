@@ -1,22 +1,20 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
+import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
-import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/services/egg_hatching_service.dart';
 
 void main() {
   const service = EggHatchingService();
 
   // Reusable dates
-  final now = DateTime(2024, 6, 15, 12, 0);
-  final yesterday = DateTime(2024, 6, 14, 8, 0);
-  final twoDaysAgo = DateTime(2024, 6, 13, 20, 0);
+  final now = DateTime(2024, 6, 15, 12);
+  final yesterday = DateTime(2024, 6, 14, 8);
+  final twoDaysAgo = DateTime(2024, 6, 13, 20);
 
-  MascotSpeciesModel _species(String id) {
+  MascotSpeciesModel species(String id) {
     return MascotSpeciesModel(
       id: id,
       nameEn: id,
@@ -39,11 +37,9 @@ void main() {
       test('first activity ever sets streak to 1', () {
         final egg = EggModel(
           receivedAt: twoDaysAgo,
-          hatchingStreakDays: 0,
         );
 
-        final result =
-            service.calculateEggStreakUpdate(egg, now);
+        final result = service.calculateEggStreakUpdate(egg, now);
 
         expect(result.newStreakDays, 1);
         expect(result.streakBroken, isFalse);
@@ -55,11 +51,9 @@ void main() {
           // Edge case: if eggHatchingStreakRequired were 1
           final egg = EggModel(
             receivedAt: now,
-            hatchingStreakDays: 0,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           // 1 >= 30 is false, so shouldn't hatch
           expect(result.shouldHatch, isFalse);
@@ -74,8 +68,7 @@ void main() {
           lastHatchingActivityDate: now,
         );
 
-        final result =
-            service.calculateEggStreakUpdate(egg, now);
+        final result = service.calculateEggStreakUpdate(egg, now);
 
         expect(result.newStreakDays, 5);
         expect(result.shouldHatch, isFalse);
@@ -85,16 +78,15 @@ void main() {
       test(
         'same day with different times returns no change',
         () {
-          final morning = DateTime(2024, 6, 15, 8, 0);
-          final evening = DateTime(2024, 6, 15, 20, 0);
+          final morning = DateTime(2024, 6, 15, 8);
+          final evening = DateTime(2024, 6, 15, 20);
           final egg = EggModel(
             receivedAt: twoDaysAgo,
             hatchingStreakDays: 10,
             lastHatchingActivityDate: morning,
           );
 
-          final result = service
-              .calculateEggStreakUpdate(egg, evening);
+          final result = service.calculateEggStreakUpdate(egg, evening);
 
           expect(result.newStreakDays, 10);
         },
@@ -109,8 +101,7 @@ void main() {
             lastHatchingActivityDate: yesterday,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(result.newStreakDays, 6);
           expect(result.shouldHatch, isFalse);
@@ -122,14 +113,12 @@ void main() {
         'reaching streak threshold triggers hatch',
         () {
           final egg = EggModel(
-            receivedAt: DateTime(2024, 5, 1),
-            hatchingStreakDays:
-                AppConstants.eggHatchingStreakRequired - 1,
+            receivedAt: DateTime(2024, 5),
+            hatchingStreakDays: AppConstants.eggHatchingStreakRequired - 1,
             lastHatchingActivityDate: yesterday,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(
             result.newStreakDays,
@@ -143,14 +132,12 @@ void main() {
         'exceeding streak threshold still hatches',
         () {
           final egg = EggModel(
-            receivedAt: DateTime(2024, 5, 1),
-            hatchingStreakDays:
-                AppConstants.eggHatchingStreakRequired,
+            receivedAt: DateTime(2024, 5),
+            hatchingStreakDays: AppConstants.eggHatchingStreakRequired,
             lastHatchingActivityDate: now,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(result.shouldHatch, isTrue);
         },
@@ -160,13 +147,12 @@ void main() {
         'gap of 2+ days resets streak to 1',
         () {
           final egg = EggModel(
-            receivedAt: DateTime(2024, 5, 1),
+            receivedAt: DateTime(2024, 5),
             hatchingStreakDays: 15,
             lastHatchingActivityDate: twoDaysAgo,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(result.newStreakDays, 1);
           expect(result.shouldHatch, isFalse);
@@ -178,13 +164,12 @@ void main() {
         'gap does not mark broken if streak was 1',
         () {
           final egg = EggModel(
-            receivedAt: DateTime(2024, 5, 1),
+            receivedAt: DateTime(2024, 5),
             hatchingStreakDays: 1,
             lastHatchingActivityDate: twoDaysAgo,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(result.newStreakDays, 1);
           expect(result.streakBroken, isFalse);
@@ -194,15 +179,14 @@ void main() {
       test(
         'large gap resets streak',
         () {
-          final longAgo = DateTime(2024, 1, 1);
+          final longAgo = DateTime(2024);
           final egg = EggModel(
             receivedAt: longAgo,
             hatchingStreakDays: 25,
             lastHatchingActivityDate: longAgo,
           );
 
-          final result =
-              service.calculateEggStreakUpdate(egg, now);
+          final result = service.calculateEggStreakUpdate(egg, now);
 
           expect(result.newStreakDays, 1);
           expect(result.shouldHatch, isFalse);
@@ -212,9 +196,9 @@ void main() {
     });
 
     group('selectHatchingSpecies', () {
-      final speciesA = _species('a');
-      final speciesB = _species('b');
-      final speciesC = _species('c');
+      final speciesA = species('a');
+      final speciesB = species('b');
+      final speciesC = species('c');
 
       test(
         'prefers unevolved species',
@@ -313,7 +297,6 @@ void main() {
             const MascotModel(
               id: 'm1',
               speciesId: 'a',
-              isFullyEvolved: false,
             ),
           ];
           final allSpecies = [speciesA, speciesB];

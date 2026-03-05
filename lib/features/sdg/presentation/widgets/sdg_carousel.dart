@@ -18,24 +18,21 @@ class SdgCarousel extends StatefulWidget {
   final String locale;
 
   @override
-  State<SdgCarousel> createState() =>
-      _SdgCarouselState();
+  State<SdgCarousel> createState() => _SdgCarouselState();
 }
 
 class _SdgCarouselState extends State<SdgCarousel> {
   late final ScrollController _scrollController;
   static const _itemWidth = 120.0;
   static const _itemSpacing = 12.0;
-  static const _totalItemWidth =
-      _itemWidth + _itemSpacing;
+  static const _totalItemWidth = _itemWidth + _itemSpacing;
   static const _multiplier = 1000;
 
   @override
   void initState() {
     super.initState();
-    final initialOffset = _totalItemWidth *
-        widget.goals.length *
-        (_multiplier ~/ 2);
+    final initialOffset =
+        _totalItemWidth * widget.goals.length * (_multiplier ~/ 2);
     _scrollController = ScrollController(
       initialScrollOffset: initialOffset,
     );
@@ -52,13 +49,10 @@ class _SdgCarouselState extends State<SdgCarousel> {
     return ListView.builder(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
-      padding:
-          const EdgeInsets.symmetric(horizontal: 24),
-      itemCount:
-          widget.goals.length * _multiplier,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      itemCount: widget.goals.length * _multiplier,
       itemBuilder: (context, index) {
-        final goalIndex =
-            index % widget.goals.length;
+        final goalIndex = index % widget.goals.length;
         final goal = widget.goals[goalIndex];
 
         return Padding(
@@ -100,46 +94,37 @@ class SdgCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: goal.color
-                  .withValues(alpha: 0.4),
+              color: goal.color.withValues(alpha: 0.4),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8),
               child: CachedNetworkImage(
                 imageUrl: goal.iconUrl,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    Container(
+                placeholder: (context, url) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white
-                      .withValues(alpha: 0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   child: const Center(
-                    child:
-                        CircularProgressIndicator(
+                    child: CircularProgressIndicator(
                       strokeWidth: 2,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                errorWidget:
-                    (context, url, error) =>
-                        Container(
+                errorWidget: (context, url, error) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white
-                      .withValues(alpha: 0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   child: Center(
                     child: Text(
                       '${goal.number}',
@@ -155,8 +140,7 @@ class SdgCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 8,
               ),
               child: Text(

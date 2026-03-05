@@ -160,8 +160,7 @@ void main() {
       expect(find.text('Verification email sent!'), findsOneWidget);
     });
 
-    testWidgets(
-        'tapping verify button calls reload when email not verified',
+    testWidgets('tapping verify button calls reload when email not verified',
         (tester) async {
       setLargeScreenSize(tester);
       // Setup mock to return unverified user

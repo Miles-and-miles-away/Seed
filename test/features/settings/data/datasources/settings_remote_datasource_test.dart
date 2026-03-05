@@ -19,9 +19,8 @@ void main() {
     );
   });
 
-  DocumentReference userDoc(String uid) => fakeFirestore
-      .collection(AppConstants.collectionUsers)
-      .doc(uid);
+  DocumentReference userDoc(String uid) =>
+      fakeFirestore.collection(AppConstants.collectionUsers).doc(uid);
 
   Future<void> seedUserWithSettings(
     String uid,
@@ -86,8 +85,7 @@ void main() {
           settingsJson(language: 'ja'),
         );
 
-        final result =
-            await dataSource.getSettings(testUid);
+        final result = await dataSource.getSettings(testUid);
 
         expect(result.language, 'ja');
         expect(result.notificationsEnabled, isTrue);
@@ -98,8 +96,7 @@ void main() {
         () async {
           await seedUserWithoutSettings(testUid);
 
-          final result =
-              await dataSource.getSettings(testUid);
+          final result = await dataSource.getSettings(testUid);
 
           expect(result.language, 'en');
           expect(result.notificationsEnabled, isTrue);
@@ -114,8 +111,7 @@ void main() {
             language: 'ja',
           );
 
-          final result =
-              await dataSource.getSettings(testUid);
+          final result = await dataSource.getSettings(testUid);
 
           expect(result.language, 'ja');
         },
@@ -124,8 +120,7 @@ void main() {
       test(
         'returns defaults when user doc missing',
         () async {
-          final result =
-              await dataSource.getSettings(testUid);
+          final result = await dataSource.getSettings(testUid);
 
           expect(result.notificationsEnabled, isTrue);
           expect(result.language, 'en');
@@ -150,10 +145,8 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final saved = data['settings']
-            as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final saved = data['settings'] as Map<String, dynamic>;
         expect(saved['language'], 'ja');
         expect(saved['notificationsEnabled'], isFalse);
         // Top-level language also updated
@@ -170,8 +163,7 @@ void main() {
             settingsJson(language: 'ja'),
           );
 
-          final stream =
-              dataSource.watchSettings(testUid);
+          final stream = dataSource.watchSettings(testUid);
 
           await expectLater(
             stream,
@@ -189,16 +181,13 @@ void main() {
         () async {
           await seedUserWithoutSettings(testUid);
 
-          final stream =
-              dataSource.watchSettings(testUid);
+          final stream = dataSource.watchSettings(testUid);
 
           await expectLater(
             stream,
             emits(
               predicate<UserSettingsModel>(
-                (s) =>
-                    s.notificationsEnabled &&
-                    s.language == 'en',
+                (s) => s.notificationsEnabled && s.language == 'en',
               ),
             ),
           );
@@ -229,12 +218,9 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
-        final schedules = settings['reminderSchedules']
-            as List<dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        final schedules = settings['reminderSchedules'] as List<dynamic>;
         expect(schedules, hasLength(2));
       });
     });
@@ -257,12 +243,9 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
-        final schedules = settings['reminderSchedules']
-            as List<dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        final schedules = settings['reminderSchedules'] as List<dynamic>;
         expect(schedules, hasLength(1));
         expect(
           (schedules[0] as Map)['id'],
@@ -288,12 +271,9 @@ void main() {
           );
 
           final doc = await userDoc(testUid).get();
-          final data =
-              doc.data() as Map<String, dynamic>;
-          final settings = data['settings']
-              as Map<String, dynamic>;
-          final schedules = settings['reminderSchedules']
-              as List<dynamic>;
+          final data = doc.data()! as Map<String, dynamic>;
+          final settings = data['settings'] as Map<String, dynamic>;
+          final schedules = settings['reminderSchedules'] as List<dynamic>;
           expect(schedules, hasLength(1));
         },
       );
@@ -305,11 +285,7 @@ void main() {
           testUid,
           settingsJson(
             reminderSchedules: [
-              reminderJson(
-                id: 'r1',
-                hour: 9,
-                minute: 0,
-              ),
+              reminderJson(id: 'r1'),
             ],
           ),
         );
@@ -321,14 +297,10 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
-        final schedules = settings['reminderSchedules']
-            as List<dynamic>;
-        final updated =
-            schedules[0] as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        final schedules = settings['reminderSchedules'] as List<dynamic>;
+        final updated = schedules[0] as Map<String, dynamic>;
         expect(updated['hour'], 14);
         expect(updated['minute'], 30);
       });
@@ -338,7 +310,7 @@ void main() {
       test('updates both settings and top-level', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(notificationsEnabled: true),
+          settingsJson(),
         );
 
         await dataSource.updateNotificationsEnabled(
@@ -347,10 +319,8 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
         expect(settings['notificationsEnabled'], isFalse);
         expect(data['notificationsEnabled'], isFalse);
       });
@@ -360,7 +330,7 @@ void main() {
       test('updates smart reminders flag', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(smartRemindersEnabled: true),
+          settingsJson(),
         );
 
         await dataSource.updateSmartRemindersEnabled(
@@ -369,10 +339,8 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
         expect(
           settings['smartRemindersEnabled'],
           isFalse,
@@ -386,16 +354,14 @@ void main() {
         () async {
           await seedUserWithSettings(
             testUid,
-            settingsJson(language: 'en'),
+            settingsJson(),
           );
 
           await dataSource.updateLanguage(testUid, 'ja');
 
           final doc = await userDoc(testUid).get();
-          final data =
-              doc.data() as Map<String, dynamic>;
-          final settings = data['settings']
-              as Map<String, dynamic>;
+          final data = doc.data()! as Map<String, dynamic>;
+          final settings = data['settings'] as Map<String, dynamic>;
           expect(settings['language'], 'ja');
           expect(data['language'], 'ja');
         },
@@ -406,7 +372,7 @@ void main() {
       test('updates analytics flag', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(analyticsEnabled: true),
+          settingsJson(),
         );
 
         await dataSource.updateAnalyticsEnabled(
@@ -415,10 +381,8 @@ void main() {
         );
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
         expect(settings['analyticsEnabled'], isFalse);
       });
     });
@@ -433,12 +397,10 @@ void main() {
         await dataSource.markMilestoneSeen(testUid, 1);
 
         final doc = await userDoc(testUid).get();
-        final data =
-            doc.data() as Map<String, dynamic>;
-        final settings = data['settings']
-            as Map<String, dynamic>;
-        final milestones = settings[
-            'seenStreakMilestones'] as Map<String, dynamic>;
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        final milestones =
+            settings['seenStreakMilestones'] as Map<String, dynamic>;
         expect(milestones['1'], isTrue);
       });
 
@@ -454,13 +416,10 @@ void main() {
           await dataSource.markMilestoneSeen(testUid, 4);
 
           final doc = await userDoc(testUid).get();
-          final data =
-              doc.data() as Map<String, dynamic>;
-          final settings = data['settings']
-              as Map<String, dynamic>;
-          final milestones = settings[
-                  'seenStreakMilestones']
-              as Map<String, dynamic>;
+          final data = doc.data()! as Map<String, dynamic>;
+          final settings = data['settings'] as Map<String, dynamic>;
+          final milestones =
+              settings['seenStreakMilestones'] as Map<String, dynamic>;
           expect(milestones['1'], isTrue);
           expect(milestones['4'], isTrue);
         },

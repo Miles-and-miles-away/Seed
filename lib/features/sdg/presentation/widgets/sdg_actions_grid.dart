@@ -54,8 +54,7 @@ class SdgActionsGrid extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Text(
                   l10n.sdgRelatedActions,
-                  style:
-                      theme.textTheme.titleMedium?.copyWith(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -80,8 +79,7 @@ class SdgActionsGrid extends ConsumerWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: visible.length,
-            separatorBuilder: (_, __) =>
-                const SizedBox(width: 12),
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) => SizedBox(
               width: 150,
               child: ActionCard(

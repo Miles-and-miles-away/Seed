@@ -63,8 +63,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<void> deleteUser(String uid) async {
     final userDoc = _usersCollection.doc(uid);
-    final logCollection =
-        userDoc.collection(AppConstants.collectionActionLog);
+    final logCollection = userDoc.collection(AppConstants.collectionActionLog);
 
     // Batch-delete action logs (up to 500 per batch)
     QuerySnapshot<Map<String, dynamic>> snapshot;

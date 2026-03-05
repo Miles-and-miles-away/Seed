@@ -127,7 +127,8 @@ void main() {
 
     group('getDescription', () {
       test('returns English description for en locale', () {
-        expect(testSpecies.getDescription('en'), 'A tiny seed with big dreams!');
+        expect(
+            testSpecies.getDescription('en'), 'A tiny seed with big dreams!');
       });
 
       test('returns Japanese description for ja locale', () {

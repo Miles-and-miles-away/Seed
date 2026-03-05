@@ -144,9 +144,7 @@ class SettingsSwitchTile extends StatelessWidget {
         onChanged: enabled ? onChanged : null,
         activeTrackColor: colorScheme.primary,
       ),
-      onTap: enabled && onChanged != null
-          ? () => onChanged!(!value)
-          : null,
+      onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
     );
   }
 }
