@@ -270,8 +270,10 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   /// Toggles a specific reminder on/off.
-  Future<void> toggleReminder(String scheduleId,
-      {required bool enabled}) async {
+  Future<void> toggleReminder(
+    String scheduleId, {
+    required bool enabled,
+  }) async {
     final uid = _currentUserId;
     if (uid == null) return;
 

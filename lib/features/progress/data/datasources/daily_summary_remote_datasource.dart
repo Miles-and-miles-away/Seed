@@ -86,7 +86,8 @@ class DailySummaryRemoteDataSource {
 
     AppLogger.debug('DailySummary: Recording action for $userId on $todayId');
     AppLogger.debug(
-        'DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers');
+      'DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers',
+    );
 
     try {
       await _firestore.runTransaction((transaction) async {

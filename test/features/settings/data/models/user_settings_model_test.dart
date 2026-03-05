@@ -70,7 +70,7 @@ void main() {
               'hour': 9,
               'minute': 0,
               'isEnabled': true,
-              'label': ''
+              'label': '',
             },
           ],
           'smartRemindersEnabled': false,

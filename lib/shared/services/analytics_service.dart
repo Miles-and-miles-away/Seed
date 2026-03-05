@@ -132,7 +132,8 @@ class AnalyticsService {
       },
     );
     AppLogger.debug(
-        'Analytics: action_logged - $actionId, $points pts, $co2Grams g');
+      'Analytics: action_logged - $actionId, $points pts, $co2Grams g',
+    );
   }
 
   /// Log when a user views an action's details.
@@ -206,7 +207,8 @@ class AnalyticsService {
       },
     );
     AppLogger.debug(
-        'Analytics: mascot_unlocked - $species for $pointsSpent pts');
+      'Analytics: mascot_unlocked - $species for $pointsSpent pts',
+    );
   }
 
   /// Log when a user renames their mascot.
@@ -310,7 +312,8 @@ class AnalyticsService {
       },
     );
     AppLogger.debug(
-        'Analytics: shop_item_purchased - $itemId for $pointsSpent pts');
+      'Analytics: shop_item_purchased - $itemId for $pointsSpent pts',
+    );
   }
 
   // ============================================================

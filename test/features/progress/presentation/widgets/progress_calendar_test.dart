@@ -124,9 +124,8 @@ void main() {
 
       final widget = ProviderScope(
         overrides: [
-          // ignore: avoid_redundant_argument_values
           selectedMonthProvider
-              .overrideWith(() => TestSelectedMonth(DateTime(2024, 1))),
+              .overrideWith(() => TestSelectedMonth(DateTime(2024))),
           monthCalendarDataProvider.overrideWith((ref) => completer.future),
         ],
         child: const MaterialApp(
@@ -169,8 +168,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Should have Row widgets for the calendar grid
-      expect(find.byType(Row),
-          findsAtLeast(5)); // Header + weekday + at least 4 weeks
+      expect(
+        find.byType(Row),
+        findsAtLeast(5), // Header + weekday + at least 4 weeks
+      );
     });
 
     testWidgets('next month button is disabled for current month',

@@ -239,7 +239,8 @@ void main() {
           // Use stream that hasn't emitted yet (loading state)
           todaySummaryProvider.overrideWith((ref) => summaryController.stream),
           selectedMonthProvider.overrideWith(
-              () => TestSelectedMonth(DateTime(now.year, now.month))),
+            () => TestSelectedMonth(DateTime(now.year, now.month)),
+          ),
           monthCalendarDataProvider
               .overrideWith((ref) async => <CalendarDayData>[]),
         ],
@@ -311,7 +312,8 @@ void main() {
             ),
           ),
           selectedMonthProvider.overrideWith(
-              () => TestSelectedMonth(DateTime(now.year, now.month))),
+            () => TestSelectedMonth(DateTime(now.year, now.month)),
+          ),
           monthCalendarDataProvider
               .overrideWith((ref) async => <CalendarDayData>[]),
         ],

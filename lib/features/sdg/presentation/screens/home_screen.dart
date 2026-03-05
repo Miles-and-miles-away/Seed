@@ -248,7 +248,9 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildMascotSelectionPrompt(
-      BuildContext context, AppLocalizations l10n) {
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 

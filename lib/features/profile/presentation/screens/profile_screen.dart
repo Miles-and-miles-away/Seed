@@ -50,7 +50,13 @@ class ProfileScreen extends ConsumerWidget {
 
                 // Level progress
                 _buildLevelSection(
-                    context, ref, theme, colorScheme, user, l10n),
+                  context,
+                  ref,
+                  theme,
+                  colorScheme,
+                  user,
+                  l10n,
+                ),
 
                 const SizedBox(height: 24),
 
