@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../data/models/notification_schedule_model.dart';
 
 /// A tile displaying a single reminder with toggle and delete options.
@@ -79,7 +80,8 @@ class ReminderListTile extends StatelessWidget {
                 color: colorScheme.error.withValues(alpha: 0.7),
               ),
               onPressed: onDelete,
-              tooltip: 'Delete reminder',
+              tooltip: AppLocalizations.of(context)
+                  .buttonDelete,
             ),
           ],
         ),

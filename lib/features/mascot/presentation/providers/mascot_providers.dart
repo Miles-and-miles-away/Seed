@@ -194,7 +194,12 @@ String? speciesLocalizedName(Ref ref, String locale) {
 String? stageLocalizedName(Ref ref, String locale) {
   final stageData = ref.watch(activeStageDataProvider);
   if (stageData == null) return null;
-  return locale == 'ja' ? stageData.nameJa : stageData.nameEn;
+  return switch (locale) {
+    'ja' => stageData.nameJa,
+    'es' when stageData.nameEs.isNotEmpty =>
+      stageData.nameEs,
+    _ => stageData.nameEn,
+  };
 }
 
 // =============================================================

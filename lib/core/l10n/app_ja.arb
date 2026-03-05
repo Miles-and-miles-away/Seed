@@ -331,5 +331,136 @@
 
   "sdgAboutGoal": "この目標について",
   "sdgViewTargets": "ターゲットを見る",
-  "sdgTargetsTitle": "国連ターゲット"
+  "sdgTargetsTitle": "国連ターゲット",
+
+  "notifSettingsTitle": "通知設定",
+  "notifSectionNotifications": "通知",
+  "notifEnableTitle": "通知を有効にする",
+  "notifEnableSubtitle": "アクション記録のリマインダーを受け取る",
+  "notifSmartTitle": "スマートリマインダー",
+  "notifSmartOnlyTitle": "今日アクションがない場合のみ通知",
+  "notifSmartOnlySubtitle": "既に記録した日はリマインダーをスキップ",
+  "notifSmartDescription": "有効にすると、その日にサステナブルなアクションを記録していない場合のみリマインダーが表示されます。",
+  "notifReminderTimesTitle": "リマインダー時間",
+  "notifNoReminders": "リマインダーが設定されていません",
+  "notifAddReminder": "リマインダーを追加して通知を受け取る",
+  "notifAddReminderTime": "リマインダー時間を追加",
+  "notifMaxReminders": "リマインダーは最大5件まで",
+  "notifEditTime": "リマインダー時間を編集",
+  "notifSelectTime": "リマインダー時間を選択",
+  "notifLabelTitle": "リマインダーラベル",
+  "notifLabelHint": "例：朝、仕事後...",
+  "notifLabelOptional": "ラベル（任意）",
+  "notifDeleteTitle": "リマインダーを削除しますか？",
+  "notifDeleteMessage": "{time}のリマインダーを削除しますか？",
+  "@notifDeleteMessage": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "notifAdd": "追加",
+
+  "settingsPreferences": "設定",
+  "settingsVersionFormat": "バージョン {version}",
+  "@settingsVersionFormat": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "settingsNoReminders": "リマインダーが設定されていません",
+  "settingsRemindersCount": "{count}件のリマインダー設定済み",
+  "@settingsRemindersCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsOneReminder": "1件のリマインダー設定済み",
+  "settingsTapToAddReminders": "タップしてリマインダーを追加",
+  "settingsAllRemindersDisabled": "全リマインダーが無効",
+  "settingsRemindersPlusMore": "{time} + 他{count}件",
+  "@settingsRemindersPlusMore": {
+    "placeholders": {
+      "time": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "settingsErrorLoading": "設定の読み込みエラー",
+
+  "aboutLegal": "法的情報",
+  "aboutSupport": "サポート",
+  "aboutFooterSdg": "Seedは国連の持続可能な開発目標に沿ったサステナブルなアクションを記録するアプリです。",
+  "aboutFooterMade": "地球への思いを込めて。",
+  "aboutSubtitleTracker": "サステナビリティ習慣トラッカー",
+  "aboutEmailSubject": "Seedアプリのフィードバック",
+
+  "mascotEvolutionTimeline": "進化タイムライン",
+  "mascotNextEvolution": "次の進化",
+  "mascotLevelShort": "Lv {level}",
+  "@mascotLevelShort": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "mascotLevelsToGo": "あと{count}レベル",
+  "@mascotLevelsToGo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mascotLevelProgress": "レベル {current} / {max}",
+  "@mascotLevelProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "homeExploreGoals": "目標を探る",
+  "homeExploreGoalsSubtitle": "国連の持続可能な開発目標について学ぶ",
+  "homeLearnMore": "UN.orgで詳しく見る",
+  "homePoints": "ポイント",
+
+  "sdgGoalNumber": "目標 {number}",
+  "@sdgGoalNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "sdgBadge": "国連SDG",
+
+  "buttonDelete": "削除",
+  "buttonSkip": "スキップ",
+
+  "authWelcomeBack": "おかえりなさい",
+  "authSignInSubtitle": "サステナビリティの旅を続けましょう",
+  "authSignIn": "サインイン",
+  "authOrContinueWith": "または次の方法で続ける",
+  "authNoAccount": "アカウントをお持ちでないですか？",
+  "authCreateAccount": "アカウント作成",
+  "authCreateAccountSubtitle": "今日からサステナビリティの旅を始めましょう",
+  "authOrSignUpWith": "または次の方法で登録",
+  "authHaveAccount": "すでにアカウントをお持ちですか？",
+  "authAgreePrefix": "以下に同意します: ",
+  "authAgreeAnd": "および",
+  "authAcceptTermsError": "利用規約とプライバシーポリシーに同意してください",
+  "authForgotPasswordTitle": "パスワードをリセット",
+  "authForgotPasswordHint": "メールアドレスを入力してください",
+  "authForgotPasswordSend": "送信",
+  "authForgotPasswordSent": "このメールアドレスのアカウントが存在する場合、パスワードリセットリンクが送信されました。",
+  "authVerifyEmailTitle": "メール認証",
+  "authCheckEmail": "メールを確認してください",
+  "authVerificationSentTo": "確認リンクを送信しました:",
+  "authVerifyInstructions": "メール内のリンクをクリックしてアカウントを認証し、ここに戻って下のボタンをタップしてください。",
+  "authChecking": "確認中...",
+  "authVerifiedButton": "メールを認証しました",
+  "authVerificationSent": "認証メールを送信しました！",
+  "authResendEmail": "メールを再送信",
+  "authDifferentEmail": "別のメールアドレスを使用",
+  "authEmailVerified": "メール認証完了！Seedへようこそ！",
+  "authEmailNotVerified": "メールがまだ認証されていません。受信トレイを確認し、認証リンクをクリックしてください。",
+  "authValidationEmailRequired": "メールアドレスを入力してください",
+  "authValidationEmailInvalid": "有効なメールアドレスを入力してください",
+  "authValidationPasswordRequired": "パスワードを入力してください",
+  "authValidationPasswordShort": "パスワードは6文字以上にしてください",
+  "authValidationConfirmRequired": "パスワードを確認してください"
 }

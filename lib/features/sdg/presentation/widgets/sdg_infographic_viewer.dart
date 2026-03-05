@@ -7,10 +7,12 @@ import '../../data/sdg_data.dart';
 class SdgInfographicViewer extends StatelessWidget {
   const SdgInfographicViewer({
     required this.goal,
+    this.locale = 'en',
     super.key,
   });
 
   final SdgGoal goal;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,8 @@ class SdgInfographicViewer extends StatelessWidget {
           child: Hero(
             tag: 'sdg_infographic_${goal.number}',
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius:
+                  BorderRadius.circular(16),
               child: Image.asset(
                 goal.infographicAsset,
                 width: double.infinity,
@@ -66,7 +69,10 @@ class SdgInfographicViewer extends StatelessWidget {
         reverseTransitionDuration:
             const Duration(milliseconds: 400),
         pageBuilder: (_, __, ___) =>
-            _FullScreenInfographic(goal: goal),
+            _FullScreenInfographic(
+          goal: goal,
+          locale: locale,
+        ),
       ),
     );
   }
@@ -75,17 +81,17 @@ class SdgInfographicViewer extends StatelessWidget {
 class _FullScreenInfographic extends StatelessWidget {
   const _FullScreenInfographic({
     required this.goal,
+    required this.locale,
   });
 
   final SdgGoal goal;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
     final animation =
         ModalRoute.of(context)!.animation!;
 
-    // Scale bounce tied to route animation so
-    // it's one continuous motion with the Hero fly.
     final bounceScale = ConstantTween<double>(1)
         .animate(animation);
 
@@ -95,7 +101,8 @@ class _FullScreenInfographic extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text(
-          'Goal ${goal.number}: ${goal.shortTitle}',
+          'Goal ${goal.number}: '
+          '${goal.getShortTitle(locale)}',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,

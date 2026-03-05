@@ -9,10 +9,12 @@ import '../../data/sdg_targets.dart';
 class SdgTargetsSection extends StatefulWidget {
   const SdgTargetsSection({
     required this.goal,
+    required this.locale,
     super.key,
   });
 
   final SdgGoal goal;
+  final String locale;
 
   @override
   State<SdgTargetsSection> createState() =>
@@ -80,7 +82,7 @@ class _SdgTargetsSectionState
           ),
           const SizedBox(height: 16),
           Text(
-            goal.description,
+            goal.getDescription(widget.locale),
             style: theme.textTheme.bodyLarge?.copyWith(
               height: 1.6,
               color:
@@ -134,6 +136,7 @@ class _SdgTargetsSectionState
           (t) => _TargetRow(
             target: t,
             goalColor: goal.color,
+            locale: widget.locale,
           ),
         ),
       ],
@@ -145,10 +148,12 @@ class _TargetRow extends StatelessWidget {
   const _TargetRow({
     required this.target,
     required this.goalColor,
+    required this.locale,
   });
 
   final SdgTarget target;
   final Color goalColor;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +188,7 @@ class _TargetRow extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              target.description,
+              target.getDescription(locale),
               style: theme.textTheme.bodySmall
                   ?.copyWith(
                 height: 1.5,

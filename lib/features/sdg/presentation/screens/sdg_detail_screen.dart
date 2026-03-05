@@ -59,7 +59,7 @@ class _SdgDetailScreenState
                 _buildGoalBadge(context, goal),
                 const SizedBox(height: 16),
                 Text(
-                  goal.title,
+                  goal.getTitle(languageCode),
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium
@@ -68,7 +68,10 @@ class _SdgDetailScreenState
                   ),
                 ),
                 const SizedBox(height: 24),
-                SdgTargetsSection(goal: goal),
+                SdgTargetsSection(
+                  goal: goal,
+                  locale: languageCode,
+                ),
                 const SizedBox(height: 24),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(
@@ -83,9 +86,7 @@ class _SdgDetailScreenState
                     languageCode,
                   ),
                 const SizedBox(height: 24),
-                SdgInfographicViewer(
-                  goal: goal,
-                ),
+                SdgInfographicViewer(goal: goal),
                 const SizedBox(height: 32),
                 _buildGoalNavigation(context, goal),
                 const SizedBox(height: 48),
@@ -261,7 +262,8 @@ class _SdgDetailScreenState
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            'Goal ${goal.number}',
+            AppLocalizations.of(context)
+                .sdgGoalNumber(goal.number),
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -281,9 +283,9 @@ class _SdgDetailScreenState
                 .surfaceContainerHighest,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Text(
-            'UN SDG',
-            style: TextStyle(
+          child: Text(
+            AppLocalizations.of(context).sdgBadge,
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),

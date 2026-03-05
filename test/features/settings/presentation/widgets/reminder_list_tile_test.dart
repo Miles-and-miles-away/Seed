@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/presentation/widgets/reminder_list_tile.dart';
 
@@ -11,6 +13,14 @@ void main() {
     required VoidCallback onTap,
   }) {
     return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales:
+          AppLocalizations.supportedLocales,
       home: Scaffold(
         body: ReminderListTile(
           schedule: schedule,

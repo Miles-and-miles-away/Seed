@@ -17,7 +17,8 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
+          supportedLocales:
+              AppLocalizations.supportedLocales,
           home: Scaffold(
             body: ActionSortDropdown(),
           ),
@@ -25,136 +26,206 @@ void main() {
       );
     }
 
-    testWidgets('displays sort icon', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'displays current sort option icon',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.sort), findsOneWidget);
-    });
+        // Default is alphabeticalAsc which uses
+        // arrow_downward icon
+        expect(
+          find.byIcon(Icons.arrow_downward),
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('displays sort label', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'displays current sort option label',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // The widget should display the "Sort" label
-      expect(find.text('Sort'), findsOneWidget);
-    });
+        // Default is alphabeticalAsc = "Name (A-Z)"
+        expect(
+          find.text('Name (A-Z)'),
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('displays dropdown arrow', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'displays dropdown arrow',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.arrow_drop_down), findsOneWidget);
-    });
+        expect(
+          find.byIcon(Icons.arrow_drop_down),
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('opens popup menu on tap', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'opens popup menu on tap',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Tap on the dropdown
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-      // Popup menu should appear with sort options
-      expect(find.byType(PopupMenuItem<ActionSortOption>), findsNWidgets(6));
-    });
+        expect(
+          find.byType(PopupMenuItem<ActionSortOption>),
+          findsNWidgets(6),
+        );
+      },
+    );
 
-    testWidgets('displays all sort options in menu', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'displays all sort options in menu',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Open menu
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-      // Should show all 6 sort options
-      expect(find.text('Name (A-Z)'), findsOneWidget);
-      expect(find.text('Name (Z-A)'), findsOneWidget);
-      expect(find.text('CO\u2082 (High to Low)'), findsOneWidget);
-      expect(find.text('CO\u2082 (Low to High)'), findsOneWidget);
-      expect(find.text('Points (High to Low)'), findsOneWidget);
-      expect(find.text('Points (Low to High)'), findsOneWidget);
-    });
+        // "Name (A-Z)" appears in both button and menu
+        expect(
+          find.text('Name (A-Z)'),
+          findsAtLeast(1),
+        );
+        expect(
+          find.text('Name (Z-A)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('CO\u2082 (High to Low)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('CO\u2082 (Low to High)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('Points (High to Low)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('Points (Low to High)'),
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('shows checkmark on selected option', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'shows checkmark on selected option',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Open menu
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-      // Default is alphabeticalAsc, should show checkmark
-      expect(find.byIcon(Icons.check), findsOneWidget);
-    });
+        expect(
+          find.byIcon(Icons.check),
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('displays alphabetical icon for name sort options',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'displays directional icons for sort options',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Open menu
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-      // Both name sort options should have sort_by_alpha icon
-      expect(find.byIcon(Icons.sort_by_alpha), findsAtLeast(2));
-    });
+        // 3 asc options + button icon = at least 3
+        expect(
+          find.byIcon(Icons.arrow_downward),
+          findsAtLeast(3),
+        );
+        // 3 desc options
+        expect(
+          find.byIcon(Icons.arrow_upward),
+          findsAtLeast(3),
+        );
+      },
+    );
 
-    testWidgets('displays arrow icons for numeric sort options',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'closes menu after selecting option',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Open menu
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-      // High-to-low options have arrow_downward, low-to-high have arrow_upward
-      expect(find.byIcon(Icons.arrow_downward), findsAtLeast(2));
-      expect(find.byIcon(Icons.arrow_upward), findsAtLeast(2));
-    });
+        await tester.tap(find.text('Name (Z-A)'));
+        await tester.pumpAndSettle();
 
-    testWidgets('closes menu after selecting option', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        expect(
+          find.byType(PopupMenuItem<ActionSortOption>),
+          findsNothing,
+        );
+      },
+    );
 
-      // Open menu
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'is wrapped in styled container',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Select an option
-      await tester.tap(find.text('Name (Z-A)'));
-      await tester.pumpAndSettle();
+        expect(
+          find.byType(Container),
+          findsAtLeast(1),
+        );
+      },
+    );
 
-      // Menu should be closed
-      expect(find.byType(PopupMenuItem<ActionSortOption>), findsNothing);
-    });
+    testWidgets(
+      'selecting option updates selection',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-    testWidgets('is wrapped in styled container', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        // Open and select Z-A
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Name (Z-A)'));
+        await tester.pumpAndSettle();
 
-      // Should have a Container with rounded border
-      expect(find.byType(Container), findsAtLeast(1));
-    });
+        // Open again - check shows new selection
+        await tester.tap(
+          find.byType(ActionSortDropdown),
+        );
+        await tester.pumpAndSettle();
 
-    testWidgets('selecting option updates selection', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Open menu and select Z-A
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Name (Z-A)'));
-      await tester.pumpAndSettle();
-
-      // Open menu again
-      await tester.tap(find.byType(ActionSortDropdown));
-      await tester.pumpAndSettle();
-
-      // Z-A should now be selected (checkmark visible)
-      expect(find.byIcon(Icons.check), findsOneWidget);
-    });
+        expect(
+          find.byIcon(Icons.check),
+          findsOneWidget,
+        );
+      },
+    );
   });
 }

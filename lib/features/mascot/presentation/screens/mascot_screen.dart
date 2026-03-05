@@ -118,7 +118,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
 
                   // Evolution Timeline
                   Text(
-                    'Evolution Timeline',
+                    l10n.mascotEvolutionTimeline,
                     style:
                         theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                   // Next Evolution / Max Evolution
                   if (nextStageData != null) ...[
                     Text(
-                      'Next Evolution',
+                      l10n.mascotNextEvolution,
                       style: theme.textTheme.titleLarge
                           ?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -269,7 +269,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               textAlign: TextAlign.center,
             ),
             Text(
-              'Lv ${mascot.mascotLevel}',
+              AppLocalizations.of(context)
+                  .mascotLevelShort(mascot.mascotLevel),
               style: Theme.of(context)
                   .textTheme
                   .labelSmall
@@ -498,8 +499,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           final isCurrentStage =
               currentStage == stageIndex + 1;
           final isUnlocked = currentStage >= stageIndex + 1;
-          final stageName =
-              locale == 'ja' ? stage.nameJa : stage.nameEn;
+          final stageName = switch (locale) {
+            'ja' => stage.nameJa,
+            'es' when stage.nameEs.isNotEmpty =>
+              stage.nameEs,
+            _ => stage.nameEn,
+          };
 
           return Expanded(
             flex: 2,
@@ -577,7 +582,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            'Lv ${stage.level}',
+            AppLocalizations.of(context)
+                .mascotLevelShort(stage.level),
             style: Theme.of(context)
                 .textTheme
                 .labelSmall
@@ -616,8 +622,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     ColorScheme colorScheme,
   ) {
     final theme = Theme.of(context);
-    final stageName =
-        locale == 'ja' ? nextStage.nameJa : nextStage.nameEn;
+    final l10n = AppLocalizations.of(context);
+    final stageName = switch (locale) {
+      'ja' => nextStage.nameJa,
+      'es' when nextStage.nameEs.isNotEmpty =>
+        nextStage.nameEs,
+      _ => nextStage.nameEn,
+    };
     final levelsNeeded = nextStage.level - mascotLevel;
     final progress = mascotLevel / nextStage.level;
 
@@ -676,7 +687,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '$levelsNeeded levels to go',
+                  l10n.mascotLevelsToGo(levelsNeeded),
                   style:
                       theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
@@ -697,7 +708,10 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Level $mascotLevel / ${nextStage.level}',
+                  l10n.mascotLevelProgress(
+                    mascotLevel,
+                    nextStage.level,
+                  ),
                   style:
                       theme.textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,

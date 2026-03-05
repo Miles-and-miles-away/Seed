@@ -331,5 +331,136 @@
 
   "sdgAboutGoal": "About this Goal",
   "sdgViewTargets": "View targets",
-  "sdgTargetsTitle": "UN Targets"
+  "sdgTargetsTitle": "UN Targets",
+
+  "notifSettingsTitle": "Notification Settings",
+  "notifSectionNotifications": "Notifications",
+  "notifEnableTitle": "Enable Notifications",
+  "notifEnableSubtitle": "Receive daily reminders to log actions",
+  "notifSmartTitle": "Smart Reminders",
+  "notifSmartOnlyTitle": "Only remind if no action today",
+  "notifSmartOnlySubtitle": "Skip reminders on days you've already logged",
+  "notifSmartDescription": "When enabled, reminders will only appear if you haven't logged any sustainable actions that day.",
+  "notifReminderTimesTitle": "Reminder Times",
+  "notifNoReminders": "No reminders set",
+  "notifAddReminder": "Add a reminder to get notified",
+  "notifAddReminderTime": "Add Reminder Time",
+  "notifMaxReminders": "Maximum 5 reminders allowed",
+  "notifEditTime": "Edit reminder time",
+  "notifSelectTime": "Select reminder time",
+  "notifLabelTitle": "Reminder Label",
+  "notifLabelHint": "e.g., Morning, After work...",
+  "notifLabelOptional": "Label (optional)",
+  "notifDeleteTitle": "Delete Reminder?",
+  "notifDeleteMessage": "Remove the {time} reminder?",
+  "@notifDeleteMessage": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "notifAdd": "Add",
+
+  "settingsPreferences": "Preferences",
+  "settingsVersionFormat": "Version {version}",
+  "@settingsVersionFormat": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "settingsNoReminders": "No reminders set",
+  "settingsRemindersCount": "{count} reminders configured",
+  "@settingsRemindersCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsOneReminder": "1 reminder configured",
+  "settingsTapToAddReminders": "Tap to add reminders",
+  "settingsAllRemindersDisabled": "All reminders disabled",
+  "settingsRemindersPlusMore": "{time} + {count} more",
+  "@settingsRemindersPlusMore": {
+    "placeholders": {
+      "time": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "settingsErrorLoading": "Error loading settings",
+
+  "aboutLegal": "Legal",
+  "aboutSupport": "Support",
+  "aboutFooterSdg": "Seed helps track sustainable actions aligned with the UN Sustainable Development Goals.",
+  "aboutFooterMade": "Made with care for our planet.",
+  "aboutSubtitleTracker": "Sustainability Habit Tracker",
+  "aboutEmailSubject": "Seed App Feedback",
+
+  "mascotEvolutionTimeline": "Evolution Timeline",
+  "mascotNextEvolution": "Next Evolution",
+  "mascotLevelShort": "Lv {level}",
+  "@mascotLevelShort": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "mascotLevelsToGo": "{count} levels to go",
+  "@mascotLevelsToGo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mascotLevelProgress": "Level {current} / {max}",
+  "@mascotLevelProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "homeExploreGoals": "Explore the Goals",
+  "homeExploreGoalsSubtitle": "Tap to learn about the UN Sustainable Development Goals",
+  "homeLearnMore": "Learn more at UN.org",
+  "homePoints": "Points",
+
+  "sdgGoalNumber": "Goal {number}",
+  "@sdgGoalNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "sdgBadge": "UN SDG",
+
+  "buttonDelete": "Delete",
+  "buttonSkip": "Skip",
+
+  "authWelcomeBack": "Welcome Back",
+  "authSignInSubtitle": "Sign in to continue your sustainability journey",
+  "authSignIn": "Sign In",
+  "authOrContinueWith": "or continue with",
+  "authNoAccount": "Don't have an account?",
+  "authCreateAccount": "Create Account",
+  "authCreateAccountSubtitle": "Start your sustainability journey today",
+  "authOrSignUpWith": "or sign up with",
+  "authHaveAccount": "Already have an account?",
+  "authAgreePrefix": "I agree to the ",
+  "authAgreeAnd": " and ",
+  "authAcceptTermsError": "Please accept the Terms of Service and Privacy Policy",
+  "authForgotPasswordTitle": "Reset Password",
+  "authForgotPasswordHint": "Enter your email address",
+  "authForgotPasswordSend": "Send",
+  "authForgotPasswordSent": "If an account exists with this email, a password reset link has been sent.",
+  "authVerifyEmailTitle": "Verify Email",
+  "authCheckEmail": "Check Your Email",
+  "authVerificationSentTo": "We sent a verification link to:",
+  "authVerifyInstructions": "Click the link in the email to verify your account, then return here and tap the button below.",
+  "authChecking": "Checking...",
+  "authVerifiedButton": "I've Verified My Email",
+  "authVerificationSent": "Verification email sent!",
+  "authResendEmail": "Resend Email",
+  "authDifferentEmail": "Use a Different Email",
+  "authEmailVerified": "Email verified! Welcome to Seed!",
+  "authEmailNotVerified": "Email not verified yet. Please check your inbox and click the verification link.",
+  "authValidationEmailRequired": "Please enter your email",
+  "authValidationEmailInvalid": "Please enter a valid email",
+  "authValidationPasswordRequired": "Please enter your password",
+  "authValidationPasswordShort": "Password must be at least 6 characters",
+  "authValidationConfirmRequired": "Please confirm your password"
 }

@@ -17,7 +17,8 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
+          supportedLocales:
+              AppLocalizations.supportedLocales,
           home: Scaffold(
             body: SdgFilterChips(),
           ),
@@ -25,172 +26,295 @@ void main() {
       );
     }
 
-    testWidgets('renders as horizontal ListView', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ListView), findsOneWidget);
-    });
-
-    testWidgets('displays All chip as first item', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.text('All'), findsOneWidget);
-    });
-
-    testWidgets('displays visible chips in horizontal list', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // ListView only renders visible chips; we expect All + some SDG chips
-      // The total count depends on viewport size, but we should have at least 4
-      expect(find.byType(FilterChip), findsAtLeast(4));
-    });
-
-    testWidgets('All chip is selected by default', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Find the "All" FilterChip and check it's selected
-      final allChipFinder = find.ancestor(
-        of: find.text('All'),
-        matching: find.byType(FilterChip),
+    /// Scrolls the infinite list until [finder] is built
+    /// and then ensures it is centered in the viewport.
+    Future<void> scrollToVisible(
+      WidgetTester tester,
+      Finder finder,
+    ) async {
+      await tester.scrollUntilVisible(
+        finder,
+        -200,
+        scrollable: find.byType(Scrollable),
+        maxScrolls: 50,
       );
-      expect(allChipFinder, findsOneWidget);
-
-      final allChip = tester.widget<FilterChip>(allChipFinder);
-      expect(allChip.selected, isTrue);
-    });
-
-    testWidgets('SDG chip shows number in avatar when not selected',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.ensureVisible(finder);
       await tester.pumpAndSettle();
+    }
 
-      // SDG 1 should show "1" in its avatar
-      expect(find.text('1'), findsOneWidget);
-    });
+    testWidgets(
+      'renders as horizontal ListView',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-    testWidgets('SDG chips show short titles', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        expect(find.byType(ListView), findsOneWidget);
+      },
+    );
 
-      // Check for visible SDG short titles (first few that fit in viewport)
-      expect(find.text('No Poverty'), findsOneWidget);
-      expect(find.text('Zero Hunger'), findsOneWidget);
-      // Note: Later SDGs like "Climate Action" may not be visible without scrolling
-    });
+    testWidgets(
+      'displays All chip',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-    testWidgets('selecting SDG chip deselects All chip', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        await scrollToVisible(
+          tester,
+          find.text('All'),
+        );
 
-      // Tap on No Poverty (SDG 1) - visible without scrolling
-      await tester.tap(find.text('No Poverty'));
-      await tester.pumpAndSettle();
+        expect(find.text('All'), findsOneWidget);
+      },
+    );
 
-      // All chip should not be selected
-      final allChipFinder = find.ancestor(
-        of: find.text('All'),
-        matching: find.byType(FilterChip),
-      );
-      final allChip = tester.widget<FilterChip>(allChipFinder);
-      expect(allChip.selected, isFalse);
+    testWidgets(
+      'displays visible chips in horizontal list',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // No Poverty chip should be selected
-      final noPovertyChipFinder = find.ancestor(
-        of: find.text('No Poverty'),
-        matching: find.byType(FilterChip),
-      );
-      final noPovertyChip = tester.widget<FilterChip>(noPovertyChipFinder);
-      expect(noPovertyChip.selected, isTrue);
-    });
+        // ListView renders visible chips; expect at
+        // least a few FilterChips
+        expect(
+          find.byType(FilterChip),
+          findsAtLeast(4),
+        );
+      },
+    );
 
-    testWidgets('SDG chips have colored avatars', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'All chip is selected by default',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Should find CircleAvatars for visible unselected SDG chips
-      // ListView only renders visible items, so we check for at least a few
-      expect(find.byType(CircleAvatar), findsAtLeast(3));
-    });
+        await scrollToVisible(
+          tester,
+          find.text('All'),
+        );
 
-    testWidgets('has fixed height of 40', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        final allChipFinder = find.ancestor(
+          of: find.text('All'),
+          matching: find.byType(FilterChip),
+        );
+        expect(allChipFinder, findsOneWidget);
 
-      final sizedBox = tester.widget<SizedBox>(
-        find.ancestor(
-          of: find.byType(ListView),
-          matching: find.byType(SizedBox),
-        ),
-      );
-      expect(sizedBox.height, 40);
-    });
+        final allChip =
+            tester.widget<FilterChip>(allChipFinder);
+        expect(allChip.selected, isTrue);
+      },
+    );
 
-    testWidgets('chips are scrollable horizontally', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'SDG chip shows number in avatar',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      final listView = tester.widget<ListView>(find.byType(ListView));
-      expect(listView.scrollDirection, Axis.horizontal);
-    });
+        // Scroll to SDG 1
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
 
-    testWidgets('tapping selected SDG chip clears selection', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        expect(find.text('1'), findsOneWidget);
+      },
+    );
 
-      // Select No Poverty (visible without scrolling)
-      await tester.tap(find.text('No Poverty'));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'SDG chips show short titles',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Tap No Poverty again to deselect
-      await tester.tap(find.text('No Poverty'));
-      await tester.pumpAndSettle();
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        expect(find.text('No Poverty'), findsOneWidget);
 
-      // All should be selected now
-      final allChipFinder = find.ancestor(
-        of: find.text('All'),
-        matching: find.byType(FilterChip),
-      );
-      final allChip = tester.widget<FilterChip>(allChipFinder);
-      expect(allChip.selected, isTrue);
-    });
+        await scrollToVisible(
+          tester,
+          find.text('Zero Hunger'),
+        );
+        expect(find.text('Zero Hunger'), findsOneWidget);
+      },
+    );
 
-    testWidgets('tapping All chip when SDG is selected clears selection',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'selecting SDG chip deselects All chip',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Select an SDG first (visible without scrolling)
-      await tester.tap(find.text('No Poverty'));
-      await tester.pumpAndSettle();
+        // Scroll to and tap No Poverty
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        await tester.tap(find.text('No Poverty'));
+        await tester.pumpAndSettle();
 
-      // Tap All chip
-      await tester.tap(find.text('All'));
-      await tester.pumpAndSettle();
+        // Scroll back to All - should not be selected
+        await scrollToVisible(
+          tester,
+          find.text('All'),
+        );
 
-      // After rebuild, All should be selected
-      final allChipFinder = find.ancestor(
-        of: find.text('All'),
-        matching: find.byType(FilterChip),
-      );
-      final allChip = tester.widget<FilterChip>(allChipFinder);
-      expect(allChip.selected, isTrue);
-    });
+        final allChipFinder = find.ancestor(
+          of: find.text('All'),
+          matching: find.byType(FilterChip),
+        );
+        final allChip =
+            tester.widget<FilterChip>(allChipFinder);
+        expect(allChip.selected, isFalse);
 
-    testWidgets('SDG colors match official SDG colors', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+        // Scroll back to No Poverty - should be selected
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        final sdgChipFinder = find.ancestor(
+          of: find.text('No Poverty'),
+          matching: find.byType(FilterChip),
+        );
+        final sdgChip =
+            tester.widget<FilterChip>(sdgChipFinder);
+        expect(sdgChip.selected, isTrue);
+      },
+    );
 
-      // Verify that SDG 1 (No Poverty) has the correct red color
-      final sdg1 = sdgGoals.firstWhere((g) => g.number == 1);
-      expect(sdg1.color, const Color(0xFFE5233D));
+    testWidgets(
+      'SDG chips have colored avatars',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
 
-      // Verify that SDG 13 (Climate Action) has the correct green color
-      final sdg13 = sdgGoals.firstWhere((g) => g.number == 13);
-      expect(sdg13.color, const Color(0xFF407F46));
-    });
+        expect(
+          find.byType(CircleAvatar),
+          findsAtLeast(3),
+        );
+      },
+    );
+
+    testWidgets(
+      'has fixed height of 40',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        final sizedBox = tester.widget<SizedBox>(
+          find.ancestor(
+            of: find.byType(ListView),
+            matching: find.byType(SizedBox),
+          ),
+        );
+        expect(sizedBox.height, 40);
+      },
+    );
+
+    testWidgets(
+      'chips are scrollable horizontally',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        final listView = tester.widget<ListView>(
+          find.byType(ListView),
+        );
+        expect(
+          listView.scrollDirection,
+          Axis.horizontal,
+        );
+      },
+    );
+
+    testWidgets(
+      'tapping selected SDG chip clears selection',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        // Select No Poverty
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        await tester.tap(find.text('No Poverty'));
+        await tester.pumpAndSettle();
+
+        // Tap again to deselect
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        await tester.tap(find.text('No Poverty'));
+        await tester.pumpAndSettle();
+
+        // All should be selected again
+        await scrollToVisible(
+          tester,
+          find.text('All'),
+        );
+        final allChipFinder = find.ancestor(
+          of: find.text('All'),
+          matching: find.byType(FilterChip),
+        );
+        final allChip =
+            tester.widget<FilterChip>(allChipFinder);
+        expect(allChip.selected, isTrue);
+      },
+    );
+
+    testWidgets(
+      'tapping All chip when SDG selected clears it',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        // Select an SDG first
+        await scrollToVisible(
+          tester,
+          find.text('No Poverty'),
+        );
+        await tester.tap(find.text('No Poverty'));
+        await tester.pumpAndSettle();
+
+        // Tap All chip
+        await scrollToVisible(
+          tester,
+          find.text('All'),
+        );
+        await tester.tap(find.text('All'));
+        await tester.pumpAndSettle();
+
+        // All should be selected
+        final allChipFinder = find.ancestor(
+          of: find.text('All'),
+          matching: find.byType(FilterChip),
+        );
+        final allChip =
+            tester.widget<FilterChip>(allChipFinder);
+        expect(allChip.selected, isTrue);
+      },
+    );
+
+    testWidgets(
+      'SDG colors match official SDG colors',
+      (tester) async {
+        await tester.pumpWidget(createTestWidget());
+        await tester.pumpAndSettle();
+
+        final sdg1 = sdgGoals.firstWhere(
+          (g) => g.number == 1,
+        );
+        expect(sdg1.color, const Color(0xFFE5233D));
+
+        final sdg13 = sdgGoals.firstWhere(
+          (g) => g.number == 13,
+        );
+        expect(sdg13.color, const Color(0xFF407F46));
+      },
+    );
   });
 }

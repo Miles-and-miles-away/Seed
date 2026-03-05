@@ -45,7 +45,7 @@ void main() {
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Confirm Password'), findsOneWidget);
       expect(find.text('or sign up with'), findsOneWidget);
-      expect(find.text('Already have an account? '), findsOneWidget);
+      expect(find.text('Already have an account?'), findsOneWidget);
       expect(find.text('Sign In'), findsOneWidget);
     });
 
@@ -68,7 +68,7 @@ void main() {
 
       // Verify validation errors appear
       expect(find.text('Please enter your email'), findsOneWidget);
-      expect(find.text('Please enter a password'), findsOneWidget);
+      expect(find.text('Please enter your password'), findsOneWidget);
     });
 
     testWidgets('shows validation error for invalid email format',

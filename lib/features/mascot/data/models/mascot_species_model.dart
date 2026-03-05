@@ -31,6 +31,12 @@ abstract class MascotSpeciesModel with _$MascotSpeciesModel {
     /// The evolution stages for this species, ordered by level threshold.
     required List<EvolutionStageModel> evolutionStages,
 
+    /// Spanish name of the species.
+    @Default('') String nameEs,
+
+    /// Spanish description of the species.
+    @Default('') String descriptionEs,
+
     /// Availability: 'free', 'premium', or a number (points cost to unlock).
     @Default('free') String availability,
   }) = _MascotSpeciesModel;
@@ -42,11 +48,18 @@ abstract class MascotSpeciesModel with _$MascotSpeciesModel {
 /// Extension to provide convenience methods on [MascotSpeciesModel].
 extension MascotSpeciesModelX on MascotSpeciesModel {
   /// Gets the localized name based on the given locale.
-  String getName(String locale) => locale == 'ja' ? nameJa : nameEn;
+  String getName(String locale) => switch (locale) {
+        'ja' => nameJa,
+        'es' when nameEs.isNotEmpty => nameEs,
+        _ => nameEn,
+      };
 
   /// Gets the localized description based on the given locale.
-  String getDescription(String locale) =>
-      locale == 'ja' ? descriptionJa : descriptionEn;
+  String getDescription(String locale) => switch (locale) {
+        'ja' => descriptionJa,
+        'es' when descriptionEs.isNotEmpty => descriptionEs,
+        _ => descriptionEn,
+      };
 
   /// Gets the evolution stage for a given level.
   EvolutionStageModel getStageForLevel(int level) {

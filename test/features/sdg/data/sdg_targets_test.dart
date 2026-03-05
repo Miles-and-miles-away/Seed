@@ -12,6 +12,46 @@ void main() {
       expect(target.code, '1.1');
       expect(target.description, 'End extreme poverty');
     });
+
+    test('getDescription returns EN by default', () {
+      const target = SdgTarget(
+        code: '1.1',
+        description: 'End poverty',
+        descriptionJa: 'JA text',
+        descriptionEs: 'ES text',
+      );
+      expect(target.getDescription('en'), 'End poverty');
+      expect(target.getDescription('fr'), 'End poverty');
+    });
+
+    test('getDescription returns JA for ja locale', () {
+      const target = SdgTarget(
+        code: '1.1',
+        description: 'End poverty',
+        descriptionJa: 'JA text',
+        descriptionEs: 'ES text',
+      );
+      expect(target.getDescription('ja'), 'JA text');
+    });
+
+    test('getDescription returns ES for es locale', () {
+      const target = SdgTarget(
+        code: '1.1',
+        description: 'End poverty',
+        descriptionJa: 'JA text',
+        descriptionEs: 'ES text',
+      );
+      expect(target.getDescription('es'), 'ES text');
+    });
+
+    test('getDescription falls back to EN if empty', () {
+      const target = SdgTarget(
+        code: '1.1',
+        description: 'End poverty',
+      );
+      expect(target.getDescription('ja'), 'End poverty');
+      expect(target.getDescription('es'), 'End poverty');
+    });
   });
 
   group('sdgTargets', () {
@@ -137,6 +177,32 @@ void main() {
           sdgTargets[17]!.map((t) => t.code).toList();
       expect(codes, contains('17.1'));
       expect(codes, contains('17.19'));
+    });
+
+    test('all targets have JA descriptions', () {
+      for (final entry in sdgTargets.entries) {
+        for (final target in entry.value) {
+          expect(
+            target.descriptionJa,
+            isNotEmpty,
+            reason: 'Target ${target.code} has '
+                'empty JA description',
+          );
+        }
+      }
+    });
+
+    test('all targets have ES descriptions', () {
+      for (final entry in sdgTargets.entries) {
+        for (final target in entry.value) {
+          expect(
+            target.descriptionEs,
+            isNotEmpty,
+            reason: 'Target ${target.code} has '
+                'empty ES description',
+          );
+        }
+      }
     });
   });
 }

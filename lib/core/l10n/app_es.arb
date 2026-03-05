@@ -274,41 +274,41 @@
   "sdgRelatedActions": "Acciones relacionadas",
   "sdgViewAllActions": "Ver todo",
   "sdgResources": "Recursos",
-  "sdgLearnOnlyExplanation": "Este objetivo aborda problemas sistemicos que requieren accion colectiva. Aunque no puedes registrar acciones diarias directamente, aprender sobre el te ayuda a entender el panorama completo y encontrar formas de contribuir.",
+  "sdgLearnOnlyExplanation": "Este objetivo aborda problemas sistémicos que requieren acción colectiva. Aunque no puedes registrar acciones diarias directamente, aprender sobre él te ayuda a entender el panorama completo y encontrar formas de contribuir.",
   "sdgWaysToContribute": "Formas de contribuir",
-  "sdgNoActionsYet": "Aun no hay acciones registradas para este objetivo",
+  "sdgNoActionsYet": "Aún no hay acciones registradas para este objetivo",
 
   "learnOnlyBadge": "Aprender",
-  "learnOnlyTitle": "Conoce esta accion",
-  "learnOnlyDescription": "Esta accion apoya objetivos de sostenibilidad mas amplios. Aunque no se puede registrar directamente, aprender sobre ella te ayuda a entender el panorama completo.",
+  "learnOnlyTitle": "Conoce esta acción",
+  "learnOnlyDescription": "Esta acción apoya objetivos de sostenibilidad más amplios. Aunque no se puede registrar directamente, aprender sobre ella te ayuda a entender el panorama completo.",
   "learnOnlyRelatedSdgs": "Objetivos relacionados",
   "learnOnlyDismiss": "Entendido",
 
   "settingsAnalytics": "Privacidad",
-  "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anonimos",
+  "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anónimos",
 
-  "privacyPolicyTitle": "Politica de privacidad",
-  "termsOfServiceTitle": "Terminos de servicio",
-  "legalLastUpdated": "Ultima actualizacion: {date}",
+  "privacyPolicyTitle": "Política de privacidad",
+  "termsOfServiceTitle": "Términos de servicio",
+  "legalLastUpdated": "Última actualización: {date}",
   "@legalLastUpdated": {
     "placeholders": {
       "date": {"type": "String"}
     }
   },
 
-  "eggDiscoveryTitle": "Un huevo misterioso!",
-  "eggDiscoveryMessage": "Durante la noche, un huevo misterioso aparecio junto a {mascotName}!",
+  "eggDiscoveryTitle": "¡Un huevo misterioso!",
+  "eggDiscoveryMessage": "Durante la noche, un huevo misterioso apareció junto a {mascotName}.",
   "@eggDiscoveryMessage": {
     "placeholders": {
       "mascotName": {"type": "String"}
     }
   },
-  "eggDiscoverySubtitle": "Registra acciones todos los dias durante 30 dias para incubarlo.",
-  "eggDiscoveryDismiss": "Que emocionante!",
+  "eggDiscoverySubtitle": "Registra acciones todos los días durante 30 días para incubarlo.",
+  "eggDiscoveryDismiss": "¡Qué emocionante!",
 
-  "eggHatchingTitle": "Esta eclosionando!",
-  "eggHatchingNamePrompt": "Dale un nombre a tu nuevo companero",
-  "eggHatchingConfirm": "Bienvenido!",
+  "eggHatchingTitle": "¡Está eclosionando!",
+  "eggHatchingNamePrompt": "Dale un nombre a tu nuevo compañero",
+  "eggHatchingConfirm": "¡Bienvenido!",
 
   "eggProgressLabel": "Dia {current}/{total}",
   "@eggProgressLabel": {
@@ -319,17 +319,148 @@
   },
 
   "mascotCollectionTitle": "Mis mascotas",
-  "mascotSwitchConfirm": "Cambiar mascota?",
+  "mascotSwitchConfirm": "¿Cambiar mascota?",
   "switchToMascot": "Cambiar a",
   "switchMascotButton": "Cambiar",
 
   "actionLearnMore": "Toca para conocer la ciencia",
 
-  "maxEvolutionTitle": "Evolucion maxima!",
-  "maxEvolutionSubtitle": "Tu companero ha alcanzado su maximo potencial!",
-  "maxEvolutionEggHint": "Cuida tu huevo para descubrir un nuevo companero!",
+  "maxEvolutionTitle": "¡Evolución máxima!",
+  "maxEvolutionSubtitle": "¡Tu compañero ha alcanzado su máximo potencial!",
+  "maxEvolutionEggHint": "¡Cuida tu huevo para descubrir un nuevo compañero!",
 
   "sdgAboutGoal": "Acerca de este objetivo",
   "sdgViewTargets": "Ver metas",
-  "sdgTargetsTitle": "Metas de la ONU"
+  "sdgTargetsTitle": "Metas de la ONU",
+
+  "notifSettingsTitle": "Ajustes de notificaciones",
+  "notifSectionNotifications": "Notificaciones",
+  "notifEnableTitle": "Activar notificaciones",
+  "notifEnableSubtitle": "Recibe recordatorios diarios para registrar acciones",
+  "notifSmartTitle": "Recordatorios inteligentes",
+  "notifSmartOnlyTitle": "Solo recordar si no hay acción hoy",
+  "notifSmartOnlySubtitle": "Omitir recordatorios los días que ya registraste",
+  "notifSmartDescription": "Cuando está activado, los recordatorios solo aparecerán si no has registrado acciones sostenibles ese día.",
+  "notifReminderTimesTitle": "Horarios de recordatorio",
+  "notifNoReminders": "Sin recordatorios configurados",
+  "notifAddReminder": "Agrega un recordatorio para recibir notificaciones",
+  "notifAddReminderTime": "Agregar horario de recordatorio",
+  "notifMaxReminders": "Máximo 5 recordatorios permitidos",
+  "notifEditTime": "Editar horario de recordatorio",
+  "notifSelectTime": "Seleccionar horario de recordatorio",
+  "notifLabelTitle": "Etiqueta del recordatorio",
+  "notifLabelHint": "Ej.: Mañana, Después del trabajo...",
+  "notifLabelOptional": "Etiqueta (opcional)",
+  "notifDeleteTitle": "¿Eliminar recordatorio?",
+  "notifDeleteMessage": "¿Eliminar el recordatorio de las {time}?",
+  "@notifDeleteMessage": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "notifAdd": "Agregar",
+
+  "settingsPreferences": "Preferencias",
+  "settingsVersionFormat": "Versión {version}",
+  "@settingsVersionFormat": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "settingsNoReminders": "Sin recordatorios configurados",
+  "settingsRemindersCount": "{count} recordatorios configurados",
+  "@settingsRemindersCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsOneReminder": "1 recordatorio configurado",
+  "settingsTapToAddReminders": "Toca para agregar recordatorios",
+  "settingsAllRemindersDisabled": "Todos los recordatorios desactivados",
+  "settingsRemindersPlusMore": "{time} + {count} más",
+  "@settingsRemindersPlusMore": {
+    "placeholders": {
+      "time": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "settingsErrorLoading": "Error al cargar ajustes",
+
+  "aboutLegal": "Legal",
+  "aboutSupport": "Soporte",
+  "aboutFooterSdg": "Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.",
+  "aboutFooterMade": "Hecho con cuidado para nuestro planeta.",
+  "aboutSubtitleTracker": "Rastreador de hábitos sostenibles",
+  "aboutEmailSubject": "Comentarios sobre Seed",
+
+  "mascotEvolutionTimeline": "Línea de evolución",
+  "mascotNextEvolution": "Próxima evolución",
+  "mascotLevelShort": "Nv {level}",
+  "@mascotLevelShort": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "mascotLevelsToGo": "{count} niveles restantes",
+  "@mascotLevelsToGo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mascotLevelProgress": "Nivel {current} / {max}",
+  "@mascotLevelProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "homeExploreGoals": "Explora los Objetivos",
+  "homeExploreGoalsSubtitle": "Toca para conocer los Objetivos de Desarrollo Sostenible de la ONU",
+  "homeLearnMore": "Más información en UN.org",
+  "homePoints": "Puntos",
+
+  "sdgGoalNumber": "Objetivo {number}",
+  "@sdgGoalNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "sdgBadge": "ODS ONU",
+
+  "buttonDelete": "Eliminar",
+  "buttonSkip": "Omitir",
+
+  "authWelcomeBack": "Bienvenido de nuevo",
+  "authSignInSubtitle": "Inicia sesión para continuar tu viaje sostenible",
+  "authSignIn": "Iniciar sesión",
+  "authOrContinueWith": "o continuar con",
+  "authNoAccount": "¿No tienes una cuenta?",
+  "authCreateAccount": "Crear cuenta",
+  "authCreateAccountSubtitle": "Comienza tu viaje sostenible hoy",
+  "authOrSignUpWith": "o regístrate con",
+  "authHaveAccount": "¿Ya tienes una cuenta?",
+  "authAgreePrefix": "Acepto los ",
+  "authAgreeAnd": " y la ",
+  "authAcceptTermsError": "Por favor acepta los Términos de servicio y la Política de privacidad",
+  "authForgotPasswordTitle": "Restablecer contraseña",
+  "authForgotPasswordHint": "Ingresa tu correo electrónico",
+  "authForgotPasswordSend": "Enviar",
+  "authForgotPasswordSent": "Si existe una cuenta con este correo, se ha enviado un enlace para restablecer la contraseña.",
+  "authVerifyEmailTitle": "Verificar correo",
+  "authCheckEmail": "Revisa tu correo",
+  "authVerificationSentTo": "Enviamos un enlace de verificación a:",
+  "authVerifyInstructions": "Haz clic en el enlace del correo para verificar tu cuenta, luego regresa aquí y toca el botón de abajo.",
+  "authChecking": "Verificando...",
+  "authVerifiedButton": "Ya verifiqué mi correo",
+  "authVerificationSent": "¡Correo de verificación enviado!",
+  "authResendEmail": "Reenviar correo",
+  "authDifferentEmail": "Usar otro correo",
+  "authEmailVerified": "¡Correo verificado! ¡Bienvenido a Seed!",
+  "authEmailNotVerified": "Correo aún no verificado. Revisa tu bandeja de entrada y haz clic en el enlace de verificación.",
+  "authValidationEmailRequired": "Por favor ingresa tu correo",
+  "authValidationEmailInvalid": "Por favor ingresa un correo válido",
+  "authValidationPasswordRequired": "Por favor ingresa tu contraseña",
+  "authValidationPasswordShort": "La contraseña debe tener al menos 6 caracteres",
+  "authValidationConfirmRequired": "Por favor confirma tu contraseña"
 }
