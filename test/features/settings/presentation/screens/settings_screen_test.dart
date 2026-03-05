@@ -221,7 +221,11 @@ void main() {
       const settings = UserSettingsModel(
         reminderSchedules: [
           NotificationScheduleModel(
-              id: 'r1', hour: 9, minute: 0, isEnabled: false),
+            id: 'r1',
+            hour: 9,
+            minute: 0,
+            isEnabled: false,
+          ),
         ],
       );
       await tester.pumpWidget(
