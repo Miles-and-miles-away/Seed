@@ -21,6 +21,9 @@ abstract class EvolutionStageModel with _$EvolutionStageModel {
 
     /// The Japanese name of this evolution stage.
     required String nameJa,
+
+    /// The Spanish name of this evolution stage.
+    @Default('') String nameEs,
   }) = _EvolutionStageModel;
 
   factory EvolutionStageModel.fromJson(Map<String, dynamic> json) =>

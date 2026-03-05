@@ -8,25 +8,29 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_sign_in_button.dart';
 
-/// Registration screen with email/password and social sign-in options.
+/// Registration screen with email/password and social sign-in.
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() =>
+      _RegisterScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+class _RegisterScreenState
+    extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _confirmPasswordController =
+      TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _acceptedTerms = false;
@@ -46,7 +50,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isCooldown = true);
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer(
-      const Duration(seconds: AppConstants.authCooldownSeconds),
+      const Duration(
+        seconds: AppConstants.authCooldownSeconds,
+      ),
       () {
         if (mounted) setState(() => _isCooldown = false);
       },
@@ -57,30 +63,33 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final isLoading = authState.isLoading;
 
-    // Listen for auth state changes and errors
-    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
-      next.when(
-        data: (_) {
-          // Check if we just successfully created an account
-          if (previous?.isLoading ?? false) {
-            // Navigate to email verification screen
-            context.go(AppRoutes.emailVerification);
-          }
-        },
-        loading: () {},
-        error: (error, _) {
-          _startCooldown();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(mapAuthErrorToMessage(error)),
-              backgroundColor: AppColors.error,
-            ),
-          );
-        },
-      );
-    });
+    ref.listen<AsyncValue<void>>(
+      authProvider,
+      (previous, next) {
+        next.when(
+          data: (_) {
+            if (previous?.isLoading ?? false) {
+              context.go(AppRoutes.emailVerification);
+            }
+          },
+          loading: () {},
+          error: (error, _) {
+            _startCooldown();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  mapAuthErrorToMessage(error),
+                ),
+                backgroundColor: AppColors.error,
+              ),
+            );
+          },
+        );
+      },
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -89,11 +98,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment:
+                  CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 32),
-
-                // Logo and title
                 Icon(
                   Icons.eco,
                   size: 64,
@@ -101,37 +109,38 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Create Account',
-                  style: theme.textTheme.headlineMedium?.copyWith(
+                  l10n.authCreateAccount,
+                  style: theme.textTheme.headlineMedium
+                      ?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Start your sustainability journey today',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                  l10n.authCreateAccountSubtitle,
+                  style:
+                      theme.textTheme.bodyLarge?.copyWith(
+                    color: theme
+                        .colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-
-                // Email field
                 AuthTextField(
                   controller: _emailController,
-                  label: 'Email',
-                  keyboardType: TextInputType.emailAddress,
+                  label: l10n.authEmail,
+                  keyboardType:
+                      TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   textInputAction: TextInputAction.next,
-                  validator: _validateEmail,
+                  validator: (v) =>
+                      _validateEmail(v, l10n),
                 ),
                 const SizedBox(height: 16),
-
-                // Password field
                 AuthTextField(
                   controller: _passwordController,
-                  label: 'Password',
+                  label: l10n.authPassword,
                   obscureText: _obscurePassword,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.next,
@@ -139,42 +148,50 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                          : Icons
+                              .visibility_off_outlined,
                     ),
                     onPressed: () {
-                      setState(() => _obscurePassword = !_obscurePassword);
+                      setState(
+                        () => _obscurePassword =
+                            !_obscurePassword,
+                      );
                     },
                   ),
-                  validator: _validatePassword,
+                  validator: (v) =>
+                      _validatePassword(v, l10n),
                 ),
                 const SizedBox(height: 16),
-
-                // Confirm password field
                 AuthTextField(
-                  controller: _confirmPasswordController,
-                  label: 'Confirm Password',
+                  controller:
+                      _confirmPasswordController,
+                  label: l10n.authConfirmPassword,
                   obscureText: _obscureConfirmPassword,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _handleSignUp(),
+                  onFieldSubmitted: (_) =>
+                      _handleSignUp(),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
                           ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                          : Icons
+                              .visibility_off_outlined,
                     ),
                     onPressed: () {
-                      setState(() =>
-                          _obscureConfirmPassword = !_obscureConfirmPassword,);
+                      setState(
+                        () => _obscureConfirmPassword =
+                            !_obscureConfirmPassword,
+                      );
                     },
                   ),
-                  validator: _validateConfirmPassword,
+                  validator: (v) =>
+                      _validateConfirmPassword(v, l10n),
                 ),
                 const SizedBox(height: 16),
-
-                // Terms checkbox
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Checkbox(
                       value: _acceptedTerms,
@@ -189,20 +206,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 12),
+                        padding: const EdgeInsets.only(
+                          top: 12,
+                        ),
                         child: Text.rich(
                           TextSpan(
-                            text: 'I agree to the ',
-                            style: theme.textTheme.bodyMedium,
+                            text: l10n.authAgreePrefix,
+                            style: theme
+                                .textTheme.bodyMedium,
                             children: [
                               TextSpan(
-                                text: 'Terms of Service',
+                                text:
+                                    l10n.settingsTerms,
                                 style: TextStyle(
-                                  color:
-                                      theme.colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
+                                  color: theme
+                                      .colorScheme
+                                      .primary,
+                                  fontWeight:
+                                      FontWeight.w500,
                                   decoration:
-                                      TextDecoration.underline,
+                                      TextDecoration
+                                          .underline,
                                 ),
                                 recognizer:
                                     TapGestureRecognizer()
@@ -211,15 +235,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                             '/settings/terms',
                                           ),
                               ),
-                              const TextSpan(text: ' and '),
                               TextSpan(
-                                text: 'Privacy Policy',
+                                text:
+                                    l10n.authAgreeAnd,
+                              ),
+                              TextSpan(
+                                text: l10n
+                                    .settingsPrivacy,
                                 style: TextStyle(
-                                  color:
-                                      theme.colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
+                                  color: theme
+                                      .colorScheme
+                                      .primary,
+                                  fontWeight:
+                                      FontWeight.w500,
                                   decoration:
-                                      TextDecoration.underline,
+                                      TextDecoration
+                                          .underline,
                                 ),
                                 recognizer:
                                     TapGestureRecognizer()
@@ -236,36 +267,41 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Sign up button
                 FilledButton(
-                  onPressed: isLoading || _isCooldown ? null : _handleSignUp,
+                  onPressed: isLoading || _isCooldown
+                      ? null
+                      : _handleSignUp,
                   style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
+                    minimumSize:
+                        const Size.fromHeight(48),
                   ),
                   child: isLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
+                          child:
+                              CircularProgressIndicator(
                             strokeWidth: 2,
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Create Account'),
+                      : Text(l10n.authCreateAccount),
                 ),
                 const SizedBox(height: 24),
-
-                // Divider
                 Row(
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding:
+                          const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
                       child: Text(
-                        'or sign up with',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                        l10n.authOrSignUpWith,
+                        style: theme.textTheme.bodySmall
+                            ?.copyWith(
+                          color: theme.colorScheme
+                              .onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -273,14 +309,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Social sign-in buttons
                 Row(
                   children: [
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading: isLoading || _isCooldown,
+                        isLoading:
+                            isLoading || _isCooldown,
                         onPressed: () => ref
                             .read(authProvider.notifier)
                             .signInWithGoogle(),
@@ -291,9 +326,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading: isLoading || _isCooldown,
+                          isLoading:
+                              isLoading || _isCooldown,
                           onPressed: () => ref
-                              .read(authProvider.notifier)
+                              .read(
+                                authProvider.notifier,
+                              )
                               .signInWithApple(),
                         ),
                       ),
@@ -301,19 +339,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                 ),
                 const SizedBox(height: 32),
-
-                // Sign in link
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account? ',
+                      l10n.authHaveAccount,
                       style: theme.textTheme.bodyMedium,
                     ),
                     TextButton(
-                      onPressed:
-                          isLoading ? null : () => context.go(AppRoutes.login),
-                      child: const Text('Sign In'),
+                      onPressed: isLoading
+                          ? null
+                          : () =>
+                              context.go(AppRoutes.login),
+                      child: Text(l10n.authSignIn),
                     ),
                   ],
                 ),
@@ -325,42 +364,53 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  String? _validateEmail(String? value) {
+  String? _validateEmail(
+    String? value,
+    AppLocalizations l10n,
+  ) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return l10n.authValidationEmailRequired;
     }
-    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+    final emailRegex =
+        RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email';
+      return l10n.authValidationEmailInvalid;
     }
     return null;
   }
 
-  String? _validatePassword(String? value) {
+  String? _validatePassword(
+    String? value,
+    AppLocalizations l10n,
+  ) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return l10n.authValidationPasswordRequired;
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return l10n.authValidationPasswordShort;
     }
     return null;
   }
 
-  String? _validateConfirmPassword(String? value) {
+  String? _validateConfirmPassword(
+    String? value,
+    AppLocalizations l10n,
+  ) {
     if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
+      return l10n.authValidationConfirmRequired;
     }
     if (value != _passwordController.text) {
-      return 'Passwords do not match';
+      return l10n.accountSettingsPasswordMismatch;
     }
     return null;
   }
 
   void _handleSignUp() {
+    final l10n = AppLocalizations.of(context);
     if (!_acceptedTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please accept the Terms of Service and Privacy Policy'),
+        SnackBar(
+          content: Text(l10n.authAcceptTermsError),
           backgroundColor: AppColors.warning,
         ),
       );
@@ -368,7 +418,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
 
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(authProvider.notifier).createUserWithEmailAndPassword(
+      ref
+          .read(authProvider.notifier)
+          .createUserWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text,
           );

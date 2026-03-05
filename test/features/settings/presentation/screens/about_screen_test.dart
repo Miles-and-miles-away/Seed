@@ -19,7 +19,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Seed'), findsOneWidget);
-      expect(find.text('Grow your sustainable habits'), findsOneWidget);
+      expect(find.text('Grow your sustainability habits'), findsOneWidget);
     });
 
     testWidgets('renders version section', (tester) async {

@@ -42,7 +42,7 @@ class AboutScreen extends StatelessWidget {
                   return ListTile(
                     leading: const Icon(Icons.info_outline),
                     title: Text('$version ($buildNumber)'),
-                    subtitle: const Text('Seed - Sustainability Habit Tracker'),
+                    subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
                   );
                 },
               ),
@@ -51,7 +51,7 @@ class AboutScreen extends StatelessWidget {
 
           // Legal section
           SettingsSection(
-            title: 'Legal',
+            title: l10n.aboutLegal,
             showTopDivider: true,
             children: [
               SettingsTile(
@@ -78,7 +78,7 @@ class AboutScreen extends StatelessWidget {
 
           // Support section
           SettingsSection(
-            title: 'Support',
+            title: l10n.aboutSupport,
             showTopDivider: true,
             children: [
               SettingsTile(
@@ -86,7 +86,7 @@ class AboutScreen extends StatelessWidget {
                 title: l10n.aboutSettingsContact,
                 subtitle: _contactEmail,
                 trailing: const Icon(Icons.open_in_new, size: 18),
-                onTap: _launchEmail,
+                onTap: () => _launchEmail(context),
               ),
             ],
           ),
@@ -97,7 +97,7 @@ class AboutScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Seed helps track sustainable actions aligned with the UN Sustainable Development Goals.',
+              l10n.aboutFooterSdg,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
@@ -110,7 +110,7 @@ class AboutScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Made with care for our planet.',
+              l10n.aboutFooterMade,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
               ),
@@ -153,7 +153,7 @@ class AboutScreen extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Grow your sustainable habits',
+            AppLocalizations.of(context).appTagline,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
             ),
@@ -163,12 +163,13 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _launchEmail() async {
+  Future<void> _launchEmail(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
     final uri = Uri(
       scheme: 'mailto',
       path: _contactEmail,
       queryParameters: {
-        'subject': 'Seed App Feedback',
+        'subject': l10n.aboutEmailSubject,
       },
     );
     if (await canLaunchUrl(uri)) {

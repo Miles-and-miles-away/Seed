@@ -35,7 +35,10 @@ class SettingsScreen extends ConsumerWidget {
               children: [
                 SettingsSwitchTile(
                   title: l10n.settingsNotifications,
-                  subtitle: _getReminderSubtitle(context, settings.enabledReminderCount),
+                  subtitle: _getReminderSubtitle(
+                    context,
+                    settings.enabledReminderCount,
+                  ),
                   leading: const Icon(Icons.notifications_outlined),
                   value: notificationsEnabled,
                   onChanged: (value) {
@@ -44,7 +47,7 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 SettingsTile(
                   title: l10n.settingsReminderTime,
-                  subtitle: _formatReminderTimes(settings.reminderSchedules),
+                  subtitle: _formatReminderTimes(context, settings.reminderSchedules),
                   leading: const Icon(Icons.schedule_outlined),
                   onTap: () => context.push('/settings/notifications'),
                 ),
@@ -53,7 +56,7 @@ class SettingsScreen extends ConsumerWidget {
 
             // Preferences Section
             SettingsSection(
-              title: 'Preferences',
+              title: l10n.settingsPreferences,
               showTopDivider: true,
               children: [
                 SettingsTile(
@@ -91,7 +94,7 @@ class SettingsScreen extends ConsumerWidget {
               children: [
                 SettingsTile(
                   title: l10n.settingsAccount,
-                  subtitle: 'Email, password, delete account',
+                  subtitle: l10n.settingsAccountSubtitle,
                   leading: const Icon(Icons.person_outline),
                   onTap: () => context.push('/settings/account'),
                 ),
@@ -109,7 +112,7 @@ class SettingsScreen extends ConsumerWidget {
                     final version = snapshot.data?.version ?? '...';
                     return SettingsTile(
                       title: l10n.settingsAbout,
-                      subtitle: 'Version $version',
+                      subtitle: l10n.settingsVersionFormat(version),
                       leading: const Icon(Icons.info_outline),
                       onTap: () => context.push('/settings/about'),
                     );
@@ -127,7 +130,7 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Error loading settings',
+                l10n.settingsErrorLoading,
                 style: theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: 8),
@@ -142,37 +145,50 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  String _getReminderSubtitle(BuildContext context, int count) {
+  String _getReminderSubtitle(
+    BuildContext context,
+    int count,
+  ) {
+    final l10n = AppLocalizations.of(context);
     if (count == 0) {
-      return 'No reminders set';
+      return l10n.settingsNoReminders;
     } else if (count == 1) {
-      return '1 reminder configured';
-    } else {
-      return '$count reminders configured';
+      return l10n.settingsOneReminder;
     }
+    return l10n.settingsRemindersCount(count);
   }
 
-  String _formatReminderTimes(List<NotificationScheduleModel> schedules) {
+  String _formatReminderTimes(
+    BuildContext context,
+    List<NotificationScheduleModel> schedules,
+  ) {
+    final l10n = AppLocalizations.of(context);
     if (schedules.isEmpty) {
-      return 'Tap to add reminders';
+      return l10n.settingsTapToAddReminders;
     }
 
-    final enabledSchedules = schedules.where((s) => s.isEnabled).toList();
-    if (enabledSchedules.isEmpty) {
-      return 'All reminders disabled';
+    final enabled =
+        schedules.where((s) => s.isEnabled).toList();
+    if (enabled.isEmpty) {
+      return l10n.settingsAllRemindersDisabled;
     }
 
-    if (enabledSchedules.length == 1) {
-      return enabledSchedules.first.displayTime;
+    if (enabled.length == 1) {
+      return enabled.first.displayTime;
     }
 
-    return '${enabledSchedules.first.displayTime} + ${enabledSchedules.length - 1} more';
+    return l10n.settingsRemindersPlusMore(
+      enabled.first.displayTime,
+      enabled.length - 1,
+    );
   }
 
   String _getLanguageDisplayName(String languageCode) {
     switch (languageCode) {
       case 'ja':
         return '日本語';
+      case 'es':
+        return 'Español';
       case 'en':
       default:
         return 'English';

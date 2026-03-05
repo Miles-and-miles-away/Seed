@@ -55,14 +55,14 @@ class HomeScreen extends ConsumerWidget {
 
                   // SDG Section header
                   Text(
-                    'Explore the Goals',
+                    l10n.homeExploreGoals,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Tap to learn about the UN Sustainable Development Goals',
+                    l10n.homeExploreGoalsSubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -77,8 +77,13 @@ class HomeScreen extends ConsumerWidget {
                 height: 140,
                 child: SdgCarousel(
                   goals: sdgGoals,
+                  locale: Localizations.localeOf(
+                    context,
+                  ).languageCode,
                   onGoalTap: (goal) {
-                    context.push('/home/sdg/${goal.number}');
+                    context.push(
+                      '/home/sdg/${goal.number}',
+                    );
                   },
                 ),
               ),
@@ -195,7 +200,7 @@ class HomeScreen extends ConsumerWidget {
                 context,
                 Icons.star_outline,
                 '${user?.points ?? 0}',
-                'Points',
+                l10n.homePoints,
                 colorScheme.primary,
               ),
             ],
@@ -311,7 +316,7 @@ class HomeScreen extends ConsumerWidget {
           color: theme.colorScheme.primary,
         ),
         label: Text(
-          'Learn more at UN.org',
+          AppLocalizations.of(context).homeLearnMore,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.w500,

@@ -30,7 +30,10 @@ void main() {
           AppLocalizations.supportedLocales,
       home: Scaffold(
         body: SingleChildScrollView(
-          child: SdgTargetsSection(goal: goal),
+          child: SdgTargetsSection(
+            goal: goal,
+            locale: 'en',
+          ),
         ),
       ),
     );

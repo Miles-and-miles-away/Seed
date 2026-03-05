@@ -3,36 +3,42 @@ import 'package:flutter/material.dart';
 
 import '../../data/sdg_data.dart';
 
-/// A horizontally scrolling carousel of SDG goal cards with infinite scroll
+/// A horizontally scrolling carousel of SDG goal
+/// cards with infinite scroll.
 class SdgCarousel extends StatefulWidget {
   const SdgCarousel({
     required this.goals,
     required this.onGoalTap,
+    this.locale = 'en',
     super.key,
   });
 
   final List<SdgGoal> goals;
   final void Function(SdgGoal goal) onGoalTap;
+  final String locale;
 
   @override
-  State<SdgCarousel> createState() => _SdgCarouselState();
+  State<SdgCarousel> createState() =>
+      _SdgCarouselState();
 }
 
 class _SdgCarouselState extends State<SdgCarousel> {
   late final ScrollController _scrollController;
   static const _itemWidth = 120.0;
   static const _itemSpacing = 12.0;
-  static const _totalItemWidth = _itemWidth + _itemSpacing;
-
-  // For infinite scroll, we use a large initial offset and wrap indices
+  static const _totalItemWidth =
+      _itemWidth + _itemSpacing;
   static const _multiplier = 1000;
 
   @override
   void initState() {
     super.initState();
-    // Start in the middle to allow scrolling in both directions
-    final initialOffset = _totalItemWidth * widget.goals.length * (_multiplier ~/ 2);
-    _scrollController = ScrollController(initialScrollOffset: initialOffset);
+    final initialOffset = _totalItemWidth *
+        widget.goals.length *
+        (_multiplier ~/ 2);
+    _scrollController = ScrollController(
+      initialScrollOffset: initialOffset,
+    );
   }
 
   @override
@@ -46,18 +52,22 @@ class _SdgCarouselState extends State<SdgCarousel> {
     return ListView.builder(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      // Use a very large item count for infinite scroll effect
-      itemCount: widget.goals.length * _multiplier,
+      padding:
+          const EdgeInsets.symmetric(horizontal: 24),
+      itemCount:
+          widget.goals.length * _multiplier,
       itemBuilder: (context, index) {
-        // Wrap the index to get the actual goal
-        final goalIndex = index % widget.goals.length;
+        final goalIndex =
+            index % widget.goals.length;
         final goal = widget.goals[goalIndex];
 
         return Padding(
-          padding: const EdgeInsets.only(right: _itemSpacing),
+          padding: const EdgeInsets.only(
+            right: _itemSpacing,
+          ),
           child: SdgCard(
             goal: goal,
+            locale: widget.locale,
             onTap: () => widget.onGoalTap(goal),
           ),
         );
@@ -66,16 +76,18 @@ class _SdgCarouselState extends State<SdgCarousel> {
   }
 }
 
-/// A single SDG goal card showing the icon and number
+/// A single SDG goal card showing icon and number.
 class SdgCard extends StatelessWidget {
   const SdgCard({
     required this.goal,
     required this.onTap,
+    this.locale = 'en',
     super.key,
   });
 
   final SdgGoal goal;
   final VoidCallback onTap;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -88,38 +100,46 @@ class SdgCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: goal.color.withValues(alpha: 0.4),
+              color: goal.color
+                  .withValues(alpha: 0.4),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
-            // SDG Icon
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius:
+                  BorderRadius.circular(8),
               child: CachedNetworkImage(
                 imageUrl: goal.iconUrl,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
+                placeholder: (context, url) =>
+                    Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.white
+                      .withValues(alpha: 0.2),
                   child: const Center(
-                    child: CircularProgressIndicator(
+                    child:
+                        CircularProgressIndicator(
                       strokeWidth: 2,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => Container(
+                errorWidget:
+                    (context, url, error) =>
+                        Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.white
+                      .withValues(alpha: 0.2),
                   child: Center(
                     child: Text(
                       '${goal.number}',
@@ -134,11 +154,13 @@ class SdgCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            // Goal short title
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding:
+                  const EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
               child: Text(
-                goal.shortTitle,
+                goal.getShortTitle(locale),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 11,

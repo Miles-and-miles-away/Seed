@@ -196,51 +196,52 @@ class _ActionLogConfirmationDialogState
         .descriptionLong(widget.languageCode)
         .isNotEmpty;
 
-    // Learn-only actions (co2=0) keep description
-    // as the hyperlink to science info
-    if (hasLong && widget.action.co2Grams == 0) {
-      return GestureDetector(
-        onTap: () => ActionScienceBottomSheet.show(
-          context,
-          action: widget.action,
-          languageCode: widget.languageCode,
+    if (!hasLong) {
+      return Text(
+        desc,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
         ),
-        child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Text(
-                desc,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(
-                  color: categoryColor,
-                  fontWeight: FontWeight.w500,
-                  decoration:
-                      TextDecoration.underline,
-                  decorationColor: categoryColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.info_outline,
-              size: 16,
-              color: categoryColor,
-            ),
-          ],
-        ),
+        textAlign: TextAlign.center,
       );
     }
 
-    return Text(
-      desc,
-      style: theme.textTheme.bodyMedium?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
+    final linkColor =
+        theme.colorScheme.onSurfaceVariant;
+
+    return GestureDetector(
+      onTap: () => ActionScienceBottomSheet.show(
+        context,
+        action: widget.action,
+        languageCode: widget.languageCode,
       ),
-      textAlign: TextAlign.center,
+      child: Row(
+        mainAxisAlignment:
+            MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              desc,
+              style: theme.textTheme.bodyMedium
+                  ?.copyWith(
+                color: linkColor,
+                fontWeight: FontWeight.w500,
+                decoration:
+                    TextDecoration.underline,
+                decorationColor: linkColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.info_outline,
+            size: 16,
+            color: categoryColor,
+          ),
+        ],
+      ),
     );
   }
 
@@ -255,6 +256,8 @@ class _ActionLogConfirmationDialogState
     final co2Text = l10n.co2Saved(
       formatCO2Compact(widget.action.co2Grams),
     );
+    final linkColor =
+        theme.colorScheme.onSurfaceVariant;
 
     final row = Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -270,9 +273,10 @@ class _ActionLogConfirmationDialogState
         const SizedBox(width: 4),
         Text(
           co2Text,
-          style: theme.textTheme.bodySmall?.copyWith(
+          style: theme.textTheme.bodyMedium
+              ?.copyWith(
             color: hasLong
-                ? categoryColor
+                ? linkColor
                 : theme.colorScheme.primary,
             fontWeight:
                 hasLong ? FontWeight.w500 : null,
@@ -280,7 +284,7 @@ class _ActionLogConfirmationDialogState
                 ? TextDecoration.underline
                 : null,
             decorationColor:
-                hasLong ? categoryColor : null,
+                hasLong ? linkColor : null,
           ),
         ),
         if (hasLong) ...[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/l10n/generated/app_localizations.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/reminder_list_tile.dart';
 import '../widgets/settings_section.dart';
@@ -19,6 +20,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     final settingsAsync = ref.watch(userSettingsProvider);
     final notificationsEnabled = ref.watch(notificationsEnabledProvider);
@@ -27,18 +29,18 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notification Settings'),
+        title: Text(l10n.notifSettingsTitle),
       ),
       body: settingsAsync.when(
         data: (settings) => ListView(
           children: [
             // Master Toggle Section
             SettingsSection(
-              title: 'Notifications',
+              title: l10n.notifSectionNotifications,
               children: [
                 SettingsSwitchTile(
-                  title: 'Enable Notifications',
-                  subtitle: 'Receive daily reminders to log actions',
+                  title: l10n.notifEnableTitle,
+                  subtitle: l10n.notifEnableSubtitle,
                   leading: const Icon(Icons.notifications_outlined),
                   value: notificationsEnabled,
                   onChanged: (value) {
@@ -52,12 +54,12 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             // Smart Reminders Section
             SettingsSection(
-              title: 'Smart Reminders',
+              title: l10n.notifSmartTitle,
               showTopDivider: true,
               children: [
                 SettingsSwitchTile(
-                  title: 'Only remind if no action today',
-                  subtitle: "Skip reminders on days you've already logged",
+                  title: l10n.notifSmartOnlyTitle,
+                  subtitle: l10n.notifSmartOnlySubtitle,
                   leading: const Icon(Icons.auto_awesome_outlined),
                   value: smartRemindersEnabled,
                   enabled: notificationsEnabled,
@@ -73,8 +75,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                     vertical: 8,
                   ),
                   child: Text(
-                    "When enabled, reminders will only appear if you haven't "
-                    'logged any sustainable actions that day.',
+                    l10n.notifSmartDescription,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
@@ -85,7 +86,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             // Reminder Times Section
             SettingsSection(
-              title: 'Reminder Times',
+              title: l10n.notifReminderTimesTitle,
               showTopDivider: true,
               children: [
                 if (settings.reminderSchedules.isEmpty)
@@ -100,14 +101,14 @@ class NotificationSettingsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'No reminders set',
+                          l10n.notifNoReminders,
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Add a reminder to get notified',
+                          l10n.notifAddReminder,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -151,7 +152,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                         ? () => _showTimePicker(context, ref)
                         : null,
                     icon: const Icon(Icons.add),
-                    label: const Text('Add Reminder Time'),
+                    label: Text(l10n.notifAddReminderTime),
                   ),
                 ),
 
@@ -160,7 +161,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'Maximum 5 reminders allowed',
+                      l10n.notifMaxReminders,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -175,7 +176,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
-          child: Text('Error: $error'),
+          child: Text('${l10n.errorGeneric} $error'),
         ),
       ),
     );
@@ -187,12 +188,14 @@ class NotificationSettingsScreen extends ConsumerWidget {
     String? existingScheduleId,
     TimeOfDay? initialTime,
   }) async {
+    final l10n = AppLocalizations.of(context);
     final time = await showTimePicker(
       context: context,
-      initialTime: initialTime ?? const TimeOfDay(hour: 9, minute: 0),
+      initialTime: initialTime ??
+          const TimeOfDay(hour: 9, minute: 0),
       helpText: existingScheduleId != null
-          ? 'Edit reminder time'
-          : 'Select reminder time',
+          ? l10n.notifEditTime
+          : l10n.notifSelectTime,
     );
 
     if (time == null) return;
@@ -216,18 +219,21 @@ class NotificationSettingsScreen extends ConsumerWidget {
     }
   }
 
-  Future<String?> _showLabelDialog(BuildContext context) async {
+  Future<String?> _showLabelDialog(
+    BuildContext context,
+  ) async {
+    final l10n = AppLocalizations.of(context);
     final controller = TextEditingController();
 
     final result = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reminder Label'),
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.notifLabelTitle),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            hintText: 'e.g., Morning, After work...',
-            labelText: 'Label (optional)',
+          decoration: InputDecoration(
+            hintText: l10n.notifLabelHint,
+            labelText: l10n.notifLabelOptional,
           ),
           autofocus: true,
           textCapitalization: TextCapitalization.words,
@@ -235,12 +241,15 @@ class NotificationSettingsScreen extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Skip'),
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.buttonSkip),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Add'),
+            onPressed: () => Navigator.pop(
+              ctx,
+              controller.text.trim(),
+            ),
+            child: Text(l10n.notifAdd),
           ),
         ],
       ),
@@ -256,22 +265,26 @@ class NotificationSettingsScreen extends ConsumerWidget {
     String scheduleId,
     String displayTime,
   ) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Reminder?'),
-        content: Text('Remove the $displayTime reminder?'),
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.notifDeleteTitle),
+        content: Text(
+          l10n.notifDeleteMessage(displayTime),
+        ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l10n.buttonCancel),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
+              backgroundColor:
+                  Theme.of(ctx).colorScheme.error,
             ),
-            child: const Text('Delete'),
+            child: Text(l10n.buttonDelete),
           ),
         ],
       ),
