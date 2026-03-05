@@ -1,5 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart'
-    show Provider;
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/utils/app_logger.dart';
@@ -15,7 +14,8 @@ import '../../data/repositories/action_log_repository.dart';
 import '../../domain/enums/action_category.dart';
 import '../../domain/enums/action_sort_option.dart';
 
-export '../../data/repositories/action_log_repository.dart' show ActionLogResult;
+export '../../data/repositories/action_log_repository.dart'
+    show ActionLogResult;
 export '../../domain/enums/action_sort_option.dart' show ActionSortOption;
 
 part 'actions_providers.g.dart';
@@ -75,7 +75,9 @@ Stream<List<ActionLogModel>> userActionLogs(Ref ref) {
   return userAsync.when(
     data: (user) {
       if (user == null) return Stream.value([]);
-      return ref.watch(actionLogRepositoryProvider).watchUserActionLogs(user.uid);
+      return ref
+          .watch(actionLogRepositoryProvider)
+          .watchUserActionLogs(user.uid);
     },
     loading: () => Stream.value([]),
     error: (_, __) => Stream.value([]),
@@ -176,10 +178,8 @@ final userLanguageCodeProvider = Provider<String>((ref) {
 @riverpod
 AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
-  final selectedCategory =
-      ref.watch(selectedCategoryProvider);
-  final searchQuery =
-      ref.watch(actionSearchQueryProvider).toLowerCase();
+  final selectedCategory = ref.watch(selectedCategoryProvider);
+  final searchQuery = ref.watch(actionSearchQueryProvider).toLowerCase();
   final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
   return actionsAsync.whenData((actions) {
@@ -196,32 +196,19 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
     if (selectedSdg != null) {
       filtered = filtered
           .where(
-            (a) => a.relatedSdgs
-                .contains(selectedSdg.toString()),
+            (a) => a.relatedSdgs.contains(selectedSdg.toString()),
           )
           .toList();
     }
 
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((a) {
-        return a.nameEn
-                .toLowerCase()
-                .contains(searchQuery) ||
-            a.nameJa
-                .toLowerCase()
-                .contains(searchQuery) ||
-            a.nameEs
-                .toLowerCase()
-                .contains(searchQuery) ||
-            a.descriptionEn
-                .toLowerCase()
-                .contains(searchQuery) ||
-            a.descriptionJa
-                .toLowerCase()
-                .contains(searchQuery) ||
-            a.descriptionEs
-                .toLowerCase()
-                .contains(searchQuery);
+        return a.nameEn.toLowerCase().contains(searchQuery) ||
+            a.nameJa.toLowerCase().contains(searchQuery) ||
+            a.nameEs.toLowerCase().contains(searchQuery) ||
+            a.descriptionEn.toLowerCase().contains(searchQuery) ||
+            a.descriptionJa.toLowerCase().contains(searchQuery) ||
+            a.descriptionEs.toLowerCase().contains(searchQuery);
       }).toList();
     }
 
@@ -255,13 +242,11 @@ List<ActionModel> _sortActions(
   switch (sortOption) {
     case ActionSortOption.alphabeticalAsc:
       sorted.sort(
-        (a, b) => a.name(languageCode)
-            .compareTo(b.name(languageCode)),
+        (a, b) => a.name(languageCode).compareTo(b.name(languageCode)),
       );
     case ActionSortOption.alphabeticalDesc:
       sorted.sort(
-        (a, b) => b.name(languageCode)
-            .compareTo(a.name(languageCode)),
+        (a, b) => b.name(languageCode).compareTo(a.name(languageCode)),
       );
     case ActionSortOption.co2HighToLow:
       sorted.sort(
@@ -323,28 +308,26 @@ class ActionLogNotifier extends _$ActionLogNotifier {
 
     final result = await AsyncValue.guard(() async {
       return actionLogRepo.logAction(
-            userId: user.uid,
-            action: action,
-            languageCode: languageCode,
-            note: note,
-          );
+        userId: user.uid,
+        action: action,
+        languageCode: languageCode,
+        note: note,
+      );
     });
 
     // Update daily summary for progress tracking and log analytics
     if (result.hasValue && result.asData?.value != null) {
-      final sdgNumbers = action.relatedSdgs
-          .map(int.tryParse)
-          .whereType<int>()
-          .toList();
+      final sdgNumbers =
+          action.relatedSdgs.map(int.tryParse).whereType<int>().toList();
 
       AppLogger.debug('ActionLog: Calling recordAction for progress tracking');
       try {
         await progressRepo.recordAction(
-              userId: user.uid,
-              points: action.points,
-              co2Grams: action.co2Grams,
-              sdgNumbers: sdgNumbers,
-            );
+          userId: user.uid,
+          points: action.points,
+          co2Grams: action.co2Grams,
+          sdgNumbers: sdgNumbers,
+        );
         AppLogger.debug('ActionLog: recordAction completed');
 
         // Track analytics event

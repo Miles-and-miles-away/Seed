@@ -22,9 +22,7 @@ class MascotRepository {
   DocumentReference<Map<String, dynamic>> _userDoc(
     String userId,
   ) =>
-      _firestore
-          .collection(AppConstants.collectionUsers)
-          .doc(userId);
+      _firestore.collection(AppConstants.collectionUsers).doc(userId);
 
   // =========================================================
   // Multi-mascot operations
@@ -117,12 +115,11 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list =
-          (data['mascots'] as List<dynamic>? ?? [])
-              .map(
-                (e) => Map<String, dynamic>.from(e as Map),
-              )
-              .toList();
+      final list = (data['mascots'] as List<dynamic>? ?? [])
+          .map(
+            (e) => Map<String, dynamic>.from(e as Map),
+          )
+          .toList();
 
       final idx = list.indexWhere(
         (m) => m['id'] == updated.id,
@@ -143,15 +140,13 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list =
-          (data['mascots'] as List<dynamic>? ?? [])
-              .map(
-                (e) => Map<String, dynamic>.from(e as Map),
-              )
-              .toList();
+      final list = (data['mascots'] as List<dynamic>? ?? [])
+          .map(
+            (e) => Map<String, dynamic>.from(e as Map),
+          )
+          .toList();
 
-      final idx =
-          list.indexWhere((m) => m['id'] == mascotId);
+      final idx = list.indexWhere((m) => m['id'] == mascotId);
       if (idx == -1) return;
       list[idx]['lastSeenStage'] = stage;
       tx.update(ref, {'mascots': list});
@@ -168,15 +163,13 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list =
-          (data['mascots'] as List<dynamic>? ?? [])
-              .map(
-                (e) => Map<String, dynamic>.from(e as Map),
-              )
-              .toList();
+      final list = (data['mascots'] as List<dynamic>? ?? [])
+          .map(
+            (e) => Map<String, dynamic>.from(e as Map),
+          )
+          .toList();
 
-      final idx =
-          list.indexWhere((m) => m['id'] == mascotId);
+      final idx = list.indexWhere((m) => m['id'] == mascotId);
       if (idx == -1) return;
       list[idx]['name'] = name;
       tx.update(ref, {'mascots': list});

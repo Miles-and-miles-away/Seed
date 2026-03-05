@@ -108,8 +108,7 @@ void main() {
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);
     });
 
-    testWidgets('renders external link icon for Contact',
-        (tester) async {
+    testWidgets('renders external link icon for Contact', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 

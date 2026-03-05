@@ -64,7 +64,8 @@ void main() {
 
         await repository.updateSettings(testUid, settings);
 
-        verify(() => mockDataSource.updateSettings(testUid, settings)).called(1);
+        verify(() => mockDataSource.updateSettings(testUid, settings))
+            .called(1);
       });
     });
 

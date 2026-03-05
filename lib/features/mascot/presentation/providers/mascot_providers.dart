@@ -42,9 +42,7 @@ Stream<List<MascotModel>> allMascots(Ref ref) async* {
     yield <MascotModel>[];
     return;
   }
-  yield* ref
-      .watch(mascotRepositoryProvider)
-      .watchAllMascots(user.uid);
+  yield* ref.watch(mascotRepositoryProvider).watchAllMascots(user.uid);
 }
 
 /// Streams the active mascot for the current user.
@@ -55,9 +53,7 @@ Stream<MascotModel?> activeMascot(Ref ref) async* {
     yield null;
     return;
   }
-  yield* ref
-      .watch(mascotRepositoryProvider)
-      .watchActiveMascot(user.uid);
+  yield* ref.watch(mascotRepositoryProvider).watchActiveMascot(user.uid);
 }
 
 /// Whether the current user has at least one mascot.
@@ -86,8 +82,7 @@ MascotSpeciesModel? activeSpecies(Ref ref) {
 /// activeMascotProvider through activeSpeciesProvider.
 @riverpod
 int activeMascotStage(Ref ref) {
-  final mascot =
-      ref.watch(activeMascotProvider).value;
+  final mascot = ref.watch(activeMascotProvider).value;
   if (mascot == null) return 1;
   final species = getSpeciesById(mascot.speciesId);
   if (species == null) return 1;
@@ -152,8 +147,7 @@ bool hasEgg(Ref ref) {
 double eggHatchingProgress(Ref ref) {
   final egg = ref.watch(currentEggProvider);
   if (egg == null) return 0;
-  return (egg.hatchingStreakDays /
-          AppConstants.eggHatchingStreakRequired)
+  return (egg.hatchingStreakDays / AppConstants.eggHatchingStreakRequired)
       .clamp(0.0, 1.0);
 }
 
@@ -164,8 +158,7 @@ int eggDaysRemaining(Ref ref) {
   if (egg == null) {
     return AppConstants.eggHatchingStreakRequired;
   }
-  return (AppConstants.eggHatchingStreakRequired -
-          egg.hatchingStreakDays)
+  return (AppConstants.eggHatchingStreakRequired - egg.hatchingStreakDays)
       .clamp(0, AppConstants.eggHatchingStreakRequired);
 }
 
@@ -196,8 +189,7 @@ String? stageLocalizedName(Ref ref, String locale) {
   if (stageData == null) return null;
   return switch (locale) {
     'ja' => stageData.nameJa,
-    'es' when stageData.nameEs.isNotEmpty =>
-      stageData.nameEs,
+    'es' when stageData.nameEs.isNotEmpty => stageData.nameEs,
     _ => stageData.nameEn,
   };
 }
@@ -235,8 +227,7 @@ class MascotNotifier extends _$MascotNotifier {
   /// Renames the active mascot.
   Future<void> renameMascot(String name) async {
     final user = ref.read(currentUserProvider).value;
-    final mascot =
-        ref.read(activeMascotProvider).value;
+    final mascot = ref.read(activeMascotProvider).value;
     if (user == null || mascot == null) return;
 
     state = const AsyncValue.loading();
@@ -255,8 +246,7 @@ class MascotNotifier extends _$MascotNotifier {
   /// Marks the current evolution stage as seen.
   Future<void> markEvolutionSeen() async {
     final user = ref.read(currentUserProvider).value;
-    final mascot =
-        ref.read(activeMascotProvider).value;
+    final mascot = ref.read(activeMascotProvider).value;
     final stage = ref.read(activeMascotStageProvider);
     if (user == null || mascot == null) return;
 
@@ -331,8 +321,7 @@ class MascotNotifier extends _$MascotNotifier {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
-    final migrationService =
-        ref.read(mascotMigrationServiceProvider);
+    final migrationService = ref.read(mascotMigrationServiceProvider);
     await migrationService.migrateIfNeeded(user.uid);
   }
 }

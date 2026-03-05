@@ -22,8 +22,7 @@ class EggProgressWidget extends ConsumerWidget {
     final egg = ref.watch(currentEggProvider);
     if (egg == null) return const SizedBox.shrink();
 
-    final progress =
-        ref.watch(eggHatchingProgressProvider);
+    final progress = ref.watch(eggHatchingProgressProvider);
     final streakDays = egg.hatchingStreakDays;
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
@@ -69,8 +68,7 @@ class EggProgressWidget extends ConsumerWidget {
                   child: CircularProgressIndicator(
                     value: progress,
                     strokeWidth: 4,
-                    backgroundColor: colorScheme
-                        .surfaceContainerHighest,
+                    backgroundColor: colorScheme.surfaceContainerHighest,
                     valueColor: AlwaysStoppedAnimation(
                       isCloseToHatching
                           ? const Color(0xFFFFD700)
@@ -88,11 +86,10 @@ class EggProgressWidget extends ConsumerWidget {
               streakDays,
               AppConstants.eggHatchingStreakRequired,
             ),
-            style:
-                Theme.of(context).textTheme.labelSmall?.copyWith(
-              fontSize: 10,
-              color: colorScheme.onSurfaceVariant,
-            ),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  fontSize: 10,
+                  color: colorScheme.onSurfaceVariant,
+                ),
           ),
         ],
       ),

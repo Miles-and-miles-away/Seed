@@ -97,7 +97,8 @@ void main() {
       expect(button.onPressed, isNotNull);
     });
 
-    testWidgets('displays description based on selected target', (tester) async {
+    testWidgets('displays description based on selected target',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 

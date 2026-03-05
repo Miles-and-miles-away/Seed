@@ -68,11 +68,9 @@ void main() {
           }),
           filteredActionsProvider.overrideWith((ref) {
             if (isLoading) {
-              return const AsyncValue<
-                  List<ActionModel>>.loading();
+              return const AsyncValue<List<ActionModel>>.loading();
             }
-            final selected =
-                ref.watch(selectedCategoryProvider);
+            final selected = ref.watch(selectedCategoryProvider);
             final allActions = actions ?? testActions;
             if (selected == null) {
               return AsyncValue.data(allActions);
@@ -143,14 +141,16 @@ void main() {
       expect(find.byType(GridView), findsOneWidget);
     });
 
-    testWidgets('displays empty state when no actions match filter', (tester) async {
+    testWidgets('displays empty state when no actions match filter',
+        (tester) async {
       await tester.pumpWidget(createTestWidget(actions: []));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.search_off), findsOneWidget);
     });
 
-    testWidgets('search field has clear button when text entered', (tester) async {
+    testWidgets('search field has clear button when text entered',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -187,7 +187,8 @@ void main() {
       await tester.pumpAndSettle();
 
       final gridView = tester.widget<GridView>(find.byType(GridView));
-      final delegate = gridView.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+      final delegate =
+          gridView.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
       expect(delegate.crossAxisCount, 2);
     });
 

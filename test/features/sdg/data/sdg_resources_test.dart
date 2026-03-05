@@ -77,8 +77,7 @@ void main() {
           expect(
             resource.url,
             startsWith('https://'),
-            reason:
-                'Goal ${entry.key}: invalid URL '
+            reason: 'Goal ${entry.key}: invalid URL '
                 '${resource.url}',
           );
         }
@@ -118,8 +117,7 @@ void main() {
         expect(
           hasOfficial,
           isTrue,
-          reason:
-              'Goal ${entry.key} missing official '
+          reason: 'Goal ${entry.key} missing official '
               'resource',
         );
       }

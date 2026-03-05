@@ -247,7 +247,8 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMascotSelectionPrompt(BuildContext context, AppLocalizations l10n) {
+  Widget _buildMascotSelectionPrompt(
+      BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -268,7 +269,8 @@ class HomeScreen extends ConsumerWidget {
         children: [
           // Preview mascot
           MascotPreview(
-            assetPath: defaultMascotSpecies.first.evolutionStages.first.assetPath,
+            assetPath:
+                defaultMascotSpecies.first.evolutionStages.first.assetPath,
           ),
 
           const SizedBox(height: 16),

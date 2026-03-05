@@ -190,11 +190,9 @@ class _ActionLogConfirmationDialogState
     AppLocalizations l10n,
     Color categoryColor,
   ) {
-    final desc =
-        widget.action.description(widget.languageCode);
-    final hasLong = widget.action
-        .descriptionLong(widget.languageCode)
-        .isNotEmpty;
+    final desc = widget.action.description(widget.languageCode);
+    final hasLong =
+        widget.action.descriptionLong(widget.languageCode).isNotEmpty;
 
     if (!hasLong) {
       return Text(
@@ -206,8 +204,7 @@ class _ActionLogConfirmationDialogState
       );
     }
 
-    final linkColor =
-        theme.colorScheme.onSurfaceVariant;
+    final linkColor = theme.colorScheme.onSurfaceVariant;
 
     return GestureDetector(
       onTap: () => ActionScienceBottomSheet.show(
@@ -216,19 +213,16 @@ class _ActionLogConfirmationDialogState
         languageCode: widget.languageCode,
       ),
       child: Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
             child: Text(
               desc,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 color: linkColor,
                 fontWeight: FontWeight.w500,
-                decoration:
-                    TextDecoration.underline,
+                decoration: TextDecoration.underline,
                 decorationColor: linkColor,
               ),
               textAlign: TextAlign.center,
@@ -250,14 +244,12 @@ class _ActionLogConfirmationDialogState
     AppLocalizations l10n,
     Color categoryColor,
   ) {
-    final hasLong = widget.action
-        .descriptionLong(widget.languageCode)
-        .isNotEmpty;
+    final hasLong =
+        widget.action.descriptionLong(widget.languageCode).isNotEmpty;
     final co2Text = l10n.co2Saved(
       formatCO2Compact(widget.action.co2Grams),
     );
-    final linkColor =
-        theme.colorScheme.onSurfaceVariant;
+    final linkColor = theme.colorScheme.onSurfaceVariant;
 
     final row = Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -266,25 +258,16 @@ class _ActionLogConfirmationDialogState
         Icon(
           Icons.eco,
           size: 16,
-          color: hasLong
-              ? categoryColor
-              : theme.colorScheme.primary,
+          color: hasLong ? categoryColor : theme.colorScheme.primary,
         ),
         const SizedBox(width: 4),
         Text(
           co2Text,
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(
-            color: hasLong
-                ? linkColor
-                : theme.colorScheme.primary,
-            fontWeight:
-                hasLong ? FontWeight.w500 : null,
-            decoration: hasLong
-                ? TextDecoration.underline
-                : null,
-            decorationColor:
-                hasLong ? linkColor : null,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: hasLong ? linkColor : theme.colorScheme.primary,
+            fontWeight: hasLong ? FontWeight.w500 : null,
+            decoration: hasLong ? TextDecoration.underline : null,
+            decorationColor: hasLong ? linkColor : null,
           ),
         ),
         if (hasLong) ...[

@@ -106,7 +106,8 @@ class _LanguageTile extends StatelessWidget {
           : null,
       onTap: onTap,
       selected: isSelected,
-      selectedTileColor: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+      selectedTileColor:
+          theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
     );
   }
 }

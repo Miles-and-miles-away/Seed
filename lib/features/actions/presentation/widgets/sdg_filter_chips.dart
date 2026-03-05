@@ -20,20 +20,17 @@ class SdgFilterChips extends ConsumerStatefulWidget {
   const SdgFilterChips({super.key});
 
   @override
-  ConsumerState<SdgFilterChips> createState() =>
-      _SdgFilterChipsState();
+  ConsumerState<SdgFilterChips> createState() => _SdgFilterChipsState();
 }
 
-class _SdgFilterChipsState
-    extends ConsumerState<SdgFilterChips> {
+class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     final midCycle = _repeatCount ~/ 2;
-    final offset =
-        midCycle * _cycleLength * _estimatedChipWidth;
+    final offset = midCycle * _cycleLength * _estimatedChipWidth;
     _scrollController = ScrollController(
       initialScrollOffset: offset,
     );
@@ -49,8 +46,7 @@ class _SdgFilterChipsState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final selectedSdg =
-        ref.watch(selectedSdgFilterProvider);
+    final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
     return SizedBox(
       height: 40,
@@ -68,37 +64,28 @@ class _SdgFilterChipsState
           if (i == 0) {
             final isSelected = selectedSdg == null;
             return Padding(
-              padding:
-                  const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 8),
               child: FilterChip(
                 label: Text(l10n.allCategories),
                 selected: isSelected,
                 onSelected: (_) {
                   ref
                       .read(
-                        selectedSdgFilterProvider
-                            .notifier,
+                        selectedSdgFilterProvider.notifier,
                       )
                       .clear();
                 },
                 labelStyle: TextStyle(
                   color: isSelected
                       ? theme.colorScheme.onPrimary
-                      : theme.colorScheme
-                            .onSurfaceVariant,
-                  fontWeight: isSelected
-                      ? FontWeight.w600
-                      : FontWeight.normal,
+                      : theme.colorScheme.onSurfaceVariant,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
-                backgroundColor: theme.colorScheme
-                    .surfaceContainerHighest,
-                selectedColor:
-                    theme.colorScheme.primary,
-                checkmarkColor:
-                    theme.colorScheme.onPrimary,
+                backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                selectedColor: theme.colorScheme.primary,
+                checkmarkColor: theme.colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
             );
@@ -106,12 +93,10 @@ class _SdgFilterChipsState
 
           // SDG chips
           final sdg = sdgGoals[i - 1];
-          final isSelected =
-              selectedSdg == sdg.number;
+          final isSelected = selectedSdg == sdg.number;
 
           return Padding(
-            padding:
-                const EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: FilterChip(
               avatar: isSelected
                   ? null
@@ -123,8 +108,7 @@ class _SdgFilterChipsState
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
-                          fontWeight:
-                              FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -134,15 +118,13 @@ class _SdgFilterChipsState
                 if (isSelected) {
                   ref
                       .read(
-                        selectedSdgFilterProvider
-                            .notifier,
+                        selectedSdgFilterProvider.notifier,
                       )
                       .clear();
                 } else {
                   ref
                       .read(
-                        selectedSdgFilterProvider
-                            .notifier,
+                        selectedSdgFilterProvider.notifier,
                       )
                       .select(sdg.number);
                 }
@@ -150,20 +132,15 @@ class _SdgFilterChipsState
               labelStyle: TextStyle(
                 color: isSelected
                     ? Colors.white
-                    : theme.colorScheme
-                          .onSurfaceVariant,
-                fontWeight: isSelected
-                    ? FontWeight.w600
-                    : FontWeight.normal,
+                    : theme.colorScheme.onSurfaceVariant,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 fontSize: 13,
               ),
-              backgroundColor: theme.colorScheme
-                  .surfaceContainerHighest,
+              backgroundColor: theme.colorScheme.surfaceContainerHighest,
               selectedColor: sdg.color,
               checkmarkColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
           );

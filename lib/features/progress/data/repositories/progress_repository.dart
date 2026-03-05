@@ -74,7 +74,10 @@ class ProgressRepository {
 
   /// Save user's daily goal target to their profile.
   Future<void> saveDailyGoalTarget(String userId, int target) async {
-    await _firestore.collection(AppConstants.collectionUsers).doc(userId).update({
+    await _firestore
+        .collection(AppConstants.collectionUsers)
+        .doc(userId)
+        .update({
       'dailyGoalTarget': target,
     });
   }

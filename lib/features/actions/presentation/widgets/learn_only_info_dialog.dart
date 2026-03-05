@@ -36,8 +36,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final category = ActionCategory.fromString(action.category);
-    final categoryColor =
-        category?.color ?? theme.colorScheme.primary;
+    final categoryColor = category?.color ?? theme.colorScheme.primary;
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
@@ -79,9 +78,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (action
-                    .description(languageCode)
-                    .isNotEmpty) ...[
+                if (action.description(languageCode).isNotEmpty) ...[
                   _buildDescription(
                     context,
                     theme,
@@ -100,8 +97,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     l10n.learnOnlyRelatedSdgs,
-                    style:
-                        theme.textTheme.labelMedium?.copyWith(
+                    style: theme.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -129,8 +125,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
     Color categoryColor,
   ) {
     final desc = action.description(languageCode);
-    final hasLong =
-        action.descriptionLong(languageCode).isNotEmpty;
+    final hasLong = action.descriptionLong(languageCode).isNotEmpty;
 
     if (!hasLong) {
       return Text(
@@ -155,8 +150,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
           Flexible(
             child: Text(
               desc,
-              style:
-                  theme.textTheme.bodyMedium?.copyWith(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 color: categoryColor,
                 decoration: TextDecoration.underline,
                 decorationColor: categoryColor,
@@ -191,8 +185,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
       spacing: 6,
       runSpacing: 6,
       children: parsed.map((number) {
-        final sdg =
-            sdgGoalMap[number] ?? sdgGoals.first;
+        final sdg = sdgGoalMap[number] ?? sdgGoals.first;
         return Container(
           width: 28,
           height: 28,

@@ -39,9 +39,7 @@ Future<void> handleActionTap(
   if (result == null || !result.confirmed) return;
   if (!context.mounted) return;
 
-  final logResult = await ref
-      .read(actionLogProvider.notifier)
-      .logAction(
+  final logResult = await ref.read(actionLogProvider.notifier).logAction(
         action,
         note: result.note,
         languageCode: languageCode,
@@ -50,8 +48,7 @@ Future<void> handleActionTap(
   if (!context.mounted) return;
 
   if (logResult != null) {
-    final category =
-        ActionCategory.fromString(action.category);
+    final category = ActionCategory.fromString(action.category);
 
     PointsAnimationOverlay.show(
       context,
@@ -59,30 +56,22 @@ Future<void> handleActionTap(
       color: category?.color,
     );
 
-    ref
-        .read(mascotAnimationTriggerProvider.notifier)
-        .triggerBounce();
+    ref.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          AppLocalizations.of(context)
-              .actionLogged(action.points),
+          AppLocalizations.of(context).actionLogged(action.points),
         ),
         behavior: SnackBarBehavior.floating,
-        backgroundColor:
-            Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
 
-    if (logResult.shouldShowMilestone &&
-        context.mounted) {
-      final settings =
-          await ref.read(userSettingsProvider.future);
-      final milestoneWeek =
-          logResult.crossedMilestoneWeek!;
-      final alreadySeen =
-          settings.hasSeenMilestone(milestoneWeek);
+    if (logResult.shouldShowMilestone && context.mounted) {
+      final settings = await ref.read(userSettingsProvider.future);
+      final milestoneWeek = logResult.crossedMilestoneWeek!;
+      final alreadySeen = settings.hasSeenMilestone(milestoneWeek);
 
       if (!alreadySeen && context.mounted) {
         await showStreakMilestoneCelebration(
@@ -99,8 +88,7 @@ Future<void> handleActionTap(
           AppLocalizations.of(context).errorGeneric,
         ),
         behavior: SnackBarBehavior.floating,
-        backgroundColor:
-            Theme.of(context).colorScheme.error,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }

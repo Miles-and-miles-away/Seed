@@ -80,8 +80,8 @@ void main() {
     });
 
     test('total target count is 169', () {
-      final total = sdgTargets.values
-          .fold<int>(0, (sum, list) => sum + list.length);
+      final total =
+          sdgTargets.values.fold<int>(0, (sum, list) => sum + list.length);
       expect(total, 169);
     });
 
@@ -109,8 +109,7 @@ void main() {
         expect(
           sdgTargets[entry.key]!.length,
           entry.value,
-          reason:
-              'Goal ${entry.key} expected ${entry.value}'
+          reason: 'Goal ${entry.key} expected ${entry.value}'
               ' targets',
         );
       }
@@ -122,8 +121,7 @@ void main() {
           expect(
             target.code,
             isNotEmpty,
-            reason:
-                'Goal ${entry.key} has empty target code',
+            reason: 'Goal ${entry.key} has empty target code',
           );
         }
       }
@@ -157,13 +155,11 @@ void main() {
 
     test('no duplicate target codes within a goal', () {
       for (final entry in sdgTargets.entries) {
-        final codes =
-            entry.value.map((t) => t.code).toSet();
+        final codes = entry.value.map((t) => t.code).toSet();
         expect(
           codes.length,
           entry.value.length,
-          reason:
-              'Goal ${entry.key} has duplicate codes',
+          reason: 'Goal ${entry.key} has duplicate codes',
         );
       }
     });
@@ -173,8 +169,7 @@ void main() {
     });
 
     test('goal 17 has implementation targets', () {
-      final codes =
-          sdgTargets[17]!.map((t) => t.code).toList();
+      final codes = sdgTargets[17]!.map((t) => t.code).toList();
       expect(codes, contains('17.1'));
       expect(codes, contains('17.19'));
     });

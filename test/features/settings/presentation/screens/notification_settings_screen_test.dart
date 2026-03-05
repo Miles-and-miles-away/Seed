@@ -24,8 +24,10 @@ void main() {
         userSettingsProvider.overrideWith(
           (ref) => Stream.value(settings),
         ),
-        notificationsEnabledProvider.overrideWith((ref) => notificationsEnabled),
-        smartRemindersEnabledProvider.overrideWith((ref) => smartRemindersEnabled),
+        notificationsEnabledProvider
+            .overrideWith((ref) => notificationsEnabled),
+        smartRemindersEnabledProvider
+            .overrideWith((ref) => smartRemindersEnabled),
         canAddReminderProvider.overrideWith((ref) => canAddReminder),
       ],
       child: MaterialApp(
@@ -35,8 +37,7 @@ void main() {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales:
-            AppLocalizations.supportedLocales,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: child,
       ),
     );
@@ -247,7 +248,8 @@ void main() {
       expect(switches.first.value, isFalse);
     });
 
-    testWidgets('smart reminders toggle reflects enabled state', (tester) async {
+    testWidgets('smart reminders toggle reflects enabled state',
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const NotificationSettingsScreen(),
@@ -260,7 +262,8 @@ void main() {
       expect(switches[1].value, isTrue);
     });
 
-    testWidgets('smart reminders toggle reflects disabled state', (tester) async {
+    testWidgets('smart reminders toggle reflects disabled state',
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const NotificationSettingsScreen(),

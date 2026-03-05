@@ -17,12 +17,10 @@ class SdgTargetsSection extends StatefulWidget {
   final String locale;
 
   @override
-  State<SdgTargetsSection> createState() =>
-      _SdgTargetsSectionState();
+  State<SdgTargetsSection> createState() => _SdgTargetsSectionState();
 }
 
-class _SdgTargetsSectionState
-    extends State<SdgTargetsSection> {
+class _SdgTargetsSectionState extends State<SdgTargetsSection> {
   bool _expanded = false;
 
   @override
@@ -37,8 +35,7 @@ class _SdgTargetsSectionState
         color: theme.colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: theme.colorScheme.outlineVariant
-              .withValues(alpha: 0.5),
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
         ),
       ),
       child: Column(
@@ -60,8 +57,7 @@ class _SdgTargetsSectionState
                 Expanded(
                   child: Text(
                     l10n.sdgAboutGoal,
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -73,8 +69,7 @@ class _SdgTargetsSectionState
                   ),
                   child: Icon(
                     Icons.expand_more,
-                    color: theme
-                        .colorScheme.onSurfaceVariant,
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -85,8 +80,7 @@ class _SdgTargetsSectionState
             goal.getDescription(widget.locale),
             style: theme.textTheme.bodyLarge?.copyWith(
               height: 1.6,
-              color:
-                  theme.colorScheme.onSurfaceVariant,
+              color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
           AnimatedCrossFade(
@@ -126,8 +120,7 @@ class _SdgTargetsSectionState
         const SizedBox(height: 16),
         Text(
           l10n.sdgTargetsTitle,
-          style:
-              theme.textTheme.titleSmall?.copyWith(
+          style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -162,8 +155,7 @@ class _TargetRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
@@ -171,10 +163,8 @@ class _TargetRow extends StatelessWidget {
               vertical: 4,
             ),
             decoration: BoxDecoration(
-              color:
-                  goalColor.withValues(alpha: 0.15),
-              borderRadius:
-                  BorderRadius.circular(6),
+              color: goalColor.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               target.code,
@@ -189,11 +179,9 @@ class _TargetRow extends StatelessWidget {
           Expanded(
             child: Text(
               target.getDescription(locale),
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(
+              style: theme.textTheme.bodySmall?.copyWith(
                 height: 1.5,
-                color: theme
-                    .colorScheme.onSurfaceVariant,
+                color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
           ),

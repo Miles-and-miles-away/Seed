@@ -44,13 +44,11 @@ abstract class MascotModel with _$MascotModel {
 }
 
 /// Converts Firestore Timestamp to/from DateTime for mascot model.
-class MascotTimestampConverter
-    implements JsonConverter<DateTime?, Timestamp?> {
+class MascotTimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
   const MascotTimestampConverter();
 
   @override
-  DateTime? fromJson(Timestamp? timestamp) =>
-      timestamp?.toDate();
+  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
 
   @override
   Timestamp? toJson(DateTime? date) =>

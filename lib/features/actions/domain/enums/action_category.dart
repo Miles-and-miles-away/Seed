@@ -22,8 +22,7 @@ enum ActionCategory {
       ActionCategory.transport => AppColors.categoryTransport,
       ActionCategory.food => AppColors.categoryFood,
       ActionCategory.energy => AppColors.categoryEnergy,
-      ActionCategory.consumption =>
-        AppColors.categoryConsumption,
+      ActionCategory.consumption => AppColors.categoryConsumption,
       ActionCategory.water => AppColors.categoryWater,
       ActionCategory.community => AppColors.categoryCommunity,
       ActionCategory.advocacy => AppColors.categoryAdvocacy,

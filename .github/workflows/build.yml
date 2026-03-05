@@ -27,6 +27,25 @@ jobs:
           flutter-version: "3.38.x"
           cache: true
 
+      - name: Create Firebase options stub
+        run: |
+          cat > lib/firebase_options.dart << 'DART'
+          // ignore_for_file: type=lint
+          import 'package:firebase_core/firebase_core.dart'
+              show FirebaseOptions;
+
+          class DefaultFirebaseOptions {
+            static FirebaseOptions get currentPlatform {
+              return const FirebaseOptions(
+                apiKey: 'stub',
+                appId: 'stub',
+                messagingSenderId: 'stub',
+                projectId: 'stub',
+              );
+            }
+          }
+          DART
+
       - run: flutter pub get
 
       - name: Run code generation

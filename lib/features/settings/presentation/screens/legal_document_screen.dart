@@ -48,20 +48,16 @@ class LegalDocumentScreen extends StatelessWidget {
               children: [
                 Text(
                   section.title,
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   section.body,
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     height: 1.5,
-                    color: theme.colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.8),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                   ),
                 ),
               ],

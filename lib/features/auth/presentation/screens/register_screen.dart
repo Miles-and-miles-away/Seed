@@ -20,17 +20,14 @@ class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  ConsumerState<RegisterScreen> createState() =>
-      _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState
-    extends ConsumerState<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController =
-      TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _acceptedTerms = false;
@@ -98,8 +95,7 @@ class _RegisterScreenState
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 32),
                 Icon(
@@ -110,8 +106,7 @@ class _RegisterScreenState
                 const SizedBox(height: 16),
                 Text(
                   l10n.authCreateAccount,
-                  style: theme.textTheme.headlineMedium
-                      ?.copyWith(
+                  style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -119,10 +114,8 @@ class _RegisterScreenState
                 const SizedBox(height: 8),
                 Text(
                   l10n.authCreateAccountSubtitle,
-                  style:
-                      theme.textTheme.bodyLarge?.copyWith(
-                    color: theme
-                        .colorScheme.onSurfaceVariant,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -130,12 +123,10 @@ class _RegisterScreenState
                 AuthTextField(
                   controller: _emailController,
                   label: l10n.authEmail,
-                  keyboardType:
-                      TextInputType.emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   textInputAction: TextInputAction.next,
-                  validator: (v) =>
-                      _validateEmail(v, l10n),
+                  validator: (v) => _validateEmail(v, l10n),
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
@@ -148,50 +139,42 @@ class _RegisterScreenState
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_outlined
-                          : Icons
-                              .visibility_off_outlined,
+                          : Icons.visibility_off_outlined,
                     ),
                     onPressed: () {
                       setState(
-                        () => _obscurePassword =
-                            !_obscurePassword,
+                        () => _obscurePassword = !_obscurePassword,
                       );
                     },
                   ),
-                  validator: (v) =>
-                      _validatePassword(v, l10n),
+                  validator: (v) => _validatePassword(v, l10n),
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
-                  controller:
-                      _confirmPasswordController,
+                  controller: _confirmPasswordController,
                   label: l10n.authConfirmPassword,
                   obscureText: _obscureConfirmPassword,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) =>
-                      _handleSignUp(),
+                  onFieldSubmitted: (_) => _handleSignUp(),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
                           ? Icons.visibility_outlined
-                          : Icons
-                              .visibility_off_outlined,
+                          : Icons.visibility_off_outlined,
                     ),
                     onPressed: () {
                       setState(
-                        () => _obscureConfirmPassword =
-                            !_obscureConfirmPassword,
+                        () =>
+                            _obscureConfirmPassword = !_obscureConfirmPassword,
                       );
                     },
                   ),
-                  validator: (v) =>
-                      _validateConfirmPassword(v, l10n),
+                  validator: (v) => _validateConfirmPassword(v, l10n),
                 ),
                 const SizedBox(height: 16),
                 Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Checkbox(
                       value: _acceptedTerms,
@@ -199,8 +182,7 @@ class _RegisterScreenState
                           ? null
                           : (value) {
                               setState(
-                                () => _acceptedTerms =
-                                    value ?? false,
+                                () => _acceptedTerms = value ?? false,
                               );
                             },
                     ),
@@ -212,52 +194,34 @@ class _RegisterScreenState
                         child: Text.rich(
                           TextSpan(
                             text: l10n.authAgreePrefix,
-                            style: theme
-                                .textTheme.bodyMedium,
+                            style: theme.textTheme.bodyMedium,
                             children: [
                               TextSpan(
-                                text:
-                                    l10n.settingsTerms,
+                                text: l10n.settingsTerms,
                                 style: TextStyle(
-                                  color: theme
-                                      .colorScheme
-                                      .primary,
-                                  fontWeight:
-                                      FontWeight.w500,
-                                  decoration:
-                                      TextDecoration
-                                          .underline,
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
                                 ),
-                                recognizer:
-                                    TapGestureRecognizer()
-                                      ..onTap = () =>
-                                          context.push(
-                                            '/settings/terms',
-                                          ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => context.push(
+                                        '/settings/terms',
+                                      ),
                               ),
                               TextSpan(
-                                text:
-                                    l10n.authAgreeAnd,
+                                text: l10n.authAgreeAnd,
                               ),
                               TextSpan(
-                                text: l10n
-                                    .settingsPrivacy,
+                                text: l10n.settingsPrivacy,
                                 style: TextStyle(
-                                  color: theme
-                                      .colorScheme
-                                      .primary,
-                                  fontWeight:
-                                      FontWeight.w500,
-                                  decoration:
-                                      TextDecoration
-                                          .underline,
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
                                 ),
-                                recognizer:
-                                    TapGestureRecognizer()
-                                      ..onTap = () =>
-                                          context.push(
-                                            '/settings/privacy',
-                                          ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => context.push(
+                                        '/settings/privacy',
+                                      ),
                               ),
                             ],
                           ),
@@ -268,19 +232,15 @@ class _RegisterScreenState
                 ),
                 const SizedBox(height: 24),
                 FilledButton(
-                  onPressed: isLoading || _isCooldown
-                      ? null
-                      : _handleSignUp,
+                  onPressed: isLoading || _isCooldown ? null : _handleSignUp,
                   style: FilledButton.styleFrom(
-                    minimumSize:
-                        const Size.fromHeight(48),
+                    minimumSize: const Size.fromHeight(48),
                   ),
                   child: isLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child:
-                              CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                             strokeWidth: 2,
                             color: Colors.white,
                           ),
@@ -292,16 +252,13 @@ class _RegisterScreenState
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                       ),
                       child: Text(
                         l10n.authOrSignUpWith,
-                        style: theme.textTheme.bodySmall
-                            ?.copyWith(
-                          color: theme.colorScheme
-                              .onSurfaceVariant,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -314,11 +271,9 @@ class _RegisterScreenState
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading:
-                            isLoading || _isCooldown,
-                        onPressed: () => ref
-                            .read(authProvider.notifier)
-                            .signInWithGoogle(),
+                        isLoading: isLoading || _isCooldown,
+                        onPressed: () =>
+                            ref.read(authProvider.notifier).signInWithGoogle(),
                       ),
                     ),
                     if (Platform.isIOS) ...[
@@ -326,8 +281,7 @@ class _RegisterScreenState
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading:
-                              isLoading || _isCooldown,
+                          isLoading: isLoading || _isCooldown,
                           onPressed: () => ref
                               .read(
                                 authProvider.notifier,
@@ -340,18 +294,15 @@ class _RegisterScreenState
                 ),
                 const SizedBox(height: 32),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       l10n.authHaveAccount,
                       style: theme.textTheme.bodyMedium,
                     ),
                     TextButton(
-                      onPressed: isLoading
-                          ? null
-                          : () =>
-                              context.go(AppRoutes.login),
+                      onPressed:
+                          isLoading ? null : () => context.go(AppRoutes.login),
                       child: Text(l10n.authSignIn),
                     ),
                   ],
@@ -371,8 +322,7 @@ class _RegisterScreenState
     if (value == null || value.isEmpty) {
       return l10n.authValidationEmailRequired;
     }
-    final emailRegex =
-        RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
       return l10n.authValidationEmailInvalid;
     }
@@ -418,9 +368,7 @@ class _RegisterScreenState
     }
 
     if (_formKey.currentState?.validate() ?? false) {
-      ref
-          .read(authProvider.notifier)
-          .createUserWithEmailAndPassword(
+      ref.read(authProvider.notifier).createUserWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text,
           );

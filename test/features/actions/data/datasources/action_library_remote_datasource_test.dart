@@ -49,9 +49,7 @@ void main() {
           emits(
             predicate<List<ActionModel>>(
               (list) =>
-                  list.length == 2 &&
-                  list[0].id == 'a1' &&
-                  list[1].id == 'a2',
+                  list.length == 2 && list[0].id == 'a1' && list[1].id == 'a2',
             ),
           ),
         );
@@ -77,9 +75,7 @@ void main() {
             emits(
               predicate<List<ActionModel>>(
                 (list) =>
-                    list[0].id == 'a' &&
-                    list[1].id == 'm' &&
-                    list[2].id == 'z',
+                    list[0].id == 'a' && list[1].id == 'm' && list[2].id == 'z',
               ),
             ),
           );
@@ -100,8 +96,7 @@ void main() {
       });
 
       test('returns null for missing ID', () async {
-        final result =
-            await dataSource.getAction('nonexistent');
+        final result = await dataSource.getAction('nonexistent');
 
         expect(result, isNull);
       });

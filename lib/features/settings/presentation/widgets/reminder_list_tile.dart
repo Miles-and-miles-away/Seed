@@ -80,8 +80,7 @@ class ReminderListTile extends StatelessWidget {
                 color: colorScheme.error.withValues(alpha: 0.7),
               ),
               onPressed: onDelete,
-              tooltip: AppLocalizations.of(context)
-                  .buttonDelete,
+              tooltip: AppLocalizations.of(context).buttonDelete,
             ),
           ],
         ),

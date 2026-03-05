@@ -62,8 +62,10 @@ void main() {
       return ProviderScope(
         overrides: [
           // For Notifier providers in Riverpod 3.x, use overrideWith
-          selectedMonthProvider.overrideWith(() => TestSelectedMonth(testMonth)),
-          monthCalendarDataProvider.overrideWith((ref) => Future.value(testData)),
+          selectedMonthProvider
+              .overrideWith(() => TestSelectedMonth(testMonth)),
+          monthCalendarDataProvider
+              .overrideWith((ref) => Future.value(testData)),
         ],
         child: const MaterialApp(
           home: Scaffold(
@@ -123,7 +125,8 @@ void main() {
       final widget = ProviderScope(
         overrides: [
           // ignore: avoid_redundant_argument_values
-          selectedMonthProvider.overrideWith(() => TestSelectedMonth(DateTime(2024, 1))),
+          selectedMonthProvider
+              .overrideWith(() => TestSelectedMonth(DateTime(2024, 1))),
           monthCalendarDataProvider.overrideWith((ref) => completer.future),
         ],
         child: const MaterialApp(
@@ -166,10 +169,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // Should have Row widgets for the calendar grid
-      expect(find.byType(Row), findsAtLeast(5)); // Header + weekday + at least 4 weeks
+      expect(find.byType(Row),
+          findsAtLeast(5)); // Header + weekday + at least 4 weeks
     });
 
-    testWidgets('next month button is disabled for current month', (tester) async {
+    testWidgets('next month button is disabled for current month',
+        (tester) async {
       setMobileScreenSize(tester);
       addTearDown(() => resetScreenSize(tester));
 

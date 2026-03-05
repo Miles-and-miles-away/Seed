@@ -30,8 +30,7 @@ class SdgImpactCard extends ConsumerWidget {
         color: theme.colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: theme.colorScheme.outlineVariant
-              .withValues(alpha: 0.5),
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
         ),
       ),
       child: Column(
@@ -47,8 +46,7 @@ class SdgImpactCard extends ConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 l10n.sdgYourImpact,
-                style:
-                    theme.textTheme.titleMedium?.copyWith(
+                style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),

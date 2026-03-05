@@ -103,11 +103,14 @@ void main() {
 
     group('fromString', () {
       test('returns correct category for valid lowercase string', () {
-        expect(ActionCategory.fromString('recycling'), ActionCategory.recycling);
-        expect(ActionCategory.fromString('transport'), ActionCategory.transport);
+        expect(
+            ActionCategory.fromString('recycling'), ActionCategory.recycling);
+        expect(
+            ActionCategory.fromString('transport'), ActionCategory.transport);
         expect(ActionCategory.fromString('food'), ActionCategory.food);
         expect(ActionCategory.fromString('energy'), ActionCategory.energy);
-        expect(ActionCategory.fromString('consumption'), ActionCategory.consumption);
+        expect(ActionCategory.fromString('consumption'),
+            ActionCategory.consumption);
         expect(ActionCategory.fromString('water'), ActionCategory.water);
         expect(
           ActionCategory.fromString('community'),
@@ -124,9 +127,12 @@ void main() {
       });
 
       test('returns correct category for mixed case string', () {
-        expect(ActionCategory.fromString('RECYCLING'), ActionCategory.recycling);
-        expect(ActionCategory.fromString('Recycling'), ActionCategory.recycling);
-        expect(ActionCategory.fromString('TRANSPORT'), ActionCategory.transport);
+        expect(
+            ActionCategory.fromString('RECYCLING'), ActionCategory.recycling);
+        expect(
+            ActionCategory.fromString('Recycling'), ActionCategory.recycling);
+        expect(
+            ActionCategory.fromString('TRANSPORT'), ActionCategory.transport);
       });
 
       test('returns null for invalid string', () {

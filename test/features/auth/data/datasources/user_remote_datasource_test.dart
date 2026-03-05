@@ -16,9 +16,8 @@ void main() {
     );
   });
 
-  CollectionReference<Map<String, dynamic>>
-      usersCollection() => fakeFirestore
-          .collection(AppConstants.collectionUsers);
+  CollectionReference<Map<String, dynamic>> usersCollection() =>
+      fakeFirestore.collection(AppConstants.collectionUsers);
 
   Future<void> seedUser(
     String uid, {
@@ -59,8 +58,7 @@ void main() {
       });
 
       test('returns null when doc missing', () async {
-        final result =
-            await dataSource.getUser('nonexistent');
+        final result = await dataSource.getUser('nonexistent');
 
         expect(result, isNull);
       });
@@ -71,7 +69,6 @@ void main() {
         const user = AppUserModel(
           uid: 'u1',
           email: 'new@example.com',
-          points: 0,
         );
 
         await dataSource.createUser(user);
@@ -137,10 +134,7 @@ void main() {
           stream,
           emits(
             predicate<AppUserModel?>(
-              (u) =>
-                  u != null &&
-                  u.uid == 'u1' &&
-                  u.email == 'watch@test.com',
+              (u) => u != null && u.uid == 'u1' && u.email == 'watch@test.com',
             ),
           ),
         );
@@ -149,8 +143,7 @@ void main() {
       test(
         'emits null for nonexistent user',
         () async {
-          final stream =
-              dataSource.watchUser('nonexistent');
+          final stream = dataSource.watchUser('nonexistent');
 
           await expectLater(stream, emits(isNull));
         },

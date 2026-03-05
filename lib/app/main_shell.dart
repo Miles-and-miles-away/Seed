@@ -18,8 +18,7 @@ class MainShell extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   @override
-  ConsumerState<MainShell> createState() =>
-      _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
 class _MainShellState extends ConsumerState<MainShell> {
@@ -32,9 +31,7 @@ class _MainShellState extends ConsumerState<MainShell> {
 
     // Run migration once
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(mascotProvider.notifier)
-          .runMigrationIfNeeded();
+      ref.read(mascotProvider.notifier).runMigrationIfNeeded();
     });
 
     ref
@@ -42,8 +39,7 @@ class _MainShellState extends ConsumerState<MainShell> {
       ..listenManual(hasNewEvolutionProvider, (_, next) {
         if (next && !_hasShownEvolutionCelebration) {
           _hasShownEvolutionCelebration = true;
-          WidgetsBinding.instance
-              .addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
               showEvolutionCelebration(context);
             }
@@ -56,8 +52,7 @@ class _MainShellState extends ConsumerState<MainShell> {
         (_, next) {
           if (next && !_hasShownEggDiscovery) {
             _hasShownEggDiscovery = true;
-            WidgetsBinding.instance
-                .addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
                 showEggDiscoveryCelebration(
                   context,
@@ -86,16 +81,14 @@ class _MainShellState extends ConsumerState<MainShell> {
               icon: Icons.home_outlined,
               selectedIcon: Icons.home,
               label: l10n.navHome,
-              isSelected:
-                  widget.navigationShell.currentIndex == 0,
+              isSelected: widget.navigationShell.currentIndex == 0,
               onTap: () => _onItemTapped(0),
             ),
             _NavBarItem(
               icon: Icons.calendar_today_outlined,
               selectedIcon: Icons.calendar_today,
               label: l10n.navProgress,
-              isSelected:
-                  widget.navigationShell.currentIndex == 1,
+              isSelected: widget.navigationShell.currentIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
             _NavBarItem(
@@ -109,16 +102,14 @@ class _MainShellState extends ConsumerState<MainShell> {
               icon: Icons.pets_outlined,
               selectedIcon: Icons.pets,
               label: l10n.navMascot,
-              isSelected:
-                  widget.navigationShell.currentIndex == 2,
+              isSelected: widget.navigationShell.currentIndex == 2,
               onTap: () => _onItemTapped(2),
             ),
             _NavBarItem(
               icon: Icons.person_outline,
               selectedIcon: Icons.person,
               label: l10n.navProfile,
-              isSelected:
-                  widget.navigationShell.currentIndex == 3,
+              isSelected: widget.navigationShell.currentIndex == 3,
               onTap: () => _onItemTapped(3),
             ),
           ],
@@ -130,8 +121,7 @@ class _MainShellState extends ConsumerState<MainShell> {
   void _onItemTapped(int index) {
     widget.navigationShell.goBranch(
       index,
-      initialLocation:
-          index == widget.navigationShell.currentIndex,
+      initialLocation: index == widget.navigationShell.currentIndex,
     );
   }
 }
@@ -155,9 +145,8 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final color = isSelected
-        ? colorScheme.primary
-        : colorScheme.onSurfaceVariant;
+    final color =
+        isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant;
 
     return InkWell(
       onTap: onTap,
@@ -178,12 +167,9 @@ class _NavBarItem extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               label,
-              style:
-                  theme.textTheme.labelSmall?.copyWith(
+              style: theme.textTheme.labelSmall?.copyWith(
                 color: color,
-                fontWeight: isSelected
-                    ? FontWeight.w600
-                    : FontWeight.normal,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
           ],

@@ -31,8 +31,7 @@ class SdgInfographicViewer extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               'UN Infographic',
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(
+              style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -44,8 +43,7 @@ class SdgInfographicViewer extends StatelessWidget {
           child: Hero(
             tag: 'sdg_infographic_${goal.number}',
             child: ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16),
               child: Image.asset(
                 goal.infographicAsset,
                 width: double.infinity,
@@ -64,12 +62,9 @@ class SdgInfographicViewer extends StatelessWidget {
       PageRouteBuilder<void>(
         opaque: false,
         barrierColor: Colors.black54,
-        transitionDuration:
-            const Duration(milliseconds: 600),
-        reverseTransitionDuration:
-            const Duration(milliseconds: 400),
-        pageBuilder: (_, __, ___) =>
-            _FullScreenInfographic(
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
+        pageBuilder: (_, __, ___) => _FullScreenInfographic(
           goal: goal,
           locale: locale,
         ),
@@ -89,11 +84,9 @@ class _FullScreenInfographic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animation =
-        ModalRoute.of(context)!.animation!;
+    final animation = ModalRoute.of(context)!.animation!;
 
-    final bounceScale = ConstantTween<double>(1)
-        .animate(animation);
+    final bounceScale = ConstantTween<double>(1).animate(animation);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -115,8 +108,7 @@ class _FullScreenInfographic extends StatelessWidget {
         child: Center(
           child: AnimatedBuilder(
             animation: bounceScale,
-            builder: (context, child) =>
-                Transform.scale(
+            builder: (context, child) => Transform.scale(
               scale: bounceScale.value,
               child: child,
             ),

@@ -42,12 +42,15 @@ class SettingsScreen extends ConsumerWidget {
                   leading: const Icon(Icons.notifications_outlined),
                   value: notificationsEnabled,
                   onChanged: (value) {
-                    ref.read(settingsProvider.notifier).toggleNotifications(enabled: value);
+                    ref
+                        .read(settingsProvider.notifier)
+                        .toggleNotifications(enabled: value);
                   },
                 ),
                 SettingsTile(
                   title: l10n.settingsReminderTime,
-                  subtitle: _formatReminderTimes(context, settings.reminderSchedules),
+                  subtitle:
+                      _formatReminderTimes(context, settings.reminderSchedules),
                   leading: const Icon(Icons.schedule_outlined),
                   onTap: () => context.push('/settings/notifications'),
                 ),
@@ -167,8 +170,7 @@ class SettingsScreen extends ConsumerWidget {
       return l10n.settingsTapToAddReminders;
     }
 
-    final enabled =
-        schedules.where((s) => s.isEnabled).toList();
+    final enabled = schedules.where((s) => s.isEnabled).toList();
     if (enabled.isEmpty) {
       return l10n.settingsAllRemindersDisabled;
     }

@@ -137,9 +137,8 @@ class RainbowSunPainter extends CustomPainter {
         ? innerRadius + (outerRadius - innerRadius) * animationValue
         : outerRadius;
 
-    final animatedColor = isCompleted
-        ? color.withValues(alpha: color.a * animationValue)
-        : color;
+    final animatedColor =
+        isCompleted ? color.withValues(alpha: color.a * animationValue) : color;
 
     // Create path for the arc segment (pie slice with hole)
     final innerEndAngle = startAngle + sweepAngle - 0.02;

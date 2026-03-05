@@ -38,8 +38,7 @@ class EggHatchingService {
       // First activity with the egg
       return EggStreakResult(
         newStreakDays: 1,
-        shouldHatch:
-            1 >= AppConstants.eggHatchingStreakRequired,
+        shouldHatch: 1 >= AppConstants.eggHatchingStreakRequired,
       );
     }
 
@@ -54,16 +53,15 @@ class EggHatchingService {
       // Same day -- no change
       return EggStreakResult(
         newStreakDays: egg.hatchingStreakDays,
-        shouldHatch: egg.hatchingStreakDays >=
-            AppConstants.eggHatchingStreakRequired,
+        shouldHatch:
+            egg.hatchingStreakDays >= AppConstants.eggHatchingStreakRequired,
       );
     } else if (diff == 1) {
       // Consecutive day
       final newStreak = egg.hatchingStreakDays + 1;
       return EggStreakResult(
         newStreakDays: newStreak,
-        shouldHatch:
-            newStreak >= AppConstants.eggHatchingStreakRequired,
+        shouldHatch: newStreak >= AppConstants.eggHatchingStreakRequired,
       );
     } else {
       // Gap -- reset to 1

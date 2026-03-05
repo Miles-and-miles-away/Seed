@@ -10,8 +10,7 @@ import '../providers/auth_providers.dart';
 
 /// Screen shown after registration prompting user
 /// to verify their email.
-class EmailVerificationScreen
-    extends ConsumerStatefulWidget {
+class EmailVerificationScreen extends ConsumerStatefulWidget {
   const EmailVerificationScreen({super.key});
 
   @override
@@ -26,14 +25,12 @@ class _EmailVerificationScreenState
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    final authChanges =
-        ref.watch(authStateChangesProvider);
+    final authChanges = ref.watch(authStateChangesProvider);
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final isLoading = authState.isLoading;
 
-    final userEmail =
-        authChanges.asData?.value?.email ?? '';
+    final userEmail = authChanges.asData?.value?.email ?? '';
 
     ref.listen<AsyncValue<void>>(
       authProvider,
@@ -69,8 +66,7 @@ class _EmailVerificationScreenState
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color:
-                    theme.colorScheme.primaryContainer,
+                color: theme.colorScheme.primaryContainer,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -82,8 +78,7 @@ class _EmailVerificationScreenState
             const SizedBox(height: 32),
             Text(
               l10n.authCheckEmail,
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -91,18 +86,15 @@ class _EmailVerificationScreenState
             const SizedBox(height: 16),
             Text(
               l10n.authVerificationSentTo,
-              style:
-                  theme.textTheme.bodyLarge?.copyWith(
-                color: theme
-                    .colorScheme.onSurfaceVariant,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               userEmail,
-              style:
-                  theme.textTheme.bodyLarge?.copyWith(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -110,19 +102,16 @@ class _EmailVerificationScreenState
             const SizedBox(height: 16),
             Text(
               l10n.authVerifyInstructions,
-              style:
-                  theme.textTheme.bodyMedium?.copyWith(
-                color: theme
-                    .colorScheme.onSurfaceVariant,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
             FilledButton.icon(
-              onPressed:
-                  (isLoading || _checkingVerification)
-                      ? null
-                      : _checkEmailVerified,
+              onPressed: (isLoading || _checkingVerification)
+                  ? null
+                  : _checkEmailVerified,
               icon: _checkingVerification
                   ? const SizedBox(
                       height: 18,
@@ -141,8 +130,7 @@ class _EmailVerificationScreenState
                     : l10n.authVerifiedButton,
               ),
               style: FilledButton.styleFrom(
-                minimumSize:
-                    const Size.fromHeight(48),
+                minimumSize: const Size.fromHeight(48),
               ),
             ),
             const SizedBox(height: 16),
@@ -150,11 +138,8 @@ class _EmailVerificationScreenState
               onPressed: isLoading
                   ? null
                   : () {
-                      ref
-                          .read(authProvider.notifier)
-                          .resendVerificationEmail();
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(
+                      ref.read(authProvider.notifier).resendVerificationEmail();
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
                             l10n.authVerificationSent,
@@ -166,22 +151,19 @@ class _EmailVerificationScreenState
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child:
-                          CircularProgressIndicator(
+                      child: CircularProgressIndicator(
                         strokeWidth: 2,
                       ),
                     )
                   : const Icon(Icons.refresh),
               label: Text(l10n.authResendEmail),
               style: OutlinedButton.styleFrom(
-                minimumSize:
-                    const Size.fromHeight(48),
+                minimumSize: const Size.fromHeight(48),
               ),
             ),
             const SizedBox(height: 32),
             TextButton(
-              onPressed:
-                  isLoading ? null : _handleSignOut,
+              onPressed: isLoading ? null : _handleSignOut,
               child: Text(l10n.authDifferentEmail),
             ),
           ],
@@ -195,14 +177,9 @@ class _EmailVerificationScreenState
     final l10n = AppLocalizations.of(context);
 
     try {
-      await ref
-          .read(authProvider.notifier)
-          .reloadUser();
+      await ref.read(authProvider.notifier).reloadUser();
 
-      final user = ref
-          .read(authStateChangesProvider)
-          .asData
-          ?.value;
+      final user = ref.read(authStateChangesProvider).asData?.value;
       if (user != null && user.emailVerified) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -20,7 +20,8 @@ void main() {
         userSettingsProvider.overrideWith(
           (ref) => Stream.value(settings),
         ),
-        notificationsEnabledProvider.overrideWith((ref) => notificationsEnabled),
+        notificationsEnabledProvider
+            .overrideWith((ref) => notificationsEnabled),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -219,7 +220,8 @@ void main() {
     testWidgets('shows all reminders disabled message', (tester) async {
       const settings = UserSettingsModel(
         reminderSchedules: [
-          NotificationScheduleModel(id: 'r1', hour: 9, minute: 0, isEnabled: false),
+          NotificationScheduleModel(
+              id: 'r1', hour: 9, minute: 0, isEnabled: false),
         ],
       );
       await tester.pumpWidget(

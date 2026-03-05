@@ -72,8 +72,8 @@ class ActionCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.outline
-                              .withValues(alpha: 0.12),
+                          color:
+                              theme.colorScheme.outline.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -87,8 +87,7 @@ class ActionCard extends StatelessWidget {
                             const SizedBox(width: 4),
                             Text(
                               l10n.learnOnlyBadge,
-                              style: theme.textTheme.labelSmall
-                                  ?.copyWith(
+                              style: theme.textTheme.labelSmall?.copyWith(
                                 color: theme.colorScheme.outline,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -103,14 +102,12 @@ class ActionCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: categoryColor
-                              .withValues(alpha: 0.1),
+                          color: categoryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           l10n.pointsLabel(action.points),
-                          style:
-                              theme.textTheme.labelSmall?.copyWith(
+                          style: theme.textTheme.labelSmall?.copyWith(
                             color: categoryColor,
                             fontWeight: FontWeight.bold,
                           ),

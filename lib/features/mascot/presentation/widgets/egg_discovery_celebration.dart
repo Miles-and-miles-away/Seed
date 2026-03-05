@@ -76,9 +76,7 @@ class _EggDiscoveryCelebrationState
   }
 
   Future<void> _handleDismiss() async {
-    await ref
-        .read(mascotProvider.notifier)
-        .acknowledgeEggDiscovery();
+    await ref.read(mascotProvider.notifier).acknowledgeEggDiscovery();
     widget.onDismiss();
   }
 
@@ -86,8 +84,7 @@ class _EggDiscoveryCelebrationState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final mascot =
-        ref.watch(activeMascotProvider).value;
+    final mascot = ref.watch(activeMascotProvider).value;
 
     return Material(
       color: Colors.transparent,
@@ -126,8 +123,7 @@ class _EggDiscoveryCelebrationState
                   // Title
                   Text(
                     l10n.eggDiscoveryTitle,
-                    style: theme.textTheme.headlineMedium
-                        ?.copyWith(
+                    style: theme.textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -146,8 +142,7 @@ class _EggDiscoveryCelebrationState
                   AnimatedBuilder(
                     animation: _glowController,
                     builder: (context, child) {
-                      final glowAlpha =
-                          0.3 + _glowController.value * 0.3;
+                      final glowAlpha = 0.3 + _glowController.value * 0.3;
                       return Container(
                         width: 200,
                         height: 200,
@@ -155,8 +150,7 @@ class _EggDiscoveryCelebrationState
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF90CAF9)
-                                  .withValues(
+                              color: const Color(0xFF90CAF9).withValues(
                                 alpha: glowAlpha,
                               ),
                               blurRadius: 60,
@@ -196,15 +190,12 @@ class _EggDiscoveryCelebrationState
                       l10n.eggDiscoveryMessage(
                         mascot?.name ?? '',
                       ),
-                      style:
-                          theme.textTheme.bodyLarge?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         color: Colors.white,
                         height: 1.5,
                       ),
                       textAlign: TextAlign.center,
-                    )
-                        .animate()
-                        .fadeIn(
+                    ).animate().fadeIn(
                           delay: 800.ms,
                           duration: 400.ms,
                         ),
@@ -219,14 +210,11 @@ class _EggDiscoveryCelebrationState
                     ),
                     child: Text(
                       l10n.eggDiscoverySubtitle,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white70,
                       ),
                       textAlign: TextAlign.center,
-                    )
-                        .animate()
-                        .fadeIn(
+                    ).animate().fadeIn(
                           delay: 1000.ms,
                           duration: 400.ms,
                         ),
@@ -248,8 +236,7 @@ class _EggDiscoveryCelebrationState
                             vertical: 16,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
                         child: Text(
@@ -311,12 +298,9 @@ class _SparklePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final s in sparkles) {
-      final alpha =
-          (sin(progress * pi * 2 * s.speed + s.phase) + 1) /
-              2;
+      final alpha = (sin(progress * pi * 2 * s.speed + s.phase) + 1) / 2;
       final paint = Paint()
-        ..color = const Color(0xFF90CAF9)
-            .withValues(alpha: alpha * 0.6);
+        ..color = const Color(0xFF90CAF9).withValues(alpha: alpha * 0.6);
 
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height),

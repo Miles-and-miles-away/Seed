@@ -133,8 +133,9 @@ class _AnimatedFractionallySizedBoxState
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: _widthFactor?.evaluate(animation),
-      heightFactor:
-          widget.heightFactor != null ? _heightFactor?.evaluate(animation) : null,
+      heightFactor: widget.heightFactor != null
+          ? _heightFactor?.evaluate(animation)
+          : null,
       child: widget.child,
     );
   }

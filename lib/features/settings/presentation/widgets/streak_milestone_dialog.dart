@@ -232,8 +232,8 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color:
-                                  const Color(0xFFFFD700).withValues(alpha: 0.4),
+                              color: const Color(0xFFFFD700)
+                                  .withValues(alpha: 0.4),
                               blurRadius: 16,
                               spreadRadius: 2,
                             ),
@@ -257,10 +257,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                             ),
                           ],
                         ),
-                      )
-                          .animate()
-                          .fadeIn(delay: 700.ms, duration: 400.ms)
-                          .scale(
+                      ).animate().fadeIn(delay: 700.ms, duration: 400.ms).scale(
                             begin: const Offset(0.5, 0.5),
                             end: const Offset(1, 1),
                             curve: Curves.elasticOut,

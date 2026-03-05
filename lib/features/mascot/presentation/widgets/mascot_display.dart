@@ -71,7 +71,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   void didUpdateWidget(covariant MascotDisplay oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.animationController != widget.animationController) {
-      oldWidget.animationController?.removeListener(_onAnimationControllerChange);
+      oldWidget.animationController
+          ?.removeListener(_onAnimationControllerChange);
       widget.animationController?.addListener(_onAnimationControllerChange);
     }
   }
@@ -114,8 +115,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   Widget build(BuildContext context) {
     final assetPath = ref.watch(mascotAssetPathProvider);
     final glowColor = ref.watch(
-      currentMascotStageProvider
-          .select(_getGlowColor),
+      currentMascotStageProvider.select(_getGlowColor),
     );
 
     // Watch for external bounce triggers (e.g., after logging an action)

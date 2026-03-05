@@ -29,8 +29,7 @@ class EggHatchingCelebration extends ConsumerStatefulWidget {
       _EggHatchingCelebrationState();
 }
 
-class _EggHatchingCelebrationState
-    extends ConsumerState<EggHatchingCelebration>
+class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     with TickerProviderStateMixin {
   late AnimationController _particleController;
   late List<_Particle> _particles;
@@ -90,13 +89,10 @@ class _EggHatchingCelebrationState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final locale =
-        Localizations.localeOf(context).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
 
-    final species =
-        getSpeciesById(widget.hatchedMascot.speciesId);
-    final assetPath =
-        species?.evolutionStages.first.assetPath;
+    final species = getSpeciesById(widget.hatchedMascot.speciesId);
+    final assetPath = species?.evolutionStages.first.assetPath;
     final speciesName = species?.getName(locale) ?? '';
 
     return Material(
@@ -135,8 +131,7 @@ class _EggHatchingCelebrationState
                 // Title
                 Text(
                   l10n.eggHatchingTitle,
-                  style: theme.textTheme.headlineMedium
-                      ?.copyWith(
+                  style: theme.textTheme.headlineMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -172,12 +167,8 @@ class _EggHatchingCelebrationState
                         assetPath,
                         width: 160,
                         height: 160,
-                      )
-                          .animate()
-                          .fadeIn(duration: 500.ms)
-                          .scale(
-                            begin:
-                                const Offset(0.3, 0.3),
+                      ).animate().fadeIn(duration: 500.ms).scale(
+                            begin: const Offset(0.3, 0.3),
                             end: const Offset(1, 1),
                             curve: Curves.elasticOut,
                             duration: 800.ms,
@@ -185,8 +176,7 @@ class _EggHatchingCelebrationState
                       const SizedBox(height: 16),
                       Text(
                         speciesName,
-                        style: theme.textTheme.titleLarge
-                            ?.copyWith(
+                        style: theme.textTheme.titleLarge?.copyWith(
                           color: const Color(0xFFFFD700),
                           fontWeight: FontWeight.bold,
                         ),
@@ -209,8 +199,7 @@ class _EggHatchingCelebrationState
                       children: [
                         Text(
                           l10n.eggHatchingNamePrompt,
-                          style: theme.textTheme.bodyLarge
-                              ?.copyWith(
+                          style: theme.textTheme.bodyLarge?.copyWith(
                             color: Colors.white,
                           ),
                           textAlign: TextAlign.center,
@@ -220,28 +209,21 @@ class _EggHatchingCelebrationState
                           controller: _nameController,
                           autofocus: true,
                           textAlign: TextAlign.center,
-                          textCapitalization:
-                              TextCapitalization.words,
-                          style: theme
-                              .textTheme.titleLarge
-                              ?.copyWith(
+                          textCapitalization: TextCapitalization.words,
+                          style: theme.textTheme.titleLarge?.copyWith(
                             color: Colors.white,
                           ),
                           decoration: InputDecoration(
                             hintText: l10n.mascotNameHint,
                             hintStyle: TextStyle(
-                              color: Colors.white
-                                  .withValues(alpha: 0.4),
+                              color: Colors.white.withValues(alpha: 0.4),
                             ),
-                            enabledBorder:
-                                UnderlineInputBorder(
+                            enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white
-                                    .withValues(alpha: 0.5),
+                                color: Colors.white.withValues(alpha: 0.5),
                               ),
                             ),
-                            focusedBorder:
-                                const UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFFFD700),
                                 width: 2,
@@ -251,26 +233,21 @@ class _EggHatchingCelebrationState
                         ),
                         const SizedBox(height: 24),
                         FilledButton(
-                          onPressed: _isSubmitting
-                              ? null
-                              : _handleConfirm,
+                          onPressed: _isSubmitting ? null : _handleConfirm,
                           style: FilledButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 48,
                               vertical: 16,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           child: _isSubmitting
                               ? const SizedBox(
                                   width: 24,
                                   height: 24,
-                                  child:
-                                      CircularProgressIndicator(
+                                  child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                     color: Colors.white,
                                   ),
@@ -354,8 +331,7 @@ class _ConfettiPainter extends CustomPainter {
       if (p.y > 1.2) p.y = -0.1;
 
       final paint = Paint()
-        ..color = _colors[p.colorIndex]
-            .withValues(alpha: 0.7);
+        ..color = _colors[p.colorIndex].withValues(alpha: 0.7);
 
       canvas
         ..save()
@@ -367,8 +343,7 @@ class _ConfettiPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _ConfettiPainter old) =>
-      true;
+  bool shouldRepaint(covariant _ConfettiPainter old) => true;
 }
 
 /// Shows the egg hatching celebration overlay.

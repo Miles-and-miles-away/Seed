@@ -28,8 +28,7 @@ import 'main_shell.dart';
 part 'router.g.dart';
 
 int _parseSdgGoalNumber(String? value) {
-  final parsed =
-      int.tryParse(value ?? '') ?? AppConstants.sdgMinGoal;
+  final parsed = int.tryParse(value ?? '') ?? AppConstants.sdgMinGoal;
   return parsed.clamp(
     AppConstants.sdgMinGoal,
     AppConstants.sdgMaxGoal,
@@ -177,8 +176,7 @@ GoRouter router(Ref ref) {
                       ),
                       GoRoute(
                         path: 'about',
-                        builder: (context, state) =>
-                            const AboutScreen(),
+                        builder: (context, state) => const AboutScreen(),
                         routes: [
                           GoRoute(
                             path: 'privacy',
@@ -231,8 +229,7 @@ GoRouter router(Ref ref) {
         routes: [
           GoRoute(
             path: 'notifications',
-            builder: (context, state) =>
-                const NotificationSettingsScreen(),
+            builder: (context, state) => const NotificationSettingsScreen(),
           ),
           GoRoute(
             path: 'language',
@@ -248,25 +245,21 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: 'privacy',
-                builder: (context, state) =>
-                    const PrivacyPolicyScreen(),
+                builder: (context, state) => const PrivacyPolicyScreen(),
               ),
               GoRoute(
                 path: 'terms',
-                builder: (context, state) =>
-                    const TermsOfServiceScreen(),
+                builder: (context, state) => const TermsOfServiceScreen(),
               ),
             ],
           ),
           GoRoute(
             path: 'privacy',
-            builder: (context, state) =>
-                const PrivacyPolicyScreen(),
+            builder: (context, state) => const PrivacyPolicyScreen(),
           ),
           GoRoute(
             path: 'terms',
-            builder: (context, state) =>
-                const TermsOfServiceScreen(),
+            builder: (context, state) => const TermsOfServiceScreen(),
           ),
         ],
       ),

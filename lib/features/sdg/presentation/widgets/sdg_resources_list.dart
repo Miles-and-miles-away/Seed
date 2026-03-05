@@ -40,8 +40,7 @@ class SdgResourcesList extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               headerText ?? l10n.sdgResources,
-              style:
-                  theme.textTheme.titleMedium?.copyWith(
+              style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -101,8 +100,7 @@ class _ResourceTile extends StatelessWidget {
                 Expanded(
                   child: Text(
                     resource.title(languageCode),
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),

@@ -21,15 +21,11 @@ void main() {
     String? activeMascotId,
     Map<String, dynamic>? extra,
   }) async {
-    await fakeFirestore
-        .collection('users')
-        .doc(userId)
-        .set({
+    await fakeFirestore.collection('users').doc(userId).set({
       'uid': userId,
       'email': 'test@example.com',
       if (mascots.isNotEmpty) 'mascots': mascots,
-      if (activeMascotId != null)
-        'activeMascotId': activeMascotId,
+      if (activeMascotId != null) 'activeMascotId': activeMascotId,
       ...?extra,
     });
   }
@@ -77,9 +73,7 @@ void main() {
           emits(
             predicate<List<MascotModel>>(
               (list) =>
-                  list.length == 2 &&
-                  list[0].id == 'm1' &&
-                  list[1].id == 'm2',
+                  list.length == 2 && list[0].id == 'm1' && list[1].id == 'm2',
             ),
           ),
         );
@@ -90,8 +84,7 @@ void main() {
       test('emits null when no active mascot', () async {
         await createUserWithMascots('user1', []);
 
-        final stream =
-            repository.watchActiveMascot('user1');
+        final stream = repository.watchActiveMascot('user1');
 
         await expectLater(stream, emits(isNull));
       });
@@ -106,17 +99,13 @@ void main() {
           activeMascotId: 'm2',
         );
 
-        final stream =
-            repository.watchActiveMascot('user1');
+        final stream = repository.watchActiveMascot('user1');
 
         await expectLater(
           stream,
           emits(
             predicate<MascotModel?>(
-              (m) =>
-                  m != null &&
-                  m.id == 'm2' &&
-                  m.name == 'Mossy',
+              (m) => m != null && m.id == 'm2' && m.name == 'Mossy',
             ),
           ),
         );
@@ -162,8 +151,7 @@ void main() {
       test('emits false when no mascots', () async {
         await createUserWithMascots('user1', []);
 
-        final stream =
-            repository.watchHasMascot('user1');
+        final stream = repository.watchHasMascot('user1');
 
         await expectLater(stream, emits(isFalse));
       });
@@ -173,8 +161,7 @@ void main() {
           mascotJson(id: 'm1'),
         ]);
 
-        final stream =
-            repository.watchHasMascot('user1');
+        final stream = repository.watchHasMascot('user1');
 
         await expectLater(stream, emits(isTrue));
       });
@@ -191,13 +178,9 @@ void main() {
         );
         await repository.addMascot('user1', mascot);
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
         final data = doc.data()!;
-        final mascots =
-            data['mascots'] as List<dynamic>;
+        final mascots = data['mascots'] as List<dynamic>;
         expect(mascots, hasLength(1));
         expect(
           (mascots[0] as Map)['speciesId'],
@@ -220,10 +203,7 @@ void main() {
 
         await repository.setActiveMascot('user1', 'm2');
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
         expect(doc.data()!['activeMascotId'], 'm2');
       });
     });
@@ -245,12 +225,8 @@ void main() {
           updated,
         );
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
-        final mascots =
-            doc.data()!['mascots'] as List<dynamic>;
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
+        final mascots = doc.data()!['mascots'] as List<dynamic>;
         final first = mascots[0] as Map;
         expect(first['name'], 'Updated');
         expect(first['mascotPoints'], 100);
@@ -270,12 +246,8 @@ void main() {
           'NewName',
         );
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
-        final mascots =
-            doc.data()!['mascots'] as List<dynamic>;
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
+        final mascots = doc.data()!['mascots'] as List<dynamic>;
         expect(
           (mascots[0] as Map)['name'],
           'NewName',
@@ -300,12 +272,8 @@ void main() {
           3,
         );
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
-        final mascots =
-            doc.data()!['mascots'] as List<dynamic>;
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
+        final mascots = doc.data()!['mascots'] as List<dynamic>;
         expect(
           (mascots[0] as Map)['lastSeenStage'],
           3,
@@ -326,10 +294,7 @@ void main() {
         );
         await repository.createEgg('user1', egg);
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
         final data = doc.data()!;
         expect(data['egg'], isNotNull);
         expect(data['eggPendingDiscovery'], false);
@@ -343,8 +308,7 @@ void main() {
           [],
           extra: {
             'egg': {
-              'receivedAt':
-                  DateTime(2024, 6, 15).toIso8601String(),
+              'receivedAt': DateTime(2024, 6, 15).toIso8601String(),
               'hatchingStreakDays': 10,
             },
           },
@@ -352,10 +316,7 @@ void main() {
 
         await repository.removeEgg('user1');
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
         expect(doc.data()!.containsKey('egg'), isFalse);
       });
     });
@@ -372,10 +333,7 @@ void main() {
           'user1',
         );
 
-        final doc = await fakeFirestore
-            .collection('users')
-            .doc('user1')
-            .get();
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
         expect(
           doc.data()!['eggPendingDiscovery'],
           false,
@@ -395,16 +353,12 @@ void main() {
             name: 'MyPlant',
           );
 
-          final doc = await fakeFirestore
-              .collection('users')
-              .doc('user1')
-              .get();
+          final doc =
+              await fakeFirestore.collection('users').doc('user1').get();
           final data = doc.data()!;
-          final mascots =
-              data['mascots'] as List<dynamic>;
+          final mascots = data['mascots'] as List<dynamic>;
           expect(mascots, hasLength(1));
-          final first =
-              mascots[0] as Map<String, dynamic>;
+          final first = mascots[0] as Map<String, dynamic>;
           expect(first['speciesId'], 'seed');
           expect(first['name'], 'MyPlant');
           expect(first['lastSeenStage'], 1);
@@ -425,8 +379,7 @@ void main() {
 
     group('getSpecies', () {
       test('returns species by id', () async {
-        final species =
-            await repository.getSpecies('seed');
+        final species = await repository.getSpecies('seed');
 
         expect(species, isNotNull);
         expect(species!.id, 'seed');
@@ -434,8 +387,7 @@ void main() {
       });
 
       test('returns null for unknown species', () async {
-        final species =
-            await repository.getSpecies('unknown');
+        final species = await repository.getSpecies('unknown');
 
         expect(species, isNull);
       });

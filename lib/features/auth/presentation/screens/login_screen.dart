@@ -19,8 +19,7 @@ class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  ConsumerState<LoginScreen> createState() =>
-      _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
@@ -83,8 +82,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 48),
                 Icon(
@@ -95,8 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 16),
                 Text(
                   l10n.authWelcomeBack,
-                  style: theme.textTheme.headlineMedium
-                      ?.copyWith(
+                  style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -104,10 +101,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.authSignInSubtitle,
-                  style:
-                      theme.textTheme.bodyLarge?.copyWith(
-                    color: theme
-                        .colorScheme.onSurfaceVariant,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -115,8 +110,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 AuthTextField(
                   controller: _emailController,
                   label: l10n.authEmail,
-                  keyboardType:
-                      TextInputType.emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   textInputAction: TextInputAction.next,
                   validator: (v) => _validateEmail(v, l10n),
@@ -128,50 +122,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   obscureText: _obscurePassword,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) =>
-                      _handleSignIn(),
+                  onFieldSubmitted: (_) => _handleSignIn(),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_outlined
-                          : Icons
-                              .visibility_off_outlined,
+                          : Icons.visibility_off_outlined,
                     ),
                     onPressed: () {
                       setState(
-                        () => _obscurePassword =
-                            !_obscurePassword,
+                        () => _obscurePassword = !_obscurePassword,
                       );
                     },
                   ),
-                  validator: (v) =>
-                      _validatePassword(v, l10n),
+                  validator: (v) => _validatePassword(v, l10n),
                 ),
                 const SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: isLoading
-                        ? null
-                        : _showForgotPasswordDialog,
+                    onPressed: isLoading ? null : _showForgotPasswordDialog,
                     child: Text(l10n.authForgotPassword),
                   ),
                 ),
                 const SizedBox(height: 24),
                 FilledButton(
-                  onPressed: isLoading || _isCooldown
-                      ? null
-                      : _handleSignIn,
+                  onPressed: isLoading || _isCooldown ? null : _handleSignIn,
                   style: FilledButton.styleFrom(
-                    minimumSize:
-                        const Size.fromHeight(48),
+                    minimumSize: const Size.fromHeight(48),
                   ),
                   child: isLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child:
-                              CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                             strokeWidth: 2,
                             color: Colors.white,
                           ),
@@ -183,16 +167,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                       ),
                       child: Text(
                         l10n.authOrContinueWith,
-                        style: theme.textTheme.bodySmall
-                            ?.copyWith(
-                          color: theme.colorScheme
-                              .onSurfaceVariant,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -205,11 +186,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading:
-                            isLoading || _isCooldown,
-                        onPressed: () => ref
-                            .read(authProvider.notifier)
-                            .signInWithGoogle(),
+                        isLoading: isLoading || _isCooldown,
+                        onPressed: () =>
+                            ref.read(authProvider.notifier).signInWithGoogle(),
                       ),
                     ),
                     if (Platform.isIOS) ...[
@@ -217,8 +196,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading:
-                              isLoading || _isCooldown,
+                          isLoading: isLoading || _isCooldown,
                           onPressed: () => ref
                               .read(
                                 authProvider.notifier,
@@ -231,8 +209,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 48),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       l10n.authNoAccount,
@@ -241,8 +218,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     TextButton(
                       onPressed: isLoading
                           ? null
-                          : () => context
-                              .go(AppRoutes.register),
+                          : () => context.go(AppRoutes.register),
                       child: Text(l10n.authRegister),
                     ),
                   ],
@@ -262,8 +238,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (value == null || value.isEmpty) {
       return l10n.authValidationEmailRequired;
     }
-    final emailRegex =
-        RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
       return l10n.authValidationEmailInvalid;
     }
@@ -285,9 +260,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _handleSignIn() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref
-          .read(authProvider.notifier)
-          .signInWithEmailAndPassword(
+      ref.read(authProvider.notifier).signInWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text,
           );
@@ -315,21 +288,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () =>
-                Navigator.pop(dialogContext),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.buttonCancel),
           ),
           FilledButton(
             onPressed: () {
-              final email =
-                  emailController.text.trim();
+              final email = emailController.text.trim();
               if (email.isNotEmpty) {
-                ref
-                    .read(authProvider.notifier)
-                    .sendPasswordResetEmail(email);
+                ref.read(authProvider.notifier).sendPasswordResetEmail(email);
                 Navigator.pop(dialogContext);
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                       l10n.authForgotPasswordSent,

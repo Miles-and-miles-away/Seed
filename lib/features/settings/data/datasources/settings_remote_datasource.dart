@@ -16,7 +16,8 @@ abstract class SettingsRemoteDataSource {
   Stream<UserSettingsModel> watchSettings(String uid);
 
   /// Adds a new reminder schedule.
-  Future<void> addReminderSchedule(String uid, NotificationScheduleModel schedule);
+  Future<void> addReminderSchedule(
+      String uid, NotificationScheduleModel schedule);
 
   /// Removes a reminder schedule by ID.
   Future<void> removeReminderSchedule(String uid, String scheduleId);
@@ -173,7 +174,8 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
   }
 
   @override
-  Future<void> updateNotificationsEnabled(String uid, {required bool enabled}) async {
+  Future<void> updateNotificationsEnabled(String uid,
+      {required bool enabled}) async {
     await _userDoc(uid).update({
       'settings.notificationsEnabled': enabled,
       // Also update top-level field for backwards compatibility
@@ -182,7 +184,8 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
   }
 
   @override
-  Future<void> updateSmartRemindersEnabled(String uid, {required bool enabled}) async {
+  Future<void> updateSmartRemindersEnabled(String uid,
+      {required bool enabled}) async {
     await _userDoc(uid).update({
       'settings.smartRemindersEnabled': enabled,
     });

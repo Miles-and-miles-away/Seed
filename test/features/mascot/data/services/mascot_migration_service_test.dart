@@ -73,8 +73,7 @@ void main() {
           final mascots = data!['mascots'] as List;
           expect(mascots, hasLength(1));
 
-          final migrated =
-              mascots[0] as Map<String, dynamic>;
+          final migrated = mascots[0] as Map<String, dynamic>;
           expect(migrated['speciesId'], 'seed');
           expect(migrated['name'], 'Sprouty');
           expect(migrated['id'], isNotNull);
@@ -138,8 +137,7 @@ void main() {
 
           final data = await getUser('u1');
           final mascots = data!['mascots'] as List;
-          final migrated =
-              mascots[0] as Map<String, dynamic>;
+          final migrated = mascots[0] as Map<String, dynamic>;
           expect(migrated['mascotLevel'], greaterThan(1));
           expect(migrated['mascotPoints'], 5000);
         },
@@ -162,8 +160,7 @@ void main() {
 
           final data = await getUser('u1');
           final mascots = data!['mascots'] as List;
-          final migrated =
-              mascots[0] as Map<String, dynamic>;
+          final migrated = mascots[0] as Map<String, dynamic>;
           expect(migrated['isFullyEvolved'], isTrue);
         },
       );
@@ -179,18 +176,15 @@ void main() {
 
         await service.migrateIfNeeded('u1');
         final firstData = await getUser('u1');
-        final firstId = ((firstData!['mascots'] as List)[0]
-            as Map)['id'];
+        final firstId = ((firstData!['mascots'] as List)[0] as Map)['id'];
 
         await service.migrateIfNeeded('u1');
         final secondData = await getUser('u1');
-        final secondId =
-            ((secondData!['mascots'] as List)[0]
-                as Map)['id'];
+        final secondId = ((secondData!['mascots'] as List)[0] as Map)['id'];
 
         expect(firstId, secondId);
         expect(
-          (secondData['mascots'] as List),
+          secondData['mascots'] as List,
           hasLength(1),
         );
       });

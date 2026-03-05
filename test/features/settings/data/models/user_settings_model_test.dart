@@ -65,7 +65,13 @@ void main() {
         final json = {
           'notificationsEnabled': false,
           'reminderSchedules': [
-            {'id': 'r1', 'hour': 9, 'minute': 0, 'isEnabled': true, 'label': ''},
+            {
+              'id': 'r1',
+              'hour': 9,
+              'minute': 0,
+              'isEnabled': true,
+              'label': ''
+            },
           ],
           'smartRemindersEnabled': false,
           'language': 'ja',

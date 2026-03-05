@@ -24,12 +24,10 @@ class SdgDetailScreen extends ConsumerStatefulWidget {
   final int goalNumber;
 
   @override
-  ConsumerState<SdgDetailScreen> createState() =>
-      _SdgDetailScreenState();
+  ConsumerState<SdgDetailScreen> createState() => _SdgDetailScreenState();
 }
 
-class _SdgDetailScreenState
-    extends ConsumerState<SdgDetailScreen> {
+class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
   @override
   void initState() {
     super.initState();
@@ -40,8 +38,7 @@ class _SdgDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final goal =
-        sdgGoalMap[widget.goalNumber] ?? sdgGoals.first;
+    final goal = sdgGoalMap[widget.goalNumber] ?? sdgGoals.first;
     final languageCode = ref.watch(
       currentUserProvider.select(
         (u) => u.value?.language ?? 'en',
@@ -60,12 +57,9 @@ class _SdgDetailScreenState
                 const SizedBox(height: 16),
                 Text(
                   goal.getTitle(languageCode),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 24),
                 SdgTargetsSection(
@@ -157,8 +151,7 @@ class _SdgDetailScreenState
                 l10n.sdgLearnOnlyExplanation,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   height: 1.6,
-                  color:
-                      theme.colorScheme.onSurfaceVariant,
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -203,12 +196,10 @@ class _SdgDetailScreenState
                   width: 120,
                   height: 120,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      Container(
+                  placeholder: (context, url) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white
-                        .withValues(alpha: 0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -220,12 +211,10 @@ class _SdgDetailScreenState
                       ),
                     ),
                   ),
-                  errorWidget: (context, url, error) =>
-                      Container(
+                  errorWidget: (context, url, error) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white
-                        .withValues(alpha: 0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -262,8 +251,7 @@ class _SdgDetailScreenState
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            AppLocalizations.of(context)
-                .sdgGoalNumber(goal.number),
+            AppLocalizations.of(context).sdgGoalNumber(goal.number),
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -278,9 +266,7 @@ class _SdgDetailScreenState
             vertical: 6,
           ),
           decoration: BoxDecoration(
-            color: Theme.of(context)
-                .colorScheme
-                .surfaceContainerHighest,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -299,22 +285,17 @@ class _SdgDetailScreenState
     BuildContext context,
     SdgGoal goal,
   ) {
-    final prevNumber =
-        goal.number == AppConstants.sdgMinGoal
-            ? AppConstants.sdgMaxGoal
-            : goal.number - 1;
-    final nextNumber =
-        goal.number == AppConstants.sdgMaxGoal
-            ? AppConstants.sdgMinGoal
-            : goal.number + 1;
-    final prevGoal =
-        sdgGoalMap[prevNumber] ?? sdgGoals.first;
-    final nextGoal =
-        sdgGoalMap[nextNumber] ?? sdgGoals.first;
+    final prevNumber = goal.number == AppConstants.sdgMinGoal
+        ? AppConstants.sdgMaxGoal
+        : goal.number - 1;
+    final nextNumber = goal.number == AppConstants.sdgMaxGoal
+        ? AppConstants.sdgMinGoal
+        : goal.number + 1;
+    final prevGoal = sdgGoalMap[prevNumber] ?? sdgGoals.first;
+    final nextGoal = sdgGoalMap[nextNumber] ?? sdgGoals.first;
 
     return Row(
-      mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _GoalNavButton(
           goal: prevGoal,
@@ -333,7 +314,6 @@ class _SdgDetailScreenState
       ],
     );
   }
-
 }
 
 class _GoalNavButton extends StatelessWidget {
@@ -369,8 +349,7 @@ class _GoalNavButton extends StatelessWidget {
                   color: goal.color,
                   size: 22,
                 ),
-              if (isPrevious)
-                const SizedBox(width: 6),
+              if (isPrevious) const SizedBox(width: 6),
               Text(
                 '${goal.number}',
                 style: TextStyle(
@@ -379,8 +358,7 @@ class _GoalNavButton extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              if (!isPrevious)
-                const SizedBox(width: 6),
+              if (!isPrevious) const SizedBox(width: 6),
               if (!isPrevious)
                 Icon(
                   Icons.arrow_circle_right_rounded,

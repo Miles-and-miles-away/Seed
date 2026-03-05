@@ -31,10 +31,8 @@ void main() {
     Widget buildTestWidget(int goalNumber) {
       return ProviderScope(
         overrides: [
-          firebaseAuthProvider
-              .overrideWithValue(mockFirebaseAuth),
-          firestoreProvider
-              .overrideWithValue(fakeFirestore),
+          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
+          firestoreProvider.overrideWithValue(fakeFirestore),
         ],
         child: MaterialApp(
           localizationsDelegates: const [
@@ -43,8 +41,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales:
-              AppLocalizations.supportedLocales,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: SdgDetailScreen(
             goalNumber: goalNumber,
           ),
@@ -231,8 +228,7 @@ void main() {
         await tester.pumpWidget(buildTestWidget(1));
         await tester.pump();
 
-        final sliverAppBar =
-            tester.widget<SliverAppBar>(
+        final sliverAppBar = tester.widget<SliverAppBar>(
           find.byType(SliverAppBar),
         );
         expect(sliverAppBar.expandedHeight, 200);
