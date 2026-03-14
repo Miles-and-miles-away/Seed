@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/utils/helpers.dart';
-import '../../data/models/action_log_model.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 /// A list item displaying a logged action.
 class ActionLogItem extends StatelessWidget {

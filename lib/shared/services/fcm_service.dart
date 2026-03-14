@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../core/constants/app_constants.dart';
-import '../../core/utils/app_logger.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 
 /// Service for managing Firebase Cloud Messaging (push notifications).
 ///

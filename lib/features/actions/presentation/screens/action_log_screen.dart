@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/models/action_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
 import '../providers/actions_providers.dart';
 import '../utils/handle_action_tap.dart';
 import '../widgets/action_card.dart';

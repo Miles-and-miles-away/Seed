@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/router.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/auth_error_mapper.dart';
+import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
+import 'package:seed_app/core/utils/validators.dart';
 import '../providers/auth_providers.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_sign_in_button.dart';
@@ -235,14 +236,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     String? value,
     AppLocalizations l10n,
   ) {
-    if (value == null || value.isEmpty) {
-      return l10n.authValidationEmailRequired;
-    }
-    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return l10n.authValidationEmailInvalid;
-    }
-    return null;
+    return validateEmail(
+      value,
+      emptyError: l10n.authValidationEmailRequired,
+      invalidError: l10n.authValidationEmailInvalid,
+    );
   }
 
   String? _validatePassword(
@@ -294,7 +292,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           FilledButton(
             onPressed: () {
               final email = emailController.text.trim();
-              if (email.isNotEmpty) {
+              if (emailRegex.hasMatch(email)) {
                 ref.read(authProvider.notifier).sendPasswordResetEmail(email);
                 Navigator.pop(dialogContext);
                 ScaffoldMessenger.of(context).showSnackBar(

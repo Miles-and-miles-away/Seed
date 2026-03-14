@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'mascot_model.dart';
+import 'package:seed_app/core/utils/firestore_converters.dart';
 
 part 'egg_model.freezed.dart';
 part 'egg_model.g.dart';
@@ -14,13 +13,13 @@ part 'egg_model.g.dart';
 abstract class EggModel with _$EggModel {
   const factory EggModel({
     /// When the egg was received.
-    @MascotTimestampConverter() required DateTime receivedAt,
+    @RequiredTimestampConverter() required DateTime receivedAt,
 
     /// Consecutive days of activity since egg receipt.
     @Default(0) int hatchingStreakDays,
 
     /// Date of last activity that counted toward hatching.
-    @MascotTimestampConverter() DateTime? lastHatchingActivityDate,
+    @TimestampConverter() DateTime? lastHatchingActivityDate,
   }) = _EggModel;
 
   factory EggModel.fromJson(Map<String, dynamic> json) =>

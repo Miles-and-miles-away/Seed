@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/actions_providers.dart';
 
 /// A dropdown button for selecting the sort order of actions.

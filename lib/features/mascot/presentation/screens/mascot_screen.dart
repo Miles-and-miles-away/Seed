@@ -3,11 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/mascot_species_data.dart';
-import '../../data/models/evolution_stage_model.dart';
-import '../../data/models/mascot_model.dart';
-import '../../data/models/mascot_species_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/egg_progress_widget.dart';
 import '../widgets/mascot_display.dart';
@@ -86,7 +86,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                         ),
                         const SizedBox(height: 8),
                         _buildStageBadge(
-                          stageName ?? 'Stage $currentStage',
+                          stageName ?? l10n.stageFallback(currentStage),
                           mascot.mascotLevel,
                           colorScheme,
                           l10n,

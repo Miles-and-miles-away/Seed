@@ -5,8 +5,8 @@
  * from the full indicator metadata JSONs into a
  * compact asset file for the app.
  *
- * Input:  Plan/sdg_indicator_metadata/sdg_goal_*.json
- * Output: assets/data/sdg_targets.json (~15-20KB)
+ * Input:  data/reference/sdg_indicator_metadata/sdg_goal_*.json
+ * Output: data/app/sdg_targets.json (~15-20KB)
  *
  * Usage: node scripts/extract_sdg_targets.js
  */
@@ -17,14 +17,15 @@ const path = require('path');
 const INPUT_DIR = path.join(
   __dirname,
   '..',
-  'Plan',
+  'data',
+  'reference',
   'sdg_indicator_metadata',
 );
 const OUTPUT_FILE = path.join(
   __dirname,
   '..',
-  'assets',
   'data',
+  'app',
   'sdg_targets.json',
 );
 const GOAL_COUNT = 17;

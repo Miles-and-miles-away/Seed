@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:seed_app/core/utils/firestore_converters.dart';
 
 part 'mascot_model.freezed.dart';
 part 'mascot_model.g.dart';
@@ -33,7 +34,7 @@ abstract class MascotModel with _$MascotModel {
     @Default([]) List<String> equippedItems,
 
     /// When this mascot was created.
-    @MascotTimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? createdAt,
 
     /// The last seen evolution stage (to detect new evolutions).
     @Default(1) int lastSeenStage,
@@ -43,14 +44,6 @@ abstract class MascotModel with _$MascotModel {
       _$MascotModelFromJson(json);
 }
 
-/// Converts Firestore Timestamp to/from DateTime for mascot model.
-class MascotTimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
-  const MascotTimestampConverter();
-
-  @override
-  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
-
-  @override
-  Timestamp? toJson(DateTime? date) =>
-      date != null ? Timestamp.fromDate(date) : null;
-}
+// MascotTimestampConverter replaced by centralized
+// TimestampConverter in core/utils/firestore_converters.dart
+typedef MascotTimestampConverter = TimestampConverter;

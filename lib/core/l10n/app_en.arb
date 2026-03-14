@@ -462,5 +462,18 @@
   "authValidationEmailInvalid": "Please enter a valid email",
   "authValidationPasswordRequired": "Please enter your password",
   "authValidationPasswordShort": "Password must be at least 6 characters",
-  "authValidationConfirmRequired": "Please confirm your password"
+  "authValidationConfirmRequired": "Please confirm your password",
+
+  "pointsAbbreviated": "{count} pts",
+  "@pointsAbbreviated": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stageFallback": "Stage {stage}",
+  "@stageFallback": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  }
 }

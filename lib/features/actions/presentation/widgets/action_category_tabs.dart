@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 /// Number of logical items: "All" + each category.
 final _cycleLength = ActionCategory.values.length + 1;

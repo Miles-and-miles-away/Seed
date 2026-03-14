@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/legal_content.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/settings/data/legal_content.dart';
 
 /// Reusable screen for displaying legal documents
 /// (privacy policy, terms of service).

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../../core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import '../models/app_user_model.dart';
 
 /// Interface for Firestore user document operations.

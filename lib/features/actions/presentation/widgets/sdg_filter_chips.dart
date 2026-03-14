@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../sdg/data/sdg_data.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import '../providers/actions_providers.dart';
 
 /// Number of logical items: "All" + 17 SDGs.

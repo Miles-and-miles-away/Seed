@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:seed_app/core/utils/firestore_converters.dart';
+
 part 'action_log_model.freezed.dart';
 part 'action_log_model.g.dart';
 
@@ -32,13 +34,5 @@ abstract class ActionLogModel with _$ActionLogModel {
   }
 }
 
-/// Converts Firestore Timestamp to/from DateTime (non-nullable).
-class RequiredTimestampConverter implements JsonConverter<DateTime, Timestamp> {
-  const RequiredTimestampConverter();
-
-  @override
-  DateTime fromJson(Timestamp timestamp) => timestamp.toDate();
-
-  @override
-  Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
-}
+// RequiredTimestampConverter is now in
+// core/utils/firestore_converters.dart

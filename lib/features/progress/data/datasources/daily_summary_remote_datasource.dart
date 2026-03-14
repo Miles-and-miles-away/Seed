@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/utils/app_logger.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 
 import '../models/daily_summary_model.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../sdg/data/sdg_data.dart';
-import '../../data/models/action_model.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'action_science_bottom_sheet.dart';
 
 /// A dialog showing educational info for learn-only actions.

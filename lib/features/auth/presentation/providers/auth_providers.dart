@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../shared/services/analytics_service.dart';
-import '../../data/datasources/auth_remote_datasource.dart';
-import '../../data/datasources/user_remote_datasource.dart';
-import '../../data/models/app_user_model.dart';
-import '../../data/repositories/auth_repository.dart';
+import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:seed_app/shared/providers/notification_providers.dart';
+import 'package:seed_app/shared/services/analytics_service.dart';
 
 part 'auth_providers.g.dart';
 
@@ -178,6 +179,10 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> signOut() async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
+      // Clear FCM token before signing out (userId still available)
+      final fcm = ref.read(fcmServiceProvider);
+      await fcm.removeStoredToken();
+      await fcm.deleteToken();
       await ref.read(authRepositoryProvider).signOut();
       await AnalyticsService.instance.logLogout();
       await AnalyticsService.instance.setUserId(null);

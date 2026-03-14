@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
@@ -128,7 +129,7 @@ void main() {
           [],
           extra: {
             'egg': {
-              'receivedAt': now.toIso8601String(),
+              'receivedAt': Timestamp.fromDate(now),
               'hatchingStreakDays': 5,
             },
           },
@@ -308,7 +309,7 @@ void main() {
           [],
           extra: {
             'egg': {
-              'receivedAt': DateTime(2024, 6, 15).toIso8601String(),
+              'receivedAt': Timestamp.fromDate(DateTime(2024, 6, 15)),
               'hatchingStreakDays': 10,
             },
           },

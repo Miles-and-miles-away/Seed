@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/mascot_species_data.dart';
-import '../../data/models/mascot_species_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/mascot_display.dart';
 

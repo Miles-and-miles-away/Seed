@@ -6,8 +6,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import '../providers/settings_providers.dart';
 
 /// Dialog shown when the user reaches a weekly streak milestone.

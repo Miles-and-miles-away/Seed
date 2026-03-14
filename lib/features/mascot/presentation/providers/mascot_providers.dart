@@ -1,14 +1,14 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../data/mascot_species_data.dart';
-import '../../data/models/egg_model.dart';
-import '../../data/models/evolution_stage_model.dart';
-import '../../data/models/mascot_model.dart';
-import '../../data/models/mascot_species_model.dart';
-import '../../data/repositories/mascot_repository.dart';
-import '../../data/services/mascot_migration_service.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/models/egg_model.dart';
+import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
+import 'package:seed_app/features/mascot/data/services/mascot_migration_service.dart';
 
 part 'mascot_providers.g.dart';
 

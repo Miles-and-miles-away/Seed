@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/settings_providers.dart';
 
 /// Screen for selecting the app language.
@@ -26,39 +26,42 @@ class LanguageSettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.languageSettingsTitle),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              l10n.languageSettingsDescription,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                l10n.languageSettingsDescription,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
-          ),
-          const Divider(height: 1),
-          ...List.generate(_supportedLanguages.length, (index) {
-            final language = _supportedLanguages[index];
-            final isSelected = currentLanguage == language.code;
+            const Divider(height: 1),
+            ...List.generate(_supportedLanguages.length, (index) {
+              final language = _supportedLanguages[index];
+              final isSelected = currentLanguage == language.code;
 
-            return _LanguageTile(
-              language: language,
-              isSelected: isSelected,
-              onTap: () => _onLanguageSelected(ref, language.code),
-            );
-          }),
-          const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              l10n.languageSettingsNote,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              return _LanguageTile(
+                language: language,
+                isSelected: isSelected,
+                onTap: () => _onLanguageSelected(ref, language.code),
+              );
+            }),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                l10n.languageSettingsNote,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

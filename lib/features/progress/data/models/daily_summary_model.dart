@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:seed_app/core/utils/firestore_converters.dart';
 
 part 'daily_summary_model.freezed.dart';
 part 'daily_summary_model.g.dart';
@@ -25,24 +26,15 @@ abstract class DailySummaryModel with _$DailySummaryModel {
     @Default(0) int totalCo2Grams,
 
     /// When this summary was created
-    @_TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? createdAt,
 
     /// When this summary was last updated
-    @_TimestampConverter() DateTime? updatedAt,
+    @TimestampConverter() DateTime? updatedAt,
   }) = _DailySummaryModel;
 
   factory DailySummaryModel.fromJson(Map<String, dynamic> json) =>
       _$DailySummaryModelFromJson(json);
 }
 
-/// Converts Firestore Timestamp to/from DateTime.
-class _TimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
-  const _TimestampConverter();
-
-  @override
-  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
-
-  @override
-  Timestamp? toJson(DateTime? date) =>
-      date != null ? Timestamp.fromDate(date) : null;
-}
+// _TimestampConverter replaced by centralized
+// TimestampConverter in core/utils/firestore_converters.dart

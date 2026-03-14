@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../models/action_log_model.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 
 /// Interface for action log data operations.
 abstract class ActionLogRemoteDataSource {

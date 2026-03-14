@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/utils/firestore_converters.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 
 void main() {

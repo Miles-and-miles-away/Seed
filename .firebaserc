@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "seed-3d48d"
+    "default": "seed-3d48d",
+    "dev": "seed-dev",
+    "prod": "seed-3d48d"
   }
 }

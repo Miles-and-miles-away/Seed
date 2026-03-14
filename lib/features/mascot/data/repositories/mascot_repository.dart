@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../../core/constants/app_constants.dart';
 import '../mascot_species_data.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';

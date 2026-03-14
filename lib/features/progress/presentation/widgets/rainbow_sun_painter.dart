@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// CustomPainter that draws the Rainbow Sun visualization.
 ///

@@ -9,22 +9,59 @@ service cloud.firestore {
       allow write: if request.auth != null
                    && request.auth.uid == userId
                    && (!request.resource.data.keys().hasAny(['mascots'])
-                       || request.resource.data.mascots.size() <= 20);
+                       || request.resource.data.mascots.size() <= 20)
+                   && (!request.resource.data.keys().hasAny(['language'])
+                       || request.resource.data.language in ['en', 'es', 'ja']);
 
       // Subcollection: action log
-      match /actionLog/{actionId} {
+      match /actionLog/{logId} {
         allow read: if request.auth != null
                     && request.auth.uid == userId;
         allow create: if request.auth != null
                       && request.auth.uid == userId
                       && request.resource.data.keys().hasAll(
-                           ['actionType', 'timestamp', 'pointsEarned']
+                           ['actionId', 'actionName',
+                            'category', 'points',
+                            'loggedAt', 'co2Grams']
                          )
-                      && request.resource.data.pointsEarned is number
-                      && request.resource.data.pointsEarned >= 0
-                      && request.resource.data.pointsEarned <= 10000;
-        // Actions are immutable
+                      && request.resource.data.points is int
+                      && request.resource.data.points >= 0
+                      && request.resource.data.points <= 10000
+                      && request.resource.data.co2Grams is int
+                      && request.resource.data.co2Grams >= 0
+                      && request.resource.data.actionId is string
+                      && request.resource.data.actionName is string
+                      && request.resource.data.category is string
+                      && request.resource.data.loggedAt is timestamp
+                      && request.resource.data.points ==
+                           get(/databases/$(database)/documents
+                               /actionLibrary
+                               /$(request.resource.data.actionId)
+                           ).data.points
+                      // Note field size limit
+                      && (!request.resource.data.keys().hasAny(['note'])
+                          || (request.resource.data.note is string
+                              && request.resource.data.note.size() <= 200))
+                      // Related SDGs array size limit
+                      && (!request.resource.data.keys().hasAny(['relatedSdgs'])
+                          || (request.resource.data.relatedSdgs is list
+                              && request.resource.data.relatedSdgs.size() <= 17))
+                      // Rate limit: 5s between submissions
+                      && (
+                        !exists(/databases/$(database)/documents/users/$(userId))
+                        || !('lastActionDate' in get(/databases/$(database)/documents/users/$(userId)).data)
+                        || request.time > get(/databases/$(database)/documents/users/$(userId)).data.lastActionDate + duration.value(5, 's')
+                      );
+        // Immutable from client; admin SDK bypasses rules
         allow update, delete: if false;
+      }
+
+      // Subcollection: daily summaries
+      match /dailySummaries/{summaryId} {
+        allow read: if request.auth != null
+                    && request.auth.uid == userId;
+        allow write: if request.auth != null
+                     && request.auth.uid == userId;
       }
     }
 

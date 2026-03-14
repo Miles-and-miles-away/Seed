@@ -462,5 +462,18 @@
   "authValidationEmailInvalid": "Por favor ingresa un correo válido",
   "authValidationPasswordRequired": "Por favor ingresa tu contraseña",
   "authValidationPasswordShort": "La contraseña debe tener al menos 6 caracteres",
-  "authValidationConfirmRequired": "Por favor confirma tu contraseña"
+  "authValidationConfirmRequired": "Por favor confirma tu contraseña",
+
+  "pointsAbbreviated": "{count} pts",
+  "@pointsAbbreviated": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stageFallback": "Etapa {stage}",
+  "@stageFallback": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  }
 }

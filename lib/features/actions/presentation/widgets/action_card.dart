@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../sdg/data/sdg_data.dart';
-import '../../data/models/action_model.dart';
-import '../../domain/constants/action_icons.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/constants/action_icons.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// A card widget displaying an action that can be logged.
 class ActionCard extends StatelessWidget {

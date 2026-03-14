@@ -1,8 +1,8 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.3
-**Last Updated:** February 2026
+**Version:** 1.4
+**Last Updated:** March 2026
 **Author:** Miles
 
 ### Current Status
@@ -15,8 +15,9 @@
 ✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
 ✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
 ✅ **Phase 3 complete!** (Settings, Notifications, Streak tracking)
-⏳ **Phase 4 in progress** (Action library expansion, UI enhancements, Cloud Functions, Analytics)
-📊 **713 tests passing** (up from 657)
+✅ **Phase 4 complete!** (Action library expansion, UI enhancements, Cloud Functions, Analytics, Legal)
+⏳ **Phase 5 next** (Gamification & Daily Engagement)
+📊 **848 tests passing** (up from 713)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -1048,8 +1049,8 @@ lib/features/settings/
 
 ---
 
-### Phase 4: Action Library Expansion & Core Features ⏳ IN PROGRESS
-**Goal:** Expand action library to ~100 actions covering all 17 SDGs, add cosmetic shop, complete core features
+### Phase 4: Action Library Expansion & Core Features ✅ COMPLETE
+**Goal:** Expand action library to ~100 actions covering all 17 SDGs, complete core features
 
 See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for detailed implementation plan.
 See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodology.
@@ -1058,15 +1059,15 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 |------|-------------|----------|--------|
 | Action library expansion | 100 actions across 9 categories, all 17 SDGs | P0 | ✅ Done |
 | Action library UI | Search, sort, filter by SDG | P0 | ✅ Done |
-| SDG detail enhancement | Impact stats, related actions, learn-only variant | P0 | ✅ Done |
-| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Pending |
-| Mascot species unlocking | 3 species, point-based unlocks | P0 | Pending |
+| SDG detail enhancement | Impact stats, related actions, targets, learn-only variant | P0 | ✅ Done |
 | Streak break Cloud Function | Push notification for at-risk streaks | P1 | ✅ Done |
-| Firebase Analytics | Event tracking implementation | P0 | ✅ Done |
-| Firebase Crashlytics | Crash reporting setup | P0 | Pending |
-| Privacy policy & terms | Generate and display legal docs | P0 | Pending |
+| Firebase Analytics | Event tracking (12 events) | P0 | ✅ Done |
+| Firebase Crashlytics | Crash reporting setup | P0 | ✅ Done |
+| Privacy policy & terms | In-app legal docs (EN/ES/JA) | P0 | ✅ Done |
+| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Deferred to Phase 6 |
+| Mascot species unlocking | 3 species, point-based unlocks | P0 | Deferred to Phase 6 |
 
-**Deliverable:** Complete action library covering all SDGs, cosmetic shop, analytics, legal compliance.
+**Deliverable:** Complete action library covering all SDGs, analytics, crash reporting, legal compliance. 848 tests passing.
 
 ### Phase 5: Gamification & Daily Engagement (Future)
 **Goal:** Daily engagement hooks -- garden, challenges, collection, facts
@@ -1075,15 +1076,12 @@ See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Growing Ecosystem | Personal garden derived from action history | P0 | Planned |
-| Garden assets | 15-18 simple SVG elements for garden | P0 | Planned |
-| Biome system | 4 unlockable garden themes | P1 | Planned |
-| Daily Challenges | 3 rotating daily missions with bonus points | P0 | Planned |
-| Challenge templates | ~30 parameterized challenge definitions | P0 | Planned |
-| Eco-Dex | Collection album with ~50 discoverable entries | P0 | Planned |
-| Daily Eco-Fact | 365 curated sustainability facts | P0 | Planned |
+| Daily Eco-Fact | 365 facts, mail icon, gated behind daily challenge | P0 | Planned |
+| Daily Challenges | 1 pseudorandom challenge/day + multi-day framework | P0 | Planned |
+| Eco-Dex | Collection album with ~50 milestone-driven entries | P0 | Planned |
+| Growing Ecosystem | Personal garden with mascot, ~15 plants x 3 stages | P0 | Planned |
 
-**Deliverable:** Four interlocking engagement systems that give users a reason to open the app every day.
+**Deliverable:** Four interlocking engagement systems with a coherent reward model (no fake points -- challenges unlock facts, milestones unlock Eco-Dex, actions grow garden).
 
 ### Phase 6: Mascot Art & Premium Features (Future)
 **Goal:** Final mascot art, RevenueCat integration, premium tier
@@ -1318,35 +1316,34 @@ This keeps small actions rewarding while making big actions feel appropriately i
 **Testing:**
 - ~~Unit & widget tests~~ ✅ Done (256 Phase 3 tests, 713 total)
 
-### Current Priority (Phase 4)
+### Phase 4 Complete ✅
 
 See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
 
-**Completed so far:**
+**Completed:**
+- ✅ Action Library expanded to 100 actions across 9 categories, all 17 SDGs covered
 - ✅ Action Library UI (search, sort, filter, SDG badges, learn-only badge)
-- ✅ Firebase Analytics (AnalyticsService with all events, Riverpod provider)
-- ✅ Streak break Cloud Function (scheduled, localized, with 16 tests)
-- ✅ About screen with legal link placeholders
-- ✅ Community category added (7 categories total)
-- ✅ isLearnOnly support for educational actions
-- ✅ 34 research-backed actions in seed script
+- ✅ SDG Detail Screen v2 (impact stats, related actions, 169 UN targets, learn-only variant)
+- ✅ Firebase Analytics (AnalyticsService with 12 events, Riverpod provider)
+- ✅ Firebase Crashlytics (error handlers, user ID, custom keys)
+- ✅ Streak break Cloud Function (scheduled, localized EN/JA/ES, 17 tests)
+- ✅ Privacy Policy & Terms of Service (in-app rendering, EN/ES/JA)
+- ✅ Polish items (points display, bottom sheets, sparkle animation)
+- ✅ 848 tests passing across 56 test files
 
-**Remaining work:**
-1. **Action Library Expansion (Major Focus):**
-   - Research ~66 more actions with CO₂ data
-   - Cover remaining 8 SDGs (1, 4, 5, 8, 9, 10, 16, 17)
-   - Seed Firestore with expanded action library
+**Deferred to Phase 6:**
+- Cosmetic Shop (5 items)
+- Mascot Species Unlocking (3 species)
 
-2. **SDG Detail Screen Enhancement:**
-   - Personal stats per SDG, related actions grid
+### Current Priority (Phase 5)
 
-3. **Cosmetic Shop:**
-   - 5 initial items, purchase with points, equip on mascot
+See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for full details.
 
-4. **Remaining Core Features:**
-   - Mascot species unlocking (3 species)
-   - Firebase Crashlytics
-   - Privacy policy & terms of service
+**Next up:** Gamification & Daily Engagement
+1. Daily Eco-Fact (365 facts, mail icon with dot, gated behind challenge)
+2. Daily Challenges (1/day per user, unlocks eco-fact, multi-day framework)
+3. Eco-Dex (collection album, ~50 entries, under Progress tab)
+4. Growing Ecosystem (garden with mascot, ~15 plants, replaces Mascot tab)
 
 ### Development Commands
 ```bash

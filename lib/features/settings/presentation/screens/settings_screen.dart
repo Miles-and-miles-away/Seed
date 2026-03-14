@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/models/notification_schedule_model.dart';
-import '../../data/models/user_settings_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
+import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
+import 'package:seed_app/shared/providers/package_info_provider.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
@@ -27,105 +26,112 @@ class SettingsScreen extends ConsumerWidget {
         title: Text(l10n.settingsTitle),
       ),
       body: settingsAsync.when(
-        data: (settings) => ListView(
-          children: [
-            // Notifications Section
-            SettingsSection(
-              title: l10n.settingsNotifications,
-              children: [
-                SettingsSwitchTile(
-                  title: l10n.settingsNotifications,
-                  subtitle: _getReminderSubtitle(
-                    context,
-                    settings.enabledReminderCount,
+        data: (settings) => SafeArea(
+          top: false,
+          child: ListView(
+            children: [
+              // Notifications Section
+              SettingsSection(
+                title: l10n.settingsNotifications,
+                children: [
+                  SettingsSwitchTile(
+                    title: l10n.settingsNotifications,
+                    subtitle: _getReminderSubtitle(
+                      context,
+                      settings.enabledReminderCount,
+                    ),
+                    leading: const Icon(Icons.notifications_outlined),
+                    value: notificationsEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleNotifications(enabled: value);
+                    },
                   ),
-                  leading: const Icon(Icons.notifications_outlined),
-                  value: notificationsEnabled,
-                  onChanged: (value) {
-                    ref
-                        .read(settingsProvider.notifier)
-                        .toggleNotifications(enabled: value);
-                  },
-                ),
-                SettingsTile(
-                  title: l10n.settingsReminderTime,
-                  subtitle:
-                      _formatReminderTimes(context, settings.reminderSchedules),
-                  leading: const Icon(Icons.schedule_outlined),
-                  onTap: () => context.push('/settings/notifications'),
-                ),
-              ],
-            ),
+                  SettingsTile(
+                    title: l10n.settingsReminderTime,
+                    subtitle: _formatReminderTimes(
+                        context, settings.reminderSchedules),
+                    leading: const Icon(Icons.schedule_outlined),
+                    onTap: () => context.push('/settings/notifications'),
+                  ),
+                ],
+              ),
 
-            // Preferences Section
-            SettingsSection(
-              title: l10n.settingsPreferences,
-              showTopDivider: true,
-              children: [
-                SettingsTile(
-                  title: l10n.settingsLanguage,
-                  subtitle: _getLanguageDisplayName(settings.language),
-                  leading: const Icon(Icons.language_outlined),
-                  onTap: () => context.push('/settings/language'),
-                ),
-              ],
-            ),
+              // Preferences Section
+              SettingsSection(
+                title: l10n.settingsPreferences,
+                showTopDivider: true,
+                children: [
+                  SettingsTile(
+                    title: l10n.settingsLanguage,
+                    subtitle: _getLanguageDisplayName(settings.language),
+                    leading: const Icon(Icons.language_outlined),
+                    onTap: () => context.push('/settings/language'),
+                  ),
+                ],
+              ),
 
-            // Privacy Section
-            SettingsSection(
-              title: l10n.settingsAnalytics,
-              showTopDivider: true,
-              children: [
-                SettingsSwitchTile(
-                  title: l10n.settingsAnalytics,
-                  subtitle: l10n.settingsAnalyticsSubtitle,
-                  leading: const Icon(Icons.analytics_outlined),
-                  value: settings.analyticsEnabled,
-                  onChanged: (value) {
-                    ref
-                        .read(settingsProvider.notifier)
-                        .toggleAnalytics(enabled: value);
-                  },
-                ),
-              ],
-            ),
+              // Privacy Section
+              SettingsSection(
+                title: l10n.settingsAnalytics,
+                showTopDivider: true,
+                children: [
+                  SettingsSwitchTile(
+                    title: l10n.settingsAnalytics,
+                    subtitle: l10n.settingsAnalyticsSubtitle,
+                    leading: const Icon(Icons.analytics_outlined),
+                    value: settings.analyticsEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleAnalytics(enabled: value);
+                    },
+                  ),
+                ],
+              ),
 
-            // Account Section
-            SettingsSection(
-              title: l10n.settingsAccount,
-              showTopDivider: true,
-              children: [
-                SettingsTile(
-                  title: l10n.settingsAccount,
-                  subtitle: l10n.settingsAccountSubtitle,
-                  leading: const Icon(Icons.person_outline),
-                  onTap: () => context.push('/settings/account'),
-                ),
-              ],
-            ),
+              // Account Section
+              SettingsSection(
+                title: l10n.settingsAccount,
+                showTopDivider: true,
+                children: [
+                  SettingsTile(
+                    title: l10n.settingsAccount,
+                    subtitle: l10n.settingsAccountSubtitle,
+                    leading: const Icon(Icons.person_outline),
+                    onTap: () => context.push('/settings/account'),
+                  ),
+                ],
+              ),
 
-            // About Section
-            SettingsSection(
-              title: l10n.settingsAbout,
-              showTopDivider: true,
-              children: [
-                FutureBuilder<PackageInfo>(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (context, snapshot) {
-                    final version = snapshot.data?.version ?? '...';
-                    return SettingsTile(
-                      title: l10n.settingsAbout,
-                      subtitle: l10n.settingsVersionFormat(version),
-                      leading: const Icon(Icons.info_outline),
-                      onTap: () => context.push('/settings/about'),
-                    );
-                  },
-                ),
-              ],
-            ),
+              // About Section
+              SettingsSection(
+                title: l10n.settingsAbout,
+                showTopDivider: true,
+                children: [
+                  Builder(
+                    builder: (context) {
+                      final pkgAsync = ref.watch(packageInfoProvider);
+                      final version = pkgAsync.value?.version ?? '...';
+                      return SettingsTile(
+                        title: l10n.settingsAbout,
+                        subtitle: l10n.settingsVersionFormat(
+                          version,
+                        ),
+                        leading: const Icon(Icons.info_outline),
+                        onTap: () => context.push(
+                          '/settings/about',
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
 
-            const SizedBox(height: 32),
-          ],
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
