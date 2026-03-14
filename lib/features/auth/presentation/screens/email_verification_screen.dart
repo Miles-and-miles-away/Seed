@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/router.dart';
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/auth_error_mapper.dart';
+import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
 
 /// Screen shown after registration prompting user

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/router.dart';
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../actions/presentation/providers/actions_providers.dart';
-import '../../../actions/presentation/utils/handle_action_tap.dart';
-import '../../../actions/presentation/widgets/action_card.dart';
+import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
 import '../providers/sdg_stats_provider.dart';
 
 const _maxVisibleActions = 6;

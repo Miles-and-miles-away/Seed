@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../shared/services/analytics_service.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../data/sdg_data.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/shared/services/analytics_service.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
 import '../widgets/sdg_infographic_viewer.dart';

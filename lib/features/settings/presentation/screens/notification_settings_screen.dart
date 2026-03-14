@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/reminder_list_tile.dart';
 import '../widgets/settings_section.dart';
@@ -32,148 +32,151 @@ class NotificationSettingsScreen extends ConsumerWidget {
         title: Text(l10n.notifSettingsTitle),
       ),
       body: settingsAsync.when(
-        data: (settings) => ListView(
-          children: [
-            // Master Toggle Section
-            SettingsSection(
-              title: l10n.notifSectionNotifications,
-              children: [
-                SettingsSwitchTile(
-                  title: l10n.notifEnableTitle,
-                  subtitle: l10n.notifEnableSubtitle,
-                  leading: const Icon(Icons.notifications_outlined),
-                  value: notificationsEnabled,
-                  onChanged: (value) {
-                    ref
-                        .read(settingsProvider.notifier)
-                        .toggleNotifications(enabled: value);
-                  },
-                ),
-              ],
-            ),
-
-            // Smart Reminders Section
-            SettingsSection(
-              title: l10n.notifSmartTitle,
-              showTopDivider: true,
-              children: [
-                SettingsSwitchTile(
-                  title: l10n.notifSmartOnlyTitle,
-                  subtitle: l10n.notifSmartOnlySubtitle,
-                  leading: const Icon(Icons.auto_awesome_outlined),
-                  value: smartRemindersEnabled,
-                  enabled: notificationsEnabled,
-                  onChanged: (value) {
-                    ref
-                        .read(settingsProvider.notifier)
-                        .toggleSmartReminders(enabled: value);
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+        data: (settings) => SafeArea(
+          top: false,
+          child: ListView(
+            children: [
+              // Master Toggle Section
+              SettingsSection(
+                title: l10n.notifSectionNotifications,
+                children: [
+                  SettingsSwitchTile(
+                    title: l10n.notifEnableTitle,
+                    subtitle: l10n.notifEnableSubtitle,
+                    leading: const Icon(Icons.notifications_outlined),
+                    value: notificationsEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleNotifications(enabled: value);
+                    },
                   ),
-                  child: Text(
-                    l10n.notifSmartDescription,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            // Reminder Times Section
-            SettingsSection(
-              title: l10n.notifReminderTimesTitle,
-              showTopDivider: true,
-              children: [
-                if (settings.reminderSchedules.isEmpty)
+              // Smart Reminders Section
+              SettingsSection(
+                title: l10n.notifSmartTitle,
+                showTopDivider: true,
+                children: [
+                  SettingsSwitchTile(
+                    title: l10n.notifSmartOnlyTitle,
+                    subtitle: l10n.notifSmartOnlySubtitle,
+                    leading: const Icon(Icons.auto_awesome_outlined),
+                    value: smartRemindersEnabled,
+                    enabled: notificationsEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleSmartReminders(enabled: value);
+                    },
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.alarm_off,
-                          size: 48,
-                          color: colorScheme.onSurfaceVariant
-                              .withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          l10n.notifNoReminders,
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          l10n.notifAddReminder,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                  )
-                else
-                  ...settings.reminderSchedules.map(
-                    (schedule) => ReminderListTile(
-                      schedule: schedule,
-                      onToggle: (enabled) {
-                        ref.read(settingsProvider.notifier).toggleReminder(
-                              schedule.id,
-                              enabled: enabled,
-                            );
-                      },
-                      onDelete: () => _confirmDeleteReminder(
-                        context,
-                        ref,
-                        schedule.id,
-                        schedule.displayTime,
-                      ),
-                      onTap: () => _showTimePicker(
-                        context,
-                        ref,
-                        existingScheduleId: schedule.id,
-                        initialTime: TimeOfDay(
-                          hour: schedule.hour,
-                          minute: schedule.minute,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                // Add Reminder Button
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: OutlinedButton.icon(
-                    onPressed: canAddReminder && notificationsEnabled
-                        ? () => _showTimePicker(context, ref)
-                        : null,
-                    icon: const Icon(Icons.add),
-                    label: Text(l10n.notifAddReminderTime),
-                  ),
-                ),
-
-                // Max reminders info
-                if (!canAddReminder)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      l10n.notifMaxReminders,
+                      l10n.notifSmartDescription,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
-              ],
-            ),
+                ],
+              ),
 
-            const SizedBox(height: 32),
-          ],
+              // Reminder Times Section
+              SettingsSection(
+                title: l10n.notifReminderTimesTitle,
+                showTopDivider: true,
+                children: [
+                  if (settings.reminderSchedules.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.alarm_off,
+                            size: 48,
+                            color: colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.notifNoReminders,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            l10n.notifAddReminder,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    ...settings.reminderSchedules.map(
+                      (schedule) => ReminderListTile(
+                        schedule: schedule,
+                        onToggle: (enabled) {
+                          ref.read(settingsProvider.notifier).toggleReminder(
+                                schedule.id,
+                                enabled: enabled,
+                              );
+                        },
+                        onDelete: () => _confirmDeleteReminder(
+                          context,
+                          ref,
+                          schedule.id,
+                          schedule.displayTime,
+                        ),
+                        onTap: () => _showTimePicker(
+                          context,
+                          ref,
+                          existingScheduleId: schedule.id,
+                          initialTime: TimeOfDay(
+                            hour: schedule.hour,
+                            minute: schedule.minute,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  // Add Reminder Button
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: OutlinedButton.icon(
+                      onPressed: canAddReminder && notificationsEnabled
+                          ? () => _showTimePicker(context, ref)
+                          : null,
+                      icon: const Icon(Icons.add),
+                      label: Text(l10n.notifAddReminderTime),
+                    ),
+                  ),
+
+                  // Max reminders info
+                  if (!canAddReminder)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        l10n.notifMaxReminders,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
+              ),
+
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(

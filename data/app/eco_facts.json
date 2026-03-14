@@ -1,0 +1,4320 @@
+[
+  {
+    "dayOfYear": 1,
+    "category": "comparison",
+    "factEn": "If you went fully plant-based for just one month, you would save roughly 124 kg of CO2 -- equivalent to driving 500 km in a petrol car.",
+    "sourceEn": "Poore & Nemecek, Science 2018",
+    "sourceUrl": "https://www.science.org/doi/10.1126/science.aaq0216",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": "Veganuary"
+  },
+  {
+    "dayOfYear": 2,
+    "category": "positiveNews",
+    "factEn": "The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.",
+    "sourceEn": "UNEP / Ethiopian Government",
+    "sourceUrl": "https://www.unep.org/news-and-stories/story/ethiopias-350-million-tree-planting-day",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 3,
+    "category": "mythBuster",
+    "factEn": "Bottled water is not safer than tap water in most developed countries. Tap water is tested far more frequently, and bottled water generates up to 300 times more CO2 per litre.",
+    "sourceEn": "Water UK / Environmental Investigation Agency",
+    "sourceUrl": "https://www.water.org.uk/",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 4,
+    "category": "mythBuster",
+    "factEn": "Hand dryers are not always greener than paper towels. Jet air dryers spread 60 times more germs than warm air dryers and 1,300 times more than paper towels. Hygiene and sustainability must both be considered.",
+    "sourceEn": "Journal of Applied Microbiology / Westminster University",
+    "sourceUrl": "https://academic.oup.com/jambio/article/120/1/89/5662397",
+    "relatedSdgs": [
+      3,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 5,
+    "category": "positiveNews",
+    "factEn": "Global renewable energy capacity additions hit a record in 2023, growing almost 50% year-on-year. The world added 510 GW of new renewable capacity in a single year, led by solar power.",
+    "sourceEn": "International Energy Agency (IEA)",
+    "sourceUrl": "https://www.iea.org/reports/renewables-2023",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 6,
+    "category": "positiveNews",
+    "factEn": "The European Union's 'right to repair' directive, adopted in 2024, requires manufacturers to offer repairs for up to 10 years on appliances, cutting e-waste and saving consumers money.",
+    "sourceEn": "European Commission",
+    "sourceUrl": "https://commission.europa.eu/energy-climate-change-environment/standards-tools-and-labels/products-labelling-rules-and-requirements/sustainable-products/right-repair_en",
+    "relatedSdgs": [
+      9,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 7,
+    "category": "individual",
+    "factEn": "Meal planning for one week reduces household food waste by up to 25%. That saves money and prevents roughly 1.5 kg of CO2 per week from decomposing food in landfill.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink/actions/plan-meals",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 8,
+    "category": "natureWonder",
+    "factEn": "The Sahara Desert was green and lush just 6,000 years ago, covered in lakes and grasslands. Earth's climate has shifted dramatically even without human influence -- but never this fast.",
+    "sourceEn": "Nature Scitable / NASA",
+    "sourceUrl": "https://www.nature.com/scitable/knowledge/library/green-sahara-african-humid-periods-paced-by-82884405/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 9,
+    "category": "natureWonder",
+    "factEn": "Fungi form associations with about 90% of land plants through underground networks called mycorrhizae. While the extent of nutrient sharing is still debated, these connections play a vital role in plant health and forest ecosystems.",
+    "sourceEn": "Simard et al., Nature 1997; Karst et al., Nature Ecology & Evolution 2023",
+    "sourceUrl": "https://www.nature.com/articles/385227a0",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 10,
+    "category": "mythBuster",
+    "factEn": "Idling your car engine for more than 10 seconds uses more fuel than restarting it. Modern engines do not need to warm up -- driving gently from the start is more efficient and less polluting.",
+    "sourceEn": "US Department of Energy / Argonne National Laboratory",
+    "sourceUrl": "https://www.energy.gov/energysaver/idling",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 11,
+    "category": "comparison",
+    "factEn": "A vegan diet uses about 75% less farmland than a meat-based diet. If the world shifted to plant-based food, we could return an estimated 3.1 billion hectares to nature -- an area larger than Africa.",
+    "sourceEn": "Poore & Nemecek, Science 2018",
+    "sourceUrl": "https://ourworldindata.org/land-use-diets",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 12,
+    "category": "comparison",
+    "factEn": "Dairy milk produces about 3.2 kg of CO2 per litre, while oat milk produces just 0.9 kg. Switching one daily glass of milk to oat milk saves roughly 210 kg of CO2 per year.",
+    "sourceEn": "Poore & Nemecek, Science 2018",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 13,
+    "category": "individual",
+    "factEn": "Choosing durable products over cheap alternatives can double or triple their useful life. Investing a few minutes in research before buying prevents significant waste over a decade.",
+    "sourceEn": "European Environmental Bureau",
+    "sourceUrl": "https://eeb.org/library/cool-products-dont-cost-the-earth-full-report/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 14,
+    "category": "mythBuster",
+    "factEn": "Leaving electronics on standby costs the average household 5-10% of its electricity bill. 'Off' does not always mean off -- unplug or use a power strip.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/energy-system/buildings/energy-efficient-equipment",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 15,
+    "category": "natureWonder",
+    "factEn": "The wood frog can survive being frozen solid for months. Its body produces a natural antifreeze that protects cells, and it thaws back to life each spring -- a marvel of evolution.",
+    "sourceEn": "Journal of Experimental Biology / Smithsonian",
+    "sourceUrl": "https://nationalzoo.si.edu/animals/wood-frog",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 16,
+    "category": "natureWonder",
+    "factEn": "Arctic permafrost holds twice as much carbon as the entire atmosphere. As it thaws, it releases methane -- a greenhouse gas 80 times more potent than CO2 over 20 years.",
+    "sourceEn": "NOAA Arctic Report Card 2024",
+    "sourceUrl": "https://arctic.noaa.gov/report-card/report-card-2024/arctic-terrestrial-carbon-cycling/",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 17,
+    "category": "comparison",
+    "factEn": "A single cargo ship crossing the Pacific burns 63,000 gallons of fuel per day. Yet per tonne of goods, shipping is over 40 times more fuel-efficient than air freight.",
+    "sourceEn": "International Maritime Organization",
+    "sourceUrl": "https://www.imo.org/en/OurWork/Environment/Pages/GHG-Emissions.aspx",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 18,
+    "category": "positiveNews",
+    "factEn": "Global maternal mortality has fallen roughly 40% since 2000, and child mortality has halved. When communities are healthier, they are more resilient to climate shocks.",
+    "sourceEn": "WHO / UNICEF",
+    "sourceUrl": "https://www.who.int/data/gho/data/themes/topics/sdg-target-3-1-maternal-mortality",
+    "relatedSdgs": [
+      3,
+      5
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 19,
+    "category": "individual",
+    "factEn": "Switching from a 10-minute shower to a 5-minute shower saves up to 45 litres of water per shower -- over 16,000 litres a year for daily showerers.",
+    "sourceEn": "WaterWise UK",
+    "sourceUrl": "https://www.waterwise.org.uk/save-water/",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 20,
+    "category": "mythBuster",
+    "factEn": "Wet wipes labelled 'flushable' are not truly flushable. They do not break down like toilet paper and are the leading cause of sewer blockages, polluting rivers and coasts.",
+    "sourceEn": "Water UK / Marine Conservation Society",
+    "sourceUrl": "https://www.water.org.uk/policy-topics/managing-sewage-and-drainage/wet-wipes/",
+    "relatedSdgs": [
+      6,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 21,
+    "category": "positiveNews",
+    "factEn": "Denmark generated 55% of its electricity from wind in 2023 and plans to build an artificial energy island to export wind power to neighbouring countries.",
+    "sourceEn": "Danish Energy Agency",
+    "sourceUrl": "https://www.iea.org/countries/denmark",
+    "relatedSdgs": [
+      7,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 22,
+    "category": "positiveNews",
+    "factEn": "Whale populations are recovering. Humpback whales in the South Atlantic grew from 450 individuals in the 1960s to over 25,000 today, thanks to the international whaling ban.",
+    "sourceEn": "Royal Society Open Science / IWC",
+    "sourceUrl": "https://iwc.int/management-and-conservation/whaling/total-catches",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 23,
+    "category": "natureWonder",
+    "factEn": "Dolphins sleep with one eye open and half their brain awake, allowing them to surface for air. Their complex social structures rival those of great apes.",
+    "sourceEn": "Royal Society Open Science",
+    "sourceUrl": "https://royalsocietypublishing.org/journal/rsos",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 24,
+    "category": "individual",
+    "factEn": "Education is the single most effective way to reduce vulnerability to climate change. A UNESCO study found each additional year of schooling increases a farmer's crop yield by 2-5%.",
+    "sourceEn": "UNESCO Global Education Monitoring Report",
+    "sourceUrl": "https://www.unesco.org/gem-report/en",
+    "relatedSdgs": [
+      4,
+      13
+    ],
+    "unWorldDay": "International Day of Education"
+  },
+  {
+    "dayOfYear": 25,
+    "category": "natureWonder",
+    "factEn": "Snow reflects up to 90% of sunlight back to space, cooling the planet. As Arctic snow and ice melt, darker ocean water absorbs more heat, accelerating warming in a feedback loop.",
+    "sourceEn": "NASA Climate / NSIDC",
+    "sourceUrl": "https://climate.nasa.gov/vital-signs/arctic-sea-ice/",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 26,
+    "category": "positiveNews",
+    "factEn": "Solar energy is now the cheapest source of electricity in history. The cost of solar panels has dropped 99% since 1976, making clean energy accessible worldwide.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/world-energy-outlook-2024",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": "International Day of Clean Energy"
+  },
+  {
+    "dayOfYear": 27,
+    "category": "natureWonder",
+    "factEn": "Parrotfish eat coral and excrete sand. A single large parrotfish can produce 380 kg of sand per year. Many tropical white-sand beaches are literally made of parrotfish poop.",
+    "sourceEn": "National Geographic / Marine Biology",
+    "sourceUrl": "https://www.nationalgeographic.com/animals/fish/facts/parrotfish",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 28,
+    "category": "mythBuster",
+    "factEn": "Taking shorter showers saves water, but your diet has a far bigger water footprint. Producing 1 kg of beef requires 15,400 litres of water -- the equivalent of 6 months of daily showers.",
+    "sourceEn": "Water Footprint Network",
+    "sourceUrl": "https://www.waterfootprint.org/resources/interactive-tools/product-gallery/",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 29,
+    "category": "mythBuster",
+    "factEn": "Washing dishes under running water uses up to 100 litres. Filling a basin uses about 10 litres. Even without a dishwasher, changing how you wash makes a 10x difference.",
+    "sourceEn": "WaterWise UK",
+    "sourceUrl": "https://www.waterwise.org.uk/save-water/",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 30,
+    "category": "positiveNews",
+    "factEn": "Chile built the largest solar farm in Latin America and now generates over 30% of its electricity from solar and wind -- up from under 5% a decade ago.",
+    "sourceEn": "International Renewable Energy Agency",
+    "sourceUrl": "https://www.irena.org/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 31,
+    "category": "positiveNews",
+    "factEn": "The Baltic Sea's dead zones are shrinking for the first time in decades thanks to coordinated action by 9 countries to reduce agricultural runoff and sewage pollution.",
+    "sourceEn": "Helsinki Commission (HELCOM)",
+    "sourceUrl": "https://helcom.fi/",
+    "relatedSdgs": [
+      14,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 32,
+    "category": "individual",
+    "factEn": "Carrying a reusable water bottle, coffee cup, and shopping bag eliminates roughly 500 single-use items per person per year. Three small habits, one massive waste reduction.",
+    "sourceEn": "WRAP UK / Zero Waste Europe",
+    "sourceUrl": "https://zerowasteeurope.eu/",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 33,
+    "category": "natureWonder",
+    "factEn": "Wetlands store twice as much carbon per hectare as forests. Despite covering only 6% of Earth's surface, peatlands alone hold twice the carbon of all the world's forests combined.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/resources/global-peatlands-assessment-2022",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": "World Wetlands Day"
+  },
+  {
+    "dayOfYear": 34,
+    "category": "comparison",
+    "factEn": "Sending one email emits about 4 g of CO2. But an email with a large attachment can emit 50 g. The world sends 350 billion emails per day -- reducing unnecessary emails and attachments adds up.",
+    "sourceEn": "Berners-Lee, The Carbon Footprint of Everything",
+    "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S0959652620307551",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 35,
+    "category": "individual",
+    "factEn": "Choosing a reusable coffee cup pays off fast. A disposable cup takes about 0.11 kg of CO2 to produce. After just 15 uses, a ceramic mug breaks even and keeps saving from there.",
+    "sourceEn": "UK DEFRA / Lifecycle Assessment",
+    "sourceUrl": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 36,
+    "category": "individual",
+    "factEn": "Switching from disposable to reusable nappies saves roughly 500 kg of waste per child. Even using them part-time makes a significant difference to landfill volumes.",
+    "sourceEn": "UK Environment Agency",
+    "sourceUrl": "https://www.gov.uk/government/publications/an-updated-lifecycle-assessment-for-disposable-and-reusable-nappies",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 37,
+    "category": "mythBuster",
+    "factEn": "Biodegradable plastics rarely break down in landfills. They need specific industrial composting conditions (58+ degrees C) that most waste facilities don't provide.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/resources/report/biodegradable-plastics-and-marine-litter",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 38,
+    "category": "comparison",
+    "factEn": "Growing almonds uses 12 litres of water per almond, but dairy milk still uses 2x more water per glass than almond milk. The real water villain is animal agriculture, not nut crops.",
+    "sourceEn": "Water Footprint Network / Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 39,
+    "category": "comparison",
+    "factEn": "Concrete is the second most consumed material on Earth after water. Cement production alone accounts for 8% of global CO2 emissions -- more than the entire aviation industry.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/energy-system/industry/cement",
+    "relatedSdgs": [
+      9,
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 40,
+    "category": "mythBuster",
+    "factEn": "Charity shop donations that are stained or broken still cost charities money to dispose of. Only donate items you would give to a friend -- otherwise you are outsourcing your landfill run.",
+    "sourceEn": "WRAP UK / Charity Retail Association",
+    "sourceUrl": "https://www.charityretail.org.uk/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 41,
+    "category": "comparison",
+    "factEn": "Pulses like lentils and chickpeas naturally fix nitrogen in the soil, reducing the need for synthetic fertiliser. Growing pulses uses 10 times less water than producing the same weight of beef protein.",
+    "sourceEn": "FAO / UN World Pulses Day",
+    "sourceUrl": "https://www.fao.org/pulses-2016/news/news-detail/en/c/337107/",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": "World Pulses Day"
+  },
+  {
+    "dayOfYear": 42,
+    "category": "positiveNews",
+    "factEn": "Research shows that including women in climate decision-making leads to better outcomes for vulnerable communities. Increasing women's participation in climate science accelerates both innovation and equity.",
+    "sourceEn": "IUCN Gender and Environment",
+    "sourceUrl": "https://www.iucn.org/resources/issues-brief/gender-and-climate-change",
+    "relatedSdgs": [
+      5,
+      9,
+      13
+    ],
+    "unWorldDay": "International Day of Women and Girls in Science"
+  },
+  {
+    "dayOfYear": 43,
+    "category": "positiveNews",
+    "factEn": "South Korea recycles 95% of its food waste through a mandatory bio-waste system introduced in 2005. Much of it becomes animal feed, fertiliser, or biogas.",
+    "sourceEn": "Ministry of Environment, South Korea / OECD",
+    "sourceUrl": "https://www.oecd.org/en/topics/waste-and-recycling.html",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 44,
+    "category": "natureWonder",
+    "factEn": "A single colony of ants can aerate and turn over as much soil as an earthworm population, improving water infiltration by up to 50%. Tiny creatures shape entire ecosystems.",
+    "sourceEn": "Evans et al., Nature Communications 2011",
+    "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3072065/",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 45,
+    "category": "natureWonder",
+    "factEn": "The deep ocean below 1,000 metres is the largest habitat on Earth and contains more species than all tropical rainforests combined. Over 80% of it remains unexplored.",
+    "sourceEn": "NOAA / Census of Marine Life",
+    "sourceUrl": "https://oceanexplorer.noaa.gov/facts/deep-ocean.html",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 46,
+    "category": "comparison",
+    "factEn": "A single long-haul return flight from London to New York emits roughly 1.6 tonnes of CO2 per passenger -- nearly as much as the average person in India emits in an entire year.",
+    "sourceEn": "Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/travel-carbon-footprint",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 47,
+    "category": "individual",
+    "factEn": "Choosing loose fruit and vegetables over pre-packaged saves an average of 40 plastic wrappers per month per household. Supermarkets are responding as consumer demand for package-free options grows.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink/actions/reducing-packaging",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 48,
+    "category": "mythBuster",
+    "factEn": "Hydrogen cars sound futuristic, but making hydrogen from natural gas (95% of current production) emits almost as much CO2 as using petrol. Only 'green' hydrogen from renewables is truly clean.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/global-hydrogen-review-2023",
+    "relatedSdgs": [
+      7,
+      9
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 49,
+    "category": "natureWonder",
+    "factEn": "The largest organism on Earth is a honey fungus in Oregon's Blue Mountains. It spans 9.6 square kilometres underground and is estimated to be over 2,400 years old.",
+    "sourceEn": "US Forest Service / Nature",
+    "sourceUrl": "https://www.fs.usda.gov/internet/FSE_DOCUMENTS/fsbdev3_033146.pdf",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 50,
+    "category": "positiveNews",
+    "factEn": "China's Loess Plateau restoration project converted 35,000 sq km of degraded land into productive farmland and forest, lifting 2.5 million people out of poverty and sequestering millions of tonnes of carbon.",
+    "sourceEn": "World Bank",
+    "sourceUrl": "https://www.worldbank.org/en/news/feature/2007/03/15/restoring-chinas-loess-plateau",
+    "relatedSdgs": [
+      1,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 51,
+    "category": "individual",
+    "factEn": "The richest 10% of the world's population produce 50% of global CO2 emissions, while the poorest 50% produce just 12%. Climate action and social justice are inseparable.",
+    "sourceEn": "Oxfam / Stockholm Environment Institute",
+    "sourceUrl": "https://ourworldindata.org/co2-by-income-region",
+    "relatedSdgs": [
+      10,
+      13,
+      16
+    ],
+    "unWorldDay": "World Day of Social Justice"
+  },
+  {
+    "dayOfYear": 52,
+    "category": "mythBuster",
+    "factEn": "Black plastic containers look recyclable but are often invisible to recycling sorting machines. They end up in landfill even when placed in the recycling bin. Avoid them when possible.",
+    "sourceEn": "WRAP UK / Resource Association",
+    "sourceUrl": "https://wrap.org.uk/resources/guide/black-plastic-packaging",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 53,
+    "category": "positiveNews",
+    "factEn": "Africa's Great Green Wall initiative aims to restore 100 million hectares of degraded land across the Sahel. By 2023, over 18 million hectares had been restored, creating jobs and food security.",
+    "sourceEn": "UNCCD Great Green Wall",
+    "sourceUrl": "https://www.unccd.int/our-work/ggwi",
+    "relatedSdgs": [
+      1,
+      2,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 54,
+    "category": "comparison",
+    "factEn": "A vegetarian diet saves approximately 1,100 gallons (over 4,000 litres) of water per day compared to a meat-based diet. Over a year, that is enough water to fill a 25-metre swimming pool.",
+    "sourceEn": "Water Footprint Network",
+    "sourceUrl": "https://www.waterfootprint.org/resources/interactive-tools/product-gallery/",
+    "relatedSdgs": [
+      2,
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 55,
+    "category": "natureWonder",
+    "factEn": "A single mature oak tree can support over 2,300 species of insects, birds, fungi, and lichens -- making it one of the most biodiverse organisms on the planet.",
+    "sourceEn": "Woodland Trust UK",
+    "sourceUrl": "https://www.woodlandtrust.org.uk/trees-woods-and-wildlife/british-trees/a-z-of-british-trees/english-oak/",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 56,
+    "category": "positiveNews",
+    "factEn": "Global access to electricity has risen from 73% in 2000 to over 91% in 2022. In sub-Saharan Africa, off-grid solar is connecting millions who were previously unreachable by the grid.",
+    "sourceEn": "World Bank / IEA",
+    "sourceUrl": "https://www.iea.org/reports/sdg7-data-and-projections",
+    "relatedSdgs": [
+      1,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 57,
+    "category": "individual",
+    "factEn": "Home composting diverts about 150 kg of organic waste from landfill per household per year. In landfill, that waste would produce methane -- a greenhouse gas 80 times more potent than CO2 over 20 years.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/resources/guide/home-composting",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 58,
+    "category": "natureWonder",
+    "factEn": "A single sunflower can extract toxic heavy metals like lead, arsenic, and uranium from contaminated soil -- a process called phytoremediation. Sunflowers were used to clean up after Chernobyl.",
+    "sourceEn": "Dushenkov et al., Environmental Science & Technology 1999",
+    "sourceUrl": "https://pubs.acs.org/doi/abs/10.1021/es980788+",
+    "relatedSdgs": [
+      6,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 59,
+    "category": "positiveNews",
+    "factEn": "Patagonia, a billion-dollar company, transferred its ownership to a climate trust in 2022. 100% of its profits now fund environmental causes -- proof that business can serve the planet.",
+    "sourceEn": "Patagonia / New York Times",
+    "sourceUrl": "https://www.patagonia.com/ownership/",
+    "relatedSdgs": [
+      12,
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 60,
+    "category": "comparison",
+    "factEn": "Data centres consume about 1-2% of global electricity. A single large AI training run can emit as much CO2 as five cars over their entire lifetimes.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks",
+    "relatedSdgs": [
+      7,
+      9,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 61,
+    "category": "individual",
+    "factEn": "Bringing your own container for takeaway food prevents an average of 100 single-use containers per person per year. Many restaurants offer a discount for customers who do.",
+    "sourceEn": "Zero Waste Europe",
+    "sourceUrl": "https://zerowasteeurope.eu/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 62,
+    "category": "natureWonder",
+    "factEn": "Earth is home to an estimated 8.7 million species, but we have only identified about 1.2 million. Up to 1 million species are currently threatened with extinction.",
+    "sourceEn": "IPBES Global Assessment Report",
+    "sourceUrl": "https://www.ipbes.net/global-assessment",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": "World Wildlife Day"
+  },
+  {
+    "dayOfYear": 63,
+    "category": "comparison",
+    "factEn": "One hectare of hemp absorbs 15 tonnes of CO2 -- more than any commercial crop and comparable to a young forest. Hemp also grows in 4 months and regenerates soil health.",
+    "sourceEn": "European Industrial Hemp Association",
+    "sourceUrl": "https://eiha.org/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 64,
+    "category": "mythBuster",
+    "factEn": "Turning off lights when leaving a room is worth it, but heating and cooling are 10 times more impactful. Adjusting your thermostat saves far more energy than obsessing over light switches.",
+    "sourceEn": "US Energy Information Administration",
+    "sourceUrl": "https://www.eia.gov/energyexplained/use-of-energy/homes.php",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 65,
+    "category": "natureWonder",
+    "factEn": "A teaspoon of ocean water contains roughly 1 million bacteria and 10 million viruses. Most are harmless and essential -- ocean microbes produce half the oxygen you breathe.",
+    "sourceEn": "Nature Reviews Microbiology",
+    "sourceUrl": "https://www.nature.com/nrmicro/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 66,
+    "category": "mythBuster",
+    "factEn": "Closing the fridge door quickly is good practice, but a fridge's biggest energy drain is its rear coils. Cleaning dusty condenser coils twice a year improves efficiency by up to 30%.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/refrigerator",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 67,
+    "category": "individual",
+    "factEn": "Women and girls are disproportionately affected by climate change due to existing inequalities in income, access to resources, and decision-making power. Empowering women is one of the most effective climate solutions.",
+    "sourceEn": "UN Women",
+    "sourceUrl": "https://www.unwomen.org/en/news-stories/explainer/2022/02/explainer-how-gender-inequality-and-climate-change-are-interconnected",
+    "relatedSdgs": [
+      5,
+      13
+    ],
+    "unWorldDay": "International Women's Day"
+  },
+  {
+    "dayOfYear": 68,
+    "category": "comparison",
+    "factEn": "An average car sits parked 95% of the time. Car-sharing services can replace 9-13 private cars per shared vehicle, freeing parking space for parks, housing, or bike lanes.",
+    "sourceEn": "Transportation Sustainability Research Center, UC Berkeley",
+    "sourceUrl": "https://tsrc.berkeley.edu/",
+    "relatedSdgs": [
+      11,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 69,
+    "category": "natureWonder",
+    "factEn": "The Amazon rainforest generates half its own rainfall through transpiration. Trees act as biological pumps, pulling water from the ground and releasing it as vapor to form rain clouds.",
+    "sourceEn": "Flores et al., Nature 2024",
+    "sourceUrl": "https://www.nature.com/articles/s41586-023-06970-0",
+    "relatedSdgs": [
+      6,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 70,
+    "category": "positiveNews",
+    "factEn": "Lead has been eliminated from petrol in every country on Earth as of 2021. The global phase-out prevents 1.2 million premature deaths per year and saves $2.45 trillion in avoided health costs.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/news-and-stories/press-release/era-leaded-petrol-over-eliminating-major-threat-human-and-planetary",
+    "relatedSdgs": [
+      3,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 71,
+    "category": "mythBuster",
+    "factEn": "Eating local is less impactful than you think. What you eat matters far more than where it comes from -- transport accounts for only 6% of food's total carbon footprint.",
+    "sourceEn": "Poore & Nemecek, Science 2018",
+    "sourceUrl": "https://ourworldindata.org/food-choice-vs-eating-local",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 72,
+    "category": "positiveNews",
+    "factEn": "Amsterdam aims to be fully circular by 2050, designing out waste entirely. The city already requires all new buildings to use 20% recycled materials and bans gas heating in new construction.",
+    "sourceEn": "City of Amsterdam / Ellen MacArthur Foundation",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/circular-examples/amsterdam",
+    "relatedSdgs": [
+      11,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 73,
+    "category": "individual",
+    "factEn": "Buying fewer but higher-quality clothes that last 3x longer can reduce your fashion carbon footprint by 65%. The most sustainable garment is the one already in your wardrobe.",
+    "sourceEn": "WRAP UK Textiles",
+    "sourceUrl": "https://wrap.org.uk/taking-action/textiles",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 74,
+    "category": "natureWonder",
+    "factEn": "Pistol shrimp snap their claws so fast they create a bubble that reaches 4,700 degrees C -- nearly as hot as the Sun's surface. The shockwave stuns prey and produces a flash of light.",
+    "sourceEn": "Science / Versluis et al. 2000",
+    "sourceUrl": "https://www.science.org/doi/10.1126/science.289.5487.2114",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 75,
+    "category": "positiveNews",
+    "factEn": "Global investment in clean energy reached $1.8 trillion in 2023 -- exceeding fossil fuel investment for the first time. For every dollar spent on fossil fuels, $1.70 now goes to clean energy.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/world-energy-investment-2024",
+    "relatedSdgs": [
+      7,
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 76,
+    "category": "mythBuster",
+    "factEn": "Wrapping food in aluminium foil is not always wasteful. Foil is 100% recyclable and infinitely reusable, unlike cling film. Wash it, fold it, and recycle it when it wears out.",
+    "sourceEn": "Aluminum Association / WRAP UK",
+    "sourceUrl": "https://www.aluminum.org/aluminum-recycling",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 77,
+    "category": "comparison",
+    "factEn": "Recycling one aluminium can saves enough energy to run a laptop for 5 hours. Aluminium can be recycled infinitely with no loss of quality.",
+    "sourceEn": "Aluminum Association",
+    "sourceUrl": "https://www.aluminum.org/aluminum-recycling",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": "Global Recycling Day"
+  },
+  {
+    "dayOfYear": 78,
+    "category": "individual",
+    "factEn": "Signing a petition or contacting your elected representative about climate policy takes 5 minutes but can influence decisions affecting millions. Advocacy is a high-leverage personal action.",
+    "sourceEn": "Wynes & Nicholas, Environmental Research Letters 2017",
+    "sourceUrl": "https://iopscience.iop.org/article/10.1088/1748-9326/aa7541",
+    "relatedSdgs": [
+      13,
+      16
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 79,
+    "category": "mythBuster",
+    "factEn": "Tap water in glass bottles at restaurants is not greener than tap water in reusable plastic cups. The carbon footprint of washing glassware at high temperatures often exceeds that of durable plastic cups.",
+    "sourceEn": "Lifecycle Assessment / Swiss EMPA",
+    "sourceUrl": "https://www.empa.ch/web/s506/lifecycle-assessment",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 80,
+    "category": "natureWonder",
+    "factEn": "Forests absorb about 2.6 billion tonnes of CO2 per year -- roughly 30% of human emissions. A single mature tree absorbs about 22 kg of CO2 annually.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/state-of-forests/en/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": "International Day of Forests"
+  },
+  {
+    "dayOfYear": 81,
+    "category": "natureWonder",
+    "factEn": "Less than 1% of Earth's water is fresh and accessible. The rest is locked in ice caps, glaciers, or deep underground. Every drop you save matters.",
+    "sourceEn": "USGS Water Science School",
+    "sourceUrl": "https://www.usgs.gov/special-topics/water-science-school/science/where-earths-water",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": "World Water Day"
+  },
+  {
+    "dayOfYear": 82,
+    "category": "positiveNews",
+    "factEn": "Weather forecasting accuracy has improved dramatically: a 5-day forecast today is as reliable as a 1-day forecast was in 1980, helping communities prepare for climate extremes.",
+    "sourceEn": "World Meteorological Organization",
+    "sourceUrl": "https://wmo.int/about-us/world-meteorological-day",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": "World Meteorological Day"
+  },
+  {
+    "dayOfYear": 83,
+    "category": "comparison",
+    "factEn": "Replacing a single beef burger with a bean burger saves 6.5 kg of CO2, 340 litres of water, and 3.6 square metres of land. Small swaps, multiplied by millions, change everything.",
+    "sourceEn": "Our World in Data / Poore & Nemecek",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      2,
+      6,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 84,
+    "category": "individual",
+    "factEn": "Installing a low-flow showerhead costs under $20 and saves 7,000 litres of water per year. It also cuts water heating energy by 30%, saving both money and emissions.",
+    "sourceEn": "US EPA WaterSense",
+    "sourceUrl": "https://www.epa.gov/watersense/showerheads",
+    "relatedSdgs": [
+      6,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 85,
+    "category": "mythBuster",
+    "factEn": "Paper bags are not always greener than plastic. A paper bag must be reused at least 3 times to have a lower carbon footprint than a single-use plastic bag, due to higher production energy.",
+    "sourceEn": "UK Environment Agency",
+    "sourceUrl": "https://www.gov.uk/government/publications/life-cycle-assessment-of-supermarket-carrierbags",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 86,
+    "category": "comparison",
+    "factEn": "The renewable energy sector employed 13.7 million people globally in 2022, up from 7.3 million in 2012. Solar PV alone accounts for 4.9 million jobs, making it the fastest-growing energy employer worldwide.",
+    "sourceEn": "IRENA / ILO",
+    "sourceUrl": "https://www.irena.org/publications/2023/Sep/Renewable-energy-and-jobs-Annual-review-2023",
+    "relatedSdgs": [
+      7,
+      8
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 87,
+    "category": "individual",
+    "factEn": "Earth Hour started with 2.2 million people in Sydney in 2007. By 2024, it reached 190+ countries. Collective symbolic action drives real policy change.",
+    "sourceEn": "WWF Earth Hour",
+    "sourceUrl": "https://www.earthhour.org/",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": "Earth Hour"
+  },
+  {
+    "dayOfYear": 88,
+    "category": "positiveNews",
+    "factEn": "The Kigali Amendment to the Montreal Protocol, targeting HFC refrigerants, could avoid up to 0.5 degrees C of global warming by 2100 -- making it one of the single most impactful climate agreements ever.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/ozonaction/who-we-are/about-montreal-protocol",
+    "relatedSdgs": [
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 89,
+    "category": "comparison",
+    "factEn": "The world generates 2.01 billion tonnes of municipal solid waste annually. If waste were a country, its methane emissions would make it the 3rd largest emitter after China and the US.",
+    "sourceEn": "World Bank",
+    "sourceUrl": "https://datatopics.worldbank.org/what-a-waste/",
+    "relatedSdgs": [
+      11,
+      12
+    ],
+    "unWorldDay": "International Day of Zero Waste"
+  },
+  {
+    "dayOfYear": 90,
+    "category": "natureWonder",
+    "factEn": "The bristlecone pine is the oldest known non-clonal organism on Earth, with some individuals over 5,000 years old. These trees have survived 50 centuries of climate shifts.",
+    "sourceEn": "US Forest Service",
+    "sourceUrl": "https://www.fs.usda.gov/detail/inyo/home/?cid=stelprdb5394900",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 91,
+    "category": "mythBuster",
+    "factEn": "Nuclear power produces less CO2 per kWh than solar when you include manufacturing. It is one of the lowest-carbon energy sources available, despite public perception.",
+    "sourceEn": "IPCC Working Group III",
+    "sourceUrl": "https://www.ipcc.ch/report/ar6/wg3/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 92,
+    "category": "comparison",
+    "factEn": "Air-drying one load of laundry saves 2.4 kg of CO2. Over a year, a household that always air-dries saves as much CO2 as a return flight from London to Madrid.",
+    "sourceEn": "UK DEFRA Conversion Factors",
+    "sourceUrl": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 93,
+    "category": "individual",
+    "factEn": "Sending 65 emails is roughly equivalent to driving 1 km in a car. Unsubscribing from newsletters you never read and deleting old emails with large attachments can reduce your digital carbon footprint meaningfully over time.",
+    "sourceEn": "Berners-Lee, How Bad Are Bananas? / Carbon Literacy",
+    "sourceUrl": "https://www.carbonliteracy.com/the-carbon-cost-of-an-email/",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 94,
+    "category": "natureWonder",
+    "factEn": "Fireflies produce light at nearly 100% efficiency -- almost no energy is lost as heat. An incandescent bulb converts only 10% of energy into light; the rest is wasted as heat.",
+    "sourceEn": "Smithsonian National Museum of Natural History",
+    "sourceUrl": "https://www.si.edu/spotlight/buginfo/firefly",
+    "relatedSdgs": [
+      9,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 95,
+    "category": "natureWonder",
+    "factEn": "Kelp forests can grow up to 60 cm per day and absorb 20 times more CO2 per hectare than terrestrial forests. They also shelter over 800 marine species.",
+    "sourceEn": "NOAA / Monterey Bay Aquarium",
+    "sourceUrl": "https://www.noaa.gov/education/resource-collections/marine-life/kelp-forests",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 96,
+    "category": "mythBuster",
+    "factEn": "Droughts are not caused by people using too much tap water. Agriculture uses 70% of global freshwater -- household use is typically only 8-12%. Policy change matters more than shorter showers.",
+    "sourceEn": "UN Water / FAO",
+    "sourceUrl": "https://www.unwater.org/water-facts/water-scarcity",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 97,
+    "category": "comparison",
+    "factEn": "Air pollution causes 7 million premature deaths every year -- more than HIV, malaria, and tuberculosis combined. Cleaner energy directly saves lives.",
+    "sourceEn": "World Health Organization",
+    "sourceUrl": "https://www.who.int/health-topics/air-pollution",
+    "relatedSdgs": [
+      3,
+      7,
+      13
+    ],
+    "unWorldDay": "World Health Day"
+  },
+  {
+    "dayOfYear": 98,
+    "category": "natureWonder",
+    "factEn": "The tardigrade (water bear) can survive in the vacuum of space, temperatures from -272 to 150 degrees C, and radiation 1,000 times the lethal human dose. It is nearly indestructible.",
+    "sourceEn": "Current Biology / ESA",
+    "sourceUrl": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Research/Tiny_animals_survive_exposure_to_space",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 99,
+    "category": "individual",
+    "factEn": "Carpooling with just one other person halves the per-person emissions of your commute. If every car in the US carried one extra passenger, it would eliminate 32 million tonnes of CO2 per year.",
+    "sourceEn": "US Environmental Protection Agency",
+    "sourceUrl": "https://www.epa.gov/greenvehicles/fast-facts-transportation-greenhouse-gas-emissions",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 100,
+    "category": "positiveNews",
+    "factEn": "In 2023, the UN High Seas Treaty was adopted -- the first international agreement to protect marine biodiversity in waters beyond national borders, covering 60% of the ocean.",
+    "sourceEn": "United Nations",
+    "sourceUrl": "https://www.un.org/bbnj/",
+    "relatedSdgs": [
+      14,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 101,
+    "category": "mythBuster",
+    "factEn": "Rinsing recyclables is unnecessary. A quick scrape is enough -- recycling facilities wash everything. You are wasting water if you rinse containers spotless before recycling.",
+    "sourceEn": "US Environmental Protection Agency",
+    "sourceUrl": "https://www.epa.gov/recycle/frequent-questions-recycling",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 102,
+    "category": "individual",
+    "factEn": "Setting your search engine to a tree-planting alternative or donating browser ad revenue to charity turns passive internet use into measurable environmental impact at zero cost to you.",
+    "sourceEn": "Ecosia Impact Reports",
+    "sourceUrl": "https://blog.ecosia.org/ecosia-financial-reports-tree-planting-receipts/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 103,
+    "category": "natureWonder",
+    "factEn": "A single hectare of healthy ocean seabed can filter 500 million litres of water per day through the organisms living in it. Ocean biodiversity is Earth's water purification system.",
+    "sourceEn": "Marine Conservation Society",
+    "sourceUrl": "https://www.mcsuk.org/ocean-emergency/",
+    "relatedSdgs": [
+      6,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 104,
+    "category": "positiveNews",
+    "factEn": "Over 60 countries have enacted bans or levies on single-use plastic bags since 2002. In countries with strict bans, visible plastic litter in waterways has dropped by up to 80%.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/resources/report/single-use-plastics-roadmap-sustainability",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 105,
+    "category": "positiveNews",
+    "factEn": "Electric vehicle sales hit 14 million in 2023, making up 18% of all car sales globally -- up from just 2% in 2019. The transition is accelerating faster than predicted.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/global-ev-outlook-2024",
+    "relatedSdgs": [
+      9,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 106,
+    "category": "positiveNews",
+    "factEn": "Global CO2 emissions per unit of GDP have fallen 40% since 1990. The world is producing more economic value with less pollution -- though total emissions must still fall sharply.",
+    "sourceEn": "Our World in Data / World Bank",
+    "sourceUrl": "https://ourworldindata.org/co2-gdp-decoupling",
+    "relatedSdgs": [
+      8,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 107,
+    "category": "mythBuster",
+    "factEn": "Most clothes labelled 'recyclable' end up in landfill. Only 1% of textile waste is recycled into new clothing due to blended fibres. Donating or reselling is far more effective.",
+    "sourceEn": "Ellen MacArthur Foundation",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/a-new-textiles-economy",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 108,
+    "category": "comparison",
+    "factEn": "A reusable stainless steel water bottle breaks even with disposable plastic bottles after about 50 uses. After that, every refill prevents another bottle from entering the waste stream.",
+    "sourceEn": "Lifecycle Assessment / Swiss Federal Laboratories (EMPA)",
+    "sourceUrl": "https://www.empa.ch/web/s506/lifecycle-assessment",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 109,
+    "category": "natureWonder",
+    "factEn": "Coral reefs cover less than 1% of the ocean floor but support 25% of all marine species. They also protect 200 million people from storm surges and coastal erosion.",
+    "sourceEn": "NOAA Coral Reef Conservation Program",
+    "sourceUrl": "https://www.noaa.gov/education/resource-collections/marine-life/coral-reef-ecosystems",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 110,
+    "category": "mythBuster",
+    "factEn": "Zero-waste living does not require perfection. Reducing waste by just 50% still makes an enormous difference. Progress, not perfection, is what scales to millions of people.",
+    "sourceEn": "Zero Waste Europe",
+    "sourceUrl": "https://zerowasteeurope.eu/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 111,
+    "category": "comparison",
+    "factEn": "Educating girls is one of the most effective climate solutions. Project Drawdown estimates that girls' education combined with family planning could reduce emissions by 85 gigatonnes of CO2 by 2050.",
+    "sourceEn": "Project Drawdown",
+    "sourceUrl": "https://drawdown.org/solutions/health-and-education",
+    "relatedSdgs": [
+      4,
+      5,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 112,
+    "category": "positiveNews",
+    "factEn": "Protected areas now cover over 17% of the world's land and 8% of marine areas. Since the first Earth Day in 1970, the global network of protected areas has grown more than tenfold.",
+    "sourceEn": "UNEP-WCMC / Protected Planet",
+    "sourceUrl": "https://www.protectedplanet.net/en",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": "International Mother Earth Day"
+  },
+  {
+    "dayOfYear": 113,
+    "category": "individual",
+    "factEn": "Cleaning or replacing your air conditioner filter every 3 months improves its efficiency by 5-15%, reducing energy use and emissions while also improving indoor air quality.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/maintaining-your-air-conditioner",
+    "relatedSdgs": [
+      3,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 114,
+    "category": "comparison",
+    "factEn": "The fashion industry produces an estimated 2-4% of global CO2 emissions. Buying secondhand can cut a garment's footprint by 82%.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/news-and-stories/story/environmental-costs-fast-fashion",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": "Fashion Revolution Day"
+  },
+  {
+    "dayOfYear": 115,
+    "category": "natureWonder",
+    "factEn": "Spider silk is 5 times stronger than steel by weight and can stretch to 140% of its length without breaking. Scientists are studying it to create biodegradable super-materials.",
+    "sourceEn": "Nature Materials / Cambridge University",
+    "sourceUrl": "https://www.nature.com/nmat/",
+    "relatedSdgs": [
+      9,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 116,
+    "category": "individual",
+    "factEn": "Using a laptop instead of a desktop computer uses 80% less electricity. If you already own a desktop, just putting it to sleep when idle saves roughly 100 kg of CO2 per year.",
+    "sourceEn": "Energy Star / US EPA",
+    "sourceUrl": "https://www.energystar.gov/products/computers",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 117,
+    "category": "comparison",
+    "factEn": "A 15-minute video call uses roughly 36 times less CO2 than driving to a 15-minute in-person meeting 20 km away. Remote meetings cut business travel emissions dramatically.",
+    "sourceEn": "IEA / Carbon Trust",
+    "sourceUrl": "https://www.carbontrust.com/news-and-insights/insights/homeworking",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 118,
+    "category": "mythBuster",
+    "factEn": "Organic food is not always better for the climate. Organic farming uses more land per calorie, which can mean higher overall emissions. The biggest impact comes from what you eat, not how it is grown.",
+    "sourceEn": "Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/is-organic-agriculture-better-for-the-environment",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 119,
+    "category": "mythBuster",
+    "factEn": "Leaving a ceiling fan running in an empty room wastes energy without cooling anything. Fans cool people through evaporation, not air -- they do nothing for an empty room.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/fans-cooling",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 120,
+    "category": "positiveNews",
+    "factEn": "The EU's carbon emissions have dropped 32% since 1990 while its economy grew by 65%. Decoupling prosperity from pollution is not just possible -- it is already happening.",
+    "sourceEn": "European Environment Agency",
+    "sourceUrl": "https://www.eea.europa.eu/en/topics/in-depth/climate-change-mitigation-reducing-emissions",
+    "relatedSdgs": [
+      8,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 121,
+    "category": "positiveNews",
+    "factEn": "Marine protected areas have grown from 2% of the ocean in 2010 to over 8% by 2024. The UN's '30 by 30' goal aims to protect 30% of ocean and land by 2030.",
+    "sourceEn": "UN Convention on Biological Diversity",
+    "sourceUrl": "https://www.cbd.int/gbf/",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 122,
+    "category": "natureWonder",
+    "factEn": "Tuna can swim at speeds of up to 75 km/h and migrate thousands of kilometres each year. Sustainable fishing practices are vital to keeping these remarkable species from collapse.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/world-tuna-day/en/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": "World Tuna Day"
+  },
+  {
+    "dayOfYear": 123,
+    "category": "mythBuster",
+    "factEn": "Organic cotton uses 91% less water from irrigation than conventional cotton, but yields 30% less per hectare. Whether organic is greener depends on whether water or land is the scarcer resource.",
+    "sourceEn": "Textile Exchange / Water Footprint Network",
+    "sourceUrl": "https://textileexchange.org/organic-cotton-market-report/",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 124,
+    "category": "mythBuster",
+    "factEn": "Cold water washes your clothes just as well as hot water for most loads. Heating water accounts for 90% of a washing machine's energy use. Switching to cold saves up to 150 kg of CO2 per year.",
+    "sourceEn": "Energy Star / US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/laundry",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 125,
+    "category": "comparison",
+    "factEn": "A new smartphone has a carbon footprint of 70-80 kg of CO2 -- 85% of which comes from manufacturing, not usage. Keeping your phone an extra year cuts its annual footprint nearly in half.",
+    "sourceEn": "Apple Environmental Reports / Greenpeace",
+    "sourceUrl": "https://www.apple.com/environment/",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 126,
+    "category": "comparison",
+    "factEn": "If the world's militaries were a single country, they would be the 4th largest emitter of greenhouse gases -- producing roughly 5.5% of global emissions. Yet military emissions are not required to be reported under the Paris Agreement.",
+    "sourceEn": "Scientists for Global Responsibility / Conflict and Environment Observatory",
+    "sourceUrl": "https://ceobs.org/estimating-the-militarys-global-greenhouse-gas-emissions/",
+    "relatedSdgs": [
+      13,
+      16
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 127,
+    "category": "natureWonder",
+    "factEn": "Sea otters wrap themselves in kelp while sleeping to avoid drifting away. By eating sea urchins, they protect kelp forests that absorb 12 times more CO2 per hectare than land forests.",
+    "sourceEn": "Wilmers et al., Frontiers in Ecology / Monterey Bay Aquarium",
+    "sourceUrl": "https://www.montereybayaquarium.org/animals/animals-a-to-z/sea-otter",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 128,
+    "category": "natureWonder",
+    "factEn": "Fungi can break down plastic. Over 200 species have been identified with plastic-degrading abilities, including Pestalotiopsis microspora from the Amazon, which can digest polyurethane as its sole carbon source.",
+    "sourceEn": "Ekanayaka et al., Journal of Fungi 2022",
+    "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9330918/",
+    "relatedSdgs": [
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 129,
+    "category": "individual",
+    "factEn": "Extending the life of a garment by just 9 months reduces its carbon, water, and waste footprint by 20-30%. Learning basic repairs like sewing a button or patching a hole is one of the simplest ways to cut clothing waste.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/taking-action/textiles/citizens/love-your-clothes",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 130,
+    "category": "comparison",
+    "factEn": "Producing a single cotton T-shirt requires about 2,700 litres of water -- enough drinking water for one person for 2.5 years. Choosing secondhand saves all of that.",
+    "sourceEn": "WWF",
+    "sourceUrl": "https://www.worldwildlife.org/stories/the-impact-of-a-cotton-t-shirt",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 131,
+    "category": "positiveNews",
+    "factEn": "Singapore recycles 100% of its used water through its NEWater system, turning sewage into ultra-clean drinking water. The technology now meets 40% of the nation's total water demand.",
+    "sourceEn": "Singapore PUB National Water Agency",
+    "sourceUrl": "https://www.pub.gov.sg/watersupply/fournationaltaps/newater",
+    "relatedSdgs": [
+      6,
+      9
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 132,
+    "category": "individual",
+    "factEn": "75% of the world's food comes from just 12 plant species and 5 animal species. Diversifying what we grow and eat is critical for food security and resilience.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/news/story/en/item/1180267/icode/",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": "International Day of Plant Health"
+  },
+  {
+    "dayOfYear": 133,
+    "category": "mythBuster",
+    "factEn": "Buying 'eco-friendly' cleaning products in plastic bottles often has a higher footprint than making your own with vinegar, baking soda, and a reusable spray bottle.",
+    "sourceEn": "Which? / Environmental Working Group",
+    "sourceUrl": "https://www.ewg.org/guides/cleaners/",
+    "relatedSdgs": [
+      3,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 134,
+    "category": "comparison",
+    "factEn": "A return flight from London to Rome emits 234 kg of CO2 per person. The same trip by train emits 43 kg -- roughly 5.5 times less. Night trains let you skip a hotel too.",
+    "sourceEn": "European Environment Agency",
+    "sourceUrl": "https://ourworldindata.org/travel-carbon-footprint",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 135,
+    "category": "mythBuster",
+    "factEn": "Recycling alone cannot solve the plastic crisis. Only 9% of all plastic ever produced has been recycled. Reducing plastic use at the source is far more effective than relying on recycling infrastructure, which varies widely by region.",
+    "sourceEn": "OECD Global Plastics Outlook",
+    "sourceUrl": "https://www.oecd.org/en/publications/global-plastics-outlook_de747aef-en.html",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 136,
+    "category": "positiveNews",
+    "factEn": "Wind energy capacity has grown 75-fold since 2000, from 17 GW to over 1,000 GW globally. Offshore wind alone could theoretically power the entire planet.",
+    "sourceEn": "Global Wind Energy Council",
+    "sourceUrl": "https://gwec.net/global-wind-report-2024/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 137,
+    "category": "natureWonder",
+    "factEn": "Earthworms process 10 tonnes of soil per hectare per year, improving drainage, aeration, and nutrient cycling. Charles Darwin called them 'the most important creatures on Earth.'",
+    "sourceEn": "Darwin, The Formation of Vegetable Mould / Soil Biology",
+    "sourceUrl": "https://www.soilassociation.org/causes-campaigns/save-our-soil/meet-the-creatures-that-live-in-soil/earthworms/",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 138,
+    "category": "individual",
+    "factEn": "Cooking with a lid on the pot reduces energy use by up to 30%. Small kitchen habits like this, combined, can save over 50 kg of CO2 per year per household.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/hub/quick-tips-to-save-energy/",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 139,
+    "category": "individual",
+    "factEn": "Adjusting your monitor brightness from 100% to 70% can reduce its energy use by 20%. On a laptop, lower brightness also extends battery life, reducing charging cycles and energy consumption.",
+    "sourceEn": "Energy Star / US EPA",
+    "sourceUrl": "https://www.energystar.gov/products/monitors",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 140,
+    "category": "natureWonder",
+    "factEn": "Bees pollinate 75% of the world's flowering plants and 35% of food crops. A single honeybee visits 50-1,000 flowers in one trip and makes 10 trips per day.",
+    "sourceEn": "IPBES Pollinator Assessment",
+    "sourceUrl": "https://www.ipbes.net/assessment-reports/pollinators",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": "World Bee Day"
+  },
+  {
+    "dayOfYear": 141,
+    "category": "positiveNews",
+    "factEn": "Giant panda populations have grown 68% since the 1980s thanks to habitat restoration and breeding programmes. They were downlisted from 'endangered' to 'vulnerable' in 2016.",
+    "sourceEn": "IUCN Red List / WWF",
+    "sourceUrl": "https://www.iucnredlist.org/species/712/121745669",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 142,
+    "category": "comparison",
+    "factEn": "The economic value of nature's services -- pollination, water filtration, carbon storage -- is estimated at $125-140 trillion per year, nearly twice global GDP.",
+    "sourceEn": "Costanza et al., Global Environmental Change 2014",
+    "sourceUrl": "https://www.sciencedirect.com/science/article/abs/pii/S0959378014000685",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": "International Day for Biological Diversity"
+  },
+  {
+    "dayOfYear": 143,
+    "category": "comparison",
+    "factEn": "Microplastics have been found in human blood, breast milk, and placentas. While the amount ingested is still being studied, microplastic contamination is now found in food, water, and air worldwide -- a growing concern for human health.",
+    "sourceEn": "WWF / University of Newcastle Australia",
+    "sourceUrl": "https://www.worldwildlife.org/press-releases/revealed-plastic-ingestion-by-people-could-be-equating-to-a-credit-card-a-week",
+    "relatedSdgs": [
+      3,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 144,
+    "category": "mythBuster",
+    "factEn": "Biofuels are not always carbon-neutral. When forests or peatlands are cleared to grow biofuel crops, the carbon debt can take decades or centuries to repay through fuel savings.",
+    "sourceEn": "IPCC AR6 WGIII, Chapter 7 (2022)",
+    "sourceUrl": "https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-7/",
+    "relatedSdgs": [
+      7,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 145,
+    "category": "natureWonder",
+    "factEn": "Cuttlefish have W-shaped pupils and can see polarised light invisible to humans. Their camouflage ability lets them match any background in milliseconds using specialised skin cells.",
+    "sourceEn": "Marine Biological Association",
+    "sourceUrl": "https://www.mba.ac.uk/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 146,
+    "category": "comparison",
+    "factEn": "Tofu produces 3.2 kg of CO2 per kg vs. lamb at 39.7 kg per kg. Swapping lamb for tofu in a single meal saves roughly the same CO2 as charging your phone for 4 years.",
+    "sourceEn": "Poore & Nemecek, Science 2018",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 147,
+    "category": "mythBuster",
+    "factEn": "Glass is not always more eco-friendly than plastic. Glass bottles are heavier to transport and take more energy to produce. The best container is one you reuse many times.",
+    "sourceEn": "UK WRAP",
+    "sourceUrl": "https://wrap.org.uk/resources/guide/drinks-packaging",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 148,
+    "category": "individual",
+    "factEn": "Returning online purchases generates 3x the carbon footprint of the original delivery. Checking size guides and reviews before ordering dramatically cuts return-related emissions.",
+    "sourceEn": "Optoro / US EPA",
+    "sourceUrl": "https://www.optoro.com/research/",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 149,
+    "category": "comparison",
+    "factEn": "Armed conflicts contaminate soil, destroy forests, and pollute water supplies for decades. The UN estimates that over 70% of armed conflicts since 1998 have involved exploitation of natural resources, from timber to minerals.",
+    "sourceEn": "UNEP",
+    "sourceUrl": "https://www.unep.org/explore-topics/disasters-conflicts",
+    "relatedSdgs": [
+      15,
+      16
+    ],
+    "unWorldDay": "International Day of UN Peacekeepers"
+  },
+  {
+    "dayOfYear": 150,
+    "category": "positiveNews",
+    "factEn": "Over 100 cities worldwide now run on 70% or more renewable electricity, including Reykjavik, Montevideo, and Nairobi. Urban clean energy transitions are accelerating.",
+    "sourceEn": "CDP / IRENA",
+    "sourceUrl": "https://www.cdp.net/en/cities",
+    "relatedSdgs": [
+      7,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 151,
+    "category": "comparison",
+    "factEn": "Tobacco farming is responsible for 5% of global deforestation and uses large quantities of pesticides and water. Beyond the devastating health effects of smoking, the crop itself takes a heavy toll on the planet.",
+    "sourceEn": "World Health Organization",
+    "sourceUrl": "https://www.who.int/publications/i/item/9789240032095",
+    "relatedSdgs": [
+      3,
+      15
+    ],
+    "unWorldDay": "World No-Tobacco Day"
+  },
+  {
+    "dayOfYear": 152,
+    "category": "natureWonder",
+    "factEn": "Hummingbirds remember every flower they have visited and how long each takes to refill with nectar. Their pollination work supports entire ecosystems across the Americas.",
+    "sourceEn": "Proceedings of the Royal Society B",
+    "sourceUrl": "https://royalsocietypublishing.org/journal/rspb",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 153,
+    "category": "mythBuster",
+    "factEn": "Cotton tote bags must be used 131 times to have a lower climate impact than a single-use plastic bag. Reuse matters more than material -- whatever bag you have, use it until it falls apart.",
+    "sourceEn": "UK Environment Agency",
+    "sourceUrl": "https://www.gov.uk/government/publications/life-cycle-assessment-of-supermarket-carrierbags",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 154,
+    "category": "comparison",
+    "factEn": "Cycling 10 km instead of driving saves about 1.5 kg of CO2 per trip. If 10% of city commuters switched to cycling, it would cut urban transport emissions by 7%.",
+    "sourceEn": "European Cyclists' Federation",
+    "sourceUrl": "https://ourworldindata.org/travel-carbon-footprint",
+    "relatedSdgs": [
+      3,
+      11,
+      13
+    ],
+    "unWorldDay": "World Bicycle Day"
+  },
+  {
+    "dayOfYear": 155,
+    "category": "natureWonder",
+    "factEn": "Leafcutter ants are the world's first farmers. They have been cultivating fungus gardens underground for 50 million years -- long before humans invented agriculture.",
+    "sourceEn": "Proceedings of the Royal Society B",
+    "sourceUrl": "https://royalsocietypublishing.org/journal/rspb",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 156,
+    "category": "individual",
+    "factEn": "Every year, 8 million tonnes of plastic enter the ocean -- equivalent to dumping a garbage truck of plastic into the sea every single minute.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/interactives/beat-plastic-pollution/",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": "World Environment Day"
+  },
+  {
+    "dayOfYear": 157,
+    "category": "mythBuster",
+    "factEn": "Not all plastics are recyclable together. Mixing plastic types contaminates batches and sends them to landfill. Checking the number inside the recycling triangle makes your recycling actually count.",
+    "sourceEn": "US Environmental Protection Agency",
+    "sourceUrl": "https://www.epa.gov/recycle/frequent-questions-recycling",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 158,
+    "category": "individual",
+    "factEn": "One-third of all food produced globally is lost or wasted -- about 1.3 billion tonnes per year. If food waste were a country, it would be the world's 3rd largest emitter of greenhouse gases.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/food-loss-and-food-waste/en/",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": "World Food Safety Day"
+  },
+  {
+    "dayOfYear": 159,
+    "category": "natureWonder",
+    "factEn": "The ocean absorbs about 30% of human-produced CO2 and generates 50% of the world's oxygen. Phytoplankton in the sea produce more oxygen than all the forests on land combined.",
+    "sourceEn": "NOAA / National Ocean Service",
+    "sourceUrl": "https://oceanservice.noaa.gov/facts/ocean-oxygen.html",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": "World Oceans Day"
+  },
+  {
+    "dayOfYear": 160,
+    "category": "individual",
+    "factEn": "Supporting local farmers' markets keeps money in the community and often supports smaller-scale, diversified farming that is more resilient to climate shocks than industrial monocultures.",
+    "sourceEn": "FAO / USDA",
+    "sourceUrl": "https://www.fao.org/family-farming/en/",
+    "relatedSdgs": [
+      2,
+      8,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 161,
+    "category": "mythBuster",
+    "factEn": "Palm oil gets a bad reputation, but boycotting it entirely can backfire. Alternative oils like soy or coconut need 4-10 times more land per tonne. Choosing certified sustainable palm oil is more effective.",
+    "sourceEn": "IUCN Oil Palm Task Force",
+    "sourceUrl": "https://www.iucn.org/resources/issues-brief/palm-oil-and-biodiversity",
+    "relatedSdgs": [
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 162,
+    "category": "comparison",
+    "factEn": "Livestock are responsible for an estimated 12% of global greenhouse gas emissions, equaling 6.2 billion tonnes of CO2 equivalent per year. Cattle alone emit 65% of all livestock-related greenhouse gases, mostly as methane from digestion.",
+    "sourceEn": "FAO Pathways towards Lower Emissions, 2023",
+    "sourceUrl": "https://www.fao.org/newsroom/detail/new-fao-report-maps-pathways-towards-lower-livestock-emissions/en",
+    "relatedSdgs": [
+      2,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 163,
+    "category": "individual",
+    "factEn": "160 million children worldwide are engaged in child labour, many in supply chains for products we buy daily. Checking for ethical certifications directly reduces this number.",
+    "sourceEn": "International Labour Organization",
+    "sourceUrl": "https://www.ilo.org/topics/child-labour",
+    "relatedSdgs": [
+      8,
+      12
+    ],
+    "unWorldDay": "World Day Against Child Labour"
+  },
+  {
+    "dayOfYear": 164,
+    "category": "natureWonder",
+    "factEn": "Cleaner wrasses run 'cleaning stations' on coral reefs where larger fish queue up to have parasites removed. This mutualistic relationship supports the health of entire reef ecosystems.",
+    "sourceEn": "Current Biology / Grutter 1999",
+    "sourceUrl": "https://www.cell.com/current-biology/home",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 165,
+    "category": "positiveNews",
+    "factEn": "Global hunger has declined from 1 billion people in 2009 to 735 million in 2023. While still too high, the long-term trend shows that targeted action and investment work.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/state-of-food-security-nutrition/en/",
+    "relatedSdgs": [
+      1,
+      2
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 166,
+    "category": "comparison",
+    "factEn": "Every dollar invested in climate adaptation yields 2 to 10 dollars in economic benefits. Without adaptation, climate change could push 132 million more people into extreme poverty by 2030.",
+    "sourceEn": "World Bank / Global Commission on Adaptation",
+    "sourceUrl": "https://gca.org/reports/adapt-now-a-global-call-for-leadership-on-climate-resilience/",
+    "relatedSdgs": [
+      1,
+      10,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 167,
+    "category": "individual",
+    "factEn": "Talking openly about climate change with friends and family is one of the most powerful actions you can take. Social norms shift when people hear that others care too.",
+    "sourceEn": "Yale Program on Climate Change Communication",
+    "sourceUrl": "https://climatecommunication.yale.edu/",
+    "relatedSdgs": [
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 168,
+    "category": "comparison",
+    "factEn": "Every year, 12 million hectares of productive land are lost to desertification and drought -- an area the size of England. Sustainable farming can reverse this trend.",
+    "sourceEn": "UN Convention to Combat Desertification",
+    "sourceUrl": "https://www.unccd.int/land-and-life/desertification/overview",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": "World Day to Combat Desertification and Drought"
+  },
+  {
+    "dayOfYear": 169,
+    "category": "mythBuster",
+    "factEn": "Eating seasonal and local sounds ideal, but a tomato grown in a heated greenhouse locally can have 5x the carbon footprint of one shipped from a sunny country. Season matters more than distance.",
+    "sourceEn": "Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/food-choice-vs-eating-local",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": "Sustainable Gastronomy Day"
+  },
+  {
+    "dayOfYear": 170,
+    "category": "positiveNews",
+    "factEn": "Seabird populations on islands where invasive predators have been removed recover by an average of 760%. Removing rats from just one island can save thousands of nesting birds.",
+    "sourceEn": "Island Conservation / PNAS",
+    "sourceUrl": "https://www.islandconservation.org/",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 171,
+    "category": "individual",
+    "factEn": "Defrosting your freezer regularly improves its efficiency by up to 30%. A heavily frosted freezer works harder and uses significantly more electricity.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/guidance/cold-appliances/",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 172,
+    "category": "mythBuster",
+    "factEn": "Oat milk is often criticised for containing seed oils, but its overall environmental impact is far lower than dairy on every metric: land, water, and emissions. Nutrition and environment are separate questions.",
+    "sourceEn": "Our World in Data / Poore & Nemecek",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 173,
+    "category": "positiveNews",
+    "factEn": "Costa Rica ran on 99% renewable electricity for over 300 days in 2023. Small countries are proving that a fossil-fuel-free grid is achievable today.",
+    "sourceEn": "Costa Rica Institute of Electricity (ICE)",
+    "sourceUrl": "https://ourworldindata.org/energy/country/costa-rica",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 174,
+    "category": "comparison",
+    "factEn": "Heating an uninsulated home costs 3 times more energy than a well-insulated one. Proper insulation is the single most effective energy upgrade a homeowner can make.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/advice/roof-and-loft-insulation/",
+    "relatedSdgs": [
+      7,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 175,
+    "category": "comparison",
+    "factEn": "Mining Bitcoin consumes more electricity annually than the entire country of Argentina. Proof-of-stake blockchains use 99.9% less energy than proof-of-work systems.",
+    "sourceEn": "Cambridge Centre for Alternative Finance",
+    "sourceUrl": "https://ccaf.io/cbnsi/cbeci",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 176,
+    "category": "individual",
+    "factEn": "Using a pressure cooker reduces cooking time and energy use by up to 70% compared to conventional methods. It also retains more nutrients in the food.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/kitchen-appliances",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 177,
+    "category": "positiveNews",
+    "factEn": "The number of countries with feed-in tariffs or renewable energy auctions has grown from 15 in 2005 to over 130 in 2024. Policy frameworks are the backbone of the clean energy transition.",
+    "sourceEn": "REN21 Renewables Global Status Report",
+    "sourceUrl": "https://www.ren21.net/reports/global-status-report/",
+    "relatedSdgs": [
+      7,
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 178,
+    "category": "mythBuster",
+    "factEn": "Electric cars are not emission-free, but even charged from a coal-heavy grid they produce 30-50% less CO2 over their lifetime than petrol cars. On clean grids, the gap is 70%+.",
+    "sourceEn": "Carbon Brief",
+    "sourceUrl": "https://www.carbonbrief.org/factcheck-how-electric-vehicles-help-to-tackle-climate-change/",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 179,
+    "category": "mythBuster",
+    "factEn": "Buying an electric car is not the greenest transport option. Walking, cycling, and public transit all have far lower lifecycle emissions. EVs are best when replacing a necessary car journey.",
+    "sourceEn": "European Environment Agency",
+    "sourceUrl": "https://www.eea.europa.eu/en/topics/in-depth/transport-and-mobility",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 180,
+    "category": "natureWonder",
+    "factEn": "Tropical forests are home to over 50% of all species on Earth despite covering just 6% of the land surface. They also recycle 28% of the world's oxygen.",
+    "sourceEn": "WWF Living Planet Report",
+    "sourceUrl": "https://www.worldwildlife.org/biomes/tropical-and-subtropical-moist-broadleaf-forests",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": "International Day of the Tropics"
+  },
+  {
+    "dayOfYear": 181,
+    "category": "individual",
+    "factEn": "Writing to companies asking about their sustainability practices is more effective than it sounds. Brands track consumer enquiries, and a spike in questions shifts boardroom priorities.",
+    "sourceEn": "Harvard Business Review / BCG",
+    "sourceUrl": "https://www.bcg.com/publications/2023/consumers-are-the-key-to-taking-sustainable-products-mainstream",
+    "relatedSdgs": [
+      12,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 182,
+    "category": "comparison",
+    "factEn": "A single plastic bottle takes 450 years to decompose. The world buys 1 million plastic bottles per minute. Using a reusable bottle for one year prevents roughly 156 bottles from being produced.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/interactives/beat-plastic-pollution/",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": "Plastic Free July"
+  },
+  {
+    "dayOfYear": 183,
+    "category": "comparison",
+    "factEn": "The average European throws away 11 kg of clothing per year. Extending the life of each garment by just 3 months would reduce its carbon, water, and waste footprint by 5-10%.",
+    "sourceEn": "WRAP UK Textiles",
+    "sourceUrl": "https://wrap.org.uk/taking-action/textiles",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 184,
+    "category": "individual",
+    "factEn": "The average plastic bag is used for just 12 minutes but takes centuries to break down. Switching to a reusable bag and using it at least 50 times makes it the greenest option.",
+    "sourceEn": "Danish Environmental Protection Agency",
+    "sourceUrl": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": "International Plastic Bag Free Day"
+  },
+  {
+    "dayOfYear": 185,
+    "category": "natureWonder",
+    "factEn": "Coral spawning is one of nature's greatest synchronised events. Once a year, entire reefs release trillions of eggs and sperm simultaneously, guided by moonlight and water temperature.",
+    "sourceEn": "Great Barrier Reef Foundation",
+    "sourceUrl": "https://www.barrierreef.org/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 186,
+    "category": "mythBuster",
+    "factEn": "Flushing unused medicines down the toilet pollutes waterways and harms aquatic life. Return them to a pharmacy instead -- drug take-back programs safely dispose of 90% of chemicals.",
+    "sourceEn": "US FDA / EPA",
+    "sourceUrl": "https://www.fda.gov/drugs/disposal-unused-medicines-what-you-should-know",
+    "relatedSdgs": [
+      3,
+      6,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 187,
+    "category": "individual",
+    "factEn": "Keeping a 'use-it-up' shelf in your fridge for items nearing expiry reduces household food waste by an estimated 20%. Visibility is the simplest antidote to waste.",
+    "sourceEn": "WRAP UK / Love Food Hate Waste",
+    "sourceUrl": "https://www.lovefoodhatewaste.com/",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 188,
+    "category": "positiveNews",
+    "factEn": "LED light bulbs use 75% less energy than incandescent bulbs and last 25 times longer. Global adoption of LEDs has already prevented 1.5 billion tonnes of CO2 emissions since 2010.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/energy-system/buildings/lighting",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 189,
+    "category": "individual",
+    "factEn": "Batch-cooking meals for the week saves an estimated 30% on cooking energy and dramatically reduces food waste. Planning portions means fewer forgotten leftovers in the fridge.",
+    "sourceEn": "Energy Saving Trust UK / WRAP",
+    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink/actions/plan-meals",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 190,
+    "category": "individual",
+    "factEn": "Using a microwave to reheat food uses 80% less energy than a conventional oven. For small portions, it is the most energy-efficient cooking method available.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/kitchen-appliances",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 191,
+    "category": "natureWonder",
+    "factEn": "The Venus flytrap can count. It requires two touches within 20 seconds to close, then three more to begin digesting. This prevents wasting energy on false alarms like raindrops.",
+    "sourceEn": "Current Biology / Hedrich & Neher 2018",
+    "sourceUrl": "https://www.cell.com/current-biology/fulltext/S0960-9822(15)01548-6",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 192,
+    "category": "comparison",
+    "factEn": "If every person on Earth consumed like the average American, we would need 5 Earths to sustain us. Reducing consumption in high-income countries is essential for a sustainable future.",
+    "sourceEn": "Global Footprint Network",
+    "sourceUrl": "https://www.footprintnetwork.org/",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": "World Population Day"
+  },
+  {
+    "dayOfYear": 193,
+    "category": "mythBuster",
+    "factEn": "Turning off the tap while brushing your teeth saves 8 litres per brush. But a single toilet leak can waste 200 litres per day -- fixing leaks saves 25 times more water than shorter brushing.",
+    "sourceEn": "WaterWise UK",
+    "sourceUrl": "https://www.waterwise.org.uk/save-water/",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 194,
+    "category": "natureWonder",
+    "factEn": "Termite mounds have natural ventilation systems so efficient that architects copy them to design buildings that use 90% less energy for cooling than conventional structures.",
+    "sourceEn": "Biomimicry Institute",
+    "sourceUrl": "https://biomimicry.org/",
+    "relatedSdgs": [
+      9,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 195,
+    "category": "comparison",
+    "factEn": "Growing food on a rooftop garden in a city can be 6 times more productive per square metre than a rural farm, thanks to controlled watering, no weeds, and longer growing seasons from urban heat.",
+    "sourceEn": "Nature Food / Brooklyn Grange",
+    "sourceUrl": "https://www.nature.com/natfood/",
+    "relatedSdgs": [
+      2,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 196,
+    "category": "individual",
+    "factEn": "Turning your thermostat down by just 1 degree C saves roughly 300 kg of CO2 per year and cuts your heating bill by up to 10%. A jumper is cheaper than a heater.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/hub/quick-tips-to-save-energy/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 197,
+    "category": "mythBuster",
+    "factEn": "Draining pasta water down the sink wastes a free fertiliser. Starchy cooking water is rich in nutrients and can be cooled and used to water houseplants or garden beds.",
+    "sourceEn": "Royal Horticultural Society",
+    "sourceUrl": "https://www.rhs.org.uk/prevention-protection/watering-wisely",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 198,
+    "category": "comparison",
+    "factEn": "The global food system produces 34% of all greenhouse gas emissions. More than half comes from animal agriculture, land use change, and supply chain activities -- not just farming itself.",
+    "sourceEn": "Crippa et al., Nature Food 2021",
+    "sourceUrl": "https://www.nature.com/articles/s43016-021-00225-9",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 199,
+    "category": "positiveNews",
+    "factEn": "Since 2000, over 2.7 billion people have gained access to clean drinking water. While 2 billion still lack safely managed water, the trend shows that investment in water infrastructure works.",
+    "sourceEn": "WHO / UNICEF Joint Monitoring Programme",
+    "sourceUrl": "https://washdata.org/",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 200,
+    "category": "natureWonder",
+    "factEn": "Elephants are 'ecosystem engineers.' By knocking down trees and digging water holes, they create habitats for hundreds of other species and disperse seeds across vast distances.",
+    "sourceEn": "WWF",
+    "sourceUrl": "https://www.worldwildlife.org/species/elephant",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 201,
+    "category": "positiveNews",
+    "factEn": "Iceland heats 90% of its homes with geothermal energy, producing near-zero emissions. The country aims to be carbon-neutral by 2040 and is exporting geothermal expertise worldwide.",
+    "sourceEn": "National Energy Authority of Iceland / IEA",
+    "sourceUrl": "https://www.iea.org/countries/iceland",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 202,
+    "category": "mythBuster",
+    "factEn": "Eating avocados flown from afar still has a lower carbon footprint than locally produced cheese. Air-freighted avocados produce about 2 kg CO2/kg vs. cheese at 13.5 kg CO2/kg.",
+    "sourceEn": "Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/food-choice-vs-eating-local",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 203,
+    "category": "individual",
+    "factEn": "Choosing products with minimal packaging, or buying from bulk bins, can reduce your household packaging waste by up to 40%. Every gram of packaging avoided is a gram that never needs recycling.",
+    "sourceEn": "Zero Waste Europe",
+    "sourceUrl": "https://zerowasteeurope.eu/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 204,
+    "category": "mythBuster",
+    "factEn": "Bamboo products are marketed as eco-friendly, but bamboo fabric (viscose/rayon) requires toxic chemicals to produce. Raw bamboo is sustainable; the fabric often is not.",
+    "sourceEn": "US Federal Trade Commission",
+    "sourceUrl": "https://www.ftc.gov/news-events/topics/truth-advertising/green-guides",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 205,
+    "category": "mythBuster",
+    "factEn": "Eating fish is often considered the healthier, greener alternative to meat, but overfishing threatens 34% of global fish stocks. Choose MSC-certified or lower-food-chain species like sardines and anchovies.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/state-of-fisheries-aquaculture/en/",
+    "relatedSdgs": [
+      2,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 206,
+    "category": "positiveNews",
+    "factEn": "Kenya banned single-use plastic bags in 2017. Within a year, the visible plastic pollution in Nairobi dropped dramatically, and other African nations followed with similar bans.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/news-and-stories/story/kenya-bans-single-use-plastics-protected-areas",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 207,
+    "category": "natureWonder",
+    "factEn": "Mangrove forests store 3-5x more carbon per hectare than terrestrial forests and protect coastlines from tsunamis and storms. Yet we have lost over 35% of the world's mangroves since 1980.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/explore-topics/oceans-seas/what-we-do/working-regional-seas/mangroves",
+    "relatedSdgs": [
+      13,
+      14,
+      15
+    ],
+    "unWorldDay": "International Day for the Conservation of the Mangrove Ecosystem"
+  },
+  {
+    "dayOfYear": 208,
+    "category": "natureWonder",
+    "factEn": "Monarch butterflies migrate up to 4,800 km from Canada to Mexico each autumn. No individual makes the return trip -- it takes 4-5 generations to complete the full cycle.",
+    "sourceEn": "National Geographic / WWF",
+    "sourceUrl": "https://www.worldwildlife.org/species/monarch-butterfly",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 209,
+    "category": "individual",
+    "factEn": "Properly inflating your car tyres improves fuel efficiency by up to 3%. Under-inflated tyres waste approximately 5 billion litres of fuel globally every year.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/gas-mileage-tips",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 210,
+    "category": "positiveNews",
+    "factEn": "Community solar gardens let renters and apartment dwellers access solar energy without owning a roof. Over 5 GW of community solar is now installed in the US alone.",
+    "sourceEn": "Solar Energy Industries Association",
+    "sourceUrl": "https://www.seia.org/initiatives/community-solar",
+    "relatedSdgs": [
+      7,
+      10,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 211,
+    "category": "mythBuster",
+    "factEn": "Composting meat and dairy at home can attract pests and create odour, but commercial composting facilities handle them easily. Check if your local collection accepts all food waste, not just plant scraps.",
+    "sourceEn": "US EPA / WRAP UK",
+    "sourceUrl": "https://www.epa.gov/sustainable-management-food/types-composting-and-understanding-process",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 212,
+    "category": "comparison",
+    "factEn": "Providing universal access to clean water and sanitation would cost an estimated $28.4 billion per year, yet the economic return would be $4.30 for every dollar spent through reduced healthcare costs and improved productivity.",
+    "sourceEn": "WHO",
+    "sourceUrl": "https://www.who.int/publications/i/item/9789241565073",
+    "relatedSdgs": [
+      6,
+      10
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 213,
+    "category": "comparison",
+    "factEn": "Growing enough soy to feed a cow to produce 1 kg of beef uses 25 kg of soy. Eating the soy directly provides 10 times more protein per hectare than converting it through beef.",
+    "sourceEn": "FAO / Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/land-use-diets",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 214,
+    "category": "comparison",
+    "factEn": "Manufacturing a new pair of jeans uses 7,500 litres of water -- enough to fill 93 bathtubs. Buying secondhand or extending the life of your jeans by 9 months cuts their footprint by 30%.",
+    "sourceEn": "WRAP UK / Levi Strauss lifecycle study",
+    "sourceUrl": "https://wrap.org.uk/taking-action/textiles",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 215,
+    "category": "mythBuster",
+    "factEn": "Shade-grown coffee protects 150+ species of migratory birds compared to sun-grown plantations. Certified shade-grown or bird-friendly coffee has a measurably lower biodiversity impact.",
+    "sourceEn": "Smithsonian Migratory Bird Center",
+    "sourceUrl": "https://nationalzoo.si.edu/migratory-birds/bird-friendly-coffee",
+    "relatedSdgs": [
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 216,
+    "category": "positiveNews",
+    "factEn": "Germany's Energiewende has made it the world leader in installed solar per capita among large nations. On a single sunny day in June 2024, solar met 68% of the country's electricity demand.",
+    "sourceEn": "Fraunhofer ISE",
+    "sourceUrl": "https://www.energy-charts.info/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 217,
+    "category": "positiveNews",
+    "factEn": "Global coal consumption peaked in 2023 and is now declining. For the first time, renewables are expected to generate more electricity than coal worldwide by 2025.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/coal-2024",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 218,
+    "category": "natureWonder",
+    "factEn": "Electric eels can generate shocks of up to 860 volts -- enough to stun a horse. Scientists are studying their bioelectric organs to develop new types of batteries and power sources.",
+    "sourceEn": "Nature Communications / de Santana et al. 2019",
+    "sourceUrl": "https://www.nature.com/articles/s41467-019-11690-z",
+    "relatedSdgs": [
+      9,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 219,
+    "category": "natureWonder",
+    "factEn": "Beavers are nature's water engineers. Their dams create wetlands that filter pollutants, recharge groundwater, reduce flooding, and support biodiversity for hundreds of species.",
+    "sourceEn": "Ecology Letters / Beaver Trust",
+    "sourceUrl": "https://www.beavertrust.org/",
+    "relatedSdgs": [
+      6,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 220,
+    "category": "individual",
+    "factEn": "Switching to a green energy tariff for your home electricity can cut your household carbon footprint by 1-2 tonnes of CO2 per year -- often at little or no extra cost.",
+    "sourceEn": "UK Energy Saving Trust / IEA",
+    "sourceUrl": "https://energysavingtrust.org.uk/advice/switching-your-energy-supplier/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 221,
+    "category": "individual",
+    "factEn": "Indigenous peoples protect 80% of the world's remaining biodiversity, despite making up less than 5% of the global population. Supporting indigenous land rights is a powerful conservation strategy.",
+    "sourceEn": "World Bank",
+    "sourceUrl": "https://www.worldbank.org/en/topic/indigenouspeoples",
+    "relatedSdgs": [
+      10,
+      15
+    ],
+    "unWorldDay": "International Day of the World's Indigenous Peoples"
+  },
+  {
+    "dayOfYear": 222,
+    "category": "comparison",
+    "factEn": "A single mature tree provides the cooling equivalent of 10 room-sized air conditioners running 20 hours a day. Urban trees reduce city temperatures by 2-8 degrees C through shade and evapotranspiration.",
+    "sourceEn": "US Forest Service",
+    "sourceUrl": "https://www.fs.usda.gov/ccrc/topics/urban-forests",
+    "relatedSdgs": [
+      11,
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 223,
+    "category": "mythBuster",
+    "factEn": "Electric cars are not zero-emission, but they are far cleaner overall. Over its lifetime, an average EV produces 50-70% fewer emissions than a petrol car, even accounting for battery production and electricity generation.",
+    "sourceEn": "International Council on Clean Transportation",
+    "sourceUrl": "https://theicct.org/publication/a-global-comparison-of-the-life-cycle-greenhouse-gas-emissions-of-combustion-engine-and-electric-passenger-cars/",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 224,
+    "category": "positiveNews",
+    "factEn": "Young people are leading the largest climate movement in history. Since 2018, over 14 million students have participated in climate strikes across 200+ countries.",
+    "sourceEn": "Fridays for Future",
+    "sourceUrl": "https://fridaysforfuture.org/",
+    "relatedSdgs": [
+      4,
+      13
+    ],
+    "unWorldDay": "International Youth Day"
+  },
+  {
+    "dayOfYear": 225,
+    "category": "natureWonder",
+    "factEn": "Horseshoe crabs have existed for 450 million years -- older than dinosaurs, trees, and even most insects. Their blue blood is used in medicine to detect bacterial contamination.",
+    "sourceEn": "Smithsonian / US Fish and Wildlife Service",
+    "sourceUrl": "https://www.fws.gov/species/horseshoe-crab-limulus-polyphemus",
+    "relatedSdgs": [
+      3,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 226,
+    "category": "positiveNews",
+    "factEn": "Rwanda has become one of the cleanest countries in Africa through its monthly Umuganda community cleanup days and strict ban on plastic bags since 2008.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/",
+    "relatedSdgs": [
+      11,
+      12,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 227,
+    "category": "mythBuster",
+    "factEn": "Putting recyclables in a plastic bag before placing them in the bin can cause the entire bag to be rejected. Most facilities require loose items -- the bag itself jams sorting machines.",
+    "sourceEn": "WRAP UK / Recycle Now",
+    "sourceUrl": "https://www.recyclenow.com/recycling-knowledge",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 228,
+    "category": "individual",
+    "factEn": "A shared power drill is used on average just 13 minutes in its entire lifetime. Tool libraries and sharing platforms let communities access hundreds of items while dramatically reducing the resources needed to manufacture them.",
+    "sourceEn": "Ellen MacArthur Foundation",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/circular-economy/what-is-the-circular-economy",
+    "relatedSdgs": [
+      8,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 229,
+    "category": "positiveNews",
+    "factEn": "The global literacy rate has risen from 67% in 1979 to 87% in 2022. Educated populations make better environmental decisions and are more resilient to climate impacts.",
+    "sourceEn": "UNESCO Institute for Statistics",
+    "sourceUrl": "https://www.unesco.org/gem-report/en",
+    "relatedSdgs": [
+      4
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 230,
+    "category": "positiveNews",
+    "factEn": "The number of electric buses worldwide exceeded 800,000 in 2023. China alone has electrified 99% of its new bus fleet, cleaning the air in cities where millions breathe every day.",
+    "sourceEn": "BloombergNEF",
+    "sourceUrl": "https://about.bnef.com/electric-vehicle-outlook/",
+    "relatedSdgs": [
+      3,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 231,
+    "category": "individual",
+    "factEn": "Since 2010, climate-related disasters have displaced an average of 21.5 million people per year. By 2050, the World Bank estimates 216 million people could become climate migrants.",
+    "sourceEn": "World Bank Groundswell Report",
+    "sourceUrl": "https://www.worldbank.org/en/news/press-release/2021/09/13/climate-change-could-force-216-million-people-to-migrate-within-their-own-countries-by-2050",
+    "relatedSdgs": [
+      1,
+      13
+    ],
+    "unWorldDay": "World Humanitarian Day"
+  },
+  {
+    "dayOfYear": 232,
+    "category": "comparison",
+    "factEn": "A fully loaded bus replaces 40 cars on the road and produces 80% less CO2 per passenger-km than a single-occupancy car. Public transit is one of the most underrated climate solutions.",
+    "sourceEn": "International Association of Public Transport (UITP)",
+    "sourceUrl": "https://www.uitp.org/",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 233,
+    "category": "comparison",
+    "factEn": "Producing a smartphone requires mining over 30 different minerals from multiple countries. The rare earth elements in one phone travel an average of 50,000 km before reaching your pocket.",
+    "sourceEn": "Fairphone Impact Report",
+    "sourceUrl": "https://www.fairphone.com/en/impact/",
+    "relatedSdgs": [
+      8,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 234,
+    "category": "individual",
+    "factEn": "Choosing a bank or pension fund that does not invest in fossil fuels can have a greater climate impact than going vegetarian, flying less, and switching to renewable energy combined.",
+    "sourceEn": "Make My Money Matter / Carbon Tracker",
+    "sourceUrl": "https://makemymoneymatter.co.uk/",
+    "relatedSdgs": [
+      13,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 235,
+    "category": "mythBuster",
+    "factEn": "Wrapping a water heater in an insulation blanket seems old-fashioned but saves 7-16% of water heating energy. It costs under $30 and pays for itself within a year.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/do-it-yourself-savings-project-insulate-hot-water-pipes",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 236,
+    "category": "mythBuster",
+    "factEn": "Carbon offsets are not a licence to pollute. Many offset projects fail to deliver promised reductions. Reducing your own emissions first is always more effective than offsetting.",
+    "sourceEn": "The Guardian / West et al., Science 2023",
+    "sourceUrl": "https://www.science.org/doi/10.1126/science.ade3535",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 237,
+    "category": "positiveNews",
+    "factEn": "Forest cover in China has increased from 12% in the 1980s to over 24% today, thanks to the world's largest reforestation programme. The country plants billions of trees each year.",
+    "sourceEn": "Nature / Chinese State Forestry Administration",
+    "sourceUrl": "https://ourworldindata.org/forest-area",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 238,
+    "category": "individual",
+    "factEn": "Fixing a dripping tap saves up to 15 litres of water per day -- over 5,400 litres per year. In water-scarce regions, every litre saved is a litre available for someone else.",
+    "sourceEn": "WaterWise UK",
+    "sourceUrl": "https://www.waterwise.org.uk/save-water/",
+    "relatedSdgs": [
+      6
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 239,
+    "category": "natureWonder",
+    "factEn": "Lyrebirds can mimic almost any sound they hear, including chainsaws, camera shutters, and other bird species with perfect accuracy. Their vocal learning ability rivals that of parrots.",
+    "sourceEn": "Proceedings of the Royal Society B",
+    "sourceUrl": "https://royalsocietypublishing.org/journal/rspb",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 240,
+    "category": "comparison",
+    "factEn": "It takes 10,000 litres of water to produce 1 kg of cotton but only 500 litres for 1 kg of hemp. Hemp also grows without pesticides and actually improves soil health.",
+    "sourceEn": "Water Footprint Network",
+    "sourceUrl": "https://www.waterfootprint.org/resources/interactive-tools/product-gallery/",
+    "relatedSdgs": [
+      6,
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 241,
+    "category": "natureWonder",
+    "factEn": "Whales are climate heroes. A single great whale sequesters an average of 33 tonnes of CO2 over its lifetime. Whale faeces also fertilize phytoplankton, which produce 50% of the world's oxygen.",
+    "sourceEn": "IMF Finance & Development",
+    "sourceUrl": "https://www.imf.org/en/Publications/fandd/issues/2019/12/natures-solution-to-climate-change-chami",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 242,
+    "category": "mythBuster",
+    "factEn": "Turning food waste into biogas through anaerobic digestion captures energy and prevents methane from escaping to the atmosphere. Food waste in an AD plant is far better than home composting for emissions.",
+    "sourceEn": "WRAP UK / Defra",
+    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink/actions/food-waste-collections",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 243,
+    "category": "natureWonder",
+    "factEn": "Octopuses have three hearts, blue blood, and can change colour in 0.3 seconds. Their intelligence rivals that of mammals, yet they are invertebrates with no bones at all.",
+    "sourceEn": "Smithsonian Ocean / National Geographic",
+    "sourceUrl": "https://ocean.si.edu/ocean-life/invertebrates/octopus",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 244,
+    "category": "mythBuster",
+    "factEn": "Driving an SUV produces roughly 20% more CO2 per km than a standard car. The growing popularity of SUVs remains one of the biggest barriers to reducing transport emissions, even as electric vehicle adoption accelerates.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/commentaries/as-their-sales-continue-to-rise-suvs-global-co2-emissions-are-nearing-1-billion-tonnes",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 245,
+    "category": "natureWonder",
+    "factEn": "The Great Pacific Garbage Patch is twice the size of Texas, but 94% of the plastic in the ocean is on the seafloor, not the surface. What we see floating is just the tip of the iceberg.",
+    "sourceEn": "NOAA / Marine Debris Program",
+    "sourceUrl": "https://marinedebris.noaa.gov/info/patch.html",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 246,
+    "category": "comparison",
+    "factEn": "Streaming video for an hour produces about 36 g of CO2 -- roughly the same as driving 150 metres. Binge-watching a full season emits less than a single 5 km car trip.",
+    "sourceEn": "Carbon Trust / IEA",
+    "sourceUrl": "https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 247,
+    "category": "individual",
+    "factEn": "Decluttering by selling or donating items you no longer use keeps materials circulating in the economy. The average household has $3,000 worth of unused items that could find a second life.",
+    "sourceEn": "eBay / Ellen MacArthur Foundation",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/topics/circular-economy-introduction/overview",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 248,
+    "category": "mythBuster",
+    "factEn": "Flying is not the biggest source of an average person's emissions -- that is usually home heating and driving. But a single long-haul flight can wipe out a year's worth of other savings.",
+    "sourceEn": "Wynes & Nicholas, Environmental Research Letters 2017",
+    "sourceUrl": "https://iopscience.iop.org/article/10.1088/1748-9326/aa7541",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 249,
+    "category": "individual",
+    "factEn": "Buying seasonal fruit and vegetables reduces food-related emissions by up to 30% compared to out-of-season produce. Seasonal food also tends to be fresher, cheaper, and more nutritious.",
+    "sourceEn": "Defra / Eat Seasonably",
+    "sourceUrl": "https://www.eatseasonably.co.uk/",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 250,
+    "category": "comparison",
+    "factEn": "Fossil fuel combustion is the leading cause of outdoor air pollution, responsible for over 5 million deaths per year. Switching to clean energy could save 4.2 million lives annually from outdoor air pollution alone.",
+    "sourceEn": "World Health Organization",
+    "sourceUrl": "https://www.who.int/health-topics/air-pollution",
+    "relatedSdgs": [
+      3,
+      7,
+      13
+    ],
+    "unWorldDay": "International Day of Clean Air for Blue Skies"
+  },
+  {
+    "dayOfYear": 251,
+    "category": "positiveNews",
+    "factEn": "Tiger populations have risen from a low of 3,200 in 2010 to an estimated 4,500 in 2023 -- the first population increase in over a century, driven by coordinated conservation across 13 countries.",
+    "sourceEn": "WWF / Global Tiger Initiative",
+    "sourceUrl": "https://www.worldwildlife.org/species/tiger",
+    "relatedSdgs": [
+      15,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 252,
+    "category": "positiveNews",
+    "factEn": "Costa Rica doubled its forest cover from 26% in 1983 to 52% in 2021 by paying landowners to protect and regrow forests. It proves that deforestation is reversible.",
+    "sourceEn": "FONAFIFO / World Economic Forum",
+    "sourceUrl": "https://ourworldindata.org/forest-area",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 253,
+    "category": "comparison",
+    "factEn": "Concrete can now be made with captured CO2, turning it from a carbon source into a carbon sink. CarbonCure and similar technologies have already sequestered over 300,000 tonnes of CO2 in concrete.",
+    "sourceEn": "CarbonCure Technologies / Nature",
+    "sourceUrl": "https://www.nature.com/articles/s41586-021-04240-5",
+    "relatedSdgs": [
+      9,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 254,
+    "category": "mythBuster",
+    "factEn": "Hand-washing dishes often uses more water and energy than a full dishwasher. A modern energy-efficient dishwasher uses as little as 6 litres per cycle vs. 40+ litres by hand.",
+    "sourceEn": "University of Bonn study / Energy Saving Trust",
+    "sourceUrl": "https://energysavingtrust.org.uk/guidance/dishwashers/",
+    "relatedSdgs": [
+      6,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 255,
+    "category": "mythBuster",
+    "factEn": "Running a half-empty washing machine does not use half the energy. It uses almost the same water and electricity as a full load. Always wait for a full load to maximise efficiency.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/guidance/washing-machines/",
+    "relatedSdgs": [
+      6,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 256,
+    "category": "individual",
+    "factEn": "Unplugging your phone charger when not in use seems small, but if every household in the UK did it, it would save enough electricity to power 60,000 homes for a year.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/hub/quick-tips-to-save-energy/",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 257,
+    "category": "natureWonder",
+    "factEn": "Starlings form murmurations of up to 750,000 birds, moving in unison without a leader. Each bird follows just 3 simple rules, creating one of nature's most breathtaking spectacles.",
+    "sourceEn": "PNAS / Cavagna et al. 2010",
+    "sourceUrl": "https://www.pnas.org/doi/10.1073/pnas.1005766107",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 258,
+    "category": "positiveNews",
+    "factEn": "Plastic bag charges in the UK reduced usage by 98% -- from 7.6 billion bags in 2014 to 133 million in 2023. Simple policy nudges can transform behaviour at national scale.",
+    "sourceEn": "UK Department for Environment, Food and Rural Affairs",
+    "sourceUrl": "https://www.gov.uk/government/publications/carrier-bag-charge-summary-of-data-in-england",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 259,
+    "category": "positiveNews",
+    "factEn": "The Montreal Protocol prevented up to 2 million skin cancer cases per year and avoided 0.5 degrees C of additional global warming. International cooperation on the environment works.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/ozonaction/who-we-are/about-montreal-protocol",
+    "relatedSdgs": [
+      3,
+      13
+    ],
+    "unWorldDay": "International Day for the Preservation of the Ozone Layer"
+  },
+  {
+    "dayOfYear": 260,
+    "category": "individual",
+    "factEn": "Donating blood saves lives, but donating old electronics to certified recyclers saves rare earth elements. One million recycled phones can recover 16 tonnes of copper, 350 kg of silver, and 34 kg of gold.",
+    "sourceEn": "US EPA / UN Global E-waste Monitor",
+    "sourceUrl": "https://ewastemonitor.info/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 261,
+    "category": "comparison",
+    "factEn": "Cheese has a higher carbon footprint than chicken or pork -- producing 1 kg of cheese emits about 21 kg of CO2, compared to roughly 7 kg for pork and 3 kg for chicken.",
+    "sourceEn": "Our World in Data / Poore & Nemecek",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 262,
+    "category": "mythBuster",
+    "factEn": "More expensive eco-products are not always better for the planet. Sometimes the greenest choice is simply buying less, repairing what you have, or borrowing what you need.",
+    "sourceEn": "European Environmental Bureau",
+    "sourceUrl": "https://eeb.org/library/cool-products-dont-cost-the-earth-full-report/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 263,
+    "category": "natureWonder",
+    "factEn": "Axolotls can regenerate entire limbs, spinal cord tissue, heart tissue, and even parts of their brain without scarring. Scientists study them to unlock regenerative medicine breakthroughs.",
+    "sourceEn": "Nature / Haas & Whited 2015",
+    "sourceUrl": "https://www.nature.com/articles/nature13735",
+    "relatedSdgs": [
+      3,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 264,
+    "category": "individual",
+    "factEn": "The four highest-impact personal actions for reducing CO2 are: having fewer children, living car-free, avoiding flights, and eating plant-based. These dwarf recycling by 5-70x.",
+    "sourceEn": "Wynes & Nicholas, Environmental Research Letters 2017",
+    "sourceUrl": "https://iopscience.iop.org/article/10.1088/1748-9326/aa7541",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": "Zero Emissions Day / International Day of Peace"
+  },
+  {
+    "dayOfYear": 265,
+    "category": "comparison",
+    "factEn": "A heat pump is 3-4 times more energy-efficient than a gas boiler. Switching to a heat pump can cut home heating emissions by 65-80% even when powered by an average electricity grid.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/the-future-of-heat-pumps",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 266,
+    "category": "natureWonder",
+    "factEn": "Migratory birds navigate using Earth's magnetic field. Bar-tailed godwits fly 11,000 km non-stop from Alaska to New Zealand -- the longest known non-stop bird migration.",
+    "sourceEn": "Proceedings of the Royal Society B",
+    "sourceUrl": "https://royalsocietypublishing.org/journal/rspb",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 267,
+    "category": "positiveNews",
+    "factEn": "Bicycle sales have outpaced car sales in most European countries every year since 2000. In the Netherlands, there are more bicycles than people -- 23 million bikes for 17 million residents.",
+    "sourceEn": "European Cyclists' Federation",
+    "sourceUrl": "https://ecf.com/resources/cycling-facts-and-figures",
+    "relatedSdgs": [
+      3,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 268,
+    "category": "positiveNews",
+    "factEn": "Battery storage costs have fallen 97% since 1991 and 90% since 2010. Cheap batteries are the missing piece that makes 100% renewable grids possible.",
+    "sourceEn": "BloombergNEF",
+    "sourceUrl": "https://ourworldindata.org/battery-price-decline",
+    "relatedSdgs": [
+      7,
+      9
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 269,
+    "category": "natureWonder",
+    "factEn": "Old-growth forests are irreplaceable carbon stores. Larger trees in mature stands hold 41-84% of total forest carbon despite being a small fraction of all trees. Protecting existing forests is often more effective for the climate than planting new ones.",
+    "sourceEn": "Birdsey et al., Frontiers in Forests and Global Change 2023",
+    "sourceUrl": "https://www.frontiersin.org/journals/forests-and-global-change/articles/10.3389/ffgc.2022.1074508/full",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 270,
+    "category": "mythBuster",
+    "factEn": "Composting in landfill conditions does not work. Without oxygen, organic waste produces methane, not compost. Home or industrial composting with air circulation is the real solution.",
+    "sourceEn": "US Environmental Protection Agency",
+    "sourceUrl": "https://www.epa.gov/sustainable-management-food/reducing-impact-wasted-food-feeding-soil-and-composting",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 271,
+    "category": "individual",
+    "factEn": "Teaching a child one sustainable habit -- like turning off lights or composting -- creates a ripple effect. Studies show children influence the environmental behaviour of their entire household.",
+    "sourceEn": "Nature Climate Change / Lawson et al. 2019",
+    "sourceUrl": "https://www.nature.com/articles/s41558-019-0463-3",
+    "relatedSdgs": [
+      4,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 272,
+    "category": "comparison",
+    "factEn": "If food waste were a country, it would be the world's 3rd largest greenhouse gas emitter after China and the US. Reducing food waste is one of the most impactful climate solutions.",
+    "sourceEn": "Project Drawdown",
+    "sourceUrl": "https://drawdown.org/solutions/reduced-food-waste",
+    "relatedSdgs": [
+      2,
+      12,
+      13
+    ],
+    "unWorldDay": "International Day of Awareness of Food Loss and Waste"
+  },
+  {
+    "dayOfYear": 273,
+    "category": "individual",
+    "factEn": "Using a library instead of buying books saves roughly 28 kg of CO2 per book. If each library book is borrowed 50 times, that is 1,400 kg of CO2 saved from a single copy.",
+    "sourceEn": "Carnegie UK / Lifecycle Assessment",
+    "sourceUrl": "https://www.carnegieuk.org/",
+    "relatedSdgs": [
+      4,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 274,
+    "category": "positiveNews",
+    "factEn": "Since 1970, the Clean Air Act in the US has prevented over 230,000 premature deaths per year and delivered $32 in benefits for every $1 spent on pollution control.",
+    "sourceEn": "US Environmental Protection Agency",
+    "sourceUrl": "https://www.epa.gov/clean-air-act-overview/clean-air-act-and-economy",
+    "relatedSdgs": [
+      3,
+      11
+    ],
+    "unWorldDay": "World Habitat Day"
+  },
+  {
+    "dayOfYear": 275,
+    "category": "positiveNews",
+    "factEn": "The world's largest vertical farm in Dubai produces 1,000 tonnes of leafy greens per year using 95% less water than traditional farming -- in the middle of a desert.",
+    "sourceEn": "Emirates Crop One / FAO",
+    "sourceUrl": "https://www.fao.org/in-action/en/",
+    "relatedSdgs": [
+      2,
+      6,
+      9
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 276,
+    "category": "natureWonder",
+    "factEn": "Seagrass meadows cover just 0.1% of the ocean floor but capture 10% of the carbon buried in ocean sediment each year. They also produce oxygen 2.5x faster than tropical forests per hectare.",
+    "sourceEn": "UNEP / GRID-Arendal",
+    "sourceUrl": "https://www.unep.org/resources/report/out-blue-value-seagrasses-environment-and-people",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 277,
+    "category": "mythBuster",
+    "factEn": "Keeping old appliances running is not always greener than replacing them. A fridge from 2005 uses 40% more energy than a modern one. The energy saved over 10 years far outweighs the manufacturing footprint.",
+    "sourceEn": "Energy Star / US EPA",
+    "sourceUrl": "https://www.energystar.gov/products/refrigerators",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 278,
+    "category": "individual",
+    "factEn": "Replacing one car journey per week with walking or cycling saves an average of 200 kg of CO2 per year. It also adds 30 minutes of exercise that reduces heart disease risk by 35%.",
+    "sourceEn": "European Cyclists' Federation / WHO",
+    "sourceUrl": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+    "relatedSdgs": [
+      3,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 279,
+    "category": "comparison",
+    "factEn": "Microfibre pollution from washing synthetic clothes releases 500,000 tonnes of microfibres into the ocean annually -- equivalent to 50 billion plastic bottles. A washing bag can capture 86% of them.",
+    "sourceEn": "Plymouth University / IUCN",
+    "sourceUrl": "https://www.iucn.org/resources/issues-brief/marine-plastic-pollution",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 280,
+    "category": "comparison",
+    "factEn": "Buildings are responsible for 37% of global energy-related CO2 emissions. Simple retrofits like insulation and LED lighting can cut a building's energy use by 50%.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/resources/report/2022-global-status-report-buildings-and-construction",
+    "relatedSdgs": [
+      7,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 281,
+    "category": "individual",
+    "factEn": "Eating ugly or imperfect produce prevents perfectly good food from going to waste. An estimated 40% of fruit and vegetables are rejected before they even reach shops due to cosmetic standards.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/food-loss-and-food-waste/en/",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 282,
+    "category": "comparison",
+    "factEn": "The global fashion industry uses 93 billion cubic metres of water annually -- enough to meet the needs of 5 million people. Just dyeing textiles accounts for 20% of global water pollution.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/news-and-stories/story/environmental-costs-fast-fashion",
+    "relatedSdgs": [
+      6,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 283,
+    "category": "positiveNews",
+    "factEn": "Solar panels can now be integrated into windows, roof tiles, and even roads. Building-integrated photovoltaics could turn every surface into a power source without needing additional land.",
+    "sourceEn": "Nature Energy / Fraunhofer ISE",
+    "sourceUrl": "https://www.nature.com/nenergy/",
+    "relatedSdgs": [
+      7,
+      9,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 284,
+    "category": "individual",
+    "factEn": "Repairing a broken laptop instead of replacing it saves roughly 300-400 kg of CO2. The EU's Right to Repair directive now requires manufacturers of certain electronics to provide spare parts for up to 10 years.",
+    "sourceEn": "European Commission",
+    "sourceUrl": "https://commission.europa.eu/energy-climate-change-environment/standards-tools-and-labels/products-labelling-rules-and-requirements/sustainable-products/right-repair_en",
+    "relatedSdgs": [
+      9,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 285,
+    "category": "natureWonder",
+    "factEn": "Lichens are not single organisms but partnerships between fungi and algae that have existed for 400 million years. They colonise bare rock and slowly create the soil that makes plant life possible.",
+    "sourceEn": "British Lichen Society / Natural History Museum",
+    "sourceUrl": "https://www.nhm.ac.uk/discover/what-are-lichens.html",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 286,
+    "category": "natureWonder",
+    "factEn": "Mycelium -- the root network of fungi -- can be grown into packaging, building materials, and even leather alternatives in just days, using agricultural waste as feedstock.",
+    "sourceEn": "Biomimicry Institute / Nature Reviews",
+    "sourceUrl": "https://biomimicry.org/",
+    "relatedSdgs": [
+      9,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 287,
+    "category": "comparison",
+    "factEn": "The world produces 62 million tonnes of e-waste per year -- heavier than the Great Wall of China. Less than 20% is formally recycled, yet e-waste contains $62 billion worth of recoverable materials.",
+    "sourceEn": "UN Global E-waste Monitor 2024",
+    "sourceUrl": "https://ewastemonitor.info/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": "International E-Waste Day"
+  },
+  {
+    "dayOfYear": 288,
+    "category": "individual",
+    "factEn": "Women produce 60-80% of the food in developing countries but own less than 20% of the land. Closing this gap could increase farm yields by 20-30%, feeding 150 million more people.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/gender/en/",
+    "relatedSdgs": [
+      2,
+      5
+    ],
+    "unWorldDay": "International Day of Rural Women"
+  },
+  {
+    "dayOfYear": 289,
+    "category": "comparison",
+    "factEn": "We produce enough food to feed 10 billion people, yet 735 million go hungry. The problem is not production but distribution, waste, and inequality.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/state-of-food-security-nutrition/en/",
+    "relatedSdgs": [
+      1,
+      2,
+      10
+    ],
+    "unWorldDay": "World Food Day"
+  },
+  {
+    "dayOfYear": 290,
+    "category": "individual",
+    "factEn": "Climate change could push 132 million more people into extreme poverty by 2030. The poorest countries contribute the least to emissions but bear the greatest burden of climate impacts.",
+    "sourceEn": "World Bank",
+    "sourceUrl": "https://www.worldbank.org/en/topic/climatechange/brief/climate-and-poverty",
+    "relatedSdgs": [
+      1,
+      10,
+      13
+    ],
+    "unWorldDay": "International Day for the Eradication of Poverty"
+  },
+  {
+    "dayOfYear": 291,
+    "category": "mythBuster",
+    "factEn": "Natural does not mean sustainable. Cotton, a natural fibre, uses more pesticides than any other crop -- 16% of the world's insecticides are used on just 2.4% of cropland.",
+    "sourceEn": "WWF / Pesticide Action Network",
+    "sourceUrl": "https://www.worldwildlife.org/industries/cotton",
+    "relatedSdgs": [
+      6,
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 292,
+    "category": "individual",
+    "factEn": "Growing even a small herb garden at home reduces food miles to zero for those ingredients and cuts packaging waste entirely. Herbs are the easiest starting point for home growing.",
+    "sourceEn": "Royal Horticultural Society",
+    "sourceUrl": "https://www.rhs.org.uk/herbs",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 293,
+    "category": "natureWonder",
+    "factEn": "The bombardier beetle defends itself by mixing two chemicals in its abdomen to create a boiling, explosive spray at 100 degrees C. It can aim the spray in any direction with pinpoint accuracy.",
+    "sourceEn": "Journal of Experimental Biology / MIT",
+    "sourceUrl": "https://journals.biologists.com/jeb",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 294,
+    "category": "mythBuster",
+    "factEn": "Natural gas is often called 'clean energy' but it is still a fossil fuel. Methane leaks during extraction and transport can make its short-term climate impact as bad as coal.",
+    "sourceEn": "Carbon Brief",
+    "sourceUrl": "https://www.carbonbrief.org/qa-the-role-of-fossil-gas-in-the-energy-mix/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 295,
+    "category": "comparison",
+    "factEn": "Building one km of road costs roughly 250 tonnes of CO2. Building one km of protected bike lane costs about 20 tonnes. Cities can cut transport infrastructure emissions by 90% by prioritising cycling.",
+    "sourceEn": "European Cyclists' Federation",
+    "sourceUrl": "https://ecf.com/resources/cycling-facts-and-figures",
+    "relatedSdgs": [
+      9,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 296,
+    "category": "mythBuster",
+    "factEn": "Low-income countries contribute less than 4% of global CO2 emissions while the wealthiest 10% of the world's population are responsible for nearly 50%. Climate justice demands that those who emit the most bear the greatest responsibility for solutions.",
+    "sourceEn": "Oxfam / Stockholm Environment Institute",
+    "sourceUrl": "https://www.oxfam.org/en/press-releases/carbon-emissions-richest-1-set-be-30-times-15degc-limit-2030",
+    "relatedSdgs": [
+      10,
+      16
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 297,
+    "category": "positiveNews",
+    "factEn": "The Paris Agreement, adopted by 196 parties in 2015, was the first legally binding international treaty on climate change. The UN coordinates global climate action, biodiversity protection, and sustainable development across 193 member states.",
+    "sourceEn": "United Nations / UNFCCC",
+    "sourceUrl": "https://unfccc.int/process-and-meetings/the-paris-agreement",
+    "relatedSdgs": [
+      13,
+      17
+    ],
+    "unWorldDay": "United Nations Day"
+  },
+  {
+    "dayOfYear": 298,
+    "category": "positiveNews",
+    "factEn": "Scotland generated enough wind energy to power every home in the country twice over in 2023. Small nations are proving that wind can replace fossil fuels at scale.",
+    "sourceEn": "WeatherEnergy / Scottish Government",
+    "sourceUrl": "https://www.gov.scot/policies/renewable-and-low-carbon-energy/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 299,
+    "category": "individual",
+    "factEn": "Voting for leaders with strong climate policies is the highest-leverage individual action according to climate scientists. Systemic change dwarfs the impact of personal consumption choices alone.",
+    "sourceEn": "Wynes & Nicholas, Environmental Research Letters 2017",
+    "sourceUrl": "https://iopscience.iop.org/article/10.1088/1748-9326/aa7541",
+    "relatedSdgs": [
+      13,
+      16
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 300,
+    "category": "comparison",
+    "factEn": "International shipping carries 90% of world trade. Before 2020 regulations, a single large container ship could emit as much sulphur oxide as millions of cars. New IMO rules have cut shipping sulphur emissions by 77%, but CO2 from shipping remains a major challenge.",
+    "sourceEn": "International Maritime Organization",
+    "sourceUrl": "https://www.imo.org/en/OurWork/Environment/Pages/GHG-Emissions.aspx",
+    "relatedSdgs": [
+      9,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 301,
+    "category": "positiveNews",
+    "factEn": "Kenya's Lake Turkana Wind Power project, the largest wind farm in Africa, generates 310 MW -- enough to power 1 million homes and reduce the country's CO2 emissions by 16%.",
+    "sourceEn": "Lake Turkana Wind Power / AfDB",
+    "sourceUrl": "https://ltwp.co.ke/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 302,
+    "category": "positiveNews",
+    "factEn": "The global share of electricity from renewables reached 30% in 2023. In 2010, it was just 20%. The acceleration is now faster than any previous energy transition in history.",
+    "sourceEn": "Ember Global Electricity Review",
+    "sourceUrl": "https://ember-climate.org/insights/research/global-electricity-review-2024/",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 303,
+    "category": "positiveNews",
+    "factEn": "Japan's Top Runner programme sets efficiency standards based on the best-performing product on the market, then requires all manufacturers to match it. It has cut appliance energy use by 30-80%.",
+    "sourceEn": "Japanese Ministry of Economy, Trade and Industry / IEA",
+    "sourceUrl": "https://www.iea.org/policies/1936-top-runner-programme",
+    "relatedSdgs": [
+      7,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 304,
+    "category": "comparison",
+    "factEn": "Cities occupy just 3% of the Earth's land but produce over 70% of global CO2 emissions. Urban design choices -- bike lanes, public transit, green spaces -- have an outsized climate impact.",
+    "sourceEn": "UN-Habitat",
+    "sourceUrl": "https://unhabitat.org/topic/climate-change",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": "World Cities Day"
+  },
+  {
+    "dayOfYear": 305,
+    "category": "comparison",
+    "factEn": "The global plant-based food market grew from $29.4 billion in 2020 to over $44 billion in 2023. This growth has created hundreds of thousands of new jobs in food technology, agriculture, and manufacturing.",
+    "sourceEn": "Bloomberg Intelligence / Good Food Institute",
+    "sourceUrl": "https://gfi.org/resource/plant-based-meat-eggs-dairy-state-of-the-industry-report/",
+    "relatedSdgs": [
+      2,
+      8,
+      12
+    ],
+    "unWorldDay": "World Vegan Day"
+  },
+  {
+    "dayOfYear": 306,
+    "category": "natureWonder",
+    "factEn": "Albatrosses can fly 10,000 km without flapping their wings, using a technique called dynamic soaring. They sleep while gliding and can circumnavigate the globe in 46 days.",
+    "sourceEn": "BirdLife International",
+    "sourceUrl": "https://www.birdlife.org/",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 307,
+    "category": "individual",
+    "factEn": "Sharing tools, books, and equipment with neighbours instead of buying new ones can reduce household consumption emissions by up to 20%. Community sharing libraries are growing worldwide.",
+    "sourceEn": "Sharing Economy International",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/topics/circular-economy-introduction/overview",
+    "relatedSdgs": [
+      11,
+      12,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 308,
+    "category": "comparison",
+    "factEn": "The circular economy could generate $4.5 trillion in economic output by 2030. Designing products for reuse, repair, and recycling reduces waste while creating new industries and jobs at every stage of the product lifecycle.",
+    "sourceEn": "Accenture / Ellen MacArthur Foundation",
+    "sourceUrl": "https://www.ellenmacarthurfoundation.org/towards-the-circular-economy-vol-1-an-economic-and-business-rationale-for-an",
+    "relatedSdgs": [
+      8,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 309,
+    "category": "natureWonder",
+    "factEn": "Healthy coral reefs and mangrove forests reduce wave energy by 70-90%, protecting millions of people from tsunamis and storm surges. Nature is our best coastal defence.",
+    "sourceEn": "Nature Communications / UNEP",
+    "sourceUrl": "https://www.unep.org/explore-topics/oceans-seas/what-we-do/working-regional-seas/mangroves",
+    "relatedSdgs": [
+      13,
+      14
+    ],
+    "unWorldDay": "World Tsunami Awareness Day"
+  },
+  {
+    "dayOfYear": 310,
+    "category": "individual",
+    "factEn": "During the 1991 Gulf War, burning oil wells released an estimated 2 billion barrels of oil and created a toxic smoke plume visible from space. Supporting post-conflict environmental cleanup is critical for both ecosystems and displaced communities.",
+    "sourceEn": "UNEP Post-Conflict Environmental Assessment",
+    "sourceUrl": "https://www.unep.org/explore-topics/disasters-conflicts/what-we-do/recovery/post-conflict-environmental-assessment",
+    "relatedSdgs": [
+      15,
+      16
+    ],
+    "unWorldDay": "International Day for Preventing the Exploitation of the Environment in War and Armed Conflict"
+  },
+  {
+    "dayOfYear": 311,
+    "category": "natureWonder",
+    "factEn": "A single bat can eat up to 1,200 mosquitoes per hour, providing natural pest control worth billions of dollars to agriculture annually -- without a single drop of pesticide.",
+    "sourceEn": "Bat Conservation International",
+    "sourceUrl": "https://www.batcon.org/",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 312,
+    "category": "individual",
+    "factEn": "Freezing leftovers on the same day instead of leaving them in the fridge extends their life by weeks and prevents an estimated 30% of household food waste.",
+    "sourceEn": "WRAP UK / Love Food Hate Waste",
+    "sourceUrl": "https://www.lovefoodhatewaste.com/",
+    "relatedSdgs": [
+      2,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 313,
+    "category": "individual",
+    "factEn": "Volunteering for local environmental groups -- beach cleanups, tree planting, community gardens -- not only benefits the environment but strengthens social cohesion. Communities with strong civic engagement recover faster from climate disasters.",
+    "sourceEn": "UNDP / Aldrich, Building Resilience",
+    "sourceUrl": "https://www.undp.org/publications/strengthening-social-cohesion-conceptual-framing-and-programming-implications",
+    "relatedSdgs": [
+      11,
+      16,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 314,
+    "category": "mythBuster",
+    "factEn": "Screensavers do not save energy -- they were designed to prevent screen burn on old CRT monitors. On modern screens, they waste electricity. Set your display to sleep instead.",
+    "sourceEn": "US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/energy-efficient-computers-home-office-equipment-and-electronics",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 315,
+    "category": "natureWonder",
+    "factEn": "Mycorrhizal networks -- underground fungal threads connecting tree roots -- allow trees to share nutrients, water, and even chemical warning signals. A single fungal network can link hundreds of trees across a forest floor.",
+    "sourceEn": "Simard et al., Nature 1997 / Ecology Letters",
+    "sourceUrl": "https://www.nature.com/articles/41557",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 316,
+    "category": "natureWonder",
+    "factEn": "Over 75% of deep-sea creatures produce their own light through bioluminescence. This living light is used for hunting, camouflage, and communication in an ecosystem that covers more than 65% of the Earth's surface yet remains largely unexplored.",
+    "sourceEn": "Monterey Bay Aquarium Research Institute / Scientific Reports",
+    "sourceUrl": "https://www.mbari.org/bioluminescence/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 317,
+    "category": "positiveNews",
+    "factEn": "Deaths from household air pollution have declined significantly over two decades, thanks to cleaner cooking fuels reaching millions of homes. However, outdoor air pollution from fossil fuels remains a growing threat in rapidly industrialising regions.",
+    "sourceEn": "Institute for Health Metrics and Evaluation / Lancet",
+    "sourceUrl": "https://www.healthdata.org/",
+    "relatedSdgs": [
+      3,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 318,
+    "category": "mythBuster",
+    "factEn": "Recycling alone will not solve the plastic crisis. Only 9% of all plastic ever produced has been recycled. Reducing consumption is far more effective than recycling after the fact.",
+    "sourceEn": "OECD Global Plastics Outlook",
+    "sourceUrl": "https://www.oecd.org/en/publications/global-plastics-outlook_de747aef-en.html",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 319,
+    "category": "mythBuster",
+    "factEn": "Eco-mode on your dishwasher takes longer but uses 20% less energy. The lower temperature and extended soak time clean just as effectively while saving water and electricity.",
+    "sourceEn": "Energy Star / Bonn University study",
+    "sourceUrl": "https://www.energystar.gov/products/dishwashers",
+    "relatedSdgs": [
+      6,
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 320,
+    "category": "comparison",
+    "factEn": "Air conditioning already accounts for 10% of global electricity use and is the fastest-growing energy demand. Passive cooling designs can reduce AC need by 70-80%.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/reports/the-future-of-cooling",
+    "relatedSdgs": [
+      7,
+      11
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 321,
+    "category": "natureWonder",
+    "factEn": "The titan arum produces the world's largest unbranched flower cluster, reaching 3 metres tall. It blooms only once every 7-10 years, heating itself to spread its scent across kilometres.",
+    "sourceEn": "Royal Botanic Gardens, Kew",
+    "sourceUrl": "https://www.kew.org/plants/titan-arum",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 322,
+    "category": "comparison",
+    "factEn": "Replacing your lawn with native wildflowers supports 4 times more pollinators and uses 75% less water. A wild garden is not lazy -- it is working harder for the ecosystem than a mown lawn.",
+    "sourceEn": "Royal Horticultural Society / Plantlife UK",
+    "sourceUrl": "https://www.plantlife.org.uk/campaigns/no-mow-may/",
+    "relatedSdgs": [
+      6,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 323,
+    "category": "individual",
+    "factEn": "3.6 billion people -- nearly half the world -- lack safely managed sanitation. Proper sanitation systems prevent waterborne diseases and protect aquatic ecosystems from pollution.",
+    "sourceEn": "WHO / UNICEF Joint Monitoring Programme",
+    "sourceUrl": "https://washdata.org/",
+    "relatedSdgs": [
+      3,
+      6
+    ],
+    "unWorldDay": "World Toilet Day"
+  },
+  {
+    "dayOfYear": 324,
+    "category": "individual",
+    "factEn": "Choosing digital tickets, boarding passes, and receipts instead of paper saves an estimated 10 billion paper receipts per year in the US alone -- enough to circle the Earth 15 times.",
+    "sourceEn": "Green America / EPA",
+    "sourceUrl": "https://www.greenamerica.org/skip-slip-campaign",
+    "relatedSdgs": [
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 325,
+    "category": "positiveNews",
+    "factEn": "Uruguay generates 98% of its electricity from renewables, achieved in under 15 years without subsidies -- just smart policy and private investment.",
+    "sourceEn": "World Bank / IEA",
+    "sourceUrl": "https://www.iea.org/countries/uruguay",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 326,
+    "category": "individual",
+    "factEn": "Participating in citizen science projects -- counting birds, photographing insects, tracking weather -- gives researchers vital data and has contributed to over 150 peer-reviewed studies per year.",
+    "sourceEn": "Citizen Science Association / Nature",
+    "sourceUrl": "https://www.nature.com/articles/s41559-017-0236-1",
+    "relatedSdgs": [
+      4,
+      15,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 327,
+    "category": "positiveNews",
+    "factEn": "India's solar energy capacity grew from 2.6 GW in 2014 to over 70 GW in 2023 -- a 27-fold increase in under a decade. The country aims for 500 GW of renewable capacity by 2030.",
+    "sourceEn": "Ministry of New and Renewable Energy, India",
+    "sourceUrl": "https://www.iea.org/countries/india",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 328,
+    "category": "mythBuster",
+    "factEn": "Electric cars do not need rare earth minerals in their motors as often as claimed. Most EV batteries use lithium, cobalt, and nickel -- none of which are rare earth elements.",
+    "sourceEn": "IEA Critical Minerals Report",
+    "sourceUrl": "https://www.iea.org/reports/the-role-of-critical-minerals-in-clean-energy-transitions",
+    "relatedSdgs": [
+      9,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 329,
+    "category": "natureWonder",
+    "factEn": "Bamboo is the fastest-growing plant on Earth, with some species growing 91 cm in a single day. It produces 35% more oxygen than an equivalent stand of hardwood trees.",
+    "sourceEn": "World Bamboo Organization",
+    "sourceUrl": "https://www.worldbamboo.net/",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 330,
+    "category": "comparison",
+    "factEn": "Transport accounts for 24% of global CO2 emissions. Road vehicles alone produce 75% of transport emissions. Switching to public transit, cycling, or walking makes a measurable difference.",
+    "sourceEn": "International Energy Agency",
+    "sourceUrl": "https://www.iea.org/topics/transport",
+    "relatedSdgs": [
+      9,
+      11,
+      13
+    ],
+    "unWorldDay": "World Sustainable Transport Day"
+  },
+  {
+    "dayOfYear": 331,
+    "category": "mythBuster",
+    "factEn": "Closing curtains at night reduces heat loss through windows by up to 17%. Thermal curtains are one of the cheapest energy-saving upgrades, yet most people overlook them.",
+    "sourceEn": "Energy Saving Trust UK",
+    "sourceUrl": "https://energysavingtrust.org.uk/advice/curtains-and-blinds/",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 332,
+    "category": "individual",
+    "factEn": "Packing a lunch in a reusable container instead of buying takeaway saves an average of 150 single-use packages per year. That is 6 kg of plastic waste avoided.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink",
+    "relatedSdgs": [
+      12,
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 333,
+    "category": "natureWonder",
+    "factEn": "Salmon carry ocean nutrients hundreds of kilometres upstream. When bears eat salmon and leave carcasses in forests, the nitrogen from the fish fertilises trees up to 500 metres from the river.",
+    "sourceEn": "Helfield & Naiman, Ecology 2001",
+    "sourceUrl": "https://esajournals.onlinelibrary.wiley.com/journal/19399170",
+    "relatedSdgs": [
+      14,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 334,
+    "category": "positiveNews",
+    "factEn": "The cost of offshore wind energy has fallen 73% since 2010 and is now competitive with natural gas in many markets. Countries like the UK now generate 15% of electricity from offshore wind.",
+    "sourceEn": "IRENA / UK Government",
+    "sourceUrl": "https://www.irena.org/publications/2024/Sep/Renewable-Power-Generation-Costs-in-2023",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 335,
+    "category": "mythBuster",
+    "factEn": "Planting trees is not a silver bullet for climate change. If planted in the wrong place (like snowy regions), trees can absorb heat and actually warm the climate. Location and species matter.",
+    "sourceEn": "Windisch et al., Nature Climate Change 2024",
+    "sourceUrl": "https://www.nature.com/articles/s41558-024-01999-7",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 336,
+    "category": "comparison",
+    "factEn": "Christmas gift wrapping in the UK alone uses enough paper to wrap the island of Guernsey 9 times. Using newspaper, fabric wraps, or reusable gift bags eliminates this entirely.",
+    "sourceEn": "WRAP UK",
+    "sourceUrl": "https://wrap.org.uk/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 337,
+    "category": "natureWonder",
+    "factEn": "Wolves reintroduced to Yellowstone in 1995 changed the course of rivers. By controlling elk populations, wolves allowed vegetation to regrow, stabilizing riverbanks -- a 'trophic cascade.'",
+    "sourceEn": "Ripple & Beschta, Biological Conservation 2012",
+    "sourceUrl": "https://www.yellowstonepark.com/things-to-do/wildlife/wolf-reintroduction-changes-ecosystem/",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 338,
+    "category": "positiveNews",
+    "factEn": "Global investment in nature-based solutions doubled between 2020 and 2023, reaching $200 billion. Restoring wetlands, forests, and mangroves is now recognised as essential climate infrastructure.",
+    "sourceEn": "UNEP State of Finance for Nature 2023",
+    "sourceUrl": "https://www.unep.org/resources/state-finance-nature-2023",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 339,
+    "category": "natureWonder",
+    "factEn": "One tablespoon of healthy soil contains more microorganisms than there are people on Earth. Soil stores more carbon than the atmosphere and all plant life combined.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/soils-portal/en/",
+    "relatedSdgs": [
+      2,
+      15
+    ],
+    "unWorldDay": "World Soil Day"
+  },
+  {
+    "dayOfYear": 340,
+    "category": "positiveNews",
+    "factEn": "Bhutan is the world's only carbon-negative country, absorbing more CO2 than it emits. Its constitution requires that 60% of its land remain forested at all times.",
+    "sourceEn": "Royal Government of Bhutan / UNFCCC",
+    "sourceUrl": "https://unfccc.int/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 341,
+    "category": "individual",
+    "factEn": "Giving experiences instead of physical gifts -- a meal, a lesson, a hike -- produces zero packaging waste. Studies show experiences also make people happier than material possessions.",
+    "sourceEn": "Journal of Positive Psychology / Van Boven & Gilovich",
+    "sourceUrl": "https://www.tandfonline.com/doi/abs/10.1080/17439760.2014.898316",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 342,
+    "category": "individual",
+    "factEn": "Repairing a broken appliance instead of replacing it can save 50-90% of the CO2 that a new one would produce. The 'right to repair' movement is helping make this easier.",
+    "sourceEn": "European Environmental Bureau",
+    "sourceUrl": "https://eeb.org/library/cool-products-dont-cost-the-earth-full-report/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 343,
+    "category": "mythBuster",
+    "factEn": "Real Christmas trees are not automatically greener than artificial ones. A fake tree needs to be reused for at least 10-20 years to match the lower footprint of a locally grown, recycled real tree.",
+    "sourceEn": "Carbon Trust / Ellipsos LCA",
+    "sourceUrl": "https://www.carbontrust.com/news-and-insights",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 344,
+    "category": "mythBuster",
+    "factEn": "Luxury 'sustainable' fashion lines are sometimes just greenwashing. A $200 organic cotton shirt is not 10 times greener than a $20 one. Check certifications like GOTS or B Corp, not just price tags.",
+    "sourceEn": "Fashion Revolution / GOTS",
+    "sourceUrl": "https://www.fashionrevolution.org/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 345,
+    "category": "natureWonder",
+    "factEn": "Mountains supply fresh water to half the world's population. Climate change is melting mountain glaciers so fast that many communities face severe water shortages within 30 years.",
+    "sourceEn": "UN Environment Programme",
+    "sourceUrl": "https://www.unep.org/explore-topics/climate-action/what-we-do/climate-adaptation/mountains",
+    "relatedSdgs": [
+      6,
+      15
+    ],
+    "unWorldDay": "International Mountain Day"
+  },
+  {
+    "dayOfYear": 346,
+    "category": "positiveNews",
+    "factEn": "New Zealand granted legal personhood to the Whanganui River in 2017, recognising it as a living entity with rights. This legal innovation is inspiring similar protections for ecosystems worldwide.",
+    "sourceEn": "New Zealand Government / UN Environment Programme",
+    "sourceUrl": "https://www.legislation.govt.nz/act/public/2017/0007/latest/whole.html",
+    "relatedSdgs": [
+      6,
+      16
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 347,
+    "category": "comparison",
+    "factEn": "The entire lifecycle emissions of a bicycle are about 21 g of CO2 per km. A car emits 271 g per km -- 13 times more. Even an electric car emits 5 times more than a bicycle.",
+    "sourceEn": "European Cyclists' Federation",
+    "sourceUrl": "https://ourworldindata.org/travel-carbon-footprint",
+    "relatedSdgs": [
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 348,
+    "category": "natureWonder",
+    "factEn": "The Arctic tern migrates from pole to pole every year, covering 70,000 km. Over its 30-year lifespan, it travels the equivalent of 3 round trips to the Moon.",
+    "sourceEn": "BirdLife International / Greenland Institute of Natural Resources",
+    "sourceUrl": "https://www.birdlife.org/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 349,
+    "category": "positiveNews",
+    "factEn": "Global deforestation has slowed by over 50% compared to the 1990s. Countries like Brazil saw an 80% drop in Amazon deforestation between 2004 and 2012, proving that policy works.",
+    "sourceEn": "UN Food and Agriculture Organization",
+    "sourceUrl": "https://www.fao.org/state-of-forests/en/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 350,
+    "category": "positiveNews",
+    "factEn": "Bald eagle populations in the US recovered from 417 nesting pairs in 1963 to over 71,400 in 2021 after DDT was banned and protections were enacted. Conservation success stories are real.",
+    "sourceEn": "US Fish and Wildlife Service",
+    "sourceUrl": "https://www.fws.gov/species/bald-eagle-haliaeetus-leucocephalus",
+    "relatedSdgs": [
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 351,
+    "category": "mythBuster",
+    "factEn": "Leaving your computer on overnight does not extend its lifespan. Modern computers are designed to handle thousands of on/off cycles. Shutting down saves up to 50 kg of CO2 per year.",
+    "sourceEn": "Energy Star / US Department of Energy",
+    "sourceUrl": "https://www.energy.gov/energysaver/energy-efficient-computers-home-office-equipment-and-electronics",
+    "relatedSdgs": [
+      7
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 352,
+    "category": "individual",
+    "factEn": "Regifting is not rude -- it is resourceful. An estimated 4 billion gifts are returned or thrown away annually worldwide. Passing along an unwanted gift keeps it in use and out of landfill.",
+    "sourceEn": "Optoro / National Retail Federation",
+    "sourceUrl": "https://www.optoro.com/research/",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 353,
+    "category": "comparison",
+    "factEn": "Producing 1 kg of chocolate generates about 19 kg of CO2 -- more than the same weight of cheese or chicken. Choosing sustainable-certified chocolate halves deforestation linked to cocoa.",
+    "sourceEn": "Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/food-choice-vs-eating-local",
+    "relatedSdgs": [
+      12,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 354,
+    "category": "individual",
+    "factEn": "Organising a neighbourhood swap event for clothes, toys, and books gives items a second life while building community. One swap can divert hundreds of kilograms from landfill in a single afternoon.",
+    "sourceEn": "WRAP UK / Shareable.net",
+    "sourceUrl": "https://wrap.org.uk/taking-action/textiles",
+    "relatedSdgs": [
+      11,
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 355,
+    "category": "individual",
+    "factEn": "Volunteering for a local beach or river cleanup removes an average of 60 kg of waste per volunteer per event. Citizen-led cleanups have removed over 150 million kg of trash globally since 2017.",
+    "sourceEn": "Ocean Conservancy",
+    "sourceUrl": "https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/",
+    "relatedSdgs": [
+      14,
+      17
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 356,
+    "category": "comparison",
+    "factEn": "The amount of energy wasted by inefficient buildings globally equals the entire energy output of the US and Japan combined. Better building standards could save 8.2 gigatonnes of CO2 by 2050.",
+    "sourceEn": "Global Alliance for Buildings and Construction / UNEP",
+    "sourceUrl": "https://www.unep.org/resources/report/2022-global-status-report-buildings-and-construction",
+    "relatedSdgs": [
+      7,
+      11,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 357,
+    "category": "mythBuster",
+    "factEn": "Rechargeable batteries are not just for high-drain devices. A single set of rechargeable AA batteries replaces up to 500 disposable ones, saving both money and toxic heavy metals from landfill.",
+    "sourceEn": "US EPA / Battery University",
+    "sourceUrl": "https://www.epa.gov/recycle/used-household-batteries",
+    "relatedSdgs": [
+      12
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 358,
+    "category": "mythBuster",
+    "factEn": "Flying business class has roughly 3x the carbon footprint of economy class because fewer seats means more space and emissions per passenger. Choosing economy is a climate action.",
+    "sourceEn": "UK DEFRA Emission Factors",
+    "sourceUrl": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 359,
+    "category": "natureWonder",
+    "factEn": "Arctic foxes change the colour of their fur with the seasons -- white in winter for snow camouflage, brown in summer for tundra. As Arctic temperatures rise twice as fast as the global average, the timing of this colour change is shifting, leaving some foxes mismatched with their environment.",
+    "sourceEn": "NOAA Arctic Report Card / Nature Climate Change",
+    "sourceUrl": "https://arctic.noaa.gov/report-card/",
+    "relatedSdgs": [
+      13,
+      15
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 360,
+    "category": "natureWonder",
+    "factEn": "The Great Barrier Reef is so large it can be seen from space. It is home to 1,500 species of fish, 400 types of coral, and generates $6.4 billion per year for Australia's economy.",
+    "sourceEn": "Great Barrier Reef Foundation / Deloitte Access Economics",
+    "sourceUrl": "https://www.barrierreef.org/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 361,
+    "category": "positiveNews",
+    "factEn": "Global extreme poverty has fallen from 36% in 1990 to under 9% in 2024. While inequality persists, more people have access to clean water, healthcare, and education than ever before.",
+    "sourceEn": "World Bank / Our World in Data",
+    "sourceUrl": "https://ourworldindata.org/extreme-poverty",
+    "relatedSdgs": [
+      1,
+      10
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 362,
+    "category": "positiveNews",
+    "factEn": "The number of countries with net-zero targets has grown from 0 in 2018 to over 140 by 2024, covering 88% of global emissions. Momentum is building for a cleaner future.",
+    "sourceEn": "Net Zero Tracker",
+    "sourceUrl": "https://zerotracker.net/",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 363,
+    "category": "mythBuster",
+    "factEn": "New Year's resolutions to 'go green' fail 80% of the time because they are too ambitious. Picking one small habit -- like a reusable bottle -- and sticking with it creates lasting change.",
+    "sourceEn": "Journal of Clinical Psychology / BJ Fogg, Tiny Habits",
+    "sourceUrl": "https://www.tinyhabits.com/",
+    "relatedSdgs": [
+      12,
+      13
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 364,
+    "category": "natureWonder",
+    "factEn": "Antarctic krill, tiny shrimp-like creatures, form swarms so dense they can be seen from space. They are the foundation of the Antarctic food web, feeding whales, seals, and penguins.",
+    "sourceEn": "British Antarctic Survey",
+    "sourceUrl": "https://www.bas.ac.uk/polar-operations/sites-and-facilities/facility/krill/",
+    "relatedSdgs": [
+      14
+    ],
+    "unWorldDay": null
+  },
+  {
+    "dayOfYear": 365,
+    "category": "positiveNews",
+    "factEn": "Every action counts. The IPCC confirms that limiting warming to 1.5 degrees C is still possible if we act decisively this decade. The choices you make today shape the world of tomorrow.",
+    "sourceEn": "IPCC Sixth Assessment Report",
+    "sourceUrl": "https://www.ipcc.ch/assessment-report/ar6/",
+    "relatedSdgs": [
+      13
+    ],
+    "unWorldDay": null
+  }
+]

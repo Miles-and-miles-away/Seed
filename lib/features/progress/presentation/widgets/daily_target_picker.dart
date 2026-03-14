@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/progress_providers.dart';
 
 /// First-time setup screen for selecting daily goal target.

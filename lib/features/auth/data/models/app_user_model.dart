@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../mascot/data/models/egg_model.dart';
-import '../../../mascot/data/models/mascot_model.dart';
+import 'package:seed_app/core/utils/firestore_converters.dart';
+import 'package:seed_app/features/mascot/data/models/egg_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 
 part 'app_user_model.freezed.dart';
 part 'app_user_model.g.dart';
@@ -70,14 +70,4 @@ abstract class AppUserModel with _$AppUserModel {
       _$AppUserModelFromJson(json);
 }
 
-/// Converts Firestore Timestamp to/from DateTime.
-class TimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
-  const TimestampConverter();
-
-  @override
-  DateTime? fromJson(Timestamp? timestamp) => timestamp?.toDate();
-
-  @override
-  Timestamp? toJson(DateTime? date) =>
-      date != null ? Timestamp.fromDate(date) : null;
-}
+// TimestampConverter is now in core/utils/firestore_converters.dart

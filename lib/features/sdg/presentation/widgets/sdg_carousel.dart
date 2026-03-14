@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// A horizontally scrolling carousel of SDG goal
 /// cards with infinite scroll.

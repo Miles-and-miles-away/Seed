@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/calendar_day_data.dart';
+import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 
 /// A single day cell in the progress calendar.
 ///

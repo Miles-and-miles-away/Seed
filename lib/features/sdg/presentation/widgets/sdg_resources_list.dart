@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/sdg_resources.dart';
 
 /// Displays a list of external resources for an SDG.
 class SdgResourcesList extends StatelessWidget {

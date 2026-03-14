@@ -20,7 +20,7 @@ const DART_OUTPUT = path.join(
   'data', 'sdg_targets.dart',
 );
 const JSON_OUTPUT = path.join(
-  __dirname, '..', 'assets', 'data',
+  __dirname, '..', 'data', 'app',
   'sdg_targets.json',
 );
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../domain/entities/calendar_day_data.dart';
+import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import '../providers/progress_providers.dart';
 import 'calendar_day_cell.dart';
 

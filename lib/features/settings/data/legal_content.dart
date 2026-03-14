@@ -12,7 +12,7 @@ class LegalSection {
 }
 
 const _lastUpdated = '2026-02-14';
-const _contactEmail = 'support@seed-app.example.com';
+const _contactEmail = 'support@seedhabit.app';
 
 // ignore: avoid_classes_with_only_static_members
 /// Privacy policy content per locale.

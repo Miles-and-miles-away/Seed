@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/constants/app_constants.dart';
-
 import '../features/actions/presentation/screens/action_history_screen.dart';
 import '../features/actions/presentation/screens/action_log_screen.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
@@ -23,6 +23,7 @@ import '../features/settings/presentation/screens/notification_settings_screen.d
 import '../features/settings/presentation/screens/privacy_policy_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/settings/presentation/screens/terms_of_service_screen.dart';
+import '../shared/services/analytics_service.dart';
 import 'main_shell.dart';
 
 part 'router.g.dart';
@@ -57,9 +58,14 @@ GoRouter router(Ref ref) {
   // Watch auth state to redirect unauthenticated users
   final authState = ref.watch(authStateChangesProvider);
 
+  final analyticsObserver = AnalyticsService.instance.observer;
+
   return GoRouter(
     initialLocation: AppRoutes.splash,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: kDebugMode,
+    observers: [
+      if (analyticsObserver != null) analyticsObserver,
+    ],
 
     // Refresh router when auth state changes
     refreshListenable: GoRouterRefreshStream(

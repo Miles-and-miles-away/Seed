@@ -1,6 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-import '../../core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 
 /// Service for tracking analytics events.
 ///
@@ -22,6 +22,17 @@ class AnalyticsService {
   // ignore: use_setters_to_change_properties
   void setEnabled({required bool enabled}) {
     _enabled = enabled;
+  }
+
+  /// Toggle analytics and crashlytics collection on Firebase.
+  Future<void> setCollectionEnabled({
+    required bool enabled,
+  }) async {
+    try {
+      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
+    } on Object catch (e) {
+      AppLogger.warning('Analytics toggle failed: $e');
+    }
   }
 
   /// Get the Firebase Analytics instance, initializing lazily.

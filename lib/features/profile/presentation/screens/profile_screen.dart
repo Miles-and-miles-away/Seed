@@ -1,13 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../core/utils/helpers.dart';
-import '../../../../shared/widgets/widgets.dart';
-import '../../../auth/data/models/app_user_model.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
 
 /// User profile screen displaying stats, level progress, and achievements.
@@ -104,8 +105,9 @@ class ProfileScreen extends ConsumerWidget {
           CircleAvatar(
             radius: 40,
             backgroundColor: colorScheme.primary,
-            backgroundImage:
-                user.photoUrl != null ? NetworkImage(user.photoUrl!) : null,
+            backgroundImage: user.photoUrl != null
+                ? CachedNetworkImageProvider(user.photoUrl!)
+                : null,
             child: user.photoUrl == null
                 ? Text(
                     displayName[0].toUpperCase(),

@@ -1,22 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/utils/app_logger.dart';
-import '../../../../shared/services/analytics_service.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../../progress/data/repositories/progress_repository.dart';
-import '../../data/datasources/action_library_remote_datasource.dart';
-import '../../data/datasources/action_log_remote_datasource.dart';
-import '../../data/models/action_log_model.dart';
-import '../../data/models/action_model.dart';
-import '../../data/repositories/action_library_repository.dart';
-import '../../data/repositories/action_log_repository.dart';
-import '../../domain/enums/action_category.dart';
-import '../../domain/enums/action_sort_option.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
+import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
+import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/data/repositories/action_library_repository.dart';
+import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
+import 'package:seed_app/shared/services/analytics_service.dart';
 
-export '../../data/repositories/action_log_repository.dart'
+export 'package:seed_app/features/actions/data/repositories/action_log_repository.dart'
     show ActionLogResult;
-export '../../domain/enums/action_sort_option.dart' show ActionSortOption;
+export 'package:seed_app/features/actions/domain/enums/action_sort_option.dart'
+    show ActionSortOption;
 
 part 'actions_providers.g.dart';
 

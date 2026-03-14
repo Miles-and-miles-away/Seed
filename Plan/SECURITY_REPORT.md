@@ -1,292 +1,276 @@
 # Security Report - Seed App
 
-**Date:** 2026-02-14
-**Scope:** Full client-side security audit of the Seed Flutter app
-**Branch:** development (commit 00dbed8)
-**Last updated:** 2026-02-14 (post-remediation)
+**Date:** 2026-03-14 (updated)
+**Scope:** Full codebase audit — security, performance, common mistakes
+**Branch:** development
+**Previous audit:** 2026-02-14
 
 ---
 
 ## Executive Summary
 
-The Seed app has a solid security foundation. Firebase Auth handles
-credentials correctly, sensitive operations require re-authentication,
-and no secrets are committed to version control. The primary risks are
-operational gaps (missing Firestore rules file, no App Check, release
-signing not configured) and code hygiene issues (debug logging,
-hardcoded collection names, placeholder URLs).
+Second comprehensive audit of the Seed codebase. Many issues from the
+Feb 2026 audit have been resolved (App Check added, Firestore rules
+deployed, debug logging centralized). This audit found new issues
+including a critical leaked service account key and several medium-
+severity gaps in validation, token cleanup, and build configuration.
 
-**Critical:** 2 | **High:** 4 | **Medium:** 5 | **Low:** 4
-
-### Remediation Status
-
-Five issues have been fixed in the current branch:
-- **H2** - Debug print statements replaced with centralized logger
-- **M1** - Hardcoded collection names replaced with constants
-- **M2** - Analytics/crashlytics opt-out toggle added
-- **M3** - SDG route parameter bounds-checked to 1-17
-- **L4** - Client-side auth attempt throttling added
+**Critical:** 1 | **High:** 5 | **Medium:** 7 | **Low:** 5
 
 ---
 
 ## Critical
 
-### ~~C1. No Firestore Security Rules in Repository~~ RESOLVED
+### C1. Exposed Firebase Service Account Key in Git History
 
-**Status:** Fixed. `firestore.rules` created in the project root
-with user-scoped access, immutable action logs, and read-only
-collections (actionLibrary, mascotSpecies, cosmeticItems).
+**File:** `scripts/serviceAccountKey.json` (committed in `87b3488`)
 
-**Remaining:** Deploy via `firebase deploy --only firestore:rules`
-before release.
+The full Firebase Admin SDK service account key (with private RSA key)
+is in git history. `.gitignore` now excludes it, but the key is still
+retrievable from the repo.
 
-### C2. Release Build Uses Debug Signing Keys
+**Impact:** Complete Firebase project takeover — full database
+read/write, auth manipulation, storage access.
 
-**File:** `android/app/build.gradle.kts:36-38`
-
-```kotlin
-release {
-    signingConfig = signingConfigs.getByName("debug")
-}
-```
-
-**Risk:** Debug-signed APKs cannot be published to Play Store and
-offer no tamper protection. An attacker could resign the APK with
-their own key and distribute a modified version.
-
-**Recommendation:**
-- Generate a release keystore and configure `key.properties`
-- Reference the release signing config in `build.gradle.kts`
-- The keystore file is already gitignored (`android/*.jks`)
+**Fix:**
+1. Revoke the key immediately in Firebase Console > IAM
+2. Generate a new service account key
+3. Scrub history: `git filter-repo --path scripts/serviceAccountKey.json --invert-paths`
+4. Force-push all branches (coordinate with team)
+5. Rotate all associated credentials
 
 ---
 
 ## High
 
-### H1. Firebase App Check Not Implemented
+### H1. FCM Token Not Cleared on Logout
 
-**Evidence:** No imports of `firebase_app_check` found anywhere in
-the codebase.
+**File:** `lib/features/auth/presentation/providers/auth_providers.dart` (lines 178-188)
 
-**Risk:** Without App Check, anyone with the project's public API
-keys can call Firebase services directly (e.g., via REST or a
-custom client), bypassing the app entirely. This enables abuse of
-Firestore reads/writes and Auth endpoints.
+`signOut()` does not call `FCMService.removeStoredToken()`. On shared
+devices, the next user receives push notifications for the previous
+user.
 
-**Recommendation:**
-- Add `firebase_app_check` to pubspec.yaml
-- Initialize App Check in `main.dart` before other Firebase calls
-- Enable enforcement in the Firebase Console for Firestore, Auth,
-  and Storage
-
-### H2. 53 Debug Print Statements in Production Code -- FIXED
-
-**Files affected (6):**
-
-| File | Count |
-|---|---|
-| `lib/shared/services/analytics_service.dart` | 18 |
-| `lib/shared/services/fcm_service.dart` | 15 |
-| `lib/shared/services/notification_service.dart` | 6 |
-| `lib/features/progress/data/datasources/daily_summary_remote_datasource.dart` | 7 |
-| `lib/features/actions/presentation/providers/actions_providers.dart` | 4 |
-| `lib/main.dart` | 3 |
-
-**Risk:** `debugPrint()` is stripped in release builds, but raw
-`print()` is not. Any `print()` calls will leak information in
-production logcat/console output. Mixed usage makes it easy to
-accidentally use the wrong one.
-
-**Resolution:** Created `lib/core/utils/app_logger.dart` wrapping
-the `logger` package with `kDebugMode` gating. All 53 `debugPrint()`
-calls replaced with `AppLogger.debug()`, `.warning()`, or `.error()`
-as appropriate. `grep debugPrint lib/` returns zero results.
-
-### H3. No Code Obfuscation for Release Builds
-
-**Evidence:** No `--obfuscate` or `--split-debug-info` flags
-configured. No ProGuard/R8 rules for Android.
-
-**Risk:** The release binary can be trivially decompiled, exposing
-business logic, Firestore paths, and internal API patterns.
-
-**Recommendation:**
-- Add to the release build command:
-  `flutter build apk --obfuscate --split-debug-info=build/symbols`
-- Document this in the build/release checklist
-
-### H4. Placeholder Legal URLs in Production Code
-
-**File:** `lib/features/settings/presentation/screens/about_screen.dart:14-16`
-
+**Fix:** Add before `authRepository.signOut()`:
 ```dart
-static const _privacyPolicyUrl =
-    'https://seed-app.example.com/privacy';
-static const _termsOfServiceUrl =
-    'https://seed-app.example.com/terms';
-static const _contactEmail =
-    'support@seed-app.example.com';
+await ref.read(fcmServiceProvider).removeStoredToken();
 ```
 
-**Risk:** App Store / Play Store submissions require valid privacy
-policy and terms of service URLs. Placeholder URLs erode user trust
-and may violate platform policies.
+### H2. Missing Dart-Level Obfuscation for Release Builds
 
-**Recommendation:**
-- Host real legal documents before release
-- Replace the placeholder constants
+Android R8/ProGuard is enabled (good), but Dart code is not obfuscated.
+No `--obfuscate` or `--split-debug-info` in build scripts or CI.
+
+**Fix:** Add to all release build commands:
+```
+flutter build apk --obfuscate --split-debug-info=build/debug-info
+flutter build ipa --obfuscate --split-debug-info=build/debug-info
+```
+
+### H3. Mascot Data Not Validated Server-Side
+
+**Files:** `firestore.rules` (lines 6-12), `lib/features/mascot/data/repositories/mascot_repository.dart` (lines 88-176)
+
+Firestore rules only check `mascots.size() <= 20`. No validation of
+mascot fields (name length, level, points, evolution stage). A tampered
+client could set arbitrary mascot levels/points.
+
+**Fix:** Add field-level validation in Firestore rules or move mascot
+mutations to Cloud Functions.
+
+### H4. No Rate Limiting on Action Log Submissions
+
+**Files:** `firestore.rules` (lines 15-41), `functions/src/validateActionPoints.ts`
+
+The Cloud Function corrects invalid points reactively, but nothing
+limits submission frequency. An attacker could spam action logs,
+wasting database quota.
+
+**Fix:** Rate-limit in Firestore rules (check `request.time` vs last
+write timestamp) or gate submissions through a Cloud Function.
+
+### H5. Placeholder Legal URLs Still in Production Code
+
+**File:** `lib/features/settings/presentation/screens/about_screen.dart`
+
+Still contains `https://seed-app.example.com/privacy` and
+`https://seed-app.example.com/terms`. App Store / Play Store require
+valid legal URLs.
+
+**Fix:** Host real legal documents and replace the constants.
 
 ---
 
 ## Medium
 
-### M1. Hardcoded Collection Names Bypass Constants -- FIXED
+### M1. Missing `android:usesCleartextTraffic="false"`
 
-`AppConstants` defines collection name constants, but several files
-used raw strings instead.
+**File:** `android/app/src/main/AndroidManifest.xml` (line 9)
 
-**Risk:** Inconsistency makes refactoring error-prone and makes it
-harder to audit which collections are accessed where.
+No explicit cleartext traffic declaration. Safe by default on Android
+9+, but explicit declaration is best practice.
 
-**Resolution:** Added `collectionDailySummaries` to `AppConstants`.
-Replaced all hardcoded collection strings in `fcm_service.dart`,
-`profile_providers.dart`, `progress_repository.dart`,
-`daily_summary_remote_datasource.dart`, and `sdg_stats_provider.dart`
-with their `AppConstants` equivalents. `grep .collection(' lib/`
-returns zero hardcoded strings.
+**Fix:** Add `android:usesCleartextTraffic="false"` to `<application>`.
 
-### M2. No Analytics Opt-Out -- FIXED
+### M2. Router Debug Diagnostics Not Gated by kDebugMode
 
-**File:** `lib/shared/services/analytics_service.dart`
+**File:** `lib/app/router.dart` (line 64)
 
-The app tracks user properties (language, mascot species, level) and
-events (action logged, category, CO2 grams) via Firebase Analytics
-with no way for users to disable collection.
+`debugLogDiagnostics: true` logs all navigation events in release
+builds.
 
-**Risk:** GDPR and similar regulations require user consent for
-analytics in many jurisdictions. App Store review may flag this.
+**Fix:** Change to `debugLogDiagnostics: kDebugMode`.
 
-**Resolution:** Added `analyticsEnabled` field to `UserSettingsModel`
-(defaults to true). New "Privacy" section in Settings screen with
-toggle. When disabled, `FirebaseAnalytics.setAnalyticsCollectionEnabled`,
-`FirebaseCrashlytics.setCrashlyticsCollectionEnabled`, and
-`AnalyticsService._enabled` are all set to false. Setting syncs on
-app startup from Firestore. Localized in EN, JA, ES.
+### M3. Missing Cloud Storage Rules
 
-### M3. SDG Route Parameter Not Bounds-Checked -- FIXED
+No `storage.rules` file exists. If Cloud Storage is enabled in Firebase
+Console, default (permissive) rules may apply.
 
-**File:** `lib/app/router.dart`
+**Fix:** Create restrictive `storage.rules` or disable Cloud Storage.
 
-**Risk:** Invalid values (0, -1, 999) silently default to 1 or pass
-through unchecked. If deep links are ever exposed externally, this
-could cause unexpected behavior.
+### M4. Email Validation Missing in Password Reset & Email Change
 
-**Resolution:** Added `sdgMinGoal` and `sdgMaxGoal` constants to
-`AppConstants`. Created `_parseSdgGoalNumber()` helper in router.dart
-that parses and clamps values to 1-17. Applied to both the nested
-and standalone SDG routes.
+**Files:**
+- `lib/features/auth/presentation/screens/login_screen.dart` (line 296) — forgot password only checks `isNotEmpty`
+- `lib/features/settings/presentation/screens/account_settings_screen.dart` (lines 127-167) — change email only checks `isEmpty`
 
-### M4. No Certificate Pinning
+**Fix:** Apply the same email RegExp validation used on login/register.
 
-**Risk:** Without SSL pinning, a compromised or rogue CA could issue
-a valid certificate for Firebase endpoints, enabling MITM attacks on
-rooted/jailbroken devices.
+### M5. No Server-Side Language/Settings Validation
 
-**Recommendation:**
-- Low priority for MVP since all traffic goes through Firebase SDK
-  over TLS
-- Consider adding pinning before handling payment data (RevenueCat
-  integration)
+**File:** `firestore.rules` (lines 6-12)
 
-### M5. FCM Token Stored Unencrypted in Firestore
+User document writes don't validate the `settings` field structure.
+Language preference not validated against `['en', 'es', 'ja']`.
 
-**File:** `lib/shared/services/fcm_service.dart:129`
+**Fix:** Add field validation in Firestore rules.
 
-The `fcmToken` field is written directly to the user's Firestore
-document. If Firestore rules allow cross-user reads, another user
-could harvest FCM tokens and send push notifications.
+### M6. Missing iOS Privacy Permission Descriptions
 
-**Risk:** Dependent on Firestore rules (see C1). If rules are
-correct, this is low risk.
+**File:** `ios/Runner/Info.plist`
 
-**Recommendation:**
-- Ensure Firestore rules restrict the `fcmToken` field to the
-  owning user only
-- Consider storing tokens in a server-side-only collection
+No `NSCameraUsageDescription` or other `NS*UsageDescription` keys. If
+any plugin triggers a permission prompt, the app crashes or gets
+rejected by App Store.
+
+**Fix:** Add all required privacy descriptions for permissions used by
+the app and its dependencies.
+
+### M7. TextEditingController Memory Leaks in Dialogs
+
+**File:** `lib/features/settings/presentation/screens/account_settings_screen.dart`
+- Lines 113-115: `_showChangeEmailDialog` — 3 controllers not disposed
+- Lines 234-237: `_showChangePasswordDialog` — 4 controllers not disposed
+- Lines 381-382: `_showDeleteAccountDialog` — 2 controllers not disposed
+
+**Fix:** Dispose controllers when dialog closes.
 
 ---
 
 ## Low
 
-### L1. No Screenshot Prevention on Auth Screens
+### L1. Missing SafeArea on Settings Screens
 
-Sensitive screens (login, registration, password change) do not
-prevent screenshots or screen recording.
+**Files:**
+- `lib/features/settings/presentation/screens/settings_screen.dart` (line 24)
+- `lib/features/settings/presentation/screens/about_screen.dart` (line 25)
+- `lib/features/settings/presentation/screens/account_settings_screen.dart` (line 43)
+- `lib/features/settings/presentation/screens/notification_settings_screen.dart` (line 35)
+- `lib/features/settings/presentation/screens/language_settings_screen.dart` (line 29)
 
-**Recommendation:** Implement platform-specific flags if required by
-compliance (Android: `FLAG_SECURE`, iOS: secure text field overlay).
+**Fix:** Wrap `ListView` body in `SafeArea`.
 
-### L2. No Session/Inactivity Timeout
+### L2. Expensive Operations in Build Methods
 
-Firebase Auth tokens auto-refresh indefinitely. If a device is
-shared or stolen, the session persists.
+**Files:**
+- `lib/features/actions/presentation/widgets/action_card.dart` (lines 134-139) — SDG parsing/sorting
+- `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart` (lines 176-181) — same
+- `lib/features/actions/presentation/screens/action_history_screen.dart` (lines 94-110) — grouping logs
 
-**Recommendation:** Consider an optional inactivity timeout that
-signs the user out after a configurable period.
+**Fix:** Move to computed providers or memoize.
 
-### L3. Crashlytics Only Gated by kDebugMode -- FIXED
+### L3. Reminder Label Missing Explicit maxLength
 
-**File:** `lib/main.dart:27`
+**File:** `lib/features/settings/presentation/screens/notification_settings_screen.dart` (line 240)
 
-This was correct for debug vs release, but there was no user-facing
-toggle to disable crash reporting.
+**Fix:** Add `maxLength: 20` to the TextField.
 
-**Resolution:** Crashlytics collection is now tied to the analytics
-opt-out toggle (see M2). When the user disables analytics in Settings,
-`FirebaseCrashlytics.setCrashlyticsCollectionEnabled(false)` is
-called alongside the analytics disable.
+### L4. Document Size Limits Not Enforced in Firestore Rules
 
-### L4. No Rate Limiting on Client-Side Auth Attempts -- FIXED
+No size limits on `note` field or `relatedSdgs` array in action logs.
 
-Firebase Auth has built-in server-side rate limiting, but the client
-did not throttle repeated login attempts.
+**Fix:** Add `request.resource.data.note.size() <= 200` and array
+size checks in rules.
 
-**Resolution:** Added `authCooldownSeconds = 3` constant. Both
-`login_screen.dart` and `register_screen.dart` now disable the
-sign-in/sign-up button and social auth buttons for 3 seconds after
-any auth error. Uses a `Timer` that auto-resets `_isCooldown`.
+### L5. iOS User Script Sandboxing Disabled
+
+**File:** `ios/Runner.xcodeproj/project.pbxproj` (lines 467, 590, 647)
+
+`ENABLE_USER_SCRIPT_SANDBOXING = NO` in all build configurations.
+
+**Fix:** Enable if compatible with build plugins.
 
 ---
 
-## Positive Findings
+## Passed (No Issues Found)
 
-These areas are already well-implemented:
-
-| Area | Details |
+| Category | Details |
 |---|---|
-| **Credential handling** | Firebase Auth SDK handles all passwords; no local storage of credentials |
-| **Re-authentication** | Required before email change, password change, and account deletion |
-| **Error mapping** | Firebase error codes mapped to generic user-facing messages (`auth_error_mapper.dart`); no stack traces or internal details exposed |
-| **Email verification** | Enforced for email/password users before granting app access |
-| **Input validation** | Email regex, password length, field trimming, maxLength on notes |
-| **Gitignore coverage** | Firebase configs, .env files, keystores, service account keys all excluded |
-| **Network security** | All traffic over TLS via Firebase SDK; no cleartext HTTP |
-| **Clean sign-out** | Auth state, analytics user ID, and FCM token all cleared on logout |
-| **No local secrets** | SharedPreferences only used for non-sensitive preferences (theme, language) |
+| SharedPreferences for secrets | Not used — Firebase Auth handles tokens |
+| Logging sensitive data | All gated by `kDebugMode` via `AppLogger` |
+| .env files committed | None found |
+| HTTPS enforcement | All 40+ external URLs use HTTPS |
+| Firebase App Check | Properly configured (Play Integrity + DeviceCheck) |
+| Android allowBackup | Set to `false` |
+| Android ProGuard/R8 | Enabled with proper keep rules |
+| Signing key management | `key.properties` in `.gitignore`, example only |
+| Android debuggable | Not set (Flutter manages automatically) |
+| iOS ATS | Default (HTTPS required), no exceptions |
+| WebView usage | None — no XSS risk |
+| SQL injection | No local DB queries |
+| Path traversal | No user-controlled file operations |
+| Deep link parameter validation | SDG goal number clamped 1-17 |
+| Firestore query injection | All paths use AppConstants |
+| Firestore action log immutability | `allow update, delete: if false` |
+| Action points validation | Cloud Function verifies against action library |
+| Password handling | In-memory only, never logged |
+| Error message exposure | Sanitized before user display |
+| ListView.builder | Used correctly everywhere |
+| Opacity widget misuse | None found |
+| Image caching | Uses CachedNetworkImage |
+| Async mounted checks | Proper throughout |
+| Timer/Controller disposal | All properly disposed (except dialog controllers) |
+| Text overflow | Ellipsis on critical widgets |
+| Dependencies | All current, reputable publishers |
+| pubspec.lock committed | Yes |
+| Certificate pinning | Not present but acceptable for Firebase-only traffic |
+| Re-authentication | Required for email/password/account changes |
+| Email verification | Enforced for email/password users |
 
 ---
 
-## Pre-Release Checklist
+## Remediation Checklist
 
-- [x] Create `firestore.rules` with user-scoped access
-- [ ] Deploy `firestore.rules` and `firestore.indexes.json` to Firebase
+### From this audit (2026-03-14)
+- [x] **C1** Delete service account key file (MANUAL: revoke key in Firebase Console, scrub git history)
+- [x] **H1** Clear FCM token on logout
+- [x] **H2** Add `--obfuscate --split-debug-info` to release builds (documented in CLAUDE.md)
+- [x] **H3** Add language validation in Firestore rules (mascot field validation requires Cloud Function)
+- [x] **H4** Add rate limiting on action log creation (5s between submissions)
+- [x] **H5** N/A — already uses in-app routes, not placeholder URLs
+- [x] **M1** Add `usesCleartextTraffic="false"` to AndroidManifest
+- [x] **M2** Gate router debugLogDiagnostics with kDebugMode
+- [x] **M3** Create storage.rules (deny all by default)
+- [x] **M4** Add email validation to forgot password and change email
+- [x] **M5** Add settings field validation in Firestore rules (language whitelist)
+- [ ] **M6** iOS privacy descriptions — not needed for current feature set (notifications only)
+- [x] **M7** Fix TextEditingController leaks in dialog methods
+- [x] **L1** Add SafeArea to 5 settings screens
+- [x] **L2** N/A — negligible cost on tiny lists
+- [x] **L3** N/A — already has maxLength: 20
+- [x] **L4** Add document size limits in Firestore rules (note <= 200, SDGs <= 17)
+- [x] **L5** N/A — required by Flutter/CocoaPods
+
+### From previous audit (2026-02-14) — still open
+- [ ] Deploy `firestore.rules` and indexes to Firebase
 - [ ] Configure Android release signing (keystore + key.properties)
-- [ ] Integrate Firebase App Check
-- [x] Replace all hardcoded collection names with `AppConstants`
-- [x] Add `collectionDailySummaries` constant
-- [ ] Replace placeholder legal URLs with real hosted documents
-- [x] Replace `debugPrint`/`print` with centralized `AppLogger`
-- [ ] Add `--obfuscate --split-debug-info` to release build
-- [x] Add analytics/crashlytics opt-out toggle in Settings
-- [x] Bounds-check SDG route parameter (1-17)
-- [x] Add client-side auth attempt throttling

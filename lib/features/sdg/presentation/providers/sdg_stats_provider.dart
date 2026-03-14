@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../actions/data/models/action_model.dart';
-import '../../../actions/presentation/providers/actions_providers.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../domain/models/sdg_stats.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/sdg/domain/models/sdg_stats.dart';
 
 part 'sdg_stats_provider.g.dart';
 

@@ -6,7 +6,7 @@
  *
  * CO2 values based on peer-reviewed research and
  * government data.
- * See Plan/co2_actions_database.json for sources.
+ * See data/seed/co2_actions_database.json for sources.
  *
  * Usage:
  *   1. Set up Firebase Admin SDK credentials:

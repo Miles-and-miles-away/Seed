@@ -32,6 +32,11 @@ flutter test test/path/to/test_file.dart
 
 # Firebase CLI (node wrapper)
 npm run firebase
+
+# Release builds (always use obfuscation)
+flutter build apk --release --obfuscate --split-debug-info=build/debug-info
+flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
+flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 ```
 
 ## Architecture
@@ -110,6 +115,21 @@ Excluded from linting and git:
 - `*.g.dart` (Riverpod, json_serializable)
 - `*.freezed.dart` (Freezed)
 - `lib/core/l10n/generated/` (localization)
+
+### Data Files
+```
+data/
+├── app/          # Bundled with Flutter app (declared in pubspec.yaml)
+│   ├── eco_facts.json       # Daily sustainability facts (365 days)
+│   └── sdg_targets.json     # All 169 SDG targets (EN/JA/ES)
+├── seed/         # Used by scripts to populate Firestore
+│   ├── co2_actions_database.json
+│   ├── co2_actions_database.csv
+│   └── sdg_world_state_fully_sourced.json
+└── reference/    # Source-of-truth reference data
+    ├── un_world_days.json       # UN International Days with URLs
+    └── sdg_indicator_metadata/  # 17 SDG goal indicator JSONs
+```
 
 ### Firebase Collections
 Defined in `lib/core/constants/app_constants.dart`:

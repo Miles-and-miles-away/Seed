@@ -6,10 +6,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/mascot_species_data.dart';
-import '../../data/models/mascot_model.dart';
-import '../../data/models/mascot_species_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when an egg hatches into

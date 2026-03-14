@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// Tappable SDG infographic thumbnail that expands
 /// to a full-screen zoomable view with Hero animation.
@@ -49,6 +49,8 @@ class SdgInfographicViewer extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.cover,
                 height: 280,
+                cacheWidth: 800,
+                cacheHeight: 560,
               ),
             ),
           ),

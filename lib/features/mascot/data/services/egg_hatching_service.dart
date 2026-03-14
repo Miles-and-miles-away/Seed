@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../../../../core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
 import '../models/mascot_species_model.dart';

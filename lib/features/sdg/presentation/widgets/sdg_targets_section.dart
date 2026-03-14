@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/sdg_data.dart';
-import '../../data/sdg_targets.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 
 /// Expandable section showing an SDG's description
 /// and its UN targets.

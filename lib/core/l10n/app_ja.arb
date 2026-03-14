@@ -462,5 +462,18 @@
   "authValidationEmailInvalid": "有効なメールアドレスを入力してください",
   "authValidationPasswordRequired": "パスワードを入力してください",
   "authValidationPasswordShort": "パスワードは6文字以上にしてください",
-  "authValidationConfirmRequired": "パスワードを確認してください"
+  "authValidationConfirmRequired": "パスワードを確認してください",
+
+  "pointsAbbreviated": "{count} pts",
+  "@pointsAbbreviated": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stageFallback": "ステージ {stage}",
+  "@stageFallback": {
+    "placeholders": {
+      "stage": {"type": "int"}
+    }
+  }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../mascot/mascot.dart';
-import '../../../settings/data/models/user_settings_model.dart';
-import '../../../settings/presentation/providers/settings_providers.dart';
-import '../../../settings/presentation/widgets/streak_milestone_dialog.dart';
-import '../../data/models/action_model.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
+import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_confirmation_dialog.dart';
 import '../widgets/learn_only_info_dialog.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../core/utils/helpers.dart';
-import '../../data/models/action_model.dart';
-import '../../domain/enums/action_category.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'action_science_bottom_sheet.dart';
 
 /// Result of the action log confirmation dialog.

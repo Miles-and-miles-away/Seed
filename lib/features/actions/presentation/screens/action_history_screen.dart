@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../data/models/action_log_model.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_item.dart';
 
@@ -158,7 +158,7 @@ class _DateGroup extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '$totalPoints pts',
+                  l10n.pointsAbbreviated(totalPoints),
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: theme.colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.bold,

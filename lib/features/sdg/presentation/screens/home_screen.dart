@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/l10n/generated/app_localizations.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../../mascot/mascot.dart';
-import '../../data/sdg_data.dart';
 import '../widgets/sdg_carousel.dart';
 
 /// The main home screen of the Seed app

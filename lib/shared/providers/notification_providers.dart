@@ -1,9 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/actions/actions.dart';
-import '../../features/auth/auth.dart';
-import '../../features/settings/settings.dart';
+import 'package:seed_app/features/actions/actions.dart';
+import 'package:seed_app/features/auth/auth.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import '../services/services.dart';
 
 part 'notification_providers.g.dart';

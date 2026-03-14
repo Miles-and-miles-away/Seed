@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../data/models/action_model.dart';
-import '../../domain/enums/action_category.dart';
 
 const _kMaxChildSize = 0.85;
 const _kMinChildSize = 0.3;

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/providers/package_info_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/l10n/generated/app_localizations.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
 /// Screen displaying app information, version, and legal links.
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
 
-  static const _contactEmail = 'support@seed-app.example.com';
+  static const _contactEmail = 'support@seedhabit.app';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
@@ -22,104 +22,107 @@ class AboutScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(l10n.aboutSettingsTitle),
       ),
-      body: ListView(
-        children: [
-          // App info header
-          _buildAppHeader(context, theme),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          children: [
+            // App info header
+            _buildAppHeader(context, theme),
 
-          // Version info
-          SettingsSection(
-            title: l10n.aboutSettingsVersion,
-            showTopDivider: true,
-            children: [
-              FutureBuilder<PackageInfo>(
-                future: PackageInfo.fromPlatform(),
-                builder: (context, snapshot) {
-                  final packageInfo = snapshot.data;
-                  final version = packageInfo?.version ?? '...';
-                  final buildNumber = packageInfo?.buildNumber ?? '';
-
-                  return ListTile(
-                    leading: const Icon(Icons.info_outline),
-                    title: Text('$version ($buildNumber)'),
-                    subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
-                  );
-                },
-              ),
-            ],
-          ),
-
-          // Legal section
-          SettingsSection(
-            title: l10n.aboutLegal,
-            showTopDivider: true,
-            children: [
-              SettingsTile(
-                leading: const Icon(Icons.privacy_tip_outlined),
-                title: l10n.aboutSettingsPrivacy,
-                onTap: () => context.push(
-                  '/profile/settings/about/privacy',
+            // Version info
+            SettingsSection(
+              title: l10n.aboutSettingsVersion,
+              showTopDivider: true,
+              children: [
+                Builder(
+                  builder: (context) {
+                    final pkgAsync = ref.watch(packageInfoProvider);
+                    final version = pkgAsync.value?.version ?? '...';
+                    final buildNumber = pkgAsync.value?.buildNumber ?? '';
+                    return ListTile(
+                      leading: const Icon(Icons.info_outline),
+                      title: Text('$version ($buildNumber)'),
+                      subtitle: Text(
+                        'Seed - ${l10n.aboutSubtitleTracker}',
+                      ),
+                    );
+                  },
                 ),
-              ),
-              SettingsTile(
-                leading: const Icon(Icons.description_outlined),
-                title: l10n.aboutSettingsTerms,
-                onTap: () => context.push(
-                  '/profile/settings/about/terms',
+              ],
+            ),
+
+            // Legal section
+            SettingsSection(
+              title: l10n.aboutLegal,
+              showTopDivider: true,
+              children: [
+                SettingsTile(
+                  leading: const Icon(Icons.privacy_tip_outlined),
+                  title: l10n.aboutSettingsPrivacy,
+                  onTap: () => context.push(
+                    '/profile/settings/about/privacy',
+                  ),
                 ),
-              ),
-              SettingsTile(
-                leading: const Icon(Icons.source_outlined),
-                title: l10n.aboutSettingsLicenses,
-                onTap: () => _showLicenses(context),
-              ),
-            ],
-          ),
-
-          // Support section
-          SettingsSection(
-            title: l10n.aboutSupport,
-            showTopDivider: true,
-            children: [
-              SettingsTile(
-                leading: const Icon(Icons.mail_outline),
-                title: l10n.aboutSettingsContact,
-                subtitle: _contactEmail,
-                trailing: const Icon(Icons.open_in_new, size: 18),
-                onTap: () => _launchEmail(context),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 32),
-
-          // Footer with SDG acknowledgment
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              l10n.aboutFooterSdg,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-              ),
-              textAlign: TextAlign.center,
+                SettingsTile(
+                  leading: const Icon(Icons.description_outlined),
+                  title: l10n.aboutSettingsTerms,
+                  onTap: () => context.push(
+                    '/profile/settings/about/terms',
+                  ),
+                ),
+                SettingsTile(
+                  leading: const Icon(Icons.source_outlined),
+                  title: l10n.aboutSettingsLicenses,
+                  onTap: () => _showLicenses(context),
+                ),
+              ],
             ),
-          ),
 
-          const SizedBox(height: 8),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              l10n.aboutFooterMade,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-              ),
-              textAlign: TextAlign.center,
+            // Support section
+            SettingsSection(
+              title: l10n.aboutSupport,
+              showTopDivider: true,
+              children: [
+                SettingsTile(
+                  leading: const Icon(Icons.mail_outline),
+                  title: l10n.aboutSettingsContact,
+                  subtitle: _contactEmail,
+                  trailing: const Icon(Icons.open_in_new, size: 18),
+                  onTap: () => _launchEmail(context),
+                ),
+              ],
             ),
-          ),
 
-          const SizedBox(height: 32),
-        ],
+            const SizedBox(height: 32),
+
+            // Footer with SDG acknowledgment
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                l10n.aboutFooterSdg,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                l10n.aboutFooterMade,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
@@ -189,7 +192,7 @@ class AboutScreen extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-      applicationLegalese: '\u00a9 2026 Seed App',
+      applicationLegalese: '\u00a9 ${DateTime.now().year} Seed App',
     );
   }
 }

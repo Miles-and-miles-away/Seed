@@ -16,3 +16,6 @@ export 'analytics_provider.dart';
 
 // Notification providers
 export 'notification_providers.dart';
+
+// Package info provider
+export 'package_info_provider.dart';

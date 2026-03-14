@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.

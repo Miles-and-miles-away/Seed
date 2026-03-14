@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/app_constants.dart';
-
-import '../../domain/entities/calendar_day_data.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import '../datasources/daily_summary_remote_datasource.dart';
 import '../models/daily_summary_model.dart';
 

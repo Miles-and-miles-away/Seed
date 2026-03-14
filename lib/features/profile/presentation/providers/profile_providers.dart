@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/utils/helpers.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 
 part 'profile_providers.g.dart';
 

@@ -1,14 +1,13 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../shared/services/analytics_service.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../data/datasources/settings_remote_datasource.dart';
-import '../../data/models/notification_schedule_model.dart';
-import '../../data/models/user_settings_model.dart';
-import '../../data/repositories/settings_repository.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/data/datasources/settings_remote_datasource.dart';
+import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
+import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
+import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
+import 'package:seed_app/shared/services/analytics_service.dart';
 
 part 'settings_providers.g.dart';
 
@@ -178,7 +177,9 @@ class SettingsNotifier extends _$SettingsNotifier {
       await ref
           .read(settingsRepositoryProvider)
           .setAnalyticsEnabled(uid, enabled: enabled);
-      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
+      await AnalyticsService.instance.setCollectionEnabled(
+        enabled: enabled,
+      );
       await FirebaseCrashlytics.instance
           .setCrashlyticsCollectionEnabled(enabled);
       AnalyticsService.instance.setEnabled(enabled: enabled);

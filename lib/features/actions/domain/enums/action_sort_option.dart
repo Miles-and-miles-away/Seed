@@ -1,4 +1,4 @@
-import '../../../../core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// Sort options for the action library.
 enum ActionSortOption {
