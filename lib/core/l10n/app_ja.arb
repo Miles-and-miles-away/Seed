@@ -475,5 +475,57 @@
     "placeholders": {
       "stage": {"type": "int"}
     }
-  }
+  },
+
+  "ecoFactTitle": "今日のエコファクト",
+  "ecoFactDidYouKnow": "知っていましたか？",
+  "ecoFactSource": "出典",
+  "ecoFactLocked": "今日のチャレンジを完了してファクトを解除しよう！",
+  "ecoFactCalendar": "ファクトカレンダー",
+  "ecoFactViewed": "閲覧済み",
+  "ecoFactMissed": "未閲覧",
+  "ecoFactCategoryComparison": "比較",
+  "ecoFactCategoryIndividual": "個人の影響",
+  "ecoFactCategoryMythBuster": "誤解を解く",
+  "ecoFactCategoryNatureWonder": "自然の驚異",
+  "ecoFactCategoryPositiveNews": "ポジティブニュース",
+
+  "challengeDialogTitle": "今日のチャレンジ",
+  "challengeDialogLater": "あとで",
+  "challengeDialogLogAction": "アクションを記録",
+  "challengeDialogUnlock": "完了して今日のエコファクトを解除しよう！",
+  "challengeTabLabel": "チャレンジ",
+  "challengeCompleted": "完了！",
+  "challengeNotCompleted": "未完了",
+  "challengeUnlockFact": "今日のエコファクトを解除",
+  "challengeStreakDays": "チャレンジ{days}日連続",
+  "@challengeStreakDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "challengeMultiDayProgress": "{target}日中{current}日目",
+  "@challengeMultiDayProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "target": {"type": "int"}
+    }
+  },
+  "challengeCompletedSnackbar": "チャレンジ完了！エコファクトが解除されました！",
+  "challengeBrowse": "チャレンジを探す",
+  "challengesScreenTitle": "マルチデイチャレンジ",
+  "challengeStart": "チャレンジ開始",
+  "challengeStartConfirm": "このチャレンジを開始しますか？",
+  "challengeActive": "進行中",
+  "challengeCompletedBadge": "完了",
+  "challengeAvailable": "利用可能",
+  "challengeAbandon": "中断",
+  "challengeAbandonConfirm": "このチャレンジを中断しますか？進捗は失われます。",
+  "challengeDays": "{days}日間",
+  "@challengeDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "challengeAnyCategory": "全カテゴリ"
 }

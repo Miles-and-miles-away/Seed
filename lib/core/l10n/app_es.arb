@@ -1,17 +1,14 @@
 {
   "@@locale": "es",
   "@@last_modified": "2025-01-27",
-
   "appTitle": "Seed",
   "appTagline": "Cultiva tus hábitos sostenibles",
-
   "navHome": "Inicio",
   "navProgress": "Progreso",
   "navLogAction": "Acción",
   "navMascot": "Mascota",
   "navProfile": "Perfil",
   "navSettings": "Ajustes",
-
   "authLogin": "Iniciar sesión",
   "authRegister": "Registrarse",
   "authLogout": "Cerrar sesión",
@@ -22,23 +19,25 @@
   "authContinueWithGoogle": "Continuar con Google",
   "authContinueWithApple": "Continuar con Apple",
   "authOrDivider": "o",
-
   "homeWelcome": "¡Bienvenido de nuevo, {name}!",
   "@homeWelcome": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "homeLogAction": "Registrar acción",
   "homeRecentActions": "Acciones recientes",
   "homeNoActions": "Aún no hay acciones registradas. ¡Comienza tu viaje!",
-
   "actionLogTitle": "Registrar una acción",
   "actionSearchHint": "Buscar acciones...",
   "actionLogged": "¡Acción registrada! {points} puntos ganados",
   "@actionLogged": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "noActionsFound": "No se encontraron acciones",
@@ -47,43 +46,53 @@
   "yesterday": "Ayer",
   "addNoteOptional": "Añadir una nota (opcional)",
   "noteHint": "Ej.: Usé mi propia bolsa en la tienda",
-
   "pointsLabel": "{count} puntos",
   "@pointsLabel": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "levelLabel": "Nivel {level}",
   "@levelLabel": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "streakLabel": "Racha de {days} días",
   "@streakLabel": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "co2Saved": "{amount} CO₂ ahorrado",
   "@co2Saved": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "mascotName": "{name}",
   "@mascotName": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "mascotRename": "Renombrar",
   "mascotEvolution": "Etapa de evolución {stage}",
   "@mascotEvolution": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
   "mascotSelectionTitle": "Elige a tu compañero",
@@ -94,11 +103,9 @@
   "mascotNameTooShort": "El nombre debe tener al menos 2 caracteres",
   "mascotNameTooLong": "El nombre debe tener 20 caracteres o menos",
   "mascotSelectionConfirm": "¡Crezcamos juntos!",
-
   "evolutionTitle": "¡Evolución!",
   "evolutionSubtitle": "¡Tu compañero se ha vuelto más fuerte!",
   "evolutionContinue": "¡Increíble!",
-
   "profileTitle": "Perfil",
   "profileStats": "Estadísticas",
   "profileTotalActions": "Total de acciones",
@@ -109,22 +116,27 @@
   "profileNextLevel": "{points} pts para el siguiente nivel",
   "@profileNextLevel": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "profileDaysActive": "{days} días",
   "@profileDaysActive": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "profileEvolutionStage": "Etapa de evolución {stage}",
   "@profileEvolutionStage": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
-
   "settingsTitle": "Ajustes",
   "settingsNotifications": "Notificaciones",
   "settingsReminderTime": "Recordatorio diario",
@@ -138,11 +150,9 @@
   "settingsAbout": "Acerca de",
   "settingsPrivacy": "Política de privacidad",
   "settingsTerms": "Términos de servicio",
-
   "subscriptionFree": "Gratis",
   "subscriptionPremium": "Premium",
   "subscriptionUpgrade": "Actualizar a Premium",
-
   "categoryRecycling": "Reciclaje",
   "categoryTransport": "Transporte",
   "categoryFood": "Alimentación",
@@ -152,17 +162,14 @@
   "categoryCommunity": "Comunidad",
   "categoryAdvocacy": "Defensa",
   "categoryLearning": "Aprendizaje",
-
   "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
   "errorNetwork": "Sin conexión a internet.",
   "errorAuth": "Error de autenticación. Por favor intenta de nuevo.",
-
   "buttonSave": "Guardar",
   "buttonCancel": "Cancelar",
   "buttonConfirm": "Confirmar",
   "buttonRetry": "Reintentar",
   "buttonContinue": "Continuar",
-
   "progressTitle": "Progreso",
   "progressGoalsToday": "metas hoy",
   "progressGoalReached": "¡Meta diaria alcanzada!",
@@ -173,27 +180,28 @@
   "progressTargetDescriptionModerate": "Un desafío equilibrado — recomendado para la mayoría.",
   "progressTargetDescriptionChallenge": "¡Ambicioso! Estás comprometido con hacer un impacto.",
   "progressTargetDescriptionExpert": "Nivel experto — ¡eres un campeón de la sostenibilidad!",
-
   "languageSettingsTitle": "Idioma",
   "languageSettingsDescription": "Elige tu idioma preferido. La aplicación se actualizará inmediatamente.",
   "languageSettingsNote": "Parte del contenido de la biblioteca de acciones puede permanecer en su idioma original.",
-
   "settingsNotificationsSubtitle": "{count} recordatorios activados",
   "@settingsNotificationsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsNotificationsOff": "Las notificaciones están desactivadas",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
-      "language": {"type": "String"}
+      "language": {
+        "type": "String"
+      }
     }
   },
   "settingsAccountSubtitle": "Correo, contraseña, eliminar cuenta",
   "settingsAboutSubtitle": "Versión, licencias, contacto",
-
   "accountSettingsTitle": "Cuenta",
   "accountSettingsEmail": "Correo electrónico",
   "accountSettingsChangeEmail": "Cambiar correo",
@@ -212,40 +220,42 @@
   "accountSettingsEmailUpdated": "Correo actualizado exitosamente",
   "accountSettingsPasswordUpdated": "Contraseña actualizada exitosamente",
   "accountSettingsReauthRequired": "Por favor ingresa tu contraseña nuevamente para continuar",
-
   "aboutSettingsTitle": "Acerca de",
   "aboutSettingsVersion": "Versión",
   "aboutSettingsLicenses": "Licencias de código abierto",
   "aboutSettingsContact": "Contáctanos",
   "aboutSettingsPrivacy": "Política de privacidad",
   "aboutSettingsTerms": "Términos de servicio",
-
   "streakMilestoneTitle": "¡Increíble!",
   "streakMilestoneWeeks": "¡{count} semanas de racha!",
   "@streakMilestoneWeeks": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneDays": "¡Has registrado acciones por {count} días seguidos!",
   "@streakMilestoneDays": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneKeepGoing": "¡Sigue con el increíble trabajo!",
   "streakMilestoneContinue": "Continuar",
-
   "streakBrokenTitle": "Racha interrumpida",
   "streakBrokenMessage": "¡No te preocupes! Comienza una nueva racha hoy.",
   "streakBrokenPrevious": "Racha anterior: {count} días",
   "@streakBrokenPrevious": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakBrokenStartNew": "Comenzar nueva racha",
-
   "sortLabel": "Ordenar",
   "sortAlphabeticalAZ": "Nombre (A-Z)",
   "sortAlphabeticalZA": "Nombre (Z-A)",
@@ -253,22 +263,24 @@
   "sortCo2LowToHigh": "CO₂ (Menor a mayor)",
   "sortPointsHighToLow": "Puntos (Mayor a menor)",
   "sortPointsLowToHigh": "Puntos (Menor a mayor)",
-
   "filterBySDG": "Filtrar por ODS",
   "allCategories": "Todos",
   "co2PerAction": "{amount}g CO₂",
-
   "sdgYourImpact": "Tu impacto",
   "sdgActionsLogged": "{count} acciones registradas",
   "@sdgActionsLogged": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "sdgCo2SavedForGoal": "{amount} CO₂ ahorrado para este objetivo",
   "@sdgCo2SavedForGoal": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "sdgRelatedActions": "Acciones relacionadas",
@@ -277,62 +289,59 @@
   "sdgLearnOnlyExplanation": "Este objetivo aborda problemas sistémicos que requieren acción colectiva. Aunque no puedes registrar acciones diarias directamente, aprender sobre él te ayuda a entender el panorama completo y encontrar formas de contribuir.",
   "sdgWaysToContribute": "Formas de contribuir",
   "sdgNoActionsYet": "Aún no hay acciones registradas para este objetivo",
-
   "learnOnlyBadge": "Aprender",
   "learnOnlyTitle": "Conoce esta acción",
   "learnOnlyDescription": "Esta acción apoya objetivos de sostenibilidad más amplios. Aunque no se puede registrar directamente, aprender sobre ella te ayuda a entender el panorama completo.",
   "learnOnlyRelatedSdgs": "Objetivos relacionados",
   "learnOnlyDismiss": "Entendido",
-
   "settingsAnalytics": "Privacidad",
   "settingsAnalyticsSubtitle": "Ayuda a mejorar Seed compartiendo datos de uso anónimos",
-
   "privacyPolicyTitle": "Política de privacidad",
   "termsOfServiceTitle": "Términos de servicio",
   "legalLastUpdated": "Última actualización: {date}",
   "@legalLastUpdated": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "eggDiscoveryTitle": "¡Un huevo misterioso!",
   "eggDiscoveryMessage": "Durante la noche, un huevo misterioso apareció junto a {mascotName}.",
   "@eggDiscoveryMessage": {
     "placeholders": {
-      "mascotName": {"type": "String"}
+      "mascotName": {
+        "type": "String"
+      }
     }
   },
   "eggDiscoverySubtitle": "Registra acciones todos los días durante 30 días para incubarlo.",
   "eggDiscoveryDismiss": "¡Qué emocionante!",
-
   "eggHatchingTitle": "¡Está eclosionando!",
   "eggHatchingNamePrompt": "Dale un nombre a tu nuevo compañero",
   "eggHatchingConfirm": "¡Bienvenido!",
-
-  "eggProgressLabel": "Dia {current}/{total}",
+  "eggProgressLabel": "Día {current}/{total}",
   "@eggProgressLabel": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-
   "mascotCollectionTitle": "Mis mascotas",
   "mascotSwitchConfirm": "¿Cambiar mascota?",
   "switchToMascot": "Cambiar a",
   "switchMascotButton": "Cambiar",
-
   "actionLearnMore": "Toca para conocer la ciencia",
-
   "maxEvolutionTitle": "¡Evolución máxima!",
   "maxEvolutionSubtitle": "¡Tu compañero ha alcanzado su máximo potencial!",
   "maxEvolutionEggHint": "¡Cuida tu huevo para descubrir un nuevo compañero!",
-
   "sdgAboutGoal": "Acerca de este objetivo",
   "sdgViewTargets": "Ver metas",
   "sdgTargetsTitle": "Metas de la ONU",
-
   "notifSettingsTitle": "Ajustes de notificaciones",
   "notifSectionNotifications": "Notificaciones",
   "notifEnableTitle": "Activar notificaciones",
@@ -355,23 +364,28 @@
   "notifDeleteMessage": "¿Eliminar el recordatorio de las {time}?",
   "@notifDeleteMessage": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "notifAdd": "Agregar",
-
   "settingsPreferences": "Preferencias",
   "settingsVersionFormat": "Versión {version}",
   "@settingsVersionFormat": {
     "placeholders": {
-      "version": {"type": "String"}
+      "version": {
+        "type": "String"
+      }
     }
   },
   "settingsNoReminders": "Sin recordatorios configurados",
   "settingsRemindersCount": "{count} recordatorios configurados",
   "@settingsRemindersCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsOneReminder": "1 recordatorio configurado",
@@ -380,57 +394,65 @@
   "settingsRemindersPlusMore": "{time} + {count} más",
   "@settingsRemindersPlusMore": {
     "placeholders": {
-      "time": {"type": "String"},
-      "count": {"type": "int"}
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsErrorLoading": "Error al cargar ajustes",
-
   "aboutLegal": "Legal",
   "aboutSupport": "Soporte",
   "aboutFooterSdg": "Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.",
   "aboutFooterMade": "Hecho con cuidado para nuestro planeta.",
   "aboutSubtitleTracker": "Rastreador de hábitos sostenibles",
   "aboutEmailSubject": "Comentarios sobre Seed",
-
   "mascotEvolutionTimeline": "Línea de evolución",
   "mascotNextEvolution": "Próxima evolución",
   "mascotLevelShort": "Nv {level}",
   "@mascotLevelShort": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelsToGo": "{count} niveles restantes",
   "@mascotLevelsToGo": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelProgress": "Nivel {current} / {max}",
   "@mascotLevelProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "max": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
     }
   },
-
   "homeExploreGoals": "Explora los Objetivos",
   "homeExploreGoalsSubtitle": "Toca para conocer los Objetivos de Desarrollo Sostenible de la ONU",
   "homeLearnMore": "Más información en UN.org",
   "homePoints": "Puntos",
-
   "sdgGoalNumber": "Objetivo {number}",
   "@sdgGoalNumber": {
     "placeholders": {
-      "number": {"type": "int"}
+      "number": {
+        "type": "int"
+      }
     }
   },
   "sdgBadge": "ODS ONU",
-
   "buttonDelete": "Eliminar",
   "buttonSkip": "Omitir",
-
   "authWelcomeBack": "Bienvenido de nuevo",
   "authSignInSubtitle": "Inicia sesión para continuar tu viaje sostenible",
   "authSignIn": "Iniciar sesión",
@@ -463,17 +485,78 @@
   "authValidationPasswordRequired": "Por favor ingresa tu contraseña",
   "authValidationPasswordShort": "La contraseña debe tener al menos 6 caracteres",
   "authValidationConfirmRequired": "Por favor confirma tu contraseña",
-
   "pointsAbbreviated": "{count} pts",
   "@pointsAbbreviated": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stageFallback": "Etapa {stage}",
   "@stageFallback": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
-  }
+  },
+  "ecoFactTitle": "Eco-dato del día",
+  "ecoFactDidYouKnow": "Sabías que...?",
+  "ecoFactSource": "Fuente",
+  "ecoFactLocked": "Completa el desafío de hoy para desbloquear este dato!",
+  "ecoFactCalendar": "Calendario de datos",
+  "ecoFactViewed": "Visto",
+  "ecoFactMissed": "Perdido",
+  "ecoFactCategoryComparison": "Comparación",
+  "ecoFactCategoryIndividual": "Impacto individual",
+  "ecoFactCategoryMythBuster": "Desmitificador",
+  "ecoFactCategoryNatureWonder": "Maravilla natural",
+  "ecoFactCategoryPositiveNews": "Noticia positiva",
+  "challengeDialogTitle": "Desafío de hoy",
+  "challengeDialogLater": "Más tarde",
+  "challengeDialogLogAction": "Registrar acción",
+  "challengeDialogUnlock": "Completa para desbloquear el eco-dato de hoy!",
+  "challengeTabLabel": "Desafío",
+  "challengeCompleted": "Completado!",
+  "challengeNotCompleted": "Aún no completado",
+  "challengeUnlockFact": "Desbloquea el eco-dato de hoy",
+  "challengeStreakDays": "Racha de {days} días de desafío",
+  "@challengeStreakDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeMultiDayProgress": "Día {current} de {target}",
+  "@challengeMultiDayProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeCompletedSnackbar": "Desafío completado! Eco-dato desbloqueado!",
+  "challengeBrowse": "Explorar desafíos",
+  "challengesScreenTitle": "Desafíos de varios días",
+  "challengeStart": "Iniciar desafío",
+  "challengeStartConfirm": "Iniciar este desafío?",
+  "challengeActive": "Activo",
+  "challengeCompletedBadge": "Completado",
+  "challengeAvailable": "Disponible",
+  "challengeAbandon": "Abandonar",
+  "challengeAbandonConfirm": "Abandonar este desafío? Se perderá el progreso.",
+  "challengeDays": "{days} días",
+  "@challengeDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeAnyCategory": "Cualquier categoría"
 }

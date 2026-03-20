@@ -51,7 +51,9 @@ class SettingsScreen extends ConsumerWidget {
                   SettingsTile(
                     title: l10n.settingsReminderTime,
                     subtitle: _formatReminderTimes(
-                        context, settings.reminderSchedules),
+                      context,
+                      settings.reminderSchedules,
+                    ),
                     leading: const Icon(Icons.schedule_outlined),
                     onTap: () => context.push('/settings/notifications'),
                   ),

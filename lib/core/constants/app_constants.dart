@@ -54,6 +54,9 @@ abstract class AppConstants {
 
   // Auth throttling
   static const authCooldownSeconds = 3;
+
+  // Daily challenges
+  static const recentChallengeIdsLimit = 7;
 }
 
 /// Point values for common actions (move to database later)
