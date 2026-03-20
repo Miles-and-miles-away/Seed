@@ -12,6 +12,7 @@ import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/auth/presentation/screens/email_verification_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
+import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
 import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
@@ -52,6 +53,7 @@ abstract class AppRoutes {
   static const actionHistory = '/history';
   static const sdgDetail = '/sdg/:goalNumber';
   static const dailyFact = 'daily-fact';
+  static const challenges = 'challenges';
   static const mascotSelection = '/mascot-selection';
 }
 
@@ -128,6 +130,11 @@ GoRouter router(Ref ref) {
                   GoRoute(
                     path: AppRoutes.dailyFact,
                     builder: (context, state) => const EcoFactScreen(),
+                  ),
+                  // Multi-day challenges screen
+                  GoRoute(
+                    path: AppRoutes.challenges,
+                    builder: (context, state) => const ChallengesScreen(),
                   ),
                 ],
               ),

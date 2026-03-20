@@ -527,5 +527,6 @@
       "days": {"type": "int"}
     }
   },
-  "challengeAnyCategory": "Any category"
+  "challengeAnyCategory": "Any category",
+  "challengeLocked": "Locked"
 }

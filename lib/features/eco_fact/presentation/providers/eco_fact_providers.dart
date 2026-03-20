@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 
@@ -29,10 +30,20 @@ bool isTodayFactViewed(Ref ref) {
   return user.viewedFactDates.contains(todayKey);
 }
 
-/// True when the user has an unread fact (drives red dot).
+/// Whether the eco-fact is locked behind challenge completion.
+@riverpod
+bool isEcoFactLocked(Ref ref) {
+  return !ref.watch(isTodayChallengeCompletedProvider);
+}
+
+/// True when the user has an unread, unlocked fact (drives red dot).
 @riverpod
 bool hasUnreadFact(Ref ref) {
-  return !ref.watch(isTodayFactViewedProvider);
+  final viewed = ref.watch(isTodayFactViewedProvider);
+  final unlocked = ref.watch(
+    isTodayChallengeCompletedProvider,
+  );
+  return !viewed && unlocked;
 }
 
 /// Currently selected month for the fact calendar.

@@ -44,6 +44,7 @@ void main() {
           isTodayFactViewedProvider.overrideWith(
             (_) => false,
           ),
+          isEcoFactLockedProvider.overrideWith((_) => false),
           hasUnreadFactProvider.overrideWith((_) => true),
         ],
         child: const MaterialApp(

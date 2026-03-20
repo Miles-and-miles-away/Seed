@@ -5775,5 +5775,21 @@
       13
     ],
     "unWorldDay": null
+  },
+  {
+    "dayOfYear": 366,
+    "category": "comparison",
+    "factEn": "This bonus leap day adds roughly 100 million tonnes of CO2 to global emissions -- one extra day of fossil fuel use at current rates. That single day's output exceeds the annual emissions of over 100 small nations combined.",
+    "factEs": "Este día bisiesto adicional agrega aproximadamente 100 millones de toneladas de CO2 a las emisiones globales -- un día extra de uso de combustibles fósiles al ritmo actual. La producción de ese único día supera las emisiones anuales de más de 100 pequeños países combinados.",
+    "factJa": "このうるう日は、現在の化石燃料の使用ペースで世界のCO2排出量に約1億トンを上乗せします -- たった1日の追加です。この1日分の排出量は、100か国以上の小国の年間排出量の合計を上回ります。",
+    "sourceEn": "IEA Global Energy Review 2025",
+    "sourceEs": "IEA Global Energy Review 2025",
+    "sourceJa": "IEA Global Energy Review 2025",
+    "sourceUrl": "https://www.iea.org/reports/global-energy-review-2025/co2-emissions",
+    "relatedSdgs": [
+      7,
+      13
+    ],
+    "unWorldDay": null
   }
 ]

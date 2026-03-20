@@ -2,8 +2,8 @@
 
 **Version:** 2.0
 **Created:** February 2026
-**Updated:** March 2026
-**Status:** In Progress (1/4 features complete, 5.2 data layer done)
+**Updated:** March 20, 2026
+**Status:** In Progress (5.1 complete, 5.2 nearly complete)
 
 ---
 
@@ -51,7 +51,7 @@ eco-fact.
 | Feature | Description | Priority | Complexity | Status |
 |---------|-------------|----------|------------|--------|
 | 5.1 Daily Eco-Fact | 365 facts, mail icon, gated behind challenge | P0 | Low | Done |
-| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | In Progress |
+| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | Nearly Done |
 | 5.3 Eco-Dex | ~50 collectible entries, milestone/streak triggers | P0 | Medium | Planned |
 | 5.4 Growing Ecosystem | Personal garden with mascot, ~15 plants | P0 | High | Planned |
 
@@ -170,10 +170,9 @@ Build order is driven by code dependencies between features:
 
 365 curated sustainability facts, one per day. A mail icon in the
 app bar shows a red notification dot when the daily fact is available.
-Currently unlocked by default (no challenge gating yet). When 5.2
-Daily Challenges ships, the fact will be locked behind challenge
-completion. The `isLocked` parameter on `EcoFactCard` is ready for
-this. Viewed dates are tracked in `viewedFactDates` on the user doc.
+Fact is locked behind daily challenge completion via
+`isEcoFactLockedProvider`. The `isLocked` parameter on `EcoFactCard`
+is driven by the challenge completion state. Viewed dates are tracked in `viewedFactDates` on the user doc.
 
 #### Design
 
@@ -298,7 +297,8 @@ class EcoFact {
   - `viewedFactDates`: List<String> (date strings, e.g. "2026-03-14")
   - Written via `FieldValue.arrayUnion` on screen open
 - **Mail icon state:** Derived from whether today's date is in
-  `viewedFactDates` (will change to challenge-based in 5.2)
+  `viewedFactDates` AND whether the daily challenge is complete
+  (via `isEcoFactLockedProvider`)
 
 All 365 facts are complete and audited.
 
@@ -374,7 +374,7 @@ test/features/eco_fact/
 
 ### 5.2 Daily Challenges
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** In Progress
+**Priority:** P0 | **Complexity:** Medium | **Status:** Nearly Done
 
 One daily challenge per user. Pseudorandom, different per user,
 avoids recent repeats. Completing the challenge unlocks the daily
@@ -527,27 +527,36 @@ daily eco-fact is unlocked.
 | Challenge completion snackbar | Shown in handle_action_tap after logging | Done |
 | Store challenge streak in Firestore | Consecutive completions tracked | Done |
 | Store recent challenge IDs | Firestore recentChallengeIds (last 7) | Done |
-| Create DailyChallengeCard widget | Home screen card with status | Planned |
-| Create MultiDayChallengeCard widget | Progress bar for active | Planned |
-| Create ChallengesScreen | Start/view multi-day challenges | Planned |
-| Gate eco-fact unlock on completion | Link to eco-fact providers | Planned |
-| Add challenge card to home screen | Daily challenge + multi-day progress | Planned |
-| Add route for challenges screen | go_router route for multi-day management | Planned |
-| Localize strings | Challenge UI text (card, screen, dialog) | Planned |
-| Write tests | Selection, completion, streak, multi-day, widgets | Planned |
+| Create DailyChallengeCard widget | Home screen card with status | Done |
+| Create MultiDayChallengeCard widget | Progress bar for active | Done |
+| Create ChallengesScreen | Start/view multi-day challenges | Done |
+| Gate eco-fact unlock on completion | isEcoFactLocked provider watches challenge state | Done |
+| Add challenge card to home screen | Daily challenge + multi-day progress | Done |
+| Add route for challenges screen | go_router route under home tab | Done |
+| Localize strings | Challenge UI text (card, screen, dialog) | Done |
+| Write tests | Widget tests for cards + screen, eco-fact gating, day change | Done |
+| Add day change provider | Detects midnight rollover for reactive updates | Done |
 
 #### Files Created
 
 ```
 lib/features/challenge/
-+-- challenge.dart                         # Barrel file
++-- challenge.dart                         # Barrel file (exports all)
 +-- data/
 |   +-- challenge_templates.dart           # 27 daily + 6 multi-day templates
 |   +-- challenge_selection_service.dart   # Deterministic selection algorithm
 +-- presentation/
     +-- providers/
-        +-- challenge_providers.dart        # 6 providers + notifier
-        +-- challenge_providers.g.dart      # Generated
+    |   +-- challenge_providers.dart        # 6 providers + notifier
+    |   +-- challenge_providers.g.dart      # Generated
+    +-- screens/
+    |   +-- challenges_screen.dart          # Multi-day start/view
+    +-- widgets/
+        +-- daily_challenge_card.dart       # Home screen card
+        +-- multi_day_challenge_card.dart   # Progress bar card
+
+lib/shared/providers/
++-- day_change_provider.dart               # Midnight rollover detection
 ```
 
 #### Files Modified
@@ -560,25 +569,35 @@ lib/features/challenge/
 - `lib/features/actions/presentation/utils/handle_action_tap.dart`
   -- challenge completion snackbar
 - `lib/core/constants/app_constants.dart` -- recentChallengeIdsLimit
-
-#### Files to Create
-
-```
-lib/features/challenge/
-+-- presentation/
-    +-- screens/
-    |   +-- challenges_screen.dart         # Multi-day start/view
-    +-- widgets/
-        +-- daily_challenge_card.dart       # Home screen card
-        +-- multi_day_challenge_card.dart   # Progress bar card
-```
-
-#### Files to Modify
-
-- `lib/features/sdg/presentation/screens/home_screen.dart` -- add
-  daily challenge card and multi-day progress card
+- `lib/features/sdg/presentation/screens/home_screen.dart` -- added
+  DailyChallengeCard and MultiDayChallengeCard to home screen
 - `lib/features/eco_fact/presentation/providers/eco_fact_providers.dart`
-  -- gate fact unlock on challenge completion
+  -- added isEcoFactLocked provider gating fact on challenge completion,
+  updated hasUnreadFact to respect lock state
+- `lib/app/router.dart` -- added challenges route under home tab
+- `lib/app/main_shell.dart` -- updated for challenge navigation
+- `lib/shared/providers/providers.dart` -- exports day_change_provider
+- `lib/core/l10n/app_en.arb` -- challengeLocked key
+- `lib/core/l10n/app_ja.arb` -- challengeLocked key
+- `lib/core/l10n/app_es.arb` -- challengeLocked key
+
+#### Test Files
+
+```
+test/features/challenge/
++-- presentation/
+    +-- screens/challenges_screen_test.dart
+    +-- widgets/
+        +-- daily_challenge_card_test.dart
+        +-- multi_day_challenge_card_test.dart
+
+test/features/eco_fact/
++-- presentation/
+    +-- providers/eco_fact_gating_test.dart
+
+test/shared/providers/
++-- day_change_provider_test.dart
+```
 
 ---
 
@@ -1141,21 +1160,22 @@ between plants.
 - [x] Missed facts are gone forever (gaps remain)
 - [x] Previously earned facts can be re-read from calendar
 - [x] All facts localized (EN/ES/JA)
-- Note: Fact currently unlocked by default. Will be gated behind
-  challenge completion when 5.2 presentation layer ships.
+- Note: Fact gating is now active via `isEcoFactLockedProvider`,
+  which watches `isTodayChallengeCompletedProvider`.
 
-### 5.2 Daily Challenges -- IN PROGRESS
-- [ ] One challenge shown on home screen each day
+### 5.2 Daily Challenges -- NEARLY DONE
+- [x] One challenge shown on home screen each day
 - [x] Challenge differs per user (pseudorandom with user ID)
 - [x] Does not repeat within last 7 challenges for same user
-- [ ] Completing challenge unlocks daily eco-fact
+- [x] Completing challenge unlocks daily eco-fact
 - [x] Completion detected automatically after logging action
 - [x] Challenge streak tracked (consecutive days completing)
-- [x] Challenge text localized (EN/ES/JA) -- templates done
-- [ ] Multi-day challenges can be started from challenges screen
-- [ ] Multi-day progress persists across days
-- [ ] Multi-day challenge resets on missed day
+- [x] Challenge text localized (EN/ES/JA)
+- [x] Multi-day challenges can be started from challenges screen
+- [x] Multi-day progress persists across days
+- [x] Multi-day challenge resets on missed day
 - [ ] Completed multi-day challenges unlock Eco-Dex entries
+  (deferred to 5.3 -- requires Eco-Dex system)
 
 ### 5.3 Eco-Dex
 - [ ] Grid of ~50 entries with categories

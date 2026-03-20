@@ -527,5 +527,6 @@
       "days": {"type": "int"}
     }
   },
-  "challengeAnyCategory": "全カテゴリ"
+  "challengeAnyCategory": "全カテゴリ",
+  "challengeLocked": "ロック中"
 }

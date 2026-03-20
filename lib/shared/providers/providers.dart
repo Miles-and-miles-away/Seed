@@ -14,6 +14,9 @@ export '../../features/auth/presentation/providers/auth_providers.dart'
 // Analytics provider
 export 'analytics_provider.dart';
 
+// Day change provider (midnight/resume refresh)
+export 'day_change_provider.dart';
+
 // Notification providers
 export 'notification_providers.dart';
 

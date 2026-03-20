@@ -23,8 +23,11 @@ class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_markedViewed) {
-        _markedViewed = true;
-        ref.read(factViewedProvider.notifier).markViewed();
+        final locked = ref.read(isEcoFactLockedProvider);
+        if (!locked) {
+          _markedViewed = true;
+          ref.read(factViewedProvider.notifier).markViewed();
+        }
       }
     });
   }
@@ -33,6 +36,7 @@ class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final factAsync = ref.watch(todayEcoFactProvider);
+    final isLocked = ref.watch(isEcoFactLockedProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +53,10 @@ class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                EcoFactCard(fact: fact),
+                EcoFactCard(
+                  fact: fact,
+                  isLocked: isLocked,
+                ),
                 const SizedBox(height: 24),
                 const FactCalendar(),
                 const SizedBox(height: 32),
