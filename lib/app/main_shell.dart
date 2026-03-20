@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
 import '../features/mascot/mascot.dart';
+import '../shared/providers/day_change_provider.dart';
 
 /// Main shell widget that provides bottom navigation.
 ///
@@ -28,6 +29,9 @@ class _MainShellState extends ConsumerState<MainShell> {
   @override
   void initState() {
     super.initState();
+
+    // Start day-change tracking for midnight/resume refresh
+    ref.read(dayChangeProvider);
 
     // Run migration once
     WidgetsBinding.instance.addPostFrameCallback((_) {

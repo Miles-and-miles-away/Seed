@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 
 // ignore_for_file: constant_identifier_names
-const ECO_FACT_COUNT = 365;
+const ECO_FACT_COUNT = 366;
 const _ASSET_PATH = 'data/app/eco_facts.json';
 
 /// Loads all eco-facts from the bundled JSON asset.
@@ -20,11 +20,11 @@ Future<List<EcoFact>> loadEcoFacts() async {
 }
 
 /// Returns the 1-based day of year for the given date.
-/// Leap-year day 366 wraps to day 1.
+/// Returns 366 on leap-year Dec 31; 1-365 otherwise.
 int dayOfYear(DateTime date) {
   final jan1 = DateTime(date.year);
   final diff = date.difference(jan1).inDays + 1;
-  return diff > ECO_FACT_COUNT ? 1 : diff;
+  return diff.clamp(1, 366);
 }
 
 /// Formats a date as yyyy-MM-dd for storage.

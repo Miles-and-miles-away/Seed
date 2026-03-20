@@ -12,11 +12,13 @@ void main() {
   /// Creates a container with a mock user.
   ProviderContainer createContainer({
     List<String> viewedFactDates = const [],
+    String challengeCompletedDate = '',
   }) {
     final user = AppUserModel(
       uid: 'test-uid',
       email: 'test@example.com',
       viewedFactDates: viewedFactDates,
+      challengeCompletedDate: challengeCompletedDate,
     );
 
     final container = ProviderContainer(
@@ -65,8 +67,11 @@ void main() {
   });
 
   group('hasUnreadFactProvider', () {
-    test('returns true when fact not viewed', () async {
-      final container = createContainer();
+    test('returns true when fact not viewed and challenge done', () async {
+      final todayKey = formatDateKey(DateTime.now());
+      final container = createContainer(
+        challengeCompletedDate: todayKey,
+      );
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -88,12 +93,12 @@ void main() {
   });
 
   group('ecoFactsProvider', () {
-    test('loads 365 facts', () async {
+    test('loads 366 facts', () async {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
       final facts = await container.read(ecoFactsProvider.future);
-      expect(facts.length, 365);
+      expect(facts.length, 366);
     });
   });
 

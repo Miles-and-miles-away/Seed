@@ -37,11 +37,44 @@ int challengeStreak(Ref ref) {
   return user?.challengeStreak ?? 0;
 }
 
+/// Typed data for an active multi-day challenge.
+class ActiveMultiDayChallenge {
+  const ActiveMultiDayChallenge({
+    required this.templateId,
+    required this.currentDay,
+    required this.targetDays,
+    required this.lastCompletionDate,
+  });
+
+  final String templateId;
+  final int currentDay;
+  final int targetDays;
+  final String lastCompletionDate;
+
+  static ActiveMultiDayChallenge? fromMap(
+    Map<String, dynamic>? map,
+  ) {
+    if (map == null || map.isEmpty) return null;
+    final templateId = map['templateId'] as String?;
+    if (templateId == null || templateId.isEmpty) {
+      return null;
+    }
+    return ActiveMultiDayChallenge(
+      templateId: templateId,
+      currentDay: (map['currentDay'] as num?)?.toInt() ?? 0,
+      targetDays: (map['targetDays'] as num?)?.toInt() ?? 0,
+      lastCompletionDate: (map['lastCompletionDate'] as String?) ?? '',
+    );
+  }
+}
+
 /// Active multi-day challenge data.
 @riverpod
-Map<String, dynamic> activeMultiDayChallenge(Ref ref) {
+ActiveMultiDayChallenge? activeMultiDayChallenge(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  return user?.activeMultiDayChallenge ?? {};
+  return ActiveMultiDayChallenge.fromMap(
+    user?.activeMultiDayChallenge,
+  );
 }
 
 /// Session-scoped flag: has the challenge dialog been

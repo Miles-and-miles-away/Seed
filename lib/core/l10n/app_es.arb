@@ -558,5 +558,6 @@
       }
     }
   },
-  "challengeAnyCategory": "Cualquier categoría"
+  "challengeAnyCategory": "Cualquier categoría",
+  "challengeLocked": "Bloqueado"
 }

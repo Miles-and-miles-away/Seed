@@ -5,7 +5,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('loadEcoFacts', () {
-    test('loads exactly 365 facts', () async {
+    test('loads exactly 366 facts', () async {
       final facts = await loadEcoFacts();
       expect(facts.length, ECO_FACT_COUNT);
     });
@@ -16,7 +16,7 @@ void main() {
       expect(days.length, facts.length);
     });
 
-    test('all dayOfYear values from 1 to 365', () async {
+    test('all dayOfYear values from 1 to 366', () async {
       final facts = await loadEcoFacts();
       final days = facts.map((f) => f.dayOfYear).toSet();
       for (var i = 1; i <= ECO_FACT_COUNT; i++) {
@@ -97,9 +97,9 @@ void main() {
       expect(dayOfYear(DateTime(2025, 3)), 60);
     });
 
-    test('leap year day 366 wraps to 1', () {
+    test('leap year Dec 31 is day 366', () {
       // 2024 is a leap year, Dec 31 is day 366
-      expect(dayOfYear(DateTime(2024, 12, 31)), 1);
+      expect(dayOfYear(DateTime(2024, 12, 31)), 366);
     });
 
     test('leap year Feb 29 is day 60', () {
