@@ -145,6 +145,43 @@ Defined in `lib/core/constants/app_constants.dart`:
 - Run all: `flutter test`
 - Run single: `flutter test test/path/to/file_test.dart`
 
+## Python Environment (conda: seed)
+
+Always activate the `seed` conda env before running Python scripts:
+```bash
+conda activate seed
+```
+Path: `/Users/milesd/miniconda3/envs/seed` (Python 3.14)
+
+### Available Python Packages
+
+Use these packages in scripts for data tasks, web research, and automation:
+
+| Category | Package | Use For |
+|----------|---------|---------|
+| **Web Search** | `duckduckgo-search` | Free web search (no API key) |
+| | `googlesearch-python` | Google search scraping |
+| **Web Fetching** | `requests` | HTTP requests |
+| | `httpx` | Async HTTP client |
+| | `beautifulsoup4` | HTML parsing |
+| | `trafilatura` | Extract clean text from URLs |
+| | `newspaper4k` | Article/fact extraction |
+| **JSON/Data** | `pandas` | Bulk JSON/CSV manipulation |
+| | `jsonschema` | JSON schema validation |
+| | `jmespath` | JSON query expressions |
+| **YAML** | `pyyaml` | Parse/edit pubspec.yaml, l10n.yaml |
+| **Validation** | `pydantic` | Typed JSON models with validation |
+| | `yamllint` | Lint YAML config files |
+| **Automation** | `watchdog` | File system watcher |
+| | `anthropic` | Claude API client |
+| **Output** | `rich` | Pretty terminal output |
+| **Graphics** | `cairosvg`, `pillow` | SVG/image processing |
+
 ## Architecture Documentation
 
 Detailed architecture, data models, security rules, and development phases are documented in `Plan/MASTER_PLAN.md`.
+
+### Data Audit Checklists
+Before doing any research, updating, auditing, or validating data files (eco facts, CO2 actions, SDG data), always check:
+- `Plan/AUDIT_FACT_DATA.md` — criteria and checklist for eco facts
+- `Plan/AUDIT_ACTION_DATA.md` — criteria and checklist for action data

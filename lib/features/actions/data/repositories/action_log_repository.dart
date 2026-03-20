@@ -4,6 +4,9 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/challenge/data/challenge_selection_service.dart';
+import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -68,6 +71,7 @@ class ActionLogRepository {
     int? crossedMilestoneWeek;
     var newCurrentStreak = 1;
     String? hatchedMascotId;
+    var challengeCompleted = false;
 
     await firestore.runTransaction((transaction) async {
       final userDoc = await transaction.get(userRef);
@@ -202,6 +206,88 @@ class ActionLogRepository {
         }
       }
 
+      // 6. Daily challenge completion
+      final challengeCompletedDate =
+          userData['challengeCompletedDate'] as String? ?? '';
+      final todayKey = formatDateKey(now);
+
+      if (challengeCompletedDate != todayKey) {
+        final recentIds = (userData['recentChallengeIds'] as List<dynamic>?)
+                ?.cast<String>() ??
+            [];
+        final challenge = selectDailyChallenge(
+          userId,
+          now,
+          recentIds,
+        );
+
+        if (challenge.category == action.category) {
+          challengeCompleted = true;
+          final yesterdayKey = formatDateKey(
+            now.subtract(const Duration(days: 1)),
+          );
+          final oldStreak = (userData['challengeStreak'] as int?) ?? 0;
+          final newStreak =
+              challengeCompletedDate == yesterdayKey ? oldStreak + 1 : 1;
+
+          updates['challengeCompletedDate'] = todayKey;
+          updates['challengeStreak'] = newStreak;
+          updates['challengesCompleted'] =
+              ((userData['challengesCompleted'] as int?) ?? 0) + 1;
+          updates['recentChallengeIds'] = [
+            challenge.id,
+            ...recentIds.take(AppConstants.recentChallengeIdsLimit - 1),
+          ];
+        }
+      }
+
+      // 7. Multi-day challenge progress
+      final multiDay =
+          userData['activeMultiDayChallenge'] as Map<String, dynamic>?;
+      if (multiDay != null && multiDay.isNotEmpty) {
+        final templateId = multiDay['templateId'] as String;
+        final template = multiDayChallengeTemplates.firstWhere(
+          (t) => t.id == templateId,
+        );
+        final lastDate = multiDay['lastCompletionDate'] as String? ?? '';
+        final todayKey2 = formatDateKey(now);
+
+        if (lastDate != todayKey2) {
+          final categoryMatch =
+              template.category == null || template.category == action.category;
+          if (categoryMatch) {
+            final yesterdayKey = formatDateKey(
+              now.subtract(const Duration(days: 1)),
+            );
+            final currentDay = (multiDay['currentDay'] as int?) ?? 0;
+
+            if (lastDate == '' || lastDate == yesterdayKey) {
+              final newDay = currentDay + 1;
+              final target = (multiDay['targetDays'] as int?) ?? 0;
+
+              if (newDay >= target) {
+                updates['activeMultiDayChallenge'] = <String, dynamic>{};
+                updates['completedMultiDayChallenges'] =
+                    FieldValue.arrayUnion([templateId]);
+              } else {
+                updates['activeMultiDayChallenge'] = {
+                  ...multiDay,
+                  'currentDay': newDay,
+                  'lastCompletionDate': todayKey2,
+                };
+              }
+            } else {
+              // Streak broken -- reset to day 1
+              updates['activeMultiDayChallenge'] = {
+                ...multiDay,
+                'currentDay': 1,
+                'lastCompletionDate': todayKey2,
+              };
+            }
+          }
+        }
+      }
+
       // Write action log + user updates
       final logData = actionLog.toJson()..remove('id');
       transaction
@@ -214,6 +300,7 @@ class ActionLogRepository {
       crossedMilestoneWeek: crossedMilestoneWeek,
       newStreakDays: newCurrentStreak,
       hatchedMascotId: hatchedMascotId,
+      challengeCompleted: challengeCompleted,
     );
   }
 
@@ -233,6 +320,7 @@ class ActionLogResult {
     required this.newStreakDays,
     this.crossedMilestoneWeek,
     this.hatchedMascotId,
+    this.challengeCompleted = false,
   });
 
   final ActionLogModel actionLog;
@@ -245,6 +333,9 @@ class ActionLogResult {
 
   /// ID of newly hatched mascot (if egg hatched).
   final String? hatchedMascotId;
+
+  /// Whether today's daily challenge was completed.
+  final bool challengeCompleted;
 
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
 

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,6 +39,7 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
               centerTitle: true,
+              actions: const [MailIconButton()],
             ),
 
             // Main content

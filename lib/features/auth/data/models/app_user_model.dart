@@ -64,6 +64,31 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// Per-SDG aggregated stats: { "1": { "count": 5, "co2": 1200 } }
     @Default({}) Map<String, Map<String, int>> sdgStats,
+
+    // Phase 5 fields
+
+    /// Dates (yyyy-MM-dd) when the user viewed their daily eco-fact.
+    @Default([]) List<String> viewedFactDates,
+
+    // Phase 5.2: Daily challenges
+
+    /// Date (yyyy-MM-dd) when the user last completed a challenge.
+    @Default('') String challengeCompletedDate,
+
+    /// Consecutive days of challenge completion.
+    @Default(0) int challengeStreak,
+
+    /// Lifetime count of challenges completed.
+    @Default(0) int challengesCompleted,
+
+    /// Last N template IDs to avoid repetition.
+    @Default([]) List<String> recentChallengeIds,
+
+    /// Active multi-day challenge state map.
+    @Default({}) Map<String, dynamic> activeMultiDayChallenge,
+
+    /// IDs of completed multi-day challenge templates.
+    @Default([]) List<String> completedMultiDayChallenges,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>

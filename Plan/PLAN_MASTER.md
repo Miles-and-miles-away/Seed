@@ -16,7 +16,7 @@
 ✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
 ✅ **Phase 3 complete!** (Settings, Notifications, Streak tracking)
 ✅ **Phase 4 complete!** (Action library expansion, UI enhancements, Cloud Functions, Analytics, Legal)
-⏳ **Phase 5 next** (Gamification & Daily Engagement)
+⏳ **Phase 5 in progress** (Gamification & Daily Engagement)
 📊 **848 tests passing** (up from 713)
 
 ### App Identifiers
@@ -1069,15 +1069,15 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 
 **Deliverable:** Complete action library covering all SDGs, analytics, crash reporting, legal compliance. 848 tests passing.
 
-### Phase 5: Gamification & Daily Engagement (Future)
+### Phase 5: Gamification & Daily Engagement (In Progress)
 **Goal:** Daily engagement hooks -- garden, challenges, collection, facts
 
-See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for detailed implementation plan.
+See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Daily Eco-Fact | 365 facts, mail icon, gated behind daily challenge | P0 | Planned |
-| Daily Challenges | 1 pseudorandom challenge/day + multi-day framework | P0 | Planned |
+| Daily Eco-Fact | 365 facts, mail icon, gated behind daily challenge | P0 | Done |
+| Daily Challenges | 1 pseudorandom challenge/day + multi-day framework | P0 | In Progress |
 | Eco-Dex | Collection album with ~50 milestone-driven entries | P0 | Planned |
 | Growing Ecosystem | Personal garden with mascot, ~15 plants x 3 stages | P0 | Planned |
 
@@ -1339,9 +1339,9 @@ See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
 
 See [PHASE_5_PLAN.md](./PHASE_5_PLAN.md) for full details.
 
-**Next up:** Gamification & Daily Engagement
-1. Daily Eco-Fact (365 facts, mail icon with dot, gated behind challenge)
-2. Daily Challenges (1/day per user, unlocks eco-fact, multi-day framework)
+**In progress:** Gamification & Daily Engagement
+1. ~~Daily Eco-Fact~~ -- Done (365 facts, mail icon, calendar, tests)
+2. Daily Challenges -- In Progress (data layer done, presentation layer next)
 3. Eco-Dex (collection album, ~50 entries, under Progress tab)
 4. Growing Ecosystem (garden with mascot, ~15 plants, replaces Mascot tab)
 

@@ -68,6 +68,18 @@ Future<void> handleActionTap(
       ),
     );
 
+    if (logResult.challengeCompleted && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context).challengeCompletedSnackbar,
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
+        ),
+      );
+    }
+
     if (logResult.shouldShowMilestone && context.mounted) {
       final settings = await ref.read(userSettingsProvider.future);
       final milestoneWeek = logResult.crossedMilestoneWeek!;

@@ -58,6 +58,46 @@ Categories should be roughly evenly distributed across
 the year (~73 each). Avoid long runs of the same category
 on consecutive days.
 
+### Source Recency
+
+Seminal/landmark publications are acceptable from 2015
+onwards. All other sources must be 2020 or newer. If a
+source is older, find a newer publication that confirms
+or updates the claim.
+
+### Cross-File Consistency
+
+When an eco_fact covers the same topic as a
+`co2_actions_database.json` entry, the numbers must be
+consistent or the difference must be explainable by
+methodology (e.g., different grid factors, lifecycle vs
+tailpipe). Document the methodology scope in the fact
+text when figures legitimately differ.
+
+### Near-Duplicate Detection
+
+Before adding a fact, search existing facts for:
+- Same source cited
+- Same statistic or claim
+- Same topic with overlapping framing
+
+Two facts on the same broad topic (e.g., cycling) are
+fine if they present distinct angles. Two facts with the
+same statistic from the same source are duplicates --
+one must be replaced.
+
+### Theme and SDG Balance
+
+Monitor for overrepresented themes (food/diet, energy)
+and underrepresented ones (policy/governance, buildings,
+climate science, technology, fashion, social justice).
+When replacing a fact, prefer a topic that fills a gap.
+
+Similarly, ensure all 17 SDGs have adequate
+representation. Underrepresented SDGs (fewer than 15
+references) should be prioritized when writing new
+facts.
+
 ### Fact Quality Standards
 
 #### Be accurate, not sensational
@@ -191,10 +231,14 @@ Total: 169 targets across 17 goals.
       or study
 - [ ] `sourceUrl` is a valid, accessible URL
 - [ ] The URL leads to a page containing the specific
-      claim (not just a homepage)
+      claim (not just a homepage or journal landing page)
 - [ ] The source is tier-1 (peer-reviewed journal,
       government agency, UN body, or major NGO)
 - [ ] The claim in `factEn` is supported by the source
+- [ ] Source is 2020 or newer (seminal works from 2015+
+      are acceptable)
+- [ ] `sourceEn` attribution matches the actual content
+      at `sourceUrl` (not a different organization)
 
 ### SDG mapping checks
 
@@ -210,6 +254,11 @@ Total: 169 targets across 17 goals.
       world day
 - [ ] Official UN observance names are used (not
       informal names)
+- [ ] Cross-reference against
+      `data/reference/un_world_days.json` for correct
+      names and dates
+- [ ] When two observances share a date, use dual-tag
+      format (e.g., "Day A / Day B")
 
 ---
 
@@ -294,6 +343,14 @@ news articles without primary source links.
 
 ---
 
+### Cross-file consistency checks
+
+- [ ] Facts overlapping with `co2_actions_database.json`
+      use consistent numbers or explain the difference
+- [ ] No fact contradicts data in other app data files
+
+---
+
 ## 8. Common Pitfalls
 
 ### Stale statistics
@@ -326,6 +383,20 @@ provides official translations in all six UN languages.
 Verify against:
 - JA: https://www.unic.or.jp/
 - ES: https://www.un.org/sustainabledevelopment/es/
+
+### Homepage and journal landing page URLs
+
+A URL to `nature.com` or `unep.org` is not a source.
+The URL must point to the specific article, report, or
+dataset that contains the claim. Journal homepage URLs
+are a common problem -- find the DOI or article page.
+
+### Source attribution mismatches
+
+`sourceEn` must name the actual author of the content
+at `sourceUrl`. A common error is attributing a claim
+to one organization when the URL points to a different
+one (e.g., citing "UNEP" but linking to a UNDP blog).
 
 ### Vague sourcing
 

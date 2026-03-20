@@ -475,5 +475,57 @@
     "placeholders": {
       "stage": {"type": "int"}
     }
-  }
+  },
+
+  "ecoFactTitle": "Today's Eco-Fact",
+  "ecoFactDidYouKnow": "Did you know?",
+  "ecoFactSource": "Source",
+  "ecoFactLocked": "Complete today's challenge to unlock this fact!",
+  "ecoFactCalendar": "Fact Calendar",
+  "ecoFactViewed": "Viewed",
+  "ecoFactMissed": "Missed",
+  "ecoFactCategoryComparison": "Comparison",
+  "ecoFactCategoryIndividual": "Individual Impact",
+  "ecoFactCategoryMythBuster": "Myth Buster",
+  "ecoFactCategoryNatureWonder": "Nature Wonder",
+  "ecoFactCategoryPositiveNews": "Positive News",
+
+  "challengeDialogTitle": "Today's Challenge",
+  "challengeDialogLater": "Later",
+  "challengeDialogLogAction": "Log Action",
+  "challengeDialogUnlock": "Complete to unlock today's eco-fact!",
+  "challengeTabLabel": "Challenge",
+  "challengeCompleted": "Complete!",
+  "challengeNotCompleted": "Not yet completed",
+  "challengeUnlockFact": "Unlock today's eco-fact",
+  "challengeStreakDays": "{days} day challenge streak",
+  "@challengeStreakDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "challengeMultiDayProgress": "Day {current} of {target}",
+  "@challengeMultiDayProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "target": {"type": "int"}
+    }
+  },
+  "challengeCompletedSnackbar": "Challenge completed! Eco-fact unlocked!",
+  "challengeBrowse": "Browse Challenges",
+  "challengesScreenTitle": "Multi-Day Challenges",
+  "challengeStart": "Start Challenge",
+  "challengeStartConfirm": "Start this challenge?",
+  "challengeActive": "Active",
+  "challengeCompletedBadge": "Completed",
+  "challengeAvailable": "Available",
+  "challengeAbandon": "Abandon",
+  "challengeAbandonConfirm": "Abandon this challenge? Progress will be lost.",
+  "challengeDays": "{days} days",
+  "@challengeDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "challengeAnyCategory": "Any category"
 }

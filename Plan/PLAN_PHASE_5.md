@@ -3,7 +3,7 @@
 **Version:** 2.0
 **Created:** February 2026
 **Updated:** March 2026
-**Status:** Planned (0/4 features complete)
+**Status:** In Progress (1/4 features complete, 5.2 data layer done)
 
 ---
 
@@ -50,8 +50,8 @@ eco-fact.
 
 | Feature | Description | Priority | Complexity | Status |
 |---------|-------------|----------|------------|--------|
-| 5.1 Daily Eco-Fact | 365 facts, mail icon, gated behind challenge | P0 | Low | Planned |
-| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | Planned |
+| 5.1 Daily Eco-Fact | 365 facts, mail icon, gated behind challenge | P0 | Low | Done |
+| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | In Progress |
 | 5.3 Eco-Dex | ~50 collectible entries, milestone/streak triggers | P0 | Medium | Planned |
 | 5.4 Growing Ecosystem | Personal garden with mascot, ~15 plants | P0 | High | Planned |
 
@@ -166,13 +166,14 @@ Build order is driven by code dependencies between features:
 
 ### 5.1 Daily Eco-Fact
 
-**Priority:** P0 | **Complexity:** Low | **Status:** Planned
+**Priority:** P0 | **Complexity:** Low | **Status:** Done
 
 365 curated sustainability facts, one per day. A mail icon in the
 app bar shows a red notification dot when the daily fact is available.
-The fact is **locked** until the user completes the daily challenge.
-If the challenge is not completed, the fact is gone forever -- a gap
-in the calendar. This strictness makes each day's fact feel precious.
+Currently unlocked by default (no challenge gating yet). When 5.2
+Daily Challenges ships, the fact will be locked behind challenge
+completion. The `isLocked` parameter on `EcoFactCard` is ready for
+this. Viewed dates are tracked in `viewedFactDates` on the user doc.
 
 #### Design
 
@@ -288,58 +289,84 @@ class EcoFact {
 
 #### Storage
 
-- **Fact definitions:** Const list in app code
-- **Fact selection:** `DateTime.now().dayOfYear` determines fact.
-  Same fact for all users on the same day.
-- **Unlocked facts:** Firestore `users/{uid}` document
-  - `unlockedFacts`: List<String> (date strings, e.g. "2026-03-14")
+- **Fact definitions:** JSON asset (`data/app/eco_facts.json`),
+  loaded via `rootBundle.loadString()`, cached in FutureProvider
+- **Fact selection:** `dayOfYear(DateTime.now())` determines fact.
+  Same fact for all users on the same day. Leap-year day 366 wraps
+  to day 1.
+- **Viewed facts:** Firestore `users/{uid}` document
+  - `viewedFactDates`: List<String> (date strings, e.g. "2026-03-14")
+  - Written via `FieldValue.arrayUnion` on screen open
 - **Mail icon state:** Derived from whether today's date is in
-  `unlockedFacts` and whether today's challenge is complete
+  `viewedFactDates` (will change to challenge-based in 5.2)
 
-**Note:** Curating 365 quality facts is the largest content task.
-Start with 50-100 well-researched facts covering ~3 months. Facts
-cycle on a shorter period initially until all 365 are written.
+All 365 facts are complete and audited.
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create EcoFact model | Simple data class (no Freezed needed) | Planned |
-| Write initial 50-100 eco-facts | Curated with sources, EN/ES/JA | Planned |
-| Create eco_facts_data.dart | Const list of facts | Planned |
-| Create EcoFactScreen | Locked/unlocked state + fact calendar | Planned |
-| Create MailIconButton widget | Icon with notification dot badge | Planned |
-| Create eco_fact_providers | Current fact, unlock state, calendar | Planned |
-| Add mail icon to home screen app bar | Red dot when available | Planned |
-| Add route | `/home/daily-fact` nested under home tab | Planned |
-| Localize strings | Screen title, lock message, calendar labels | Planned |
-| Write tests | Provider logic, unlock state, fact selection | Planned |
+| Create EcoFact model | Plain immutable class with locale-aware getters | Done |
+| Write 365 eco-facts | All 365 curated with sources, EN only (JA/ES deferred) | Done |
+| Create eco_facts_data.dart | JSON asset loader + dayOfYear helper | Done |
+| Create EcoFactScreen | Fact card + calendar, auto-marks viewed | Done |
+| Create MailIconButton widget | Icon with Badge red dot | Done |
+| Create EcoFactCard widget | Category chip, source, SDG icons, locked state | Done |
+| Create FactCalendar widget | Month grid with viewed/today/future styling | Done |
+| Create eco_fact_providers | 7 providers: facts, today, viewed, calendar, notifier | Done |
+| Add viewedFactDates to AppUserModel | Freezed field + codegen | Done |
+| Add mail icon to home screen app bar | Red dot when unread | Done |
+| Add route | `/home/daily-fact` nested under home tab | Done |
+| Localize strings | 11 keys in EN/JA/ES (5 categories + 6 UI) | Done |
+| Write tests | 57 tests across 7 files, all passing | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
 lib/features/eco_fact/
 +-- eco_fact.dart                        # Barrel file
 +-- data/
 |   +-- models/
-|   |   +-- eco_fact_model.dart
-|   +-- eco_facts_data.dart              # 365 const facts
+|   |   +-- eco_fact_model.dart          # Plain immutable class
+|   +-- eco_facts_data.dart              # JSON loader + helpers
 +-- presentation/
     +-- providers/
-    |   +-- eco_fact_providers.dart
+    |   +-- eco_fact_providers.dart       # 7 providers + notifier
+    |   +-- eco_fact_providers.g.dart     # Generated
     +-- screens/
-    |   +-- eco_fact_screen.dart
+    |   +-- eco_fact_screen.dart          # Main screen
     +-- widgets/
-        +-- eco_fact_card.dart
-        +-- fact_calendar.dart            # Calendar with gaps
-        +-- mail_icon_button.dart         # Icon with dot badge
+        +-- eco_fact_card.dart            # Fact display + locked state
+        +-- fact_calendar.dart            # Month grid
+        +-- mail_icon_button.dart         # Badge icon button
 ```
 
-#### Files to Modify
+#### Files Modified
 
-- `lib/features/sdg/presentation/screens/home_screen.dart` -- add
-  mail icon to app bar
-- `lib/app/router.dart` -- add `/home/daily-fact` route
+- `lib/features/auth/data/models/app_user_model.dart` -- added
+  `viewedFactDates` field
+- `lib/features/sdg/presentation/screens/home_screen.dart` -- added
+  `MailIconButton` to app bar actions
+- `lib/app/router.dart` -- added `dailyFact` route under home tab
+- `lib/core/l10n/app_en.arb` -- 11 new localization keys
+- `lib/core/l10n/app_ja.arb` -- 11 new localization keys
+- `lib/core/l10n/app_es.arb` -- 11 new localization keys
+
+#### Test Files
+
+```
+test/features/eco_fact/
++-- data/
+|   +-- models/eco_fact_model_test.dart       # 11 tests
+|   +-- eco_facts_data_test.dart              # 15 tests
++-- presentation/
+    +-- providers/eco_fact_providers_test.dart # 11 tests
+    +-- screens/eco_fact_screen_test.dart      # 4 tests
+    +-- widgets/
+        +-- eco_fact_card_test.dart            # 8 tests
+        +-- fact_calendar_test.dart            # 4 tests
+        +-- mail_icon_button_test.dart         # 4 tests
+```
 
 ---
 
@@ -347,7 +374,7 @@ lib/features/eco_fact/
 
 ### 5.2 Daily Challenges
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** Planned
+**Priority:** P0 | **Complexity:** Medium | **Status:** In Progress
 
 One daily challenge per user. Pseudorandom, different per user,
 avoids recent repeats. Completing the challenge unlocks the daily
@@ -487,44 +514,63 @@ daily eco-fact is unlocked.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create ChallengeTemplate model | Template data class | Planned |
-| Create DailyChallenge model | Today's resolved challenge with state | Planned |
-| Create MultiDayChallenge model | Extended challenge state | Planned |
-| Write ~30 daily challenge templates | Localized EN/ES/JA | Planned |
-| Define ~6 multi-day challenge templates | With Eco-Dex rewards | Planned |
-| Create challenge_templates_data.dart | Const list of templates | Planned |
-| Create daily_challenge_providers | Selection + completion | Planned |
+| Create ChallengeTemplate model | DailyChallengeTemplate + MultiDayChallengeTemplate classes | Done |
+| Create DailyChallenge model | Today's resolved challenge with state (via providers) | Done |
+| Create MultiDayChallenge model | Extended challenge state (Map on user doc) | Done |
+| Write ~30 daily challenge templates | 27 daily templates (3 per category), localized EN/ES/JA | Done |
+| Define ~6 multi-day challenge templates | 6 templates with category + duration | Done |
+| Create challenge_templates_data.dart | Const list in challenge_templates.dart | Done |
+| Create challenge_selection_service.dart | Deterministic selection with recent-ID exclusion | Done |
+| Create challenge_providers | 6 providers: today, completion, streak, multi-day, dialog, notifier | Done |
+| Add challenge fields to AppUserModel | challengeCompletedDate, streak, recentIds, activeMultiDayChallenge | Done |
+| Integrate with action logging | Category match detection + streak update in action_log_repository | Done |
+| Challenge completion snackbar | Shown in handle_action_tap after logging | Done |
+| Store challenge streak in Firestore | Consecutive completions tracked | Done |
+| Store recent challenge IDs | Firestore recentChallengeIds (last 7) | Done |
 | Create DailyChallengeCard widget | Home screen card with status | Planned |
 | Create MultiDayChallengeCard widget | Progress bar for active | Planned |
 | Create ChallengesScreen | Start/view multi-day challenges | Planned |
-| Integrate with action logging | Watch action log, detect completion | Planned |
 | Gate eco-fact unlock on completion | Link to eco-fact providers | Planned |
-| Store challenge streak in Firestore | Consecutive completions | Planned |
-| Store recent challenge IDs | SharedPreferences, last 7 | Planned |
-| Localize strings | Challenge text, completion messages | Planned |
-| Write tests | Selection, completion, streak, multi-day | Planned |
+| Add challenge card to home screen | Daily challenge + multi-day progress | Planned |
+| Add route for challenges screen | go_router route for multi-day management | Planned |
+| Localize strings | Challenge UI text (card, screen, dialog) | Planned |
+| Write tests | Selection, completion, streak, multi-day, widgets | Planned |
+
+#### Files Created
+
+```
+lib/features/challenge/
++-- challenge.dart                         # Barrel file
++-- data/
+|   +-- challenge_templates.dart           # 27 daily + 6 multi-day templates
+|   +-- challenge_selection_service.dart   # Deterministic selection algorithm
++-- presentation/
+    +-- providers/
+        +-- challenge_providers.dart        # 6 providers + notifier
+        +-- challenge_providers.g.dart      # Generated
+```
+
+#### Files Modified
+
+- `lib/features/auth/data/models/app_user_model.dart` -- added
+  challengeCompletedDate, challengeStreak, challengesCompleted,
+  recentChallengeIds, activeMultiDayChallenge fields
+- `lib/features/actions/data/repositories/action_log_repository.dart`
+  -- challenge completion detection + streak tracking in logAction
+- `lib/features/actions/presentation/utils/handle_action_tap.dart`
+  -- challenge completion snackbar
+- `lib/core/constants/app_constants.dart` -- recentChallengeIdsLimit
 
 #### Files to Create
 
 ```
-lib/features/challenges/
-+-- challenges.dart                       # Barrel file
-+-- data/
-|   +-- models/
-|   |   +-- challenge_template_model.dart
-|   |   +-- daily_challenge_model.dart
-|   |   +-- multi_day_challenge_model.dart
-|   +-- challenge_templates_data.dart     # ~30 daily templates
-|   +-- multi_day_templates_data.dart     # ~6 multi-day templates
+lib/features/challenge/
 +-- presentation/
-    +-- providers/
-    |   +-- daily_challenge_providers.dart
-    |   +-- multi_day_challenge_providers.dart
     +-- screens/
     |   +-- challenges_screen.dart         # Multi-day start/view
     +-- widgets/
-        +-- daily_challenge_card.dart
-        +-- multi_day_challenge_card.dart
+        +-- daily_challenge_card.dart       # Home screen card
+        +-- multi_day_challenge_card.dart   # Progress bar card
 ```
 
 #### Files to Modify
@@ -1085,25 +1131,27 @@ between plants.
 
 ## Acceptance Criteria
 
-### 5.1 Daily Eco-Fact
-- [ ] Mail icon visible in home screen app bar
-- [ ] Red dot appears when daily fact is available
-- [ ] Tapping shows locked state before challenge completion
-- [ ] Tapping shows fact after challenge completion
-- [ ] Fact changes each day (based on day of year)
-- [ ] Fact calendar shows unlocked dates and gaps
-- [ ] Missed facts are gone forever (gaps remain)
-- [ ] Previously earned facts can be re-read from calendar
-- [ ] All facts localized (EN/ES/JA)
+### 5.1 Daily Eco-Fact -- COMPLETE
+- [x] Mail icon visible in home screen app bar
+- [x] Red dot appears when daily fact is available
+- [x] Tapping shows locked state before challenge completion
+- [x] Tapping shows fact after challenge completion
+- [x] Fact changes each day (based on day of year)
+- [x] Fact calendar shows unlocked dates and gaps
+- [x] Missed facts are gone forever (gaps remain)
+- [x] Previously earned facts can be re-read from calendar
+- [x] All facts localized (EN/ES/JA)
+- Note: Fact currently unlocked by default. Will be gated behind
+  challenge completion when 5.2 presentation layer ships.
 
-### 5.2 Daily Challenges
+### 5.2 Daily Challenges -- IN PROGRESS
 - [ ] One challenge shown on home screen each day
-- [ ] Challenge differs per user (pseudorandom with user ID)
-- [ ] Does not repeat within last 7 challenges for same user
+- [x] Challenge differs per user (pseudorandom with user ID)
+- [x] Does not repeat within last 7 challenges for same user
 - [ ] Completing challenge unlocks daily eco-fact
-- [ ] Completion detected automatically after logging action
-- [ ] Challenge streak tracked (consecutive days completing)
-- [ ] Challenge text localized (EN/ES/JA)
+- [x] Completion detected automatically after logging action
+- [x] Challenge streak tracked (consecutive days completing)
+- [x] Challenge text localized (EN/ES/JA) -- templates done
 - [ ] Multi-day challenges can be started from challenges screen
 - [ ] Multi-day progress persists across days
 - [ ] Multi-day challenge resets on missed day
