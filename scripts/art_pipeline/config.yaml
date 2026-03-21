@@ -1,0 +1,101 @@
+# Art Pipeline Configuration
+# Shared settings for generate -> validate -> review -> optimize
+
+# Recraft API
+recraft:
+  # Set RECRAFT_API_TOKEN env var before running
+  api_url: "https://external.api.recraft.ai/v1/images/generations"
+  candidates_per_asset: 3
+  response_format: "b64_json"
+  size: "1024x1024"
+  tokens_per_svg: 1
+  monthly_token_budget: 5000
+
+# Art style
+style:
+  # See Plan/STYLE_GUIDE.md for rationale behind these choices
+  prefix: >-
+    simple flat vector illustration, minimal geometric style,
+    cute rounded shapes, natural tones, white background,
+    no text, no shadows, no outlines, centered composition,
+    single subject
+  categories:
+    flora: "botanical plant illustration, single specimen"
+    fauna: "friendly animal character, simple features"
+    elements: "natural element icon, symbolic"
+    sdg_world: "globe or world concept, sustainability themed"
+    eco_pioneers: "human figure, minimalist, diverse"
+    milestones: "achievement symbol, celebratory"
+    challenge: "action or activity symbol, energetic"
+    garden: "garden plant with pot or soil, growth stages"
+    mascot: "cute mascot character, kawaii inspired, expressive"
+
+# App color palette (from app_colors.dart)
+# See Plan/STYLE_GUIDE.md for per-category color rules
+palette:
+  primary:
+    - "#2E7D32"  # Green 800
+    - "#60AD5E"  # Primary light
+    - "#005005"  # Primary dark
+  secondary:
+    - "#795548"  # Brown 500
+    - "#A98274"  # Secondary light
+    - "#4B2C20"  # Secondary dark
+  category:
+    - "#4CAF50"  # Recycling green
+    - "#2196F3"  # Transport blue
+    - "#FF9800"  # Food orange
+    - "#FFC107"  # Energy yellow
+    - "#9C27B0"  # Consumption purple
+    - "#00BCD4"  # Water cyan
+    - "#8D6E63"  # Community brown
+    - "#E91E63"  # Advocacy pink
+    - "#607D8B"  # Learning blue-grey
+  sdg:
+    - "#E5243B"  # SDG 1 No Poverty
+    - "#DDA63A"  # SDG 2 Zero Hunger
+    - "#4C9F38"  # SDG 3 Good Health
+    - "#C5192D"  # SDG 4 Quality Education
+    - "#FF3A21"  # SDG 5 Gender Equality
+    - "#26BDE2"  # SDG 6 Clean Water
+    - "#FCC30B"  # SDG 7 Clean Energy
+    - "#A21942"  # SDG 8 Decent Work
+    - "#FD6925"  # SDG 9 Industry/Innovation
+    - "#DD1367"  # SDG 10 Reduced Inequality
+    - "#FD9D24"  # SDG 11 Sustainable Cities
+    - "#BF8B2E"  # SDG 12 Responsible Consumption
+    - "#3F7E44"  # SDG 13 Climate Action
+    - "#0A97D9"  # SDG 14 Life Below Water
+    - "#56C02B"  # SDG 15 Life on Land
+    - "#00689D"  # SDG 16 Peace/Justice
+    - "#19486A"  # SDG 17 Partnerships
+  neutral:
+    - "#FAFAFA"  # 50
+    - "#F5F5F5"  # 100
+    - "#EEEEEE"  # 200
+    - "#E0E0E0"  # 300
+    - "#9E9E9E"  # 500
+    - "#757575"  # 600
+    - "#424242"  # 800
+    - "#212121"  # 900
+
+# Validation thresholds
+validation:
+  clip_similarity_min: 0.75
+  max_off_palette_colors: 5
+  max_file_size_bytes: 102400  # 100KB pre-optimization
+  max_optimized_size_bytes: 20480  # 20KB post-SVGO
+  viewbox_size: 1024
+  color_distance_threshold: 60  # Max CIELAB distance for "on palette"
+
+# Output directories (relative to project root)
+output:
+  eco_dex: "assets/eco_dex"
+  garden: "assets/garden"
+  mascots: "assets/mascots"
+  review: "scripts/art_pipeline/review_sheets"
+  candidates: "scripts/art_pipeline/candidates"
+
+# SVGO config
+svgo:
+  command: "npx svgo"

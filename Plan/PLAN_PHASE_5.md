@@ -1055,8 +1055,7 @@ Eco-Dex uses Material icons (no custom art needed).
    text prompts like "simple flat vector seedling, minimal style."
    Outputs true editable SVG (not rasterized-then-traced).
    Free tier: 30-50 daily credits. Pro ($20/mo) for commercial use.
-2. **Clean up** in [Inkscape](https://inkscape.org) (free, desktop)
-   or [Boxy SVG](https://boxy-svg.com) (browser) -- normalize
+2. **Clean up** in [Inkscape](https://inkscape.org) (free, desktop) or [Boxy SVG](https://boxy-svg.com) (browser) -- normalize
    style, match app color palette, consistent sizing.
 3. **Optimize** with [SVGO](https://svgo.dev) for minimal file size
    (under 5KB per SVG).
@@ -1072,17 +1071,9 @@ plant growth stages.
 - **Pros:** Interactive state-driven animations (seed -> sprout ->
   plant -> bloom driven by Riverpod state), GPU-accelerated, tiny
   file sizes. Perfect for mascot walking in garden later.
-- **Cons:** Learning curve for editor and state machines. Overkill
-  if only doing static crossfade between growth stages.
+- **Cons:** Learning curve for editor and state machines. Overkill if only doing static crossfade between growth stages.
 
-### Option 3: Hand-draw in SVG editor (most control)
-
-Use [Inkscape](https://inkscape.org),
-[Boxy SVG](https://boxy-svg.com), or
-[Method Draw](https://editor.method.ac) to hand-draw all assets.
-Most time-intensive but full artistic control.
-
-### Option 4: SVGator (animated SVGs to Dart)
+### Option 3: SVGator (animated SVGs to Dart)
 
 [SVGator](https://svgator.com) can export animated SVGs directly
 as Flutter .dart files. Good middle ground for simple growth

@@ -85,3 +85,12 @@ functions/lib/
 **/serviceAccountKey.json
 
 Plan/notes.md
+
+# Python
+__pycache__/
+*.pyc
+
+# Art pipeline generated files
+scripts/art_pipeline/candidates/
+scripts/art_pipeline/review_sheets/
+scripts/art_pipeline/selections*.yaml
