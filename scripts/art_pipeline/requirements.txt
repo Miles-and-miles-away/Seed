@@ -1,0 +1,12 @@
+# Art pipeline dependencies
+# Install: conda activate seed && pip install -r requirements.txt
+
+pillow
+cairosvg
+pyyaml
+requests
+lxml
+
+# For CLIP-based style validation (optional, ~2GB download):
+# open_clip_torch
+# torch

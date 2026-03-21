@@ -1,0 +1,290 @@
+# Eco-Dex Asset Manifest
+# Defines all entries for SVG generation via Recraft API
+
+entries:
+  # --- Flora (10 entries) ---
+  - id: flora_01
+    category: flora
+    subject: "mighty oak tree with strong trunk and full canopy"
+    color_hint: "deep green and brown tones"
+
+  - id: flora_02
+    category: flora
+    subject: "tall bamboo stalks growing upward"
+    color_hint: "light green and yellow-green tones"
+
+  - id: flora_03
+    category: flora
+    subject: "mangrove tree with visible roots in water"
+    color_hint: "green foliage with brown roots, blue water"
+
+  - id: flora_04
+    category: flora
+    subject: "delicate fern with curling fronds"
+    color_hint: "forest green tones"
+
+  - id: flora_05
+    category: flora
+    subject: "sunflower with bright petals facing upward"
+    color_hint: "yellow petals, green stem, brown center"
+
+  - id: flora_06
+    category: flora
+    subject: "giant sequoia tree, tall and majestic"
+    color_hint: "deep green canopy, reddish-brown bark"
+
+  - id: flora_07
+    category: flora
+    subject: "seagrass meadow swaying underwater"
+    color_hint: "green and teal, ocean blue background"
+
+  - id: flora_08
+    category: flora
+    subject: "wildflower meadow with diverse blooms"
+    color_hint: "mixed colors, green grass base"
+
+  - id: flora_09
+    category: flora
+    subject: "moss growing on a forest rock"
+    color_hint: "bright green moss, grey-brown rock"
+
+  - id: flora_10
+    category: flora
+    subject: "baobab tree with thick trunk and sparse branches"
+    color_hint: "grey-brown trunk, sparse green leaves"
+
+  # --- Fauna (10 entries) ---
+  - id: fauna_01
+    category: fauna
+    subject: "cute honeybee with small wings buzzing"
+    color_hint: "yellow and black stripes"
+
+  - id: fauna_02
+    category: fauna
+    subject: "friendly sea otter floating on its back"
+    color_hint: "brown fur, blue water"
+
+  - id: fauna_03
+    category: fauna
+    subject: "blue whale swimming gracefully"
+    color_hint: "blue-grey body, ocean blue"
+
+  - id: fauna_04
+    category: fauna
+    subject: "coral reef fish, colorful and small"
+    color_hint: "bright orange, white stripes"
+
+  - id: fauna_05
+    category: fauna
+    subject: "butterfly with open wings"
+    color_hint: "orange and black monarch pattern"
+
+  - id: fauna_06
+    category: fauna
+    subject: "small penguin standing upright"
+    color_hint: "black and white, orange beak"
+
+  - id: fauna_07
+    category: fauna
+    subject: "tree frog sitting on a leaf"
+    color_hint: "bright green frog, green leaf"
+
+  - id: fauna_08
+    category: fauna
+    subject: "earthworm in soil cross-section"
+    color_hint: "pink-brown worm, brown soil layers"
+
+  - id: fauna_09
+    category: fauna
+    subject: "hummingbird hovering near a flower"
+    color_hint: "iridescent green, purple flower"
+
+  - id: fauna_10
+    category: fauna
+    subject: "ladybug on a green leaf"
+    color_hint: "red with black spots, green leaf"
+
+  # --- Elements (8 entries) ---
+  - id: elem_01
+    category: elements
+    subject: "sun with warm rays shining"
+    color_hint: "golden yellow and orange"
+
+  - id: elem_02
+    category: elements
+    subject: "raindrop or water droplet"
+    color_hint: "blue and cyan tones"
+
+  - id: elem_03
+    category: elements
+    subject: "wind swirl with leaves"
+    color_hint: "light blue and green accents"
+
+  - id: elem_04
+    category: elements
+    subject: "mountain with snow peak"
+    color_hint: "grey-brown mountain, white snow, blue sky"
+
+  - id: elem_05
+    category: elements
+    subject: "ocean wave curling"
+    color_hint: "deep blue and white foam"
+
+  - id: elem_06
+    category: elements
+    subject: "lightning bolt, clean energy"
+    color_hint: "yellow-gold bolt"
+
+  - id: elem_07
+    category: elements
+    subject: "soil layers cross-section showing roots"
+    color_hint: "brown layers, green surface"
+
+  - id: elem_08
+    category: elements
+    subject: "cloud with rainbow arc"
+    color_hint: "white cloud, rainbow colors"
+
+  # --- SDG World (8 entries) ---
+  - id: sdg_01
+    category: sdg_world
+    subject: "earth globe with green continents"
+    color_hint: "blue oceans, green land"
+
+  - id: sdg_02
+    category: sdg_world
+    subject: "hands holding a seedling"
+    color_hint: "warm skin tones, green plant"
+
+  - id: sdg_03
+    category: sdg_world
+    subject: "bicycle with a city skyline background"
+    color_hint: "blue and green tones"
+
+  - id: sdg_04
+    category: sdg_world
+    subject: "solar panel angled toward sun"
+    color_hint: "dark blue panel, golden sun"
+
+  - id: sdg_05
+    category: sdg_world
+    subject: "recycling symbol made of arrows"
+    color_hint: "green arrows"
+
+  - id: sdg_06
+    category: sdg_world
+    subject: "wind turbine on a green hill"
+    color_hint: "white turbine, green hill, blue sky"
+
+  - id: sdg_07
+    category: sdg_world
+    subject: "community garden with people and plants"
+    color_hint: "greens, warm earth tones"
+
+  - id: sdg_08
+    category: sdg_world
+    subject: "clean river flowing through forest"
+    color_hint: "blue water, green forest"
+
+  # --- Eco-Pioneers (7 entries) ---
+  - id: pioneer_01
+    category: eco_pioneers
+    subject: "person planting a tree sapling"
+    color_hint: "green and brown earth tones"
+
+  - id: pioneer_02
+    category: eco_pioneers
+    subject: "scientist with magnifying glass examining plant"
+    color_hint: "white coat, green plant"
+
+  - id: pioneer_03
+    category: eco_pioneers
+    subject: "person carrying reusable shopping bags"
+    color_hint: "earth tones, green bags"
+
+  - id: pioneer_04
+    category: eco_pioneers
+    subject: "child watering a garden"
+    color_hint: "blue water, green plants"
+
+  - id: pioneer_05
+    category: eco_pioneers
+    subject: "person riding bicycle with basket"
+    color_hint: "green and blue tones"
+
+  - id: pioneer_06
+    category: eco_pioneers
+    subject: "beekeeper tending hives"
+    color_hint: "white suit, golden honey, yellow bees"
+
+  - id: pioneer_07
+    category: eco_pioneers
+    subject: "marine biologist studying coral underwater"
+    color_hint: "blue water, colorful coral"
+
+  # --- Milestones (7 entries) ---
+  - id: mile_01
+    category: milestones
+    subject: "first seedling sprouting from soil"
+    color_hint: "bright green sprout, brown soil"
+
+  - id: mile_02
+    category: milestones
+    subject: "trophy or cup with a leaf motif"
+    color_hint: "golden trophy, green leaf"
+
+  - id: mile_03
+    category: milestones
+    subject: "stack of ten small trees growing"
+    color_hint: "various shades of green"
+
+  - id: mile_04
+    category: milestones
+    subject: "flame or streak icon showing momentum"
+    color_hint: "orange and red gradient"
+
+  - id: mile_05
+    category: milestones
+    subject: "star with nature wreath around it"
+    color_hint: "golden star, green wreath"
+
+  - id: mile_06
+    category: milestones
+    subject: "scale showing CO2 reduction"
+    color_hint: "green going up, grey going down"
+
+  - id: mile_07
+    category: milestones
+    subject: "calendar page with checkmarks"
+    color_hint: "green checkmarks, white background"
+
+  # --- Challenge (6 entries) ---
+  - id: chal_01
+    category: challenge
+    subject: "steady hand holding a small flame carefully"
+    color_hint: "warm orange flame, calm tones"
+
+  - id: chal_02
+    category: challenge
+    subject: "plate of colorful vegetables and fruits"
+    color_hint: "green, orange, red, purple produce"
+
+  - id: chal_03
+    category: challenge
+    subject: "calendar with 30 days marked complete"
+    color_hint: "green marks, white calendar"
+
+  - id: chal_04
+    category: challenge
+    subject: "person walking instead of driving"
+    color_hint: "green path, grey car in background"
+
+  - id: chal_05
+    category: challenge
+    subject: "reusable water bottle with nature scene"
+    color_hint: "blue bottle, green nature"
+
+  - id: chal_06
+    category: challenge
+    subject: "compost bin with food scraps decomposing"
+    color_hint: "brown bin, green and orange scraps"

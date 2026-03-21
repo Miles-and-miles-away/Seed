@@ -38,9 +38,7 @@ void main() {
       addTearDown(container.dispose);
 
       final before = container.read(dayChangeProvider);
-      container
-          .read(dayChangeProvider.notifier)
-          .checkDayChanged();
+      container.read(dayChangeProvider.notifier).checkDayChanged();
       final after = container.read(dayChangeProvider);
 
       expect(after, before);
