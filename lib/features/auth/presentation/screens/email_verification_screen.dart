@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
@@ -59,12 +60,12 @@ class _EmailVerificationScreenState
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(Spacing.xxl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(Spacing.xxl),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
                 shape: BoxShape.circle,
@@ -75,7 +76,7 @@ class _EmailVerificationScreenState
                 color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: Spacing.xxxl),
             Text(
               l10n.authCheckEmail,
               style: theme.textTheme.headlineSmall?.copyWith(
@@ -83,7 +84,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
             Text(
               l10n.authVerificationSentTo,
               style: theme.textTheme.bodyLarge?.copyWith(
@@ -91,7 +92,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Spacing.sm),
             Text(
               userEmail,
               style: theme.textTheme.bodyLarge?.copyWith(
@@ -99,7 +100,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
             Text(
               l10n.authVerifyInstructions,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -107,7 +108,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: Spacing.xxxl),
             FilledButton.icon(
               onPressed: (isLoading || _checkingVerification)
                   ? null
@@ -130,10 +131,10 @@ class _EmailVerificationScreenState
                     : l10n.authVerifiedButton,
               ),
               style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(48),
+                minimumSize: const Size.fromHeight(Spacing.huge),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
             OutlinedButton.icon(
               onPressed: isLoading
                   ? null
@@ -158,10 +159,10 @@ class _EmailVerificationScreenState
                   : const Icon(Icons.refresh),
               label: Text(l10n.authResendEmail),
               style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(48),
+                minimumSize: const Size.fromHeight(Spacing.huge),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: Spacing.xxxl),
             TextButton(
               onPressed: isLoading ? null : _handleSignOut,
               child: Text(l10n.authDifferentEmail),

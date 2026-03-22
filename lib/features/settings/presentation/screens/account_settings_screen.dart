@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -98,7 +99,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
 
                   // Warning text
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(Spacing.lg),
                     child: Text(
                       l10n.accountSettingsDeleteAccountWarning,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -141,7 +142,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     invalidError: l10n.authEmail,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(
@@ -155,7 +156,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 TextFormField(
                   controller: newEmailController,
                   decoration: InputDecoration(
@@ -268,7 +269,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       invalidError: l10n.authEmail,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   TextFormField(
                     controller: currentPasswordController,
                     decoration: InputDecoration(
@@ -282,7 +283,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   TextFormField(
                     controller: newPasswordController,
                     decoration: InputDecoration(
@@ -299,7 +300,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   TextFormField(
                     controller: confirmPasswordController,
                     decoration: InputDecoration(
@@ -410,12 +411,12 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
             children: [
               Text(l10n.accountSettingsDeleteConfirmMessage),
               if (isEmailPasswordUser) ...[
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 Text(
                   l10n.accountSettingsReauthRequired,
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 Form(
                   key: formKey,
                   child: Column(
@@ -433,7 +434,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                           invalidError: l10n.authEmail,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: Spacing.sm),
                       TextFormField(
                         controller: passwordController,
                         decoration: InputDecoration(

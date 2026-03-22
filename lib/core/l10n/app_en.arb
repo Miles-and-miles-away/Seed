@@ -528,5 +528,25 @@
     }
   },
   "challengeAnyCategory": "Any category",
-  "challengeLocked": "Locked"
+  "challengeLocked": "Locked",
+
+  "progressCalendarTab": "Calendar",
+  "ecoDexTab": "Eco-Dex",
+  "ecoDexTitle": "Eco-Dex",
+  "ecoDexProgress": "{discovered} / {total} discovered",
+  "@ecoDexProgress": {
+    "placeholders": {
+      "discovered": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "ecoDexLocked": "Undiscovered",
+  "ecoDexViewSource": "View source",
+  "ecoDexNewDiscovery": "New Eco-Dex discovery!",
+  "ecoDexNewDiscoveryMessage": "You discovered: {name}",
+  "@ecoDexNewDiscoveryMessage": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  }
 }

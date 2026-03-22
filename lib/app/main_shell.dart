@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/constants/ui_constants.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../features/mascot/mascot.dart';
 import '../shared/providers/day_change_provider.dart';
@@ -154,7 +155,7 @@ class _NavBarItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: Radii.borderMd,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,

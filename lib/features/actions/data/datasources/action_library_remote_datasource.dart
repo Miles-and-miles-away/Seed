@@ -25,8 +25,8 @@ class ActionLibraryRemoteDataSourceImpl
   @override
   Stream<List<ActionModel>> watchActions() {
     return _collection
-        .where('isActive', isEqualTo: true)
-        .orderBy('sortOrder')
+        .where(AppConstants.fieldIsActive, isEqualTo: true)
+        .orderBy(AppConstants.fieldSortOrder)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map(ActionModel.fromFirestore).toList();

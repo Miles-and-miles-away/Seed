@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/actions_providers.dart';
 
@@ -31,7 +32,7 @@ class ActionSortDropdown extends ConsumerWidget {
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurfaceVariant,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: Spacing.md),
               Expanded(
                 child: Text(
                   option.displayName(l10n),
@@ -57,12 +58,12 @@ class ActionSortDropdown extends ConsumerWidget {
       }).toList(),
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 8,
+          horizontal: Spacing.md,
+          vertical: Spacing.sm,
         ),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: Radii.borderXl,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -79,7 +80,7 @@ class ActionSortDropdown extends ConsumerWidget {
                 color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: Spacing.xs),
             Icon(
               Icons.arrow_drop_down,
               size: 18,

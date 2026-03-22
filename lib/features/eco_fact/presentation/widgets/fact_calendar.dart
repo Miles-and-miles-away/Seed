@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 
@@ -28,9 +29,9 @@ class FactCalendar extends ConsumerWidget {
           selectedMonth,
           canGoNext,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: Spacing.sm),
         _buildWeekdayLabels(context),
-        const SizedBox(height: 8),
+        const SizedBox(height: Spacing.sm),
         calendarAsync.when(
           data: (days) => _buildGrid(context, selectedMonth, days),
           loading: () => const SizedBox(
@@ -68,7 +69,7 @@ class FactCalendar extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: Spacing.sm),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -198,17 +199,23 @@ class _FactCalendarDayCell extends StatelessWidget {
     var fontWeight = FontWeight.normal;
 
     if (day.isFuture) {
-      textColor = colorScheme.onSurface.withValues(alpha: 0.3);
+      textColor = colorScheme.onSurface.withValues(
+        alpha: Opacities.muted,
+      );
     } else if (day.isToday) {
       bgColor = colorScheme.primary;
       textColor = colorScheme.onPrimary;
       fontWeight = FontWeight.bold;
     } else if (day.isViewed) {
-      bgColor = colorScheme.primary.withValues(alpha: 0.15);
+      bgColor = colorScheme.primary.withValues(
+        alpha: Opacities.subtle,
+      );
       textColor = colorScheme.primary;
       fontWeight = FontWeight.w600;
     } else {
-      textColor = colorScheme.onSurface.withValues(alpha: 0.7);
+      textColor = colorScheme.onSurface.withValues(
+        alpha: Opacities.strong,
+      );
     }
 
     return GestureDetector(

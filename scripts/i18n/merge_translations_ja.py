@@ -17,7 +17,7 @@ import re
 BASE = os.path.dirname(os.path.abspath(__file__))
 BATCH_DIR = os.path.join(BASE, 'translations_ja')
 JSON_PATH = os.path.join(
-    BASE, '..', 'data', 'app', 'eco_facts.json'
+    BASE, '..', '..', 'data', 'app', 'eco_facts.json'
 )
 
 KEY_ORDER = [

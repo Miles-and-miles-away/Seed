@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
+
 /// A card displaying a single statistic with icon, value, and label.
 class StatCard extends StatelessWidget {
   const StatCard({
@@ -32,10 +34,10 @@ class StatCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Spacing.lg),
       decoration: BoxDecoration(
         color: backgroundColor ?? colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.borderLg,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,14 +48,14 @@ class StatCard extends StatelessWidget {
             size: 28,
             color: iconColor ?? colorScheme.primary,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Spacing.md),
           Text(
             value,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: Spacing.xs),
           Text(
             label,
             style: theme.textTheme.bodySmall?.copyWith(
@@ -82,7 +84,7 @@ class StatCardRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: left),
-        const SizedBox(width: 12),
+        const SizedBox(width: Spacing.md),
         Expanded(child: right),
       ],
     );

@@ -15,6 +15,8 @@ import 'package:seed_app/features/progress/presentation/screens/progress_screen.
 import 'package:seed_app/features/progress/presentation/widgets/daily_target_picker.dart';
 import 'package:seed_app/features/progress/presentation/widgets/progress_calendar.dart';
 import 'package:seed_app/features/progress/presentation/widgets/rainbow_sun_widget.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -30,6 +32,12 @@ class TestSelectedMonth extends SelectedMonth {
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
   late FakeFirebaseFirestore fakeFirestore;
+  late SdgGoalsData sdgData;
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    sdgData = await loadSdgGoals();
+  });
 
   setUp(() {
     mockFirebaseAuth = createMockFirebaseAuth();
@@ -79,6 +87,9 @@ void main() {
           selectedMonthProvider
               .overrideWith(() => TestSelectedMonth(testMonth)),
           monthCalendarDataProvider.overrideWith((ref) async => calendarData),
+          sdgGoalsDataProvider.overrideWith(
+            (ref) async => sdgData,
+          ),
         ],
         child: const MaterialApp(
           localizationsDelegates: [

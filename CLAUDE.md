@@ -120,8 +120,13 @@ Excluded from linting and git:
 ```
 data/
 ├── app/          # Bundled with Flutter app (declared in pubspec.yaml)
-│   ├── eco_facts.json       # Daily sustainability facts (365 days)
-│   └── sdg_targets.json     # All 169 SDG targets (EN/JA/ES)
+│   ├── challenge_templates.json  # Daily + multi-day challenges (EN/JA/ES)
+│   ├── eco_dex_entries.json      # Eco-Dex categories + entries (EN/JA/ES)
+│   ├── eco_facts.json            # Daily sustainability facts (365 days)
+│   ├── mascot_species.json       # Mascot species + evolution stages (EN/JA/ES)
+│   ├── sdg_goals.json            # 17 SDG goals with colors + translations (EN/JA/ES)
+│   ├── sdg_resources.json        # SDG external resource links (EN/JA/ES)
+│   └── sdg_targets.json          # All 169 SDG targets (EN/JA/ES)
 ├── seed/         # Used by scripts to populate Firestore
 │   ├── co2_actions_database.json
 │   ├── co2_actions_database.csv

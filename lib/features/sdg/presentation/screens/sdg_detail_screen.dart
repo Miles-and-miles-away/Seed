@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
@@ -38,7 +40,13 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final goal = sdgGoalMap[widget.goalNumber] ?? sdgGoals.first;
+    final sdgData = ref.watch(sdgGoalsDataProvider).value;
+    if (sdgData == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    final goal = sdgData.goalMap[widget.goalNumber] ?? sdgData.goals.first;
     final languageCode = ref.watch(
       currentUserProvider.select(
         (u) => u.value?.language ?? 'en',
@@ -50,23 +58,23 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         slivers: [
           _buildAppBar(context, goal),
           SliverPadding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Spacing.xxl),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildGoalBadge(context, goal),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 Text(
                   goal.getTitle(languageCode),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 SdgTargetsSection(
                   goal: goal,
                   locale: languageCode,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(
                     context,
@@ -79,11 +87,11 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                     goal,
                     languageCode,
                   ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 SdgInfographicViewer(goal: goal),
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
                 _buildGoalNavigation(context, goal),
-                const SizedBox(height: 48),
+                const SizedBox(height: Spacing.huge),
               ]),
             ),
           ),
@@ -103,13 +111,13 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         goalNumber: goal.number,
         goalColor: goal.color,
       ),
-      const SizedBox(height: 24),
+      const SizedBox(height: Spacing.xxl),
       SdgActionsGrid(
         goalNumber: goal.number,
         goalColor: goal.color,
         languageCode: languageCode,
       ),
-      const SizedBox(height: 24),
+      const SizedBox(height: Spacing.xxl),
       SdgResourcesList(
         goalNumber: goal.number,
         goalColor: goal.color,
@@ -129,12 +137,16 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
 
     return [
       Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(Spacing.xl),
         decoration: BoxDecoration(
-          color: goal.color.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(16),
+          color: goal.color.withValues(
+            alpha: Opacities.veryFaint,
+          ),
+          borderRadius: Radii.borderLg,
           border: Border.all(
-            color: goal.color.withValues(alpha: 0.2),
+            color: goal.color.withValues(
+              alpha: Opacities.light,
+            ),
           ),
         ),
         child: Row(
@@ -145,7 +157,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
               color: goal.color,
               size: 24,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: Spacing.md),
             Expanded(
               child: Text(
                 l10n.sdgLearnOnlyExplanation,
@@ -158,7 +170,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ],
         ),
       ),
-      const SizedBox(height: 24),
+      const SizedBox(height: Spacing.xxl),
       SdgResourcesList(
         goalNumber: goal.number,
         goalColor: goal.color,
@@ -182,7 +194,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
               end: Alignment.bottomCenter,
               colors: [
                 goal.color,
-                goal.color.withValues(alpha: 0.8),
+                goal.color.withValues(
+                  alpha: Opacities.heavy,
+                ),
               ],
             ),
           ),
@@ -190,7 +204,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
             child: Hero(
               tag: 'sdg_icon_${goal.number}',
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: Radii.borderLg,
                 child: CachedNetworkImage(
                   imageUrl: goal.iconUrl,
                   width: 120,
@@ -199,7 +213,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                   placeholder: (context, url) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withValues(
+                      alpha: Opacities.light,
+                    ),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -214,7 +230,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                   errorWidget: (context, url, error) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withValues(
+                      alpha: Opacities.light,
+                    ),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -243,12 +261,12 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: 12,
+            horizontal: Spacing.md,
             vertical: 6,
           ),
           decoration: BoxDecoration(
             color: goal.color,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: Radii.borderXl,
           ),
           child: Text(
             AppLocalizations.of(context).sdgGoalNumber(goal.number),
@@ -259,15 +277,15 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: Spacing.sm),
         Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: 12,
+            horizontal: Spacing.md,
             vertical: 6,
           ),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: Radii.borderXl,
           ),
           child: Text(
             AppLocalizations.of(context).sdgBadge,
@@ -291,8 +309,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     final nextNumber = goal.number == AppConstants.sdgMaxGoal
         ? AppConstants.sdgMinGoal
         : goal.number + 1;
-    final prevGoal = sdgGoalMap[prevNumber] ?? sdgGoals.first;
-    final nextGoal = sdgGoalMap[nextNumber] ?? sdgGoals.first;
+    final sdgData = ref.watch(sdgGoalsDataProvider).value!;
+    final prevGoal = sdgData.goalMap[prevNumber] ?? sdgData.goals.first;
+    final nextGoal = sdgData.goalMap[nextNumber] ?? sdgData.goals.first;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -330,15 +349,17 @@ class _GoalNavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: goal.color.withValues(alpha: 0.1),
-      borderRadius: BorderRadius.circular(12),
+      color: goal.color.withValues(
+        alpha: Opacities.faint,
+      ),
+      borderRadius: Radii.borderMd,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: Radii.borderMd,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 14,
-            vertical: 12,
+            vertical: Spacing.md,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

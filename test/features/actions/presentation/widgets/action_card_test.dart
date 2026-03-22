@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 void main() {
+  late SdgGoalsData sdgData;
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    sdgData = await loadSdgGoals();
+  });
+
   group('ActionCard', () {
     const testAction = ActionModel(
       id: 'action1',
@@ -24,22 +34,29 @@ void main() {
       String languageCode = 'en',
       VoidCallback? onTap,
     }) {
-      return MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+      return ProviderScope(
+        overrides: [
+          sdgGoalsDataProvider.overrideWith(
+            (ref) async => sdgData,
+          ),
         ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: SizedBox(
-            width: 200,
-            height: 200,
-            child: ActionCard(
-              action: action,
-              languageCode: languageCode,
-              onTap: onTap ?? () {},
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              height: 200,
+              child: ActionCard(
+                action: action,
+                languageCode: languageCode,
+                onTap: onTap ?? () {},
+              ),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
@@ -131,7 +132,7 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: Spacing.xxxl),
             ],
           ),
         ),
@@ -144,7 +145,7 @@ class SettingsScreen extends ConsumerWidget {
                 l10n.settingsErrorLoading,
                 style: theme.textTheme.bodyLarge,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Spacing.sm),
               Text(
                 error.toString(),
                 style: theme.textTheme.bodySmall,

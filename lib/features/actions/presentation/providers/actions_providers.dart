@@ -11,6 +11,8 @@ import 'package:seed_app/features/actions/data/repositories/action_log_repositor
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 
@@ -51,10 +53,19 @@ ActionLibraryRepository actionLibraryRepository(Ref ref) {
 }
 
 @riverpod
-ActionLogRepository actionLogRepository(Ref ref) {
+Future<ActionLogRepository> actionLogRepository(Ref ref) async {
+  final challengeData = await ref.watch(
+    challengeTemplateDataProvider.future,
+  );
+  final speciesData = await ref.watch(
+    mascotSpeciesDataProvider.future,
+  );
   return ActionLogRepository(
     dataSource: ref.watch(actionLogDataSourceProvider),
     firestore: ref.watch(firestoreProvider),
+    dailyChallengeTemplates: challengeData.daily,
+    multiDayChallengeTemplates: challengeData.multiDay,
+    mascotSpecies: speciesData,
   );
 }
 
@@ -70,19 +81,14 @@ Stream<List<ActionModel>> actionLibrary(Ref ref) {
 
 /// Watches action logs for the current user.
 @riverpod
-Stream<List<ActionLogModel>> userActionLogs(Ref ref) {
-  final userAsync = ref.watch(currentUserProvider);
-
-  return userAsync.when(
-    data: (user) {
-      if (user == null) return Stream.value([]);
-      return ref
-          .watch(actionLogRepositoryProvider)
-          .watchUserActionLogs(user.uid);
-    },
-    loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
-  );
+Stream<List<ActionLogModel>> userActionLogs(Ref ref) async* {
+  final user = ref.watch(currentUserProvider).value;
+  if (user == null) {
+    yield [];
+    return;
+  }
+  final repo = await ref.watch(actionLogRepositoryProvider.future);
+  yield* repo.watchUserActionLogs(user.uid);
 }
 
 // =============================================================================
@@ -304,7 +310,9 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     }
 
     // Capture repositories before async operations
-    final actionLogRepo = ref.read(actionLogRepositoryProvider);
+    final actionLogRepo = await ref.read(
+      actionLogRepositoryProvider.future,
+    );
     final progressRepo = ref.read(progressRepositoryProvider);
 
     final result = await AsyncValue.guard(() async {

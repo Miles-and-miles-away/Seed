@@ -65,8 +65,8 @@ class DailySummaryRemoteDataSource {
     final endId = _dateToString(endDate);
 
     final snapshot = await _summariesCollection(userId)
-        .where('date', isGreaterThanOrEqualTo: startId)
-        .where('date', isLessThanOrEqualTo: endId)
+        .where(AppConstants.fieldDate, isGreaterThanOrEqualTo: startId)
+        .where(AppConstants.fieldDate, isLessThanOrEqualTo: endId)
         .get();
 
     return snapshot.docs
@@ -113,11 +113,11 @@ class DailySummaryRemoteDataSource {
           final updatedSdgs =
               {...existing.completedSdgs, ...sdgNumbers}.toList();
           transaction.update(docRef, {
-            'goalCount': FieldValue.increment(1),
-            'completedSdgs': updatedSdgs,
-            'totalPoints': FieldValue.increment(points),
-            'totalCo2Grams': FieldValue.increment(co2Grams),
-            'updatedAt': FieldValue.serverTimestamp(),
+            AppConstants.fieldGoalCount: FieldValue.increment(1),
+            AppConstants.fieldCompletedSdgs: updatedSdgs,
+            AppConstants.fieldTotalPoints: FieldValue.increment(points),
+            AppConstants.fieldTotalCo2Grams: FieldValue.increment(co2Grams),
+            AppConstants.fieldUpdatedAt: FieldValue.serverTimestamp(),
           });
         }
       });

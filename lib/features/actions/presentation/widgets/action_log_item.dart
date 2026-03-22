@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -22,25 +23,30 @@ class ActionLogItem extends StatelessWidget {
     final timeFormat = DateFormat.jm();
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      margin: const EdgeInsets.symmetric(
+        horizontal: Spacing.lg,
+        vertical: Spacing.xs,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(Spacing.lg),
         child: Row(
           children: [
             // Category icon
             Container(
-              width: 48,
-              height: 48,
+              width: Spacing.huge,
+              height: Spacing.huge,
               decoration: BoxDecoration(
-                color: categoryColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                color: categoryColor.withValues(
+                  alpha: Opacities.faint,
+                ),
+                borderRadius: Radii.borderMd,
               ),
               child: Icon(
                 category?.icon ?? Icons.eco,
                 color: categoryColor,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: Spacing.md),
             // Action details
             Expanded(
               child: Column(
@@ -54,7 +60,7 @@ class ActionLogItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: Spacing.xxs),
                   Row(
                     children: [
                       Text(
@@ -64,13 +70,13 @@ class ActionLogItem extends StatelessWidget {
                         ),
                       ),
                       if (actionLog.co2Grams > 0) ...[
-                        const SizedBox(width: 8),
+                        const SizedBox(width: Spacing.sm),
                         Icon(
                           Icons.eco,
                           size: 12,
                           color: theme.colorScheme.primary,
                         ),
-                        const SizedBox(width: 2),
+                        const SizedBox(width: Spacing.xxs),
                         Text(
                           formatCO2Compact(actionLog.co2Grams),
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -81,7 +87,7 @@ class ActionLogItem extends StatelessWidget {
                     ],
                   ),
                   if (actionLog.note != null && actionLog.note!.isNotEmpty) ...[
-                    const SizedBox(height: 4),
+                    const SizedBox(height: Spacing.xs),
                     Text(
                       actionLog.note!,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -98,12 +104,14 @@ class ActionLogItem extends StatelessWidget {
             // Points badge
             Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12,
+                horizontal: Spacing.md,
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: categoryColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(16),
+                color: categoryColor.withValues(
+                  alpha: Opacities.faint,
+                ),
+                borderRadius: Radii.borderLg,
               ),
               child: Text(
                 '${actionLog.points}',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import '../providers/sdg_stats_provider.dart';
@@ -25,12 +26,14 @@ class SdgImpactCard extends ConsumerWidget {
     );
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.lg),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.borderLg,
         border: Border.all(
-          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+          color: theme.colorScheme.outlineVariant.withValues(
+            alpha: Opacities.half,
+          ),
         ),
       ),
       child: Column(
@@ -43,7 +46,7 @@ class SdgImpactCard extends ConsumerWidget {
                 color: goalColor,
                 size: 20,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: Spacing.sm),
               Text(
                 l10n.sdgYourImpact,
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -52,7 +55,7 @@ class SdgImpactCard extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
           Row(
             children: [
               Expanded(
@@ -65,7 +68,7 @@ class SdgImpactCard extends ConsumerWidget {
                   color: goalColor,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: Spacing.lg),
               Expanded(
                 child: _StatTile(
                   icon: Icons.eco,
@@ -106,15 +109,15 @@ class _StatTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(Spacing.md),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: Radii.borderMd,
       ),
       child: Column(
         children: [
           Icon(icon, color: color, size: 24),
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
           Text(
             value,
             style: theme.textTheme.titleLarge?.copyWith(

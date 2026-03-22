@@ -5,19 +5,31 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/data/challenge_selection_service.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
 part 'challenge_providers.g.dart';
 
+/// Loads and caches challenge template data from JSON.
+@riverpod
+Future<ChallengeTemplateData> challengeTemplateData(
+  Ref ref,
+) =>
+    loadChallengeTemplates();
+
 /// Today's challenge based on user ID and recent IDs.
 @riverpod
-DailyChallengeTemplate? todayChallenge(Ref ref) {
+Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
   final user = ref.watch(currentUserProvider).value;
   if (user == null) return null;
+  final data = await ref.watch(
+    challengeTemplateDataProvider.future,
+  );
   return selectDailyChallenge(
     user.uid,
     DateTime.now(),
     user.recentChallengeIds,
+    data.daily,
   );
 }
 
@@ -55,15 +67,16 @@ class ActiveMultiDayChallenge {
     Map<String, dynamic>? map,
   ) {
     if (map == null || map.isEmpty) return null;
-    final templateId = map['templateId'] as String?;
+    final templateId = map[AppConstants.fieldTemplateId] as String?;
     if (templateId == null || templateId.isEmpty) {
       return null;
     }
     return ActiveMultiDayChallenge(
       templateId: templateId,
-      currentDay: (map['currentDay'] as num?)?.toInt() ?? 0,
-      targetDays: (map['targetDays'] as num?)?.toInt() ?? 0,
-      lastCompletionDate: (map['lastCompletionDate'] as String?) ?? '',
+      currentDay: (map[AppConstants.fieldCurrentDay] as num?)?.toInt() ?? 0,
+      targetDays: (map[AppConstants.fieldTargetDays] as num?)?.toInt() ?? 0,
+      lastCompletionDate:
+          (map[AppConstants.fieldLastCompletionDate] as String?) ?? '',
     );
   }
 }
@@ -110,7 +123,10 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
-    final template = multiDayChallengeTemplates.firstWhere(
+    final data = await ref.read(
+      challengeTemplateDataProvider.future,
+    );
+    final template = data.multiDay.firstWhere(
       (t) => t.id == templateId,
     );
 
@@ -121,12 +137,12 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)
           .update({
-        'activeMultiDayChallenge': {
-          'templateId': templateId,
-          'startDate': Timestamp.fromDate(DateTime.now()),
-          'currentDay': 0,
-          'targetDays': template.targetDays,
-          'lastCompletionDate': '',
+        AppConstants.fieldActiveMultiDayChallenge: {
+          AppConstants.fieldTemplateId: templateId,
+          AppConstants.fieldStartDate: Timestamp.fromDate(DateTime.now()),
+          AppConstants.fieldCurrentDay: 0,
+          AppConstants.fieldTargetDays: template.targetDays,
+          AppConstants.fieldLastCompletionDate: '',
         },
       });
     });
@@ -145,7 +161,7 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)
           .update({
-        'activeMultiDayChallenge': <String, dynamic>{},
+        AppConstants.fieldActiveMultiDayChallenge: <String, dynamic>{},
       });
     });
     if (ref.mounted) state = result;

@@ -4,12 +4,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
-import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 void main() {
   group('SdgFilterChips', () {
+    late SdgGoalsData testData;
+
+    setUpAll(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      testData = await loadSdgGoals();
+    });
+
     Widget createTestWidget() {
       return ProviderScope(
+        overrides: [
+          sdgGoalsDataProvider.overrideWith(
+            (ref) async => testData,
+          ),
+        ],
         child: const MaterialApp(
           localizationsDelegates: [
             AppLocalizations.delegate,
@@ -298,12 +311,12 @@ void main() {
         await tester.pumpWidget(createTestWidget());
         await tester.pumpAndSettle();
 
-        final sdg1 = sdgGoals.firstWhere(
+        final sdg1 = testData.goals.firstWhere(
           (g) => g.number == 1,
         );
         expect(sdg1.color, const Color(0xFFE5233D));
 
-        final sdg13 = sdgGoals.firstWhere(
+        final sdg13 = testData.goals.firstWhere(
           (g) => g.number == 13,
         );
         expect(sdg13.color, const Color(0xFF407F46));

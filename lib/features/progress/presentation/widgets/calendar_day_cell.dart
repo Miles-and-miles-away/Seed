@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 
 /// A single day cell in the progress calendar.
@@ -47,7 +48,7 @@ class CalendarDayCell extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildDayNumber(context),
-        const SizedBox(height: 2),
+        const SizedBox(height: Spacing.xxs),
         _buildBall(
           ballSize: ballSize,
           ballColor: ballColor,
@@ -67,10 +68,14 @@ class CalendarDayCell extends StatelessWidget {
       style: theme.textTheme.bodySmall?.copyWith(
         fontWeight: data.isToday ? FontWeight.bold : null,
         color: isDisabled
-            ? colorScheme.onSurface.withValues(alpha: 0.3)
+            ? colorScheme.onSurface.withValues(
+                alpha: Opacities.disabled,
+              )
             : data.isToday
                 ? colorScheme.primary
-                : colorScheme.onSurface.withValues(alpha: 0.7),
+                : colorScheme.onSurface.withValues(
+                    alpha: Opacities.strong,
+                  ),
       ),
     );
   }
@@ -101,7 +106,9 @@ class CalendarDayCell extends StatelessWidget {
                   boxShadow: data.isGoalMet
                       ? [
                           BoxShadow(
-                            color: ballColor.withValues(alpha: 0.4),
+                            color: ballColor.withValues(
+                              alpha: Opacities.medium,
+                            ),
                             blurRadius: 6,
                             spreadRadius: 1,
                           ),

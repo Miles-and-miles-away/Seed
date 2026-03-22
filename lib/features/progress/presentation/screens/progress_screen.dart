@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_screen.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import '../providers/progress_providers.dart';
 import '../widgets/daily_target_picker.dart';
 import '../widgets/progress_calendar.dart';
@@ -32,93 +35,165 @@ class ProgressScreen extends ConsumerWidget {
   }
 }
 
-class _ProgressContent extends ConsumerWidget {
+/// Segments for the progress screen tab bar.
+enum _ProgressSegment { calendar, ecoDex }
+
+class _ProgressContent extends ConsumerStatefulWidget {
   const _ProgressContent();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ProgressContent> createState() => _ProgressContentState();
+}
+
+class _ProgressContentState extends ConsumerState<_ProgressContent> {
+  _ProgressSegment _segment = _ProgressSegment.calendar;
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-
-    final todaySummaryAsync = ref.watch(todaySummaryProvider);
-    final goalTarget = ref.watch(dailyGoalTargetProvider) ?? 3;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.progressTitle),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Rainbow Sun section
-            SizedBox(
-              height: 280,
-              child: todaySummaryAsync.when(
-                data: (summary) {
-                  final goalCount = summary?.goalCount ?? 0;
-                  final completedSdgs = summary?.completedSdgs ?? [];
-
-                  if (goalCount == 0) {
-                    return const EmptyRainbowSun();
-                  }
-
-                  return RainbowSunWidget(
-                    goalCount: goalCount,
-                    goalTarget: goalTarget,
-                    completedSdgs: completedSdgs,
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
+      body: Column(
+        children: [
+          // Segmented control
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.lg,
+              vertical: Spacing.sm,
+            ),
+            child: SegmentedButton<_ProgressSegment>(
+              segments: [
+                ButtonSegment(
+                  value: _ProgressSegment.calendar,
+                  label: Text(l10n.progressCalendarTab),
+                  icon: const Icon(Icons.calendar_month, size: 18),
                 ),
-                error: (error, _) => Center(
-                  child: Text('Error: $error'),
+                ButtonSegment(
+                  value: _ProgressSegment.ecoDex,
+                  label: Text(l10n.ecoDexTab),
+                  icon: const Icon(Icons.auto_stories, size: 18),
                 ),
+              ],
+              selected: {_segment},
+              onSelectionChanged: (selected) {
+                setState(() => _segment = selected.first);
+              },
+              style: SegmentedButton.styleFrom(
+                visualDensity: VisualDensity.compact,
               ),
             ),
+          ),
 
-            // Today's stats
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: todaySummaryAsync.when(
-                data: (summary) {
-                  final goalCount = summary?.goalCount ?? 0;
-                  return _buildTodayStats(
-                    context,
-                    theme,
-                    l10n,
-                    goalCount,
-                    goalTarget,
-                  );
-                },
-                loading: () => const SizedBox.shrink(),
-                error: (_, __) => const SizedBox.shrink(),
+          // Content
+          Expanded(
+            child: _segment == _ProgressSegment.calendar
+                ? _CalendarView(theme: theme, l10n: l10n)
+                : const EcoDexScreen(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CalendarView extends ConsumerWidget {
+  const _CalendarView({
+    required this.theme,
+    required this.l10n,
+  });
+
+  final ThemeData theme;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todaySummaryAsync = ref.watch(todaySummaryProvider);
+    final goalTarget = ref.watch(dailyGoalTargetProvider) ?? 3;
+    final sdgColors = ref
+        .watch(sdgGoalsDataProvider)
+        .value
+        ?.goals
+        .map((g) => g.color)
+        .toList();
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // Rainbow Sun section
+          SizedBox(
+            height: 280,
+            child: todaySummaryAsync.when(
+              data: (summary) {
+                final goalCount = summary?.goalCount ?? 0;
+                final completedSdgs = summary?.completedSdgs ?? [];
+
+                if (goalCount == 0 || sdgColors == null) {
+                  return const EmptyRainbowSun();
+                }
+
+                return RainbowSunWidget(
+                  goalCount: goalCount,
+                  goalTarget: goalTarget,
+                  completedSdgs: completedSdgs,
+                  sdgColors: sdgColors,
+                );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, _) => Center(
+                child: Text('Error: $error'),
               ),
             ),
+          ),
 
-            const SizedBox(height: 24),
-
-            // Calendar section
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const ProgressCalendar(),
+          // Today's stats
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.xxl,
             ),
+            child: todaySummaryAsync.when(
+              data: (summary) {
+                final goalCount = summary?.goalCount ?? 0;
+                return _buildTodayStats(
+                  theme,
+                  l10n,
+                  goalCount,
+                  goalTarget,
+                );
+              },
+              loading: () => const SizedBox.shrink(),
+              error: (_, __) => const SizedBox.shrink(),
+            ),
+          ),
 
-            const SizedBox(height: 24),
-          ],
-        ),
+          const SizedBox(height: Spacing.xxl),
+
+          // Calendar section
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: Spacing.lg,
+            ),
+            padding: const EdgeInsets.all(Spacing.lg),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerLow,
+              borderRadius: Radii.borderLg,
+            ),
+            child: const ProgressCalendar(),
+          ),
+
+          const SizedBox(height: Spacing.xxl),
+        ],
       ),
     );
   }
 
   Widget _buildTodayStats(
-    BuildContext context,
     ThemeData theme,
     AppLocalizations l10n,
     int goalCount,
@@ -129,7 +204,6 @@ class _ProgressContent extends ConsumerWidget {
 
     return Column(
       children: [
-        // Goal progress text
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
@@ -158,14 +232,16 @@ class _ProgressContent extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(height: 8),
-        // Achievement message
+        const SizedBox(height: Spacing.sm),
         if (isGoalMet)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.lg,
+              vertical: Spacing.sm,
+            ),
             decoration: BoxDecoration(
               color: colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: Radii.borderXl,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -175,7 +251,7 @@ class _ProgressContent extends ConsumerWidget {
                   size: 20,
                   color: colorScheme.primary,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: Spacing.sm),
                 Text(
                   l10n.progressGoalReached,
                   style: theme.textTheme.bodyMedium?.copyWith(

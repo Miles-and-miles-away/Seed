@@ -6,7 +6,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart' hide Durations;
+import 'package:seed_app/core/constants/ui_constants.dart' as ui show Durations;
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import '../providers/settings_providers.dart';
 
@@ -51,7 +54,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: ui.Durations.particleLoop,
     );
 
     // Generate confetti particles
@@ -66,13 +69,13 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     unawaited(_particleController.repeat());
 
     // Show content after brief delay
-    await Future<void>.delayed(const Duration(milliseconds: 200));
+    await Future<void>.delayed(ui.Durations.normal);
     if (mounted) {
       setState(() => _showContent = true);
     }
 
     // Show button after content animation
-    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    await Future<void>.delayed(ui.Durations.celebration);
     if (mounted) {
       setState(() => _showButton = true);
     }
@@ -106,7 +109,9 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
           // Backdrop
           RepaintBoundary(
             child: Container(
-              color: Colors.black.withValues(alpha: 0.85),
+              color: Colors.black.withValues(
+                alpha: Opacities.nearOpaque,
+              ),
             ).animate().fadeIn(duration: 300.ms),
           ),
 
@@ -121,11 +126,11 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                     particles: _particles,
                     progress: _particleController.value,
                     colors: [
-                      const Color(0xFFFFD700), // Gold
+                      AppColors.gold,
                       colorScheme.primary,
                       colorScheme.secondary,
-                      const Color(0xFF4CAF50), // Green
-                      const Color(0xFFFF69B4), // Pink
+                      AppColors.success,
+                      AppColors.celebrationPink,
                     ],
                   ),
                 );
@@ -138,7 +143,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
             SafeArea(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(Spacing.xxxl),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -155,7 +160,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                           .fadeIn(delay: 100.ms, duration: 400.ms)
                           .slideY(begin: -0.2, end: 0),
 
-                      const SizedBox(height: 32),
+                      const SizedBox(height: Spacing.xxxl),
 
                       // Mascot with glow
                       if (assetPath != null)
@@ -170,8 +175,9 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFFFFD700)
-                                        .withValues(alpha: 0.4),
+                                    color: AppColors.gold.withValues(
+                                      alpha: Opacities.medium,
+                                    ),
                                     blurRadius: 40,
                                     spreadRadius: 10,
                                   ),
@@ -214,26 +220,26 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                           ],
                         ),
 
-                      const SizedBox(height: 32),
+                      const SizedBox(height: Spacing.xxxl),
 
                       // Week streak badge
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
+                          horizontal: Spacing.xxl,
+                          vertical: Spacing.md,
                         ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
-                              Color(0xFFFFD700),
-                              Color(0xFFFFA500),
+                              AppColors.gold,
+                              AppColors.celebrationOrange,
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: Radii.borderXxl,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFFD700)
-                                  .withValues(alpha: 0.4),
+                              color: AppColors.gold
+                                  .withValues(alpha: Opacities.medium),
                               blurRadius: 16,
                               spreadRadius: 2,
                             ),
@@ -247,7 +253,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                               color: Colors.white,
                               size: 28,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: Spacing.sm),
                             Text(
                               l10n.streakMilestoneWeeks(widget.weekNumber),
                               style: theme.textTheme.titleLarge?.copyWith(
@@ -263,7 +269,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                             curve: Curves.elasticOut,
                           ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: Spacing.lg),
 
                       // Days count
                       Text(
@@ -274,7 +280,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                         textAlign: TextAlign.center,
                       ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: Spacing.sm),
 
                       // Encouraging message
                       Text(
@@ -286,7 +292,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                         textAlign: TextAlign.center,
                       ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
 
-                      const SizedBox(height: 32),
+                      const SizedBox(height: Spacing.xxxl),
 
                       // Continue button
                       if (_showButton)
@@ -294,11 +300,11 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                           onPressed: _handleDismiss,
                           style: FilledButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 48,
-                              vertical: 16,
+                              horizontal: Spacing.huge,
+                              vertical: Spacing.lg,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: Radii.borderLg,
                             ),
                           ),
                           child: Text(l10n.streakMilestoneContinue),
@@ -381,7 +387,9 @@ class _ConfettiPainter extends CustomPainter {
       final y = particle.y * size.height;
 
       final paint = Paint()
-        ..color = colors[particle.colorIndex].withValues(alpha: 0.8);
+        ..color = colors[particle.colorIndex].withValues(
+          alpha: Opacities.heavy,
+        );
 
       canvas
         ..save()

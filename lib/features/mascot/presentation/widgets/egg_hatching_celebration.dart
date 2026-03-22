@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
@@ -43,7 +45,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: Durations.particleLoop,
     );
     _particles = List.generate(40, (_) => _Particle.random());
     _startSequence();
@@ -53,14 +55,10 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     unawaited(_particleController.repeat());
 
     // Show mascot reveal after egg crack delay
-    await Future<void>.delayed(
-      const Duration(milliseconds: 800),
-    );
+    await Future<void>.delayed(Durations.reveal);
     if (mounted) setState(() => _showMascot = true);
 
-    await Future<void>.delayed(
-      const Duration(milliseconds: 1200),
-    );
+    await Future<void>.delayed(Durations.celebration);
     if (mounted) setState(() => _showNameInput = true);
   }
 
@@ -91,7 +89,17 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
 
-    final species = getSpeciesById(widget.hatchedMascot.speciesId);
+    final speciesList = ref
+        .watch(
+          mascotSpeciesDataProvider,
+        )
+        .value;
+    final species = speciesList != null
+        ? getSpeciesById(
+            widget.hatchedMascot.speciesId,
+            speciesList,
+          )
+        : null;
     final assetPath = species?.evolutionStages.first.assetPath;
     final speciesName = species?.getName(locale) ?? '';
 
@@ -102,7 +110,9 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
           // Backdrop
           RepaintBoundary(
             child: Container(
-              color: Colors.black.withValues(alpha: 0.85),
+              color: Colors.black.withValues(
+                alpha: Opacities.nearOpaque,
+              ),
             ).animate().fadeIn(duration: 300.ms),
           ),
 
@@ -148,7 +158,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                   const Icon(
                     Icons.egg,
                     size: 120,
-                    color: Color(0xFFF5F5DC),
+                    color: AppColors.eggBeige,
                   )
                       .animate()
                       .shake(
@@ -173,11 +183,11 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                             curve: Curves.elasticOut,
                             duration: 800.ms,
                           ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: Spacing.lg),
                       Text(
                         speciesName,
                         style: theme.textTheme.titleLarge?.copyWith(
-                          color: const Color(0xFFFFD700),
+                          color: AppColors.gold,
                           fontWeight: FontWeight.bold,
                         ),
                       ).animate().fadeIn(
@@ -193,7 +203,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                 if (_showNameInput)
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 48,
+                      horizontal: Spacing.huge,
                     ),
                     child: Column(
                       children: [
@@ -204,7 +214,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: Spacing.md),
                         TextField(
                           controller: _nameController,
                           autofocus: true,
@@ -216,37 +226,41 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                           decoration: InputDecoration(
                             hintText: l10n.mascotNameHint,
                             hintStyle: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.4),
+                              color: Colors.white.withValues(
+                                alpha: Opacities.medium,
+                              ),
                             ),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white.withValues(alpha: 0.5),
+                                color: Colors.white.withValues(
+                                  alpha: Opacities.half,
+                                ),
                               ),
                             ),
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color(0xFFFFD700),
+                                color: AppColors.gold,
                                 width: 2,
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: Spacing.xxl),
                         FilledButton(
                           onPressed: _isSubmitting ? null : _handleConfirm,
                           style: FilledButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 48,
-                              vertical: 16,
+                              horizontal: Spacing.huge,
+                              vertical: Spacing.lg,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: Radii.borderLg,
                             ),
                           ),
                           child: _isSubmitting
                               ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
+                                  width: Spacing.xxl,
+                                  height: Spacing.xxl,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                     color: Colors.white,
@@ -263,7 +277,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                         .slideY(begin: 0.2, end: 0),
                   ),
 
-                const SizedBox(height: 48),
+                const SizedBox(height: Spacing.huge),
               ],
             ),
           ),
@@ -316,10 +330,10 @@ class _ConfettiPainter extends CustomPainter {
   final double progress;
 
   static const _colors = [
-    Color(0xFFFFD700),
-    Color(0xFF4CAF50),
-    Color(0xFF90CAF9),
-    Color(0xFFFF69B4),
+    AppColors.gold,
+    AppColors.success,
+    AppColors.glowBlue,
+    AppColors.celebrationPink,
   ];
 
   @override
@@ -331,7 +345,9 @@ class _ConfettiPainter extends CustomPainter {
       if (p.y > 1.2) p.y = -0.1;
 
       final paint = Paint()
-        ..color = _colors[p.colorIndex].withValues(alpha: 0.7);
+        ..color = _colors[p.colorIndex].withValues(
+          alpha: Opacities.strong,
+        );
 
       canvas
         ..save()

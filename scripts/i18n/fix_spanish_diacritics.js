@@ -2,6 +2,7 @@
 // Fixes missing Spanish diacritics in action
 // description files. Only modifies es: string blocks.
 const fs = require('fs');
+const path = require('path');
 
 const REPLACEMENTS = [
   // --- n-tilde words ---
@@ -304,7 +305,7 @@ function processFile(filePath) {
   }
 }
 
-const BASE = '/Users/milesd/GitRepos/Seed/scripts/';
+const BASE = path.join(__dirname, '..', 'seed');
 const FILES = [
   'action_descriptions_energy_water.js',
   'action_descriptions_consumption.js',
@@ -313,7 +314,7 @@ const FILES = [
 ];
 
 for (const file of FILES) {
-  processFile(BASE + file);
+  processFile(path.join(BASE, file));
 }
 
 console.log('Done.');

@@ -1,0 +1,274 @@
+{
+  "1": [
+    {
+      "titleEn": "UN SDG 1: No Poverty",
+      "titleJa": "UN SDG 1: 貧困をなくそう",
+      "titleEs": "ODS 1: Fin de la pobreza",
+      "url": "https://sdgs.un.org/goals/goal1",
+      "type": "official"
+    },
+    {
+      "titleEn": "How to Help End Poverty",
+      "titleJa": "貧困をなくすためにできること",
+      "titleEs": "Cómo ayudar a acabar con la pobreza",
+      "url": "https://www.un.org/en/actnow",
+      "type": "action"
+    }
+  ],
+  "2": [
+    {
+      "titleEn": "UN SDG 2: Zero Hunger",
+      "titleJa": "UN SDG 2: 飢餓をゼロに",
+      "titleEs": "ODS 2: Hambre cero",
+      "url": "https://sdgs.un.org/goals/goal2",
+      "type": "official"
+    },
+    {
+      "titleEn": "Reduce Food Waste at Home",
+      "titleJa": "家庭での食品ロスを減らす",
+      "titleEs": "Reducir el desperdicio de alimentos",
+      "url": "https://www.fao.org/food-loss-reduction/en/",
+      "type": "action"
+    }
+  ],
+  "3": [
+    {
+      "titleEn": "UN SDG 3: Good Health",
+      "titleJa": "UN SDG 3: すべての人に健康と福祉を",
+      "titleEs": "ODS 3: Salud y bienestar",
+      "url": "https://sdgs.un.org/goals/goal3",
+      "type": "official"
+    },
+    {
+      "titleEn": "Active Transport & Health Benefits",
+      "titleJa": "アクティブな移動と健康効果",
+      "titleEs": "Transporte activo y beneficios para la salud",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+      "type": "education"
+    }
+  ],
+  "4": [
+    {
+      "titleEn": "UN SDG 4: Quality Education",
+      "titleJa": "UN SDG 4: 質の高い教育をみんなに",
+      "titleEs": "ODS 4: Educación de calidad",
+      "url": "https://sdgs.un.org/goals/goal4",
+      "type": "official"
+    },
+    {
+      "titleEn": "Support Education Worldwide",
+      "titleJa": "世界の教育を支援する",
+      "titleEs": "Apoyar la educación mundial",
+      "url": "https://www.globalpartnership.org/",
+      "type": "action"
+    }
+  ],
+  "5": [
+    {
+      "titleEn": "UN SDG 5: Gender Equality",
+      "titleJa": "UN SDG 5: ジェンダー平等を実現しよう",
+      "titleEs": "ODS 5: Igualdad de género",
+      "url": "https://sdgs.un.org/goals/goal5",
+      "type": "official"
+    },
+    {
+      "titleEn": "Take Action for Gender Equality",
+      "titleJa": "ジェンダー平等のために行動する",
+      "titleEs": "Actuar por la igualdad de género",
+      "url": "https://www.unwomen.org/en",
+      "type": "action"
+    }
+  ],
+  "6": [
+    {
+      "titleEn": "UN SDG 6: Clean Water",
+      "titleJa": "UN SDG 6: 安全な水とトイレを世界中に",
+      "titleEs": "ODS 6: Agua limpia y saneamiento",
+      "url": "https://sdgs.un.org/goals/goal6",
+      "type": "official"
+    },
+    {
+      "titleEn": "Water Conservation Tips",
+      "titleJa": "節水のコツ",
+      "titleEs": "Consejos para ahorrar agua",
+      "url": "https://www.epa.gov/watersense",
+      "type": "action"
+    }
+  ],
+  "7": [
+    {
+      "titleEn": "UN SDG 7: Clean Energy",
+      "titleJa": "UN SDG 7: エネルギーをみんなにそしてクリーンに",
+      "titleEs": "ODS 7: Energía asequible y no contaminante",
+      "url": "https://sdgs.un.org/goals/goal7",
+      "type": "official"
+    },
+    {
+      "titleEn": "Home Energy Saving Guide",
+      "titleJa": "家庭の省エネガイド",
+      "titleEs": "Guía de ahorro de energía en el hogar",
+      "url": "https://www.energy.gov/energysaver",
+      "type": "action"
+    }
+  ],
+  "8": [
+    {
+      "titleEn": "UN SDG 8: Decent Work",
+      "titleJa": "UN SDG 8: 働きがいも経済成長も",
+      "titleEs": "ODS 8: Trabajo decente y crecimiento económico",
+      "url": "https://sdgs.un.org/goals/goal8",
+      "type": "official"
+    },
+    {
+      "titleEn": "Support Fair Trade",
+      "titleJa": "フェアトレードを支援する",
+      "titleEs": "Apoyar el comercio justo",
+      "url": "https://www.fairtrade.net/",
+      "type": "action"
+    }
+  ],
+  "9": [
+    {
+      "titleEn": "UN SDG 9: Innovation",
+      "titleJa": "UN SDG 9: 産業と技術革新の基盤をつくろう",
+      "titleEs": "ODS 9: Industria, innovación e infraestructura",
+      "url": "https://sdgs.un.org/goals/goal9",
+      "type": "official"
+    },
+    {
+      "titleEn": "Green Innovation Resources",
+      "titleJa": "グリーンイノベーションリソース",
+      "titleEs": "Recursos de innovación verde",
+      "url": "https://www.unido.org/",
+      "type": "education"
+    }
+  ],
+  "10": [
+    {
+      "titleEn": "UN SDG 10: Reduced Inequalities",
+      "titleJa": "UN SDG 10: 人や国の不平等をなくそう",
+      "titleEs": "ODS 10: Reducción de las desigualdades",
+      "url": "https://sdgs.un.org/goals/goal10",
+      "type": "official"
+    },
+    {
+      "titleEn": "Fight Inequality",
+      "titleJa": "不平等と闘う",
+      "titleEs": "Luchar contra la desigualdad",
+      "url": "https://www.oxfam.org/",
+      "type": "action"
+    }
+  ],
+  "11": [
+    {
+      "titleEn": "UN SDG 11: Sustainable Cities",
+      "titleJa": "UN SDG 11: 住み続けられるまちづくりを",
+      "titleEs": "ODS 11: Ciudades y comunidades sostenibles",
+      "url": "https://sdgs.un.org/goals/goal11",
+      "type": "official"
+    },
+    {
+      "titleEn": "Green City Living Guide",
+      "titleJa": "グリーンシティ生活ガイド",
+      "titleEs": "Guía de vida en ciudades verdes",
+      "url": "https://www.c40.org/",
+      "type": "action"
+    }
+  ],
+  "12": [
+    {
+      "titleEn": "UN SDG 12: Responsible Consumption",
+      "titleJa": "UN SDG 12: つくる責任つかう責任",
+      "titleEs": "ODS 12: Producción y consumo responsables",
+      "url": "https://sdgs.un.org/goals/goal12",
+      "type": "official"
+    },
+    {
+      "titleEn": "Sustainable Living Tips",
+      "titleJa": "サステナブルな生活のコツ",
+      "titleEs": "Consejos para una vida sostenible",
+      "url": "https://www.oneplanetnetwork.org/",
+      "type": "action"
+    }
+  ],
+  "13": [
+    {
+      "titleEn": "UN SDG 13: Climate Action",
+      "titleJa": "UN SDG 13: 気候変動に具体的な対策を",
+      "titleEs": "ODS 13: Acción por el clima",
+      "url": "https://sdgs.un.org/goals/goal13",
+      "type": "official"
+    },
+    {
+      "titleEn": "Calculate Your Carbon Footprint",
+      "titleJa": "カーボンフットプリントを計算する",
+      "titleEs": "Calcula tu huella de carbono",
+      "url": "https://www.carbonfootprint.com/",
+      "type": "action"
+    }
+  ],
+  "14": [
+    {
+      "titleEn": "UN SDG 14: Life Below Water",
+      "titleJa": "UN SDG 14: 海の豊かさを守ろう",
+      "titleEs": "ODS 14: Vida submarina",
+      "url": "https://sdgs.un.org/goals/goal14",
+      "type": "official"
+    },
+    {
+      "titleEn": "Reduce Ocean Plastic Pollution",
+      "titleJa": "海洋プラスチック汚染を減らす",
+      "titleEs": "Reducir la contaminación plástica del océano",
+      "url": "https://www.oceanconservancy.org/",
+      "type": "action"
+    }
+  ],
+  "15": [
+    {
+      "titleEn": "UN SDG 15: Life on Land",
+      "titleJa": "UN SDG 15: 陸の豊かさも守ろう",
+      "titleEs": "ODS 15: Vida de ecosistemas terrestres",
+      "url": "https://sdgs.un.org/goals/goal15",
+      "type": "official"
+    },
+    {
+      "titleEn": "Plant Trees & Protect Forests",
+      "titleJa": "木を植えて森を守ろう",
+      "titleEs": "Plantar árboles y proteger los bosques",
+      "url": "https://www.plant-for-the-planet.org/",
+      "type": "action"
+    }
+  ],
+  "16": [
+    {
+      "titleEn": "UN SDG 16: Peace & Justice",
+      "titleJa": "UN SDG 16: 平和と公正をすべての人に",
+      "titleEs": "ODS 16: Paz, justicia e instituciones sólidas",
+      "url": "https://sdgs.un.org/goals/goal16",
+      "type": "official"
+    },
+    {
+      "titleEn": "Promote Peace & Justice",
+      "titleJa": "平和と公正を推進する",
+      "titleEs": "Promover la paz y la justicia",
+      "url": "https://www.un.org/ruleoflaw/",
+      "type": "action"
+    }
+  ],
+  "17": [
+    {
+      "titleEn": "UN SDG 17: Partnerships",
+      "titleJa": "UN SDG 17: パートナーシップで目標を達成しよう",
+      "titleEs": "ODS 17: Alianzas para lograr los objetivos",
+      "url": "https://sdgs.un.org/goals/goal17",
+      "type": "official"
+    },
+    {
+      "titleEn": "Join the Global Goals Movement",
+      "titleJa": "グローバルゴールズ運動に参加する",
+      "titleEs": "Únete al movimiento de los Objetivos Globales",
+      "url": "https://www.globalgoals.org/",
+      "type": "action"
+    }
+  ]
+}

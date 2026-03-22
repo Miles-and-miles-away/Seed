@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -13,7 +14,8 @@ class DailyChallengeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final challenge = ref.watch(todayChallengeProvider);
+    final challengeAsync = ref.watch(todayChallengeProvider);
+    final challenge = challengeAsync.value;
     if (challenge == null) return const SizedBox.shrink();
 
     final completed = ref.watch(
@@ -62,10 +64,10 @@ class DailyChallengeCard extends ConsumerWidget {
   ) {
     return Card(
       color: colorScheme.primaryContainer.withValues(
-        alpha: 0.5,
+        alpha: Opacities.half,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Spacing.lg),
         child: Row(
           children: [
             Icon(
@@ -73,7 +75,7 @@ class DailyChallengeCard extends ConsumerWidget {
               color: colorScheme.primary,
               size: 32,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: Spacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +87,7 @@ class DailyChallengeCard extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Spacing.xs),
                   GestureDetector(
                     onTap: () => context.push(
                       '/home/daily-fact',
@@ -121,7 +123,7 @@ class DailyChallengeCard extends ConsumerWidget {
   ) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Spacing.lg),
         child: Row(
           children: [
             Icon(
@@ -129,7 +131,7 @@ class DailyChallengeCard extends ConsumerWidget {
               color: category?.color ?? colorScheme.primary,
               size: 32,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: Spacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +142,7 @@ class DailyChallengeCard extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Spacing.xs),
                   Text(
                     l10n.challengeDialogUnlock,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -179,7 +181,7 @@ class _StreakBadge extends StatelessWidget {
           size: 18,
           color: AppColors.streak,
         ),
-        const SizedBox(width: 2),
+        const SizedBox(width: Spacing.xxs),
         Text(
           '$streak',
           style: theme.textTheme.labelLarge?.copyWith(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -40,14 +41,14 @@ class ProfileScreen extends ConsumerWidget {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(Spacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // User header
                 _buildUserHeader(context, theme, colorScheme, user, l10n),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
 
                 // Level progress
                 _buildLevelSection(
@@ -59,12 +60,12 @@ class ProfileScreen extends ConsumerWidget {
                   l10n,
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
 
                 // Statistics section
                 _buildStatsSection(context, ref, theme, l10n),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
 
                 // Sign out button
                 OutlinedButton.icon(
@@ -94,10 +95,10 @@ class ProfileScreen extends ConsumerWidget {
     final displayName = user.displayName ?? user.email.split('@').first;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.xl),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.borderXl,
       ),
       child: Row(
         children: [
@@ -118,7 +119,7 @@ class ProfileScreen extends ConsumerWidget {
                   )
                 : null,
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: Spacing.lg),
           // User info
           Expanded(
             child: Column(
@@ -130,30 +131,30 @@ class ProfileScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Spacing.xs),
                 Text(
                   user.email,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color:
-                        colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                    color: colorScheme.onPrimaryContainer
+                        .withValues(alpha: Opacities.strong),
                   ),
                 ),
                 if (user.createdAt != null) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: Spacing.sm),
                   Row(
                     children: [
                       Icon(
                         Icons.calendar_today_outlined,
                         size: 14,
                         color: colorScheme.onPrimaryContainer
-                            .withValues(alpha: 0.7),
+                            .withValues(alpha: Opacities.strong),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: Spacing.sm),
                       Text(
                         '${l10n.profileMemberSince} ${DateFormat.yMMMd().format(user.createdAt!)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onPrimaryContainer
-                              .withValues(alpha: 0.7),
+                              .withValues(alpha: Opacities.strong),
                         ),
                       ),
                     ],
@@ -180,10 +181,10 @@ class ProfileScreen extends ConsumerWidget {
     final evolutionStage = ref.watch(evolutionStageProvider);
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.xl),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.borderXl,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,7 +202,7 @@ class ProfileScreen extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Spacing.xs),
                   Text(
                     l10n.pointsLabel(user.points),
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -212,11 +213,13 @@ class ProfileScreen extends ConsumerWidget {
               ),
               // Evolution stage badge
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Spacing.md,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: colorScheme.tertiaryContainer,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: Radii.borderXl,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -226,7 +229,7 @@ class ProfileScreen extends ConsumerWidget {
                       size: 16,
                       color: colorScheme.tertiary,
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: Spacing.sm),
                     Text(
                       l10n.profileEvolutionStage(evolutionStage),
                       style: theme.textTheme.labelMedium?.copyWith(
@@ -240,7 +243,7 @@ class ProfileScreen extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: Spacing.xl),
 
           // Level progress bar
           LevelProgressBar(
@@ -248,7 +251,7 @@ class ProfileScreen extends ConsumerWidget {
             currentLevel: user.level,
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
 
           // Points to next level
           Text(
@@ -287,7 +290,7 @@ class ProfileScreen extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
 
         // First row: Current streak & Longest streak
         StatCardRow(
@@ -305,7 +308,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
 
         // Second row: Total CO2 & Total actions
         StatCardRow(
@@ -323,7 +326,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
 
         // Days active (single card)
         StatCard(

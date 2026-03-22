@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
+
 /// A section header widget for grouping related settings.
 ///
 /// Displays a title with optional padding and divider.
@@ -31,10 +33,13 @@ class SettingsSection extends StatelessWidget {
         if (showTopDivider)
           Divider(
             color: colorScheme.outlineVariant,
-            height: 32,
+            height: Spacing.xxxl,
           ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Spacing.lg,
+            vertical: Spacing.sm,
+          ),
           child: Text(
             title.toUpperCase(),
             style: theme.textTheme.labelMedium?.copyWith(

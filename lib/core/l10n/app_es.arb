@@ -559,5 +559,25 @@
     }
   },
   "challengeAnyCategory": "Cualquier categoría",
-  "challengeLocked": "Bloqueado"
+  "challengeLocked": "Bloqueado",
+
+  "progressCalendarTab": "Calendario",
+  "ecoDexTab": "Eco-Dex",
+  "ecoDexTitle": "Eco-Dex",
+  "ecoDexProgress": "{discovered} / {total} descubiertos",
+  "@ecoDexProgress": {
+    "placeholders": {
+      "discovered": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "ecoDexLocked": "No descubierto",
+  "ecoDexViewSource": "Ver fuente",
+  "ecoDexNewDiscovery": "Nuevo descubrimiento en Eco-Dex!",
+  "ecoDexNewDiscoveryMessage": "Descubriste: {name}",
+  "@ecoDexNewDiscoveryMessage": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  }
 }

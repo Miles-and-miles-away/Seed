@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:uuid/uuid.dart';
-import '../mascot_species_data.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
-import '../models/mascot_species_model.dart';
 
 const _uuid = Uuid();
 
@@ -31,10 +29,10 @@ class MascotRepository {
   Stream<List<MascotModel>> watchAllMascots(String userId) {
     return _userDoc(userId).snapshots().map((doc) {
       final data = doc.data();
-      if (data == null || !data.containsKey('mascots')) {
+      if (data == null || !data.containsKey(AppConstants.fieldMascots)) {
         return <MascotModel>[];
       }
-      final list = data['mascots'] as List<dynamic>? ?? [];
+      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
       return list
           .map(
             (e) => MascotModel.fromJson(
@@ -50,12 +48,12 @@ class MascotRepository {
     return _userDoc(userId).snapshots().map((doc) {
       final data = doc.data();
       if (data == null) return null;
-      final activeId = data['activeMascotId'] as String?;
+      final activeId = data[AppConstants.fieldActiveMascotId] as String?;
       if (activeId == null) return null;
-      final list = data['mascots'] as List<dynamic>? ?? [];
+      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
       for (final item in list) {
         final map = Map<String, dynamic>.from(item as Map);
-        if (map['id'] == activeId) {
+        if (map[AppConstants.fieldId] == activeId) {
           return MascotModel.fromJson(map);
         }
       }
@@ -67,9 +65,13 @@ class MascotRepository {
   Stream<EggModel?> watchEgg(String userId) {
     return _userDoc(userId).snapshots().map((doc) {
       final data = doc.data();
-      if (data == null || data['egg'] == null) return null;
+      if (data == null || data[AppConstants.fieldEgg] == null) {
+        return null;
+      }
       return EggModel.fromJson(
-        Map<String, dynamic>.from(data['egg'] as Map),
+        Map<String, dynamic>.from(
+          data[AppConstants.fieldEgg] as Map,
+        ),
       );
     });
   }
@@ -79,7 +81,7 @@ class MascotRepository {
     return _userDoc(userId).snapshots().map((doc) {
       final data = doc.data();
       if (data == null) return false;
-      final list = data['mascots'] as List<dynamic>? ?? [];
+      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
       return list.isNotEmpty;
     });
   }
@@ -90,8 +92,8 @@ class MascotRepository {
     MascotModel mascot,
   ) async {
     await _userDoc(userId).update({
-      'mascots': FieldValue.arrayUnion([mascot.toJson()]),
-      'activeMascotId': mascot.id,
+      AppConstants.fieldMascots: FieldValue.arrayUnion([mascot.toJson()]),
+      AppConstants.fieldActiveMascotId: mascot.id,
     });
   }
 
@@ -101,7 +103,7 @@ class MascotRepository {
     String mascotId,
   ) async {
     await _userDoc(userId).update({
-      'activeMascotId': mascotId,
+      AppConstants.fieldActiveMascotId: mascotId,
     });
   }
 
@@ -114,18 +116,18 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list = (data['mascots'] as List<dynamic>? ?? [])
+      final list = (data[AppConstants.fieldMascots] as List<dynamic>? ?? [])
           .map(
             (e) => Map<String, dynamic>.from(e as Map),
           )
           .toList();
 
       final idx = list.indexWhere(
-        (m) => m['id'] == updated.id,
+        (m) => m[AppConstants.fieldId] == updated.id,
       );
       if (idx == -1) return;
       list[idx] = updated.toJson();
-      tx.update(ref, {'mascots': list});
+      tx.update(ref, {AppConstants.fieldMascots: list});
     });
   }
 
@@ -139,16 +141,18 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list = (data['mascots'] as List<dynamic>? ?? [])
+      final list = (data[AppConstants.fieldMascots] as List<dynamic>? ?? [])
           .map(
             (e) => Map<String, dynamic>.from(e as Map),
           )
           .toList();
 
-      final idx = list.indexWhere((m) => m['id'] == mascotId);
+      final idx = list.indexWhere(
+        (m) => m[AppConstants.fieldId] == mascotId,
+      );
       if (idx == -1) return;
-      list[idx]['lastSeenStage'] = stage;
-      tx.update(ref, {'mascots': list});
+      list[idx][AppConstants.fieldLastSeenStage] = stage;
+      tx.update(ref, {AppConstants.fieldMascots: list});
     });
   }
 
@@ -162,32 +166,34 @@ class MascotRepository {
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
       final data = doc.data() ?? {};
-      final list = (data['mascots'] as List<dynamic>? ?? [])
+      final list = (data[AppConstants.fieldMascots] as List<dynamic>? ?? [])
           .map(
             (e) => Map<String, dynamic>.from(e as Map),
           )
           .toList();
 
-      final idx = list.indexWhere((m) => m['id'] == mascotId);
+      final idx = list.indexWhere(
+        (m) => m[AppConstants.fieldId] == mascotId,
+      );
       if (idx == -1) return;
-      list[idx]['name'] = name;
-      tx.update(ref, {'mascots': list});
+      list[idx][AppConstants.fieldName] = name;
+      tx.update(ref, {AppConstants.fieldMascots: list});
     });
   }
 
   /// Creates an egg for the user.
   Future<void> createEgg(String userId, EggModel egg) async {
     await _userDoc(userId).update({
-      'egg': egg.toJson(),
-      'eggPendingDiscovery': false,
-      'eggPendingDiscoverySince': FieldValue.delete(),
+      AppConstants.fieldEgg: egg.toJson(),
+      AppConstants.fieldEggPendingDiscovery: false,
+      AppConstants.fieldEggPendingDiscoverySince: FieldValue.delete(),
     });
   }
 
   /// Removes the egg from the user.
   Future<void> removeEgg(String userId) async {
     await _userDoc(userId).update({
-      'egg': FieldValue.delete(),
+      AppConstants.fieldEgg: FieldValue.delete(),
     });
   }
 
@@ -196,8 +202,8 @@ class MascotRepository {
     String userId,
   ) async {
     await _userDoc(userId).update({
-      'eggPendingDiscovery': false,
-      'eggPendingDiscoverySince': FieldValue.delete(),
+      AppConstants.fieldEggPendingDiscovery: false,
+      AppConstants.fieldEggPendingDiscoverySince: FieldValue.delete(),
     });
   }
 
@@ -219,22 +225,8 @@ class MascotRepository {
     );
 
     await _userDoc(userId).update({
-      'mascots': [mascot.toJson()],
-      'activeMascotId': mascot.id,
+      AppConstants.fieldMascots: [mascot.toJson()],
+      AppConstants.fieldActiveMascotId: mascot.id,
     });
-  }
-
-  // =========================================================
-  // Species data (hardcoded for now)
-  // =========================================================
-
-  Future<List<MascotSpeciesModel>> getAllSpecies() async {
-    return defaultMascotSpecies;
-  }
-
-  Future<MascotSpeciesModel?> getSpecies(
-    String speciesId,
-  ) async {
-    return getSpeciesById(speciesId);
   }
 }

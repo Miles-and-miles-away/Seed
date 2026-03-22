@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/progress_providers.dart';
 
@@ -70,7 +71,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
     final notifierState = ref.watch(dailyTargetProvider);
 
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(Spacing.xxl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -83,7 +84,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
           Text(
             l10n.progressSetDailyGoalSubtitle,
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -91,7 +92,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 48),
+          const SizedBox(height: Spacing.huge),
 
           // Number picker
           SizedBox(
@@ -114,13 +115,15 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
 
                   return Center(
                     child: AnimatedDefaultTextStyle(
-                      duration: const Duration(milliseconds: 200),
+                      duration: Durations.fast,
                       style: theme.textTheme.headlineLarge!.copyWith(
                         fontWeight:
                             isSelected ? FontWeight.bold : FontWeight.normal,
                         color: isSelected
                             ? colorScheme.primary
-                            : colorScheme.onSurface.withValues(alpha: 0.4),
+                            : colorScheme.onSurface.withValues(
+                                alpha: Opacities.medium,
+                              ),
                       ),
                       child: Text('$value'),
                     ),
@@ -129,11 +132,11 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
 
           // Dynamic description
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
+            duration: Durations.fast,
             child: Text(
               _getDescriptionForTarget(_selectedTarget, l10n),
               key: ValueKey(_selectedTarget),
@@ -149,12 +152,14 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
           FilledButton(
             onPressed: notifierState.isLoading ? null : _saveTarget,
             style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(
+                vertical: Spacing.lg,
+              ),
             ),
             child: notifierState.isLoading
                 ? const SizedBox(
-                    width: 24,
-                    height: 24,
+                    width: Spacing.xxl,
+                    height: Spacing.xxl,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       color: Colors.white,
@@ -162,7 +167,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
                   )
                 : Text(l10n.progressStartJourney),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: Spacing.xxxl),
         ],
       ),
     );

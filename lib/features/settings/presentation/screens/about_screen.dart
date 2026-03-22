@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -93,34 +94,38 @@ class AboutScreen extends ConsumerWidget {
               ],
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: Spacing.xxxl),
 
             // Footer with SDG acknowledgment
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: Spacing.xxl),
               child: Text(
                 l10n.aboutFooterSdg,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: theme.colorScheme.onSurface.withValues(
+                    alpha: Opacities.moderate,
+                  ),
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: Spacing.sm),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: Spacing.xxl),
               child: Text(
                 l10n.aboutFooterMade,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                  color: theme.colorScheme.onSurface.withValues(
+                    alpha: Opacities.medium,
+                  ),
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: Spacing.xxxl),
           ],
         ),
       ),
@@ -129,7 +134,7 @@ class AboutScreen extends ConsumerWidget {
 
   Widget _buildAppHeader(BuildContext context, ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32),
+      padding: const EdgeInsets.symmetric(vertical: Spacing.xxxl),
       child: Column(
         children: [
           // App icon
@@ -138,15 +143,15 @@ class AboutScreen extends ConsumerWidget {
             height: 80,
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: Radii.borderXl,
             ),
             child: Icon(
               Icons.eco,
-              size: 48,
+              size: Spacing.huge,
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
           Text(
             'Seed',
             style: theme.textTheme.headlineMedium?.copyWith(
@@ -154,11 +159,13 @@ class AboutScreen extends ConsumerWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: Spacing.xs),
           Text(
             AppLocalizations.of(context).appTagline,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+              color: theme.colorScheme.onSurface.withValues(
+                alpha: Opacities.strong,
+              ),
             ),
           ),
         ],
@@ -185,7 +192,7 @@ class AboutScreen extends ConsumerWidget {
       context: context,
       applicationName: 'Seed',
       applicationIcon: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(Spacing.sm),
         child: Icon(
           Icons.eco,
           size: 48,

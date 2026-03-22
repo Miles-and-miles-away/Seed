@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// A horizontally scrolling carousel of SDG goal
@@ -49,7 +50,9 @@ class _SdgCarouselState extends State<SdgCarousel> {
     return ListView.builder(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Spacing.xxl,
+      ),
       itemCount: widget.goals.length * _multiplier,
       itemBuilder: (context, index) {
         final goalIndex = index % widget.goals.length;
@@ -91,10 +94,12 @@ class SdgCard extends StatelessWidget {
         width: 120,
         decoration: BoxDecoration(
           color: goal.color,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: Radii.borderLg,
           boxShadow: [
             BoxShadow(
-              color: goal.color.withValues(alpha: 0.4),
+              color: goal.color.withValues(
+                alpha: Opacities.medium,
+              ),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -104,7 +109,7 @@ class SdgCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: Radii.borderSm,
               child: CachedNetworkImage(
                 imageUrl: goal.iconUrl,
                 width: 80,
@@ -113,7 +118,9 @@ class SdgCard extends StatelessWidget {
                 placeholder: (context, url) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.white.withValues(
+                    alpha: Opacities.light,
+                  ),
                   child: const Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
@@ -124,7 +131,9 @@ class SdgCard extends StatelessWidget {
                 errorWidget: (context, url, error) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.white.withValues(
+                    alpha: Opacities.light,
+                  ),
                   child: Center(
                     child: Text(
                       '${goal.number}',
@@ -138,10 +147,10 @@ class SdgCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Spacing.sm),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 8,
+                horizontal: Spacing.sm,
               ),
               child: Text(
                 goal.getShortTitle(locale),

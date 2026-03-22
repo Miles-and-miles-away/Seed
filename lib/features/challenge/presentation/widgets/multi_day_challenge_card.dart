@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates.dart';
@@ -22,12 +23,17 @@ class MultiDayChallengeCard extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final template = multiDayChallengeTemplates
-        .cast<MultiDayChallengeTemplate?>()
-        .firstWhere(
-          (t) => t?.id == activeChallenge.templateId,
-          orElse: () => null,
-        );
+    final templateDataAsync = ref.watch(
+      challengeTemplateDataProvider,
+    );
+    final templateData = templateDataAsync.value;
+    if (templateData == null) return const SizedBox.shrink();
+
+    final template =
+        templateData.multiDay.cast<MultiDayChallengeTemplate?>().firstWhere(
+              (t) => t?.id == activeChallenge.templateId,
+              orElse: () => null,
+            );
     if (template == null) return const SizedBox.shrink();
 
     final currentDay = activeChallenge.currentDay;
@@ -56,7 +62,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
           '${AppRoutes.home}/${AppRoutes.challenges}',
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(Spacing.lg),
           child: Row(
             children: [
               Icon(
@@ -64,7 +70,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                 color: category?.color ?? colorScheme.primary,
                 size: 28,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: Spacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +81,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: Spacing.xs),
                     Text(
                       l10n.challengeMultiDayProgress(
                         currentDay,
@@ -85,9 +91,9 @@ class MultiDayChallengeCard extends ConsumerWidget {
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: Spacing.sm),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: Radii.borderXs,
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 6,
@@ -96,7 +102,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: Spacing.sm),
               Icon(
                 Icons.chevron_right,
                 color: colorScheme.onSurfaceVariant,

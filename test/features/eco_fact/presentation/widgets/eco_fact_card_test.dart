@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
-
-import '../../../../helpers/test_helpers.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 const _testFact = EcoFact(
   dayOfYear: 1,
@@ -24,10 +27,39 @@ const _minimalFact = EcoFact(
 );
 
 void main() {
+  late SdgGoalsData sdgData;
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    sdgData = await loadSdgGoals();
+  });
+
+  Widget createTestWidget({required Widget child}) {
+    return ProviderScope(
+      overrides: [
+        sdgGoalsDataProvider.overrideWith(
+          (ref) async => sdgData,
+        ),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: child,
+      ),
+    );
+  }
+
   group('EcoFactCard', () {
     testWidgets('shows fact text', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+        createTestWidget(
+          child: const EcoFactCard(fact: _testFact),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -36,16 +68,23 @@ void main() {
 
     testWidgets('shows source', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+        createTestWidget(
+          child: const EcoFactCard(fact: _testFact),
+        ),
       );
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('Test source'), findsOneWidget);
+      expect(
+        find.textContaining('Test source'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('shows category chip', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+        createTestWidget(
+          child: const EcoFactCard(fact: _testFact),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -54,7 +93,9 @@ void main() {
 
     testWidgets('shows related SDG badges', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+        createTestWidget(
+          child: const EcoFactCard(fact: _testFact),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -64,7 +105,9 @@ void main() {
 
     testWidgets('shows UN World Day badge', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+        createTestWidget(
+          child: const EcoFactCard(fact: _testFact),
+        ),
       );
       await tester.pumpAndSettle();
 

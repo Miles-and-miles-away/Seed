@@ -1,0 +1,1225 @@
+{
+  "categories": [
+    {
+      "id": "climate",
+      "nameEn": "Climate",
+      "nameJa": "気候",
+      "nameEs": "Clima"
+    },
+    {
+      "id": "oceans",
+      "nameEn": "Oceans",
+      "nameJa": "海洋",
+      "nameEs": "Oceanos"
+    },
+    {
+      "id": "food_systems",
+      "nameEn": "Food Systems",
+      "nameJa": "食料システム",
+      "nameEs": "Sistemas Alimentarios"
+    },
+    {
+      "id": "biodiversity",
+      "nameEn": "Biodiversity",
+      "nameJa": "生物多様性",
+      "nameEs": "Biodiversidad"
+    },
+    {
+      "id": "energy",
+      "nameEn": "Energy",
+      "nameJa": "エネルギー",
+      "nameEs": "Energia"
+    },
+    {
+      "id": "circular_economy",
+      "nameEn": "Circular Economy",
+      "nameJa": "サーキュラーエコノミー",
+      "nameEs": "Economia Circular"
+    },
+    {
+      "id": "people_planet",
+      "nameEn": "People & Planet",
+      "nameJa": "人と地球",
+      "nameEs": "Personas y Planeta"
+    },
+    {
+      "id": "your_journey",
+      "nameEn": "Your Journey",
+      "nameJa": "あなたの旅",
+      "nameEs": "Tu Viaje"
+    }
+  ],
+  "entries": [
+    {
+      "id": "climate_01",
+      "category": "climate",
+      "nameEn": "The Greenhouse Effect",
+      "nameJa": "温室効果",
+      "nameEs": "El Efecto Invernadero",
+      "factEn": "Without the natural greenhouse effect, Earth's average temperature would be about -18C instead of the current 15C. Human activity has increased atmospheric CO2 by over 50% since pre-industrial times.",
+      "factJa": "自然の温室効果がなければ、地球の平均気温は現在の15度ではなく約-18度になります。人間の活動により、産業革命前と比べて大気中のCO2は50%以上増加しました。",
+      "factEs": "Sin el efecto invernadero natural, la temperatura media de la Tierra seria de unos -18C en lugar de los 15C actuales. La actividad humana ha aumentado el CO2 atmosferico en mas del 50% desde la era preindustrial.",
+      "sourceUrl": "https://climate.nasa.gov/faq/19/",
+      "iconName": "climate_01",
+      "condition": {
+        "type": "totalActions",
+        "count": 5
+      },
+      "hintEn": "Log 5 actions to discover this entry",
+      "hintJa": "5つのアクションを記録して発見しよう",
+      "hintEs": "Registra 5 acciones para descubrir esta entrada"
+    },
+    {
+      "id": "climate_02",
+      "category": "climate",
+      "nameEn": "Carbon Sinks",
+      "nameJa": "炭素吸収源",
+      "nameEs": "Sumideros de Carbono",
+      "factEn": "Oceans absorb about 30% of human-produced CO2 and forests absorb another 30%. Together these natural carbon sinks remove roughly 9.5 billion tonnes of CO2 from the atmosphere each year.",
+      "factJa": "海洋は人為的に排出されたCO2の約30%を吸収し、森林がさらに30%を吸収します。これらの自然の炭素吸収源は合わせて毎年約95億トンのCO2を大気から除去しています。",
+      "factEs": "Los oceanos absorben alrededor del 30% del CO2 producido por humanos y los bosques absorben otro 30%. Juntos, estos sumideros naturales eliminan aproximadamente 9.500 millones de toneladas de CO2 de la atmosfera cada ano.",
+      "sourceUrl": "https://www.globalcarbonproject.org/carbonbudget/",
+      "iconName": "climate_02",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 5000
+      },
+      "hintEn": "Save 5 kg of CO2 to discover this entry",
+      "hintJa": "CO2を5kg節約して発見しよう",
+      "hintEs": "Ahorra 5 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_03",
+      "category": "climate",
+      "nameEn": "Tipping Points",
+      "nameJa": "ティッピングポイント",
+      "nameEs": "Puntos de Inflexion",
+      "factEn": "Climate scientists have identified at least 16 tipping points in Earth's climate system. Once crossed, they trigger self-reinforcing changes. Five of these may already be at risk at current warming levels of 1.1C.",
+      "factJa": "気候科学者たちは地球の気候システムに少なくとも16のティッピングポイントを特定しています。一度越えると自己強化的な変化が引き起こされます。現在の1.1度の温暖化レベルですでに5つが危険にさらされている可能性があります。",
+      "factEs": "Los cientificos han identificado al menos 16 puntos de inflexion en el sistema climatico de la Tierra. Una vez cruzados, desencadenan cambios autorreforzantes. Cinco de estos ya podrian estar en riesgo con el calentamiento actual de 1,1C.",
+      "sourceUrl": "https://www.science.org/doi/10.1126/science.abn7950",
+      "iconName": "climate_03",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 25000
+      },
+      "hintEn": "Save 25 kg of CO2 to discover this entry",
+      "hintJa": "CO2を25kg節約して発見しよう",
+      "hintEs": "Ahorra 25 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_04",
+      "category": "climate",
+      "nameEn": "The Keeling Curve",
+      "nameJa": "キーリングカーブ",
+      "nameEs": "La Curva de Keeling",
+      "factEn": "Since 1958, the Keeling Curve has continuously measured atmospheric CO2 at Mauna Loa, Hawaii. CO2 levels have risen from 315 ppm to over 420 ppm, the highest in at least 800,000 years.",
+      "factJa": "1958年以来、キーリングカーブはハワイのマウナロアで大気中のCO2を継続的に測定しています。CO2レベルは315ppmから420ppm以上に上昇し、少なくとも80万年間で最高値です。",
+      "factEs": "Desde 1958, la Curva de Keeling ha medido continuamente el CO2 atmosferico en Mauna Loa, Hawaii. Los niveles de CO2 han subido de 315 ppm a mas de 420 ppm, el nivel mas alto en al menos 800.000 anos.",
+      "sourceUrl": "https://keelingcurve.ucsd.edu/",
+      "iconName": "climate_04",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 60000
+      },
+      "hintEn": "Save 60 kg of CO2 to discover this entry",
+      "hintJa": "CO2を60kg節約して発見しよう",
+      "hintEs": "Ahorra 60 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_05",
+      "category": "climate",
+      "nameEn": "Albedo Effect",
+      "nameJa": "アルベド効果",
+      "nameEs": "Efecto Albedo",
+      "factEn": "Arctic sea ice reflects up to 80% of sunlight back to space. When it melts, dark ocean water absorbs 94% of solar energy instead. This feedback loop accelerates warming in the Arctic at nearly four times the global average rate.",
+      "factJa": "北極の海氷は太陽光の最大80%を宇宙に反射します。溶けると暗い海水が代わりに太陽エネルギーの94%を吸収します。このフィードバックループにより、北極では全球平均の約4倍の速度で温暖化が加速しています。",
+      "factEs": "El hielo marino del Artico refleja hasta el 80% de la luz solar al espacio. Cuando se derrite, el agua oscura del oceano absorbe el 94% de la energia solar. Este ciclo de retroalimentacion acelera el calentamiento en el Artico a casi cuatro veces la tasa promedio global.",
+      "sourceUrl": "https://nsidc.org/learn/parts-cryosphere/arctic-sea-ice",
+      "iconName": "climate_05",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 120000
+      },
+      "hintEn": "Save 120 kg of CO2 to discover this entry",
+      "hintJa": "CO2を120kg節約して発見しよう",
+      "hintEs": "Ahorra 120 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_06",
+      "category": "climate",
+      "nameEn": "Permafrost Carbon Bomb",
+      "nameJa": "永久凍土の炭素爆弾",
+      "nameEs": "Bomba de Carbono del Permafrost",
+      "factEn": "Arctic permafrost contains an estimated 1,500 billion tonnes of carbon, nearly twice the amount currently in the atmosphere. As it thaws due to warming, it releases CO2 and methane, creating a dangerous feedback loop.",
+      "factJa": "北極の永久凍土には推定1兆5000億トンの炭素が含まれておりこれは現在大気中にある量のほぼ2倍です。温暖化により融解すると、CO2やメタンが放出され、危険なフィードバックループが生まれます。",
+      "factEs": "El permafrost artico contiene aproximadamente 1.500 mil millones de toneladas de carbono, casi el doble de la cantidad actual en la atmosfera. Al descongelarse por el calentamiento, libera CO2 y metano, creando un peligroso ciclo de retroalimentacion.",
+      "sourceUrl": "https://www.nature.com/articles/s41586-022-04960-w",
+      "iconName": "climate_06",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 200000
+      },
+      "hintEn": "Save 200 kg of CO2 to discover this entry",
+      "hintJa": "CO2を200kg節約して発見しよう",
+      "hintEs": "Ahorra 200 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_07",
+      "category": "climate",
+      "nameEn": "Climate & Migration",
+      "nameJa": "気候と移住",
+      "nameEs": "Clima y Migracion",
+      "factEn": "The World Bank estimates that by 2050, up to 216 million people could be forced to migrate within their own countries due to climate impacts like water scarcity, crop failures, and rising sea levels.",
+      "factJa": "世界銀行の推定では、2050年までに水不足、農作物の不作、海面上昇などの気候影響により、最大2億1600万人が国内での移住を余儀なくされる可能性があります。",
+      "factEs": "El Banco Mundial estima que para 2050, hasta 216 millones de personas podrian verse obligadas a migrar dentro de sus propios paises debido a impactos climaticos como la escasez de agua, malas cosechas y el aumento del nivel del mar.",
+      "sourceUrl": "https://www.worldbank.org/en/news/press-release/2021/09/13/climate-change-could-force-216-million-people-to-migrate-within-their-own-countries-by-2050",
+      "iconName": "climate_07",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 350000
+      },
+      "hintEn": "Save 350 kg of CO2 to discover this entry",
+      "hintJa": "CO2を350kg節約して発見しよう",
+      "hintEs": "Ahorra 350 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "climate_08",
+      "category": "climate",
+      "nameEn": "Net Zero Pathways",
+      "nameJa": "ネットゼロへの道",
+      "nameEs": "Caminos a Cero Neto",
+      "factEn": "To limit warming to 1.5C, global CO2 emissions must reach net zero by around 2050. The IEA's pathway requires no new fossil fuel projects and a massive scale-up of renewables, with solar becoming the largest source of electricity by 2035.",
+      "factJa": "温暖化を1.5度に抑えるには、2050年頃までに世界のCO2排出量をネットゼロにする必要があります。IEAの経路では新たな化石燃料プロジェクトは不要で、再生可能エネルギーの大規模な拡大が必要です。2035年までに太陽光が最大の電力源になります。",
+      "factEs": "Para limitar el calentamiento a 1,5C, las emisiones globales de CO2 deben alcanzar cero neto para 2050. La via de la AIE requiere no mas proyectos de combustibles fosiles y una expansion masiva de renovables, con la solar como la mayor fuente de electricidad para 2035.",
+      "sourceUrl": "https://www.iea.org/reports/net-zero-by-2050",
+      "iconName": "climate_08",
+      "condition": {
+        "type": "co2Saved",
+        "grams": 500000
+      },
+      "hintEn": "Save 500 kg of CO2 to discover this entry",
+      "hintJa": "CO2を500kg節約して発見しよう",
+      "hintEs": "Ahorra 500 kg de CO2 para descubrir esta entrada"
+    },
+    {
+      "id": "oceans_01",
+      "category": "oceans",
+      "nameEn": "The Blue Carbon",
+      "nameJa": "ブルーカーボン",
+      "nameEs": "El Carbono Azul",
+      "factEn": "Coastal ecosystems like mangroves, seagrasses, and salt marshes store up to 10 times more carbon per hectare than terrestrial forests, despite covering less than 2% of the ocean floor.",
+      "factJa": "マングローブ、海草、塩性湿地などの沿岸生態系は、海底の2%未満しか占めていないにもかかわらず、陸上の森林よりもヘクタールあたり最大10倍の炭素を貯蔵しています。",
+      "factEs": "Los ecosistemas costeros como manglares, pastos marinos y marismas almacenan hasta 10 veces mas carbono por hectarea que los bosques terrestres, a pesar de cubrir menos del 2% del fondo oceanico.",
+      "sourceUrl": "https://www.iucn.org/resources/issues-brief/blue-carbon",
+      "iconName": "oceans_01",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 5
+      },
+      "hintEn": "Log 5 water-related actions",
+      "hintJa": "水に関するアクションを5つ記録しよう",
+      "hintEs": "Registra 5 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_02",
+      "category": "oceans",
+      "nameEn": "Ocean Acidification",
+      "nameJa": "海洋酸性化",
+      "nameEs": "Acidificacion Oceanica",
+      "factEn": "The ocean has become 30% more acidic since the Industrial Revolution due to absorbing excess CO2. This threatens coral reefs, shellfish, and the entire marine food web.",
+      "factJa": "海洋は余剰CO2を吸収することで、産業革命以降30%酸性化が進みました。これはサンゴ礁、貝類、そして海洋食物連鎖全体を脅かしています。",
+      "factEs": "El oceano se ha vuelto un 30% mas acido desde la Revolucion Industrial debido a la absorcion de CO2 excedente. Esto amenaza los arrecifes de coral, los mariscos y toda la cadena alimentaria marina.",
+      "sourceUrl": "https://www.noaa.gov/education/resource-collections/ocean-coasts/ocean-acidification",
+      "iconName": "oceans_02",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 15
+      },
+      "hintEn": "Log 15 water-related actions",
+      "hintJa": "水に関するアクションを15個記録しよう",
+      "hintEs": "Registra 15 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_03",
+      "category": "oceans",
+      "nameEn": "Great Pacific Garbage Patch",
+      "nameJa": "太平洋ゴミベルト",
+      "nameEs": "Gran Mancha de Basura del Pacifico",
+      "factEn": "The Great Pacific Garbage Patch covers an area roughly twice the size of Texas. It contains an estimated 80,000 tonnes of plastic, with microplastics outnumbering surface fish in some areas by 6 to 1.",
+      "factJa": "太平洋ゴミベルトはテキサス州の約2倍の面積を覆っています。推定8万トンのプラスチックが含まれ、一部の海域ではマイクロプラスチックが表層魚を6対1で上回っています。",
+      "factEs": "La Gran Mancha de Basura del Pacifico cubre un area aproximadamente el doble del tamano de Texas. Contiene unas 80.000 toneladas de plastico, con microplasticos superando a los peces de superficie 6 a 1 en algunas areas.",
+      "sourceUrl": "https://theoceancleanup.com/great-pacific-garbage-patch/",
+      "iconName": "oceans_03",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 30
+      },
+      "hintEn": "Log 30 water-related actions",
+      "hintJa": "水に関するアクションを30個記録しよう",
+      "hintEs": "Registra 30 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_04",
+      "category": "oceans",
+      "nameEn": "Coral Reef Crisis",
+      "nameJa": "サンゴ礁の危機",
+      "nameEs": "Crisis de los Arrecifes de Coral",
+      "factEn": "Coral reefs support 25% of all marine species but cover less than 1% of the ocean floor. Since 1950, the world has lost roughly half its coral reefs. At 1.5C of warming, 70-90% of reefs could be lost.",
+      "factJa": "サンゴ礁は全海洋生物の25%を支えていますが、海底の1%未満しか占めていません。1950年以来、世界のサンゴ礁の約半分が失われました。1.5度の温暖化で70-90%が失われる可能性があります。",
+      "factEs": "Los arrecifes de coral sustentan el 25% de todas las especies marinas pero cubren menos del 1% del fondo oceanico. Desde 1950, el mundo ha perdido aproximadamente la mitad de sus arrecifes. Con 1,5C de calentamiento, podria perderse el 70-90%.",
+      "sourceUrl": "https://www.ipcc.ch/sr15/chapter/chapter-3/",
+      "iconName": "oceans_04",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 55
+      },
+      "hintEn": "Log 55 water-related actions",
+      "hintJa": "水に関するアクションを55個記録しよう",
+      "hintEs": "Registra 55 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_05",
+      "category": "oceans",
+      "nameEn": "Deep Sea Mysteries",
+      "nameJa": "深海の神秘",
+      "nameEs": "Misterios del Mar Profundo",
+      "factEn": "More than 80% of the ocean remains unmapped, unobserved, and unexplored. The deep sea below 200m contains an estimated 10 million undiscovered species. New species are found on nearly every deep-sea expedition.",
+      "factJa": "海洋の80%以上がまだ地図化、観測、探査されていません。水深200m以下の深海には推定1000万の未発見の種が生息しています。ほぼ全ての深海探査で新種が発見されています。",
+      "factEs": "Mas del 80% del oceano permanece sin cartografiar, sin observar y sin explorar. Las profundidades marinas por debajo de 200m contienen unos 10 millones de especies sin descubrir. Se encuentran nuevas especies en casi cada expedicion al mar profundo.",
+      "sourceUrl": "https://oceanservice.noaa.gov/facts/exploration.html",
+      "iconName": "oceans_05",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 90
+      },
+      "hintEn": "Log 90 water-related actions",
+      "hintJa": "水に関するアクションを90個記録しよう",
+      "hintEs": "Registra 90 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_06",
+      "category": "oceans",
+      "nameEn": "Overfishing Crisis",
+      "nameJa": "乱獲の危機",
+      "nameEs": "Crisis de Sobrepesca",
+      "factEn": "Over one-third of global fish stocks are overfished, and another 60% are fished at their maximum sustainable limit. Illegal, unreported fishing accounts for up to 26 million tonnes of fish caught annually.",
+      "factJa": "世界の漁業資源の3分の1以上が乱獲されており、さらに60%が持続可能な限界で漁獲されています。違法・無報告の漁獲は年間最大2600万トンに達します。",
+      "factEs": "Mas de un tercio de las poblaciones de peces del mundo estan sobreexplotadas, y otro 60% se pesca en su limite maximo sostenible. La pesca ilegal y no declarada representa hasta 26 millones de toneladas anuales.",
+      "sourceUrl": "https://www.fao.org/state-of-fisheries-aquaculture",
+      "iconName": "oceans_06",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 150
+      },
+      "hintEn": "Log 150 water-related actions",
+      "hintJa": "水に関するアクションを150個記録しよう",
+      "hintEs": "Registra 150 acciones relacionadas con el agua"
+    },
+    {
+      "id": "oceans_07",
+      "category": "oceans",
+      "nameEn": "Whale Carbon Pump",
+      "nameJa": "クジラの炭素ポンプ",
+      "nameEs": "Bomba de Carbono de las Ballenas",
+      "factEn": "Each great whale sequesters an average of 33 tonnes of CO2 over its lifetime. Whale fecal plumes fertilize phytoplankton, which captures about 40% of all CO2 produced globally -- equivalent to 1.7 trillion trees.",
+      "factJa": "大型クジラは一生の間に平均33トンのCO2を隔離します。クジラの糞はプランクトンを肥沃にし、世界で生産される全CO2の約40%を捕獲します。これは1.7兆本の木に相当します。",
+      "factEs": "Cada gran ballena secuestra un promedio de 33 toneladas de CO2 durante su vida. Las columnas fecales de ballenas fertilizan el fitoplancton, que captura alrededor del 40% de todo el CO2 producido globalmente, equivalente a 1,7 billones de arboles.",
+      "sourceUrl": "https://www.imf.org/en/Publications/fandd/issues/2019/12/natures-solution-to-climate-change-chami",
+      "iconName": "oceans_07",
+      "condition": {
+        "type": "categoryActions",
+        "category": "water",
+        "count": 250
+      },
+      "hintEn": "Log 250 water-related actions",
+      "hintJa": "水に関するアクションを250個記録しよう",
+      "hintEs": "Registra 250 acciones relacionadas con el agua"
+    },
+    {
+      "id": "food_01",
+      "category": "food_systems",
+      "nameEn": "Food's Carbon Footprint",
+      "nameJa": "食の炭素フットプリント",
+      "nameEs": "Huella de Carbono Alimentaria",
+      "factEn": "Food systems account for about one-third of global greenhouse gas emissions. Animal agriculture alone produces 14.5% of all emissions, more than the entire transportation sector.",
+      "factJa": "食料システムは世界の温室効果ガス排出量の約3分の1を占めています。畜産業だけで全排出量の14.5%を生産しており、これは運輸部門全体を上回ります。",
+      "factEs": "Los sistemas alimentarios representan aproximadamente un tercio de las emisiones globales de gases de efecto invernadero. La ganaderia sola produce el 14,5% de todas las emisiones, mas que todo el sector del transporte.",
+      "sourceUrl": "https://www.science.org/doi/10.1126/science.aaq0216",
+      "iconName": "food_01",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 5
+      },
+      "hintEn": "Log 5 food-related actions",
+      "hintJa": "食に関するアクションを5つ記録しよう",
+      "hintEs": "Registra 5 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_02",
+      "category": "food_systems",
+      "nameEn": "Food Waste Scandal",
+      "nameJa": "食品ロスの実態",
+      "nameEs": "El Escandalo del Desperdicio",
+      "factEn": "One-third of all food produced globally is wasted, roughly 1.3 billion tonnes per year. If food waste were a country, it would be the third largest emitter of greenhouse gases after China and the US.",
+      "factJa": "世界で生産される食料の3分の1、約13億トンが毎年廃棄されています。食品廃棄物が国だとしたら、中国と米国に次ぐ3番目の温室効果ガス排出国になります。",
+      "factEs": "Un tercio de todos los alimentos producidos globalmente se desperdicia, aproximadamente 1.300 millones de toneladas al ano. Si el desperdicio alimentario fuera un pais, seria el tercer mayor emisor de gases de efecto invernadero despues de China y EE.UU.",
+      "sourceUrl": "https://www.fao.org/food-loss-and-food-waste",
+      "iconName": "food_02",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 15
+      },
+      "hintEn": "Log 15 food-related actions",
+      "hintJa": "食に関するアクションを15個記録しよう",
+      "hintEs": "Registra 15 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_03",
+      "category": "food_systems",
+      "nameEn": "Soil: The Living Skin",
+      "nameJa": "土壌：生きた皮膚",
+      "nameEs": "Suelo: La Piel Viva",
+      "factEn": "A single tablespoon of healthy soil contains more organisms than there are people on Earth. Soil holds three times more carbon than the atmosphere, but industrial farming has depleted 50-70% of the original carbon in cropland soils.",
+      "factJa": "健康な土壌のスプーン1杯には、地球上の人口よりも多くの生物が含まれています。土壌は大気の3倍の炭素を保持していますが工業的農業により農地の元の炭素の50-70%が失われています。",
+      "factEs": "Una sola cucharada de suelo sano contiene mas organismos que personas hay en la Tierra. El suelo almacena tres veces mas carbono que la atmosfera, pero la agricultura industrial ha agotado el 50-70% del carbono original en suelos de cultivo.",
+      "sourceUrl": "https://www.fao.org/soils-portal/soil-biodiversity",
+      "iconName": "food_03",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 30
+      },
+      "hintEn": "Log 30 food-related actions",
+      "hintJa": "食に関するアクションを30個記録しよう",
+      "hintEs": "Registra 30 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_04",
+      "category": "food_systems",
+      "nameEn": "Water Footprint of Food",
+      "nameJa": "食のウォーターフットプリント",
+      "nameEs": "Huella Hidrica de los Alimentos",
+      "factEn": "Producing 1 kg of beef requires about 15,400 litres of water, compared to 322 litres for vegetables. Agriculture accounts for 70% of global freshwater withdrawals, making diet one of the most powerful levers for water conservation.",
+      "factJa": "牛肉1kgの生産には約15,400リットルの水が必要で、野菜の322リットルと比較されます。農業は世界の淡水取水量の70%を占めており、食事は水の保全において最も強力な手段の一つです。",
+      "factEs": "Producir 1 kg de carne requiere unos 15.400 litros de agua, comparado con 322 litros para vegetales. La agricultura representa el 70% de las extracciones globales de agua dulce, haciendo de la dieta una de las palancas mas poderosas para la conservacion del agua.",
+      "sourceUrl": "https://waterfootprint.org/en/water-footprint/",
+      "iconName": "food_04",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 55
+      },
+      "hintEn": "Log 55 food-related actions",
+      "hintJa": "食に関するアクションを55個記録しよう",
+      "hintEs": "Registra 55 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_05",
+      "category": "food_systems",
+      "nameEn": "Pollinator Crisis",
+      "nameJa": "花粉媒介者の危機",
+      "nameEs": "Crisis de los Polinizadores",
+      "factEn": "Three-quarters of the world's food crops depend at least partly on pollinators. Pollinator populations are declining globally, with 40% of invertebrate pollinator species facing extinction. The economic value of pollination is estimated at USD 235-577 billion annually.",
+      "factJa": "世界の食用作物の4分の3が少なくとも部分的に花粉媒介者に依存しています。花粉媒介者の個体数は世界的に減少しており、無脊椎花粉媒介者の40%が絶滅の危機に瀕しています。受粉の経済価値は年間2350-5770億ドルと推定されています。",
+      "factEs": "Tres cuartas partes de los cultivos alimentarios del mundo dependen al menos parcialmente de polinizadores. Las poblaciones de polinizadores estan disminuyendo globalmente, con el 40% de las especies de polinizadores invertebrados enfrentando la extincion.",
+      "sourceUrl": "https://www.ipbes.net/assessment-reports/pollinators",
+      "iconName": "food_05",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 90
+      },
+      "hintEn": "Log 90 food-related actions",
+      "hintJa": "食に関するアクションを90個記録しよう",
+      "hintEs": "Registra 90 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_06",
+      "category": "food_systems",
+      "nameEn": "Regenerative Agriculture",
+      "nameJa": "再生型農業",
+      "nameEs": "Agricultura Regenerativa",
+      "factEn": "Regenerative farming practices can sequester up to 3.6 tonnes of CO2 per hectare per year while improving soil health, increasing biodiversity, and boosting crop resilience to droughts and floods.",
+      "factJa": "再生型農業の実践は、土壌の健全性を改善し、生物多様性を高め干ばつや洪水に対する作物の回復力を強化しながら、年間ヘクタールあたり最大3.6トンのCO2を隔離できます。",
+      "factEs": "Las practicas de agricultura regenerativa pueden secuestrar hasta 3,6 toneladas de CO2 por hectarea por ano, mientras mejoran la salud del suelo, aumentan la biodiversidad y refuerzan la resiliencia de los cultivos ante sequias e inundaciones.",
+      "sourceUrl": "https://rodaleinstitute.org/why-organic/organic-farming-results/",
+      "iconName": "food_06",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 150
+      },
+      "hintEn": "Log 150 food-related actions",
+      "hintJa": "食に関するアクションを150個記録しよう",
+      "hintEs": "Registra 150 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_07",
+      "category": "food_systems",
+      "nameEn": "Seed Diversity Vault",
+      "nameJa": "種子の多様性",
+      "nameEs": "Boveda de Diversidad de Semillas",
+      "factEn": "The Svalbard Global Seed Vault in Norway stores over 1.1 million seed samples from around the world as a backup against extinction. Humanity has already lost 75% of crop genetic diversity in the past century.",
+      "factJa": "ノルウェーのスヴァールバル世界種子貯蔵庫には、絶滅に備えたバックアップとして世界中から110万以上の種子サンプルが保存されています。過去1世紀で作物の遺伝的多様性の75%がすでに失われています。",
+      "factEs": "La Boveda Global de Semillas de Svalbard en Noruega almacena mas de 1,1 millones de muestras de semillas de todo el mundo como respaldo contra la extincion. La humanidad ya ha perdido el 75% de la diversidad genetica de cultivos en el ultimo siglo.",
+      "sourceUrl": "https://www.seedvault.no/",
+      "iconName": "food_07",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 250
+      },
+      "hintEn": "Log 250 food-related actions",
+      "hintJa": "食に関するアクションを250個記録しよう",
+      "hintEs": "Registra 250 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "food_08",
+      "category": "food_systems",
+      "nameEn": "Plant-Based Revolution",
+      "nameJa": "プラントベース革命",
+      "nameEs": "Revolucion a Base de Plantas",
+      "factEn": "If the world shifted to plant-rich diets, we could reduce food-related emissions by up to 70% and free up 76% of global farmland currently used for livestock. This area, roughly the size of Africa, could be restored to forests and natural habitats.",
+      "factJa": "世界が植物中心の食事に移行すれば、食料関連の排出量を最大70%削減し、現在畜産に使われている世界の農地の76%を解放できます。この面積はアフリカ大陸とほぼ同じで、森林や自然の生息地に回復させることができます。",
+      "factEs": "Si el mundo cambiara a dietas ricas en plantas, podriamos reducir las emisiones relacionadas con los alimentos hasta un 70% y liberar el 76% de las tierras agricolas globales usadas actualmente para ganaderia. Esta area podria restaurarse a bosques y habitats naturales.",
+      "sourceUrl": "https://www.science.org/doi/10.1126/science.aaq0216",
+      "iconName": "food_08",
+      "condition": {
+        "type": "categoryActions",
+        "category": "food",
+        "count": 365
+      },
+      "hintEn": "Log 365 food-related actions",
+      "hintJa": "食に関するアクションを365個記録しよう",
+      "hintEs": "Registra 365 acciones relacionadas con alimentos"
+    },
+    {
+      "id": "bio_01",
+      "category": "biodiversity",
+      "nameEn": "The Sixth Extinction",
+      "nameJa": "第六の大量絶滅",
+      "nameEs": "La Sexta Extincion",
+      "factEn": "Species are going extinct at 100 to 1,000 times the natural background rate. Scientists estimate 1 million species are currently threatened with extinction, many within decades.",
+      "factJa": "生物種は自然の基本速度の100〜1,000倍で絶滅しています。科学者たちは100万種が現在絶滅の危機に瀕しており、その多くが数十年以内に絶滅する可能性があると推定しています。",
+      "factEs": "Las especies se estan extinguiendo a un ritmo de 100 a 1.000 veces la tasa natural. Los cientificos estiman que 1 millon de especies estan actualmente amenazadas de extincion, muchas en decadas.",
+      "sourceUrl": "https://www.ipbes.net/global-assessment",
+      "iconName": "bio_01",
+      "condition": {
+        "type": "totalActions",
+        "count": 10
+      },
+      "hintEn": "Log 10 total actions",
+      "hintJa": "合計10個のアクションを記録しよう",
+      "hintEs": "Registra 10 acciones en total"
+    },
+    {
+      "id": "bio_02",
+      "category": "biodiversity",
+      "nameEn": "Insect Apocalypse",
+      "nameJa": "昆虫の黙示録",
+      "nameEs": "Apocalipsis de los Insectos",
+      "factEn": "Global insect populations are declining by about 2.5% per year. A landmark 2019 review found that 40% of insect species are in decline, with pesticide use, habitat loss, and climate change as key drivers.",
+      "factJa": "世界の昆虫個体数は年間約2.5%減少しています。2019年の画期的なレビューでは、昆虫種の40%が減少しており、農薬の使用、生息地の喪失、気候変動が主な要因であることが判明しました。",
+      "factEs": "Las poblaciones globales de insectos estan disminuyendo alrededor de un 2,5% por ano. Una revision de 2019 encontro que el 40% de las especies de insectos estan en declive, con el uso de pesticidas, la perdida de habitat y el cambio climatico como causas principales.",
+      "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S0006320718313636",
+      "iconName": "bio_02",
+      "condition": {
+        "type": "totalActions",
+        "count": 30
+      },
+      "hintEn": "Log 30 total actions",
+      "hintJa": "合計30個のアクションを記録しよう",
+      "hintEs": "Registra 30 acciones en total"
+    },
+    {
+      "id": "bio_03",
+      "category": "biodiversity",
+      "nameEn": "Forest Lungs",
+      "nameJa": "森の肺",
+      "nameEs": "Pulmones Forestales",
+      "factEn": "Forests cover 31% of Earth's land area and are home to 80% of terrestrial biodiversity. The Amazon alone produces 6% of the world's oxygen and recycles 20% of its freshwater.",
+      "factJa": "森林は地球の陸地面積の31%を覆い、陸上の生物多様性の80%の生息地となっています。アマゾンだけで世界の酸素の6%を生産し淡水の20%を循環させています。",
+      "factEs": "Los bosques cubren el 31% de la superficie terrestre y albergan el 80% de la biodiversidad terrestre. Solo la Amazonia produce el 6% del oxigeno del mundo y recicla el 20% de su agua dulce.",
+      "sourceUrl": "https://www.fao.org/state-of-forests",
+      "iconName": "bio_03",
+      "condition": {
+        "type": "totalActions",
+        "count": 60
+      },
+      "hintEn": "Log 60 total actions",
+      "hintJa": "合計60個のアクションを記録しよう",
+      "hintEs": "Registra 60 acciones en total"
+    },
+    {
+      "id": "bio_04",
+      "category": "biodiversity",
+      "nameEn": "Wetland Wonders",
+      "nameJa": "湿地の驚異",
+      "nameEs": "Maravillas de los Humedales",
+      "factEn": "Wetlands cover only 6% of Earth's surface but provide ecosystem services worth USD 47 trillion per year. They filter water, prevent floods, and store more carbon per unit area than any other ecosystem. Yet 35% of wetlands have been lost since 1970.",
+      "factJa": "湿地は地球表面の6%しか占めていませんが、年間47兆ドル相当の生態系サービスを提供しています。水をろ過し、洪水を防ぎ、単位面積あたり他のどの生態系よりも多くの炭素を貯蔵します。しかし1970年以来、湿地の35%が失われました。",
+      "factEs": "Los humedales cubren solo el 6% de la superficie terrestre pero proporcionan servicios ecosistemicos por valor de 47 billones de USD al ano. Filtran agua, previenen inundaciones y almacenan mas carbono por unidad de area que cualquier otro ecosistema. Pero el 35% se ha perdido desde 1970.",
+      "sourceUrl": "https://www.ramsar.org/resources/global-wetland-outlook",
+      "iconName": "bio_04",
+      "condition": {
+        "type": "totalActions",
+        "count": 100
+      },
+      "hintEn": "Log 100 total actions",
+      "hintJa": "合計100個のアクションを記録しよう",
+      "hintEs": "Registra 100 acciones en total"
+    },
+    {
+      "id": "bio_05",
+      "category": "biodiversity",
+      "nameEn": "Mycelium Network",
+      "nameJa": "菌糸ネットワーク",
+      "nameEs": "Red de Micelio",
+      "factEn": "Underground fungal networks, called the \"Wood Wide Web,\" connect 90% of plant species. Through these networks, trees share nutrients and send chemical warning signals about pests. A single fungal network can span thousands of hectares.",
+      "factJa": "「森のインターネット」と呼ばれる地下の菌糸ネットワークは植物種の90%を接続しています。これらのネットワークを通じて木々は栄養素を共有し、害虫に関する化学的警告信号を送ります。単一の菌糸ネットワークは数千ヘクタールに及ぶことがあります。",
+      "factEs": "Las redes fungicas subterraneas, llamadas \"Wood Wide Web,\" conectan el 90% de las especies vegetales. A traves de estas redes, los arboles comparten nutrientes y envian senales quimicas de advertencia sobre plagas. Una sola red puede abarcar miles de hectareas.",
+      "sourceUrl": "https://www.nature.com/articles/s41586-023-06083-2",
+      "iconName": "bio_05",
+      "condition": {
+        "type": "totalActions",
+        "count": 160
+      },
+      "hintEn": "Log 160 total actions",
+      "hintJa": "合計160個のアクションを記録しよう",
+      "hintEs": "Registra 160 acciones en total"
+    },
+    {
+      "id": "bio_06",
+      "category": "biodiversity",
+      "nameEn": "Keystone Species",
+      "nameJa": "キーストーン種",
+      "nameEs": "Especies Clave",
+      "factEn": "When wolves were reintroduced to Yellowstone in 1995, they triggered a trophic cascade that even changed the course of rivers. By controlling elk populations, wolves allowed vegetation to recover along riverbanks, reducing erosion and restoring habitats.",
+      "factJa": "1995年にオオカミがイエローストーンに再導入されると、川の流路さえ変える栄養段階カスケードが引き起こされました。エルクの個体数を制御することで、オオカミは川岸の植生を回復させ、浸食を減らし、生息地を復元しました。",
+      "factEs": "Cuando los lobos fueron reintroducidos en Yellowstone en 1995, desencadenaron una cascada trofica que incluso cambio el curso de los rios. Al controlar las poblaciones de alces, los lobos permitieron que la vegetacion se recuperara a lo largo de las riberas.",
+      "sourceUrl": "https://www.yellowstonepark.com/things-to-do/wildlife/wolf-reintroduction-changes-ecosystem/",
+      "iconName": "bio_06",
+      "condition": {
+        "type": "totalActions",
+        "count": 250
+      },
+      "hintEn": "Log 250 total actions",
+      "hintJa": "合計250個のアクションを記録しよう",
+      "hintEs": "Registra 250 acciones en total"
+    },
+    {
+      "id": "bio_07",
+      "category": "biodiversity",
+      "nameEn": "Conservation Success",
+      "nameJa": "保全の成功",
+      "nameEs": "Exito de la Conservacion",
+      "factEn": "Conservation efforts work: the bald eagle, humpback whale, and giant panda have all recovered from near extinction. Protected areas now cover 17% of land and 8% of marine areas, with a global target of 30% by 2030.",
+      "factJa": "保全活動は効果があります：ハクトウワシ、ザトウクジラ、ジャイアントパンダはすべて絶滅の危機から回復しました。保護区は現在陸地の17%と海洋の8%をカバーしており、2030年までに30%という世界目標があります。",
+      "factEs": "Los esfuerzos de conservacion funcionan: el aguila calva, la ballena jorobada y el panda gigante se han recuperado de la casi extincion. Las areas protegidas cubren ahora el 17% de la tierra y el 8% de las areas marinas, con un objetivo global del 30% para 2030.",
+      "sourceUrl": "https://www.cbd.int/gbf/",
+      "iconName": "bio_07",
+      "condition": {
+        "type": "totalActions",
+        "count": 365
+      },
+      "hintEn": "Log 365 total actions",
+      "hintJa": "合計365個のアクションを記録しよう",
+      "hintEs": "Registra 365 acciones en total"
+    },
+    {
+      "id": "energy_01",
+      "category": "energy",
+      "nameEn": "Solar Revolution",
+      "nameJa": "太陽光革命",
+      "nameEs": "Revolucion Solar",
+      "factEn": "Solar panel costs have dropped 99% since 1976. In 2023, solar became the cheapest source of new electricity in most of the world, with capacity growing by a record 50% in a single year.",
+      "factJa": "ソーラーパネルのコストは1976年以来99%下落しました。2023年太陽光は世界の大部分で最も安い新規電源となり、1年で記録的な50%の容量増加を達成しました。",
+      "factEs": "Los costos de los paneles solares han caido un 99% desde 1976. En 2023, la solar se convirtio en la fuente mas barata de nueva electricidad en la mayor parte del mundo, con una capacidad que crecio un 50% record en un solo ano.",
+      "sourceUrl": "https://www.iea.org/reports/renewables-2023",
+      "iconName": "energy_01",
+      "condition": {
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 5
+      },
+      "hintEn": "Log 5 energy-related actions",
+      "hintJa": "エネルギー関連のアクションを5つ記録しよう",
+      "hintEs": "Registra 5 acciones relacionadas con energia"
+    },
+    {
+      "id": "energy_02",
+      "category": "energy",
+      "nameEn": "Wind Power Potential",
+      "nameJa": "風力発電の可能性",
+      "nameEs": "Potencial Eolico",
+      "factEn": "A single modern wind turbine can generate enough electricity to power over 1,500 homes. Global wind capacity has grown 75-fold since 2000 and now prevents over 1.2 billion tonnes of CO2 emissions per year.",
+      "factJa": "1基の最新風力タービンは1,500世帯以上に電力を供給できます。世界の風力容量は2000年以来75倍に成長し、現在年間12億トン以上のCO2排出を防いでいます。",
+      "factEs": "Una sola turbina eolica moderna puede generar suficiente electricidad para alimentar mas de 1.500 hogares. La capacidad eolica global ha crecido 75 veces desde 2000 y ahora previene mas de 1.200 millones de toneladas de emisiones de CO2 por ano.",
+      "sourceUrl": "https://gwec.net/global-wind-report-2024/",
+      "iconName": "energy_02",
+      "condition": {
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 15
+      },
+      "hintEn": "Log 15 energy-related actions",
+      "hintJa": "エネルギー関連のアクションを15個記録しよう",
+      "hintEs": "Registra 15 acciones relacionadas con energia"
+    },
+    {
+      "id": "energy_03",
+      "category": "energy",
+      "nameEn": "Phantom Energy",
+      "nameJa": "待機電力",
+      "nameEs": "Energia Fantasma",
+      "factEn": "Standby power consumption (phantom loads) accounts for 5-10% of residential electricity use. Globally, standby power wastes roughly 480 TWh per year, equivalent to the annual output of over 60 coal power plants.",
+      "factJa": "待機電力消費は住宅の電力使用量の5-10%を占めています。世界全体で待機電力は年間約480TWhを浪費しており、これは60以上の石炭火力発電所の年間発電量に相当します。",
+      "factEs": "El consumo en modo de espera representa el 5-10% del uso residencial de electricidad. Globalmente, la energia fantasma desperdicia aproximadamente 480 TWh al ano, equivalente a la produccion anual de mas de 60 centrales de carbon.",
+      "sourceUrl": "https://www.iea.org/reports/energy-efficiency-2023",
+      "iconName": "energy_03",
+      "condition": {
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 35
+      },
+      "hintEn": "Log 35 energy-related actions",
+      "hintJa": "エネルギー関連のアクションを35個記録しよう",
+      "hintEs": "Registra 35 acciones relacionadas con energia"
+    },
+    {
+      "id": "energy_04",
+      "category": "energy",
+      "nameEn": "Transport Emissions",
+      "nameJa": "交通の排出量",
+      "nameEs": "Emisiones del Transporte",
+      "factEn": "Transport accounts for 16% of global greenhouse gas emissions. A single transatlantic flight produces about 1.6 tonnes of CO2 per passenger, roughly 20% of an average person's annual carbon footprint.",
+      "factJa": "交通は世界の温室効果ガス排出量の16%を占めています。大西洋横断フライト1回で乗客1人あたり約1.6トンのCO2が排出され、これは平均的な人の年間カーボンフットプリントの約20%に相当します。",
+      "factEs": "El transporte representa el 16% de las emisiones globales de gases de efecto invernadero. Un solo vuelo transatlantico produce unas 1,6 toneladas de CO2 por pasajero, aproximadamente el 20% de la huella de carbono anual de una persona promedio.",
+      "sourceUrl": "https://ourworldindata.org/co2-emissions-from-transport",
+      "iconName": "energy_04",
+      "condition": {
+        "type": "categoryActions",
+        "category": "transport",
+        "count": 20
+      },
+      "hintEn": "Log 20 transport-related actions",
+      "hintJa": "交通関連のアクションを20個記録しよう",
+      "hintEs": "Registra 20 acciones relacionadas con transporte"
+    },
+    {
+      "id": "energy_05",
+      "category": "energy",
+      "nameEn": "Electric Vehicle Tipping Point",
+      "nameJa": "EVのティッピングポイント",
+      "nameEs": "Punto de Inflexion de los Vehiculos Electricos",
+      "factEn": "Electric vehicles made up 18% of global car sales in 2023, up from just 2% in 2018. Over their lifetime, EVs produce 50-70% fewer emissions than petrol cars, even accounting for battery manufacturing and electricity generation.",
+      "factJa": "電気自動車は2023年の世界の自動車販売の18%を占め、2018年のわずか2%から増加しました。生涯にわたり、EVはバッテリー製造と発電を考慮しても、ガソリン車より50-70%少ない排出量です。",
+      "factEs": "Los vehiculos electricos representaron el 18% de las ventas mundiales de autos en 2023, frente al 2% en 2018. Durante su vida util, los VE producen 50-70% menos emisiones que los autos de gasolina, incluso contando la fabricacion de baterias y la generacion electrica.",
+      "sourceUrl": "https://www.iea.org/reports/global-ev-outlook-2024",
+      "iconName": "energy_05",
+      "condition": {
+        "type": "categoryActions",
+        "category": "transport",
+        "count": 60
+      },
+      "hintEn": "Log 60 transport-related actions",
+      "hintJa": "交通関連のアクションを60個記録しよう",
+      "hintEs": "Registra 60 acciones relacionadas con transporte"
+    },
+    {
+      "id": "energy_06",
+      "category": "energy",
+      "nameEn": "Energy Efficiency Gap",
+      "nameJa": "エネルギー効率のギャップ",
+      "nameEs": "Brecha de Eficiencia Energetica",
+      "factEn": "Improving energy efficiency is the \"first fuel\" of the clean energy transition. Doubling the global rate of efficiency improvement could cut energy-related CO2 by one-third. Buildings alone account for 30% of global energy use and could cut consumption by 40% through better design.",
+      "factJa": "エネルギー効率の改善はクリーンエネルギー転換の「第一の燃料」です。効率改善率を2倍にすれば、エネルギー関連のCO2を3分の1削減できます。建物だけで世界のエネルギー使用の30%を占めより良い設計により消費を40%削減できます。",
+      "factEs": "Mejorar la eficiencia energetica es el \"primer combustible\" de la transicion energetica limpia. Duplicar la tasa global de mejora de eficiencia podria reducir el CO2 energetico en un tercio. Los edificios solos representan el 30% del uso global de energia.",
+      "sourceUrl": "https://www.iea.org/reports/energy-efficiency-2023",
+      "iconName": "energy_06",
+      "condition": {
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 120
+      },
+      "hintEn": "Log 120 energy-related actions",
+      "hintJa": "エネルギー関連のアクションを120個記録しよう",
+      "hintEs": "Registra 120 acciones relacionadas con energia"
+    },
+    {
+      "id": "energy_07",
+      "category": "energy",
+      "nameEn": "Green Hydrogen Future",
+      "nameJa": "グリーン水素の未来",
+      "nameEs": "Futuro del Hidrogeno Verde",
+      "factEn": "Green hydrogen, produced using renewable electricity, could decarbonize hard-to-electrify sectors like steel, shipping, and aviation. Its production cost has fallen 40% since 2015 and is projected to fall another 50% by 2030.",
+      "factJa": "再生可能電力を使用して製造されるグリーン水素は、鉄鋼、海運航空などの電化が困難なセクターの脱炭素化を可能にします。製造コストは2015年以来40%下落し、2030年までにさらに50%の下落が予測されています。",
+      "factEs": "El hidrogeno verde, producido con electricidad renovable, podria descarbonizar sectores dificiles de electrificar como el acero, el transporte maritimo y la aviacion. Su costo de produccion ha caido un 40% desde 2015 y se proyecta otra caida del 50% para 2030.",
+      "sourceUrl": "https://www.irena.org/publications/2020/Dec/Green-hydrogen-cost-reduction",
+      "iconName": "energy_07",
+      "condition": {
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 200
+      },
+      "hintEn": "Log 200 energy-related actions",
+      "hintJa": "エネルギー関連のアクションを200個記録しよう",
+      "hintEs": "Registra 200 acciones relacionadas con energia"
+    },
+    {
+      "id": "circular_01",
+      "category": "circular_economy",
+      "nameEn": "The Waste Mountain",
+      "nameJa": "ゴミの山",
+      "nameEs": "La Montana de Basura",
+      "factEn": "The world generates 2.01 billion tonnes of municipal solid waste per year. By 2050, this could reach 3.4 billion tonnes. Only 13.5% of waste is currently recycled and 5.5% composted.",
+      "factJa": "世界は年間20.1億トンの都市固形廃棄物を排出しています。2050年までにこれは34億トンに達する可能性があります。現在リサイクルされているのはわずか13.5%、堆肥化は5.5%です。",
+      "factEs": "El mundo genera 2.010 millones de toneladas de residuos solidos municipales al ano. Para 2050, esto podria alcanzar 3.400 millones. Solo el 13,5% de los residuos se recicla actualmente y el 5,5% se composta.",
+      "sourceUrl": "https://www.worldbank.org/en/topic/urbandevelopment/brief/solid-waste-management",
+      "iconName": "circular_01",
+      "condition": {
+        "type": "categoryActions",
+        "category": "recycling",
+        "count": 5
+      },
+      "hintEn": "Log 5 recycling actions",
+      "hintJa": "リサイクルのアクションを5つ記録しよう",
+      "hintEs": "Registra 5 acciones de reciclaje"
+    },
+    {
+      "id": "circular_02",
+      "category": "circular_economy",
+      "nameEn": "Fast Fashion Crisis",
+      "nameJa": "ファストファッションの危機",
+      "nameEs": "Crisis de la Moda Rapida",
+      "factEn": "The fashion industry produces 10% of global carbon emissions, more than aviation and shipping combined. The average garment is worn just 7 times before being discarded, and less than 1% of clothing materials are recycled into new garments.",
+      "factJa": "ファッション産業は世界の炭素排出量の10%を排出しており、航空と海運を合わせたよりも多いです。平均的な衣類は廃棄されるまでわずか7回しか着用されず、衣料素材の1%未満しか新しい衣服にリサイクルされていません。",
+      "factEs": "La industria de la moda produce el 10% de las emisiones globales de carbono, mas que la aviacion y el transporte maritimo combinados. Una prenda promedio se usa solo 7 veces antes de ser descartada, y menos del 1% de los materiales se reciclan en nuevas prendas.",
+      "sourceUrl": "https://www.unep.org/news-and-stories/story/environmental-costs-fast-fashion",
+      "iconName": "circular_02",
+      "condition": {
+        "type": "categoryActions",
+        "category": "consumption",
+        "count": 10
+      },
+      "hintEn": "Log 10 consumption-related actions",
+      "hintJa": "消費関連のアクションを10個記録しよう",
+      "hintEs": "Registra 10 acciones de consumo"
+    },
+    {
+      "id": "circular_03",
+      "category": "circular_economy",
+      "nameEn": "E-Waste Gold Mine",
+      "nameJa": "電子廃棄物の金鉱",
+      "nameEs": "Mina de Oro de los Residuos Electronicos",
+      "factEn": "The world generates 62 million tonnes of e-waste per year, but only 22.3% is properly recycled. E-waste contains valuable materials worth over USD 62 billion annually, including gold, silver, copper, and rare earth elements.",
+      "factJa": "世界は年間6200万トンの電子廃棄物を排出していますが、適切にリサイクルされているのは22.3%のみです。電子廃棄物には金、銀、銅、レアアースを含む年間620億ドル以上の価値ある素材が含まれています。",
+      "factEs": "El mundo genera 62 millones de toneladas de residuos electronicos al ano, pero solo el 22,3% se recicla adecuadamente. Los residuos electronicos contienen materiales valiosos por mas de 62.000 millones de USD anuales, incluyendo oro, plata, cobre y tierras raras.",
+      "sourceUrl": "https://ewastemonitor.info/",
+      "iconName": "circular_03",
+      "condition": {
+        "type": "categoryActions",
+        "category": "recycling",
+        "count": 25
+      },
+      "hintEn": "Log 25 recycling actions",
+      "hintJa": "リサイクルのアクションを25個記録しよう",
+      "hintEs": "Registra 25 acciones de reciclaje"
+    },
+    {
+      "id": "circular_04",
+      "category": "circular_economy",
+      "nameEn": "Plastic Planet",
+      "nameJa": "プラスチックの惑星",
+      "nameEs": "Planeta de Plastico",
+      "factEn": "Since 1950, the world has produced 8.3 billion tonnes of plastic. Only 9% has been recycled, 12% incinerated, and 79% has accumulated in landfills or the environment. By 2050, there could be more plastic in the ocean by weight than fish.",
+      "factJa": "1950年以来、世界は83億トンのプラスチックを生産しました。リサイクルされたのはわずか9%、焼却が12%、79%が埋立地や環境中に蓄積しています。2050年までに、海中のプラスチックが重量で魚を上回る可能性があります。",
+      "factEs": "Desde 1950, el mundo ha producido 8.300 millones de toneladas de plastico. Solo el 9% se ha reciclado, el 12% incinerado, y el 79% se ha acumulado en vertederos o el medio ambiente. Para 2050, podria haber mas plastico que peces en el oceano por peso.",
+      "sourceUrl": "https://www.science.org/doi/10.1126/sciadv.1700782",
+      "iconName": "circular_04",
+      "condition": {
+        "type": "categoryActions",
+        "category": "recycling",
+        "count": 55
+      },
+      "hintEn": "Log 55 recycling actions",
+      "hintJa": "リサイクルのアクションを55個記録しよう",
+      "hintEs": "Registra 55 acciones de reciclaje"
+    },
+    {
+      "id": "circular_05",
+      "category": "circular_economy",
+      "nameEn": "Right to Repair",
+      "nameJa": "修理する権利",
+      "nameEs": "Derecho a Reparar",
+      "factEn": "Extending the lifespan of electronics by just one year could save 4 million tonnes of CO2 in the EU alone. The growing Right to Repair movement is pushing for legislation requiring manufacturers to make products repairable and provide spare parts.",
+      "factJa": "電子機器の寿命をわずか1年延ばすだけで、EU単独で400万トンのCO2を節約できます。成長中の修理する権利運動は、メーカーに製品を修理可能にし、スペアパーツを提供することを義務づける法律を推進しています。",
+      "factEs": "Extender la vida util de los electronicos solo un ano podria ahorrar 4 millones de toneladas de CO2 solo en la UE. El creciente movimiento del Derecho a Reparar impulsa legislacion que exige a los fabricantes hacer productos reparables y proveer repuestos.",
+      "sourceUrl": "https://repair.eu/",
+      "iconName": "circular_05",
+      "condition": {
+        "type": "categoryActions",
+        "category": "consumption",
+        "count": 50
+      },
+      "hintEn": "Log 50 consumption-related actions",
+      "hintJa": "消費関連のアクションを50個記録しよう",
+      "hintEs": "Registra 50 acciones de consumo"
+    },
+    {
+      "id": "circular_06",
+      "category": "circular_economy",
+      "nameEn": "Circular Economy Vision",
+      "nameJa": "サーキュラーエコノミーの展望",
+      "nameEs": "Vision de Economia Circular",
+      "factEn": "The global economy is only 7.2% circular -- meaning 92.8% of materials extracted are never cycled back. Transitioning to a circular economy could reduce global greenhouse gas emissions by 39% and cut virgin material use by 28%.",
+      "factJa": "世界経済はわずか7.2%しか循環していません。つまり抽出された素材の92.8%が再循環されていません。サーキュラーエコノミーへの移行により、世界の温室効果ガス排出量を39%削減し、新規素材使用を28%削減できます。",
+      "factEs": "La economia global es solo un 7,2% circular, lo que significa que el 92,8% de los materiales extraidos nunca se reciclan. La transicion a una economia circular podria reducir las emisiones globales en un 39% y el uso de materiales virgenes en un 28%.",
+      "sourceUrl": "https://www.circularity-gap.world/",
+      "iconName": "circular_06",
+      "condition": {
+        "type": "categoryActions",
+        "category": "recycling",
+        "count": 130
+      },
+      "hintEn": "Log 130 recycling actions",
+      "hintJa": "リサイクルのアクションを130個記録しよう",
+      "hintEs": "Registra 130 acciones de reciclaje"
+    },
+    {
+      "id": "circular_07",
+      "category": "circular_economy",
+      "nameEn": "Zero Waste Cities",
+      "nameJa": "ゼロウェイスト都市",
+      "nameEs": "Ciudades Basura Cero",
+      "factEn": "The city of Kamikatsu, Japan achieved an 80% recycling rate by sorting waste into 45 categories. Globally, over 500 municipalities have committed to zero waste targets. San Francisco diverts 80% of its waste from landfills.",
+      "factJa": "日本の上勝町はゴミを45種類に分別することで80%のリサイクル率を達成しました。世界中で500以上の自治体がゼロウェイスト目標にコミットしています。サンフランシスコは廃棄物の80%を埋立地から転換しています。",
+      "factEs": "La ciudad de Kamikatsu, Japon logro una tasa de reciclaje del 80% clasificando residuos en 45 categorias. Globalmente, mas de 500 municipios se han comprometido con objetivos de basura cero. San Francisco desvia el 80% de sus residuos de los vertederos.",
+      "sourceUrl": "https://zerowasteworld.org/",
+      "iconName": "circular_07",
+      "condition": {
+        "type": "categoryActions",
+        "category": "recycling",
+        "count": 250
+      },
+      "hintEn": "Log 250 recycling actions",
+      "hintJa": "リサイクルのアクションを250個記録しよう",
+      "hintEs": "Registra 250 acciones de reciclaje"
+    },
+    {
+      "id": "people_01",
+      "category": "people_planet",
+      "nameEn": "The SDG Framework",
+      "nameJa": "SDGsの枠組み",
+      "nameEs": "El Marco de los ODS",
+      "factEn": "The 17 Sustainable Development Goals, adopted by all 193 UN member states in 2015, contain 169 targets and 231 indicators. They represent the most comprehensive global agreement ever reached on sustainable development.",
+      "factJa": "2015年に国連加盟193カ国すべてが採択した17の持続可能な開発目標には、169のターゲットと231の指標が含まれています。これは持続可能な開発に関する史上最も包括的な国際合意です。",
+      "factEs": "Los 17 Objetivos de Desarrollo Sostenible, adoptados por los 193 estados miembros de la ONU en 2015, contienen 169 metas y 231 indicadores. Representan el acuerdo global mas completo sobre desarrollo sostenible.",
+      "sourceUrl": "https://sdgs.un.org/goals",
+      "iconName": "people_01",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 3
+      },
+      "hintEn": "Log actions related to 3 different SDGs",
+      "hintJa": "3つの異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 3 ODS diferentes"
+    },
+    {
+      "id": "people_02",
+      "category": "people_planet",
+      "nameEn": "Climate Justice",
+      "nameJa": "気候正義",
+      "nameEs": "Justicia Climatica",
+      "factEn": "The richest 1% of the world's population produces more than twice the carbon emissions of the poorest 50%. Climate change disproportionately impacts developing nations that have contributed least to the problem.",
+      "factJa": "世界人口の最も裕福な1%は、最も貧しい50%の2倍以上の炭素排出量を生産しています。気候変動は問題への貢献が最も少ない発展途上国に不均衡な影響を与えています。",
+      "factEs": "El 1% mas rico de la poblacion mundial produce mas del doble de las emisiones de carbono que el 50% mas pobre. El cambio climatico impacta desproporcionadamente a las naciones en desarrollo que menos han contribuido al problema.",
+      "sourceUrl": "https://www.oxfam.org/en/press-releases/carbon-emissions-richest-1-set-be-30-times-15degc-limit-2030",
+      "iconName": "people_02",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 5
+      },
+      "hintEn": "Log actions related to 5 different SDGs",
+      "hintJa": "5つの異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 5 ODS diferentes"
+    },
+    {
+      "id": "people_03",
+      "category": "people_planet",
+      "nameEn": "Indigenous Guardians",
+      "nameJa": "先住民の守り手",
+      "nameEs": "Guardianes Indigenas",
+      "factEn": "Indigenous peoples manage or hold tenure over 25% of the world's land surface, which contains 80% of Earth's remaining biodiversity. Deforestation rates in indigenous-managed forests are 2-3 times lower than in other forests.",
+      "factJa": "先住民は世界の陸地面積の25%を管理または保有しており、そこには地球に残る生物多様性の80%が含まれています。先住民が管理する森林の森林破壊率は他の森林の2-3分の1です。",
+      "factEs": "Los pueblos indigenas gestionan o tienen derechos sobre el 25% de la superficie terrestre, que contiene el 80% de la biodiversidad restante de la Tierra. Las tasas de deforestacion en bosques gestionados por indigenas son 2-3 veces menores que en otros bosques.",
+      "sourceUrl": "https://www.worldbank.org/en/topic/indigenouspeoples",
+      "iconName": "people_03",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 7
+      },
+      "hintEn": "Log actions related to 7 different SDGs",
+      "hintJa": "7つの異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 7 ODS diferentes"
+    },
+    {
+      "id": "people_04",
+      "category": "people_planet",
+      "nameEn": "Youth Climate Movement",
+      "nameJa": "若者の気候運動",
+      "nameEs": "Movimiento Juvenil Climatico",
+      "factEn": "In September 2019, an estimated 7.6 million people joined the Global Climate Strike, making it the largest climate protest in history. The movement, inspired by youth activists, has since influenced climate policy in over 40 countries.",
+      "factJa": "2019年9月、推定760万人がグローバル気候ストライキに参加し、史上最大の気候抗議活動となりました。若い活動家に触発されたこの運動は、以来40カ国以上の気候政策に影響を与えています。",
+      "factEs": "En septiembre de 2019, aproximadamente 7,6 millones de personas se unieron a la Huelga Global por el Clima, convirtiendola en la mayor protesta climatica de la historia. El movimiento, inspirado por jovenes activistas, ha influido en politicas climaticas en mas de 40 paises.",
+      "sourceUrl": "https://globalclimatestrike.net/",
+      "iconName": "people_04",
+      "condition": {
+        "type": "categoryActions",
+        "category": "community",
+        "count": 15
+      },
+      "hintEn": "Log 15 community-related actions",
+      "hintJa": "コミュニティ関連のアクションを15個記録しよう",
+      "hintEs": "Registra 15 acciones comunitarias"
+    },
+    {
+      "id": "people_05",
+      "category": "people_planet",
+      "nameEn": "Clean Water Access",
+      "nameJa": "清潔な水へのアクセス",
+      "nameEs": "Acceso a Agua Limpia",
+      "factEn": "2.2 billion people still lack access to safely managed drinking water. Climate change is making water scarcity worse -- by 2025, half the world's population could be living in water-stressed areas.",
+      "factJa": "22億人が安全に管理された飲料水へのアクセスをまだ欠いています。気候変動は水不足をさらに悪化させており、2025年までに世界人口の半分が水ストレス地域に住む可能性があります。",
+      "factEs": "2.200 millones de personas aun carecen de acceso a agua potable gestionada de forma segura. El cambio climatico esta empeorando la escasez de agua; para 2025, la mitad de la poblacion mundial podria vivir en areas con estres hidrico.",
+      "sourceUrl": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      "iconName": "people_05",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 9
+      },
+      "hintEn": "Log actions related to 9 different SDGs",
+      "hintJa": "9つの異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 9 ODS diferentes"
+    },
+    {
+      "id": "people_06",
+      "category": "people_planet",
+      "nameEn": "Green Economy Jobs",
+      "nameJa": "グリーン経済の雇用",
+      "nameEs": "Empleos de la Economia Verde",
+      "factEn": "The clean energy transition could create 14 million new jobs globally by 2030 while displacing 5 million in fossil fuels, for a net gain of 9 million jobs. Renewable energy already employs 13.7 million people worldwide.",
+      "factJa": "クリーンエネルギーへの転換は2030年までに世界で1400万の新規雇用を創出し、化石燃料で500万の雇用を置き換え、純増900万の雇用をもたらす可能性があります。再生可能エネルギーはすでに世界で1370万人を雇用しています。",
+      "factEs": "La transicion a energia limpia podria crear 14 millones de nuevos empleos globalmente para 2030, desplazando 5 millones en combustibles fosiles, para una ganancia neta de 9 millones. Las renovables ya emplean a 13,7 millones de personas en todo el mundo.",
+      "sourceUrl": "https://www.irena.org/publications/2023/Sep/Renewable-energy-and-jobs-Annual-review-2023",
+      "iconName": "people_06",
+      "condition": {
+        "type": "categoryActions",
+        "category": "community",
+        "count": 50
+      },
+      "hintEn": "Log 50 community-related actions",
+      "hintJa": "コミュニティ関連のアクションを50個記録しよう",
+      "hintEs": "Registra 50 acciones comunitarias"
+    },
+    {
+      "id": "people_07",
+      "category": "people_planet",
+      "nameEn": "Planetary Boundaries",
+      "nameJa": "プラネタリー・バウンダリー",
+      "nameEs": "Limites Planetarios",
+      "factEn": "Scientists have identified 9 planetary boundaries that define a safe operating space for humanity. As of 2023, 6 of the 9 boundaries have been crossed, including climate change, biodiversity loss, and chemical pollution.",
+      "factJa": "科学者たちは人類の安全な活動空間を定義する9つのプラネタリーバウンダリーを特定しています。2023年現在、気候変動、生物多様性の喪失、化学物質汚染を含む9つのうち6つが超過されています。",
+      "factEs": "Los cientificos han identificado 9 limites planetarios que definen un espacio operativo seguro para la humanidad. En 2023, 6 de los 9 limites se han cruzado, incluyendo el cambio climatico, la perdida de biodiversidad y la contaminacion quimica.",
+      "sourceUrl": "https://www.science.org/doi/10.1126/sciadv.adh2458",
+      "iconName": "people_07",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 12
+      },
+      "hintEn": "Log actions related to 12 different SDGs",
+      "hintJa": "12の異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 12 ODS diferentes"
+    },
+    {
+      "id": "people_08",
+      "category": "people_planet",
+      "nameEn": "Global Cooperation",
+      "nameJa": "グローバルな協力",
+      "nameEs": "Cooperacion Global",
+      "factEn": "The 2015 Paris Agreement united 196 countries in committing to limit global warming to well below 2C. Despite challenges, it has catalyzed unprecedented climate action, with countries representing 90% of global GDP setting net-zero targets.",
+      "factJa": "2015年のパリ協定は196カ国を結集し、地球温暖化を2度を大幅に下回る水準に抑えることを約束しました。課題はあるものの、世界のGDPの90%を占める国々がネットゼロ目標を設定するなど前例のない気候行動を触発しています。",
+      "factEs": "El Acuerdo de Paris de 2015 unio a 196 paises en el compromiso de limitar el calentamiento global muy por debajo de 2C. A pesar de los desafios, ha catalizado una accion climatica sin precedentes, con paises que representan el 90% del PIB global estableciendo objetivos de cero neto.",
+      "sourceUrl": "https://unfccc.int/process-and-meetings/the-paris-agreement",
+      "iconName": "people_08",
+      "condition": {
+        "type": "sdgBreadth",
+        "count": 15
+      },
+      "hintEn": "Log actions related to 15 different SDGs",
+      "hintJa": "15の異なるSDGに関連するアクションを記録しよう",
+      "hintEs": "Registra acciones relacionadas con 15 ODS diferentes"
+    },
+    {
+      "id": "journey_01",
+      "category": "your_journey",
+      "nameEn": "First Steps",
+      "nameJa": "最初の一歩",
+      "nameEs": "Primeros Pasos",
+      "factEn": "Research shows it takes an average of 66 days for a new behavior to become automatic. By starting your sustainability journey, you're already ahead -- most people who set environmental goals never take the first action.",
+      "factJa": "研究によると、新しい行動が自動的になるまでに平均66日かかります。サステナビリティの旅を始めることで、あなたはすでに先を行っています。環境目標を設定した人のほとんどは最初の行動を起こしません。",
+      "factEs": "La investigacion muestra que se necesitan un promedio de 66 dias para que un nuevo comportamiento se vuelva automatico. Al comenzar tu viaje de sostenibilidad, ya estas adelantado: la mayoria de las personas que establecen metas ambientales nunca dan el primer paso.",
+      "sourceUrl": "https://onlinelibrary.wiley.com/doi/abs/10.1002/ejsp.674",
+      "iconName": "journey_01",
+      "condition": {
+        "type": "streakDays",
+        "days": 3
+      },
+      "hintEn": "Maintain a 3-day streak",
+      "hintJa": "3日間連続でアクションを記録しよう",
+      "hintEs": "Mantiene una racha de 3 dias"
+    },
+    {
+      "id": "journey_02",
+      "category": "your_journey",
+      "nameEn": "Habit Loop",
+      "nameJa": "習慣のループ",
+      "nameEs": "El Bucle del Habito",
+      "factEn": "Every habit follows a neurological loop: cue, routine, reward. Studies show that pairing sustainable actions with existing routines (habit stacking) makes them 3x more likely to stick than willpower alone.",
+      "factJa": "すべての習慣は神経学的なループに従います：きっかけ、ルーティン、報酬。研究によると、持続可能な行動を既存のルーティンに組み合わせる（ハビットスタッキング）と、意志力だけの場合より3倍定着しやすくなります。",
+      "factEs": "Cada habito sigue un bucle neurologico: senal, rutina, recompensa. Los estudios muestran que emparejar acciones sostenibles con rutinas existentes (habit stacking) las hace 3 veces mas propensas a perdurar que la fuerza de voluntad sola.",
+      "sourceUrl": "https://jamesclear.com/habit-stacking",
+      "iconName": "journey_02",
+      "condition": {
+        "type": "streakDays",
+        "days": 7
+      },
+      "hintEn": "Maintain a 7-day streak",
+      "hintJa": "7日間連続でアクションを記録しよう",
+      "hintEs": "Mantiene una racha de 7 dias"
+    },
+    {
+      "id": "journey_03",
+      "category": "your_journey",
+      "nameEn": "Social Influence",
+      "nameJa": "社会的影響",
+      "nameEs": "Influencia Social",
+      "factEn": "When one person in a social network starts composting, it increases the probability that their neighbors will start by 25%. Visible pro-environmental behaviors spread through social networks like beneficial contagions.",
+      "factJa": "ソーシャルネットワーク内の1人がコンポストを始めると、隣人も始める確率が25%増加します。目に見える環境配慮行動は有益な伝染のようにソーシャルネットワークを通じて広がります。",
+      "factEs": "Cuando una persona en una red social empieza a compostar, aumenta la probabilidad de que sus vecinos lo hagan en un 25%. Los comportamientos proambientales visibles se propagan a traves de redes sociales como contagios beneficiosos.",
+      "sourceUrl": "https://www.nature.com/articles/s41893-019-0471-z",
+      "iconName": "journey_03",
+      "condition": {
+        "type": "challengeStreak",
+        "days": 5
+      },
+      "hintEn": "Complete challenges 5 days in a row",
+      "hintJa": "チャレンジを5日連続で完了しよう",
+      "hintEs": "Completa desafios 5 dias seguidos"
+    },
+    {
+      "id": "journey_04",
+      "category": "your_journey",
+      "nameEn": "The Compound Effect",
+      "nameJa": "複利効果",
+      "nameEs": "El Efecto Compuesto",
+      "factEn": "If everyone in a city of 100,000 made one small sustainable switch each day (like using a reusable cup), the collective impact would save over 36 million single-use items per year. Individual actions compound into systemic change.",
+      "factJa": "10万人の都市の全員が毎日1つの小さなサステナブルな切り替えを行えば（再利用可能なカップの使用など）、年間3600万個以上の使い捨て品を節約できます。個人の行動は複利のように体系的な変化につながります。",
+      "factEs": "Si todos en una ciudad de 100.000 personas hicieran un pequeno cambio sostenible cada dia (como usar un vaso reutilizable), el impacto colectivo ahorraria mas de 36 millones de articulos desechables al ano. Las acciones individuales se acumulan en cambio sistemico.",
+      "sourceUrl": "https://drawdown.org/publications/drawdown-review-2020",
+      "iconName": "journey_04",
+      "condition": {
+        "type": "levelReached",
+        "level": 10
+      },
+      "hintEn": "Reach level 10",
+      "hintJa": "レベル10に到達しよう",
+      "hintEs": "Alcanza el nivel 10"
+    },
+    {
+      "id": "journey_05",
+      "category": "your_journey",
+      "nameEn": "Knowledge is Power",
+      "nameJa": "知識は力なり",
+      "nameEs": "El Conocimiento es Poder",
+      "factEn": "People who are more environmentally literate are 3-5 times more likely to take action on climate change. Understanding the science behind sustainability creates a sense of agency and makes behavior change feel meaningful rather than futile.",
+      "factJa": "環境リテラシーが高い人は、気候変動に対して行動を起こす可能性が3-5倍高いです。持続可能性の背後にある科学を理解することで、主体性が生まれ、行動変容が無駄ではなく意味あるものに感じられます。",
+      "factEs": "Las personas con mayor alfabetizacion ambiental tienen 3-5 veces mas probabilidades de actuar contra el cambio climatico. Comprender la ciencia detras de la sostenibilidad crea un sentido de agencia y hace que el cambio de comportamiento se sienta significativo.",
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5645076/",
+      "iconName": "journey_05",
+      "condition": {
+        "type": "ecoFactsViewed",
+        "count": 30
+      },
+      "hintEn": "View 30 eco-facts",
+      "hintJa": "エコファクトを30個見よう",
+      "hintEs": "Consulta 30 eco-datos"
+    },
+    {
+      "id": "journey_06",
+      "category": "your_journey",
+      "nameEn": "Consistency Wins",
+      "nameJa": "継続は力なり",
+      "nameEs": "La Consistencia Gana",
+      "factEn": "A study of over 10,000 people found that those who performed small daily sustainable actions for 6 months reduced their overall carbon footprint by 25%, compared to only 5% for those who attempted dramatic one-time changes.",
+      "factJa": "1万人以上を対象とした研究で、6ヶ月間毎日小さなサステナブルな行動を行った人は全体のカーボンフットプリントを25%削減した一方、劇的な一回きりの変更を試みた人はわずか5%の削減にとどまりました。",
+      "factEs": "Un estudio de mas de 10.000 personas encontro que quienes realizaron pequenas acciones sostenibles diarias durante 6 meses redujeron su huella de carbono general en un 25%, comparado con solo un 5% para quienes intentaron cambios dramaticos puntuales.",
+      "sourceUrl": "https://www.nature.com/articles/s41558-021-01219-y",
+      "iconName": "journey_06",
+      "condition": {
+        "type": "streakDays",
+        "days": 30
+      },
+      "hintEn": "Maintain a 30-day streak",
+      "hintJa": "30日間連続でアクションを記録しよう",
+      "hintEs": "Mantiene una racha de 30 dias"
+    },
+    {
+      "id": "journey_07",
+      "category": "your_journey",
+      "nameEn": "Eco-Warrior",
+      "nameJa": "エコ戦士",
+      "nameEs": "Guerrero Ecologico",
+      "factEn": "Project Drawdown identified the top 100 climate solutions, many achievable through individual action. Reduced food waste (#1), plant-rich diets (#2), and family planning (#3) are the three most impactful solutions that individuals can directly influence.",
+      "factJa": "プロジェクト・ドローダウンは気候変動対策のトップ100を特定しました。その多くは個人の行動で達成可能です。食品廃棄物の削減(1位)、植物中心の食事(2位)、家族計画(3位)が個人が直接影響を与えられる最もインパクトのある解決策です。",
+      "factEs": "Project Drawdown identifico las 100 principales soluciones climaticas, muchas alcanzables a traves de accion individual. La reduccion del desperdicio de alimentos (#1), dietas ricas en plantas (#2) y la planificacion familiar (#3) son las tres soluciones mas impactantes que los individuos pueden influenciar.",
+      "sourceUrl": "https://drawdown.org/solutions/table-of-solutions",
+      "iconName": "journey_07",
+      "condition": {
+        "type": "levelReached",
+        "level": 25
+      },
+      "hintEn": "Reach level 25",
+      "hintJa": "レベル25に到達しよう",
+      "hintEs": "Alcanza el nivel 25"
+    },
+    {
+      "id": "journey_08",
+      "category": "your_journey",
+      "nameEn": "Legacy Builder",
+      "nameJa": "レガシービルダー",
+      "nameEs": "Constructor de Legado",
+      "factEn": "Every tonne of CO2 we prevent from being emitted avoids roughly USD 185 in future climate damages. Your consistent actions are not just reducing emissions -- they're building a legacy of avoided harm for future generations.",
+      "factJa": "排出を防いだCO2の1トンごとに、将来の気候被害で約185ドルの回避につながります。あなたの継続的な行動は排出量を削減するだけでなく、将来の世代のために回避された被害の遺産を築いています。",
+      "factEs": "Cada tonelada de CO2 que evitamos emitir previene aproximadamente 185 USD en danos climaticos futuros. Tus acciones consistentes no solo reducen emisiones, estan construyendo un legado de dano evitado para las futuras generaciones.",
+      "sourceUrl": "https://www.nature.com/articles/s41558-018-0282-y",
+      "iconName": "journey_08",
+      "condition": {
+        "type": "levelReached",
+        "level": 50
+      },
+      "hintEn": "Reach level 50",
+      "hintJa": "レベル50に到達しよう",
+      "hintEs": "Alcanza el nivel 50"
+    }
+  ]
+}

@@ -16,11 +16,11 @@ const fs = require('fs');
 const path = require('path');
 
 const DART_OUTPUT = path.join(
-  __dirname, '..', 'lib', 'features', 'sdg',
+  __dirname, '..', '..', 'lib', 'features', 'sdg',
   'data', 'sdg_targets.dart',
 );
 const JSON_OUTPUT = path.join(
-  __dirname, '..', 'data', 'app',
+  __dirname, '..', '..', 'data', 'app',
   'sdg_targets.json',
 );
 

@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import '../providers/actions_providers.dart';
@@ -46,7 +47,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
 
     _debounceTimer?.cancel();
     _debounceTimer = Timer(
-      const Duration(milliseconds: 300),
+      Durations.normal,
       () {
         ref
             .read(actionSearchQueryProvider.notifier)
@@ -69,7 +70,12 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            padding: const EdgeInsets.fromLTRB(
+              Spacing.lg,
+              0,
+              Spacing.lg,
+              Spacing.sm,
+            ),
             child: ValueListenableBuilder<bool>(
               valueListenable: _showClear,
               builder: (context, show, _) => TextField(
@@ -98,8 +104,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                    horizontal: Spacing.lg,
+                    vertical: Spacing.md,
                   ),
                 ),
               ),
@@ -110,7 +116,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       body: Column(
         children: [
           // Category tabs
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
           ActionCategoryTabs(
             selectedCategory: selectedCategory,
             onCategorySelected: (category) {
@@ -119,7 +125,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           ),
           // Sort dropdown row
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.lg,
+              vertical: Spacing.sm,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -129,7 +138,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           ),
           // SDG filter chips
           const SdgFilterChips(),
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
           // Actions grid
           Expanded(
             child: filteredActionsAsync.when(
@@ -149,12 +158,12 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                       size: 48,
                       color: theme.colorScheme.error,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: Spacing.lg),
                     Text(
                       l10n.errorGeneric,
                       style: theme.textTheme.bodyLarge,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: Spacing.sm),
                     FilledButton.icon(
                       onPressed: () => ref.invalidate(
                         actionLibraryProvider,
@@ -188,7 +197,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               size: 48,
               color: Theme.of(context).colorScheme.outline,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
             Text(
               l10n.noActionsFound,
               style: Theme.of(context).textTheme.bodyLarge,
@@ -199,11 +208,11 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     }
 
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Spacing.lg),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: Spacing.md,
+        mainAxisSpacing: Spacing.md,
         childAspectRatio: 0.9,
       ),
       itemCount: filteredActions.length,

@@ -24,6 +24,7 @@ const longDescs =
 
 const serviceAccountPath = path.join(
   __dirname,
+  '..',
   'serviceAccountKey.json',
 );
 

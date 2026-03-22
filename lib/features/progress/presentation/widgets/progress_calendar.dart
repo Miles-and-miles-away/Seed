@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import '../providers/progress_providers.dart';
 import 'calendar_day_cell.dart';
@@ -23,9 +24,9 @@ class ProgressCalendar extends ConsumerWidget {
     return Column(
       children: [
         _buildHeader(context, ref, selectedMonth, canGoNext),
-        const SizedBox(height: 8),
+        const SizedBox(height: Spacing.sm),
         _buildWeekdayLabels(context),
-        const SizedBox(height: 8),
+        const SizedBox(height: Spacing.sm),
         calendarDataAsync.when(
           data: (data) => _buildCalendarGrid(context, selectedMonth, data),
           loading: () => const SizedBox(

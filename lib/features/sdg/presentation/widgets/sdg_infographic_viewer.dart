@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// Tappable SDG infographic thumbnail that expands
@@ -28,7 +29,7 @@ class SdgInfographicViewer extends StatelessWidget {
               color: goal.color,
               size: 20,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: Spacing.sm),
             Text(
               'UN Infographic',
               style: theme.textTheme.titleMedium?.copyWith(
@@ -37,13 +38,13 @@ class SdgInfographicViewer extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
         GestureDetector(
           onTap: () => _showFullScreen(context),
           child: Hero(
             tag: 'sdg_infographic_${goal.number}',
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: Radii.borderLg,
               child: Image.asset(
                 goal.infographicAsset,
                 width: double.infinity,
@@ -64,8 +65,8 @@ class SdgInfographicViewer extends StatelessWidget {
       PageRouteBuilder<void>(
         opaque: false,
         barrierColor: Colors.black54,
-        transitionDuration: const Duration(milliseconds: 600),
-        reverseTransitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: Durations.slower,
+        reverseTransitionDuration: Durations.emphasis,
         pageBuilder: (_, __, ___) => _FullScreenInfographic(
           goal: goal,
           locale: locale,

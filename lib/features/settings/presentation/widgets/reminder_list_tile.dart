@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 
@@ -36,7 +37,7 @@ class ReminderListTile extends StatelessWidget {
       onDismissed: (_) => onDelete(),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 16),
+        padding: const EdgeInsets.only(right: Spacing.lg),
         color: colorScheme.error,
         child: Icon(
           Icons.delete_outline,
@@ -48,14 +49,14 @@ class ReminderListTile extends StatelessWidget {
           Icons.alarm,
           color: schedule.isEnabled
               ? colorScheme.primary
-              : colorScheme.onSurface.withValues(alpha: 0.38),
+              : colorScheme.onSurface.withValues(alpha: Opacities.disabled),
         ),
         title: Text(
           schedule.displayTime,
           style: theme.textTheme.titleMedium?.copyWith(
             color: schedule.isEnabled
                 ? null
-                : colorScheme.onSurface.withValues(alpha: 0.38),
+                : colorScheme.onSurface.withValues(alpha: Opacities.disabled),
           ),
         ),
         subtitle: schedule.label.isNotEmpty
@@ -77,7 +78,9 @@ class ReminderListTile extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.delete_outline,
-                color: colorScheme.error.withValues(alpha: 0.7),
+                color: colorScheme.error.withValues(
+                  alpha: Opacities.strong,
+                ),
               ),
               onPressed: onDelete,
               tooltip: AppLocalizations.of(context).buttonDelete,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
@@ -53,12 +54,12 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
     final l10n = AppLocalizations.of(context);
 
     return SizedBox(
-      height: 48,
+      height: Spacing.huge,
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-          horizontal: 16,
+          horizontal: Spacing.lg,
         ),
         itemCount: _cycleLength * _repeatCount,
         itemBuilder: (context, index) {
@@ -66,7 +67,7 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
 
           if (i == 0) {
             return Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: Spacing.sm),
               child: _CategoryChip(
                 label: l10n.allCategories,
                 icon: Icons.grid_view,
@@ -131,7 +132,9 @@ class _CategoryChip extends StatelessWidget {
       side: BorderSide(
         color: isSelected
             ? color
-            : theme.colorScheme.outline.withValues(alpha: 0.3),
+            : theme.colorScheme.outline.withValues(
+                alpha: Opacities.muted,
+              ),
       ),
       onSelected: (_) => onTap(),
     );

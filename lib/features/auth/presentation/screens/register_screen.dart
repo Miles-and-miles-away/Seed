@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
@@ -91,19 +92,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Spacing.xxl),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
                 Icon(
                   Icons.eco,
                   size: 64,
                   color: theme.colorScheme.primary,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 Text(
                   l10n.authCreateAccount,
                   style: theme.textTheme.headlineMedium?.copyWith(
@@ -111,7 +112,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 Text(
                   l10n.authCreateAccountSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
@@ -119,7 +120,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
                 AuthTextField(
                   controller: _emailController,
                   label: l10n.authEmail,
@@ -128,7 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   validator: (v) => _validateEmail(v, l10n),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 AuthTextField(
                   controller: _passwordController,
                   label: l10n.authPassword,
@@ -149,7 +150,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (v) => _validatePassword(v, l10n),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 AuthTextField(
                   controller: _confirmPasswordController,
                   label: l10n.authConfirmPassword,
@@ -172,7 +173,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (v) => _validateConfirmPassword(v, l10n),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -189,7 +190,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          top: 12,
+                          top: Spacing.md,
                         ),
                         child: Text.rich(
                           TextSpan(
@@ -230,11 +231,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 FilledButton(
                   onPressed: isLoading || _isCooldown ? null : _handleSignUp,
                   style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
+                    minimumSize: const Size.fromHeight(Spacing.huge),
                   ),
                   child: isLoading
                       ? const SizedBox(
@@ -247,13 +248,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         )
                       : Text(l10n.authCreateAccount),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 Row(
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
+                        horizontal: Spacing.lg,
                       ),
                       child: Text(
                         l10n.authOrSignUpWith,
@@ -265,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     const Expanded(child: Divider()),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 Row(
                   children: [
                     Expanded(
@@ -277,7 +278,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     if (Platform.isIOS) ...[
-                      const SizedBox(width: 16),
+                      const SizedBox(width: Spacing.lg),
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
@@ -292,7 +293,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ],
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

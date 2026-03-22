@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -19,8 +20,8 @@ SdgStats sdgStats(Ref ref, int sdgNumber) {
 
   return SdgStats(
     sdgNumber: sdgNumber,
-    actionsLogged: stats?['count'] ?? 0,
-    co2SavedGrams: stats?['co2'] ?? 0,
+    actionsLogged: stats?[AppConstants.fieldCount] ?? 0,
+    co2SavedGrams: stats?[AppConstants.fieldCo2] ?? 0,
   );
 }
 

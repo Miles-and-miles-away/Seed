@@ -3,8 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
@@ -53,7 +55,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(height: 16),
+              const SizedBox(height: Spacing.lg),
               Text(l10n.navMascot),
             ],
           ),
@@ -71,7 +73,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               centerTitle: true,
             ),
             SliverPadding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(Spacing.xxl),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   // Mascot display
@@ -79,12 +81,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     child: Column(
                       children: [
                         const MascotDisplay(size: 220),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Spacing.lg),
                         _buildNameSection(
                           mascot.name,
                           colorScheme,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: Spacing.sm),
                         _buildStageBadge(
                           stageName ?? l10n.stageFallback(currentStage),
                           mascot.mascotLevel,
@@ -95,7 +97,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: Spacing.xxxl),
 
                   // My Mascots collection
                   if (allMascots.length > 1 || hasEgg)
@@ -115,7 +117,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   _buildEvolutionTimeline(
                     species.evolutionStages,
                     currentStage,
@@ -123,7 +125,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     locale,
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: Spacing.xxxl),
 
                   // Next Evolution / Max Evolution
                   if (nextStageData != null) ...[
@@ -133,7 +135,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: Spacing.lg),
                     _buildNextEvolutionCard(
                       nextStageData,
                       mascot.mascotLevel,
@@ -174,13 +176,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: Spacing.md),
       SizedBox(
         height: 110,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: mascots.length + (hasEgg ? 1 : 0),
-          separatorBuilder: (_, __) => const SizedBox(width: 12),
+          separatorBuilder: (_, __) => const SizedBox(width: Spacing.md),
           itemBuilder: (context, index) {
             if (index < mascots.length) {
               final m = mascots[index];
@@ -197,7 +199,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           },
         ),
       ),
-      const SizedBox(height: 32),
+      const SizedBox(height: Spacing.xxxl),
     ];
   }
 
@@ -221,7 +223,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           color: isActive
               ? colorScheme.primaryContainer
               : colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: Radii.borderMd,
           border: isActive
               ? Border.all(
                   color: colorScheme.primary,
@@ -237,7 +239,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               width: 44,
               height: 44,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: Spacing.xs),
             Text(
               mascot.name.isEmpty ? species.getName(locale) : mascot.name,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
@@ -261,7 +263,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   }
 
   MascotSpeciesModel? _getSpeciesForMascot(String id) {
-    return getSpeciesById(id);
+    final speciesList = ref
+        .read(
+          mascotSpeciesDataProvider,
+        )
+        .value;
+    if (speciesList == null) return null;
+    return getSpeciesById(id, speciesList);
   }
 
   void _showSwitchConfirmation(MascotModel target) {
@@ -315,16 +323,16 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
+                  horizontal: Spacing.md,
+                  vertical: Spacing.sm,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: Radii.borderSm,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: Spacing.sm),
           IconButton(
             onPressed: _submitRename,
             icon: Icon(
@@ -353,7 +361,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               .headlineSmall
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: Spacing.sm),
         IconButton(
           onPressed: _startRename,
           icon: Icon(
@@ -395,8 +403,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+        horizontal: Spacing.lg,
+        vertical: Spacing.sm,
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -405,7 +413,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             colorScheme.secondaryContainer,
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.borderXl,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -447,7 +455,9 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             return Expanded(
               child: Container(
                 height: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: Spacing.xs,
+                ),
                 decoration: BoxDecoration(
                   color: isUnlocked
                       ? colorScheme.primary
@@ -491,14 +501,15 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     ColorScheme colorScheme,
   ) {
     Widget card = Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(Spacing.sm),
       decoration: BoxDecoration(
         color: isCurrentStage
             ? colorScheme.primaryContainer
             : isUnlocked
                 ? colorScheme.surfaceContainerLow
-                : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(12),
+                : colorScheme.surfaceContainerHighest
+                    .withValues(alpha: Opacities.half),
+        borderRadius: Radii.borderMd,
         border: isCurrentStage
             ? Border.all(
                 color: colorScheme.primary,
@@ -538,13 +549,15 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     child: SvgPicture.asset(stage.assetPath),
                   ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: Spacing.xs),
           Text(
             stageName,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: isUnlocked
                       ? colorScheme.onSurface
-                      : colorScheme.onSurface.withValues(alpha: 0.5),
+                      : colorScheme.onSurface.withValues(
+                          alpha: Opacities.half,
+                        ),
                   fontWeight: isCurrentStage ? FontWeight.bold : null,
                 ),
             textAlign: TextAlign.center,
@@ -556,7 +569,9 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: isUnlocked
                       ? colorScheme.primary
-                      : colorScheme.onSurface.withValues(alpha: 0.4),
+                      : colorScheme.onSurface.withValues(
+                          alpha: Opacities.medium,
+                        ),
                   fontSize: 10,
                 ),
           ),
@@ -597,17 +612,21 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     final progress = mascotLevel / nextStage.level;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.xl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            colorScheme.primaryContainer.withValues(alpha: 0.5),
-            colorScheme.secondaryContainer.withValues(alpha: 0.5),
+            colorScheme.primaryContainer.withValues(
+              alpha: Opacities.half,
+            ),
+            colorScheme.secondaryContainer.withValues(
+              alpha: Opacities.half,
+            ),
           ],
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.borderLg,
         border: Border.all(
           color: colorScheme.outlineVariant,
         ),
@@ -617,10 +636,10 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           Container(
             width: 80,
             height: 80,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(Spacing.sm),
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: Radii.borderMd,
             ),
             child: ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
@@ -650,7 +669,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: Spacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,16 +680,16 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Spacing.xs),
                 Text(
                   l10n.mascotLevelsToGo(levelsNeeded),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: Radii.borderXs,
                   child: LinearProgressIndicator(
                     value: progress.clamp(0.0, 1.0),
                     minHeight: 8,
@@ -680,7 +699,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Spacing.xs),
                 Text(
                   l10n.mascotLevelProgress(
                     mascotLevel,
@@ -704,20 +723,22 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     final hasEgg = ref.watch(hasEggProvider);
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(Spacing.xxl),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFFFD700),
-            Color(0xFFFFA500),
+            AppColors.gold,
+            AppColors.celebrationOrange,
           ],
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.borderLg,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+            color: AppColors.gold.withValues(
+              alpha: Opacities.muted,
+            ),
             blurRadius: 16,
             spreadRadius: 2,
           ),
@@ -726,9 +747,11 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(Spacing.md),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: Colors.white.withValues(
+                alpha: Opacities.light,
+              ),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -737,7 +760,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               size: 32,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: Spacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -749,7 +772,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Spacing.xs),
                 Text(
                   hasEgg ? l10n.maxEvolutionEggHint : l10n.maxEvolutionSubtitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -767,7 +790,9 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         )
         .shimmer(
           duration: 2.seconds,
-          color: Colors.white.withValues(alpha: 0.3),
+          color: Colors.white.withValues(
+            alpha: Opacities.muted,
+          ),
         );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Displays a list of external resources for an SDG.
-class SdgResourcesList extends StatelessWidget {
+class SdgResourcesList extends ConsumerWidget {
   const SdgResourcesList({
     required this.goalNumber,
     required this.goalColor,
@@ -19,10 +22,15 @@ class SdgResourcesList extends StatelessWidget {
   final String? headerText;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final resources = sdgResources[goalNumber] ?? [];
+    final allResources = ref
+        .watch(
+          sdgResourcesDataProvider,
+        )
+        .value;
+    final resources = allResources?[goalNumber] ?? [];
 
     if (resources.isEmpty) return const SizedBox.shrink();
 
@@ -36,7 +44,7 @@ class SdgResourcesList extends StatelessWidget {
               color: goalColor,
               size: 20,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: Spacing.sm),
             Text(
               headerText ?? l10n.sdgResources,
               style: theme.textTheme.titleMedium?.copyWith(
@@ -45,7 +53,7 @@ class SdgResourcesList extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
         ...resources.map(
           (resource) => _ResourceTile(
             resource: resource,
@@ -80,22 +88,22 @@ class _ResourceTile extends StatelessWidget {
     };
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: Spacing.sm),
       child: Material(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: Radii.borderMd,
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: Radii.borderMd,
           onTap: () => _launchUrl(resource.url),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: Spacing.lg,
               vertical: 14,
             ),
             child: Row(
               children: [
                 Icon(icon, color: goalColor, size: 22),
-                const SizedBox(width: 12),
+                const SizedBox(width: Spacing.md),
                 Expanded(
                   child: Text(
                     resource.title(languageCode),

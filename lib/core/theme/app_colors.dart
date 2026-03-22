@@ -50,6 +50,21 @@ abstract class AppColors {
   static const info = Color(0xFF2196F3);
   static const streak = Color(0xFFFF9800);
 
+  // Special effect / celebration colors
+  static const gold = Color(0xFFFFD700);
+  static const celebrationOrange = Color(0xFFFFA500);
+  static const celebrationPink = Color(0xFFFF69B4);
+  static const glowBlue = Color(0xFF90CAF9);
+  static const eggBeige = Color(0xFFF5F5DC);
+  static const sunYellow = Color(0xFFFFEB3B);
+  static const sunAmber = Color(0xFFFFC107);
+  static const sunOrange = Color(0xFFFF9800);
+
+  // Mascot glow colors
+  static const glowEarth = Color(0xFF8B6F47);
+  static const glowFresh = Color(0xFF8BC34A);
+  static const glowVibrant = Color(0xFF4CAF50);
+
   // Neutral palette
   static const neutral50 = Color(0xFFFAFAFA);
   static const neutral100 = Color(0xFFF5F5F5);
