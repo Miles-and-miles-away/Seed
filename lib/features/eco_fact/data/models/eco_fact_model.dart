@@ -45,13 +45,13 @@ class EcoFact {
   final List<int> relatedSdgs;
   final String? unWorldDay;
 
-  String getFact(String locale) => switch (locale) {
+  String fact(String locale) => switch (locale) {
         'ja' when factJa.isNotEmpty => factJa,
         'es' when factEs.isNotEmpty => factEs,
         _ => factEn,
       };
 
-  String getSource(String locale) => switch (locale) {
+  String source(String locale) => switch (locale) {
         'ja' when sourceJa.isNotEmpty => sourceJa,
         'es' when sourceEs.isNotEmpty => sourceEs,
         _ => sourceEn,

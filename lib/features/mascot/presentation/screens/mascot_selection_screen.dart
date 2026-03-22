@@ -127,7 +127,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
                         // Species name and description
                         Text(
-                          speciesList[_selectedSpeciesIndex].getName(locale),
+                          speciesList[_selectedSpeciesIndex].name(locale),
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -135,7 +135,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                         const SizedBox(height: Spacing.sm),
                         Text(
                           speciesList[_selectedSpeciesIndex]
-                              .getDescription(locale),
+                              .description(locale),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -247,7 +247,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   ),
                   const SizedBox(height: Spacing.xs),
                   Text(
-                    species.getName(locale),
+                    species.name(locale),
                     style: Theme.of(context).textTheme.labelSmall,
                     textAlign: TextAlign.center,
                   ),

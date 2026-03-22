@@ -48,6 +48,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final theme = Theme.of(context);
     final selectedSdg = ref.watch(selectedSdgFilterProvider);
     final goals = ref.watch(sdgGoalsDataProvider).value?.goals;
@@ -122,7 +123,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
                         ),
                       ),
                     ),
-              label: Text(sdg.shortTitle),
+              label: Text(sdg.shortTitle(locale)),
               selected: isSelected,
               onSelected: (_) {
                 if (isSelected) {

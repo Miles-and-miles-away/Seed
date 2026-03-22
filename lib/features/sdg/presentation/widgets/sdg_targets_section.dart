@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart' hide Durations;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 /// Expandable section showing an SDG's description
 /// and its UN targets.
-class SdgTargetsSection extends StatefulWidget {
+class SdgTargetsSection extends ConsumerStatefulWidget {
   const SdgTargetsSection({
     required this.goal,
     required this.locale,
@@ -18,10 +20,10 @@ class SdgTargetsSection extends StatefulWidget {
   final String locale;
 
   @override
-  State<SdgTargetsSection> createState() => _SdgTargetsSectionState();
+  ConsumerState<SdgTargetsSection> createState() => _SdgTargetsSectionState();
 }
 
-class _SdgTargetsSectionState extends State<SdgTargetsSection> {
+class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
   bool _expanded = false;
 
   @override
@@ -78,7 +80,7 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
           ),
           const SizedBox(height: Spacing.lg),
           Text(
-            goal.getDescription(widget.locale),
+            goal.description(widget.locale),
             style: theme.textTheme.bodyLarge?.copyWith(
               height: 1.6,
               color: theme.colorScheme.onSurfaceVariant,
@@ -106,7 +108,8 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
     AppLocalizations l10n,
     SdgGoal goal,
   ) {
-    final targets = sdgTargets[goal.number] ?? [];
+    final allTargets = ref.watch(sdgTargetsDataProvider).value ?? {};
+    final targets = allTargets[goal.number] ?? [];
     if (targets.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -179,7 +182,7 @@ class _TargetRow extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              target.getDescription(locale),
+              target.description(locale),
               style: theme.textTheme.bodySmall?.copyWith(
                 height: 1.5,
                 color: theme.colorScheme.onSurfaceVariant,

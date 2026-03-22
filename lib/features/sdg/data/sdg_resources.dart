@@ -26,8 +26,8 @@ class SdgResource {
   final String url;
   final SdgResourceType type;
 
-  String title(String languageCode) {
-    return switch (languageCode) {
+  String title(String locale) {
+    return switch (locale) {
       'ja' => titleJa,
       'es' => titleEs,
       _ => titleEn,

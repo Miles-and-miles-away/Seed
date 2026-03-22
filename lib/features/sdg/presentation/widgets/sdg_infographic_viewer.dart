@@ -98,7 +98,7 @@ class _FullScreenInfographic extends StatelessWidget {
         foregroundColor: Colors.white,
         title: Text(
           'Goal ${goal.number}: '
-          '${goal.getShortTitle(locale)}',
+          '${goal.shortTitle(locale)}',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,

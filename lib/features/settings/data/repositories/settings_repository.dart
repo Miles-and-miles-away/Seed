@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:uuid/uuid.dart';
 
 import '../datasources/settings_remote_datasource.dart';
@@ -84,8 +85,8 @@ class SettingsRepository {
     TimeOfDay time,
   ) {
     return _dataSource.updateReminderSchedule(uid, scheduleId, {
-      'hour': time.hour,
-      'minute': time.minute,
+      AppConstants.fieldHour: time.hour,
+      AppConstants.fieldMinute: time.minute,
     });
   }
 
@@ -96,7 +97,7 @@ class SettingsRepository {
     required bool enabled,
   }) {
     return _dataSource.updateReminderSchedule(uid, scheduleId, {
-      'isEnabled': enabled,
+      AppConstants.fieldIsEnabled: enabled,
     });
   }
 
@@ -107,7 +108,7 @@ class SettingsRepository {
     String label,
   ) {
     return _dataSource.updateReminderSchedule(uid, scheduleId, {
-      'label': label,
+      AppConstants.fieldLabel: label,
     });
   }
 

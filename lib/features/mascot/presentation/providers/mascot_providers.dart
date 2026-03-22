@@ -194,7 +194,7 @@ bool shouldShowEggDiscovery(Ref ref) {
 @riverpod
 String? speciesLocalizedName(Ref ref, String locale) {
   final species = ref.watch(activeSpeciesProvider);
-  return species?.getName(locale);
+  return species?.name(locale);
 }
 
 /// Localized name for the active mascot's stage.

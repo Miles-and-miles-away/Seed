@@ -64,7 +64,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 _buildGoalBadge(context, goal),
                 const SizedBox(height: Spacing.lg),
                 Text(
-                  goal.getTitle(languageCode),
+                  goal.title(languageCode),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

@@ -111,30 +111,30 @@ void main() {
   });
 
   group('MascotSpeciesModelX extension', () {
-    group('getName', () {
+    group('name', () {
       test('returns English name for en locale', () {
-        expect(testSpecies.getName('en'), 'Seed');
+        expect(testSpecies.name('en'), 'Seed');
       });
 
       test('returns Japanese name for ja locale', () {
-        expect(testSpecies.getName('ja'), 'シード');
+        expect(testSpecies.name('ja'), 'シード');
       });
 
       test('returns English name for unknown locale', () {
-        expect(testSpecies.getName('fr'), 'Seed');
+        expect(testSpecies.name('fr'), 'Seed');
       });
     });
 
-    group('getDescription', () {
+    group('description', () {
       test('returns English description for en locale', () {
         expect(
-          testSpecies.getDescription('en'),
+          testSpecies.description('en'),
           'A tiny seed with big dreams!',
         );
       });
 
       test('returns Japanese description for ja locale', () {
-        expect(testSpecies.getDescription('ja'), '大きな夢を持つ小さな種！');
+        expect(testSpecies.description('ja'), '大きな夢を持つ小さな種！');
       });
     });
 

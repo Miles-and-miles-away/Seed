@@ -128,6 +128,12 @@ abstract class AppConstants {
   static const fieldCurrentDay = 'currentDay';
   static const fieldTargetDays = 'targetDays';
   static const fieldLastCompletionDate = 'lastCompletionDate';
+
+  // Firestore reminder schedule nested fields
+  static const fieldHour = 'hour';
+  static const fieldMinute = 'minute';
+  static const fieldIsEnabled = 'isEnabled';
+  static const fieldLabel = 'label';
 }
 
 /// Point values for common actions (move to database later)

@@ -1,37 +1,69 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_targets_section.dart';
 
 void main() {
   const testGoal = SdgGoal(
     number: 13,
-    title: 'Climate Action',
-    shortTitle: 'Climate Action',
-    description: 'Take urgent action to combat climate '
+    titleEn: 'Climate Action',
+    shortTitleEn: 'Climate Action',
+    descriptionEn: 'Take urgent action to combat climate '
         'change and its impacts.',
     color: Color(0xFF407F46),
     iconUrl: 'https://example.com/icon13.jpg',
   );
 
+  late Map<int, List<SdgTarget>> allTargets;
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final jsonString = await rootBundle.loadString('data/app/sdg_targets.json');
+    final json = jsonDecode(jsonString) as Map<String, dynamic>;
+    allTargets = {};
+    for (final entry in json.entries) {
+      final goalNumber = int.parse(entry.key);
+      final targets = (entry.value as List<dynamic>)
+          .map(
+            (e) => SdgTarget.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+      allTargets[goalNumber] = targets;
+    }
+  });
+
   Widget buildTestWidget({SdgGoal goal = testGoal}) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return ProviderScope(
+      overrides: [
+        sdgTargetsDataProvider.overrideWith(
+          (ref) async => allTargets,
+        ),
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: SdgTargetsSection(
-            goal: goal,
-            locale: 'en',
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SdgTargetsSection(
+              goal: goal,
+              locale: 'en',
+            ),
           ),
         ),
       ),
@@ -72,7 +104,7 @@ void main() {
         await tester.pump();
 
         expect(
-          find.text(testGoal.description),
+          find.text(testGoal.description('en')),
           findsOneWidget,
         );
       },
@@ -97,7 +129,6 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
 
-        // AnimatedCrossFade should show first child
         final crossFade = tester.widget<AnimatedCrossFade>(
           find.byType(AnimatedCrossFade),
         );
@@ -137,7 +168,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        final targets = sdgTargets[13]!;
+        final targets = allTargets[13]!;
         for (final target in targets) {
           expect(
             find.text(target.code),
@@ -152,9 +183,9 @@ void main() {
       (tester) async {
         const goal1 = SdgGoal(
           number: 1,
-          title: 'No Poverty',
-          shortTitle: 'No Poverty',
-          description: 'End poverty in all its forms.',
+          titleEn: 'No Poverty',
+          shortTitleEn: 'No Poverty',
+          descriptionEn: 'End poverty in all its forms.',
           color: Color(0xFFE5233D),
           iconUrl: 'https://example.com/icon1.jpg',
         );
@@ -168,7 +199,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        final targets = sdgTargets[1]!;
+        final targets = allTargets[1]!;
         expect(targets.length, 7);
         expect(find.text('1.1'), findsOneWidget);
         expect(find.text('1.b'), findsOneWidget);
@@ -181,7 +212,6 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
 
-        // Expand
         await tester.tap(
           find.text('About this Goal'),
         );
@@ -194,7 +224,6 @@ void main() {
           CrossFadeState.showSecond,
         );
 
-        // Collapse
         await tester.tap(
           find.text('About this Goal'),
         );
@@ -220,7 +249,6 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // Find code badge text
         final codeFinder = find.text('13.1');
         expect(codeFinder, findsOneWidget);
 
@@ -263,9 +291,9 @@ void main() {
       (tester) async {
         const goal17 = SdgGoal(
           number: 17,
-          title: 'Partnerships for the Goals',
-          shortTitle: 'Partnerships',
-          description: 'Strengthen partnerships.',
+          titleEn: 'Partnerships for the Goals',
+          shortTitleEn: 'Partnerships',
+          descriptionEn: 'Strengthen partnerships.',
           color: Color(0xFF13496B),
           iconUrl: 'https://example.com/icon17.jpg',
         );

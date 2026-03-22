@@ -8,25 +8,25 @@ void main() {
     final testGoals = [
       const SdgGoal(
         number: 1,
-        title: 'No Poverty',
-        shortTitle: 'No Poverty',
-        description: 'End poverty in all its forms.',
+        titleEn: 'No Poverty',
+        shortTitleEn: 'No Poverty',
+        descriptionEn: 'End poverty in all its forms.',
         color: Color(0xFFE5233D),
         iconUrl: 'https://example.com/icon1.jpg',
       ),
       const SdgGoal(
         number: 2,
-        title: 'Zero Hunger',
-        shortTitle: 'Zero Hunger',
-        description: 'End hunger.',
+        titleEn: 'Zero Hunger',
+        shortTitleEn: 'Zero Hunger',
+        descriptionEn: 'End hunger.',
         color: Color(0xFFDDA73A),
         iconUrl: 'https://example.com/icon2.jpg',
       ),
       const SdgGoal(
         number: 3,
-        title: 'Good Health',
-        shortTitle: 'Good Health',
-        description: 'Ensure healthy lives.',
+        titleEn: 'Good Health',
+        shortTitleEn: 'Good Health',
+        descriptionEn: 'Ensure healthy lives.',
         color: Color(0xFF4CA146),
         iconUrl: 'https://example.com/icon3.jpg',
       ),
@@ -118,9 +118,9 @@ void main() {
   group('SdgCard', () {
     const testGoal = SdgGoal(
       number: 13,
-      title: 'Climate Action',
-      shortTitle: 'Climate Action',
-      description: 'Take urgent action to combat climate change.',
+      titleEn: 'Climate Action',
+      shortTitleEn: 'Climate Action',
+      descriptionEn: 'Take urgent action to combat climate change.',
       color: Color(0xFF407F46),
       iconUrl: 'https://example.com/icon13.jpg',
     );
@@ -233,7 +233,7 @@ void main() {
 
       // Find the outermost Container in SdgCard which has the fixed width
       final card = tester.widget<SdgCard>(find.byType(SdgCard));
-      expect(card.goal.title, 'Climate Action');
+      expect(card.goal.titleEn, 'Climate Action');
     });
 
     testWidgets('displays ClipRRect for image', (tester) async {
