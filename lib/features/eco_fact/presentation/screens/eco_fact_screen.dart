@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/fact_calendar.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Screen showing today's eco-fact and a calendar of
 /// viewed/missed days.
@@ -68,8 +69,8 @@ class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
-        error: (error, _) => Center(
-          child: Text('Error: $error'),
+        error: (_, __) => const Center(
+          child: ErrorDisplay(),
         ),
       ),
     );

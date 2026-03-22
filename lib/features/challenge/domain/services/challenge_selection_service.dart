@@ -1,5 +1,5 @@
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 
 /// Deterministic seed from userId + date.
 int dailySeed(String userId, DateTime date) {

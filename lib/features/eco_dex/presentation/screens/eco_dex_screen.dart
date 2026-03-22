@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_category_section.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_header.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Main Eco-Dex encyclopedia screen with category sections.
 class EcoDexScreen extends ConsumerWidget {
@@ -19,7 +20,7 @@ class EcoDexScreen extends ConsumerWidget {
 
     return ecoDexAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(child: Text('$error')),
+      error: (_, __) => const Center(child: ErrorDisplay()),
       data: (data) => SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: Spacing.lg),
         child: Column(

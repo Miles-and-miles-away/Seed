@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 
 // ignore_for_file: constant_identifier_names
 const _ASSET_PATH = 'data/app/challenge_templates.json';

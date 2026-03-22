@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/progress_providers.dart';
 import 'calendar_day_cell.dart';
 
@@ -33,10 +34,10 @@ class ProgressCalendar extends ConsumerWidget {
             height: 200,
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (error, _) => SizedBox(
+          error: (_, __) => const SizedBox(
             height: 200,
             child: Center(
-              child: Text('Error loading calendar: $error'),
+              child: ErrorDisplay(compact: true),
             ),
           ),
         ),

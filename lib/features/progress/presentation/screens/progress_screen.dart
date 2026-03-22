@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_screen.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/progress_providers.dart';
 import '../widgets/daily_target_picker.dart';
 import '../widgets/progress_calendar.dart';
@@ -146,8 +147,8 @@ class _CalendarView extends ConsumerWidget {
               loading: () => const Center(
                 child: CircularProgressIndicator(),
               ),
-              error: (error, _) => Center(
-                child: Text('Error: $error'),
+              error: (_, __) => const Center(
+                child: ErrorDisplay(),
               ),
             ),
           ),

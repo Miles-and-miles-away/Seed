@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
+import 'package:seed_app/features/eco_dex/domain/models/eco_dex_entry_state.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_sheet.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart';
 

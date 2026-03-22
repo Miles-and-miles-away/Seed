@@ -3,9 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/challenge/data/challenge_selection_service.dart';
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
+import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/services/challenge_selection_service.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
 part 'challenge_providers.g.dart';
@@ -47,38 +48,6 @@ bool isTodayChallengeCompleted(Ref ref) {
 int challengeStreak(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
   return user?.challengeStreak ?? 0;
-}
-
-/// Typed data for an active multi-day challenge.
-class ActiveMultiDayChallenge {
-  const ActiveMultiDayChallenge({
-    required this.templateId,
-    required this.currentDay,
-    required this.targetDays,
-    required this.lastCompletionDate,
-  });
-
-  final String templateId;
-  final int currentDay;
-  final int targetDays;
-  final String lastCompletionDate;
-
-  static ActiveMultiDayChallenge? fromMap(
-    Map<String, dynamic>? map,
-  ) {
-    if (map == null || map.isEmpty) return null;
-    final templateId = map[AppConstants.fieldTemplateId] as String?;
-    if (templateId == null || templateId.isEmpty) {
-      return null;
-    }
-    return ActiveMultiDayChallenge(
-      templateId: templateId,
-      currentDay: (map[AppConstants.fieldCurrentDay] as num?)?.toInt() ?? 0,
-      targetDays: (map[AppConstants.fieldTargetDays] as num?)?.toInt() ?? 0,
-      lastCompletionDate:
-          (map[AppConstants.fieldLastCompletionDate] as String?) ?? '',
-    );
-  }
 }
 
 /// Active multi-day challenge data.

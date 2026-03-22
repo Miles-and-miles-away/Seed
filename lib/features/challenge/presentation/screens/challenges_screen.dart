@@ -6,8 +6,10 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 enum _ChallengeState { completed, active, available, blocked }
 
@@ -37,8 +39,8 @@ class ChallengesScreen extends ConsumerWidget {
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
-        error: (error, _) => Center(
-          child: Text('$error'),
+        error: (_, __) => const Center(
+          child: ErrorDisplay(),
         ),
         data: (templateData) => ListView.builder(
           padding: const EdgeInsets.all(Spacing.lg),

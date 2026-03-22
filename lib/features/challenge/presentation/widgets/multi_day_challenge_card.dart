@@ -6,7 +6,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 
 /// Compact card showing the active multi-day challenge on the

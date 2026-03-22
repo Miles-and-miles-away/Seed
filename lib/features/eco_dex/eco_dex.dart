@@ -5,6 +5,8 @@ export 'data/eco_dex_entries_data.dart';
 export 'data/models/eco_dex_category_model.dart';
 export 'data/models/eco_dex_condition_model.dart';
 export 'data/models/eco_dex_entry_model.dart';
+export 'domain/models/eco_dex_entry_state.dart';
+export 'domain/services/condition_evaluator.dart';
 export 'presentation/providers/eco_dex_providers.dart';
 export 'presentation/screens/eco_dex_screen.dart';
 export 'presentation/widgets/eco_dex_category_section.dart';
