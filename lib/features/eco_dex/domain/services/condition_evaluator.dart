@@ -22,6 +22,15 @@ bool isConditionMet(
       user.completedMultiDayChallenges.contains(templateId),
     EcoFactsViewedCondition(:final count) =>
       user.viewedFactDates.length >= count,
+    CategoriesCoveredCondition(:final count) =>
+      categoriesCoveredCount(user) >= count,
+    UniqueActionsLoggedCondition(:final count) =>
+      user.uniqueActionIds.length >= count,
+    ProfileCompleteCondition() =>
+      user.displayName != null && user.photoUrl != null,
+    EcodexCountCondition(:final count) => user.ecodexDiscovered.length >= count,
+    ChallengesCompletedCondition(:final count) =>
+      user.challengesCompleted >= count,
   };
 }
 
@@ -37,4 +46,9 @@ int categoryActionCount(
 /// Counts distinct SDGs the user has logged actions for.
 int sdgBreadthCount(AppUserModel user) {
   return user.sdgStats.keys.length;
+}
+
+/// Counts distinct action categories with at least one action.
+int categoriesCoveredCount(AppUserModel user) {
+  return user.categoryActionCounts.entries.where((e) => e.value > 0).length;
 }

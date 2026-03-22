@@ -67,6 +67,7 @@ abstract class AppConstants {
   static const fieldTotalCo2Grams = 'totalCo2Grams';
   static const fieldTotalActionsCount = 'totalActionsCount';
   static const fieldCategoryActionCounts = 'categoryActionCounts';
+  static const fieldUniqueActionIds = 'uniqueActionIds';
   static const fieldSdgStats = 'sdgStats';
   static const fieldActiveMascotId = 'activeMascotId';
   static const fieldMascots = 'mascots';
