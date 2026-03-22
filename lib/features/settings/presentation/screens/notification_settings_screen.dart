@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/reminder_list_tile.dart';
 import '../widgets/settings_section.dart';
@@ -181,8 +182,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(
-          child: Text('${l10n.errorGeneric} $error'),
+        error: (_, __) => const Center(
+          child: ErrorDisplay(),
         ),
       ),
     );

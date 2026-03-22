@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
 

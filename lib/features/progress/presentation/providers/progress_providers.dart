@@ -1,11 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/progress/data/datasources/daily_summary_remote_datasource.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 
 part 'progress_providers.g.dart';
+
+@riverpod
+DailySummaryRemoteDataSource dailySummaryRemoteDataSource(
+  Ref ref,
+) {
+  return DailySummaryRemoteDataSource(
+    FirebaseFirestore.instance,
+  );
+}
+
+@riverpod
+ProgressRepository progressRepository(Ref ref) {
+  final dataSource = ref.watch(
+    dailySummaryRemoteDataSourceProvider,
+  );
+  return ProgressRepository(
+    dataSource,
+    FirebaseFirestore.instance,
+  );
+}
 
 /// Stream of today's summary for the Rainbow Sun visualization.
 @riverpod

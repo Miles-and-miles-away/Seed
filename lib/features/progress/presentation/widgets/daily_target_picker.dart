@@ -54,7 +54,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
     if (state.hasError && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error: ${state.error}'),
+          content: Text(AppLocalizations.of(context).errorGeneric),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );

@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/progress/data/datasources/daily_summary_remote_datasource.dart';
+import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
-import '../datasources/daily_summary_remote_datasource.dart';
-import '../models/daily_summary_model.dart';
-
-part 'progress_repository.g.dart';
 
 /// Repository for progress-related operations.
 class ProgressRepository {
@@ -95,10 +92,4 @@ class ProgressRepository {
       sdgNumbers: sdgNumbers,
     );
   }
-}
-
-@riverpod
-ProgressRepository progressRepository(Ref ref) {
-  final dataSource = ref.watch(dailySummaryRemoteDataSourceProvider);
-  return ProgressRepository(dataSource, FirebaseFirestore.instance);
 }

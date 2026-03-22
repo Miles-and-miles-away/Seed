@@ -13,7 +13,7 @@ import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
-import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
+import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 
 export 'package:seed_app/features/actions/data/repositories/action_log_repository.dart'

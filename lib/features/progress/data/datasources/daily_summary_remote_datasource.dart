@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
-
-import '../models/daily_summary_model.dart';
-
-part 'daily_summary_remote_datasource.g.dart';
+import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 
 /// Remote data source for daily summaries stored in Firestore.
 class DailySummaryRemoteDataSource {
@@ -131,9 +127,4 @@ class DailySummaryRemoteDataSource {
       rethrow;
     }
   }
-}
-
-@riverpod
-DailySummaryRemoteDataSource dailySummaryRemoteDataSource(Ref ref) {
-  return DailySummaryRemoteDataSource(FirebaseFirestore.instance);
 }

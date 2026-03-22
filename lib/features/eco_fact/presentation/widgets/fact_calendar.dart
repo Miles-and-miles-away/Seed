@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Monthly calendar showing which days the user viewed
 /// their eco-fact. Tapping a past viewed day re-reads
@@ -40,10 +41,10 @@ class FactCalendar extends ConsumerWidget {
               child: CircularProgressIndicator(),
             ),
           ),
-          error: (error, _) => SizedBox(
+          error: (_, __) => const SizedBox(
             height: 200,
             child: Center(
-              child: Text('Error: $error'),
+              child: ErrorDisplay(compact: true),
             ),
           ),
         ),
