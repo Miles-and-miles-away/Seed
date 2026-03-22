@@ -57,6 +57,77 @@ abstract class AppConstants {
 
   // Daily challenges
   static const recentChallengeIdsLimit = 7;
+
+  // Firestore user document fields
+  static const fieldPoints = 'points';
+  static const fieldLevel = 'level';
+  static const fieldCurrentStreak = 'currentStreak';
+  static const fieldLongestStreak = 'longestStreak';
+  static const fieldLastActionDate = 'lastActionDate';
+  static const fieldTotalCo2Grams = 'totalCo2Grams';
+  static const fieldTotalActionsCount = 'totalActionsCount';
+  static const fieldCategoryActionCounts = 'categoryActionCounts';
+  static const fieldSdgStats = 'sdgStats';
+  static const fieldActiveMascotId = 'activeMascotId';
+  static const fieldMascots = 'mascots';
+  static const fieldEgg = 'egg';
+  static const fieldEggPendingDiscovery = 'eggPendingDiscovery';
+  static const fieldEggPendingDiscoverySince = 'eggPendingDiscoverySince';
+  static const fieldEmailVerified = 'emailVerified';
+  static const fieldSettings = 'settings';
+  static const fieldLanguage = 'language';
+  static const fieldNotificationsEnabled = 'notificationsEnabled';
+  static const fieldDailyGoalTarget = 'dailyGoalTarget';
+
+  // Firestore challenge fields
+  static const fieldChallengeCompletedDate = 'challengeCompletedDate';
+  static const fieldChallengeStreak = 'challengeStreak';
+  static const fieldChallengesCompleted = 'challengesCompleted';
+  static const fieldRecentChallengeIds = 'recentChallengeIds';
+  static const fieldActiveMultiDayChallenge = 'activeMultiDayChallenge';
+  static const fieldCompletedMultiDayChallenges = 'completedMultiDayChallenges';
+
+  // Firestore mascot nested fields
+  static const fieldId = 'id';
+  static const fieldName = 'name';
+  static const fieldMascotPoints = 'mascotPoints';
+  static const fieldMascotLevel = 'mascotLevel';
+  static const fieldIsFullyEvolved = 'isFullyEvolved';
+  static const fieldLastSeenStage = 'lastSeenStage';
+  static const fieldSpeciesId = 'speciesId';
+
+  // Firestore egg nested fields
+  static const fieldHatchingStreakDays = 'hatchingStreakDays';
+  static const fieldLastHatchingActivityDate = 'lastHatchingActivityDate';
+
+  // Firestore settings nested fields
+  static const fieldReminderSchedules = 'reminderSchedules';
+  static const fieldSmartRemindersEnabled = 'smartRemindersEnabled';
+  static const fieldAnalyticsEnabled = 'analyticsEnabled';
+  static const fieldSeenStreakMilestones = 'seenStreakMilestones';
+
+  // Firestore action library fields
+  static const fieldIsActive = 'isActive';
+  static const fieldSortOrder = 'sortOrder';
+  static const fieldLoggedAt = 'loggedAt';
+
+  // Firestore daily summary fields
+  static const fieldDate = 'date';
+  static const fieldGoalCount = 'goalCount';
+  static const fieldCompletedSdgs = 'completedSdgs';
+  static const fieldTotalPoints = 'totalPoints';
+  static const fieldUpdatedAt = 'updatedAt';
+
+  // Firestore SDG stats nested fields
+  static const fieldCount = 'count';
+  static const fieldCo2 = 'co2';
+
+  // Firestore multi-day challenge nested fields
+  static const fieldTemplateId = 'templateId';
+  static const fieldStartDate = 'startDate';
+  static const fieldCurrentDay = 'currentDay';
+  static const fieldTargetDays = 'targetDays';
+  static const fieldLastCompletionDate = 'lastCompletionDate';
 }
 
 /// Point values for common actions (move to database later)

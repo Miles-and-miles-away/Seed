@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
@@ -79,19 +80,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Spacing.xxl),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 48),
+                const SizedBox(height: Spacing.huge),
                 Icon(
                   Icons.eco,
                   size: 64,
                   color: theme.colorScheme.primary,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 Text(
                   l10n.authWelcomeBack,
                   style: theme.textTheme.headlineMedium?.copyWith(
@@ -99,7 +100,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 Text(
                   l10n.authSignInSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
@@ -107,7 +108,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: Spacing.huge),
                 AuthTextField(
                   controller: _emailController,
                   label: l10n.authEmail,
@@ -116,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textInputAction: TextInputAction.next,
                   validator: (v) => _validateEmail(v, l10n),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
                 AuthTextField(
                   controller: _passwordController,
                   label: l10n.authPassword,
@@ -138,7 +139,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   validator: (v) => _validatePassword(v, l10n),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -146,11 +147,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Text(l10n.authForgotPassword),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 FilledButton(
                   onPressed: isLoading || _isCooldown ? null : _handleSignIn,
                   style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
+                    minimumSize: const Size.fromHeight(Spacing.huge),
                   ),
                   child: isLoading
                       ? const SizedBox(
@@ -163,13 +164,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         )
                       : Text(l10n.authSignIn),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 Row(
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
+                        horizontal: Spacing.lg,
                       ),
                       child: Text(
                         l10n.authOrContinueWith,
@@ -181,7 +182,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const Expanded(child: Divider()),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 Row(
                   children: [
                     Expanded(
@@ -193,7 +194,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     if (Platform.isIOS) ...[
-                      const SizedBox(width: 16),
+                      const SizedBox(width: Spacing.lg),
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
@@ -208,7 +209,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ],
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: Spacing.huge),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

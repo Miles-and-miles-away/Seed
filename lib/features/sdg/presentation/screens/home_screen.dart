@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
-import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/sdg_carousel.dart';
 
@@ -36,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
                     Icons.eco,
                     color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: Spacing.sm),
                   Text(l10n.appTitle),
                 ],
               ),
@@ -46,20 +47,20 @@ class HomeScreen extends ConsumerWidget {
 
             // Main content
             SliverPadding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(Spacing.xxl),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   // Mascot section or selection prompt
                   if (hasMascot)
                     _buildMascotSection(context, ref)
                   else
-                    _buildMascotSelectionPrompt(context, l10n),
-                  const SizedBox(height: 12),
+                    _buildMascotSelectionPrompt(context, ref, l10n),
+                  const SizedBox(height: Spacing.md),
 
                   const DailyChallengeCard(),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: Spacing.md),
                   const MultiDayChallengeCard(),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: Spacing.xxl),
 
                   // SDG Section header
                   Text(
@@ -68,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: Spacing.sm),
                   Text(
                     l10n.homeExploreGoalsSubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -84,7 +85,7 @@ class HomeScreen extends ConsumerWidget {
               child: SizedBox(
                 height: 140,
                 child: SdgCarousel(
-                  goals: sdgGoals,
+                  goals: ref.watch(sdgGoalsDataProvider).value?.goals ?? [],
                   locale: Localizations.localeOf(
                     context,
                   ).languageCode,
@@ -100,8 +101,8 @@ class HomeScreen extends ConsumerWidget {
             // Learn more at UN.org
             SliverPadding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 16,
+                horizontal: Spacing.xxl,
+                vertical: Spacing.lg,
               ),
               sliver: SliverToBoxAdapter(
                 child: _buildLearnMoreLink(context),
@@ -129,7 +130,7 @@ class HomeScreen extends ConsumerWidget {
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.xl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -139,7 +140,7 @@ class HomeScreen extends ConsumerWidget {
             colorScheme.secondaryContainer,
           ],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: Radii.borderXxl,
       ),
       child: Column(
         children: [
@@ -151,7 +152,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: Spacing.md),
 
           // Mascot name
           Text(
@@ -162,14 +163,19 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: Spacing.xs),
 
           // Evolution stage badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.md,
+              vertical: 6,
+            ),
             decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(20),
+              color: colorScheme.primary.withValues(
+                alpha: Opacities.subtle,
+              ),
+              borderRadius: Radii.borderXl,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -179,7 +185,7 @@ class HomeScreen extends ConsumerWidget {
                   size: 16,
                   color: colorScheme.primary,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: Spacing.sm),
                 Text(
                   '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
                   style: theme.textTheme.labelMedium?.copyWith(
@@ -191,7 +197,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
 
           // Quick stats row
           Row(
@@ -234,7 +240,7 @@ class HomeScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 20, color: iconColor),
-            const SizedBox(width: 4),
+            const SizedBox(width: Spacing.sm),
             Text(
               value,
               style: theme.textTheme.titleMedium?.copyWith(
@@ -244,11 +250,13 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: Spacing.xxs),
         Text(
           label,
           style: theme.textTheme.labelSmall?.copyWith(
-            color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+            color: colorScheme.onPrimaryContainer.withValues(
+              alpha: Opacities.strong,
+            ),
           ),
         ),
       ],
@@ -257,13 +265,14 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _buildMascotSelectionPrompt(
     BuildContext context,
+    WidgetRef ref,
     AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(Spacing.xxl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -273,17 +282,23 @@ class HomeScreen extends ConsumerWidget {
             colorScheme.secondaryContainer,
           ],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: Radii.borderXxl,
       ),
       child: Column(
         children: [
           // Preview mascot
           MascotPreview(
-            assetPath:
-                defaultMascotSpecies.first.evolutionStages.first.assetPath,
+            assetPath: ref
+                    .watch(mascotSpeciesDataProvider)
+                    .value
+                    ?.first
+                    .evolutionStages
+                    .first
+                    .assetPath ??
+                'assets/images/mascot/seed_stage1.svg',
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
 
           Text(
             l10n.mascotSelectionTitle,
@@ -294,17 +309,19 @@ class HomeScreen extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
 
           Text(
             l10n.mascotSelectionSubtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+              color: colorScheme.onPrimaryContainer.withValues(
+                alpha: Opacities.heavy,
+              ),
             ),
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
 
           FilledButton.icon(
             onPressed: () => context.push('/mascot-selection'),

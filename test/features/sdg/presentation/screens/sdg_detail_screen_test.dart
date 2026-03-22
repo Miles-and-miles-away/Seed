@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/screens/sdg_detail_screen.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -14,6 +16,12 @@ void main() {
   group('SdgDetailScreen', () {
     late MockFirebaseAuth mockFirebaseAuth;
     late FakeFirebaseFirestore fakeFirestore;
+    late SdgGoalsData sdgData;
+
+    setUpAll(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      sdgData = await loadSdgGoals();
+    });
 
     setUp(() {
       mockFirebaseAuth = createMockFirebaseAuth();
@@ -33,6 +41,9 @@ void main() {
         overrides: [
           firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
           firestoreProvider.overrideWithValue(fakeFirestore),
+          sdgGoalsDataProvider.overrideWith(
+            (ref) async => sdgData,
+          ),
         ],
         child: MaterialApp(
           localizationsDelegates: const [

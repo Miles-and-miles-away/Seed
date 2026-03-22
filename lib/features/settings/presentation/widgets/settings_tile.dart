@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
+
 /// A reusable settings row widget with consistent styling.
 ///
 /// Supports leading icon, title, subtitle, trailing widget, and tap action.
@@ -48,13 +50,13 @@ class SettingsTile extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     final effectiveTextColor = !enabled
-        ? colorScheme.onSurface.withValues(alpha: 0.38)
+        ? colorScheme.onSurface.withValues(alpha: Opacities.disabled)
         : dangerous
             ? colorScheme.error
             : null;
 
     final effectiveIconColor = !enabled
-        ? colorScheme.onSurface.withValues(alpha: 0.38)
+        ? colorScheme.onSurface.withValues(alpha: Opacities.disabled)
         : dangerous
             ? colorScheme.error
             : colorScheme.primary;
@@ -93,7 +95,10 @@ class SettingsTile extends StatelessWidget {
           : null,
       trailing: effectiveTrailing,
       onTap: enabled ? onTap : null,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: Spacing.lg,
+        vertical: Spacing.xs,
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/eco_dex/eco_dex.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -78,6 +79,30 @@ Future<void> handleActionTap(
           backgroundColor: Theme.of(context).colorScheme.tertiary,
         ),
       );
+    }
+
+    // Eco-Dex discovery evaluation
+    if (context.mounted) {
+      final newEntries =
+          await ref.read(ecoDexDiscoveryProvider.notifier).discoverNewEntries();
+      if (newEntries.isNotEmpty && context.mounted) {
+        final ecoDex = await ref.read(ecoDexDataProvider.future);
+        final entry = ecoDex.entries.firstWhere(
+          (e) => e.id == newEntries.first,
+        );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context).ecoDexNewDiscoveryMessage(
+                entry.name(languageCode),
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+        );
+      }
     }
 
     if (logResult.shouldShowMilestone && context.mounted) {

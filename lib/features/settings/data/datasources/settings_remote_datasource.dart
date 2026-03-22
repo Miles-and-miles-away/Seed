@@ -74,11 +74,12 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     }
 
     final data = doc.data()!;
-    final settingsData = data['settings'] as Map<String, dynamic>?;
+    final settingsData =
+        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
 
     if (settingsData == null) {
       // Return default settings with user's language preference
-      final language = data['language'] as String? ?? 'en';
+      final language = data[AppConstants.fieldLanguage] as String? ?? 'en';
       return UserSettingsModel.defaultSettings(language: language);
     }
 
@@ -88,9 +89,8 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
   @override
   Future<void> updateSettings(String uid, UserSettingsModel settings) async {
     await _userDoc(uid).update({
-      'settings': settings.toJson(),
-      // Also update top-level language for backwards compatibility
-      'language': settings.language,
+      AppConstants.fieldSettings: settings.toJson(),
+      AppConstants.fieldLanguage: settings.language,
     });
   }
 
@@ -102,10 +102,11 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
       }
 
       final data = doc.data()!;
-      final settingsData = data['settings'] as Map<String, dynamic>?;
+      final settingsData =
+          data[AppConstants.fieldSettings] as Map<String, dynamic>?;
 
       if (settingsData == null) {
-        final language = data['language'] as String? ?? 'en';
+        final language = data[AppConstants.fieldLanguage] as String? ?? 'en';
         return UserSettingsModel.defaultSettings(language: language);
       }
 
@@ -119,7 +120,8 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     NotificationScheduleModel schedule,
   ) async {
     await _userDoc(uid).update({
-      'settings.reminderSchedules': FieldValue.arrayUnion([schedule.toJson()]),
+      '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':
+          FieldValue.arrayUnion([schedule.toJson()]),
     });
   }
 
@@ -130,18 +132,21 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     final data = doc.data();
     if (data == null) return;
 
-    final settingsData = data['settings'] as Map<String, dynamic>?;
+    final settingsData =
+        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
     if (settingsData == null) return;
 
-    final schedules = (settingsData['reminderSchedules'] as List<dynamic>?)
-            ?.cast<Map<String, dynamic>>() ??
-        [];
+    final schedules =
+        (settingsData[AppConstants.fieldReminderSchedules] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>() ??
+            [];
 
     final updatedSchedules =
-        schedules.where((s) => s['id'] != scheduleId).toList();
+        schedules.where((s) => s[AppConstants.fieldId] != scheduleId).toList();
 
     await _userDoc(uid).update({
-      'settings.reminderSchedules': updatedSchedules,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':
+          updatedSchedules,
     });
   }
 
@@ -156,22 +161,25 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     final data = doc.data();
     if (data == null) return;
 
-    final settingsData = data['settings'] as Map<String, dynamic>?;
+    final settingsData =
+        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
     if (settingsData == null) return;
 
-    final schedules = (settingsData['reminderSchedules'] as List<dynamic>?)
-            ?.cast<Map<String, dynamic>>() ??
-        [];
+    final schedules =
+        (settingsData[AppConstants.fieldReminderSchedules] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>() ??
+            [];
 
     final updatedSchedules = schedules.map((s) {
-      if (s['id'] == scheduleId) {
+      if (s[AppConstants.fieldId] == scheduleId) {
         return {...s, ...updates};
       }
       return s;
     }).toList();
 
     await _userDoc(uid).update({
-      'settings.reminderSchedules': updatedSchedules,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':
+          updatedSchedules,
     });
   }
 
@@ -181,9 +189,9 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     required bool enabled,
   }) async {
     await _userDoc(uid).update({
-      'settings.notificationsEnabled': enabled,
-      // Also update top-level field for backwards compatibility
-      'notificationsEnabled': enabled,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldNotificationsEnabled}':
+          enabled,
+      AppConstants.fieldNotificationsEnabled: enabled,
     });
   }
 
@@ -193,16 +201,16 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     required bool enabled,
   }) async {
     await _userDoc(uid).update({
-      'settings.smartRemindersEnabled': enabled,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldSmartRemindersEnabled}':
+          enabled,
     });
   }
 
   @override
   Future<void> updateLanguage(String uid, String language) async {
     await _userDoc(uid).update({
-      'settings.language': language,
-      // Also update top-level field for backwards compatibility
-      'language': language,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldLanguage}': language,
+      AppConstants.fieldLanguage: language,
     });
   }
 
@@ -212,14 +220,17 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     required bool enabled,
   }) async {
     await _userDoc(uid).update({
-      'settings.analyticsEnabled': enabled,
+      '${AppConstants.fieldSettings}.${AppConstants.fieldAnalyticsEnabled}':
+          enabled,
     });
   }
 
   @override
   Future<void> markMilestoneSeen(String uid, int weekNumber) async {
     await _userDoc(uid).update({
-      'settings.seenStreakMilestones.$weekNumber': true,
+      '${AppConstants.fieldSettings}'
+          '.${AppConstants.fieldSeenStreakMilestones}'
+          '.$weekNumber': true,
     });
   }
 }

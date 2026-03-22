@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -73,9 +74,11 @@ class _ActionLogConfirmationDialogState
         children: [
           // Header with category color
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Spacing.xxl),
             decoration: BoxDecoration(
-              color: categoryColor.withValues(alpha: 0.1),
+              color: categoryColor.withValues(
+                alpha: Opacities.faint,
+              ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
                 topRight: Radius.circular(28),
@@ -88,7 +91,7 @@ class _ActionLogConfirmationDialogState
                   size: 48,
                   color: categoryColor,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: Spacing.md),
                 Text(
                   widget.action.name(widget.languageCode),
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -96,16 +99,16 @@ class _ActionLogConfirmationDialogState
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 // Points display
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                    horizontal: Spacing.lg,
+                    vertical: Spacing.sm,
                   ),
                   decoration: BoxDecoration(
                     color: categoryColor,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: Radii.borderXl,
                   ),
                   child: Text(
                     l10n.pointsLabel(widget.action.points),
@@ -120,7 +123,7 @@ class _ActionLogConfirmationDialogState
           ),
           // Description and note field
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Spacing.xxl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -132,7 +135,7 @@ class _ActionLogConfirmationDialogState
                     l10n,
                     categoryColor,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                 ],
                 // CO2 savings - tappable to show science
                 if (widget.action.co2Grams > 0) ...[
@@ -141,7 +144,7 @@ class _ActionLogConfirmationDialogState
                     l10n,
                     categoryColor,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                 ],
                 // Optional note field
                 TextField(
@@ -228,7 +231,7 @@ class _ActionLogConfirmationDialogState
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: Spacing.sm),
           Icon(
             Icons.info_outline,
             size: 16,
@@ -260,7 +263,7 @@ class _ActionLogConfirmationDialogState
           size: 16,
           color: hasLong ? categoryColor : theme.colorScheme.primary,
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: Spacing.sm),
         Text(
           co2Text,
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -271,7 +274,7 @@ class _ActionLogConfirmationDialogState
           ),
         ),
         if (hasLong) ...[
-          const SizedBox(width: 4),
+          const SizedBox(width: Spacing.sm),
           Icon(
             Icons.info_outline,
             size: 14,

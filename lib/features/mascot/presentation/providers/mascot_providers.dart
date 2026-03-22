@@ -1,8 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -13,8 +14,15 @@ import 'package:seed_app/features/mascot/data/services/mascot_migration_service.
 part 'mascot_providers.g.dart';
 
 // =============================================================
-// Repository & Migration Providers
+// Data & Repository Providers
 // =============================================================
+
+/// Loads and caches mascot species data from JSON.
+@riverpod
+Future<List<MascotSpeciesModel>> mascotSpeciesData(
+  Ref ref,
+) =>
+    loadMascotSpecies();
 
 @riverpod
 MascotRepository mascotRepository(Ref ref) {
@@ -66,7 +74,7 @@ bool hasMascot(Ref ref) {
 /// Gets all available mascot species.
 @riverpod
 Future<List<MascotSpeciesModel>> allSpecies(Ref ref) async {
-  return ref.watch(mascotRepositoryProvider).getAllSpecies();
+  return ref.watch(mascotSpeciesDataProvider.future);
 }
 
 /// Species data for the active mascot.
@@ -74,7 +82,9 @@ Future<List<MascotSpeciesModel>> allSpecies(Ref ref) async {
 MascotSpeciesModel? activeSpecies(Ref ref) {
   final mascot = ref.watch(activeMascotProvider).value;
   if (mascot == null) return null;
-  return getSpeciesById(mascot.speciesId);
+  final speciesList = ref.watch(mascotSpeciesDataProvider).value;
+  if (speciesList == null) return null;
+  return getSpeciesById(mascot.speciesId, speciesList);
 }
 
 /// Evolution stage index (1-4) for the active mascot.
@@ -84,7 +94,12 @@ MascotSpeciesModel? activeSpecies(Ref ref) {
 int activeMascotStage(Ref ref) {
   final mascot = ref.watch(activeMascotProvider).value;
   if (mascot == null) return 1;
-  final species = getSpeciesById(mascot.speciesId);
+  final speciesList = ref.watch(mascotSpeciesDataProvider).value;
+  if (speciesList == null) return 1;
+  final species = getSpeciesById(
+    mascot.speciesId,
+    speciesList,
+  );
   if (species == null) return 1;
   return species.getStageIndexForLevel(
     mascot.mascotLevel,
@@ -338,7 +353,7 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
   void triggerBounce() {
     state = true;
     Future.delayed(
-      const Duration(milliseconds: 100),
+      Durations.instant,
       () {
         if (state) state = false;
       },

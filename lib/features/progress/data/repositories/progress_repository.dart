@@ -77,7 +77,7 @@ class ProgressRepository {
         .collection(AppConstants.collectionUsers)
         .doc(userId)
         .update({
-      'dailyGoalTarget': target,
+      AppConstants.fieldDailyGoalTarget: target,
     });
   }
 

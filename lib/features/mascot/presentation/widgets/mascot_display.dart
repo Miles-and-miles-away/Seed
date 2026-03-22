@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import '../providers/mascot_providers.dart';
 
 /// Controller for triggering mascot animations from external widgets.
@@ -17,7 +19,7 @@ class MascotAnimationController extends ChangeNotifier {
     _shouldBounce = true;
     notifyListeners();
     // Reset after animation completes
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(Durations.slow, () {
       _shouldBounce = false;
       notifyListeners();
     });
@@ -167,7 +169,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: glowColor.withValues(alpha: 0.3),
+                          color: glowColor.withValues(
+                            alpha: Opacities.muted,
+                          ),
                           blurRadius: 40,
                           spreadRadius: 10,
                         ),
@@ -245,10 +249,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   }
 
   static const _glowColors = {
-    1: Color(0xFF8B6F47), // Brown - earth
-    2: Color(0xFF8BC34A), // Light green - fresh
-    3: Color(0xFF4CAF50), // Forest green - vibrant
-    4: Color(0xFFFFD700), // Gold - radiance
+    1: AppColors.glowEarth,
+    2: AppColors.glowFresh,
+    3: AppColors.glowVibrant,
+    4: AppColors.gold,
   };
 
   static Color _getGlowColor(int stage) =>

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import '../providers/actions_providers.dart';
 
-/// Number of logical items: "All" + 17 SDGs.
-final _cycleLength = sdgGoals.length + 1;
+// ignore_for_file: constant_identifier_names
+
+/// "All" chip + 17 SDGs = 18 logical items.
+const _CYCLE_LENGTH = 18;
 
 /// Large multiplier so the list appears infinite.
-const _repeatCount = 100;
+const _REPEAT_COUNT = 100;
 
 /// Estimated average chip width for initial offset.
-const _estimatedChipWidth = 100.0;
+const _ESTIMATED_CHIP_WIDTH = 100.0;
 
 /// Horizontal scrollable chips for filtering by SDG.
 /// Scrolls infinitely in a loop in both directions.
@@ -29,8 +32,8 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
   @override
   void initState() {
     super.initState();
-    final midCycle = _repeatCount ~/ 2;
-    final offset = midCycle * _cycleLength * _estimatedChipWidth;
+    final midCycle = _REPEAT_COUNT ~/ 2;
+    final offset = midCycle * _CYCLE_LENGTH * _ESTIMATED_CHIP_WIDTH;
     _scrollController = ScrollController(
       initialScrollOffset: offset,
     );
@@ -47,6 +50,13 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final selectedSdg = ref.watch(selectedSdgFilterProvider);
+    final goals = ref.watch(sdgGoalsDataProvider).value?.goals;
+
+    if (goals == null) {
+      return const SizedBox(height: 40);
+    }
+
+    final cycleLength = goals.length + 1;
 
     return SizedBox(
       height: 40,
@@ -54,17 +64,17 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-          horizontal: 16,
+          horizontal: Spacing.lg,
         ),
-        itemCount: _cycleLength * _repeatCount,
+        itemCount: cycleLength * _REPEAT_COUNT,
         itemBuilder: (context, index) {
-          final i = index % _cycleLength;
+          final i = index % cycleLength;
 
           // "All" chip
           if (i == 0) {
             final isSelected = selectedSdg == null;
             return Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: Spacing.sm),
               child: FilterChip(
                 label: Text(l10n.allCategories),
                 selected: isSelected,
@@ -85,18 +95,18 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
                 selectedColor: theme.colorScheme.primary,
                 checkmarkColor: theme.colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: Radii.borderXl,
                 ),
               ),
             );
           }
 
           // SDG chips
-          final sdg = sdgGoals[i - 1];
+          final sdg = goals[i - 1];
           final isSelected = selectedSdg == sdg.number;
 
           return Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: Spacing.sm),
             child: FilterChip(
               avatar: isSelected
                   ? null
@@ -140,7 +150,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
               selectedColor: sdg.color,
               checkmarkColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: Radii.borderXl,
               ),
             ),
           );

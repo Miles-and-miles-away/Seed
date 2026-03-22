@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
 
 void main() {
@@ -368,44 +369,29 @@ void main() {
         },
       );
     });
-
-    group('getAllSpecies', () {
-      test('returns default species list', () async {
-        final species = await repository.getAllSpecies();
-
-        expect(species, isNotEmpty);
-        expect(species.first.id, 'seed');
-      });
-    });
-
-    group('getSpecies', () {
-      test('returns species by id', () async {
-        final species = await repository.getSpecies('seed');
-
-        expect(species, isNotNull);
-        expect(species!.id, 'seed');
-        expect(species.nameEn, 'Seed');
-      });
-
-      test('returns null for unknown species', () async {
-        final species = await repository.getSpecies('unknown');
-
-        expect(species, isNull);
-      });
-    });
   });
 
-  group('getSpeciesById (static function)', () {
-    test('returns seed species', () {
-      final species = getSpeciesById('seed');
+  group('getSpeciesById', () {
+    final testSpecies = [
+      MascotSpeciesModel(
+        id: 'seed',
+        nameEn: 'Seed',
+        nameJa: 'シード',
+        descriptionEn: 'A seed',
+        descriptionJa: '種',
+        evolutionStages: [],
+      ),
+    ];
+
+    test('returns species by id', () {
+      final species = getSpeciesById('seed', testSpecies);
 
       expect(species, isNotNull);
       expect(species!.id, 'seed');
-      expect(species.evolutionStages, hasLength(4));
     });
 
     test('returns null for unknown id', () {
-      final species = getSpeciesById('dragon');
+      final species = getSpeciesById('dragon', testSpecies);
 
       expect(species, isNull);
     });

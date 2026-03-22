@@ -3,7 +3,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import '../providers/mascot_providers.dart';
 
 /// Displays the egg with a circular progress ring showing
@@ -32,7 +34,7 @@ class EggProgressWidget extends ConsumerWidget {
     Widget eggIcon = Icon(
       Icons.egg_outlined,
       size: size * 0.5,
-      color: const Color(0xFFF5F5DC),
+      color: AppColors.eggBeige,
     );
 
     // Wobble when close to hatching
@@ -70,9 +72,7 @@ class EggProgressWidget extends ConsumerWidget {
                     strokeWidth: 4,
                     backgroundColor: colorScheme.surfaceContainerHighest,
                     valueColor: AlwaysStoppedAnimation(
-                      isCloseToHatching
-                          ? const Color(0xFFFFD700)
-                          : colorScheme.primary,
+                      isCloseToHatching ? AppColors.gold : colorScheme.primary,
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class EggProgressWidget extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: Spacing.xs),
           Text(
             l10n.eggProgressLabel(
               streakDays,

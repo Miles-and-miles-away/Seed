@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'rainbow_sun_painter.dart';
 
 /// Animated widget that displays the Rainbow Sun visualization.
@@ -11,6 +12,7 @@ class RainbowSunWidget extends StatefulWidget {
     required this.goalCount,
     required this.goalTarget,
     required this.completedSdgs,
+    required this.sdgColors,
     super.key,
   });
 
@@ -22,6 +24,9 @@ class RainbowSunWidget extends StatefulWidget {
 
   /// List of SDG numbers completed today (1-17)
   final List<int> completedSdgs;
+
+  /// SDG colors indexed 0-16 for goals 1-17
+  final List<Color> sdgColors;
 
   @override
   State<RainbowSunWidget> createState() => _RainbowSunWidgetState();
@@ -40,7 +45,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: Durations.reveal,
     );
     _animation = CurvedAnimation(
       parent: _controller,
@@ -97,6 +102,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
               completionRatio: _calculateCompletionRatio(),
               completedSdgs: widget.completedSdgs,
               animationValue: _animation.value,
+              sdgColors: widget.sdgColors,
             ),
             size: Size.infinite,
           );
@@ -132,7 +138,9 @@ class EmptyRainbowSun extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.amber.withValues(alpha: 0.3),
+                    color: Colors.amber.withValues(
+                      alpha: Opacities.muted,
+                    ),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -140,7 +148,7 @@ class EmptyRainbowSun extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
           Text(
             'Complete goals to grow your sun!',
             style: theme.textTheme.bodyMedium?.copyWith(

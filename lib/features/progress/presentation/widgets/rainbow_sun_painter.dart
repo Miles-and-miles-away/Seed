@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 
 /// CustomPainter that draws the Rainbow Sun visualization.
 ///
@@ -15,6 +16,7 @@ class RainbowSunPainter extends CustomPainter {
     required this.completionRatio,
     required this.completedSdgs,
     required this.animationValue,
+    required this.sdgColors,
   });
 
   /// Goal completion ratio (0.0 to 1.0)
@@ -25,6 +27,9 @@ class RainbowSunPainter extends CustomPainter {
 
   /// Animation progress (0.0 to 1.0) for smooth transitions
   final double animationValue;
+
+  /// SDG colors indexed 0-16 for goals 1-17
+  final List<Color> sdgColors;
 
   /// Minimum ball radius as a fraction of max radius
   static const double _minRadiusFraction = 0.2;
@@ -62,9 +67,9 @@ class RainbowSunPainter extends CustomPainter {
     // Create radial gradient from yellow to orange
     final gradient = RadialGradient(
       colors: [
-        const Color(0xFFFFEB3B), // Yellow
-        const Color(0xFFFFC107), // Amber
-        const Color(0xFFFF9800), // Orange
+        AppColors.sunYellow,
+        AppColors.sunAmber,
+        AppColors.sunOrange,
       ],
       stops: const [0.0, 0.5, 1.0],
     );
@@ -79,8 +84,10 @@ class RainbowSunPainter extends CustomPainter {
     // (MaskFilter.blur causes Impeller crashes on iOS)
     final glowGradient = RadialGradient(
       colors: [
-        const Color(0xFFFFEB3B).withValues(alpha: 0.3),
-        const Color(0xFFFFEB3B).withValues(alpha: 0),
+        AppColors.sunYellow.withValues(
+          alpha: Opacities.muted,
+        ),
+        AppColors.sunYellow.withValues(alpha: 0),
       ],
     );
     final glowPaint = Paint()
@@ -103,7 +110,7 @@ class RainbowSunPainter extends CustomPainter {
 
     for (var sdgNumber = 1; sdgNumber <= 17; sdgNumber++) {
       final isCompleted = completedSet.contains(sdgNumber);
-      final sdgColor = sdgGoals[sdgNumber - 1].color;
+      final sdgColor = sdgColors[sdgNumber - 1];
 
       // Calculate start angle for this segment
       final segmentStartAngle = _startAngle + (sdgNumber - 1) * _angleStep;
@@ -116,7 +123,7 @@ class RainbowSunPainter extends CustomPainter {
         outerRadius,
         segmentStartAngle,
         _angleStep,
-        isCompleted ? sdgColor : sdgColor.withValues(alpha: 0.15),
+        isCompleted ? sdgColor : sdgColor.withValues(alpha: Opacities.subtle),
         isCompleted,
       );
     }
@@ -183,7 +190,7 @@ class RainbowSunPainter extends CustomPainter {
       // Ray is centered in the middle of its segment
       final segmentCenterAngle =
           _startAngle + (sdgNumber - 1) * _angleStep + _angleStep / 2;
-      final sdgColor = sdgGoals[sdgNumber - 1].color;
+      final sdgColor = sdgColors[sdgNumber - 1];
 
       // Calculate ray endpoint (extend to screen edge)
       final endpoint = _calculateRayEndpoint(center, segmentCenterAngle, size);
@@ -219,8 +226,12 @@ class RainbowSunPainter extends CustomPainter {
 
     final gradient = LinearGradient(
       colors: [
-        color.withValues(alpha: 0.7 * animationValue),
-        color.withValues(alpha: 0.3 * animationValue),
+        color.withValues(
+          alpha: Opacities.strong * animationValue,
+        ),
+        color.withValues(
+          alpha: Opacities.muted * animationValue,
+        ),
         color.withValues(alpha: 0),
       ],
       stops: const [0.0, 0.5, 1.0],

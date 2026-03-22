@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/legal_content.dart';
 
@@ -25,12 +26,12 @@ class LegalDocumentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Spacing.lg),
         itemCount: sections.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: Spacing.xl),
               child: Text(
                 l10n.legalLastUpdated(lastUpdated),
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -52,12 +53,14 @@ class LegalDocumentScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
                 Text(
                   section.body,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     height: 1.5,
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                    color: theme.colorScheme.onSurface.withValues(
+                      alpha: Opacities.heavy,
+                    ),
                   ),
                 ),
               ],

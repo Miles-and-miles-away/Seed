@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.
@@ -39,11 +41,11 @@ class _EggDiscoveryCelebrationState
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: Durations.particleLoop,
     );
     _glowController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: Durations.glowLoop,
     );
 
     _sparkles = List.generate(30, (_) => _Sparkle.random());
@@ -57,14 +59,10 @@ class _EggDiscoveryCelebrationState
       _glowController.repeat(reverse: true),
     );
 
-    await Future<void>.delayed(
-      const Duration(milliseconds: 300),
-    );
+    await Future<void>.delayed(Durations.normal);
     if (mounted) setState(() => _showContent = true);
 
-    await Future<void>.delayed(
-      const Duration(milliseconds: 1500),
-    );
+    await Future<void>.delayed(Durations.showcase);
     if (mounted) setState(() => _showButton = true);
   }
 
@@ -93,7 +91,9 @@ class _EggDiscoveryCelebrationState
           // Backdrop
           RepaintBoundary(
             child: Container(
-              color: Colors.black.withValues(alpha: 0.85),
+              color: Colors.black.withValues(
+                alpha: Opacities.nearOpaque,
+              ),
             ).animate().fadeIn(duration: 300.ms),
           ),
 
@@ -150,7 +150,7 @@ class _EggDiscoveryCelebrationState
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF90CAF9).withValues(
+                              color: AppColors.glowBlue.withValues(
                                 alpha: glowAlpha,
                               ),
                               blurRadius: 60,
@@ -164,7 +164,7 @@ class _EggDiscoveryCelebrationState
                     child: const Icon(
                       Icons.egg_outlined,
                       size: 120,
-                      color: Color(0xFFF5F5DC),
+                      color: AppColors.eggBeige,
                     )
                         .animate()
                         .fadeIn(
@@ -184,7 +184,7 @@ class _EggDiscoveryCelebrationState
                   // Message
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
+                      horizontal: Spacing.xxxl,
                     ),
                     child: Text(
                       l10n.eggDiscoveryMessage(
@@ -201,12 +201,12 @@ class _EggDiscoveryCelebrationState
                         ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: Spacing.md),
 
                   // Subtitle
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 48,
+                      horizontal: Spacing.huge,
                     ),
                     child: Text(
                       l10n.eggDiscoverySubtitle,
@@ -226,17 +226,17 @@ class _EggDiscoveryCelebrationState
                   if (_showButton)
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 48,
+                        horizontal: Spacing.huge,
                       ),
                       child: FilledButton(
                         onPressed: _handleDismiss,
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 48,
-                            vertical: 16,
+                            horizontal: Spacing.huge,
+                            vertical: Spacing.lg,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: Radii.borderLg,
                           ),
                         ),
                         child: Text(
@@ -248,7 +248,7 @@ class _EggDiscoveryCelebrationState
                           .slideY(begin: 0.3, end: 0),
                     ),
 
-                  const SizedBox(height: 48),
+                  const SizedBox(height: Spacing.huge),
                 ],
               ),
             ),
@@ -300,7 +300,7 @@ class _SparklePainter extends CustomPainter {
     for (final s in sparkles) {
       final alpha = (sin(progress * pi * 2 * s.speed + s.phase) + 1) / 2;
       final paint = Paint()
-        ..color = const Color(0xFF90CAF9).withValues(alpha: alpha * 0.6);
+        ..color = AppColors.glowBlue.withValues(alpha: alpha * 0.6);
 
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height),

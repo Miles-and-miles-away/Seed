@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart' hide Durations;
+import 'package:seed_app/core/constants/ui_constants.dart' as ui show Durations;
+
 /// A horizontal progress bar showing level progression.
 class LevelProgressBar extends StatelessWidget {
   const LevelProgressBar({
@@ -49,7 +52,7 @@ class LevelProgressBar extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: Spacing.sm),
         ],
         ClipRRect(
           borderRadius: BorderRadius.circular(height / 2),
@@ -64,7 +67,7 @@ class LevelProgressBar extends StatelessWidget {
               ),
               // Progress fill
               AnimatedFractionallySizedBox(
-                duration: const Duration(milliseconds: 300),
+                duration: ui.Durations.normal,
                 curve: Curves.easeOut,
                 widthFactor: progress.clamp(0.0, 1.0),
                 child: Container(

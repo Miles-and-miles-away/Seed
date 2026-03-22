@@ -1,15 +1,47 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  late ChallengeTemplateData templateData;
+
+  setUpAll(() async {
+    final jsonString = await rootBundle.loadString(
+      'data/app/challenge_templates.json',
+    );
+    final json = jsonDecode(jsonString) as Map<String, dynamic>;
+    final daily = (json['daily'] as List<dynamic>)
+        .map(
+          (e) => DailyChallengeTemplate.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
+        .toList();
+    final multiDay = (json['multiDay'] as List<dynamic>)
+        .map(
+          (e) => MultiDayChallengeTemplate.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
+        .toList();
+    templateData = ChallengeTemplateData(
+      daily: daily,
+      multiDay: multiDay,
+    );
+  });
 
   Widget buildCard({
     required AppUserModel user,
@@ -18,6 +50,9 @@ void main() {
       overrides: [
         currentUserProvider.overrideWith(
           (_) => Stream.value(user),
+        ),
+        challengeTemplateDataProvider.overrideWith(
+          (_) async => templateData,
         ),
       ],
       child: createTestWidget(
@@ -40,7 +75,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsNothing);
     });
@@ -60,7 +95,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
       // Shows template title
@@ -90,7 +125,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsNothing);
     });

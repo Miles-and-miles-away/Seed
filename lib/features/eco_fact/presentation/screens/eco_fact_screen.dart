@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
@@ -50,16 +51,16 @@ class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
             );
           }
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(Spacing.lg),
             child: Column(
               children: [
                 EcoFactCard(
                   fact: fact,
                   isLocked: isLocked,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
                 const FactCalendar(),
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
               ],
             ),
           );

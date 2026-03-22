@@ -7,9 +7,9 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/challenge/data/challenge_selection_service.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/services/egg_hatching_service.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:uuid/uuid.dart';
@@ -21,11 +21,17 @@ class ActionLogRepository {
   ActionLogRepository({
     required this.dataSource,
     required this.firestore,
+    required this.dailyChallengeTemplates,
+    required this.multiDayChallengeTemplates,
+    required this.mascotSpecies,
     this.eggHatchingService = const EggHatchingService(),
   });
 
   final ActionLogRemoteDataSource dataSource;
   final FirebaseFirestore firestore;
+  final List<DailyChallengeTemplate> dailyChallengeTemplates;
+  final List<MultiDayChallengeTemplate> multiDayChallengeTemplates;
+  final List<MascotSpeciesModel> mascotSpecies;
   final EggHatchingService eggHatchingService;
 
   /// Watches all action logs for the current user.
@@ -78,14 +84,18 @@ class ActionLogRepository {
       final userData = userDoc.data() ?? {};
 
       // 1. Global points/level -- always update
-      final currentPoints = (userData['points'] as int?) ?? 0;
+      final currentPoints = (userData[AppConstants.fieldPoints] as int?) ?? 0;
       final newPoints = currentPoints + action.points;
       final newLevel = calculateLevel(newPoints);
 
       // 2. Streak calculation
-      final lastActionDate = _parseDate(userData['lastActionDate']);
-      final currentStreak = (userData['currentStreak'] as int?) ?? 0;
-      final longestStreak = (userData['longestStreak'] as int?) ?? 0;
+      final lastActionDate = _parseDate(
+        userData[AppConstants.fieldLastActionDate],
+      );
+      final currentStreak =
+          (userData[AppConstants.fieldCurrentStreak] as int?) ?? 0;
+      final longestStreak =
+          (userData[AppConstants.fieldLongestStreak] as int?) ?? 0;
 
       final streakResult = StreakService.instance.calculateStreakUpdate(
         lastActionDate: lastActionDate,
@@ -97,37 +107,51 @@ class ActionLogRepository {
       newCurrentStreak = streakResult.currentStreak;
 
       // 2b. Denormalized aggregate counters
-      final currentCo2 = (userData['totalCo2Grams'] as int?) ?? 0;
-      final currentActionCount = (userData['totalActionsCount'] as int?) ?? 0;
+      final currentCo2 =
+          (userData[AppConstants.fieldTotalCo2Grams] as int?) ?? 0;
+      final currentActionCount =
+          (userData[AppConstants.fieldTotalActionsCount] as int?) ?? 0;
+
+      // Per-category action counts
+      final catCountsRaw = (userData[AppConstants.fieldCategoryActionCounts]
+              as Map<String, dynamic>?) ??
+          {};
+      final updatedCatCounts = Map<String, dynamic>.from(catCountsRaw);
+      final oldCatCount = (updatedCatCounts[action.category] as int?) ?? 0;
+      updatedCatCounts[action.category] = oldCatCount + 1;
 
       // Per-SDG stats
-      final sdgStatsRaw = (userData['sdgStats'] as Map<String, dynamic>?) ?? {};
+      final sdgStatsRaw =
+          (userData[AppConstants.fieldSdgStats] as Map<String, dynamic>?) ?? {};
       final updatedSdgStats = Map<String, dynamic>.from(sdgStatsRaw);
       for (final sdg in action.relatedSdgs) {
         final existing = (updatedSdgStats[sdg] as Map<String, dynamic>?) ?? {};
-        final oldCount = (existing['count'] as int?) ?? 0;
-        final oldCo2 = (existing['co2'] as int?) ?? 0;
+        final oldCount = (existing[AppConstants.fieldCount] as int?) ?? 0;
+        final oldCo2 = (existing[AppConstants.fieldCo2] as int?) ?? 0;
         updatedSdgStats[sdg] = {
-          'count': oldCount + 1,
-          'co2': oldCo2 + action.co2Grams,
+          AppConstants.fieldCount: oldCount + 1,
+          AppConstants.fieldCo2: oldCo2 + action.co2Grams,
         };
       }
 
       // Base update map
       final updates = <String, dynamic>{
-        'points': newPoints,
-        'level': newLevel,
-        'currentStreak': streakResult.currentStreak,
-        'longestStreak': streakResult.longestStreak,
-        'lastActionDate': Timestamp.fromDate(now),
-        'totalCo2Grams': currentCo2 + action.co2Grams,
-        'totalActionsCount': currentActionCount + 1,
-        'sdgStats': updatedSdgStats,
+        AppConstants.fieldPoints: newPoints,
+        AppConstants.fieldLevel: newLevel,
+        AppConstants.fieldCurrentStreak: streakResult.currentStreak,
+        AppConstants.fieldLongestStreak: streakResult.longestStreak,
+        AppConstants.fieldLastActionDate: Timestamp.fromDate(now),
+        AppConstants.fieldTotalCo2Grams: currentCo2 + action.co2Grams,
+        AppConstants.fieldTotalActionsCount: currentActionCount + 1,
+        AppConstants.fieldSdgStats: updatedSdgStats,
+        AppConstants.fieldCategoryActionCounts: updatedCatCounts,
       };
 
       // 3. Per-mascot leveling
-      final activeMascotId = userData['activeMascotId'] as String?;
-      final mascotsRaw = (userData['mascots'] as List<dynamic>?) ?? [];
+      final activeMascotId =
+          userData[AppConstants.fieldActiveMascotId] as String?;
+      final mascotsRaw =
+          (userData[AppConstants.fieldMascots] as List<dynamic>?) ?? [];
       final mascots = mascotsRaw
           .map(
             (e) => Map<String, dynamic>.from(e as Map),
@@ -136,39 +160,43 @@ class ActionLogRepository {
 
       if (activeMascotId != null && mascots.isNotEmpty) {
         final idx = mascots.indexWhere(
-          (m) => m['id'] == activeMascotId,
+          (m) => m[AppConstants.fieldId] == activeMascotId,
         );
         if (idx != -1) {
           final isFullyEvolved =
-              (mascots[idx]['isFullyEvolved'] as bool?) ?? false;
+              (mascots[idx][AppConstants.fieldIsFullyEvolved] as bool?) ??
+                  false;
 
           if (!isFullyEvolved) {
-            final oldMascotPts = (mascots[idx]['mascotPoints'] as int?) ?? 0;
+            final oldMascotPts =
+                (mascots[idx][AppConstants.fieldMascotPoints] as int?) ?? 0;
             final newMascotPts = oldMascotPts + action.points;
             final newMascotLevel = calculateLevel(newMascotPts);
             final nowFullyEvolved =
                 newMascotLevel >= AppConstants.maxEvolutionLevel;
 
-            mascots[idx]['mascotPoints'] = newMascotPts;
-            mascots[idx]['mascotLevel'] = newMascotLevel;
-            mascots[idx]['isFullyEvolved'] = nowFullyEvolved;
-            updates['mascots'] = mascots;
+            mascots[idx][AppConstants.fieldMascotPoints] = newMascotPts;
+            mascots[idx][AppConstants.fieldMascotLevel] = newMascotLevel;
+            mascots[idx][AppConstants.fieldIsFullyEvolved] = nowFullyEvolved;
+            updates[AppConstants.fieldMascots] = mascots;
 
             // 4. Egg pending discovery
             if (nowFullyEvolved &&
-                userData['egg'] == null &&
-                !(userData['eggPendingDiscovery'] as bool? ?? false)) {
-              updates['eggPendingDiscovery'] = true;
-              updates['eggPendingDiscoverySince'] = Timestamp.fromDate(now);
+                userData[AppConstants.fieldEgg] == null &&
+                !(userData[AppConstants.fieldEggPendingDiscovery] as bool? ??
+                    false)) {
+              updates[AppConstants.fieldEggPendingDiscovery] = true;
+              updates[AppConstants.fieldEggPendingDiscoverySince] =
+                  Timestamp.fromDate(now);
             }
           }
         }
       }
 
       // 5. Egg hatching streak
-      if (userData['egg'] != null) {
+      if (userData[AppConstants.fieldEgg] != null) {
         final eggMap = Map<String, dynamic>.from(
-          userData['egg'] as Map,
+          userData[AppConstants.fieldEgg] as Map,
         );
         final egg = EggModel.fromJson(eggMap);
         final eggResult = eggHatchingService.calculateEggStreakUpdate(egg, now);
@@ -177,7 +205,7 @@ class ActionLogRepository {
           // Hatch the egg
           final species = eggHatchingService.selectHatchingSpecies(
             mascots.map(MascotModel.fromJson).toList(),
-            defaultMascotSpecies,
+            mascotSpecies,
           );
           final newMascotId = _uuid.v4();
           hatchedMascotId = newMascotId;
@@ -189,36 +217,38 @@ class ActionLogRepository {
           ).toJson();
 
           // Ensure we have latest mascots list
-          final currentMascots = updates.containsKey('mascots')
-              ? updates['mascots'] as List
+          final currentMascots = updates.containsKey(AppConstants.fieldMascots)
+              ? updates[AppConstants.fieldMascots] as List
               : mascots;
-          updates['mascots'] = [
+          updates[AppConstants.fieldMascots] = [
             ...currentMascots,
             newMascot,
           ];
-          updates['egg'] = FieldValue.delete();
+          updates[AppConstants.fieldEgg] = FieldValue.delete();
         } else {
-          updates['egg'] = {
+          updates[AppConstants.fieldEgg] = {
             ...eggMap,
-            'hatchingStreakDays': eggResult.newStreakDays,
-            'lastHatchingActivityDate': Timestamp.fromDate(now),
+            AppConstants.fieldHatchingStreakDays: eggResult.newStreakDays,
+            AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(now),
           };
         }
       }
 
       // 6. Daily challenge completion
       final challengeCompletedDate =
-          userData['challengeCompletedDate'] as String? ?? '';
+          userData[AppConstants.fieldChallengeCompletedDate] as String? ?? '';
       final todayKey = formatDateKey(now);
 
       if (challengeCompletedDate != todayKey) {
-        final recentIds = (userData['recentChallengeIds'] as List<dynamic>?)
-                ?.cast<String>() ??
-            [];
+        final recentIds =
+            (userData[AppConstants.fieldRecentChallengeIds] as List<dynamic>?)
+                    ?.cast<String>() ??
+                [];
         final challenge = selectDailyChallenge(
           userId,
           now,
           recentIds,
+          dailyChallengeTemplates,
         );
 
         if (challenge.category == action.category) {
@@ -226,15 +256,17 @@ class ActionLogRepository {
           final yesterdayKey = formatDateKey(
             now.subtract(const Duration(days: 1)),
           );
-          final oldStreak = (userData['challengeStreak'] as int?) ?? 0;
+          final oldStreak =
+              (userData[AppConstants.fieldChallengeStreak] as int?) ?? 0;
           final newStreak =
               challengeCompletedDate == yesterdayKey ? oldStreak + 1 : 1;
 
-          updates['challengeCompletedDate'] = todayKey;
-          updates['challengeStreak'] = newStreak;
-          updates['challengesCompleted'] =
-              ((userData['challengesCompleted'] as int?) ?? 0) + 1;
-          updates['recentChallengeIds'] = [
+          updates[AppConstants.fieldChallengeCompletedDate] = todayKey;
+          updates[AppConstants.fieldChallengeStreak] = newStreak;
+          updates[AppConstants.fieldChallengesCompleted] =
+              ((userData[AppConstants.fieldChallengesCompleted] as int?) ?? 0) +
+                  1;
+          updates[AppConstants.fieldRecentChallengeIds] = [
             challenge.id,
             ...recentIds.take(AppConstants.recentChallengeIdsLimit - 1),
           ];
@@ -242,14 +274,15 @@ class ActionLogRepository {
       }
 
       // 7. Multi-day challenge progress
-      final multiDay =
-          userData['activeMultiDayChallenge'] as Map<String, dynamic>?;
+      final multiDay = userData[AppConstants.fieldActiveMultiDayChallenge]
+          as Map<String, dynamic>?;
       if (multiDay != null && multiDay.isNotEmpty) {
-        final templateId = multiDay['templateId'] as String;
+        final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String;
         final template = multiDayChallengeTemplates.firstWhere(
-          (t) => t.id == templateId,
+          (t) => t.id == mdTemplateId,
         );
-        final lastDate = multiDay['lastCompletionDate'] as String? ?? '';
+        final lastDate =
+            multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
         final todayKey2 = formatDateKey(now);
 
         if (lastDate != todayKey2) {
@@ -259,29 +292,32 @@ class ActionLogRepository {
             final yesterdayKey = formatDateKey(
               now.subtract(const Duration(days: 1)),
             );
-            final currentDay = (multiDay['currentDay'] as int?) ?? 0;
+            final currentDay =
+                (multiDay[AppConstants.fieldCurrentDay] as int?) ?? 0;
 
             if (lastDate == '' || lastDate == yesterdayKey) {
               final newDay = currentDay + 1;
-              final target = (multiDay['targetDays'] as int?) ?? 0;
+              final target =
+                  (multiDay[AppConstants.fieldTargetDays] as int?) ?? 0;
 
               if (newDay >= target) {
-                updates['activeMultiDayChallenge'] = <String, dynamic>{};
-                updates['completedMultiDayChallenges'] =
-                    FieldValue.arrayUnion([templateId]);
+                updates[AppConstants.fieldActiveMultiDayChallenge] =
+                    <String, dynamic>{};
+                updates[AppConstants.fieldCompletedMultiDayChallenges] =
+                    FieldValue.arrayUnion([mdTemplateId]);
               } else {
-                updates['activeMultiDayChallenge'] = {
+                updates[AppConstants.fieldActiveMultiDayChallenge] = {
                   ...multiDay,
-                  'currentDay': newDay,
-                  'lastCompletionDate': todayKey2,
+                  AppConstants.fieldCurrentDay: newDay,
+                  AppConstants.fieldLastCompletionDate: todayKey2,
                 };
               }
             } else {
               // Streak broken -- reset to day 1
-              updates['activeMultiDayChallenge'] = {
+              updates[AppConstants.fieldActiveMultiDayChallenge] = {
                 ...multiDay,
-                'currentDay': 1,
-                'lastCompletionDate': todayKey2,
+                AppConstants.fieldCurrentDay: 1,
+                AppConstants.fieldLastCompletionDate: todayKey2,
               };
             }
           }

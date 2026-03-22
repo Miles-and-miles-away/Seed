@@ -1,290 +1,313 @@
 # Eco-Dex Asset Manifest
 # Defines all entries for SVG generation via Recraft API
+# Categories: climate, oceans, food_systems, biodiversity,
+#   energy, circular_economy, people_planet, your_journey
 
 entries:
-  # --- Flora (10 entries) ---
-  - id: flora_01
-    category: flora
-    subject: "mighty oak tree with strong trunk and full canopy"
-    color_hint: "deep green and brown tones"
+  # --- Climate (8 entries) ---
+  - id: climate_01
+    category: climate
+    subject: "planet Earth wrapped in a thin glowing atmosphere layer"
+    color_hint: "blue planet, warm golden glow around edges"
 
-  - id: flora_02
-    category: flora
-    subject: "tall bamboo stalks growing upward"
-    color_hint: "light green and yellow-green tones"
+  - id: climate_02
+    category: climate
+    subject: "ocean and forest side by side absorbing CO2 arrows"
+    color_hint: "blue ocean, green forest, grey downward arrows"
 
-  - id: flora_03
-    category: flora
-    subject: "mangrove tree with visible roots in water"
-    color_hint: "green foliage with brown roots, blue water"
+  - id: climate_03
+    category: climate
+    subject: "domino pieces falling in a chain reaction pattern"
+    color_hint: "red-orange gradient dominoes on dark background"
 
-  - id: flora_04
-    category: flora
-    subject: "delicate fern with curling fronds"
-    color_hint: "forest green tones"
+  - id: climate_04
+    category: climate
+    subject: "graph line curving steeply upward with CO2 label"
+    color_hint: "red line on white graph, grey grid"
 
-  - id: flora_05
-    category: flora
-    subject: "sunflower with bright petals facing upward"
-    color_hint: "yellow petals, green stem, brown center"
+  - id: climate_05
+    category: climate
+    subject: "sunlight reflecting off bright white ice sheet"
+    color_hint: "white ice, bright yellow sunbeams, blue sky"
 
-  - id: flora_06
-    category: flora
-    subject: "giant sequoia tree, tall and majestic"
-    color_hint: "deep green canopy, reddish-brown bark"
+  - id: climate_06
+    category: climate
+    subject: "frozen ground cross-section showing trapped bubbles"
+    color_hint: "white ice surface, brown soil, blue gas bubbles"
 
-  - id: flora_07
-    category: flora
-    subject: "seagrass meadow swaying underwater"
-    color_hint: "green and teal, ocean blue background"
+  - id: climate_07
+    category: climate
+    subject: "people walking along a path away from flooded land"
+    color_hint: "blue water, brown earth tones, human silhouettes"
 
-  - id: flora_08
-    category: flora
-    subject: "wildflower meadow with diverse blooms"
-    color_hint: "mixed colors, green grass base"
+  - id: climate_08
+    category: climate
+    subject: "road leading from grey factory toward green wind farm"
+    color_hint: "grey to green gradient, white turbines"
 
-  - id: flora_09
-    category: flora
-    subject: "moss growing on a forest rock"
-    color_hint: "bright green moss, grey-brown rock"
+  # --- Oceans (7 entries) ---
+  - id: oceans_01
+    category: oceans
+    subject: "mangrove roots underwater storing carbon particles"
+    color_hint: "brown roots, blue-green water, golden particles"
 
-  - id: flora_10
-    category: flora
-    subject: "baobab tree with thick trunk and sparse branches"
-    color_hint: "grey-brown trunk, sparse green leaves"
+  - id: oceans_02
+    category: oceans
+    subject: "pH scale with coral turning white at acidic end"
+    color_hint: "blue healthy coral, white bleached coral, red pH"
 
-  # --- Fauna (10 entries) ---
-  - id: fauna_01
-    category: fauna
-    subject: "cute honeybee with small wings buzzing"
-    color_hint: "yellow and black stripes"
+  - id: oceans_03
+    category: oceans
+    subject: "ocean surface covered with small colorful plastic debris"
+    color_hint: "blue water, scattered multicolor plastic pieces"
 
-  - id: fauna_02
-    category: fauna
-    subject: "friendly sea otter floating on its back"
-    color_hint: "brown fur, blue water"
+  - id: oceans_04
+    category: oceans
+    subject: "vibrant coral reef teeming with colorful fish"
+    color_hint: "orange coral, blue water, colorful tropical fish"
 
-  - id: fauna_03
-    category: fauna
-    subject: "blue whale swimming gracefully"
-    color_hint: "blue-grey body, ocean blue"
+  - id: oceans_05
+    category: oceans
+    subject: "deep ocean trench with bioluminescent creatures"
+    color_hint: "deep blue-black water, glowing blue-green creatures"
 
-  - id: fauna_04
-    category: fauna
-    subject: "coral reef fish, colorful and small"
-    color_hint: "bright orange, white stripes"
+  - id: oceans_06
+    category: oceans
+    subject: "fishing nets overflowing with too many fish"
+    color_hint: "grey nets, silver fish, blue ocean"
 
-  - id: fauna_05
-    category: fauna
-    subject: "butterfly with open wings"
-    color_hint: "orange and black monarch pattern"
+  - id: oceans_07
+    category: oceans
+    subject: "great whale diving deep with plankton bloom above"
+    color_hint: "blue-grey whale, green plankton bloom, ocean blue"
 
-  - id: fauna_06
-    category: fauna
-    subject: "small penguin standing upright"
-    color_hint: "black and white, orange beak"
+  # --- Food Systems (8 entries) ---
+  - id: food_01
+    category: food_systems
+    subject: "plate of food with CO2 cloud rising above it"
+    color_hint: "colorful food, grey CO2 cloud above"
 
-  - id: fauna_07
-    category: fauna
-    subject: "tree frog sitting on a leaf"
-    color_hint: "bright green frog, green leaf"
+  - id: food_02
+    category: food_systems
+    subject: "trash bin overflowing with fresh fruits and bread"
+    color_hint: "grey bin, colorful wasted food items"
 
-  - id: fauna_08
-    category: fauna
-    subject: "earthworm in soil cross-section"
-    color_hint: "pink-brown worm, brown soil layers"
+  - id: food_03
+    category: food_systems
+    subject: "cross-section of rich soil full of tiny organisms"
+    color_hint: "brown soil layers, tiny colorful organisms"
 
-  - id: fauna_09
-    category: fauna
-    subject: "hummingbird hovering near a flower"
-    color_hint: "iridescent green, purple flower"
+  - id: food_04
+    category: food_systems
+    subject: "water droplet showing the amount needed for beef vs vegs"
+    color_hint: "large blue drop vs small blue drop, green vegs"
 
-  - id: fauna_10
-    category: fauna
-    subject: "ladybug on a green leaf"
-    color_hint: "red with black spots, green leaf"
+  - id: food_05
+    category: food_systems
+    subject: "bee pollinating a flower with crops in background"
+    color_hint: "yellow bee, pink flower, green field background"
 
-  # --- Elements (8 entries) ---
-  - id: elem_01
-    category: elements
-    subject: "sun with warm rays shining"
-    color_hint: "golden yellow and orange"
+  - id: food_06
+    category: food_systems
+    subject: "hands planting seedlings in healthy regenerative soil"
+    color_hint: "warm skin tones, green sprouts, brown rich soil"
 
-  - id: elem_02
-    category: elements
-    subject: "raindrop or water droplet"
-    color_hint: "blue and cyan tones"
+  - id: food_07
+    category: food_systems
+    subject: "vault door in snowy mountain with seeds inside"
+    color_hint: "white snow, grey vault, colorful seed packets"
 
-  - id: elem_03
-    category: elements
-    subject: "wind swirl with leaves"
-    color_hint: "light blue and green accents"
+  - id: food_08
+    category: food_systems
+    subject: "lush garden of diverse vegetables and legumes"
+    color_hint: "many greens, red tomatoes, orange carrots"
 
-  - id: elem_04
-    category: elements
-    subject: "mountain with snow peak"
-    color_hint: "grey-brown mountain, white snow, blue sky"
+  # --- Biodiversity (7 entries) ---
+  - id: bio_01
+    category: biodiversity
+    subject: "collection of endangered animal silhouettes fading"
+    color_hint: "dark silhouettes gradually becoming transparent"
 
-  - id: elem_05
-    category: elements
-    subject: "ocean wave curling"
-    color_hint: "deep blue and white foam"
+  - id: bio_02
+    category: biodiversity
+    subject: "magnifying glass showing tiny insects on a leaf"
+    color_hint: "green leaf, tiny colorful insects, glass rim"
 
-  - id: elem_06
-    category: elements
-    subject: "lightning bolt, clean energy"
-    color_hint: "yellow-gold bolt"
+  - id: bio_03
+    category: biodiversity
+    subject: "dense rainforest canopy seen from above"
+    color_hint: "many shades of green canopy, mist"
 
-  - id: elem_07
-    category: elements
-    subject: "soil layers cross-section showing roots"
-    color_hint: "brown layers, green surface"
+  - id: bio_04
+    category: biodiversity
+    subject: "wetland with herons and lily pads at sunset"
+    color_hint: "golden sunset, blue water, white herons, green pads"
 
-  - id: elem_08
-    category: elements
-    subject: "cloud with rainbow arc"
-    color_hint: "white cloud, rainbow colors"
+  - id: bio_05
+    category: biodiversity
+    subject: "underground fungal network connecting tree roots"
+    color_hint: "white mycelium threads, brown roots, dark soil"
 
-  # --- SDG World (8 entries) ---
-  - id: sdg_01
-    category: sdg_world
-    subject: "earth globe with green continents"
-    color_hint: "blue oceans, green land"
+  - id: bio_06
+    category: biodiversity
+    subject: "wolf pack running through a restored forest valley"
+    color_hint: "grey wolves, green valley, blue river"
 
-  - id: sdg_02
-    category: sdg_world
-    subject: "hands holding a seedling"
-    color_hint: "warm skin tones, green plant"
+  - id: bio_07
+    category: biodiversity
+    subject: "panda bear eating bamboo in protected forest"
+    color_hint: "black and white panda, green bamboo"
 
-  - id: sdg_03
-    category: sdg_world
-    subject: "bicycle with a city skyline background"
-    color_hint: "blue and green tones"
+  # --- Energy (7 entries) ---
+  - id: energy_01
+    category: energy
+    subject: "solar panels gleaming under bright sunshine"
+    color_hint: "dark blue panels, golden sun rays"
 
-  - id: sdg_04
-    category: sdg_world
-    subject: "solar panel angled toward sun"
-    color_hint: "dark blue panel, golden sun"
+  - id: energy_02
+    category: energy
+    subject: "row of wind turbines on a green hillside"
+    color_hint: "white turbines, green hills, blue sky"
 
-  - id: sdg_05
-    category: sdg_world
-    subject: "recycling symbol made of arrows"
-    color_hint: "green arrows"
+  - id: energy_03
+    category: energy
+    subject: "electrical plugs with faint ghostly glow in dark room"
+    color_hint: "dark room, faint red-orange glow from standby LEDs"
 
-  - id: sdg_06
-    category: sdg_world
-    subject: "wind turbine on a green hill"
-    color_hint: "white turbine, green hill, blue sky"
+  - id: energy_04
+    category: energy
+    subject: "airplane leaving a long contrail across the sky"
+    color_hint: "white airplane, blue sky, white trail"
 
-  - id: sdg_07
-    category: sdg_world
-    subject: "community garden with people and plants"
-    color_hint: "greens, warm earth tones"
+  - id: energy_05
+    category: energy
+    subject: "electric car charging at a green station"
+    color_hint: "white car, green charging station, blue cable"
 
-  - id: sdg_08
-    category: sdg_world
-    subject: "clean river flowing through forest"
-    color_hint: "blue water, green forest"
+  - id: energy_06
+    category: energy
+    subject: "building with insulation layers and efficient windows"
+    color_hint: "cross-section view, warm orange inside, blue outside"
 
-  # --- Eco-Pioneers (7 entries) ---
-  - id: pioneer_01
-    category: eco_pioneers
-    subject: "person planting a tree sapling"
-    color_hint: "green and brown earth tones"
+  - id: energy_07
+    category: energy
+    subject: "hydrogen molecule floating near water and sunlight"
+    color_hint: "blue H2 molecule, blue water, golden sunlight"
 
-  - id: pioneer_02
-    category: eco_pioneers
-    subject: "scientist with magnifying glass examining plant"
-    color_hint: "white coat, green plant"
+  # --- Circular Economy (7 entries) ---
+  - id: circular_01
+    category: circular_economy
+    subject: "mountain of waste bags piled high"
+    color_hint: "grey and black bags, brown ground"
 
-  - id: pioneer_03
-    category: eco_pioneers
-    subject: "person carrying reusable shopping bags"
-    color_hint: "earth tones, green bags"
+  - id: circular_02
+    category: circular_economy
+    subject: "clothing rack with price tags and smoke stacks behind"
+    color_hint: "colorful clothes, grey factory smokestacks"
 
-  - id: pioneer_04
-    category: eco_pioneers
-    subject: "child watering a garden"
-    color_hint: "blue water, green plants"
+  - id: circular_03
+    category: circular_economy
+    subject: "circuit board with gold and silver components visible"
+    color_hint: "green board, gold traces, silver components"
 
-  - id: pioneer_05
-    category: eco_pioneers
-    subject: "person riding bicycle with basket"
-    color_hint: "green and blue tones"
+  - id: circular_04
+    category: circular_economy
+    subject: "plastic bottles piled up on a beach shoreline"
+    color_hint: "clear and colored bottles, sandy beach, blue water"
 
-  - id: pioneer_06
-    category: eco_pioneers
-    subject: "beekeeper tending hives"
-    color_hint: "white suit, golden honey, yellow bees"
+  - id: circular_05
+    category: circular_economy
+    subject: "hands repairing a small electronic device with tools"
+    color_hint: "warm skin tones, silver tools, green circuit board"
 
-  - id: pioneer_07
-    category: eco_pioneers
-    subject: "marine biologist studying coral underwater"
-    color_hint: "blue water, colorful coral"
+  - id: circular_06
+    category: circular_economy
+    subject: "circular arrows forming a loop with materials flowing"
+    color_hint: "green arrows, colorful material icons flowing"
 
-  # --- Milestones (7 entries) ---
-  - id: mile_01
-    category: milestones
-    subject: "first seedling sprouting from soil"
-    color_hint: "bright green sprout, brown soil"
+  - id: circular_07
+    category: circular_economy
+    subject: "Japanese town with many colorful recycling bins"
+    color_hint: "colorful bins, neat Japanese street, green trees"
 
-  - id: mile_02
-    category: milestones
-    subject: "trophy or cup with a leaf motif"
-    color_hint: "golden trophy, green leaf"
+  # --- People & Planet (8 entries) ---
+  - id: people_01
+    category: people_planet
+    subject: "17 colorful SDG goal icons arranged in a circle"
+    color_hint: "17 distinct SDG colors in a wheel"
 
-  - id: mile_03
-    category: milestones
-    subject: "stack of ten small trees growing"
-    color_hint: "various shades of green"
+  - id: people_02
+    category: people_planet
+    subject: "scale showing imbalanced carbon emissions per person"
+    color_hint: "gold scale, large grey cloud vs small grey cloud"
 
-  - id: mile_04
-    category: milestones
-    subject: "flame or streak icon showing momentum"
-    color_hint: "orange and red gradient"
+  - id: people_03
+    category: people_planet
+    subject: "indigenous person standing in a lush protected forest"
+    color_hint: "green forest, warm earth tones, natural colors"
 
-  - id: mile_05
-    category: milestones
-    subject: "star with nature wreath around it"
-    color_hint: "golden star, green wreath"
+  - id: people_04
+    category: people_planet
+    subject: "crowd of young people marching with climate signs"
+    color_hint: "diverse crowd, green and blue signs, city backdrop"
 
-  - id: mile_06
-    category: milestones
-    subject: "scale showing CO2 reduction"
-    color_hint: "green going up, grey going down"
+  - id: people_05
+    category: people_planet
+    subject: "clean water flowing from a well into cupped hands"
+    color_hint: "clear blue water, warm skin tones, stone well"
 
-  - id: mile_07
-    category: milestones
-    subject: "calendar page with checkmarks"
-    color_hint: "green checkmarks, white background"
+  - id: people_06
+    category: people_planet
+    subject: "workers installing solar panels on a building rooftop"
+    color_hint: "blue panels, workers in safety vests, blue sky"
 
-  # --- Challenge (6 entries) ---
-  - id: chal_01
-    category: challenge
-    subject: "steady hand holding a small flame carefully"
-    color_hint: "warm orange flame, calm tones"
+  - id: people_07
+    category: people_planet
+    subject: "nine concentric circles representing planetary boundaries"
+    color_hint: "green safe zone, yellow caution, red danger zones"
 
-  - id: chal_02
-    category: challenge
-    subject: "plate of colorful vegetables and fruits"
-    color_hint: "green, orange, red, purple produce"
+  - id: people_08
+    category: people_planet
+    subject: "hands from different nations clasped together over globe"
+    color_hint: "diverse skin tones, blue-green globe beneath"
 
-  - id: chal_03
-    category: challenge
-    subject: "calendar with 30 days marked complete"
-    color_hint: "green marks, white calendar"
+  # --- Your Journey (8 entries) ---
+  - id: journey_01
+    category: your_journey
+    subject: "small seedling sprouting from cracked earth toward light"
+    color_hint: "green sprout, brown cracked earth, golden light above"
 
-  - id: chal_04
-    category: challenge
-    subject: "person walking instead of driving"
-    color_hint: "green path, grey car in background"
+  - id: journey_02
+    category: your_journey
+    subject: "loop diagram showing cue, routine, and reward cycle"
+    color_hint: "circular arrows, green routine, golden reward"
 
-  - id: chal_05
-    category: challenge
-    subject: "reusable water bottle with nature scene"
-    color_hint: "blue bottle, green nature"
+  - id: journey_03
+    category: your_journey
+    subject: "network of people connected by glowing green lines"
+    color_hint: "human silhouettes, green connecting lines"
 
-  - id: chal_06
-    category: challenge
-    subject: "compost bin with food scraps decomposing"
-    color_hint: "brown bin, green and orange scraps"
+  - id: journey_04
+    category: your_journey
+    subject: "small drops combining into a powerful waterfall"
+    color_hint: "many small blue drops merging into large falls"
+
+  - id: journey_05
+    category: your_journey
+    subject: "open book with nature growing out of its pages"
+    color_hint: "white pages, green plants, blue butterflies"
+
+  - id: journey_06
+    category: your_journey
+    subject: "long chain of checkmarks stretching into the distance"
+    color_hint: "green checkmarks, white background, perspective view"
+
+  - id: journey_07
+    category: your_journey
+    subject: "shield with an oak leaf emblem and laurel wreath"
+    color_hint: "green shield, golden oak leaf, golden laurels"
+
+  - id: journey_08
+    category: your_journey
+    subject: "tree growing with roots forming a heart shape"
+    color_hint: "green canopy, brown heart-shaped roots, golden glow"

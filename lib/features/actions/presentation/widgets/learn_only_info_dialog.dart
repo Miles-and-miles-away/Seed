@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'action_science_bottom_sheet.dart';
 
 /// A dialog showing educational info for learn-only actions.
-class LearnOnlyInfoDialog extends StatelessWidget {
+class LearnOnlyInfoDialog extends ConsumerWidget {
   const LearnOnlyInfoDialog({
     required this.action,
     required this.languageCode,
@@ -32,11 +35,12 @@ class LearnOnlyInfoDialog extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final category = ActionCategory.fromString(action.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
+    final goalMap = ref.watch(sdgGoalsDataProvider).value?.goalMap ?? {};
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
@@ -46,9 +50,11 @@ class LearnOnlyInfoDialog extends StatelessWidget {
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Spacing.xxl),
             decoration: BoxDecoration(
-              color: categoryColor.withValues(alpha: 0.08),
+              color: categoryColor.withValues(
+                alpha: Opacities.veryFaint,
+              ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
                 topRight: Radius.circular(28),
@@ -61,7 +67,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                   size: 48,
                   color: theme.colorScheme.outline,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: Spacing.md),
                 Text(
                   action.name(languageCode),
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -74,7 +80,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
           ),
           // Body
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Spacing.xxl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -84,7 +90,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                     theme,
                     categoryColor,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                 ],
                 Text(
                   l10n.learnOnlyDescription,
@@ -94,7 +100,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 if (action.relatedSdgs.isNotEmpty) ...[
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   Text(
                     l10n.learnOnlyRelatedSdgs,
                     style: theme.textTheme.labelMedium?.copyWith(
@@ -102,8 +108,12 @@ class LearnOnlyInfoDialog extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
-                  _buildSdgRow(action.relatedSdgs, theme),
+                  const SizedBox(height: Spacing.sm),
+                  _buildSdgRow(
+                    action.relatedSdgs,
+                    goalMap,
+                    theme,
+                  ),
                 ],
               ],
             ),
@@ -158,7 +168,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: Spacing.sm),
           Icon(
             Icons.info_outline,
             size: 16,
@@ -171,6 +181,7 @@ class LearnOnlyInfoDialog extends StatelessWidget {
 
   Widget _buildSdgRow(
     List<String> sdgNumbers,
+    Map<int, SdgGoal> goalMap,
     ThemeData theme,
   ) {
     final parsed = sdgNumbers
@@ -185,12 +196,13 @@ class LearnOnlyInfoDialog extends StatelessWidget {
       spacing: 6,
       runSpacing: 6,
       children: parsed.map((number) {
-        final sdg = sdgGoalMap[number] ?? sdgGoals.first;
+        final sdg = goalMap[number];
+        final color = sdg?.color ?? Colors.grey;
         return Container(
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-            color: sdg.color,
+            color: color,
             shape: BoxShape.circle,
           ),
           child: Center(

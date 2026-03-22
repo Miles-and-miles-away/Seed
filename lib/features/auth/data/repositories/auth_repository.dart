@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/app_user_model.dart';
@@ -101,7 +102,8 @@ class AuthRepository {
 
   /// Updates the email verified status in Firestore.
   Future<void> updateEmailVerified(String uid, {required bool verified}) async {
-    await _userDataSource.updateUser(uid, {'emailVerified': verified});
+    await _userDataSource
+        .updateUser(uid, {AppConstants.fieldEmailVerified: verified});
   }
 
   /// Gets an existing user or creates a new one.
@@ -114,7 +116,7 @@ class AuthRepository {
       if (appUser.emailVerified != firebaseUser.emailVerified) {
         await _userDataSource.updateUser(
           firebaseUser.uid,
-          {'emailVerified': firebaseUser.emailVerified},
+          {AppConstants.fieldEmailVerified: firebaseUser.emailVerified},
         );
         appUser = appUser.copyWith(emailVerified: firebaseUser.emailVerified);
       }

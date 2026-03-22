@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Durations;
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
@@ -30,12 +31,14 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
     final goal = widget.goal;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Spacing.xl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.borderLg,
         border: Border.all(
-          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+          color: theme.colorScheme.outlineVariant.withValues(
+            alpha: Opacities.half,
+          ),
         ),
       ),
       child: Column(
@@ -53,7 +56,7 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
                   color: goal.color,
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: Spacing.sm),
                 Expanded(
                   child: Text(
                     l10n.sdgAboutGoal,
@@ -64,9 +67,7 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
                 ),
                 AnimatedRotation(
                   turns: _expanded ? 0.5 : 0,
-                  duration: const Duration(
-                    milliseconds: 200,
-                  ),
+                  duration: Durations.normal,
                   child: Icon(
                     Icons.expand_more,
                     color: theme.colorScheme.onSurfaceVariant,
@@ -75,7 +76,7 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
           Text(
             goal.getDescription(widget.locale),
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -93,9 +94,7 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
             crossFadeState: _expanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
-            duration: const Duration(
-              milliseconds: 300,
-            ),
+            duration: Durations.normal,
           ),
         ],
       ),
@@ -115,16 +114,16 @@ class _SdgTargetsSectionState extends State<SdgTargetsSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: Spacing.xl),
         const Divider(height: 1),
-        const SizedBox(height: 16),
+        const SizedBox(height: Spacing.lg),
         Text(
           l10n.sdgTargetsTitle,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
         ...targets.map(
           (t) => _TargetRow(
             target: t,
@@ -153,17 +152,19 @@ class _TargetRow extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: Spacing.md),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
+              horizontal: Spacing.sm,
+              vertical: Spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: goalColor.withValues(alpha: 0.15),
+              color: goalColor.withValues(
+                alpha: Opacities.subtle,
+              ),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(

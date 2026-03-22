@@ -528,5 +528,25 @@
     }
   },
   "challengeAnyCategory": "全カテゴリ",
-  "challengeLocked": "ロック中"
+  "challengeLocked": "ロック中",
+
+  "progressCalendarTab": "カレンダー",
+  "ecoDexTab": "エコ図鑑",
+  "ecoDexTitle": "エコ図鑑",
+  "ecoDexProgress": "{discovered} / {total} 発見済み",
+  "@ecoDexProgress": {
+    "placeholders": {
+      "discovered": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "ecoDexLocked": "未発見",
+  "ecoDexViewSource": "出典を見る",
+  "ecoDexNewDiscovery": "新しいエコ図鑑の発見！",
+  "ecoDexNewDiscoveryMessage": "{name}を発見しました！",
+  "@ecoDexNewDiscoveryMessage": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  }
 }

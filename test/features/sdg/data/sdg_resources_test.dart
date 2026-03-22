@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('SdgResource', () {
     const resource = SdgResource(
       titleEn: 'English Title',
@@ -29,6 +34,20 @@ void main() {
     });
   });
 
+  group('SdgResource.fromJson', () {
+    test('parses JSON correctly', () {
+      final resource = SdgResource.fromJson({
+        'titleEn': 'EN',
+        'titleJa': 'JA',
+        'titleEs': 'ES',
+        'url': 'https://example.com',
+        'type': 'official',
+      });
+      expect(resource.titleEn, 'EN');
+      expect(resource.type, SdgResourceType.official);
+    });
+  });
+
   group('SdgResourceType', () {
     test('has three values', () {
       expect(SdgResourceType.values.length, 3);
@@ -46,7 +65,28 @@ void main() {
     });
   });
 
-  group('sdgResources', () {
+  group('sdg_resources.json', () {
+    late Map<int, List<SdgResource>> sdgResources;
+
+    setUpAll(() async {
+      final jsonString = await rootBundle.loadString(
+        'data/app/sdg_resources.json',
+      );
+      final json = jsonDecode(jsonString) as Map<String, dynamic>;
+      sdgResources = <int, List<SdgResource>>{};
+      for (final entry in json.entries) {
+        final goalNumber = int.parse(entry.key);
+        final resources = (entry.value as List<dynamic>)
+            .map(
+              (e) => SdgResource.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+        sdgResources[goalNumber] = resources;
+      }
+    });
+
     test('contains all 17 goals', () {
       expect(sdgResources.length, 17);
     });

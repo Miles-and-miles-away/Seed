@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/settings_providers.dart';
 
@@ -31,7 +32,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(Spacing.lg),
               child: Text(
                 l10n.languageSettingsDescription,
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -52,7 +53,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
             }),
             const Divider(height: 1),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(Spacing.lg),
               child: Text(
                 l10n.languageSettingsNote,
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -109,8 +110,9 @@ class _LanguageTile extends StatelessWidget {
           : null,
       onTap: onTap,
       selected: isSelected,
-      selectedTileColor:
-          theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+      selectedTileColor: theme.colorScheme.primaryContainer.withValues(
+        alpha: Opacities.muted,
+      ),
     );
   }
 }

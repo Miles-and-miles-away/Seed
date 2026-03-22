@@ -13,16 +13,16 @@ DailyChallengeTemplate selectDailyChallenge(
   String userId,
   DateTime date,
   List<String> recentIds,
+  List<DailyChallengeTemplate> templates,
 ) {
   final recentSet =
       recentIds.take(AppConstants.recentChallengeIdsLimit).toSet();
 
-  var candidates =
-      dailyChallengeTemplates.where((t) => !recentSet.contains(t.id)).toList();
+  var candidates = templates.where((t) => !recentSet.contains(t.id)).toList();
 
   // If all excluded, reset to full list
   if (candidates.isEmpty) {
-    candidates = dailyChallengeTemplates.toList();
+    candidates = templates.toList();
   }
 
   final seed = dailySeed(userId, date);

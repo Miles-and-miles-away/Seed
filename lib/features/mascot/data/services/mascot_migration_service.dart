@@ -27,9 +27,9 @@ class MascotMigrationService {
       if (data == null) return;
 
       // Already migrated or no mascot to migrate
-      if (data.containsKey('mascots') &&
-          data['mascots'] is List &&
-          (data['mascots'] as List).isNotEmpty) {
+      if (data.containsKey(AppConstants.fieldMascots) &&
+          data[AppConstants.fieldMascots] is List &&
+          (data[AppConstants.fieldMascots] as List).isNotEmpty) {
         return;
       }
 
@@ -39,19 +39,19 @@ class MascotMigrationService {
       final mascotMap = Map<String, dynamic>.from(oldMascot);
 
       // Generate ID and copy global stats to mascot
-      final userPoints = (data['points'] as int?) ?? 0;
+      final userPoints = (data[AppConstants.fieldPoints] as int?) ?? 0;
       final mascotLevel = calculateLevel(userPoints);
       final mascotId = _uuid.v4();
 
-      mascotMap['id'] = mascotId;
-      mascotMap['mascotPoints'] = userPoints;
-      mascotMap['mascotLevel'] = mascotLevel;
-      mascotMap['isFullyEvolved'] =
+      mascotMap[AppConstants.fieldId] = mascotId;
+      mascotMap[AppConstants.fieldMascotPoints] = userPoints;
+      mascotMap[AppConstants.fieldMascotLevel] = mascotLevel;
+      mascotMap[AppConstants.fieldIsFullyEvolved] =
           mascotLevel >= AppConstants.maxEvolutionLevel;
 
       tx.update(userRef, {
-        'mascots': [mascotMap],
-        'activeMascotId': mascotId,
+        AppConstants.fieldMascots: [mascotMap],
+        AppConstants.fieldActiveMascotId: mascotId,
         'mascot': FieldValue.delete(),
       });
     });

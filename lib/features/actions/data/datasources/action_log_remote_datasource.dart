@@ -50,7 +50,7 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
   @override
   Stream<List<ActionLogModel>> watchUserActionLogs(String userId) {
     return _userActionLogs(userId)
-        .orderBy('loggedAt', descending: true)
+        .orderBy(AppConstants.fieldLoggedAt, descending: true)
         .snapshots()
         .map(
           (snapshot) =>
@@ -64,7 +64,7 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
     int limit,
   ) async {
     final snapshot = await _userActionLogs(userId)
-        .orderBy('loggedAt', descending: true)
+        .orderBy(AppConstants.fieldLoggedAt, descending: true)
         .limit(limit)
         .get();
 

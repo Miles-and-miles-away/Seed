@@ -17,12 +17,14 @@ const path = require('path');
 const INPUT_DIR = path.join(
   __dirname,
   '..',
+  '..',
   'data',
   'reference',
   'sdg_indicator_metadata',
 );
 const OUTPUT_FILE = path.join(
   __dirname,
+  '..',
   '..',
   'data',
   'app',

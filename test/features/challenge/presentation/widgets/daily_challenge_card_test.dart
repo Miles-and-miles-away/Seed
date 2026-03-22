@@ -4,6 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/challenge/data/challenge_templates.dart';
+import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
@@ -14,6 +16,19 @@ void main() {
 
   final todayKey = formatDateKey(DateTime.now());
 
+  final testTemplateData = ChallengeTemplateData(
+    daily: [
+      const DailyChallengeTemplate(
+        id: 'test_1',
+        category: 'recycling',
+        titleEn: 'Test Challenge',
+        titleEs: 'Reto de Prueba',
+        titleJa: 'テストチャレンジ',
+      ),
+    ],
+    multiDay: [],
+  );
+
   Widget buildCard({
     required AppUserModel user,
   }) {
@@ -21,6 +36,9 @@ void main() {
       overrides: [
         currentUserProvider.overrideWith(
           (_) => Stream.value(user),
+        ),
+        challengeTemplateDataProvider.overrideWith(
+          (_) async => testTemplateData,
         ),
       ],
       child: createTestWidget(
@@ -38,13 +56,20 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const Scaffold(
-            body: DailyChallengeCard(),
+        ProviderScope(
+          overrides: [
+            challengeTemplateDataProvider.overrideWith(
+              (_) async => testTemplateData,
+            ),
+          ],
+          child: createTestWidget(
+            child: const Scaffold(
+              body: DailyChallengeCard(),
+            ),
           ),
         ),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsNothing);
     });
@@ -58,7 +83,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
       // Should not show checkmark for incomplete
@@ -78,7 +103,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
       expect(
@@ -97,7 +122,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(
         find.byIcon(Icons.local_fire_department),
@@ -115,7 +140,7 @@ void main() {
       );
 
       await tester.pumpWidget(buildCard(user: user));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(
         find.byIcon(Icons.local_fire_department),

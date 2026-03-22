@@ -89,6 +89,14 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// IDs of completed multi-day challenge templates.
     @Default([]) List<String> completedMultiDayChallenges,
+
+    // Phase 5.3: Eco-Dex
+
+    /// IDs of discovered Eco-Dex entries.
+    @Default([]) List<String> ecodexDiscovered,
+
+    /// Per-category action counts: { "food": 12, "energy": 5 }
+    @Default({}) Map<String, int> categoryActionCounts,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,7 +32,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
+          top: Radius.circular(Radii.xl),
         ),
       ),
       builder: (context) => ActionScienceBottomSheet(
@@ -59,8 +60,8 @@ class ActionScienceBottomSheet extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                left: 24,
-                right: 8,
+                left: Spacing.xxl,
+                right: Spacing.sm,
               ),
               child: Row(
                 children: [
@@ -82,14 +83,14 @@ class ActionScienceBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
             const Divider(height: 1),
             Expanded(
               child: MarkdownWidget(
                 data: action.descriptionLong(
                   languageCode,
                 ),
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(Spacing.xxl),
                 config: mdConfig.copy(
                   configs: [
                     PConfig(

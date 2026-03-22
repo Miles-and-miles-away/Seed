@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
+
 /// Supported social sign-in providers.
 enum SocialProvider {
   google,
@@ -40,7 +42,7 @@ class SocialSignInButton extends StatelessWidget {
     };
 
     return SizedBox(
-      height: 48,
+      height: Spacing.huge,
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
@@ -50,7 +52,7 @@ class SocialSignInButton extends StatelessWidget {
             color: isDark ? Colors.transparent : theme.colorScheme.outline,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: Radii.borderMd,
           ),
         ),
         child: isLoading
@@ -65,8 +67,8 @@ class SocialSignInButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, size: 24),
-                  const SizedBox(width: 8),
+                  Icon(icon, size: Spacing.xxl),
+                  const SizedBox(width: Spacing.sm),
                   Text(
                     label,
                     style: const TextStyle(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
@@ -51,7 +52,7 @@ class SdgActionsGrid extends ConsumerWidget {
                   color: goalColor,
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: Spacing.sm),
                 Text(
                   l10n.sdgRelatedActions,
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -73,13 +74,13 @@ class SdgActionsGrid extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: Spacing.md),
         SizedBox(
           height: 180,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: visible.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            separatorBuilder: (_, __) => const SizedBox(width: Spacing.md),
             itemBuilder: (context, index) => SizedBox(
               width: 150,
               child: ActionCard(

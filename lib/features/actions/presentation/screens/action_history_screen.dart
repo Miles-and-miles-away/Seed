@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import '../providers/actions_providers.dart';
@@ -33,7 +34,7 @@ class ActionHistoryScreen extends ConsumerWidget {
                     size: 64,
                     color: theme.colorScheme.outline,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Spacing.lg),
                   Text(
                     l10n.homeNoActions,
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -50,7 +51,7 @@ class ActionHistoryScreen extends ConsumerWidget {
           final groupedLogs = _groupByDate(logs);
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: Spacing.sm),
             itemCount: groupedLogs.length,
             itemBuilder: (context, index) {
               final group = groupedLogs[index];
@@ -73,12 +74,12 @@ class ActionHistoryScreen extends ConsumerWidget {
                 size: 48,
                 color: theme.colorScheme.error,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: Spacing.lg),
               Text(
                 l10n.errorGeneric,
                 style: theme.textTheme.bodyLarge,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Spacing.sm),
               FilledButton.icon(
                 onPressed: () => ref.invalidate(userActionLogsProvider),
                 icon: const Icon(Icons.refresh),
@@ -138,7 +139,12 @@ class _DateGroup extends StatelessWidget {
       children: [
         // Date header
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          padding: const EdgeInsets.fromLTRB(
+            Spacing.lg,
+            Spacing.lg,
+            Spacing.lg,
+            Spacing.sm,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -150,12 +156,12 @@ class _DateGroup extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
+                  horizontal: Spacing.md,
+                  vertical: Spacing.xs,
                 ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: Radii.borderMd,
                 ),
                 child: Text(
                   l10n.pointsAbbreviated(totalPoints),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/mascot/data/mascot_species_data.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/mascot_display.dart';
@@ -36,7 +36,14 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
     setState(() => _isSubmitting = true);
 
-    final species = defaultMascotSpecies[_selectedSpeciesIndex];
+    final speciesList = ref
+        .read(
+          mascotSpeciesDataProvider,
+        )
+        .value;
+    if (speciesList == null) return;
+
+    final species = speciesList[_selectedSpeciesIndex];
 
     await ref.read(mascotProvider.notifier).selectMascot(
           speciesId: species.id,
@@ -56,16 +63,25 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
 
+    final speciesAsync = ref.watch(mascotSpeciesDataProvider);
+    final speciesList = speciesAsync.value;
+
+    if (speciesList == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Spacing.xxl),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
 
                 // Title
                 Text(
@@ -75,7 +91,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Spacing.sm),
 
                 // Subtitle
                 Text(
@@ -86,7 +102,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: Spacing.xxxl),
 
                 // Mascot preview
                 Expanded(
@@ -94,32 +110,31 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Species selector (for when we have multiple species)
-                        if (defaultMascotSpecies.length > 1)
-                          _buildSpeciesSelector(locale),
+                        // Species selector (for multiple species)
+                        if (speciesList.length > 1)
+                          _buildSpeciesSelector(locale, speciesList),
 
                         // Mascot preview with first stage
                         MascotPreview(
-                          assetPath: defaultMascotSpecies[_selectedSpeciesIndex]
+                          assetPath: speciesList[_selectedSpeciesIndex]
                               .evolutionStages
                               .first
                               .assetPath,
                           size: 180,
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Spacing.lg),
 
                         // Species name and description
                         Text(
-                          defaultMascotSpecies[_selectedSpeciesIndex]
-                              .getName(locale),
+                          speciesList[_selectedSpeciesIndex].getName(locale),
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: Spacing.sm),
                         Text(
-                          defaultMascotSpecies[_selectedSpeciesIndex]
+                          speciesList[_selectedSpeciesIndex]
                               .getDescription(locale),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
@@ -139,7 +154,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     hintText: l10n.mascotNameHint,
                     prefixIcon: const Icon(Icons.edit),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: Radii.borderMd,
                     ),
                   ),
                   textCapitalization: TextCapitalization.words,
@@ -157,21 +172,23 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   },
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xxl),
 
                 // Submit button
                 FilledButton(
                   onPressed: _isSubmitting ? null : _onSubmit,
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: Spacing.lg,
+                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: Radii.borderMd,
                     ),
                   ),
                   child: _isSubmitting
                       ? const SizedBox(
-                          width: 24,
-                          height: 24,
+                          width: Spacing.xxl,
+                          height: Spacing.xxl,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                           ),
@@ -179,7 +196,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                       : Text(l10n.mascotSelectionConfirm),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: Spacing.lg),
               ],
             ),
           ),
@@ -188,26 +205,31 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
     );
   }
 
-  Widget _buildSpeciesSelector(String locale) {
+  Widget _buildSpeciesSelector(
+    String locale,
+    List<MascotSpeciesModel> speciesList,
+  ) {
     return SizedBox(
       height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: defaultMascotSpecies.length,
+        itemCount: speciesList.length,
         itemBuilder: (context, index) {
-          final species = defaultMascotSpecies[index];
+          final species = speciesList[index];
           final isSelected = index == _selectedSpeciesIndex;
 
           return GestureDetector(
             onTap: () => setState(() => _selectedSpeciesIndex = index),
             child: Container(
               width: 80,
-              margin: const EdgeInsets.symmetric(horizontal: 8),
+              margin: const EdgeInsets.symmetric(
+                horizontal: Spacing.sm,
+              ),
               decoration: BoxDecoration(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primaryContainer
                     : Theme.of(context).colorScheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: Radii.borderMd,
                 border: isSelected
                     ? Border.all(
                         color: Theme.of(context).colorScheme.primary,
@@ -223,7 +245,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     size: 50,
                     animate: false,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Spacing.xs),
                   Text(
                     species.getName(locale),
                     style: Theme.of(context).textTheme.labelSmall,

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Card displaying an eco-fact with source, category chip,
 /// and related SDG icons. Supports a locked state for future
 /// challenge integration.
-class EcoFactCard extends StatelessWidget {
+class EcoFactCard extends ConsumerWidget {
   const EcoFactCard({
     required this.fact,
     this.isLocked = false,
@@ -18,24 +21,25 @@ class EcoFactCard extends StatelessWidget {
   final bool isLocked;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
+    final goalMap = ref.watch(sdgGoalsDataProvider).value?.goalMap ?? {};
 
     if (isLocked) {
       return Card(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Spacing.xxl),
           child: Column(
             children: [
               Icon(
                 Icons.lock_outline,
-                size: 48,
+                size: Spacing.huge,
                 color: colorScheme.onSurfaceVariant,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: Spacing.md),
               Text(
                 l10n.ecoFactLocked,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -51,7 +55,7 @@ class EcoFactCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(Spacing.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,7 +64,7 @@ class EcoFactCard extends StatelessWidget {
               category: fact.category,
               l10n: l10n,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
 
             // "Did you know?" header
             Text(
@@ -70,14 +74,14 @@ class EcoFactCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Spacing.sm),
 
             // Fact text
             Text(
               fact.getFact(locale),
               style: theme.textTheme.bodyLarge,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Spacing.lg),
 
             // Source
             Row(
@@ -103,7 +107,7 @@ class EcoFactCard extends StatelessWidget {
 
             // Source URL link
             if (fact.sourceUrl.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: Spacing.xs),
               Padding(
                 padding: const EdgeInsets.only(left: 22),
                 child: GestureDetector(
@@ -122,7 +126,7 @@ class EcoFactCard extends StatelessWidget {
 
             // UN World Day badge
             if (fact.unWorldDay != null) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: Spacing.md),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -130,7 +134,7 @@ class EcoFactCard extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: colorScheme.tertiaryContainer,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: Radii.borderMd,
                 ),
                 child: Text(
                   fact.unWorldDay!,
@@ -143,38 +147,52 @@ class EcoFactCard extends StatelessWidget {
 
             // Related SDGs
             if (fact.relatedSdgs.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: fact.relatedSdgs.map((sdgNum) {
-                  final goal = sdgGoalMap[sdgNum];
-                  if (goal == null) return const SizedBox();
-                  return Tooltip(
-                    message: goal.getShortTitle(locale),
-                    child: Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: goal.color,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$sdgNum',
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+              const SizedBox(height: Spacing.md),
+              _buildSdgBadges(
+                fact.relatedSdgs,
+                goalMap,
+                locale,
+                theme,
               ),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSdgBadges(
+    List<int> sdgNums,
+    Map<int, SdgGoal> goalMap,
+    String locale,
+    ThemeData theme,
+  ) {
+    return Wrap(
+      spacing: 6,
+      runSpacing: 4,
+      children: sdgNums.map((sdgNum) {
+        final goal = goalMap[sdgNum];
+        if (goal == null) return const SizedBox();
+        return Tooltip(
+          message: goal.getShortTitle(locale),
+          child: Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: goal.color,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '$sdgNum',
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -224,17 +242,17 @@ class _CategoryChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: 4,
+        vertical: Spacing.xs,
       ),
       decoration: BoxDecoration(
         color: colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: Radii.borderMd,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: colorScheme.secondary),
-          const SizedBox(width: 4),
+          const SizedBox(width: Spacing.xs),
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
