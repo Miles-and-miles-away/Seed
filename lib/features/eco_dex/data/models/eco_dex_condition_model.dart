@@ -53,6 +53,29 @@ sealed class EcoDexCondition with _$EcoDexCondition {
     required int count,
   }) = EcoFactsViewedCondition;
 
+  /// Unlock after logging actions in N distinct categories.
+  const factory EcoDexCondition.categoriesCovered({
+    required int count,
+  }) = CategoriesCoveredCondition;
+
+  /// Unlock after logging N unique action types.
+  const factory EcoDexCondition.uniqueActionsLogged({
+    required int count,
+  }) = UniqueActionsLoggedCondition;
+
+  /// Unlock when the user has set a display name and photo.
+  const factory EcoDexCondition.profileComplete() = ProfileCompleteCondition;
+
+  /// Unlock after discovering N Eco-Dex entries (meta).
+  const factory EcoDexCondition.ecodexCount({
+    required int count,
+  }) = EcodexCountCondition;
+
+  /// Unlock after completing N total challenges (lifetime).
+  const factory EcoDexCondition.challengesCompleted({
+    required int count,
+  }) = ChallengesCompletedCondition;
+
   factory EcoDexCondition.fromJson(Map<String, dynamic> json) =>
       _$EcoDexConditionFromJson(json);
 }

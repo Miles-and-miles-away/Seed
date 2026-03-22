@@ -145,6 +145,7 @@ class ActionLogRepository {
         AppConstants.fieldTotalActionsCount: currentActionCount + 1,
         AppConstants.fieldSdgStats: updatedSdgStats,
         AppConstants.fieldCategoryActionCounts: updatedCatCounts,
+        AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([action.id]),
       };
 
       // 3. Per-mascot leveling

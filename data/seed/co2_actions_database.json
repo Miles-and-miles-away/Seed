@@ -35,7 +35,7 @@
         },
         {
           "name": "Our World in Data",
-          "url": "https://ourworldindata.org/grapher/carbon-footprint-travel-mode",
+          "url": "https://ourworldindata.org/travel-carbon-footprint",
           "quote": "The carbon footprint of travel is measured in grams of carbon dioxide-equivalents per passenger kilometer. This includes the impact of increased warming from aviation emissions at altitude.",
           "accessed": "2026-01-31"
         }
@@ -490,9 +490,9 @@
           "accessed": "2026-01-31"
         },
         {
-          "name": "UK Environment Agency",
-          "url": "https://www.gov.uk/government/publications/life-cycle-assessment-of-supermarket-carrier-bags",
-          "quote": "HDPE bags have lower environmental impacts than paper or cotton bags when used once.",
+          "name": "Danish EPA LCA 2018",
+          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
+          "quote": "HDPE carrier bags have the lowest environmental impact in all categories when used once.",
           "accessed": "2026-01-31"
         }
       ],
@@ -652,8 +652,8 @@
       "calculation_notes": "Plastic straw weighs ~0.4g. Production emissions ~1-2g CO2e per straw.",
       "sources": [
         {
-          "name": "Environmental LCA studies",
-          "url": "https://www.sciencedirect.com/",
+          "name": "UNEP Single-Use Plastics Report",
+          "url": "https://www.unep.org/resources/report/single-use-plastics-roadmap-sustainability",
           "quote": "Single-use plastic items have small individual footprints but significant cumulative impact.",
           "accessed": "2026-01-31"
         }

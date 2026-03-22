@@ -2,8 +2,8 @@
 
 **Version:** 2.0
 **Created:** February 2026
-**Updated:** March 20, 2026
-**Status:** In Progress (5.1 complete, 5.2 nearly complete)
+**Updated:** March 22, 2026
+**Status:** In Progress (5.1-5.3 complete, 5.4 planned)
 
 ---
 
@@ -51,8 +51,8 @@ eco-fact.
 | Feature | Description | Priority | Complexity | Status |
 |---------|-------------|----------|------------|--------|
 | 5.1 Daily Eco-Fact | 365 facts, mail icon, gated behind challenge | P0 | Low | Done |
-| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | Nearly Done |
-| 5.3 Eco-Dex | ~50 collectible entries, milestone/streak triggers | P0 | Medium | Planned |
+| 5.2 Daily Challenges | 1 pseudorandom daily mission per user | P0 | Medium | Done |
+| 5.3 Eco-Dex | ~50 collectible entries, milestone/streak triggers | P0 | Medium | Done |
 | 5.4 Growing Ecosystem | Personal garden with mascot, ~15 plants | P0 | High | Planned |
 
 ---
@@ -374,7 +374,7 @@ test/features/eco_fact/
 
 ### 5.2 Daily Challenges
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** Nearly Done
+**Priority:** P0 | **Complexity:** Medium | **Status:** Done
 
 One daily challenge per user. Pseudorandom, different per user,
 avoids recent repeats. Completing the challenge unlocks the daily
@@ -543,8 +543,13 @@ daily eco-fact is unlocked.
 lib/features/challenge/
 +-- challenge.dart                         # Barrel file (exports all)
 +-- data/
-|   +-- challenge_templates.dart           # 27 daily + 6 multi-day templates
-|   +-- challenge_selection_service.dart   # Deterministic selection algorithm
+|   +-- challenge_templates_data.dart      # Template data loader
++-- domain/
+|   +-- models/
+|   |   +-- challenge_templates.dart       # 27 daily + 6 multi-day templates
+|   |   +-- active_multi_day_challenge.dart # Multi-day state model
+|   +-- services/
+|       +-- challenge_selection_service.dart # Deterministic selection algorithm
 +-- presentation/
     +-- providers/
     |   +-- challenge_providers.dart        # 6 providers + notifier
@@ -605,7 +610,7 @@ test/shared/providers/
 
 ### 5.3 Eco-Dex
 
-**Priority:** P0 | **Complexity:** Medium | **Status:** Planned
+**Priority:** P0 | **Complexity:** Medium | **Status:** Done
 
 A collection album of ~50 discoverable entries unlocked by reaching
 milestones, maintaining streaks, and completing challenges. Framed
@@ -743,71 +748,40 @@ Tapping a locked entry (bottom sheet):
 
 #### Data Models
 
+Entry definitions are stored in `data/app/eco_dex_entries.json` and
+loaded at runtime. Categories are defined in a separate section of
+the same JSON. The `EcoDexEntry` is a plain immutable class (not
+Freezed) with locale-aware getters. Conditions use Freezed for
+JSON union deserialization.
+
 ```dart
-@freezed
-class EcoDexEntry with _$EcoDexEntry {
-  const factory EcoDexEntry({
-    required String id,
-    required String category,
-    required String nameEn,
-    required String nameJa,
-    required String nameEs,
-    required String factEn,
-    required String factJa,
-    required String factEs,
-    String? sourceUrl,
-    required String iconName,        // Material icon or asset
-    required EcoDexCondition condition,
-  }) = _EcoDexEntry;
+class EcoDexEntry {
+  final String id;
+  final String categoryId;
+  final String nameEn;
+  final String nameJa;
+  final String nameEs;
+  final String factEn;
+  final String factJa;
+  final String factEs;
+  final String? sourceUrl;
+  final String iconName;
+  final EcoDexCondition condition;
 }
 
-@freezed
-class EcoDexCondition with _$EcoDexCondition {
-  // By total actions logged
-  const factory EcoDexCondition.totalActions({
-    required int count,
-  }) = TotalActionsCondition;
+@Freezed(unionKey: 'type')
+sealed class EcoDexCondition with _$EcoDexCondition {
+  const factory EcoDexCondition.totalActions({required int count}) = TotalActionsCondition;
+  const factory EcoDexCondition.categoryActions({required String category, required int count}) = CategoryActionsCondition;
+  const factory EcoDexCondition.co2Saved({required int grams}) = Co2SavedCondition;
+  const factory EcoDexCondition.streakDays({required int days}) = StreakDaysCondition;
+  const factory EcoDexCondition.levelReached({required int level}) = LevelReachedCondition;
+  const factory EcoDexCondition.sdgBreadth({required int count}) = SdgBreadthCondition;
+  const factory EcoDexCondition.challengeStreak({required int days}) = ChallengeStreakCondition;
+  const factory EcoDexCondition.multiDayChallenge({required String templateId}) = MultiDayChallengeCondition;
+  const factory EcoDexCondition.ecoFactsViewed({required int count}) = EcoFactsViewedCondition;
 
-  // By actions in a specific category
-  const factory EcoDexCondition.categoryActions({
-    required String category,
-    required int count,
-  }) = CategoryActionsCondition;
-
-  // By total CO2 saved (grams)
-  const factory EcoDexCondition.co2Saved({
-    required int grams,
-  }) = Co2SavedCondition;
-
-  // By streak length
-  const factory EcoDexCondition.streakDays({
-    required int days,
-  }) = StreakDaysCondition;
-
-  // By level reached
-  const factory EcoDexCondition.levelReached({
-    required int level,
-  }) = LevelReachedCondition;
-
-  // By unique SDGs supported
-  const factory EcoDexCondition.sdgBreadth({
-    required int count,
-  }) = SdgBreadthCondition;
-
-  // By challenge streak (consecutive days)
-  const factory EcoDexCondition.challengeStreak({
-    required int days,
-  }) = ChallengeStreakCondition;
-
-  // By multi-day challenge completion
-  const factory EcoDexCondition.multiDayChallenge({
-    required String templateId,
-  }) = MultiDayChallengeCondition;
-
-  // By garden plants unlocked
-  const factory EcoDexCondition.gardenPlants({
-    required int count,
-  }) = GardenPlantsCondition;
+  // gardenPlants condition will be added in 5.4
 }
 ```
 
@@ -824,66 +798,100 @@ user stats (from Firestore user doc) against entry conditions:
 - `uniqueSdgsLogged >= threshold`
 - `challengeStreak >= threshold`
 - `completedMultiDayChallenges.contains(templateId)`
-- `gardenPlantsUnlocked >= threshold`
+- `viewedFactDates.length >= threshold` (eco-facts viewed)
+- `gardenPlantsUnlocked >= threshold` (to be added in 5.4)
 
 Most stats already exist in the user document from Phases 1-4.
-The provider diffs current discoveries against stored list and
-surfaces newly unlocked entries.
+The `ConditionEvaluator` service evaluates each condition against
+user stats. The `EcoDexDiscoveryNotifier` diffs current discoveries
+against the stored `ecodexDiscovered` list and surfaces newly
+unlocked entries.
 
 #### Data Storage
 
-- **Entry definitions:** Const list in app code
+- **Entry definitions:** JSON asset (`data/app/eco_dex_entries.json`),
+  loaded via `rootBundle.loadString()`, cached in FutureProvider
 - **Discovered entries:** Firestore `users/{uid}` document
   - `ecodexDiscovered`: List<String> (entry IDs)
-  - `ecodexLastDiscoveryDate`: Timestamp (for "new" indicator)
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create EcoDexEntry model | Freezed entry + condition | Planned |
-| Create EcoDexCondition model | Freezed union type | Planned |
-| Define ~50 entries | Categorized, localized EN/ES/JA | Planned |
-| Create eco_dex_entries_data.dart | Const list of entries | Planned |
-| Create eco_dex_providers | Discovery evaluation, unlocked list | Planned |
-| Create EcoDexScreen | Grid with categories, segmented control | Planned |
-| Create EcoDexEntrySheet | Detail bottom sheet for entry | Planned |
-| Create EcoDexLockedSheet | Hint for undiscovered entry | Planned |
-| Discovery celebration | Toast when new entry found | Planned |
-| Add ecodexDiscovered to user doc | Firestore field | Planned |
-| Integrate with action logging | Evaluate after each log | Planned |
-| Update Progress screen | Add segmented control (Calendar / Eco-Dex) | Planned |
-| Localize strings | Screen title, categories, entry text | Planned |
-| Write tests | Condition evaluation, discovery logic | Planned |
+| Create EcoDexEntry model | Plain immutable class with locale-aware getters | Done |
+| Create EcoDexCondition model | Freezed union type with JSON serialization | Done |
+| Create EcoDexCategory model | Category grouping with locale-aware names | Done |
+| Define ~50 entries | Categorized, localized EN/ES/JA in JSON asset | Done |
+| Create eco_dex_entries_data.dart | JSON asset loader for entries + categories | Done |
+| Create condition_evaluator.dart | Evaluates all condition types against user stats | Done |
+| Create EcoDexEntryState model | Combined entry + discovery status | Done |
+| Create eco_dex_providers | Discovery evaluation, unlocked list, notifier | Done |
+| Create EcoDexScreen | Grid with categories, progress header | Done |
+| Create EcoDexEntryCard | Grid card for discovered/locked entries | Done |
+| Create EcoDexEntrySheet | Detail bottom sheet for discovered entry | Done |
+| Create EcoDexLockedSheet | Hint for undiscovered entry | Done |
+| Create EcoDexProgressHeader | Discovery count and progress bar | Done |
+| Create EcoDexCategorySection | Category header with entry grid | Done |
+| Discovery notification | Snackbar when new entry found | Done |
+| Add ecodexDiscovered to user doc | Firestore field on AppUserModel | Done |
+| Update Progress screen | SegmentedButton for Calendar / Eco-Dex | Done |
+| Localize strings | 8 keys in EN/JA/ES (tab, title, progress, locked, etc.) | Done |
+| Write tests | Condition evaluation, discovery logic | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
 lib/features/eco_dex/
 +-- eco_dex.dart                          # Barrel file
 +-- data/
 |   +-- models/
-|   |   +-- eco_dex_entry_model.dart
-|   |   +-- eco_dex_condition_model.dart
-|   +-- eco_dex_entries_data.dart          # ~50 const entries
+|   |   +-- eco_dex_entry_model.dart      # Plain immutable class
+|   |   +-- eco_dex_category_model.dart   # Category with locale names
+|   |   +-- eco_dex_condition_model.dart  # Freezed union type
+|   +-- eco_dex_entries_data.dart          # JSON asset loader
++-- domain/
+|   +-- models/
+|   |   +-- eco_dex_entry_state.dart      # Entry + discovery status
+|   +-- services/
+|       +-- condition_evaluator.dart       # Evaluates conditions vs user
 +-- presentation/
     +-- providers/
-    |   +-- eco_dex_providers.dart
+    |   +-- eco_dex_providers.dart         # Providers + discovery notifier
+    |   +-- eco_dex_providers.g.dart       # Generated
     +-- screens/
-    |   +-- eco_dex_screen.dart
+    |   +-- eco_dex_screen.dart            # Main screen with categories
     +-- widgets/
-        +-- eco_dex_entry_card.dart
-        +-- eco_dex_entry_sheet.dart
-        +-- eco_dex_locked_sheet.dart
-        +-- eco_dex_progress_header.dart
-        +-- eco_dex_category_section.dart
+        +-- eco_dex_entry_card.dart        # Grid card (discovered/locked)
+        +-- eco_dex_entry_sheet.dart       # Detail bottom sheet
+        +-- eco_dex_locked_sheet.dart      # Hint for locked entry
+        +-- eco_dex_progress_header.dart   # Count + progress bar
+        +-- eco_dex_category_section.dart  # Category header + grid
 ```
 
-#### Files to Modify
+#### Files Modified
 
 - `lib/features/progress/presentation/screens/progress_screen.dart`
-  -- add segmented control for Calendar / Eco-Dex
-- `lib/app/router.dart` -- add eco-dex route if needed
+  -- added SegmentedButton for Calendar / Eco-Dex
+- `lib/features/auth/data/models/app_user_model.dart` -- added
+  `ecodexDiscovered` field
+- `lib/core/l10n/app_en.arb` -- 8 new localization keys
+- `lib/core/l10n/app_ja.arb` -- 8 new localization keys
+- `lib/core/l10n/app_es.arb` -- 8 new localization keys
+
+#### Test Files
+
+```
+test/features/eco_dex/
++-- data/
+|   +-- eco_dex_entries_data_test.dart        # JSON asset integrity (100 entries, 9 categories)
+|   +-- models/
+|       +-- eco_dex_category_model_test.dart   # fromJson + locale getters
+|       +-- eco_dex_condition_model_test.dart   # fromJson/toJson for all 14 condition types
+|       +-- eco_dex_entry_model_test.dart       # fromJson + locale-aware name/fact/hint
++-- domain/
+    +-- services/
+        +-- condition_evaluator_test.dart       # All condition types + helper functions
+```
 
 ---
 
@@ -1154,7 +1162,7 @@ between plants.
 - Note: Fact gating is now active via `isEcoFactLockedProvider`,
   which watches `isTodayChallengeCompletedProvider`.
 
-### 5.2 Daily Challenges -- NEARLY DONE
+### 5.2 Daily Challenges -- COMPLETE
 - [x] One challenge shown on home screen each day
 - [x] Challenge differs per user (pseudorandom with user ID)
 - [x] Does not repeat within last 7 challenges for same user
@@ -1165,19 +1173,20 @@ between plants.
 - [x] Multi-day challenges can be started from challenges screen
 - [x] Multi-day progress persists across days
 - [x] Multi-day challenge resets on missed day
-- [ ] Completed multi-day challenges unlock Eco-Dex entries
-  (deferred to 5.3 -- requires Eco-Dex system)
+- [x] Completed multi-day challenges unlock Eco-Dex entries
+  (implemented in 5.3 via `MultiDayChallengeCondition` evaluator)
 
-### 5.3 Eco-Dex
-- [ ] Grid of ~50 entries with categories
-- [ ] Undiscovered entries show as locked with hint
-- [ ] Discovered entries show name and icon
-- [ ] Tapping discovered entry shows detail sheet with fact
-- [ ] New discoveries triggered by actions, streaks, challenges
-- [ ] Discovery celebration toast on new unlock
-- [ ] Discovery count shown (e.g., "23/50")
-- [ ] Accessible from Progress tab (segmented control)
-- [ ] All entry text localized (EN/ES/JA)
+### 5.3 Eco-Dex -- COMPLETE
+- [x] Grid of ~50 entries with categories
+- [x] Undiscovered entries show as locked with hint
+- [x] Discovered entries show name and icon
+- [x] Tapping discovered entry shows detail sheet with fact
+- [x] New discoveries triggered by actions, streaks, challenges
+- [x] Discovery notification snackbar on new unlock
+- [x] Discovery count shown (e.g., "23/50")
+- [x] Accessible from Progress tab (segmented control)
+- [x] All entry text localized (EN/ES/JA)
+- [ ] Tests for condition evaluation and discovery logic
 
 ### 5.4 Growing Ecosystem
 - [ ] Garden screen shows positioned plant elements

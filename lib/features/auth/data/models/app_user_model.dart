@@ -95,6 +95,9 @@ abstract class AppUserModel with _$AppUserModel {
     /// IDs of discovered Eco-Dex entries.
     @Default([]) List<String> ecodexDiscovered,
 
+    /// Distinct action IDs the user has ever logged.
+    @Default([]) List<String> uniqueActionIds,
+
     /// Per-category action counts: { "food": 12, "energy": 5 }
     @Default({}) Map<String, int> categoryActionCounts,
   }) = _AppUserModel;
