@@ -101,7 +101,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
           )
         : null;
     final assetPath = species?.evolutionStages.first.assetPath;
-    final speciesName = species?.getName(locale) ?? '';
+    final speciesName = species?.name(locale) ?? '';
 
     return Material(
       color: Colors.transparent,

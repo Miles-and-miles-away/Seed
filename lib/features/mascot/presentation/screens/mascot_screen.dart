@@ -241,7 +241,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             ),
             const SizedBox(height: Spacing.xs),
             Text(
-              mascot.name.isEmpty ? species.getName(locale) : mascot.name,
+              mascot.name.isEmpty ? species.name(locale) : mascot.name,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontWeight: isActive ? FontWeight.bold : null,
                   ),

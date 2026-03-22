@@ -16,9 +16,9 @@ void main() {
       });
 
       expect(goal.number, 1);
-      expect(goal.title, 'No Poverty');
-      expect(goal.shortTitle, 'No Poverty');
-      expect(goal.description, 'End poverty in all its forms.');
+      expect(goal.titleEn, 'No Poverty');
+      expect(goal.shortTitleEn, 'No Poverty');
+      expect(goal.descriptionEn, 'End poverty in all its forms.');
       expect(goal.color.toARGB32(), const Color(0xFFE5233D).toARGB32());
       expect(goal.iconUrl, 'https://example.com/icon.jpg');
     });
@@ -94,9 +94,9 @@ void main() {
     test('all goals have required properties', () {
       for (final goal in data.goals) {
         expect(goal.number, isPositive);
-        expect(goal.title, isNotEmpty);
-        expect(goal.shortTitle, isNotEmpty);
-        expect(goal.description, isNotEmpty);
+        expect(goal.titleEn, isNotEmpty);
+        expect(goal.shortTitleEn, isNotEmpty);
+        expect(goal.descriptionEn, isNotEmpty);
         expect(goal.iconUrl, isNotEmpty);
         expect(goal.iconUrl, startsWith('https://'));
       }
@@ -112,22 +112,22 @@ void main() {
     test('goal 1 is No Poverty', () {
       final goal = data.goals[0];
       expect(goal.number, 1);
-      expect(goal.title, 'No Poverty');
+      expect(goal.titleEn, 'No Poverty');
       expect(goal.color.toARGB32(), const Color(0xFFE5233D).toARGB32());
     });
 
     test('goal 13 is Climate Action', () {
       final goal = data.goals[12];
       expect(goal.number, 13);
-      expect(goal.title, 'Climate Action');
-      expect(goal.shortTitle, 'Climate Action');
+      expect(goal.titleEn, 'Climate Action');
+      expect(goal.shortTitleEn, 'Climate Action');
     });
 
     test('goal 17 is Partnerships for the Goals', () {
       final goal = data.goals[16];
       expect(goal.number, 17);
-      expect(goal.title, 'Partnerships for the Goals');
-      expect(goal.shortTitle, 'Partnerships');
+      expect(goal.titleEn, 'Partnerships for the Goals');
+      expect(goal.shortTitleEn, 'Partnerships');
     });
 
     test('all goals have unique colors', () {
@@ -142,21 +142,21 @@ void main() {
 
     test('descriptions contain meaningful content', () {
       for (final goal in data.goals) {
-        expect(goal.description.length, greaterThan(100));
+        expect(goal.descriptionEn.length, greaterThan(100));
       }
     });
 
     test('short titles are actually short', () {
       for (final goal in data.goals) {
-        expect(goal.shortTitle.length, lessThan(25));
+        expect(goal.shortTitleEn.length, lessThan(25));
       }
     });
 
     test('goalMap provides O(1) lookup', () {
-      expect(data.goalMap[1]?.title, 'No Poverty');
-      expect(data.goalMap[13]?.title, 'Climate Action');
+      expect(data.goalMap[1]?.titleEn, 'No Poverty');
+      expect(data.goalMap[13]?.titleEn, 'Climate Action');
       expect(
-        data.goalMap[17]?.title,
+        data.goalMap[17]?.titleEn,
         'Partnerships for the Goals',
       );
     });

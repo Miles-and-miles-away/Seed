@@ -44,8 +44,8 @@ abstract class ActionModel with _$ActionModel {
 /// Extension to get localized name based on language.
 extension ActionModelLocalization on ActionModel {
   /// Returns the action name in the specified language.
-  String name(String languageCode) {
-    return switch (languageCode) {
+  String name(String locale) {
+    return switch (locale) {
       'ja' => nameJa,
       'es' when nameEs.isNotEmpty => nameEs,
       _ => nameEn,
@@ -53,8 +53,8 @@ extension ActionModelLocalization on ActionModel {
   }
 
   /// Returns the action description in the specified language.
-  String description(String languageCode) {
-    return switch (languageCode) {
+  String description(String locale) {
+    return switch (locale) {
       'ja' => descriptionJa,
       'es' when descriptionEs.isNotEmpty => descriptionEs,
       _ => descriptionEn,
@@ -63,8 +63,8 @@ extension ActionModelLocalization on ActionModel {
 
   /// Returns the long scientific description in the
   /// specified language.
-  String descriptionLong(String languageCode) {
-    return switch (languageCode) {
+  String descriptionLong(String locale) {
+    return switch (locale) {
       'ja' when descriptionLongJa.isNotEmpty => descriptionLongJa,
       'es' when descriptionLongEs.isNotEmpty => descriptionLongEs,
       _ => descriptionLongEn,

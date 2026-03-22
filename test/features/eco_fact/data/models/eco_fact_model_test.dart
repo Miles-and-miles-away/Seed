@@ -66,42 +66,42 @@ void main() {
       });
     });
 
-    group('getFact', () {
+    group('fact', () {
       test('returns English for en locale', () {
         final fact = EcoFact.fromJson(fullJson);
-        expect(fact.getFact('en'), 'English fact');
+        expect(fact.fact('en'), 'English fact');
       });
 
       test('returns Japanese for ja locale', () {
         final fact = EcoFact.fromJson(fullJson);
-        expect(fact.getFact('ja'), 'Japanese fact');
+        expect(fact.fact('ja'), 'Japanese fact');
       });
 
       test('returns Spanish for es locale', () {
         final fact = EcoFact.fromJson(fullJson);
-        expect(fact.getFact('es'), 'Spanish fact');
+        expect(fact.fact('es'), 'Spanish fact');
       });
 
       test('falls back to English for ja when empty', () {
         final fact = EcoFact.fromJson(minimalJson);
-        expect(fact.getFact('ja'), 'A fact');
+        expect(fact.fact('ja'), 'A fact');
       });
 
       test('falls back to English for unknown locale', () {
         final fact = EcoFact.fromJson(fullJson);
-        expect(fact.getFact('fr'), 'English fact');
+        expect(fact.fact('fr'), 'English fact');
       });
     });
 
-    group('getSource', () {
+    group('source', () {
       test('returns locale-specific source', () {
         final fact = EcoFact.fromJson(fullJson);
-        expect(fact.getSource('ja'), 'Japanese source');
+        expect(fact.source('ja'), 'Japanese source');
       });
 
       test('falls back to English when empty', () {
         final fact = EcoFact.fromJson(minimalJson);
-        expect(fact.getSource('es'), 'A source');
+        expect(fact.source('es'), 'A source');
       });
     });
 

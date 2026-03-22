@@ -78,7 +78,7 @@ class EcoFactCard extends ConsumerWidget {
 
             // Fact text
             Text(
-              fact.getFact(locale),
+              fact.fact(locale),
               style: theme.textTheme.bodyLarge,
             ),
             const SizedBox(height: Spacing.lg),
@@ -96,7 +96,7 @@ class EcoFactCard extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     '${l10n.ecoFactSource}: '
-                    '${fact.getSource(locale)}',
+                    '${fact.source(locale)}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
@@ -174,7 +174,7 @@ class EcoFactCard extends ConsumerWidget {
         final goal = goalMap[sdgNum];
         if (goal == null) return const SizedBox();
         return Tooltip(
-          message: goal.getShortTitle(locale),
+          message: goal.shortTitle(locale),
           child: Container(
             width: 28,
             height: 28,

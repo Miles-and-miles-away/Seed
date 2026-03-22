@@ -153,7 +153,7 @@ class SdgCard extends StatelessWidget {
                 horizontal: Spacing.sm,
               ),
               child: Text(
-                goal.getShortTitle(locale),
+                goal.shortTitle(locale),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 11,
