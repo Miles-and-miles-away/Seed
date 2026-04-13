@@ -69,6 +69,7 @@ flutter:
     - assets/images/sdg_infographics/
     - assets/icons/
     - assets/animations/
+    - assets/eco_dex/
     - data/app/
 
   # ===================
