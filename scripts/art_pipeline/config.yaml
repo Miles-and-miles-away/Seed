@@ -7,19 +7,37 @@ recraft:
   api_url: "https://external.api.recraft.ai/v1/images/generations"
   candidates_per_asset: 3
   response_format: "b64_json"
-  size: "1024x1024"
-  tokens_per_svg: 1
-  monthly_token_budget: 5000
+  size: "1:1"
+  units_per_svg: 80
+  monthly_unit_budget: 5000
+  # 1000 units = $1. recraftv4_vector = 80 units/image.
+  # Check balance: curl -s -H "Authorization: Bearer $RECRAFT_API_TOKEN" \
+  #   https://external.api.recraft.ai/v1/users/me | python3 -m json.tool
 
 # Art style
+# Prompt structure follows Recraft recommendation:
+#   {artPrompt}, {category suffix}, {style suffix}
+# Controls (colors, background, no_text) are sent via API params,
+# NOT in the prompt text. See generate.py build_payload().
 style:
-  # See Plan/STYLE_GUIDE.md for rationale behind these choices
-  prefix: >-
+  # Style description appended AFTER the subject + category
+  suffix: >-
     simple flat vector illustration, minimal geometric style,
-    cute rounded shapes, natural tones, white background,
-    no text, no shadows, no outlines, centered composition,
-    single subject
+    cute rounded shapes, natural tones, centered composition,
+    single subject, no gradients, no shadows, no texture,
+    no text, no labels, no lettering
   categories:
+    # Eco-Dex categories
+    climate: ""
+    oceans: "ocean or marine scene, underwater or coastal"
+    food_systems: "food or agriculture concept, organic"
+    biodiversity: "wildlife or ecosystem scene, natural diversity"
+    energy: "energy or technology concept, clean and modern"
+    circular_economy: "waste or recycling concept, circular flow"
+    people_planet: "humanity and sustainability, social impact"
+    your_journey: "personal growth metaphor, inspirational"
+    hidden_gems: "achievement badge or reward symbol, special"
+    # Other asset categories
     flora: "botanical plant illustration, single specimen"
     fauna: "friendly animal character, simple features"
     elements: "natural element icon, symbolic"
@@ -29,6 +47,82 @@ style:
     challenge: "action or activity symbol, energetic"
     garden: "garden plant with pot or soil, growth stages"
     mascot: "cute mascot character, kawaii inspired, expressive"
+
+# Per-category color palettes for Recraft controls.colors
+# Each maps to 3-5 RGB arrays sent via the API
+category_colors:
+  climate:
+    - [78, 172, 80]    # Green
+    - [33, 150, 243]   # Blue
+    - [158, 158, 158]  # Grey
+  oceans:
+    - [10, 151, 217]   # Ocean blue
+    - [0, 188, 212]    # Cyan
+    - [46, 125, 50]    # Green
+  food_systems:
+    - [255, 152, 0]    # Orange
+    - [76, 175, 80]    # Green
+    - [121, 85, 72]    # Brown
+  biodiversity:
+    - [76, 175, 80]    # Green
+    - [121, 85, 72]    # Brown
+    - [33, 150, 243]   # Blue
+  energy:
+    - [255, 193, 7]    # Yellow
+    - [33, 150, 243]   # Blue
+    - [76, 175, 80]    # Green
+  circular_economy:
+    - [76, 175, 80]    # Green
+    - [158, 158, 158]  # Grey
+    - [121, 85, 72]    # Brown
+  people_planet:
+    - [46, 125, 50]    # Dark green
+    - [33, 150, 243]   # Blue
+    - [255, 193, 7]    # Gold
+  your_journey:
+    - [46, 125, 50]    # Green
+    - [255, 193, 7]    # Gold
+    - [121, 85, 72]    # Brown
+  hidden_gems:
+    - [255, 193, 7]    # Gold
+    - [46, 125, 50]    # Green
+    - [33, 150, 243]   # Blue
+  flora:
+    - [76, 175, 80]    # Green
+    - [121, 85, 72]    # Brown
+    - [255, 152, 0]    # Orange
+  fauna:
+    - [121, 85, 72]    # Brown
+    - [76, 175, 80]    # Green
+    - [33, 150, 243]   # Blue
+  elements:
+    - [33, 150, 243]   # Blue
+    - [76, 175, 80]    # Green
+    - [158, 158, 158]  # Grey
+  sdg_world:
+    - [33, 150, 243]   # Blue
+    - [76, 175, 80]    # Green
+    - [255, 193, 7]    # Gold
+  eco_pioneers:
+    - [121, 85, 72]    # Brown
+    - [46, 125, 50]    # Green
+    - [255, 193, 7]    # Gold
+  milestones:
+    - [255, 193, 7]    # Gold
+    - [46, 125, 50]    # Green
+    - [121, 85, 72]    # Brown
+  challenge:
+    - [76, 175, 80]    # Green
+    - [255, 152, 0]    # Orange
+    - [33, 150, 243]   # Blue
+  garden:
+    - [76, 175, 80]    # Green
+    - [121, 85, 72]    # Brown
+    - [255, 193, 7]    # Gold
+  mascot:
+    - [76, 175, 80]    # Green
+    - [255, 193, 7]    # Gold
+    - [121, 85, 72]    # Brown
 
 # App color palette (from app_colors.dart)
 # See Plan/STYLE_GUIDE.md for per-category color rules
@@ -87,6 +181,11 @@ validation:
   max_optimized_size_bytes: 20480  # 20KB post-SVGO
   viewbox_size: 1024
   color_distance_threshold: 60  # Max CIELAB distance for "on palette"
+
+# Map JSON filenames to asset categories (for auto-detection)
+file_category_map:
+  eco_dex_entries.json: eco_dex
+  mascot_species.json: mascots
 
 # Output directories (relative to project root)
 output:

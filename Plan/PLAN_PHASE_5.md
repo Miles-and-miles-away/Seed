@@ -1104,6 +1104,169 @@ between plants.
 - 3 growth stages should be visually distinct at a glance
 - Mascot should look natural at the same scale as the plants
 
+### Art Prompt Style Guide
+
+#### Recraft V4 Vector Model Notes
+
+The pipeline uses `recraftv4_vector` which differs from V3:
+
+- **No `style`/`substyle` params** -- all style control is
+  prompt-driven. The suffix in config.yaml is critical.
+- **No `negative_prompt`** -- explicit negations ("no gradients")
+  must appear in the prompt suffix itself.
+- **No `no_text` control** -- this V3 flag is silently ignored.
+  Text suppression must be in the prompt suffix.
+- **Aspect ratios only** -- vector models accept `"1:1"` not
+  `"1024x1024"`. SVG output is resolution-independent.
+- **10,000 char prompt limit** (vs 1,000 in V3) -- ample room
+  for precise style direction.
+- **`controls.colors`** -- 3-5 RGB palette colors (soft
+  constraint; model uses visual judgment to apply them).
+- **`controls.background_color`** -- separate from palette.
+- **V4 "design taste"** -- the model makes better compositional
+  and color decisions than V3, so simpler prompts often work
+  better than overly prescriptive ones.
+
+#### Prompt Assembly
+
+The pipeline builds the final prompt as:
+`{artPrompt}, {category suffix}, {style suffix}`.
+
+Subject-first ordering follows Recraft's recommendation. The
+suffix already provides format (flat vector, minimal geometric,
+cute rounded shapes), explicit constraints (no gradients, no
+shadows, no texture, no text, no labels), and tone (natural
+tones, centered composition, single subject). The category suffix
+adds genre context (e.g. "ocean or marine scene, underwater or
+coastal").
+
+The `artPrompt` field only needs to describe the unique scene.
+
+#### Rules
+
+1. **No text or labels** -- Recraft renders text as garbled shapes.
+   Never include words like "CO2", "pH", "H2", or any label the
+   model would try to render as text. Use visual metaphors instead.
+   - Bad: `graph line with CO2 label`
+   - Good: `red line curving steeply upward on a white grid`
+
+2. **Name specific real things, not generic categories** -- Generic
+   nouns produce generic images. Be specific about the recognizable
+   subject.
+   - Bad: `planet Earth` (produces generic planet)
+   - Good: `blue-green globe with visible continents`
+
+3. **One clear focal subject** -- The suffix already says "single
+   subject, centered composition." Describe one main visual idea,
+   not a busy multi-part scene.
+   - Bad: `graph AND calendar AND person AND arrows`
+   - Good: `calendar page with green checkmarks forming a curve`
+
+4. **Don't repeat what the suffix provides** -- Don't restate
+   "white background", style directions, or category context.
+   Focus only on what is unique.
+   - Bad: `simple flat illustration of a coral reef underwater`
+   - Good: `vibrant coral reef teeming with colorful fish`
+
+5. **Lead with the main subject, then visual qualities** --
+   Structure: `{subject}, {key visual details}`.
+   - Example: `white ghost hovering next to a power strip,
+     red-orange indicator light`
+
+6. **Use concrete colors, not moods** -- Specify actual colors
+   for key elements. Avoid abstract descriptors.
+   - Bad: `atmospheric, dramatic, conceptual`
+   - Good: `grey wolves, green valley, blue river`
+
+7. **Avoid gradient-implying language** -- Words like "glow",
+   "gleaming", "fading", "halo", "shimmering", and "radiant"
+   fight flat vector rendering and produce messy results. Use
+   solid visual equivalents instead.
+   - Bad: `lightbulb with a soft green halo`
+   - Good: `lightbulb with a green ring around it`
+   - Bad: `golden sun rays gleaming off panels`
+   - Good: `golden sun with straight ray lines above panels`
+   - Bad: `bioluminescent jellyfish glowing in dark water`
+   - Good: `bright blue-green jellyfish on navy background`
+
+8. **Avoid dark/black backgrounds** -- The suffix specifies white
+   background. If the concept implies darkness, reframe the subject
+   to work on white or describe just the subject with bright colors.
+   - Bad: `dark room with glowing outlets`
+   - Good: `power strip with red-orange standby dots`
+
+9. **Avoid abstract concepts that can't be drawn** -- Things like
+   "chain reaction", "planetary boundaries" need to be translated
+   into drawable subjects.
+   - Bad: `nine concentric circles representing planetary boundaries`
+   - Good: `nine concentric rings, green inner shifting to red outer`
+
+10. **Limit nouns to 3 or fewer** -- Each noun becomes an object
+    the model tries to render. More than 3 creates a cluttered,
+    unfocused image. Strip to the essential subject and 1-2
+    supporting elements.
+    - Bad: `person walking and cycling on a tree-lined path,
+      green trees, grey path, blue sky, warm silhouettes`
+    - Good: `bicycle leaning against a tree on a leafy path`
+
+11. **Keep prompts concise** -- Aim for 10-20 words. Longer
+    prompts dilute the signal. Every word should contribute to
+    what appears in the image.
+
+12. **Use solid shapes, not effects** -- Describe physical objects
+    and bold color blocks rather than light effects, particle
+    systems, or atmospheric phenomena. Flat vector excels at clean
+    geometry.
+    - Bad: `golden particles drifting downward`
+    - Good: `small golden circles scattered below`
+
+#### V4 Migration Implementation Plan
+
+The pipeline has three issues to fix and one batch of art prompt
+refinements. Ordered by priority:
+
+**Step 1: Fix config.yaml (critical)**
+- Change `size: "1024x1024"` to `size: "1:1"` (V4 vector
+  requires aspect ratio format, not pixel dimensions)
+
+**Step 2: Fix style suffix (critical)**
+- Add explicit negations to the suffix since V4 has no
+  `negative_prompt` or `no_text` control:
+  ```
+  simple flat vector illustration, minimal geometric style,
+  cute rounded shapes, natural tones, centered composition,
+  single subject, no gradients, no shadows, no texture,
+  no text, no labels, no lettering
+  ```
+
+**Step 3: Remove dead `no_text` from generate.py**
+- Remove `"no_text": True` from `build_controls()` since V4
+  ignores it (now handled by the suffix in step 2)
+
+**Step 4: Refine gradient-implying art prompts**
+- Audit all `artPrompt` values for gradient-implying words
+  ("glow", "gleaming", "fading", "halo", "shimmering",
+  "bioluminescent", "radiant", "drifting") and replace with
+  solid vector equivalents per rule 7 and rule 12 above
+- Affected entries (at minimum):
+  - `climate_03`: "red-orange glow" -> "red-orange light"
+  - `climate_08`: "sunbeams bouncing off" -> "sun lines above"
+  - `oceans_02`: "golden particles drifting" -> "golden circles"
+  - `oceans_07`: "bioluminescent jellyfish" -> "bright jellyfish"
+  - `oceans_08`: "golden ripple arcs" -> "golden curved lines"
+  - `energy_01`: "gleaming under golden sun rays" -> "under golden sun lines"
+  - `energy_02`: "green energy sparks" -> "green energy lines"
+  - `energy_04`: "soft green glow" -> "green ring"
+  - `energy_06`: "glowing green nodes" -> "bright green nodes"
+  - `energy_07`: "faint red-orange standby glow" -> "red-orange standby dots"
+  - `energy_09`: "soft green efficiency halo" -> "green ring"
+  - `hidden_gems_04`: "golden detail highlights" -> "golden details"
+
+**Step 5: Regenerate affected assets**
+- Run `generate.py --dry-run` to verify prompt changes
+- Regenerate candidates for entries updated in step 4
+- Review and select best candidates per the existing pipeline
+
 ---
 
 ## Testing Strategy
@@ -1187,6 +1350,7 @@ between plants.
 - [x] Accessible from Progress tab (segmented control)
 - [x] All entry text localized (EN/ES/JA)
 - [ ] Tests for condition evaluation and discovery logic
+- [ ] Create assets for all eco_dex entries using generate_assets.py
 
 ### 5.4 Growing Ecosystem
 - [ ] Garden screen shows positioned plant elements

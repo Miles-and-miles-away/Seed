@@ -5,14 +5,14 @@ Walks through the full generate -> validate -> review -> select ->
 optimize flow step by step, prompting for input at each stage.
 
 Usage:
-    python generate_assets.py --manifest eco_dex_manifest.yaml
-    python generate_assets.py --manifest eco_dex_manifest.yaml \
-        --category eco_dex
-    python generate_assets.py --manifest eco_dex_manifest.yaml \
-        --ids flora_01 flora_02 --category eco_dex
+    python scripts/art_pipeline/generate_assets.py eco_dex_entries.json
+    python scripts/art_pipeline/generate_assets.py eco_dex_entries.json \
+        --ids flora_01 flora_02
+    python scripts/art_pipeline/generate_assets.py garden.json --category garden
 """
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -23,11 +23,20 @@ import yaml
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 CONFIG_PATH = SCRIPT_DIR / "config.yaml"
+DATA_DIR = PROJECT_ROOT / "data" / "app"
+VALID_CATEGORIES = ("eco_dex", "garden", "mascots")
 
 
 def load_config():
     with open(CONFIG_PATH) as f:
         return yaml.safe_load(f)
+
+
+def infer_category(json_path, config):
+    """Infer asset category from JSON filename via config map."""
+    filename = Path(json_path).name
+    mapping = config.get("file_category_map", {})
+    return mapping.get(filename)
 
 
 def banner(title):
@@ -71,33 +80,36 @@ def run_step(cmd, label):
     return result.returncode == 0
 
 
-def step_generate(config, manifest_path, ids=None):
+def step_generate(config, json_path, ids=None):
     """Step 1: Generate SVG candidates via Recraft API."""
     banner("Step 1: Generate SVG Candidates")
 
-    with open(manifest_path) as f:
-        manifest = yaml.safe_load(f)
+    with open(json_path) as f:
+        data = json.load(f)
+    entries = data.get("entries", [])
 
-    entries = manifest.get("entries", [])
     if ids:
         entries = [e for e in entries if e["id"] in ids]
 
     n_candidates = config["recraft"]["candidates_per_asset"]
     total_svgs = len(entries) * n_candidates
-    tokens = total_svgs * config["recraft"]["tokens_per_svg"]
-    budget = config["recraft"]["monthly_token_budget"]
+    units = total_svgs * config["recraft"]["units_per_svg"]
+    budget = config["recraft"]["monthly_unit_budget"]
 
-    print(f"Manifest:    {manifest_path}")
+    print(f"JSON:        {json_path}")
     print(f"Entries:     {len(entries)}")
     print(f"Candidates:  {n_candidates} per entry")
     print(f"Total SVGs:  {total_svgs}")
-    print(f"Tokens:      {tokens}/{budget} monthly budget")
+    print(f"Units:       {units}/{budget} monthly budget")
     print()
 
     # Show first few entries
     print("Entries to generate:")
     for entry in entries[:5]:
-        print(f"  - {entry['id']}: {entry['subject']}")
+        print(
+            f"  - {entry['id']}: "
+            f"{entry['artPrompt'][:60]}"
+        )
     if len(entries) > 5:
         print(f"  ... and {len(entries) - 5} more")
     print()
@@ -109,7 +121,7 @@ def step_generate(config, manifest_path, ids=None):
     cmd = [
         sys.executable,
         str(SCRIPT_DIR / "generate.py"),
-        "--manifest", str(manifest_path),
+        "--json", str(json_path),
     ]
     if ids:
         cmd += ["--ids"] + list(ids)
@@ -215,6 +227,7 @@ def step_select(config, category):
     print()
 
     selections = []
+    skipped = []
 
     for entry_dir in entry_dirs:
         svgs = sorted(entry_dir.glob("*.svg"))
@@ -246,11 +259,12 @@ def step_select(config, category):
             })
             print(f"  -> Selected #{choice}")
         else:
+            skipped.append(entry_id)
             print("  -> Skipped")
 
     if not selections:
         print("\nNo selections made.")
-        return None
+        return None, skipped
 
     # Save selections with timestamp to avoid overwriting
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -264,7 +278,7 @@ def step_select(config, category):
     print(f"\n{len(selections)} selections saved to:")
     print(f"  {selections_path}")
 
-    return selections_path
+    return selections_path, skipped
 
 
 def step_optimize(config, selections_path):
@@ -339,24 +353,32 @@ def main():
         epilog=(
             "Example:\n"
             "  python generate_assets.py "
-            "--manifest eco_dex_manifest.yaml "
-            "--category eco_dex\n"
+            "eco_dex_entries.json\n"
             "  python generate_assets.py "
-            "--manifest eco_dex_manifest.yaml "
-            "--ids flora_01 flora_02 "
-            "--category eco_dex\n"
+            "eco_dex_entries.json "
+            "--ids flora_01 flora_02\n"
+            "  python generate_assets.py "
+            "garden.json --category garden\n"
         ),
     )
     parser.add_argument(
-        "--manifest",
-        required=True,
-        help="YAML manifest with entries to generate",
+        "json_file",
+        help="JSON file with entries to generate",
     )
     parser.add_argument(
         "--category",
-        required=True,
-        choices=["eco_dex", "garden", "mascots"],
-        help="Asset category (determines output directory)",
+        choices=VALID_CATEGORIES,
+        help=(
+            "Asset category (determines output directory). "
+            "Auto-detected from filename via config if omitted"
+        ),
+    )
+    parser.add_argument(
+        "--subcategory",
+        help=(
+            "Filter entries by ID prefix "
+            "(e.g. 'climate', 'flora')"
+        ),
     )
     parser.add_argument(
         "--ids",
@@ -377,16 +399,57 @@ def main():
 
     config = load_config()
 
+    # Resolve JSON path: check as-is, then in data/app/
+    json_path = Path(args.json_file)
+    if not json_path.exists():
+        fallback = DATA_DIR / json_path.name
+        if fallback.exists():
+            json_path = fallback
+        else:
+            parser.error(f"File not found: {args.json_file}")
+    json_path = str(json_path)
+
+    # Resolve --subcategory to --ids
+    if args.subcategory:
+        with open(json_path) as f:
+            data = json.load(f)
+        prefix = args.subcategory.rstrip("_") + "_"
+        matched = [
+            e["id"] for e in data.get("entries", [])
+            if e["id"].startswith(prefix)
+        ]
+        if not matched:
+            parser.error(
+                f"No entries match subcategory "
+                f"'{args.subcategory}'"
+            )
+        if args.ids:
+            parser.error(
+                "--subcategory and --ids are "
+                "mutually exclusive"
+            )
+        args.ids = matched
+
+    category = args.category or infer_category(
+        json_path, config,
+    )
+    if not category:
+        parser.error(
+            f"Cannot infer category from "
+            f"'{Path(args.json_file).name}'. "
+            f"Use --category ({', '.join(VALID_CATEGORIES)})"
+        )
+
     banner("Seed Art Pipeline")
-    print(f"Manifest:  {args.manifest}")
-    print(f"Category:  {args.category}")
+    print(f"JSON:      {json_path}")
+    print(f"Category:  {category}")
     if args.ids:
         print(f"IDs:       {', '.join(args.ids)}")
     print()
 
     # Step 1: Generate
     if not args.skip_generate:
-        step_generate(config, args.manifest, args.ids)
+        step_generate(config, json_path, args.ids)
     else:
         print("(Skipping generation -- using existing candidates)")
 
@@ -408,7 +471,7 @@ def main():
         return
 
     # Step 4: Select
-    selections_path = step_select(config, args.category)
+    selections_path, skipped = step_select(config, category)
     if not selections_path:
         print("\nNo selections made. Exiting.")
         return
@@ -421,7 +484,7 @@ def main():
 
     banner("Done")
     output_dir = (
-        PROJECT_ROOT / config["output"][args.category]
+        PROJECT_ROOT / config["output"][category]
     )
     print(f"Assets exported to: {output_dir}")
     print()
@@ -429,6 +492,18 @@ def main():
     print("  1. Add assets to pubspec.yaml")
     print("  2. Update code to reference new asset paths")
     print("  3. Run: flutter analyze && flutter test")
+
+    if skipped:
+        print()
+        print(f"Skipped {len(skipped)} entries. "
+              "To regenerate them:")
+        ids_str = " ".join(skipped)
+        print(
+            f"  python scripts/art_pipeline/"
+            f"generate_assets.py "
+            f"{Path(json_path).name} "
+            f"--ids {ids_str}"
+        )
 
 
 if __name__ == "__main__":

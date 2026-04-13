@@ -2,8 +2,8 @@
 """Generate SVG assets via Recraft V4 Text-to-Vector API.
 
 Usage:
-    python generate.py --manifest eco_dex_manifest.yaml
-    python generate.py --manifest eco_dex_manifest.yaml --ids flora_01 flora_02
+    python generate.py --json eco_dex_entries.json
+    python generate.py --json eco_dex_entries.json --ids flora_01 flora_02
     python generate.py --prompt "cute oak tree" --output test.svg
 """
 
@@ -21,6 +21,9 @@ import yaml
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 CONFIG_PATH = SCRIPT_DIR / "config.yaml"
+
+MODEL = "recraftv4_vector"
+WHITE_BG = {"rgb": [255, 255, 255]}
 
 
 def load_config():
@@ -40,23 +43,37 @@ def get_api_token():
 
 
 def build_prompt(config, entry):
-    """Build full prompt from style config + entry metadata."""
-    prefix = config["style"]["prefix"]
+    """Build prompt: subject first, category, then style.
+
+    Follows Recraft recommended order:
+        {artPrompt}, {category suffix}, {style suffix}
+    """
     category = entry.get("category", "")
     category_suffix = config["style"]["categories"].get(
         category, ""
     )
-    subject = entry["subject"]
-    color_hint = entry.get("color_hint", "")
+    style_suffix = config["style"]["suffix"]
 
-    parts = [prefix]
+    parts = [entry["artPrompt"]]
     if category_suffix:
         parts.append(category_suffix)
-    parts.append(subject)
-    if color_hint:
-        parts.append(color_hint)
+    parts.append(style_suffix)
 
     return ", ".join(parts)
+
+
+def build_controls(config, entry):
+    """Build Recraft controls object with colors and flags."""
+    category = entry.get("category", "")
+    colors_cfg = config.get("category_colors", {})
+    rgb_list = colors_cfg.get(category, [])
+
+    colors = [{"rgb": rgb} for rgb in rgb_list]
+
+    return {
+        "colors": colors,
+        "background_color": WHITE_BG,
+    }
 
 
 MAX_RETRIES = 2
@@ -64,25 +81,30 @@ RETRY_BACKOFF = [2, 5]
 RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 
 
-def generate_svg(token, config, prompt):
-    """Call Recraft API with retry, return SVG string or None."""
+def generate_svgs(token, config, prompt, controls, n=1):
+    """Call Recraft API with retry, return list of SVG strings.
+
+    Uses the `n` parameter to request multiple candidates in a
+    single API call (max 6). Returns a list of decoded SVGs.
+    """
     url = config["recraft"]["api_url"]
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
     payload = {
+        "model": MODEL,
         "prompt": prompt,
         "response_format": config["recraft"]["response_format"],
         "size": config["recraft"]["size"],
-        "style": "vector_illustration",
-        "substyle": "flat_2",
+        "controls": controls,
+        "n": n,
     }
 
     for attempt in range(1 + MAX_RETRIES):
         try:
             resp = requests.post(
-                url, headers=headers, json=payload, timeout=60
+                url, headers=headers, json=payload, timeout=120
             )
             if (
                 resp.status_code in RETRYABLE_STATUS_CODES
@@ -95,45 +117,54 @@ def generate_svg(token, config, prompt):
             resp.raise_for_status()
             data = resp.json()
 
-            if "data" in data and len(data["data"]) > 0:
-                image_data = data["data"][0]
+            results = []
+            for image_data in data.get("data", []):
                 if "url" in image_data:
                     svg_resp = requests.get(
                         image_data["url"], timeout=30
                     )
                     svg_resp.raise_for_status()
-                    return svg_resp.text
+                    results.append(svg_resp.text)
                 elif "b64_json" in image_data:
-                    return base64.b64decode(
-                        image_data["b64_json"]
-                    ).decode("utf-8")
+                    results.append(
+                        base64.b64decode(
+                            image_data["b64_json"]
+                        ).decode("utf-8")
+                    )
+
+            if results:
+                return results
 
             print(
                 f"  Unexpected response: "
                 f"{json.dumps(data)[:200]}"
             )
-            return None
+            return []
 
         except requests.exceptions.RequestException as e:
+            body = ""
+            if hasattr(e, "response") and e.response is not None:
+                body = e.response.text[:300]
             if attempt < MAX_RETRIES:
                 wait = RETRY_BACKOFF[attempt]
                 print(f"({e}, retry in {wait}s)")
                 time.sleep(wait)
                 continue
             print(f"  API error: {e}")
-            return None
+            if body:
+                print(f"  Response: {body}")
+            return []
 
-    return None
+    return []
 
 
-def generate_from_manifest(
-    config, manifest_path, ids=None, dry_run=False
+def generate_from_json(
+    config, json_path, ids=None, dry_run=False
 ):
-    """Generate SVGs for entries in a manifest file."""
-    with open(manifest_path) as f:
-        manifest = yaml.safe_load(f)
-
-    entries = manifest.get("entries", [])
+    """Generate SVGs for entries in a JSON file."""
+    with open(json_path) as f:
+        data = json.load(f)
+    entries = data.get("entries", [])
     if ids:
         entries = [e for e in entries if e["id"] in ids]
 
@@ -147,20 +178,26 @@ def generate_from_manifest(
 
     n_candidates = config["recraft"]["candidates_per_asset"]
     total = len(entries) * n_candidates
-    tokens = total * config["recraft"]["tokens_per_svg"]
-    budget = config["recraft"]["monthly_token_budget"]
+    units = total * config["recraft"]["units_per_svg"]
+    budget = config["recraft"]["monthly_unit_budget"]
 
+    print(f"Model: {MODEL}")
     print(
         f"Generating {total} SVGs "
         f"({len(entries)} entries x {n_candidates} candidates)"
     )
-    print(f"Tokens: {tokens}/{budget} monthly budget")
+    print(f"Units: {units}/{budget} monthly budget")
     print(f"Output: {candidates_dir}\n")
 
     if dry_run:
         for entry in entries:
             prompt = build_prompt(config, entry)
-            print(f"  [{entry['id']}] {prompt[:72]}...")
+            controls = build_controls(config, entry)
+            n_colors = len(controls.get("colors", []))
+            print(
+                f"  [{entry['id']}] ({n_colors} colors) "
+                f"{prompt[:72]}..."
+            )
         print(f"\nDry run -- no API calls made.")
         return
 
@@ -170,27 +207,34 @@ def generate_from_manifest(
     for entry in entries:
         entry_id = entry["id"]
         prompt = build_prompt(config, entry)
-        print(f"[{entry_id}] {entry['subject']}")
+        controls = build_controls(config, entry)
+        print(f"[{entry_id}] {entry['artPrompt'][:60]}")
         print(f"  Prompt: {prompt[:80]}...")
 
         entry_dir = candidates_dir / entry_id
         entry_dir.mkdir(parents=True, exist_ok=True)
 
-        for i in range(n_candidates):
-            output_path = entry_dir / f"candidate_{i + 1}.svg"
-            print(f"  Candidate {i + 1}/{n_candidates}...", end=" ")
+        # Request all candidates in a single API call
+        print(
+            f"  Requesting {n_candidates} candidates...",
+            end=" ",
+        )
+        svgs = generate_svgs(
+            token, config, prompt, controls, n=n_candidates
+        )
 
-            svg_content = generate_svg(token, config, prompt)
-            if svg_content:
-                output_path.write_text(svg_content)
-                size_kb = output_path.stat().st_size / 1024
-                print(f"OK ({size_kb:.1f}KB)")
-            else:
-                print("FAILED")
+        for i, svg_content in enumerate(svgs):
+            output_path = (
+                entry_dir / f"candidate_{i + 1}.svg"
+            )
+            output_path.write_text(svg_content)
+            size_kb = output_path.stat().st_size / 1024
+            print(f"#{i + 1}({size_kb:.1f}KB)", end=" ")
 
-            # Rate limiting
-            if i < n_candidates - 1:
-                time.sleep(1)
+        if svgs:
+            print(f"OK ({len(svgs)}/{n_candidates})")
+        else:
+            print("FAILED")
 
         # Brief pause between entries
         time.sleep(0.5)
@@ -201,12 +245,17 @@ def generate_from_manifest(
 def generate_single(config, prompt, output_path):
     """Generate a single SVG from a prompt (for testing)."""
     token = get_api_token()
+    print(f"Model: {MODEL}")
     print(f"Prompt: {prompt}")
     print(f"Output: {output_path}")
 
-    svg_content = generate_svg(token, config, prompt)
-    if svg_content:
-        Path(output_path).write_text(svg_content)
+    controls = {
+        "background_color": WHITE_BG,
+    }
+
+    svgs = generate_svgs(token, config, prompt, controls, n=1)
+    if svgs:
+        Path(output_path).write_text(svgs[0])
         size_kb = Path(output_path).stat().st_size / 1024
         print(f"OK ({size_kb:.1f}KB)")
     else:
@@ -219,8 +268,8 @@ def main():
         description="Generate SVG assets via Recraft API"
     )
     parser.add_argument(
-        "--manifest",
-        help="YAML manifest file with entries to generate",
+        "--json",
+        help="JSON file with entries to generate",
     )
     parser.add_argument(
         "--ids",
@@ -250,9 +299,9 @@ def main():
             return
         output = args.output or "test_output.svg"
         generate_single(config, args.prompt, output)
-    elif args.manifest:
-        generate_from_manifest(
-            config, args.manifest, args.ids, args.dry_run
+    elif args.json:
+        generate_from_json(
+            config, args.json, args.ids, args.dry_run
         )
     else:
         parser.print_help()

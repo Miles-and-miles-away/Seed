@@ -311,3 +311,59 @@ entries:
     category: your_journey
     subject: "tree growing with roots forming a heart shape"
     color_hint: "green canopy, brown heart-shaped roots, golden glow"
+
+  # --- Hidden Gems (11 entries) ---
+  - id: gem_01
+    category: hidden_gems
+    subject: "person stepping into a spotlight with a leaf-shaped badge"
+    color_hint: "golden spotlight, green badge, warm silhouette"
+
+  - id: gem_02
+    category: hidden_gems
+    subject: "three interlocking rings each containing a different ecosystem"
+    color_hint: "blue ocean ring, green forest ring, golden city ring"
+
+  - id: gem_03
+    category: hidden_gems
+    subject: "hand holding a fan of different colored action cards"
+    color_hint: "warm skin tones, multicolor cards, white background"
+
+  - id: gem_04
+    category: hidden_gems
+    subject: "row of ten small flags planted on a mountain trail"
+    color_hint: "green flags, brown mountain path, blue sky"
+
+  - id: gem_05
+    category: hidden_gems
+    subject: "open treasure chest filled with glowing puzzle pieces"
+    color_hint: "brown chest, golden glow, green and blue pieces"
+
+  - id: gem_06
+    category: hidden_gems
+    subject: "magnifying glass revealing hidden details in a leaf"
+    color_hint: "silver magnifier, green leaf, golden detail highlights"
+
+  - id: gem_07
+    category: hidden_gems
+    subject: "open book with a glowing lightbulb rising from the pages"
+    color_hint: "white pages, golden lightbulb, green vine accents"
+
+  - id: gem_08
+    category: hidden_gems
+    subject: "golden trophy cup overflowing with tiny green seedlings"
+    color_hint: "golden trophy, green sprouts, warm glow"
+
+  - id: gem_09
+    category: hidden_gems
+    subject: "album book half filled with colorful nature stamps"
+    color_hint: "brown album, colorful stamps, empty stamp outlines"
+
+  - id: gem_10
+    category: hidden_gems
+    subject: "encyclopaedia with nature icons spilling out of its pages"
+    color_hint: "blue book, colorful nature icons, golden binding"
+
+  - id: gem_11
+    category: hidden_gems
+    subject: "nearly complete jigsaw puzzle of Earth with last piece hovering"
+    color_hint: "blue and green Earth puzzle, golden hovering piece"
