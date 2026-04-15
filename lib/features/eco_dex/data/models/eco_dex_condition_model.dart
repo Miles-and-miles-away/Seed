@@ -76,6 +76,11 @@ sealed class EcoDexCondition with _$EcoDexCondition {
     required int count,
   }) = ChallengesCompletedCondition;
 
+  /// Unlock after logging N distinct zero-CO2 ("selfless") actions.
+  const factory EcoDexCondition.uniqueZeroCo2Actions({
+    required int count,
+  }) = UniqueZeroCo2ActionsCondition;
+
   factory EcoDexCondition.fromJson(Map<String, dynamic> json) =>
       _$EcoDexConditionFromJson(json);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
@@ -509,7 +510,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
 
       // Navigate to login after deletion
       if (mounted) {
-        context.go('/login');
+        context.go(AppRoutes.login);
       }
     } on Exception {
       if (mounted) {

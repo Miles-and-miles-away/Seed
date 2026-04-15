@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
@@ -56,7 +57,9 @@ class SettingsScreen extends ConsumerWidget {
                       settings.reminderSchedules,
                     ),
                     leading: const Icon(Icons.schedule_outlined),
-                    onTap: () => context.push('/settings/notifications'),
+                    onTap: () => context.push(
+                      AppRoutes.settingsNotifications,
+                    ),
                   ),
                 ],
               ),
@@ -70,7 +73,7 @@ class SettingsScreen extends ConsumerWidget {
                     title: l10n.settingsLanguage,
                     subtitle: _getLanguageDisplayName(settings.language),
                     leading: const Icon(Icons.language_outlined),
-                    onTap: () => context.push('/settings/language'),
+                    onTap: () => context.push(AppRoutes.settingsLanguage),
                   ),
                 ],
               ),
@@ -103,7 +106,7 @@ class SettingsScreen extends ConsumerWidget {
                     title: l10n.settingsAccount,
                     subtitle: l10n.settingsAccountSubtitle,
                     leading: const Icon(Icons.person_outline),
-                    onTap: () => context.push('/settings/account'),
+                    onTap: () => context.push(AppRoutes.settingsAccount),
                   ),
                 ],
               ),
@@ -123,9 +126,7 @@ class SettingsScreen extends ConsumerWidget {
                           version,
                         ),
                         leading: const Icon(Icons.info_outline),
-                        onTap: () => context.push(
-                          '/settings/about',
-                        ),
+                        onTap: () => context.push(AppRoutes.settingsAbout),
                       );
                     },
                   ),

@@ -9,7 +9,7 @@
   "navProgress": "進捗",
   "navLogAction": "アクション",
   "navMascot": "マスコット",
-  "navProfile": "プロフィール",
+  "navProfile": "プロフ",
   "navSettings": "設定",
 
   "authLogin": "ログイン",
@@ -160,6 +160,7 @@
   "buttonSave": "保存",
   "buttonCancel": "キャンセル",
   "buttonConfirm": "確認",
+  "buttonClose": "閉じる",
   "buttonRetry": "再試行",
   "buttonContinue": "続ける",
 
@@ -477,13 +478,17 @@
     }
   },
 
+  "dayDetailActions": "アクション",
+  "dayDetailNoActions": "この日のアクション記録はありません",
+  "dayDetailFactLocked": "この日のエコファクトは解除されていません",
+
   "ecoFactTitle": "今日のエコファクト",
   "ecoFactDidYouKnow": "知っていましたか？",
   "ecoFactSource": "出典",
   "ecoFactLocked": "今日のチャレンジを完了してファクトを解除しよう！",
-  "ecoFactCalendar": "ファクトカレンダー",
-  "ecoFactViewed": "閲覧済み",
-  "ecoFactMissed": "未閲覧",
+  "ecoFactInboxTitle": "受信トレイ",
+  "ecoFactInboxEmpty": "まだメールはありません。今日のチャレンジを完了して最初のエコファクトを受け取ろう。",
+  "ecoFactInboxLockedSubject": "ロック中のエコファクト",
   "ecoFactCategoryComparison": "比較",
   "ecoFactCategoryIndividual": "個人の影響",
   "ecoFactCategoryMythBuster": "誤解を解く",
@@ -497,7 +502,7 @@
   "challengeTabLabel": "チャレンジ",
   "challengeCompleted": "完了！",
   "challengeNotCompleted": "未完了",
-  "challengeUnlockFact": "今日のエコファクトを解除",
+  "challengeSeeFact": "今日のエコファクトを見る",
   "challengeStreakDays": "チャレンジ{days}日連続",
   "@challengeStreakDays": {
     "placeholders": {

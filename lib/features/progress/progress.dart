@@ -10,6 +10,7 @@ export 'presentation/providers/progress_providers.dart';
 export 'presentation/screens/progress_screen.dart';
 export 'presentation/widgets/calendar_day_cell.dart';
 export 'presentation/widgets/daily_target_picker.dart';
+export 'presentation/widgets/day_detail_bottom_sheet.dart';
 export 'presentation/widgets/progress_calendar.dart';
 export 'presentation/widgets/rainbow_sun_painter.dart';
 export 'presentation/widgets/rainbow_sun_widget.dart';

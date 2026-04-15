@@ -1,5 +1,6 @@
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
+import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
 
 /// Checks if a condition is met given the user's stats.
 bool isConditionMet(
@@ -31,7 +32,14 @@ bool isConditionMet(
     EcodexCountCondition(:final count) => user.ecodexDiscovered.length >= count,
     ChallengesCompletedCondition(:final count) =>
       user.challengesCompleted >= count,
+    UniqueZeroCo2ActionsCondition(:final count) =>
+      uniqueZeroCo2ActionsCount(user) >= count,
   };
+}
+
+/// Counts distinct zero-CO2 ("selfless") actions the user has ever logged.
+int uniqueZeroCo2ActionsCount(AppUserModel user) {
+  return user.uniqueActionIds.where(zeroCo2ActionIds.contains).length;
 }
 
 /// Counts actions in a specific category.

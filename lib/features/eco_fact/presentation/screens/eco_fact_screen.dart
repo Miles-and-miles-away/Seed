@@ -1,76 +1,107 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
-import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
-import 'package:seed_app/features/eco_fact/presentation/widgets/fact_calendar.dart';
+import 'package:seed_app/features/eco_fact/presentation/widgets/mail_list_tile.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
-/// Screen showing today's eco-fact and a calendar of
-/// viewed/missed days.
-class EcoFactScreen extends ConsumerStatefulWidget {
+/// Inbox-style screen listing the user's eco-fact mail. Tapping a row
+/// opens the detail screen and marks the fact as read.
+class EcoFactScreen extends ConsumerWidget {
   const EcoFactScreen({super.key});
 
   @override
-  ConsumerState<EcoFactScreen> createState() => _EcoFactScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final inboxAsync = ref.watch(ecoFactInboxProvider);
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.ecoFactInboxTitle)),
+      body: inboxAsync.when(
+        data: (items) {
+          if (items.isEmpty) {
+            return _EmptyInbox(message: l10n.ecoFactInboxEmpty);
+          }
+          return ListView.separated(
+            itemCount: items.length,
+            separatorBuilder: (_, __) => const Divider(height: 1),
+            itemBuilder: (context, i) => _InboxRow(item: items[i]),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (_, __) => const Center(child: ErrorDisplay()),
+      ),
+    );
+  }
 }
 
-class _EcoFactScreenState extends ConsumerState<EcoFactScreen> {
-  bool _markedViewed = false;
+class _InboxRow extends ConsumerWidget {
+  const _InboxRow({required this.item});
+
+  final EcoFactInboxItem item;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_markedViewed) {
-        final locked = ref.read(isEcoFactLockedProvider);
-        if (!locked) {
-          _markedViewed = true;
-          ref.read(factViewedProvider.notifier).markViewed();
-        }
-      }
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+
+    final state = item.isLocked
+        ? MailRowState.locked
+        : item.isRead
+            ? MailRowState.read
+            : MailRowState.unread;
+
+    final subject = item.isLocked
+        ? l10n.ecoFactInboxLockedSubject
+        : _subjectFor(item.fact, locale, l10n);
+
+    return MailListTile(
+      subject: subject,
+      date: item.date,
+      state: state,
+      onTap: () => context.push(AppRoutes.dailyFactDetail(item.dateKey)),
+    );
   }
+}
+
+String _subjectFor(EcoFact fact, String locale, AppLocalizations l10n) {
+  final name = fact.name(locale);
+  return name.isNotEmpty ? name : l10n.ecoFactTitle;
+}
+
+class _EmptyInbox extends StatelessWidget {
+  const _EmptyInbox({required this.message});
+
+  final String message;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final factAsync = ref.watch(todayEcoFactProvider);
-    final isLocked = ref.watch(isEcoFactLockedProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.ecoFactTitle),
-      ),
-      body: factAsync.when(
-        data: (fact) {
-          if (fact == null) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(Spacing.lg),
-            child: Column(
-              children: [
-                EcoFactCard(
-                  fact: fact,
-                  isLocked: isLocked,
-                ),
-                const SizedBox(height: Spacing.xxl),
-                const FactCalendar(),
-                const SizedBox(height: Spacing.xxxl),
-              ],
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(Spacing.xxl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.mark_email_unread_outlined,
+              size: Spacing.huge,
+              color: theme.colorScheme.onSurfaceVariant,
             ),
-          );
-        },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (_, __) => const Center(
-          child: ErrorDisplay(),
+            const SizedBox(height: Spacing.md),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
         ),
       ),
     );

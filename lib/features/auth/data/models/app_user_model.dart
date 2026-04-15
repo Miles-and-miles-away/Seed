@@ -70,6 +70,11 @@ abstract class AppUserModel with _$AppUserModel {
     /// Dates (yyyy-MM-dd) when the user viewed their daily eco-fact.
     @Default([]) List<String> viewedFactDates,
 
+    /// Dates (yyyy-MM-dd) when the user's daily eco-fact was unlocked
+    /// (challenge completed). Distinct from viewedFactDates: a day can
+    /// be unlocked without being read.
+    @Default([]) List<String> unlockedFactDates,
+
     // Phase 5.2: Daily challenges
 
     /// Date (yyyy-MM-dd) when the user last completed a challenge.

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
+import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
 import 'package:seed_app/features/eco_dex/domain/services/condition_evaluator.dart';
 
 void main() {
@@ -380,6 +381,60 @@ void main() {
         categoryActionCounts: {'food': 5, 'energy': 0, 'water': 3},
       );
       expect(categoriesCoveredCount(user), 2);
+    });
+  });
+
+  group('uniqueZeroCo2Actions', () {
+    const tier1 = EcoDexCondition.uniqueZeroCo2Actions(count: 1);
+    const tier2 = EcoDexCondition.uniqueZeroCo2Actions(count: 21);
+
+    test('false when user has logged no actions', () {
+      expect(isConditionMet(tier1, baseUser()), isFalse);
+      expect(isConditionMet(tier2, baseUser()), isFalse);
+    });
+
+    test('false when only non-zero-CO2 actions logged', () {
+      final user = baseUser().copyWith(
+        uniqueActionIds: const [
+          'recycle_aluminum_can',
+          'skip_high_impact_food',
+        ],
+      );
+      expect(isConditionMet(tier1, user), isFalse);
+      expect(isConditionMet(tier2, user), isFalse);
+    });
+
+    test('tier 1 unlocks on first zero-CO2 action', () {
+      final user = baseUser().copyWith(
+        uniqueActionIds: const ['beach_cleanup'],
+      );
+      expect(isConditionMet(tier1, user), isTrue);
+      expect(isConditionMet(tier2, user), isFalse);
+    });
+
+    test('tier 1 true, tier 2 false with mixed logs', () {
+      final user = baseUser().copyWith(
+        uniqueActionIds: const [
+          'beach_cleanup',
+          'sign_petition',
+          'recycle_aluminum_can',
+        ],
+      );
+      expect(isConditionMet(tier1, user), isTrue);
+      expect(isConditionMet(tier2, user), isFalse);
+    });
+
+    test('tier 2 unlocks when all zero-CO2 actions logged', () {
+      final user = baseUser().copyWith(
+        uniqueActionIds: zeroCo2ActionIds.toList(),
+      );
+      expect(isConditionMet(tier1, user), isTrue);
+      expect(isConditionMet(tier2, user), isTrue);
+    });
+
+    test('zeroCo2ActionIds set has 21 entries', () {
+      // Guards against silent drift from seed_action_library.js.
+      expect(zeroCo2ActionIds, hasLength(21));
     });
   });
 }

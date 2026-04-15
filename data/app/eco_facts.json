@@ -14,7 +14,10 @@
       12,
       13
     ],
-    "unWorldDay": "Veganuary"
+    "unWorldDay": "Veganuary",
+    "nameEn": "A Plant-Based Month",
+    "nameEs": "Un mes vegetal",
+    "nameJa": "植物性の1ヶ月"
   },
   {
     "dayOfYear": 2,
@@ -30,7 +33,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "16 Billion Trees",
+    "nameEs": "16 mil millones de árboles",
+    "nameJa": "160億本の植林"
   },
   {
     "dayOfYear": 3,
@@ -46,7 +52,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bottled vs Tap",
+    "nameEs": "Botella vs grifo",
+    "nameJa": "ペットボトル対水道水"
   },
   {
     "dayOfYear": 4,
@@ -62,7 +71,10 @@
       3,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Dryers vs Paper Towels",
+    "nameEs": "Secadores vs toallas",
+    "nameJa": "ハンドドライヤーの真実"
   },
   {
     "dayOfYear": 5,
@@ -78,7 +90,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Record Year for Renewables",
+    "nameEs": "Récord de renovables",
+    "nameJa": "再エネ記録の年"
   },
   {
     "dayOfYear": 6,
@@ -94,7 +109,10 @@
       9,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Right to Repair",
+    "nameEs": "Derecho a reparar",
+    "nameJa": "修理する権利"
   },
   {
     "dayOfYear": 7,
@@ -110,7 +128,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Plan Your Meals",
+    "nameEs": "Planifica tus comidas",
+    "nameJa": "献立で食品ロス減"
   },
   {
     "dayOfYear": 8,
@@ -126,7 +147,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Green Sahara",
+    "nameEs": "El Sahara verde",
+    "nameJa": "緑だったサハラ"
   },
   {
     "dayOfYear": 9,
@@ -141,7 +165,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Forest Internet",
+    "nameEs": "La red subterránea",
+    "nameJa": "森のインターネット"
   },
   {
     "dayOfYear": 10,
@@ -157,7 +184,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Skip the Idling",
+    "nameEs": "Evita el ralentí",
+    "nameJa": "アイドリングは無駄"
   },
   {
     "dayOfYear": 11,
@@ -173,7 +203,10 @@
       2,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Land-Light Diet",
+    "nameEs": "Una dieta ligera",
+    "nameJa": "土地を節約する食事"
   },
   {
     "dayOfYear": 12,
@@ -190,7 +223,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Oat Over Dairy",
+    "nameEs": "Avena mejor que leche",
+    "nameJa": "牛乳よりオーツ"
   },
   {
     "dayOfYear": 13,
@@ -205,7 +241,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Built to Last",
+    "nameEs": "Hecho para durar",
+    "nameJa": "長持ちを選ぶ"
   },
   {
     "dayOfYear": 14,
@@ -221,7 +260,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Standby Steals Power",
+    "nameEs": "Apaga el stand-by",
+    "nameJa": "待機電力の罠"
   },
   {
     "dayOfYear": 15,
@@ -236,7 +278,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Frozen Frog",
+    "nameEs": "La rana congelada",
+    "nameJa": "凍るカエル"
   },
   {
     "dayOfYear": 16,
@@ -251,7 +296,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Permafrost Carbon Bomb",
+    "nameEs": "Bomba de permafrost",
+    "nameJa": "永久凍土の炭素爆弾"
   },
   {
     "dayOfYear": 17,
@@ -267,7 +315,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Shipping's Surprise",
+    "nameEs": "El barco eficiente",
+    "nameJa": "船は意外と効率的"
   },
   {
     "dayOfYear": 18,
@@ -283,7 +334,10 @@
       3,
       5
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Healthier Mothers",
+    "nameEs": "Madres más sanas",
+    "nameJa": "母子保健の前進"
   },
   {
     "dayOfYear": 19,
@@ -298,7 +352,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Five-Minute Showers",
+    "nameEs": "Ducha de cinco minutos",
+    "nameJa": "5分シャワー"
   },
   {
     "dayOfYear": 20,
@@ -314,7 +371,10 @@
       6,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Not-So-Flushable Wipes",
+    "nameEs": "Toallitas no desechables",
+    "nameJa": "流せないウェット"
   },
   {
     "dayOfYear": 21,
@@ -330,7 +390,10 @@
       7,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Denmark's Wind Power",
+    "nameEs": "Dinamarca eólica",
+    "nameJa": "デンマークの風力"
   },
   {
     "dayOfYear": 22,
@@ -345,7 +408,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Whales Are Back",
+    "nameEs": "Las ballenas regresan",
+    "nameJa": "ザトウクジラの復活"
   },
   {
     "dayOfYear": 23,
@@ -360,7 +426,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Half-Asleep Dolphins",
+    "nameEs": "Delfines medio dormidos",
+    "nameJa": "片目で眠るイルカ"
   },
   {
     "dayOfYear": 24,
@@ -376,7 +445,10 @@
       4,
       13
     ],
-    "unWorldDay": "International Day of Education"
+    "unWorldDay": "International Day of Education",
+    "nameEn": "Climate Starts in School",
+    "nameEs": "Educar es actuar",
+    "nameJa": "教育が気候を守る"
   },
   {
     "dayOfYear": 25,
@@ -391,7 +463,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Albedo Loop",
+    "nameEs": "El efecto albedo",
+    "nameJa": "アルベドの連鎖"
   },
   {
     "dayOfYear": 26,
@@ -407,7 +482,10 @@
       7,
       13
     ],
-    "unWorldDay": "International Day of Clean Energy"
+    "unWorldDay": "International Day of Clean Energy",
+    "nameEn": "Cheapest Power on Earth",
+    "nameEs": "La energía más barata",
+    "nameJa": "世界一安い電力"
   },
   {
     "dayOfYear": 27,
@@ -422,7 +500,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Beaches Made by Fish",
+    "nameEs": "Arena de peces",
+    "nameJa": "魚が作る砂浜"
   },
   {
     "dayOfYear": 28,
@@ -438,7 +519,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Beef Beats Showers",
+    "nameEs": "La carne pesa más",
+    "nameJa": "肉が最大の水消費"
   },
   {
     "dayOfYear": 29,
@@ -453,7 +537,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fill, Don't Flow",
+    "nameEs": "Llena, no dejes correr",
+    "nameJa": "ためて洗う"
   },
   {
     "dayOfYear": 30,
@@ -469,7 +556,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Chile Goes Solar",
+    "nameEs": "Chile solar",
+    "nameJa": "チリの太陽光"
   },
   {
     "dayOfYear": 31,
@@ -485,7 +575,10 @@
       14,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cleaning the Baltic",
+    "nameEs": "Limpiando el Báltico",
+    "nameJa": "バルト海の浄化"
   },
   {
     "dayOfYear": 32,
@@ -501,7 +594,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Carry Your Own",
+    "nameEs": "Lleva lo tuyo",
+    "nameJa": "マイボトル生活"
   },
   {
     "dayOfYear": 33,
@@ -517,7 +613,10 @@
       14,
       15
     ],
-    "unWorldDay": "World Wetlands Day"
+    "unWorldDay": "World Wetlands Day",
+    "nameEn": "Wetlands Store Carbon",
+    "nameEs": "Humedales que absorben",
+    "nameJa": "湿地の炭素吸収"
   },
   {
     "dayOfYear": 34,
@@ -533,7 +632,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Cost of Email",
+    "nameEs": "El CO2 del correo",
+    "nameJa": "メールの炭素"
   },
   {
     "dayOfYear": 35,
@@ -548,7 +650,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Worth the Swap",
+    "nameEs": "Vale cada taza",
+    "nameJa": "マイカップの元取り"
   },
   {
     "dayOfYear": 36,
@@ -563,7 +668,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reusable Nappies",
+    "nameEs": "Pañales reutilizables",
+    "nameJa": "布おむつの利点"
   },
   {
     "dayOfYear": 37,
@@ -579,7 +687,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Biodegradable, Really?",
+    "nameEs": "Biodegradable de verdad",
+    "nameJa": "生分解性の誤解"
   },
   {
     "dayOfYear": 38,
@@ -595,7 +706,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Almonds vs Dairy",
+    "nameEs": "Almendra vs leche",
+    "nameJa": "アーモンド対牛乳"
   },
   {
     "dayOfYear": 39,
@@ -612,7 +726,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Concrete's Hidden Cost",
+    "nameEs": "El costo del cemento",
+    "nameJa": "コンクリの隠れた排出"
   },
   {
     "dayOfYear": 40,
@@ -627,7 +744,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Give What You'd Give",
+    "nameEs": "Dona con cuidado",
+    "nameJa": "寄付は選んで"
   },
   {
     "dayOfYear": 41,
@@ -643,7 +763,10 @@
       2,
       15
     ],
-    "unWorldDay": "World Pulses Day"
+    "unWorldDay": "World Pulses Day",
+    "nameEn": "Pulses Feed the Soil",
+    "nameEs": "Legumbres que nutren",
+    "nameJa": "豆類が土を育てる"
   },
   {
     "dayOfYear": 42,
@@ -660,7 +783,10 @@
       9,
       13
     ],
-    "unWorldDay": "International Day of Women and Girls in Science"
+    "unWorldDay": "International Day of Women and Girls in Science",
+    "nameEn": "Women Lead Climate",
+    "nameEs": "Mujeres y clima",
+    "nameJa": "女性が気候を動かす"
   },
   {
     "dayOfYear": 43,
@@ -676,7 +802,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Korea Recycles Every Scrap",
+    "nameEs": "Corea no tira comida",
+    "nameJa": "韓国の生ごみ再生"
   },
   {
     "dayOfYear": 44,
@@ -691,7 +820,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Ants Help Farms",
+    "nameEs": "Hormigas útiles",
+    "nameJa": "アリと白アリの力"
   },
   {
     "dayOfYear": 45,
@@ -706,7 +838,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Unmapped Deep",
+    "nameEs": "Las profundidades ocultas",
+    "nameJa": "未知の深海"
   },
   {
     "dayOfYear": 46,
@@ -721,7 +856,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One Flight, One Year",
+    "nameEs": "Un vuelo, un año",
+    "nameJa": "1便で1年分"
   },
   {
     "dayOfYear": 47,
@@ -736,7 +874,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Skip the Plastic Wrap",
+    "nameEs": "Fruta sin plástico",
+    "nameJa": "むき出しの野菜"
   },
   {
     "dayOfYear": 48,
@@ -752,7 +893,10 @@
       7,
       9
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Green Hydrogen Only",
+    "nameEs": "Hidrógeno verde real",
+    "nameJa": "本物の水素"
   },
   {
     "dayOfYear": 49,
@@ -767,7 +911,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Earth's Largest Living Thing",
+    "nameEs": "El ser vivo más grande",
+    "nameJa": "地球最大の生物"
   },
   {
     "dayOfYear": 50,
@@ -783,7 +930,10 @@
       1,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reviving the Loess",
+    "nameEs": "El Loess renace",
+    "nameJa": "黄土高原の再生"
   },
   {
     "dayOfYear": 51,
@@ -800,7 +950,10 @@
       13,
       16
     ],
-    "unWorldDay": "World Day of Social Justice"
+    "unWorldDay": "World Day of Social Justice",
+    "nameEn": "The Top 10% Problem",
+    "nameEs": "El 10% que más emite",
+    "nameJa": "富裕層の排出"
   },
   {
     "dayOfYear": 52,
@@ -815,7 +968,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Why Black Plastic Fails",
+    "nameEs": "El plástico negro",
+    "nameJa": "黒プラは分別されない"
   },
   {
     "dayOfYear": 53,
@@ -832,7 +988,10 @@
       2,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Great Green Wall",
+    "nameEs": "La Gran Muralla Verde",
+    "nameJa": "グレートグリーンウォール"
   },
   {
     "dayOfYear": 54,
@@ -848,7 +1007,10 @@
       2,
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Vegetarian's Water Saving",
+    "nameEs": "Menos carne, más agua",
+    "nameJa": "菜食で水を節約"
   },
   {
     "dayOfYear": 55,
@@ -863,7 +1025,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One Oak, Many Lives",
+    "nameEs": "Un roble, mil vidas",
+    "nameJa": "一本のオークの恵み"
   },
   {
     "dayOfYear": 56,
@@ -879,7 +1044,10 @@
       1,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Sunlight for All",
+    "nameEs": "Sol para todos",
+    "nameJa": "太陽光で電化"
   },
   {
     "dayOfYear": 57,
@@ -895,7 +1063,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Compost at Home",
+    "nameEs": "Compost en casa",
+    "nameJa": "家庭堆肥の力"
   },
   {
     "dayOfYear": 58,
@@ -911,7 +1082,10 @@
       6,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Sunflowers Clean Soil",
+    "nameEs": "Girasoles limpiadores",
+    "nameJa": "ひまわりの浄化力"
   },
   {
     "dayOfYear": 59,
@@ -928,7 +1102,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Patagonia for the Planet",
+    "nameEs": "Patagonia por la Tierra",
+    "nameJa": "パタゴニアの決断"
   },
   {
     "dayOfYear": 60,
@@ -945,7 +1122,10 @@
       9,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Power of Data",
+    "nameEs": "El poder de los datos",
+    "nameJa": "データセンターの電力"
   },
   {
     "dayOfYear": 61,
@@ -960,7 +1140,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bring Your Own Box",
+    "nameEs": "Lleva tu envase",
+    "nameJa": "マイ容器を持参"
   },
   {
     "dayOfYear": 62,
@@ -976,7 +1159,10 @@
       14,
       15
     ],
-    "unWorldDay": "World Wildlife Day"
+    "unWorldDay": "World Wildlife Day",
+    "nameEn": "A Planet Full of Life",
+    "nameEs": "Un planeta vivo",
+    "nameJa": "870万種の地球"
   },
   {
     "dayOfYear": 63,
@@ -992,7 +1178,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Hemp's Hidden Power",
+    "nameEs": "El cáñamo absorbe",
+    "nameJa": "ヘンプの底力"
   },
   {
     "dayOfYear": 64,
@@ -1008,7 +1197,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Turn Down, Not Off",
+    "nameEs": "Baja, no apagues",
+    "nameJa": "照明より暖房"
   },
   {
     "dayOfYear": 65,
@@ -1023,7 +1215,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Invisible Oxygen Makers",
+    "nameEs": "Microbios oxigenan",
+    "nameJa": "海の酸素生産者"
   },
   {
     "dayOfYear": 66,
@@ -1038,7 +1233,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Clean the Coils",
+    "nameEs": "Limpia las bobinas",
+    "nameJa": "冷蔵庫の裏を掃除"
   },
   {
     "dayOfYear": 67,
@@ -1054,7 +1252,10 @@
       5,
       13
     ],
-    "unWorldDay": "International Women's Day"
+    "unWorldDay": "International Women's Day",
+    "nameEn": "Women Hold the Line",
+    "nameEs": "Mujeres resisten",
+    "nameJa": "気候と女性の格差"
   },
   {
     "dayOfYear": 68,
@@ -1070,7 +1271,10 @@
       11,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Parked Most of the Time",
+    "nameEs": "El auto que no se usa",
+    "nameJa": "車は95%停車中"
   },
   {
     "dayOfYear": 69,
@@ -1086,7 +1290,10 @@
       6,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Amazon Makes Rain",
+    "nameEs": "El Amazonas llueve",
+    "nameJa": "アマゾンが雨を作る"
   },
   {
     "dayOfYear": 70,
@@ -1102,7 +1309,10 @@
       3,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Leaded Fuel Is Gone",
+    "nameEs": "Adiós a la gasolina con plomo",
+    "nameJa": "有鉛ガソリン廃止"
   },
   {
     "dayOfYear": 71,
@@ -1119,7 +1329,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Local Isn't Everything",
+    "nameEs": "Lo local no es todo",
+    "nameJa": "地産地消の限界"
   },
   {
     "dayOfYear": 72,
@@ -1135,7 +1348,10 @@
       11,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Amsterdam Goes Circular",
+    "nameEs": "Ámsterdam circular",
+    "nameJa": "循環するアムステルダム"
   },
   {
     "dayOfYear": 73,
@@ -1150,7 +1366,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Buy Less, Buy Better",
+    "nameEs": "Menos, pero mejor",
+    "nameJa": "良い服を長く"
   },
   {
     "dayOfYear": 74,
@@ -1165,7 +1384,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Loudest Shrimp",
+    "nameEs": "El camarón ruidoso",
+    "nameJa": "テッポウエビの衝撃"
   },
   {
     "dayOfYear": 75,
@@ -1182,7 +1404,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Clean Energy Wins Dollars",
+    "nameEs": "Inversión verde gana",
+    "nameJa": "クリーン投資の勝利"
   },
   {
     "dayOfYear": 76,
@@ -1197,7 +1422,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Foil Is Recyclable",
+    "nameEs": "El aluminio se recicla",
+    "nameJa": "アルミホイルは再生可能"
   },
   {
     "dayOfYear": 77,
@@ -1212,7 +1440,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": "Global Recycling Day"
+    "unWorldDay": "Global Recycling Day",
+    "nameEn": "Endless Aluminium",
+    "nameEs": "Aluminio infinito",
+    "nameJa": "アルミ缶は永遠"
   },
   {
     "dayOfYear": 78,
@@ -1228,7 +1459,10 @@
       13,
       16
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Letter Still Matters",
+    "nameEs": "Tu voz cuenta",
+    "nameJa": "声を届けよう"
   },
   {
     "dayOfYear": 79,
@@ -1243,7 +1477,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Best-Before Isn't Expired",
+    "nameEs": "Mejor antes no es caducidad",
+    "nameJa": "賞味期限の誤解"
   },
   {
     "dayOfYear": 80,
@@ -1259,7 +1496,10 @@
       13,
       15
     ],
-    "unWorldDay": "International Day of Forests"
+    "unWorldDay": "International Day of Forests",
+    "nameEn": "Forests Breathe for Us",
+    "nameEs": "Bosques que respiran",
+    "nameJa": "森がCO2を吸う"
   },
   {
     "dayOfYear": 81,
@@ -1274,7 +1514,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": "World Water Day"
+    "unWorldDay": "World Water Day",
+    "nameEn": "Every Drop Counts",
+    "nameEs": "Cada gota cuenta",
+    "nameJa": "真水は1%未満"
   },
   {
     "dayOfYear": 82,
@@ -1289,7 +1532,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": "World Meteorological Day"
+    "unWorldDay": "World Meteorological Day",
+    "nameEn": "Better Weather Forecasts",
+    "nameEs": "Pronósticos precisos",
+    "nameJa": "天気予報は進化中"
   },
   {
     "dayOfYear": 83,
@@ -1306,7 +1552,10 @@
       6,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Swap One Burger",
+    "nameEs": "Cambia una hamburguesa",
+    "nameJa": "豆バーガーの効果"
   },
   {
     "dayOfYear": 84,
@@ -1322,7 +1571,10 @@
       6,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Better Showerhead",
+    "nameEs": "Ducha de bajo caudal",
+    "nameJa": "節水シャワーヘッド"
   },
   {
     "dayOfYear": 85,
@@ -1337,7 +1589,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reuse That Paper Bag",
+    "nameEs": "Reusa la bolsa de papel",
+    "nameJa": "紙袋は3回使う"
   },
   {
     "dayOfYear": 86,
@@ -1353,7 +1608,10 @@
       7,
       8
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "13 Million Green Jobs",
+    "nameEs": "Empleos renovables",
+    "nameJa": "再エネが雇用を生む"
   },
   {
     "dayOfYear": 87,
@@ -1368,7 +1626,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": "Earth Hour"
+    "unWorldDay": "Earth Hour",
+    "nameEn": "Earth Hour Grows",
+    "nameEs": "La Hora del Planeta",
+    "nameJa": "アースアワーの広がり"
   },
   {
     "dayOfYear": 88,
@@ -1384,7 +1645,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Kigali Win",
+    "nameEs": "El éxito de Kigali",
+    "nameJa": "キガリ改正の効果"
   },
   {
     "dayOfYear": 89,
@@ -1400,7 +1664,10 @@
       11,
       12
     ],
-    "unWorldDay": "International Day of Zero Waste"
+    "unWorldDay": "International Day of Zero Waste",
+    "nameEn": "Landfills Leak Methane",
+    "nameEs": "Metano del vertedero",
+    "nameJa": "埋立地のメタン"
   },
   {
     "dayOfYear": 90,
@@ -1415,7 +1682,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Five Millennia Old",
+    "nameEs": "Árboles milenarios",
+    "nameJa": "5000年の松"
   },
   {
     "dayOfYear": 91,
@@ -1431,7 +1701,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Nuclear's Small Footprint",
+    "nameEs": "La huella nuclear",
+    "nameJa": "原子力の低排出"
   },
   {
     "dayOfYear": 92,
@@ -1447,7 +1720,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Skip the Dryer",
+    "nameEs": "Tiende al aire",
+    "nameJa": "洗濯物は自然乾燥"
   },
   {
     "dayOfYear": 93,
@@ -1463,7 +1739,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Lighter Emails",
+    "nameEs": "Correos más ligeros",
+    "nameJa": "軽いメールで減CO2"
   },
   {
     "dayOfYear": 94,
@@ -1479,7 +1758,10 @@
       9,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Perfectly Cold Light",
+    "nameEs": "La luz fría perfecta",
+    "nameJa": "ホタルの完璧な光"
   },
   {
     "dayOfYear": 95,
@@ -1495,7 +1777,10 @@
       13,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Underwater Forests",
+    "nameEs": "Bosques submarinos",
+    "nameJa": "海の森、昆布"
   },
   {
     "dayOfYear": 96,
@@ -1510,7 +1795,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Farms Use the Water",
+    "nameEs": "El agua va al campo",
+    "nameJa": "水の大半は農業に"
   },
   {
     "dayOfYear": 97,
@@ -1527,7 +1815,10 @@
       7,
       13
     ],
-    "unWorldDay": "World Health Day"
+    "unWorldDay": "World Health Day",
+    "nameEn": "Clean Air Saves Lives",
+    "nameEs": "Aire limpio, vidas",
+    "nameJa": "大気汚染と命"
   },
   {
     "dayOfYear": 98,
@@ -1542,7 +1833,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Unkillable Tardigrade",
+    "nameEs": "El tardígrado invencible",
+    "nameJa": "最強生物クマムシ"
   },
   {
     "dayOfYear": 99,
@@ -1558,7 +1852,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One More Passenger",
+    "nameEs": "Comparte el viaje",
+    "nameJa": "相乗りで半減"
   },
   {
     "dayOfYear": 100,
@@ -1574,7 +1871,10 @@
       14,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Protecting the High Seas",
+    "nameEs": "Tratado de alta mar",
+    "nameJa": "公海保護条約"
   },
   {
     "dayOfYear": 101,
@@ -1590,7 +1890,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Stop Over-Rinsing",
+    "nameEs": "No enjuagues tanto",
+    "nameJa": "リサイクル前の洗いすぎ"
   },
   {
     "dayOfYear": 102,
@@ -1606,7 +1909,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Search Plants Trees",
+    "nameEs": "Busca y planta",
+    "nameJa": "検索で植林"
   },
   {
     "dayOfYear": 103,
@@ -1622,7 +1928,10 @@
       6,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Oysters Clean Water",
+    "nameEs": "Ostras que limpian",
+    "nameJa": "カキが海を濾す"
   },
   {
     "dayOfYear": 104,
@@ -1638,7 +1947,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Bag Ban Works",
+    "nameEs": "El adiós a la bolsa",
+    "nameJa": "レジ袋禁止の成果"
   },
   {
     "dayOfYear": 105,
@@ -1655,7 +1967,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Electric Cars Take Off",
+    "nameEs": "El auge eléctrico",
+    "nameJa": "EVが世界で急増"
   },
   {
     "dayOfYear": 106,
@@ -1671,7 +1986,10 @@
       8,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Growth Minus Pollution",
+    "nameEs": "Crecer sin contaminar",
+    "nameJa": "成長と排出の切り離し"
   },
   {
     "dayOfYear": 107,
@@ -1686,7 +2004,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fashion's Landfill Problem",
+    "nameEs": "La ropa al vertedero",
+    "nameJa": "衣類リサイクルの現実"
   },
   {
     "dayOfYear": 108,
@@ -1701,7 +2022,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "100 Uses Pays Off",
+    "nameEs": "100 usos compensan",
+    "nameJa": "マイボトルは100回で元"
   },
   {
     "dayOfYear": 109,
@@ -1716,7 +2040,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Coral, Life's Hub",
+    "nameEs": "Coral, hogar de vida",
+    "nameJa": "サンゴ礁が命を守る"
   },
   {
     "dayOfYear": 110,
@@ -1731,7 +2058,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Progress Beats Perfection",
+    "nameEs": "Progreso, no perfección",
+    "nameJa": "完璧より前進"
   },
   {
     "dayOfYear": 111,
@@ -1748,7 +2078,10 @@
       5,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Girls Change the Climate",
+    "nameEs": "Educar niñas cambia todo",
+    "nameJa": "少女教育が気候を変える"
   },
   {
     "dayOfYear": 112,
@@ -1764,7 +2097,10 @@
       14,
       15
     ],
-    "unWorldDay": "International Mother Earth Day"
+    "unWorldDay": "International Mother Earth Day",
+    "nameEn": "More Protected Land",
+    "nameEs": "Áreas protegidas crecen",
+    "nameJa": "保護区が拡大"
   },
   {
     "dayOfYear": 113,
@@ -1780,7 +2116,10 @@
       3,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Change the Filter",
+    "nameEs": "Cambia el filtro",
+    "nameJa": "エアコンフィルター交換"
   },
   {
     "dayOfYear": 114,
@@ -1796,7 +2135,10 @@
       12,
       13
     ],
-    "unWorldDay": "Fashion Revolution Day"
+    "unWorldDay": "Fashion Revolution Day",
+    "nameEn": "Secondhand Cuts Carbon",
+    "nameEs": "Segunda mano, menos CO2",
+    "nameJa": "古着でCO2削減"
   },
   {
     "dayOfYear": 115,
@@ -1812,7 +2154,10 @@
       9,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Stronger Than Steel",
+    "nameEs": "Más fuerte que el acero",
+    "nameJa": "鋼より強いクモ糸"
   },
   {
     "dayOfYear": 116,
@@ -1828,7 +2173,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Laptops Save Energy",
+    "nameEs": "Portátil mejor que PC",
+    "nameJa": "ノートPCで省エネ"
   },
   {
     "dayOfYear": 117,
@@ -1844,7 +2192,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Skip the Meeting Drive",
+    "nameEs": "La reunión virtual",
+    "nameJa": "会議はリモートで"
   },
   {
     "dayOfYear": 118,
@@ -1860,7 +2211,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Organic Isn't Always Green",
+    "nameEs": "Orgánico no siempre verde",
+    "nameJa": "オーガニックの落とし穴"
   },
   {
     "dayOfYear": 119,
@@ -1875,7 +2229,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fans Cool People",
+    "nameEs": "El ventilador te enfría",
+    "nameJa": "扇風機は人を冷やす"
   },
   {
     "dayOfYear": 120,
@@ -1891,7 +2248,10 @@
       8,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Europe Cut Emissions",
+    "nameEs": "Europa crece y reduce",
+    "nameJa": "EUは排出を削減"
   },
   {
     "dayOfYear": 121,
@@ -1907,7 +2267,10 @@
       14,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "8 Percent of Ocean Protected",
+    "nameEs": "8% del océano protegido",
+    "nameJa": "海の8%が保護区"
   },
   {
     "dayOfYear": 122,
@@ -1922,7 +2285,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": "World Tuna Day"
+    "unWorldDay": "World Tuna Day",
+    "nameEn": "Tuna's Ocean Marathon",
+    "nameEs": "Maratón del atún",
+    "nameJa": "マグロの大洋横断"
   },
   {
     "dayOfYear": 123,
@@ -1938,7 +2304,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Organic Cotton's Trade-Off",
+    "nameEs": "El dilema del algodón",
+    "nameJa": "有機綿の悩み"
   },
   {
     "dayOfYear": 124,
@@ -1954,7 +2323,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wash in Cold",
+    "nameEs": "Lava en frío",
+    "nameJa": "冷水で洗う"
   },
   {
     "dayOfYear": 125,
@@ -1970,7 +2342,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Keep Your Phone Longer",
+    "nameEs": "Conserva tu móvil",
+    "nameJa": "スマホを長く使う"
   },
   {
     "dayOfYear": 126,
@@ -1986,7 +2361,10 @@
       13,
       16
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Military's Footprint",
+    "nameEs": "La huella militar",
+    "nameJa": "軍隊のCO2"
   },
   {
     "dayOfYear": 127,
@@ -2002,7 +2380,10 @@
       13,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Otters Save Kelp",
+    "nameEs": "Nutrias y algas",
+    "nameJa": "ラッコが海藻を守る"
   },
   {
     "dayOfYear": 128,
@@ -2018,7 +2399,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fungi Eat Plastic",
+    "nameEs": "Hongos comen plástico",
+    "nameJa": "プラを食べる菌"
   },
   {
     "dayOfYear": 129,
@@ -2033,7 +2417,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Nine More Months",
+    "nameEs": "Nueve meses más",
+    "nameJa": "服を9ヶ月長く"
   },
   {
     "dayOfYear": 130,
@@ -2049,7 +2436,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "2,700 Litres Per Shirt",
+    "nameEs": "El costo de una camiseta",
+    "nameJa": "Tシャツの水代"
   },
   {
     "dayOfYear": 131,
@@ -2065,7 +2455,10 @@
       6,
       9
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Water Reborn",
+    "nameEs": "Agua reinventada",
+    "nameJa": "シンガポールの再生水"
   },
   {
     "dayOfYear": 132,
@@ -2081,7 +2474,10 @@
       2,
       15
     ],
-    "unWorldDay": "International Day of Plant Health"
+    "unWorldDay": "International Day of Plant Health",
+    "nameEn": "We Eat Too Few Crops",
+    "nameEs": "Poca variedad alimentaria",
+    "nameJa": "作物の多様性不足"
   },
   {
     "dayOfYear": 133,
@@ -2097,7 +2493,10 @@
       3,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Clean with Vinegar",
+    "nameEs": "Limpia con vinagre",
+    "nameJa": "酢で掃除"
   },
   {
     "dayOfYear": 134,
@@ -2113,7 +2512,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Take the Train",
+    "nameEs": "Viaja en tren",
+    "nameJa": "鉄道で6倍省CO2"
   },
   {
     "dayOfYear": 135,
@@ -2129,7 +2531,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Recycling Isn't Enough",
+    "nameEs": "Reciclar no basta",
+    "nameJa": "リサイクルだけでは不足"
   },
   {
     "dayOfYear": 136,
@@ -2145,7 +2550,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wind Scales Up",
+    "nameEs": "El viento crece",
+    "nameJa": "風力の成長"
   },
   {
     "dayOfYear": 137,
@@ -2161,7 +2569,10 @@
       2,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Humble Earthworm",
+    "nameEs": "La lombriz humilde",
+    "nameJa": "ミミズの偉業"
   },
   {
     "dayOfYear": 138,
@@ -2176,7 +2587,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Put the Lid On",
+    "nameEs": "Tapa la olla",
+    "nameJa": "鍋に蓋を"
   },
   {
     "dayOfYear": 139,
@@ -2191,7 +2605,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Dim the Screen",
+    "nameEs": "Baja el brillo",
+    "nameJa": "画面を暗めに"
   },
   {
     "dayOfYear": 140,
@@ -2207,7 +2624,10 @@
       2,
       15
     ],
-    "unWorldDay": "World Bee Day"
+    "unWorldDay": "World Bee Day",
+    "nameEn": "Bees Feed the World",
+    "nameEs": "Las abejas alimentan",
+    "nameJa": "蜂が食を支える"
   },
   {
     "dayOfYear": 141,
@@ -2222,7 +2642,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Pandas Rebound",
+    "nameEs": "Pandas regresan",
+    "nameJa": "パンダの復活"
   },
   {
     "dayOfYear": 142,
@@ -2238,7 +2661,10 @@
       14,
       15
     ],
-    "unWorldDay": "International Day for Biological Diversity"
+    "unWorldDay": "International Day for Biological Diversity",
+    "nameEn": "Nature's Trillion-Dollar Gift",
+    "nameEs": "La fortuna natural",
+    "nameJa": "自然の見えない価値"
   },
   {
     "dayOfYear": 143,
@@ -2254,7 +2680,10 @@
       3,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Plastic in Us",
+    "nameEs": "Plástico en nosotros",
+    "nameJa": "体内のマイクロプラ"
   },
   {
     "dayOfYear": 144,
@@ -2270,7 +2699,10 @@
       7,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Biofuel's Debt",
+    "nameEs": "La deuda del biocombustible",
+    "nameJa": "バイオ燃料の負債"
   },
   {
     "dayOfYear": 145,
@@ -2285,7 +2717,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cuttlefish See More",
+    "nameEs": "Ojos de jibia",
+    "nameJa": "イカの驚異の目"
   },
   {
     "dayOfYear": 146,
@@ -2302,7 +2737,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Tofu Beats Lamb",
+    "nameEs": "Tofu gana al cordero",
+    "nameJa": "豆腐で減CO2"
   },
   {
     "dayOfYear": 147,
@@ -2317,7 +2755,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reuse Beats Material",
+    "nameEs": "Reutilizar importa más",
+    "nameJa": "素材より再利用"
   },
   {
     "dayOfYear": 148,
@@ -2333,7 +2774,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Online Returns Cost More",
+    "nameEs": "El costo de devolver",
+    "nameJa": "返品のCO2"
   },
   {
     "dayOfYear": 149,
@@ -2349,7 +2793,10 @@
       15,
       16
     ],
-    "unWorldDay": "International Day of UN Peacekeepers"
+    "unWorldDay": "International Day of UN Peacekeepers",
+    "nameEn": "War Wrecks Nature",
+    "nameEs": "Guerra y naturaleza",
+    "nameJa": "紛争と環境破壊"
   },
   {
     "dayOfYear": 150,
@@ -2365,7 +2812,10 @@
       7,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cities Go Green",
+    "nameEs": "Ciudades verdes",
+    "nameJa": "再エネで走る都市"
   },
   {
     "dayOfYear": 151,
@@ -2381,7 +2831,10 @@
       3,
       15
     ],
-    "unWorldDay": "World No-Tobacco Day"
+    "unWorldDay": "World No-Tobacco Day",
+    "nameEn": "Tobacco's Hidden Toll",
+    "nameEs": "El precio del tabaco",
+    "nameJa": "タバコ農業の負担"
   },
   {
     "dayOfYear": 152,
@@ -2396,7 +2849,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Memory of Hummingbirds",
+    "nameEs": "Colibríes con memoria",
+    "nameJa": "ハチドリの記憶力"
   },
   {
     "dayOfYear": 153,
@@ -2411,7 +2867,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Use That Tote 131 Times",
+    "nameEs": "La tote 131 veces",
+    "nameJa": "エコバッグは131回"
   },
   {
     "dayOfYear": 154,
@@ -2428,7 +2887,10 @@
       11,
       13
     ],
-    "unWorldDay": "World Bicycle Day"
+    "unWorldDay": "World Bicycle Day",
+    "nameEn": "Cycle One Trip",
+    "nameEs": "Pedalea más",
+    "nameJa": "自転車でCO2減"
   },
   {
     "dayOfYear": 155,
@@ -2443,7 +2905,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The First Farmers",
+    "nameEs": "Las primeras agricultoras",
+    "nameJa": "アリの農業5千万年"
   },
   {
     "dayOfYear": 156,
@@ -2459,7 +2924,10 @@
       12,
       14
     ],
-    "unWorldDay": "World Environment Day"
+    "unWorldDay": "World Environment Day",
+    "nameEn": "Plastic Tide",
+    "nameEs": "La marea de plástico",
+    "nameJa": "海に流れるプラ"
   },
   {
     "dayOfYear": 157,
@@ -2474,7 +2942,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Check the Recycling Number",
+    "nameEs": "Mira el número",
+    "nameJa": "プラ種類を見る"
   },
   {
     "dayOfYear": 158,
@@ -2490,7 +2961,10 @@
       2,
       12
     ],
-    "unWorldDay": "World Food Safety Day"
+    "unWorldDay": "World Food Safety Day",
+    "nameEn": "Waste on a Global Scale",
+    "nameEs": "El tercer país en residuos",
+    "nameJa": "食品ロスは世界3位"
   },
   {
     "dayOfYear": 159,
@@ -2506,7 +2980,10 @@
       13,
       14
     ],
-    "unWorldDay": "World Oceans Day"
+    "unWorldDay": "World Oceans Day",
+    "nameEn": "Half Our Oxygen",
+    "nameEs": "La mitad del oxígeno",
+    "nameJa": "酸素の半分は海から"
   },
   {
     "dayOfYear": 160,
@@ -2523,7 +3000,10 @@
       8,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Shop Local Farmers",
+    "nameEs": "Apoya al campo local",
+    "nameJa": "地元農家を応援"
   },
   {
     "dayOfYear": 161,
@@ -2539,7 +3019,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Palm Oil's Nuance",
+    "nameEs": "Palma sostenible",
+    "nameJa": "パーム油の選び方"
   },
   {
     "dayOfYear": 162,
@@ -2555,7 +3038,10 @@
       2,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Cow Problem",
+    "nameEs": "Ganado y clima",
+    "nameJa": "畜産と気候"
   },
   {
     "dayOfYear": 163,
@@ -2571,7 +3057,10 @@
       8,
       12
     ],
-    "unWorldDay": "World Day Against Child Labour"
+    "unWorldDay": "World Day Against Child Labour",
+    "nameEn": "End Child Labour",
+    "nameEs": "Fin al trabajo infantil",
+    "nameJa": "児童労働の実態"
   },
   {
     "dayOfYear": 164,
@@ -2586,7 +3075,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reef Cleaning Stations",
+    "nameEs": "Limpieza en el arrecife",
+    "nameJa": "魚のクリーニング所"
   },
   {
     "dayOfYear": 165,
@@ -2602,7 +3094,10 @@
       1,
       2
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Hunger Retreats",
+    "nameEs": "El hambre retrocede",
+    "nameJa": "飢餓の減少"
   },
   {
     "dayOfYear": 166,
@@ -2619,7 +3114,10 @@
       10,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Every Adaptation Dollar Pays",
+    "nameEs": "Adaptar compensa",
+    "nameJa": "適応投資の回収"
   },
   {
     "dayOfYear": 167,
@@ -2635,7 +3133,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Start Talking",
+    "nameEs": "Habla del clima",
+    "nameJa": "気候の話を家族と"
   },
   {
     "dayOfYear": 168,
@@ -2651,7 +3152,10 @@
       2,
       15
     ],
-    "unWorldDay": "World Day to Combat Desertification and Drought"
+    "unWorldDay": "World Day to Combat Desertification and Drought",
+    "nameEn": "Land We Lose",
+    "nameEs": "Tierra que perdemos",
+    "nameJa": "砂漠化の進行"
   },
   {
     "dayOfYear": 169,
@@ -2667,7 +3171,10 @@
       2,
       12
     ],
-    "unWorldDay": "Sustainable Gastronomy Day"
+    "unWorldDay": "Sustainable Gastronomy Day",
+    "nameEn": "Season Over Distance",
+    "nameEs": "La estación cuenta más",
+    "nameJa": "距離より旬"
   },
   {
     "dayOfYear": 170,
@@ -2683,7 +3190,10 @@
       14,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Islands Without Rats",
+    "nameEs": "Islas sin ratas",
+    "nameJa": "ネズミのない島"
   },
   {
     "dayOfYear": 171,
@@ -2698,7 +3208,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Defrost Your Freezer",
+    "nameEs": "Descongela el congelador",
+    "nameJa": "冷凍庫の霜取り"
   },
   {
     "dayOfYear": 172,
@@ -2714,7 +3227,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Oat Milk Wins",
+    "nameEs": "Gana la avena",
+    "nameJa": "オーツミルクが勝ち"
   },
   {
     "dayOfYear": 173,
@@ -2730,7 +3246,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Costa Rica's 300 Days",
+    "nameEs": "Costa Rica renovable",
+    "nameJa": "コスタリカの300日"
   },
   {
     "dayOfYear": 174,
@@ -2746,7 +3265,10 @@
       7,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Insulation Pays Back",
+    "nameEs": "El aislamiento paga",
+    "nameJa": "断熱で3分の1"
   },
   {
     "dayOfYear": 175,
@@ -2762,7 +3284,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bitcoin's Big Appetite",
+    "nameEs": "El hambre de Bitcoin",
+    "nameJa": "ビットコインの電力"
   },
   {
     "dayOfYear": 176,
@@ -2777,7 +3302,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Pressure-Cook It",
+    "nameEs": "Olla a presión ahorra",
+    "nameJa": "圧力鍋で時短省エネ"
   },
   {
     "dayOfYear": 177,
@@ -2794,7 +3322,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Policy Powers Renewables",
+    "nameEs": "Política energética",
+    "nameJa": "政策が再エネ加速"
   },
   {
     "dayOfYear": 178,
@@ -2810,7 +3341,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "EVs Still Win",
+    "nameEs": "Los VE ganan igual",
+    "nameJa": "EVは総合で勝つ"
   },
   {
     "dayOfYear": 179,
@@ -2826,7 +3360,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Walk, Don't Just Drive",
+    "nameEs": "Camina, no solo conduzcas",
+    "nameJa": "EVより徒歩"
   },
   {
     "dayOfYear": 180,
@@ -2842,7 +3379,10 @@
       13,
       15
     ],
-    "unWorldDay": "International Day of the Tropics"
+    "unWorldDay": "International Day of the Tropics",
+    "nameEn": "Half of Life Here",
+    "nameEs": "Bosques de la vida",
+    "nameJa": "熱帯林に半分の生命"
   },
   {
     "dayOfYear": 181,
@@ -2858,7 +3398,10 @@
       12,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Ask the Brand",
+    "nameEs": "Pregunta a la marca",
+    "nameJa": "企業に質問する"
   },
   {
     "dayOfYear": 182,
@@ -2874,7 +3417,10 @@
       12,
       14
     ],
-    "unWorldDay": "Plastic Free July"
+    "unWorldDay": "Plastic Free July",
+    "nameEn": "450 Years per Bottle",
+    "nameEs": "450 años por botella",
+    "nameJa": "ペットボトル450年"
   },
   {
     "dayOfYear": 183,
@@ -2889,7 +3435,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "11 Kilos per Year",
+    "nameEs": "Once kilos al año",
+    "nameJa": "年11キロの服ごみ"
   },
   {
     "dayOfYear": 184,
@@ -2905,7 +3454,10 @@
       12,
       14
     ],
-    "unWorldDay": "International Plastic Bag Free Day"
+    "unWorldDay": "International Plastic Bag Free Day",
+    "nameEn": "Reuse 37 Times",
+    "nameEs": "37 veces para ganar",
+    "nameJa": "ポリ袋は37回で元"
   },
   {
     "dayOfYear": 185,
@@ -2920,7 +3472,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Coral's Synchronous Birth",
+    "nameEs": "Desove del coral",
+    "nameJa": "サンゴ一斉産卵"
   },
   {
     "dayOfYear": 186,
@@ -2937,7 +3492,10 @@
       6,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Return Old Medicine",
+    "nameEs": "Devuelve la medicina",
+    "nameJa": "薬局に返却"
   },
   {
     "dayOfYear": 187,
@@ -2953,7 +3511,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Use-It-Up Shelf",
+    "nameEs": "La repisa del aprovechar",
+    "nameJa": "使い切りシェルフ"
   },
   {
     "dayOfYear": 188,
@@ -2969,7 +3530,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "LEDs Save Gigatons",
+    "nameEs": "LED, gigatones menos",
+    "nameJa": "LEDの巨大な効果"
   },
   {
     "dayOfYear": 189,
@@ -2985,7 +3549,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Batch Your Meals",
+    "nameEs": "Cocina en lote",
+    "nameJa": "まとめ調理で節電"
   },
   {
     "dayOfYear": 190,
@@ -3000,7 +3567,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Microwave the Leftovers",
+    "nameEs": "El microondas gana",
+    "nameJa": "電子レンジで省エネ"
   },
   {
     "dayOfYear": 191,
@@ -3015,7 +3585,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Plant That Counts",
+    "nameEs": "Planta que cuenta",
+    "nameJa": "数える食虫植物"
   },
   {
     "dayOfYear": 192,
@@ -3031,7 +3604,10 @@
       12,
       13
     ],
-    "unWorldDay": "World Population Day"
+    "unWorldDay": "World Population Day",
+    "nameEn": "We Need One Earth",
+    "nameEs": "Una sola Tierra",
+    "nameJa": "5個の地球が必要？"
   },
   {
     "dayOfYear": 193,
@@ -3046,7 +3622,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fix the Leaks First",
+    "nameEs": "Arregla las fugas",
+    "nameJa": "水漏れを直そう"
   },
   {
     "dayOfYear": 194,
@@ -3062,7 +3641,10 @@
       9,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Termite Architects",
+    "nameEs": "Termitas arquitectas",
+    "nameJa": "シロアリ建築の知恵"
   },
   {
     "dayOfYear": 195,
@@ -3078,7 +3660,10 @@
       2,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Urban Farms Nuanced",
+    "nameEs": "Huertos urbanos",
+    "nameJa": "都市農業の真実"
   },
   {
     "dayOfYear": 196,
@@ -3094,7 +3679,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Drop One Degree",
+    "nameEs": "Baja un grado",
+    "nameJa": "1度下げてみる"
   },
   {
     "dayOfYear": 197,
@@ -3110,7 +3698,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Feed Plants Pasta Water",
+    "nameEs": "Agua de pasta al huerto",
+    "nameJa": "ゆで汁で水やり"
   },
   {
     "dayOfYear": 198,
@@ -3127,7 +3718,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Food Footprint",
+    "nameEs": "El peso del alimento",
+    "nameJa": "食のCO2割合"
   },
   {
     "dayOfYear": 199,
@@ -3142,7 +3736,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Water for Billions",
+    "nameEs": "Agua para más",
+    "nameJa": "清潔な水の拡大"
   },
   {
     "dayOfYear": 200,
@@ -3157,7 +3754,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Elephants Shape Land",
+    "nameEs": "El elefante arquitecto",
+    "nameJa": "象は環境の設計者"
   },
   {
     "dayOfYear": 201,
@@ -3173,7 +3773,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Iceland Runs on Heat",
+    "nameEs": "Islandia geotérmica",
+    "nameJa": "アイスランドの地熱"
   },
   {
     "dayOfYear": 202,
@@ -3189,7 +3792,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Avocado Beats Cheese",
+    "nameEs": "Aguacate vs queso",
+    "nameJa": "アボカドが勝つ"
   },
   {
     "dayOfYear": 203,
@@ -3204,7 +3810,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Shop in Bulk",
+    "nameEs": "Compra a granel",
+    "nameJa": "量り売りのすすめ"
   },
   {
     "dayOfYear": 204,
@@ -3219,7 +3828,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bamboo Fabric Isn't Pure",
+    "nameEs": "La tela de bambú",
+    "nameJa": "竹繊維の真実"
   },
   {
     "dayOfYear": 205,
@@ -3235,7 +3847,10 @@
       2,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fish the Small Ones",
+    "nameEs": "Peces pequeños",
+    "nameJa": "小魚で資源を守る"
   },
   {
     "dayOfYear": 206,
@@ -3251,7 +3866,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Kenya Bans Bags",
+    "nameEs": "Kenia sin bolsas",
+    "nameJa": "ケニアのレジ袋禁止"
   },
   {
     "dayOfYear": 207,
@@ -3268,7 +3886,10 @@
       14,
       15
     ],
-    "unWorldDay": "International Day for the Conservation of the Mangrove Ecosystem"
+    "unWorldDay": "International Day for the Conservation of the Mangrove Ecosystem",
+    "nameEn": "Mangroves Defend Coasts",
+    "nameEs": "Manglares protectores",
+    "nameJa": "マングローブの守り"
   },
   {
     "dayOfYear": 208,
@@ -3283,7 +3904,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Monarch's Multi-Gen Journey",
+    "nameEs": "Monarca en generaciones",
+    "nameJa": "4世代のモナーク蝶"
   },
   {
     "dayOfYear": 209,
@@ -3299,7 +3923,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Check Your Tyres",
+    "nameEs": "Revisa los neumáticos",
+    "nameJa": "空気圧を確認"
   },
   {
     "dayOfYear": 210,
@@ -3316,7 +3943,10 @@
       10,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Solar Without a Roof",
+    "nameEs": "Solar sin techo",
+    "nameJa": "共有ソーラーガーデン"
   },
   {
     "dayOfYear": 211,
@@ -3331,7 +3961,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Compost Even Meat",
+    "nameEs": "Composta de todo",
+    "nameJa": "生ごみは大規模で"
   },
   {
     "dayOfYear": 212,
@@ -3347,7 +3980,10 @@
       6,
       10
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Sanitation Pays",
+    "nameEs": "Saneamiento rentable",
+    "nameJa": "衛生投資の価値"
   },
   {
     "dayOfYear": 213,
@@ -3363,7 +3999,10 @@
       2,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Eat Soy Directly",
+    "nameEs": "Come la soja directa",
+    "nameJa": "大豆を直接食べる"
   },
   {
     "dayOfYear": 214,
@@ -3379,7 +4018,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Jeans Use 7,500 Litres",
+    "nameEs": "Vaqueros, 7500 L",
+    "nameJa": "ジーンズ1本7500L"
   },
   {
     "dayOfYear": 215,
@@ -3395,7 +4037,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Shade-Grown Coffee",
+    "nameEs": "Café a la sombra",
+    "nameJa": "日陰栽培コーヒー"
   },
   {
     "dayOfYear": 216,
@@ -3411,7 +4056,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Germany's Sun Record",
+    "nameEs": "El sol alemán",
+    "nameJa": "ドイツの太陽光記録"
   },
   {
     "dayOfYear": 217,
@@ -3427,7 +4075,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Renewables Pass Coal",
+    "nameEs": "Renovables ganan",
+    "nameJa": "再エネが石炭超え"
   },
   {
     "dayOfYear": 218,
@@ -3443,7 +4094,10 @@
       9,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Living Battery",
+    "nameEs": "La anguila eléctrica",
+    "nameJa": "発電するウナギ"
   },
   {
     "dayOfYear": 219,
@@ -3459,7 +4113,10 @@
       6,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Beavers Build Wetlands",
+    "nameEs": "Castor ingeniero",
+    "nameJa": "ビーバーの湿地作り"
   },
   {
     "dayOfYear": 220,
@@ -3475,7 +4132,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Switch Your Tariff",
+    "nameEs": "Tarifa verde",
+    "nameJa": "グリーン料金プラン"
   },
   {
     "dayOfYear": 221,
@@ -3491,7 +4151,10 @@
       10,
       15
     ],
-    "unWorldDay": "International Day of the World's Indigenous Peoples"
+    "unWorldDay": "International Day of the World's Indigenous Peoples",
+    "nameEn": "Indigenous Guardians",
+    "nameEs": "Guardianes indígenas",
+    "nameJa": "先住民が自然を守る"
   },
   {
     "dayOfYear": 222,
@@ -3508,7 +4171,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Trees Cool Cities",
+    "nameEs": "Árboles enfrían",
+    "nameJa": "一本の木がAC10台"
   },
   {
     "dayOfYear": 223,
@@ -3524,7 +4190,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "EVs Cleaner Overall",
+    "nameEs": "El VE, a fondo",
+    "nameJa": "EVは一生きれい"
   },
   {
     "dayOfYear": 224,
@@ -3540,7 +4209,10 @@
       4,
       13
     ],
-    "unWorldDay": "International Youth Day"
+    "unWorldDay": "International Youth Day",
+    "nameEn": "Youth on Strike",
+    "nameEs": "Juventud en huelga",
+    "nameJa": "若者が気候行動"
   },
   {
     "dayOfYear": 225,
@@ -3556,7 +4228,10 @@
       3,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Blue-Blooded Crab",
+    "nameEs": "Sangre azul",
+    "nameJa": "青い血のカブトガニ"
   },
   {
     "dayOfYear": 226,
@@ -3573,7 +4248,10 @@
       12,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Rwanda's Clean Streak",
+    "nameEs": "Ruanda limpia",
+    "nameJa": "ルワンダの清掃日"
   },
   {
     "dayOfYear": 227,
@@ -3588,7 +4266,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "No Bag in the Bin",
+    "nameEs": "Sin bolsa al reciclar",
+    "nameJa": "リサイクルに袋NG"
   },
   {
     "dayOfYear": 228,
@@ -3604,7 +4285,10 @@
       8,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Share the Drill",
+    "nameEs": "Compartir herramientas",
+    "nameJa": "工具をシェア"
   },
   {
     "dayOfYear": 229,
@@ -3619,7 +4303,10 @@
     "relatedSdgs": [
       4
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Rising Literacy",
+    "nameEs": "Leer para actuar",
+    "nameJa": "識字率の上昇"
   },
   {
     "dayOfYear": 230,
@@ -3636,7 +4323,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "800,000 Electric Buses",
+    "nameEs": "Buses eléctricos",
+    "nameJa": "電気バス80万台"
   },
   {
     "dayOfYear": 231,
@@ -3652,7 +4342,10 @@
       1,
       13
     ],
-    "unWorldDay": "World Humanitarian Day"
+    "unWorldDay": "World Humanitarian Day",
+    "nameEn": "Climate Migrants Rise",
+    "nameEs": "Migrantes climáticos",
+    "nameJa": "気候移民の現実"
   },
   {
     "dayOfYear": 232,
@@ -3668,7 +4361,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One Bus, Forty Cars",
+    "nameEs": "Un bus, 40 autos",
+    "nameJa": "バス1台で車40台"
   },
   {
     "dayOfYear": 233,
@@ -3684,7 +4380,10 @@
       8,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Phone's Long Journey",
+    "nameEs": "El viaje del móvil",
+    "nameJa": "スマホの鉱物旅"
   },
   {
     "dayOfYear": 234,
@@ -3700,7 +4399,10 @@
       13,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Green Your Pension",
+    "nameEs": "Pensiones verdes",
+    "nameJa": "年金を緑に"
   },
   {
     "dayOfYear": 235,
@@ -3715,7 +4417,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wrap the Water Heater",
+    "nameEs": "Abriga el calentador",
+    "nameJa": "給湯器を保温"
   },
   {
     "dayOfYear": 236,
@@ -3730,7 +4435,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Offsets Aren't Enough",
+    "nameEs": "Compensar no basta",
+    "nameJa": "オフセットの限界"
   },
   {
     "dayOfYear": 237,
@@ -3745,7 +4453,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "China Plants Billions",
+    "nameEs": "China planta",
+    "nameJa": "中国の植林計画"
   },
   {
     "dayOfYear": 238,
@@ -3760,7 +4471,10 @@
     "relatedSdgs": [
       6
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fix That Drip",
+    "nameEs": "Arregla la gota",
+    "nameJa": "水道の漏れ修理"
   },
   {
     "dayOfYear": 239,
@@ -3775,7 +4489,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Perfect Mimic",
+    "nameEs": "El ave imitadora",
+    "nameJa": "コトドリの声真似"
   },
   {
     "dayOfYear": 240,
@@ -3792,7 +4509,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Hemp Over Cotton",
+    "nameEs": "Cáñamo gana al algodón",
+    "nameJa": "麻が綿より強い"
   },
   {
     "dayOfYear": 241,
@@ -3808,7 +4528,10 @@
       13,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Whales Store Carbon",
+    "nameEs": "Ballenas capturan CO2",
+    "nameJa": "クジラが炭素吸収"
   },
   {
     "dayOfYear": 242,
@@ -3824,7 +4547,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Food Waste Fuels",
+    "nameEs": "Restos a biogás",
+    "nameJa": "生ごみがエネルギーに"
   },
   {
     "dayOfYear": 243,
@@ -3839,7 +4565,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Three-Hearted Genius",
+    "nameEs": "Genio de tres corazones",
+    "nameJa": "3つの心臓のタコ"
   },
   {
     "dayOfYear": 244,
@@ -3855,7 +4584,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The SUV Problem",
+    "nameEs": "El problema SUV",
+    "nameJa": "SUVの重い負担"
   },
   {
     "dayOfYear": 245,
@@ -3870,7 +4602,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Plastic's Hidden Depths",
+    "nameEs": "Plástico profundo",
+    "nameJa": "深海のプラごみ"
   },
   {
     "dayOfYear": 246,
@@ -3886,7 +4621,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Watch Without Guilt",
+    "nameEs": "Ver sin culpa",
+    "nameJa": "動画視聴は低CO2"
   },
   {
     "dayOfYear": 247,
@@ -3901,7 +4639,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Give Things Second Life",
+    "nameEs": "Segunda vida",
+    "nameJa": "不要品を循環に"
   },
   {
     "dayOfYear": 248,
@@ -3916,7 +4657,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One Flight Resets All",
+    "nameEs": "Un vuelo borra todo",
+    "nameJa": "飛行機1回でリセット"
   },
   {
     "dayOfYear": 249,
@@ -3932,7 +4676,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Eat the Season",
+    "nameEs": "Come de temporada",
+    "nameJa": "旬を食べる"
   },
   {
     "dayOfYear": 250,
@@ -3949,7 +4696,10 @@
       7,
       13
     ],
-    "unWorldDay": "International Day of Clean Air for Blue Skies"
+    "unWorldDay": "International Day of Clean Air for Blue Skies",
+    "nameEn": "Fuel's Hidden Deaths",
+    "nameEs": "Muertes por combustibles",
+    "nameJa": "化石燃料と命"
   },
   {
     "dayOfYear": 251,
@@ -3965,7 +4715,10 @@
       15,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Tigers Rise Again",
+    "nameEs": "Tigres en ascenso",
+    "nameJa": "虎の復活"
   },
   {
     "dayOfYear": 252,
@@ -3980,7 +4733,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Costa Rica's Forest Comeback",
+    "nameEs": "Bosques renacen",
+    "nameJa": "コスタリカの森回復"
   },
   {
     "dayOfYear": 253,
@@ -3996,7 +4752,10 @@
       9,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Storing CO2 in Concrete",
+    "nameEs": "Hormigón captura CO2",
+    "nameJa": "コンクリに炭素"
   },
   {
     "dayOfYear": 254,
@@ -4012,7 +4771,10 @@
       6,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Dishwasher Beats Hand-Wash",
+    "nameEs": "Lavaplatos ahorra",
+    "nameJa": "食洗機の省水"
   },
   {
     "dayOfYear": 255,
@@ -4028,7 +4790,10 @@
       6,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fill the Machine",
+    "nameEs": "Lava lleno",
+    "nameJa": "洗濯機は満杯で"
   },
   {
     "dayOfYear": 256,
@@ -4043,7 +4808,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Hidden Bill",
+    "nameEs": "La factura oculta",
+    "nameJa": "待機電力の隠れ費用"
   },
   {
     "dayOfYear": 257,
@@ -4058,7 +4826,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Starling Skies",
+    "nameEs": "Ballet de estorninos",
+    "nameJa": "ムクドリの群舞"
   },
   {
     "dayOfYear": 258,
@@ -4074,7 +4845,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The 5p Bag Miracle",
+    "nameEs": "El milagro de 5p",
+    "nameJa": "袋有料化の奇跡"
   },
   {
     "dayOfYear": 259,
@@ -4090,7 +4864,10 @@
       3,
       13
     ],
-    "unWorldDay": "International Day for the Preservation of the Ozone Layer"
+    "unWorldDay": "International Day for the Preservation of the Ozone Layer",
+    "nameEn": "The Ozone Success Story",
+    "nameEs": "Éxito de Montreal",
+    "nameJa": "モントリオール議定書"
   },
   {
     "dayOfYear": 260,
@@ -4105,7 +4882,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Mine Your Old Phones",
+    "nameEs": "Mina tu móvil",
+    "nameJa": "古いスマホから金属"
   },
   {
     "dayOfYear": 261,
@@ -4121,7 +4901,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cheese's Big Footprint",
+    "nameEs": "El queso pesa",
+    "nameJa": "チーズの意外なCO2"
   },
   {
     "dayOfYear": 262,
@@ -4136,7 +4919,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Pricey Isn't Greener",
+    "nameEs": "Caro no es verde",
+    "nameJa": "高い＝エコではない"
   },
   {
     "dayOfYear": 263,
@@ -4152,7 +4938,10 @@
       3,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Self-Healing Axolotl",
+    "nameEs": "El axolote regenera",
+    "nameJa": "再生する生き物"
   },
   {
     "dayOfYear": 264,
@@ -4168,7 +4957,10 @@
       12,
       13
     ],
-    "unWorldDay": "Zero Emissions Day / International Day of Peace"
+    "unWorldDay": "Zero Emissions Day / International Day of Peace",
+    "nameEn": "The Big Four Actions",
+    "nameEs": "Las cuatro claves",
+    "nameJa": "最重要4行動"
   },
   {
     "dayOfYear": 265,
@@ -4184,7 +4976,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Heat Pumps Win",
+    "nameEs": "Bombas de calor ganan",
+    "nameJa": "ヒートポンプの勝ち"
   },
   {
     "dayOfYear": 266,
@@ -4199,7 +4994,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Non-Stop Flight",
+    "nameEs": "Vuelo sin parar",
+    "nameJa": "無着陸世界記録"
   },
   {
     "dayOfYear": 267,
@@ -4215,7 +5013,10 @@
       3,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bikes Beat Cars",
+    "nameEs": "Bicis ganan",
+    "nameJa": "自転車が車を抜く"
   },
   {
     "dayOfYear": 268,
@@ -4231,7 +5032,10 @@
       7,
       9
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cheap Batteries",
+    "nameEs": "Baterías más baratas",
+    "nameJa": "蓄電池97%安く"
   },
   {
     "dayOfYear": 269,
@@ -4247,7 +5051,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Keep Old Growth",
+    "nameEs": "Bosques ancestrales",
+    "nameJa": "原生林を守れ"
   },
   {
     "dayOfYear": 270,
@@ -4263,7 +5070,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Landfills Don't Compost",
+    "nameEs": "El vertedero no composta",
+    "nameJa": "埋立では分解されない"
   },
   {
     "dayOfYear": 271,
@@ -4279,7 +5089,10 @@
       4,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Kids Lead Adults",
+    "nameEs": "Los niños guían",
+    "nameJa": "子どもが家族を変える"
   },
   {
     "dayOfYear": 272,
@@ -4296,7 +5109,10 @@
       12,
       13
     ],
-    "unWorldDay": "International Day of Awareness of Food Loss and Waste"
+    "unWorldDay": "International Day of Awareness of Food Loss and Waste",
+    "nameEn": "Food Waste, Third Nation",
+    "nameEs": "Residuos, tercer país",
+    "nameJa": "食ロスは第3の国"
   },
   {
     "dayOfYear": 273,
@@ -4312,7 +5128,10 @@
       4,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Borrow, Don't Buy",
+    "nameEs": "Pide prestado",
+    "nameJa": "図書館を使う"
   },
   {
     "dayOfYear": 274,
@@ -4328,7 +5147,10 @@
       3,
       11
     ],
-    "unWorldDay": "World Habitat Day"
+    "unWorldDay": "World Habitat Day",
+    "nameEn": "Clean Air Act Works",
+    "nameEs": "Ley del aire funciona",
+    "nameJa": "大気浄化法の効果"
   },
   {
     "dayOfYear": 275,
@@ -4345,7 +5167,10 @@
       6,
       9
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Desert Vertical Farm",
+    "nameEs": "Granja vertical",
+    "nameJa": "砂漠の垂直農場"
   },
   {
     "dayOfYear": 276,
@@ -4361,7 +5186,10 @@
       13,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Seagrass Superpower",
+    "nameEs": "El pasto marino",
+    "nameJa": "海草の驚異"
   },
   {
     "dayOfYear": 277,
@@ -4377,7 +5205,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Sometimes Replace It",
+    "nameEs": "A veces cambia",
+    "nameJa": "古い家電の買替"
   },
   {
     "dayOfYear": 278,
@@ -4394,7 +5225,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "One Walk a Week",
+    "nameEs": "Un paseo semanal",
+    "nameJa": "週1回徒歩"
   },
   {
     "dayOfYear": 279,
@@ -4410,7 +5244,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Microfibres Pollute",
+    "nameEs": "Microfibras al mar",
+    "nameJa": "マイクロファイバー汚染"
   },
   {
     "dayOfYear": 280,
@@ -4427,7 +5264,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Retrofit the Buildings",
+    "nameEs": "Reforma edificios",
+    "nameJa": "建物改修で減CO2"
   },
   {
     "dayOfYear": 281,
@@ -4443,7 +5283,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Love Ugly Veg",
+    "nameEs": "Verduras imperfectas",
+    "nameJa": "変形野菜も美味"
   },
   {
     "dayOfYear": 282,
@@ -4459,7 +5302,10 @@
       6,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fashion's Thirsty",
+    "nameEs": "La moda usa mucha agua",
+    "nameJa": "ファッションと水"
   },
   {
     "dayOfYear": 283,
@@ -4476,7 +5322,10 @@
       9,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Solar Everywhere",
+    "nameEs": "Solar en todo",
+    "nameJa": "窓も太陽光に"
   },
   {
     "dayOfYear": 284,
@@ -4492,7 +5341,10 @@
       9,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Repair, Don't Replace",
+    "nameEs": "Repara, no reemplaces",
+    "nameJa": "修理で400kgCO2節約"
   },
   {
     "dayOfYear": 285,
@@ -4507,7 +5359,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Lichens Start Life",
+    "nameEs": "Líquenes pioneros",
+    "nameJa": "地衣類のパイオニア"
   },
   {
     "dayOfYear": 286,
@@ -4523,7 +5378,10 @@
       9,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Grow Your Packaging",
+    "nameEs": "Micelio en uso",
+    "nameJa": "菌糸体で素材作り"
   },
   {
     "dayOfYear": 287,
@@ -4538,7 +5396,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": "International E-Waste Day"
+    "unWorldDay": "International E-Waste Day",
+    "nameEn": "Electronics Mountain",
+    "nameEs": "Montaña electrónica",
+    "nameJa": "電子ごみの山"
   },
   {
     "dayOfYear": 288,
@@ -4554,7 +5415,10 @@
       2,
       5
     ],
-    "unWorldDay": "International Day of Rural Women"
+    "unWorldDay": "International Day of Rural Women",
+    "nameEn": "Closing the Farm Gap",
+    "nameEs": "Brecha agrícola",
+    "nameJa": "女性農家の格差"
   },
   {
     "dayOfYear": 289,
@@ -4571,7 +5435,10 @@
       2,
       10
     ],
-    "unWorldDay": "World Food Day"
+    "unWorldDay": "World Food Day",
+    "nameEn": "We Grow Enough",
+    "nameEs": "Alimento hay suficiente",
+    "nameJa": "食は十分にある"
   },
   {
     "dayOfYear": 290,
@@ -4588,7 +5455,10 @@
       10,
       13
     ],
-    "unWorldDay": "International Day for the Eradication of Poverty"
+    "unWorldDay": "International Day for the Eradication of Poverty",
+    "nameEn": "Climate Hits the Poor",
+    "nameEs": "El clima golpea",
+    "nameJa": "貧困と気候変動"
   },
   {
     "dayOfYear": 291,
@@ -4605,7 +5475,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Natural Isn't Always Green",
+    "nameEs": "Natural no es verde",
+    "nameJa": "自然＝持続可能ではない"
   },
   {
     "dayOfYear": 292,
@@ -4621,7 +5494,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Grow Your Herbs",
+    "nameEs": "Hierbas en casa",
+    "nameJa": "ベランダのハーブ"
   },
   {
     "dayOfYear": 293,
@@ -4636,7 +5512,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Chemical Defender",
+    "nameEs": "El escarabajo bomba",
+    "nameJa": "ミイデラゴミムシ"
   },
   {
     "dayOfYear": 294,
@@ -4652,7 +5531,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Natural Gas Isn't Clean",
+    "nameEs": "El gas no es limpio",
+    "nameJa": "天然ガスも化石燃料"
   },
   {
     "dayOfYear": 295,
@@ -4669,7 +5551,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Build Bike Lanes",
+    "nameEs": "Ciclovías sobre carreteras",
+    "nameJa": "自転車道を建設"
   },
   {
     "dayOfYear": 296,
@@ -4685,7 +5570,10 @@
       10,
       16
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wealth and Emissions",
+    "nameEs": "Riqueza y emisiones",
+    "nameJa": "富と排出量"
   },
   {
     "dayOfYear": 297,
@@ -4701,7 +5589,10 @@
       13,
       17
     ],
-    "unWorldDay": "United Nations Day"
+    "unWorldDay": "United Nations Day",
+    "nameEn": "The Paris Pact",
+    "nameEs": "El Acuerdo de París",
+    "nameJa": "パリ協定の意味"
   },
   {
     "dayOfYear": 298,
@@ -4717,7 +5608,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Scotland's Wind Days",
+    "nameEs": "Escocia eólica",
+    "nameJa": "スコットランドの風力"
   },
   {
     "dayOfYear": 299,
@@ -4733,7 +5627,10 @@
       13,
       16
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Vote for the Climate",
+    "nameEs": "Vota por el clima",
+    "nameJa": "気候を投票で決める"
   },
   {
     "dayOfYear": 300,
@@ -4749,7 +5646,10 @@
       9,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cleaning Up Shipping",
+    "nameEs": "Barcos más limpios",
+    "nameJa": "海運の脱炭素"
   },
   {
     "dayOfYear": 301,
@@ -4765,7 +5665,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Kenya's Wind Giant",
+    "nameEs": "Gran eólica keniata",
+    "nameJa": "ケニア最大風力"
   },
   {
     "dayOfYear": 302,
@@ -4781,7 +5684,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "30 Percent Clean",
+    "nameEs": "30% renovable",
+    "nameJa": "再エネが3割に"
   },
   {
     "dayOfYear": 303,
@@ -4797,7 +5703,10 @@
       7,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Top Runner Standards",
+    "nameEs": "Norma Top Runner",
+    "nameJa": "トップランナー制度"
   },
   {
     "dayOfYear": 304,
@@ -4813,7 +5722,10 @@
       11,
       13
     ],
-    "unWorldDay": "World Cities Day"
+    "unWorldDay": "World Cities Day",
+    "nameEn": "Cities Carry the Weight",
+    "nameEs": "Las ciudades pesan",
+    "nameJa": "都市が7割排出"
   },
   {
     "dayOfYear": 305,
@@ -4830,7 +5742,10 @@
       8,
       12
     ],
-    "unWorldDay": "World Vegan Day"
+    "unWorldDay": "World Vegan Day",
+    "nameEn": "Plant-Based Booms",
+    "nameEs": "Auge vegetal",
+    "nameJa": "植物代替食の拡大"
   },
   {
     "dayOfYear": 306,
@@ -4846,7 +5761,10 @@
       14,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Endless Albatross Flight",
+    "nameEs": "Vuelo infinito",
+    "nameJa": "アホウドリの飛翔"
   },
   {
     "dayOfYear": 307,
@@ -4863,7 +5781,10 @@
       12,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Share with Neighbours",
+    "nameEs": "Comparte con vecinos",
+    "nameJa": "ご近所シェア"
   },
   {
     "dayOfYear": 308,
@@ -4879,7 +5800,10 @@
       8,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A Circular Economy",
+    "nameEs": "Economía circular",
+    "nameJa": "循環経済の将来"
   },
   {
     "dayOfYear": 309,
@@ -4895,7 +5819,10 @@
       13,
       14
     ],
-    "unWorldDay": "World Tsunami Awareness Day"
+    "unWorldDay": "World Tsunami Awareness Day",
+    "nameEn": "Nature Shields Coasts",
+    "nameEs": "Naturaleza protege costas",
+    "nameJa": "海岸を守る自然"
   },
   {
     "dayOfYear": 310,
@@ -4911,7 +5838,10 @@
       15,
       16
     ],
-    "unWorldDay": "International Day for Preventing the Exploitation of the Environment in War and Armed Conflict"
+    "unWorldDay": "International Day for Preventing the Exploitation of the Environment in War and Armed Conflict",
+    "nameEn": "Oil Fires Remembered",
+    "nameEs": "Incendios del Golfo",
+    "nameJa": "湾岸戦争の油田火災"
   },
   {
     "dayOfYear": 311,
@@ -4927,7 +5857,10 @@
       2,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bats Guard Crops",
+    "nameEs": "Los murciélagos ayudan",
+    "nameJa": "コウモリが畑を守る"
   },
   {
     "dayOfYear": 312,
@@ -4943,7 +5876,10 @@
       2,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Freeze Before It Goes",
+    "nameEs": "Congela pronto",
+    "nameJa": "余ったら即冷凍"
   },
   {
     "dayOfYear": 313,
@@ -4960,7 +5896,10 @@
       16,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Volunteer Locally",
+    "nameEs": "Voluntariado local",
+    "nameJa": "地域活動に参加"
   },
   {
     "dayOfYear": 314,
@@ -4975,7 +5914,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Skip the Screensaver",
+    "nameEs": "Sin protector de pantalla",
+    "nameJa": "スクリーンセーバー不要"
   },
   {
     "dayOfYear": 315,
@@ -4990,7 +5932,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Wood-Wide Web",
+    "nameEs": "La red del bosque",
+    "nameJa": "森のインターネット"
   },
   {
     "dayOfYear": 316,
@@ -5005,7 +5950,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Deep-Sea Lights",
+    "nameEs": "Luz del abismo",
+    "nameJa": "深海の光"
   },
   {
     "dayOfYear": 317,
@@ -5021,7 +5969,10 @@
       3,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Cleaner Cooking Wins",
+    "nameEs": "Cocinas más limpias",
+    "nameJa": "調理燃料のクリーン化"
   },
   {
     "dayOfYear": 318,
@@ -5037,7 +5988,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Only 9 Percent Recycled",
+    "nameEs": "Solo 9% reciclado",
+    "nameJa": "プラ再生9%のみ"
   },
   {
     "dayOfYear": 319,
@@ -5053,7 +6007,10 @@
       6,
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Use Eco Mode",
+    "nameEs": "Modo eco lavaplatos",
+    "nameJa": "エコモードで洗う"
   },
   {
     "dayOfYear": 320,
@@ -5069,7 +6026,10 @@
       7,
       11
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "AC's Energy Surge",
+    "nameEs": "El aire sube",
+    "nameJa": "空調の電力急増"
   },
   {
     "dayOfYear": 321,
@@ -5084,7 +6044,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "The Giant Bloom",
+    "nameEs": "La flor gigante",
+    "nameJa": "世界最大の花"
   },
   {
     "dayOfYear": 322,
@@ -5099,7 +6062,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Let It Grow",
+    "nameEs": "Deja crecer el jardín",
+    "nameJa": "芝を刈らない5月"
   },
   {
     "dayOfYear": 323,
@@ -5115,7 +6081,10 @@
       3,
       6
     ],
-    "unWorldDay": "World Toilet Day"
+    "unWorldDay": "World Toilet Day",
+    "nameEn": "Sanitation for All",
+    "nameEs": "Saneamiento universal",
+    "nameJa": "衛生は全員に"
   },
   {
     "dayOfYear": 324,
@@ -5131,7 +6100,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Go Paperless",
+    "nameEs": "Entradas digitales",
+    "nameJa": "デジタル切符"
   },
   {
     "dayOfYear": 325,
@@ -5147,7 +6119,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Uruguay Gets It Done",
+    "nameEs": "Uruguay renovable",
+    "nameJa": "ウルグアイの達成"
   },
   {
     "dayOfYear": 326,
@@ -5164,7 +6139,10 @@
       15,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Be a Citizen Scientist",
+    "nameEs": "Ciencia ciudadana",
+    "nameJa": "市民科学に参加"
   },
   {
     "dayOfYear": 327,
@@ -5180,7 +6158,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "India Goes Solar",
+    "nameEs": "India solar",
+    "nameJa": "インドの太陽光躍進"
   },
   {
     "dayOfYear": 328,
@@ -5196,7 +6177,10 @@
       9,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Rare Earths' Reality",
+    "nameEs": "Tierras raras",
+    "nameJa": "レアアース独占"
   },
   {
     "dayOfYear": 329,
@@ -5211,7 +6195,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fastest Growing Plant",
+    "nameEs": "Planta más rápida",
+    "nameJa": "世界最速の植物"
   },
   {
     "dayOfYear": 330,
@@ -5228,7 +6215,10 @@
       11,
       13
     ],
-    "unWorldDay": "World Sustainable Transport Day"
+    "unWorldDay": "World Sustainable Transport Day",
+    "nameEn": "Roads Rule Emissions",
+    "nameEs": "El transporte emite",
+    "nameJa": "道路交通の排出"
   },
   {
     "dayOfYear": 331,
@@ -5243,7 +6233,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Close the Curtains",
+    "nameEs": "Cierra las cortinas",
+    "nameJa": "厚手カーテンで保温"
   },
   {
     "dayOfYear": 332,
@@ -5259,7 +6252,10 @@
       12,
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reusable Lunch Box",
+    "nameEs": "Tupper al trabajo",
+    "nameJa": "お弁当箱で脱プラ"
   },
   {
     "dayOfYear": 333,
@@ -5275,7 +6271,10 @@
       14,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fish Feed Forests",
+    "nameEs": "Salmones fertilizan",
+    "nameJa": "サケが森を育てる"
   },
   {
     "dayOfYear": 334,
@@ -5291,7 +6290,10 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Offshore Wind Cheaper",
+    "nameEs": "Eólica marina",
+    "nameJa": "洋上風力の低価格"
   },
   {
     "dayOfYear": 335,
@@ -5307,7 +6309,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Right Tree, Right Place",
+    "nameEs": "Árbol correcto, lugar",
+    "nameJa": "植林は場所次第"
   },
   {
     "dayOfYear": 336,
@@ -5322,7 +6327,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wrap Less, Give More",
+    "nameEs": "Envuelve menos",
+    "nameJa": "包装を見直す"
   },
   {
     "dayOfYear": 337,
@@ -5337,7 +6345,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Wolves Reshape Rivers",
+    "nameEs": "Lobos modelan ríos",
+    "nameJa": "狼とイエローストーン"
   },
   {
     "dayOfYear": 338,
@@ -5353,7 +6364,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Invest in Nature",
+    "nameEs": "Invertir en naturaleza",
+    "nameJa": "自然に投資する"
   },
   {
     "dayOfYear": 339,
@@ -5369,7 +6383,10 @@
       2,
       15
     ],
-    "unWorldDay": "World Soil Day"
+    "unWorldDay": "World Soil Day",
+    "nameEn": "Life in a Spoonful",
+    "nameEs": "La vida en una cucharada",
+    "nameJa": "一さじの中の宇宙"
   },
   {
     "dayOfYear": 340,
@@ -5385,7 +6402,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Bhutan Goes Negative",
+    "nameEs": "Bután negativo",
+    "nameJa": "ブータンは負排出"
   },
   {
     "dayOfYear": 341,
@@ -5400,7 +6420,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Gift an Experience",
+    "nameEs": "Regala vivencias",
+    "nameJa": "モノより体験を"
   },
   {
     "dayOfYear": 342,
@@ -5415,7 +6438,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Repair Saves Big",
+    "nameEs": "Reparar ahorra",
+    "nameJa": "修理で大幅減CO2"
   },
   {
     "dayOfYear": 343,
@@ -5431,7 +6457,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Real or Fake Tree",
+    "nameEs": "Árbol natural o no",
+    "nameJa": "クリスマスツリー選び"
   },
   {
     "dayOfYear": 344,
@@ -5446,7 +6475,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Beware of Greenwash",
+    "nameEs": "Ojo al greenwash",
+    "nameJa": "グリーンウォッシュ注意"
   },
   {
     "dayOfYear": 345,
@@ -5462,7 +6494,10 @@
       6,
       15
     ],
-    "unWorldDay": "International Mountain Day"
+    "unWorldDay": "International Mountain Day",
+    "nameEn": "Mountains Give Water",
+    "nameEs": "Agua de la montaña",
+    "nameJa": "山は水の源"
   },
   {
     "dayOfYear": 346,
@@ -5478,7 +6513,10 @@
       6,
       16
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "A River with Rights",
+    "nameEs": "Ríos con derechos",
+    "nameJa": "川に法的人格"
   },
   {
     "dayOfYear": 347,
@@ -5494,7 +6532,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Pedal the Planet",
+    "nameEs": "Pedalear la Tierra",
+    "nameJa": "自転車の最低排出"
   },
   {
     "dayOfYear": 348,
@@ -5510,7 +6551,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Pole-to-Pole Traveller",
+    "nameEs": "De polo a polo",
+    "nameJa": "極から極へ"
   },
   {
     "dayOfYear": 349,
@@ -5526,7 +6570,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Less Deforestation",
+    "nameEs": "Menos deforestación",
+    "nameJa": "森林減少が鈍化"
   },
   {
     "dayOfYear": 350,
@@ -5541,7 +6588,10 @@
     "relatedSdgs": [
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Eagles Soar Again",
+    "nameEs": "El águila vuelve",
+    "nameJa": "ハクトウワシの復活"
   },
   {
     "dayOfYear": 351,
@@ -5556,7 +6606,10 @@
     "relatedSdgs": [
       7
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Shut Down at Night",
+    "nameEs": "Apágala de noche",
+    "nameJa": "夜はシャットダウン"
   },
   {
     "dayOfYear": 352,
@@ -5571,7 +6624,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Regift, Don't Trash",
+    "nameEs": "Regalar de nuevo",
+    "nameJa": "おさがりを活用"
   },
   {
     "dayOfYear": 353,
@@ -5587,7 +6643,10 @@
       12,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Chocolate's Secret CO2",
+    "nameEs": "El CO2 del chocolate",
+    "nameJa": "チョコのCO2"
   },
   {
     "dayOfYear": 354,
@@ -5603,7 +6662,10 @@
       11,
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Host a Swap",
+    "nameEs": "Organiza un intercambio",
+    "nameJa": "スワップイベント"
   },
   {
     "dayOfYear": 355,
@@ -5619,7 +6681,10 @@
       14,
       17
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Clean the Shore",
+    "nameEs": "Limpia la costa",
+    "nameJa": "海岸清掃"
   },
   {
     "dayOfYear": 356,
@@ -5636,7 +6701,10 @@
       11,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Buildings Waste Energy",
+    "nameEs": "Edificios ineficientes",
+    "nameJa": "非効率な建物"
   },
   {
     "dayOfYear": 357,
@@ -5651,7 +6719,10 @@
     "relatedSdgs": [
       12
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Rechargeable Wins",
+    "nameEs": "Baterías recargables",
+    "nameJa": "充電池のエコ"
   },
   {
     "dayOfYear": 358,
@@ -5666,7 +6737,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Fly Economy",
+    "nameEs": "Viaja en turista",
+    "nameJa": "エコノミーで飛ぼう"
   },
   {
     "dayOfYear": 359,
@@ -5682,7 +6756,10 @@
       13,
       15
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Arctic Fox Camouflage",
+    "nameEs": "El zorro cambiante",
+    "nameJa": "変わる北極キツネ"
   },
   {
     "dayOfYear": 360,
@@ -5697,7 +6774,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Reef from Space",
+    "nameEs": "Arrecife desde el espacio",
+    "nameJa": "宇宙から見えるサンゴ"
   },
   {
     "dayOfYear": 361,
@@ -5713,7 +6793,10 @@
       1,
       10
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Poverty in Retreat",
+    "nameEs": "Pobreza en retroceso",
+    "nameJa": "貧困の後退"
   },
   {
     "dayOfYear": 362,
@@ -5728,7 +6811,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "140 Nations Aim Zero",
+    "nameEs": "Cero neto global",
+    "nameJa": "140ヶ国のネットゼロ"
   },
   {
     "dayOfYear": 363,
@@ -5744,7 +6830,10 @@
       12,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Start One Habit",
+    "nameEs": "Empieza con uno",
+    "nameJa": "小さな習慣が続く"
   },
   {
     "dayOfYear": 364,
@@ -5759,7 +6848,10 @@
     "relatedSdgs": [
       14
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Krill Feed the Antarctic",
+    "nameEs": "El kril antártico",
+    "nameJa": "オキアミが支える南極"
   },
   {
     "dayOfYear": 365,
@@ -5774,7 +6866,10 @@
     "relatedSdgs": [
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Every Action Counts",
+    "nameEs": "Cada acción cuenta",
+    "nameJa": "一歩は世界を変える"
   },
   {
     "dayOfYear": 366,
@@ -5790,6 +6885,9 @@
       7,
       13
     ],
-    "unWorldDay": null
+    "unWorldDay": null,
+    "nameEn": "Leap Day Emissions",
+    "nameEs": "El día bisiesto",
+    "nameJa": "うるう日の排出"
   }
 ]

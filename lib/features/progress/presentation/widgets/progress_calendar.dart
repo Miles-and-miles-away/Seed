@@ -7,6 +7,7 @@ import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dar
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/progress_providers.dart';
 import 'calendar_day_cell.dart';
+import 'day_detail_bottom_sheet.dart';
 
 /// Monthly calendar view showing daily progress.
 ///
@@ -136,11 +137,20 @@ class ProgressCalendar extends ConsumerWidget {
           // Empty cell
           cells.add(const Expanded(child: SizedBox(height: 50)));
         } else {
+          final dayData = calendarData[currentDay];
           cells.add(
             Expanded(
               child: SizedBox(
                 height: 50,
-                child: CalendarDayCell(data: calendarData[currentDay]),
+                child: CalendarDayCell(
+                  data: dayData,
+                  onTap: dayData.isFuture
+                      ? null
+                      : () => DayDetailBottomSheet.show(
+                            context,
+                            date: dayData.date,
+                          ),
+                ),
               ),
             ),
           );

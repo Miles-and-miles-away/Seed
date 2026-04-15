@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -9,15 +11,46 @@ import 'package:seed_app/features/eco_dex/domain/services/condition_evaluator.da
 
 part 'eco_dex_providers.g.dart';
 
+const String ecoDexAssetPrefix = 'assets/eco_dex/';
+const String ecoDexAssetExt = '.svg';
+
+/// Debug-only. Extra entry IDs force-marked as discovered so art can be
+/// previewed without satisfying unlock conditions. Set to `const []`
+/// before committing -- guarded by `kDebugMode` so it can never ship.
+const List<String> _kDebugForceDiscoveredIds = ['oceans_01'];
+
 /// Loads and caches all Eco-Dex data from the JSON asset.
 @riverpod
 Future<EcoDexData> ecoDexData(Ref ref) => loadEcoDexData();
+
+/// Set of entry icon names whose SVG ships in the asset bundle.
+/// Missing entries fall back to a blank white placeholder.
+@riverpod
+Future<Set<String>> ecoDexAvailableIcons(Ref ref) async {
+  final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+  return manifest
+      .listAssets()
+      .where(
+        (a) => a.startsWith(ecoDexAssetPrefix) && a.endsWith(ecoDexAssetExt),
+      )
+      .map(
+        (a) => a.substring(
+          ecoDexAssetPrefix.length,
+          a.length - ecoDexAssetExt.length,
+        ),
+      )
+      .toSet();
+}
 
 /// User's set of discovered Eco-Dex entry IDs.
 @riverpod
 List<String> ecoDexDiscovered(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  return user?.ecodexDiscovered ?? [];
+  final actual = user?.ecodexDiscovered ?? const <String>[];
+  if (kDebugMode && _kDebugForceDiscoveredIds.isNotEmpty) {
+    return {...actual, ..._kDebugForceDiscoveredIds}.toList();
+  }
+  return actual;
 }
 
 /// Total discovered count for progress display.

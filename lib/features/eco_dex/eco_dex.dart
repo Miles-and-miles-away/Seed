@@ -11,6 +11,7 @@ export 'presentation/providers/eco_dex_providers.dart';
 export 'presentation/screens/eco_dex_screen.dart';
 export 'presentation/widgets/eco_dex_category_section.dart';
 export 'presentation/widgets/eco_dex_entry_card.dart';
+export 'presentation/widgets/eco_dex_entry_image.dart';
 export 'presentation/widgets/eco_dex_entry_sheet.dart';
 export 'presentation/widgets/eco_dex_locked_sheet.dart';
 export 'presentation/widgets/eco_dex_progress_header.dart';

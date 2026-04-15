@@ -38,23 +38,48 @@ int _parseSdgGoalNumber(String? value) {
   );
 }
 
-/// Route paths as constants to avoid typos
+// ignore: avoid_classes_with_only_static_members
+/// Full-path route constants for use at navigation call sites.
+///
+/// Nested `GoRoute` declarations in this file still use relative path
+/// literals (go_router requires this for child routes), but every
+/// `context.push` / `context.go` should reference these constants so the
+/// app has a single source of truth for navigation paths.
 abstract class AppRoutes {
+  // Top-level (accessible while unauthenticated)
   static const splash = '/';
   static const login = '/login';
   static const register = '/register';
+  static const privacy = '/privacy';
+  static const terms = '/terms';
+
+  // Top-level (require authentication)
   static const emailVerification = '/verify-email';
+  static const mascotSelection = '/mascot-selection';
+  static const actionLog = '/log-action';
+
+  // Main shell tabs
   static const home = '/home';
   static const progress = '/progress';
   static const mascot = '/mascot';
   static const profile = '/profile';
-  static const settings = '/settings';
-  static const actionLog = '/log-action';
-  static const actionHistory = '/history';
-  static const sdgDetail = '/sdg/:goalNumber';
-  static const dailyFact = 'daily-fact';
-  static const challenges = 'challenges';
-  static const mascotSelection = '/mascot-selection';
+
+  // Nested under home
+  static const dailyFact = '/home/daily-fact';
+  static const challenges = '/home/challenges';
+  static String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
+  static String dailyFactDetail(String dateKey) =>
+      '/home/daily-fact/$dateKey';
+
+  // Nested under progress
+  static const actionHistory = '/progress/history';
+
+  // Nested under profile
+  static const settings = '/profile/settings';
+  static const settingsNotifications = '/profile/settings/notifications';
+  static const settingsLanguage = '/profile/settings/language';
+  static const settingsAccount = '/profile/settings/account';
+  static const settingsAbout = '/profile/settings/about';
 }
 
 @riverpod
@@ -126,14 +151,23 @@ GoRouter router(Ref ref) {
                       return SdgDetailScreen(goalNumber: goalNumber);
                     },
                   ),
-                  // Daily eco-fact nested under home
+                  // Daily eco-fact inbox nested under home
                   GoRoute(
-                    path: AppRoutes.dailyFact,
+                    path: 'daily-fact',
                     builder: (context, state) => const EcoFactScreen(),
+                    routes: [
+                      GoRoute(
+                        path: ':dateKey',
+                        builder: (context, state) {
+                          final dateKey = state.pathParameters['dateKey'] ?? '';
+                          return EcoFactDetailScreen(dateKey: dateKey);
+                        },
+                      ),
+                    ],
                   ),
                   // Multi-day challenges screen
                   GoRoute(
-                    path: AppRoutes.challenges,
+                    path: 'challenges',
                     builder: (context, state) => const ChallengesScreen(),
                   ),
                 ],
@@ -197,18 +231,6 @@ GoRouter router(Ref ref) {
                       GoRoute(
                         path: 'about',
                         builder: (context, state) => const AboutScreen(),
-                        routes: [
-                          GoRoute(
-                            path: 'privacy',
-                            builder: (context, state) =>
-                                const PrivacyPolicyScreen(),
-                          ),
-                          GoRoute(
-                            path: 'terms',
-                            builder: (context, state) =>
-                                const TermsOfServiceScreen(),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -225,69 +247,20 @@ GoRouter router(Ref ref) {
         builder: (context, state) => const ActionLogScreen(),
       ),
 
-      // Standalone SDG route (for deep links)
+      // Legal documents - canonical paths, accessible unauthenticated so
+      // the register screen can link to them before sign-up.
       GoRoute(
-        path: '/sdg/:goalNumber',
-        builder: (context, state) {
-          final goalNumber = _parseSdgGoalNumber(
-            state.pathParameters['goalNumber'],
-          );
-          return SdgDetailScreen(goalNumber: goalNumber);
-        },
+        path: AppRoutes.privacy,
+        builder: (context, state) => const PrivacyPolicyScreen(),
       ),
-
-      // Standalone action history (for deep links)
       GoRoute(
-        path: AppRoutes.actionHistory,
-        builder: (context, state) => const ActionHistoryScreen(),
-      ),
-
-      // Standalone settings (for deep links)
-      GoRoute(
-        path: AppRoutes.settings,
-        builder: (context, state) => const SettingsScreen(),
-        routes: [
-          GoRoute(
-            path: 'notifications',
-            builder: (context, state) => const NotificationSettingsScreen(),
-          ),
-          GoRoute(
-            path: 'language',
-            builder: (context, state) => const LanguageSettingsScreen(),
-          ),
-          GoRoute(
-            path: 'account',
-            builder: (context, state) => const AccountSettingsScreen(),
-          ),
-          GoRoute(
-            path: 'about',
-            builder: (context, state) => const AboutScreen(),
-            routes: [
-              GoRoute(
-                path: 'privacy',
-                builder: (context, state) => const PrivacyPolicyScreen(),
-              ),
-              GoRoute(
-                path: 'terms',
-                builder: (context, state) => const TermsOfServiceScreen(),
-              ),
-            ],
-          ),
-          GoRoute(
-            path: 'privacy',
-            builder: (context, state) => const PrivacyPolicyScreen(),
-          ),
-          GoRoute(
-            path: 'terms',
-            builder: (context, state) => const TermsOfServiceScreen(),
-          ),
-        ],
+        path: AppRoutes.terms,
+        builder: (context, state) => const TermsOfServiceScreen(),
       ),
     ],
 
     // Redirect logic based on auth state
     redirect: (context, state) {
-      // Pattern match on auth state
       return authState.when(
         data: (user) {
           final currentPath = state.matchedLocation;
@@ -295,20 +268,23 @@ GoRouter router(Ref ref) {
               currentPath == AppRoutes.register;
           final isOnSplash = currentPath == AppRoutes.splash;
           final isOnVerification = currentPath == AppRoutes.emailVerification;
+          final isOnPublicLegal = currentPath == AppRoutes.privacy ||
+              currentPath == AppRoutes.terms;
 
-          // Not logged in - redirect to login
+          // Not logged in - allow auth pages and public legal docs only
           if (user == null) {
-            return isOnAuthPage ? null : AppRoutes.login;
+            return (isOnAuthPage || isOnPublicLegal) ? null : AppRoutes.login;
           }
 
-          // Logged in but email not verified (for email/password users only)
+          // Logged in but email not verified (email/password users only)
           final isEmailPasswordUser =
               user.providerData.any((p) => p.providerId == 'password');
           if (!user.emailVerified && isEmailPasswordUser) {
-            return isOnVerification ? null : AppRoutes.emailVerification;
+            if (isOnVerification || isOnPublicLegal) return null;
+            return AppRoutes.emailVerification;
           }
 
-          // Logged in and verified - redirect away from auth pages
+          // Logged in and verified - bounce away from auth/splash pages
           if (isOnAuthPage || isOnSplash || isOnVerification) {
             return AppRoutes.home;
           }

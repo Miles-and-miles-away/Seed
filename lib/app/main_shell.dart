@@ -6,6 +6,7 @@ import '../core/constants/ui_constants.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../features/mascot/mascot.dart';
 import '../shared/providers/day_change_provider.dart';
+import 'router.dart';
 
 /// Main shell widget that provides bottom navigation.
 ///
@@ -80,42 +81,51 @@ class _MainShellState extends ConsumerState<MainShell> {
         padding: EdgeInsets.zero,
         height: 65,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _NavBarItem(
-              icon: Icons.home_outlined,
-              selectedIcon: Icons.home,
-              label: l10n.navHome,
-              isSelected: widget.navigationShell.currentIndex == 0,
-              onTap: () => _onItemTapped(0),
+            Expanded(
+              child: _NavBarItem(
+                icon: Icons.home_outlined,
+                selectedIcon: Icons.home,
+                label: l10n.navHome,
+                isSelected: widget.navigationShell.currentIndex == 0,
+                onTap: () => _onItemTapped(0),
+              ),
             ),
-            _NavBarItem(
-              icon: Icons.calendar_today_outlined,
-              selectedIcon: Icons.calendar_today,
-              label: l10n.navProgress,
-              isSelected: widget.navigationShell.currentIndex == 1,
-              onTap: () => _onItemTapped(1),
+            Expanded(
+              child: _NavBarItem(
+                icon: Icons.calendar_today_outlined,
+                selectedIcon: Icons.calendar_today,
+                label: l10n.navProgress,
+                isSelected: widget.navigationShell.currentIndex == 1,
+                onTap: () => _onItemTapped(1),
+              ),
             ),
-            _NavBarItem(
-              icon: Icons.add_circle_outline,
-              selectedIcon: Icons.add_circle,
-              label: l10n.navLogAction,
-              isSelected: false,
-              onTap: () => context.push('/log-action'),
+            Expanded(
+              child: _NavBarItem(
+                icon: Icons.add_circle_outline,
+                selectedIcon: Icons.add_circle,
+                label: l10n.navLogAction,
+                isSelected: false,
+                onTap: () => context.push(AppRoutes.actionLog),
+              ),
             ),
-            _NavBarItem(
-              icon: Icons.pets_outlined,
-              selectedIcon: Icons.pets,
-              label: l10n.navMascot,
-              isSelected: widget.navigationShell.currentIndex == 2,
-              onTap: () => _onItemTapped(2),
+            Expanded(
+              child: _NavBarItem(
+                icon: Icons.pets_outlined,
+                selectedIcon: Icons.pets,
+                label: l10n.navMascot,
+                isSelected: widget.navigationShell.currentIndex == 2,
+                onTap: () => _onItemTapped(2),
+              ),
             ),
-            _NavBarItem(
-              icon: Icons.person_outline,
-              selectedIcon: Icons.person,
-              label: l10n.navProfile,
-              isSelected: widget.navigationShell.currentIndex == 3,
-              onTap: () => _onItemTapped(3),
+            Expanded(
+              child: _NavBarItem(
+                icon: Icons.person_outline,
+                selectedIcon: Icons.person,
+                label: l10n.navProfile,
+                isSelected: widget.navigationShell.currentIndex == 3,
+                onTap: () => _onItemTapped(3),
+              ),
             ),
           ],
         ),
@@ -158,7 +168,7 @@ class _NavBarItem extends StatelessWidget {
       borderRadius: Radii.borderMd,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 12,
+          horizontal: 4,
           vertical: 8,
         ),
         child: Column(
@@ -170,11 +180,19 @@ class _NavBarItem extends StatelessWidget {
               size: 24,
             ),
             const SizedBox(height: 4),
-            Text(
-              label,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: color,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            // Labels render at natural size; FittedBox.scaleDown only
+            // shrinks them when a translation (e.g. JP katakana) would
+            // overflow the Expanded cell.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                maxLines: 1,
+                softWrap: false,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: color,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
               ),
             ),
           ],

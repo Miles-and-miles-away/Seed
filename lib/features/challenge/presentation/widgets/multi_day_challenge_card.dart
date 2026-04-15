@@ -58,9 +58,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.push(
-          '${AppRoutes.home}/${AppRoutes.challenges}',
-        ),
+        onTap: () => context.push(AppRoutes.challenges),
         child: Padding(
           padding: const EdgeInsets.all(Spacing.lg),
           child: Row(

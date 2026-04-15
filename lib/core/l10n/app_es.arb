@@ -168,6 +168,7 @@
   "buttonSave": "Guardar",
   "buttonCancel": "Cancelar",
   "buttonConfirm": "Confirmar",
+  "buttonClose": "Cerrar",
   "buttonRetry": "Reintentar",
   "buttonContinue": "Continuar",
   "progressTitle": "Progreso",
@@ -501,13 +502,17 @@
       }
     }
   },
+  "dayDetailActions": "Acciones",
+  "dayDetailNoActions": "No hay acciones registradas este día",
+  "dayDetailFactLocked": "No se desbloqueó ningún eco-dato este día",
+
   "ecoFactTitle": "Eco-dato del día",
   "ecoFactDidYouKnow": "Sabías que...?",
   "ecoFactSource": "Fuente",
   "ecoFactLocked": "Completa el desafío de hoy para desbloquear este dato!",
-  "ecoFactCalendar": "Calendario de datos",
-  "ecoFactViewed": "Visto",
-  "ecoFactMissed": "Perdido",
+  "ecoFactInboxTitle": "Bandeja de entrada",
+  "ecoFactInboxEmpty": "Aún no hay correo. Completa el desafío de hoy para recibir tu primer eco-dato.",
+  "ecoFactInboxLockedSubject": "Eco-dato bloqueado",
   "ecoFactCategoryComparison": "Comparación",
   "ecoFactCategoryIndividual": "Impacto individual",
   "ecoFactCategoryMythBuster": "Desmitificador",
@@ -520,7 +525,7 @@
   "challengeTabLabel": "Desafío",
   "challengeCompleted": "Completado!",
   "challengeNotCompleted": "Aún no completado",
-  "challengeUnlockFact": "Desbloquea el eco-dato de hoy",
+  "challengeSeeFact": "Ver el eco-dato de hoy",
   "challengeStreakDays": "Racha de {days} días de desafío",
   "@challengeStreakDays": {
     "placeholders": {

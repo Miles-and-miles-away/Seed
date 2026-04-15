@@ -1,0 +1,363 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+
+import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_log_item.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
+import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
+import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
+
+const double _kSheetMaxChildSize = 0.9;
+const double _kSheetInitialChildSize = 0.7;
+const double _kSheetMinChildSize = 0.4;
+
+/// Bottom sheet showing the summary for a single calendar day:
+/// actions logged (with points + CO₂), and the eco-fact if unlocked.
+class DayDetailBottomSheet extends ConsumerStatefulWidget {
+  const DayDetailBottomSheet({required this.date, super.key});
+
+  final DateTime date;
+
+  static void show(BuildContext context, {required DateTime date}) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(Radii.xl),
+        ),
+      ),
+      builder: (_) => DayDetailBottomSheet(date: date),
+    );
+  }
+
+  @override
+  ConsumerState<DayDetailBottomSheet> createState() =>
+      _DayDetailBottomSheetState();
+}
+
+class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
+  bool _factMarked = false;
+
+  String get _dateKey => formatDateKey(widget.date);
+
+  bool get _isToday {
+    final now = DateTime.now();
+    return widget.date.year == now.year &&
+        widget.date.month == now.month &&
+        widget.date.day == now.day;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final logsAsync = ref.watch(userActionLogsProvider);
+    final factsAsync = ref.watch(ecoFactsProvider);
+    final user = ref.watch(currentUserProvider).value;
+    final isLockedToday = ref.watch(isEcoFactLockedProvider);
+
+    final dayLogs = logsAsync.asData?.value != null
+        ? _logsForDay(logsAsync.asData!.value, widget.date)
+        : const <ActionLogModel>[];
+    final totalPoints = dayLogs.fold<int>(0, (sum, l) => sum + l.points);
+    final totalCo2 = dayLogs.fold<int>(0, (sum, l) => sum + l.co2Grams);
+
+    final fact = factsAsync.asData?.value != null
+        ? _factForDate(factsAsync.asData!.value, widget.date)
+        : null;
+    final unlockedKeys = user?.unlockedFactDates.toSet() ?? const <String>{};
+    final viewedKeys = user?.viewedFactDates.toSet() ?? const <String>{};
+    final factUnlocked = _isToday
+        ? !isLockedToday
+        : unlockedKeys.contains(_dateKey) || viewedKeys.contains(_dateKey);
+    final factLocked = _isToday && isLockedToday;
+    final factShown = fact != null && (factUnlocked || factLocked);
+
+    if (factShown && factUnlocked) {
+      _maybeMarkFactViewed();
+    }
+
+    return DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: _kSheetInitialChildSize,
+      minChildSize: _kSheetMinChildSize,
+      maxChildSize: _kSheetMaxChildSize,
+      builder: (context, scrollController) {
+        return ListView(
+          controller: scrollController,
+          padding: const EdgeInsets.fromLTRB(
+            Spacing.lg,
+            Spacing.sm,
+            Spacing.lg,
+            Spacing.xxl,
+          ),
+          children: [
+            Text(
+              _formatDateLabel(widget.date, l10n, locale),
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: Spacing.lg),
+            _StatsRow(
+              actionCount: dayLogs.length,
+              points: totalPoints,
+              co2Grams: totalCo2,
+            ),
+            const SizedBox(height: Spacing.xl),
+            Text(
+              l10n.dayDetailActions,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: Spacing.sm),
+            if (logsAsync.isLoading && dayLogs.isEmpty)
+              const Padding(
+                padding: EdgeInsets.all(Spacing.lg),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (dayLogs.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: Spacing.lg,
+                ),
+                child: Text(
+                  l10n.dayDetailNoActions,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            else
+              ...dayLogs.map(
+                (log) => ActionLogItem(
+                  actionLog: log,
+                  onTap: () => _openActionInfo(context, log),
+                ),
+              ),
+            const SizedBox(height: Spacing.xl),
+            Text(
+              l10n.ecoFactTitle,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: Spacing.sm),
+            if (factShown)
+              EcoFactCard(fact: fact, isLocked: factLocked)
+            else
+              _FactUnavailable(message: l10n.dayDetailFactLocked),
+          ],
+        );
+      },
+    );
+  }
+
+  void _maybeMarkFactViewed() {
+    if (_factMarked) return;
+    _factMarked = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(factViewedProvider.notifier).markDateViewed(_dateKey);
+    });
+  }
+
+  Future<void> _openActionInfo(
+    BuildContext context,
+    ActionLogModel log,
+  ) async {
+    final actions = await ref.read(actionLibraryProvider.future);
+    final action = actions
+        .cast<ActionModel?>()
+        .firstWhere((a) => a!.id == log.actionId, orElse: () => null);
+    if (action == null || !context.mounted) return;
+    final languageCode = Localizations.localeOf(context).languageCode;
+    await ActionLogConfirmationDialog.show(
+      context,
+      action: action,
+      languageCode: languageCode,
+      readOnly: true,
+    );
+  }
+}
+
+List<ActionLogModel> _logsForDay(
+  List<ActionLogModel> logs,
+  DateTime date,
+) {
+  return logs.where((log) {
+    return log.loggedAt.year == date.year &&
+        log.loggedAt.month == date.month &&
+        log.loggedAt.day == date.day;
+  }).toList()
+    ..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
+}
+
+EcoFact? _factForDate(List<EcoFact> facts, DateTime date) {
+  final doy = dayOfYear(date);
+  for (final f in facts) {
+    if (f.dayOfYear == doy) return f;
+  }
+  return null;
+}
+
+String _formatDateLabel(
+  DateTime date,
+  AppLocalizations l10n,
+  String locale,
+) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final yesterday = today.subtract(const Duration(days: 1));
+  final d = DateTime(date.year, date.month, date.day);
+  if (d == today) return l10n.today;
+  if (d == yesterday) return l10n.yesterday;
+  final pattern = date.year == today.year ? 'EEEE, MMMM d' : 'EEEE, MMMM d, y';
+  return DateFormat(pattern, locale).format(date);
+}
+
+class _StatsRow extends StatelessWidget {
+  const _StatsRow({
+    required this.actionCount,
+    required this.points,
+    required this.co2Grams,
+  });
+
+  final int actionCount;
+  final int points;
+  final int co2Grams;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      children: [
+        Expanded(
+          child: _StatTile(
+            icon: Icons.check_circle_outline,
+            label: l10n.dayDetailActions,
+            value: '$actionCount',
+            color: theme.colorScheme.primary,
+          ),
+        ),
+        const SizedBox(width: Spacing.sm),
+        Expanded(
+          child: _StatTile(
+            icon: Icons.star_outline,
+            label: l10n.homePoints,
+            value: formatPoints(points),
+            color: theme.colorScheme.tertiary,
+          ),
+        ),
+        const SizedBox(width: Spacing.sm),
+        Expanded(
+          child: _StatTile(
+            icon: Icons.eco_outlined,
+            label: 'CO\u2082',
+            value: formatCO2Compact(co2Grams),
+            color: theme.colorScheme.secondary,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StatTile extends StatelessWidget {
+  const _StatTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Spacing.md,
+        vertical: Spacing.md,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: Opacities.faint),
+        borderRadius: Radii.borderMd,
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(height: Spacing.xs),
+          Text(
+            value,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: color,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FactUnavailable extends StatelessWidget {
+  const _FactUnavailable({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(Spacing.xl),
+        child: Row(
+          children: [
+            Icon(
+              Icons.lock_outline,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: Spacing.md),
+            Expanded(
+              child: Text(
+                message,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
