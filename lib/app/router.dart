@@ -68,8 +68,7 @@ abstract class AppRoutes {
   static const dailyFact = '/home/daily-fact';
   static const challenges = '/home/challenges';
   static String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
-  static String dailyFactDetail(String dateKey) =>
-      '/home/daily-fact/$dateKey';
+  static String dailyFactDetail(String dateKey) => '/home/daily-fact/$dateKey';
 
   // Nested under progress
   static const actionHistory = '/progress/history';
