@@ -12,12 +12,14 @@ void main() {
   /// Creates a container with a mock user.
   ProviderContainer createContainer({
     List<String> viewedFactDates = const [],
+    List<String> unlockedFactDates = const [],
     String challengeCompletedDate = '',
   }) {
     final user = AppUserModel(
       uid: 'test-uid',
       email: 'test@example.com',
       viewedFactDates: viewedFactDates,
+      unlockedFactDates: unlockedFactDates,
       challengeCompletedDate: challengeCompletedDate,
     );
 
@@ -115,54 +117,81 @@ void main() {
     });
   });
 
-  group('FactCalendarSelectedMonth', () {
-    test('initializes to current month', () {
-      final container = ProviderContainer();
+  group('ecoFactInboxProvider', () {
+    test('includes today row when no viewed dates', () async {
+      final container = createContainer()
+        ..listen(ecoFactInboxProvider, (_, __) {});
       addTearDown(container.dispose);
 
-      final month = container.read(factCalendarSelectedMonthProvider);
-      final now = DateTime.now();
-      expect(month.year, now.year);
-      expect(month.month, now.month);
+      final items = await container.read(ecoFactInboxProvider.future);
+      expect(items, hasLength(1));
+      expect(items.first.dateKey, formatDateKey(DateTime.now()));
     });
 
-    test('goToPreviousMonth moves back', () {
-      final container = ProviderContainer();
+    test('marks today as read when in viewedFactDates', () async {
+      final todayKey = formatDateKey(DateTime.now());
+      final container = createContainer(viewedFactDates: [todayKey])
+        ..listen(ecoFactInboxProvider, (_, __) {});
       addTearDown(container.dispose);
 
-      final now = DateTime.now();
-      container
-          .read(factCalendarSelectedMonthProvider.notifier)
-          .goToPreviousMonth();
-
-      final month = container.read(factCalendarSelectedMonthProvider);
-      final expected = DateTime(now.year, now.month - 1);
-      expect(month.year, expected.year);
-      expect(month.month, expected.month);
+      final items = await container.read(ecoFactInboxProvider.future);
+      expect(items.first.isRead, isTrue);
     });
 
-    test('canGoToNextMonth is false for current month', () {
-      final container = ProviderContainer();
+    test('past viewed dates appear after today, newest first', () async {
+      final todayKey = formatDateKey(DateTime.now());
+      final container = createContainer(
+        viewedFactDates: [todayKey, '2026-01-05', '2026-02-10'],
+        challengeCompletedDate: todayKey,
+      )..listen(ecoFactInboxProvider, (_, __) {});
       addTearDown(container.dispose);
 
-      final canGoNext = container
-          .read(factCalendarSelectedMonthProvider.notifier)
-          .canGoToNextMonth;
-      expect(canGoNext, isFalse);
+      final items = await container.read(ecoFactInboxProvider.future);
+      expect(items, hasLength(3));
+      expect(items[0].dateKey, todayKey);
+      expect(items[1].dateKey, '2026-02-10');
+      expect(items[2].dateKey, '2026-01-05');
+      expect(items.skip(1).every((i) => i.isRead), isTrue);
     });
 
-    test('canGoToNextMonth is true for past month', () {
-      final container = ProviderContainer();
+    test('today row is locked when challenge incomplete', () async {
+      final container = createContainer()
+        ..listen(ecoFactInboxProvider, (_, __) {});
       addTearDown(container.dispose);
 
-      container
-          .read(factCalendarSelectedMonthProvider.notifier)
-          .goToPreviousMonth();
+      final items = await container.read(ecoFactInboxProvider.future);
+      expect(items.first.isLocked, isTrue);
+    });
 
-      final canGoNext = container
-          .read(factCalendarSelectedMonthProvider.notifier)
-          .canGoToNextMonth;
-      expect(canGoNext, isTrue);
+    test('past unlocked-but-unviewed day surfaces as unread', () async {
+      final todayKey = formatDateKey(DateTime.now());
+      final container = createContainer(
+        unlockedFactDates: [todayKey, '2026-02-10'],
+        challengeCompletedDate: todayKey,
+      )..listen(ecoFactInboxProvider, (_, __) {});
+      addTearDown(container.dispose);
+
+      final items = await container.read(ecoFactInboxProvider.future);
+      expect(items, hasLength(2));
+      final past = items.firstWhere((i) => i.dateKey == '2026-02-10');
+      expect(past.isRead, isFalse);
+      expect(past.isLocked, isFalse);
+    });
+
+    test('isRead reflects viewedFactDates independent of unlock set', () async {
+      final todayKey = formatDateKey(DateTime.now());
+      final container = createContainer(
+        viewedFactDates: ['2026-01-05'],
+        unlockedFactDates: [todayKey, '2026-01-05', '2026-02-10'],
+        challengeCompletedDate: todayKey,
+      )..listen(ecoFactInboxProvider, (_, __) {});
+      addTearDown(container.dispose);
+
+      final items = await container.read(ecoFactInboxProvider.future);
+      final read = items.firstWhere((i) => i.dateKey == '2026-01-05');
+      final unread = items.firstWhere((i) => i.dateKey == '2026-02-10');
+      expect(read.isRead, isTrue);
+      expect(unread.isRead, isFalse);
     });
   });
 }

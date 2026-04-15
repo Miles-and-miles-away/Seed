@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
@@ -39,7 +40,6 @@ class DailyChallengeCard extends ConsumerWidget {
         theme,
         colorScheme,
         l10n,
-        streak,
       );
     }
 
@@ -60,7 +60,6 @@ class DailyChallengeCard extends ConsumerWidget {
     ThemeData theme,
     ColorScheme colorScheme,
     AppLocalizations l10n,
-    int streak,
   ) {
     return Card(
       color: colorScheme.primaryContainer.withValues(
@@ -89,11 +88,9 @@ class DailyChallengeCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: Spacing.xs),
                   GestureDetector(
-                    onTap: () => context.push(
-                      '/home/daily-fact',
-                    ),
+                    onTap: () => context.push(AppRoutes.dailyFact),
                     child: Text(
-                      l10n.challengeUnlockFact,
+                      l10n.challengeSeeFact,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.primary,
                         decoration: TextDecoration.underline,
@@ -104,7 +101,6 @@ class DailyChallengeCard extends ConsumerWidget {
                 ],
               ),
             ),
-            if (streak > 0) _StreakBadge(streak: streak, l10n: l10n),
           ],
         ),
       ),

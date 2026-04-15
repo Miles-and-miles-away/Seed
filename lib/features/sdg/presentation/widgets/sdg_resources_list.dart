@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -106,16 +107,11 @@ class _ResourceTile extends StatelessWidget {
                 const SizedBox(width: Spacing.md),
                 Expanded(
                   child: Text(
-                    resource.title(languageCode),
+                    '${resource.title(languageCode)} $externalLinkChar',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 14,
-                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ],
             ),

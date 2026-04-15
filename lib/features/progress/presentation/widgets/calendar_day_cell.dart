@@ -10,10 +10,14 @@ import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dar
 class CalendarDayCell extends StatelessWidget {
   const CalendarDayCell({
     required this.data,
+    this.onTap,
     super.key,
   });
 
   final CalendarDayData data;
+
+  /// Called when the cell is tapped. Ignored for future dates.
+  final VoidCallback? onTap;
 
   /// Minimum ball size in logical pixels
   static const double _minBallSize = 8;
@@ -43,7 +47,7 @@ class CalendarDayCell extends StatelessWidget {
       data.completionRatio,
     )!;
 
-    return Column(
+    final cell = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -56,6 +60,13 @@ class CalendarDayCell extends StatelessWidget {
           colorScheme: colorScheme,
         ),
       ],
+    );
+
+    if (onTap == null) return cell;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: Radii.borderSm,
+      child: cell,
     );
   }
 

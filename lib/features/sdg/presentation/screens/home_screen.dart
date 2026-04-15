@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
@@ -90,9 +92,7 @@ class HomeScreen extends ConsumerWidget {
                     context,
                   ).languageCode,
                   onGoalTap: (goal) {
-                    context.push(
-                      '/home/sdg/${goal.number}',
-                    );
+                    context.push(AppRoutes.sdgDetail(goal.number));
                   },
                 ),
               ),
@@ -146,7 +146,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           // Mascot display
           GestureDetector(
-            onTap: () => context.push('/mascot'),
+            onTap: () => context.push(AppRoutes.mascot),
             child: const MascotDisplay(
               size: 160,
             ),
@@ -324,7 +324,7 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: Spacing.lg),
 
           FilledButton.icon(
-            onPressed: () => context.push('/mascot-selection'),
+            onPressed: () => context.push(AppRoutes.mascotSelection),
             icon: const Icon(Icons.pets),
             label: Text(l10n.mascotSelectionConfirm),
           ),
@@ -337,15 +337,10 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Center(
-      child: TextButton.icon(
+      child: TextButton(
         onPressed: _launchUnSdgPage,
-        icon: Icon(
-          Icons.open_in_new,
-          size: 16,
-          color: theme.colorScheme.primary,
-        ),
-        label: Text(
-          AppLocalizations.of(context).homeLearnMore,
+        child: Text(
+          '${AppLocalizations.of(context).homeLearnMore} $externalLinkChar',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.w500,

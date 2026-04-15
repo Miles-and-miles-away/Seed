@@ -206,7 +206,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => context.push(
-                                        '/settings/terms',
+                                        AppRoutes.terms,
                                       ),
                               ),
                               TextSpan(
@@ -221,7 +221,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => context.push(
-                                        '/settings/privacy',
+                                        AppRoutes.privacy,
                                       ),
                               ),
                             ],

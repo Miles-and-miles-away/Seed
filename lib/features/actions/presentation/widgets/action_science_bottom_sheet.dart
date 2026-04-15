@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/external_link.dart';
+import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,6 +52,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     final mdConfig =
         isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
+    final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
 
     return DraggableScrollableSheet(
       maxChildSize: _kMaxChildSize,
@@ -87,8 +90,8 @@ class ActionScienceBottomSheet extends StatelessWidget {
             const Divider(height: 1),
             Expanded(
               child: MarkdownWidget(
-                data: action.descriptionLong(
-                  languageCode,
+                data: appendExternalLinkArrow(
+                  action.descriptionLong(languageCode),
                 ),
                 padding: const EdgeInsets.all(Spacing.xxl),
                 config: mdConfig.copy(
@@ -103,9 +106,9 @@ class ActionScienceBottomSheet extends StatelessWidget {
                     ),
                     LinkConfig(
                       style: TextStyle(
-                        color: categoryColor,
+                        color: linkColor,
                         decoration: TextDecoration.underline,
-                        decorationColor: categoryColor,
+                        decorationColor: linkColor,
                       ),
                       onTap: _onLinkTap,
                     ),

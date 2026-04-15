@@ -271,6 +271,8 @@ class ActionLogRepository {
             challenge.id,
             ...recentIds.take(AppConstants.recentChallengeIdsLimit - 1),
           ];
+          updates[AppConstants.fieldUnlockedFactDates] =
+              FieldValue.arrayUnion([todayKey]);
         }
       }
 

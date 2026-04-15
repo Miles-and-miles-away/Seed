@@ -160,6 +160,7 @@
   "buttonSave": "Save",
   "buttonCancel": "Cancel",
   "buttonConfirm": "Confirm",
+  "buttonClose": "Close",
   "buttonRetry": "Retry",
   "buttonContinue": "Continue",
 
@@ -477,13 +478,17 @@
     }
   },
 
+  "dayDetailActions": "Actions",
+  "dayDetailNoActions": "No actions logged this day",
+  "dayDetailFactLocked": "No eco-fact unlocked this day",
+
   "ecoFactTitle": "Today's Eco-Fact",
   "ecoFactDidYouKnow": "Did you know?",
   "ecoFactSource": "Source",
   "ecoFactLocked": "Complete today's challenge to unlock this fact!",
-  "ecoFactCalendar": "Fact Calendar",
-  "ecoFactViewed": "Viewed",
-  "ecoFactMissed": "Missed",
+  "ecoFactInboxTitle": "Inbox",
+  "ecoFactInboxEmpty": "No mail yet. Complete today's challenge to receive your first eco-fact.",
+  "ecoFactInboxLockedSubject": "Locked eco-fact",
   "ecoFactCategoryComparison": "Comparison",
   "ecoFactCategoryIndividual": "Individual Impact",
   "ecoFactCategoryMythBuster": "Myth Buster",
@@ -497,7 +502,7 @@
   "challengeTabLabel": "Challenge",
   "challengeCompleted": "Complete!",
   "challengeNotCompleted": "Not yet completed",
-  "challengeUnlockFact": "Unlock today's eco-fact",
+  "challengeSeeFact": "See today's eco-fact",
   "challengeStreakDays": "{days} day challenge streak",
   "@challengeStreakDays": {
     "placeholders": {

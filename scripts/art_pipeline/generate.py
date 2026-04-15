@@ -186,7 +186,7 @@ def generate_from_json(
         f"Generating {total} SVGs "
         f"({len(entries)} entries x {n_candidates} candidates)"
     )
-    print(f"Units: {units}/{budget} monthly budget")
+    print(f"This run: {units} units (cap: {budget}/mo)")
     print(f"Output: {candidates_dir}\n")
 
     if dry_run:

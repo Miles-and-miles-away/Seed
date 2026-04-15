@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/settings_section.dart';
@@ -60,16 +62,12 @@ class AboutScreen extends ConsumerWidget {
                 SettingsTile(
                   leading: const Icon(Icons.privacy_tip_outlined),
                   title: l10n.aboutSettingsPrivacy,
-                  onTap: () => context.push(
-                    '/profile/settings/about/privacy',
-                  ),
+                  onTap: () => context.push(AppRoutes.privacy),
                 ),
                 SettingsTile(
                   leading: const Icon(Icons.description_outlined),
                   title: l10n.aboutSettingsTerms,
-                  onTap: () => context.push(
-                    '/profile/settings/about/terms',
-                  ),
+                  onTap: () => context.push(AppRoutes.terms),
                 ),
                 SettingsTile(
                   leading: const Icon(Icons.source_outlined),
@@ -87,8 +85,7 @@ class AboutScreen extends ConsumerWidget {
                 SettingsTile(
                   leading: const Icon(Icons.mail_outline),
                   title: l10n.aboutSettingsContact,
-                  subtitle: _contactEmail,
-                  trailing: const Icon(Icons.open_in_new, size: 18),
+                  subtitle: '$_contactEmail $externalLinkChar',
                   onTap: () => _launchEmail(context),
                 ),
               ],

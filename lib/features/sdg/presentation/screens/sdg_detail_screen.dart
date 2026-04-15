@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
@@ -320,14 +321,14 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           goal: prevGoal,
           isPrevious: true,
           onTap: () => context.pushReplacement(
-            '/home/sdg/${prevGoal.number}',
+            AppRoutes.sdgDetail(prevGoal.number),
           ),
         ),
         _GoalNavButton(
           goal: nextGoal,
           isPrevious: false,
           onTap: () => context.pushReplacement(
-            '/home/sdg/${nextGoal.number}',
+            AppRoutes.sdgDetail(nextGoal.number),
           ),
         ),
       ],

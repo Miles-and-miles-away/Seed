@@ -80,6 +80,10 @@ abstract class AppConstants {
   static const fieldNotificationsEnabled = 'notificationsEnabled';
   static const fieldDailyGoalTarget = 'dailyGoalTarget';
 
+  // Firestore eco-fact fields
+  static const fieldViewedFactDates = 'viewedFactDates';
+  static const fieldUnlockedFactDates = 'unlockedFactDates';
+
   // Firestore challenge fields
   static const fieldChallengeCompletedDate = 'challengeCompletedDate';
   static const fieldChallengeStreak = 'challengeStreak';

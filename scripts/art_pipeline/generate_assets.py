@@ -100,7 +100,7 @@ def step_generate(config, json_path, ids=None):
     print(f"Entries:     {len(entries)}")
     print(f"Candidates:  {n_candidates} per entry")
     print(f"Total SVGs:  {total_svgs}")
-    print(f"Units:       {units}/{budget} monthly budget")
+    print(f"This run:    {units} units (cap: {budget}/mo)")
     print()
 
     # Show first few entries

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/settings/presentation/screens/about_screen.dart';
 
 void main() {
@@ -111,19 +112,21 @@ void main() {
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);
     });
 
-    testWidgets('renders external link icon for Contact', (tester) async {
+    testWidgets('renders external link marker for Contact', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // Scroll to Contact tile which has the external link icon
+      // Contact tile uses the externalLinkChar (↗) in its subtitle
+      // to signal that tapping leaves the app.
+      final marker = find.textContaining(externalLinkChar);
       await tester.scrollUntilVisible(
-        find.byIcon(Icons.open_in_new),
+        marker,
         100,
         scrollable: find.byType(Scrollable).first,
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.open_in_new), findsOneWidget);
+      expect(marker, findsAtLeastNWidgets(1));
     });
 
     testWidgets('has correct app bar title', (tester) async {

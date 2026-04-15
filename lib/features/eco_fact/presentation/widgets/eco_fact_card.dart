@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
@@ -83,46 +85,11 @@ class EcoFactCard extends ConsumerWidget {
             ),
             const SizedBox(height: Spacing.lg),
 
-            // Source
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.menu_book_outlined,
-                  size: 16,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    '${l10n.ecoFactSource}: '
-                    '${fact.source(locale)}',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ],
+            // Source (name itself is the link when a URL is present)
+            _SourceLine(
+              sourceName: fact.source(locale),
+              sourceUrl: fact.sourceUrl,
             ),
-
-            // Source URL link
-            if (fact.sourceUrl.isNotEmpty) ...[
-              const SizedBox(height: Spacing.xs),
-              Padding(
-                padding: const EdgeInsets.only(left: 22),
-                child: GestureDetector(
-                  onTap: () => _launchUrl(fact.sourceUrl),
-                  child: Text(
-                    l10n.sdgResources,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.primary,
-                      decoration: TextDecoration.underline,
-                      decorationColor: colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ),
-            ],
 
             // UN World Day badge
             if (fact.unWorldDay != null) ...[
@@ -195,15 +162,89 @@ class EcoFactCard extends ConsumerWidget {
       }).toList(),
     );
   }
+}
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.tryParse(url);
-    if (uri != null && await canLaunchUrl(uri)) {
-      await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
+class _SourceLine extends StatefulWidget {
+  const _SourceLine({
+    required this.sourceName,
+    required this.sourceUrl,
+  });
+
+  final String sourceName;
+  final String sourceUrl;
+
+  @override
+  State<_SourceLine> createState() => _SourceLineState();
+}
+
+class _SourceLineState extends State<_SourceLine> {
+  TapGestureRecognizer? _recognizer;
+
+  bool get _hasUrl => widget.sourceUrl.isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_hasUrl) {
+      _recognizer = TapGestureRecognizer()..onTap = _launchUrl;
     }
+  }
+
+  @override
+  void dispose() {
+    _recognizer?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _launchUrl() async {
+    final uri = Uri.tryParse(widget.sourceUrl);
+    if (uri != null && await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final baseStyle = theme.textTheme.bodySmall?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    );
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          Icons.menu_book_outlined,
+          size: 16,
+          color: colorScheme.onSurfaceVariant,
+        ),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text.rich(
+            TextSpan(
+              style: baseStyle,
+              children: [
+                TextSpan(text: '${l10n.ecoFactSource}: '),
+                if (_hasUrl)
+                  TextSpan(
+                    text: '${widget.sourceName} $externalLinkChar',
+                    style: baseStyle?.copyWith(
+                      color: colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                      decorationColor: colorScheme.primary,
+                    ),
+                    recognizer: _recognizer,
+                  )
+                else
+                  TextSpan(text: widget.sourceName),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

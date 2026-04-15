@@ -175,7 +175,7 @@ const actions = [
     descriptionEs:
       'Aplanar y reciclar cajas de carton',
     category: 'recycling',
-    co2Grams: 500, // avg box ~200g; EPA WARM ~3.4g/g
+    co2Grams: 500, // typical ~230g box; EPA WARM 2160g/kg = ~500g
     effort: 1, // flatten and recycle
     frequency: 4, // frequent: deliveries
     impact: 2, // mature recycling stream
@@ -221,7 +221,7 @@ const actions = [
       'Reciclar frascos y botellas de vidrio '
       + 'en vez de tirarlos',
     category: 'recycling',
-    co2Grams: 120, // avg 250g bottle; ~480g CO2/kg
+    co2Grams: 167, // avg 250g jar; EPA WARM 667g/kg (~300g per 450g bottle) = ~167g
     effort: 1, // trivial: sort into bin
     frequency: 4, // regular but not daily
     impact: 2, // mature recycling stream
@@ -336,7 +336,7 @@ const actions = [
       'Llevar aceite usado a un punto de '
       + 'recogida para reciclaje',
     category: 'recycling',
-    co2Grams: 1500, // ~0.5L to biodiesel; ~2.5kg/L
+    co2Grams: 1500, // per ~0.6L drop-off; waste-oil biodiesel saves ~2,460g/L vs fossil diesel (EPA 86% lifecycle reduction)
     effort: 2, // store, transport to collection
     frequency: 2, // accumulates slowly
     impact: 3, // water pollution + biodiesel
@@ -1624,7 +1624,7 @@ const actions = [
       'Cerrar el grifo mientras frotas '
       + 'los platos',
     category: 'water',
-    co2Grams: 75, // 3-5min hot tap = 60-100g CO2
+    co2Grams: 25, // ~12L hot water, partial heating share; EPA WaterSense ~25g per wash
     effort: 1, // trivial: turn tap off
     frequency: 5, // daily dish washing
     impact: 1, // immediate, small scale

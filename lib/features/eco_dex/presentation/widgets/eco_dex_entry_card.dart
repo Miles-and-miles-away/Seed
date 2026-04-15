@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/eco_dex/domain/models/eco_dex_entry_state.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_sheet.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart';
+
+const double _cardImageSize = 48;
 
 /// Card for a single Eco-Dex entry (locked or discovered).
 class EcoDexEntryCard extends StatelessWidget {
@@ -52,10 +55,9 @@ class EcoDexEntryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (isDiscovered)
-              Icon(
-                _categoryIcon(entry.category),
-                size: 28,
-                color: theme.colorScheme.primary,
+              EcoDexEntryImage(
+                iconName: entry.iconName,
+                size: _cardImageSize,
               )
             else
               Icon(
@@ -121,19 +123,5 @@ class EcoDexEntryCard extends StatelessWidget {
         locale: locale,
       ),
     );
-  }
-
-  IconData _categoryIcon(String category) {
-    return switch (category) {
-      'climate' => Icons.thermostat,
-      'oceans' => Icons.water,
-      'food_systems' => Icons.restaurant,
-      'biodiversity' => Icons.park,
-      'energy' => Icons.bolt,
-      'circular_economy' => Icons.recycling,
-      'people_planet' => Icons.public,
-      'your_journey' => Icons.flag,
-      _ => Icons.eco,
-    };
   }
 }

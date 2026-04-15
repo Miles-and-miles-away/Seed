@@ -161,6 +161,68 @@ void main() {
       expect(find.byType(Container), findsAtLeast(1));
     });
 
+    testWidgets('fires onTap when tapped', (tester) async {
+      var taps = 0;
+      final data = CalendarDayData(
+        date: DateTime(2024, 1, 15),
+        goalCount: 2,
+        goalTarget: 5,
+        completedSdgs: const [1, 2],
+        isToday: false,
+        isFuture: false,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 50,
+                height: 60,
+                child: CalendarDayCell(
+                  data: data,
+                  onTap: () => taps++,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(CalendarDayCell));
+      expect(taps, 1);
+    });
+
+    testWidgets('future days have no InkWell even with onTap', (tester) async {
+      final data = CalendarDayData(
+        date: DateTime(2099, 1, 15),
+        goalCount: 0,
+        goalTarget: 5,
+        completedSdgs: const [],
+        isToday: false,
+        isFuture: true,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 50,
+                height: 60,
+                child: CalendarDayCell(
+                  data: data,
+                  onTap: () {},
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(InkWell), findsNothing);
+    });
+
     testWidgets('has SizedBox for consistent height', (tester) async {
       final data = CalendarDayData(
         date: DateTime(2024, 1, 15),

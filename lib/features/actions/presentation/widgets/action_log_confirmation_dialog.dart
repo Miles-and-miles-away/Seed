@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-
-import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:markdown_widget/markdown_widget.dart';
+import 'package:seed_app/core/constants/ui_constants.dart' as ui;
+import 'package:seed_app/core/constants/ui_constants.dart'
+    show Opacities, Radii, Spacing;
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-import 'action_science_bottom_sheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -19,27 +23,35 @@ class ActionLogConfirmationResult {
 }
 
 /// A dialog to confirm logging an action, with optional note field.
+///
+/// Set [readOnly] to `true` to reuse the same visual layout as an
+/// info-only view (no note field, single Close button). Used from the
+/// progress page when tapping a previously-logged action.
 class ActionLogConfirmationDialog extends StatefulWidget {
   const ActionLogConfirmationDialog({
     required this.action,
     required this.languageCode,
+    this.readOnly = false,
     super.key,
   });
 
   final ActionModel action;
   final String languageCode;
+  final bool readOnly;
 
   /// Shows the dialog and returns the result.
   static Future<ActionLogConfirmationResult?> show(
     BuildContext context, {
     required ActionModel action,
     required String languageCode,
+    bool readOnly = false,
   }) {
     return showDialog<ActionLogConfirmationResult>(
       context: context,
       builder: (context) => ActionLogConfirmationDialog(
         action: action,
         languageCode: languageCode,
+        readOnly: readOnly,
       ),
     );
   }
@@ -52,6 +64,7 @@ class ActionLogConfirmationDialog extends StatefulWidget {
 class _ActionLogConfirmationDialogState
     extends State<ActionLogConfirmationDialog> {
   final _noteController = TextEditingController();
+  bool _scienceExpanded = false;
 
   @override
   void dispose() {
@@ -68,6 +81,7 @@ class _ActionLogConfirmationDialogState
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
+      scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -127,172 +141,210 @@ class _ActionLogConfirmationDialogState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (widget.action
-                    .description(widget.languageCode)
-                    .isNotEmpty) ...[
-                  _buildDescription(
-                    theme,
-                    l10n,
-                    categoryColor,
+                _buildInfoSection(theme, l10n, categoryColor),
+                // Optional note field (logging flow only)
+                if (!widget.readOnly)
+                  TextField(
+                    controller: _noteController,
+                    decoration: InputDecoration(
+                      labelText: l10n.addNoteOptional,
+                      hintText: l10n.noteHint,
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.note_add_outlined),
+                    ),
+                    maxLines: 2,
+                    maxLength: 200,
                   ),
-                  const SizedBox(height: Spacing.lg),
-                ],
-                // CO2 savings - tappable to show science
-                if (widget.action.co2Grams > 0) ...[
-                  _buildCo2Row(
-                    theme,
-                    l10n,
-                    categoryColor,
-                  ),
-                  const SizedBox(height: Spacing.lg),
-                ],
-                // Optional note field
-                TextField(
-                  controller: _noteController,
-                  decoration: InputDecoration(
-                    labelText: l10n.addNoteOptional,
-                    hintText: l10n.noteHint,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.note_add_outlined),
-                  ),
-                  maxLines: 2,
-                  maxLength: 200,
-                ),
               ],
             ),
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(
-            const ActionLogConfirmationResult(confirmed: false),
-          ),
-          child: Text(l10n.buttonCancel),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.of(context).pop(
-            ActionLogConfirmationResult(
-              confirmed: true,
-              note: _noteController.text.trim().isEmpty
-                  ? null
-                  : _noteController.text.trim(),
-            ),
-          ),
-          style: FilledButton.styleFrom(
-            backgroundColor: categoryColor,
-          ),
-          child: Text(l10n.buttonConfirm),
-        ),
-      ],
+      actions: widget.readOnly
+          ? [
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(
+                  const ActionLogConfirmationResult(confirmed: false),
+                ),
+                style: FilledButton.styleFrom(
+                  backgroundColor: categoryColor,
+                ),
+                child: Text(l10n.buttonClose),
+              ),
+            ]
+          : [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(
+                  const ActionLogConfirmationResult(confirmed: false),
+                ),
+                child: Text(l10n.buttonCancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(
+                  ActionLogConfirmationResult(
+                    confirmed: true,
+                    note: _noteController.text.trim().isEmpty
+                        ? null
+                        : _noteController.text.trim(),
+                  ),
+                ),
+                style: FilledButton.styleFrom(
+                  backgroundColor: categoryColor,
+                ),
+                child: Text(l10n.buttonConfirm),
+              ),
+            ],
     );
   }
 
-  Widget _buildDescription(
+  Widget _buildInfoSection(
     ThemeData theme,
     AppLocalizations l10n,
     Color categoryColor,
   ) {
     final desc = widget.action.description(widget.languageCode);
+    final hasDesc = desc.isNotEmpty;
+    final hasCo2 = widget.action.co2Grams > 0;
     final hasLong =
         widget.action.descriptionLong(widget.languageCode).isNotEmpty;
 
+    if (!hasDesc && !hasCo2) return const SizedBox.shrink();
+
+    final descWidget = hasDesc
+        ? Text(
+            desc,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          )
+        : null;
+
+    final co2Widget = hasCo2
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.eco,
+                size: 16,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: Spacing.sm),
+              Text(
+                l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ],
+          )
+        : null;
+
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (descWidget != null) descWidget,
+        if (descWidget != null && co2Widget != null)
+          const SizedBox(height: Spacing.sm),
+        if (co2Widget != null) co2Widget,
+      ],
+    );
+
     if (!hasLong) {
-      return Text(
-        desc,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        textAlign: TextAlign.center,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: Spacing.lg),
+        child: content,
       );
     }
 
-    final linkColor = theme.colorScheme.onSurfaceVariant;
-
-    return GestureDetector(
-      onTap: () => ActionScienceBottomSheet.show(
-        context,
-        action: widget.action,
-        languageCode: widget.languageCode,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Text(
-              desc,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: linkColor,
-                fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
-                decorationColor: linkColor,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Spacing.lg),
+      child: Material(
+        color: categoryColor.withValues(alpha: Opacities.veryFaint),
+        borderRadius: Radii.borderMd,
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InkWell(
+              onTap: () => setState(() => _scienceExpanded = !_scienceExpanded),
+              child: Padding(
+                padding: const EdgeInsets.all(Spacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: content),
+                    const SizedBox(width: Spacing.sm),
+                    AnimatedRotation(
+                      turns: _scienceExpanded ? 0.5 : 0,
+                      duration: ui.Durations.fast,
+                      child: Icon(
+                        Icons.expand_more,
+                        size: 20,
+                        color: categoryColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(width: Spacing.sm),
-          Icon(
-            Icons.info_outline,
-            size: 16,
-            color: categoryColor,
-          ),
-        ],
+            AnimatedSize(
+              duration: ui.Durations.fast,
+              curve: Curves.easeOut,
+              alignment: Alignment.topCenter,
+              child: _scienceExpanded
+                  ? _buildScienceContent(theme, categoryColor)
+                  : const SizedBox(width: double.infinity),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildCo2Row(
-    ThemeData theme,
-    AppLocalizations l10n,
-    Color categoryColor,
-  ) {
-    final hasLong =
-        widget.action.descriptionLong(widget.languageCode).isNotEmpty;
-    final co2Text = l10n.co2Saved(
-      formatCO2Compact(widget.action.co2Grams),
-    );
-    final linkColor = theme.colorScheme.onSurfaceVariant;
-
-    final row = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Icons.eco,
-          size: 16,
-          color: hasLong ? categoryColor : theme.colorScheme.primary,
-        ),
-        const SizedBox(width: Spacing.sm),
-        Text(
-          co2Text,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: hasLong ? linkColor : theme.colorScheme.primary,
-            fontWeight: hasLong ? FontWeight.w500 : null,
-            decoration: hasLong ? TextDecoration.underline : null,
-            decorationColor: hasLong ? linkColor : null,
-          ),
-        ),
-        if (hasLong) ...[
-          const SizedBox(width: Spacing.sm),
-          Icon(
-            Icons.info_outline,
-            size: 14,
-            color: categoryColor,
-          ),
-        ],
-      ],
-    );
-
-    if (!hasLong) return row;
-
-    return GestureDetector(
-      onTap: () => ActionScienceBottomSheet.show(
-        context,
-        action: widget.action,
-        languageCode: widget.languageCode,
+  Widget _buildScienceContent(ThemeData theme, Color categoryColor) {
+    final isDark = theme.brightness == Brightness.dark;
+    final mdConfig =
+        isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
+    final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(
+        Spacing.lg,
+        0,
+        Spacing.lg,
+        Spacing.lg,
       ),
-      child: row,
+      child: MarkdownBlock(
+        data: appendExternalLinkArrow(
+          widget.action.descriptionLong(widget.languageCode),
+        ),
+        config: mdConfig.copy(
+          configs: [
+            PConfig(
+              textStyle: TextStyle(
+                fontSize: 14,
+                height: 1.6,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+            LinkConfig(
+              style: TextStyle(
+                color: linkColor,
+                decoration: TextDecoration.underline,
+                decorationColor: linkColor,
+              ),
+              onTap: _onLinkTap,
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  void _onLinkTap(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri != null) {
+      launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 }

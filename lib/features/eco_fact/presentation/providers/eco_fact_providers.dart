@@ -46,111 +46,95 @@ bool hasUnreadFact(Ref ref) {
   return !viewed && unlocked;
 }
 
-/// Currently selected month for the fact calendar.
-@riverpod
-class FactCalendarSelectedMonth extends _$FactCalendarSelectedMonth {
-  @override
-  DateTime build() {
-    final now = DateTime.now();
-    return DateTime(now.year, now.month);
-  }
-
-  void goToPreviousMonth() {
-    state = DateTime(state.year, state.month - 1);
-  }
-
-  void goToNextMonth() {
-    final now = DateTime.now();
-    final nextMonth = DateTime(state.year, state.month + 1);
-    if (nextMonth.year < now.year ||
-        (nextMonth.year == now.year && nextMonth.month <= now.month)) {
-      state = nextMonth;
-    }
-  }
-
-  bool get canGoToNextMonth {
-    final now = DateTime.now();
-    return state.year < now.year ||
-        (state.year == now.year && state.month < now.month);
-  }
-}
-
-/// Calendar cell data for a single day.
-class FactCalendarDay {
-  const FactCalendarDay({
+/// One mail row in the eco-fact inbox.
+class EcoFactInboxItem {
+  const EcoFactInboxItem({
     required this.date,
-    required this.isViewed,
-    required this.isToday,
-    required this.isFuture,
-    this.fact,
+    required this.dateKey,
+    required this.fact,
+    required this.isRead,
+    required this.isLocked,
   });
 
   final DateTime date;
-  final bool isViewed;
-  final bool isToday;
-  final bool isFuture;
-  final EcoFact? fact;
+  final String dateKey;
+  final EcoFact fact;
+  final bool isRead;
+  final bool isLocked;
 }
 
-/// Calendar data for the selected month.
+/// Inbox rows, newest first. Contains today's fact (locked or unlocked)
+/// plus any previously-viewed facts, matching the "mail already read"
+/// metaphor. Future mail types (announcements etc.) can be merged in
+/// later.
 @riverpod
-Future<List<FactCalendarDay>> factCalendarData(Ref ref) async {
+Future<List<EcoFactInboxItem>> ecoFactInbox(Ref ref) async {
   final user = ref.watch(currentUserProvider).value;
-  final selectedMonth = ref.watch(factCalendarSelectedMonthProvider);
   final facts = await ref.watch(ecoFactsProvider.future);
+  final isLockedToday = ref.watch(isEcoFactLockedProvider);
 
-  final viewedDates = user?.viewedFactDates.toSet() ?? <String>{};
+  final factsByDay = {for (final f in facts) f.dayOfYear: f};
+  final viewedKeys = user?.viewedFactDates.toSet() ?? const <String>{};
+  final unlockedKeys = user?.unlockedFactDates.toSet() ?? const <String>{};
+
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
+  final todayKey = formatDateKey(today);
 
-  final daysInMonth = DateTime(
-    selectedMonth.year,
-    selectedMonth.month + 1,
-    0,
-  ).day;
+  // Union of every dateKey that should surface in the inbox: today
+  // always, plus any past date that was unlocked or viewed.
+  final allKeys = <String>{todayKey, ...unlockedKeys, ...viewedKeys};
+  final items = <EcoFactInboxItem>[];
 
-  // Build a lookup map by dayOfYear for fast access
-  final factsByDay = {for (final f in facts) f.dayOfYear: f};
+  for (final key in allKeys) {
+    final date = _parseDateKey(key);
+    if (date == null) continue;
+    final fact = factsByDay[dayOfYear(date)];
+    if (fact == null) continue;
 
-  final days = <FactCalendarDay>[];
-  for (var d = 1; d <= daysInMonth; d++) {
-    final date = DateTime(
-      selectedMonth.year,
-      selectedMonth.month,
-      d,
-    );
-    final dateKey = formatDateKey(date);
-    final doy = dayOfYear(date);
-    final isFuture = date.isAfter(today);
-    final isToday = date.isAtSameMomentAs(today);
-
-    days.add(
-      FactCalendarDay(
+    final isToday = key == todayKey;
+    items.add(
+      EcoFactInboxItem(
         date: date,
-        isViewed: viewedDates.contains(dateKey),
-        isToday: isToday,
-        isFuture: isFuture,
-        fact: isFuture ? null : factsByDay[doy],
+        dateKey: key,
+        fact: fact,
+        isRead: viewedKeys.contains(key),
+        isLocked: isToday && isLockedToday,
       ),
     );
   }
 
-  return days;
+  items.sort((a, b) => b.date.compareTo(a.date));
+  return items;
 }
 
-/// Notifier to mark today's eco-fact as viewed.
+DateTime? _parseDateKey(String key) {
+  final parts = key.split('-');
+  if (parts.length != 3) return null;
+  final y = int.tryParse(parts[0]);
+  final m = int.tryParse(parts[1]);
+  final d = int.tryParse(parts[2]);
+  if (y == null || m == null || d == null) return null;
+  return DateTime(y, m, d);
+}
+
+/// Notifier to mark an eco-fact as viewed.
 @riverpod
 class FactViewedNotifier extends _$FactViewedNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Marks today's fact as viewed in Firestore.
-  Future<void> markViewed() async {
+  /// Marks today's fact as viewed.
+  Future<void> markViewed() => _markDateViewed(formatDateKey(DateTime.now()));
+
+  /// Marks an arbitrary date's fact as viewed. Safe no-op for a date
+  /// already in `viewedFactDates`.
+  Future<void> markDateViewed(String dateKey) => _markDateViewed(dateKey);
+
+  Future<void> _markDateViewed(String dateKey) async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
-
-    final todayKey = formatDateKey(DateTime.now());
-    if (user.viewedFactDates.contains(todayKey)) return;
+    if (user.viewedFactDates.contains(dateKey)) return;
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
@@ -159,7 +143,7 @@ class FactViewedNotifier extends _$FactViewedNotifier {
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)
           .update({
-        'viewedFactDates': FieldValue.arrayUnion([todayKey]),
+        AppConstants.fieldViewedFactDates: FieldValue.arrayUnion([dateKey]),
       });
     });
 
