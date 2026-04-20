@@ -12,8 +12,8 @@ import 'package:seed_app/features/challenge/presentation/widgets/multi_day_chall
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../widgets/sdg_carousel.dart';
 
 /// The main home screen of the Seed app
 class HomeScreen extends ConsumerWidget {

@@ -439,7 +439,7 @@ class CosmeticItemModel with _$CosmeticItemModel {
     required String nameJa,
     required String nameEs,
     required String type,           // 'hat', 'accessory', 'background'
-    required String imageUrl,       // SVG or PNG URL
+    required String imageUrl,       // SVG URL
     required int pointsCost,
     @Default(1) int requiredLevel,
     @Default(true) bool isAvailable,
@@ -579,9 +579,9 @@ Add 2 additional mascot species (3 total) with point-based unlocking.
 
 | Species | Unlock Cost | Description |
 |---------|-------------|-------------|
-| Sprout | Free | Plant-based mascot (existing) |
-| Coral | 3,000 pts | Ocean-themed mascot (placeholder) |
-| Ember | 5,000 pts | Energy-themed mascot (placeholder) |
+| Sprout | Free | Plant-based mascot (existing, confirmed) |
+| Species 2 | 3,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
+| Species 3 | 5,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
 
 *Point costs designed to require sustained engagement*
 

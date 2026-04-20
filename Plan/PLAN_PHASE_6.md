@@ -49,7 +49,7 @@ This phase transforms the app from a free product to a freemium model with susta
 
 | Deliverable | Description |
 |-------------|-------------|
-| Final Mascot Art | 12 polished SVG/PNG images |
+| Final Mascot Art | 12 polished SVG images |
 | RevenueCat Integration | SDK setup, entitlements, webhooks |
 | Premium Tier | Clear definition of free vs premium |
 | Paywall Screen | Subscription purchase UI |
@@ -89,16 +89,22 @@ Create final artwork for all mascot species and evolution stages.
 
 #### Art Requirements
 
+Minimum 3 species × 4 stages = 12 assets. Sprout is locked in as
+the free starter. The remaining 2 species are selected by the
+designer from the candidate set in `PLAN_DESIGNER.md` §4.2
+(Coral, Funghi, Breeze, Terra, Bloom, Dewdrop), or a designer
+proposal that fits the sustainability theme.
+
 | Species | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Total |
 |---------|---------|---------|---------|---------|-------|
-| Sprout (Plant) | Seed | Sprout | Sapling | Tree | 4 |
-| Coral (Ocean) | Polyp | Colony | Reef | Ecosystem | 4 |
-| Ember (Energy) | Spark | Flame | Fire | Sun | 4 |
+| Sprout (Plant) — confirmed | Seed | Sprout | Sapling | Tree | 4 |
+| Species 2 — TBD | — | — | — | — | 4 |
+| Species 3 — TBD | — | — | — | — | 4 |
 | **Total** | | | | | **12** |
 
 #### Art Style Guidelines
 
-- **Format:** SVG preferred (scalable), PNG fallback (2x, 3x)
+- **Format:** SVG (scalable vector)
 - **Style:** Cute, friendly, approachable (kawaii-inspired)
 - **Colors:** Match SDG/sustainability themes
 - **Size:** Design at 512×512px, export multiple sizes
@@ -123,19 +129,19 @@ Create final artwork for all mascot species and evolution stages.
 3. Vectorize with tools (Vectorizer.ai, Adobe Illustrator)
 4. Clean up and refine in vector editor
 5. Ensure consistent style across all 12 images
-6. Export as SVG and multiple PNG sizes
+6. Export as SVG
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
 | Define art brief | Style guide, color palette, references | Pending |
-| Generate Sprout concepts | AI or sketch Stage 1-4 | Pending |
-| Generate Coral concepts | AI or sketch Stage 1-4 | Pending |
-| Generate Ember concepts | AI or sketch Stage 1-4 | Pending |
+| Generate Sprout concepts | Stage 1-4 (confirmed species) | Pending |
+| Generate Species 2 concepts | Stage 1-4 (designer-selected) | Pending |
+| Generate Species 3 concepts | Stage 1-4 (designer-selected) | Pending |
 | Vectorize selected art | Convert to SVG | Pending |
 | Clean up and polish | Refine details, consistency | Pending |
-| Export all sizes | SVG, PNG 2x, 3x | Pending |
+| Export SVG | Single scalable vector per stage | Pending |
 | Review and iterate | Get feedback, refine | Pending |
 
 ---
@@ -420,7 +426,7 @@ Build the subscription purchase screen.
 │    Recover from missed days             │
 │                                         │
 │  ✓ All mascot species                   │
-│    Unlock Coral and Ember               │
+│    Unlock every species in the shop     │
 │                                         │
 │  ✓ Premium cosmetics                    │
 │    Exclusive items for your mascot      │
@@ -458,7 +464,7 @@ Build the subscription purchase screen.
 Show paywall when user attempts to:
 - Use streak grace period (not subscribed)
 - Access premium cosmetic item
-- Unlock locked mascot species (Coral, Ember)
+- Unlock a locked mascot species
 - Add more than 2 notification reminders
 - Tap "Go Premium" button in settings
 
@@ -776,20 +782,24 @@ Make additional mascot species premium-only (alternative to point unlock).
 
 #### Options
 
+Species names below use placeholders (Species 2, Species 3) —
+final names are locked when the designer selects from the
+candidate set in `PLAN_DESIGNER.md` §4.2.
+
 **Option A: All species free (with points)**
 - Sprout: Free (starter)
-- Coral: 3,000 points
-- Ember: 5,000 points
+- Species 2: 3,000 points
+- Species 3: 5,000 points
 
 **Option B: Premium species**
 - Sprout: Free (starter)
-- Coral: Premium only
-- Ember: Premium only
+- Species 2: Premium only
+- Species 3: Premium only
 
 **Option C: Hybrid**
 - Sprout: Free (starter)
-- Coral: 3,000 points OR premium
-- Ember: Premium only
+- Species 2: 3,000 points OR premium
+- Species 3: Premium only
 
 **Recommended:** Option A for soft launch (more accessible), consider Option C later.
 
@@ -855,8 +865,8 @@ class PackageDisplay with _$PackageDisplay {
 Stage 6.1: Mascot Art
 ├── Define art brief and style guide
 ├── Generate/create Sprout art (4 stages)
-├── Generate/create Coral art (4 stages)
-├── Generate/create Ember art (4 stages)
+├── Generate/create Species 2 art (4 stages)
+├── Generate/create Species 3 art (4 stages)
 ├── Vectorize and polish all art
 ├── Integrate into app
 └── Test all displays and animations

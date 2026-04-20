@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
-import 'package:seed_app/features/sdg/presentation/screens/home_screen.dart';
 
 void main() {
   // Set up mock platform channels for path_provider (used by CachedNetworkImage)

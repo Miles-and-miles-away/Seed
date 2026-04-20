@@ -25,7 +25,7 @@ bar).
 - *Emulator:* the bar at the top showing the screen title and icons.
 
 **SliverAppBar** — an AppBar that collapses/floats as you scroll.
-- `lib/features/sdg/presentation/screens/home_screen.dart:32`
+- `lib/features/home/presentation/screens/home_screen.dart:32`
 - *Emulator:* the Home header that shrinks as you scroll.
 
 **BottomAppBar** — the bottom bar, often holding navigation.
@@ -35,7 +35,7 @@ bar).
 
 **CustomScrollView + Slivers** — advanced scrolling that stitches an AppBar,
 list, and padding into one scroll.
-- `lib/features/sdg/presentation/screens/home_screen.dart:29`
+- `lib/features/home/presentation/screens/home_screen.dart:29`
 - *Emulator:* Home screen where the header animates while the body scrolls.
 
 ### Layout
@@ -186,7 +186,7 @@ validation.
 - `lib/app/router.dart:60`
 
 **ConsumerWidget / ConsumerStatefulWidget** — widgets with access to `ref`.
-- `lib/features/sdg/presentation/screens/home_screen.dart:18`
+- `lib/features/home/presentation/screens/home_screen.dart:18`
 - `lib/features/actions/presentation/screens/action_log_screen.dart:17`
 
 **`ref.watch` / `ref.read` / `ref.listen`** — read providers.
@@ -321,7 +321,7 @@ Each feature in `lib/features/<name>/`:
 | You see in emulator | Widget | File to open |
 |---|---|---|
 | 5-tab bottom bar | `BottomAppBar` | `lib/app/main_shell.dart` |
-| Home header that shrinks | `SliverAppBar` | `lib/features/sdg/presentation/screens/home_screen.dart` |
+| Home header that shrinks | `SliverAppBar` | `lib/features/home/presentation/screens/home_screen.dart` |
 | Log-action confirmation popup | `AlertDialog` | `lib/features/actions/presentation/widgets/action_log_confirmation_dialog.dart` |
 | Sheet from bottom on day tap | `showModalBottomSheet` | `lib/features/progress/presentation/widgets/day_detail_bottom_sheet.dart` |
 | Action tile in list | `Card` | `lib/features/actions/presentation/widgets/action_card.dart` |
