@@ -14,6 +14,7 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
+import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';

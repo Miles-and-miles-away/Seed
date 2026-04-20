@@ -1,207 +1,301 @@
-Test Coverage Expansion Plan                                                              
+# Test Coverage
 
- Context
+Last reviewed: 2026-04-19
 
- Seed has 51 test files covering ~41% of source files. Coverage is
- concentrated on models, utilities, and widget rendering. Critical gaps
- exist in the data layer (repositories, datasources), state
- management (Riverpod providers), and services. There are zero
- integration tests and no CI/CD pipeline. This plan systematically
- closes these gaps, prioritized by risk and complexity.
+## Summary
 
- ---
- Phase 1: Pure Dart Services (Low complexity, high value)
+- **Test files:** 102
+- **Source files (excluding generated, barrels, `main.dart`, `firebase_options.dart`):** ~127
+- **Rough file-level coverage:** ~80%
+- **CI:** `.github/workflows/ci.yml` runs `flutter analyze` + `flutter test` on push
+  to `development`/`main` and PRs to `main`.
+- **Integration tests:** none.
 
- 1a. EggHatchingService tests
+Recent pass: Tier 1 repositories (`ActionLogRepository` with ~34 tests),
+`AuthRepository`, `AuthRemoteDataSource`, `ProgressRepository`,
+`ChallengeSelectionService`. Tier 2 core Riverpod providers (actions, sdg stats,
+progress, challenge, eco-dex). Tier 3 models and loaders (egg, evolution stage,
+daily summary, sdg stats, challenge templates, asset loaders for mascot species,
+SDG goals/targets/resources).
 
- - File: lib/features/mascot/data/services/egg_hatching_service.dart
- - Create: test/features/mascot/data/services/egg_hatching_service_test.dart
- - What to test:
-   - calculateEggStreakUpdate() - same day (no change), next day
- (increment), gap (reset), first action ever
-   - selectHatchingSpecies() - prefers unevolved species, falls back
- to random, handles single species, handles all evolved
- - Approach: Pure unit tests, seed Random for deterministic results
- - Est. test cases: ~15
+---
 
- 1b. MascotMigrationService tests
+## Currently Covered
 
- - File: lib/features/mascot/data/services/mascot_migration_service.dart
- - Create: test/features/mascot/data/services/mascot_migration_service_test.dart
- - What to test:
-   - migrateIfNeeded() - user already migrated (no-op), user with
- old schema (migrates), user missing mascot field, idempotency
- - Approach: fake_cloud_firestore
- - Est. test cases: ~8
+### Core utilities
 
- ---
- Phase 2: Datasources (Firestore CRUD - straightforward)
+- [x] `core/utils/auth_error_mapper.dart`
+- [x] `core/utils/external_link.dart`
+- [x] `core/utils/firestore_converters.dart`
+- [x] `core/utils/helpers.dart`
+- [x] `core/utils/readable_color.dart`
+- [x] `core/utils/validators.dart`
 
- 2a. ActionLibraryRemoteDataSource tests
+### Shared
 
- - File: lib/features/actions/data/datasources/action_library_remote_datasource.dart
- - Create: test/features/actions/data/datasources/action_library_remote_datasource_test.dart
- - What to test:
-   - watchActions() - returns stream of actions, handles empty
-   - getAction() - returns action by ID, handles missing ID
- - Approach: fake_cloud_firestore, seed with ActionModel JSON
- - Est. test cases: ~6
+- [x] `shared/providers/day_change_provider.dart`
+- [x] `shared/services/analytics_service.dart`
+- [x] `shared/services/notification_service.dart`
+- [x] `shared/services/streak_service.dart`
+- [x] `shared/widgets/level_progress_bar.dart`
+- [x] `shared/widgets/stat_card.dart`
 
- 2b. ActionLogRemoteDataSource tests
+### Actions
 
- - File: lib/features/actions/data/datasources/action_log_remote_datasource.dart
- - Create: test/features/actions/data/datasources/action_log_remote_datasource_test.dart
- - What to test:
-   - createActionLog() - writes doc, verify fields
-   - watchUserActionLogs() - stream with ordering
-   - getRecentActionLogs() - limit param
-   - getActionLogCollection() - correct path
- - Approach: fake_cloud_firestore
- - Est. test cases: ~10
+- [x] `features/actions/data/datasources/action_library_remote_datasource.dart`
+- [x] `features/actions/data/datasources/action_log_remote_datasource.dart`
+- [x] `features/actions/data/models/action_log_model.dart`
+- [x] `features/actions/data/models/action_model.dart`
+- [x] `features/actions/data/repositories/action_library_repository.dart`
+- [x] `features/actions/data/repositories/action_log_repository.dart`
+- [x] `features/actions/domain/constants/action_icons.dart`
+- [x] `features/actions/domain/enums/action_category.dart`
+- [x] `features/actions/domain/enums/action_sort_option.dart`
+- [x] `features/actions/presentation/providers/actions_providers.dart`
+      (state notifiers, filter, sort logic)
+- [x] `features/actions/presentation/screens/action_log_screen.dart`
+- [x] `features/actions/presentation/widgets/action_card.dart`
+- [x] `features/actions/presentation/widgets/action_category_tabs.dart`
+- [x] `features/actions/presentation/widgets/action_sort_dropdown.dart`
+- [x] `features/actions/presentation/widgets/sdg_filter_chips.dart`
 
- 2c. UserRemoteDataSource tests
+### Auth
 
- - File: lib/features/auth/data/datasources/user_remote_datasource.dart
- - Create: test/features/auth/data/datasources/user_remote_datasource_test.dart
- - What to test:
-   - getUser(), createUser(), updateUser(), watchUser()
-   - deleteUser() - batch deletion of action logs subcollection
- - Approach: fake_cloud_firestore
- - Est. test cases: ~12
+- [x] `features/auth/data/datasources/auth_remote_datasource.dart`
+- [x] `features/auth/data/datasources/user_remote_datasource.dart`
+- [x] `features/auth/data/models/app_user_model.dart`
+- [x] `features/auth/data/repositories/auth_repository.dart`
+- [x] `features/auth/presentation/screens/email_verification_screen.dart`
+- [x] `features/auth/presentation/screens/login_screen.dart`
+- [x] `features/auth/presentation/screens/register_screen.dart`
 
- 2d. DailySummaryRemoteDataSource tests
+### Challenge
 
- - File: lib/features/progress/data/datasources/daily_summary_remote_datasource.dart
- - Create: test/features/progress/data/datasources/daily_summary_remote_datasource_test.dart
- - What to test:
-   - watchTodaySummary() - stream for today's date
-   - getSummary() - by date string
-   - getSummariesInRange() - date range query
-   - incrementDailySummary() - Firestore transaction, creates new
- vs increments existing
- - Approach: fake_cloud_firestore
- - Est. test cases: ~12
+- [x] `features/challenge/data/challenge_templates_data.dart` (loader)
+- [x] `features/challenge/domain/models/active_multi_day_challenge.dart`
+- [x] `features/challenge/domain/models/challenge_templates.dart`
+- [x] `features/challenge/domain/services/challenge_selection_service.dart`
+- [x] `features/challenge/presentation/providers/challenge_providers.dart`
+      (derived state + dialog/streak providers)
+- [x] `features/challenge/presentation/screens/challenges_screen.dart`
+- [x] `features/challenge/presentation/widgets/daily_challenge_card.dart`
+- [x] `features/challenge/presentation/widgets/multi_day_challenge_card.dart`
 
- 2e. SettingsRemoteDataSource tests
+### Eco-Dex
 
- - File: lib/features/settings/data/datasources/settings_remote_datasource.dart
- - Create: test/features/settings/data/datasources/settings_remote_datasource_test.dart
- - What to test:
-   - CRUD operations, reminder array operations (add/remove/update),
- nested field updates, boundary conditions (max reminders)
- - Approach: fake_cloud_firestore
- - Est. test cases: ~18
+- [x] `features/eco_dex/data/eco_dex_entries_data.dart`
+- [x] `features/eco_dex/data/models/eco_dex_category_model.dart`
+- [x] `features/eco_dex/data/models/eco_dex_condition_model.dart`
+- [x] `features/eco_dex/data/models/eco_dex_entry_model.dart`
+- [x] `features/eco_dex/domain/services/condition_evaluator.dart`
+- [x] `features/eco_dex/presentation/providers/eco_dex_providers.dart`
+      (discovered list, count, de-dup)
+- [x] `features/eco_dex/presentation/widgets/eco_dex_entry_image.dart`
 
- ---
- Phase 3: Repositories
+### Eco-Fact
 
- 3a. ActionLibraryRepository tests
+- [x] `features/eco_fact/data/eco_facts_data.dart`
+- [x] `features/eco_fact/data/models/eco_fact_model.dart`
+- [x] `features/eco_fact/presentation/providers/eco_fact_providers.dart`
+- [x] `features/eco_fact/presentation/providers/eco_fact_gating` (gating logic)
+- [x] `features/eco_fact/presentation/screens/eco_fact_screen.dart`
+- [x] `features/eco_fact/presentation/widgets/eco_fact_card.dart`
+- [x] `features/eco_fact/presentation/widgets/mail_icon_button.dart`
+- [x] `features/eco_fact/presentation/widgets/mail_list_tile.dart`
 
- - File: lib/features/actions/data/repositories/action_library_repository.dart
- - Create: test/features/actions/data/repositories/action_library_repository_test.dart
- - What to test: Pure delegation (watchActions, getAction)
- - Approach: mocktail (mock datasource)
- - Est. test cases: ~4
+### Mascot
 
- 3b. ActionLogRepository tests (CRITICAL)
+- [x] `features/mascot/data/mascot_species_loader.dart`
+- [x] `features/mascot/data/models/egg_model.dart`
+- [x] `features/mascot/data/models/evolution_stage_model.dart`
+- [x] `features/mascot/data/models/mascot_model.dart`
+- [x] `features/mascot/data/models/mascot_species_model.dart`
+- [x] `features/mascot/data/repositories/mascot_repository.dart`
+- [x] `features/mascot/data/services/egg_hatching_service.dart`
+- [x] `features/mascot/data/services/mascot_migration_service.dart`
 
- - File: lib/features/actions/data/repositories/action_log_repository.dart
- - Create: test/features/actions/data/repositories/action_log_repository_test.dart
- - What to test:
-   - logAction() - the core 200-line transaction:
-       - Points calculation and level-up detection
-     - Streak update via StreakService
-     - Per-SDG stats aggregation
-     - Mascot leveling and evolution detection
-     - Egg discovery flag and hatching logic
-   - watchUserActionLogs(), getRecentActionLogs()
- - Approach: fake_cloud_firestore + mocktail for services
- - Est. test cases: ~25
- - Note: This is the highest-value single test file in the project
+### Profile
 
- 3c. ProgressRepository tests
+- [x] `features/profile/presentation/providers/profile_providers.dart`
 
- - File: lib/features/progress/data/repositories/progress_repository.dart
- - Create: test/features/progress/data/repositories/progress_repository_test.dart
- - What to test:
-   - getMonthCalendarData() - date iteration, isToday/isFuture
-   - recordAction(), saveDailyGoalTarget()
-   - watchTodaySummary()
- - Approach: fake_cloud_firestore or mocktail (mock datasource)
- - Est. test cases: ~12
+### Progress
 
- 3d. AuthRepository tests
+- [x] `features/progress/data/datasources/daily_summary_remote_datasource.dart`
+- [x] `features/progress/data/models/daily_summary_model.dart`
+- [x] `features/progress/data/repositories/progress_repository.dart`
+- [x] `features/progress/domain/entities/calendar_day_data.dart`
+- [x] `features/progress/presentation/providers/progress_providers.dart`
+      (SelectedMonth notifier, goal target selectors)
+- [x] `features/progress/presentation/screens/progress_screen.dart`
+- [x] `features/progress/presentation/widgets/calendar_day_cell.dart`
+- [x] `features/progress/presentation/widgets/daily_target_picker.dart`
+- [x] `features/progress/presentation/widgets/day_detail_bottom_sheet.dart`
+- [x] `features/progress/presentation/widgets/progress_calendar.dart`
+- [x] `features/progress/presentation/widgets/rainbow_sun_painter.dart`
 
- - File: lib/features/auth/data/repositories/auth_repository.dart
- - Create: test/features/auth/data/repositories/auth_repository_test.dart
- - What to test:
-   - _getOrCreateUser() sync logic
-   - Sign in/up flows coordinating two datasources
-   - Account deletion cascade
-   - Email verification status sync
- - Approach: mocktail (mock both datasources)
- - Est. test cases: ~20
+### SDG
 
- ---
- Phase 4: Providers (state management)
+- [x] `features/sdg/data/sdg_data.dart`
+- [x] `features/sdg/data/sdg_goals_loader.dart`
+- [x] `features/sdg/data/sdg_resources.dart`
+- [x] `features/sdg/data/sdg_resources_data.dart` (loader)
+- [x] `features/sdg/data/sdg_targets.dart`
+- [x] `features/sdg/data/sdg_targets_loader.dart`
+- [x] `features/sdg/domain/models/sdg_stats.dart`
+- [x] `features/sdg/presentation/providers/sdg_stats_provider.dart`
+      (and `sdg_related_actions`)
+- [x] `features/sdg/presentation/screens/home_screen.dart`
+- [x] `features/sdg/presentation/screens/sdg_detail_screen.dart`
+- [x] `features/sdg/presentation/widgets/sdg_carousel.dart`
+- [x] `features/sdg/presentation/widgets/sdg_targets_section.dart`
 
- 4a. SdgStatsProvider tests (simplest)
+### Settings
 
- - File: lib/features/sdg/presentation/providers/sdg_stats_provider.dart
- - Create: test/features/sdg/presentation/providers/sdg_stats_provider_test.dart
- - Est. test cases: ~6
+- [x] `features/settings/data/datasources/settings_remote_datasource.dart`
+- [x] `features/settings/data/models/notification_schedule_model.dart`
+- [x] `features/settings/data/models/user_settings_model.dart`
+- [x] `features/settings/data/repositories/settings_repository.dart`
+- [x] `features/settings/presentation/screens/about_screen.dart`
+- [x] `features/settings/presentation/screens/account_settings_screen.dart`
+- [x] `features/settings/presentation/screens/language_settings_screen.dart`
+- [x] `features/settings/presentation/screens/notification_settings_screen.dart`
+- [x] `features/settings/presentation/screens/settings_screen.dart`
+- [x] `features/settings/presentation/widgets/reminder_list_tile.dart`
+- [x] `features/settings/presentation/widgets/settings_section.dart`
+- [x] `features/settings/presentation/widgets/settings_tile.dart`
+- [x] `features/settings/presentation/widgets/streak_milestone_dialog.dart`
 
- 4b. ProgressProviders tests
+---
 
- - File: lib/features/progress/presentation/providers/progress_providers.dart
- - Create: test/features/progress/presentation/providers/progress_providers_test.dart
- - Est. test cases: ~10
+## Future Coverage Checklist
 
- 4c. ActionsProviders tests (filtering/sorting logic)
+Ordered by priority. The biggest remaining gaps are `FcmService`, the
+`AuthNotifier` / settings / mascot Riverpod notifiers, and the UI layer
+(screens/widgets not yet exercised, and any integration tests).
 
- - File: lib/features/actions/presentation/providers/actions_providers.dart
- - Create: test/features/actions/presentation/providers/actions_providers_test.dart
- - Est. test cases: ~15
+### Tier 1 — Remaining critical services
 
- ---
- Phase 5: CI/CD Pipeline
+- [ ] `shared/services/fcm_service.dart`
+      — uses `FirebaseMessaging.instance`, `FirebaseAuth.instance`,
+      `FirebaseFirestore.instance` as statics. Needs DI refactor before it
+      can be mocked meaningfully.
 
- GitHub Actions workflow
+### Tier 2 — Remaining Riverpod providers
 
- - Create: .github/workflows/ci.yml
- - What it does:
-   - Trigger on push to main/development and PRs
-   - flutter analyze
-   - flutter test
-   - Coverage report generation
- - Value: Prevents regressions from silently merging
+- [ ] `features/auth/presentation/providers/auth_providers.dart`
+      — `AuthNotifier` sign-in/sign-out flows. Needs mocked
+      `authRepositoryProvider` + analytics override.
+- [ ] `features/mascot/presentation/providers/mascot_providers.dart`
+- [ ] `features/settings/presentation/providers/settings_providers.dart`
+- [ ] `shared/providers/analytics_provider.dart`
+- [ ] `shared/providers/notification_providers.dart`
+- [ ] `shared/providers/package_info_provider.dart`
 
- ---
- Execution Order
+### Tier 3 — Remaining minor constants/data
 
- Start with Phase 1 + 2 (services and datasources) as they are the
- foundation. Phase 3 repositories depend on understanding datasource
- behavior. Phase 4 providers depend on repository patterns. Phase 5
- CI/CD can be done anytime.
+- [ ] `features/eco_dex/domain/constants/zero_co2_action_ids.dart`
+      (set membership invariants; low value)
+- [ ] `features/eco_dex/domain/models/eco_dex_entry_state.dart`
+      (trivial data holder; low value)
 
- Today's target: Phases 1-2 (services + all datasources)
+### Tier 4 — Core utilities
 
- Verification
+- [ ] `core/utils/app_logger.dart` (thin wrapper; low value)
 
- After each test file:
- flutter test test/path/to/new_test.dart
+### Tier 5 — Screens
 
- After all files:
- flutter test
- flutter analyze
+- [ ] `features/actions/presentation/screens/action_history_screen.dart`
+- [ ] `features/profile/presentation/screens/profile_screen.dart`
+- [ ] `features/eco_dex/presentation/screens/eco_dex_screen.dart`
+- [ ] `features/eco_fact/presentation/screens/eco_fact_detail_screen.dart`
+- [ ] `features/mascot/presentation/screens/mascot_screen.dart`
+- [ ] `features/mascot/presentation/screens/mascot_selection_screen.dart`
+- [ ] `features/settings/presentation/screens/legal_document_screen.dart`
+- [ ] `features/settings/presentation/screens/privacy_policy_screen.dart`
+- [ ] `features/settings/presentation/screens/terms_of_service_screen.dart`
 
- Patterns to Follow
+### Tier 6 — Widgets
 
- - Existing repo test patterns:
-   - test/features/mascot/data/repositories/mascot_repository_test.dart
- (fake_cloud_firestore pattern)
-   - test/features/settings/data/repositories/settings_repository_test.dart
- (mocktail pattern)
- - Test helpers: test/helpers/test_helpers.dart
- - Line length: 88 chars max
- - No emojis, no redundant comments
+Actions:
+- [ ] `action_log_confirmation_dialog.dart`
+- [ ] `action_log_item.dart`
+- [ ] `action_science_bottom_sheet.dart`
+- [ ] `learn_only_info_dialog.dart`
+- [ ] `points_animation_overlay.dart`
+
+Auth:
+- [ ] `auth_text_field.dart`
+- [ ] `social_sign_in_button.dart`
+
+Eco-Dex:
+- [ ] `eco_dex_category_section.dart`
+- [ ] `eco_dex_entry_card.dart`
+- [ ] `eco_dex_entry_sheet.dart`
+- [ ] `eco_dex_locked_sheet.dart`
+- [ ] `eco_dex_progress_header.dart`
+
+Mascot:
+- [ ] `egg_discovery_celebration.dart`
+- [ ] `egg_hatching_celebration.dart`
+- [ ] `egg_progress_widget.dart`
+- [ ] `evolution_celebration.dart`
+- [ ] `mascot_display.dart`
+
+Progress:
+- [ ] `rainbow_sun_widget.dart`
+
+SDG:
+- [ ] `sdg_actions_grid.dart`
+- [ ] `sdg_impact_card.dart`
+- [ ] `sdg_infographic_viewer.dart`
+- [ ] `sdg_resources_list.dart`
+
+Shared:
+- [ ] `error_display.dart`
+
+### Tier 7 — App wiring and integration
+
+- [ ] `app/router.dart` — guard behavior.
+- [ ] `app/main_shell.dart` — bottom-nav routing.
+- [ ] `app/app.dart` — theme/locale wiring.
+- [ ] Integration test: log-an-action flow end-to-end.
+- [ ] Integration test: sign-up → email verification → mascot selection.
+- [ ] Integration test: calendar month view reflects logged actions.
+
+### Tier 8 — Presentation utils and light data
+
+- [ ] `features/actions/presentation/utils/handle_action_tap.dart`
+- [ ] `features/settings/data/legal_content.dart` (shape/length sanity)
+
+---
+
+## Patterns to Follow
+
+- **Firestore tests:** `fake_cloud_firestore` — see
+  `test/features/mascot/data/repositories/mascot_repository_test.dart` or
+  `test/features/actions/data/repositories/action_log_repository_test.dart`
+  for the transaction-heavy case.
+- **Mocked collaborators:** `mocktail` — see
+  `test/features/settings/data/repositories/settings_repository_test.dart`
+  or `test/features/auth/data/repositories/auth_repository_test.dart`.
+- **Riverpod provider tests:** build a `ProviderContainer` with overrides.
+  See `test/features/actions/presentation/providers/actions_providers_test.dart`
+  for the filter-and-sort pattern.
+- **Asset-loader tests:** call `TestWidgetsFlutterBinding.ensureInitialized()`
+  and assert on the real bundled JSON (see
+  `test/features/sdg/data/sdg_goals_loader_test.dart`).
+- **Mocktail gotchas:**
+  - Never call a helper that uses `when()` inside another `when(...).thenReturn(...)`
+    — that triggers "Cannot call when within a stub response". Build the mock
+    subject first.
+  - `fake_cloud_firestore` does not honour `update(field, <empty map>)` cleanly
+    — assert on a distinguishable side-effect instead.
+- **Style:** 88-char line limit, no emojis, only *why* comments.
+
+## Verification
+
+```bash
+flutter test test/path/to/new_test.dart   # single file
+flutter test                              # full suite
+flutter analyze
+```
