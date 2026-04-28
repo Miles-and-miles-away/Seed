@@ -13,7 +13,7 @@ echo "Running flutter pub get..."
 flutter pub get
 
 echo "Running code generation..."
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 
 echo "Generating localizations..."
 flutter gen-l10n
