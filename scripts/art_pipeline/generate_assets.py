@@ -409,26 +409,42 @@ def main():
             parser.error(f"File not found: {args.json_file}")
     json_path = str(json_path)
 
-    # Resolve --subcategory to --ids
-    if args.subcategory:
+    # Resolve --subcategory to --ids, or validate raw --ids
+    if args.subcategory or args.ids:
         with open(json_path) as f:
             data = json.load(f)
-        prefix = args.subcategory.rstrip("_") + "_"
-        matched = [
-            e["id"] for e in data.get("entries", [])
-            if e["id"].startswith(prefix)
-        ]
-        if not matched:
-            parser.error(
-                f"No entries match subcategory "
-                f"'{args.subcategory}'"
-            )
-        if args.ids:
-            parser.error(
-                "--subcategory and --ids are "
-                "mutually exclusive"
-            )
-        args.ids = matched
+        all_ids = {e["id"] for e in data.get("entries", [])}
+
+        if args.subcategory:
+            if args.ids:
+                parser.error(
+                    "--subcategory and --ids are "
+                    "mutually exclusive"
+                )
+            prefix = args.subcategory.rstrip("_") + "_"
+            matched = sorted(i for i in all_ids if i.startswith(prefix))
+            if not matched:
+                parser.error(
+                    f"No entries match subcategory "
+                    f"'{args.subcategory}'"
+                )
+            args.ids = matched
+        else:
+            unknown = [i for i in args.ids if i not in all_ids]
+            if unknown:
+                hint = ""
+                for u in unknown:
+                    padded = (
+                        f"{u.rsplit('_', 1)[0]}_"
+                        f"{int(u.rsplit('_', 1)[1]):02d}"
+                        if "_" in u and u.rsplit("_", 1)[1].isdigit()
+                        else None
+                    )
+                    if padded and padded in all_ids:
+                        hint += f"\n  did you mean '{padded}'?"
+                parser.error(
+                    f"Unknown ID(s): {', '.join(unknown)}{hint}"
+                )
 
     category = args.category or infer_category(
         json_path, config,

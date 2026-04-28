@@ -579,7 +579,7 @@
       "factEs": "Producir 1 kg de carne de res requiere aproximadamente 15,000 litros de agua, comparado con 1,250 para el trigo y 287 para las papas. Cambiar la dieta puede reducir drásticamente el consumo de agua.",
       "sourceUrl": "https://www.waterfootprint.org/water-footprint-2/what-is-a-water-footprint/",
       "iconName": "food_04",
-      "artPrompt": "Large blue water droplet beside a small blue water droplet with green vegetables",
+      "artPrompt": "Large blue water drop over a brown beef steak, tiny blue drop over an edamame pod, clean background",
       "condition": {
         "type": "categoryActions",
         "category": "food",
@@ -683,7 +683,7 @@
       "factEs": "Si todos adoptaran una dieta basada en plantas, el uso global de tierras agrícolas se reduciría en un 75%, un área equivalente a EE.UU., China, la UE y Australia combinados, permitiendo la recuperación de los ecosistemas.",
       "sourceUrl": "https://www.science.org/doi/10.1126/science.aaq0216",
       "iconName": "food_09",
-      "artPrompt": "White calendar grid filled with green leaf marks, golden border",
+      "artPrompt": "brown tree stumps on cleared brown land beside a small green forest",
       "condition": {
         "type": "multiDayChallenge",
         "templateId": "md_veganuary"
@@ -724,7 +724,7 @@
       "factEs": "Se proyecta que el mercado global de alimentos basados en plantas alcance los $162 mil millones para 2030. Cada elección de comida es un voto por el sistema alimentario que quieres ver.",
       "sourceUrl": "https://www.bloomberg.com/company/press/plant-based-foods-market-to-hit-162-billion-in-next-decade/",
       "iconName": "food_11",
-      "artPrompt": "Red tomatoes, orange carrots, and green beans growing side by side",
+      "artPrompt": "A mushroom burger with clear mushroom details and a happy cow side by side",
       "condition": {
         "type": "categoryActions",
         "category": "food",
