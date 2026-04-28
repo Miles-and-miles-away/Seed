@@ -13,10 +13,12 @@ Seed is a gamified sustainability habit-tracking mobile app for iOS and Android 
 flutter pub get
 
 # Run code generation (required after modifying @riverpod or @freezed classes)
-dart run build_runner build --delete-conflicting-outputs
+# Use `flutter pub run` (JIT) instead of `dart run` -- Dart 3.10's AOT path
+# breaks build_runner's build hooks.
+flutter pub run build_runner build --delete-conflicting-outputs
 
 # Watch mode for development (auto-regenerates on file changes)
-dart run build_runner watch --delete-conflicting-outputs
+flutter pub run build_runner watch --delete-conflicting-outputs
 
 # Generate localization files
 flutter gen-l10n
