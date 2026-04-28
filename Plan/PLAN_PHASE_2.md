@@ -297,7 +297,7 @@ abstract class AppUserModel with _$AppUserModel {
    - `getSpecies(speciesId)` → Future<MascotSpeciesModel?>
    - `getAllSpecies()` → Future<List<MascotSpeciesModel>>
 6. Update `AppUserModel` to include mascot field
-7. Run `dart run build_runner build`
+7. Run `flutter pub run build_runner build`
 8. Write unit tests for repository
 
 **Files to Create:**

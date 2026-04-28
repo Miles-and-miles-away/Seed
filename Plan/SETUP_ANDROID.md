@@ -79,7 +79,7 @@ flutter pub get
 Required for Riverpod and Freezed classes:
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ### 4. Generate Localization Files
@@ -158,7 +158,7 @@ Hot reload (`r`) and hot restart (`R`) handle most changes automatically.
 | Command | When Needed |
 |---------|-------------|
 | `flutter pub get` | After modifying `pubspec.yaml` (adding/removing packages) |
-| `dart run build_runner build` | After modifying `@riverpod` or `@freezed` classes |
+| `flutter pub run build_runner build` | After modifying `@riverpod` or `@freezed` classes |
 | `flutter gen-l10n` | After modifying ARB localization files |
 | `flutter clean` | Only when you have weird build issues (rare) |
 | `flutter build apk` | Only for release builds to distribute |
