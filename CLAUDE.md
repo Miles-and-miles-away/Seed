@@ -13,14 +13,16 @@ Seed is a gamified sustainability habit-tracking mobile app for iOS and Android 
 flutter pub get
 
 # Run code generation (required after modifying @riverpod or @freezed classes)
-# Use `flutter pub run` (JIT) instead of `dart run` -- Dart 3.10's AOT path
-# breaks build_runner's build hooks.
+# Generated files (.g.dart, .freezed.dart) ARE committed -- run this locally
+# and stage the regenerated files alongside your source change. CI does not
+# run codegen. Use `flutter pub run` (JIT); `dart run` AOT-compiles, which
+# Dart 3.10 refuses on packages with build hooks.
 flutter pub run build_runner build --delete-conflicting-outputs
 
 # Watch mode for development (auto-regenerates on file changes)
 flutter pub run build_runner watch --delete-conflicting-outputs
 
-# Generate localization files
+# Generate localization files (also committed -- run after editing .arb files)
 flutter gen-l10n
 
 # Analyze code (strict linting enabled)
@@ -113,7 +115,9 @@ Strict analysis enabled in `analysis_options.yaml`:
 - Uses `flutter_lints` + `very_good_analysis`
 
 ### Generated Files
-Excluded from linting and git:
+Excluded from linting (via `analysis_options.yaml`) but **committed** to
+git so CI does not need to run codegen. Regenerate locally and commit
+alongside source changes:
 - `*.g.dart` (Riverpod, json_serializable)
 - `*.freezed.dart` (Freezed)
 - `lib/core/l10n/generated/` (localization)

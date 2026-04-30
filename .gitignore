@@ -6,11 +6,6 @@ build/
 .flutter-plugins-dependencies
 *.iml
 
-# Generated files
-*.g.dart
-*.freezed.dart
-lib/core/l10n/generated/
-
 # IDE
 .idea/
 .vscode/
