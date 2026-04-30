@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
@@ -27,10 +28,12 @@ EcoDexEntry _entry({
     );
 
 void main() {
-  Widget wrap(Widget child) => MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: SizedBox(width: 100, height: 100, child: child),
+  Widget wrap(Widget child) => ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(width: 100, height: 100, child: child),
+            ),
           ),
         ),
       );
