@@ -30,7 +30,7 @@ void main() {
   testWidgets('displays the action name and a dismiss button', (tester) async {
     await tester.pumpWidget(_wrap());
 
-    await showDialog<void>(
+    final future = showDialog<void>(
       context: tester.element(find.byType(Scaffold)),
       builder: (_) => const LearnOnlyInfoDialog(
         action: ActionModel(
@@ -49,6 +49,11 @@ void main() {
 
     expect(find.text('Sign petition'), findsOneWidget);
     expect(find.byType(FilledButton), findsOneWidget);
+
+    // Dismiss so the showDialog future resolves and the test can finish.
+    await tester.tap(find.byType(FilledButton));
+    await tester.pumpAndSettle();
+    await future;
   });
 
   testWidgets('pressing Dismiss closes the dialog', (tester) async {
