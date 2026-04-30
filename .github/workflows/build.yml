@@ -48,15 +48,10 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Run code generation
-        # Use `flutter pub run` (JIT) -- Dart 3.10's `dart run` AOT path
-        # breaks build_runner build hooks.
-        run: >-
-          flutter pub run build_runner build
-          --delete-conflicting-outputs
-
-      - name: Generate localizations
-        run: flutter gen-l10n
+      # Generated files (.g.dart, .freezed.dart, l10n/generated/) are
+      # committed to the repo, so codegen does not run in CI. Run
+      # `flutter pub run build_runner build` and `flutter gen-l10n`
+      # locally after editing `@riverpod`/`@freezed` classes or ARB files.
 
       - name: Build debug APK
         run: flutter build apk --debug
