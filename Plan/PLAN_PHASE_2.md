@@ -945,12 +945,6 @@ match /mascotSpecies/{speciesId} {
 
 ## Post-Phase 2 Notes
 
-### Deferred to Phase 4
-- Cosmetic items and shop
-- Additional mascot species
-- Mascot accessories
-- Premium mascots
-
 ### Technical Debt to Address
 - Consider Rive/Lottie for richer animations
 - Add skeleton loading states

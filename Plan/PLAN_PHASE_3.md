@@ -35,7 +35,6 @@ Phase 3 transforms Seed from a functional habit tracker into an engaging daily c
 - Activate streak tracking with weekly milestones
 - Enable account management (email change, password change, delete account)
 - Support multiple daily reminders with customizable times
-- Add streak break notifications to encourage consistency
 
 ### Why This Phase Matters
 > **Habit formation requires timely reminders and visible progress.** Phase 3 provides the engagement layer that converts casual users into daily active users through well-timed nudges and streak psychology.
@@ -79,7 +78,6 @@ Phase 3 transforms Seed from a functional habit tracker into an engaging daily c
 | Streak calculation service | ✅ Done | `lib/shared/services/streak_service.dart` |
 | Streak update on action log | ✅ Done | Integrated in `action_log_repository.dart` |
 | Streak milestone dialogs | ✅ Done | `lib/features/settings/presentation/widgets/streak_milestone_dialog.dart` |
-| Streak broken notification | ⏳ Deferred | Push notification deferred to Phase 4 (requires Cloud Functions) |
 
 ### Platform Setup - ✅ COMPLETE
 | Component | Status | Notes |
@@ -97,9 +95,7 @@ Phase 3 transforms Seed from a functional habit tracker into an engaging daily c
 | Streak Tracking | 100% |
 | Platform Setup | 100% |
 | Unit & Widget Tests | 100% (256 tests) |
-| **Overall Phase 3** | **~98%** |
-
-> **Note:** Streak break push notification deferred to Phase 4 (requires Cloud Functions).
+| **Overall Phase 3** | **100%** |
 
 ---
 
@@ -264,7 +260,7 @@ abstract class UserSettingsModel with _$UserSettingsModel {
     @Default('en') String language,
     @Default(false) bool hasSeenOnboarding,
     @Default({}) Map<int, bool> seenStreakMilestones, // week number -> seen
-    @Default(false) bool streakGracePeriodUsed,  // Phase 4 foundation
+    @Default(false) bool streakGracePeriodUsed,
   }) = _UserSettingsModel;
 
   factory UserSettingsModel.fromJson(Map<String, dynamic> json) =>
@@ -315,7 +311,7 @@ abstract class AppUserModel with _$AppUserModel {
     // NEW Phase 3 fields
     @Default(true) bool notificationsEnabled,
     @TimestampConverter() DateTime? lastActionDate,  // For streak calculation
-    @Default(false) bool streakGracePeriodAvailable, // Phase 4 foundation
+    @Default(false) bool streakGracePeriodAvailable,
     String? fcmToken,  // For push notifications
   }) = _AppUserModel;
 }
@@ -328,7 +324,7 @@ users/{userId}/
 ├── ... (existing fields)
 ├── notificationsEnabled: boolean           # NEW: Master notification toggle
 ├── lastActionDate: timestamp               # NEW: For streak calculation
-├── streakGracePeriodAvailable: boolean     # NEW: Phase 4 foundation
+├── streakGracePeriodAvailable: boolean     # NEW: streak recovery foundation
 ├── fcmToken: string                        # NEW: For push notifications
 └── settings: {                             # NEW: Embedded settings document
     reminderSchedules: [
@@ -848,55 +844,6 @@ class StreakService {
 
 ---
 
-### Feature 3.10: Streak Break Notification
-
-**Priority:** P1
-
-**Tasks:**
-1. Implement Cloud Function (or local check) for streak break detection
-2. Send push notification when streak is about to break (e.g., 8 PM if no action)
-3. Send push notification when streak has broken (next day)
-4. Include encouraging message to start new streak
-5. Add localization strings
-6. Write tests
-
-**Implementation Options:**
-
-**Option A: Cloud Function (Recommended for accuracy)**
-```javascript
-// Firebase Cloud Function - runs at 8 PM user's timezone (requires timezone tracking)
-exports.streakBreakReminder = functions.pubsub
-  .schedule('0 20 * * *')
-  .onRun(async (context) => {
-    // Query users who haven't logged today and have active streak
-    // Send FCM notification
-  });
-```
-
-**Option B: Local Check on App Open**
-```dart
-// Check on app open if streak was broken since last session
-Future<void> checkStreakStatus() async {
-  final user = await getUserData();
-  if (user.currentStreak > 0 && user.lastActionDate != null) {
-    final daysSinceLastAction = DateTime.now()
-        .difference(user.lastActionDate!)
-        .inDays;
-
-    if (daysSinceLastAction > 1) {
-      // Streak broken - show dialog
-      showStreakBrokenDialog(previousStreak: user.currentStreak);
-    }
-  }
-}
-```
-
-**Files to Create:**
-- `firebase/functions/src/streakReminder.ts` (if using Cloud Functions)
-- `lib/features/settings/presentation/widgets/streak_broken_dialog.dart`
-
----
-
 ### Feature 3.11: Language Settings Screen
 
 **Priority:** P1
@@ -1079,26 +1026,6 @@ User taps "Delete Account"
 
 ---
 
-### Feature 3.14: Skeleton Loading States (If Time Permits)
-
-**Priority:** P2
-
-**Assessment from codebase review:**
-- Currently all loading states use `CircularProgressIndicator()`
-- No shimmer/skeleton patterns exist
-- Key screens that would benefit:
-  - `ProfileScreen` - stats cards could use skeleton
-  - `ActionLogScreen` - action grid could use skeleton
-  - `ProgressScreen` - calendar could use skeleton
-
-**Recommendation:** Defer to Phase 4 unless core Phase 3 features complete early. Create shared skeleton widgets for reuse.
-
-**Files to Create (if implemented):**
-- `lib/shared/widgets/skeleton_loader.dart`
-- `lib/shared/widgets/shimmer_effect.dart`
-
----
-
 ## Screen Designs
 
 ### Settings Screen
@@ -1178,8 +1105,7 @@ User taps "Delete Account"
 | 3.3 | Add lastActionDate field handling | P0 |
 | 3.4 | Create StreakMilestoneDialog | P1 |
 | 3.5 | Implement weekly milestone detection | P1 |
-| 3.6 | Implement streak break notification | P1 |
-| 3.7 | Write comprehensive streak tests | P0 |
+| 3.6 | Write comprehensive streak tests | P0 |
 
 **Milestone:** Streaks update correctly, weekly milestones celebrated
 
@@ -1384,13 +1310,6 @@ test/
 - [x] Dialog displays correct week count
 - [x] Mascot animation plays in dialog
 - [x] Widget tests pass (7 tests)
-
-### Feature 3.10: Streak Break Notification ⏳
-- [ ] Push notification sent when streak about to break
-- [ ] Notification includes encouraging message
-- [ ] User can tap notification to open app
-- [ ] Tests pass
-- **Deferred to Phase 4** (requires Cloud Functions)
 
 ### Feature 3.11: Language Settings ✅
 - [x] Shows all available languages (EN/ES/JP)
@@ -1867,14 +1786,6 @@ None required - all packages already in pubspec.yaml:
 
 ## Post-Phase 3 Considerations
 
-### Deferred to Phase 4
-- Skeleton/shimmer loading states
-- Haptic feedback throughout app
-- Dark mode audit
-- Streak grace period UI (foundation built in UserSettingsModel)
-- Advanced notification analytics
-- Notification A/B testing
-
 ### Technical Debt to Address
 - Add comprehensive widget tests for settings screens
 - Consider adding App Check for security
@@ -1963,14 +1874,9 @@ service cloud.firestore {
    - ReminderListTile tests (16 tests)
    - Total: **256 Phase 3 tests passing**
 
-2. **Streak Break Push Notification** (Deferred to Phase 4)
-   - Cloud Function for streak break detection
-   - Push notification when streak about to break
-
 ### Estimated Remaining Effort
 - Widget tests: ✅ COMPLETE
-- Streak break notification: Deferred to Phase 4
-- **Phase 3 is ~98% complete**
+- **Phase 3 is 100% complete**
 - **All core features implemented and tested**
 
 ---
