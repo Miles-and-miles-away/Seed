@@ -76,13 +76,15 @@ class DailySummaryRemoteDataSource {
     required int points,
     required int co2Grams,
     required List<int> sdgNumbers,
+    required String category,
   }) async {
     final todayId = _todayDateString();
     final docRef = _summariesCollection(userId).doc(todayId);
 
     AppLogger.debug('DailySummary: Recording action for $userId on $todayId');
     AppLogger.debug(
-      'DailySummary: points=$points, co2=$co2Grams, sdgs=$sdgNumbers',
+      'DailySummary: points=$points, co2=$co2Grams, '
+      'sdgs=$sdgNumbers, category=$category',
     );
 
     try {
@@ -98,6 +100,7 @@ class DailySummaryRemoteDataSource {
             completedSdgs: sdgNumbers.toSet().toList(),
             totalPoints: points,
             totalCo2Grams: co2Grams,
+            categoryCo2Grams: {category: co2Grams},
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
           );
@@ -113,6 +116,8 @@ class DailySummaryRemoteDataSource {
             AppConstants.fieldCompletedSdgs: updatedSdgs,
             AppConstants.fieldTotalPoints: FieldValue.increment(points),
             AppConstants.fieldTotalCo2Grams: FieldValue.increment(co2Grams),
+            '${AppConstants.fieldCategoryCo2Grams}.$category':
+                FieldValue.increment(co2Grams),
             AppConstants.fieldUpdatedAt: FieldValue.serverTimestamp(),
           });
         }

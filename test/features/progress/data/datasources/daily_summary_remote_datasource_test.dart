@@ -150,6 +150,12 @@ void main() {
     });
 
     group('incrementDailySummary', () {
+      String todayId() {
+        final now = DateTime.now();
+        return '${now.year}-${now.month.toString().padLeft(2, '0')}'
+            '-${now.day.toString().padLeft(2, '0')}';
+      }
+
       test(
         'creates new summary when none exists',
         () async {
@@ -158,12 +164,10 @@ void main() {
             points: 25,
             co2Grams: 200,
             sdgNumbers: [7, 13],
+            category: 'transport',
           );
 
-          final now = DateTime.now();
-          final todayId =
-              '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId).doc(todayId).get();
+          final doc = await summariesCollection(userId).doc(todayId()).get();
 
           expect(doc.exists, isTrue);
           final data = doc.data() as Map<String, dynamic>?;
@@ -172,6 +176,7 @@ void main() {
           expect(data['totalPoints'], 25);
           expect(data['totalCo2Grams'], 200);
           expect(data['completedSdgs'], containsAll([7, 13]));
+          expect(data['categoryCo2Grams'], {'transport': 200});
         },
       );
 
@@ -184,6 +189,7 @@ void main() {
             points: 10,
             co2Grams: 100,
             sdgNumbers: [1],
+            category: 'food',
           );
 
           // Increment again
@@ -192,12 +198,10 @@ void main() {
             points: 20,
             co2Grams: 150,
             sdgNumbers: [7],
+            category: 'food',
           );
 
-          final now = DateTime.now();
-          final todayId =
-              '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId).doc(todayId).get();
+          final doc = await summariesCollection(userId).doc(todayId()).get();
           final data = doc.data() as Map<String, dynamic>?;
 
           expect(data!['goalCount'], 2);
@@ -213,6 +217,7 @@ void main() {
             points: 10,
             co2Grams: 50,
             sdgNumbers: [7, 13],
+            category: 'energy',
           );
 
           await dataSource.incrementDailySummary(
@@ -220,12 +225,10 @@ void main() {
             points: 10,
             co2Grams: 50,
             sdgNumbers: [7, 1],
+            category: 'energy',
           );
 
-          final now = DateTime.now();
-          final todayId =
-              '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-          final doc = await summariesCollection(userId).doc(todayId).get();
+          final doc = await summariesCollection(userId).doc(todayId()).get();
           final data = doc.data() as Map<String, dynamic>?;
           final sdgs = data!['completedSdgs'] as List;
 
@@ -235,6 +238,72 @@ void main() {
             sdgs.length,
           );
           expect(sdgs, containsAll([1, 7, 13]));
+        },
+      );
+
+      test(
+        'accumulates category CO2 across multiple actions in the same '
+        'category',
+        () async {
+          await dataSource.incrementDailySummary(
+            userId: userId,
+            points: 10,
+            co2Grams: 100,
+            sdgNumbers: [11],
+            category: 'transport',
+          );
+
+          await dataSource.incrementDailySummary(
+            userId: userId,
+            points: 20,
+            co2Grams: 250,
+            sdgNumbers: [11],
+            category: 'transport',
+          );
+
+          final doc = await summariesCollection(userId).doc(todayId()).get();
+          final data = doc.data() as Map<String, dynamic>?;
+          final categoryCo2 = data!['categoryCo2Grams'] as Map<String, dynamic>;
+
+          expect(categoryCo2['transport'], 350);
+          expect(data['totalCo2Grams'], 350);
+        },
+      );
+
+      test(
+        'tracks distinct categories independently',
+        () async {
+          await dataSource.incrementDailySummary(
+            userId: userId,
+            points: 10,
+            co2Grams: 100,
+            sdgNumbers: [11],
+            category: 'transport',
+          );
+
+          await dataSource.incrementDailySummary(
+            userId: userId,
+            points: 20,
+            co2Grams: 200,
+            sdgNumbers: [2],
+            category: 'food',
+          );
+
+          await dataSource.incrementDailySummary(
+            userId: userId,
+            points: 5,
+            co2Grams: 50,
+            sdgNumbers: [11],
+            category: 'transport',
+          );
+
+          final doc = await summariesCollection(userId).doc(todayId()).get();
+          final data = doc.data() as Map<String, dynamic>?;
+          final categoryCo2 = data!['categoryCo2Grams'] as Map<String, dynamic>;
+
+          expect(categoryCo2['transport'], 150);
+          expect(categoryCo2['food'], 200);
+          expect(data['totalCo2Grams'], 350);
         },
       );
     });

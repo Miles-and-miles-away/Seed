@@ -25,6 +25,12 @@ abstract class DailySummaryModel with _$DailySummaryModel {
     /// Total CO2 saved in grams today
     @Default(0) int totalCo2Grams,
 
+    /// CO2 saved in grams today, broken down by action category.
+    /// Stored as a flat dotted-path field map in Firestore so partial
+    /// updates work via FieldValue.increment on a specific key
+    /// (e.g., `categoryCo2Grams.transport`).
+    @Default(<String, int>{}) Map<String, int> categoryCo2Grams,
+
     /// When this summary was created
     @TimestampConverter() DateTime? createdAt,
 

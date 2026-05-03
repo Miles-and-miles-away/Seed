@@ -182,6 +182,7 @@ void main() {
           points: 20,
           co2Grams: 500,
           sdgNumbers: const [3, 11],
+          category: 'transport',
         ),
       ).thenAnswer((_) async {});
 
@@ -190,6 +191,7 @@ void main() {
         points: 20,
         co2Grams: 500,
         sdgNumbers: const [3, 11],
+        category: 'transport',
       );
 
       verify(
@@ -198,6 +200,7 @@ void main() {
           points: 20,
           co2Grams: 500,
           sdgNumbers: const [3, 11],
+          category: 'transport',
         ),
       ).called(1);
     });
