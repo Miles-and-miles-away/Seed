@@ -2068,6 +2068,36 @@ abstract class AppLocalizations {
   /// **'vs. last month'**
   String get vsLastMonth;
 
+  /// No description provided for @equivalentToHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Equivalent to'**
+  String get equivalentToHeader;
+
+  /// No description provided for @equivTreesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'trees / year'**
+  String get equivTreesLabel;
+
+  /// No description provided for @equivCarKmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'km not driven'**
+  String get equivCarKmLabel;
+
+  /// No description provided for @equivPhoneChargesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'phone charges'**
+  String get equivPhoneChargesLabel;
+
+  /// No description provided for @equivBurgersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'burgers'**
+  String get equivBurgersLabel;
+
   /// No description provided for @ecoDexTitle.
   ///
   /// In en, this message translates to:

@@ -1073,6 +1073,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get vsLastMonth => '先月比';
 
   @override
+  String get equivalentToHeader => 'つまり';
+
+  @override
+  String get equivTreesLabel => '本の木 (年間)';
+
+  @override
+  String get equivCarKmLabel => 'km の運転回避';
+
+  @override
+  String get equivPhoneChargesLabel => '回のスマホ充電';
+
+  @override
+  String get equivBurgersLabel => '個のバーガー';
+
+  @override
   String get ecoDexTitle => 'エコ図鑑';
 
   @override
