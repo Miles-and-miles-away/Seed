@@ -1,9 +1,9 @@
 # Phase 5: Gamification & Daily Engagement
 
-**Version:** 2.0
+**Version:** 2.1
 **Created:** February 2026
-**Updated:** March 22, 2026
-**Status:** In Progress (5.1-5.3 complete, 5.4 planned)
+**Updated:** May 3, 2026
+**Status:** In Progress (5.1-5.3 complete, 5.4 awaiting art assets)
 
 ---
 
@@ -618,10 +618,10 @@ as "discovery" rather than "achievement" -- users are explorers
 uncovering knowledge about the natural world.
 
 Lives under the **Progress tab** alongside the calendar. Later
-phases add Achievements (Phase 7) and CO2 Dashboard (Phase 7) to
+phases add Achievements (Phase 6) and CO2 Dashboard (Phase 6) to
 make Progress a comprehensive "My Progress" hub.
 
-#### Difference from Achievements (Phase 7)
+#### Difference from Achievements (Phase 6)
 
 | Aspect | Eco-Dex | Achievements |
 |--------|---------|-------------|
@@ -1349,8 +1349,16 @@ refinements. Ordered by priority:
 - [x] Discovery count shown (e.g., "23/50")
 - [x] Accessible from Progress tab (segmented control)
 - [x] All entry text localized (EN/ES/JA)
-- [ ] Tests for condition evaluation and discovery logic
+- [x] Tests for condition evaluation and discovery logic
+  (`condition_evaluator_test.dart` + 16 tests in
+  `eco_dex_providers_test.dart` covering the discovery notifier)
 - [ ] Create assets for all eco_dex entries using generate_assets.py
+  (33 of 102 generated -- `climate`, `oceans`, `food` complete;
+  `bio`, `energy`, `circular`, `people`, `journey`, `gem`,
+  `selfless` outstanding. Missing assets fall back to a white
+  placeholder via `EcoDexEntryImage`, so the feature ships without
+  blocking on this; remaining generation is gated on Recraft API
+  token budget.)
 
 ### 5.4 Growing Ecosystem
 - [ ] Garden screen shows positioned plant elements

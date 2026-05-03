@@ -3,7 +3,7 @@
 **Version:** 1.3
 **Created:** January 2026
 **Updated:** March 10, 2026
-**Status:** Complete (8/10 features done, 2 deferred to Phase 6)
+**Status:** Complete
 
 ---
 
@@ -59,8 +59,6 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 | RESEARCH_STRATEGY.md | Documentation of research sources and methodology |
 | Enhanced Action Library UI | Search, sort, and filter functionality |
 | SDG Detail Screen v2 | Related actions + personal stats per SDG |
-| Cosmetic Shop | 5 purchasable items (accessories + backgrounds) |
-| Mascot Unlock System | 3 species with point-based unlocking |
 | Streak Break Notifications | Cloud Function for push notifications |
 | Analytics & Crash Reporting | Firebase Analytics events + Crashlytics |
 | Legal Screens | Privacy policy and terms of service |
@@ -76,8 +74,6 @@ This phase prepares the app for eventual soft launch (targeted for Phase 10).
 | 4.1 Action Library Research | P0 | High | Complete |
 | 4.2 Action Library UI Enhancement | P0 | Medium | Complete |
 | 4.3 SDG Detail Screen Enhancement | P0 | Medium | Complete |
-| 4.4 Cosmetic Shop | P0 | Medium | Deferred |
-| 4.5 Mascot Species Unlocking | P0 | Low | Deferred |
 | 4.6 Streak Break Cloud Function | P1 | Medium | Complete |
 | 4.7 Firebase Analytics | P0 | Low | Complete |
 | 4.8 Firebase Crashlytics | P0 | Low | Complete |
@@ -412,203 +408,6 @@ All 169 official UN targets displayed on the Goal detail page. Data extracted fr
 
 ---
 
-## Cosmetic Shop
-
-### 4.4 Cosmetic Shop Implementation
-
-**Priority:** P0 | **Complexity:** Medium
-
-Implement a shop where users can purchase cosmetic items with points.
-
-#### Features
-
-- Browse cosmetic items
-- View item details (preview, price, requirements)
-- Purchase items with points
-- Equip/unequip items on mascot
-- View owned items
-
-#### Data Model
-
-```dart
-@freezed
-class CosmeticItemModel with _$CosmeticItemModel {
-  const factory CosmeticItemModel({
-    required String id,
-    required String nameEn,
-    required String nameJa,
-    required String nameEs,
-    required String type,           // 'hat', 'accessory', 'background'
-    required String imageUrl,       // SVG URL
-    required int pointsCost,
-    @Default(1) int requiredLevel,
-    @Default(true) bool isAvailable,
-    String? descriptionEn,
-    String? descriptionJa,
-    String? descriptionEs,
-  }) = _CosmeticItemModel;
-}
-```
-
-#### User Ownership Model
-
-```dart
-// In AppUserModel or separate collection
-@freezed
-class UserCosmeticsModel with _$UserCosmeticsModel {
-  const factory UserCosmeticsModel({
-    @Default([]) List<String> ownedItemIds,
-    String? equippedHatId,
-    String? equippedAccessoryId,
-    String? equippedBackgroundId,
-  }) = _UserCosmeticsModel;
-}
-```
-
-#### Initial Items (5 total)
-
-| Item | Type | Cost | Description |
-|------|------|------|-------------|
-| Party Hat | Hat | 200 | Colorful celebration hat |
-| Leaf Crown | Hat | 300 | Crown made of green leaves |
-| Tiny Sunglasses | Accessory | 150 | Cool shades for your mascot |
-| Forest Background | Background | 400 | Lush forest scene |
-| Ocean Background | Background | 400 | Peaceful ocean waves |
-
-#### UI Design - Shop Screen
-
-```
-┌─────────────────────────────────────────┐
-│  ←           Shop           💰 1,250    │
-├─────────────────────────────────────────┤
-│                                         │
-│  ─────── Hats ───────                   │
-│  ┌─────────┐ ┌─────────┐               │
-│  │  🎉     │ │  🌿     │               │
-│  │ Party   │ │ Leaf    │               │
-│  │ Hat     │ │ Crown   │               │
-│  │ 200 pts │ │ 300 pts │               │
-│  └─────────┘ └─────────┘               │
-│                                         │
-│  ─────── Accessories ───────            │
-│  ┌─────────┐                            │
-│  │  🕶️     │                            │
-│  │ Tiny    │                            │
-│  │Shades   │                            │
-│  │ 150 pts │                            │
-│  └─────────┘                            │
-│                                         │
-│  ─────── Backgrounds ───────            │
-│  ┌─────────┐ ┌─────────┐               │
-│  │  🌲     │ │  🌊     │               │
-│  │ Forest  │ │ Ocean   │               │
-│  │ 400 pts │ │ 400 pts │               │
-│  └─────────┘ └─────────┘               │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create CosmeticItemModel | Freezed model for items | Pending |
-| Create UserCosmeticsModel | Track owned/equipped items | Pending |
-| Create CosmeticsRepository | CRUD operations for cosmetics | Pending |
-| Create cosmetics providers | Shop state, owned items, equipped | Pending |
-| Create ShopScreen | Browse all items | Pending |
-| Create ItemDetailSheet | Preview, purchase button | Pending |
-| Create OwnedItemsScreen | View and equip owned items | Pending |
-| Implement purchase logic | Deduct points, add to owned | Pending |
-| Implement equip/unequip | Update equipped item in Firestore | Pending |
-| Update MascotDisplay | Render equipped items on mascot | Pending |
-| Create 5 cosmetic item SVGs | AI-generated vector art | Pending |
-| Seed cosmetic items | Add to Firestore | Pending |
-| Add shop route | Navigation from profile/home | Pending |
-| Localize strings | Item names, UI text | Pending |
-| Write tests | Repository, purchase flow, display | Pending |
-
-#### Files to Create
-
-```
-lib/features/shop/
-├── shop.dart                           # Barrel file
-├── data/
-│   ├── models/
-│   │   ├── cosmetic_item_model.dart
-│   │   └── user_cosmetics_model.dart
-│   ├── datasources/
-│   │   └── shop_remote_datasource.dart
-│   └── repositories/
-│       └── shop_repository.dart
-└── presentation/
-    ├── providers/
-    │   └── shop_providers.dart
-    ├── screens/
-    │   ├── shop_screen.dart
-    │   └── owned_items_screen.dart
-    └── widgets/
-        ├── shop_item_card.dart
-        ├── item_detail_sheet.dart
-        └── equipped_items_preview.dart
-```
-
----
-
-## Additional Mascot Species
-
-### 4.5 Mascot Species Unlocking
-
-**Priority:** P0 | **Complexity:** Low
-
-Add 2 additional mascot species (3 total) with point-based unlocking.
-
-#### Current State
-
-- 1 mascot species (Sprout) with 4 evolution stages
-- No unlocking mechanism
-
-#### Target State
-
-- 3 mascot species total
-- First species free (starter)
-- Additional species unlockable with points
-- Placeholder images for now (final art in Phase 6)
-
-#### Species Data
-
-| Species | Unlock Cost | Description |
-|---------|-------------|-------------|
-| Sprout | Free | Plant-based mascot (existing, confirmed) |
-| Species 2 | 3,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
-| Species 3 | 5,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
-
-*Point costs designed to require sustained engagement*
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Update MascotSpeciesModel | Add unlockCost, isUnlocked fields | Pending |
-| Create species unlock provider | Check if user can unlock | Pending |
-| Create species selection screen | Show locked/unlocked species | Pending |
-| Implement unlock purchase | Deduct points, unlock species | Pending |
-| Create placeholder SVGs | 8 images (2 species × 4 stages) | Pending |
-| Seed mascot species | Add to Firestore | Pending |
-| Update mascot selection flow | Show unlock option | Pending |
-| Add "Change Mascot" option | In mascot detail screen | Pending |
-| Localize strings | Species names, unlock prompts | Pending |
-| Write tests | Unlock flow, species switching | Pending |
-
-#### Files to Modify
-
-- `lib/features/mascot/data/models/mascot_species_model.dart`
-- `lib/features/mascot/presentation/screens/mascot_selection_screen.dart`
-- `lib/features/mascot/presentation/providers/mascot_providers.dart`
-- `scripts/seed_mascot_species.js` (create)
-
----
-
 ## Streak Break Cloud Function
 
 ### 4.6 Streak Break Notification
@@ -934,22 +733,6 @@ Based on estimated user activity levels:
 ├── Integrate targets into detail screen          DONE
 └── Write targets widget tests                    DONE
 
-4.4  Cosmetic Shop                             -- DEFERRED to Phase 6
-├── Create data models
-├── Create repository
-├── Build shop UI
-├── Create 5 cosmetic items (SVGs)
-├── Implement purchase flow
-├── Integrate with mascot display
-└── Write tests
-
-4.5  Mascot Species Unlocking                  -- DEFERRED to Phase 6
-├── Update species model
-├── Create placeholder SVGs
-├── Implement unlock flow
-├── Update selection screen
-└── Write tests
-
 4.6  Streak Break Cloud Function               -- COMPLETE
 ├── Set up Firebase Functions                     DONE
 ├── Create streak reminder function               DONE
@@ -1046,20 +829,6 @@ Based on estimated user activity levels:
 - [x] "Learn Only" SDGs show educational content
 - [x] Resources links are clickable
 
-### 4.4 Cosmetic Shop (Deferred)
-- [ ] All 5 items visible in shop
-- [ ] Purchase deducts points correctly
-- [ ] Cannot purchase without sufficient points
-- [ ] Owned items appear in inventory
-- [ ] Equipped items render on mascot
-
-### 4.5 Mascot Species (Deferred)
-- [ ] 3 species visible (1 free, 2 locked)
-- [ ] Unlock shows confirmation with cost
-- [ ] Points deducted on unlock
-- [ ] Can switch between owned species
-- [ ] Placeholder images display correctly
-
 ### 4.6 Streak Break Cloud Function
 - [x] Function deploys successfully
 - [x] Runs on schedule (8 PM UTC)
@@ -1122,7 +891,7 @@ Based on estimated user activity levels:
 - `sdg_world_state_fully_sourced.json` contains lots of infomation on the SDGs. This should also be incorporated into the SDG info carousel
 - `Plan/sdg_indicator_metadata/` contains 17 JSON files (`sdg_goal_01.json` through `sdg_goal_17.json`) with structured UN SDG indicator metadata extracted from official documents. Each file contains targets, indicators, definitions, concepts, classifications, rationale, and custodian agencies for one Goal. Extracted using `../SeedResources/extract_sdg_metadata.py` from the `.docx` files in `../SeedResources/SDG-indicator-metadata/`
 - `assets/images/sdg_infographics/` contains `sdg_infographic_1.jpg` through `sdg_infographic_17.jpg` -- one infographic per SDG from the UN SDG Report 2022. These should be displayed in the SDG detail screen or info carousel to give users a visual overview of each goal's global progress
-- Cosmetic items should be simple initially; can add more in Phase 6
+- Cosmetic items should be simple initially; can add more in Phase 7
 - Placeholder mascot art is acceptable for soft launch
 - Monitor Cloud Function costs after deployment
 

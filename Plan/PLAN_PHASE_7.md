@@ -1,4 +1,4 @@
-# Phase 7: CO₂ Dashboard & Achievement System
+# Phase 7: Mascot Art & Premium Features
 
 **Version:** 1.0
 **Created:** January 2026
@@ -11,34 +11,35 @@
 1. [Phase Overview](#phase-overview)
 2. [Goals & Deliverables](#goals--deliverables)
 3. [Feature Breakdown](#feature-breakdown)
-4. [CO₂ Dashboard](#co2-dashboard)
-5. [Achievement System](#achievement-system)
-6. [User Feedback](#user-feedback)
-7. [Data Models](#data-models)
-8. [Implementation Order](#implementation-order)
-9. [Testing Strategy](#testing-strategy)
-10. [Acceptance Criteria](#acceptance-criteria)
+4. [Mascot Art](#mascot-art)
+5. [RevenueCat Integration](#revenuecat-integration)
+6. [Premium Tier Definition](#premium-tier-definition)
+7. [Paywall UI](#paywall-ui)
+8. [Premium Features](#premium-features)
+9. [Data Models](#data-models)
+10. [Implementation Order](#implementation-order)
+11. [Testing Strategy](#testing-strategy)
+12. [Acceptance Criteria](#acceptance-criteria)
 
 ---
 
 ## Phase Overview
 
-Phase 7 adds two major engagement features and a user feedback channel:
+Phase 7 focuses on two major areas:
 
-1. **CO₂ Dashboard** - Visualize environmental impact with charts, trends, and relatable equivalencies
-2. **Achievement System** - Gamify the experience with unlockable badges and bonus point rewards
-3. **User Feedback** - In-app feedback form so users can report issues and suggest features
+1. **Mascot Art Finalization** - Replace placeholder art with polished, final artwork for all 3 mascot species across 4 evolution stages
+2. **Premium Monetization** - Implement RevenueCat subscription infrastructure and define the premium tier
 
-These features deepen user engagement by making progress tangible, rewarding consistent behavior, and giving users a voice.
+This phase transforms the app from a free product to a freemium model with sustainable revenue potential.
 
 ### Key Objectives
 
-- Add CO₂ dashboard section to Progress screen
-- Display impact across multiple time periods with comparisons
-- Show relatable equivalencies ("equals X trees planted")
-- Implement ~15-20 achievements across multiple categories
-- Award bonus points for achievement completion
-- Show accomplishments on Profile with "next up" suggestions
+- Replace 12 placeholder mascot images with final art (3 species × 4 stages)
+- Integrate RevenueCat SDK for subscription management
+- Define clear free vs premium feature split
+- Build paywall UI with subscription benefits
+- Implement premium-only features (streak grace period, exclusive items)
+- Handle subscription lifecycle (purchase, restore, cancel, expire)
 
 ---
 
@@ -48,16 +49,13 @@ These features deepen user engagement by making progress tangible, rewarding con
 
 | Deliverable | Description |
 |-------------|-------------|
-| CO₂ Dashboard UI | Charts, trends, and totals within Progress screen |
-| Time Period Selector | Today, this week, this month, all time, custom range |
-| Period Comparisons | "20% more than last month" style insights |
-| Impact Equivalencies | Trees, car miles, flights, phone charges |
-| Achievement System | ~15-20 unlockable achievements |
-| Achievement Categories | Action, streak, level, SDG, milestone, special |
-| Achievement Rewards | Bonus points + celebration screen |
-| Achievement Display | Profile section with badges and "next up" |
-| Feedback Form | In-app form with category, description, and device info |
-| Feedback Submission | mailto-based delivery with auto-populated metadata |
+| Final Mascot Art | 12 polished SVG images |
+| RevenueCat Integration | SDK setup, entitlements, webhooks |
+| Premium Tier | Clear definition of free vs premium |
+| Paywall Screen | Subscription purchase UI |
+| Restore Purchases | Handle existing subscribers |
+| Streak Grace Period | Premium streak recovery feature |
+| Premium Cosmetics | Subscriber-exclusive shop items |
 
 ---
 
@@ -67,152 +65,227 @@ These features deepen user engagement by making progress tangible, rewarding con
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 7.1 CO₂ Dashboard UI | P0 | Medium | Pending |
-| 7.2 Time Period Analytics | P0 | Medium | Pending |
-| 7.3 Impact Equivalencies | P1 | Low | Pending |
-| 7.4 CO₂ Charts | P1 | Medium | Pending |
-| 7.5 Achievement Data Layer | P0 | Medium | Pending |
-| 7.6 Achievement Definitions | P0 | Low | Pending |
-| 7.7 Achievement Tracking | P0 | Medium | Pending |
-| 7.8 Achievement UI | P0 | Medium | Pending |
-| 7.9 Achievement Celebrations | P1 | Low | Pending |
-| 7.10 User Feedback | P1 | Low | Pending |
+| 7.1 Mascot Art Creation | P0 | High (art) | Pending |
+| 7.2 Mascot Art Integration | P0 | Low | Pending |
+| 7.3 RevenueCat Setup | P0 | Medium | Pending |
+| 7.4 Entitlements & Products | P0 | Low | Pending |
+| 7.5 Premium Tier Definition | P0 | Low | Pending |
+| 7.6 Paywall UI | P0 | Medium | Pending |
+| 7.7 Subscription State Management | P0 | Medium | Pending |
+| 7.8 Restore Purchases | P0 | Low | Pending |
+| 7.9 Streak Grace Period | P1 | Medium | Pending |
+| 7.10 Cosmetic Shop | P0 | Medium | Pending |
+| 7.11 Mascot Species Unlocking | P0 | Low | Pending |
+| 7.12 Premium Cosmetics | P1 | Low | Pending |
+| 7.13 Premium Mascot Species | P2 | Low | Pending |
 
 ---
 
-## CO₂ Dashboard
+## Mascot Art
 
-### 7.1 Dashboard UI
+### 7.1 Mascot Art Creation
 
-**Priority:** P0 | **Complexity:** Medium
+**Priority:** P0 | **Complexity:** High (art creation)
 
-Add a CO₂ impact section to the existing Progress screen.
+Create final artwork for all mascot species and evolution stages.
 
-#### Location
+#### Art Requirements
 
-The CO₂ dashboard will be a new section within `ProgressScreen`, positioned after the calendar view.
+Minimum 3 species × 4 stages = 12 assets. Sprout is locked in as
+the free starter. The remaining 2 species are selected by the
+designer from the candidate set in `PLAN_DESIGNER.md` §4.2
+(Coral, Funghi, Breeze, Terra, Bloom, Dewdrop), or a designer
+proposal that fits the sustainability theme.
 
-#### UI Design
+| Species | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Total |
+|---------|---------|---------|---------|---------|-------|
+| Sprout (Plant) — confirmed | Seed | Sprout | Sapling | Tree | 4 |
+| Species 2 — TBD | — | — | — | — | 4 |
+| Species 3 — TBD | — | — | — | — | 4 |
+| **Total** | | | | | **12** |
+
+#### Art Style Guidelines
+
+- **Format:** SVG (scalable vector)
+- **Style:** Cute, friendly, approachable (kawaii-inspired)
+- **Colors:** Match SDG/sustainability themes
+- **Size:** Design at 512×512px, export multiple sizes
+- **Consistency:** Same style across all species and stages
+- **Animation-ready:** Consider idle animation poses
+
+#### Art Creation Options
+
+| Option | Pros | Cons | Cost Estimate |
+|--------|------|------|---------------|
+| Commission artist | Professional quality, unique | Expensive, timeline | $500-2000 |
+| AI + cleanup | Fast, cheap | May lack polish | $0-50 |
+| Asset packs | Ready to use | Not unique | $20-100 |
+| DIY (learn) | Full control, free | Time-intensive | $0 |
+
+**Recommended:** Start with AI-generated + cleanup for soft launch. Commission professional art before full launch if budget allows.
+
+#### AI Art Workflow
+
+1. Generate concepts with Midjourney/DALL-E/Stable Diffusion
+2. Select best candidates for each species/stage
+3. Vectorize with tools (Vectorizer.ai, Adobe Illustrator)
+4. Clean up and refine in vector editor
+5. Ensure consistent style across all 12 images
+6. Export as SVG
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Define art brief | Style guide, color palette, references | Pending |
+| Generate Sprout concepts | Stage 1-4 (confirmed species) | Pending |
+| Generate Species 2 concepts | Stage 1-4 (designer-selected) | Pending |
+| Generate Species 3 concepts | Stage 1-4 (designer-selected) | Pending |
+| Vectorize selected art | Convert to SVG | Pending |
+| Clean up and polish | Refine details, consistency | Pending |
+| Export SVG | Single scalable vector per stage | Pending |
+| Review and iterate | Get feedback, refine | Pending |
+
+---
+
+### 7.2 Mascot Art Integration
+
+**Priority:** P0 | **Complexity:** Low
+
+Replace placeholder images with final art in the app.
+
+#### Current State
+
+- Placeholder SVGs in `assets/mascots/`
+- Referenced by species ID in Firestore
+- Displayed via `flutter_svg` package
+
+#### Integration Steps
+
+1. Add final art files to `assets/mascots/`
+2. Update `pubspec.yaml` asset declarations
+3. Update Firestore `mascotSpecies` documents with new URLs (if using Storage)
+4. Test rendering at all sizes
+5. Verify animations still work with new art
+
+#### File Structure
 
 ```
-┌─────────────────────────────────────────┐
-│  ←         Progress                     │
-├─────────────────────────────────────────┤
-│                                         │
-│  ─────── Calendar View ───────          │
-│  [Existing calendar widget]             │
-│                                         │
-│  ─────── Your Impact ───────            │
-│                                         │
-│  [Today ▼] [This Week] [Month] [All]    │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │                                 │   │
-│  │      🌍  2.5 kg                │   │
-│  │      CO₂ Saved Today            │   │
-│  │                                 │   │
-│  │   ▲ 15% more than yesterday    │   │
-│  │                                 │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  ─────── That's Equivalent To ───────   │
-│                                         │
-│  ┌────────┐ ┌────────┐ ┌────────┐      │
-│  │  🌳    │ │  🚗    │ │  📱    │      │
-│  │  0.1   │ │  10    │ │  312   │      │
-│  │ trees  │ │  km    │ │charges │      │
-│  └────────┘ └────────┘ └────────┘      │
-│                                         │
-│  ─────── Trend ───────                  │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │  📈 [Line chart of CO₂/day]    │   │
-│  │     Last 7 days                 │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  ─────── By Category ───────            │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │  [Pie chart by category]        │   │
-│  │  Transport: 45%                 │   │
-│  │  Food: 30%                      │   │
-│  │  Energy: 15%                    │   │
-│  │  Other: 10%                     │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-└─────────────────────────────────────────┘
+assets/mascots/
+├── sprout/
+│   ├── stage_1.svg
+│   ├── stage_2.svg
+│   ├── stage_3.svg
+│   └── stage_4.svg
+├── coral/
+│   ├── stage_1.svg
+│   ├── stage_2.svg
+│   ├── stage_3.svg
+│   └── stage_4.svg
+└── ember/
+    ├── stage_1.svg
+    ├── stage_2.svg
+    ├── stage_3.svg
+    └── stage_4.svg
 ```
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create CO2DashboardSection widget | Main container for dashboard | Pending |
-| Add time period selector | Tab bar or segmented control | Pending |
-| Create CO2TotalCard widget | Big number display with comparison | Pending |
-| Integrate into ProgressScreen | Add below calendar view | Pending |
-| Create CO₂ stats provider | Calculate totals by time period | Pending |
-| Add period comparison logic | Calculate % change vs previous | Pending |
-| Localize all strings | EN/ES/JA | Pending |
-| Write widget tests | Test display and interactions | Pending |
-
-#### Files to Create
-
-```
-lib/features/progress/presentation/widgets/
-├── co2_dashboard_section.dart
-├── co2_total_card.dart
-├── time_period_selector.dart
-└── period_comparison_badge.dart
-
-lib/features/progress/presentation/providers/
-└── co2_stats_provider.dart
-```
+| Organize final art files | Proper folder structure | Pending |
+| Update pubspec.yaml | Asset declarations | Pending |
+| Replace placeholder references | Update paths/URLs | Pending |
+| Test all mascot displays | Home, detail, selection | Pending |
+| Test evolution animations | Ensure smooth transitions | Pending |
+| Test on multiple devices | Different screen sizes | Pending |
 
 ---
 
-### 7.2 Time Period Analytics
+## RevenueCat Integration
+
+### 7.3 RevenueCat Setup
 
 **Priority:** P0 | **Complexity:** Medium
 
-Calculate and display CO₂ totals across different time periods.
+Integrate RevenueCat SDK for subscription management.
 
-#### Time Periods
+#### Why RevenueCat?
 
-| Period | Definition | Comparison |
-|--------|------------|------------|
-| Today | Current calendar day | vs. yesterday |
-| This Week | Current week (Mon-Sun or Sun-Sat) | vs. last week |
-| This Month | Current calendar month | vs. last month |
-| All Time | Since account creation | vs. previous equivalent period |
-| Custom | User-selected date range | vs. same duration before range |
+- Unified API for iOS App Store + Google Play
+- Handles receipt validation server-side
+- Dashboard for subscription analytics
+- Webhook support for server notifications
+- Free up to $2,500/month revenue
 
-#### Provider Logic
+#### Setup Steps
+
+1. Create RevenueCat account
+2. Create project in RevenueCat dashboard
+3. Configure App Store Connect (iOS)
+4. Configure Google Play Console (Android)
+5. Add SDK to Flutter app
+6. Initialize SDK with API keys
+7. Test sandbox purchases
+
+#### RevenueCat Dashboard Configuration
+
+```
+RevenueCat Project: Seed
+├── Apps
+│   ├── iOS App (com.seedapp)
+│   └── Android App (com.seedapp)
+├── Products
+│   ├── seed_premium_monthly
+│   └── seed_premium_yearly
+├── Entitlements
+│   └── premium
+└── Offerings
+    └── default
+        ├── Monthly Package
+        └── Annual Package
+```
+
+#### SDK Installation
+
+```yaml
+dependencies:
+  purchases_flutter: ^9.10.6  # Already in pubspec.yaml
+```
+
+#### SDK Initialization
 
 ```dart
-@riverpod
-class CO2StatsNotifier extends _$CO2StatsNotifier {
+// lib/shared/services/purchases_service.dart
+import 'package:purchases_flutter/purchases_flutter.dart';
 
-  Future<CO2Stats> getStats(TimePeriod period) async {
-    final userId = ref.watch(currentUserProvider).value?.uid;
-    if (userId == null) return CO2Stats.empty();
+class PurchasesService {
+  static const _apiKey = String.fromEnvironment(
+    'REVENUECAT_API_KEY',
+    defaultValue: '',
+  );
 
-    final (startDate, endDate) = _getDateRange(period);
-    final (prevStart, prevEnd) = _getPreviousDateRange(period);
+  Future<void> initialize() async {
+    await Purchases.setLogLevel(LogLevel.debug); // Remove in production
 
-    final currentTotal = await _calculateTotal(userId, startDate, endDate);
-    final previousTotal = await _calculateTotal(userId, prevStart, prevEnd);
+    PurchasesConfiguration configuration;
+    if (Platform.isIOS) {
+      configuration = PurchasesConfiguration(_apiKey);
+    } else if (Platform.isAndroid) {
+      configuration = PurchasesConfiguration(_apiKey);
+    } else {
+      throw UnsupportedError('Platform not supported');
+    }
 
-    final percentChange = previousTotal > 0
-        ? ((currentTotal - previousTotal) / previousTotal * 100)
-        : 0;
+    await Purchases.configure(configuration);
+  }
 
-    return CO2Stats(
-      totalGrams: currentTotal,
-      previousTotalGrams: previousTotal,
-      percentChange: percentChange,
-      period: period,
-    );
+  Future<void> login(String userId) async {
+    await Purchases.logIn(userId);
+  }
+
+  Future<void> logout() async {
+    await Purchases.logOut();
   }
 }
 ```
@@ -221,777 +294,762 @@ class CO2StatsNotifier extends _$CO2StatsNotifier {
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create TimePeriod enum | Today, thisWeek, thisMonth, allTime, custom | Pending |
-| Create CO2Stats model | Total, previous, change, period | Pending |
-| Implement date range calculation | For each period type | Pending |
-| Implement comparison calculation | Previous period logic | Pending |
-| Create custom date picker | For custom range selection | Pending |
-| Handle timezone correctly | Use device timezone | Pending |
-| Cache calculations | Avoid recalculating on every rebuild | Pending |
-| Write unit tests | Test all period calculations | Pending |
+| Create RevenueCat account | Sign up at revenuecat.com | Pending |
+| Create RevenueCat project | Set up Seed project | Pending |
+| Configure iOS app | App Store Connect integration | Pending |
+| Configure Android app | Google Play Console integration | Pending |
+| Create products | Monthly and yearly subscriptions | Pending |
+| Create entitlements | "premium" entitlement | Pending |
+| Create offerings | Default offering with packages | Pending |
+| Add API keys | iOS and Android keys | Pending |
+| Initialize SDK in app | PurchasesService class | Pending |
+| Test sandbox mode | Verify purchases work | Pending |
+
+#### Files to Create
+
+```
+lib/shared/services/
+└── purchases_service.dart
+
+lib/shared/providers/
+└── purchases_providers.dart
+```
 
 ---
 
-### 7.3 Impact Equivalencies
+### 7.4 Entitlements & Products
 
-**Priority:** P1 | **Complexity:** Low
+**Priority:** P0 | **Complexity:** Low
 
-Convert CO₂ savings into relatable real-world comparisons.
+Configure subscription products and entitlements.
 
-#### Equivalency Formulas
+#### Product Configuration
 
-| Equivalency | Formula | Source |
-|-------------|---------|--------|
-| Trees planted | CO₂ (kg) / 21 kg per tree/year | EPA |
-| Car km avoided | CO₂ (g) / 200 g per km | DEFRA |
-| Flights avoided | CO₂ (kg) / 255 kg per hour flight | DEFRA |
-| Phone charges | CO₂ (g) / 8 g per charge | EPA |
-| Showers saved | CO₂ (g) / 500 g per 8-min shower | Carbon Trust |
-| Burgers not eaten | CO₂ (g) / 3,000 g per beef burger | Our World in Data |
+| Product ID | Type | Duration | Price (suggested) |
+|------------|------|----------|-------------------|
+| `seed_premium_monthly` | Auto-renewable | 1 month | $2.99/month |
+| `seed_premium_yearly` | Auto-renewable | 1 year | $19.99/year |
 
-*Note: These are approximate values for illustration. Document exact sources in code.*
+*Yearly = ~$1.67/month, ~44% savings*
 
-#### UI Design
+#### Entitlements
+
+| Entitlement ID | Description | Granted By |
+|----------------|-------------|------------|
+| `premium` | Full premium access | Any active subscription |
+
+#### Offerings
 
 ```
-┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐
-│  🌳    │ │  🚗    │ │  📱    │ │  🍔    │
-│  2.4   │ │  125   │ │  3,125 │ │  8     │
-│ trees  │ │  km    │ │charges │ │burgers │
-│ /year  │ │not     │ │        │ │        │
-│        │ │driven  │ │        │ │        │
-└────────┘ └────────┘ └────────┘ └────────┘
+Offering: default
+├── Package: monthly
+│   └── Product: seed_premium_monthly
+└── Package: annual
+    └── Product: seed_premium_yearly
 ```
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create ImpactEquivalency model | Type, value, icon, label | Pending |
-| Create equivalency calculator | Convert CO₂ to each type | Pending |
-| Create EquivalencyCard widget | Single equivalency display | Pending |
-| Create EquivalencyRow widget | Horizontal scrollable row | Pending |
-| Select best equivalencies per total | Show most relevant 3-4 | Pending |
-| Localize labels | EN/ES/JA | Pending |
-| Write unit tests | Test calculations | Pending |
-
-#### Files to Create
-
-```
-lib/features/progress/data/
-└── impact_equivalencies.dart
-
-lib/features/progress/presentation/widgets/
-├── equivalency_card.dart
-└── equivalency_row.dart
-```
+| Create App Store products | In App Store Connect | Pending |
+| Create Play Store products | In Google Play Console | Pending |
+| Map products in RevenueCat | Link to store products | Pending |
+| Create premium entitlement | In RevenueCat dashboard | Pending |
+| Create default offering | With monthly/annual packages | Pending |
+| Configure pricing | Set prices in both stores | Pending |
 
 ---
 
-### 7.4 CO₂ Charts
+### 7.5 Premium Tier Definition
 
-**Priority:** P1 | **Complexity:** Medium
+**Priority:** P0 | **Complexity:** Low
 
-Visualize CO₂ trends with interactive charts.
+Define which features are free vs premium.
 
-#### Chart Types
+#### Feature Matrix
 
-| Chart | Purpose | Library |
-|-------|---------|---------|
-| Line/Area Chart | Daily trend over time | fl_chart |
-| Bar Chart | Daily/weekly breakdown | fl_chart |
-| Pie/Donut Chart | Category distribution | fl_chart |
+| Feature | Free | Premium |
+|---------|------|---------|
+| Log actions | ✅ | ✅ |
+| View progress | ✅ | ✅ |
+| Track streaks | ✅ | ✅ |
+| View SDG info | ✅ | ✅ |
+| 1 mascot species | ✅ | ✅ |
+| Basic cosmetics (earn with points) | ✅ | ✅ |
+| Notifications (2 reminders) | ✅ | ✅ |
+| CO₂ dashboard | ✅ | ✅ |
+| Achievements | ✅ | ✅ |
+| **Streak grace period** | ❌ | ✅ |
+| **Unlimited reminders** | ❌ | ✅ |
+| **Premium cosmetics** | ❌ | ✅ |
+| **All mascot species** | ❌ | ✅ |
+| **Premium-only achievements** | ❌ | ✅ |
+| **Ad-free** (if ads added) | ❌ | ✅ |
+| **Priority support** | ❌ | ✅ |
 
-#### Chart Package
+#### Philosophy
 
-Recommend `fl_chart` - popular, well-maintained, good Flutter integration.
-
-```yaml
-dependencies:
-  fl_chart: ^0.69.0
-```
-
-#### UI Specifications
-
-**Trend Chart (Line/Area)**
-- Default: Last 7 days
-- Options: 7 days, 30 days, 90 days
-- Y-axis: CO₂ in grams/kg (auto-scale)
-- X-axis: Date labels
-- Touch interaction: Show value on tap
-
-**Category Chart (Pie/Donut)**
-- Show top 4-5 categories
-- Group small categories as "Other"
-- Legend with percentages
-- Touch interaction: Highlight segment
+- **Free tier should be fully functional** - Users can enjoy the core experience
+- **Premium adds convenience and customization** - Not pay-to-win
+- **No feature removal** - Free users keep what they have
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Add fl_chart dependency | pubspec.yaml | Pending |
-| Create CO2TrendChart widget | Line/area chart | Pending |
-| Create CO2CategoryChart widget | Pie/donut chart | Pending |
-| Create chart data providers | Aggregate data for charts | Pending |
-| Add chart range selector | 7/30/90 days | Pending |
-| Style charts to match theme | Colors, fonts | Pending |
-| Handle empty data state | "No data yet" message | Pending |
-| Localize chart labels | EN/ES/JA | Pending |
-| Write widget tests | Test chart rendering | Pending |
-
-#### Files to Create
-
-```
-lib/features/progress/presentation/widgets/
-├── co2_trend_chart.dart
-├── co2_category_chart.dart
-└── chart_range_selector.dart
-
-lib/features/progress/presentation/providers/
-└── co2_chart_data_provider.dart
-```
+| Finalize feature matrix | Confirm free vs premium split | Pending |
+| Document in app | Help/FAQ about premium | Pending |
+| Create premium check utility | `isPremium` helper | Pending |
+| Gate premium features | Check entitlement before access | Pending |
 
 ---
 
-## Achievement System
-
-### 7.5 Achievement Data Layer
+### 7.6 Paywall UI
 
 **Priority:** P0 | **Complexity:** Medium
 
-Define data models and storage for achievements.
+Build the subscription purchase screen.
+
+#### Paywall Design
+
+```
+┌─────────────────────────────────────────┐
+│  ×                                      │
+├─────────────────────────────────────────┤
+│                                         │
+│              🌱 Seed Premium            │
+│                                         │
+│         Unlock the full experience      │
+│                                         │
+│  ─────────────────────────────────────  │
+│                                         │
+│  ✓ Streak grace period                  │
+│    Recover from missed days             │
+│                                         │
+│  ✓ All mascot species                   │
+│    Unlock every species in the shop     │
+│                                         │
+│  ✓ Premium cosmetics                    │
+│    Exclusive items for your mascot      │
+│                                         │
+│  ✓ Unlimited reminders                  │
+│    Set as many as you need              │
+│                                         │
+│  ─────────────────────────────────────  │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │  BEST VALUE                     │   │
+│  │  Yearly - $19.99/year           │   │
+│  │  Just $1.67/month - Save 44%    │   │
+│  │  ○                              │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │  Monthly - $2.99/month          │   │
+│  │  ○                              │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │        Subscribe Now            │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  Restore Purchases                      │
+│                                         │
+│  Terms of Service • Privacy Policy      │
+│                                         │
+└─────────────────────────────────────────┘
+```
+
+#### Paywall Triggers
+
+Show paywall when user attempts to:
+- Use streak grace period (not subscribed)
+- Access premium cosmetic item
+- Unlock a locked mascot species
+- Add more than 2 notification reminders
+- Tap "Go Premium" button in settings
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Create PaywallScreen | Full subscription UI | Pending |
+| Create BenefitsList widget | Premium features list | Pending |
+| Create PricingCard widget | Package selection | Pending |
+| Fetch offerings from RevenueCat | Display current prices | Pending |
+| Implement purchase flow | Handle purchase result | Pending |
+| Handle errors | Show appropriate messages | Pending |
+| Add restore purchases button | For existing subscribers | Pending |
+| Add legal links | Terms, privacy policy | Pending |
+| Localize all strings | EN/ES/JA | Pending |
+| Write widget tests | Test UI states | Pending |
+
+#### Files to Create
+
+```
+lib/features/premium/
+├── premium.dart                         # Barrel file
+├── presentation/
+│   ├── screens/
+│   │   └── paywall_screen.dart
+│   ├── widgets/
+│   │   ├── benefits_list.dart
+│   │   ├── pricing_card.dart
+│   │   └── subscription_button.dart
+│   └── providers/
+│       └── paywall_providers.dart
+```
+
+---
+
+### 7.7 Subscription State Management
+
+**Priority:** P0 | **Complexity:** Medium
+
+Manage subscription state throughout the app.
+
+#### State Model
+
+```dart
+@freezed
+class SubscriptionState with _$SubscriptionState {
+  const factory SubscriptionState({
+    required bool isPremium,
+    required bool isActive,
+    String? productId,
+    DateTime? expirationDate,
+    DateTime? purchaseDate,
+    String? managementUrl,
+  }) = _SubscriptionState;
+
+  factory SubscriptionState.free() => const SubscriptionState(
+    isPremium: false,
+    isActive: false,
+  );
+}
+```
+
+#### Provider Architecture
+
+```dart
+@riverpod
+Stream<SubscriptionState> subscriptionState(Ref ref) {
+  return Purchases.customerInfoStream.map((info) {
+    final entitlement = info.entitlements.all['premium'];
+    return SubscriptionState(
+      isPremium: entitlement?.isActive ?? false,
+      isActive: entitlement?.isActive ?? false,
+      productId: entitlement?.productIdentifier,
+      expirationDate: entitlement?.expirationDate,
+      purchaseDate: entitlement?.latestPurchaseDate,
+      managementUrl: info.managementURL,
+    );
+  });
+}
+
+@riverpod
+bool isPremium(Ref ref) {
+  return ref.watch(subscriptionStateProvider).valueOrNull?.isPremium ?? false;
+}
+```
+
+#### Usage in App
+
+```dart
+// Check premium status before feature access
+class SomeWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremium = ref.watch(isPremiumProvider);
+
+    if (!isPremium) {
+      return LockedFeatureCard(
+        onTap: () => context.push('/paywall'),
+      );
+    }
+
+    return PremiumFeatureContent();
+  }
+}
+```
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Create SubscriptionState model | Freezed model | Pending |
+| Create subscriptionStateProvider | Stream from RevenueCat | Pending |
+| Create isPremiumProvider | Simple boolean check | Pending |
+| Handle subscription changes | React to state updates | Pending |
+| Persist state locally | Cache for offline access | Pending |
+| Sync with Firestore | Store subscription status | Pending |
+| Write unit tests | Test state transitions | Pending |
+
+---
+
+### 7.8 Restore Purchases
+
+**Priority:** P0 | **Complexity:** Low
+
+Handle subscription restoration for returning users.
+
+#### Restore Flow
+
+1. User taps "Restore Purchases"
+2. Show loading indicator
+3. Call `Purchases.restorePurchases()`
+4. Check returned CustomerInfo for active entitlements
+5. Update app state if premium restored
+6. Show success/failure message
+
+#### Implementation
+
+```dart
+Future<bool> restorePurchases() async {
+  try {
+    final customerInfo = await Purchases.restorePurchases();
+    final isPremium = customerInfo.entitlements.all['premium']?.isActive ?? false;
+
+    if (isPremium) {
+      // Premium restored successfully
+      return true;
+    } else {
+      // No active subscription found
+      return false;
+    }
+  } on PlatformException catch (e) {
+    // Handle error
+    return false;
+  }
+}
+```
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Implement restore function | In PurchasesService | Pending |
+| Add restore button to paywall | With loading state | Pending |
+| Add restore option in settings | For existing subscribers | Pending |
+| Handle success message | "Subscription restored!" | Pending |
+| Handle failure message | "No subscription found" | Pending |
+| Write tests | Test restore scenarios | Pending |
+
+---
+
+## Premium Features
+
+### 7.9 Streak Grace Period
+
+**Priority:** P1 | **Complexity:** Medium
+
+Allow premium users to recover from missed streak days.
+
+#### Feature Design
+
+- Premium users get 1 "grace day" per streak
+- If user misses a day, streak is preserved (not reset)
+- Grace period resets when streak is broken or after successful recovery
+- Visual indicator shows grace period status
+
+#### Data Model Updates
+
+```dart
+// In AppUserModel
+@freezed
+class AppUserModel with _$AppUserModel {
+  const factory AppUserModel({
+    // ... existing fields
+    @Default(false) bool streakGracePeriodUsed,
+    DateTime? gracePeriodActivatedAt,
+  }) = _AppUserModel;
+}
+```
+
+#### Streak Logic Updates
+
+```dart
+// In StreakService
+(int, int, bool) calculateStreakWithGrace({
+  required DateTime? lastActionDate,
+  required int currentStreak,
+  required int longestStreak,
+  required bool isPremium,
+  required bool gracePeriodUsed,
+  required DateTime now,
+}) {
+  final today = DateTime(now.year, now.month, now.day);
+  final lastDate = lastActionDate != null
+      ? DateTime(lastActionDate.year, lastActionDate.month, lastActionDate.day)
+      : null;
+
+  if (lastDate == null) {
+    return (1, max(1, longestStreak), false);
+  }
+
+  final daysDifference = today.difference(lastDate).inDays;
+
+  if (daysDifference == 0) {
+    // Already logged today
+    return (currentStreak, longestStreak, gracePeriodUsed);
+  } else if (daysDifference == 1) {
+    // Logged yesterday - continue streak
+    final newStreak = currentStreak + 1;
+    return (newStreak, max(newStreak, longestStreak), false); // Reset grace
+  } else if (daysDifference == 2 && isPremium && !gracePeriodUsed) {
+    // Missed 1 day but premium can use grace period
+    return (currentStreak, longestStreak, true); // Grace used
+  } else {
+    // Streak broken
+    return (1, longestStreak, false);
+  }
+}
+```
+
+#### UI Updates
+
+- Show grace period badge on streak display when active
+- Show "Grace Period Saved Your Streak!" message
+- Show grace period status in settings/profile
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Update AppUserModel | Add grace period fields | Pending |
+| Update StreakService | Add grace period logic | Pending |
+| Create grace period badge | Visual indicator | Pending |
+| Add grace recovery message | Notify user when grace used | Pending |
+| Show grace status in UI | Profile/settings | Pending |
+| Gate behind premium | Check entitlement | Pending |
+| Write unit tests | Test all grace scenarios | Pending |
+
+---
+
+### 7.10 Cosmetic Shop
+
+**Priority:** P0 | **Complexity:** Medium
+
+Implement a shop where users can purchase cosmetic items with
+points. Ships alongside the premium-tier work in 7.12 that
+extends it with subscriber-only items.
+
+#### Features
+
+- Browse cosmetic items
+- View item details (preview, price, requirements)
+- Purchase items with points
+- Equip/unequip items on mascot
+- View owned items
 
 #### Data Model
 
 ```dart
 @freezed
-class AchievementDefinition with _$AchievementDefinition {
-  const factory AchievementDefinition({
+class CosmeticItemModel with _$CosmeticItemModel {
+  const factory CosmeticItemModel({
     required String id,
     required String nameEn,
     required String nameJa,
     required String nameEs,
-    required String descriptionEn,
-    required String descriptionJa,
-    required String descriptionEs,
-    required String category,        // action, streak, level, sdg, milestone, special
-    required String iconName,        // Material icon or custom asset
-    required int bonusPoints,        // Points awarded on unlock
-    required AchievementCriteria criteria,
-  }) = _AchievementDefinition;
-}
-
-@freezed
-class AchievementCriteria with _$AchievementCriteria {
-  // Different criteria types
-  const factory AchievementCriteria.actionCount({
-    required int count,
-    String? category,      // Optional: specific category
-    String? actionId,      // Optional: specific action
-  }) = ActionCountCriteria;
-
-  const factory AchievementCriteria.streakDays({
-    required int days,
-  }) = StreakDaysCriteria;
-
-  const factory AchievementCriteria.levelReached({
-    required int level,
-  }) = LevelReachedCriteria;
-
-  const factory AchievementCriteria.sdgCount({
-    required int count,    // Number of different SDGs supported
-  }) = SdgCountCriteria;
-
-  const factory AchievementCriteria.co2Saved({
-    required int grams,
-  }) = Co2SavedCriteria;
-
-  const factory AchievementCriteria.special({
-    required String type,  // e.g., "first_action", "account_created"
-  }) = SpecialCriteria;
-}
-
-@freezed
-class UserAchievement with _$UserAchievement {
-  const factory UserAchievement({
-    required String odefinitionId,
-    required DateTime unlockedAt,
-    required bool pointsClaimed,
-  }) = _UserAchievement;
+    required String type,           // 'hat', 'accessory', 'background'
+    required String imageUrl,       // SVG URL
+    required int pointsCost,
+    @Default(1) int requiredLevel,
+    @Default(true) bool isAvailable,
+    String? descriptionEn,
+    String? descriptionJa,
+    String? descriptionEs,
+  }) = _CosmeticItemModel;
 }
 ```
 
-#### Firestore Structure
+#### User Ownership Model
+
+```dart
+// In AppUserModel or separate collection
+@freezed
+class UserCosmeticsModel with _$UserCosmeticsModel {
+  const factory UserCosmeticsModel({
+    @Default([]) List<String> ownedItemIds,
+    String? equippedHatId,
+    String? equippedAccessoryId,
+    String? equippedBackgroundId,
+  }) = _UserCosmeticsModel;
+}
+```
+
+#### Initial Items (5 total)
+
+| Item | Type | Cost | Description |
+|------|------|------|-------------|
+| Party Hat | Hat | 200 | Colorful celebration hat |
+| Leaf Crown | Hat | 300 | Crown made of green leaves |
+| Tiny Sunglasses | Accessory | 150 | Cool shades for your mascot |
+| Forest Background | Background | 400 | Lush forest scene |
+| Ocean Background | Background | 400 | Peaceful ocean waves |
+
+#### UI Design - Shop Screen
 
 ```
-users/{userId}/achievements/
-├── {achievementId}/
-│   ├── unlockedAt: timestamp
-│   └── pointsClaimed: boolean
-
-# Achievement definitions stored locally (not in Firestore)
-# This keeps them fast and avoids unnecessary reads
++-----------------------------------------+
+|  <-          Shop           1,250 pts   |
++-----------------------------------------+
+|                                         |
+|  ------- Hats -------                   |
+|  +---------+ +---------+                |
+|  | Party   | | Leaf    |                |
+|  | Hat     | | Crown   |                |
+|  | 200 pts | | 300 pts |                |
+|  +---------+ +---------+                |
+|                                         |
+|  ------- Accessories -------            |
+|  +---------+                            |
+|  | Tiny    |                            |
+|  | Shades  |                            |
+|  | 150 pts |                            |
+|  +---------+                            |
+|                                         |
+|  ------- Backgrounds -------            |
+|  +---------+ +---------+                |
+|  | Forest  | | Ocean   |                |
+|  | 400 pts | | 400 pts |                |
+|  +---------+ +---------+                |
+|                                         |
++-----------------------------------------+
 ```
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AchievementDefinition model | Freezed model | Pending |
-| Create AchievementCriteria model | Union type for criteria | Pending |
-| Create UserAchievement model | User's unlocked achievements | Pending |
-| Create AchievementRepository | CRUD for user achievements | Pending |
-| Create achievement definitions file | All ~15-20 achievements | Pending |
-| Run code generation | Freezed + JSON serializable | Pending |
-| Write unit tests | Model serialization | Pending |
+| Create CosmeticItemModel | Freezed model for items | Pending |
+| Create UserCosmeticsModel | Track owned/equipped items | Pending |
+| Create CosmeticsRepository | CRUD operations for cosmetics | Pending |
+| Create cosmetics providers | Shop state, owned items, equipped | Pending |
+| Create ShopScreen | Browse all items | Pending |
+| Create ItemDetailSheet | Preview, purchase button | Pending |
+| Create OwnedItemsScreen | View and equip owned items | Pending |
+| Implement purchase logic | Deduct points, add to owned | Pending |
+| Implement equip/unequip | Update equipped item in Firestore | Pending |
+| Update MascotDisplay | Render equipped items on mascot | Pending |
+| Create 5 cosmetic item SVGs | AI-generated vector art | Pending |
+| Seed cosmetic items | Add to Firestore | Pending |
+| Add shop route | Navigation from profile/home | Pending |
+| Localize strings | Item names, UI text | Pending |
+| Write tests | Repository, purchase flow, display | Pending |
 
 #### Files to Create
 
 ```
-lib/features/achievements/
-├── achievements.dart                    # Barrel file
-├── data/
-│   ├── models/
-│   │   ├── achievement_definition.dart
-│   │   ├── achievement_criteria.dart
-│   │   └── user_achievement.dart
-│   ├── datasources/
-│   │   └── achievements_remote_datasource.dart
-│   ├── repositories/
-│   │   └── achievements_repository.dart
-│   └── achievement_definitions.dart     # Static definitions
-└── ...
+lib/features/shop/
++-- shop.dart                           # Barrel file
++-- data/
+|   +-- models/
+|   |   +-- cosmetic_item_model.dart
+|   |   +-- user_cosmetics_model.dart
+|   +-- datasources/
+|   |   +-- shop_remote_datasource.dart
+|   +-- repositories/
+|       +-- shop_repository.dart
++-- presentation/
+    +-- providers/
+    |   +-- shop_providers.dart
+    +-- screens/
+    |   +-- shop_screen.dart
+    |   +-- owned_items_screen.dart
+    +-- widgets/
+        +-- shop_item_card.dart
+        +-- item_detail_sheet.dart
+        +-- equipped_items_preview.dart
 ```
 
 ---
 
-### 7.6 Achievement Definitions
+### 7.11 Mascot Species Unlocking
 
 **Priority:** P0 | **Complexity:** Low
 
-Define the ~15-20 achievements for launch.
-
-#### Achievement List
-
-**Special (2)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `first_action` | First Step | Log your first action | special: first_action | 50 |
-| `joined_seed` | Welcome to Seed | Create your account | special: account_created | 25 |
-
-**Action-Based (5)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `actions_10` | Getting Started | Log 10 actions | actionCount: 10 | 100 |
-| `actions_50` | Making Progress | Log 50 actions | actionCount: 50 | 250 |
-| `actions_100` | Century Club | Log 100 actions | actionCount: 100 | 500 |
-| `actions_500` | Dedicated | Log 500 actions | actionCount: 500 | 1000 |
-| `try_all_categories` | Explorer | Log an action in every category | actionCount: 1, each category | 200 |
-
-**Streak-Based (4)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `streak_7` | One Week Strong | Maintain a 7-day streak | streakDays: 7 | 150 |
-| `streak_30` | Monthly Master | Maintain a 30-day streak | streakDays: 30 | 500 |
-| `streak_100` | Unstoppable | Maintain a 100-day streak | streakDays: 100 | 1500 |
-| `streak_365` | Year of Impact | Maintain a 365-day streak | streakDays: 365 | 5000 |
-
-**Level-Based (3)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `level_5` | Rising Star | Reach level 5 | levelReached: 5 | 100 |
-| `level_10` | Eco Warrior | Reach level 10 | levelReached: 10 | 250 |
-| `level_25` | Sustainability Champion | Reach level 25 | levelReached: 25 | 750 |
-
-**SDG-Based (2)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `sdg_5` | Diverse Impact | Support 5 different SDGs | sdgCount: 5 | 200 |
-| `sdg_all` | Global Citizen | Support all 17 SDGs | sdgCount: 17 | 1000 |
-
-**Milestone-Based (3)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `co2_1kg` | First Kilogram | Save 1 kg of CO₂ | co2Saved: 1000 | 100 |
-| `co2_100kg` | Carbon Cutter | Save 100 kg of CO₂ | co2Saved: 100000 | 500 |
-| `co2_1000kg` | Climate Hero | Save 1,000 kg of CO₂ | co2Saved: 1000000 | 2000 |
-
-**Total: 19 achievements**
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Define all achievements in code | Static list of definitions | Pending |
-| Localize achievement names | EN/ES/JA | Pending |
-| Localize achievement descriptions | EN/ES/JA | Pending |
-| Select icons for each achievement | Material icons or custom | Pending |
-| Balance point rewards | Ensure fair progression | Pending |
-
----
-
-### 7.7 Achievement Tracking
-
-**Priority:** P0 | **Complexity:** Medium
-
-Check for achievement completion and award points.
-
-#### Tracking Logic
-
-Achievements should be checked at these trigger points:
-
-| Trigger | Achievements to Check |
-|---------|----------------------|
-| Action logged | action-based, sdg-based, co2-based, special (first_action) |
-| Streak updated | streak-based |
-| Level up | level-based |
-| Account created | special (joined_seed) |
-
-#### Achievement Checker Service
-
-```dart
-class AchievementChecker {
-  final AchievementsRepository _repository;
-  final List<AchievementDefinition> _definitions;
-
-  /// Check all relevant achievements after an action is logged
-  Future<List<AchievementDefinition>> checkAfterActionLogged({
-    required String userId,
-    required int totalActions,
-    required int totalCo2Grams,
-    required Set<String> categoriesUsed,
-    required Set<String> sdgsSupported,
-  }) async {
-    final unlockedIds = await _repository.getUnlockedIds(userId);
-    final newlyUnlocked = <AchievementDefinition>[];
-
-    for (final definition in _definitions) {
-      if (unlockedIds.contains(definition.id)) continue;
-
-      final isUnlocked = _checkCriteria(
-        definition.criteria,
-        totalActions: totalActions,
-        totalCo2Grams: totalCo2Grams,
-        categoriesUsed: categoriesUsed,
-        sdgsSupported: sdgsSupported,
-      );
-
-      if (isUnlocked) {
-        await _repository.unlockAchievement(userId, definition.id);
-        await _awardPoints(userId, definition.bonusPoints);
-        newlyUnlocked.add(definition);
-      }
-    }
-
-    return newlyUnlocked;
-  }
-}
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementChecker service | Check criteria logic | Pending |
-| Integrate with action logging | Check after each action | Pending |
-| Integrate with streak service | Check after streak update | Pending |
-| Integrate with level up | Check after level change | Pending |
-| Create achievement unlock logic | Save to Firestore | Pending |
-| Create point award logic | Add bonus points | Pending |
-| Return newly unlocked list | For celebration screen | Pending |
-| Write unit tests | Test all criteria types | Pending |
-
-#### Files to Create
-
-```
-lib/features/achievements/domain/services/
-└── achievement_checker.dart
-
-lib/features/achievements/presentation/providers/
-└── achievement_providers.dart
-```
-
----
-
-### 7.8 Achievement UI
-
-**Priority:** P0 | **Complexity:** Medium
-
-Display achievements in the app.
-
-#### Locations
-
-1. **Profile Screen** - "Achievements" section showing earned badges
-2. **Achievements Detail Screen** - Full list with "next up" section
-
-#### Profile Section Design
-
-```
-┌─────────────────────────────────────────┐
-│  ─────── Achievements ───────           │
-│                                         │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ [→]  │
-│  │ 🌟  │ │ 🔥  │ │ 🎯  │ │ +12 │       │
-│  │     │ │     │ │     │ │more │       │
-│  └─────┘ └─────┘ └─────┘ └─────┘       │
-│                                         │
-│  12 of 19 unlocked                      │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Achievements Screen Design
-
-```
-┌─────────────────────────────────────────┐
-│  ←         Achievements                 │
-├─────────────────────────────────────────┤
-│                                         │
-│  12 of 19 unlocked                      │
-│  ████████████░░░░░░░ 63%               │
-│                                         │
-│  ─────── Next Up ───────                │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │ 🎯 Century Club                 │   │
-│  │ Log 100 actions                 │   │
-│  │ ████████░░░░ 78/100            │   │
-│  └─────────────────────────────────┘   │
-│  ┌─────────────────────────────────┐   │
-│  │ 🔥 Monthly Master               │   │
-│  │ Maintain a 30-day streak        │   │
-│  │ ██████░░░░░░ 18/30 days        │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  ─────── Unlocked ───────               │
-│                                         │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐      │
-│  │ 🌟  │ │ 🔥  │ │ 🎯  │ │ 🌍  │      │
-│  │First│ │7-day│ │ 50  │ │5 SDG│      │
-│  │Step │ │strk │ │acts │ │     │      │
-│  └─────┘ └─────┘ └─────┘ └─────┘      │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐      │
-│  │ ... │ │ ... │ │ ... │ │ ... │      │
-│  └─────┘ └─────┘ └─────┘ └─────┘      │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementBadge widget | Single badge display | Pending |
-| Create AchievementCard widget | Detailed card with progress | Pending |
-| Create ProfileAchievementsSection | Horizontal scroll of badges | Pending |
-| Create AchievementsScreen | Full achievements list | Pending |
-| Create "Next Up" section | Show closest to completion | Pending |
-| Calculate progress for each | e.g., 78/100 actions | Pending |
-| Add route to achievements screen | From profile section | Pending |
-| Localize all strings | EN/ES/JA | Pending |
-| Write widget tests | Test display states | Pending |
-
-#### Files to Create
-
-```
-lib/features/achievements/presentation/
-├── screens/
-│   └── achievements_screen.dart
-└── widgets/
-    ├── achievement_badge.dart
-    ├── achievement_card.dart
-    ├── achievement_progress_bar.dart
-    ├── next_up_section.dart
-    └── profile_achievements_section.dart
-```
-
----
-
-### 7.9 Achievement Celebrations
-
-**Priority:** P1 | **Complexity:** Low
-
-Celebrate when users unlock achievements.
-
-#### Celebration Flow
-
-1. User action triggers achievement unlock
-2. Ephemeral celebration screen appears
-3. Shows achievement badge, name, description
-4. Shows bonus points earned
-5. User taps to dismiss or auto-dismiss after 3 seconds
-
-#### Celebration Screen Design
-
-```
-┌─────────────────────────────────────────┐
-│                                         │
-│                                         │
-│           🎉 Achievement! 🎉            │
-│                                         │
-│              ┌───────┐                  │
-│              │  🔥   │                  │
-│              │       │                  │
-│              └───────┘                  │
-│                                         │
-│          One Week Strong                │
-│                                         │
-│    Maintain a 7-day streak              │
-│                                         │
-│           +150 points!                  │
-│                                         │
-│                                         │
-│         [ Tap to continue ]             │
-│                                         │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Implementation
-
-- Use a modal overlay or full-screen route
-- Add confetti animation (reuse from evolution celebration)
-- Auto-dismiss after 3-4 seconds or on tap
-- Queue multiple achievements if unlocked simultaneously
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementCelebrationScreen | Full-screen overlay | Pending |
-| Add confetti animation | Reuse existing confetti widget | Pending |
-| Add points animation | Animated counter or pop | Pending |
-| Implement auto-dismiss | Timer-based dismissal | Pending |
-| Queue multiple achievements | Show one at a time | Pending |
-| Integrate with achievement checker | Trigger on unlock | Pending |
-| Write widget tests | Test display and dismiss | Pending |
-
-#### Files to Create
-
-```
-lib/features/achievements/presentation/
-└── screens/
-    └── achievement_celebration_screen.dart
-```
-
----
-
-## User Feedback
-
-### 7.10 User Feedback
-
-**Priority:** P1 | **Complexity:** Low
-
-Give users a clear, low-friction way to report bugs, suggest features, or
-share general feedback — without leaving the app.
+Add 2 additional mascot species (3 total) with point-based
+unlocking. Ships alongside the final mascot art (7.1/7.2) and
+the premium-tier decisions in 7.13.
 
 #### Current State
 
-The About screen (`about_screen.dart`) already has a basic "Contact" tile
-that opens a `mailto:` link with a generic subject line. This works but
-provides no structure — the developer receives unformatted emails with
-no device or app context.
+- 1 mascot species (Sprout) with 4 evolution stages
+- No unlocking mechanism
 
-#### Approach: Structured Feedback Form + mailto
+#### Target State
 
-Use a dedicated in-app form that collects structured input, then submits
-via a pre-populated `mailto:` URI. This keeps the implementation simple
-(no backend endpoint or Firestore writes needed), while still giving the
-user a polished experience and the developer useful context.
+- 3 mascot species total
+- First species free (starter)
+- Additional species unlockable with points
+- Final art ships with 7.1/7.2; placeholders acceptable until then
 
-**Why mailto over Firestore:**
-- Zero additional backend cost or security rules
-- Feedback lands directly in an inbox that can be triaged
-- No new Firestore collection to maintain or monitor
-- `url_launcher` is already a dependency
+#### Species Data
 
-#### UI Design
+| Species | Unlock Cost | Description |
+|---------|-------------|-------------|
+| Sprout | Free | Plant-based mascot (existing, confirmed) |
+| Species 2 | 3,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
+| Species 3 | 5,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
 
-**Entry Point** — Replace the existing "Contact" tile in the About
-screen's Support section with a "Send Feedback" tile that navigates
-to the new feedback screen.
-
-```
-┌─────────────────────────────────────────┐
-│  <-         Send Feedback               │
-├─────────────────────────────────────────┤
-│                                         │
-│  Category                               │
-│  ┌─────────────────────────────────┐   │
-│  │ [Bug Report] [Feature Request]  │   │
-│  │ [General Feedback]              │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  Describe your feedback                 │
-│  ┌─────────────────────────────────┐   │
-│  │                                 │   │
-│  │  (multiline text field)         │   │
-│  │                                 │   │
-│  │                                 │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  The following info is included to      │
-│  help us investigate:                   │
-│  App v1.2.0 (42) | iOS 18.3 | en       │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │        Submit Feedback          │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Feedback Categories
-
-| Category | mailto Subject Prefix |
-|----------|----------------------|
-| Bug Report | `[Bug]` |
-| Feature Request | `[Feature]` |
-| General Feedback | `[Feedback]` |
-
-#### mailto Body Template
-
-```
-Category: Bug Report
----
-<user's description text>
----
-App: Seed v1.2.0 (42)
-Platform: iOS 18.3
-Device: iPhone 15 Pro
-Locale: en
-User ID: <uid, if authenticated>
-```
-
-Device metadata is gathered automatically via `package_info_plus`
-(already a dependency) and `dart:io` Platform info. The user ID is
-included only if the user is signed in and helps correlate feedback
-with account state.
-
-#### Navigation
-
-```
-Profile -> Settings -> About -> Send Feedback (new screen)
-Route: /profile/settings/about/feedback
-```
+*Point costs designed to require sustained engagement*
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create FeedbackCategory enum | bug, featureRequest, general | Pending |
-| Create FeedbackScreen | Form with category chips and text field | Pending |
-| Build mailto URI with metadata | Category prefix, body template, device info | Pending |
-| Add route to go_router | /profile/settings/about/feedback | Pending |
-| Replace About screen Contact tile | Point to new feedback screen | Pending |
-| Localize all strings | EN/JA | Pending |
-| Write widget tests | Form validation, category selection | Pending |
+| Update MascotSpeciesModel | Add unlockCost, isUnlocked fields | Pending |
+| Create species unlock provider | Check if user can unlock | Pending |
+| Create species selection screen | Show locked/unlocked species | Pending |
+| Implement unlock purchase | Deduct points, unlock species | Pending |
+| Create placeholder SVGs | 8 images (2 species x 4 stages) | Pending |
+| Seed mascot species | Add to Firestore | Pending |
+| Update mascot selection flow | Show unlock option | Pending |
+| Add "Change Mascot" option | In mascot detail screen | Pending |
+| Localize strings | Species names, unlock prompts | Pending |
+| Write tests | Unlock flow, species switching | Pending |
 
-#### Files to Create / Modify
+#### Files to Modify
 
+- `lib/features/mascot/data/models/mascot_species_model.dart`
+- `lib/features/mascot/presentation/screens/mascot_selection_screen.dart`
+- `lib/features/mascot/presentation/providers/mascot_providers.dart`
+- `scripts/seed_mascot_species.js` (create)
+
+---
+
+### 7.12 Premium Cosmetics
+
+**Priority:** P1 | **Complexity:** Low
+
+Add premium-only cosmetic items to the shop. Builds on the base
+shop infrastructure introduced in 7.10.
+
+#### Premium Items (5 initial)
+
+| Item | Type | Description |
+|------|------|-------------|
+| Golden Crown | Hat | Sparkling golden crown |
+| Rainbow Trail | Accessory | Colorful trailing effect |
+| Aurora Background | Background | Northern lights scene |
+| Starfield Background | Background | Night sky with stars |
+| Diamond Badge | Accessory | Premium member badge |
+
+#### Implementation
+
+Add `isPremium` flag to CosmeticItemModel:
+
+```dart
+@freezed
+class CosmeticItemModel with _$CosmeticItemModel {
+  const factory CosmeticItemModel({
+    // ... existing fields
+    @Default(false) bool isPremiumOnly,  // NEW
+  }) = _CosmeticItemModel;
+}
 ```
-lib/features/settings/presentation/screens/
-└── feedback_screen.dart              # New
 
-lib/features/settings/presentation/screens/
-└── about_screen.dart                 # Modify: update Support section
+#### Shop UI Updates
 
-lib/app/router.dart                   # Modify: add feedback route
-```
+- Show lock icon on premium items for free users
+- Tapping locked item shows paywall
+- Premium users see items without lock
 
-#### Considerations
+#### Tasks
 
-- **Validation:** Require a non-empty description before enabling the
-  submit button. No minimum length — even a short note is useful.
-- **Confirmation:** After launching the mail client, show a SnackBar
-  thanking the user for their feedback.
-- **Offline:** `mailto:` works offline — it queues in the user's mail
-  app. No connectivity check needed.
-- **Future upgrade path:** If feedback volume grows, swap the mailto
-  submission for a Firestore write to a `feedback` collection or
-  integrate a third-party tool (e.g., Instabug). The form UI stays
-  the same.
+| Task | Description | Status |
+|------|-------------|--------|
+| Update CosmeticItemModel | Add isPremiumOnly field | Pending |
+| Create 5 premium item SVGs | Art assets | Pending |
+| Seed premium items | Add to Firestore | Pending |
+| Update shop UI | Show lock for free users | Pending |
+| Gate purchase behind premium | Check entitlement | Pending |
+| Write tests | Test premium item access | Pending |
+
+---
+
+### 7.13 Premium Mascot Species
+
+**Priority:** P2 | **Complexity:** Low
+
+Make additional mascot species premium-only (alternative to point
+unlock). Builds on the base unlock system introduced in 7.11.
+
+#### Options
+
+Species names below use placeholders (Species 2, Species 3) —
+final names are locked when the designer selects from the
+candidate set in `PLAN_DESIGNER.md` §4.2.
+
+**Option A: All species free (with points)**
+- Sprout: Free (starter)
+- Species 2: 3,000 points
+- Species 3: 5,000 points
+
+**Option B: Premium species**
+- Sprout: Free (starter)
+- Species 2: Premium only
+- Species 3: Premium only
+
+**Option C: Hybrid**
+- Sprout: Free (starter)
+- Species 2: 3,000 points OR premium
+- Species 3: Premium only
+
+**Recommended:** Option A for soft launch (more accessible), consider Option C later.
+
+#### Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Decide on species access model | Points vs premium | Pending |
+| Update MascotSpeciesModel if needed | Add premium flag | Pending |
+| Update unlock UI | Show premium option | Pending |
+| Gate behind premium if applicable | Check entitlement | Pending |
 
 ---
 
 ## Data Models
 
-### CO₂ Stats Model
+### Subscription State
 
 ```dart
 @freezed
-class CO2Stats with _$CO2Stats {
-  const factory CO2Stats({
-    required int totalGrams,
-    required int previousTotalGrams,
-    required double percentChange,
-    required TimePeriod period,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) = _CO2Stats;
+class SubscriptionState with _$SubscriptionState {
+  const factory SubscriptionState({
+    required bool isPremium,
+    required bool isActive,
+    String? productId,
+    DateTime? expirationDate,
+    DateTime? purchaseDate,
+    String? managementUrl,
+    @Default(false) bool isInTrial,
+    @Default(false) bool willRenew,
+  }) = _SubscriptionState;
 
-  factory CO2Stats.empty() => const CO2Stats(
-    totalGrams: 0,
-    previousTotalGrams: 0,
-    percentChange: 0,
-    period: TimePeriod.today,
+  factory SubscriptionState.free() => const SubscriptionState(
+    isPremium: false,
+    isActive: false,
   );
 }
-
-enum TimePeriod {
-  today,
-  thisWeek,
-  thisMonth,
-  allTime,
-  custom,
-}
 ```
 
-### Chart Data Models
+### Package Display Model
 
 ```dart
 @freezed
-class CO2TrendData with _$CO2TrendData {
-  const factory CO2TrendData({
-    required List<CO2DataPoint> points,
-    required int maxValue,
-    required int minValue,
-  }) = _CO2TrendData;
-}
-
-@freezed
-class CO2DataPoint with _$CO2DataPoint {
-  const factory CO2DataPoint({
-    required DateTime date,
-    required int grams,
-  }) = _CO2DataPoint;
-}
-
-@freezed
-class CO2CategoryData with _$CO2CategoryData {
-  const factory CO2CategoryData({
-    required String category,
-    required int grams,
-    required double percentage,
-    required Color color,
-  }) = _CO2CategoryData;
-}
-```
-
-### Impact Equivalency Model
-
-```dart
-@freezed
-class ImpactEquivalency with _$ImpactEquivalency {
-  const factory ImpactEquivalency({
-    required String type,      // trees, carKm, phoneCharges, etc.
-    required double value,
-    required String iconName,
-    required String labelEn,
-    required String labelJa,
-    required String labelEs,
-  }) = _ImpactEquivalency;
+class PackageDisplay with _$PackageDisplay {
+  const factory PackageDisplay({
+    required String id,
+    required String title,
+    required String priceString,
+    required String period,
+    String? savings,
+    @Default(false) bool isBestValue,
+  }) = _PackageDisplay;
 }
 ```
 
@@ -1002,64 +1060,81 @@ class ImpactEquivalency with _$ImpactEquivalency {
 ### Recommended Sequence
 
 ```
-Stage 7.1: CO₂ Dashboard Foundation
-├── Create CO2Stats model and provider
-├── Add time period selector widget
-├── Create CO2TotalCard widget
-├── Integrate into ProgressScreen
-└── Add period comparison logic
+Stage 7.1: Mascot Art
+├── Define art brief and style guide
+├── Generate/create Sprout art (4 stages)
+├── Generate/create Species 2 art (4 stages)
+├── Generate/create Species 3 art (4 stages)
+├── Vectorize and polish all art
+├── Integrate into app
+└── Test all displays and animations
 
-Stage 7.2: Impact Equivalencies
-├── Create equivalency calculator
-├── Create EquivalencyCard widgets
-├── Add equivalency row to dashboard
-└── Write unit tests for calculations
+Stage 7.2: RevenueCat Foundation
+├── Create RevenueCat account and project
+├── Configure iOS in App Store Connect
+├── Configure Android in Google Play Console
+├── Create products and entitlements
+├── Add SDK to app
+├── Initialize SDK
+└── Test sandbox purchases
 
-Stage 7.3: CO₂ Charts
-├── Add fl_chart dependency
-├── Create CO2TrendChart widget
-├── Create CO2CategoryChart widget
-├── Add chart data providers
-└── Write widget tests
-
-Stage 7.4: Achievement Data Layer
-├── Create achievement models (Freezed)
-├── Create achievement definitions
-├── Create AchievementsRepository
-├── Run code generation
+Stage 7.3: Subscription State
+├── Create SubscriptionState model
+├── Create subscription providers
+├── Create isPremium helper
+├── Cache state locally
 └── Write unit tests
 
-Stage 7.5: Achievement Tracking
-├── Create AchievementChecker service
-├── Integrate with action logging
-├── Integrate with streak service
-├── Integrate with level up
-└── Write unit tests
-
-Stage 7.6: Achievement UI
-├── Create achievement widgets
-├── Create AchievementsScreen
-├── Add profile achievements section
-├── Add route and navigation
+Stage 7.4: Paywall UI
+├── Create PaywallScreen
+├── Create pricing card widgets
+├── Fetch offerings from RevenueCat
+├── Implement purchase flow
+├── Add restore purchases
+├── Add legal links
 └── Write widget tests
 
-Stage 7.7: Achievement Celebrations
-├── Create celebration screen
-├── Add confetti animation
-├── Implement auto-dismiss
-├── Queue multiple achievements
+Stage 7.5: Premium Feature - Streak Grace
+├── Update AppUserModel
+├── Update StreakService with grace logic
+├── Create grace period UI indicators
+├── Gate behind premium
+└── Write unit tests
+
+Stage 7.6: Cosmetic Shop (base)
+├── Create CosmeticItemModel + UserCosmeticsModel
+├── Create CosmeticsRepository + providers
+├── Build ShopScreen, ItemDetailSheet, OwnedItemsScreen
+├── Implement purchase + equip/unequip
+├── Render equipped items on mascot
+├── Seed 5 cosmetic items
 └── Write tests
 
-Stage 7.8: User Feedback
-├── Create FeedbackScreen with category chips
-├── Build mailto URI with device metadata
-├── Add route and update About screen
-├── Localize strings
-└── Write widget tests
+Stage 7.7: Mascot Species Unlocking (base)
+├── Update MascotSpeciesModel with unlockCost
+├── Create species unlock provider
+├── Update mascot selection screen with locked/unlocked states
+├── Implement point-based unlock purchase
+├── Add "Change Mascot" option
+└── Write tests
 
-Stage 7.9: Polish & Testing
-├── End-to-end testing
-├── Localization (EN/ES/JA)
+Stage 7.8: Premium Feature - Cosmetics
+├── Add isPremiumOnly flag to CosmeticItemModel
+├── Create premium item art
+├── Seed premium items
+├── Update shop UI for premium items
+└── Write tests
+
+Stage 7.9: Premium Feature - Mascot Species
+├── Decide on access model (points vs premium)
+├── Update MascotSpeciesModel if premium tier added
+├── Update unlock UI with premium option
+└── Write tests
+
+Stage 7.10: Polish & Testing
+├── End-to-end purchase testing
+├── Subscription lifecycle testing
+├── Localization
 ├── Bug fixes
 └── Documentation updates
 ```
@@ -1072,162 +1147,176 @@ Stage 7.9: Polish & Testing
 
 | Component | Test File | Key Scenarios |
 |-----------|-----------|---------------|
-| CO2Stats provider | `co2_stats_provider_test.dart` | Period calculations, comparisons |
-| Equivalency calculator | `impact_equivalencies_test.dart` | All conversion formulas |
-| Chart data provider | `co2_chart_data_provider_test.dart` | Data aggregation |
-| Achievement criteria | `achievement_criteria_test.dart` | All criteria types |
-| Achievement checker | `achievement_checker_test.dart` | Unlock logic, point award |
-| Achievement repository | `achievements_repository_test.dart` | CRUD operations |
+| PurchasesService | `purchases_service_test.dart` | Init, login, logout |
+| SubscriptionState | `subscription_state_test.dart` | State transitions |
+| Streak grace period | `streak_grace_test.dart` | All grace scenarios |
+| Premium check | `premium_check_test.dart` | Access control |
 
 ### Widget Tests
 
 | Widget | Test File | Key Scenarios |
 |--------|-----------|---------------|
-| CO2TotalCard | `co2_total_card_test.dart` | Display, comparison badge |
-| TimePeriodSelector | `time_period_selector_test.dart` | Selection, callback |
-| EquivalencyCard | `equivalency_card_test.dart` | Display formatting |
-| CO2TrendChart | `co2_trend_chart_test.dart` | Rendering, empty state |
-| AchievementBadge | `achievement_badge_test.dart` | Locked/unlocked states |
-| AchievementCard | `achievement_card_test.dart` | Progress display |
-| AchievementsScreen | `achievements_screen_test.dart` | List rendering |
-| CelebrationScreen | `achievement_celebration_test.dart` | Display, dismiss |
-| FeedbackScreen | `feedback_screen_test.dart` | Category selection, validation, mailto URI |
+| PaywallScreen | `paywall_screen_test.dart` | Display, selection, purchase |
+| PricingCard | `pricing_card_test.dart` | Selected/unselected states |
+| Premium lock | `premium_lock_test.dart` | Locked/unlocked display |
+
+### Integration Tests
+
+| Flow | Test File | Scenarios |
+|------|-----------|-----------|
+| Purchase flow | `purchase_flow_test.dart` | Select → purchase → access |
+| Restore flow | `restore_flow_test.dart` | Restore → verify access |
+| Grace period | `grace_period_flow_test.dart` | Miss day → grace → recover |
+
+### Sandbox Testing
+
+- Use sandbox accounts on iOS and Android
+- Test all purchase scenarios
+- Test restore on fresh install
+- Test subscription expiration
+- Test upgrade/downgrade (if applicable)
 
 ---
 
 ## Acceptance Criteria
 
-### 7.1 CO₂ Dashboard UI
-- [ ] Dashboard section visible in Progress screen
-- [ ] Shows total CO₂ saved prominently
-- [ ] Time period selector works correctly
-- [ ] Comparison badge shows % change
+### 7.1-7.2 Mascot Art
+- [ ] All 12 mascot images created and polished
+- [ ] Art matches consistent style across species
+- [ ] SVG files properly optimized
+- [ ] All images render correctly in app
+- [ ] Evolution animations work with new art
 
-### 7.2 Time Period Analytics
-- [ ] Today shows current day total
-- [ ] This week shows Mon-Sun total
-- [ ] This month shows calendar month total
-- [ ] All time shows lifetime total
-- [ ] Custom range picker works
-- [ ] Comparisons calculate correctly
+### 7.3-7.4 RevenueCat Setup
+- [ ] RevenueCat project configured
+- [ ] iOS products created in App Store Connect
+- [ ] Android products created in Google Play Console
+- [ ] Products mapped in RevenueCat
+- [ ] Entitlements configured
+- [ ] SDK initializes without errors
 
-### 7.3 Impact Equivalencies
-- [ ] Shows 3-4 relevant equivalencies
-- [ ] Calculations are accurate
-- [ ] Icons and labels display correctly
-- [ ] Localized in EN/ES/JA
+### 7.5 Premium Tier
+- [ ] Feature matrix documented
+- [ ] Premium check utility works
+- [ ] Free features remain accessible
+- [ ] Premium features properly gated
 
-### 7.4 CO₂ Charts
-- [ ] Trend chart shows daily data
-- [ ] Category chart shows distribution
-- [ ] Charts handle empty data gracefully
-- [ ] Touch interactions work
+### 7.6 Paywall UI
+- [ ] Paywall displays correctly
+- [ ] Offerings load from RevenueCat
+- [ ] Package selection works
+- [ ] Purchase flow completes
+- [ ] Error handling works
+- [ ] Restore purchases works
+- [ ] Legal links navigate correctly
 
-### 7.5 Achievement Data Layer
-- [ ] All models serialize correctly
-- [ ] Repository CRUD works
-- [ ] 19 achievements defined
-- [ ] All localized
+### 7.7 Subscription State
+- [ ] State updates on purchase
+- [ ] State persists across app restarts
+- [ ] State syncs with RevenueCat
+- [ ] isPremium check accurate
 
-### 7.6 Achievement Definitions
-- [ ] All categories represented
-- [ ] Point values balanced
-- [ ] Criteria types working
+### 7.8 Restore Purchases
+- [ ] Restore button visible
+- [ ] Restore recovers subscription
+- [ ] Success/failure messages shown
 
-### 7.7 Achievement Tracking
-- [ ] Checks trigger at correct times
-- [ ] Unlocks save to Firestore
-- [ ] Points awarded correctly
-- [ ] Multiple unlocks handled
+### 7.9 Streak Grace Period
+- [ ] Grace period saves streak for premium
+- [ ] Grace period not available for free
+- [ ] Grace period resets correctly
+- [ ] UI shows grace status
 
-### 7.8 Achievement UI
-- [ ] Profile section shows badges
-- [ ] Achievements screen shows all
-- [ ] "Next up" shows closest to completion
-- [ ] Progress bars accurate
+### 7.10 Cosmetic Shop
+- [ ] All 5 items visible in shop
+- [ ] Purchase deducts points correctly
+- [ ] Cannot purchase without sufficient points
+- [ ] Owned items appear in inventory
+- [ ] Equipped items render on mascot
 
-### 7.9 Achievement Celebrations
-- [ ] Celebration appears on unlock
-- [ ] Confetti animation plays
-- [ ] Points shown
-- [ ] Auto-dismiss works
-- [ ] Queue handles multiple
+### 7.11 Mascot Species Unlocking
+- [ ] 3 species visible (1 free, 2 locked)
+- [ ] Unlock shows confirmation with cost
+- [ ] Points deducted on unlock
+- [ ] Can switch between owned species
+- [ ] Placeholder images display correctly until 7.1/7.2 land
 
-### 7.10 User Feedback
-- [ ] Feedback screen accessible from About > Support
-- [ ] Category selector works (Bug / Feature / General)
-- [ ] Description field validates non-empty
-- [ ] Submit builds correct mailto URI with category prefix
-- [ ] Device metadata (app version, OS, locale) included in body
-- [ ] Mail client opens on submit
-- [ ] Confirmation SnackBar shown after submission
-- [ ] All strings localized (EN/JA)
+### 7.12 Premium Cosmetics
+- [ ] Premium items show lock for free users
+- [ ] Premium items accessible for subscribers
+- [ ] Paywall shows when tapping locked item
+
+### 7.13 Premium Mascot Species
+- [ ] Access model decided (points vs premium vs hybrid)
+- [ ] Premium-gated species (if any) show paywall on tap
+- [ ] Free/point-unlock paths still work for non-premium species
 
 ---
 
 ## Dependencies
 
-### New Package Dependencies
+### External Dependencies
 
-```yaml
-dependencies:
-  fl_chart: ^0.69.0  # Charts library
-```
+- RevenueCat account
+- App Store Connect access (iOS)
+- Google Play Console access (Android)
+- Art creation tools (AI/vector editor)
 
 ### Internal Dependencies
 
-- Phase 4 complete (action library, analytics)
-- Phase 6 complete (premium features, if achievements are premium)
+- Phase 4 complete (cosmetic shop exists)
+- Streak service ready for grace period updates
+- Shop UI ready for premium item display
 
 ---
 
-## Localization Strings
+## App Store Requirements
 
-### English (sample)
+### iOS
 
-```json
-{
-  "co2Dashboard": "Your Impact",
-  "co2Saved": "CO₂ Saved",
-  "today": "Today",
-  "thisWeek": "This Week",
-  "thisMonth": "This Month",
-  "allTime": "All Time",
-  "customRange": "Custom Range",
-  "comparedToYesterday": "compared to yesterday",
-  "comparedToLastWeek": "compared to last week",
-  "comparedToLastMonth": "compared to last month",
-  "equivalentTo": "That's Equivalent To",
-  "treesPlanted": "trees",
-  "carKmAvoided": "km not driven",
-  "phoneCharges": "phone charges",
-  "burgersNotEaten": "burgers",
+- Subscriptions must be reviewed by Apple
+- Must include restore purchases button
+- Must link to Terms and Privacy Policy
+- Must clearly describe subscription terms
+- Must handle subscription management URL
 
-  "achievements": "Achievements",
-  "achievementUnlocked": "Achievement Unlocked!",
-  "nextUp": "Next Up",
-  "unlocked": "Unlocked",
-  "bonusPoints": "+{count} points!",
-  "@bonusPoints": { "placeholders": { "count": { "type": "int" } } },
-  "achievementsProgress": "{unlocked} of {total} unlocked",
-  "@achievementsProgress": {
-    "placeholders": {
-      "unlocked": { "type": "int" },
-      "total": { "type": "int" }
-    }
-  }
-}
-```
+### Android
+
+- Subscriptions must be published in Play Console
+- Must handle billing library responses
+- Must support subscription lifecycle
+- Must comply with Play billing policies
+
+---
+
+## Pricing Considerations
+
+### Suggested Pricing
+
+| Package | US | Japan | Europe |
+|---------|-----|-------|--------|
+| Monthly | $2.99 | ¥400 | €2.99 |
+| Yearly | $19.99 | ¥2,800 | €19.99 |
+
+*Yearly offers ~44% savings over monthly*
+
+### Free Trial Option
+
+Consider offering 7-day free trial to reduce friction:
+- User experiences premium features
+- Converts to paid after trial
+- Configure in App Store Connect / Play Console
 
 ---
 
 ## Notes
 
-- CO₂ equivalency formulas should be documented with sources
-- Achievement point values may need balancing after testing
-- Consider adding more achievements in future phases
-- Charts should match app theme colors
-- Celebration screen reuses confetti from mascot evolution
+- Start with AI-generated art for soft launch
+- Consider commissioning professional art before full launch
+- RevenueCat free tier supports up to $2,500/month revenue
+- Test subscription flows thoroughly in sandbox
+- Keep free tier fully functional to avoid negative reviews
+- Premium should feel like "nice to have" not "pay to win"
 
 ---
 

@@ -1,8 +1,8 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.4
-**Last Updated:** March 2026
+**Version:** 1.5
+**Last Updated:** May 2026
 **Author:** Miles
 
 ### Current Status
@@ -16,8 +16,8 @@
 ✅ **Phase 2 complete!** (Mascot selection, display, evolution, animations, naming)
 ✅ **Phase 3 complete!** (Settings, Notifications, Streak tracking)
 ✅ **Phase 4 complete!** (Action library expansion, UI enhancements, Cloud Functions, Analytics, Legal)
-⏳ **Phase 5 in progress** (Gamification & Daily Engagement)
-📊 **848 tests passing** (up from 713)
+⏳ **Phase 5 in progress** (5.1-5.3 done; 5.4 Growing Ecosystem awaiting garden art)
+📊 **1339 tests passing** (up from 848)
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -976,20 +976,8 @@ Track consecutive days of action logging with weekly milestone celebrations.
 | Update streak on action log | Integrated in action_log_repository | P0 | ✅ Done |
 | Streak milestone celebrations | Weekly milestones (7, 14, 21, 28+ days) | P1 | ✅ Done |
 | Streak broken dialog | Show on app open if streak was lost | P2 | ✅ Done |
-| Streak break push notification | Server-triggered reminder | P2 | ⏳ Phase 4 |
-| Streak recovery (premium?) | Grace period foundation in data model | P2 | ⏳ Phase 4 |
 
 **Implementation:** See `lib/shared/services/streak_service.dart` for full implementation with 25 unit tests covering all edge cases (timezone handling, multiple actions same day, first action ever).
-
-#### 3.4 Additional Polish ⏳ DEFERRED TO PHASE 4
-
-| Task | Description | Priority | Status |
-|------|-------------|----------|--------|
-| Loading states | Consistent shimmer/skeleton loading | P2 | ⏳ Phase 4 |
-| Error handling | User-friendly error messages | P1 | ⏳ Phase 4 |
-| Empty states | Friendly messages when no data | P2 | ⏳ Phase 4 |
-| Haptic feedback | Subtle vibration on key actions | P2 | ⏳ Phase 4 |
-| Dark mode refinement | Ensure all screens look good in dark mode | P2 | ⏳ Phase 4 |
 
 #### Phase 3 File Structure
 
@@ -1064,8 +1052,6 @@ See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodolo
 | Firebase Analytics | Event tracking (12 events) | P0 | ✅ Done |
 | Firebase Crashlytics | Crash reporting setup | P0 | ✅ Done |
 | Privacy policy & terms | In-app legal docs (EN/ES/JA) | P0 | ✅ Done |
-| Cosmetic shop | 5 items (hats, accessories, backgrounds) | P0 | Deferred to Phase 6 |
-| Mascot species unlocking | 3 species, point-based unlocks | P0 | Deferred to Phase 6 |
 
 **Deliverable:** Complete action library covering all SDGs, analytics, crash reporting, legal compliance. 848 tests passing.
 
@@ -1077,35 +1063,16 @@ See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for detailed implementation plan.
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
 | Daily Eco-Fact | 365 facts, mail icon, gated behind daily challenge | P0 | Done |
-| Daily Challenges | 1 pseudorandom challenge/day + multi-day framework | P0 | Nearly Done |
-| Eco-Dex | Collection album with ~50 milestone-driven entries | P0 | Planned |
-| Growing Ecosystem | Personal garden with mascot, ~15 plants x 3 stages | P0 | Planned |
+| Daily Challenges | 1 pseudorandom challenge/day + multi-day framework | P0 | Done |
+| Eco-Dex | Collection album with 102 milestone-driven entries | P0 | Done (asset gen partial: 33/102) |
+| Growing Ecosystem | Personal garden with mascot, ~15 plants x 3 stages | P0 | Awaiting garden art |
 
 **Deliverable:** Four interlocking engagement systems with a coherent reward model (no fake points -- challenges unlock facts, milestones unlock Eco-Dex, actions grow garden).
 
-### Phase 6: Mascot Art & Premium Features (Future)
-**Goal:** Final mascot art, RevenueCat integration, premium tier
+### Phase 6: CO₂ Dashboard & Achievements (Future)
+**Goal:** Visualize environmental impact, gamify with achievements, add user feedback channel
 
-See [PHASE_6_PLAN.md](./PHASE_6_PLAN.md) for detailed implementation plan.
-
-| Task | Description | Priority | Status |
-|------|-------------|----------|--------|
-| Final mascot art | Commission/create art for 3 species × 4 stages | P0 | Planned |
-| RevenueCat integration | Subscription infrastructure + entitlements | P0 | Planned |
-| Premium tier definition | Define free vs premium features | P0 | Planned |
-| Paywall UI | Subscription screen with benefits | P0 | Planned |
-| Restore purchases | Handle subscription restoration | P0 | Planned |
-| Premium cosmetic items | Premium-only shop items | P1 | Planned |
-| Streak grace period | Premium feature for streak recovery | P1 | Planned |
-| Ad-free experience | Remove ads for premium (if ads added) | P2 | Planned |
-| Premium mascot species | Exclusive species for subscribers | P2 | Planned |
-
-**Deliverable:** Polished mascot art and working subscription monetization.
-
-### Phase 7: CO₂ Dashboard & Achievements (Future)
-**Goal:** Visualize environmental impact, gamify with achievements
-
-See [PHASE_7_PLAN.md](./PHASE_7_PLAN.md) for detailed implementation plan.
+See [PLAN_PHASE_6.md](./PLAN_PHASE_6.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
@@ -1116,8 +1083,30 @@ See [PHASE_7_PLAN.md](./PHASE_7_PLAN.md) for detailed implementation plan.
 | Achievement categories | Action, streak, level, SDG achievements | P1 | Planned |
 | Achievement notifications | Celebrate when achievements unlock | P1 | Planned |
 | Achievement display | Profile section showing earned badges | P1 | Planned |
+| User feedback form | In-app structured feedback via mailto | P1 | Planned |
 
-**Deliverable:** Comprehensive impact visualization and achievement-based gamification.
+**Deliverable:** Comprehensive impact visualization, achievement-based gamification, and a feedback channel. All code-only, no art bottleneck.
+
+### Phase 7: Mascot Art & Premium Features (Future)
+**Goal:** Final mascot art, RevenueCat integration, premium tier
+
+See [PLAN_PHASE_7.md](./PLAN_PHASE_7.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Final mascot art | Commission/create art for 3 species × 4 stages | P0 | Planned |
+| RevenueCat integration | Subscription infrastructure + entitlements | P0 | Planned |
+| Premium tier definition | Define free vs premium features | P0 | Planned |
+| Paywall UI | Subscription screen with benefits | P0 | Planned |
+| Restore purchases | Handle subscription restoration | P0 | Planned |
+| Cosmetic shop (§7.10) | Base shop infrastructure | P0 | Planned |
+| Mascot species unlocking (§7.11) | 3 species, point-based unlocks | P0 | Planned |
+| Premium cosmetic items (§7.12) | Premium-only shop items | P1 | Planned |
+| Streak grace period (§7.9) | Premium feature for streak recovery | P1 | Planned |
+| Ad-free experience | Remove ads for premium (if ads added) | P2 | Planned |
+| Premium mascot species (§7.13) | Exclusive species for subscribers | P2 | Planned |
+
+**Deliverable:** Polished mascot art and working subscription monetization.
 
 ### Phase 8+: App Store & Post-Launch (Future)
 **Goal:** App store submission and iteration
@@ -1331,19 +1320,15 @@ See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
 - ✅ Polish items (points display, bottom sheets, sparkle animation)
 - ✅ 848 tests passing across 56 test files
 
-**Deferred to Phase 6:**
-- Cosmetic Shop (5 items)
-- Mascot Species Unlocking (3 species)
-
 ### Current Priority (Phase 5)
 
 See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for full details.
 
 **In progress:** Gamification & Daily Engagement
 1. ~~Daily Eco-Fact~~ -- Done (365 facts, mail icon, calendar, tests)
-2. ~~Daily Challenges~~ -- Nearly Done (data + presentation + gating + tests; Eco-Dex unlock deferred to 5.3)
-3. Eco-Dex (collection album, ~50 entries, under Progress tab)
-4. Growing Ecosystem (garden with mascot, ~15 plants, replaces Mascot tab)
+2. ~~Daily Challenges~~ -- Done (data + presentation + gating + tests; multi-day Eco-Dex unlocks live via condition evaluator)
+3. ~~Eco-Dex~~ -- Done (102 entries across 9 categories, condition evaluator + discovery notifier tests). Remaining: art generation for 69 entries via Recraft pipeline (non-blocking; missing icons render as white placeholders).
+4. Growing Ecosystem -- Awaiting garden art from designer. Code/data scaffolding planned but not started.
 
 ### Development Commands
 ```bash
