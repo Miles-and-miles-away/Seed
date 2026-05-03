@@ -336,6 +336,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           points: action.points,
           co2Grams: action.co2Grams,
           sdgNumbers: sdgNumbers,
+          category: action.category,
         );
         AppLogger.debug('ActionLog: recordAction completed');
 

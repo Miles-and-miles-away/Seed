@@ -28,6 +28,21 @@ class ProgressRepository {
     return _dataSource.getSummariesInRange(userId, startOfMonth, endOfMonth);
   }
 
+  /// Get summaries for a half-open date range `[start, end)`.
+  ///
+  /// The underlying data source query is inclusive on both ends, so we
+  /// translate `end` -> `end - 1 day` before querying. Returns an empty
+  /// list when the range is zero-width or inverted.
+  Future<List<DailySummaryModel>> getSummariesForDateRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    if (!end.isAfter(start)) return const [];
+    final inclusiveEnd = end.subtract(const Duration(days: 1));
+    return _dataSource.getSummariesInRange(userId, start, inclusiveEnd);
+  }
+
   /// Convert summaries to calendar day data for a specific month.
   Future<List<CalendarDayData>> getMonthCalendarData({
     required String userId,
@@ -84,12 +99,14 @@ class ProgressRepository {
     required int points,
     required int co2Grams,
     required List<int> sdgNumbers,
+    required String category,
   }) async {
     await _dataSource.incrementDailySummary(
       userId: userId,
       points: points,
       co2Grams: co2Grams,
       sdgNumbers: sdgNumbers,
+      category: category,
     );
   }
 }

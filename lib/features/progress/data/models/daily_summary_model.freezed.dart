@@ -29,6 +29,12 @@ mixin _$DailySummaryModel {
   /// Total CO2 saved in grams today
   int get totalCo2Grams;
 
+  /// CO2 saved in grams today, broken down by action category.
+  /// Stored as a flat dotted-path field map in Firestore so partial
+  /// updates work via FieldValue.increment on a specific key
+  /// (e.g., `categoryCo2Grams.transport`).
+  Map<String, int> get categoryCo2Grams;
+
   /// When this summary was created
   @TimestampConverter()
   DateTime? get createdAt;
@@ -62,6 +68,8 @@ mixin _$DailySummaryModel {
                 other.totalPoints == totalPoints) &&
             (identical(other.totalCo2Grams, totalCo2Grams) ||
                 other.totalCo2Grams == totalCo2Grams) &&
+            const DeepCollectionEquality()
+                .equals(other.categoryCo2Grams, categoryCo2Grams) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -77,12 +85,13 @@ mixin _$DailySummaryModel {
       const DeepCollectionEquality().hash(completedSdgs),
       totalPoints,
       totalCo2Grams,
+      const DeepCollectionEquality().hash(categoryCo2Grams),
       createdAt,
       updatedAt);
 
   @override
   String toString() {
-    return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, categoryCo2Grams: $categoryCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -98,6 +107,7 @@ abstract mixin class $DailySummaryModelCopyWith<$Res> {
       List<int> completedSdgs,
       int totalPoints,
       int totalCo2Grams,
+      Map<String, int> categoryCo2Grams,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? updatedAt});
 }
@@ -120,6 +130,7 @@ class _$DailySummaryModelCopyWithImpl<$Res>
     Object? completedSdgs = null,
     Object? totalPoints = null,
     Object? totalCo2Grams = null,
+    Object? categoryCo2Grams = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -144,6 +155,10 @@ class _$DailySummaryModelCopyWithImpl<$Res>
           ? _self.totalCo2Grams
           : totalCo2Grams // ignore: cast_nullable_to_non_nullable
               as int,
+      categoryCo2Grams: null == categoryCo2Grams
+          ? _self.categoryCo2Grams
+          : categoryCo2Grams // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -255,6 +270,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             List<int> completedSdgs,
             int totalPoints,
             int totalCo2Grams,
+            Map<String, int> categoryCo2Grams,
             @TimestampConverter() DateTime? createdAt,
             @TimestampConverter() DateTime? updatedAt)?
         $default, {
@@ -269,6 +285,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             _that.completedSdgs,
             _that.totalPoints,
             _that.totalCo2Grams,
+            _that.categoryCo2Grams,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -297,6 +314,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             List<int> completedSdgs,
             int totalPoints,
             int totalCo2Grams,
+            Map<String, int> categoryCo2Grams,
             @TimestampConverter() DateTime? createdAt,
             @TimestampConverter() DateTime? updatedAt)
         $default,
@@ -310,6 +328,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             _that.completedSdgs,
             _that.totalPoints,
             _that.totalCo2Grams,
+            _that.categoryCo2Grams,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -337,6 +356,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             List<int> completedSdgs,
             int totalPoints,
             int totalCo2Grams,
+            Map<String, int> categoryCo2Grams,
             @TimestampConverter() DateTime? createdAt,
             @TimestampConverter() DateTime? updatedAt)?
         $default,
@@ -350,6 +370,7 @@ extension DailySummaryModelPatterns on DailySummaryModel {
             _that.completedSdgs,
             _that.totalPoints,
             _that.totalCo2Grams,
+            _that.categoryCo2Grams,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -367,9 +388,11 @@ class _DailySummaryModel implements DailySummaryModel {
       final List<int> completedSdgs = const [],
       this.totalPoints = 0,
       this.totalCo2Grams = 0,
+      final Map<String, int> categoryCo2Grams = const <String, int>{},
       @TimestampConverter() this.createdAt,
       @TimestampConverter() this.updatedAt})
-      : _completedSdgs = completedSdgs;
+      : _completedSdgs = completedSdgs,
+        _categoryCo2Grams = categoryCo2Grams;
   factory _DailySummaryModel.fromJson(Map<String, dynamic> json) =>
       _$DailySummaryModelFromJson(json);
 
@@ -403,6 +426,24 @@ class _DailySummaryModel implements DailySummaryModel {
   @override
   @JsonKey()
   final int totalCo2Grams;
+
+  /// CO2 saved in grams today, broken down by action category.
+  /// Stored as a flat dotted-path field map in Firestore so partial
+  /// updates work via FieldValue.increment on a specific key
+  /// (e.g., `categoryCo2Grams.transport`).
+  final Map<String, int> _categoryCo2Grams;
+
+  /// CO2 saved in grams today, broken down by action category.
+  /// Stored as a flat dotted-path field map in Firestore so partial
+  /// updates work via FieldValue.increment on a specific key
+  /// (e.g., `categoryCo2Grams.transport`).
+  @override
+  @JsonKey()
+  Map<String, int> get categoryCo2Grams {
+    if (_categoryCo2Grams is EqualUnmodifiableMapView) return _categoryCo2Grams;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_categoryCo2Grams);
+  }
 
   /// When this summary was created
   @override
@@ -443,6 +484,8 @@ class _DailySummaryModel implements DailySummaryModel {
                 other.totalPoints == totalPoints) &&
             (identical(other.totalCo2Grams, totalCo2Grams) ||
                 other.totalCo2Grams == totalCo2Grams) &&
+            const DeepCollectionEquality()
+                .equals(other._categoryCo2Grams, _categoryCo2Grams) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -458,12 +501,13 @@ class _DailySummaryModel implements DailySummaryModel {
       const DeepCollectionEquality().hash(_completedSdgs),
       totalPoints,
       totalCo2Grams,
+      const DeepCollectionEquality().hash(_categoryCo2Grams),
       createdAt,
       updatedAt);
 
   @override
   String toString() {
-    return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, categoryCo2Grams: $categoryCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -481,6 +525,7 @@ abstract mixin class _$DailySummaryModelCopyWith<$Res>
       List<int> completedSdgs,
       int totalPoints,
       int totalCo2Grams,
+      Map<String, int> categoryCo2Grams,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? updatedAt});
 }
@@ -503,6 +548,7 @@ class __$DailySummaryModelCopyWithImpl<$Res>
     Object? completedSdgs = null,
     Object? totalPoints = null,
     Object? totalCo2Grams = null,
+    Object? categoryCo2Grams = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -527,6 +573,10 @@ class __$DailySummaryModelCopyWithImpl<$Res>
           ? _self.totalCo2Grams
           : totalCo2Grams // ignore: cast_nullable_to_non_nullable
               as int,
+      categoryCo2Grams: null == categoryCo2Grams
+          ? _self._categoryCo2Grams
+          : categoryCo2Grams // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

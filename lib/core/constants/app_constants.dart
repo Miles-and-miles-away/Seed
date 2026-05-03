@@ -122,6 +122,7 @@ abstract class AppConstants {
   static const fieldCompletedSdgs = 'completedSdgs';
   static const fieldTotalPoints = 'totalPoints';
   static const fieldUpdatedAt = 'updatedAt';
+  static const fieldCategoryCo2Grams = 'categoryCo2Grams';
 
   // Firestore SDG stats nested fields
   static const fieldCount = 'count';
