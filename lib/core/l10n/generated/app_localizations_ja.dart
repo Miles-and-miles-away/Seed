@@ -1034,6 +1034,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoDexTab => 'エコ図鑑';
 
   @override
+  String get impactTab => 'インパクト';
+
+  @override
+  String get periodToday => '今日';
+
+  @override
+  String get periodThisWeek => '今週';
+
+  @override
+  String get periodThisMonth => '今月';
+
+  @override
+  String get periodAllTime => '累計';
+
+  @override
+  String get co2SavedToday => '今日のCO2削減量';
+
+  @override
+  String get co2SavedThisWeek => '今週のCO2削減量';
+
+  @override
+  String get co2SavedThisMonth => '今月のCO2削減量';
+
+  @override
+  String get co2SavedAllTime => '累計のCO2削減量';
+
+  @override
+  String get kgUnit => 'kg';
+
+  @override
+  String get vsYesterday => '昨日比';
+
+  @override
+  String get vsLastWeek => '先週比';
+
+  @override
+  String get vsLastMonth => '先月比';
+
+  @override
   String get ecoDexTitle => 'エコ図鑑';
 
   @override

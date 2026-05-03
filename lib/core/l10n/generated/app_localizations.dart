@@ -1990,6 +1990,84 @@ abstract class AppLocalizations {
   /// **'Eco-Dex'**
   String get ecoDexTab;
 
+  /// No description provided for @impactTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Impact'**
+  String get impactTab;
+
+  /// No description provided for @periodToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get periodToday;
+
+  /// No description provided for @periodThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This Week'**
+  String get periodThisWeek;
+
+  /// No description provided for @periodThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get periodThisMonth;
+
+  /// No description provided for @periodAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All Time'**
+  String get periodAllTime;
+
+  /// No description provided for @co2SavedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'CO2 saved today'**
+  String get co2SavedToday;
+
+  /// No description provided for @co2SavedThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'CO2 saved this week'**
+  String get co2SavedThisWeek;
+
+  /// No description provided for @co2SavedThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'CO2 saved this month'**
+  String get co2SavedThisMonth;
+
+  /// No description provided for @co2SavedAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'CO2 saved all time'**
+  String get co2SavedAllTime;
+
+  /// No description provided for @kgUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get kgUnit;
+
+  /// No description provided for @vsYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'vs. yesterday'**
+  String get vsYesterday;
+
+  /// No description provided for @vsLastWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'vs. last week'**
+  String get vsLastWeek;
+
+  /// No description provided for @vsLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs. last month'**
+  String get vsLastMonth;
+
   /// No description provided for @ecoDexTitle.
   ///
   /// In en, this message translates to:

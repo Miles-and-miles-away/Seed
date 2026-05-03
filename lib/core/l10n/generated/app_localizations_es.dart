@@ -1066,6 +1066,45 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ecoDexTab => 'Eco-Dex';
 
   @override
+  String get impactTab => 'Impacto';
+
+  @override
+  String get periodToday => 'Hoy';
+
+  @override
+  String get periodThisWeek => 'Esta semana';
+
+  @override
+  String get periodThisMonth => 'Este mes';
+
+  @override
+  String get periodAllTime => 'Total';
+
+  @override
+  String get co2SavedToday => 'CO2 ahorrado hoy';
+
+  @override
+  String get co2SavedThisWeek => 'CO2 ahorrado esta semana';
+
+  @override
+  String get co2SavedThisMonth => 'CO2 ahorrado este mes';
+
+  @override
+  String get co2SavedAllTime => 'CO2 ahorrado en total';
+
+  @override
+  String get kgUnit => 'kg';
+
+  @override
+  String get vsYesterday => 'vs. ayer';
+
+  @override
+  String get vsLastWeek => 'vs. semana pasada';
+
+  @override
+  String get vsLastMonth => 'vs. mes pasado';
+
+  @override
   String get ecoDexTitle => 'Eco-Dex';
 
   @override

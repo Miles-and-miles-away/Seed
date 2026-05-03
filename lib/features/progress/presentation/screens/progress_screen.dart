@@ -8,6 +8,7 @@ import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart'
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/progress_providers.dart';
 import '../widgets/daily_target_picker.dart';
+import '../widgets/impact_dashboard.dart';
 import '../widgets/progress_calendar.dart';
 import '../widgets/rainbow_sun_widget.dart';
 
@@ -37,7 +38,7 @@ class ProgressScreen extends ConsumerWidget {
 }
 
 /// Segments for the progress screen tab bar.
-enum _ProgressSegment { calendar, ecoDex }
+enum _ProgressSegment { calendar, impact, ecoDex }
 
 class _ProgressContent extends ConsumerStatefulWidget {
   const _ProgressContent();
@@ -75,6 +76,11 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
                   icon: const Icon(Icons.calendar_month, size: 18),
                 ),
                 ButtonSegment(
+                  value: _ProgressSegment.impact,
+                  label: Text(l10n.impactTab),
+                  icon: const Icon(Icons.public, size: 18),
+                ),
+                ButtonSegment(
                   value: _ProgressSegment.ecoDex,
                   label: Text(l10n.ecoDexTab),
                   icon: const Icon(Icons.auto_stories, size: 18),
@@ -92,9 +98,12 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
 
           // Content
           Expanded(
-            child: _segment == _ProgressSegment.calendar
-                ? _CalendarView(theme: theme, l10n: l10n)
-                : const EcoDexScreen(),
+            child: switch (_segment) {
+              _ProgressSegment.calendar =>
+                _CalendarView(theme: theme, l10n: l10n),
+              _ProgressSegment.impact => const ImpactDashboard(),
+              _ProgressSegment.ecoDex => const EcoDexScreen(),
+            },
           ),
         ],
       ),
