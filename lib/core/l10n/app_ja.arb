@@ -550,6 +550,11 @@
   "vsYesterday": "昨日比",
   "vsLastWeek": "先週比",
   "vsLastMonth": "先月比",
+  "equivalentToHeader": "つまり",
+  "equivTreesLabel": "本の木 (年間)",
+  "equivCarKmLabel": "km の運転回避",
+  "equivPhoneChargesLabel": "回のスマホ充電",
+  "equivBurgersLabel": "個のバーガー",
   "ecoDexTitle": "エコ図鑑",
   "ecoDexProgress": "{discovered} / {total} 発見済み",
   "@ecoDexProgress": {

@@ -1105,6 +1105,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get vsLastMonth => 'vs. mes pasado';
 
   @override
+  String get equivalentToHeader => 'Equivale a';
+
+  @override
+  String get equivTreesLabel => 'árboles / año';
+
+  @override
+  String get equivCarKmLabel => 'km no recorridos';
+
+  @override
+  String get equivPhoneChargesLabel => 'cargas de móvil';
+
+  @override
+  String get equivBurgersLabel => 'hamburguesas';
+
+  @override
   String get ecoDexTitle => 'Eco-Dex';
 
   @override

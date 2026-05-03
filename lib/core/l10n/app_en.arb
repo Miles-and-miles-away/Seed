@@ -550,6 +550,11 @@
   "vsYesterday": "vs. yesterday",
   "vsLastWeek": "vs. last week",
   "vsLastMonth": "vs. last month",
+  "equivalentToHeader": "Equivalent to",
+  "equivTreesLabel": "trees / year",
+  "equivCarKmLabel": "km not driven",
+  "equivPhoneChargesLabel": "phone charges",
+  "equivBurgersLabel": "burgers",
   "ecoDexTitle": "Eco-Dex",
   "ecoDexProgress": "{discovered} / {total} discovered",
   "@ecoDexProgress": {

@@ -95,10 +95,19 @@ available / blocked).
 
 ## Tab 1 — Progress (`/progress`)
 
-Rainbow sun daily-goal tracker and calendar view, with an Eco-Dex tab.
+Rainbow sun daily-goal tracker plus three segmented views: Calendar,
+Impact, and Eco-Dex.
 - Links: `/progress/history`
-- Functionality: segmented control (Calendar / Eco-Dex), daily target
-  picker for first-time users, calendar grid.
+- Functionality: segmented control (Calendar / Impact / Eco-Dex),
+  daily target picker for first-time users, calendar grid.
+
+### Impact (embedded in Progress)
+CO2 dashboard showing total saved across selectable time periods plus
+real-world equivalencies (trees, car km, phone charges, burgers).
+- Links: none
+- Functionality: time-period selector (Today / Week / Month / All
+  Time), headline kg total card with period-over-period comparison
+  badge, scrollable equivalencies row.
 
 ### Eco-Dex (embedded in Progress)
 Encyclopedia of eco-actions organized by category, with a progress

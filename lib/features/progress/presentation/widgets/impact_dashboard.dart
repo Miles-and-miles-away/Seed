@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
+import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/time_period_selector.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
@@ -24,6 +26,8 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final statsAsync = ref.watch(co2StatsProvider(_period));
 
     return SingleChildScrollView(
@@ -40,7 +44,24 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
           ),
           const SizedBox(height: Spacing.lg),
           statsAsync.when(
-            data: (stats) => Co2TotalCard(stats: stats),
+            data: (stats) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Co2TotalCard(stats: stats),
+                const SizedBox(height: Spacing.lg),
+                Padding(
+                  padding: const EdgeInsets.only(left: Spacing.xs),
+                  child: Text(
+                    l10n.equivalentToHeader,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: Spacing.sm),
+                EquivalencyRow(totalGrams: stats.totalGrams),
+              ],
+            ),
             loading: () => const SizedBox(
               height: 160,
               child: Center(child: CircularProgressIndicator()),
@@ -50,7 +71,7 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
               child: Center(child: ErrorDisplay()),
             ),
           ),
-          // 6.3 Equivalencies and 6.4 Charts will mount below here.
+          // 6.4 Charts will mount below here.
           const SizedBox(height: Spacing.xxl),
         ],
       ),
