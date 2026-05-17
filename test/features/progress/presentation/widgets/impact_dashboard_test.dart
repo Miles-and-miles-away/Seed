@@ -5,13 +5,36 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
+import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/impact_dashboard.dart';
+
+/// Empty chart data so the charts section stays hidden by default
+/// in dashboard tests -- existing assertions don't care about chart
+/// rendering, just stats + equivalencies.
+Co2TrendData _emptyTrend(TimePeriod period) {
+  final now = DateTime(2026, 5, 17);
+  final daysBack = switch (period) {
+    TimePeriod.today => 7,
+    TimePeriod.thisWeek => 7,
+    TimePeriod.thisMonth => 30,
+    TimePeriod.allTime => 90,
+  };
+  return Co2TrendData(
+    points: const [],
+    averageGrams: 0,
+    windowStart: now.subtract(Duration(days: daysBack - 1)),
+    windowEnd: now.add(const Duration(days: 1)),
+  );
+}
+
+const _emptyCategory = Co2CategoryData(slices: [], totalGrams: 0);
 
 const _equivalencyFixture = <EquivalencyMetadata>[
   EquivalencyMetadata(
@@ -77,6 +100,10 @@ Widget _wrap(Widget child) => ProviderScope(
         co2StatsProvider.overrideWith((ref, period) async => _statsFor(period)),
         impactEquivalenciesDataProvider
             .overrideWith((_) async => _equivalencyFixture),
+        co2TrendDataProvider
+            .overrideWith((ref, period) async => _emptyTrend(period)),
+        co2CategoryDataProvider
+            .overrideWith((ref, period) async => _emptyCategory),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -158,6 +185,10 @@ void main() {
             ),
             impactEquivalenciesDataProvider
                 .overrideWith((_) async => _equivalencyFixture),
+            co2TrendDataProvider
+                .overrideWith((ref, period) async => _emptyTrend(period)),
+            co2CategoryDataProvider
+                .overrideWith((ref, period) async => _emptyCategory),
           ],
           child: MaterialApp(
             localizationsDelegates: const [

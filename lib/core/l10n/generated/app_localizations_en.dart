@@ -1095,6 +1095,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vsLastMonth => 'vs. last month';
 
   @override
+  String get trendChartTitle => 'Daily trend';
+
+  @override
+  String get trendChartAverageLabel => 'average';
+
+  @override
+  String get categoryChartTitle => 'By category';
+
+  @override
+  String get categoryOther => 'Other';
+
+  @override
   String get equivalentToHeader => 'Equivalent to';
 
   @override

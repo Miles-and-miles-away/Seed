@@ -1073,6 +1073,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get vsLastMonth => '先月比';
 
   @override
+  String get trendChartTitle => '日々の推移';
+
+  @override
+  String get trendChartAverageLabel => '平均';
+
+  @override
+  String get categoryChartTitle => 'カテゴリ別';
+
+  @override
+  String get categoryOther => 'その他';
+
+  @override
   String get equivalentToHeader => 'つまり';
 
   @override
