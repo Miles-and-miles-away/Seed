@@ -1108,7 +1108,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equivalentToHeader => 'Equivale a';
 
   @override
-  String get equivTreesLabel => 'árboles / año';
+  String get equivTreesLabel => 'árboles · año';
 
   @override
   String get equivCarKmLabel => 'km no recorridos';
@@ -1117,7 +1117,44 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equivPhoneChargesLabel => 'cargas de móvil';
 
   @override
-  String get equivBurgersLabel => 'hamburguesas';
+  String get equivBurgersLabel => 'hamburguesas de carne';
+
+  @override
+  String get impactInfoTooltip => 'Cómo lo calculamos';
+
+  @override
+  String get impactInfoTitle => 'Cómo lo calculamos';
+
+  @override
+  String get impactInfoIntro =>
+      'Traducimos el CO2 que has evitado a comparaciones cotidianas. Las cifras son orientativas: usamos promedios globales y mezclamos CO2 con CO2 equivalente (metano, electricidad, ciclo de vida alimentario), así que tu impacto real depende de la red eléctrica local y la cadena de suministro.';
+
+  @override
+  String get impactInfoFormulaLabel => 'Fórmula';
+
+  @override
+  String get impactInfoSourceLabel => 'Fuente';
+
+  @override
+  String get equivTreesExplainer =>
+      'CO2 aproximado que absorbe un árbol urbano maduro en un año. Los árboles recién plantados absorben mucho menos: esta cifra corresponde a árboles ya desarrollados.';
+
+  @override
+  String get equivCarKmExplainer =>
+      'Emisiones medias de un coche por kilómetro recorrido, ponderadas entre gasolina y diésel.';
+
+  @override
+  String get equivPhoneChargesExplainer =>
+      'Electricidad de red necesaria para cargar por completo un móvil medio, basada en la combinación eléctrica nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.';
+
+  @override
+  String get equivBurgersExplainer =>
+      'Emisiones del ciclo de vida completo de una hamburguesa de carne, desde la ganadería hasta el comercio. Las hamburguesas de pollo o vegetales emiten entre 5 y 10 veces menos.';
+
+  @override
+  String equivFormulaTemplate(String factor) {
+    return 'g de CO2 / $factor';
+  }
 
   @override
   String get ecoDexTitle => 'Eco-Dex';

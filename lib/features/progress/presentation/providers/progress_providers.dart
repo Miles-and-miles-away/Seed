@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/progress/data/datasources/daily_summary_remote_datasource.dart';
+import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
@@ -28,6 +29,13 @@ ProgressRepository progressRepository(Ref ref) {
     FirebaseFirestore.instance,
   );
 }
+
+/// Loads and caches impact equivalency metadata (conversion factors
+/// and source URLs) from the bundled JSON asset. Cached for the
+/// lifetime of the app -- factors are static scientific constants.
+@Riverpod(keepAlive: true)
+Future<List<EquivalencyMetadata>> impactEquivalenciesData(Ref ref) =>
+    loadImpactEquivalencies();
 
 /// Stream of today's summary for the Rainbow Sun visualization.
 @riverpod

@@ -32,7 +32,7 @@ void main() {
       );
 
       expect(find.text('2.4'), findsOneWidget);
-      expect(find.text('trees / year'), findsOneWidget);
+      expect(find.text('tree-years'), findsOneWidget);
     });
 
     testWidgets('renders sub-unit trees value', (tester) async {
@@ -101,7 +101,45 @@ void main() {
       );
 
       expect(find.text('7'), findsOneWidget);
-      expect(find.text('burgers'), findsOneWidget);
+      expect(find.text('beef burgers'), findsOneWidget);
+    });
+
+    testWidgets('floors sub-rounding tree values to "<0.1"', (
+      tester,
+    ) async {
+      // 0.04 would format as "0.0" -- replace with the sentinel so
+      // a real action never reads as zero impact.
+      await tester.pumpWidget(
+        _wrap(
+          const EquivalencyCard(
+            equivalency: ImpactEquivalency(
+              type: EquivalencyType.trees,
+              value: 0.04,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('<0.1'), findsOneWidget);
+      expect(find.text('0.0'), findsNothing);
+    });
+
+    testWidgets('floors sub-rounding whole-unit values to "<1"', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          const EquivalencyCard(
+            equivalency: ImpactEquivalency(
+              type: EquivalencyType.carKm,
+              value: 0.4,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('<1'), findsOneWidget);
+      expect(find.text('0'), findsNothing);
     });
   });
 }

@@ -98,6 +98,56 @@ final class ProgressRepositoryProvider extends $FunctionalProvider<
 String _$progressRepositoryHash() =>
     r'502739b259ce7fb20113cb6d656f7952ff08856a';
 
+/// Loads and caches impact equivalency metadata (conversion factors
+/// and source URLs) from the bundled JSON asset. Cached for the
+/// lifetime of the app -- factors are static scientific constants.
+
+@ProviderFor(impactEquivalenciesData)
+const impactEquivalenciesDataProvider = ImpactEquivalenciesDataProvider._();
+
+/// Loads and caches impact equivalency metadata (conversion factors
+/// and source URLs) from the bundled JSON asset. Cached for the
+/// lifetime of the app -- factors are static scientific constants.
+
+final class ImpactEquivalenciesDataProvider extends $FunctionalProvider<
+        AsyncValue<List<EquivalencyMetadata>>,
+        List<EquivalencyMetadata>,
+        FutureOr<List<EquivalencyMetadata>>>
+    with
+        $FutureModifier<List<EquivalencyMetadata>>,
+        $FutureProvider<List<EquivalencyMetadata>> {
+  /// Loads and caches impact equivalency metadata (conversion factors
+  /// and source URLs) from the bundled JSON asset. Cached for the
+  /// lifetime of the app -- factors are static scientific constants.
+  const ImpactEquivalenciesDataProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'impactEquivalenciesDataProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$impactEquivalenciesDataHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<EquivalencyMetadata>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<EquivalencyMetadata>> create(Ref ref) {
+    return impactEquivalenciesData(ref);
+  }
+}
+
+String _$impactEquivalenciesDataHash() =>
+    r'cb3716f2bff898e31491b195a97a1f6b868f8a99';
+
 /// Stream of today's summary for the Rainbow Sun visualization.
 
 @ProviderFor(todaySummary)

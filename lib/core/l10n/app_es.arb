@@ -582,10 +582,25 @@
   "vsLastWeek": "vs. semana pasada",
   "vsLastMonth": "vs. mes pasado",
   "equivalentToHeader": "Equivale a",
-  "equivTreesLabel": "árboles / año",
+  "equivTreesLabel": "árboles · año",
   "equivCarKmLabel": "km no recorridos",
   "equivPhoneChargesLabel": "cargas de móvil",
-  "equivBurgersLabel": "hamburguesas",
+  "equivBurgersLabel": "hamburguesas de carne",
+  "impactInfoTooltip": "Cómo lo calculamos",
+  "impactInfoTitle": "Cómo lo calculamos",
+  "impactInfoIntro": "Traducimos el CO2 que has evitado a comparaciones cotidianas. Las cifras son orientativas: usamos promedios globales y mezclamos CO2 con CO2 equivalente (metano, electricidad, ciclo de vida alimentario), así que tu impacto real depende de la red eléctrica local y la cadena de suministro.",
+  "impactInfoFormulaLabel": "Fórmula",
+  "impactInfoSourceLabel": "Fuente",
+  "equivTreesExplainer": "CO2 aproximado que absorbe un árbol urbano maduro en un año. Los árboles recién plantados absorben mucho menos: esta cifra corresponde a árboles ya desarrollados.",
+  "equivCarKmExplainer": "Emisiones medias de un coche por kilómetro recorrido, ponderadas entre gasolina y diésel.",
+  "equivPhoneChargesExplainer": "Electricidad de red necesaria para cargar por completo un móvil medio, basada en la combinación eléctrica nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.",
+  "equivBurgersExplainer": "Emisiones del ciclo de vida completo de una hamburguesa de carne, desde la ganadería hasta el comercio. Las hamburguesas de pollo o vegetales emiten entre 5 y 10 veces menos.",
+  "equivFormulaTemplate": "g de CO2 / {factor}",
+  "@equivFormulaTemplate": {
+    "placeholders": {
+      "factor": { "type": "String" }
+    }
+  },
   "ecoDexTitle": "Eco-Dex",
   "ecoDexProgress": "{discovered} / {total} descubiertos",
   "@ecoDexProgress": {

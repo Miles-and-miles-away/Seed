@@ -40,19 +40,33 @@ class EquivalencyCard extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
           const SizedBox(height: Spacing.xs),
-          Text(
-            _formatValue(equivalency, locale),
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+          // Value is the focal element; never let it wrap. Large
+          // all-time totals (e.g. "23,000" phone charges) get scaled
+          // down to fit the card width rather than breaking onto two
+          // lines.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              _formatValue(equivalency, locale),
+              maxLines: 1,
+              softWrap: false,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: Spacing.xxs),
+          // Labels can be multi-word ("km not driven", "phone
+          // charges") -- cap at two lines with ellipsis so the card
+          // height stays bounded on every locale.
           Text(
             _labelFor(equivalency.type, l10n),
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -77,10 +91,16 @@ class EquivalencyCard extends StatelessWidget {
   // Trees can be sub-unit (e.g. 0.4) and read most clearly with one
   // decimal. Whole-unit equivalencies use locale-aware grouping
   // separators because they easily run into the thousands.
+  //
+  // Floors: any positive value that would round to "0" / "0.0" gets
+  // a "<1" / "<0.1" sentinel instead -- a real action shouldn't read
+  // as no impact at all.
   String _formatValue(ImpactEquivalency eq, String locale) {
     if (eq.type == EquivalencyType.trees) {
+      if (eq.value > 0 && eq.value < 0.05) return '<0.1';
       return NumberFormat('#,##0.0', locale).format(eq.value);
     }
+    if (eq.value > 0 && eq.value < 0.5) return '<1';
     return NumberFormat.decimalPattern(locale).format(eq.value.round());
   }
 }

@@ -1098,7 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equivalentToHeader => 'Equivalent to';
 
   @override
-  String get equivTreesLabel => 'trees / year';
+  String get equivTreesLabel => 'tree-years';
 
   @override
   String get equivCarKmLabel => 'km not driven';
@@ -1107,7 +1107,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equivPhoneChargesLabel => 'phone charges';
 
   @override
-  String get equivBurgersLabel => 'burgers';
+  String get equivBurgersLabel => 'beef burgers';
+
+  @override
+  String get impactInfoTooltip => 'How we calculate this';
+
+  @override
+  String get impactInfoTitle => 'How we calculate this';
+
+  @override
+  String get impactInfoIntro =>
+      'We translate the CO2 you\'ve saved into everyday comparisons. The figures are illustrative -- we use global averages and mix CO2 with CO2-equivalent (methane, grid electricity, food lifecycle), so your real impact will vary with local grid mix and supply chain.';
+
+  @override
+  String get impactInfoFormulaLabel => 'Formula';
+
+  @override
+  String get impactInfoSourceLabel => 'Source';
+
+  @override
+  String get equivTreesExplainer =>
+      'Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.';
+
+  @override
+  String get equivCarKmExplainer =>
+      'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.';
+
+  @override
+  String get equivPhoneChargesExplainer =>
+      'Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.';
+
+  @override
+  String get equivBurgersExplainer =>
+      'Full lifecycle emissions of one beef burger, from cattle farming to retail. Chicken or plant-based burgers emit roughly 5-10x less.';
+
+  @override
+  String equivFormulaTemplate(String factor) {
+    return 'g of CO2 / $factor';
+  }
 
   @override
   String get ecoDexTitle => 'Eco-Dex';

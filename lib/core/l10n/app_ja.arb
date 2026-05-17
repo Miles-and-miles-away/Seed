@@ -551,10 +551,25 @@
   "vsLastWeek": "先週比",
   "vsLastMonth": "先月比",
   "equivalentToHeader": "つまり",
-  "equivTreesLabel": "本の木 (年間)",
+  "equivTreesLabel": "本・年（成木）",
   "equivCarKmLabel": "km の運転回避",
   "equivPhoneChargesLabel": "回のスマホ充電",
-  "equivBurgersLabel": "個のバーガー",
+  "equivBurgersLabel": "個の牛肉バーガー",
+  "impactInfoTooltip": "計算方法について",
+  "impactInfoTitle": "計算方法について",
+  "impactInfoIntro": "節約した CO2 を身近な例に換算しています。世界平均を使い、CO2 と CO2 換算（メタン、電力、食料ライフサイクル）を併用しているため、あくまで目安です。実際の効果は地域の電源構成や供給網によって変わります。",
+  "impactInfoFormulaLabel": "計算式",
+  "impactInfoSourceLabel": "出典",
+  "equivTreesExplainer": "成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なくなります。",
+  "equivCarKmExplainer": "ガソリン・ディーゼル車を含めた平均的な乗用車が 1 km 走行するときの CO2 排出量です。",
+  "equivPhoneChargesExplainer": "平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域ではより少なく、石炭依存の高い地域では多くなります。",
+  "equivBurgersExplainer": "牛肉バーガー一個分の生産から小売までのライフサイクル排出量です。鶏肉や植物性バーガーは概ね 5〜10 分の 1 程度に収まります。",
+  "equivFormulaTemplate": "CO2 のグラム数 ÷ {factor}",
+  "@equivFormulaTemplate": {
+    "placeholders": {
+      "factor": { "type": "String" }
+    }
+  },
   "ecoDexTitle": "エコ図鑑",
   "ecoDexProgress": "{discovered} / {total} 発見済み",
   "@ecoDexProgress": {

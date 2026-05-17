@@ -1,0 +1,26 @@
+[
+  {
+    "type": "trees",
+    "gramsPerUnit": 21000,
+    "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
+    "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
+  },
+  {
+    "type": "carKm",
+    "gramsPerUnit": 200,
+    "sourceName": "UK DEFRA — 2023 GHG Conversion Factors",
+    "sourceUrl": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023"
+  },
+  {
+    "type": "phoneCharges",
+    "gramsPerUnit": 8,
+    "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
+    "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
+  },
+  {
+    "type": "burgers",
+    "gramsPerUnit": 3000,
+    "sourceName": "Our World in Data — Environmental Impacts of Food (after Poore & Nemecek 2018, Science)",
+    "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food"
+  }
+]

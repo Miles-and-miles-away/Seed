@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
+import 'package:seed_app/features/progress/presentation/widgets/equivalency_info_sheet.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/time_period_selector.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -48,18 +49,34 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Co2TotalCard(stats: stats),
-                const SizedBox(height: Spacing.lg),
-                Padding(
-                  padding: const EdgeInsets.only(left: Spacing.xs),
-                  child: Text(
-                    l10n.equivalentToHeader,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                // Equivalencies make no sense at zero -- four "0"
+                // cards read as failure. Hide the whole section
+                // until the user has logged at least one action.
+                if (stats.totalGrams > 0) ...[
+                  const SizedBox(height: Spacing.lg),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: Spacing.xs),
+                        child: Text(
+                          l10n.equivalentToHeader,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.info_outline, size: 18),
+                        tooltip: l10n.impactInfoTooltip,
+                        color: theme.colorScheme.onSurfaceVariant,
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => EquivalencyInfoSheet.show(context),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: Spacing.sm),
-                EquivalencyRow(totalGrams: stats.totalGrams),
+                  const SizedBox(height: Spacing.sm),
+                  EquivalencyRow(totalGrams: stats.totalGrams),
+                ],
               ],
             ),
             loading: () => const SizedBox(

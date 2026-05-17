@@ -2077,7 +2077,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivTreesLabel.
   ///
   /// In en, this message translates to:
-  /// **'trees / year'**
+  /// **'tree-years'**
   String get equivTreesLabel;
 
   /// No description provided for @equivCarKmLabel.
@@ -2095,8 +2095,68 @@ abstract class AppLocalizations {
   /// No description provided for @equivBurgersLabel.
   ///
   /// In en, this message translates to:
-  /// **'burgers'**
+  /// **'beef burgers'**
   String get equivBurgersLabel;
+
+  /// No description provided for @impactInfoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'How we calculate this'**
+  String get impactInfoTooltip;
+
+  /// No description provided for @impactInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How we calculate this'**
+  String get impactInfoTitle;
+
+  /// No description provided for @impactInfoIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'We translate the CO2 you\'ve saved into everyday comparisons. The figures are illustrative -- we use global averages and mix CO2 with CO2-equivalent (methane, grid electricity, food lifecycle), so your real impact will vary with local grid mix and supply chain.'**
+  String get impactInfoIntro;
+
+  /// No description provided for @impactInfoFormulaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula'**
+  String get impactInfoFormulaLabel;
+
+  /// No description provided for @impactInfoSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get impactInfoSourceLabel;
+
+  /// No description provided for @equivTreesExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.'**
+  String get equivTreesExplainer;
+
+  /// No description provided for @equivCarKmExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.'**
+  String get equivCarKmExplainer;
+
+  /// No description provided for @equivPhoneChargesExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.'**
+  String get equivPhoneChargesExplainer;
+
+  /// No description provided for @equivBurgersExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Full lifecycle emissions of one beef burger, from cattle farming to retail. Chicken or plant-based burgers emit roughly 5-10x less.'**
+  String get equivBurgersExplainer;
+
+  /// No description provided for @equivFormulaTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'g of CO2 / {factor}'**
+  String equivFormulaTemplate(String factor);
 
   /// No description provided for @ecoDexTitle.
   ///
