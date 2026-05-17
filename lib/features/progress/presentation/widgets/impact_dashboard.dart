@@ -4,8 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
+import 'package:seed_app/features/progress/presentation/widgets/co2_category_chart.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
+import 'package:seed_app/features/progress/presentation/widgets/co2_trend_chart.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_info_sheet.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/time_period_selector.dart';
@@ -88,8 +91,45 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
               child: Center(child: ErrorDisplay()),
             ),
           ),
-          // 6.4 Charts will mount below here.
+          _ChartsSection(period: _period),
           const SizedBox(height: Spacing.xxl),
+        ],
+      ),
+    );
+  }
+}
+
+/// Trend scatter + category donut, stacked vertically beneath the
+/// equivalencies row. Each chart hides itself when its data isn't
+/// plottable (fewer than two days for the trend; no category-tagged
+/// data in the window for the donut). When both hide there's no
+/// "Charts" heading or visual chrome left -- the dashboard simply
+/// ends at the equivalencies.
+class _ChartsSection extends ConsumerWidget {
+  const _ChartsSection({required this.period});
+
+  final TimePeriod period;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final trendAsync = ref.watch(co2TrendDataProvider(period));
+    final categoryAsync = ref.watch(co2CategoryDataProvider(period));
+
+    final trendData = trendAsync.value;
+    final categoryData = categoryAsync.value;
+    final hasTrend = trendData?.isPlottable ?? false;
+    final hasCategory = categoryData?.isPlottable ?? false;
+
+    if (!hasTrend && !hasCategory) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: Spacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (hasTrend) Co2TrendChart(data: trendData!),
+          if (hasTrend && hasCategory) const SizedBox(height: Spacing.md),
+          if (hasCategory) Co2CategoryChart(data: categoryData!),
         ],
       ),
     );

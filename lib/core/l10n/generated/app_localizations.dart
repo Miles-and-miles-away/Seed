@@ -2068,6 +2068,30 @@ abstract class AppLocalizations {
   /// **'vs. last month'**
   String get vsLastMonth;
 
+  /// No description provided for @trendChartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily trend'**
+  String get trendChartTitle;
+
+  /// No description provided for @trendChartAverageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'average'**
+  String get trendChartAverageLabel;
+
+  /// No description provided for @categoryChartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get categoryChartTitle;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryOther;
+
   /// No description provided for @equivalentToHeader.
   ///
   /// In en, this message translates to:

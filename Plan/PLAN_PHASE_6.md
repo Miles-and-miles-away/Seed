@@ -67,10 +67,10 @@ These features deepen user engagement by making progress tangible, rewarding con
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 6.1 CO₂ Dashboard UI | P0 | Medium | Pending |
-| 6.2 Time Period Analytics | P0 | Medium | Pending |
-| 6.3 Impact Equivalencies | P1 | Low | Pending |
-| 6.4 CO₂ Charts | P1 | Medium | Pending |
+| 6.1 CO₂ Dashboard UI | P0 | Medium | **Done** |
+| 6.2 Time Period Analytics | P0 | Medium | **Done** (custom range dropped) |
+| 6.3 Impact Equivalencies | P1 | Low | **Done** |
+| 6.4 CO₂ Charts | P1 | Medium | **Done** |
 | 6.5 Achievement Data Layer | P0 | Medium | Pending |
 | 6.6 Achievement Definitions | P0 | Low | Pending |
 | 6.7 Achievement Tracking | P0 | Medium | Pending |
@@ -433,27 +433,46 @@ dependencies:
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Add fl_chart dependency | pubspec.yaml | Pending |
-| Create CO2TrendChart widget | Line/area chart | Pending |
-| Create CO2CategoryChart widget | Pie/donut chart | Pending |
-| Create chart data providers | Aggregate data for charts | Pending |
-| Add chart range selector | 7/30/90 days | Pending |
-| Style charts to match theme | Colors, fonts | Pending |
-| Handle empty data state | "No data yet" message | Pending |
-| Localize chart labels | EN/ES/JA | Pending |
-| Write widget tests | Test chart rendering | Pending |
+| Add fl_chart dependency | `fl_chart: ^0.69.0` | Done |
+| Create `Co2TrendChart` widget | Scatter (dot-only) + dashed mean line, days-since-windowStart x-axis | Done |
+| Create `Co2CategoryChart` widget | Donut with center kg label, Top 5 + Other, color-dot legend with % | Done |
+| Create chart data provider | `co2TrendDataProvider(period)` + `co2CategoryDataProvider(period)` with pure `buildCategoryData()` for unit testing | Done |
+| ~~Add chart range selector~~ | ~~7/30/90 days~~ — **dropped:** range tied to dashboard `TimePeriod` (`Today`/`This Week`→7d, `This Month`→30d, `All Time`→90d) | Done |
+| Style charts to match theme | `surfaceContainerLow` card, primary for dots, `onSurfaceVariant` for mean, per-category colors via `ActionCategory.color` | Done |
+| Handle empty data state | Each chart hides itself when not plottable (`<2` trend points / `0` category grams); `_ChartsSection` collapses entirely when both empty | Done |
+| Localize chart labels | EN/JA/ES (`trendChartTitle`, `trendChartAverageLabel`, `categoryChartTitle`, `categoryOther`) | Done |
+| Write tests | Unit (`buildCategoryData` aggregation + Top 5 rollup + unknown-category handling) + widget (`Co2TrendChart`, `Co2CategoryChart`, dashboard wiring) | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
-lib/features/progress/presentation/widgets/
-├── co2_trend_chart.dart
-├── co2_category_chart.dart
-└── chart_range_selector.dart
+lib/features/progress/
++-- domain/entities/co2_chart_data.dart        # Freezed Co2TrendData / Co2CategoryData
++-- presentation/
+    +-- providers/co2_chart_data_provider.dart # @riverpod data sources
+    +-- widgets/co2_trend_chart.dart           # Scatter + mean line
+    +-- widgets/co2_category_chart.dart        # Donut + legend
 
-lib/features/progress/presentation/providers/
-└── co2_chart_data_provider.dart
+lib/features/progress/presentation/widgets/impact_dashboard.dart
+  -- new `_ChartsSection` consumer mounts both charts and self-hides
+
+lib/features/progress/domain/services/time_period_range.dart
+  -- added `trendWindowDays()` and `trendWindow()` helpers
+
+test/features/progress/
++-- presentation/providers/co2_chart_data_provider_test.dart
++-- presentation/widgets/co2_trend_chart_test.dart
++-- presentation/widgets/co2_category_chart_test.dart
 ```
+
+#### Notes vs original plan
+
+- `ProgressRepository.getSummariesForDateRange` already existed from §6.1
+  -- no new data-source method was needed.
+- "Bar Chart" listed as a third chart type was treated as redundant with
+  the scatter trend chart and dropped per the consolidated design.
+- Independent 7/30/90 range selector dropped in favour of tying to the
+  dashboard's `TimePeriod` selector -- one source of period truth.
 
 ---
 
@@ -1268,31 +1287,53 @@ Stage 6.10: Polish & Testing
 
 ## Acceptance Criteria
 
-### 6.1 CO₂ Dashboard UI
-- [ ] Dashboard section visible in Progress screen
-- [ ] Shows total CO₂ saved prominently
-- [ ] Time period selector works correctly
-- [ ] Comparison badge shows % change
+### 6.1 CO₂ Dashboard UI — **Complete**
+- [x] Dashboard section visible in Progress screen (Impact segment)
+- [x] Shows total CO₂ saved prominently (kg with one decimal)
+- [x] Time period selector works correctly (Today / Week / Month / All Time)
+- [x] Comparison badge shows % change (hidden for All Time and previous=0)
+- [x] `categoryCo2Grams` increments on every action log
+- [x] All strings localized in EN/JA/ES
+- [x] Unit + widget tests pass
 
-### 6.2 Time Period Analytics
-- [ ] Today shows current day total
-- [ ] This week shows Mon-Sun total
-- [ ] This month shows calendar month total
-- [ ] All time shows lifetime total
-- [ ] Custom range picker works
-- [ ] Comparisons calculate correctly
+### 6.2 Time Period Analytics — **Complete**
+- [x] Today shows current day total
+- [x] This week shows Mon-Sun total (device timezone)
+- [x] This month shows calendar month total
+- [x] All time shows lifetime total (from `user.totalCo2Grams`)
+- [x] Comparisons calculate correctly (previous-period delta)
 
-### 6.3 Impact Equivalencies
-- [ ] Shows 3-4 relevant equivalencies
-- [ ] Calculations are accurate
-- [ ] Icons and labels display correctly
-- [ ] Localized in EN/ES/JA
+### 6.3 Impact Equivalencies — **Complete**
+- [x] Shows 4 equivalencies (trees, car km, phone charges, beef burgers)
+      — ~~"select best 3-4 per total"~~ dropped; sub-unit floor handles the
+      demoralization case and we have 4 fixed types, not 6
+- [x] Calculations are accurate (factors sourced per `Plan/AUDIT_FACT_DATA.md`)
+- [x] Icons and labels display correctly; sub-rounding values floor to
+      `<0.1` / `<1` so a real action never reads as zero
+- [x] Negative totals clamped to 0; row + header hidden when total = 0
+- [x] Localized labels in EN/JA/ES (`tree-years`, `beef burgers`)
+- [x] **Info sheet** (`EquivalencyInfoSheet`) with explainer, tappable
+      source citation, and locale-formatted formula per equivalency,
+      reached via info icon next to the "Equivalent to" header
+- [x] Conversion factors + source URLs live in
+      `data/app/impact_equivalencies.json`, loaded via
+      `impactEquivalenciesDataProvider` — single source of truth, matches
+      the codebase's catalog pattern (`sdg_resources.json` etc.)
+- [x] Unit + widget tests pass (calculator, row, card, info sheet,
+      dashboard zero-state)
 
-### 6.4 CO₂ Charts
-- [ ] Trend chart shows daily data
-- [ ] Category chart shows distribution
-- [ ] Charts handle empty data gracefully
-- [ ] Touch interactions work
+### 6.4 CO₂ Charts — **Complete**
+- [x] Trend chart shows daily data — scatter dots over a 7/30/90-day
+      rolling window with a dashed horizontal mean line
+- [x] Category chart shows distribution — donut with center total kg,
+      Top 5 categories + lumped "Other", legend with % shares
+- [x] Charts handle empty data gracefully — each hides on insufficient
+      data; whole section collapses when both empty
+- [x] Touch interactions work — `fl_chart` built-in scatter tooltip
+      shows date + kg; donut highlights segments on tap
+- [x] Range tied to dashboard `TimePeriod` (no separate range selector)
+- [x] Localized in EN/JA/ES
+- [x] Unit + widget tests pass
 
 ### 6.5 Achievement Data Layer
 - [ ] All models serialize correctly

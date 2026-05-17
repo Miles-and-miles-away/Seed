@@ -102,12 +102,18 @@ Impact, and Eco-Dex.
   daily target picker for first-time users, calendar grid.
 
 ### Impact (embedded in Progress)
-CO2 dashboard showing total saved across selectable time periods plus
-real-world equivalencies (trees, car km, phone charges, burgers).
-- Links: none
+CO2 dashboard showing total saved across selectable time periods,
+real-world equivalencies (tree-years, car km, phone charges, beef
+burgers), and trend / category charts of the same window.
+- Links: external source URLs from the equivalencies info sheet
+  (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
-  Time), headline kg total card with period-over-period comparison
-  badge, scrollable equivalencies row.
+  Time); headline kg total card with period-over-period comparison
+  badge; scrollable equivalencies row with info-icon sheet showing
+  per-equivalency explainer, formula, and tappable source citation;
+  daily-trend scatter chart with dashed mean line; category donut
+  (Top 5 + Other) with center kg total and color-dot legend. Charts
+  hide themselves when the window has insufficient data.
 
 ### Eco-Dex (embedded in Progress)
 Encyclopedia of eco-actions organized by category, with a progress
