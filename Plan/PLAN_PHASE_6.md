@@ -71,8 +71,8 @@ These features deepen user engagement by making progress tangible, rewarding con
 | 6.2 Time Period Analytics | P0 | Medium | **Done** (custom range dropped) |
 | 6.3 Impact Equivalencies | P1 | Low | **Done** |
 | 6.4 CO₂ Charts | P1 | Medium | **Done** |
-| 6.5 Achievement Data Layer | P0 | Medium | Pending |
-| 6.6 Achievement Definitions | P0 | Low | Pending |
+| 6.5 Achievement Data Layer | P0 | Medium | **Done** |
+| 6.6 Achievement Definitions | P0 | Low | **Done** |
 | 6.7 Achievement Tracking | P0 | Medium | Pending |
 | 6.8 Achievement UI | P0 | Medium | Pending |
 | 6.9 Achievement Celebrations | P1 | Low | Pending |
@@ -560,31 +560,44 @@ users/{userId}/achievements/
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AchievementDefinition model | Freezed model | Pending |
-| Create AchievementCriteria model | Union type for criteria | Pending |
-| Create UserAchievement model | User's unlocked achievements | Pending |
-| Create AchievementRepository | CRUD for user achievements | Pending |
-| Create achievement definitions file | All ~15-20 achievements | Pending |
-| Run code generation | Freezed + JSON serializable | Pending |
-| Write unit tests | Model serialization | Pending |
+| Create AchievementDefinition model | Hand-written class (matches `EcoDexEntry` pattern); JSON parser + locale fallback helpers | Done |
+| Create AchievementCriteria model | Freezed `sealed` union with `unionKey: 'type'`; 7 variants (actionCount, streakDays, levelReached, sdgCount, co2Saved, categoriesCovered, special) | Done |
+| Create UserAchievement model | Freezed model with `RequiredTimestampConverter`; doc id = achievement id | Done |
+| Create AchievementRepository | Read-only catalog + Firestore CRUD; idempotent unlock; cached definitions | Done |
+| Create achievement definitions file | `data/app/achievements.json` (19 entries, EN/JA/ES) loaded via bundled-asset pattern | Done |
+| Run code generation | Freezed + JSON serializable + Riverpod generators | Done |
+| Write unit tests | Criteria round-trip, definition parser + l10n fallback, JSON loader, remote datasource CRUD, repository end-to-end (36 tests) | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
+data/app/achievements.json                                    # 19 entries
+
 lib/features/achievements/
-├── achievements.dart                    # Barrel file
-├── data/
-│   ├── models/
-│   │   ├── achievement_definition.dart
-│   │   ├── achievement_criteria.dart
-│   │   └── user_achievement.dart
-│   ├── datasources/
-│   │   └── achievements_remote_datasource.dart
-│   ├── repositories/
-│   │   └── achievements_repository.dart
-│   └── achievement_definitions.dart     # Static definitions
-└── ...
++-- achievements.dart                                         # Barrel
++-- data/
+|   +-- achievement_definitions_data.dart                     # rootBundle loader
+|   +-- datasources/achievements_remote_datasource.dart       # Firestore CRUD
+|   +-- models/
+|   |   +-- achievement_category.dart                         # Enum
+|   |   +-- achievement_criteria_model.dart                   # Freezed sealed union
+|   |   +-- achievement_definition_model.dart                 # Hand-written
+|   |   +-- user_achievement_model.dart                       # Freezed
+|   +-- repositories/achievements_repository.dart
++-- presentation/providers/achievement_providers.dart         # @riverpod
 ```
+
+#### Notes vs original plan
+
+- Achievement definitions ship as bundled JSON (`data/app/achievements.json`)
+  rather than a static Dart constant list. Matches the existing
+  catalog convention (`eco_dex_entries.json`, `challenge_templates.json`,
+  `impact_equivalencies.json`) and keeps copy edits out of code.
+- `AchievementDefinition` is hand-written (not Freezed) to mirror
+  `EcoDexEntry`: it is read-only, one-shot loaded, and avoids ~37 KB of
+  generated `.freezed.dart` boilerplate.
+- Added `categoriesCovered` as a first-class criterion variant for
+  `try_all_categories` instead of overloading `actionCount`.
 
 ---
 
@@ -645,11 +658,11 @@ Define the ~15-20 achievements for launch.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Define all achievements in code | Static list of definitions | Pending |
-| Localize achievement names | EN/ES/JA | Pending |
-| Localize achievement descriptions | EN/ES/JA | Pending |
-| Select icons for each achievement | Material icons or custom | Pending |
-| Balance point rewards | Ensure fair progression | Pending |
+| Define all achievements in JSON | 19 entries in `data/app/achievements.json` (2 special, 5 action, 4 streak, 3 level, 2 sdg, 3 milestone) | Done |
+| Localize achievement names | EN / JA / ES per entry | Done |
+| Localize achievement descriptions | EN / JA / ES per entry | Done |
+| Select icons for each achievement | Material icons (`rocket_launch`, `local_fire_department`, `military_tech`, ...) | Done |
+| Balance point rewards | Range 25 - 5000; total bonus pool 14,175 pts | Done |
 
 ---
 
@@ -1335,16 +1348,16 @@ Stage 6.10: Polish & Testing
 - [x] Localized in EN/JA/ES
 - [x] Unit + widget tests pass
 
-### 6.5 Achievement Data Layer
-- [ ] All models serialize correctly
-- [ ] Repository CRUD works
-- [ ] 19 achievements defined
-- [ ] All localized
+### 6.5 Achievement Data Layer — **Complete**
+- [x] All models serialize correctly (criteria round-trip + JSON loader covered by unit tests)
+- [x] Repository CRUD works (`fake_cloud_firestore`-backed datasource + repository tests)
+- [x] 19 achievements defined in `data/app/achievements.json`
+- [x] All localized in EN / JA / ES
 
-### 6.6 Achievement Definitions
-- [ ] All categories represented
-- [ ] Point values balanced
-- [ ] Criteria types working
+### 6.6 Achievement Definitions — **Complete**
+- [x] All 6 categories represented (special / action / streak / level / sdg / milestone)
+- [x] Point values balanced from 25 (Welcome to Seed) to 5000 (Year of Impact)
+- [x] Criteria types working — `actionCount`, `streakDays`, `levelReached`, `sdgCount`, `co2Saved`, `categoriesCovered`, `special`
 
 ### 6.7 Achievement Tracking
 - [ ] Checks trigger at correct times
