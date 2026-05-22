@@ -16,7 +16,6 @@ abstract class UserAchievementModel with _$UserAchievementModel {
   const factory UserAchievementModel({
     required String id,
     @RequiredTimestampConverter() required DateTime unlockedAt,
-    @Default(false) bool pointsClaimed,
   }) = _UserAchievementModel;
 
   factory UserAchievementModel.fromJson(Map<String, dynamic> json) =>

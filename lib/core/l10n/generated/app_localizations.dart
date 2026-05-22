@@ -2259,6 +2259,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Locked'**
   String get achievementsLocked;
+
+  /// No description provided for @achievementUnlockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement Unlocked!'**
+  String get achievementUnlockedTitle;
+
+  /// No description provided for @achievementBonusPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'+{points} points!'**
+  String achievementBonusPoints(int points);
+
+  /// No description provided for @achievementTapToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to continue'**
+  String get achievementTapToContinue;
+
+  /// No description provided for @achievementMoreQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more queued'**
+  String achievementMoreQueued(int count);
 }
 
 class _AppLocalizationsDelegate

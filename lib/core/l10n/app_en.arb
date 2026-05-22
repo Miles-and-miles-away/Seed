@@ -604,5 +604,19 @@
   "achievementsLoadError": "Couldn't load achievements. Try again later.",
   "achievementsNextUp": "Next Up",
   "achievementsUnlocked": "Unlocked",
-  "achievementsLocked": "Locked"
+  "achievementsLocked": "Locked",
+  "achievementUnlockedTitle": "Achievement Unlocked!",
+  "achievementBonusPoints": "+{points} points!",
+  "@achievementBonusPoints": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "achievementTapToContinue": "Tap to continue",
+  "achievementMoreQueued": "+{count} more queued",
+  "@achievementMoreQueued": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

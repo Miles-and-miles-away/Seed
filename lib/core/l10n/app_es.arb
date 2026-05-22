@@ -635,5 +635,19 @@
   "achievementsLoadError": "No se pudieron cargar los logros. Inténtalo más tarde.",
   "achievementsNextUp": "Próximos",
   "achievementsUnlocked": "Desbloqueados",
-  "achievementsLocked": "Bloqueados"
+  "achievementsLocked": "Bloqueados",
+  "achievementUnlockedTitle": "¡Logro Desbloqueado!",
+  "achievementBonusPoints": "¡+{points} puntos!",
+  "@achievementBonusPoints": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "achievementTapToContinue": "Toca para continuar",
+  "achievementMoreQueued": "+{count} más en cola",
+  "@achievementMoreQueued": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

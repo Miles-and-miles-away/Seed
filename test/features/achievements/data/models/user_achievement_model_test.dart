@@ -29,28 +29,15 @@ void main() {
       final unlockedAt = DateTime.utc(2026, 3, 15);
       final doc = await writeDoc('first_action', {
         AppConstants.fieldUnlockedAt: Timestamp.fromDate(unlockedAt),
-        AppConstants.fieldPointsClaimed: true,
       });
 
       final model = UserAchievementModel.fromFirestore(doc);
       expect(model.id, 'first_action');
       expect(model.unlockedAt.toUtc(), unlockedAt);
-      expect(model.pointsClaimed, isTrue);
-    });
-
-    test('defaults pointsClaimed to false when the field is absent', () async {
-      final doc = await writeDoc('streak_7', {
-        AppConstants.fieldUnlockedAt: Timestamp.fromDate(DateTime.utc(2026, 4)),
-      });
-
-      final model = UserAchievementModel.fromFirestore(doc);
-      expect(model.pointsClaimed, isFalse);
     });
 
     test('throws when unlockedAt is missing', () async {
-      final doc = await writeDoc('streak_30', <String, dynamic>{
-        AppConstants.fieldPointsClaimed: false,
-      });
+      final doc = await writeDoc('streak_30', <String, dynamic>{});
 
       expect(
         () => UserAchievementModel.fromFirestore(doc),

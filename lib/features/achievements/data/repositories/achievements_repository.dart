@@ -48,9 +48,4 @@ class AchievementsRepository {
   /// checker in the same user-doc transaction.
   Future<void> unlockAchievement(String userId, String achievementId) =>
       remoteDataSource.unlockAchievement(userId, achievementId);
-
-  /// Marks the achievement's bonus points as claimed (called after
-  /// the celebration screen finishes).
-  Future<void> markPointsClaimed(String userId, String achievementId) =>
-      remoteDataSource.markPointsClaimed(userId, achievementId);
 }

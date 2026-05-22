@@ -30,8 +30,8 @@ Future<List<AchievementDefinition>> achievementDefinitions(Ref ref) {
 }
 
 /// Streams the raw unlock records for a user (includes unlockedAt
-/// and pointsClaimed). Use this when the UI needs unlock timestamps
-/// or claim state; otherwise prefer [userUnlockedAchievementIds].
+/// timestamps). Use this when the UI needs the unlock date; otherwise
+/// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 @riverpod
 Stream<List<UserAchievementModel>> userAchievements(Ref ref, String userId) {
   return ref

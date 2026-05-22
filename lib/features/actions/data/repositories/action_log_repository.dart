@@ -408,7 +408,6 @@ class ActionLogRepository {
           for (final a in actuallyNew) {
             transaction.set(achievementsCollection.doc(a.id), {
               AppConstants.fieldUnlockedAt: FieldValue.serverTimestamp(),
-              AppConstants.fieldPointsClaimed: false,
             });
             bonusPoints += a.bonusPoints;
           }

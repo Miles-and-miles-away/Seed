@@ -75,7 +75,7 @@ These features deepen user engagement by making progress tangible, rewarding con
 | 6.6 Achievement Definitions | P0 | Low | **Done** |
 | 6.7 Achievement Tracking | P0 | Medium | **Done** |
 | 6.8 Achievement UI | P0 | Medium | **Done** |
-| 6.9 Achievement Celebrations | P1 | Low | Pending |
+| 6.9 Achievement Celebrations | P1 | Low | **Done** |
 | 6.10 User Feedback | P1 | Low | Pending |
 | 6.11 UX Polish & Tech Debt | P2 | Low | Pending |
 
@@ -539,18 +539,20 @@ class UserAchievement with _$UserAchievement {
   const factory UserAchievement({
     required String odefinitionId,
     required DateTime unlockedAt,
-    required bool pointsClaimed,
   }) = _UserAchievement;
 }
 ```
+
+> **Note (§6.9):** the originally-spec'd `pointsClaimed` flag was dropped
+> -- celebration is tap-only and no UI consumes an "unclaimed badge"
+> state. Re-add the field when such a UX actually needs it.
 
 #### Firestore Structure
 
 ```
 users/{userId}/achievements/
 ├── {achievementId}/
-│   ├── unlockedAt: timestamp
-│   └── pointsClaimed: boolean
+│   └── unlockedAt: timestamp
 
 # Achievement definitions stored locally (not in Firestore)
 # This keeps them fast and avoids unnecessary reads
@@ -942,21 +944,33 @@ Celebrate when users unlock achievements.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AchievementCelebrationScreen | Full-screen overlay | Pending |
-| Add confetti animation | Reuse existing confetti widget | Pending |
-| Add points animation | Animated counter or pop | Pending |
-| Implement auto-dismiss | Timer-based dismissal | Pending |
-| Queue multiple achievements | Show one at a time | Pending |
-| Integrate with achievement checker | Trigger on unlock | Pending |
-| Write widget tests | Test display and dismiss | Pending |
+| Create AchievementCelebrationScreen | Full-screen overlay via `showGeneralDialog` (transparent barrier) with backdrop, confetti, icon, name, description, bonus-point line, "tap to continue" hint, and "+N more queued" indicator | Done |
+| Add confetti animation | Inline `_ConfettiLayer` (40 particles, 4 celebration colors); separate copy from `EggHatchingCelebration` -- enough structural divergence that a shared widget would be premature | Done |
+| Add points animation | `+X points!` in gold animates via `flutter_animate` (fade + scale-out-back) | Done |
+| ~~Implement auto-dismiss~~ | **Dropped:** tap-only dismiss. Auto-dismiss risks rare unlocks scrolling past unread; sequential queue means user controls pacing | Done |
+| Queue multiple achievements | `showAchievementCelebrations(...)` loops the list, awaits dismiss between items, surfaces "+N more queued" count on each | Done |
+| Integrate with achievement checker | Triggered in `handle_action_tap.dart` after the streak-milestone block when `logResult.didUnlockAchievement` | Done |
+| ~~Wire `markPointsClaimed` on dismiss~~ | **Dropped:** `pointsClaimed` flag removed from the data layer entirely. No current consumer relied on it; adding the write path was hypothetical-future-feature work. Re-add the field when an actual "unclaimed badge" UX needs it. | Done |
+| Write widget tests | 5 tests: renders content + bonus + tap hint, "+N more queued" indicator, tap dismisses, queue advances in order, empty list no-op | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
-lib/features/achievements/presentation/
-└── screens/
-    └── achievement_celebration_screen.dart
+lib/features/achievements/presentation/screens/achievement_celebration_screen.dart
+  -- AchievementCelebrationScreen widget + showAchievementCelebrations helper
+
+test/features/achievements/presentation/screens/
+  +-- achievement_celebration_screen_test.dart
 ```
+
+#### Files Modified
+
+- `lib/features/actions/presentation/utils/handle_action_tap.dart`
+  -- consumes `logResult.newlyUnlockedAchievements`
+- `lib/features/achievements/achievements.dart` -- export new screen
+- `lib/core/l10n/app_en.arb` / `app_ja.arb` / `app_es.arb`
+  -- 4 new keys (`achievementUnlockedTitle`, `achievementBonusPoints`,
+     `achievementTapToContinue`, `achievementMoreQueued`)
 
 ---
 
@@ -1421,12 +1435,13 @@ Stage 6.10: Polish & Testing
 - [x] Progress bars are accurate (`achievementProgressOf` pure helper, clamped to `[0, target]`)
 - [x] All strings localized in EN / JA / ES
 
-### 6.9 Achievement Celebrations
-- [ ] Celebration appears on unlock
-- [ ] Confetti animation plays
-- [ ] Points shown
-- [ ] Auto-dismiss works
-- [ ] Queue handles multiple
+### 6.9 Achievement Celebrations — **Complete**
+- [x] Celebration appears on unlock (triggered from `handle_action_tap`)
+- [x] Confetti animation plays (`_ConfettiLayer` with 40 particles)
+- [x] Bonus points shown prominently in gold
+- [x] ~~Auto-dismiss~~ replaced with **tap-only dismiss** to avoid rare unlocks scrolling past unread
+- [x] Queue handles multiple sequentially; "+N more queued" indicator
+- [x] ~~`markPointsClaimed`~~ -- `pointsClaimed` flag dropped (YAGNI; no consumer)
 
 ### 6.10 User Feedback
 - [ ] Feedback screen accessible from About > Support

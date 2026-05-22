@@ -1180,4 +1180,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get achievementsLocked => '未達成';
+
+  @override
+  String get achievementUnlockedTitle => '実績を達成しました！';
+
+  @override
+  String achievementBonusPoints(int points) {
+    return '+$pointsポイント！';
+  }
+
+  @override
+  String get achievementTapToContinue => 'タップして続ける';
+
+  @override
+  String achievementMoreQueued(int count) {
+    return '他に$count件';
+  }
 }

@@ -98,8 +98,14 @@ final class AchievementsRepositoryProvider extends $FunctionalProvider<
 String _$achievementsRepositoryHash() =>
     r'5a16322d4d2b79da60f6e61862c4d203212133b5';
 
+/// Bundled JSON catalog. `keepAlive` because the asset is static and
+/// reading it on every screen mount wastes a frame.
+
 @ProviderFor(achievementDefinitions)
 const achievementDefinitionsProvider = AchievementDefinitionsProvider._();
+
+/// Bundled JSON catalog. `keepAlive` because the asset is static and
+/// reading it on every screen mount wastes a frame.
 
 final class AchievementDefinitionsProvider extends $FunctionalProvider<
         AsyncValue<List<AchievementDefinition>>,
@@ -108,6 +114,8 @@ final class AchievementDefinitionsProvider extends $FunctionalProvider<
     with
         $FutureModifier<List<AchievementDefinition>>,
         $FutureProvider<List<AchievementDefinition>> {
+  /// Bundled JSON catalog. `keepAlive` because the asset is static and
+  /// reading it on every screen mount wastes a frame.
   const AchievementDefinitionsProvider._()
       : super(
           from: null,
@@ -138,15 +146,15 @@ String _$achievementDefinitionsHash() =>
     r'06f5351ef14dd18b6e5ab5348aa969cf3475f5a5';
 
 /// Streams the raw unlock records for a user (includes unlockedAt
-/// and pointsClaimed). Use this when the UI needs unlock timestamps
-/// or claim state; otherwise prefer [userUnlockedAchievementIds].
+/// timestamps). Use this when the UI needs the unlock date; otherwise
+/// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 
 @ProviderFor(userAchievements)
 const userAchievementsProvider = UserAchievementsFamily._();
 
 /// Streams the raw unlock records for a user (includes unlockedAt
-/// and pointsClaimed). Use this when the UI needs unlock timestamps
-/// or claim state; otherwise prefer [userUnlockedAchievementIds].
+/// timestamps). Use this when the UI needs the unlock date; otherwise
+/// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 
 final class UserAchievementsProvider extends $FunctionalProvider<
         AsyncValue<List<UserAchievementModel>>,
@@ -156,8 +164,8 @@ final class UserAchievementsProvider extends $FunctionalProvider<
         $FutureModifier<List<UserAchievementModel>>,
         $StreamProvider<List<UserAchievementModel>> {
   /// Streams the raw unlock records for a user (includes unlockedAt
-  /// and pointsClaimed). Use this when the UI needs unlock timestamps
-  /// or claim state; otherwise prefer [userUnlockedAchievementIds].
+  /// timestamps). Use this when the UI needs the unlock date; otherwise
+  /// prefer [userUnlockedAchievementIds] for cheaper membership checks.
   const UserAchievementsProvider._(
       {required UserAchievementsFamily super.from,
       required String super.argument})
@@ -208,8 +216,8 @@ final class UserAchievementsProvider extends $FunctionalProvider<
 String _$userAchievementsHash() => r'cb568cae06770fed3993812964045a02bf5383f4';
 
 /// Streams the raw unlock records for a user (includes unlockedAt
-/// and pointsClaimed). Use this when the UI needs unlock timestamps
-/// or claim state; otherwise prefer [userUnlockedAchievementIds].
+/// timestamps). Use this when the UI needs the unlock date; otherwise
+/// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 
 final class UserAchievementsFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<UserAchievementModel>>, String> {
@@ -223,8 +231,8 @@ final class UserAchievementsFamily extends $Family
         );
 
   /// Streams the raw unlock records for a user (includes unlockedAt
-  /// and pointsClaimed). Use this when the UI needs unlock timestamps
-  /// or claim state; otherwise prefer [userUnlockedAchievementIds].
+  /// timestamps). Use this when the UI needs the unlock date; otherwise
+  /// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 
   UserAchievementsProvider call(
     String userId,

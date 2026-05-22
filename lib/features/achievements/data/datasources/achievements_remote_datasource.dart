@@ -16,15 +16,11 @@ abstract class AchievementsRemoteDataSource {
   /// One-shot read of the user's unlocked achievement records.
   Future<List<UserAchievementModel>> getUserAchievements(String userId);
 
-  /// Writes an unlock record (`unlockedAt = serverTimestamp`,
-  /// `pointsClaimed = false`). Idempotent and concurrency-safe: the
-  /// read-then-write runs inside a Firestore transaction so parallel
-  /// calls for the same id will not produce duplicate writes.
+  /// Writes an unlock record (`unlockedAt = serverTimestamp`).
+  /// Idempotent and concurrency-safe: the read-then-write runs inside
+  /// a Firestore transaction so parallel calls for the same id will
+  /// not produce duplicate writes.
   Future<void> unlockAchievement(String userId, String achievementId);
-
-  /// Marks an unlocked achievement's points as claimed. Used after
-  /// the celebration screen confirms the user has seen the reward.
-  Future<void> markPointsClaimed(String userId, String achievementId);
 
   /// Gets the collection reference for transaction use by §6.7.
   CollectionReference<Map<String, dynamic>> getAchievementsCollection(
@@ -64,16 +60,8 @@ class AchievementsRemoteDataSourceImpl implements AchievementsRemoteDataSource {
       if (existing.exists) return;
       txn.set(docRef, <String, dynamic>{
         AppConstants.fieldUnlockedAt: FieldValue.serverTimestamp(),
-        AppConstants.fieldPointsClaimed: false,
       });
     });
-  }
-
-  @override
-  Future<void> markPointsClaimed(String userId, String achievementId) async {
-    await _userAchievements(userId).doc(achievementId).update(
-      <String, dynamic>{AppConstants.fieldPointsClaimed: true},
-    );
   }
 
   @override

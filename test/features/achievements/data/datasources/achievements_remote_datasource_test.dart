@@ -26,26 +26,22 @@ void main() {
     String uid,
     String id, {
     DateTime? unlockedAt,
-    bool pointsClaimed = false,
   }) async {
     await achievementsCollection(uid).doc(id).set({
       AppConstants.fieldUnlockedAt: Timestamp.fromDate(
         unlockedAt ?? DateTime(2026, 5),
       ),
-      AppConstants.fieldPointsClaimed: pointsClaimed,
     });
   }
 
   group('unlockAchievement', () {
-    test('creates a doc with serverTimestamp and pointsClaimed=false',
-        () async {
+    test('creates a doc with serverTimestamp', () async {
       await dataSource.unlockAchievement(userId, 'first_action');
 
       final doc =
           await achievementsCollection(userId).doc('first_action').get();
       expect(doc.exists, isTrue);
       final data = doc.data()!;
-      expect(data[AppConstants.fieldPointsClaimed], isFalse);
       expect(data[AppConstants.fieldUnlockedAt], isNotNull);
     });
 
@@ -84,13 +80,10 @@ void main() {
 
     test('returns all unlocked records keyed by doc id', () async {
       await seed(userId, 'first_action');
-      await seed(userId, 'streak_7', pointsClaimed: true);
+      await seed(userId, 'streak_7');
 
       final result = await dataSource.getUserAchievements(userId);
       expect(result.map((r) => r.id).toSet(), {'first_action', 'streak_7'});
-
-      final claimed = result.firstWhere((r) => r.id == 'streak_7');
-      expect(claimed.pointsClaimed, isTrue);
     });
   });
 
@@ -109,17 +102,6 @@ void main() {
       await dataSource.unlockAchievement(userId, 'streak_7');
 
       await expectation;
-    });
-  });
-
-  group('markPointsClaimed', () {
-    test('flips the pointsClaimed flag', () async {
-      await seed(userId, 'streak_7');
-
-      await dataSource.markPointsClaimed(userId, 'streak_7');
-
-      final doc = await achievementsCollection(userId).doc('streak_7').get();
-      expect(doc.data()![AppConstants.fieldPointsClaimed], isTrue);
     });
   });
 }

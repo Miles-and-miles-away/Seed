@@ -1214,4 +1214,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get achievementsLocked => 'Bloqueados';
+
+  @override
+  String get achievementUnlockedTitle => '¡Logro Desbloqueado!';
+
+  @override
+  String achievementBonusPoints(int points) {
+    return '¡+$points puntos!';
+  }
+
+  @override
+  String get achievementTapToContinue => 'Toca para continuar';
+
+  @override
+  String achievementMoreQueued(int count) {
+    return '+$count más en cola';
+  }
 }
