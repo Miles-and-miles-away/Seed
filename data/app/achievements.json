@@ -13,19 +13,6 @@
     "descriptionEs": "Registra tu primera acción"
   },
   {
-    "id": "joined_seed",
-    "category": "special",
-    "iconName": "waving_hand",
-    "bonusPoints": 25,
-    "criteria": { "type": "special", "specialType": "account_created" },
-    "nameEn": "Welcome to Seed",
-    "nameJa": "Seedへようこそ",
-    "nameEs": "Bienvenido a Seed",
-    "descriptionEn": "Create your account",
-    "descriptionJa": "アカウントを作成する",
-    "descriptionEs": "Crea tu cuenta"
-  },
-  {
     "id": "actions_10",
     "category": "action",
     "iconName": "emoji_events",
@@ -89,6 +76,19 @@
     "descriptionEn": "Log an action in every category",
     "descriptionJa": "全カテゴリでアクションを記録する",
     "descriptionEs": "Registra una acción en cada categoría"
+  },
+  {
+    "id": "first_streak_3",
+    "category": "streak",
+    "iconName": "flare",
+    "bonusPoints": 75,
+    "criteria": { "type": "streakDays", "days": 3 },
+    "nameEn": "Spark",
+    "nameJa": "火花",
+    "nameEs": "Chispa",
+    "descriptionEn": "Maintain a 3-day streak",
+    "descriptionJa": "3日間連続の記録を達成する",
+    "descriptionEs": "Mantén una racha de 3 días"
   },
   {
     "id": "streak_7",
