@@ -27,9 +27,9 @@ void main() {
     test('category distribution matches PLAN_PHASE_6 §6.6', () {
       int countWhere(AchievementCategory c) =>
           defs.where((d) => d.category == c).length;
-      expect(countWhere(AchievementCategory.special), 2);
+      expect(countWhere(AchievementCategory.special), 1);
       expect(countWhere(AchievementCategory.action), 5);
-      expect(countWhere(AchievementCategory.streak), 4);
+      expect(countWhere(AchievementCategory.streak), 5);
       expect(countWhere(AchievementCategory.level), 3);
       expect(countWhere(AchievementCategory.sdg), 2);
       expect(countWhere(AchievementCategory.milestone), 3);
@@ -79,13 +79,13 @@ void main() {
       }
     });
 
-    test('streak achievements increase monotonically', () {
+    test('streak criteria thresholds form a monotonic ladder', () {
       final streakDays = defs
-          .where((d) => d.id.startsWith('streak_'))
-          .map((d) => int.parse(d.id.substring('streak_'.length)))
+          .where((d) => d.criteria is StreakDaysCriteria)
+          .map((d) => (d.criteria as StreakDaysCriteria).days)
           .toList()
         ..sort();
-      expect(streakDays, [7, 30, 100, 365]);
+      expect(streakDays, [3, 7, 30, 100, 365]);
     });
 
     test('co2 milestone grams increase monotonically', () {
