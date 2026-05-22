@@ -73,8 +73,8 @@ These features deepen user engagement by making progress tangible, rewarding con
 | 6.4 CO₂ Charts | P1 | Medium | **Done** |
 | 6.5 Achievement Data Layer | P0 | Medium | **Done** |
 | 6.6 Achievement Definitions | P0 | Low | **Done** |
-| 6.7 Achievement Tracking | P0 | Medium | Pending |
-| 6.8 Achievement UI | P0 | Medium | Pending |
+| 6.7 Achievement Tracking | P0 | Medium | **Done** |
+| 6.8 Achievement UI | P0 | Medium | **Done** |
 | 6.9 Achievement Celebrations | P1 | Low | Pending |
 | 6.10 User Feedback | P1 | Low | Pending |
 | 6.11 UX Polish & Tech Debt | P2 | Low | Pending |
@@ -728,24 +728,51 @@ class AchievementChecker {
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AchievementChecker service | Check criteria logic | Pending |
-| Integrate with action logging | Check after each action | Pending |
-| Integrate with streak service | Check after streak update | Pending |
-| Integrate with level up | Check after level change | Pending |
-| Create achievement unlock logic | Save to Firestore | Pending |
-| Create point award logic | Add bonus points | Pending |
-| Return newly unlocked list | For celebration screen | Pending |
-| Write unit tests | Test all criteria types | Pending |
+| Create AchievementChecker service | Pure sync function over `AchievementUserState`; switch-expression over the 7 criterion variants | Done |
+| Integrate with action logging | Pre-txn unlocked-ids read + in-txn evaluation, all atomic with the existing action-log transaction | Done |
+| Integrate with streak service | Folded into the action-log flow (streak update happens in the same txn) | Done |
+| Integrate with level up | Folded into the action-log flow; bonus points retrigger `calculateLevel` so unlocks that push a level threshold update both fields | Done |
+| Create achievement unlock logic | `transaction.set` on `users/{uid}/achievements/{id}`; per-candidate `transaction.get` race check skips concurrent duplicates | Done |
+| Create point award logic | Bonus points accumulate into `newPoints` inside the same txn that increments the rest of the user-state | Done |
+| Return newly unlocked list | `ActionLogResult.newlyUnlockedAchievements` (consumed by §6.9 celebration screen, defaults to `[]`) | Done |
+| Write unit tests | 18 pure-checker tests + 5 action-log integration tests covering first-action, multi-unlock, idempotency, bonus level recalc, empty catalog | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
-lib/features/achievements/domain/services/
-└── achievement_checker.dart
+lib/features/achievements/domain/services/achievement_checker.dart
+  -- AchievementUserState snapshot + pure AchievementChecker
 
-lib/features/achievements/presentation/providers/
-└── achievement_providers.dart
+test/features/achievements/domain/services/
+  +-- achievement_checker_test.dart
 ```
+
+#### Files Modified
+
+- `lib/features/actions/data/repositories/action_log_repository.dart`
+  -- threads `achievementsDataSource` + `achievementDefinitions`;
+     pre-txn `getUserAchievements` read; in-txn evaluator + unlock
+     writes + bonus-point accumulation
+- `lib/features/actions/data/repositories/action_log_repository.dart`
+  -- `ActionLogResult.newlyUnlockedAchievements` field + `didUnlockAchievement` getter
+- `lib/features/actions/presentation/providers/actions_providers.dart`
+  -- wires the new repo dependencies via existing achievement providers
+- `test/features/actions/data/repositories/action_log_repository_test.dart`
+  -- updated existing setUps + appended a new `achievement unlocks
+     inside logAction txn` group
+
+#### Notes vs original plan
+
+- `joined_seed` ("Welcome to Seed") **was dropped** in favour of a new
+  `first_streak_3` ("Spark", 3-day streak, 75 pts). Rationale: a signup
+  unlock would require a second integration hook in `AuthRepository`
+  while adding no demonstrable value -- `first_action` already shows
+  the user the achievement system on action #1. `first_streak_3`
+  bridges the gap between `first_action` and `streak_7` and reinforces
+  early-week retention. Catalog now has 19 entries (1 special / 5
+  action / **5** streak / 3 level / 2 sdg / 3 milestone).
+- Account-creation hook in `AuthRepository._createNewUser` is no
+  longer needed; the action-log txn is the sole integration site.
 
 ---
 
@@ -817,29 +844,50 @@ Display achievements in the app.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Create AchievementBadge widget | Single badge display | Pending |
-| Create AchievementCard widget | Detailed card with progress | Pending |
-| Create ProfileAchievementsSection | Horizontal scroll of badges | Pending |
-| Create AchievementsScreen | Full achievements list | Pending |
-| Create "Next Up" section | Show closest to completion | Pending |
-| Calculate progress for each | e.g., 78/100 actions | Pending |
-| Add route to achievements screen | From profile section | Pending |
-| Localize all strings | EN/ES/JA | Pending |
-| Write widget tests | Test display states | Pending |
+| Create AchievementBadge widget | Circular icon + localized name; locked/unlocked color variants | Done |
+| Create AchievementCard widget | Row layout: icon + name + description + optional progress bar | Done |
+| Create ProfileAchievementsSection | Up to 3 unlocked badges + "+N more" chip + count + tap-through arrow | Done |
+| Create AchievementsScreen | At `/profile/achievements`: progress header + Next Up + Unlocked + Locked grids | Done |
+| Create "Next Up" section | Sorts locked achievements by progress fraction desc (special excluded) | Done |
+| Calculate progress for each | Pure `achievementProgressOf(criteria, state)` helper with `AchievementProgress` value type | Done |
+| Add route to achievements screen | `AppRoutes.achievements` nested under profile shell | Done |
+| Localize all strings | 7 new keys in EN / JA / ES (`achievementsTitle`, `achievementsProgress`, `achievementsEmptyHint`, `achievementsLoadError`, `achievementsNextUp`, `achievementsUnlocked`, `achievementsLocked`) | Done |
+| Write widget tests | 14 tests across 5 files: badge, progress bar, card, next-up sorting/exclusion, profile section overrides | Done |
 
-#### Files to Create
+#### Files Created
 
 ```
-lib/features/achievements/presentation/
-├── screens/
-│   └── achievements_screen.dart
-└── widgets/
-    ├── achievement_badge.dart
-    ├── achievement_card.dart
-    ├── achievement_progress_bar.dart
-    ├── next_up_section.dart
-    └── profile_achievements_section.dart
+lib/features/achievements/
++-- domain/services/achievement_progress.dart                # Pure progress calc
++-- presentation/
+|   +-- screens/achievements_screen.dart                     # Full screen
+|   +-- widgets/
+|       +-- achievement_badge.dart                           # Circular badge
+|       +-- achievement_card.dart                            # Detailed row card
+|       +-- achievement_icons.dart                           # iconName -> IconData
+|       +-- achievement_progress_bar.dart                    # Bar + label
+|       +-- next_up_section.dart                             # Top-N closest
+|       +-- profile_achievements_section.dart                # Profile preview
+
+test/features/achievements/
++-- domain/services/achievement_progress_test.dart           # 9 tests
++-- presentation/widgets/
+    +-- achievement_badge_test.dart                          # 3 tests
+    +-- achievement_card_test.dart                           # 2 tests
+    +-- achievement_progress_bar_test.dart                   # 2 tests
+    +-- next_up_section_test.dart                            # 4 tests
+    +-- profile_achievements_section_test.dart               # 3 tests
 ```
+
+#### Files Modified
+
+- `lib/app/router.dart` -- add `AppRoutes.achievements` + nested `GoRoute`
+- `lib/features/profile/presentation/screens/profile_screen.dart`
+  -- slot `ProfileAchievementsSection` between stats and sign-out
+- `lib/features/achievements/achievements.dart`
+  -- export new domain services, widgets, and screen
+- `lib/core/l10n/app_en.arb` / `app_ja.arb` / `app_es.arb`
+  -- 7 new keys
 
 ---
 
@@ -1359,17 +1407,19 @@ Stage 6.10: Polish & Testing
 - [x] Point values balanced from 25 (Welcome to Seed) to 5000 (Year of Impact)
 - [x] Criteria types working — `actionCount`, `streakDays`, `levelReached`, `sdgCount`, `co2Saved`, `categoriesCovered`, `special`
 
-### 6.7 Achievement Tracking
-- [ ] Checks trigger at correct times
-- [ ] Unlocks save to Firestore
-- [ ] Points awarded correctly
-- [ ] Multiple unlocks handled
+### 6.7 Achievement Tracking — **Complete**
+- [x] Checks trigger at correct times (every `logAction` txn evaluates the full catalog against post-update state)
+- [x] Unlocks save to Firestore atomically with the rest of the user-state update
+- [x] Bonus points awarded correctly; level recomputed after bonuses to catch threshold crossings
+- [x] Multiple unlocks handled in one action (catalog-order list returned via `ActionLogResult.newlyUnlockedAchievements`)
+- [x] Per-candidate `transaction.get` race check prevents concurrent double-awards
 
-### 6.8 Achievement UI
-- [ ] Profile section shows badges
-- [ ] Achievements screen shows all
-- [ ] "Next up" shows closest to completion
-- [ ] Progress bars accurate
+### 6.8 Achievement UI — **Complete**
+- [x] Profile section shows badges (up to 3 + "+N more" chip), counter, and tap-through arrow
+- [x] AchievementsScreen at `/profile/achievements` shows progress header, Next Up, Unlocked grid, Locked grid
+- [x] "Next Up" sorts by progress fraction desc; binary (special) criteria excluded
+- [x] Progress bars are accurate (`achievementProgressOf` pure helper, clamped to `[0, target]`)
+- [x] All strings localized in EN / JA / ES
 
 ### 6.9 Achievement Celebrations
 - [ ] Celebration appears on unlock

@@ -590,5 +590,19 @@
     "placeholders": {
       "name": {"type": "String"}
     }
-  }
+  },
+
+  "achievementsTitle": "実績",
+  "achievementsProgress": "{total}件中{unlocked}件達成",
+  "@achievementsProgress": {
+    "placeholders": {
+      "unlocked": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "achievementsEmptyHint": "最初のアクションを記録して実績を解除しましょう。",
+  "achievementsLoadError": "実績を読み込めませんでした。後でもう一度お試しください。",
+  "achievementsNextUp": "もうすぐ達成",
+  "achievementsUnlocked": "達成済み",
+  "achievementsLocked": "未達成"
 }

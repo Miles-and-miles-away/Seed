@@ -1189,4 +1189,29 @@ class AppLocalizationsEs extends AppLocalizations {
   String ecoDexNewDiscoveryMessage(String name) {
     return 'Descubriste: $name';
   }
+
+  @override
+  String get achievementsTitle => 'Logros';
+
+  @override
+  String achievementsProgress(int unlocked, int total) {
+    return '$unlocked de $total desbloqueados';
+  }
+
+  @override
+  String get achievementsEmptyHint =>
+      'Registra tu primera acción para empezar a desbloquear logros.';
+
+  @override
+  String get achievementsLoadError =>
+      'No se pudieron cargar los logros. Inténtalo más tarde.';
+
+  @override
+  String get achievementsNextUp => 'Próximos';
+
+  @override
+  String get achievementsUnlocked => 'Desbloqueados';
+
+  @override
+  String get achievementsLocked => 'Bloqueados';
 }

@@ -1157,4 +1157,27 @@ class AppLocalizationsJa extends AppLocalizations {
   String ecoDexNewDiscoveryMessage(String name) {
     return '$nameを発見しました！';
   }
+
+  @override
+  String get achievementsTitle => '実績';
+
+  @override
+  String achievementsProgress(int unlocked, int total) {
+    return '$total件中$unlocked件達成';
+  }
+
+  @override
+  String get achievementsEmptyHint => '最初のアクションを記録して実績を解除しましょう。';
+
+  @override
+  String get achievementsLoadError => '実績を読み込めませんでした。後でもう一度お試しください。';
+
+  @override
+  String get achievementsNextUp => 'もうすぐ達成';
+
+  @override
+  String get achievementsUnlocked => '達成済み';
+
+  @override
+  String get achievementsLocked => '未達成';
 }

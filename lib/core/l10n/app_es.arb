@@ -621,5 +621,19 @@
     "placeholders": {
       "name": {"type": "String"}
     }
-  }
+  },
+
+  "achievementsTitle": "Logros",
+  "achievementsProgress": "{unlocked} de {total} desbloqueados",
+  "@achievementsProgress": {
+    "placeholders": {
+      "unlocked": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "achievementsEmptyHint": "Registra tu primera acción para empezar a desbloquear logros.",
+  "achievementsLoadError": "No se pudieron cargar los logros. Inténtalo más tarde.",
+  "achievementsNextUp": "Próximos",
+  "achievementsUnlocked": "Desbloqueados",
+  "achievementsLocked": "Bloqueados"
 }
