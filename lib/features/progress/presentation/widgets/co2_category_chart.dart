@@ -26,8 +26,7 @@ class Co2CategoryChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final otherColor =
-        theme.colorScheme.outlineVariant.withValues(alpha: 0.8);
+    final otherColor = theme.colorScheme.outlineVariant.withValues(alpha: 0.8);
 
     final totalKg = data.totalGrams / 1000.0;
 

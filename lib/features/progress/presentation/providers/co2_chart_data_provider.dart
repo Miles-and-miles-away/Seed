@@ -100,9 +100,7 @@ Co2CategoryData buildCategoryData(List<DailySummaryModel> summaries) {
 
   // Sort categories by grams desc; keep `null` (already-other) at the
   // end so it merges with the rolled-up tail cleanly.
-  final knownEntries = byCategory.entries
-      .where((e) => e.key != null)
-      .toList()
+  final knownEntries = byCategory.entries.where((e) => e.key != null).toList()
     ..sort((a, b) => b.value.compareTo(a.value));
   final preexistingOther = byCategory[null] ?? 0;
 
@@ -122,9 +120,8 @@ Co2CategoryData buildCategoryData(List<DailySummaryModel> summaries) {
     );
   }
 
-  final tailGrams = knownEntries
-      .skip(topCount)
-      .fold<int>(0, (a, e) => a + e.value);
+  final tailGrams =
+      knownEntries.skip(topCount).fold<int>(0, (a, e) => a + e.value);
   final otherGrams = tailGrams + preexistingOther;
   if (otherGrams > 0) {
     slices.add(
