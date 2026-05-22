@@ -8,6 +8,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/achievements/presentation/widgets/profile_achievements_section.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -65,6 +66,10 @@ class ProfileScreen extends ConsumerWidget {
 
                 // Statistics section
                 _buildStatsSection(context, ref, theme, l10n),
+
+                const SizedBox(height: Spacing.xxl),
+
+                ProfileAchievementsSection(userId: user.uid),
 
                 const SizedBox(height: Spacing.xxl),
 

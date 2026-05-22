@@ -2217,6 +2217,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You discovered: {name}'**
   String ecoDexNewDiscoveryMessage(String name);
+
+  /// No description provided for @achievementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get achievementsTitle;
+
+  /// No description provided for @achievementsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{unlocked} of {total} unlocked'**
+  String achievementsProgress(int unlocked, int total);
+
+  /// No description provided for @achievementsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first action to start unlocking achievements.'**
+  String get achievementsEmptyHint;
+
+  /// No description provided for @achievementsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load achievements. Try again later.'**
+  String get achievementsLoadError;
+
+  /// No description provided for @achievementsNextUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Up'**
+  String get achievementsNextUp;
+
+  /// No description provided for @achievementsUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked'**
+  String get achievementsUnlocked;
+
+  /// No description provided for @achievementsLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get achievementsLocked;
 }
 
 class _AppLocalizationsDelegate

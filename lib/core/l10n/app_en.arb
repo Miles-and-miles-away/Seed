@@ -590,5 +590,19 @@
     "placeholders": {
       "name": {"type": "String"}
     }
-  }
+  },
+
+  "achievementsTitle": "Achievements",
+  "achievementsProgress": "{unlocked} of {total} unlocked",
+  "@achievementsProgress": {
+    "placeholders": {
+      "unlocked": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "achievementsEmptyHint": "Log your first action to start unlocking achievements.",
+  "achievementsLoadError": "Couldn't load achievements. Try again later.",
+  "achievementsNextUp": "Next Up",
+  "achievementsUnlocked": "Unlocked",
+  "achievementsLocked": "Locked"
 }
