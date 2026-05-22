@@ -65,8 +65,7 @@ class Co2TrendChart extends StatelessWidget {
       ),
     );
 
-    final avgColor =
-        theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
+    final avgColor = theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
     final avgSeries = LineChartBarData(
       spots: [FlSpot(0, avgKg), FlSpot(maxX, avgKg)],
       color: avgColor,
@@ -170,8 +169,8 @@ class Co2TrendChart extends StatelessWidget {
                         if (!atStart && !atEnd && !atMid) {
                           return const SizedBox.shrink();
                         }
-                        final date = data.windowStart
-                            .add(Duration(days: value.round()));
+                        final date =
+                            data.windowStart.add(Duration(days: value.round()));
                         return Padding(
                           padding: const EdgeInsets.only(top: Spacing.xs),
                           child: Text(
@@ -192,8 +191,8 @@ class Co2TrendChart extends StatelessWidget {
                       // users don't tap the dashed line and get a
                       // confusing "average" duplicate at every x.
                       if (spot.barIndex != 0) return null;
-                      final date = data.windowStart
-                          .add(Duration(days: spot.x.round()));
+                      final date =
+                          data.windowStart.add(Duration(days: spot.x.round()));
                       return LineTooltipItem(
                         '${dateFormat.format(date)}\n'
                         '${spot.y.toStringAsFixed(1)} kg',
