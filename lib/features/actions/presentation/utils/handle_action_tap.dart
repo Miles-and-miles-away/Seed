@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/achievements/presentation/screens/achievement_celebration_screen.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
@@ -117,6 +118,13 @@ Future<void> handleActionTap(
           totalDays: logResult.newStreakDays,
         );
       }
+    }
+
+    if (logResult.didUnlockAchievement && context.mounted) {
+      await showAchievementCelebrations(
+        context,
+        definitions: logResult.newlyUnlockedAchievements,
+      );
     }
   } else {
     ScaffoldMessenger.of(context).showSnackBar(

@@ -12,7 +12,6 @@ _UserAchievementModel _$UserAchievementModelFromJson(
       id: json['id'] as String,
       unlockedAt: const RequiredTimestampConverter()
           .fromJson(json['unlockedAt'] as Timestamp),
-      pointsClaimed: json['pointsClaimed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserAchievementModelToJson(
@@ -21,5 +20,4 @@ Map<String, dynamic> _$UserAchievementModelToJson(
       'id': instance.id,
       'unlockedAt':
           const RequiredTimestampConverter().toJson(instance.unlockedAt),
-      'pointsClaimed': instance.pointsClaimed,
     };

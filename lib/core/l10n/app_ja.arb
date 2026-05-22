@@ -604,5 +604,19 @@
   "achievementsLoadError": "実績を読み込めませんでした。後でもう一度お試しください。",
   "achievementsNextUp": "もうすぐ達成",
   "achievementsUnlocked": "達成済み",
-  "achievementsLocked": "未達成"
+  "achievementsLocked": "未達成",
+  "achievementUnlockedTitle": "実績を達成しました！",
+  "achievementBonusPoints": "+{points}ポイント！",
+  "@achievementBonusPoints": {
+    "placeholders": {
+      "points": {"type": "int"}
+    }
+  },
+  "achievementTapToContinue": "タップして続ける",
+  "achievementMoreQueued": "他に{count}件",
+  "@achievementMoreQueued": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

@@ -17,7 +17,6 @@ mixin _$UserAchievementModel {
   String get id;
   @RequiredTimestampConverter()
   DateTime get unlockedAt;
-  bool get pointsClaimed;
 
   /// Create a copy of UserAchievementModel
   /// with the given fields replaced by the non-null parameter values.
@@ -37,18 +36,16 @@ mixin _$UserAchievementModel {
             other is UserAchievementModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.unlockedAt, unlockedAt) ||
-                other.unlockedAt == unlockedAt) &&
-            (identical(other.pointsClaimed, pointsClaimed) ||
-                other.pointsClaimed == pointsClaimed));
+                other.unlockedAt == unlockedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, unlockedAt, pointsClaimed);
+  int get hashCode => Object.hash(runtimeType, id, unlockedAt);
 
   @override
   String toString() {
-    return 'UserAchievementModel(id: $id, unlockedAt: $unlockedAt, pointsClaimed: $pointsClaimed)';
+    return 'UserAchievementModel(id: $id, unlockedAt: $unlockedAt)';
   }
 }
 
@@ -58,10 +55,7 @@ abstract mixin class $UserAchievementModelCopyWith<$Res> {
           $Res Function(UserAchievementModel) _then) =
       _$UserAchievementModelCopyWithImpl;
   @useResult
-  $Res call(
-      {String id,
-      @RequiredTimestampConverter() DateTime unlockedAt,
-      bool pointsClaimed});
+  $Res call({String id, @RequiredTimestampConverter() DateTime unlockedAt});
 }
 
 /// @nodoc
@@ -79,7 +73,6 @@ class _$UserAchievementModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? unlockedAt = null,
-    Object? pointsClaimed = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -90,10 +83,6 @@ class _$UserAchievementModelCopyWithImpl<$Res>
           ? _self.unlockedAt
           : unlockedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      pointsClaimed: null == pointsClaimed
-          ? _self.pointsClaimed
-          : pointsClaimed // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -192,16 +181,14 @@ extension UserAchievementModelPatterns on UserAchievementModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            String id,
-            @RequiredTimestampConverter() DateTime unlockedAt,
-            bool pointsClaimed)?
+            String id, @RequiredTimestampConverter() DateTime unlockedAt)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserAchievementModel() when $default != null:
-        return $default(_that.id, _that.unlockedAt, _that.pointsClaimed);
+        return $default(_that.id, _that.unlockedAt);
       case _:
         return orElse();
     }
@@ -223,15 +210,13 @@ extension UserAchievementModelPatterns on UserAchievementModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            String id,
-            @RequiredTimestampConverter() DateTime unlockedAt,
-            bool pointsClaimed)
+            String id, @RequiredTimestampConverter() DateTime unlockedAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserAchievementModel():
-        return $default(_that.id, _that.unlockedAt, _that.pointsClaimed);
+        return $default(_that.id, _that.unlockedAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -252,15 +237,13 @@ extension UserAchievementModelPatterns on UserAchievementModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            String id,
-            @RequiredTimestampConverter() DateTime unlockedAt,
-            bool pointsClaimed)?
+            String id, @RequiredTimestampConverter() DateTime unlockedAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserAchievementModel() when $default != null:
-        return $default(_that.id, _that.unlockedAt, _that.pointsClaimed);
+        return $default(_that.id, _that.unlockedAt);
       case _:
         return null;
     }
@@ -272,8 +255,7 @@ extension UserAchievementModelPatterns on UserAchievementModel {
 class _UserAchievementModel implements UserAchievementModel {
   const _UserAchievementModel(
       {required this.id,
-      @RequiredTimestampConverter() required this.unlockedAt,
-      this.pointsClaimed = false});
+      @RequiredTimestampConverter() required this.unlockedAt});
   factory _UserAchievementModel.fromJson(Map<String, dynamic> json) =>
       _$UserAchievementModelFromJson(json);
 
@@ -282,9 +264,6 @@ class _UserAchievementModel implements UserAchievementModel {
   @override
   @RequiredTimestampConverter()
   final DateTime unlockedAt;
-  @override
-  @JsonKey()
-  final bool pointsClaimed;
 
   /// Create a copy of UserAchievementModel
   /// with the given fields replaced by the non-null parameter values.
@@ -309,18 +288,16 @@ class _UserAchievementModel implements UserAchievementModel {
             other is _UserAchievementModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.unlockedAt, unlockedAt) ||
-                other.unlockedAt == unlockedAt) &&
-            (identical(other.pointsClaimed, pointsClaimed) ||
-                other.pointsClaimed == pointsClaimed));
+                other.unlockedAt == unlockedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, unlockedAt, pointsClaimed);
+  int get hashCode => Object.hash(runtimeType, id, unlockedAt);
 
   @override
   String toString() {
-    return 'UserAchievementModel(id: $id, unlockedAt: $unlockedAt, pointsClaimed: $pointsClaimed)';
+    return 'UserAchievementModel(id: $id, unlockedAt: $unlockedAt)';
   }
 }
 
@@ -332,10 +309,7 @@ abstract mixin class _$UserAchievementModelCopyWith<$Res>
       __$UserAchievementModelCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @RequiredTimestampConverter() DateTime unlockedAt,
-      bool pointsClaimed});
+  $Res call({String id, @RequiredTimestampConverter() DateTime unlockedAt});
 }
 
 /// @nodoc
@@ -353,7 +327,6 @@ class __$UserAchievementModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? unlockedAt = null,
-    Object? pointsClaimed = null,
   }) {
     return _then(_UserAchievementModel(
       id: null == id
@@ -364,10 +337,6 @@ class __$UserAchievementModelCopyWithImpl<$Res>
           ? _self.unlockedAt
           : unlockedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      pointsClaimed: null == pointsClaimed
-          ? _self.pointsClaimed
-          : pointsClaimed // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }

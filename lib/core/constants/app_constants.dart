@@ -127,7 +127,6 @@ abstract class AppConstants {
 
   // Firestore achievement fields
   static const fieldUnlockedAt = 'unlockedAt';
-  static const fieldPointsClaimed = 'pointsClaimed';
 
   // Firestore SDG stats nested fields
   static const fieldCount = 'count';

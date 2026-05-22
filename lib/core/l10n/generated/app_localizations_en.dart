@@ -1204,4 +1204,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get achievementsLocked => 'Locked';
+
+  @override
+  String get achievementUnlockedTitle => 'Achievement Unlocked!';
+
+  @override
+  String achievementBonusPoints(int points) {
+    return '+$points points!';
+  }
+
+  @override
+  String get achievementTapToContinue => 'Tap to continue';
+
+  @override
+  String achievementMoreQueued(int count) {
+    return '+$count more queued';
+  }
 }

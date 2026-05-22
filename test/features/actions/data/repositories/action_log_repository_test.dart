@@ -966,8 +966,8 @@ void main() {
       final achDocs = await achievementsCol().get();
       expect(achDocs.docs.map((d) => d.id), ['first_action']);
       expect(
-        achDocs.docs.single.data()[AppConstants.fieldPointsClaimed],
-        isFalse,
+        achDocs.docs.single.data()[AppConstants.fieldUnlockedAt],
+        isNotNull,
       );
     });
 

@@ -81,13 +81,5 @@ void main() {
       final ids = await repository.watchUnlockedIds(userId).first;
       expect(ids, {'first_action'});
     });
-
-    test('markPointsClaimed flips the flag on the record', () async {
-      await repository.unlockAchievement(userId, 'first_action');
-      await repository.markPointsClaimed(userId, 'first_action');
-
-      final records = await repository.watchUserAchievements(userId).first;
-      expect(records.single.pointsClaimed, isTrue);
-    });
   });
 }

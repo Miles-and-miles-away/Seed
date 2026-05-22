@@ -11,6 +11,7 @@ export 'data/repositories/achievements_repository.dart';
 export 'domain/services/achievement_checker.dart';
 export 'domain/services/achievement_progress.dart';
 export 'presentation/providers/achievement_providers.dart';
+export 'presentation/screens/achievement_celebration_screen.dart';
 export 'presentation/screens/achievements_screen.dart';
 export 'presentation/widgets/achievement_badge.dart';
 export 'presentation/widgets/achievement_card.dart';
