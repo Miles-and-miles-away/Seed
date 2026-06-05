@@ -1211,9 +1211,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ecoDexNewDiscovery => 'New Eco-Dex discovery!';
 
   @override
-  String ecoDexNewDiscoveryMessage(String name) {
-    return 'You discovered: $name';
+  String get ecoDexNextUp => 'Next Up';
+
+  @override
+  String get ecoDexDiscoveryTitle => 'New Discovery!';
+
+  @override
+  String get ecoDexDiscoveryAcknowledge => 'Awesome!';
+
+  @override
+  String ecoDexDiscoveryMoreQueued(int count) {
+    return '+$count more queued';
   }
+
+  @override
+  String get ecoDexEmptyHint =>
+      'Log your first action to make your first discovery.';
 
   @override
   String get ecoDexInfoTooltip => 'About the Eco-Dex';
@@ -1223,69 +1236,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ecoDexInfoBody =>
-      'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Unlike Achievements, there are no points here: each discovery rewards you with knowledge.';
-
-  @override
-  String get achievementsTitle => 'Achievements';
-
-  @override
-  String achievementsProgress(int unlocked, int total) {
-    return '$unlocked of $total unlocked';
-  }
-
-  @override
-  String get achievementsEmptyHint =>
-      'Log your first action to start unlocking achievements.';
-
-  @override
-  String get achievementsLoadError =>
-      'Couldn\'t load achievements. Try again later.';
-
-  @override
-  String get achievementsNextUp => 'Next Up';
-
-  @override
-  String get achievementsUnlocked => 'Unlocked';
-
-  @override
-  String get achievementsLocked => 'Locked';
-
-  @override
-  String get achievementUnlockedTitle => 'Achievement Unlocked!';
-
-  @override
-  String achievementBonusPoints(int points) {
-    return '+$points points!';
-  }
-
-  @override
-  String get achievementAcknowledge => 'Awesome!';
-
-  @override
-  String achievementMoreQueued(int count) {
-    return '+$count more queued';
-  }
-
-  @override
-  String get achievementsInfoTooltip => 'About achievements';
-
-  @override
-  String get achievementsInfoTitle => 'About Achievements';
-
-  @override
-  String get achievementsInfoBody =>
-      'Achievements are badges that celebrate your personal milestones: logging actions, building streaks, leveling up, saving CO2, and supporting SDGs. Each badge awards bonus points when it unlocks. Tap any badge to see what it takes to earn and how close you are. Looking to collect facts about the planet instead? That is the Eco-Dex, in the Progress tab.';
-
-  @override
-  String achievementDetailReward(int points) {
-    return 'Reward: +$points points';
-  }
-
-  @override
-  String achievementDetailUnlockedOn(DateTime date) {
-    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
-    final String dateString = dateDateFormat.format(date);
-
-    return 'Unlocked on $dateString';
-  }
+      'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.';
 }

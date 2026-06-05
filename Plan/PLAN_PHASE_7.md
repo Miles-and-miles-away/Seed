@@ -379,12 +379,11 @@ Define which features are free vs premium.
 | Basic cosmetics (earn with points) | ✅ | ✅ |
 | Notifications (2 reminders) | ✅ | ✅ |
 | CO₂ dashboard | ✅ | ✅ |
-| Achievements | ✅ | ✅ |
+| Eco-Dex (full collection) | ✅ | ✅ |
 | **Streak grace period** | ❌ | ✅ |
 | **Unlimited reminders** | ❌ | ✅ |
 | **Premium cosmetics** | ❌ | ✅ |
 | **All mascot species** | ❌ | ✅ |
-| **Premium-only achievements** | ❌ | ✅ |
 | **Ad-free** (if ads added) | ❌ | ✅ |
 | **Priority support** | ❌ | ✅ |
 

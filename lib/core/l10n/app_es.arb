@@ -627,56 +627,17 @@
   "ecoDexLocked": "No descubierto",
   "ecoDexViewSource": "Ver fuente",
   "ecoDexNewDiscovery": "Nuevo descubrimiento en Eco-Dex!",
-  "ecoDexNewDiscoveryMessage": "Descubriste: {name}",
-  "@ecoDexNewDiscoveryMessage": {
-    "placeholders": {
-      "name": {"type": "String"}
-    }
-  },
-  "ecoDexInfoTooltip": "Acerca del Eco-Dex",
-  "ecoDexInfoTitle": "Acerca del Eco-Dex",
-  "ecoDexInfoBody": "El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. A diferencia de los Logros, aquí no hay puntos: cada descubrimiento te recompensa con conocimiento.",
-
-  "achievementsTitle": "Logros",
-  "achievementsProgress": "{unlocked} de {total} desbloqueados",
-  "@achievementsProgress": {
-    "placeholders": {
-      "unlocked": {"type": "int"},
-      "total": {"type": "int"}
-    }
-  },
-  "achievementsEmptyHint": "Registra tu primera acción para empezar a desbloquear logros.",
-  "achievementsLoadError": "No se pudieron cargar los logros. Inténtalo más tarde.",
-  "achievementsNextUp": "Próximos",
-  "achievementsUnlocked": "Desbloqueados",
-  "achievementsLocked": "Bloqueados",
-  "achievementUnlockedTitle": "¡Logro Desbloqueado!",
-  "achievementBonusPoints": "¡+{points} puntos!",
-  "@achievementBonusPoints": {
-    "placeholders": {
-      "points": {"type": "int"}
-    }
-  },
-  "achievementAcknowledge": "¡Genial!",
-  "achievementMoreQueued": "+{count} más en cola",
-  "@achievementMoreQueued": {
+  "ecoDexNextUp": "Próximos",
+  "ecoDexDiscoveryTitle": "¡Nuevo Descubrimiento!",
+  "ecoDexDiscoveryAcknowledge": "¡Genial!",
+  "ecoDexDiscoveryMoreQueued": "+{count} más en cola",
+  "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "achievementsInfoTooltip": "Acerca de los logros",
-  "achievementsInfoTitle": "Acerca de los Logros",
-  "achievementsInfoBody": "Los logros son insignias que celebran tus hitos personales: registrar acciones, mantener rachas, subir de nivel, ahorrar CO2 y apoyar los ODS. Cada insignia otorga puntos extra al desbloquearse. Toca cualquier insignia para ver qué se necesita para ganarla y qué tan cerca estás. ¿Prefieres coleccionar datos sobre el planeta? Ese es el Eco-Dex, en la pestaña Progreso.",
-  "achievementDetailReward": "Recompensa: +{points} puntos",
-  "@achievementDetailReward": {
-    "placeholders": {
-      "points": {"type": "int"}
-    }
-  },
-  "achievementDetailUnlockedOn": "Desbloqueado el {date}",
-  "@achievementDetailUnlockedOn": {
-    "placeholders": {
-      "date": {"type": "DateTime", "format": "yMMMd"}
-    }
-  }
+  "ecoDexEmptyHint": "Registra tu primera acción para hacer tu primer descubrimiento.",
+  "ecoDexInfoTooltip": "Acerca del Eco-Dex",
+  "ecoDexInfoTitle": "Acerca del Eco-Dex",
+  "ecoDexInfoBody": "El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no otorgan puntos: cada uno te recompensa con conocimiento."
 }

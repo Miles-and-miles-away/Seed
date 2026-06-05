@@ -597,56 +597,17 @@
   "ecoDexLocked": "未発見",
   "ecoDexViewSource": "出典を見る",
   "ecoDexNewDiscovery": "新しいエコ図鑑の発見！",
-  "ecoDexNewDiscoveryMessage": "{name}を発見しました！",
-  "@ecoDexNewDiscoveryMessage": {
-    "placeholders": {
-      "name": {"type": "String"}
-    }
-  },
-  "ecoDexInfoTooltip": "エコ図鑑について",
-  "ecoDexInfoTitle": "エコ図鑑について",
-  "ecoDexInfoBody": "エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。実績とは異なりポイントはもらえません。発見した知識そのものがごほうびです。",
-
-  "achievementsTitle": "実績",
-  "achievementsProgress": "{total}件中{unlocked}件達成",
-  "@achievementsProgress": {
-    "placeholders": {
-      "unlocked": {"type": "int"},
-      "total": {"type": "int"}
-    }
-  },
-  "achievementsEmptyHint": "最初のアクションを記録して実績を解除しましょう。",
-  "achievementsLoadError": "実績を読み込めませんでした。後でもう一度お試しください。",
-  "achievementsNextUp": "もうすぐ達成",
-  "achievementsUnlocked": "達成済み",
-  "achievementsLocked": "未達成",
-  "achievementUnlockedTitle": "実績を達成しました！",
-  "achievementBonusPoints": "+{points}ポイント！",
-  "@achievementBonusPoints": {
-    "placeholders": {
-      "points": {"type": "int"}
-    }
-  },
-  "achievementAcknowledge": "やったね！",
-  "achievementMoreQueued": "他に{count}件",
-  "@achievementMoreQueued": {
+  "ecoDexNextUp": "もうすぐ発見",
+  "ecoDexDiscoveryTitle": "新発見！",
+  "ecoDexDiscoveryAcknowledge": "やったね！",
+  "ecoDexDiscoveryMoreQueued": "他に{count}件",
+  "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "achievementsInfoTooltip": "実績について",
-  "achievementsInfoTitle": "実績について",
-  "achievementsInfoBody": "実績はマイルストーンの達成をたたえるバッジです。アクションの記録、ストリークの継続、レベルアップ、CO2の削減、SDGsへの貢献などで解放され、解放時にはボーナスポイントがもらえます。バッジをタップすると獲得条件と進捗を確認できます。地球に関する事実を集めたい場合は、進捗タブのエコ図鑑をご覧ください。",
-  "achievementDetailReward": "報酬：+{points}ポイント",
-  "@achievementDetailReward": {
-    "placeholders": {
-      "points": {"type": "int"}
-    }
-  },
-  "achievementDetailUnlockedOn": "{date}に達成",
-  "@achievementDetailUnlockedOn": {
-    "placeholders": {
-      "date": {"type": "DateTime", "format": "yMMMd"}
-    }
-  }
+  "ecoDexEmptyHint": "最初のアクションを記録して最初の発見をしましょう。",
+  "ecoDexInfoTooltip": "エコ図鑑について",
+  "ecoDexInfoTitle": "エコ図鑑について",
+  "ecoDexInfoBody": "エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。"
 }

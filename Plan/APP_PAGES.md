@@ -99,7 +99,9 @@ Rainbow sun daily-goal tracker plus three segmented views: Calendar,
 Impact, and Eco-Dex.
 - Links: `/progress/history`
 - Functionality: segmented control (Calendar / Impact / Eco-Dex),
-  daily target picker for first-time users, calendar grid.
+  daily target picker for first-time users, calendar grid. Supports a
+  `?tab=` query parameter (`calendar` / `impact` / `ecodex`) so other
+  screens can deep-link to a specific segment.
 
 ### Impact (embedded in Progress)
 CO2 dashboard showing total saved across selectable time periods,
@@ -116,14 +118,20 @@ burgers), and trend / category charts of the same window.
   hide themselves when the window has insufficient data.
 
 ### Eco-Dex (embedded in Progress)
-Encyclopedia of eco-actions organized by category, with a progress
-header.
+Encyclopedia of planet facts organized by category, with a progress
+header. The app's single milestone/collection system (the separate
+Achievements feature was merged into it; discoveries award knowledge,
+never points).
 - Links: none
 - Functionality: progress header with info icon opening a
-  how-discovery-works sheet; expandable/collapsible category
-  sections; entry cards with lock/unlock state — discovered entries
-  open a fact detail sheet, locked entries open a hint sheet
-  describing how to unlock.
+  how-discovery-works sheet; "Next Up" cards for the
+  closest-to-discovery entries (hint + progress bar, name stays
+  hidden); expandable/collapsible category sections; entry cards with
+  lock/unlock state — discovered entries open a fact detail sheet
+  (fact + source link), locked entries open a hint sheet with unlock
+  progress. A full-screen confetti celebration overlay (not a route)
+  appears when logging an action discovers entries, showing the entry
+  art, name, and fact with a "+N more queued" indicator.
 
 ### Action History (`/progress/history`)
 Timeline of logged actions grouped by date with running points total.
@@ -148,23 +156,12 @@ Active mascot with evolution timeline and multi-mascot collection.
 
 User stats (level, streak, CO2 saved, total actions) and evolution
 stage.
-- Links: `/profile/settings`, `/profile/achievements`
+- Links: `/profile/settings`, `/progress?tab=ecodex`
 - Functionality: settings icon in app bar, sign-out button, stat
-  cards, achievements preview card (up to 3 unlocked badges + "+N
-  more" chip; badge tap opens the achievement detail sheet, card tap
-  navigates to the full Achievements screen).
-
-### Achievements (`/profile/achievements`)
-Badge collection with unlock progress, "Next Up" preview, and
-unlocked/locked grids.
-- Links: none (inline sheets only)
-- Functionality: overall unlock progress header; info icon in app bar
-  opening a how-achievements-work sheet; "Next Up" cards for the
-  closest-to-unlock achievements with progress bars; tappable badges
-  opening a detail sheet (criteria description, bonus-point reward,
-  progress bar when locked, unlock date when unlocked). A full-screen
-  confetti celebration overlay (not a route) appears when logging an
-  action unlocks achievements.
+  cards, Eco-Dex preview card (up to 3 most recent discoveries + "+N
+  more" chip and a "X / Y discovered" counter; thumbnail tap opens
+  the entry fact sheet, card tap deep-links to the Eco-Dex segment
+  on the Progress tab).
 
 ### Settings (`/profile/settings`)
 Settings hub.
@@ -242,7 +239,6 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |
 | `dailyFactDetail(key)`    | `/home/daily-fact/{key}`          |
 | `actionHistory`           | `/progress/history`               |
-| `achievements`            | `/profile/achievements`           |
 | `settings`                | `/profile/settings`               |
 | `settingsNotifications`   | `/profile/settings/notifications` |
 | `settingsLanguage`        | `/profile/settings/language`      |

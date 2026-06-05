@@ -39,7 +39,6 @@ abstract class AppConstants {
   static const collectionMascotSpecies = 'mascotSpecies';
   static const collectionCosmeticItems = 'cosmeticItems';
   static const collectionDailySummaries = 'dailySummaries';
-  static const collectionAchievements = 'achievements';
 
   // SDG bounds
   static const sdgMinGoal = 1;
@@ -124,9 +123,6 @@ abstract class AppConstants {
   static const fieldTotalPoints = 'totalPoints';
   static const fieldUpdatedAt = 'updatedAt';
   static const fieldCategoryCo2Grams = 'categoryCo2Grams';
-
-  // Firestore achievement fields
-  static const fieldUnlockedAt = 'unlockedAt';
 
   // Firestore SDG stats nested fields
   static const fieldCount = 'count';

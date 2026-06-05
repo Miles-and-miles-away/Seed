@@ -23,10 +23,26 @@
 
 ## Phase Overview
 
+> **Revision (June 2026): Achievement system merged into the Eco-Dex
+> and removed.** The standalone Achievement system described in 6.5-6.9
+> was built as planned, then folded into the Eco-Dex once it became
+> clear the two were near-duplicate milestone systems (8 of 15 unlock
+> condition types overlapped; several thresholds collided exactly, so a
+> single user moment fired both systems). The Eco-Dex absorbed the
+> missing milestones (first action, 500 actions, 100/365-day streaks,
+> all 17 SDGs, 1 tonne CO2 -- 102 to 108 entries) and the achievements
+> UX (confetti celebration queue, "Next Up" progress cards, locked
+> progress bars, profile preview with deep link to `/progress?tab=ecodex`).
+> Bonus points were dropped entirely, restoring the Phase 5
+> **No Fake Points** principle that 6.5's bonus-point reward had
+> silently violated: points represent real CO2 savings only, and
+> Eco-Dex discoveries reward knowledge. Sections 6.5-6.9 below are
+> retained as a historical record of the original design.
+
 Phase 6 adds two major engagement features and a user feedback channel:
 
 1. **CO₂ Dashboard** - Visualize environmental impact with charts, trends, and relatable equivalencies
-2. **Achievement System** - Gamify the experience with unlockable badges and bonus point rewards
+2. **Achievement System** - Gamify the experience with unlockable badges and bonus point rewards (merged into the Eco-Dex; see revision note above)
 3. **User Feedback** - In-app feedback form so users can report issues and suggest features
 
 These features deepen user engagement by making progress tangible, rewarding consistent behavior, and giving users a voice.

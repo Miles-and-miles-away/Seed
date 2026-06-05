@@ -15,8 +15,8 @@ void main() {
       expect(data.categories.length, 9);
     });
 
-    test('loads 102 entries', () {
-      expect(data.entries.length, 102);
+    test('loads 108 entries', () {
+      expect(data.entries.length, 108);
     });
 
     test('no duplicate entry IDs', () {

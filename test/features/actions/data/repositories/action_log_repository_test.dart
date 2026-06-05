@@ -3,10 +3,6 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/helpers.dart';
-import 'package:seed_app/features/achievements/data/datasources/achievements_remote_datasource.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_category.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_criteria_model.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
@@ -106,9 +102,6 @@ void main() {
       dailyChallengeTemplates: const [_transportDaily],
       multiDayChallengeTemplates: const [_mdTransport, _mdAnyCategory],
       mascotSpecies: _species,
-      achievementsDataSource:
-          AchievementsRemoteDataSourceImpl(firestore: firestore),
-      achievementDefinitions: const [],
     );
   });
 
@@ -592,9 +585,6 @@ void main() {
         dailyChallengeTemplates: const [_waterDaily],
         multiDayChallengeTemplates: const [],
         mascotSpecies: _species,
-        achievementsDataSource:
-            AchievementsRemoteDataSourceImpl(firestore: firestore),
-        achievementDefinitions: const [],
       );
       await seedUser({});
 
@@ -877,218 +867,6 @@ void main() {
       final recent = await repository.getRecentActionLogs(_uid, 2);
 
       expect(recent, hasLength(2));
-    });
-  });
-
-  group('achievement unlocks inside logAction txn', () {
-    AchievementDefinition mkDef(
-      String id,
-      AchievementCriteria criteria, {
-      int bonusPoints = 100,
-      AchievementCategory category = AchievementCategory.action,
-    }) {
-      return AchievementDefinition(
-        id: id,
-        category: category,
-        iconName: 'emoji_events',
-        bonusPoints: bonusPoints,
-        criteria: criteria,
-        nameEn: id,
-        nameJa: '',
-        nameEs: '',
-        descriptionEn: id,
-        descriptionJa: '',
-        descriptionEs: '',
-      );
-    }
-
-    late ActionLogRepository repoWithAch;
-    late List<AchievementDefinition> catalog;
-
-    setUp(() {
-      catalog = [
-        mkDef(
-          'first_action',
-          const AchievementCriteria.special(specialType: 'first_action'),
-          bonusPoints: 50,
-          category: AchievementCategory.special,
-        ),
-        mkDef(
-          'a3',
-          const AchievementCriteria.actionCount(count: 3),
-        ),
-        mkDef(
-          'co2_1kg',
-          const AchievementCriteria.co2Saved(grams: 1000),
-          category: AchievementCategory.milestone,
-        ),
-      ];
-      repoWithAch = ActionLogRepository(
-        dataSource: ActionLogRemoteDataSourceImpl(firestore: firestore),
-        firestore: firestore,
-        // selectDailyChallenge modulos by list length -- at least one
-        // template is required for the existing daily-challenge step
-        // to run, even though these tests only assert on achievements.
-        dailyChallengeTemplates: const [_transportDaily],
-        multiDayChallengeTemplates: const [],
-        mascotSpecies: _species,
-        achievementsDataSource:
-            AchievementsRemoteDataSourceImpl(firestore: firestore),
-        achievementDefinitions: catalog,
-      );
-    });
-
-    CollectionReference<Map<String, dynamic>> achievementsCol() => firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_uid)
-        .collection(AppConstants.collectionAchievements);
-
-    test('first action unlocks first_action and awards its bonus points',
-        () async {
-      await seedUser({});
-
-      final result = await repoWithAch.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-
-      expect(
-        result.newlyUnlockedAchievements.map((d) => d.id),
-        ['first_action'],
-      );
-      expect(result.didUnlockAchievement, isTrue);
-
-      final user = await getUser();
-      // 20 (action) + 50 (bonus) = 70 points
-      expect(user.data()![AppConstants.fieldPoints], 70);
-
-      final achDocs = await achievementsCol().get();
-      expect(achDocs.docs.map((d) => d.id), ['first_action']);
-      expect(
-        achDocs.docs.single.data()[AppConstants.fieldUnlockedAt],
-        isNotNull,
-      );
-    });
-
-    test('threshold action unlocks multiple achievements at once', () async {
-      // Seed user already at 2 actions, 500 g CO2 -- next action
-      // pushes them to 3 actions and 1000 g, satisfying both a3 and
-      // co2_1kg (first_action stays locked because we are past
-      // action #1).
-      await seedUser({
-        AppConstants.fieldTotalActionsCount: 2,
-        AppConstants.fieldTotalCo2Grams: 500,
-        AppConstants.fieldPoints: 40,
-        AppConstants.fieldLevel: 1,
-      });
-
-      final result = await repoWithAch.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-
-      expect(
-        result.newlyUnlockedAchievements.map((d) => d.id),
-        ['a3', 'co2_1kg'],
-      );
-
-      final user = await getUser();
-      // 40 (prev) + 20 (action) + 100 (a3) + 100 (co2_1kg) = 260
-      expect(user.data()![AppConstants.fieldPoints], 260);
-
-      final achDocs = await achievementsCol().get();
-      expect(achDocs.docs.map((d) => d.id).toSet(), {'a3', 'co2_1kg'});
-    });
-
-    test('does not re-unlock or re-award points for already-unlocked ids',
-        () async {
-      // Tight catalog: only first_action, so the second action has
-      // nothing else to trigger and we can assert exactly.
-      final repoFirstOnly = ActionLogRepository(
-        dataSource: ActionLogRemoteDataSourceImpl(firestore: firestore),
-        firestore: firestore,
-        dailyChallengeTemplates: const [_transportDaily],
-        multiDayChallengeTemplates: const [],
-        mascotSpecies: _species,
-        achievementsDataSource:
-            AchievementsRemoteDataSourceImpl(firestore: firestore),
-        achievementDefinitions: [
-          mkDef(
-            'first_action',
-            const AchievementCriteria.special(specialType: 'first_action'),
-            bonusPoints: 50,
-            category: AchievementCategory.special,
-          ),
-        ],
-      );
-
-      await seedUser({});
-      // First action: unlocks first_action (+50 pts).
-      await repoFirstOnly.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-      // Second action: should NOT re-fire first_action.
-      final second = await repoFirstOnly.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-
-      expect(second.newlyUnlockedAchievements, isEmpty);
-
-      final user = await getUser();
-      // 20 + 50 (first txn) + 20 (second txn) = 90 points
-      expect(user.data()![AppConstants.fieldPoints], 90);
-
-      final achDocs = await achievementsCol().get();
-      expect(achDocs.docs, hasLength(1));
-    });
-
-    test('bonus points are folded into the level recalculation', () async {
-      // Seed near a level boundary so the action + bonus crosses it.
-      // calculateLevel(100) == 2 (pointsPerLevel=100, scaling=1.5).
-      // calculateLevel(60) == 1. Action gives 20, bonus a3 gives 100.
-      await seedUser({
-        AppConstants.fieldPoints: 60,
-        AppConstants.fieldLevel: 1,
-        AppConstants.fieldTotalActionsCount: 2,
-      });
-
-      final result = await repoWithAch.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-
-      expect(
-        result.newlyUnlockedAchievements.map((d) => d.id),
-        contains('a3'),
-      );
-
-      final user = await getUser();
-      // 60 + 20 + 100 = 180 points. calculateLevel(180): level 2
-      // needs 100 pts, level 3 needs 250 pts, so 180 lands on level 2.
-      expect(user.data()![AppConstants.fieldPoints], 180);
-      expect(user.data()![AppConstants.fieldLevel], 2);
-    });
-
-    test('empty catalog is a no-op (no read, no write to subcollection)',
-        () async {
-      await seedUser({});
-      // Default `repository` (setUp) has empty catalog.
-      final result = await repository.logAction(
-        userId: _uid,
-        action: _action,
-        languageCode: 'en',
-      );
-
-      expect(result.newlyUnlockedAchievements, isEmpty);
-      final achDocs = await achievementsCol().get();
-      expect(achDocs.docs, isEmpty);
     });
   });
 }

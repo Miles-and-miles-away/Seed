@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/features/achievements/domain/services/achievement_progress.dart';
+import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart';
 
 /// Linear progress bar with a `current / target` label. Renders
-/// nothing when `progress.hasProgress` is false so binary criteria
-/// (special) cleanly opt out without the caller branching.
-class AchievementProgressBar extends StatelessWidget {
-  const AchievementProgressBar({
+/// nothing when `progress.hasProgress` is false so binary conditions
+/// cleanly opt out without the caller branching.
+class EcoDexProgressBar extends StatelessWidget {
+  const EcoDexProgressBar({
     required this.progress,
     super.key,
   });
 
-  final AchievementProgress progress;
+  final EcoDexProgress progress;
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/constants/app_constants.dart';
-import '../features/achievements/presentation/screens/achievements_screen.dart';
 import '../features/actions/presentation/screens/action_history_screen.dart';
 import '../features/actions/presentation/screens/action_log_screen.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
@@ -78,7 +77,6 @@ class AppRoutes {
   String get actionHistory => '/progress/history';
 
   // Nested under profile
-  String get achievements => '/profile/achievements';
   String get settings => '/profile/settings';
   String get settingsNotifications => '/profile/settings/notifications';
   String get settingsLanguage => '/profile/settings/language';
@@ -188,7 +186,9 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: appRoutes.progress,
-                builder: (context, state) => const ProgressScreen(),
+                builder: (context, state) => ProgressScreen(
+                  initialTab: state.uri.queryParameters['tab'],
+                ),
                 routes: [
                   // Action history nested under progress
                   GoRoute(
@@ -217,10 +217,6 @@ GoRouter router(Ref ref) {
                 path: appRoutes.profile,
                 builder: (context, state) => const ProfileScreen(),
                 routes: [
-                  GoRoute(
-                    path: 'achievements',
-                    builder: (context, state) => const AchievementsScreen(),
-                  ),
                   GoRoute(
                     path: 'settings',
                     builder: (context, state) => const SettingsScreen(),
