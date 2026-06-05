@@ -86,7 +86,7 @@ cd ios && pod install && cd ..
 Required for Riverpod and Freezed classes:
 
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 ### 5. Generate Localization Files
@@ -217,7 +217,7 @@ Hot reload (`r`) and hot restart (`R`) handle most changes automatically.
 |---------|-------------|
 | `flutter pub get` | After modifying `pubspec.yaml` (adding/removing packages) |
 | `cd ios && pod install && cd ..` | After adding iOS-specific dependencies |
-| `flutter pub run build_runner build` | After modifying `@riverpod` or `@freezed` classes |
+| `dart run build_runner build` | After modifying `@riverpod` or `@freezed` classes |
 | `flutter gen-l10n` | After modifying ARB localization files |
 | `flutter clean` | Only when you have weird build issues (rare) |
 | `flutter build ios` | Only for release builds |

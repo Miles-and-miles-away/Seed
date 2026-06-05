@@ -1092,7 +1092,7 @@ final class MascotAnimationTriggerProvider
 }
 
 String _$mascotAnimationTriggerHash() =>
-    r'a9ac536025156a04b3e0fd338bba115773f4320b';
+    r'a3ea3595a2823e2a91090665ce78295e032b9b83';
 
 abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
   bool build();

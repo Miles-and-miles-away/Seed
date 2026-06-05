@@ -15,12 +15,12 @@ flutter pub get
 # Run code generation (required after modifying @riverpod or @freezed classes)
 # Generated files (.g.dart, .freezed.dart) ARE committed -- run this locally
 # and stage the regenerated files alongside your source change. CI does not
-# run codegen. Use `flutter pub run` (JIT); `dart run` AOT-compiles, which
-# Dart 3.10 refuses on packages with build hooks.
-flutter pub run build_runner build --delete-conflicting-outputs
+# run codegen. Note: `flutter pub run` is deprecated, and build_runner 2.7+
+# deletes conflicting outputs by default (the old flag was removed).
+dart run build_runner build
 
 # Watch mode for development (auto-regenerates on file changes)
-flutter pub run build_runner watch --delete-conflicting-outputs
+dart run build_runner watch
 
 # Generate localization files (also committed -- run after editing .arb files)
 flutter gen-l10n

@@ -100,7 +100,7 @@ flutter:
 #   flutter pub deps         # Show dependency tree (like: poetry show --tree)
 #
 # Code generation (run after modifying freezed/riverpod classes):
-#   flutter pub run build_runner build --delete-conflicting-outputs
+#   dart run build_runner build
 #
 # Or use watch mode during development:
-#   flutter pub run build_runner watch --delete-conflicting-outputs
+#   dart run build_runner watch

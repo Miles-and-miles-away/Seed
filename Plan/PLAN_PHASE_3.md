@@ -371,7 +371,7 @@ const List<int> streakMilestones = [
    - `removeReminderSchedule(userId, scheduleId)` → Future<void>
    - `updateNotificationsEnabled(userId, enabled)` → Future<void>
 5. Update `AppUserModel` with new fields
-6. Run `flutter pub run build_runner build`
+6. Run `dart run build_runner build`
 7. Write unit tests for repository
 
 **Files to Create:**
