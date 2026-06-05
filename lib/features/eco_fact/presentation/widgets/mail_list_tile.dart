@@ -40,10 +40,10 @@ class MailListTile extends StatelessWidget {
       MailRowState.locked => Icons.lock_outline,
     };
     final iconColor = isLocked
-        ? colorScheme.onSurface.withValues(alpha: Opacities.muted)
+        ? colorScheme.onSurface.withValues(alpha: opacityMuted)
         : colorScheme.primary;
     final subjectColor = isLocked
-        ? colorScheme.onSurface.withValues(alpha: Opacities.strong)
+        ? colorScheme.onSurface.withValues(alpha: opacityStrong)
         : colorScheme.onSurface;
     final subjectWeight = isUnread ? FontWeight.w700 : FontWeight.w400;
 
@@ -51,13 +51,13 @@ class MailListTile extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: Spacing.lg,
-          vertical: Spacing.md,
+          horizontal: spacingLg,
+          vertical: spacingMd,
         ),
         child: Row(
           children: [
             Icon(iconData, size: _leadingIconSize, color: iconColor),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Expanded(
               child: Text(
                 subject,
@@ -69,7 +69,7 @@ class MailListTile extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: Spacing.sm),
+            const SizedBox(width: spacingSm),
             Text(
               DateFormat.MMMd(locale).format(date),
               style: theme.textTheme.bodySmall?.copyWith(
@@ -77,7 +77,7 @@ class MailListTile extends StatelessWidget {
                 fontWeight: isUnread ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
-            const SizedBox(width: Spacing.sm),
+            const SizedBox(width: spacingSm),
             SizedBox(
               width: _unreadDotSize,
               height: _unreadDotSize,

@@ -49,7 +49,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
             // Backdrop
             RepaintBoundary(
               child: Container(
-                color: Colors.black.withValues(alpha: Opacities.nearOpaque),
+                color: Colors.black.withValues(alpha: opacityNearOpaque),
               ).animate().fadeIn(duration: 300.ms),
             ),
 
@@ -58,7 +58,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
 
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Spacing.xxl),
+                padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -73,7 +73,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                         .animate()
                         .fadeIn(duration: 400.ms)
                         .slideY(begin: -0.2, end: 0),
-                    const SizedBox(height: Spacing.xxxl),
+                    const SizedBox(height: spacingXxxl),
                     Container(
                       width: 140,
                       height: 140,
@@ -92,7 +92,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                           curve: Curves.elasticOut,
                           duration: 800.ms,
                         ),
-                    const SizedBox(height: Spacing.xxl),
+                    const SizedBox(height: spacingXxl),
                     Text(
                       definition.name(locale),
                       style: theme.textTheme.headlineSmall?.copyWith(
@@ -101,15 +101,15 @@ class AchievementCelebrationScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-                    const SizedBox(height: Spacing.md),
+                    const SizedBox(height: spacingMd),
                     Text(
                       definition.description(locale),
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: Colors.white.withValues(alpha: Opacities.heavy),
+                        color: Colors.white.withValues(alpha: opacityHeavy),
                       ),
                       textAlign: TextAlign.center,
                     ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                    const SizedBox(height: Spacing.xxl),
+                    const SizedBox(height: spacingXxl),
                     Text(
                       l10n.achievementBonusPoints(definition.bonusPoints),
                       style: theme.textTheme.titleLarge?.copyWith(
@@ -123,20 +123,19 @@ class AchievementCelebrationScreen extends StatelessWidget {
                           duration: 400.ms,
                           curve: Curves.easeOutBack,
                         ),
-                    const SizedBox(height: Spacing.huge),
+                    const SizedBox(height: spacingHuge),
                     Text(
                       l10n.achievementTapToContinue,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: Opacities.muted),
+                        color: Colors.white.withValues(alpha: opacityMuted),
                       ),
                     ).animate().fadeIn(delay: 800.ms, duration: 400.ms),
                     if (remainingInQueue > 0) ...[
-                      const SizedBox(height: Spacing.md),
+                      const SizedBox(height: spacingMd),
                       Text(
                         l10n.achievementMoreQueued(remainingInQueue),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color:
-                              Colors.white.withValues(alpha: Opacities.medium),
+                          color: Colors.white.withValues(alpha: opacityMedium),
                         ),
                       ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
                     ],
@@ -211,7 +210,7 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Durations.particleLoop,
+      duration: durationParticleLoop,
     )..repeat();
     _particles = List.generate(_particleCount, (_) => _Particle.random(_rng));
     _stopTimer = Timer(_confettiRunDuration, () {
@@ -301,7 +300,7 @@ class _ConfettiPainter extends CustomPainter {
           p.initialRotation + progress * p.rotationsPerLoop * 2 * pi;
 
       final paint = Paint()
-        ..color = _colors[p.colorIndex].withValues(alpha: Opacities.strong);
+        ..color = _colors[p.colorIndex].withValues(alpha: opacityStrong);
 
       canvas
         ..save()

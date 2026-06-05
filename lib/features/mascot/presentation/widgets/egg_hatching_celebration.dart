@@ -45,7 +45,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: Durations.particleLoop,
+      duration: durationParticleLoop,
     );
     _particles = List.generate(40, (_) => _Particle.random());
     _startSequence();
@@ -55,10 +55,10 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     unawaited(_particleController.repeat());
 
     // Show mascot reveal after egg crack delay
-    await Future<void>.delayed(Durations.reveal);
+    await Future<void>.delayed(durationReveal);
     if (mounted) setState(() => _showMascot = true);
 
-    await Future<void>.delayed(Durations.celebration);
+    await Future<void>.delayed(durationCelebration);
     if (mounted) setState(() => _showNameInput = true);
   }
 
@@ -111,7 +111,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
           RepaintBoundary(
             child: Container(
               color: Colors.black.withValues(
-                alpha: Opacities.nearOpaque,
+                alpha: opacityNearOpaque,
               ),
             ).animate().fadeIn(duration: 300.ms),
           ),
@@ -183,7 +183,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                             curve: Curves.elasticOut,
                             duration: 800.ms,
                           ),
-                      const SizedBox(height: Spacing.lg),
+                      const SizedBox(height: spacingLg),
                       Text(
                         speciesName,
                         style: theme.textTheme.titleLarge?.copyWith(
@@ -203,7 +203,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                 if (_showNameInput)
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: Spacing.huge,
+                      horizontal: spacingHuge,
                     ),
                     child: Column(
                       children: [
@@ -214,7 +214,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: Spacing.md),
+                        const SizedBox(height: spacingMd),
                         TextField(
                           controller: _nameController,
                           autofocus: true,
@@ -227,13 +227,13 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                             hintText: l10n.mascotNameHint,
                             hintStyle: TextStyle(
                               color: Colors.white.withValues(
-                                alpha: Opacities.medium,
+                                alpha: opacityMedium,
                               ),
                             ),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.white.withValues(
-                                  alpha: Opacities.half,
+                                  alpha: opacityHalf,
                                 ),
                               ),
                             ),
@@ -245,22 +245,22 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                             ),
                           ),
                         ),
-                        const SizedBox(height: Spacing.xxl),
+                        const SizedBox(height: spacingXxl),
                         FilledButton(
                           onPressed: _isSubmitting ? null : _handleConfirm,
                           style: FilledButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: Spacing.huge,
-                              vertical: Spacing.lg,
+                              horizontal: spacingHuge,
+                              vertical: spacingLg,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: Radii.borderLg,
+                              borderRadius: borderRadiusLg,
                             ),
                           ),
                           child: _isSubmitting
                               ? const SizedBox(
-                                  width: Spacing.xxl,
-                                  height: Spacing.xxl,
+                                  width: spacingXxl,
+                                  height: spacingXxl,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                     color: Colors.white,
@@ -277,7 +277,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
                         .slideY(begin: 0.2, end: 0),
                   ),
 
-                const SizedBox(height: Spacing.huge),
+                const SizedBox(height: spacingHuge),
               ],
             ),
           ),
@@ -346,7 +346,7 @@ class _ConfettiPainter extends CustomPainter {
 
       final paint = Paint()
         ..color = _colors[p.colorIndex].withValues(
-          alpha: Opacities.strong,
+          alpha: opacityStrong,
         );
 
       canvas

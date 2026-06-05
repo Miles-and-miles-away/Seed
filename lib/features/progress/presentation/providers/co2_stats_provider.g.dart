@@ -19,7 +19,7 @@ part of 'co2_stats_provider.dart';
 /// as zero-width so the comparison badge stays hidden.
 
 @ProviderFor(co2Stats)
-const co2StatsProvider = Co2StatsFamily._();
+final co2StatsProvider = Co2StatsFamily._();
 
 /// Aggregated CO2 totals for the Impact dashboard.
 ///
@@ -43,7 +43,7 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
   /// (already aggregated on the user doc) and treat the previous period
   /// as zero-width so the comparison badge stays hidden.
-  const Co2StatsProvider._(
+  Co2StatsProvider._(
       {required Co2StatsFamily super.from, required TimePeriod super.argument})
       : super(
           retry: null,
@@ -102,7 +102,7 @@ String _$co2StatsHash() => r'3cf70000f76add74f17aa1140abe3306ff88248f';
 
 final class Co2StatsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2Stats>, TimePeriod> {
-  const Co2StatsFamily._()
+  Co2StatsFamily._()
       : super(
           retry: null,
           name: r'co2StatsProvider',

@@ -50,10 +50,10 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.all(Spacing.xxl),
+            padding: const EdgeInsets.all(spacingXxl),
             decoration: BoxDecoration(
               color: categoryColor.withValues(
-                alpha: Opacities.veryFaint,
+                alpha: opacityVeryFaint,
               ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
@@ -67,7 +67,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                   size: 48,
                   color: theme.colorScheme.outline,
                 ),
-                const SizedBox(height: Spacing.md),
+                const SizedBox(height: spacingMd),
                 Text(
                   action.name(languageCode),
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -80,7 +80,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
           ),
           // Body
           Padding(
-            padding: const EdgeInsets.all(Spacing.xxl),
+            padding: const EdgeInsets.all(spacingXxl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -90,7 +90,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                     theme,
                     categoryColor,
                   ),
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                 ],
                 Text(
                   l10n.learnOnlyDescription,
@@ -100,7 +100,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
                 if (action.relatedSdgs.isNotEmpty) ...[
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   Text(
                     l10n.learnOnlyRelatedSdgs,
                     style: theme.textTheme.labelMedium?.copyWith(
@@ -108,7 +108,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: Spacing.sm),
+                  const SizedBox(height: spacingSm),
                   _buildSdgRow(
                     action.relatedSdgs,
                     goalMap,
@@ -168,7 +168,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(width: Spacing.sm),
+          const SizedBox(width: spacingSm),
           Icon(
             Icons.info_outline,
             size: 16,

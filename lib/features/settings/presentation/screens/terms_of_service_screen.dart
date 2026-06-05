@@ -15,8 +15,8 @@ class TermsOfServiceScreen extends StatelessWidget {
 
     return LegalDocumentScreen(
       title: l10n.termsOfServiceTitle,
-      sections: TermsOfServiceContent.forLocale(locale),
-      lastUpdated: TermsOfServiceContent.lastUpdated,
+      sections: termsOfServiceContent.forLocale(locale),
+      lastUpdated: termsOfServiceContent.lastUpdated,
     );
   }
 }

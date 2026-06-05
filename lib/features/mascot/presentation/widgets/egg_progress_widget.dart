@@ -80,7 +80,7 @@ class EggProgressWidget extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
           Text(
             l10n.eggProgressLabel(
               streakDays,

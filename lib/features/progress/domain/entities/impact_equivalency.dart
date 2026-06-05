@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 /// Real-world impact equivalencies surfaced beneath the headline total
 /// on the Impact dashboard. Each type has its own conversion factor
-/// (see `ImpactEquivalencies`) and presentation rules (icon, label,
+/// (see `computeImpactEquivalencies`) and presentation rules (icon, label,
 /// number format) handled in the widget layer.
 enum EquivalencyType {
   /// Mature trees absorbing a year's worth of CO2.

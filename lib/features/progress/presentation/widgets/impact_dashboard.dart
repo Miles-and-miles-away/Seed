@@ -36,8 +36,8 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
-        horizontal: Spacing.lg,
-        vertical: Spacing.md,
+        horizontal: spacingLg,
+        vertical: spacingMd,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,7 +46,7 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
             selected: _period,
             onChanged: (p) => setState(() => _period = p),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
           statsAsync.when(
             data: (stats) => Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,11 +56,11 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
                 // cards read as failure. Hide the whole section
                 // until the user has logged at least one action.
                 if (stats.totalGrams > 0) ...[
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: Spacing.xs),
+                        padding: const EdgeInsets.only(left: spacingXs),
                         child: Text(
                           l10n.equivalentToHeader,
                           style: theme.textTheme.titleSmall?.copyWith(
@@ -77,7 +77,7 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: Spacing.sm),
+                  const SizedBox(height: spacingSm),
                   EquivalencyRow(totalGrams: stats.totalGrams),
                 ],
               ],
@@ -92,7 +92,7 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
             ),
           ),
           _ChartsSection(period: _period),
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
         ],
       ),
     );
@@ -123,12 +123,12 @@ class _ChartsSection extends ConsumerWidget {
     if (!hasTrend && !hasCategory) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.only(top: Spacing.lg),
+      padding: const EdgeInsets.only(top: spacingLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (hasTrend) Co2TrendChart(data: trendData!),
-          if (hasTrend && hasCategory) const SizedBox(height: Spacing.md),
+          if (hasTrend && hasCategory) const SizedBox(height: spacingMd),
           if (hasCategory) Co2CategoryChart(data: categoryData!),
         ],
       ),

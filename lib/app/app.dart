@@ -56,8 +56,8 @@ class _SeedAppState extends ConsumerState<SeedApp> {
       debugShowCheckedModeBanner: false,
 
       // Theme
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      theme: appThemeLight,
+      darkTheme: appThemeDark,
 
       // Routing
       routerConfig: router,

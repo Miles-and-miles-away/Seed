@@ -12,7 +12,7 @@ part of 'day_change_provider.dart';
 /// when the date changes (at midnight or on app resume).
 
 @ProviderFor(DayChangeNotifier)
-const dayChangeProvider = DayChangeNotifierProvider._();
+final dayChangeProvider = DayChangeNotifierProvider._();
 
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
@@ -20,7 +20,7 @@ final class DayChangeNotifierProvider
     extends $NotifierProvider<DayChangeNotifier, String> {
   /// Tracks the current date and invalidates day-sensitive providers
   /// when the date changes (at midnight or on app resume).
-  const DayChangeNotifierProvider._()
+  DayChangeNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -57,10 +57,9 @@ abstract class _$DayChangeNotifier extends $Notifier<String> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<String, String>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<String, String>, String, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

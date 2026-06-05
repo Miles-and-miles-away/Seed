@@ -44,7 +44,7 @@ class ActionCard extends ConsumerWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(Spacing.lg),
+                padding: const EdgeInsets.all(spacingLg),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -56,7 +56,7 @@ class ActionCard extends ConsumerWidget {
                           ? theme.colorScheme.outline
                           : categoryColor,
                     ),
-                    const SizedBox(height: Spacing.sm),
+                    const SizedBox(height: spacingSm),
                     // Action name
                     Text(
                       action.name(languageCode),
@@ -67,18 +67,18 @@ class ActionCard extends ConsumerWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: Spacing.xs),
+                    const SizedBox(height: spacingXs),
                     // Points badge or Learn Only badge
                     if (action.isLearnOnly)
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: Spacing.sm,
-                          vertical: Spacing.xs,
+                          horizontal: spacingSm,
+                          vertical: spacingXs,
                         ),
                         decoration: BoxDecoration(
                           color:
                               theme.colorScheme.outline.withValues(alpha: 0.12),
-                          borderRadius: Radii.borderMd,
+                          borderRadius: borderRadiusMd,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -88,7 +88,7 @@ class ActionCard extends ConsumerWidget {
                               size: 12,
                               color: theme.colorScheme.outline,
                             ),
-                            const SizedBox(width: Spacing.xs),
+                            const SizedBox(width: spacingXs),
                             Text(
                               l10n.learnOnlyBadge,
                               style: theme.textTheme.labelSmall?.copyWith(
@@ -102,14 +102,14 @@ class ActionCard extends ConsumerWidget {
                     else
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: Spacing.sm,
-                          vertical: Spacing.xs,
+                          horizontal: spacingSm,
+                          vertical: spacingXs,
                         ),
                         decoration: BoxDecoration(
                           color: categoryColor.withValues(
-                            alpha: Opacities.faint,
+                            alpha: opacityFaint,
                           ),
-                          borderRadius: Radii.borderMd,
+                          borderRadius: borderRadiusMd,
                         ),
                         child: Text(
                           l10n.pointsLabel(action.points),

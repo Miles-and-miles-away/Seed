@@ -1443,15 +1443,15 @@ Stage 6.10: Polish & Testing
 - [x] Queue handles multiple sequentially; "+N more queued" indicator
 - [x] ~~`markPointsClaimed`~~ -- `pointsClaimed` flag dropped (YAGNI; no consumer)
 
-### 6.10 User Feedback
-- [ ] Feedback screen accessible from About > Support
-- [ ] Category selector works (Bug / Feature / General)
-- [ ] Description field validates non-empty
-- [ ] Submit builds correct mailto URI with category prefix
-- [ ] Device metadata (app version, OS, locale) included in body
-- [ ] Mail client opens on submit
-- [ ] Confirmation SnackBar shown after submission
-- [ ] All strings localized (EN/JA)
+### 6.10 User Feedback — **Complete**
+- [x] Feedback screen accessible from About > Support (`/profile/settings/about/feedback`)
+- [x] Category selector works (Bug / Feature / General `ChoiceChip`s)
+- [x] Description field validates non-empty (submit disabled until trimmed text is non-empty)
+- [x] Submit builds correct mailto URI with category prefix (`[Bug]` / `[Feature]` / `[Feedback]`)
+- [x] Device metadata (app version, OS, locale, optional uid) included in body
+- [x] Mail client opens on submit via `launchUrl(LaunchMode.externalApplication)`
+- [x] Confirmation SnackBar shown after submission; error SnackBar on launch failure
+- [x] All strings localized (EN / JA / ES)
 
 ### 6.11 UX Polish & Tech Debt
 - [ ] SkeletonLoader and ShimmerEffect widgets created

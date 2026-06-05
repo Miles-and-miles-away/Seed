@@ -45,7 +45,7 @@ class SdgResourcesList extends ConsumerWidget {
               color: goalColor,
               size: 20,
             ),
-            const SizedBox(width: Spacing.sm),
+            const SizedBox(width: spacingSm),
             Text(
               headerText ?? l10n.sdgResources,
               style: theme.textTheme.titleMedium?.copyWith(
@@ -54,7 +54,7 @@ class SdgResourcesList extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
         ...resources.map(
           (resource) => _ResourceTile(
             resource: resource,
@@ -89,22 +89,22 @@ class _ResourceTile extends StatelessWidget {
     };
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: Spacing.sm),
+      padding: const EdgeInsets.only(bottom: spacingSm),
       child: Material(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
         child: InkWell(
-          borderRadius: Radii.borderMd,
+          borderRadius: borderRadiusMd,
           onTap: () => _launchUrl(resource.url),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.lg,
+              horizontal: spacingLg,
               vertical: 14,
             ),
             child: Row(
               children: [
                 Icon(icon, color: goalColor, size: 22),
-                const SizedBox(width: Spacing.md),
+                const SizedBox(width: spacingMd),
                 Expanded(
                   child: Text(
                     '${resource.title(languageCode)} $externalLinkChar',

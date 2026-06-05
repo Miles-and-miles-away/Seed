@@ -4,17 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
 /// Screen displaying app information, version, and legal links.
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
-
-  static const _contactEmail = 'support@seedhabit.app';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,12 +58,12 @@ class AboutScreen extends ConsumerWidget {
                 SettingsTile(
                   leading: const Icon(Icons.privacy_tip_outlined),
                   title: l10n.aboutSettingsPrivacy,
-                  onTap: () => context.push(AppRoutes.privacy),
+                  onTap: () => context.push(appRoutes.privacy),
                 ),
                 SettingsTile(
                   leading: const Icon(Icons.description_outlined),
                   title: l10n.aboutSettingsTerms,
-                  onTap: () => context.push(AppRoutes.terms),
+                  onTap: () => context.push(appRoutes.terms),
                 ),
                 SettingsTile(
                   leading: const Icon(Icons.source_outlined),
@@ -84,45 +80,45 @@ class AboutScreen extends ConsumerWidget {
               children: [
                 SettingsTile(
                   leading: const Icon(Icons.mail_outline),
-                  title: l10n.aboutSettingsContact,
-                  subtitle: '$_contactEmail $externalLinkChar',
-                  onTap: () => _launchEmail(context),
+                  title: l10n.aboutSettingsFeedback,
+                  subtitle: l10n.aboutSettingsFeedbackSubtitle,
+                  onTap: () => context.push(appRoutes.settingsAboutFeedback),
                 ),
               ],
             ),
 
-            const SizedBox(height: Spacing.xxxl),
+            const SizedBox(height: spacingXxxl),
 
             // Footer with SDG acknowledgment
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Spacing.xxl),
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
               child: Text(
                 l10n.aboutFooterSdg,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(
-                    alpha: Opacities.moderate,
+                    alpha: opacityModerate,
                   ),
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
 
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Spacing.xxl),
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
               child: Text(
                 l10n.aboutFooterMade,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(
-                    alpha: Opacities.medium,
+                    alpha: opacityMedium,
                   ),
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
 
-            const SizedBox(height: Spacing.xxxl),
+            const SizedBox(height: spacingXxxl),
           ],
         ),
       ),
@@ -131,7 +127,7 @@ class AboutScreen extends ConsumerWidget {
 
   Widget _buildAppHeader(BuildContext context, ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: Spacing.xxxl),
+      padding: const EdgeInsets.symmetric(vertical: spacingXxxl),
       child: Column(
         children: [
           // App icon
@@ -140,15 +136,15 @@ class AboutScreen extends ConsumerWidget {
             height: 80,
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer,
-              borderRadius: Radii.borderXl,
+              borderRadius: borderRadiusXl,
             ),
             child: Icon(
               Icons.eco,
-              size: Spacing.huge,
+              size: spacingHuge,
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
           Text(
             'Seed',
             style: theme.textTheme.headlineMedium?.copyWith(
@@ -156,12 +152,12 @@ class AboutScreen extends ConsumerWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
           Text(
             AppLocalizations.of(context).appTagline,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withValues(
-                alpha: Opacities.strong,
+                alpha: opacityStrong,
               ),
             ),
           ),
@@ -170,26 +166,12 @@ class AboutScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _launchEmail(BuildContext context) async {
-    final l10n = AppLocalizations.of(context);
-    final uri = Uri(
-      scheme: 'mailto',
-      path: _contactEmail,
-      queryParameters: {
-        'subject': l10n.aboutEmailSubject,
-      },
-    );
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
-  }
-
   void _showLicenses(BuildContext context) {
     showLicensePage(
       context: context,
       applicationName: 'Seed',
       applicationIcon: Padding(
-        padding: const EdgeInsets.all(Spacing.sm),
+        padding: const EdgeInsets.all(spacingSm),
         child: Icon(
           Icons.eco,
           size: 48,

@@ -40,7 +40,7 @@ class ErrorDisplay extends StatelessWidget {
           color: colorScheme.error,
           size: 32,
         ),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         Text(
           l10n.errorGeneric,
           style: TextStyle(color: colorScheme.error),

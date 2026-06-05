@@ -60,12 +60,12 @@ class _EmailVerificationScreenState
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(Spacing.xxl),
+        padding: const EdgeInsets.all(spacingXxl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(Spacing.xxl),
+              padding: const EdgeInsets.all(spacingXxl),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
                 shape: BoxShape.circle,
@@ -76,7 +76,7 @@ class _EmailVerificationScreenState
                 color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: Spacing.xxxl),
+            const SizedBox(height: spacingXxxl),
             Text(
               l10n.authCheckEmail,
               style: theme.textTheme.headlineSmall?.copyWith(
@@ -84,7 +84,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             Text(
               l10n.authVerificationSentTo,
               style: theme.textTheme.bodyLarge?.copyWith(
@@ -92,7 +92,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             Text(
               userEmail,
               style: theme.textTheme.bodyLarge?.copyWith(
@@ -100,7 +100,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             Text(
               l10n.authVerifyInstructions,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -108,7 +108,7 @@ class _EmailVerificationScreenState
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Spacing.xxxl),
+            const SizedBox(height: spacingXxxl),
             FilledButton.icon(
               onPressed: (isLoading || _checkingVerification)
                   ? null
@@ -131,10 +131,10 @@ class _EmailVerificationScreenState
                     : l10n.authVerifiedButton,
               ),
               style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(Spacing.huge),
+                minimumSize: const Size.fromHeight(spacingHuge),
               ),
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             OutlinedButton.icon(
               onPressed: isLoading
                   ? null
@@ -159,10 +159,10 @@ class _EmailVerificationScreenState
                   : const Icon(Icons.refresh),
               label: Text(l10n.authResendEmail),
               style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(Spacing.huge),
+                minimumSize: const Size.fromHeight(spacingHuge),
               ),
             ),
-            const SizedBox(height: Spacing.xxxl),
+            const SizedBox(height: spacingXxxl),
             TextButton(
               onPressed: isLoading ? null : _handleSignOut,
               child: Text(l10n.authDifferentEmail),
@@ -189,7 +189,7 @@ class _EmailVerificationScreenState
               backgroundColor: AppColors.success,
             ),
           );
-          context.go(AppRoutes.home);
+          context.go(appRoutes.home);
         }
       } else {
         if (mounted) {
@@ -214,6 +214,6 @@ class _EmailVerificationScreenState
 
   void _handleSignOut() {
     ref.read(authProvider.notifier).signOut();
-    context.go(AppRoutes.login);
+    context.go(appRoutes.login);
   }
 }

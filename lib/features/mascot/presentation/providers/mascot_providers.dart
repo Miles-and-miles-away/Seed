@@ -353,7 +353,7 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
   void triggerBounce() {
     state = true;
     Future.delayed(
-      Durations.instant,
+      durationInstant,
       () {
         if (state) state = false;
       },

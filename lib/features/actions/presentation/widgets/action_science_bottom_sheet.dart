@@ -34,7 +34,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(Radii.xl),
+          top: Radius.circular(radiusXl),
         ),
       ),
       builder: (context) => ActionScienceBottomSheet(
@@ -63,8 +63,8 @@ class ActionScienceBottomSheet extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                left: Spacing.xxl,
-                right: Spacing.sm,
+                left: spacingXxl,
+                right: spacingSm,
               ),
               child: Row(
                 children: [
@@ -86,14 +86,14 @@ class ActionScienceBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             const Divider(height: 1),
             Expanded(
               child: MarkdownWidget(
                 data: appendExternalLinkArrow(
                   action.descriptionLong(languageCode),
                 ),
-                padding: const EdgeInsets.all(Spacing.xxl),
+                padding: const EdgeInsets.all(spacingXxl),
                 config: mdConfig.copy(
                   configs: [
                     PConfig(

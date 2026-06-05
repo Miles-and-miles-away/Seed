@@ -43,7 +43,7 @@ class ChallengesScreen extends ConsumerWidget {
           child: ErrorDisplay(),
         ),
         data: (templateData) => ListView.builder(
-          padding: const EdgeInsets.all(Spacing.lg),
+          padding: const EdgeInsets.all(spacingLg),
           itemCount: templateData.multiDay.length,
           itemBuilder: (context, index) {
             final template = templateData.multiDay[index];
@@ -110,14 +110,14 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     final isBlocked = state == _ChallengeState.blocked;
 
     final cardColor = isBlocked
-        ? colorScheme.surfaceContainerHighest.withValues(alpha: Opacities.half)
+        ? colorScheme.surfaceContainerHighest.withValues(alpha: opacityHalf)
         : null;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: Spacing.md),
+      margin: const EdgeInsets.only(bottom: spacingMd),
       color: cardColor,
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.lg),
+        padding: const EdgeInsets.all(spacingLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -127,12 +127,12 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                   category?.icon ?? Icons.emoji_events,
                   color: isBlocked
                       ? colorScheme.onSurfaceVariant.withValues(
-                          alpha: Opacities.disabled,
+                          alpha: opacityDisabled,
                         )
                       : category?.color ?? colorScheme.primary,
                   size: 28,
                 ),
-                const SizedBox(width: Spacing.md),
+                const SizedBox(width: spacingMd),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,19 +143,19 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                           color: isBlocked
                               ? colorScheme.onSurfaceVariant.withValues(
-                                  alpha: Opacities.disabled,
+                                  alpha: opacityDisabled,
                                 )
                               : null,
                         ),
                       ),
-                      const SizedBox(height: Spacing.xxs),
+                      const SizedBox(height: spacingXxs),
                       Text(
                         l10n.challengeDays(
                           template.targetDays,
                         ),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant.withValues(
-                            alpha: isBlocked ? Opacities.disabled : 1.0,
+                            alpha: isBlocked ? opacityDisabled : 1.0,
                           ),
                         ),
                       ),
@@ -170,17 +170,17 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             Text(
               template.description(locale),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant.withValues(
-                  alpha: isBlocked ? Opacities.disabled : 1.0,
+                  alpha: isBlocked ? opacityDisabled : 1.0,
                 ),
               ),
             ),
             if (state == _ChallengeState.active) ...[
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               _buildActiveSection(
                 context,
                 ref,
@@ -190,7 +190,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
               ),
             ],
             if (state == _ChallengeState.available) ...[
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               _buildStartButton(
                 context,
                 ref,
@@ -236,19 +236,19 @@ class _ChallengeTemplateCard extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: Spacing.sm,
-        vertical: Spacing.xs,
+        horizontal: spacingSm,
+        vertical: spacingXs,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: Opacities.faint),
-        borderRadius: Radii.borderMd,
+        color: color.withValues(alpha: opacityFaint),
+        borderRadius: borderRadiusMd,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
             Icon(icon, size: 14, color: color),
-            const SizedBox(width: Spacing.xs),
+            const SizedBox(width: spacingXs),
           ],
           Text(
             label,
@@ -281,14 +281,14 @@ class _ChallengeTemplateCard extends ConsumerWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: Radii.borderXs,
+                borderRadius: borderRadiusXs,
                 child: LinearProgressIndicator(
                   value: progress,
                   minHeight: 6,
                 ),
               ),
             ),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Text(
               l10n.challengeMultiDayProgress(
                 currentDay,
@@ -300,7 +300,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(

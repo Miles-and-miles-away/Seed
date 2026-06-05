@@ -26,9 +26,9 @@ class ProgressCalendar extends ConsumerWidget {
     return Column(
       children: [
         _buildHeader(context, ref, selectedMonth, canGoNext),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         _buildWeekdayLabels(context),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         calendarDataAsync.when(
           data: (data) => _buildCalendarGrid(context, selectedMonth, data),
           loading: () => const SizedBox(

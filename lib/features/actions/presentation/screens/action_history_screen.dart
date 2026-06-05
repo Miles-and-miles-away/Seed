@@ -34,7 +34,7 @@ class ActionHistoryScreen extends ConsumerWidget {
                     size: 64,
                     color: theme.colorScheme.outline,
                   ),
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   Text(
                     l10n.homeNoActions,
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -51,7 +51,7 @@ class ActionHistoryScreen extends ConsumerWidget {
           final groupedLogs = _groupByDate(logs);
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: Spacing.sm),
+            padding: const EdgeInsets.symmetric(vertical: spacingSm),
             itemCount: groupedLogs.length,
             itemBuilder: (context, index) {
               final group = groupedLogs[index];
@@ -74,12 +74,12 @@ class ActionHistoryScreen extends ConsumerWidget {
                 size: 48,
                 color: theme.colorScheme.error,
               ),
-              const SizedBox(height: Spacing.lg),
+              const SizedBox(height: spacingLg),
               Text(
                 l10n.errorGeneric,
                 style: theme.textTheme.bodyLarge,
               ),
-              const SizedBox(height: Spacing.sm),
+              const SizedBox(height: spacingSm),
               FilledButton.icon(
                 onPressed: () => ref.invalidate(userActionLogsProvider),
                 icon: const Icon(Icons.refresh),
@@ -140,10 +140,10 @@ class _DateGroup extends StatelessWidget {
         // Date header
         Padding(
           padding: const EdgeInsets.fromLTRB(
-            Spacing.lg,
-            Spacing.lg,
-            Spacing.lg,
-            Spacing.sm,
+            spacingLg,
+            spacingLg,
+            spacingLg,
+            spacingSm,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,12 +156,12 @@ class _DateGroup extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Spacing.md,
-                  vertical: Spacing.xs,
+                  horizontal: spacingMd,
+                  vertical: spacingXs,
                 ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primaryContainer,
-                  borderRadius: Radii.borderMd,
+                  borderRadius: borderRadiusMd,
                 ),
                 child: Text(
                   l10n.pointsAbbreviated(totalPoints),

@@ -50,14 +50,14 @@ class EcoDexCategorySection extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
-            mainAxisSpacing: Spacing.md,
-            crossAxisSpacing: Spacing.md,
+            mainAxisSpacing: spacingMd,
+            crossAxisSpacing: spacingMd,
             childAspectRatio: 0.85,
           ),
           itemCount: entries.length,

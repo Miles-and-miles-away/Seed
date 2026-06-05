@@ -19,12 +19,12 @@ class EcoDexProgressHeader extends ConsumerWidget {
     final progress = totalCount > 0 ? discoveredCount / totalCount : 0.0;
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.lg),
+      padding: const EdgeInsets.all(spacingLg),
       decoration: BoxDecoration(
         color: theme.colorScheme.primaryContainer.withValues(
-          alpha: Opacities.muted,
+          alpha: opacityMuted,
         ),
-        borderRadius: Radii.borderLg,
+        borderRadius: borderRadiusLg,
       ),
       child: Column(
         children: [
@@ -35,7 +35,7 @@ class EcoDexProgressHeader extends ConsumerWidget {
                 color: theme.colorScheme.primary,
                 size: 28,
               ),
-              const SizedBox(width: Spacing.md),
+              const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,12 +60,12 @@ class EcoDexProgressHeader extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           ClipRRect(
-            borderRadius: Radii.borderXs,
+            borderRadius: borderRadiusXs,
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: Spacing.sm,
+              minHeight: spacingSm,
               backgroundColor: theme.colorScheme.surfaceContainerHighest,
             ),
           ),

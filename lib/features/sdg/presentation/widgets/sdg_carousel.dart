@@ -51,7 +51,7 @@ class _SdgCarouselState extends State<SdgCarousel> {
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(
-        horizontal: Spacing.xxl,
+        horizontal: spacingXxl,
       ),
       itemCount: widget.goals.length * _multiplier,
       itemBuilder: (context, index) {
@@ -94,11 +94,11 @@ class SdgCard extends StatelessWidget {
         width: 120,
         decoration: BoxDecoration(
           color: goal.color,
-          borderRadius: Radii.borderLg,
+          borderRadius: borderRadiusLg,
           boxShadow: [
             BoxShadow(
               color: goal.color.withValues(
-                alpha: Opacities.medium,
+                alpha: opacityMedium,
               ),
               blurRadius: 8,
               offset: const Offset(0, 4),
@@ -109,7 +109,7 @@ class SdgCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: Radii.borderSm,
+              borderRadius: borderRadiusSm,
               child: CachedNetworkImage(
                 imageUrl: goal.iconUrl,
                 width: 80,
@@ -119,7 +119,7 @@ class SdgCard extends StatelessWidget {
                   width: 80,
                   height: 80,
                   color: Colors.white.withValues(
-                    alpha: Opacities.light,
+                    alpha: opacityLight,
                   ),
                   child: const Center(
                     child: CircularProgressIndicator(
@@ -132,7 +132,7 @@ class SdgCard extends StatelessWidget {
                   width: 80,
                   height: 80,
                   color: Colors.white.withValues(
-                    alpha: Opacities.light,
+                    alpha: opacityLight,
                   ),
                   child: Center(
                     child: Text(
@@ -147,10 +147,10 @@ class SdgCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: Spacing.sm,
+                horizontal: spacingSm,
               ),
               child: Text(
                 goal.shortTitle(locale),

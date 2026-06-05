@@ -35,11 +35,12 @@ class EquivalencyRow extends ConsumerWidget {
       height: height,
       child: metadataAsync.when(
         data: (metadata) {
-          final equivalencies = ImpactEquivalencies.from(totalGrams, metadata);
+          final equivalencies =
+              computeImpactEquivalencies(totalGrams, metadata);
           return ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: equivalencies.length,
-            separatorBuilder: (_, __) => const SizedBox(width: Spacing.sm),
+            separatorBuilder: (_, __) => const SizedBox(width: spacingSm),
             itemBuilder: (_, i) =>
                 EquivalencyCard(equivalency: equivalencies[i]),
           );

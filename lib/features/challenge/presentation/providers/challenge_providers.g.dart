@@ -11,7 +11,7 @@ part of 'challenge_providers.dart';
 /// Loads and caches challenge template data from JSON.
 
 @ProviderFor(challengeTemplateData)
-const challengeTemplateDataProvider = ChallengeTemplateDataProvider._();
+final challengeTemplateDataProvider = ChallengeTemplateDataProvider._();
 
 /// Loads and caches challenge template data from JSON.
 
@@ -23,7 +23,7 @@ final class ChallengeTemplateDataProvider extends $FunctionalProvider<
         $FutureModifier<ChallengeTemplateData>,
         $FutureProvider<ChallengeTemplateData> {
   /// Loads and caches challenge template data from JSON.
-  const ChallengeTemplateDataProvider._()
+  ChallengeTemplateDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -55,7 +55,7 @@ String _$challengeTemplateDataHash() =>
 /// Today's challenge based on user ID and recent IDs.
 
 @ProviderFor(todayChallenge)
-const todayChallengeProvider = TodayChallengeProvider._();
+final todayChallengeProvider = TodayChallengeProvider._();
 
 /// Today's challenge based on user ID and recent IDs.
 
@@ -67,7 +67,7 @@ final class TodayChallengeProvider extends $FunctionalProvider<
         $FutureModifier<DailyChallengeTemplate?>,
         $FutureProvider<DailyChallengeTemplate?> {
   /// Today's challenge based on user ID and recent IDs.
-  const TodayChallengeProvider._()
+  TodayChallengeProvider._()
       : super(
           from: null,
           argument: null,
@@ -98,14 +98,14 @@ String _$todayChallengeHash() => r'fe63e0f9607da497e9763135739edc1ba0820f38';
 /// Whether today's daily challenge is completed.
 
 @ProviderFor(isTodayChallengeCompleted)
-const isTodayChallengeCompletedProvider = IsTodayChallengeCompletedProvider._();
+final isTodayChallengeCompletedProvider = IsTodayChallengeCompletedProvider._();
 
 /// Whether today's daily challenge is completed.
 
 final class IsTodayChallengeCompletedProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Whether today's daily challenge is completed.
-  const IsTodayChallengeCompletedProvider._()
+  IsTodayChallengeCompletedProvider._()
       : super(
           from: null,
           argument: null,
@@ -144,14 +144,14 @@ String _$isTodayChallengeCompletedHash() =>
 /// Current challenge streak.
 
 @ProviderFor(challengeStreak)
-const challengeStreakProvider = ChallengeStreakProvider._();
+final challengeStreakProvider = ChallengeStreakProvider._();
 
 /// Current challenge streak.
 
 final class ChallengeStreakProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Current challenge streak.
-  const ChallengeStreakProvider._()
+  ChallengeStreakProvider._()
       : super(
           from: null,
           argument: null,
@@ -189,7 +189,7 @@ String _$challengeStreakHash() => r'1788cf637abc474d21b211fd20927e687707b8d8';
 /// Active multi-day challenge data.
 
 @ProviderFor(activeMultiDayChallenge)
-const activeMultiDayChallengeProvider = ActiveMultiDayChallengeProvider._();
+final activeMultiDayChallengeProvider = ActiveMultiDayChallengeProvider._();
 
 /// Active multi-day challenge data.
 
@@ -198,7 +198,7 @@ final class ActiveMultiDayChallengeProvider extends $FunctionalProvider<
     ActiveMultiDayChallenge?,
     ActiveMultiDayChallenge?> with $Provider<ActiveMultiDayChallenge?> {
   /// Active multi-day challenge data.
-  const ActiveMultiDayChallengeProvider._()
+  ActiveMultiDayChallengeProvider._()
       : super(
           from: null,
           argument: null,
@@ -239,7 +239,7 @@ String _$activeMultiDayChallengeHash() =>
 /// shown this session?
 
 @ProviderFor(ChallengeDialogShown)
-const challengeDialogShownProvider = ChallengeDialogShownProvider._();
+final challengeDialogShownProvider = ChallengeDialogShownProvider._();
 
 /// Session-scoped flag: has the challenge dialog been
 /// shown this session?
@@ -247,7 +247,7 @@ final class ChallengeDialogShownProvider
     extends $NotifierProvider<ChallengeDialogShown, bool> {
   /// Session-scoped flag: has the challenge dialog been
   /// shown this session?
-  const ChallengeDialogShownProvider._()
+  ChallengeDialogShownProvider._()
       : super(
           from: null,
           argument: null,
@@ -285,25 +285,24 @@ abstract class _$ChallengeDialogShown extends $Notifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<bool, bool>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<bool, bool>, bool, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Whether the daily challenge dialog should be shown.
 
 @ProviderFor(shouldShowChallengeDialog)
-const shouldShowChallengeDialogProvider = ShouldShowChallengeDialogProvider._();
+final shouldShowChallengeDialogProvider = ShouldShowChallengeDialogProvider._();
 
 /// Whether the daily challenge dialog should be shown.
 
 final class ShouldShowChallengeDialogProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Whether the daily challenge dialog should be shown.
-  const ShouldShowChallengeDialogProvider._()
+  ShouldShowChallengeDialogProvider._()
       : super(
           from: null,
           argument: null,
@@ -342,13 +341,13 @@ String _$shouldShowChallengeDialogHash() =>
 /// Notifier for multi-day challenge actions.
 
 @ProviderFor(MultiDayChallengeNotifier)
-const multiDayChallengeProvider = MultiDayChallengeNotifierProvider._();
+final multiDayChallengeProvider = MultiDayChallengeNotifierProvider._();
 
 /// Notifier for multi-day challenge actions.
 final class MultiDayChallengeNotifierProvider
     extends $NotifierProvider<MultiDayChallengeNotifier, AsyncValue<void>> {
   /// Notifier for multi-day challenge actions.
-  const MultiDayChallengeNotifierProvider._()
+  MultiDayChallengeNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -385,13 +384,12 @@ abstract class _$MultiDayChallengeNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

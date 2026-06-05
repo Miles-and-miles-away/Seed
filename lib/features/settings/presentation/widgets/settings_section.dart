@@ -33,12 +33,12 @@ class SettingsSection extends StatelessWidget {
         if (showTopDivider)
           Divider(
             color: colorScheme.outlineVariant,
-            height: Spacing.xxxl,
+            height: spacingXxxl,
           ),
         Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: Spacing.lg,
-            vertical: Spacing.sm,
+            horizontal: spacingLg,
+            vertical: spacingSm,
           ),
           child: Text(
             title.toUpperCase(),

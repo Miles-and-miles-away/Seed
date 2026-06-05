@@ -39,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
                     Icons.eco,
                     color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(width: Spacing.sm),
+                  const SizedBox(width: spacingSm),
                   Text(l10n.appTitle),
                 ],
               ),
@@ -49,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
 
             // Main content
             SliverPadding(
-              padding: const EdgeInsets.all(Spacing.xxl),
+              padding: const EdgeInsets.all(spacingXxl),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   // Mascot section or selection prompt
@@ -57,12 +57,12 @@ class HomeScreen extends ConsumerWidget {
                     _buildMascotSection(context, ref)
                   else
                     _buildMascotSelectionPrompt(context, ref, l10n),
-                  const SizedBox(height: Spacing.md),
+                  const SizedBox(height: spacingMd),
 
                   const DailyChallengeCard(),
-                  const SizedBox(height: Spacing.md),
+                  const SizedBox(height: spacingMd),
                   const MultiDayChallengeCard(),
-                  const SizedBox(height: Spacing.xxl),
+                  const SizedBox(height: spacingXxl),
 
                   // SDG Section header
                   Text(
@@ -71,7 +71,7 @@ class HomeScreen extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: Spacing.sm),
+                  const SizedBox(height: spacingSm),
                   Text(
                     l10n.homeExploreGoalsSubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -92,7 +92,7 @@ class HomeScreen extends ConsumerWidget {
                     context,
                   ).languageCode,
                   onGoalTap: (goal) {
-                    context.push(AppRoutes.sdgDetail(goal.number));
+                    context.push(appRoutes.sdgDetail(goal.number));
                   },
                 ),
               ),
@@ -101,8 +101,8 @@ class HomeScreen extends ConsumerWidget {
             // Learn more at UN.org
             SliverPadding(
               padding: const EdgeInsets.symmetric(
-                horizontal: Spacing.xxl,
-                vertical: Spacing.lg,
+                horizontal: spacingXxl,
+                vertical: spacingLg,
               ),
               sliver: SliverToBoxAdapter(
                 child: _buildLearnMoreLink(context),
@@ -130,7 +130,7 @@ class HomeScreen extends ConsumerWidget {
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.xl),
+      padding: const EdgeInsets.all(spacingXl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -140,19 +140,19 @@ class HomeScreen extends ConsumerWidget {
             colorScheme.secondaryContainer,
           ],
         ),
-        borderRadius: Radii.borderXxl,
+        borderRadius: borderRadiusXxl,
       ),
       child: Column(
         children: [
           // Mascot display
           GestureDetector(
-            onTap: () => context.push(AppRoutes.mascot),
+            onTap: () => context.push(appRoutes.mascot),
             child: const MascotDisplay(
               size: 160,
             ),
           ),
 
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
 
           // Mascot name
           Text(
@@ -163,19 +163,19 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
 
           // Evolution stage badge
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.md,
+              horizontal: spacingMd,
               vertical: 6,
             ),
             decoration: BoxDecoration(
               color: colorScheme.primary.withValues(
-                alpha: Opacities.subtle,
+                alpha: opacitySubtle,
               ),
-              borderRadius: Radii.borderXl,
+              borderRadius: borderRadiusXl,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -185,7 +185,7 @@ class HomeScreen extends ConsumerWidget {
                   size: 16,
                   color: colorScheme.primary,
                 ),
-                const SizedBox(width: Spacing.sm),
+                const SizedBox(width: spacingSm),
                 Text(
                   '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
                   style: theme.textTheme.labelMedium?.copyWith(
@@ -197,7 +197,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           // Quick stats row
           Row(
@@ -240,7 +240,7 @@ class HomeScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 20, color: iconColor),
-            const SizedBox(width: Spacing.sm),
+            const SizedBox(width: spacingSm),
             Text(
               value,
               style: theme.textTheme.titleMedium?.copyWith(
@@ -250,12 +250,12 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: Spacing.xxs),
+        const SizedBox(height: spacingXxs),
         Text(
           label,
           style: theme.textTheme.labelSmall?.copyWith(
             color: colorScheme.onPrimaryContainer.withValues(
-              alpha: Opacities.strong,
+              alpha: opacityStrong,
             ),
           ),
         ),
@@ -272,7 +272,7 @@ class HomeScreen extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.xxl),
+      padding: const EdgeInsets.all(spacingXxl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -282,7 +282,7 @@ class HomeScreen extends ConsumerWidget {
             colorScheme.secondaryContainer,
           ],
         ),
-        borderRadius: Radii.borderXxl,
+        borderRadius: borderRadiusXxl,
       ),
       child: Column(
         children: [
@@ -298,7 +298,7 @@ class HomeScreen extends ConsumerWidget {
                 'assets/images/mascot/seed_stage1.svg',
           ),
 
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           Text(
             l10n.mascotSelectionTitle,
@@ -309,22 +309,22 @@ class HomeScreen extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
 
           Text(
             l10n.mascotSelectionSubtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onPrimaryContainer.withValues(
-                alpha: Opacities.heavy,
+                alpha: opacityHeavy,
               ),
             ),
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           FilledButton.icon(
-            onPressed: () => context.push(AppRoutes.mascotSelection),
+            onPressed: () => context.push(appRoutes.mascotSelection),
             icon: const Icon(Icons.pets),
             label: Text(l10n.mascotSelectionConfirm),
           ),

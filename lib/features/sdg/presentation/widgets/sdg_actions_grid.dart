@@ -52,7 +52,7 @@ class SdgActionsGrid extends ConsumerWidget {
                   color: goalColor,
                   size: 20,
                 ),
-                const SizedBox(width: Spacing.sm),
+                const SizedBox(width: spacingSm),
                 Text(
                   l10n.sdgRelatedActions,
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -68,19 +68,19 @@ class SdgActionsGrid extends ConsumerWidget {
                       selectedSdgFilterProvider.notifier,
                     )
                     .select(goalNumber);
-                context.push(AppRoutes.actionLog);
+                context.push(appRoutes.actionLog);
               },
               child: Text(l10n.sdgViewAllActions),
             ),
           ],
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
         SizedBox(
           height: 180,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: visible.length,
-            separatorBuilder: (_, __) => const SizedBox(width: Spacing.md),
+            separatorBuilder: (_, __) => const SizedBox(width: spacingMd),
             itemBuilder: (context, index) => SizedBox(
               width: 150,
               child: ActionCard(

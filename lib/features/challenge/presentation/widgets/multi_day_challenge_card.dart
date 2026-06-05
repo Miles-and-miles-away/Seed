@@ -58,9 +58,9 @@ class MultiDayChallengeCard extends ConsumerWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.push(AppRoutes.challenges),
+        onTap: () => context.push(appRoutes.challenges),
         child: Padding(
-          padding: const EdgeInsets.all(Spacing.lg),
+          padding: const EdgeInsets.all(spacingLg),
           child: Row(
             children: [
               Icon(
@@ -68,7 +68,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                 color: category?.color ?? colorScheme.primary,
                 size: 28,
               ),
-              const SizedBox(width: Spacing.md),
+              const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: Spacing.xs),
+                    const SizedBox(height: spacingXs),
                     Text(
                       l10n.challengeMultiDayProgress(
                         currentDay,
@@ -89,9 +89,9 @@ class MultiDayChallengeCard extends ConsumerWidget {
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    const SizedBox(height: Spacing.sm),
+                    const SizedBox(height: spacingSm),
                     ClipRRect(
-                      borderRadius: Radii.borderXs,
+                      borderRadius: borderRadiusXs,
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 6,
@@ -100,7 +100,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: Spacing.sm),
+              const SizedBox(width: spacingSm),
               Icon(
                 Icons.chevron_right,
                 color: colorScheme.onSurfaceVariant,

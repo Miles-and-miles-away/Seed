@@ -90,33 +90,33 @@ class _AchievementsBody extends StatelessWidget {
         definitions.isEmpty ? 0.0 : unlocked.length / definitions.length;
 
     return ListView(
-      padding: const EdgeInsets.all(Spacing.lg),
+      padding: const EdgeInsets.all(spacingLg),
       children: [
         _ProgressHeader(
           unlockedCount: unlocked.length,
           totalCount: definitions.length,
           fraction: fraction,
         ),
-        const SizedBox(height: Spacing.xxl),
+        const SizedBox(height: spacingXxl),
         if (locked.isNotEmpty) ...[
           _SectionHeader(label: l10n.achievementsNextUp),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           NextUpSection(
             definitions: definitions,
             unlockedIds: unlockedIds,
             state: state,
           ),
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
         ],
         if (unlocked.isNotEmpty) ...[
           _SectionHeader(label: l10n.achievementsUnlocked),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           _BadgeGrid(definitions: unlocked, isUnlocked: true),
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
         ],
         if (locked.isNotEmpty) ...[
           _SectionHeader(label: l10n.achievementsLocked),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           _BadgeGrid(definitions: locked, isUnlocked: false),
         ],
       ],
@@ -167,9 +167,9 @@ class _ProgressHeader extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
         ClipRRect(
-          borderRadius: Radii.borderXs,
+          borderRadius: borderRadiusXs,
           child: LinearProgressIndicator(
             value: fraction,
             minHeight: 8,
@@ -214,8 +214,8 @@ class _BadgeGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        mainAxisSpacing: Spacing.md,
-        crossAxisSpacing: Spacing.md,
+        mainAxisSpacing: spacingMd,
+        crossAxisSpacing: spacingMd,
         childAspectRatio: 0.78,
       ),
       itemCount: definitions.length,

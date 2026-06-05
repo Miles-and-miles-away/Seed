@@ -12,7 +12,7 @@ part of 'sdg_stats_provider.dart';
 /// denormalized sdgStats map on the user document.
 
 @ProviderFor(sdgStats)
-const sdgStatsProvider = SdgStatsFamily._();
+final sdgStatsProvider = SdgStatsFamily._();
 
 /// Aggregated stats for a specific SDG from the
 /// denormalized sdgStats map on the user document.
@@ -22,7 +22,7 @@ final class SdgStatsProvider
     with $Provider<SdgStats> {
   /// Aggregated stats for a specific SDG from the
   /// denormalized sdgStats map on the user document.
-  const SdgStatsProvider._(
+  SdgStatsProvider._(
       {required SdgStatsFamily super.from, required int super.argument})
       : super(
           retry: null,
@@ -82,7 +82,7 @@ String _$sdgStatsHash() => r'83d105172f465f50195f9f82a90495fa57b05a38';
 
 final class SdgStatsFamily extends $Family
     with $FunctionalFamilyOverride<SdgStats, int> {
-  const SdgStatsFamily._()
+  SdgStatsFamily._()
       : super(
           retry: null,
           name: r'sdgStatsProvider',
@@ -107,7 +107,7 @@ final class SdgStatsFamily extends $Family
 /// to a specific SDG.
 
 @ProviderFor(sdgRelatedActions)
-const sdgRelatedActionsProvider = SdgRelatedActionsFamily._();
+final sdgRelatedActionsProvider = SdgRelatedActionsFamily._();
 
 /// Filters the action library to only actions related
 /// to a specific SDG.
@@ -118,7 +118,7 @@ final class SdgRelatedActionsProvider extends $FunctionalProvider<
     List<ActionModel>> with $Provider<List<ActionModel>> {
   /// Filters the action library to only actions related
   /// to a specific SDG.
-  const SdgRelatedActionsProvider._(
+  SdgRelatedActionsProvider._(
       {required SdgRelatedActionsFamily super.from,
       required int super.argument})
       : super(
@@ -180,7 +180,7 @@ String _$sdgRelatedActionsHash() => r'926fc5e2e214f61ee6031c57460c7a2c9274c278';
 
 final class SdgRelatedActionsFamily extends $Family
     with $FunctionalFamilyOverride<List<ActionModel>, int> {
-  const SdgRelatedActionsFamily._()
+  SdgRelatedActionsFamily._()
       : super(
           retry: null,
           name: r'sdgRelatedActionsProvider',

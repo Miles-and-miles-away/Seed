@@ -10,14 +10,14 @@ part of 'achievement_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(achievementsRemoteDataSource)
-const achievementsRemoteDataSourceProvider =
+final achievementsRemoteDataSourceProvider =
     AchievementsRemoteDataSourceProvider._();
 
 final class AchievementsRemoteDataSourceProvider extends $FunctionalProvider<
     AchievementsRemoteDataSource,
     AchievementsRemoteDataSource,
     AchievementsRemoteDataSource> with $Provider<AchievementsRemoteDataSource> {
-  const AchievementsRemoteDataSourceProvider._()
+  AchievementsRemoteDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -55,13 +55,13 @@ String _$achievementsRemoteDataSourceHash() =>
     r'd53a50eee4117efceffef3931077f41f3c83b603';
 
 @ProviderFor(achievementsRepository)
-const achievementsRepositoryProvider = AchievementsRepositoryProvider._();
+final achievementsRepositoryProvider = AchievementsRepositoryProvider._();
 
 final class AchievementsRepositoryProvider extends $FunctionalProvider<
     AchievementsRepository,
     AchievementsRepository,
     AchievementsRepository> with $Provider<AchievementsRepository> {
-  const AchievementsRepositoryProvider._()
+  AchievementsRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -102,7 +102,7 @@ String _$achievementsRepositoryHash() =>
 /// reading it on every screen mount wastes a frame.
 
 @ProviderFor(achievementDefinitions)
-const achievementDefinitionsProvider = AchievementDefinitionsProvider._();
+final achievementDefinitionsProvider = AchievementDefinitionsProvider._();
 
 /// Bundled JSON catalog. `keepAlive` because the asset is static and
 /// reading it on every screen mount wastes a frame.
@@ -116,7 +116,7 @@ final class AchievementDefinitionsProvider extends $FunctionalProvider<
         $FutureProvider<List<AchievementDefinition>> {
   /// Bundled JSON catalog. `keepAlive` because the asset is static and
   /// reading it on every screen mount wastes a frame.
-  const AchievementDefinitionsProvider._()
+  AchievementDefinitionsProvider._()
       : super(
           from: null,
           argument: null,
@@ -150,7 +150,7 @@ String _$achievementDefinitionsHash() =>
 /// prefer [userUnlockedAchievementIds] for cheaper membership checks.
 
 @ProviderFor(userAchievements)
-const userAchievementsProvider = UserAchievementsFamily._();
+final userAchievementsProvider = UserAchievementsFamily._();
 
 /// Streams the raw unlock records for a user (includes unlockedAt
 /// timestamps). Use this when the UI needs the unlock date; otherwise
@@ -166,7 +166,7 @@ final class UserAchievementsProvider extends $FunctionalProvider<
   /// Streams the raw unlock records for a user (includes unlockedAt
   /// timestamps). Use this when the UI needs the unlock date; otherwise
   /// prefer [userUnlockedAchievementIds] for cheaper membership checks.
-  const UserAchievementsProvider._(
+  UserAchievementsProvider._(
       {required UserAchievementsFamily super.from,
       required String super.argument})
       : super(
@@ -221,7 +221,7 @@ String _$userAchievementsHash() => r'cb568cae06770fed3993812964045a02bf5383f4';
 
 final class UserAchievementsFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<UserAchievementModel>>, String> {
-  const UserAchievementsFamily._()
+  UserAchievementsFamily._()
       : super(
           retry: null,
           name: r'userAchievementsProvider',
@@ -247,7 +247,7 @@ final class UserAchievementsFamily extends $Family
 /// surface most badge/list UI needs.
 
 @ProviderFor(userUnlockedAchievementIds)
-const userUnlockedAchievementIdsProvider = UserUnlockedAchievementIdsFamily._();
+final userUnlockedAchievementIdsProvider = UserUnlockedAchievementIdsFamily._();
 
 /// Streams just the set of unlocked achievement ids -- the minimal
 /// surface most badge/list UI needs.
@@ -257,7 +257,7 @@ final class UserUnlockedAchievementIdsProvider extends $FunctionalProvider<
     with $FutureModifier<Set<String>>, $StreamProvider<Set<String>> {
   /// Streams just the set of unlocked achievement ids -- the minimal
   /// surface most badge/list UI needs.
-  const UserUnlockedAchievementIdsProvider._(
+  UserUnlockedAchievementIdsProvider._(
       {required UserUnlockedAchievementIdsFamily super.from,
       required String super.argument})
       : super(
@@ -313,7 +313,7 @@ String _$userUnlockedAchievementIdsHash() =>
 
 final class UserUnlockedAchievementIdsFamily extends $Family
     with $FunctionalFamilyOverride<Stream<Set<String>>, String> {
-  const UserUnlockedAchievementIdsFamily._()
+  UserUnlockedAchievementIdsFamily._()
       : super(
           retry: null,
           name: r'userUnlockedAchievementIdsProvider',

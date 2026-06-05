@@ -65,8 +65,8 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
           // Segmented control
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.lg,
-              vertical: Spacing.sm,
+              horizontal: spacingLg,
+              vertical: spacingSm,
             ),
             child: SegmentedButton<_ProgressSegment>(
               segments: [
@@ -165,7 +165,7 @@ class _CalendarView extends ConsumerWidget {
           // Today's stats
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.xxl,
+              horizontal: spacingXxl,
             ),
             child: todaySummaryAsync.when(
               data: (summary) {
@@ -182,22 +182,22 @@ class _CalendarView extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
 
           // Calendar section
           Container(
             margin: const EdgeInsets.symmetric(
-              horizontal: Spacing.lg,
+              horizontal: spacingLg,
             ),
-            padding: const EdgeInsets.all(Spacing.lg),
+            padding: const EdgeInsets.all(spacingLg),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerLow,
-              borderRadius: Radii.borderLg,
+              borderRadius: borderRadiusLg,
             ),
             child: const ProgressCalendar(),
           ),
 
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
         ],
       ),
     );
@@ -242,16 +242,16 @@ class _CalendarView extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         if (isGoalMet)
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.lg,
-              vertical: Spacing.sm,
+              horizontal: spacingLg,
+              vertical: spacingSm,
             ),
             decoration: BoxDecoration(
               color: colorScheme.primaryContainer,
-              borderRadius: Radii.borderXl,
+              borderRadius: borderRadiusXl,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -261,7 +261,7 @@ class _CalendarView extends ConsumerWidget {
                   size: 20,
                   color: colorScheme.primary,
                 ),
-                const SizedBox(width: Spacing.sm),
+                const SizedBox(width: spacingSm),
                 Text(
                   l10n.progressGoalReached,
                   style: theme.textTheme.bodyMedium?.copyWith(

@@ -45,7 +45,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Durations.reveal,
+      duration: durationReveal,
     );
     _animation = CurvedAnimation(
       parent: _controller,
@@ -139,7 +139,7 @@ class EmptyRainbowSun extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.amber.withValues(
-                      alpha: Opacities.muted,
+                      alpha: opacityMuted,
                     ),
                     blurRadius: 20,
                     spreadRadius: 5,
@@ -148,7 +148,7 @@ class EmptyRainbowSun extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
           Text(
             'Complete goals to grow your sun!',
             style: theme.textTheme.bodyMedium?.copyWith(

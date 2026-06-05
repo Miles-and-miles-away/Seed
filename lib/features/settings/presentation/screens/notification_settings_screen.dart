@@ -75,8 +75,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: Spacing.lg,
-                      vertical: Spacing.sm,
+                      horizontal: spacingLg,
+                      vertical: spacingSm,
                     ),
                     child: Text(
                       l10n.notifSmartDescription,
@@ -95,23 +95,23 @@ class NotificationSettingsScreen extends ConsumerWidget {
                 children: [
                   if (settings.reminderSchedules.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.all(Spacing.lg),
+                      padding: const EdgeInsets.all(spacingLg),
                       child: Column(
                         children: [
                           Icon(
                             Icons.alarm_off,
-                            size: Spacing.huge,
+                            size: spacingHuge,
                             color: colorScheme.onSurfaceVariant
-                                .withValues(alpha: Opacities.half),
+                                .withValues(alpha: opacityHalf),
                           ),
-                          const SizedBox(height: Spacing.sm),
+                          const SizedBox(height: spacingSm),
                           Text(
                             l10n.notifNoReminders,
                             style: theme.textTheme.bodyLarge?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
                           ),
-                          const SizedBox(height: Spacing.xs),
+                          const SizedBox(height: spacingXs),
                           Text(
                             l10n.notifAddReminder,
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -151,7 +151,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
                   // Add Reminder Button
                   Padding(
-                    padding: const EdgeInsets.all(Spacing.lg),
+                    padding: const EdgeInsets.all(spacingLg),
                     child: OutlinedButton.icon(
                       onPressed: canAddReminder && notificationsEnabled
                           ? () => _showTimePicker(context, ref)
@@ -165,7 +165,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                   if (!canAddReminder)
                     Padding(
                       padding:
-                          const EdgeInsets.symmetric(horizontal: Spacing.lg),
+                          const EdgeInsets.symmetric(horizontal: spacingLg),
                       child: Text(
                         l10n.notifMaxReminders,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -177,7 +177,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                 ],
               ),
 
-              const SizedBox(height: Spacing.xxxl),
+              const SizedBox(height: spacingXxxl),
             ],
           ),
         ),

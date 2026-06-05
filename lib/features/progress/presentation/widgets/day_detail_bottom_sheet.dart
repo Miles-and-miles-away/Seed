@@ -34,7 +34,7 @@ class DayDetailBottomSheet extends ConsumerStatefulWidget {
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(Radii.xl),
+          top: Radius.circular(radiusXl),
         ),
       ),
       builder: (_) => DayDetailBottomSheet(date: date),
@@ -98,10 +98,10 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
         return ListView(
           controller: scrollController,
           padding: const EdgeInsets.fromLTRB(
-            Spacing.lg,
-            Spacing.sm,
-            Spacing.lg,
-            Spacing.xxl,
+            spacingLg,
+            spacingSm,
+            spacingLg,
+            spacingXxl,
           ),
           children: [
             Text(
@@ -111,29 +111,29 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             _StatsRow(
               actionCount: dayLogs.length,
               points: totalPoints,
               co2Grams: totalCo2,
             ),
-            const SizedBox(height: Spacing.xl),
+            const SizedBox(height: spacingXl),
             Text(
               l10n.dayDetailActions,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             if (logsAsync.isLoading && dayLogs.isEmpty)
               const Padding(
-                padding: EdgeInsets.all(Spacing.lg),
+                padding: EdgeInsets.all(spacingLg),
                 child: Center(child: CircularProgressIndicator()),
               )
             else if (dayLogs.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: Spacing.lg,
+                  vertical: spacingLg,
                 ),
                 child: Text(
                   l10n.dayDetailNoActions,
@@ -150,14 +150,14 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
                   onTap: () => _openActionInfo(context, log),
                 ),
               ),
-            const SizedBox(height: Spacing.xl),
+            const SizedBox(height: spacingXl),
             Text(
               l10n.ecoFactTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             if (factShown)
               EcoFactCard(fact: fact, isLocked: factLocked)
             else
@@ -255,7 +255,7 @@ class _StatsRow extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
         ),
-        const SizedBox(width: Spacing.sm),
+        const SizedBox(width: spacingSm),
         Expanded(
           child: _StatTile(
             icon: Icons.star_outline,
@@ -264,7 +264,7 @@ class _StatsRow extends StatelessWidget {
             color: theme.colorScheme.tertiary,
           ),
         ),
-        const SizedBox(width: Spacing.sm),
+        const SizedBox(width: spacingSm),
         Expanded(
           child: _StatTile(
             icon: Icons.eco_outlined,
@@ -296,17 +296,17 @@ class _StatTile extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: Spacing.md,
-        vertical: Spacing.md,
+        horizontal: spacingMd,
+        vertical: spacingMd,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: Opacities.faint),
-        borderRadius: Radii.borderMd,
+        color: color.withValues(alpha: opacityFaint),
+        borderRadius: borderRadiusMd,
       ),
       child: Column(
         children: [
           Icon(icon, color: color, size: 20),
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
           Text(
             value,
             style: theme.textTheme.titleMedium?.copyWith(
@@ -339,14 +339,14 @@ class _FactUnavailable extends StatelessWidget {
     final theme = Theme.of(context);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.xl),
+        padding: const EdgeInsets.all(spacingXl),
         child: Row(
           children: [
             Icon(
               Icons.lock_outline,
               color: theme.colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Expanded(
               child: Text(
                 message,

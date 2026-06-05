@@ -11,7 +11,7 @@ part of 'mascot_providers.dart';
 /// Loads and caches mascot species data from JSON.
 
 @ProviderFor(mascotSpeciesData)
-const mascotSpeciesDataProvider = MascotSpeciesDataProvider._();
+final mascotSpeciesDataProvider = MascotSpeciesDataProvider._();
 
 /// Loads and caches mascot species data from JSON.
 
@@ -23,7 +23,7 @@ final class MascotSpeciesDataProvider extends $FunctionalProvider<
         $FutureModifier<List<MascotSpeciesModel>>,
         $FutureProvider<List<MascotSpeciesModel>> {
   /// Loads and caches mascot species data from JSON.
-  const MascotSpeciesDataProvider._()
+  MascotSpeciesDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -52,13 +52,13 @@ final class MascotSpeciesDataProvider extends $FunctionalProvider<
 String _$mascotSpeciesDataHash() => r'558b72453c2852607aff195d06d2725737cefa37';
 
 @ProviderFor(mascotRepository)
-const mascotRepositoryProvider = MascotRepositoryProvider._();
+final mascotRepositoryProvider = MascotRepositoryProvider._();
 
 final class MascotRepositoryProvider extends $FunctionalProvider<
     MascotRepository,
     MascotRepository,
     MascotRepository> with $Provider<MascotRepository> {
-  const MascotRepositoryProvider._()
+  MascotRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -94,13 +94,13 @@ final class MascotRepositoryProvider extends $FunctionalProvider<
 String _$mascotRepositoryHash() => r'07f81837435cff1826af88d6440e0fddf751c32f';
 
 @ProviderFor(mascotMigrationService)
-const mascotMigrationServiceProvider = MascotMigrationServiceProvider._();
+final mascotMigrationServiceProvider = MascotMigrationServiceProvider._();
 
 final class MascotMigrationServiceProvider extends $FunctionalProvider<
     MascotMigrationService,
     MascotMigrationService,
     MascotMigrationService> with $Provider<MascotMigrationService> {
-  const MascotMigrationServiceProvider._()
+  MascotMigrationServiceProvider._()
       : super(
           from: null,
           argument: null,
@@ -140,7 +140,7 @@ String _$mascotMigrationServiceHash() =>
 /// Streams all mascots for the current user.
 
 @ProviderFor(allMascots)
-const allMascotsProvider = AllMascotsProvider._();
+final allMascotsProvider = AllMascotsProvider._();
 
 /// Streams all mascots for the current user.
 
@@ -152,7 +152,7 @@ final class AllMascotsProvider extends $FunctionalProvider<
         $FutureModifier<List<MascotModel>>,
         $StreamProvider<List<MascotModel>> {
   /// Streams all mascots for the current user.
-  const AllMascotsProvider._()
+  AllMascotsProvider._()
       : super(
           from: null,
           argument: null,
@@ -183,7 +183,7 @@ String _$allMascotsHash() => r'1590a305c69631a63b1aa45a050c423148f87d53';
 /// Streams the active mascot for the current user.
 
 @ProviderFor(activeMascot)
-const activeMascotProvider = ActiveMascotProvider._();
+final activeMascotProvider = ActiveMascotProvider._();
 
 /// Streams the active mascot for the current user.
 
@@ -191,7 +191,7 @@ final class ActiveMascotProvider extends $FunctionalProvider<
         AsyncValue<MascotModel?>, MascotModel?, Stream<MascotModel?>>
     with $FutureModifier<MascotModel?>, $StreamProvider<MascotModel?> {
   /// Streams the active mascot for the current user.
-  const ActiveMascotProvider._()
+  ActiveMascotProvider._()
       : super(
           from: null,
           argument: null,
@@ -222,14 +222,14 @@ String _$activeMascotHash() => r'e60b8622292ebc8d5ceb74051e00ab00f99c5709';
 /// Whether the current user has at least one mascot.
 
 @ProviderFor(hasMascot)
-const hasMascotProvider = HasMascotProvider._();
+final hasMascotProvider = HasMascotProvider._();
 
 /// Whether the current user has at least one mascot.
 
 final class HasMascotProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Whether the current user has at least one mascot.
-  const HasMascotProvider._()
+  HasMascotProvider._()
       : super(
           from: null,
           argument: null,
@@ -267,7 +267,7 @@ String _$hasMascotHash() => r'59e971edd48a72af94921ed2ac092b50ed60bb3b';
 /// Gets all available mascot species.
 
 @ProviderFor(allSpecies)
-const allSpeciesProvider = AllSpeciesProvider._();
+final allSpeciesProvider = AllSpeciesProvider._();
 
 /// Gets all available mascot species.
 
@@ -279,7 +279,7 @@ final class AllSpeciesProvider extends $FunctionalProvider<
         $FutureModifier<List<MascotSpeciesModel>>,
         $FutureProvider<List<MascotSpeciesModel>> {
   /// Gets all available mascot species.
-  const AllSpeciesProvider._()
+  AllSpeciesProvider._()
       : super(
           from: null,
           argument: null,
@@ -310,7 +310,7 @@ String _$allSpeciesHash() => r'cec8f7bbd53455acfb746c17753bb6cb88d3e221';
 /// Species data for the active mascot.
 
 @ProviderFor(activeSpecies)
-const activeSpeciesProvider = ActiveSpeciesProvider._();
+final activeSpeciesProvider = ActiveSpeciesProvider._();
 
 /// Species data for the active mascot.
 
@@ -319,7 +319,7 @@ final class ActiveSpeciesProvider extends $FunctionalProvider<
     MascotSpeciesModel?,
     MascotSpeciesModel?> with $Provider<MascotSpeciesModel?> {
   /// Species data for the active mascot.
-  const ActiveSpeciesProvider._()
+  ActiveSpeciesProvider._()
       : super(
           from: null,
           argument: null,
@@ -360,7 +360,7 @@ String _$activeSpeciesHash() => r'5379e04b9409ff23e5e478d4835a4e808a997014';
 /// activeMascotProvider through activeSpeciesProvider.
 
 @ProviderFor(activeMascotStage)
-const activeMascotStageProvider = ActiveMascotStageProvider._();
+final activeMascotStageProvider = ActiveMascotStageProvider._();
 
 /// Evolution stage index (1-4) for the active mascot.
 /// Computes species inline to avoid double-watching
@@ -371,7 +371,7 @@ final class ActiveMascotStageProvider extends $FunctionalProvider<int, int, int>
   /// Evolution stage index (1-4) for the active mascot.
   /// Computes species inline to avoid double-watching
   /// activeMascotProvider through activeSpeciesProvider.
-  const ActiveMascotStageProvider._()
+  ActiveMascotStageProvider._()
       : super(
           from: null,
           argument: null,
@@ -409,7 +409,7 @@ String _$activeMascotStageHash() => r'adc2ca84291b21e842fed4c5ad87901a8672b4c8';
 /// Evolution stage data for the active mascot.
 
 @ProviderFor(activeStageData)
-const activeStageDataProvider = ActiveStageDataProvider._();
+final activeStageDataProvider = ActiveStageDataProvider._();
 
 /// Evolution stage data for the active mascot.
 
@@ -418,7 +418,7 @@ final class ActiveStageDataProvider extends $FunctionalProvider<
     EvolutionStageModel?,
     EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
   /// Evolution stage data for the active mascot.
-  const ActiveStageDataProvider._()
+  ActiveStageDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -457,7 +457,7 @@ String _$activeStageDataHash() => r'd898a7ef9f67061e8660462fe9aff94da41d0137';
 /// Asset path for the active mascot's current stage.
 
 @ProviderFor(activeMascotAssetPath)
-const activeMascotAssetPathProvider = ActiveMascotAssetPathProvider._();
+final activeMascotAssetPathProvider = ActiveMascotAssetPathProvider._();
 
 /// Asset path for the active mascot's current stage.
 
@@ -465,7 +465,7 @@ final class ActiveMascotAssetPathProvider
     extends $FunctionalProvider<String?, String?, String?>
     with $Provider<String?> {
   /// Asset path for the active mascot's current stage.
-  const ActiveMascotAssetPathProvider._()
+  ActiveMascotAssetPathProvider._()
       : super(
           from: null,
           argument: null,
@@ -504,7 +504,7 @@ String _$activeMascotAssetPathHash() =>
 /// Next evolution stage for the active mascot, or null.
 
 @ProviderFor(activeNextStageData)
-const activeNextStageDataProvider = ActiveNextStageDataProvider._();
+final activeNextStageDataProvider = ActiveNextStageDataProvider._();
 
 /// Next evolution stage for the active mascot, or null.
 
@@ -513,7 +513,7 @@ final class ActiveNextStageDataProvider extends $FunctionalProvider<
     EvolutionStageModel?,
     EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
   /// Next evolution stage for the active mascot, or null.
-  const ActiveNextStageDataProvider._()
+  ActiveNextStageDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -553,14 +553,14 @@ String _$activeNextStageDataHash() =>
 /// Whether the active mascot has a new unseen evolution.
 
 @ProviderFor(hasNewEvolution)
-const hasNewEvolutionProvider = HasNewEvolutionProvider._();
+final hasNewEvolutionProvider = HasNewEvolutionProvider._();
 
 /// Whether the active mascot has a new unseen evolution.
 
 final class HasNewEvolutionProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Whether the active mascot has a new unseen evolution.
-  const HasNewEvolutionProvider._()
+  HasNewEvolutionProvider._()
       : super(
           from: null,
           argument: null,
@@ -598,7 +598,7 @@ String _$hasNewEvolutionHash() => r'52f45bafcaf7176144903155474ee3574f5c20b2';
 /// The user's current egg (derived from user data).
 
 @ProviderFor(currentEgg)
-const currentEggProvider = CurrentEggProvider._();
+final currentEggProvider = CurrentEggProvider._();
 
 /// The user's current egg (derived from user data).
 
@@ -606,7 +606,7 @@ final class CurrentEggProvider
     extends $FunctionalProvider<EggModel?, EggModel?, EggModel?>
     with $Provider<EggModel?> {
   /// The user's current egg (derived from user data).
-  const CurrentEggProvider._()
+  CurrentEggProvider._()
       : super(
           from: null,
           argument: null,
@@ -644,14 +644,14 @@ String _$currentEggHash() => r'6571260ce35c4f62d01db31926c7926be73665ca';
 /// Whether the user has an egg.
 
 @ProviderFor(hasEgg)
-const hasEggProvider = HasEggProvider._();
+final hasEggProvider = HasEggProvider._();
 
 /// Whether the user has an egg.
 
 final class HasEggProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Whether the user has an egg.
-  const HasEggProvider._()
+  HasEggProvider._()
       : super(
           from: null,
           argument: null,
@@ -689,14 +689,14 @@ String _$hasEggHash() => r'9f6cb87366812b22b5e55797e01c61ac8d8d4e24';
 /// Egg hatching progress (0.0 to 1.0).
 
 @ProviderFor(eggHatchingProgress)
-const eggHatchingProgressProvider = EggHatchingProgressProvider._();
+final eggHatchingProgressProvider = EggHatchingProgressProvider._();
 
 /// Egg hatching progress (0.0 to 1.0).
 
 final class EggHatchingProgressProvider
     extends $FunctionalProvider<double, double, double> with $Provider<double> {
   /// Egg hatching progress (0.0 to 1.0).
-  const EggHatchingProgressProvider._()
+  EggHatchingProgressProvider._()
       : super(
           from: null,
           argument: null,
@@ -735,14 +735,14 @@ String _$eggHatchingProgressHash() =>
 /// Days remaining until egg hatches.
 
 @ProviderFor(eggDaysRemaining)
-const eggDaysRemainingProvider = EggDaysRemainingProvider._();
+final eggDaysRemainingProvider = EggDaysRemainingProvider._();
 
 /// Days remaining until egg hatches.
 
 final class EggDaysRemainingProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Days remaining until egg hatches.
-  const EggDaysRemainingProvider._()
+  EggDaysRemainingProvider._()
       : super(
           from: null,
           argument: null,
@@ -781,7 +781,7 @@ String _$eggDaysRemainingHash() => r'666cca3a1dee8704c825b2aacded185c1beacb1f';
 /// True if eggPendingDiscovery flag is set.
 
 @ProviderFor(shouldShowEggDiscovery)
-const shouldShowEggDiscoveryProvider = ShouldShowEggDiscoveryProvider._();
+final shouldShowEggDiscoveryProvider = ShouldShowEggDiscoveryProvider._();
 
 /// Whether to show the egg discovery celebration.
 /// True if eggPendingDiscovery flag is set.
@@ -790,7 +790,7 @@ final class ShouldShowEggDiscoveryProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Whether to show the egg discovery celebration.
   /// True if eggPendingDiscovery flag is set.
-  const ShouldShowEggDiscoveryProvider._()
+  ShouldShowEggDiscoveryProvider._()
       : super(
           from: null,
           argument: null,
@@ -829,7 +829,7 @@ String _$shouldShowEggDiscoveryHash() =>
 /// Localized name for the active mascot's species.
 
 @ProviderFor(speciesLocalizedName)
-const speciesLocalizedNameProvider = SpeciesLocalizedNameFamily._();
+final speciesLocalizedNameProvider = SpeciesLocalizedNameFamily._();
 
 /// Localized name for the active mascot's species.
 
@@ -837,7 +837,7 @@ final class SpeciesLocalizedNameProvider
     extends $FunctionalProvider<String?, String?, String?>
     with $Provider<String?> {
   /// Localized name for the active mascot's species.
-  const SpeciesLocalizedNameProvider._(
+  SpeciesLocalizedNameProvider._(
       {required SpeciesLocalizedNameFamily super.from,
       required String super.argument})
       : super(
@@ -898,7 +898,7 @@ String _$speciesLocalizedNameHash() =>
 
 final class SpeciesLocalizedNameFamily extends $Family
     with $FunctionalFamilyOverride<String?, String> {
-  const SpeciesLocalizedNameFamily._()
+  SpeciesLocalizedNameFamily._()
       : super(
           retry: null,
           name: r'speciesLocalizedNameProvider',
@@ -921,7 +921,7 @@ final class SpeciesLocalizedNameFamily extends $Family
 /// Localized name for the active mascot's stage.
 
 @ProviderFor(stageLocalizedName)
-const stageLocalizedNameProvider = StageLocalizedNameFamily._();
+final stageLocalizedNameProvider = StageLocalizedNameFamily._();
 
 /// Localized name for the active mascot's stage.
 
@@ -929,7 +929,7 @@ final class StageLocalizedNameProvider
     extends $FunctionalProvider<String?, String?, String?>
     with $Provider<String?> {
   /// Localized name for the active mascot's stage.
-  const StageLocalizedNameProvider._(
+  StageLocalizedNameProvider._(
       {required StageLocalizedNameFamily super.from,
       required String super.argument})
       : super(
@@ -990,7 +990,7 @@ String _$stageLocalizedNameHash() =>
 
 final class StageLocalizedNameFamily extends $Family
     with $FunctionalFamilyOverride<String?, String> {
-  const StageLocalizedNameFamily._()
+  StageLocalizedNameFamily._()
       : super(
           retry: null,
           name: r'stageLocalizedNameProvider',
@@ -1011,11 +1011,11 @@ final class StageLocalizedNameFamily extends $Family
 }
 
 @ProviderFor(MascotNotifier)
-const mascotProvider = MascotNotifierProvider._();
+final mascotProvider = MascotNotifierProvider._();
 
 final class MascotNotifierProvider
     extends $NotifierProvider<MascotNotifier, AsyncValue<void>> {
-  const MascotNotifierProvider._()
+  MascotNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -1049,23 +1049,22 @@ abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(MascotAnimationTrigger)
-const mascotAnimationTriggerProvider = MascotAnimationTriggerProvider._();
+final mascotAnimationTriggerProvider = MascotAnimationTriggerProvider._();
 
 final class MascotAnimationTriggerProvider
     extends $NotifierProvider<MascotAnimationTrigger, bool> {
-  const MascotAnimationTriggerProvider._()
+  MascotAnimationTriggerProvider._()
       : super(
           from: null,
           argument: null,
@@ -1100,18 +1099,17 @@ abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<bool, bool>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<bool, bool>, bool, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Alias: currentMascotProvider -> activeMascotProvider
 
 @ProviderFor(currentMascot)
-const currentMascotProvider = CurrentMascotProvider._();
+final currentMascotProvider = CurrentMascotProvider._();
 
 /// Alias: currentMascotProvider -> activeMascotProvider
 
@@ -1120,7 +1118,7 @@ final class CurrentMascotProvider extends $FunctionalProvider<
     AsyncValue<MascotModel?>,
     AsyncValue<MascotModel?>> with $Provider<AsyncValue<MascotModel?>> {
   /// Alias: currentMascotProvider -> activeMascotProvider
-  const CurrentMascotProvider._()
+  CurrentMascotProvider._()
       : super(
           from: null,
           argument: null,
@@ -1159,7 +1157,7 @@ String _$currentMascotHash() => r'd36072c51dcf2259682af734cbc25b810432321f';
 /// Alias: currentSpeciesProvider -> activeSpeciesProvider
 
 @ProviderFor(currentSpecies)
-const currentSpeciesProvider = CurrentSpeciesProvider._();
+final currentSpeciesProvider = CurrentSpeciesProvider._();
 
 /// Alias: currentSpeciesProvider -> activeSpeciesProvider
 
@@ -1168,7 +1166,7 @@ final class CurrentSpeciesProvider extends $FunctionalProvider<
     MascotSpeciesModel?,
     MascotSpeciesModel?> with $Provider<MascotSpeciesModel?> {
   /// Alias: currentSpeciesProvider -> activeSpeciesProvider
-  const CurrentSpeciesProvider._()
+  CurrentSpeciesProvider._()
       : super(
           from: null,
           argument: null,
@@ -1207,14 +1205,14 @@ String _$currentSpeciesHash() => r'e5bcad2ec41297f3d08fdcdf5cbe87d6a4ca1141';
 /// Alias: currentMascotStageProvider -> activeMascotStageProvider
 
 @ProviderFor(currentMascotStage)
-const currentMascotStageProvider = CurrentMascotStageProvider._();
+final currentMascotStageProvider = CurrentMascotStageProvider._();
 
 /// Alias: currentMascotStageProvider -> activeMascotStageProvider
 
 final class CurrentMascotStageProvider
     extends $FunctionalProvider<int, int, int> with $Provider<int> {
   /// Alias: currentMascotStageProvider -> activeMascotStageProvider
-  const CurrentMascotStageProvider._()
+  CurrentMascotStageProvider._()
       : super(
           from: null,
           argument: null,
@@ -1253,7 +1251,7 @@ String _$currentMascotStageHash() =>
 /// Alias: currentStageDataProvider -> activeStageDataProvider
 
 @ProviderFor(currentStageData)
-const currentStageDataProvider = CurrentStageDataProvider._();
+final currentStageDataProvider = CurrentStageDataProvider._();
 
 /// Alias: currentStageDataProvider -> activeStageDataProvider
 
@@ -1262,7 +1260,7 @@ final class CurrentStageDataProvider extends $FunctionalProvider<
     EvolutionStageModel?,
     EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
   /// Alias: currentStageDataProvider -> activeStageDataProvider
-  const CurrentStageDataProvider._()
+  CurrentStageDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -1301,7 +1299,7 @@ String _$currentStageDataHash() => r'94504818365ea594f2c3a77c007bcce894a3b08e';
 /// Alias: mascotAssetPathProvider -> activeMascotAssetPathProvider
 
 @ProviderFor(mascotAssetPath)
-const mascotAssetPathProvider = MascotAssetPathProvider._();
+final mascotAssetPathProvider = MascotAssetPathProvider._();
 
 /// Alias: mascotAssetPathProvider -> activeMascotAssetPathProvider
 
@@ -1309,7 +1307,7 @@ final class MascotAssetPathProvider
     extends $FunctionalProvider<String?, String?, String?>
     with $Provider<String?> {
   /// Alias: mascotAssetPathProvider -> activeMascotAssetPathProvider
-  const MascotAssetPathProvider._()
+  MascotAssetPathProvider._()
       : super(
           from: null,
           argument: null,
@@ -1347,7 +1345,7 @@ String _$mascotAssetPathHash() => r'1a0ee0f627a394d850598496bcc770c2d8659a8f';
 /// Alias: nextStageDataProvider -> activeNextStageDataProvider
 
 @ProviderFor(nextStageData)
-const nextStageDataProvider = NextStageDataProvider._();
+final nextStageDataProvider = NextStageDataProvider._();
 
 /// Alias: nextStageDataProvider -> activeNextStageDataProvider
 
@@ -1356,7 +1354,7 @@ final class NextStageDataProvider extends $FunctionalProvider<
     EvolutionStageModel?,
     EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
   /// Alias: nextStageDataProvider -> activeNextStageDataProvider
-  const NextStageDataProvider._()
+  NextStageDataProvider._()
       : super(
           from: null,
           argument: null,

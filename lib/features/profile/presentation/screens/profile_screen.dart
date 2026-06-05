@@ -32,7 +32,7 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(AppRoutes.settings),
+            onPressed: () => context.push(appRoutes.settings),
           ),
         ],
       ),
@@ -43,14 +43,14 @@ class ProfileScreen extends ConsumerWidget {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(Spacing.lg),
+            padding: const EdgeInsets.all(spacingLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // User header
                 _buildUserHeader(context, theme, colorScheme, user, l10n),
 
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 // Level progress
                 _buildLevelSection(
@@ -62,16 +62,16 @@ class ProfileScreen extends ConsumerWidget {
                   l10n,
                 ),
 
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 // Statistics section
                 _buildStatsSection(context, ref, theme, l10n),
 
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 ProfileAchievementsSection(userId: user.uid),
 
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 // Sign out button
                 OutlinedButton.icon(
@@ -101,10 +101,10 @@ class ProfileScreen extends ConsumerWidget {
     final displayName = user.displayName ?? user.email.split('@').first;
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.xl),
+      padding: const EdgeInsets.all(spacingXl),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer,
-        borderRadius: Radii.borderXl,
+        borderRadius: borderRadiusXl,
       ),
       child: Row(
         children: [
@@ -125,7 +125,7 @@ class ProfileScreen extends ConsumerWidget {
                   )
                 : null,
           ),
-          const SizedBox(width: Spacing.lg),
+          const SizedBox(width: spacingLg),
           // User info
           Expanded(
             child: Column(
@@ -137,30 +137,30 @@ class ProfileScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: Spacing.xs),
+                const SizedBox(height: spacingXs),
                 Text(
                   user.email,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onPrimaryContainer
-                        .withValues(alpha: Opacities.strong),
+                        .withValues(alpha: opacityStrong),
                   ),
                 ),
                 if (user.createdAt != null) ...[
-                  const SizedBox(height: Spacing.sm),
+                  const SizedBox(height: spacingSm),
                   Row(
                     children: [
                       Icon(
                         Icons.calendar_today_outlined,
                         size: 14,
                         color: colorScheme.onPrimaryContainer
-                            .withValues(alpha: Opacities.strong),
+                            .withValues(alpha: opacityStrong),
                       ),
-                      const SizedBox(width: Spacing.sm),
+                      const SizedBox(width: spacingSm),
                       Text(
                         '${l10n.profileMemberSince} ${DateFormat.yMMMd().format(user.createdAt!)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onPrimaryContainer
-                              .withValues(alpha: Opacities.strong),
+                              .withValues(alpha: opacityStrong),
                         ),
                       ),
                     ],
@@ -187,10 +187,10 @@ class ProfileScreen extends ConsumerWidget {
     final evolutionStage = ref.watch(evolutionStageProvider);
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.xl),
+      padding: const EdgeInsets.all(spacingXl),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderXl,
+        borderRadius: borderRadiusXl,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -208,7 +208,7 @@ class ProfileScreen extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: Spacing.xs),
+                  const SizedBox(height: spacingXs),
                   Text(
                     l10n.pointsLabel(user.points),
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -220,12 +220,12 @@ class ProfileScreen extends ConsumerWidget {
               // Evolution stage badge
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Spacing.md,
+                  horizontal: spacingMd,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
                   color: colorScheme.tertiaryContainer,
-                  borderRadius: Radii.borderXl,
+                  borderRadius: borderRadiusXl,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -235,7 +235,7 @@ class ProfileScreen extends ConsumerWidget {
                       size: 16,
                       color: colorScheme.tertiary,
                     ),
-                    const SizedBox(width: Spacing.sm),
+                    const SizedBox(width: spacingSm),
                     Text(
                       l10n.profileEvolutionStage(evolutionStage),
                       style: theme.textTheme.labelMedium?.copyWith(
@@ -249,7 +249,7 @@ class ProfileScreen extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: Spacing.xl),
+          const SizedBox(height: spacingXl),
 
           // Level progress bar
           LevelProgressBar(
@@ -257,7 +257,7 @@ class ProfileScreen extends ConsumerWidget {
             currentLevel: user.level,
           ),
 
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
 
           // Points to next level
           Text(
@@ -296,7 +296,7 @@ class ProfileScreen extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
 
         // First row: Current streak & Longest streak
         StatCardRow(
@@ -314,7 +314,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
 
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
 
         // Second row: Total CO2 & Total actions
         StatCardRow(
@@ -332,7 +332,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
 
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
 
         // Days active (single card)
         StatCard(

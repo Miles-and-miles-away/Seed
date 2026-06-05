@@ -33,15 +33,15 @@ class EcoFactCard extends ConsumerWidget {
     if (isLocked) {
       return Card(
         child: Padding(
-          padding: const EdgeInsets.all(Spacing.xxl),
+          padding: const EdgeInsets.all(spacingXxl),
           child: Column(
             children: [
               Icon(
                 Icons.lock_outline,
-                size: Spacing.huge,
+                size: spacingHuge,
                 color: colorScheme.onSurfaceVariant,
               ),
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               Text(
                 l10n.ecoFactLocked,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -57,7 +57,7 @@ class EcoFactCard extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.xl),
+        padding: const EdgeInsets.all(spacingXl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,7 +66,7 @@ class EcoFactCard extends ConsumerWidget {
               category: fact.category,
               l10n: l10n,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
 
             // "Did you know?" header
             Text(
@@ -76,14 +76,14 @@ class EcoFactCard extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
 
             // Fact text
             Text(
               fact.fact(locale),
               style: theme.textTheme.bodyLarge,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
 
             // Source (name itself is the link when a URL is present)
             _SourceLine(
@@ -93,7 +93,7 @@ class EcoFactCard extends ConsumerWidget {
 
             // UN World Day badge
             if (fact.unWorldDay != null) ...[
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -101,7 +101,7 @@ class EcoFactCard extends ConsumerWidget {
                 ),
                 decoration: BoxDecoration(
                   color: colorScheme.tertiaryContainer,
-                  borderRadius: Radii.borderMd,
+                  borderRadius: borderRadiusMd,
                 ),
                 child: Text(
                   fact.unWorldDay!,
@@ -114,7 +114,7 @@ class EcoFactCard extends ConsumerWidget {
 
             // Related SDGs
             if (fact.relatedSdgs.isNotEmpty) ...[
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               _buildSdgBadges(
                 fact.relatedSdgs,
                 goalMap,
@@ -283,17 +283,17 @@ class _CategoryChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: Spacing.xs,
+        vertical: spacingXs,
       ),
       decoration: BoxDecoration(
         color: colorScheme.secondaryContainer,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: colorScheme.secondary),
-          const SizedBox(width: Spacing.xs),
+          const SizedBox(width: spacingXs),
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(

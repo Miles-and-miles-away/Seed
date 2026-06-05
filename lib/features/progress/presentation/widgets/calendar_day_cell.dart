@@ -52,7 +52,7 @@ class CalendarDayCell extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildDayNumber(context),
-        const SizedBox(height: Spacing.xxs),
+        const SizedBox(height: spacingXxs),
         _buildBall(
           ballSize: ballSize,
           ballColor: ballColor,
@@ -65,7 +65,7 @@ class CalendarDayCell extends StatelessWidget {
     if (onTap == null) return cell;
     return InkWell(
       onTap: onTap,
-      borderRadius: Radii.borderSm,
+      borderRadius: borderRadiusSm,
       child: cell,
     );
   }
@@ -80,12 +80,12 @@ class CalendarDayCell extends StatelessWidget {
         fontWeight: data.isToday ? FontWeight.bold : null,
         color: isDisabled
             ? colorScheme.onSurface.withValues(
-                alpha: Opacities.disabled,
+                alpha: opacityDisabled,
               )
             : data.isToday
                 ? colorScheme.primary
                 : colorScheme.onSurface.withValues(
-                    alpha: Opacities.strong,
+                    alpha: opacityStrong,
                   ),
       ),
     );
@@ -118,7 +118,7 @@ class CalendarDayCell extends StatelessWidget {
                       ? [
                           BoxShadow(
                             color: ballColor.withValues(
-                              alpha: Opacities.medium,
+                              alpha: opacityMedium,
                             ),
                             blurRadius: 6,
                             spreadRadius: 1,

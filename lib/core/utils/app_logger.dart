@@ -10,22 +10,26 @@ final _logger = Logger(
   level: kDebugMode ? Level.debug : Level.off,
 );
 
-// ignore: avoid_classes_with_only_static_members
-/// Namespace for app-wide logging functions.
-abstract final class AppLogger {
-  static void debug(String message) {
+/// App-wide logging entry point.
+const appLogger = AppLogger._();
+
+/// Debug-gated logging functions, used via [appLogger].
+class AppLogger {
+  const AppLogger._();
+
+  void debug(String message) {
     if (kDebugMode) _logger.d(message);
   }
 
-  static void info(String message) {
+  void info(String message) {
     if (kDebugMode) _logger.i(message);
   }
 
-  static void warning(String message) {
+  void warning(String message) {
     if (kDebugMode) _logger.w(message);
   }
 
-  static void error(
+  void error(
     String message, {
     Object? error,
     StackTrace? stackTrace,

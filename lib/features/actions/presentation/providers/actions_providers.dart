@@ -301,7 +301,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
   }) async {
-    AppLogger.debug('ActionLog: logAction called for ${action.nameEn}');
+    appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
     state = const AsyncValue.loading();
 
     final userAsync = ref.read(currentUserProvider);
@@ -335,7 +335,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       final sdgNumbers =
           action.relatedSdgs.map(int.tryParse).whereType<int>().toList();
 
-      AppLogger.debug('ActionLog: Calling recordAction for progress tracking');
+      appLogger.debug('ActionLog: Calling recordAction for progress tracking');
       try {
         await progressRepo.recordAction(
           userId: user.uid,
@@ -344,7 +344,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           sdgNumbers: sdgNumbers,
           category: action.category,
         );
-        AppLogger.debug('ActionLog: recordAction completed');
+        appLogger.debug('ActionLog: recordAction completed');
 
         // Track analytics event
         await AnalyticsService.instance.logActionLogged(
@@ -363,7 +363,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           );
         }
       } on Exception catch (e) {
-        AppLogger.error('ActionLog: recordAction failed', error: e);
+        appLogger.error('ActionLog: recordAction failed', error: e);
       }
     }
 

@@ -81,11 +81,12 @@ class DailySummaryRemoteDataSource {
     final todayId = _todayDateString();
     final docRef = _summariesCollection(userId).doc(todayId);
 
-    AppLogger.debug('DailySummary: Recording action for $userId on $todayId');
-    AppLogger.debug(
-      'DailySummary: points=$points, co2=$co2Grams, '
-      'sdgs=$sdgNumbers, category=$category',
-    );
+    appLogger
+      ..debug('DailySummary: Recording action for $userId on $todayId')
+      ..debug(
+        'DailySummary: points=$points, co2=$co2Grams, '
+        'sdgs=$sdgNumbers, category=$category',
+      );
 
     try {
       await _firestore.runTransaction((transaction) async {
@@ -93,7 +94,7 @@ class DailySummaryRemoteDataSource {
 
         if (!doc.exists) {
           // Create new summary for today
-          AppLogger.debug('DailySummary: Creating new summary for today');
+          appLogger.debug('DailySummary: Creating new summary for today');
           final newSummary = DailySummaryModel(
             date: todayId,
             goalCount: 1,
@@ -107,7 +108,7 @@ class DailySummaryRemoteDataSource {
           transaction.set(docRef, newSummary.toJson());
         } else {
           // Update existing summary
-          AppLogger.debug('DailySummary: Updating existing summary');
+          appLogger.debug('DailySummary: Updating existing summary');
           final existing = DailySummaryModel.fromJson(doc.data()!);
           final updatedSdgs =
               {...existing.completedSdgs, ...sdgNumbers}.toList();
@@ -122,9 +123,9 @@ class DailySummaryRemoteDataSource {
           });
         }
       });
-      AppLogger.debug('DailySummary: Transaction completed');
+      appLogger.debug('DailySummary: Transaction completed');
     } catch (e, stack) {
-      AppLogger.error(
+      appLogger.error(
         'DailySummary transaction failed',
         error: e,
         stackTrace: stack,

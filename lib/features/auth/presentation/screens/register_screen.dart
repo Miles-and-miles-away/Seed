@@ -70,7 +70,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         next.when(
           data: (_) {
             if (previous?.isLoading ?? false) {
-              context.go(AppRoutes.emailVerification);
+              context.go(appRoutes.emailVerification);
             }
           },
           loading: () {},
@@ -92,19 +92,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(Spacing.xxl),
+          padding: const EdgeInsets.all(spacingXxl),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: Spacing.xxxl),
+                const SizedBox(height: spacingXxxl),
                 Icon(
                   Icons.eco,
                   size: 64,
                   color: theme.colorScheme.primary,
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 Text(
                   l10n.authCreateAccount,
                   style: theme.textTheme.headlineMedium?.copyWith(
@@ -112,7 +112,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: Spacing.sm),
+                const SizedBox(height: spacingSm),
                 Text(
                   l10n.authCreateAccountSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
@@ -120,7 +120,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: Spacing.xxxl),
+                const SizedBox(height: spacingXxxl),
                 AuthTextField(
                   controller: _emailController,
                   label: l10n.authEmail,
@@ -129,7 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   validator: (v) => _validateEmail(v, l10n),
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 AuthTextField(
                   controller: _passwordController,
                   label: l10n.authPassword,
@@ -150,7 +150,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (v) => _validatePassword(v, l10n),
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 AuthTextField(
                   controller: _confirmPasswordController,
                   label: l10n.authConfirmPassword,
@@ -173,7 +173,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (v) => _validateConfirmPassword(v, l10n),
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -190,7 +190,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          top: Spacing.md,
+                          top: spacingMd,
                         ),
                         child: Text.rich(
                           TextSpan(
@@ -206,7 +206,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => context.push(
-                                        AppRoutes.terms,
+                                        appRoutes.terms,
                                       ),
                               ),
                               TextSpan(
@@ -221,7 +221,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => context.push(
-                                        AppRoutes.privacy,
+                                        appRoutes.privacy,
                                       ),
                               ),
                             ],
@@ -231,11 +231,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 FilledButton(
                   onPressed: isLoading || _isCooldown ? null : _handleSignUp,
                   style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(Spacing.huge),
+                    minimumSize: const Size.fromHeight(spacingHuge),
                   ),
                   child: isLoading
                       ? const SizedBox(
@@ -248,13 +248,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         )
                       : Text(l10n.authCreateAccount),
                 ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 Row(
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: Spacing.lg,
+                        horizontal: spacingLg,
                       ),
                       child: Text(
                         l10n.authOrSignUpWith,
@@ -266,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     const Expanded(child: Divider()),
                   ],
                 ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 Row(
                   children: [
                     Expanded(
@@ -278,7 +278,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     if (Platform.isIOS) ...[
-                      const SizedBox(width: Spacing.lg),
+                      const SizedBox(width: spacingLg),
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
@@ -293,7 +293,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ],
                   ],
                 ),
-                const SizedBox(height: Spacing.xxxl),
+                const SizedBox(height: spacingXxxl),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -303,7 +303,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     TextButton(
                       onPressed:
-                          isLoading ? null : () => context.go(AppRoutes.login),
+                          isLoading ? null : () => context.go(appRoutes.login),
                       child: Text(l10n.authSignIn),
                     ),
                   ],
