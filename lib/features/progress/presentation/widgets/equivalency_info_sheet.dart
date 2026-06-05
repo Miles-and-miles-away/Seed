@@ -33,7 +33,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
       isScrollControlled: true,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(Radii.xl)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
       builder: (_) => const EquivalencyInfoSheet(),
     );
@@ -57,8 +57,8 @@ class EquivalencyInfoSheet extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: Spacing.xxl,
-                vertical: Spacing.sm,
+                horizontal: spacingXxl,
+                vertical: spacingSm,
               ),
               child: Text(
                 l10n.impactInfoTitle,
@@ -78,10 +78,10 @@ class EquivalencyInfoSheet extends ConsumerWidget {
               child: SingleChildScrollView(
                 controller: scrollController,
                 padding: const EdgeInsets.fromLTRB(
-                  Spacing.xxl,
-                  Spacing.lg,
-                  Spacing.xxl,
-                  Spacing.xxl,
+                  spacingXxl,
+                  spacingLg,
+                  spacingXxl,
+                  spacingXxl,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,7 +93,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
                         height: 1.5,
                       ),
                     ),
-                    const SizedBox(height: Spacing.lg),
+                    const SizedBox(height: spacingLg),
                     ...metadataAsync.when(
                       data: (metadata) => [
                         for (final m in metadata)
@@ -104,7 +104,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
                       ],
                       loading: () => const [
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: Spacing.xl),
+                          padding: EdgeInsets.symmetric(vertical: spacingXl),
                           child: Center(child: CircularProgressIndicator()),
                         ),
                       ],
@@ -138,12 +138,12 @@ class _EquivalencyExplainer extends StatelessWidget {
         NumberFormat.decimalPattern(locale).format(metadata.gramsPerUnit);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: Spacing.lg),
+      padding: const EdgeInsets.only(bottom: spacingLg),
       child: Container(
-        padding: const EdgeInsets.all(Spacing.lg),
+        padding: const EdgeInsets.all(spacingLg),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerLow,
-          borderRadius: Radii.borderMd,
+          borderRadius: borderRadiusMd,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,7 +155,7 @@ class _EquivalencyExplainer extends StatelessWidget {
                   color: theme.colorScheme.primary,
                   size: 24,
                 ),
-                const SizedBox(width: Spacing.sm),
+                const SizedBox(width: spacingSm),
                 Expanded(
                   child: Text(
                     _labelFor(metadata.type, l10n),
@@ -166,12 +166,12 @@ class _EquivalencyExplainer extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             Text(
               _explainerFor(metadata.type, l10n),
               style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
             ),
-            const SizedBox(height: Spacing.md),
+            const SizedBox(height: spacingMd),
             // Source tile lives directly under the explainer (not
             // under the formula) so the credibility link is adjacent
             // to the claim it backs.
@@ -180,7 +180,7 @@ class _EquivalencyExplainer extends StatelessWidget {
               sourceName: metadata.sourceName,
               onTap: () => _launch(metadata.sourceUrl),
             ),
-            const SizedBox(height: Spacing.sm),
+            const SizedBox(height: spacingSm),
             _LabeledLine(
               label: l10n.impactInfoFormulaLabel,
               value: l10n.equivFormulaTemplate(formattedFactor),
@@ -244,19 +244,19 @@ class _SourceLinkTile extends StatelessWidget {
     final linkColor = theme.colorScheme.primary;
     return Material(
       color: theme.colorScheme.surfaceContainerHigh,
-      borderRadius: Radii.borderSm,
+      borderRadius: borderRadiusSm,
       child: InkWell(
-        borderRadius: Radii.borderSm,
+        borderRadius: borderRadiusSm,
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: Spacing.md,
-            vertical: Spacing.sm,
+            horizontal: spacingMd,
+            vertical: spacingSm,
           ),
           child: Row(
             children: [
               Icon(Icons.menu_book_outlined, size: 18, color: linkColor),
-              const SizedBox(width: Spacing.sm),
+              const SizedBox(width: spacingSm),
               Expanded(
                 child: Text(
                   '$label: $sourceName $externalLinkChar',

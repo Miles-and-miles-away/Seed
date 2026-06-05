@@ -37,16 +37,16 @@ class EcoDexEntryCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDiscovered
               ? theme.colorScheme.primaryContainer.withValues(
-                  alpha: Opacities.medium,
+                  alpha: opacityMedium,
                 )
               : theme.colorScheme.surfaceContainerHigh.withValues(
-                  alpha: Opacities.half,
+                  alpha: opacityHalf,
                 ),
-          borderRadius: Radii.borderMd,
+          borderRadius: borderRadiusMd,
           border: isDiscovered
               ? Border.all(
                   color: theme.colorScheme.primary.withValues(
-                    alpha: Opacities.muted,
+                    alpha: opacityMuted,
                   ),
                 )
               : null,
@@ -64,13 +64,13 @@ class EcoDexEntryCard extends StatelessWidget {
                 Icons.lock_outline,
                 size: 24,
                 color: theme.colorScheme.onSurfaceVariant.withValues(
-                  alpha: Opacities.disabled,
+                  alpha: opacityDisabled,
                 ),
               ),
-            const SizedBox(height: Spacing.xs),
+            const SizedBox(height: spacingXs),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: Spacing.xs,
+                horizontal: spacingXs,
               ),
               child: Text(
                 isDiscovered ? entry.name(locale) : '???',
@@ -78,7 +78,7 @@ class EcoDexEntryCard extends StatelessWidget {
                   color: isDiscovered
                       ? theme.colorScheme.onSurface
                       : theme.colorScheme.onSurfaceVariant.withValues(
-                          alpha: Opacities.disabled,
+                          alpha: opacityDisabled,
                         ),
                   fontWeight:
                       isDiscovered ? FontWeight.w600 : FontWeight.normal,
@@ -100,7 +100,7 @@ class EcoDexEntryCard extends StatelessWidget {
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(Radii.xl),
+          top: Radius.circular(radiusXl),
         ),
       ),
       builder: (_) => EcoDexEntrySheet(
@@ -115,7 +115,7 @@ class EcoDexEntryCard extends StatelessWidget {
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(Radii.xl),
+          top: Radius.circular(radiusXl),
         ),
       ),
       builder: (_) => EcoDexLockedSheet(

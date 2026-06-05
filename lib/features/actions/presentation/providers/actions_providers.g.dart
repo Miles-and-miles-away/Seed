@@ -10,14 +10,14 @@ part of 'actions_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(actionLibraryDataSource)
-const actionLibraryDataSourceProvider = ActionLibraryDataSourceProvider._();
+final actionLibraryDataSourceProvider = ActionLibraryDataSourceProvider._();
 
 final class ActionLibraryDataSourceProvider extends $FunctionalProvider<
         ActionLibraryRemoteDataSource,
         ActionLibraryRemoteDataSource,
         ActionLibraryRemoteDataSource>
     with $Provider<ActionLibraryRemoteDataSource> {
-  const ActionLibraryDataSourceProvider._()
+  ActionLibraryDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -56,13 +56,13 @@ String _$actionLibraryDataSourceHash() =>
     r'82b4d4fceb21ae648a4ff100fcb4ed6ed1f0ebff';
 
 @ProviderFor(actionLogDataSource)
-const actionLogDataSourceProvider = ActionLogDataSourceProvider._();
+final actionLogDataSourceProvider = ActionLogDataSourceProvider._();
 
 final class ActionLogDataSourceProvider extends $FunctionalProvider<
     ActionLogRemoteDataSource,
     ActionLogRemoteDataSource,
     ActionLogRemoteDataSource> with $Provider<ActionLogRemoteDataSource> {
-  const ActionLogDataSourceProvider._()
+  ActionLogDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -100,13 +100,13 @@ String _$actionLogDataSourceHash() =>
     r'ed4bb939692d0a319faaff43e461b84968208a64';
 
 @ProviderFor(actionLibraryRepository)
-const actionLibraryRepositoryProvider = ActionLibraryRepositoryProvider._();
+final actionLibraryRepositoryProvider = ActionLibraryRepositoryProvider._();
 
 final class ActionLibraryRepositoryProvider extends $FunctionalProvider<
     ActionLibraryRepository,
     ActionLibraryRepository,
     ActionLibraryRepository> with $Provider<ActionLibraryRepository> {
-  const ActionLibraryRepositoryProvider._()
+  ActionLibraryRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -144,7 +144,7 @@ String _$actionLibraryRepositoryHash() =>
     r'93944e9e8fe9e2e07b24f5f2451bfea69df10a39';
 
 @ProviderFor(actionLogRepository)
-const actionLogRepositoryProvider = ActionLogRepositoryProvider._();
+final actionLogRepositoryProvider = ActionLogRepositoryProvider._();
 
 final class ActionLogRepositoryProvider extends $FunctionalProvider<
         AsyncValue<ActionLogRepository>,
@@ -153,7 +153,7 @@ final class ActionLogRepositoryProvider extends $FunctionalProvider<
     with
         $FutureModifier<ActionLogRepository>,
         $FutureProvider<ActionLogRepository> {
-  const ActionLogRepositoryProvider._()
+  ActionLogRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -185,7 +185,7 @@ String _$actionLogRepositoryHash() =>
 /// Watches all active actions from the action library.
 
 @ProviderFor(actionLibrary)
-const actionLibraryProvider = ActionLibraryProvider._();
+final actionLibraryProvider = ActionLibraryProvider._();
 
 /// Watches all active actions from the action library.
 
@@ -197,7 +197,7 @@ final class ActionLibraryProvider extends $FunctionalProvider<
         $FutureModifier<List<ActionModel>>,
         $StreamProvider<List<ActionModel>> {
   /// Watches all active actions from the action library.
-  const ActionLibraryProvider._()
+  ActionLibraryProvider._()
       : super(
           from: null,
           argument: null,
@@ -228,7 +228,7 @@ String _$actionLibraryHash() => r'65fe8aa5eb4fe7180c97bc5b3ec9f5b56845e419';
 /// Watches action logs for the current user.
 
 @ProviderFor(userActionLogs)
-const userActionLogsProvider = UserActionLogsProvider._();
+final userActionLogsProvider = UserActionLogsProvider._();
 
 /// Watches action logs for the current user.
 
@@ -240,7 +240,7 @@ final class UserActionLogsProvider extends $FunctionalProvider<
         $FutureModifier<List<ActionLogModel>>,
         $StreamProvider<List<ActionLogModel>> {
   /// Watches action logs for the current user.
-  const UserActionLogsProvider._()
+  UserActionLogsProvider._()
       : super(
           from: null,
           argument: null,
@@ -272,7 +272,7 @@ String _$userActionLogsHash() => r'27348877b12e183f817aa0d0d4255320913a6639';
 /// Null means "All" categories.
 
 @ProviderFor(SelectedCategory)
-const selectedCategoryProvider = SelectedCategoryProvider._();
+final selectedCategoryProvider = SelectedCategoryProvider._();
 
 /// Currently selected action category for filtering.
 /// Null means "All" categories.
@@ -280,7 +280,7 @@ final class SelectedCategoryProvider
     extends $NotifierProvider<SelectedCategory, ActionCategory?> {
   /// Currently selected action category for filtering.
   /// Null means "All" categories.
-  const SelectedCategoryProvider._()
+  SelectedCategoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -317,27 +317,26 @@ abstract class _$SelectedCategory extends $Notifier<ActionCategory?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ActionCategory?, ActionCategory?>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<ActionCategory?, ActionCategory?>,
         ActionCategory?,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Search query for filtering actions.
 
 @ProviderFor(ActionSearchQuery)
-const actionSearchQueryProvider = ActionSearchQueryProvider._();
+final actionSearchQueryProvider = ActionSearchQueryProvider._();
 
 /// Search query for filtering actions.
 final class ActionSearchQueryProvider
     extends $NotifierProvider<ActionSearchQuery, String> {
   /// Search query for filtering actions.
-  const ActionSearchQueryProvider._()
+  ActionSearchQueryProvider._()
       : super(
           from: null,
           argument: null,
@@ -373,24 +372,23 @@ abstract class _$ActionSearchQuery extends $Notifier<String> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<String, String>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<String, String>, String, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Currently selected sort option for the action library.
 
 @ProviderFor(SelectedSortOption)
-const selectedSortOptionProvider = SelectedSortOptionProvider._();
+final selectedSortOptionProvider = SelectedSortOptionProvider._();
 
 /// Currently selected sort option for the action library.
 final class SelectedSortOptionProvider
     extends $NotifierProvider<SelectedSortOption, ActionSortOption> {
   /// Currently selected sort option for the action library.
-  const SelectedSortOptionProvider._()
+  SelectedSortOptionProvider._()
       : super(
           from: null,
           argument: null,
@@ -427,14 +425,13 @@ abstract class _$SelectedSortOption extends $Notifier<ActionSortOption> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ActionSortOption, ActionSortOption>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<ActionSortOption, ActionSortOption>,
         ActionSortOption,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
@@ -442,7 +439,7 @@ abstract class _$SelectedSortOption extends $Notifier<ActionSortOption> {
 /// Null means "All" SDGs.
 
 @ProviderFor(SelectedSdgFilter)
-const selectedSdgFilterProvider = SelectedSdgFilterProvider._();
+final selectedSdgFilterProvider = SelectedSdgFilterProvider._();
 
 /// Selected SDG for filtering actions.
 /// Null means "All" SDGs.
@@ -450,7 +447,7 @@ final class SelectedSdgFilterProvider
     extends $NotifierProvider<SelectedSdgFilter, int?> {
   /// Selected SDG for filtering actions.
   /// Null means "All" SDGs.
-  const SelectedSdgFilterProvider._()
+  SelectedSdgFilterProvider._()
       : super(
           from: null,
           argument: null,
@@ -487,11 +484,10 @@ abstract class _$SelectedSdgFilter extends $Notifier<int?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<int?, int?>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<int?, int?>, int?, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
@@ -500,7 +496,7 @@ abstract class _$SelectedSdgFilter extends $Notifier<int?> {
 /// Used by smart reminders to check if user has logged an action today.
 
 @ProviderFor(todayActions)
-const todayActionsProvider = TodayActionsProvider._();
+final todayActionsProvider = TodayActionsProvider._();
 
 /// Gets today's action logs for the current user.
 ///
@@ -516,7 +512,7 @@ final class TodayActionsProvider extends $FunctionalProvider<
   /// Gets today's action logs for the current user.
   ///
   /// Used by smart reminders to check if user has logged an action today.
-  const TodayActionsProvider._()
+  TodayActionsProvider._()
       : super(
           from: null,
           argument: null,
@@ -548,7 +544,7 @@ String _$todayActionsHash() => r'db26cc3b9364a6a9706a91fd1c915aa79f85d3dd';
 /// Separated so that changing sort doesn't re-filter.
 
 @ProviderFor(baseFilteredActions)
-const baseFilteredActionsProvider = BaseFilteredActionsProvider._();
+final baseFilteredActionsProvider = BaseFilteredActionsProvider._();
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -560,7 +556,7 @@ final class BaseFilteredActionsProvider extends $FunctionalProvider<
     with $Provider<AsyncValue<List<ActionModel>>> {
   /// Filtered actions (category, SDG, search) -- no sort.
   /// Separated so that changing sort doesn't re-filter.
-  const BaseFilteredActionsProvider._()
+  BaseFilteredActionsProvider._()
       : super(
           from: null,
           argument: null,
@@ -603,7 +599,7 @@ String _$baseFilteredActionsHash() =>
 /// through baseFilteredActions.
 
 @ProviderFor(filteredActions)
-const filteredActionsProvider = FilteredActionsProvider._();
+final filteredActionsProvider = FilteredActionsProvider._();
 
 /// Filtered + sorted actions. Only re-sorts when sort
 /// option or language changes; filter changes propagate
@@ -617,7 +613,7 @@ final class FilteredActionsProvider extends $FunctionalProvider<
   /// Filtered + sorted actions. Only re-sorts when sort
   /// option or language changes; filter changes propagate
   /// through baseFilteredActions.
-  const FilteredActionsProvider._()
+  FilteredActionsProvider._()
       : super(
           from: null,
           argument: null,
@@ -657,13 +653,13 @@ String _$filteredActionsHash() => r'd6e1da63de401f7dbc9d3f0be6bc4138a93e3174';
 /// Notifier that handles logging actions.
 
 @ProviderFor(ActionLogNotifier)
-const actionLogProvider = ActionLogNotifierProvider._();
+final actionLogProvider = ActionLogNotifierProvider._();
 
 /// Notifier that handles logging actions.
 final class ActionLogNotifierProvider
     extends $NotifierProvider<ActionLogNotifier, AsyncValue<ActionLogResult?>> {
   /// Notifier that handles logging actions.
-  const ActionLogNotifierProvider._()
+  ActionLogNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -700,7 +696,6 @@ abstract class _$ActionLogNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref
         as $Ref<AsyncValue<ActionLogResult?>, AsyncValue<ActionLogResult?>>;
     final element = ref.element as $ClassProviderElement<
@@ -708,6 +703,6 @@ abstract class _$ActionLogNotifier
         AsyncValue<ActionLogResult?>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

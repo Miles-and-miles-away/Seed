@@ -41,11 +41,11 @@ class _EggDiscoveryCelebrationState
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: Durations.particleLoop,
+      duration: durationParticleLoop,
     );
     _glowController = AnimationController(
       vsync: this,
-      duration: Durations.glowLoop,
+      duration: durationGlowLoop,
     );
 
     _sparkles = List.generate(30, (_) => _Sparkle.random());
@@ -59,10 +59,10 @@ class _EggDiscoveryCelebrationState
       _glowController.repeat(reverse: true),
     );
 
-    await Future<void>.delayed(Durations.normal);
+    await Future<void>.delayed(durationNormal);
     if (mounted) setState(() => _showContent = true);
 
-    await Future<void>.delayed(Durations.showcase);
+    await Future<void>.delayed(durationShowcase);
     if (mounted) setState(() => _showButton = true);
   }
 
@@ -92,7 +92,7 @@ class _EggDiscoveryCelebrationState
           RepaintBoundary(
             child: Container(
               color: Colors.black.withValues(
-                alpha: Opacities.nearOpaque,
+                alpha: opacityNearOpaque,
               ),
             ).animate().fadeIn(duration: 300.ms),
           ),
@@ -184,7 +184,7 @@ class _EggDiscoveryCelebrationState
                   // Message
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: Spacing.xxxl,
+                      horizontal: spacingXxxl,
                     ),
                     child: Text(
                       l10n.eggDiscoveryMessage(
@@ -201,12 +201,12 @@ class _EggDiscoveryCelebrationState
                         ),
                   ),
 
-                  const SizedBox(height: Spacing.md),
+                  const SizedBox(height: spacingMd),
 
                   // Subtitle
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: Spacing.huge,
+                      horizontal: spacingHuge,
                     ),
                     child: Text(
                       l10n.eggDiscoverySubtitle,
@@ -226,17 +226,17 @@ class _EggDiscoveryCelebrationState
                   if (_showButton)
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: Spacing.huge,
+                        horizontal: spacingHuge,
                       ),
                       child: FilledButton(
                         onPressed: _handleDismiss,
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: Spacing.huge,
-                            vertical: Spacing.lg,
+                            horizontal: spacingHuge,
+                            vertical: spacingLg,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: Radii.borderLg,
+                            borderRadius: borderRadiusLg,
                           ),
                         ),
                         child: Text(
@@ -248,7 +248,7 @@ class _EggDiscoveryCelebrationState
                           .slideY(begin: 0.3, end: 0),
                     ),
 
-                  const SizedBox(height: Spacing.huge),
+                  const SizedBox(height: spacingHuge),
                 ],
               ),
             ),

@@ -59,23 +59,23 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         slivers: [
           _buildAppBar(context, goal),
           SliverPadding(
-            padding: const EdgeInsets.all(Spacing.xxl),
+            padding: const EdgeInsets.all(spacingXxl),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildGoalBadge(context, goal),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 Text(
                   goal.title(languageCode),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 SdgTargetsSection(
                   goal: goal,
                   locale: languageCode,
                 ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(
                     context,
@@ -88,11 +88,11 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                     goal,
                     languageCode,
                   ),
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
                 SdgInfographicViewer(goal: goal),
-                const SizedBox(height: Spacing.xxxl),
+                const SizedBox(height: spacingXxxl),
                 _buildGoalNavigation(context, goal),
-                const SizedBox(height: Spacing.huge),
+                const SizedBox(height: spacingHuge),
               ]),
             ),
           ),
@@ -112,13 +112,13 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         goalNumber: goal.number,
         goalColor: goal.color,
       ),
-      const SizedBox(height: Spacing.xxl),
+      const SizedBox(height: spacingXxl),
       SdgActionsGrid(
         goalNumber: goal.number,
         goalColor: goal.color,
         languageCode: languageCode,
       ),
-      const SizedBox(height: Spacing.xxl),
+      const SizedBox(height: spacingXxl),
       SdgResourcesList(
         goalNumber: goal.number,
         goalColor: goal.color,
@@ -138,15 +138,15 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
 
     return [
       Container(
-        padding: const EdgeInsets.all(Spacing.xl),
+        padding: const EdgeInsets.all(spacingXl),
         decoration: BoxDecoration(
           color: goal.color.withValues(
-            alpha: Opacities.veryFaint,
+            alpha: opacityVeryFaint,
           ),
-          borderRadius: Radii.borderLg,
+          borderRadius: borderRadiusLg,
           border: Border.all(
             color: goal.color.withValues(
-              alpha: Opacities.light,
+              alpha: opacityLight,
             ),
           ),
         ),
@@ -158,7 +158,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
               color: goal.color,
               size: 24,
             ),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Expanded(
               child: Text(
                 l10n.sdgLearnOnlyExplanation,
@@ -171,7 +171,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ],
         ),
       ),
-      const SizedBox(height: Spacing.xxl),
+      const SizedBox(height: spacingXxl),
       SdgResourcesList(
         goalNumber: goal.number,
         goalColor: goal.color,
@@ -196,7 +196,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
               colors: [
                 goal.color,
                 goal.color.withValues(
-                  alpha: Opacities.heavy,
+                  alpha: opacityHeavy,
                 ),
               ],
             ),
@@ -205,7 +205,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
             child: Hero(
               tag: 'sdg_icon_${goal.number}',
               child: ClipRRect(
-                borderRadius: Radii.borderLg,
+                borderRadius: borderRadiusLg,
                 child: CachedNetworkImage(
                   imageUrl: goal.iconUrl,
                   width: 120,
@@ -215,7 +215,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                     width: 120,
                     height: 120,
                     color: Colors.white.withValues(
-                      alpha: Opacities.light,
+                      alpha: opacityLight,
                     ),
                     child: Center(
                       child: Text(
@@ -232,7 +232,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                     width: 120,
                     height: 120,
                     color: Colors.white.withValues(
-                      alpha: Opacities.light,
+                      alpha: opacityLight,
                     ),
                     child: Center(
                       child: Text(
@@ -262,12 +262,12 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: Spacing.md,
+            horizontal: spacingMd,
             vertical: 6,
           ),
           decoration: BoxDecoration(
             color: goal.color,
-            borderRadius: Radii.borderXl,
+            borderRadius: borderRadiusXl,
           ),
           child: Text(
             AppLocalizations.of(context).sdgGoalNumber(goal.number),
@@ -278,15 +278,15 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
             ),
           ),
         ),
-        const SizedBox(width: Spacing.sm),
+        const SizedBox(width: spacingSm),
         Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: Spacing.md,
+            horizontal: spacingMd,
             vertical: 6,
           ),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: Radii.borderXl,
+            borderRadius: borderRadiusXl,
           ),
           child: Text(
             AppLocalizations.of(context).sdgBadge,
@@ -321,14 +321,14 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           goal: prevGoal,
           isPrevious: true,
           onTap: () => context.pushReplacement(
-            AppRoutes.sdgDetail(prevGoal.number),
+            appRoutes.sdgDetail(prevGoal.number),
           ),
         ),
         _GoalNavButton(
           goal: nextGoal,
           isPrevious: false,
           onTap: () => context.pushReplacement(
-            AppRoutes.sdgDetail(nextGoal.number),
+            appRoutes.sdgDetail(nextGoal.number),
           ),
         ),
       ],
@@ -351,16 +351,16 @@ class _GoalNavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: goal.color.withValues(
-        alpha: Opacities.faint,
+        alpha: opacityFaint,
       ),
-      borderRadius: Radii.borderMd,
+      borderRadius: borderRadiusMd,
       child: InkWell(
         onTap: onTap,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 14,
-            vertical: Spacing.md,
+            vertical: spacingMd,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

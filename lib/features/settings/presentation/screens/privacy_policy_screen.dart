@@ -15,8 +15,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
     return LegalDocumentScreen(
       title: l10n.privacyPolicyTitle,
-      sections: PrivacyPolicyContent.forLocale(locale),
-      lastUpdated: PrivacyPolicyContent.lastUpdated,
+      sections: privacyPolicyContent.forLocale(locale),
+      lastUpdated: privacyPolicyContent.lastUpdated,
     );
   }
 }

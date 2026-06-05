@@ -85,12 +85,13 @@ MockUser createMockUser({
   when(() => mockUser.displayName).thenReturn(displayName);
 
   // Create default provider data if not specified
-  if (providerData == null) {
+  var resolvedProviderData = providerData;
+  if (resolvedProviderData == null) {
     final mockUserInfo = MockUserInfo();
     when(() => mockUserInfo.providerId).thenReturn('password');
-    providerData = [mockUserInfo];
+    resolvedProviderData = [mockUserInfo];
   }
-  when(() => mockUser.providerData).thenReturn(providerData);
+  when(() => mockUser.providerData).thenReturn(resolvedProviderData);
 
   return mockUser;
 }

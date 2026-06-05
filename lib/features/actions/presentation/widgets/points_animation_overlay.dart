@@ -51,7 +51,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
     super.initState();
 
     _controller = AnimationController(
-      duration: Durations.showcase,
+      duration: durationShowcase,
       vsync: this,
     );
 
@@ -137,8 +137,8 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Spacing.xxxl,
-                  vertical: Spacing.lg,
+                  horizontal: spacingXxxl,
+                  vertical: spacingLg,
                 ),
                 decoration: BoxDecoration(
                   color: color,
@@ -146,7 +146,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                   boxShadow: [
                     BoxShadow(
                       color: color.withValues(
-                        alpha: Opacities.medium,
+                        alpha: opacityMedium,
                       ),
                       blurRadius: 20,
                       spreadRadius: 4,
@@ -161,7 +161,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                       color: Colors.white,
                       size: 32,
                     ),
-                    const SizedBox(width: Spacing.sm),
+                    const SizedBox(width: spacingSm),
                     Text(
                       '${widget.points} points',
                       style: theme.textTheme.headlineMedium?.copyWith(

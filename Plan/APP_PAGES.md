@@ -176,9 +176,17 @@ Settings hub.
 - Links:
   - `/privacy` (canonical legal route)
   - `/terms` (canonical legal route)
-  - External: mailto contact, licenses page (system)
+  - `/profile/settings/about/feedback` (Send Feedback)
+  - External: licenses page (system)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  SDG acknowledgment.
+  Send Feedback tile, SDG acknowledgment.
+
+### Feedback (`.../settings/about/feedback`)
+- Functionality: structured form with category chips (Bug / Feature /
+  General), description text field, app+device metadata footer. Submit
+  launches the user's mail client with a pre-populated `mailto:` URI
+  (subject prefixed by category, body bundles description + metadata),
+  then pops back with a confirmation SnackBar.
 
 ### Privacy Policy (`/privacy`)
 Canonical legal document route. Accessible while unauthenticated so the
@@ -194,10 +202,10 @@ Not routable directly.
 
 ## Route Reference
 
-Defined in `AppRoutes` (`lib/app/router.dart`). All values are
-full paths suitable for `context.push` / `context.go`.
+Exposed via the `appRoutes` singleton (`lib/app/router.dart`).
+All values are full paths suitable for `context.push` / `context.go`.
 
-| Constant                  | Path                              |
+| Member                    | Path                              |
 |---------------------------|-----------------------------------|
 | `splash`                  | `/`                               |
 | `login`                   | `/login`                          |
@@ -221,3 +229,4 @@ full paths suitable for `context.push` / `context.go`.
 | `settingsLanguage`        | `/profile/settings/language`      |
 | `settingsAccount`         | `/profile/settings/account`       |
 | `settingsAbout`           | `/profile/settings/about`         |
+| `settingsAboutFeedback`   | `/profile/settings/about/feedback` |

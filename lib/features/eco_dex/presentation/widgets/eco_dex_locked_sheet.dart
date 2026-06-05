@@ -22,10 +22,10 @@ class EcoDexLockedSheet extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        Spacing.xxl,
-        Spacing.lg,
-        Spacing.xxl,
-        Spacing.xxxl,
+        spacingXxl,
+        spacingLg,
+        spacingXxl,
+        spacingXxxl,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -36,11 +36,11 @@ class EcoDexLockedSheet extends StatelessWidget {
             height: 4,
             decoration: BoxDecoration(
               color: theme.colorScheme.onSurfaceVariant
-                  .withValues(alpha: Opacities.medium),
-              borderRadius: BorderRadius.circular(Spacing.xxs),
+                  .withValues(alpha: opacityMedium),
+              borderRadius: BorderRadius.circular(spacingXxs),
             ),
           ),
-          const SizedBox(height: Spacing.xxl),
+          const SizedBox(height: spacingXxl),
 
           // Lock icon
           Container(
@@ -56,7 +56,7 @@ class EcoDexLockedSheet extends StatelessWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           // Locked title
           Text(
@@ -65,7 +65,7 @@ class EcoDexLockedSheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
 
           // Hint
           Text(
@@ -75,7 +75,7 @@ class EcoDexLockedSheet extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
         ],
       ),
     );

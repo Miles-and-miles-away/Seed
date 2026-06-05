@@ -11,7 +11,7 @@ part of 'notification_providers.dart';
 /// Provider for the NotificationService singleton.
 
 @ProviderFor(notificationService)
-const notificationServiceProvider = NotificationServiceProvider._();
+final notificationServiceProvider = NotificationServiceProvider._();
 
 /// Provider for the NotificationService singleton.
 
@@ -20,7 +20,7 @@ final class NotificationServiceProvider extends $FunctionalProvider<
     NotificationService,
     NotificationService> with $Provider<NotificationService> {
   /// Provider for the NotificationService singleton.
-  const NotificationServiceProvider._()
+  NotificationServiceProvider._()
       : super(
           from: null,
           argument: null,
@@ -60,7 +60,7 @@ String _$notificationServiceHash() =>
 /// Provider for the FCMService singleton.
 
 @ProviderFor(fcmService)
-const fcmServiceProvider = FcmServiceProvider._();
+final fcmServiceProvider = FcmServiceProvider._();
 
 /// Provider for the FCMService singleton.
 
@@ -68,7 +68,7 @@ final class FcmServiceProvider
     extends $FunctionalProvider<FCMService, FCMService, FCMService>
     with $Provider<FCMService> {
   /// Provider for the FCMService singleton.
-  const FcmServiceProvider._()
+  FcmServiceProvider._()
       : super(
           from: null,
           argument: null,
@@ -108,7 +108,7 @@ String _$fcmServiceHash() => r'ee96047a03c23756073a596e4080dd0c835cda88';
 /// This watches user settings and reschedules notifications when they change.
 
 @ProviderFor(NotificationScheduler)
-const notificationSchedulerProvider = NotificationSchedulerProvider._();
+final notificationSchedulerProvider = NotificationSchedulerProvider._();
 
 /// Provider that manages notification scheduling based on user settings.
 ///
@@ -118,7 +118,7 @@ final class NotificationSchedulerProvider
   /// Provider that manages notification scheduling based on user settings.
   ///
   /// This watches user settings and reschedules notifications when they change.
-  const NotificationSchedulerProvider._()
+  NotificationSchedulerProvider._()
       : super(
           from: null,
           argument: null,
@@ -149,14 +149,13 @@ abstract class _$NotificationScheduler extends $AsyncNotifier<void> {
   @$mustCallSuper
   @override
   void runBuild() {
-    build();
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, void>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, null);
+    element.handleCreate(ref, build);
   }
 }
 
@@ -165,7 +164,7 @@ abstract class _$NotificationScheduler extends $AsyncNotifier<void> {
 /// Returns true if the user hasn't logged an action today.
 
 @ProviderFor(shouldShowSmartReminder)
-const shouldShowSmartReminderProvider = ShouldShowSmartReminderProvider._();
+final shouldShowSmartReminderProvider = ShouldShowSmartReminderProvider._();
 
 /// Provider that checks if smart reminder should fire.
 ///
@@ -177,7 +176,7 @@ final class ShouldShowSmartReminderProvider
   /// Provider that checks if smart reminder should fire.
   ///
   /// Returns true if the user hasn't logged an action today.
-  const ShouldShowSmartReminderProvider._()
+  ShouldShowSmartReminderProvider._()
       : super(
           from: null,
           argument: null,
@@ -210,7 +209,7 @@ String _$shouldShowSmartReminderHash() =>
 /// Watches auth state and updates FCM token when user logs in.
 
 @ProviderFor(FCMTokenManager)
-const fCMTokenManagerProvider = FCMTokenManagerProvider._();
+final fCMTokenManagerProvider = FCMTokenManagerProvider._();
 
 /// Provider that handles FCM token registration.
 ///
@@ -220,7 +219,7 @@ final class FCMTokenManagerProvider
   /// Provider that handles FCM token registration.
   ///
   /// Watches auth state and updates FCM token when user logs in.
-  const FCMTokenManagerProvider._()
+  FCMTokenManagerProvider._()
       : super(
           from: null,
           argument: null,
@@ -250,21 +249,20 @@ abstract class _$FCMTokenManager extends $AsyncNotifier<void> {
   @$mustCallSuper
   @override
   void runBuild() {
-    build();
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, void>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, null);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Provider for checking notification permission status.
 
 @ProviderFor(notificationPermissionStatus)
-const notificationPermissionStatusProvider =
+final notificationPermissionStatusProvider =
     NotificationPermissionStatusProvider._();
 
 /// Provider for checking notification permission status.
@@ -273,7 +271,7 @@ final class NotificationPermissionStatusProvider
     extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
     with $FutureModifier<bool>, $FutureProvider<bool> {
   /// Provider for checking notification permission status.
-  const NotificationPermissionStatusProvider._()
+  NotificationPermissionStatusProvider._()
       : super(
           from: null,
           argument: null,
@@ -304,7 +302,7 @@ String _$notificationPermissionStatusHash() =>
 /// Provider for FCM authorization status.
 
 @ProviderFor(fcmAuthorizationStatus)
-const fcmAuthorizationStatusProvider = FcmAuthorizationStatusProvider._();
+final fcmAuthorizationStatusProvider = FcmAuthorizationStatusProvider._();
 
 /// Provider for FCM authorization status.
 
@@ -316,7 +314,7 @@ final class FcmAuthorizationStatusProvider extends $FunctionalProvider<
         $FutureModifier<AuthorizationStatus>,
         $FutureProvider<AuthorizationStatus> {
   /// Provider for FCM authorization status.
-  const FcmAuthorizationStatusProvider._()
+  FcmAuthorizationStatusProvider._()
       : super(
           from: null,
           argument: null,

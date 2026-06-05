@@ -26,12 +26,12 @@ class LegalDocumentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView.builder(
-        padding: const EdgeInsets.all(Spacing.lg),
+        padding: const EdgeInsets.all(spacingLg),
         itemCount: sections.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: Spacing.xl),
+              padding: const EdgeInsets.only(bottom: spacingXl),
               child: Text(
                 l10n.legalLastUpdated(lastUpdated),
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -53,13 +53,13 @@ class LegalDocumentScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: Spacing.sm),
+                const SizedBox(height: spacingSm),
                 Text(
                   section.body,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     height: 1.5,
                     color: theme.colorScheme.onSurface.withValues(
-                      alpha: Opacities.heavy,
+                      alpha: opacityHeavy,
                     ),
                   ),
                 ),

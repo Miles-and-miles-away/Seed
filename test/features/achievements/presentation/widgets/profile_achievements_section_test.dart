@@ -111,7 +111,7 @@ void main() {
             ),
           ),
           GoRoute(
-            path: AppRoutes.achievements,
+            path: appRoutes.achievements,
             builder: (_, __) => const Scaffold(
               body: Text('ACHIEVEMENTS_SCREEN'),
             ),

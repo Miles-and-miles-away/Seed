@@ -43,7 +43,8 @@ mixin _$AppUserModel {
 
   /// When the egg pending discovery flag was set.
   @TimestampConverter()
-  DateTime? get eggPendingDiscoverySince; // Phase 3 fields
+  DateTime? get eggPendingDiscoverySince;
+
   /// Master toggle for notifications.
   bool get notificationsEnabled;
 
@@ -55,8 +56,8 @@ mixin _$AppUserModel {
   bool get streakGracePeriodAvailable;
 
   /// FCM token for push notifications.
-  String?
-      get fcmToken; // Denormalized aggregates (avoid reading entire actionLog)
+  String? get fcmToken;
+
   /// Total CO2 saved across all actions (grams).
   int get totalCo2Grams;
 
@@ -64,14 +65,16 @@ mixin _$AppUserModel {
   int get totalActionsCount;
 
   /// Per-SDG aggregated stats: { "1": { "count": 5, "co2": 1200 } }
-  Map<String, Map<String, int>> get sdgStats; // Phase 5 fields
+  Map<String, Map<String, int>> get sdgStats;
+
   /// Dates (yyyy-MM-dd) when the user viewed their daily eco-fact.
   List<String> get viewedFactDates;
 
   /// Dates (yyyy-MM-dd) when the user's daily eco-fact was unlocked
   /// (challenge completed). Distinct from viewedFactDates: a day can
   /// be unlocked without being read.
-  List<String> get unlockedFactDates; // Phase 5.2: Daily challenges
+  List<String> get unlockedFactDates;
+
   /// Date (yyyy-MM-dd) when the user last completed a challenge.
   String get challengeCompletedDate;
 
@@ -88,7 +91,8 @@ mixin _$AppUserModel {
   Map<String, dynamic> get activeMultiDayChallenge;
 
   /// IDs of completed multi-day challenge templates.
-  List<String> get completedMultiDayChallenges; // Phase 5.3: Eco-Dex
+  List<String> get completedMultiDayChallenges;
+
   /// IDs of discovered Eco-Dex entries.
   List<String> get ecodexDiscovered;
 
@@ -983,7 +987,7 @@ class _AppUserModel implements AppUserModel {
   @override
   @TimestampConverter()
   final DateTime? eggPendingDiscoverySince;
-// Phase 3 fields
+
   /// Master toggle for notifications.
   @override
   @JsonKey()
@@ -1002,7 +1006,7 @@ class _AppUserModel implements AppUserModel {
   /// FCM token for push notifications.
   @override
   final String? fcmToken;
-// Denormalized aggregates (avoid reading entire actionLog)
+
   /// Total CO2 saved across all actions (grams).
   @override
   @JsonKey()
@@ -1025,10 +1029,9 @@ class _AppUserModel implements AppUserModel {
     return EqualUnmodifiableMapView(_sdgStats);
   }
 
-// Phase 5 fields
   /// Dates (yyyy-MM-dd) when the user viewed their daily eco-fact.
   final List<String> _viewedFactDates;
-// Phase 5 fields
+
   /// Dates (yyyy-MM-dd) when the user viewed their daily eco-fact.
   @override
   @JsonKey()
@@ -1055,7 +1058,6 @@ class _AppUserModel implements AppUserModel {
     return EqualUnmodifiableListView(_unlockedFactDates);
   }
 
-// Phase 5.2: Daily challenges
   /// Date (yyyy-MM-dd) when the user last completed a challenge.
   @override
   @JsonKey()
@@ -1110,10 +1112,9 @@ class _AppUserModel implements AppUserModel {
     return EqualUnmodifiableListView(_completedMultiDayChallenges);
   }
 
-// Phase 5.3: Eco-Dex
   /// IDs of discovered Eco-Dex entries.
   final List<String> _ecodexDiscovered;
-// Phase 5.3: Eco-Dex
+
   /// IDs of discovered Eco-Dex entries.
   @override
   @JsonKey()

@@ -22,23 +22,23 @@ class EcoDexScreen extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, __) => const Center(child: ErrorDisplay()),
       data: (data) => SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: Spacing.lg),
+        padding: const EdgeInsets.symmetric(horizontal: spacingLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             const EcoDexProgressHeader(),
-            const SizedBox(height: Spacing.xl),
+            const SizedBox(height: spacingXl),
             ...data.categories.map((category) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: Spacing.xl),
+                padding: const EdgeInsets.only(bottom: spacingXl),
                 child: EcoDexCategorySection(
                   category: category,
                   locale: locale,
                 ),
               );
             }),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
           ],
         ),
       ),

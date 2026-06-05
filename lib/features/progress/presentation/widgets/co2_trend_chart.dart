@@ -76,20 +76,20 @@ class Co2TrendChart extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(
-        Spacing.md,
-        Spacing.lg,
-        Spacing.lg,
-        Spacing.sm,
+        spacingMd,
+        spacingLg,
+        spacingLg,
+        spacingSm,
       ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: Spacing.sm),
+            padding: const EdgeInsets.only(left: spacingSm),
             child: Row(
               children: [
                 Expanded(
@@ -109,7 +109,7 @@ class Co2TrendChart extends StatelessWidget {
                     color: avgColor,
                   ),
                 ),
-                const SizedBox(width: Spacing.xs),
+                const SizedBox(width: spacingXs),
                 Text(
                   l10n.trendChartAverageLabel,
                   style: theme.textTheme.labelSmall?.copyWith(
@@ -119,7 +119,7 @@ class Co2TrendChart extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
           SizedBox(
             height: height,
             child: LineChart(
@@ -172,7 +172,7 @@ class Co2TrendChart extends StatelessWidget {
                         final date =
                             data.windowStart.add(Duration(days: value.round()));
                         return Padding(
-                          padding: const EdgeInsets.only(top: Spacing.xs),
+                          padding: const EdgeInsets.only(top: spacingXs),
                           child: Text(
                             dateFormat.format(date),
                             style: theme.textTheme.labelSmall?.copyWith(

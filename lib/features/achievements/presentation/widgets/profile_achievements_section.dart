@@ -45,12 +45,12 @@ class ProfileAchievementsSection extends ConsumerWidget {
 
     return Material(
       color: colorScheme.surfaceContainerLow,
-      borderRadius: Radii.borderLg,
+      borderRadius: borderRadiusLg,
       child: InkWell(
-        borderRadius: Radii.borderLg,
-        onTap: () => context.push(AppRoutes.achievements),
+        borderRadius: borderRadiusLg,
+        onTap: () => context.push(appRoutes.achievements),
         child: Padding(
-          padding: const EdgeInsets.all(Spacing.lg),
+          padding: const EdgeInsets.all(spacingLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,7 +70,7 @@ class ProfileAchievementsSection extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: Spacing.lg),
+              const SizedBox(height: spacingLg),
               if (isLoading)
                 const _LoadingRow()
               else if (hasError)
@@ -89,7 +89,7 @@ class ProfileAchievementsSection extends ConsumerWidget {
                 )
               else
                 _BadgeRow(visible: visible, remaining: remaining),
-              const SizedBox(height: Spacing.md),
+              const SizedBox(height: spacingMd),
               Text(
                 l10n.achievementsProgress(
                   unlockedDefs.length,
@@ -122,7 +122,7 @@ class _BadgeRow extends StatelessWidget {
       children: [
         for (final def in visible)
           Padding(
-            padding: const EdgeInsets.only(right: Spacing.md),
+            padding: const EdgeInsets.only(right: spacingMd),
             child: AchievementBadge(
               definition: def,
               isUnlocked: true,

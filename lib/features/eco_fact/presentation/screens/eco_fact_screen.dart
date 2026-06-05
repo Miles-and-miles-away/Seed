@@ -64,7 +64,7 @@ class _InboxRow extends ConsumerWidget {
       subject: subject,
       date: item.date,
       state: state,
-      onTap: () => context.push(AppRoutes.dailyFactDetail(item.dateKey)),
+      onTap: () => context.push(appRoutes.dailyFactDetail(item.dateKey)),
     );
   }
 }
@@ -84,16 +84,16 @@ class _EmptyInbox extends StatelessWidget {
     final theme = Theme.of(context);
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.xxl),
+        padding: const EdgeInsets.all(spacingXxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.mark_email_unread_outlined,
-              size: Spacing.huge,
+              size: spacingHuge,
               color: theme.colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(height: Spacing.md),
+            const SizedBox(height: spacingMd),
             Text(
               message,
               textAlign: TextAlign.center,

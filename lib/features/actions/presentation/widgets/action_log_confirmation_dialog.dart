@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:seed_app/core/constants/ui_constants.dart' as ui;
-import 'package:seed_app/core/constants/ui_constants.dart'
-    show Opacities, Radii, Spacing;
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/helpers.dart';
@@ -88,10 +86,10 @@ class _ActionLogConfirmationDialogState
         children: [
           // Header with category color
           Container(
-            padding: const EdgeInsets.all(Spacing.xxl),
+            padding: const EdgeInsets.all(spacingXxl),
             decoration: BoxDecoration(
               color: categoryColor.withValues(
-                alpha: Opacities.faint,
+                alpha: opacityFaint,
               ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
@@ -105,7 +103,7 @@ class _ActionLogConfirmationDialogState
                   size: 48,
                   color: categoryColor,
                 ),
-                const SizedBox(height: Spacing.md),
+                const SizedBox(height: spacingMd),
                 Text(
                   widget.action.name(widget.languageCode),
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -113,16 +111,16 @@ class _ActionLogConfirmationDialogState
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: Spacing.sm),
+                const SizedBox(height: spacingSm),
                 // Points display
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: Spacing.lg,
-                    vertical: Spacing.sm,
+                    horizontal: spacingLg,
+                    vertical: spacingSm,
                   ),
                   decoration: BoxDecoration(
                     color: categoryColor,
-                    borderRadius: Radii.borderXl,
+                    borderRadius: borderRadiusXl,
                   ),
                   child: Text(
                     l10n.pointsLabel(widget.action.points),
@@ -137,7 +135,7 @@ class _ActionLogConfirmationDialogState
           ),
           // Description and note field
           Padding(
-            padding: const EdgeInsets.all(Spacing.xxl),
+            padding: const EdgeInsets.all(spacingXxl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -228,7 +226,7 @@ class _ActionLogConfirmationDialogState
                 size: 16,
                 color: theme.colorScheme.primary,
               ),
-              const SizedBox(width: Spacing.sm),
+              const SizedBox(width: spacingSm),
               Text(
                 l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -244,23 +242,23 @@ class _ActionLogConfirmationDialogState
       children: [
         if (descWidget != null) descWidget,
         if (descWidget != null && co2Widget != null)
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
         if (co2Widget != null) co2Widget,
       ],
     );
 
     if (!hasLong) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: Spacing.lg),
+        padding: const EdgeInsets.only(bottom: spacingLg),
         child: content,
       );
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: Spacing.lg),
+      padding: const EdgeInsets.only(bottom: spacingLg),
       child: Material(
-        color: categoryColor.withValues(alpha: Opacities.veryFaint),
-        borderRadius: Radii.borderMd,
+        color: categoryColor.withValues(alpha: opacityVeryFaint),
+        borderRadius: borderRadiusMd,
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -268,15 +266,15 @@ class _ActionLogConfirmationDialogState
             InkWell(
               onTap: () => setState(() => _scienceExpanded = !_scienceExpanded),
               child: Padding(
-                padding: const EdgeInsets.all(Spacing.lg),
+                padding: const EdgeInsets.all(spacingLg),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(child: content),
-                    const SizedBox(width: Spacing.sm),
+                    const SizedBox(width: spacingSm),
                     AnimatedRotation(
                       turns: _scienceExpanded ? 0.5 : 0,
-                      duration: ui.Durations.fast,
+                      duration: durationFast,
                       child: Icon(
                         Icons.expand_more,
                         size: 20,
@@ -288,7 +286,7 @@ class _ActionLogConfirmationDialogState
               ),
             ),
             AnimatedSize(
-              duration: ui.Durations.fast,
+              duration: durationFast,
               curve: Curves.easeOut,
               alignment: Alignment.topCenter,
               child: _scienceExpanded
@@ -309,10 +307,10 @@ class _ActionLogConfirmationDialogState
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(
-        Spacing.lg,
+        spacingLg,
         0,
-        Spacing.lg,
-        Spacing.lg,
+        spacingLg,
+        spacingLg,
       ),
       child: MarkdownBlock(
         data: appendExternalLinkArrow(

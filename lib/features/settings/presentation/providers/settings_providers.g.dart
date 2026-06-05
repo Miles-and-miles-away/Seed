@@ -10,13 +10,13 @@ part of 'settings_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(settingsRemoteDataSource)
-const settingsRemoteDataSourceProvider = SettingsRemoteDataSourceProvider._();
+final settingsRemoteDataSourceProvider = SettingsRemoteDataSourceProvider._();
 
 final class SettingsRemoteDataSourceProvider extends $FunctionalProvider<
     SettingsRemoteDataSource,
     SettingsRemoteDataSource,
     SettingsRemoteDataSource> with $Provider<SettingsRemoteDataSource> {
-  const SettingsRemoteDataSourceProvider._()
+  SettingsRemoteDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -54,13 +54,13 @@ String _$settingsRemoteDataSourceHash() =>
     r'1c79aed826bd7a8ad1de3a4952e38339dd1cdb1c';
 
 @ProviderFor(settingsRepository)
-const settingsRepositoryProvider = SettingsRepositoryProvider._();
+final settingsRepositoryProvider = SettingsRepositoryProvider._();
 
 final class SettingsRepositoryProvider extends $FunctionalProvider<
     SettingsRepository,
     SettingsRepository,
     SettingsRepository> with $Provider<SettingsRepository> {
-  const SettingsRepositoryProvider._()
+  SettingsRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -101,7 +101,7 @@ String _$settingsRepositoryHash() =>
 /// Returns default settings if no settings are found.
 
 @ProviderFor(userSettings)
-const userSettingsProvider = UserSettingsProvider._();
+final userSettingsProvider = UserSettingsProvider._();
 
 /// Stream of the current user's settings.
 /// Returns default settings if no settings are found.
@@ -115,7 +115,7 @@ final class UserSettingsProvider extends $FunctionalProvider<
         $StreamProvider<UserSettingsModel> {
   /// Stream of the current user's settings.
   /// Returns default settings if no settings are found.
-  const UserSettingsProvider._()
+  UserSettingsProvider._()
       : super(
           from: null,
           argument: null,
@@ -146,7 +146,7 @@ String _$userSettingsHash() => r'b57fde36a7bf22bde06babee7f00ea60ab22bc8d';
 /// Returns the list of enabled reminder schedules.
 
 @ProviderFor(enabledReminders)
-const enabledRemindersProvider = EnabledRemindersProvider._();
+final enabledRemindersProvider = EnabledRemindersProvider._();
 
 /// Returns the list of enabled reminder schedules.
 
@@ -156,7 +156,7 @@ final class EnabledRemindersProvider extends $FunctionalProvider<
         List<NotificationScheduleModel>>
     with $Provider<List<NotificationScheduleModel>> {
   /// Returns the list of enabled reminder schedules.
-  const EnabledRemindersProvider._()
+  EnabledRemindersProvider._()
       : super(
           from: null,
           argument: null,
@@ -196,14 +196,14 @@ String _$enabledRemindersHash() => r'287947b76f478f8021d0685cfdc8378829a045c2';
 /// Returns whether the user can add more reminders.
 
 @ProviderFor(canAddReminder)
-const canAddReminderProvider = CanAddReminderProvider._();
+final canAddReminderProvider = CanAddReminderProvider._();
 
 /// Returns whether the user can add more reminders.
 
 final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Returns whether the user can add more reminders.
-  const CanAddReminderProvider._()
+  CanAddReminderProvider._()
       : super(
           from: null,
           argument: null,
@@ -241,14 +241,14 @@ String _$canAddReminderHash() => r'fca40fb1a98c6681e527d1262bc2136df3bef733';
 /// Returns the current language setting.
 
 @ProviderFor(currentLanguage)
-const currentLanguageProvider = CurrentLanguageProvider._();
+final currentLanguageProvider = CurrentLanguageProvider._();
 
 /// Returns the current language setting.
 
 final class CurrentLanguageProvider
     extends $FunctionalProvider<String, String, String> with $Provider<String> {
   /// Returns the current language setting.
-  const CurrentLanguageProvider._()
+  CurrentLanguageProvider._()
       : super(
           from: null,
           argument: null,
@@ -286,14 +286,14 @@ String _$currentLanguageHash() => r'd2d3a06fa837edd402b67f8418b7628ce5c633f8';
 /// Returns whether notifications are enabled.
 
 @ProviderFor(notificationsEnabled)
-const notificationsEnabledProvider = NotificationsEnabledProvider._();
+final notificationsEnabledProvider = NotificationsEnabledProvider._();
 
 /// Returns whether notifications are enabled.
 
 final class NotificationsEnabledProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Returns whether notifications are enabled.
-  const NotificationsEnabledProvider._()
+  NotificationsEnabledProvider._()
       : super(
           from: null,
           argument: null,
@@ -332,14 +332,14 @@ String _$notificationsEnabledHash() =>
 /// Returns whether smart reminders are enabled.
 
 @ProviderFor(smartRemindersEnabled)
-const smartRemindersEnabledProvider = SmartRemindersEnabledProvider._();
+final smartRemindersEnabledProvider = SmartRemindersEnabledProvider._();
 
 /// Returns whether smart reminders are enabled.
 
 final class SmartRemindersEnabledProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Returns whether smart reminders are enabled.
-  const SmartRemindersEnabledProvider._()
+  SmartRemindersEnabledProvider._()
       : super(
           from: null,
           argument: null,
@@ -378,14 +378,14 @@ String _$smartRemindersEnabledHash() =>
 /// Returns whether analytics collection is enabled.
 
 @ProviderFor(analyticsEnabled)
-const analyticsEnabledProvider = AnalyticsEnabledProvider._();
+final analyticsEnabledProvider = AnalyticsEnabledProvider._();
 
 /// Returns whether analytics collection is enabled.
 
 final class AnalyticsEnabledProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Returns whether analytics collection is enabled.
-  const AnalyticsEnabledProvider._()
+  AnalyticsEnabledProvider._()
       : super(
           from: null,
           argument: null,
@@ -424,7 +424,7 @@ String _$analyticsEnabledHash() => r'9664fa8a59370dc6bbd0a93381e5f00ea8915ac1';
 /// Falls back to English if no setting is found.
 
 @ProviderFor(appLocale)
-const appLocaleProvider = AppLocaleProvider._();
+final appLocaleProvider = AppLocaleProvider._();
 
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
@@ -433,7 +433,7 @@ final class AppLocaleProvider
     extends $FunctionalProvider<Locale, Locale, Locale> with $Provider<Locale> {
   /// Returns the current app locale based on user settings.
   /// Falls back to English if no setting is found.
-  const AppLocaleProvider._()
+  AppLocaleProvider._()
       : super(
           from: null,
           argument: null,
@@ -472,7 +472,7 @@ String _$appLocaleHash() => r'039b0a604fd9f4a680ba4c0e1357a68e1a63f485';
 /// Uses AsyncValue to track loading and error states.
 
 @ProviderFor(SettingsNotifier)
-const settingsProvider = SettingsNotifierProvider._();
+final settingsProvider = SettingsNotifierProvider._();
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.
@@ -480,7 +480,7 @@ final class SettingsNotifierProvider
     extends $NotifierProvider<SettingsNotifier, AsyncValue<void>> {
   /// Notifier that handles settings mutations.
   /// Uses AsyncValue to track loading and error states.
-  const SettingsNotifierProvider._()
+  SettingsNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -517,13 +517,12 @@ abstract class _$SettingsNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

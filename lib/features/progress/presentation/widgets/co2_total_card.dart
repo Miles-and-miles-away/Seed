@@ -30,12 +30,12 @@ class Co2TotalCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(Spacing.xl),
+      padding: const EdgeInsets.all(spacingXl),
       decoration: BoxDecoration(
         color: theme.colorScheme.primaryContainer.withValues(
-          alpha: Opacities.medium,
+          alpha: opacityMedium,
         ),
-        borderRadius: Radii.borderLg,
+        borderRadius: borderRadiusLg,
       ),
       child: Column(
         children: [
@@ -46,14 +46,14 @@ class Co2TotalCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
           Text(
             headerText,
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           PeriodComparisonBadge(stats: stats),
         ],
       ),

@@ -22,6 +22,7 @@ import '../features/progress/progress.dart';
 import '../features/sdg/sdg.dart';
 import '../features/settings/presentation/screens/about_screen.dart';
 import '../features/settings/presentation/screens/account_settings_screen.dart';
+import '../features/settings/presentation/screens/feedback_screen.dart';
 import '../features/settings/presentation/screens/language_settings_screen.dart';
 import '../features/settings/presentation/screens/notification_settings_screen.dart';
 import '../features/settings/presentation/screens/privacy_policy_screen.dart';
@@ -40,49 +41,54 @@ int _parseSdgGoalNumber(String? value) {
   );
 }
 
-// ignore: avoid_classes_with_only_static_members
-/// Full-path route constants for use at navigation call sites.
+/// Full-path routes for use at navigation call sites via [appRoutes].
 ///
 /// Nested `GoRoute` declarations in this file still use relative path
 /// literals (go_router requires this for child routes), but every
-/// `context.push` / `context.go` should reference these constants so the
+/// `context.push` / `context.go` should reference [appRoutes] so the
 /// app has a single source of truth for navigation paths.
-abstract class AppRoutes {
+class AppRoutes {
+  const AppRoutes._();
+
   // Top-level (accessible while unauthenticated)
-  static const splash = '/';
-  static const login = '/login';
-  static const register = '/register';
-  static const privacy = '/privacy';
-  static const terms = '/terms';
+  String get splash => '/';
+  String get login => '/login';
+  String get register => '/register';
+  String get privacy => '/privacy';
+  String get terms => '/terms';
 
   // Top-level (require authentication)
-  static const emailVerification = '/verify-email';
-  static const mascotSelection = '/mascot-selection';
-  static const actionLog = '/log-action';
+  String get emailVerification => '/verify-email';
+  String get mascotSelection => '/mascot-selection';
+  String get actionLog => '/log-action';
 
   // Main shell tabs
-  static const home = '/home';
-  static const progress = '/progress';
-  static const mascot = '/mascot';
-  static const profile = '/profile';
+  String get home => '/home';
+  String get progress => '/progress';
+  String get mascot => '/mascot';
+  String get profile => '/profile';
 
   // Nested under home
-  static const dailyFact = '/home/daily-fact';
-  static const challenges = '/home/challenges';
-  static String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
-  static String dailyFactDetail(String dateKey) => '/home/daily-fact/$dateKey';
+  String get dailyFact => '/home/daily-fact';
+  String get challenges => '/home/challenges';
+  String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
+  String dailyFactDetail(String dateKey) => '/home/daily-fact/$dateKey';
 
   // Nested under progress
-  static const actionHistory = '/progress/history';
+  String get actionHistory => '/progress/history';
 
   // Nested under profile
-  static const achievements = '/profile/achievements';
-  static const settings = '/profile/settings';
-  static const settingsNotifications = '/profile/settings/notifications';
-  static const settingsLanguage = '/profile/settings/language';
-  static const settingsAccount = '/profile/settings/account';
-  static const settingsAbout = '/profile/settings/about';
+  String get achievements => '/profile/achievements';
+  String get settings => '/profile/settings';
+  String get settingsNotifications => '/profile/settings/notifications';
+  String get settingsLanguage => '/profile/settings/language';
+  String get settingsAccount => '/profile/settings/account';
+  String get settingsAbout => '/profile/settings/about';
+  String get settingsAboutFeedback => '/profile/settings/about/feedback';
 }
+
+/// Single shared instance for navigation call sites.
+const appRoutes = AppRoutes._();
 
 @riverpod
 GoRouter router(Ref ref) {
@@ -92,7 +98,7 @@ GoRouter router(Ref ref) {
   final analyticsObserver = AnalyticsService.instance.observer;
 
   return GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: appRoutes.splash,
     debugLogDiagnostics: kDebugMode,
     observers: [
       if (analyticsObserver != null) analyticsObserver,
@@ -106,27 +112,27 @@ GoRouter router(Ref ref) {
     routes: [
       // Splash / Loading screen
       GoRoute(
-        path: AppRoutes.splash,
+        path: appRoutes.splash,
         builder: (context, state) => const _SplashScreen(),
       ),
 
       // Auth routes
       GoRoute(
-        path: AppRoutes.login,
+        path: appRoutes.login,
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
-        path: AppRoutes.register,
+        path: appRoutes.register,
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: AppRoutes.emailVerification,
+        path: appRoutes.emailVerification,
         builder: (context, state) => const EmailVerificationScreen(),
       ),
 
       // Mascot selection (shown after signup if user has no mascot)
       GoRoute(
-        path: AppRoutes.mascotSelection,
+        path: appRoutes.mascotSelection,
         builder: (context, state) => const MascotSelectionScreen(),
       ),
 
@@ -140,7 +146,7 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.home,
+                path: appRoutes.home,
                 builder: (context, state) => const HomeScreen(),
                 routes: [
                   // SDG detail is nested under home
@@ -181,7 +187,7 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.progress,
+                path: appRoutes.progress,
                 builder: (context, state) => const ProgressScreen(),
                 routes: [
                   // Action history nested under progress
@@ -198,7 +204,7 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.mascot,
+                path: appRoutes.mascot,
                 builder: (context, state) => const MascotScreen(),
               ),
             ],
@@ -208,7 +214,7 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.profile,
+                path: appRoutes.profile,
                 builder: (context, state) => const ProfileScreen(),
                 routes: [
                   GoRoute(
@@ -237,6 +243,12 @@ GoRouter router(Ref ref) {
                       GoRoute(
                         path: 'about',
                         builder: (context, state) => const AboutScreen(),
+                        routes: [
+                          GoRoute(
+                            path: 'feedback',
+                            builder: (context, state) => const FeedbackScreen(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -249,18 +261,18 @@ GoRouter router(Ref ref) {
 
       // Action log (modal/push route, not in bottom nav)
       GoRoute(
-        path: AppRoutes.actionLog,
+        path: appRoutes.actionLog,
         builder: (context, state) => const ActionLogScreen(),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so
       // the register screen can link to them before sign-up.
       GoRoute(
-        path: AppRoutes.privacy,
+        path: appRoutes.privacy,
         builder: (context, state) => const PrivacyPolicyScreen(),
       ),
       GoRoute(
-        path: AppRoutes.terms,
+        path: appRoutes.terms,
         builder: (context, state) => const TermsOfServiceScreen(),
       ),
     ],
@@ -270,16 +282,16 @@ GoRouter router(Ref ref) {
       return authState.when(
         data: (user) {
           final currentPath = state.matchedLocation;
-          final isOnAuthPage = currentPath == AppRoutes.login ||
-              currentPath == AppRoutes.register;
-          final isOnSplash = currentPath == AppRoutes.splash;
-          final isOnVerification = currentPath == AppRoutes.emailVerification;
-          final isOnPublicLegal = currentPath == AppRoutes.privacy ||
-              currentPath == AppRoutes.terms;
+          final isOnAuthPage = currentPath == appRoutes.login ||
+              currentPath == appRoutes.register;
+          final isOnSplash = currentPath == appRoutes.splash;
+          final isOnVerification = currentPath == appRoutes.emailVerification;
+          final isOnPublicLegal = currentPath == appRoutes.privacy ||
+              currentPath == appRoutes.terms;
 
           // Not logged in - allow auth pages and public legal docs only
           if (user == null) {
-            return (isOnAuthPage || isOnPublicLegal) ? null : AppRoutes.login;
+            return (isOnAuthPage || isOnPublicLegal) ? null : appRoutes.login;
           }
 
           // Logged in but email not verified (email/password users only)
@@ -287,26 +299,26 @@ GoRouter router(Ref ref) {
               user.providerData.any((p) => p.providerId == 'password');
           if (!user.emailVerified && isEmailPasswordUser) {
             if (isOnVerification || isOnPublicLegal) return null;
-            return AppRoutes.emailVerification;
+            return appRoutes.emailVerification;
           }
 
           // Logged in and verified - bounce away from auth/splash pages
           if (isOnAuthPage || isOnSplash || isOnVerification) {
-            return AppRoutes.home;
+            return appRoutes.home;
           }
 
           return null;
         },
         loading: () {
           // Show splash while loading
-          final isOnSplash = state.matchedLocation == AppRoutes.splash;
-          return isOnSplash ? null : AppRoutes.splash;
+          final isOnSplash = state.matchedLocation == appRoutes.splash;
+          return isOnSplash ? null : appRoutes.splash;
         },
         error: (_, __) {
           // On error, redirect to login
-          final isOnAuthPage = state.matchedLocation == AppRoutes.login ||
-              state.matchedLocation == AppRoutes.register;
-          return isOnAuthPage ? null : AppRoutes.login;
+          final isOnAuthPage = state.matchedLocation == appRoutes.login ||
+              state.matchedLocation == appRoutes.register;
+          return isOnAuthPage ? null : appRoutes.login;
         },
       );
     },

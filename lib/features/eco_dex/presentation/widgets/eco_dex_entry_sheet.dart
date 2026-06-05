@@ -26,10 +26,10 @@ class EcoDexEntrySheet extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        Spacing.xxl,
-        Spacing.lg,
-        Spacing.xxl,
-        Spacing.xxxl,
+        spacingXxl,
+        spacingLg,
+        spacingXxl,
+        spacingXxxl,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,12 +42,12 @@ class EcoDexEntrySheet extends StatelessWidget {
               height: 4,
               decoration: BoxDecoration(
                 color: theme.colorScheme.onSurfaceVariant
-                    .withValues(alpha: Opacities.medium),
-                borderRadius: BorderRadius.circular(Spacing.xxs),
+                    .withValues(alpha: opacityMedium),
+                borderRadius: BorderRadius.circular(spacingXxs),
               ),
             ),
           ),
-          const SizedBox(height: Spacing.xl),
+          const SizedBox(height: spacingXl),
 
           // Entry artwork
           Center(
@@ -56,7 +56,7 @@ class EcoDexEntrySheet extends StatelessWidget {
               size: _sheetImageSize,
             ),
           ),
-          const SizedBox(height: Spacing.xl),
+          const SizedBox(height: spacingXl),
 
           // Title
           Text(
@@ -65,7 +65,7 @@ class EcoDexEntrySheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           // Fact
           Text(
@@ -74,7 +74,7 @@ class EcoDexEntrySheet extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           // Source
           if (entry.sourceUrl.isNotEmpty)

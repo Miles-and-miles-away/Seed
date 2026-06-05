@@ -53,7 +53,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
     if (mounted) {
       // Navigate to home
-      context.go(AppRoutes.home);
+      context.go(appRoutes.home);
     }
   }
 
@@ -76,13 +76,13 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(Spacing.xxl),
+          padding: const EdgeInsets.all(spacingXxl),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 // Title
                 Text(
@@ -92,7 +92,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: Spacing.sm),
+                const SizedBox(height: spacingSm),
 
                 // Subtitle
                 Text(
@@ -103,7 +103,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: Spacing.xxxl),
+                const SizedBox(height: spacingXxxl),
 
                 // Mascot preview
                 Expanded(
@@ -124,7 +124,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                           size: 180,
                         ),
 
-                        const SizedBox(height: Spacing.lg),
+                        const SizedBox(height: spacingLg),
 
                         // Species name and description
                         Text(
@@ -133,7 +133,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: Spacing.sm),
+                        const SizedBox(height: spacingSm),
                         Text(
                           speciesList[_selectedSpeciesIndex]
                               .description(locale),
@@ -155,7 +155,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     hintText: l10n.mascotNameHint,
                     prefixIcon: const Icon(Icons.edit),
                     border: OutlineInputBorder(
-                      borderRadius: Radii.borderMd,
+                      borderRadius: borderRadiusMd,
                     ),
                   ),
                   textCapitalization: TextCapitalization.words,
@@ -173,23 +173,23 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   },
                 ),
 
-                const SizedBox(height: Spacing.xxl),
+                const SizedBox(height: spacingXxl),
 
                 // Submit button
                 FilledButton(
                   onPressed: _isSubmitting ? null : _onSubmit,
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                      vertical: Spacing.lg,
+                      vertical: spacingLg,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: Radii.borderMd,
+                      borderRadius: borderRadiusMd,
                     ),
                   ),
                   child: _isSubmitting
                       ? const SizedBox(
-                          width: Spacing.xxl,
-                          height: Spacing.xxl,
+                          width: spacingXxl,
+                          height: spacingXxl,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                           ),
@@ -197,7 +197,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                       : Text(l10n.mascotSelectionConfirm),
                 ),
 
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
               ],
             ),
           ),
@@ -224,13 +224,13 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
             child: Container(
               width: 80,
               margin: const EdgeInsets.symmetric(
-                horizontal: Spacing.sm,
+                horizontal: spacingSm,
               ),
               decoration: BoxDecoration(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primaryContainer
                     : Theme.of(context).colorScheme.surfaceContainerLow,
-                borderRadius: Radii.borderMd,
+                borderRadius: borderRadiusMd,
                 border: isSelected
                     ? Border.all(
                         color: Theme.of(context).colorScheme.primary,
@@ -246,7 +246,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     size: 50,
                     animate: false,
                   ),
-                  const SizedBox(height: Spacing.xs),
+                  const SizedBox(height: spacingXs),
                   Text(
                     species.name(locale),
                     style: Theme.of(context).textTheme.labelSmall,

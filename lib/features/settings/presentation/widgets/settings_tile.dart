@@ -50,13 +50,13 @@ class SettingsTile extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     final effectiveTextColor = !enabled
-        ? colorScheme.onSurface.withValues(alpha: Opacities.disabled)
+        ? colorScheme.onSurface.withValues(alpha: opacityDisabled)
         : dangerous
             ? colorScheme.error
             : null;
 
     final effectiveIconColor = !enabled
-        ? colorScheme.onSurface.withValues(alpha: Opacities.disabled)
+        ? colorScheme.onSurface.withValues(alpha: opacityDisabled)
         : dangerous
             ? colorScheme.error
             : colorScheme.primary;
@@ -96,8 +96,8 @@ class SettingsTile extends StatelessWidget {
       trailing: effectiveTrailing,
       onTap: enabled ? onTap : null,
       contentPadding: const EdgeInsets.symmetric(
-        horizontal: Spacing.lg,
-        vertical: Spacing.xs,
+        horizontal: spacingLg,
+        vertical: spacingXs,
       ),
     );
   }

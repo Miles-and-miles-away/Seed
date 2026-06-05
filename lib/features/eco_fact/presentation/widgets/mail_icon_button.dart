@@ -15,7 +15,7 @@ class MailIconButton extends ConsumerWidget {
     final hasUnread = ref.watch(hasUnreadFactProvider);
 
     return IconButton(
-      onPressed: () => context.push(AppRoutes.dailyFact),
+      onPressed: () => context.push(appRoutes.dailyFact),
       icon: Badge(
         isLabelVisible: hasUnread,
         smallSize: 10,

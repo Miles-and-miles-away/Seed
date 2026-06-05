@@ -11,14 +11,14 @@ part of 'profile_providers.dart';
 /// Computed level progress (0.0 to 1.0) from user points.
 
 @ProviderFor(levelProgress)
-const levelProgressProvider = LevelProgressProvider._();
+final levelProgressProvider = LevelProgressProvider._();
 
 /// Computed level progress (0.0 to 1.0) from user points.
 
 final class LevelProgressProvider
     extends $FunctionalProvider<double, double, double> with $Provider<double> {
   /// Computed level progress (0.0 to 1.0) from user points.
-  const LevelProgressProvider._()
+  LevelProgressProvider._()
       : super(
           from: null,
           argument: null,
@@ -56,14 +56,14 @@ String _$levelProgressHash() => r'1c3ca4824c6c4393c75004d8b743f27199c27b7c';
 /// Points needed to reach the next level.
 
 @ProviderFor(pointsToNextLevel)
-const pointsToNextLevelProvider = PointsToNextLevelProvider._();
+final pointsToNextLevelProvider = PointsToNextLevelProvider._();
 
 /// Points needed to reach the next level.
 
 final class PointsToNextLevelProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Points needed to reach the next level.
-  const PointsToNextLevelProvider._()
+  PointsToNextLevelProvider._()
       : super(
           from: null,
           argument: null,
@@ -101,14 +101,14 @@ String _$pointsToNextLevelHash() => r'570becc9d9f69885e5849ca41031dc84b7fb4368';
 /// Current mascot evolution stage (1-4).
 
 @ProviderFor(evolutionStage)
-const evolutionStageProvider = EvolutionStageProvider._();
+final evolutionStageProvider = EvolutionStageProvider._();
 
 /// Current mascot evolution stage (1-4).
 
 final class EvolutionStageProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Current mascot evolution stage (1-4).
-  const EvolutionStageProvider._()
+  EvolutionStageProvider._()
       : super(
           from: null,
           argument: null,
@@ -148,7 +148,7 @@ String _$evolutionStageHash() => r'bd295a30ce500c9bfaef66eac59b31db31814e7a';
 /// streaming entire actionLog subcollection.
 
 @ProviderFor(totalCo2Saved)
-const totalCo2SavedProvider = TotalCo2SavedProvider._();
+final totalCo2SavedProvider = TotalCo2SavedProvider._();
 
 /// Total CO2 saved across all actions (grams).
 /// Reads denormalized field from user doc instead of
@@ -159,7 +159,7 @@ final class TotalCo2SavedProvider extends $FunctionalProvider<int, int, int>
   /// Total CO2 saved across all actions (grams).
   /// Reads denormalized field from user doc instead of
   /// streaming entire actionLog subcollection.
-  const TotalCo2SavedProvider._()
+  TotalCo2SavedProvider._()
       : super(
           from: null,
           argument: null,
@@ -198,7 +198,7 @@ String _$totalCo2SavedHash() => r'ee5b1ec886c4669ffbf54b9fc3c0717d08e30b08';
 /// Reads denormalized field from user doc.
 
 @ProviderFor(totalActionsCount)
-const totalActionsCountProvider = TotalActionsCountProvider._();
+final totalActionsCountProvider = TotalActionsCountProvider._();
 
 /// Total number of actions logged.
 /// Reads denormalized field from user doc.
@@ -207,7 +207,7 @@ final class TotalActionsCountProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Total number of actions logged.
   /// Reads denormalized field from user doc.
-  const TotalActionsCountProvider._()
+  TotalActionsCountProvider._()
       : super(
           from: null,
           argument: null,
@@ -245,14 +245,14 @@ String _$totalActionsCountHash() => r'6e5504fe2c0ef2a57919b30eca90ead2f56b404b';
 /// Number of days since the user joined.
 
 @ProviderFor(daysSinceJoined)
-const daysSinceJoinedProvider = DaysSinceJoinedProvider._();
+final daysSinceJoinedProvider = DaysSinceJoinedProvider._();
 
 /// Number of days since the user joined.
 
 final class DaysSinceJoinedProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Number of days since the user joined.
-  const DaysSinceJoinedProvider._()
+  DaysSinceJoinedProvider._()
       : super(
           from: null,
           argument: null,
@@ -290,14 +290,14 @@ String _$daysSinceJoinedHash() => r'b1ad070d990cba30297fe8e28bdeb11db2bd6836';
 /// Current streak bonus multiplier.
 
 @ProviderFor(streakBonus)
-const streakBonusProvider = StreakBonusProvider._();
+final streakBonusProvider = StreakBonusProvider._();
 
 /// Current streak bonus multiplier.
 
 final class StreakBonusProvider
     extends $FunctionalProvider<double, double, double> with $Provider<double> {
   /// Current streak bonus multiplier.
-  const StreakBonusProvider._()
+  StreakBonusProvider._()
       : super(
           from: null,
           argument: null,

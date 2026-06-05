@@ -71,7 +71,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
     final notifierState = ref.watch(dailyTargetProvider);
 
     return Padding(
-      padding: const EdgeInsets.all(Spacing.xxl),
+      padding: const EdgeInsets.all(spacingXxl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -84,7 +84,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
           Text(
             l10n.progressSetDailyGoalSubtitle,
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -92,7 +92,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: Spacing.huge),
+          const SizedBox(height: spacingHuge),
 
           // Number picker
           SizedBox(
@@ -115,14 +115,14 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
 
                   return Center(
                     child: AnimatedDefaultTextStyle(
-                      duration: Durations.fast,
+                      duration: durationFast,
                       style: theme.textTheme.headlineLarge!.copyWith(
                         fontWeight:
                             isSelected ? FontWeight.bold : FontWeight.normal,
                         color: isSelected
                             ? colorScheme.primary
                             : colorScheme.onSurface.withValues(
-                                alpha: Opacities.medium,
+                                alpha: opacityMedium,
                               ),
                       ),
                       child: Text('$value'),
@@ -132,11 +132,11 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
               ),
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
 
           // Dynamic description
           AnimatedSwitcher(
-            duration: Durations.fast,
+            duration: durationFast,
             child: Text(
               _getDescriptionForTarget(_selectedTarget, l10n),
               key: ValueKey(_selectedTarget),
@@ -153,13 +153,13 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
             onPressed: notifierState.isLoading ? null : _saveTarget,
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(
-                vertical: Spacing.lg,
+                vertical: spacingLg,
               ),
             ),
             child: notifierState.isLoading
                 ? const SizedBox(
-                    width: Spacing.xxl,
-                    height: Spacing.xxl,
+                    width: spacingXxl,
+                    height: spacingXxl,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       color: Colors.white,
@@ -167,7 +167,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
                   )
                 : Text(l10n.progressStartJourney),
           ),
-          const SizedBox(height: Spacing.xxxl),
+          const SizedBox(height: spacingXxxl),
         ],
       ),
     );

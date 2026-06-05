@@ -13,7 +13,7 @@ part of 'analytics_provider.dart';
 /// This provides access to analytics tracking throughout the app.
 
 @ProviderFor(analytics)
-const analyticsProvider = AnalyticsProvider._();
+final analyticsProvider = AnalyticsProvider._();
 
 /// Provider for the AnalyticsService singleton.
 ///
@@ -24,7 +24,7 @@ final class AnalyticsProvider extends $FunctionalProvider<AnalyticsService,
   /// Provider for the AnalyticsService singleton.
   ///
   /// This provides access to analytics tracking throughout the app.
-  const AnalyticsProvider._()
+  AnalyticsProvider._()
       : super(
           from: null,
           argument: null,

@@ -18,6 +18,7 @@ export 'presentation/providers/settings_providers.dart';
 // Presentation layer - Screens
 export 'presentation/screens/about_screen.dart';
 export 'presentation/screens/account_settings_screen.dart';
+export 'presentation/screens/feedback_screen.dart';
 export 'presentation/screens/language_settings_screen.dart';
 export 'presentation/screens/notification_settings_screen.dart';
 export 'presentation/screens/settings_screen.dart';

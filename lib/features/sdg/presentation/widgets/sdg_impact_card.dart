@@ -26,13 +26,13 @@ class SdgImpactCard extends ConsumerWidget {
     );
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.lg),
+      padding: const EdgeInsets.all(spacingLg),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderLg,
+        borderRadius: borderRadiusLg,
         border: Border.all(
           color: theme.colorScheme.outlineVariant.withValues(
-            alpha: Opacities.half,
+            alpha: opacityHalf,
           ),
         ),
       ),
@@ -46,7 +46,7 @@ class SdgImpactCard extends ConsumerWidget {
                 color: goalColor,
                 size: 20,
               ),
-              const SizedBox(width: Spacing.sm),
+              const SizedBox(width: spacingSm),
               Text(
                 l10n.sdgYourImpact,
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -55,7 +55,7 @@ class SdgImpactCard extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
           Row(
             children: [
               Expanded(
@@ -68,7 +68,7 @@ class SdgImpactCard extends ConsumerWidget {
                   color: goalColor,
                 ),
               ),
-              const SizedBox(width: Spacing.lg),
+              const SizedBox(width: spacingLg),
               Expanded(
                 child: _StatTile(
                   icon: Icons.eco,
@@ -109,15 +109,15 @@ class _StatTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.md),
+      padding: const EdgeInsets.all(spacingMd),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
       ),
       child: Column(
         children: [
           Icon(icon, color: color, size: 24),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
           Text(
             value,
             style: theme.textTheme.titleLarge?.copyWith(

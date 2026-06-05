@@ -85,7 +85,7 @@ class RainbowSunPainter extends CustomPainter {
     final glowGradient = RadialGradient(
       colors: [
         AppColors.sunYellow.withValues(
-          alpha: Opacities.muted,
+          alpha: opacityMuted,
         ),
         AppColors.sunYellow.withValues(alpha: 0),
       ],
@@ -123,7 +123,7 @@ class RainbowSunPainter extends CustomPainter {
         outerRadius,
         segmentStartAngle,
         _angleStep,
-        isCompleted ? sdgColor : sdgColor.withValues(alpha: Opacities.subtle),
+        isCompleted ? sdgColor : sdgColor.withValues(alpha: opacitySubtle),
         isCompleted,
       );
     }
@@ -227,10 +227,10 @@ class RainbowSunPainter extends CustomPainter {
     final gradient = LinearGradient(
       colors: [
         color.withValues(
-          alpha: Opacities.strong * animationValue,
+          alpha: opacityStrong * animationValue,
         ),
         color.withValues(
-          alpha: Opacities.muted * animationValue,
+          alpha: opacityMuted * animationValue,
         ),
         color.withValues(alpha: 0),
       ],

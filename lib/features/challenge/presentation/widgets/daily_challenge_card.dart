@@ -63,10 +63,10 @@ class DailyChallengeCard extends ConsumerWidget {
   ) {
     return Card(
       color: colorScheme.primaryContainer.withValues(
-        alpha: Opacities.half,
+        alpha: opacityHalf,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.lg),
+        padding: const EdgeInsets.all(spacingLg),
         child: Row(
           children: [
             Icon(
@@ -74,7 +74,7 @@ class DailyChallengeCard extends ConsumerWidget {
               color: colorScheme.primary,
               size: 32,
             ),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,9 +86,9 @@ class DailyChallengeCard extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: Spacing.xs),
+                  const SizedBox(height: spacingXs),
                   GestureDetector(
-                    onTap: () => context.push(AppRoutes.dailyFact),
+                    onTap: () => context.push(appRoutes.dailyFact),
                     child: Text(
                       l10n.challengeSeeFact,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -119,7 +119,7 @@ class DailyChallengeCard extends ConsumerWidget {
   ) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.lg),
+        padding: const EdgeInsets.all(spacingLg),
         child: Row(
           children: [
             Icon(
@@ -127,7 +127,7 @@ class DailyChallengeCard extends ConsumerWidget {
               color: category?.color ?? colorScheme.primary,
               size: 32,
             ),
-            const SizedBox(width: Spacing.md),
+            const SizedBox(width: spacingMd),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,7 @@ class DailyChallengeCard extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: Spacing.xs),
+                  const SizedBox(height: spacingXs),
                   Text(
                     l10n.challengeDialogUnlock,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -177,7 +177,7 @@ class _StreakBadge extends StatelessWidget {
           size: 18,
           color: AppColors.streak,
         ),
-        const SizedBox(width: Spacing.xxs),
+        const SizedBox(width: spacingXxs),
         Text(
           '$streak',
           style: theme.textTheme.labelLarge?.copyWith(

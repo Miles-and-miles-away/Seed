@@ -47,7 +47,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
 
     _debounceTimer?.cancel();
     _debounceTimer = Timer(
-      Durations.normal,
+      durationNormal,
       () {
         ref
             .read(actionSearchQueryProvider.notifier)
@@ -71,10 +71,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           preferredSize: const Size.fromHeight(56),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
-              Spacing.lg,
+              spacingLg,
               0,
-              Spacing.lg,
-              Spacing.sm,
+              spacingLg,
+              spacingSm,
             ),
             child: ValueListenableBuilder<bool>(
               valueListenable: _showClear,
@@ -104,8 +104,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: Spacing.lg,
-                    vertical: Spacing.md,
+                    horizontal: spacingLg,
+                    vertical: spacingMd,
                   ),
                 ),
               ),
@@ -116,7 +116,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       body: Column(
         children: [
           // Category tabs
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
           ActionCategoryTabs(
             selectedCategory: selectedCategory,
             onCategorySelected: (category) {
@@ -126,8 +126,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           // Sort dropdown row
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.lg,
-              vertical: Spacing.sm,
+              horizontal: spacingLg,
+              vertical: spacingSm,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -138,7 +138,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           ),
           // SDG filter chips
           const SdgFilterChips(),
-          const SizedBox(height: Spacing.sm),
+          const SizedBox(height: spacingSm),
           // Actions grid
           Expanded(
             child: filteredActionsAsync.when(
@@ -158,12 +158,12 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                       size: 48,
                       color: theme.colorScheme.error,
                     ),
-                    const SizedBox(height: Spacing.lg),
+                    const SizedBox(height: spacingLg),
                     Text(
                       l10n.errorGeneric,
                       style: theme.textTheme.bodyLarge,
                     ),
-                    const SizedBox(height: Spacing.sm),
+                    const SizedBox(height: spacingSm),
                     FilledButton.icon(
                       onPressed: () => ref.invalidate(
                         actionLibraryProvider,
@@ -197,7 +197,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               size: 48,
               color: Theme.of(context).colorScheme.outline,
             ),
-            const SizedBox(height: Spacing.lg),
+            const SizedBox(height: spacingLg),
             Text(
               l10n.noActionsFound,
               style: Theme.of(context).textTheme.bodyLarge,
@@ -208,11 +208,11 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     }
 
     return GridView.builder(
-      padding: const EdgeInsets.all(Spacing.lg),
+      padding: const EdgeInsets.all(spacingLg),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: Spacing.md,
-        mainAxisSpacing: Spacing.md,
+        crossAxisSpacing: spacingMd,
+        mainAxisSpacing: spacingMd,
         childAspectRatio: 0.9,
       ),
       itemCount: filteredActions.length,

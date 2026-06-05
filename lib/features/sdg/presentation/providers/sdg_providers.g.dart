@@ -11,7 +11,7 @@ part of 'sdg_providers.dart';
 /// Loads and caches SDG goal data from JSON.
 
 @ProviderFor(sdgGoalsData)
-const sdgGoalsDataProvider = SdgGoalsDataProvider._();
+final sdgGoalsDataProvider = SdgGoalsDataProvider._();
 
 /// Loads and caches SDG goal data from JSON.
 
@@ -19,7 +19,7 @@ final class SdgGoalsDataProvider extends $FunctionalProvider<
         AsyncValue<SdgGoalsData>, SdgGoalsData, FutureOr<SdgGoalsData>>
     with $FutureModifier<SdgGoalsData>, $FutureProvider<SdgGoalsData> {
   /// Loads and caches SDG goal data from JSON.
-  const SdgGoalsDataProvider._()
+  SdgGoalsDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -50,7 +50,7 @@ String _$sdgGoalsDataHash() => r'e59077305b6d6ec14f641d73095b16d15ded125a';
 /// Loads and caches SDG resource data from JSON.
 
 @ProviderFor(sdgResourcesData)
-const sdgResourcesDataProvider = SdgResourcesDataProvider._();
+final sdgResourcesDataProvider = SdgResourcesDataProvider._();
 
 /// Loads and caches SDG resource data from JSON.
 
@@ -62,7 +62,7 @@ final class SdgResourcesDataProvider extends $FunctionalProvider<
         $FutureModifier<Map<int, List<SdgResource>>>,
         $FutureProvider<Map<int, List<SdgResource>>> {
   /// Loads and caches SDG resource data from JSON.
-  const SdgResourcesDataProvider._()
+  SdgResourcesDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -93,7 +93,7 @@ String _$sdgResourcesDataHash() => r'a15a13d7b19303e7cf98322f73535319dd3fccf4';
 /// Loads and caches SDG target data from JSON.
 
 @ProviderFor(sdgTargetsData)
-const sdgTargetsDataProvider = SdgTargetsDataProvider._();
+final sdgTargetsDataProvider = SdgTargetsDataProvider._();
 
 /// Loads and caches SDG target data from JSON.
 
@@ -105,7 +105,7 @@ final class SdgTargetsDataProvider extends $FunctionalProvider<
         $FutureModifier<Map<int, List<SdgTarget>>>,
         $FutureProvider<Map<int, List<SdgTarget>>> {
   /// Loads and caches SDG target data from JSON.
-  const SdgTargetsDataProvider._()
+  SdgTargetsDataProvider._()
       : super(
           from: null,
           argument: null,

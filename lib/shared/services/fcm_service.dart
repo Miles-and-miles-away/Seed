@@ -43,7 +43,7 @@ class FCMService {
     // Request permission
     final settings = await _messaging.requestPermission();
 
-    AppLogger.debug('FCM auth status: ${settings.authorizationStatus}');
+    appLogger.debug('FCM auth status: ${settings.authorizationStatus}');
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
@@ -52,11 +52,11 @@ class FCMService {
         final token = await _messaging.getToken();
         if (token != null) {
           await _storeToken(token);
-          AppLogger.debug('FCM token: ${token.substring(0, 20)}...');
+          appLogger.debug('FCM token: ${token.substring(0, 20)}...');
         }
       } on Exception catch (e) {
         // Expected on iOS simulator - APNS tokens not available
-        AppLogger.warning('FCM token unavailable (expected on simulator): $e');
+        appLogger.warning('FCM token unavailable (expected on simulator): $e');
       }
 
       // Listen for token refresh
@@ -76,7 +76,7 @@ class FCMService {
     }
 
     _initialized = true;
-    AppLogger.debug('FCMService initialized');
+    appLogger.debug('FCMService initialized');
   }
 
   /// Request notification permissions.
@@ -95,35 +95,35 @@ class FCMService {
   /// Delete the FCM token (e.g., on logout).
   Future<void> deleteToken() async {
     await _messaging.deleteToken();
-    AppLogger.debug('FCM token deleted');
+    appLogger.debug('FCM token deleted');
   }
 
   /// Subscribe to a topic for group notifications.
   Future<void> subscribeToTopic(String topic) async {
     await _messaging.subscribeToTopic(topic);
-    AppLogger.debug('Subscribed to topic: $topic');
+    appLogger.debug('Subscribed to topic: $topic');
   }
 
   /// Unsubscribe from a topic.
   Future<void> unsubscribeFromTopic(String topic) async {
     await _messaging.unsubscribeFromTopic(topic);
-    AppLogger.debug('Unsubscribed from topic: $topic');
+    appLogger.debug('Unsubscribed from topic: $topic');
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    AppLogger.debug('Foreground message: ${message.notification?.title}');
+    appLogger.debug('Foreground message: ${message.notification?.title}');
     onForegroundMessage?.call(message);
   }
 
   void _handleMessageTap(RemoteMessage message) {
-    AppLogger.debug('Message tapped: ${message.notification?.title}');
+    appLogger.debug('Message tapped: ${message.notification?.title}');
     onMessageTap?.call(message);
   }
 
   Future<void> _storeToken(String token) async {
     final userId = _auth.currentUser?.uid;
     if (userId == null) {
-      AppLogger.warning('Cannot store FCM token: no user logged in');
+      appLogger.warning('Cannot store FCM token: no user logged in');
       return;
     }
 
@@ -132,9 +132,9 @@ class FCMService {
           .collection(AppConstants.collectionUsers)
           .doc(userId)
           .update({'fcmToken': token});
-      AppLogger.debug('FCM token stored for user $userId');
+      appLogger.debug('FCM token stored for user $userId');
     } on Exception catch (e) {
-      AppLogger.warning('Failed to store FCM token: $e');
+      appLogger.warning('Failed to store FCM token: $e');
     }
   }
 
@@ -148,9 +148,9 @@ class FCMService {
           .collection(AppConstants.collectionUsers)
           .doc(userId)
           .update({'fcmToken': FieldValue.delete()});
-      AppLogger.debug('FCM token removed for user $userId');
+      appLogger.debug('FCM token removed for user $userId');
     } on Exception catch (e) {
-      AppLogger.warning('Failed to remove FCM token: $e');
+      appLogger.warning('Failed to remove FCM token: $e');
     }
   }
 }
@@ -161,7 +161,7 @@ class FCMService {
 /// Register this in main.dart: FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  AppLogger.debug('Background message: ${message.notification?.title}');
+  appLogger.debug('Background message: ${message.notification?.title}');
   // Handle the background message
   // Note: This runs in a separate isolate, so you can't access instance state
 }

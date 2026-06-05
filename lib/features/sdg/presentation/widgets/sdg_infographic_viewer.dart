@@ -29,7 +29,7 @@ class SdgInfographicViewer extends StatelessWidget {
               color: goal.color,
               size: 20,
             ),
-            const SizedBox(width: Spacing.sm),
+            const SizedBox(width: spacingSm),
             Text(
               'UN Infographic',
               style: theme.textTheme.titleMedium?.copyWith(
@@ -38,13 +38,13 @@ class SdgInfographicViewer extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
         GestureDetector(
           onTap: () => _showFullScreen(context),
           child: Hero(
             tag: 'sdg_infographic_${goal.number}',
             child: ClipRRect(
-              borderRadius: Radii.borderLg,
+              borderRadius: borderRadiusLg,
               child: Image.asset(
                 goal.infographicAsset,
                 width: double.infinity,
@@ -65,8 +65,8 @@ class SdgInfographicViewer extends StatelessWidget {
       PageRouteBuilder<void>(
         opaque: false,
         barrierColor: Colors.black54,
-        transitionDuration: Durations.slower,
-        reverseTransitionDuration: Durations.emphasis,
+        transitionDuration: durationSlower,
+        reverseTransitionDuration: durationEmphasis,
         pageBuilder: (_, __, ___) => _FullScreenInfographic(
           goal: goal,
           locale: locale,

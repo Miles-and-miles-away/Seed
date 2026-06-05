@@ -25,7 +25,7 @@ class AchievementProgressBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ClipRRect(
-          borderRadius: Radii.borderXs,
+          borderRadius: borderRadiusXs,
           child: LinearProgressIndicator(
             value: progress.fraction,
             minHeight: 6,
@@ -33,7 +33,7 @@ class AchievementProgressBar extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
           ),
         ),
-        const SizedBox(height: Spacing.xs),
+        const SizedBox(height: spacingXs),
         Align(
           alignment: Alignment.centerRight,
           child: Text(

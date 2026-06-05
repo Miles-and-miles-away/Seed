@@ -32,14 +32,14 @@ class Co2CategoryChart extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(
-        Spacing.lg,
-        Spacing.lg,
-        Spacing.lg,
-        Spacing.md,
+        spacingLg,
+        spacingLg,
+        spacingLg,
+        spacingMd,
       ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class Co2CategoryChart extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           SizedBox(
             height: _donutHeight,
             child: Stack(
@@ -91,7 +91,7 @@ class Co2CategoryChart extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: Spacing.md),
+          const SizedBox(height: spacingMd),
           _Legend(slices: data.slices, otherColor: otherColor),
         ],
       ),
@@ -117,8 +117,8 @@ class _Legend extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Wrap(
-      spacing: Spacing.md,
-      runSpacing: Spacing.xs,
+      spacing: spacingMd,
+      runSpacing: spacingXs,
       children: [
         for (final slice in slices)
           _LegendItem(
@@ -160,9 +160,9 @@ class _LegendItem extends StatelessWidget {
           height: 10,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: Spacing.xs),
+        const SizedBox(width: spacingXs),
         Text(label, style: textTheme.labelMedium),
-        const SizedBox(width: Spacing.xxs),
+        const SizedBox(width: spacingXxs),
         Text(
           '${percentage.toStringAsFixed(0)}%',
           style: textTheme.labelSmall?.copyWith(color: mutedColor),

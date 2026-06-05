@@ -19,7 +19,7 @@ class MascotAnimationController extends ChangeNotifier {
     _shouldBounce = true;
     notifyListeners();
     // Reset after animation completes
-    Future.delayed(Durations.slow, () {
+    Future.delayed(durationSlow, () {
       _shouldBounce = false;
       notifyListeners();
     });
@@ -170,7 +170,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
                       boxShadow: [
                         BoxShadow(
                           color: glowColor.withValues(
-                            alpha: Opacities.muted,
+                            alpha: opacityMuted,
                           ),
                           blurRadius: 40,
                           spreadRadius: 10,

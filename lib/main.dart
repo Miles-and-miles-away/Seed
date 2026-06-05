@@ -65,7 +65,7 @@ void main() async {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
       await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
-      AppLogger.debug('Connected to Firebase Emulator Suite');
+      appLogger.debug('Connected to Firebase Emulator Suite');
     }
 
     // Configure Firestore offline persistence
@@ -101,18 +101,18 @@ void main() async {
 
 /// Handle local notification tap.
 void _handleNotificationTap(String? payload) {
-  AppLogger.debug('Local notification tapped: $payload');
+  appLogger.debug('Local notification tapped: $payload');
   // Navigation will be handled via router based on payload
 }
 
 /// Handle FCM foreground message.
 void _handleForegroundMessage(RemoteMessage message) {
-  AppLogger.debug('FCM foreground: ${message.notification?.title}');
+  appLogger.debug('FCM foreground: ${message.notification?.title}');
   // Show in-app notification or update UI
 }
 
 /// Handle FCM message tap (from background/terminated).
 void _handleFCMMessageTap(RemoteMessage message) {
-  AppLogger.debug('FCM tapped: ${message.notification?.title}');
+  appLogger.debug('FCM tapped: ${message.notification?.title}');
   // Navigation will be handled via router based on message data
 }

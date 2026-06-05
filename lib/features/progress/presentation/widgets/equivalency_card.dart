@@ -24,12 +24,12 @@ class EquivalencyCard extends StatelessWidget {
     return Container(
       width: width,
       padding: const EdgeInsets.symmetric(
-        horizontal: Spacing.sm,
-        vertical: Spacing.md,
+        horizontal: spacingSm,
+        vertical: spacingMd,
       ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: Radii.borderMd,
+        borderRadius: borderRadiusMd,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,7 +39,7 @@ class EquivalencyCard extends StatelessWidget {
             size: 28,
             color: theme.colorScheme.primary,
           ),
-          const SizedBox(height: Spacing.xs),
+          const SizedBox(height: spacingXs),
           // Value is the focal element; never let it wrap. Large
           // all-time totals (e.g. "23,000" phone charges) get scaled
           // down to fit the card width rather than breaking onto two
@@ -55,7 +55,7 @@ class EquivalencyCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: Spacing.xxs),
+          const SizedBox(height: spacingXxs),
           // Labels can be multi-word ("km not driven", "phone
           // charges") -- cap at two lines with ellipsis so the card
           // height stays bounded on every locale.

@@ -65,7 +65,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-          horizontal: Spacing.lg,
+          horizontal: spacingLg,
         ),
         itemCount: cycleLength * _REPEAT_COUNT,
         itemBuilder: (context, index) {
@@ -75,7 +75,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
           if (i == 0) {
             final isSelected = selectedSdg == null;
             return Padding(
-              padding: const EdgeInsets.only(right: Spacing.sm),
+              padding: const EdgeInsets.only(right: spacingSm),
               child: FilterChip(
                 label: Text(l10n.allCategories),
                 selected: isSelected,
@@ -96,7 +96,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
                 selectedColor: theme.colorScheme.primary,
                 checkmarkColor: theme.colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: Radii.borderXl,
+                  borderRadius: borderRadiusXl,
                 ),
               ),
             );
@@ -107,7 +107,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
           final isSelected = selectedSdg == sdg.number;
 
           return Padding(
-            padding: const EdgeInsets.only(right: Spacing.sm),
+            padding: const EdgeInsets.only(right: spacingSm),
             child: FilterChip(
               avatar: isSelected
                   ? null
@@ -151,7 +151,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
               selectedColor: sdg.color,
               checkmarkColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: Radii.borderXl,
+                borderRadius: borderRadiusXl,
               ),
             ),
           );

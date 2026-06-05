@@ -54,12 +54,12 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
     final l10n = AppLocalizations.of(context);
 
     return SizedBox(
-      height: Spacing.huge,
+      height: spacingHuge,
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-          horizontal: Spacing.lg,
+          horizontal: spacingLg,
         ),
         itemCount: _cycleLength * _repeatCount,
         itemBuilder: (context, index) {
@@ -67,7 +67,7 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
 
           if (i == 0) {
             return Padding(
-              padding: const EdgeInsets.only(right: Spacing.sm),
+              padding: const EdgeInsets.only(right: spacingSm),
               child: _CategoryChip(
                 label: l10n.allCategories,
                 icon: Icons.grid_view,
@@ -133,7 +133,7 @@ class _CategoryChip extends StatelessWidget {
         color: isSelected
             ? color
             : theme.colorScheme.outline.withValues(
-                alpha: Opacities.muted,
+                alpha: opacityMuted,
               ),
       ),
       onSelected: (_) => onTap(),

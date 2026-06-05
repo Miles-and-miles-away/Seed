@@ -37,7 +37,7 @@ class ReminderListTile extends StatelessWidget {
       onDismissed: (_) => onDelete(),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: Spacing.lg),
+        padding: const EdgeInsets.only(right: spacingLg),
         color: colorScheme.error,
         child: Icon(
           Icons.delete_outline,
@@ -49,14 +49,14 @@ class ReminderListTile extends StatelessWidget {
           Icons.alarm,
           color: schedule.isEnabled
               ? colorScheme.primary
-              : colorScheme.onSurface.withValues(alpha: Opacities.disabled),
+              : colorScheme.onSurface.withValues(alpha: opacityDisabled),
         ),
         title: Text(
           schedule.displayTime,
           style: theme.textTheme.titleMedium?.copyWith(
             color: schedule.isEnabled
                 ? null
-                : colorScheme.onSurface.withValues(alpha: Opacities.disabled),
+                : colorScheme.onSurface.withValues(alpha: opacityDisabled),
           ),
         ),
         subtitle: schedule.label.isNotEmpty
@@ -79,7 +79,7 @@ class ReminderListTile extends StatelessWidget {
               icon: Icon(
                 Icons.delete_outline,
                 color: colorScheme.error.withValues(
-                  alpha: Opacities.strong,
+                  alpha: opacityStrong,
                 ),
               ),
               onPressed: onDelete,

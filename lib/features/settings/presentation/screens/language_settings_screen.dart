@@ -32,7 +32,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.all(Spacing.lg),
+              padding: const EdgeInsets.all(spacingLg),
               child: Text(
                 l10n.languageSettingsDescription,
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -53,7 +53,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
             }),
             const Divider(height: 1),
             Padding(
-              padding: const EdgeInsets.all(Spacing.lg),
+              padding: const EdgeInsets.all(spacingLg),
               child: Text(
                 l10n.languageSettingsNote,
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -111,7 +111,7 @@ class _LanguageTile extends StatelessWidget {
       onTap: onTap,
       selected: isSelected,
       selectedTileColor: theme.colorScheme.primaryContainer.withValues(
-        alpha: Opacities.muted,
+        alpha: opacityMuted,
       ),
     );
   }

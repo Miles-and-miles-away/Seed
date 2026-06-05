@@ -45,7 +45,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     super.initState();
     _particleController = AnimationController(
       vsync: this,
-      duration: Durations.particleLoop,
+      duration: durationParticleLoop,
     );
 
     // Generate confetti particles
@@ -60,12 +60,12 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     unawaited(_particleController.repeat());
 
     // Show content after brief delay for dramatic effect
-    await Future<void>.delayed(Durations.normal);
+    await Future<void>.delayed(durationNormal);
     if (mounted) {
       setState(() => _showContent = true);
     }
 
-    await Future<void>.delayed(Durations.showcase);
+    await Future<void>.delayed(durationShowcase);
     if (mounted) {
       setState(() => _showButton = true);
     }
@@ -119,7 +119,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
           RepaintBoundary(
             child: Container(
               color: Colors.black.withValues(
-                alpha: Opacities.nearOpaque,
+                alpha: opacityNearOpaque,
               ),
             ).animate().fadeIn(duration: 300.ms),
           ),
@@ -167,7 +167,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                       .fadeIn(delay: 100.ms, duration: 400.ms)
                       .slideY(begin: -0.2, end: 0),
 
-                  const SizedBox(height: Spacing.sm),
+                  const SizedBox(height: spacingSm),
 
                   // Mascot name
                   Text(
@@ -218,7 +218,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                               height: 100,
                             ),
                           ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                          const SizedBox(width: Spacing.lg),
+                          const SizedBox(width: spacingLg),
                           Icon(
                             Icons.arrow_forward,
                             color: colorScheme.primary,
@@ -227,7 +227,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                               .animate()
                               .fadeIn(delay: 500.ms, duration: 400.ms)
                               .slideX(begin: -0.5, end: 0),
-                          const SizedBox(width: Spacing.lg),
+                          const SizedBox(width: spacingLg),
                         ],
 
                         // New stage (prominent)
@@ -244,7 +244,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                                   boxShadow: [
                                     BoxShadow(
                                       color: AppColors.gold.withValues(
-                                        alpha: Opacities.half,
+                                        alpha: opacityHalf,
                                       ),
                                       blurRadius: 60,
                                       spreadRadius: 20,
@@ -284,8 +284,8 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                   // Stage badge
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: Spacing.xxl,
-                      vertical: Spacing.md,
+                      horizontal: spacingXxl,
+                      vertical: spacingMd,
                     ),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
@@ -294,11 +294,11 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                           AppColors.celebrationOrange,
                         ],
                       ),
-                      borderRadius: Radii.borderXxl,
+                      borderRadius: borderRadiusXxl,
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.gold.withValues(
-                            alpha: Opacities.medium,
+                            alpha: opacityMedium,
                           ),
                           blurRadius: 16,
                           spreadRadius: 2,
@@ -313,7 +313,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                           color: Colors.white,
                           size: 24,
                         ),
-                        const SizedBox(width: Spacing.sm),
+                        const SizedBox(width: spacingSm),
                         Text(
                           stageName ?? l10n.stageFallback(currentStage),
                           style: theme.textTheme.titleMedium?.copyWith(
@@ -329,7 +329,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                         curve: Curves.elasticOut,
                       ),
 
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
 
                   // Subtitle
                   Text(
@@ -346,17 +346,17 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                   if (_showButton)
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: Spacing.huge,
+                        horizontal: spacingHuge,
                       ),
                       child: FilledButton(
                         onPressed: _handleDismiss,
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: Spacing.huge,
-                            vertical: Spacing.lg,
+                            horizontal: spacingHuge,
+                            vertical: spacingLg,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: Radii.borderLg,
+                            borderRadius: borderRadiusLg,
                           ),
                         ),
                         child: Text(l10n.evolutionContinue),
@@ -366,7 +366,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                           .slideY(begin: 0.3, end: 0),
                     ),
 
-                  const SizedBox(height: Spacing.huge),
+                  const SizedBox(height: spacingHuge),
                 ],
               ),
             ),
@@ -443,7 +443,7 @@ class _ConfettiPainter extends CustomPainter {
 
       final paint = Paint()
         ..color = colors[particle.colorIndex].withValues(
-          alpha: Opacities.heavy,
+          alpha: opacityHeavy,
         );
 
       canvas

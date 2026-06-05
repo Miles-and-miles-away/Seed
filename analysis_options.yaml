@@ -8,6 +8,7 @@ analyzer:
     - "**/*.g.dart"        # Generated files (freezed, json_serializable)
     - "**/*.freezed.dart"  # Freezed generated files
     - "lib/core/l10n/generated/**"  # Generated localizations
+    - "build/**"           # Build artifacts (incl. iOS SourcePackages)
   errors:
     # Treat these as errors (fail CI)
     missing_required_param: error

@@ -18,7 +18,7 @@ part of 'co2_chart_data_provider.dart';
 /// implicit zeros would pull the line down for users who skip days.
 
 @ProviderFor(co2TrendData)
-const co2TrendDataProvider = Co2TrendDataFamily._();
+final co2TrendDataProvider = Co2TrendDataFamily._();
 
 /// Daily-points + average for the trend scatter chart.
 ///
@@ -40,7 +40,7 @@ final class Co2TrendDataProvider extends $FunctionalProvider<
   /// window contributes one point; missing days are simply absent.
   /// The average is taken across days with data only -- folding in
   /// implicit zeros would pull the line down for users who skip days.
-  const Co2TrendDataProvider._(
+  Co2TrendDataProvider._(
       {required Co2TrendDataFamily super.from,
       required TimePeriod super.argument})
       : super(
@@ -100,7 +100,7 @@ String _$co2TrendDataHash() => r'39fd77610bba646a0290f2d52dbd86883eeca5ab';
 
 final class Co2TrendDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2TrendData>, TimePeriod> {
-  const Co2TrendDataFamily._()
+  Co2TrendDataFamily._()
       : super(
           retry: null,
           name: r'co2TrendDataProvider',
@@ -136,7 +136,7 @@ final class Co2TrendDataFamily extends $Family
 /// category) flow into Other rather than being dropped.
 
 @ProviderFor(co2CategoryData)
-const co2CategoryDataProvider = Co2CategoryDataFamily._();
+final co2CategoryDataProvider = Co2CategoryDataFamily._();
 
 /// Top-N category breakdown for the donut, aggregated across daily
 /// summaries in the same trend window as [co2TrendData].
@@ -156,7 +156,7 @@ final class Co2CategoryDataProvider extends $FunctionalProvider<
   /// "Other" slice so the donut stays legible. Unknown category keys
   /// (e.g. data written by a future build that introduced a new
   /// category) flow into Other rather than being dropped.
-  const Co2CategoryDataProvider._(
+  Co2CategoryDataProvider._(
       {required Co2CategoryDataFamily super.from,
       required TimePeriod super.argument})
       : super(
@@ -215,7 +215,7 @@ String _$co2CategoryDataHash() => r'2bd9438347913233dcab0d3b682a4da6701abd9a';
 
 final class Co2CategoryDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2CategoryData>, TimePeriod> {
-  const Co2CategoryDataFamily._()
+  Co2CategoryDataFamily._()
       : super(
           retry: null,
           name: r'co2CategoryDataProvider',

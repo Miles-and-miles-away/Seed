@@ -10,14 +10,14 @@ part of 'progress_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(dailySummaryRemoteDataSource)
-const dailySummaryRemoteDataSourceProvider =
+final dailySummaryRemoteDataSourceProvider =
     DailySummaryRemoteDataSourceProvider._();
 
 final class DailySummaryRemoteDataSourceProvider extends $FunctionalProvider<
     DailySummaryRemoteDataSource,
     DailySummaryRemoteDataSource,
     DailySummaryRemoteDataSource> with $Provider<DailySummaryRemoteDataSource> {
-  const DailySummaryRemoteDataSourceProvider._()
+  DailySummaryRemoteDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -55,13 +55,13 @@ String _$dailySummaryRemoteDataSourceHash() =>
     r'b9d29e359623237698fe0930c63f7e42d00d17bc';
 
 @ProviderFor(progressRepository)
-const progressRepositoryProvider = ProgressRepositoryProvider._();
+final progressRepositoryProvider = ProgressRepositoryProvider._();
 
 final class ProgressRepositoryProvider extends $FunctionalProvider<
     ProgressRepository,
     ProgressRepository,
     ProgressRepository> with $Provider<ProgressRepository> {
-  const ProgressRepositoryProvider._()
+  ProgressRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -103,7 +103,7 @@ String _$progressRepositoryHash() =>
 /// lifetime of the app -- factors are static scientific constants.
 
 @ProviderFor(impactEquivalenciesData)
-const impactEquivalenciesDataProvider = ImpactEquivalenciesDataProvider._();
+final impactEquivalenciesDataProvider = ImpactEquivalenciesDataProvider._();
 
 /// Loads and caches impact equivalency metadata (conversion factors
 /// and source URLs) from the bundled JSON asset. Cached for the
@@ -119,7 +119,7 @@ final class ImpactEquivalenciesDataProvider extends $FunctionalProvider<
   /// Loads and caches impact equivalency metadata (conversion factors
   /// and source URLs) from the bundled JSON asset. Cached for the
   /// lifetime of the app -- factors are static scientific constants.
-  const ImpactEquivalenciesDataProvider._()
+  ImpactEquivalenciesDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -151,7 +151,7 @@ String _$impactEquivalenciesDataHash() =>
 /// Stream of today's summary for the Rainbow Sun visualization.
 
 @ProviderFor(todaySummary)
-const todaySummaryProvider = TodaySummaryProvider._();
+final todaySummaryProvider = TodaySummaryProvider._();
 
 /// Stream of today's summary for the Rainbow Sun visualization.
 
@@ -163,7 +163,7 @@ final class TodaySummaryProvider extends $FunctionalProvider<
         $FutureModifier<DailySummaryModel?>,
         $StreamProvider<DailySummaryModel?> {
   /// Stream of today's summary for the Rainbow Sun visualization.
-  const TodaySummaryProvider._()
+  TodaySummaryProvider._()
       : super(
           from: null,
           argument: null,
@@ -194,14 +194,14 @@ String _$todaySummaryHash() => r'78b79acbe1d5d6d751bdaabd08b808790e6838bf';
 /// User's daily goal target from their profile.
 
 @ProviderFor(dailyGoalTarget)
-const dailyGoalTargetProvider = DailyGoalTargetProvider._();
+final dailyGoalTargetProvider = DailyGoalTargetProvider._();
 
 /// User's daily goal target from their profile.
 
 final class DailyGoalTargetProvider
     extends $FunctionalProvider<int?, int?, int?> with $Provider<int?> {
   /// User's daily goal target from their profile.
-  const DailyGoalTargetProvider._()
+  DailyGoalTargetProvider._()
       : super(
           from: null,
           argument: null,
@@ -239,14 +239,14 @@ String _$dailyGoalTargetHash() => r'423f4e73583f0dc1f47ff9ef65154efe0157c1db';
 /// Whether the user needs to set up their daily goal target.
 
 @ProviderFor(needsDailyTargetSetup)
-const needsDailyTargetSetupProvider = NeedsDailyTargetSetupProvider._();
+final needsDailyTargetSetupProvider = NeedsDailyTargetSetupProvider._();
 
 /// Whether the user needs to set up their daily goal target.
 
 final class NeedsDailyTargetSetupProvider
     extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   /// Whether the user needs to set up their daily goal target.
-  const NeedsDailyTargetSetupProvider._()
+  NeedsDailyTargetSetupProvider._()
       : super(
           from: null,
           argument: null,
@@ -285,13 +285,13 @@ String _$needsDailyTargetSetupHash() =>
 /// Currently selected month for the calendar view.
 
 @ProviderFor(SelectedMonth)
-const selectedMonthProvider = SelectedMonthProvider._();
+final selectedMonthProvider = SelectedMonthProvider._();
 
 /// Currently selected month for the calendar view.
 final class SelectedMonthProvider
     extends $NotifierProvider<SelectedMonth, DateTime> {
   /// Currently selected month for the calendar view.
-  const SelectedMonthProvider._()
+  SelectedMonthProvider._()
       : super(
           from: null,
           argument: null,
@@ -327,18 +327,17 @@ abstract class _$SelectedMonth extends $Notifier<DateTime> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<DateTime, DateTime>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<DateTime, DateTime>, DateTime, Object?, Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// Calendar data for the selected month.
 
 @ProviderFor(monthCalendarData)
-const monthCalendarDataProvider = MonthCalendarDataProvider._();
+final monthCalendarDataProvider = MonthCalendarDataProvider._();
 
 /// Calendar data for the selected month.
 
@@ -350,7 +349,7 @@ final class MonthCalendarDataProvider extends $FunctionalProvider<
         $FutureModifier<List<CalendarDayData>>,
         $FutureProvider<List<CalendarDayData>> {
   /// Calendar data for the selected month.
-  const MonthCalendarDataProvider._()
+  MonthCalendarDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -381,13 +380,13 @@ String _$monthCalendarDataHash() => r'79aea9a6cf1278cda037f8ee2b44c80883cffbe5';
 /// Notifier to save the daily goal target.
 
 @ProviderFor(DailyTargetNotifier)
-const dailyTargetProvider = DailyTargetNotifierProvider._();
+final dailyTargetProvider = DailyTargetNotifierProvider._();
 
 /// Notifier to save the daily goal target.
 final class DailyTargetNotifierProvider
     extends $NotifierProvider<DailyTargetNotifier, AsyncValue<void>> {
   /// Notifier to save the daily goal target.
-  const DailyTargetNotifierProvider._()
+  DailyTargetNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -424,13 +423,12 @@ abstract class _$DailyTargetNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

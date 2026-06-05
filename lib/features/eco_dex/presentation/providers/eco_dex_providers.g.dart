@@ -11,7 +11,7 @@ part of 'eco_dex_providers.dart';
 /// Loads and caches all Eco-Dex data from the JSON asset.
 
 @ProviderFor(ecoDexData)
-const ecoDexDataProvider = EcoDexDataProvider._();
+final ecoDexDataProvider = EcoDexDataProvider._();
 
 /// Loads and caches all Eco-Dex data from the JSON asset.
 
@@ -19,7 +19,7 @@ final class EcoDexDataProvider extends $FunctionalProvider<
         AsyncValue<EcoDexData>, EcoDexData, FutureOr<EcoDexData>>
     with $FutureModifier<EcoDexData>, $FutureProvider<EcoDexData> {
   /// Loads and caches all Eco-Dex data from the JSON asset.
-  const EcoDexDataProvider._()
+  EcoDexDataProvider._()
       : super(
           from: null,
           argument: null,
@@ -50,7 +50,7 @@ String _$ecoDexDataHash() => r'a1ee8494b609712631df9d2873785985649518e5';
 /// Missing entries fall back to a blank white placeholder.
 
 @ProviderFor(ecoDexAvailableIcons)
-const ecoDexAvailableIconsProvider = EcoDexAvailableIconsProvider._();
+final ecoDexAvailableIconsProvider = EcoDexAvailableIconsProvider._();
 
 /// Set of entry icon names whose SVG ships in the asset bundle.
 /// Missing entries fall back to a blank white placeholder.
@@ -60,7 +60,7 @@ final class EcoDexAvailableIconsProvider extends $FunctionalProvider<
     with $FutureModifier<Set<String>>, $FutureProvider<Set<String>> {
   /// Set of entry icon names whose SVG ships in the asset bundle.
   /// Missing entries fall back to a blank white placeholder.
-  const EcoDexAvailableIconsProvider._()
+  EcoDexAvailableIconsProvider._()
       : super(
           from: null,
           argument: null,
@@ -92,7 +92,7 @@ String _$ecoDexAvailableIconsHash() =>
 /// User's set of discovered Eco-Dex entry IDs.
 
 @ProviderFor(ecoDexDiscovered)
-const ecoDexDiscoveredProvider = EcoDexDiscoveredProvider._();
+final ecoDexDiscoveredProvider = EcoDexDiscoveredProvider._();
 
 /// User's set of discovered Eco-Dex entry IDs.
 
@@ -100,7 +100,7 @@ final class EcoDexDiscoveredProvider
     extends $FunctionalProvider<List<String>, List<String>, List<String>>
     with $Provider<List<String>> {
   /// User's set of discovered Eco-Dex entry IDs.
-  const EcoDexDiscoveredProvider._()
+  EcoDexDiscoveredProvider._()
       : super(
           from: null,
           argument: null,
@@ -138,14 +138,14 @@ String _$ecoDexDiscoveredHash() => r'a48613669be2aab8d257538840b81af8b1b38a74';
 /// Total discovered count for progress display.
 
 @ProviderFor(ecoDexDiscoveredCount)
-const ecoDexDiscoveredCountProvider = EcoDexDiscoveredCountProvider._();
+final ecoDexDiscoveredCountProvider = EcoDexDiscoveredCountProvider._();
 
 /// Total discovered count for progress display.
 
 final class EcoDexDiscoveredCountProvider
     extends $FunctionalProvider<int, int, int> with $Provider<int> {
   /// Total discovered count for progress display.
-  const EcoDexDiscoveredCountProvider._()
+  EcoDexDiscoveredCountProvider._()
       : super(
           from: null,
           argument: null,
@@ -184,7 +184,7 @@ String _$ecoDexDiscoveredCountHash() =>
 /// All entries with their discovered state.
 
 @ProviderFor(ecoDexEntries)
-const ecoDexEntriesProvider = EcoDexEntriesProvider._();
+final ecoDexEntriesProvider = EcoDexEntriesProvider._();
 
 /// All entries with their discovered state.
 
@@ -196,7 +196,7 @@ final class EcoDexEntriesProvider extends $FunctionalProvider<
         $FutureModifier<List<EcoDexEntryState>>,
         $FutureProvider<List<EcoDexEntryState>> {
   /// All entries with their discovered state.
-  const EcoDexEntriesProvider._()
+  EcoDexEntriesProvider._()
       : super(
           from: null,
           argument: null,
@@ -227,7 +227,7 @@ String _$ecoDexEntriesHash() => r'092b47c9b4ae6a353a043530dac1df0187464997';
 /// Entries filtered by category.
 
 @ProviderFor(ecoDexEntriesByCategory)
-const ecoDexEntriesByCategoryProvider = EcoDexEntriesByCategoryFamily._();
+final ecoDexEntriesByCategoryProvider = EcoDexEntriesByCategoryFamily._();
 
 /// Entries filtered by category.
 
@@ -239,7 +239,7 @@ final class EcoDexEntriesByCategoryProvider extends $FunctionalProvider<
         $FutureModifier<List<EcoDexEntryState>>,
         $FutureProvider<List<EcoDexEntryState>> {
   /// Entries filtered by category.
-  const EcoDexEntriesByCategoryProvider._(
+  EcoDexEntriesByCategoryProvider._(
       {required EcoDexEntriesByCategoryFamily super.from,
       required String super.argument})
       : super(
@@ -294,7 +294,7 @@ String _$ecoDexEntriesByCategoryHash() =>
 
 final class EcoDexEntriesByCategoryFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<EcoDexEntryState>>, String> {
-  const EcoDexEntriesByCategoryFamily._()
+  EcoDexEntriesByCategoryFamily._()
       : super(
           retry: null,
           name: r'ecoDexEntriesByCategoryProvider',
@@ -317,7 +317,7 @@ final class EcoDexEntriesByCategoryFamily extends $Family
 /// Per-category progress (discovered / total).
 
 @ProviderFor(ecoDexCategoryProgress)
-const ecoDexCategoryProgressProvider = EcoDexCategoryProgressProvider._();
+final ecoDexCategoryProgressProvider = EcoDexCategoryProgressProvider._();
 
 /// Per-category progress (discovered / total).
 
@@ -358,7 +358,7 @@ final class EcoDexCategoryProgressProvider extends $FunctionalProvider<
                   int,
                 )>> {
   /// Per-category progress (discovered / total).
-  const EcoDexCategoryProgressProvider._()
+  EcoDexCategoryProgressProvider._()
       : super(
           from: null,
           argument: null,
@@ -402,7 +402,7 @@ String _$ecoDexCategoryProgressHash() =>
 /// Returns IDs of newly unlockable entries.
 
 @ProviderFor(ecoDexNewUnlocks)
-const ecoDexNewUnlocksProvider = EcoDexNewUnlocksProvider._();
+final ecoDexNewUnlocksProvider = EcoDexNewUnlocksProvider._();
 
 /// Evaluates which entries a user can unlock but hasn't yet.
 /// Returns IDs of newly unlockable entries.
@@ -412,7 +412,7 @@ final class EcoDexNewUnlocksProvider extends $FunctionalProvider<
     with $FutureModifier<List<String>>, $FutureProvider<List<String>> {
   /// Evaluates which entries a user can unlock but hasn't yet.
   /// Returns IDs of newly unlockable entries.
-  const EcoDexNewUnlocksProvider._()
+  EcoDexNewUnlocksProvider._()
       : super(
           from: null,
           argument: null,
@@ -443,13 +443,13 @@ String _$ecoDexNewUnlocksHash() => r'2f1d4624b3e6020a2df7f680e62218152d381661';
 /// Notifier for discovering new Eco-Dex entries.
 
 @ProviderFor(EcoDexDiscoveryNotifier)
-const ecoDexDiscoveryProvider = EcoDexDiscoveryNotifierProvider._();
+final ecoDexDiscoveryProvider = EcoDexDiscoveryNotifierProvider._();
 
 /// Notifier for discovering new Eco-Dex entries.
 final class EcoDexDiscoveryNotifierProvider
     extends $NotifierProvider<EcoDexDiscoveryNotifier, AsyncValue<void>> {
   /// Notifier for discovering new Eco-Dex entries.
-  const EcoDexDiscoveryNotifierProvider._()
+  EcoDexDiscoveryNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -486,13 +486,12 @@ abstract class _$EcoDexDiscoveryNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

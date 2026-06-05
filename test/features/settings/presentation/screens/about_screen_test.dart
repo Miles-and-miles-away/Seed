@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/settings/presentation/screens/about_screen.dart';
 
 void main() {
@@ -58,7 +57,8 @@ void main() {
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
-    testWidgets('renders Support section with Contact Us', (tester) async {
+    testWidgets('renders Support section with Send Feedback tile',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -71,7 +71,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('SUPPORT'), findsOneWidget);
-      expect(find.text('Contact Us'), findsOneWidget);
+      expect(find.text('Send Feedback'), findsOneWidget);
     });
 
     testWidgets('renders footer with SDG acknowledgment', (tester) async {
@@ -112,21 +112,19 @@ void main() {
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);
     });
 
-    testWidgets('renders external link marker for Contact', (tester) async {
+    testWidgets('renders feedback tile subtitle', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // Contact tile uses the externalLinkChar (↗) in its subtitle
-      // to signal that tapping leaves the app.
-      final marker = find.textContaining(externalLinkChar);
+      final subtitle = find.text('Report a bug or share your thoughts');
       await tester.scrollUntilVisible(
-        marker,
+        subtitle,
         100,
         scrollable: find.byType(Scrollable).first,
       );
       await tester.pumpAndSettle();
 
-      expect(marker, findsAtLeastNWidgets(1));
+      expect(subtitle, findsOneWidget);
     });
 
     testWidgets('has correct app bar title', (tester) async {
@@ -137,11 +135,11 @@ void main() {
       expect(find.text('About'), findsOneWidget);
     });
 
-    testWidgets('renders Contact section when scrolled', (tester) async {
+    testWidgets('renders feedback tile mail icon when scrolled',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // Scroll to the Contact section
       await tester.scrollUntilVisible(
         find.byIcon(Icons.mail_outline),
         100,

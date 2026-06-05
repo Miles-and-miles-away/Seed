@@ -51,7 +51,7 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
         return Scaffold(
           appBar: AppBar(title: Text(title)),
           body: SingleChildScrollView(
-            padding: const EdgeInsets.all(Spacing.lg),
+            padding: const EdgeInsets.all(spacingLg),
             child: EcoFactCard(fact: fact, isLocked: isLocked),
           ),
         );

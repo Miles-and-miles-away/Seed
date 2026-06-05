@@ -31,7 +31,7 @@ class AnalyticsService {
     try {
       await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
     } on Object catch (e) {
-      AppLogger.warning('Analytics toggle failed: $e');
+      appLogger.warning('Analytics toggle failed: $e');
     }
   }
 
@@ -43,7 +43,7 @@ class AnalyticsService {
       return _analytics ??= FirebaseAnalytics.instance;
     } on Object catch (e) {
       // Firebase not initialized (e.g., in tests)
-      AppLogger.warning('Analytics: Firebase not available - $e');
+      appLogger.warning('Analytics: Firebase not available - $e');
       return null;
     }
   }
@@ -61,7 +61,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.setUserId(id: userId);
-    AppLogger.debug('Analytics: Set user ID: $userId');
+    appLogger.debug('Analytics: Set user ID: $userId');
   }
 
   /// Set user properties for segmentation.
@@ -98,7 +98,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logSignUp(signUpMethod: method);
-    AppLogger.debug('Analytics: sign_up - method: $method');
+    appLogger.debug('Analytics: sign_up - method: $method');
   }
 
   /// Log when a user logs in.
@@ -106,7 +106,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logLogin(loginMethod: method);
-    AppLogger.debug('Analytics: login - method: $method');
+    appLogger.debug('Analytics: login - method: $method');
   }
 
   /// Log when a user logs out.
@@ -114,7 +114,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'logout');
-    AppLogger.debug('Analytics: logout');
+    appLogger.debug('Analytics: logout');
   }
 
   // ============================================================
@@ -142,7 +142,7 @@ class AnalyticsService {
         'sdgs': sdgs.take(5).join(','), // Limit to avoid param size issues
       },
     );
-    AppLogger.debug(
+    appLogger.debug(
       'Analytics: action_logged - $actionId, $points pts, $co2Grams g',
     );
   }
@@ -183,7 +183,7 @@ class AnalyticsService {
         'user_level': userLevel,
       },
     );
-    AppLogger.debug('Analytics: mascot_evolved - $species stage $newStage');
+    appLogger.debug('Analytics: mascot_evolved - $species stage $newStage');
   }
 
   /// Log when a user selects their initial mascot.
@@ -200,7 +200,7 @@ class AnalyticsService {
         'mascot_name': mascotName,
       },
     );
-    AppLogger.debug('Analytics: mascot_selected - $species named $mascotName');
+    appLogger.debug('Analytics: mascot_selected - $species named $mascotName');
   }
 
   /// Log when a user unlocks a new mascot species.
@@ -217,7 +217,7 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    AppLogger.debug(
+    appLogger.debug(
       'Analytics: mascot_unlocked - $species for $pointsSpent pts',
     );
   }
@@ -249,7 +249,7 @@ class AnalyticsService {
         'weeks': days ~/ 7,
       },
     );
-    AppLogger.debug('Analytics: streak_milestone - $days days');
+    appLogger.debug('Analytics: streak_milestone - $days days');
   }
 
   /// Log when a user's streak is broken.
@@ -264,7 +264,7 @@ class AnalyticsService {
         'previous_streak': previousStreak,
       },
     );
-    AppLogger.debug('Analytics: streak_broken - was $previousStreak days');
+    appLogger.debug('Analytics: streak_broken - was $previousStreak days');
   }
 
   // ============================================================
@@ -281,7 +281,7 @@ class AnalyticsService {
         'sdg_number': sdgNumber,
       },
     );
-    AppLogger.debug('Analytics: sdg_viewed - SDG $sdgNumber');
+    appLogger.debug('Analytics: sdg_viewed - SDG $sdgNumber');
   }
 
   // ============================================================
@@ -322,7 +322,7 @@ class AnalyticsService {
         'points_spent': pointsSpent,
       },
     );
-    AppLogger.debug(
+    appLogger.debug(
       'Analytics: shop_item_purchased - $itemId for $pointsSpent pts',
     );
   }
@@ -336,7 +336,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'notification_enabled');
-    AppLogger.debug('Analytics: notification_enabled');
+    appLogger.debug('Analytics: notification_enabled');
   }
 
   /// Log when a user disables notifications.
@@ -344,7 +344,7 @@ class AnalyticsService {
     final analytics = _safeAnalytics;
     if (analytics == null) return;
     await analytics.logEvent(name: 'notification_disabled');
-    AppLogger.debug('Analytics: notification_disabled');
+    appLogger.debug('Analytics: notification_disabled');
   }
 
   /// Log when a user changes their language setting.
@@ -355,7 +355,7 @@ class AnalyticsService {
       name: 'language_changed',
       parameters: {'language': language},
     );
-    AppLogger.debug('Analytics: language_changed - $language');
+    appLogger.debug('Analytics: language_changed - $language');
   }
 
   // ============================================================
@@ -394,7 +394,7 @@ class AnalyticsService {
         'total_points': totalPoints,
       },
     );
-    AppLogger.debug('Analytics: level_up - level $newLevel');
+    appLogger.debug('Analytics: level_up - level $newLevel');
   }
 
   // ============================================================
@@ -421,6 +421,6 @@ class AnalyticsService {
         if (screen != null) 'screen': screen,
       },
     );
-    AppLogger.debug('Analytics: app_error - $errorType');
+    appLogger.debug('Analytics: app_error - $errorType');
   }
 }

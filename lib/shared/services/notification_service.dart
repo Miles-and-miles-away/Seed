@@ -64,7 +64,7 @@ class NotificationService {
     );
 
     await _plugin.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: _handleNotificationResponse,
     );
 
@@ -74,7 +74,7 @@ class NotificationService {
     }
 
     _initialized = true;
-    AppLogger.debug('NotificationService initialized');
+    appLogger.debug('NotificationService initialized');
   }
 
   Future<void> _createAndroidChannel() async {
@@ -92,7 +92,7 @@ class NotificationService {
   }
 
   void _handleNotificationResponse(NotificationResponse response) {
-    AppLogger.debug('Notification tapped: ${response.payload}');
+    appLogger.debug('Notification tapped: ${response.payload}');
     onNotificationTap?.call(response.payload);
   }
 
@@ -162,23 +162,23 @@ class NotificationService {
     String? payload,
   }) async {
     if (!_initialized) {
-      AppLogger.warning('NotificationService not initialized');
+      appLogger.warning('NotificationService not initialized');
       return;
     }
 
     final scheduledTime = _nextInstanceOfTime(hour, minute);
 
-    AppLogger.debug(
+    appLogger.debug(
       'Scheduling notification $id at $hour:$minute '
       '(next: ${scheduledTime.toLocal()})',
     );
 
     await _plugin.zonedSchedule(
-      id,
-      title,
-      body,
-      scheduledTime,
-      _notificationDetails,
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: scheduledTime,
+      notificationDetails: _notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
       payload: payload,
@@ -187,14 +187,14 @@ class NotificationService {
 
   /// Cancel a specific notification.
   Future<void> cancelNotification(int id) async {
-    await _plugin.cancel(id);
-    AppLogger.debug('Cancelled notification $id');
+    await _plugin.cancel(id: id);
+    appLogger.debug('Cancelled notification $id');
   }
 
   /// Cancel all scheduled notifications.
   Future<void> cancelAllNotifications() async {
     await _plugin.cancelAll();
-    AppLogger.debug('Cancelled all notifications');
+    appLogger.debug('Cancelled all notifications');
   }
 
   /// Get all pending notifications.
@@ -210,10 +210,10 @@ class NotificationService {
     String? payload,
   }) async {
     await _plugin.show(
-      id,
-      title,
-      body,
-      _notificationDetails,
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: _notificationDetails,
       payload: payload,
     );
   }

@@ -10,12 +10,12 @@ part of 'auth_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(firebaseAuth)
-const firebaseAuthProvider = FirebaseAuthProvider._();
+final firebaseAuthProvider = FirebaseAuthProvider._();
 
 final class FirebaseAuthProvider
     extends $FunctionalProvider<FirebaseAuth, FirebaseAuth, FirebaseAuth>
     with $Provider<FirebaseAuth> {
-  const FirebaseAuthProvider._()
+  FirebaseAuthProvider._()
       : super(
           from: null,
           argument: null,
@@ -51,11 +51,11 @@ final class FirebaseAuthProvider
 String _$firebaseAuthHash() => r'8f84097cccd00af817397c1715c5f537399ba780';
 
 @ProviderFor(firestore)
-const firestoreProvider = FirestoreProvider._();
+final firestoreProvider = FirestoreProvider._();
 
 final class FirestoreProvider extends $FunctionalProvider<FirebaseFirestore,
     FirebaseFirestore, FirebaseFirestore> with $Provider<FirebaseFirestore> {
-  const FirestoreProvider._()
+  FirestoreProvider._()
       : super(
           from: null,
           argument: null,
@@ -92,13 +92,13 @@ final class FirestoreProvider extends $FunctionalProvider<FirebaseFirestore,
 String _$firestoreHash() => r'597b1a9eb96f2fae51f5b578f4b5debe4f6d30c6';
 
 @ProviderFor(authRemoteDataSource)
-const authRemoteDataSourceProvider = AuthRemoteDataSourceProvider._();
+final authRemoteDataSourceProvider = AuthRemoteDataSourceProvider._();
 
 final class AuthRemoteDataSourceProvider extends $FunctionalProvider<
     AuthRemoteDataSource,
     AuthRemoteDataSource,
     AuthRemoteDataSource> with $Provider<AuthRemoteDataSource> {
-  const AuthRemoteDataSourceProvider._()
+  AuthRemoteDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -136,13 +136,13 @@ String _$authRemoteDataSourceHash() =>
     r'4d59ad9b1123b561fd8fe2faa27d77274f63a125';
 
 @ProviderFor(userRemoteDataSource)
-const userRemoteDataSourceProvider = UserRemoteDataSourceProvider._();
+final userRemoteDataSourceProvider = UserRemoteDataSourceProvider._();
 
 final class UserRemoteDataSourceProvider extends $FunctionalProvider<
     UserRemoteDataSource,
     UserRemoteDataSource,
     UserRemoteDataSource> with $Provider<UserRemoteDataSource> {
-  const UserRemoteDataSourceProvider._()
+  UserRemoteDataSourceProvider._()
       : super(
           from: null,
           argument: null,
@@ -180,12 +180,12 @@ String _$userRemoteDataSourceHash() =>
     r'8d81867fad5991185bd658cb81113e96d02f3fd4';
 
 @ProviderFor(authRepository)
-const authRepositoryProvider = AuthRepositoryProvider._();
+final authRepositoryProvider = AuthRepositoryProvider._();
 
 final class AuthRepositoryProvider
     extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
     with $Provider<AuthRepository> {
-  const AuthRepositoryProvider._()
+  AuthRepositoryProvider._()
       : super(
           from: null,
           argument: null,
@@ -223,7 +223,7 @@ String _$authRepositoryHash() => r'15c1a6894e71457e3d95590ac0cf4c1f825b9c6f';
 /// Stream of Firebase auth state changes.
 
 @ProviderFor(authStateChanges)
-const authStateChangesProvider = AuthStateChangesProvider._();
+final authStateChangesProvider = AuthStateChangesProvider._();
 
 /// Stream of Firebase auth state changes.
 
@@ -231,7 +231,7 @@ final class AuthStateChangesProvider
     extends $FunctionalProvider<AsyncValue<User?>, User?, Stream<User?>>
     with $FutureModifier<User?>, $StreamProvider<User?> {
   /// Stream of Firebase auth state changes.
-  const AuthStateChangesProvider._()
+  AuthStateChangesProvider._()
       : super(
           from: null,
           argument: null,
@@ -262,7 +262,7 @@ String _$authStateChangesHash() => r'f95512f3016c4609549bf37ef775d5ac547a7179';
 /// Updates in real-time when user data changes.
 
 @ProviderFor(currentUser)
-const currentUserProvider = CurrentUserProvider._();
+final currentUserProvider = CurrentUserProvider._();
 
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
@@ -272,7 +272,7 @@ final class CurrentUserProvider extends $FunctionalProvider<
     with $FutureModifier<AppUserModel?>, $StreamProvider<AppUserModel?> {
   /// Stream of the current app user from Firestore.
   /// Updates in real-time when user data changes.
-  const CurrentUserProvider._()
+  CurrentUserProvider._()
       : super(
           from: null,
           argument: null,
@@ -304,7 +304,7 @@ String _$currentUserHash() => r'f3986f3fe006ef98b1558b25cc245b4401df5188';
 /// Uses AsyncValue to track loading and error states.
 
 @ProviderFor(AuthNotifier)
-const authProvider = AuthNotifierProvider._();
+final authProvider = AuthNotifierProvider._();
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
@@ -312,7 +312,7 @@ final class AuthNotifierProvider
     extends $NotifierProvider<AuthNotifier, AsyncValue<void>> {
   /// Notifier that handles authentication actions.
   /// Uses AsyncValue to track loading and error states.
-  const AuthNotifierProvider._()
+  AuthNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -349,13 +349,12 @@ abstract class _$AuthNotifier extends $Notifier<AsyncValue<void>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
         AsyncValue<void>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

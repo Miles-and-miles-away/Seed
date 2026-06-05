@@ -32,10 +32,10 @@ class AchievementBadge extends StatelessWidget {
         : colorScheme.surfaceContainerHighest;
     final iconFg = isUnlocked
         ? colorScheme.onPrimaryContainer
-        : colorScheme.onSurfaceVariant.withValues(alpha: Opacities.muted);
+        : colorScheme.onSurfaceVariant.withValues(alpha: opacityMuted);
     final labelColor = isUnlocked
         ? colorScheme.onSurface
-        : colorScheme.onSurfaceVariant.withValues(alpha: Opacities.moderate);
+        : colorScheme.onSurfaceVariant.withValues(alpha: opacityModerate);
 
     final content = Column(
       mainAxisSize: MainAxisSize.min,
@@ -53,9 +53,9 @@ class AchievementBadge extends StatelessWidget {
             color: iconFg,
           ),
         ),
-        const SizedBox(height: Spacing.sm),
+        const SizedBox(height: spacingSm),
         SizedBox(
-          width: size + Spacing.md,
+          width: size + spacingMd,
           child: Text(
             definition.name(locale),
             textAlign: TextAlign.center,
@@ -70,9 +70,9 @@ class AchievementBadge extends StatelessWidget {
     if (onTap == null) return content;
     return InkWell(
       onTap: onTap,
-      borderRadius: Radii.borderMd,
+      borderRadius: borderRadiusMd,
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.xs),
+        padding: const EdgeInsets.all(spacingXs),
         child: content,
       ),
     );

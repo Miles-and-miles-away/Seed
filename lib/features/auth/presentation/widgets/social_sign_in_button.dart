@@ -42,7 +42,7 @@ class SocialSignInButton extends StatelessWidget {
     };
 
     return SizedBox(
-      height: Spacing.huge,
+      height: spacingHuge,
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
@@ -52,7 +52,7 @@ class SocialSignInButton extends StatelessWidget {
             color: isDark ? Colors.transparent : theme.colorScheme.outline,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: Radii.borderMd,
+            borderRadius: borderRadiusMd,
           ),
         ),
         child: isLoading
@@ -67,8 +67,8 @@ class SocialSignInButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, size: Spacing.xxl),
-                  const SizedBox(width: Spacing.sm),
+                  Icon(icon, size: spacingXxl),
+                  const SizedBox(width: spacingSm),
                   Text(
                     label,
                     style: const TextStyle(

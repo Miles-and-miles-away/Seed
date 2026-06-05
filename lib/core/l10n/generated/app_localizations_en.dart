@@ -442,7 +442,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutSettingsLicenses => 'Open Source Licenses';
 
   @override
-  String get aboutSettingsContact => 'Contact Us';
+  String get aboutSettingsFeedback => 'Send Feedback';
+
+  @override
+  String get aboutSettingsFeedbackSubtitle =>
+      'Report a bug or share your thoughts';
 
   @override
   String get aboutSettingsPrivacy => 'Privacy Policy';
@@ -762,7 +766,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutSubtitleTracker => 'Sustainability Habit Tracker';
 
   @override
-  String get aboutEmailSubject => 'Seed App Feedback';
+  String get feedbackTitle => 'Send Feedback';
+
+  @override
+  String get feedbackCategoryLabel => 'Category';
+
+  @override
+  String get feedbackCategoryBug => 'Bug Report';
+
+  @override
+  String get feedbackCategoryFeature => 'Feature Request';
+
+  @override
+  String get feedbackCategoryGeneral => 'General Feedback';
+
+  @override
+  String get feedbackDescriptionLabel => 'Describe your feedback';
+
+  @override
+  String get feedbackDescriptionHint => 'Tell us what\'s on your mind...';
+
+  @override
+  String get feedbackMetadataNote =>
+      'The following info is included to help us investigate:';
+
+  @override
+  String get feedbackSubmit => 'Submit Feedback';
+
+  @override
+  String get feedbackThanks => 'Thanks for your feedback!';
+
+  @override
+  String get feedbackMailFailed =>
+      'Couldn\'t open your mail app. Please try again.';
 
   @override
   String get mascotEvolutionTimeline => 'Evolution Timeline';

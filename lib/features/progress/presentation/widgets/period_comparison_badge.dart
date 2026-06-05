@@ -38,7 +38,7 @@ class PeriodComparisonBadge extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, size: 16, color: color),
-        const SizedBox(width: Spacing.xs),
+        const SizedBox(width: spacingXs),
         Text(
           '$percent% $reference',
           style: theme.textTheme.bodyMedium?.copyWith(color: color),

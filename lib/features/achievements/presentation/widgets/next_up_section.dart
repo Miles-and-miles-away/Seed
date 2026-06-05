@@ -43,7 +43,7 @@ class NextUpSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < top.length; i++) ...[
-          if (i > 0) const SizedBox(height: Spacing.md),
+          if (i > 0) const SizedBox(height: spacingMd),
           AchievementCard(
             definition: top[i].def,
             progress: top[i].progress,

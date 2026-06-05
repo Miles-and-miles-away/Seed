@@ -35,16 +35,16 @@ class AchievementCard extends StatelessWidget {
         : colorScheme.surfaceContainerHighest;
     final iconFg = isUnlocked
         ? colorScheme.onPrimaryContainer
-        : colorScheme.onSurfaceVariant.withValues(alpha: Opacities.muted);
+        : colorScheme.onSurfaceVariant.withValues(alpha: opacityMuted);
 
     return Material(
       color: colorScheme.surfaceContainerLow,
-      borderRadius: Radii.borderLg,
+      borderRadius: borderRadiusLg,
       child: InkWell(
         onTap: onTap,
-        borderRadius: Radii.borderLg,
+        borderRadius: borderRadiusLg,
         child: Padding(
-          padding: const EdgeInsets.all(Spacing.lg),
+          padding: const EdgeInsets.all(spacingLg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,7 +61,7 @@ class AchievementCard extends StatelessWidget {
                   color: iconFg,
                 ),
               ),
-              const SizedBox(width: Spacing.lg),
+              const SizedBox(width: spacingLg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +72,7 @@ class AchievementCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: Spacing.xxs),
+                    const SizedBox(height: spacingXxs),
                     Text(
                       definition.description(locale),
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -80,7 +80,7 @@ class AchievementCard extends StatelessWidget {
                       ),
                     ),
                     if (progress.hasProgress) ...[
-                      const SizedBox(height: Spacing.md),
+                      const SizedBox(height: spacingMd),
                       AchievementProgressBar(progress: progress),
                     ],
                   ],

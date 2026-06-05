@@ -435,7 +435,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutSettingsLicenses => 'オープンソースライセンス';
 
   @override
-  String get aboutSettingsContact => 'お問い合わせ';
+  String get aboutSettingsFeedback => 'フィードバックを送る';
+
+  @override
+  String get aboutSettingsFeedbackSubtitle => 'バグ報告や感想をお寄せください';
 
   @override
   String get aboutSettingsPrivacy => 'プライバシーポリシー';
@@ -749,7 +752,37 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutSubtitleTracker => 'サステナビリティ習慣トラッカー';
 
   @override
-  String get aboutEmailSubject => 'Seedアプリのフィードバック';
+  String get feedbackTitle => 'フィードバックを送る';
+
+  @override
+  String get feedbackCategoryLabel => 'カテゴリー';
+
+  @override
+  String get feedbackCategoryBug => 'バグ報告';
+
+  @override
+  String get feedbackCategoryFeature => '機能のリクエスト';
+
+  @override
+  String get feedbackCategoryGeneral => '一般的なフィードバック';
+
+  @override
+  String get feedbackDescriptionLabel => 'フィードバックの内容';
+
+  @override
+  String get feedbackDescriptionHint => 'ご意見をお聞かせください...';
+
+  @override
+  String get feedbackMetadataNote => '調査のため、以下の情報を一緒に送信します:';
+
+  @override
+  String get feedbackSubmit => '送信する';
+
+  @override
+  String get feedbackThanks => 'フィードバックありがとうございます！';
+
+  @override
+  String get feedbackMailFailed => 'メールアプリを開けませんでした。もう一度お試しください。';
 
   @override
   String get mascotEvolutionTimeline => '進化タイムライン';

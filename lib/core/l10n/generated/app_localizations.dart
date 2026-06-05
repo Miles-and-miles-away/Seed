@@ -892,11 +892,17 @@ abstract class AppLocalizations {
   /// **'Open Source Licenses'**
   String get aboutSettingsLicenses;
 
-  /// No description provided for @aboutSettingsContact.
+  /// No description provided for @aboutSettingsFeedback.
   ///
   /// In en, this message translates to:
-  /// **'Contact Us'**
-  String get aboutSettingsContact;
+  /// **'Send Feedback'**
+  String get aboutSettingsFeedback;
+
+  /// No description provided for @aboutSettingsFeedbackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug or share your thoughts'**
+  String get aboutSettingsFeedbackSubtitle;
 
   /// No description provided for @aboutSettingsPrivacy.
   ///
@@ -1462,11 +1468,71 @@ abstract class AppLocalizations {
   /// **'Sustainability Habit Tracker'**
   String get aboutSubtitleTracker;
 
-  /// No description provided for @aboutEmailSubject.
+  /// No description provided for @feedbackTitle.
   ///
   /// In en, this message translates to:
-  /// **'Seed App Feedback'**
-  String get aboutEmailSubject;
+  /// **'Send Feedback'**
+  String get feedbackTitle;
+
+  /// No description provided for @feedbackCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get feedbackCategoryLabel;
+
+  /// No description provided for @feedbackCategoryBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Bug Report'**
+  String get feedbackCategoryBug;
+
+  /// No description provided for @feedbackCategoryFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature Request'**
+  String get feedbackCategoryFeature;
+
+  /// No description provided for @feedbackCategoryGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Feedback'**
+  String get feedbackCategoryGeneral;
+
+  /// No description provided for @feedbackDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your feedback'**
+  String get feedbackDescriptionLabel;
+
+  /// No description provided for @feedbackDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what\'s on your mind...'**
+  String get feedbackDescriptionHint;
+
+  /// No description provided for @feedbackMetadataNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The following info is included to help us investigate:'**
+  String get feedbackMetadataNote;
+
+  /// No description provided for @feedbackSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Feedback'**
+  String get feedbackSubmit;
+
+  /// No description provided for @feedbackThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your feedback!'**
+  String get feedbackThanks;
+
+  /// No description provided for @feedbackMailFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open your mail app. Please try again.'**
+  String get feedbackMailFailed;
 
   /// No description provided for @mascotEvolutionTimeline.
   ///

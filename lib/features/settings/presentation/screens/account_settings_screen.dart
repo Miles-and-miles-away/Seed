@@ -100,7 +100,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
 
                   // Warning text
                   Padding(
-                    padding: const EdgeInsets.all(Spacing.lg),
+                    padding: const EdgeInsets.all(spacingLg),
                     child: Text(
                       l10n.accountSettingsDeleteAccountWarning,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -143,7 +143,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     invalidError: l10n.authEmail,
                   ),
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(
@@ -157,7 +157,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 TextFormField(
                   controller: newEmailController,
                   decoration: InputDecoration(
@@ -270,7 +270,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       invalidError: l10n.authEmail,
                     ),
                   ),
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   TextFormField(
                     controller: currentPasswordController,
                     decoration: InputDecoration(
@@ -284,7 +284,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   TextFormField(
                     controller: newPasswordController,
                     decoration: InputDecoration(
@@ -301,7 +301,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: Spacing.lg),
+                  const SizedBox(height: spacingLg),
                   TextFormField(
                     controller: confirmPasswordController,
                     decoration: InputDecoration(
@@ -412,12 +412,12 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
             children: [
               Text(l10n.accountSettingsDeleteConfirmMessage),
               if (isEmailPasswordUser) ...[
-                const SizedBox(height: Spacing.lg),
+                const SizedBox(height: spacingLg),
                 Text(
                   l10n.accountSettingsReauthRequired,
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(height: Spacing.sm),
+                const SizedBox(height: spacingSm),
                 Form(
                   key: formKey,
                   child: Column(
@@ -435,7 +435,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                           invalidError: l10n.authEmail,
                         ),
                       ),
-                      const SizedBox(height: Spacing.sm),
+                      const SizedBox(height: spacingSm),
                       TextFormField(
                         controller: passwordController,
                         decoration: InputDecoration(
@@ -510,7 +510,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
 
       // Navigate to login after deletion
       if (mounted) {
-        context.go(AppRoutes.login);
+        context.go(appRoutes.login);
       }
     } on Exception {
       if (mounted) {

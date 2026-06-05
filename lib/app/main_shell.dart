@@ -106,7 +106,7 @@ class _MainShellState extends ConsumerState<MainShell> {
                 selectedIcon: Icons.add_circle,
                 label: l10n.navLogAction,
                 isSelected: false,
-                onTap: () => context.push(AppRoutes.actionLog),
+                onTap: () => context.push(appRoutes.actionLog),
               ),
             ),
             Expanded(
@@ -165,7 +165,7 @@ class _NavBarItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: Radii.borderMd,
+      borderRadius: borderRadiusMd,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 4,

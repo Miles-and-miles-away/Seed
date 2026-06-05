@@ -33,13 +33,13 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
     final goal = widget.goal;
 
     return Container(
-      padding: const EdgeInsets.all(Spacing.xl),
+      padding: const EdgeInsets.all(spacingXl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        borderRadius: Radii.borderLg,
+        borderRadius: borderRadiusLg,
         border: Border.all(
           color: theme.colorScheme.outlineVariant.withValues(
-            alpha: Opacities.half,
+            alpha: opacityHalf,
           ),
         ),
       ),
@@ -58,7 +58,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
                   color: goal.color,
                   size: 20,
                 ),
-                const SizedBox(width: Spacing.sm),
+                const SizedBox(width: spacingSm),
                 Expanded(
                   child: Text(
                     l10n.sdgAboutGoal,
@@ -69,7 +69,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
                 ),
                 AnimatedRotation(
                   turns: _expanded ? 0.5 : 0,
-                  duration: Durations.normal,
+                  duration: durationNormal,
                   child: Icon(
                     Icons.expand_more,
                     color: theme.colorScheme.onSurfaceVariant,
@@ -78,7 +78,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
               ],
             ),
           ),
-          const SizedBox(height: Spacing.lg),
+          const SizedBox(height: spacingLg),
           Text(
             goal.description(widget.locale),
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -96,7 +96,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
             crossFadeState: _expanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
-            duration: Durations.normal,
+            duration: durationNormal,
           ),
         ],
       ),
@@ -117,16 +117,16 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: Spacing.xl),
+        const SizedBox(height: spacingXl),
         const Divider(height: 1),
-        const SizedBox(height: Spacing.lg),
+        const SizedBox(height: spacingLg),
         Text(
           l10n.sdgTargetsTitle,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: Spacing.md),
+        const SizedBox(height: spacingMd),
         ...targets.map(
           (t) => _TargetRow(
             target: t,
@@ -155,18 +155,18 @@ class _TargetRow extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: Spacing.md),
+      padding: const EdgeInsets.only(bottom: spacingMd),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: Spacing.sm,
-              vertical: Spacing.xs,
+              horizontal: spacingSm,
+              vertical: spacingXs,
             ),
             decoration: BoxDecoration(
               color: goalColor.withValues(
-                alpha: Opacities.subtle,
+                alpha: opacitySubtle,
               ),
               borderRadius: BorderRadius.circular(6),
             ),
