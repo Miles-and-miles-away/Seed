@@ -84,7 +84,7 @@ class AppRoutes {
   String get settingsLanguage => '/profile/settings/language';
   String get settingsAccount => '/profile/settings/account';
   String get settingsAbout => '/profile/settings/about';
-  String get settingsAboutFeedback => '/profile/settings/about/feedback';
+  String get settingsFeedback => '/profile/settings/feedback';
 }
 
 /// Single shared instance for navigation call sites.
@@ -243,12 +243,10 @@ GoRouter router(Ref ref) {
                       GoRoute(
                         path: 'about',
                         builder: (context, state) => const AboutScreen(),
-                        routes: [
-                          GoRoute(
-                            path: 'feedback',
-                            builder: (context, state) => const FeedbackScreen(),
-                          ),
-                        ],
+                      ),
+                      GoRoute(
+                        path: 'feedback',
+                        builder: (context, state) => const FeedbackScreen(),
                       ),
                     ],
                   ),

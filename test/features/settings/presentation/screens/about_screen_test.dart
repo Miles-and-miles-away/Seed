@@ -57,23 +57,6 @@ void main() {
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
-    testWidgets('renders Support section with Send Feedback tile',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Scroll down to find the Support section
-      await tester.scrollUntilVisible(
-        find.text('SUPPORT'),
-        100,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('SUPPORT'), findsOneWidget);
-      expect(find.text('Send Feedback'), findsOneWidget);
-    });
-
     testWidgets('renders footer with SDG acknowledgment', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
@@ -112,42 +95,12 @@ void main() {
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);
     });
 
-    testWidgets('renders feedback tile subtitle', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      final subtitle = find.text('Report a bug or share your thoughts');
-      await tester.scrollUntilVisible(
-        subtitle,
-        100,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pumpAndSettle();
-
-      expect(subtitle, findsOneWidget);
-    });
-
     testWidgets('has correct app bar title', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
       // The app bar title from localization
       expect(find.text('About'), findsOneWidget);
-    });
-
-    testWidgets('renders feedback tile mail icon when scrolled',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      await tester.scrollUntilVisible(
-        find.byIcon(Icons.mail_outline),
-        100,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.mail_outline), findsOneWidget);
     });
   });
 }

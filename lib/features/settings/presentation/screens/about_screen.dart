@@ -73,20 +73,6 @@ class AboutScreen extends ConsumerWidget {
               ],
             ),
 
-            // Support section
-            SettingsSection(
-              title: l10n.aboutSupport,
-              showTopDivider: true,
-              children: [
-                SettingsTile(
-                  leading: const Icon(Icons.mail_outline),
-                  title: l10n.aboutSettingsFeedback,
-                  subtitle: l10n.aboutSettingsFeedbackSubtitle,
-                  onTap: () => context.push(appRoutes.settingsAboutFeedback),
-                ),
-              ],
-            ),
-
             const SizedBox(height: spacingXxxl),
 
             // Footer with SDG acknowledgment

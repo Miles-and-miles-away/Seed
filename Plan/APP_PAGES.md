@@ -109,7 +109,7 @@ burgers), and trend / category charts of the same window.
   (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
   Time); headline kg total card with period-over-period comparison
-  badge; scrollable equivalencies row with info-icon sheet showing
+  badge; static four-card equivalencies row with info-icon sheet showing
   per-equivalency explainer, formula, and tappable source citation;
   daily-trend scatter chart with dashed mean line; category donut
   (Top 5 + Other) with center kg total and color-dot legend. Charts
@@ -119,8 +119,11 @@ burgers), and trend / category charts of the same window.
 Encyclopedia of eco-actions organized by category, with a progress
 header.
 - Links: none
-- Functionality: expandable/collapsible category sections, entry cards
-  with lock/unlock state and detail sheets.
+- Functionality: progress header with info icon opening a
+  how-discovery-works sheet; expandable/collapsible category
+  sections; entry cards with lock/unlock state — discovered entries
+  open a fact detail sheet, locked entries open a hint sheet
+  describing how to unlock.
 
 ### Action History (`/progress/history`)
 Timeline of logged actions grouped by date with running points total.
@@ -145,8 +148,23 @@ Active mascot with evolution timeline and multi-mascot collection.
 
 User stats (level, streak, CO2 saved, total actions) and evolution
 stage.
-- Links: `/profile/settings`
-- Functionality: settings icon in app bar, sign-out button, stat cards.
+- Links: `/profile/settings`, `/profile/achievements`
+- Functionality: settings icon in app bar, sign-out button, stat
+  cards, achievements preview card (up to 3 unlocked badges + "+N
+  more" chip; badge tap opens the achievement detail sheet, card tap
+  navigates to the full Achievements screen).
+
+### Achievements (`/profile/achievements`)
+Badge collection with unlock progress, "Next Up" preview, and
+unlocked/locked grids.
+- Links: none (inline sheets only)
+- Functionality: overall unlock progress header; info icon in app bar
+  opening a how-achievements-work sheet; "Next Up" cards for the
+  closest-to-unlock achievements with progress bars; tappable badges
+  opening a detail sheet (criteria description, bonus-point reward,
+  progress bar when locked, unlock date when unlocked). A full-screen
+  confetti celebration overlay (not a route) appears when logging an
+  action unlocks achievements.
 
 ### Settings (`/profile/settings`)
 Settings hub.
@@ -154,6 +172,7 @@ Settings hub.
   - `/profile/settings/notifications`
   - `/profile/settings/language`
   - `/profile/settings/account`
+  - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
 - Functionality: notification toggle, language selector, analytics
   toggle, section tiles.
@@ -176,12 +195,11 @@ Settings hub.
 - Links:
   - `/privacy` (canonical legal route)
   - `/terms` (canonical legal route)
-  - `/profile/settings/about/feedback` (Send Feedback)
   - External: licenses page (system)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  Send Feedback tile, SDG acknowledgment.
+  SDG acknowledgment.
 
-### Feedback (`.../settings/about/feedback`)
+### Feedback (`.../settings/feedback`)
 - Functionality: structured form with category chips (Bug / Feature /
   General), description text field, app+device metadata footer. Submit
   launches the user's mail client with a pre-populated `mailto:` URI
@@ -224,9 +242,10 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |
 | `dailyFactDetail(key)`    | `/home/daily-fact/{key}`          |
 | `actionHistory`           | `/progress/history`               |
+| `achievements`            | `/profile/achievements`           |
 | `settings`                | `/profile/settings`               |
 | `settingsNotifications`   | `/profile/settings/notifications` |
 | `settingsLanguage`        | `/profile/settings/language`      |
 | `settingsAccount`         | `/profile/settings/account`       |
 | `settingsAbout`           | `/profile/settings/about`         |
-| `settingsAboutFeedback`   | `/profile/settings/about/feedback` |
+| `settingsFeedback`        | `/profile/settings/feedback`      |

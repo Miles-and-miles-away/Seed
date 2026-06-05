@@ -17,12 +17,20 @@ class NextUpSection extends StatelessWidget {
     required this.state,
     super.key,
     this.maxItems = 3,
+    this.onItemTap,
   });
 
   final List<AchievementDefinition> definitions;
   final Set<String> unlockedIds;
   final AchievementUserState state;
   final int maxItems;
+
+  /// Invoked when a card is tapped, with that card's definition and
+  /// computed progress. Null leaves the cards inert.
+  final void Function(
+    AchievementDefinition definition,
+    AchievementProgress progress,
+  )? onItemTap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +56,9 @@ class NextUpSection extends StatelessWidget {
             definition: top[i].def,
             progress: top[i].progress,
             isUnlocked: false,
+            onTap: onItemTap == null
+                ? null
+                : () => onItemTap!(top[i].def, top[i].progress),
           ),
         ],
       ],

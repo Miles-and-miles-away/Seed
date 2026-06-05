@@ -16,7 +16,7 @@ lint:
 	flutter analyze --fatal-infos
 
 format:
-	dart format .
+	dart format lib test
 
 ci: gen l10n lint test
 

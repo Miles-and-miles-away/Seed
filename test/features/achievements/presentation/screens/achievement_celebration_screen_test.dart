@@ -60,7 +60,7 @@ Widget _harness(List<AchievementDefinition> definitions) {
 
 void main() {
   group('AchievementCelebrationScreen (widget render)', () {
-    testWidgets('renders title, name, description, bonus, and tap hint',
+    testWidgets('renders title, name, description, bonus, and button',
         (tester) async {
       var dismissed = false;
       await tester.pumpWidget(
@@ -85,7 +85,7 @@ void main() {
       expect(find.text('One Week Strong'), findsOneWidget);
       expect(find.text('Maintain a 7-day streak'), findsOneWidget);
       expect(find.text('+150 points!'), findsOneWidget);
-      expect(find.text('Tap to continue'), findsOneWidget);
+      expect(find.text('Awesome!'), findsOneWidget);
       // Queue indicator hidden when nothing else is queued.
       expect(find.textContaining('more queued'), findsNothing);
       expect(dismissed, isFalse);
@@ -109,7 +109,26 @@ void main() {
       expect(find.text('+2 more queued'), findsOneWidget);
     });
 
-    testWidgets('tap fires onDismiss', (tester) async {
+    testWidgets('acknowledge button fires onDismiss', (tester) async {
+      var dismissed = 0;
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('en'),
+          home: AchievementCelebrationScreen(
+            definition: _def('a'),
+            onDismiss: () => dismissed++,
+          ),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 2));
+
+      await tester.tap(find.text('Awesome!'));
+      expect(dismissed, 1);
+    });
+
+    testWidgets('tapping outside the button does not dismiss', (tester) async {
       var dismissed = 0;
       await tester.pumpWidget(
         MaterialApp(
@@ -125,7 +144,29 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
 
       await tester.tapAt(const Offset(20, 20));
-      expect(dismissed, 1);
+      expect(dismissed, 0);
+    });
+
+    testWidgets('confetti stops repainting after fade-out completes',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('en'),
+          home: AchievementCelebrationScreen(
+            definition: _def('a'),
+            onDismiss: () {},
+          ),
+        ),
+      );
+
+      // Run past the confetti window (4s) plus the fade (600ms); the
+      // screen should then be fully idle (no looping animations).
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Achievement Unlocked!'), findsOneWidget);
     });
   });
 
@@ -144,19 +185,19 @@ void main() {
       expect(find.text('First Up'), findsOneWidget);
       expect(find.text('+2 more queued'), findsOneWidget);
 
-      await tester.tapAt(const Offset(20, 20));
+      await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.text('Second Up'), findsOneWidget);
       expect(find.text('+1 more queued'), findsOneWidget);
 
-      await tester.tapAt(const Offset(20, 20));
+      await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.text('Third Up'), findsOneWidget);
       expect(find.textContaining('more queued'), findsNothing);
 
-      await tester.tapAt(const Offset(20, 20));
+      await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.text('Third Up'), findsNothing);

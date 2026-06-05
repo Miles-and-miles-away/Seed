@@ -114,4 +114,17 @@ void main() {
     );
     expect(bar.value, 0);
   });
+
+  testWidgets('info button opens the explainer sheet', (tester) async {
+    await tester.pumpWidget(
+      _wrap(entries: [_entry('a')], discovered: const []),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.info_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('About the Eco-Dex'), findsOneWidget);
+    expect(find.textContaining('unlock automatically'), findsOneWidget);
+  });
 }

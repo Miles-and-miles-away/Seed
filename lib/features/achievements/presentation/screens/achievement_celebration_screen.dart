@@ -11,8 +11,9 @@ import 'package:seed_app/features/achievements/data/models/achievement_definitio
 import 'package:seed_app/features/achievements/presentation/widgets/achievement_icons.dart';
 
 /// Full-screen celebration shown when the user unlocks an
-/// achievement. Tap-to-dismiss only -- no auto-dismiss timer so a
-/// user who looks away will not silently lose the moment.
+/// achievement. Dismissed only via the acknowledge button -- no
+/// auto-dismiss timer so a user who looks away will not silently
+/// lose the moment.
 ///
 /// Use [showAchievementCelebrations] (below) rather than instantiating
 /// this widget directly; that helper handles the sequential queue
@@ -41,118 +42,124 @@ class AchievementCelebrationScreen extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onDismiss,
-        child: Stack(
-          children: [
-            // Backdrop
-            RepaintBoundary(
-              child: Container(
-                color: Colors.black.withValues(alpha: opacityNearOpaque),
-              ).animate().fadeIn(duration: 300.ms),
-            ),
+      child: Stack(
+        children: [
+          // Backdrop
+          RepaintBoundary(
+            child: Container(
+              color: Colors.black.withValues(alpha: opacityNearOpaque),
+            ).animate().fadeIn(duration: 300.ms),
+          ),
 
-            // Confetti
-            const RepaintBoundary(child: _ConfettiLayer()),
+          // Confetti
+          const RepaintBoundary(child: _ConfettiLayer()),
 
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      l10n.achievementUnlockedTitle,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    l10n.achievementUnlockedTitle,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: -0.2, end: 0),
+                  const SizedBox(height: spacingXxxl),
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: const BoxDecoration(
+                      color: AppColors.gold,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      achievementIconFor(definition.iconName),
+                      size: 72,
+                      color: Colors.white,
+                    ),
+                  ).animate().fadeIn(duration: 400.ms).scale(
+                        begin: const Offset(0.3, 0.3),
+                        end: const Offset(1, 1),
+                        curve: Curves.elasticOut,
+                        duration: 800.ms,
                       ),
-                      textAlign: TextAlign.center,
-                    )
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: -0.2, end: 0),
-                    const SizedBox(height: spacingXxxl),
-                    Container(
-                      width: 140,
-                      height: 140,
-                      decoration: const BoxDecoration(
-                        color: AppColors.gold,
-                        shape: BoxShape.circle,
+                  const SizedBox(height: spacingXxl),
+                  Text(
+                    definition.name(locale),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  const SizedBox(height: spacingMd),
+                  Text(
+                    definition.description(locale),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: opacityHeavy),
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                  const SizedBox(height: spacingXxl),
+                  Text(
+                    l10n.achievementBonusPoints(definition.bonusPoints),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: AppColors.gold,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).animate().fadeIn(delay: 500.ms, duration: 400.ms).scale(
+                        delay: 500.ms,
+                        begin: const Offset(0.7, 0.7),
+                        end: const Offset(1, 1),
+                        duration: 400.ms,
+                        curve: Curves.easeOutBack,
                       ),
-                      child: Icon(
-                        achievementIconFor(definition.iconName),
-                        size: 72,
-                        color: Colors.white,
+                  const SizedBox(height: spacingHuge),
+                  FilledButton(
+                    onPressed: onDismiss,
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingHuge,
+                        vertical: spacingLg,
                       ),
-                    ).animate().fadeIn(duration: 400.ms).scale(
-                          begin: const Offset(0.3, 0.3),
-                          end: const Offset(1, 1),
-                          curve: Curves.elasticOut,
-                          duration: 800.ms,
-                        ),
-                    const SizedBox(height: spacingXxl),
-                    Text(
-                      definition.name(locale),
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: borderRadiusLg,
                       ),
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                    ),
+                    child: Text(l10n.achievementAcknowledge),
+                  )
+                      .animate(delay: 800.ms)
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: 0.3, end: 0),
+                  if (remainingInQueue > 0) ...[
                     const SizedBox(height: spacingMd),
                     Text(
-                      definition.description(locale),
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: Colors.white.withValues(alpha: opacityHeavy),
+                      l10n.achievementMoreQueued(remainingInQueue),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withValues(alpha: opacityMedium),
                       ),
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                    const SizedBox(height: spacingXxl),
-                    Text(
-                      l10n.achievementBonusPoints(definition.bonusPoints),
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: AppColors.gold,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ).animate().fadeIn(delay: 500.ms, duration: 400.ms).scale(
-                          delay: 500.ms,
-                          begin: const Offset(0.7, 0.7),
-                          end: const Offset(1, 1),
-                          duration: 400.ms,
-                          curve: Curves.easeOutBack,
-                        ),
-                    const SizedBox(height: spacingHuge),
-                    Text(
-                      l10n.achievementTapToContinue,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: opacityMuted),
-                      ),
-                    ).animate().fadeIn(delay: 800.ms, duration: 400.ms),
-                    if (remainingInQueue > 0) ...[
-                      const SizedBox(height: spacingMd),
-                      Text(
-                        l10n.achievementMoreQueued(remainingInQueue),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white.withValues(alpha: opacityMedium),
-                        ),
-                      ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
-                    ],
+                    ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
                   ],
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
 /// Shows each definition in [definitions] sequentially. Each
-/// celebration is tap-dismissed before the next is shown. Returns
-/// once the queue is empty.
+/// celebration is acknowledged via its button before the next is
+/// shown. Returns once the queue is empty.
 Future<void> showAchievementCelebrations(
   BuildContext context, {
   required List<AchievementDefinition> definitions,
@@ -184,10 +191,11 @@ Future<void> showAchievementCelebrations(
 // extracting a shared widget if a third caller appears.
 // ---------------------------------------------------------------------------
 
-// Confetti runs for the visual peak then freezes. Dismiss is tap-only,
-// so if the user pockets the device we don't want the painter rebuilding
-// every frame indefinitely.
+// Confetti runs for the visual peak, then fades out and stops. The screen
+// waits indefinitely for the acknowledge button, so the painter must not
+// keep rebuilding every frame once the moment has passed.
 const _confettiRunDuration = Duration(seconds: 4);
+const _confettiFadeDuration = Duration(milliseconds: 600);
 const _particleCount = 40;
 
 class _ConfettiLayer extends StatefulWidget {
@@ -203,7 +211,8 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
 
   late final AnimationController _controller;
   late final List<_Particle> _particles;
-  Timer? _stopTimer;
+  Timer? _fadeTimer;
+  bool _visible = true;
 
   @override
   void initState() {
@@ -213,27 +222,36 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
       duration: durationParticleLoop,
     )..repeat();
     _particles = List.generate(_particleCount, (_) => _Particle.random(_rng));
-    _stopTimer = Timer(_confettiRunDuration, () {
-      if (mounted) _controller.stop();
+    _fadeTimer = Timer(_confettiRunDuration, () {
+      if (mounted) setState(() => _visible = false);
     });
   }
 
   @override
   void dispose() {
-    _stopTimer?.cancel();
+    _fadeTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) => CustomPaint(
-        size: Size.infinite,
-        painter: _ConfettiPainter(
-          particles: _particles,
-          progress: _controller.value,
+    return AnimatedOpacity(
+      opacity: _visible ? 1 : 0,
+      duration: _confettiFadeDuration,
+      // Stop repainting only once fully faded so particles never freeze
+      // visibly midair.
+      onEnd: () {
+        if (!_visible) _controller.stop();
+      },
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) => CustomPaint(
+          size: Size.infinite,
+          painter: _ConfettiPainter(
+            particles: _particles,
+            progress: _controller.value,
+          ),
         ),
       ),
     );

@@ -442,13 +442,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutSettingsLicenses => 'Open Source Licenses';
 
   @override
-  String get aboutSettingsFeedback => 'Send Feedback';
-
-  @override
-  String get aboutSettingsFeedbackSubtitle =>
-      'Report a bug or share your thoughts';
-
-  @override
   String get aboutSettingsPrivacy => 'Privacy Policy';
 
   @override
@@ -750,10 +743,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsErrorLoading => 'Error loading settings';
 
   @override
-  String get aboutLegal => 'Legal';
+  String get settingsSupport => 'Support';
 
   @override
-  String get aboutSupport => 'Support';
+  String get settingsFeedback => 'Send Feedback';
+
+  @override
+  String get settingsFeedbackSubtitle => 'Report a bug or share your thoughts';
+
+  @override
+  String get aboutLegal => 'Legal';
 
   @override
   String get aboutFooterSdg =>
@@ -1217,6 +1216,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get ecoDexInfoTooltip => 'About the Eco-Dex';
+
+  @override
+  String get ecoDexInfoTitle => 'About the Eco-Dex';
+
+  @override
+  String get ecoDexInfoBody =>
+      'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Unlike Achievements, there are no points here: each discovery rewards you with knowledge.';
+
+  @override
   String get achievementsTitle => 'Achievements';
 
   @override
@@ -1250,10 +1259,33 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get achievementTapToContinue => 'Tap to continue';
+  String get achievementAcknowledge => 'Awesome!';
 
   @override
   String achievementMoreQueued(int count) {
     return '+$count more queued';
+  }
+
+  @override
+  String get achievementsInfoTooltip => 'About achievements';
+
+  @override
+  String get achievementsInfoTitle => 'About Achievements';
+
+  @override
+  String get achievementsInfoBody =>
+      'Achievements are badges that celebrate your personal milestones: logging actions, building streaks, leveling up, saving CO2, and supporting SDGs. Each badge awards bonus points when it unlocks. Tap any badge to see what it takes to earn and how close you are. Looking to collect facts about the planet instead? That is the Eco-Dex, in the Progress tab.';
+
+  @override
+  String achievementDetailReward(int points) {
+    return 'Reward: +$points points';
+  }
+
+  @override
+  String achievementDetailUnlockedOn(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Unlocked on $dateString';
   }
 }

@@ -6,8 +6,10 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
+import 'package:seed_app/features/achievements/data/models/user_achievement_model.dart';
 import 'package:seed_app/features/achievements/presentation/providers/achievement_providers.dart';
 import 'package:seed_app/features/achievements/presentation/widgets/achievement_badge.dart';
+import 'package:seed_app/features/achievements/presentation/widgets/achievement_detail_sheet.dart';
 
 /// Compact achievements preview shown inside the Profile screen.
 /// Shows up to [_maxBadges] unlocked badges plus a "+N more" chip
@@ -27,18 +29,19 @@ class ProfileAchievementsSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     final defsAsync = ref.watch(achievementDefinitionsProvider);
-    final unlockedAsync = ref.watch(
-      userUnlockedAchievementIdsProvider(userId),
-    );
+    // Full unlock records (not just ids) so badge taps can show the
+    // unlock date in the detail sheet.
+    final recordsAsync = ref.watch(userAchievementsProvider(userId));
 
     final definitions = defsAsync.value ?? const <AchievementDefinition>[];
-    final unlocked = unlockedAsync.value ?? const <String>{};
+    final records = recordsAsync.value ?? const <UserAchievementModel>[];
+    final unlockedAt = {for (final r in records) r.id: r.unlockedAt};
     final unlockedDefs = definitions
-        .where((d) => unlocked.contains(d.id))
+        .where((d) => unlockedAt.containsKey(d.id))
         .toList(growable: false);
 
-    final isLoading = defsAsync.isLoading || unlockedAsync.isLoading;
-    final hasError = defsAsync.hasError || unlockedAsync.hasError;
+    final isLoading = defsAsync.isLoading || recordsAsync.isLoading;
+    final hasError = defsAsync.hasError || recordsAsync.hasError;
 
     final visible = unlockedDefs.take(_maxBadges).toList(growable: false);
     final remaining = unlockedDefs.length - visible.length;
@@ -88,7 +91,11 @@ class ProfileAchievementsSection extends ConsumerWidget {
                   ),
                 )
               else
-                _BadgeRow(visible: visible, remaining: remaining),
+                _BadgeRow(
+                  visible: visible,
+                  remaining: remaining,
+                  unlockedAt: unlockedAt,
+                ),
               const SizedBox(height: spacingMd),
               Text(
                 l10n.achievementsProgress(
@@ -108,10 +115,15 @@ class ProfileAchievementsSection extends ConsumerWidget {
 }
 
 class _BadgeRow extends StatelessWidget {
-  const _BadgeRow({required this.visible, required this.remaining});
+  const _BadgeRow({
+    required this.visible,
+    required this.remaining,
+    required this.unlockedAt,
+  });
 
   final List<AchievementDefinition> visible;
   final int remaining;
+  final Map<String, DateTime> unlockedAt;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +139,12 @@ class _BadgeRow extends StatelessWidget {
               definition: def,
               isUnlocked: true,
               size: 52,
+              onTap: () => AchievementDetailSheet.show(
+                context,
+                definition: def,
+                isUnlocked: true,
+                unlockedAt: unlockedAt[def.id],
+              ),
             ),
           ),
         if (remaining > 0)

@@ -4,6 +4,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Progress header showing overall Eco-Dex completion.
 class EcoDexProgressHeader extends ConsumerWidget {
@@ -56,6 +57,17 @@ class EcoDexProgressHeader extends ConsumerWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.info_outline, size: 18),
+                tooltip: l10n.ecoDexInfoTooltip,
+                color: theme.colorScheme.onSurfaceVariant,
+                visualDensity: VisualDensity.compact,
+                onPressed: () => InfoSheet.show(
+                  context,
+                  title: l10n.ecoDexInfoTitle,
+                  body: l10n.ecoDexInfoBody,
                 ),
               ),
             ],

@@ -435,12 +435,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutSettingsLicenses => 'オープンソースライセンス';
 
   @override
-  String get aboutSettingsFeedback => 'フィードバックを送る';
-
-  @override
-  String get aboutSettingsFeedbackSubtitle => 'バグ報告や感想をお寄せください';
-
-  @override
   String get aboutSettingsPrivacy => 'プライバシーポリシー';
 
   @override
@@ -737,10 +731,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsErrorLoading => '設定の読み込みエラー';
 
   @override
-  String get aboutLegal => '法的情報';
+  String get settingsSupport => 'サポート';
 
   @override
-  String get aboutSupport => 'サポート';
+  String get settingsFeedback => 'フィードバックを送る';
+
+  @override
+  String get settingsFeedbackSubtitle => 'バグ報告や感想をお寄せください';
+
+  @override
+  String get aboutLegal => '法的情報';
 
   @override
   String get aboutFooterSdg => 'Seedは国連の持続可能な開発目標に沿ったサステナブルなアクションを記録するアプリです。';
@@ -1192,6 +1192,16 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get ecoDexInfoTooltip => 'エコ図鑑について';
+
+  @override
+  String get ecoDexInfoTitle => 'エコ図鑑について';
+
+  @override
+  String get ecoDexInfoBody =>
+      'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。実績とは異なりポイントはもらえません。発見した知識そのものがごほうびです。';
+
+  @override
   String get achievementsTitle => '実績';
 
   @override
@@ -1223,10 +1233,33 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get achievementTapToContinue => 'タップして続ける';
+  String get achievementAcknowledge => 'やったね！';
 
   @override
   String achievementMoreQueued(int count) {
     return '他に$count件';
+  }
+
+  @override
+  String get achievementsInfoTooltip => '実績について';
+
+  @override
+  String get achievementsInfoTitle => '実績について';
+
+  @override
+  String get achievementsInfoBody =>
+      '実績はマイルストーンの達成をたたえるバッジです。アクションの記録、ストリークの継続、レベルアップ、CO2の削減、SDGsへの貢献などで解放され、解放時にはボーナスポイントがもらえます。バッジをタップすると獲得条件と進捗を確認できます。地球に関する事実を集めたい場合は、進捗タブのエコ図鑑をご覧ください。';
+
+  @override
+  String achievementDetailReward(int points) {
+    return '報酬：+$pointsポイント';
+  }
+
+  @override
+  String achievementDetailUnlockedOn(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '$dateStringに達成';
   }
 }
