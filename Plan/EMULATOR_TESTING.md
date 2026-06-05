@@ -44,7 +44,7 @@ Before testing, ensure your code is ready:
 flutter pub get
 
 # Run code generation (if @riverpod or @freezed classes changed)
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # Generate localizations (if ARB files changed)
 flutter gen-l10n

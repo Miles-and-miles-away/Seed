@@ -1336,10 +1336,10 @@ See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for full details.
 flutter pub get
 
 # Run code generation (after modifying @riverpod or @freezed classes)
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # Watch mode for development
-flutter pub run build_runner watch --delete-conflicting-outputs
+dart run build_runner watch
 
 # Analyze code
 flutter analyze
