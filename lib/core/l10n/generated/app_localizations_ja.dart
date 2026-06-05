@@ -1187,9 +1187,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoDexNewDiscovery => '新しいエコ図鑑の発見！';
 
   @override
-  String ecoDexNewDiscoveryMessage(String name) {
-    return '$nameを発見しました！';
+  String get ecoDexNextUp => 'もうすぐ発見';
+
+  @override
+  String get ecoDexDiscoveryTitle => '新発見！';
+
+  @override
+  String get ecoDexDiscoveryAcknowledge => 'やったね！';
+
+  @override
+  String ecoDexDiscoveryMoreQueued(int count) {
+    return '他に$count件';
   }
+
+  @override
+  String get ecoDexEmptyHint => '最初のアクションを記録して最初の発見をしましょう。';
 
   @override
   String get ecoDexInfoTooltip => 'エコ図鑑について';
@@ -1199,67 +1211,5 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get ecoDexInfoBody =>
-      'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。実績とは異なりポイントはもらえません。発見した知識そのものがごほうびです。';
-
-  @override
-  String get achievementsTitle => '実績';
-
-  @override
-  String achievementsProgress(int unlocked, int total) {
-    return '$total件中$unlocked件達成';
-  }
-
-  @override
-  String get achievementsEmptyHint => '最初のアクションを記録して実績を解除しましょう。';
-
-  @override
-  String get achievementsLoadError => '実績を読み込めませんでした。後でもう一度お試しください。';
-
-  @override
-  String get achievementsNextUp => 'もうすぐ達成';
-
-  @override
-  String get achievementsUnlocked => '達成済み';
-
-  @override
-  String get achievementsLocked => '未達成';
-
-  @override
-  String get achievementUnlockedTitle => '実績を達成しました！';
-
-  @override
-  String achievementBonusPoints(int points) {
-    return '+$pointsポイント！';
-  }
-
-  @override
-  String get achievementAcknowledge => 'やったね！';
-
-  @override
-  String achievementMoreQueued(int count) {
-    return '他に$count件';
-  }
-
-  @override
-  String get achievementsInfoTooltip => '実績について';
-
-  @override
-  String get achievementsInfoTitle => '実績について';
-
-  @override
-  String get achievementsInfoBody =>
-      '実績はマイルストーンの達成をたたえるバッジです。アクションの記録、ストリークの継続、レベルアップ、CO2の削減、SDGsへの貢献などで解放され、解放時にはボーナスポイントがもらえます。バッジをタップすると獲得条件と進捗を確認できます。地球に関する事実を集めたい場合は、進捗タブのエコ図鑑をご覧ください。';
-
-  @override
-  String achievementDetailReward(int points) {
-    return '報酬：+$pointsポイント';
-  }
-
-  @override
-  String achievementDetailUnlockedOn(DateTime date) {
-    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
-    final String dateString = dateDateFormat.format(date);
-
-    return '$dateStringに達成';
-  }
+      'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。';
 }

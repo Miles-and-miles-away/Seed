@@ -28,9 +28,9 @@ class EcoDexEntryCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isDiscovered) {
-          _showEntrySheet(context);
+          EcoDexEntrySheet.show(context, entry: entry, locale: locale);
         } else {
-          _showLockedSheet(context);
+          EcoDexLockedSheet.show(context, entry: entry, locale: locale);
         }
       },
       child: Container(
@@ -90,37 +90,6 @@ class EcoDexEntryCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showEntrySheet(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
-      ),
-      builder: (_) => EcoDexEntrySheet(
-        entry: entryState.entry,
-        locale: locale,
-      ),
-    );
-  }
-
-  void _showLockedSheet(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
-      ),
-      builder: (_) => EcoDexLockedSheet(
-        entry: entryState.entry,
-        locale: locale,
       ),
     );
   }

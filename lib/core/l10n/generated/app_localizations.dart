@@ -2278,11 +2278,35 @@ abstract class AppLocalizations {
   /// **'New Eco-Dex discovery!'**
   String get ecoDexNewDiscovery;
 
-  /// No description provided for @ecoDexNewDiscoveryMessage.
+  /// No description provided for @ecoDexNextUp.
   ///
   /// In en, this message translates to:
-  /// **'You discovered: {name}'**
-  String ecoDexNewDiscoveryMessage(String name);
+  /// **'Next Up'**
+  String get ecoDexNextUp;
+
+  /// No description provided for @ecoDexDiscoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Discovery!'**
+  String get ecoDexDiscoveryTitle;
+
+  /// No description provided for @ecoDexDiscoveryAcknowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome!'**
+  String get ecoDexDiscoveryAcknowledge;
+
+  /// No description provided for @ecoDexDiscoveryMoreQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more queued'**
+  String ecoDexDiscoveryMoreQueued(int count);
+
+  /// No description provided for @ecoDexEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first action to make your first discovery.'**
+  String get ecoDexEmptyHint;
 
   /// No description provided for @ecoDexInfoTooltip.
   ///
@@ -2299,104 +2323,8 @@ abstract class AppLocalizations {
   /// No description provided for @ecoDexInfoBody.
   ///
   /// In en, this message translates to:
-  /// **'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Unlike Achievements, there are no points here: each discovery rewards you with knowledge.'**
+  /// **'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.'**
   String get ecoDexInfoBody;
-
-  /// No description provided for @achievementsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Achievements'**
-  String get achievementsTitle;
-
-  /// No description provided for @achievementsProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'{unlocked} of {total} unlocked'**
-  String achievementsProgress(int unlocked, int total);
-
-  /// No description provided for @achievementsEmptyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Log your first action to start unlocking achievements.'**
-  String get achievementsEmptyHint;
-
-  /// No description provided for @achievementsLoadError.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t load achievements. Try again later.'**
-  String get achievementsLoadError;
-
-  /// No description provided for @achievementsNextUp.
-  ///
-  /// In en, this message translates to:
-  /// **'Next Up'**
-  String get achievementsNextUp;
-
-  /// No description provided for @achievementsUnlocked.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlocked'**
-  String get achievementsUnlocked;
-
-  /// No description provided for @achievementsLocked.
-  ///
-  /// In en, this message translates to:
-  /// **'Locked'**
-  String get achievementsLocked;
-
-  /// No description provided for @achievementUnlockedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Achievement Unlocked!'**
-  String get achievementUnlockedTitle;
-
-  /// No description provided for @achievementBonusPoints.
-  ///
-  /// In en, this message translates to:
-  /// **'+{points} points!'**
-  String achievementBonusPoints(int points);
-
-  /// No description provided for @achievementAcknowledge.
-  ///
-  /// In en, this message translates to:
-  /// **'Awesome!'**
-  String get achievementAcknowledge;
-
-  /// No description provided for @achievementMoreQueued.
-  ///
-  /// In en, this message translates to:
-  /// **'+{count} more queued'**
-  String achievementMoreQueued(int count);
-
-  /// No description provided for @achievementsInfoTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'About achievements'**
-  String get achievementsInfoTooltip;
-
-  /// No description provided for @achievementsInfoTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'About Achievements'**
-  String get achievementsInfoTitle;
-
-  /// No description provided for @achievementsInfoBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Achievements are badges that celebrate your personal milestones: logging actions, building streaks, leveling up, saving CO2, and supporting SDGs. Each badge awards bonus points when it unlocks. Tap any badge to see what it takes to earn and how close you are. Looking to collect facts about the planet instead? That is the Eco-Dex, in the Progress tab.'**
-  String get achievementsInfoBody;
-
-  /// No description provided for @achievementDetailReward.
-  ///
-  /// In en, this message translates to:
-  /// **'Reward: +{points} points'**
-  String achievementDetailReward(int points);
-
-  /// No description provided for @achievementDetailUnlockedOn.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlocked on {date}'**
-  String achievementDetailUnlockedOn(DateTime date);
 }
 
 class _AppLocalizationsDelegate

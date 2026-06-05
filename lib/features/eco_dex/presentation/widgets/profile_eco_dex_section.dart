@@ -5,53 +5,53 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
-import 'package:seed_app/features/achievements/data/models/user_achievement_model.dart';
-import 'package:seed_app/features/achievements/presentation/providers/achievement_providers.dart';
-import 'package:seed_app/features/achievements/presentation/widgets/achievement_badge.dart';
-import 'package:seed_app/features/achievements/presentation/widgets/achievement_detail_sheet.dart';
+import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_sheet.dart';
+import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
 
-/// Compact achievements preview shown inside the Profile screen.
-/// Shows up to [_maxBadges] unlocked badges plus a "+N more" chip
-/// and a "X of Y unlocked" counter. The whole card is tappable and
-/// navigates to the full Achievements screen.
-class ProfileAchievementsSection extends ConsumerWidget {
-  const ProfileAchievementsSection({required this.userId, super.key});
+/// Compact Eco-Dex preview shown inside the Profile screen. Shows up
+/// to [_maxThumbs] most recent discoveries plus a "+N more" chip and
+/// a "X / Y discovered" counter. The whole card is tappable and
+/// navigates to the Eco-Dex tab on the Progress screen.
+class ProfileEcoDexSection extends ConsumerWidget {
+  const ProfileEcoDexSection({super.key});
 
-  final String userId;
-
-  static const _maxBadges = 3;
+  static const _maxThumbs = 3;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
+    final locale = l10n.localeName;
 
-    final defsAsync = ref.watch(achievementDefinitionsProvider);
-    // Full unlock records (not just ids) so badge taps can show the
-    // unlock date in the detail sheet.
-    final recordsAsync = ref.watch(userAchievementsProvider(userId));
+    final dataAsync = ref.watch(ecoDexDataProvider);
+    final discovered = ref.watch(ecoDexDiscoveredProvider);
 
-    final definitions = defsAsync.value ?? const <AchievementDefinition>[];
-    final records = recordsAsync.value ?? const <UserAchievementModel>[];
-    final unlockedAt = {for (final r in records) r.id: r.unlockedAt};
-    final unlockedDefs = definitions
-        .where((d) => unlockedAt.containsKey(d.id))
+    final data = dataAsync.value;
+    final byId = {
+      for (final entry in data?.entries ?? const <EcoDexEntry>[])
+        entry.id: entry,
+    };
+    // arrayUnion preserves discovery order, so the most recent
+    // discoveries sit at the end of the list.
+    final recent = discovered.reversed
+        .map((id) => byId[id])
+        .whereType<EcoDexEntry>()
+        .take(_maxThumbs)
         .toList(growable: false);
-
-    final isLoading = defsAsync.isLoading || recordsAsync.isLoading;
-    final hasError = defsAsync.hasError || recordsAsync.hasError;
-
-    final visible = unlockedDefs.take(_maxBadges).toList(growable: false);
-    final remaining = unlockedDefs.length - visible.length;
+    final remaining = discovered.length - recent.length;
 
     return Material(
       color: colorScheme.surfaceContainerLow,
       borderRadius: borderRadiusLg,
       child: InkWell(
         borderRadius: borderRadiusLg,
-        onTap: () => context.push(appRoutes.achievements),
+        onTap: () => context.go(
+          '${appRoutes.progress}?tab=$progressTabEcoDex',
+        ),
         child: Padding(
           padding: const EdgeInsets.all(spacingLg),
           child: Column(
@@ -61,7 +61,7 @@ class ProfileAchievementsSection extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      l10n.achievementsTitle,
+                      l10n.ecoDexTitle,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -74,33 +74,26 @@ class ProfileAchievementsSection extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: spacingLg),
-              if (isLoading)
+              if (dataAsync.isLoading)
                 const _LoadingRow()
-              else if (hasError)
+              else if (recent.isEmpty)
                 Text(
-                  l10n.achievementsLoadError,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.error,
-                  ),
-                )
-              else if (unlockedDefs.isEmpty)
-                Text(
-                  l10n.achievementsEmptyHint,
+                  l10n.ecoDexEmptyHint,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
                 )
               else
-                _BadgeRow(
-                  visible: visible,
+                _ThumbRow(
+                  recent: recent,
                   remaining: remaining,
-                  unlockedAt: unlockedAt,
+                  locale: locale,
                 ),
               const SizedBox(height: spacingMd),
               Text(
-                l10n.achievementsProgress(
-                  unlockedDefs.length,
-                  definitions.length,
+                l10n.ecoDexProgress(
+                  discovered.length,
+                  data?.entries.length ?? 0,
                 ),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurfaceVariant,
@@ -114,16 +107,16 @@ class ProfileAchievementsSection extends ConsumerWidget {
   }
 }
 
-class _BadgeRow extends StatelessWidget {
-  const _BadgeRow({
-    required this.visible,
+class _ThumbRow extends StatelessWidget {
+  const _ThumbRow({
+    required this.recent,
     required this.remaining,
-    required this.unlockedAt,
+    required this.locale,
   });
 
-  final List<AchievementDefinition> visible;
+  final List<EcoDexEntry> recent;
   final int remaining;
-  final Map<String, DateTime> unlockedAt;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -132,18 +125,32 @@ class _BadgeRow extends StatelessWidget {
 
     return Row(
       children: [
-        for (final def in visible)
+        for (final entry in recent)
           Padding(
             padding: const EdgeInsets.only(right: spacingMd),
-            child: AchievementBadge(
-              definition: def,
-              isUnlocked: true,
-              size: 52,
-              onTap: () => AchievementDetailSheet.show(
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: () => EcoDexEntrySheet.show(
                 context,
-                definition: def,
-                isUnlocked: true,
-                unlockedAt: unlockedAt[def.id],
+                entry: entry,
+                locale: locale,
+              ),
+              child: Container(
+                width: 52,
+                height: 52,
+                padding: const EdgeInsets.all(spacingXs),
+                decoration: BoxDecoration(
+                  color: colorScheme.primaryContainer.withValues(
+                    alpha: opacityMedium,
+                  ),
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(
+                  child: EcoDexEntryImage(
+                    iconName: entry.iconName,
+                    size: 40,
+                  ),
+                ),
               ),
             ),
           ),

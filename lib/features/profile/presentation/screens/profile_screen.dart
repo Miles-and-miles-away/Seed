@@ -8,13 +8,13 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
-import 'package:seed_app/features/achievements/presentation/widgets/profile_achievements_section.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
 
-/// User profile screen displaying stats, level progress, and achievements.
+/// User profile screen displaying stats, level progress, and discoveries.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -69,7 +69,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 const SizedBox(height: spacingXxl),
 
-                ProfileAchievementsSection(userId: user.uid),
+                const ProfileEcoDexSection(),
 
                 const SizedBox(height: spacingXxl),
 

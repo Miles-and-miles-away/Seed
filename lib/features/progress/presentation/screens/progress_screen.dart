@@ -12,9 +12,21 @@ import '../widgets/impact_dashboard.dart';
 import '../widgets/progress_calendar.dart';
 import '../widgets/rainbow_sun_widget.dart';
 
+/// Values accepted by the `tab` query parameter on the progress
+/// route, e.g. `/progress?tab=ecodex`. Used for deep links from
+/// other screens (the profile Eco-Dex preview).
+const String progressTabCalendar = 'calendar';
+const String progressTabImpact = 'impact';
+const String progressTabEcoDex = 'ecodex';
+
 /// Main progress screen showing the Rainbow Sun and calendar view.
 class ProgressScreen extends ConsumerWidget {
-  const ProgressScreen({super.key});
+  const ProgressScreen({super.key, this.initialTab});
+
+  /// Optional `tab` query parameter value selecting the initial
+  /// segment (see `progressTab*` constants). Unknown values fall
+  /// back to the calendar segment.
+  final String? initialTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,15 +45,24 @@ class ProgressScreen extends ConsumerWidget {
       );
     }
 
-    return const _ProgressContent();
+    return _ProgressContent(initialTab: initialTab);
   }
 }
 
 /// Segments for the progress screen tab bar.
 enum _ProgressSegment { calendar, impact, ecoDex }
 
+_ProgressSegment? _segmentFromTab(String? tab) => switch (tab) {
+      progressTabCalendar => _ProgressSegment.calendar,
+      progressTabImpact => _ProgressSegment.impact,
+      progressTabEcoDex => _ProgressSegment.ecoDex,
+      _ => null,
+    };
+
 class _ProgressContent extends ConsumerStatefulWidget {
-  const _ProgressContent();
+  const _ProgressContent({this.initialTab});
+
+  final String? initialTab;
 
   @override
   ConsumerState<_ProgressContent> createState() => _ProgressContentState();
@@ -49,6 +70,25 @@ class _ProgressContent extends ConsumerStatefulWidget {
 
 class _ProgressContentState extends ConsumerState<_ProgressContent> {
   _ProgressSegment _segment = _ProgressSegment.calendar;
+
+  @override
+  void initState() {
+    super.initState();
+    _segment = _segmentFromTab(widget.initialTab) ?? _segment;
+  }
+
+  @override
+  void didUpdateWidget(covariant _ProgressContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Re-navigation to /progress with a different tab param reuses
+    // this state object, so initState alone would miss the change.
+    if (widget.initialTab != oldWidget.initialTab) {
+      final segment = _segmentFromTab(widget.initialTab);
+      if (segment != null && segment != _segment) {
+        setState(() => _segment = segment);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

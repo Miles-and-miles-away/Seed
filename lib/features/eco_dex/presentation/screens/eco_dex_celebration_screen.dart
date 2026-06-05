@@ -7,31 +7,30 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
-import 'package:seed_app/features/achievements/presentation/widgets/achievement_icons.dart';
+import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 
-/// Full-screen celebration shown when the user unlocks an
-/// achievement. Dismissed only via the acknowledge button -- no
-/// auto-dismiss timer so a user who looks away will not silently
-/// lose the moment.
+/// Full-screen celebration shown when the user discovers an Eco-Dex
+/// entry. The fact itself is the reward, so it takes center stage.
+/// Dismissed only via the acknowledge button -- no auto-dismiss timer
+/// so a user who looks away will not silently lose the moment.
 ///
-/// Use [showAchievementCelebrations] (below) rather than instantiating
+/// Use [showEcoDexCelebrations] (below) rather than instantiating
 /// this widget directly; that helper handles the sequential queue
 /// and "+N more" hint.
-class AchievementCelebrationScreen extends StatelessWidget {
-  const AchievementCelebrationScreen({
-    required this.definition,
+class EcoDexCelebrationScreen extends StatelessWidget {
+  const EcoDexCelebrationScreen({
+    required this.entry,
     required this.onDismiss,
     super.key,
     this.remainingInQueue = 0,
   });
 
-  final AchievementDefinition definition;
+  final EcoDexEntry entry;
   final VoidCallback onDismiss;
 
   /// How many more celebrations are queued behind this one. Drives
-  /// the "+N more achievements" hint so the user knows what they are
-  /// about to see.
+  /// the "+N more" hint so the user knows what they are about to see.
   final int remainingInQueue;
 
   @override
@@ -61,7 +60,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    l10n.achievementUnlockedTitle,
+                    l10n.ecoDexDiscoveryTitle,
                     style: theme.textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -75,14 +74,16 @@ class AchievementCelebrationScreen extends StatelessWidget {
                   Container(
                     width: 140,
                     height: 140,
+                    padding: const EdgeInsets.all(spacingLg),
                     decoration: const BoxDecoration(
-                      color: AppColors.gold,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      achievementIconFor(definition.iconName),
-                      size: 72,
-                      color: Colors.white,
+                    child: ClipOval(
+                      child: EcoDexEntryImage(
+                        iconName: entry.iconName,
+                        size: 96,
+                      ),
                     ),
                   ).animate().fadeIn(duration: 400.ms).scale(
                         begin: const Offset(0.3, 0.3),
@@ -92,7 +93,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                       ),
                   const SizedBox(height: spacingXxl),
                   Text(
-                    definition.name(locale),
+                    entry.name(locale),
                     style: theme.textTheme.headlineSmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -101,26 +102,12 @@ class AchievementCelebrationScreen extends StatelessWidget {
                   ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
                   const SizedBox(height: spacingMd),
                   Text(
-                    definition.description(locale),
+                    entry.fact(locale),
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.white.withValues(alpha: opacityHeavy),
                     ),
                     textAlign: TextAlign.center,
                   ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                  const SizedBox(height: spacingXxl),
-                  Text(
-                    l10n.achievementBonusPoints(definition.bonusPoints),
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: AppColors.gold,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).animate().fadeIn(delay: 500.ms, duration: 400.ms).scale(
-                        delay: 500.ms,
-                        begin: const Offset(0.7, 0.7),
-                        end: const Offset(1, 1),
-                        duration: 400.ms,
-                        curve: Curves.easeOutBack,
-                      ),
                   const SizedBox(height: spacingHuge),
                   FilledButton(
                     onPressed: onDismiss,
@@ -133,7 +120,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                         borderRadius: borderRadiusLg,
                       ),
                     ),
-                    child: Text(l10n.achievementAcknowledge),
+                    child: Text(l10n.ecoDexDiscoveryAcknowledge),
                   )
                       .animate(delay: 800.ms)
                       .fadeIn(duration: 400.ms)
@@ -141,7 +128,7 @@ class AchievementCelebrationScreen extends StatelessWidget {
                   if (remainingInQueue > 0) ...[
                     const SizedBox(height: spacingMd),
                     Text(
-                      l10n.achievementMoreQueued(remainingInQueue),
+                      l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white.withValues(alpha: opacityMedium),
                       ),
@@ -157,24 +144,24 @@ class AchievementCelebrationScreen extends StatelessWidget {
   }
 }
 
-/// Shows each definition in [definitions] sequentially. Each
-/// celebration is acknowledged via its button before the next is
-/// shown. Returns once the queue is empty.
-Future<void> showAchievementCelebrations(
+/// Shows each entry in [entries] sequentially. Each celebration is
+/// acknowledged via its button before the next is shown. Returns
+/// once the queue is empty.
+Future<void> showEcoDexCelebrations(
   BuildContext context, {
-  required List<AchievementDefinition> definitions,
+  required List<EcoDexEntry> entries,
 }) async {
-  if (definitions.isEmpty) return;
+  if (entries.isEmpty) return;
 
-  for (var i = 0; i < definitions.length; i++) {
+  for (var i = 0; i < entries.length; i++) {
     if (!context.mounted) return;
-    final remaining = definitions.length - i - 1;
+    final remaining = entries.length - i - 1;
     await showGeneralDialog<void>(
       context: context,
       barrierColor: Colors.transparent,
       pageBuilder: (dialogContext, _, __) {
-        return AchievementCelebrationScreen(
-          definition: definitions[i],
+        return EcoDexCelebrationScreen(
+          entry: entries[i],
           remainingInQueue: remaining,
           onDismiss: () => Navigator.of(dialogContext).pop(),
         );

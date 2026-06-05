@@ -19,6 +19,24 @@ class EcoDexEntrySheet extends StatelessWidget {
   final EcoDexEntry entry;
   final String locale;
 
+  /// Opens the sheet with the standard modal configuration.
+  static Future<void> show(
+    BuildContext context, {
+    required EcoDexEntry entry,
+    required String locale,
+  }) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(radiusXl),
+        ),
+      ),
+      builder: (_) => EcoDexEntrySheet(entry: entry, locale: locale),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

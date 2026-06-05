@@ -4,8 +4,8 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 
 /// Generic informational bottom sheet: a centered title above a
 /// single body paragraph. Used by the "how does this work" info
-/// buttons (Eco-Dex header, Achievements app bar) so explainer
-/// sheets stay visually consistent across features.
+/// buttons (e.g. the Eco-Dex header) so explainer sheets stay
+/// visually consistent across features.
 class InfoSheet extends StatelessWidget {
   const InfoSheet({required this.title, required this.body, super.key});
 

@@ -623,6 +623,15 @@ make Progress a comprehensive "My Progress" hub.
 
 #### Difference from Achievements (Phase 6)
 
+> **Update (June 2026):** this distinction did not survive contact
+> with reality -- the Phase 6 Achievement system was built, found to
+> near-duplicate the Eco-Dex (overlapping unlock conditions, colliding
+> thresholds, and bonus points that violated No Fake Points), and was
+> merged into the Eco-Dex. The Eco-Dex is now the app's single
+> milestone/collection system (108 entries); discoveries reward
+> knowledge, never points. The table below is the original rationale,
+> kept for the record.
+
 | Aspect | Eco-Dex | Achievements |
 |--------|---------|-------------|
 | Frame | Discovery / exploration | Accomplishment / badge |

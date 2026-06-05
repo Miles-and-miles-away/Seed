@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_category_section.dart';
+import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_next_up_section.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_header.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
@@ -28,6 +29,8 @@ class EcoDexScreen extends ConsumerWidget {
           children: [
             const SizedBox(height: spacingLg),
             const EcoDexProgressHeader(),
+            const SizedBox(height: spacingXl),
+            const EcoDexNextUpSection(),
             const SizedBox(height: spacingXl),
             ...data.categories.map((category) {
               return Padding(

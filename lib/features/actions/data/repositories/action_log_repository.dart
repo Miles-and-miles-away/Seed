@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/helpers.dart';
-import 'package:seed_app/features/achievements/data/datasources/achievements_remote_datasource.dart';
-import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
-import 'package:seed_app/features/achievements/domain/services/achievement_checker.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -27,10 +24,7 @@ class ActionLogRepository {
     required this.dailyChallengeTemplates,
     required this.multiDayChallengeTemplates,
     required this.mascotSpecies,
-    required this.achievementsDataSource,
-    required this.achievementDefinitions,
     this.eggHatchingService = const EggHatchingService(),
-    this.achievementChecker = const AchievementChecker(),
   });
 
   final ActionLogRemoteDataSource dataSource;
@@ -39,18 +33,6 @@ class ActionLogRepository {
   final List<MultiDayChallengeTemplate> multiDayChallengeTemplates;
   final List<MascotSpeciesModel> mascotSpecies;
   final EggHatchingService eggHatchingService;
-
-  /// Catalog of achievements evaluated after each action. Empty list
-  /// disables the checker entirely (useful for narrow unit tests).
-  final List<AchievementDefinition> achievementDefinitions;
-
-  /// Datasource that exposes the user's achievement subcollection.
-  /// Used for the pre-txn "already unlocked" read and the in-txn
-  /// `transaction.get(docRef)` race-check before writing a new
-  /// unlock record.
-  final AchievementsRemoteDataSource achievementsDataSource;
-
-  final AchievementChecker achievementChecker;
 
   /// Watches all action logs for the current user.
   Stream<List<ActionLogModel>> watchUserActionLogs(
@@ -96,29 +78,16 @@ class ActionLogRepository {
     var newCurrentStreak = 1;
     String? hatchedMascotId;
     var challengeCompleted = false;
-    var newlyUnlockedAchievements = const <AchievementDefinition>[];
-
-    // Pre-txn snapshot is a fast-path filter to skip already-unlocked
-    // candidates. The in-txn `transaction.get(docRef)` below is the
-    // actual race guard against concurrent action logs.
-    final preTxnUnlockedIds = achievementDefinitions.isEmpty
-        ? const <String>{}
-        : (await achievementsDataSource.getUserAchievements(userId))
-            .map((r) => r.id)
-            .toSet();
-    final achievementsCollection =
-        achievementsDataSource.getAchievementsCollection(userId);
 
     await firestore.runTransaction((transaction) async {
       final userDoc = await transaction.get(userRef);
       final userData = userDoc.data() ?? {};
 
-      // 1. Global points/level -- always update. `var` because the
-      // achievement checker may add bonus points at the end of the
-      // txn, which can also push the user past a level threshold.
+      // 1. Global points/level -- always update. Points represent
+      // real CO2 savings only (no bonus mechanics).
       final currentPoints = (userData[AppConstants.fieldPoints] as int?) ?? 0;
-      var newPoints = currentPoints + action.points;
-      var newLevel = calculateLevel(newPoints);
+      final newPoints = currentPoints + action.points;
+      final newLevel = calculateLevel(newPoints);
 
       // 2. Streak calculation
       final lastActionDate = _parseDate(
@@ -359,66 +328,6 @@ class ActionLogRepository {
         }
       }
 
-      // 8. Achievements -- evaluate criteria against the post-update
-      // user state, then atomically write unlock records + fold bonus
-      // points into the same user-doc update. All in-txn reads must
-      // precede in-txn writes; we read each candidate doc first to
-      // skip any that a concurrent txn already unlocked.
-      if (achievementDefinitions.isNotEmpty) {
-        final supportedSdgIds = updatedSdgStats.keys
-            .where(
-              (k) =>
-                  ((updatedSdgStats[k] as Map<String, dynamic>?)?[
-                          AppConstants.fieldCount] as int? ??
-                      0) >
-                  0,
-            )
-            .toSet();
-        final categoryCounts = <String, int>{
-          for (final entry in updatedCatCounts.entries)
-            entry.key: (entry.value as int?) ?? 0,
-        };
-        final state = AchievementUserState(
-          totalActionsCount: currentActionCount + 1,
-          totalCo2Grams: currentCo2 + action.co2Grams,
-          currentStreak: streakResult.currentStreak,
-          level: newLevel,
-          categoryActionCounts: categoryCounts,
-          supportedSdgIds: supportedSdgIds,
-        );
-        final candidates = achievementChecker.findNewlyUnlocked(
-          definitions: achievementDefinitions,
-          alreadyUnlockedIds: preTxnUnlockedIds,
-          state: state,
-        );
-
-        // Issue all candidate reads in parallel so RPC latency
-        // overlaps; reads must still precede any in-txn write.
-        final candidateSnaps = await Future.wait([
-          for (final c in candidates)
-            transaction.get(achievementsCollection.doc(c.id)),
-        ]);
-        final actuallyNew = <AchievementDefinition>[
-          for (var i = 0; i < candidates.length; i++)
-            if (!candidateSnaps[i].exists) candidates[i],
-        ];
-
-        if (actuallyNew.isNotEmpty) {
-          var bonusPoints = 0;
-          for (final a in actuallyNew) {
-            transaction.set(achievementsCollection.doc(a.id), {
-              AppConstants.fieldUnlockedAt: FieldValue.serverTimestamp(),
-            });
-            bonusPoints += a.bonusPoints;
-          }
-          newPoints += bonusPoints;
-          newLevel = calculateLevel(newPoints);
-          updates[AppConstants.fieldPoints] = newPoints;
-          updates[AppConstants.fieldLevel] = newLevel;
-          newlyUnlockedAchievements = actuallyNew;
-        }
-      }
-
       // Write action log + user updates
       final logData = actionLog.toJson()..remove('id');
       transaction
@@ -432,7 +341,6 @@ class ActionLogRepository {
       newStreakDays: newCurrentStreak,
       hatchedMascotId: hatchedMascotId,
       challengeCompleted: challengeCompleted,
-      newlyUnlockedAchievements: newlyUnlockedAchievements,
     );
   }
 
@@ -453,7 +361,6 @@ class ActionLogResult {
     this.crossedMilestoneWeek,
     this.hatchedMascotId,
     this.challengeCompleted = false,
-    this.newlyUnlockedAchievements = const [],
   });
 
   final ActionLogModel actionLog;
@@ -470,14 +377,7 @@ class ActionLogResult {
   /// Whether today's daily challenge was completed.
   final bool challengeCompleted;
 
-  /// Achievements unlocked by this action, in catalog order. The
-  /// §6.9 celebration screen consumes this list; empty when the
-  /// action did not satisfy any new criteria.
-  final List<AchievementDefinition> newlyUnlockedAchievements;
-
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
 
   bool get didHatchEgg => hatchedMascotId != null;
-
-  bool get didUnlockAchievement => newlyUnlockedAchievements.isNotEmpty;
 }

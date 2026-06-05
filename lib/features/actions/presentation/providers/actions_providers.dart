@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/app_logger.dart';
-import 'package:seed_app/features/achievements/presentation/providers/achievement_providers.dart';
 import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
@@ -61,17 +60,12 @@ Future<ActionLogRepository> actionLogRepository(Ref ref) async {
   final speciesData = await ref.watch(
     mascotSpeciesDataProvider.future,
   );
-  final achievementDefs = await ref.watch(
-    achievementDefinitionsProvider.future,
-  );
   return ActionLogRepository(
     dataSource: ref.watch(actionLogDataSourceProvider),
     firestore: ref.watch(firestoreProvider),
     dailyChallengeTemplates: challengeData.daily,
     multiDayChallengeTemplates: challengeData.multiDay,
     mascotSpecies: speciesData,
-    achievementsDataSource: ref.watch(achievementsRemoteDataSourceProvider),
-    achievementDefinitions: achievementDefs,
   );
 }
 

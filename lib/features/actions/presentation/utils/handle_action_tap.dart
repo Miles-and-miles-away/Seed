@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/achievements/presentation/screens/achievement_celebration_screen.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
@@ -84,25 +83,16 @@ Future<void> handleActionTap(
 
     // Eco-Dex discovery evaluation
     if (context.mounted) {
-      final newEntries =
+      final newIds =
           await ref.read(ecoDexDiscoveryProvider.notifier).discoverNewEntries();
-      if (newEntries.isNotEmpty && context.mounted) {
+      if (newIds.isNotEmpty && context.mounted) {
         final ecoDex = await ref.read(ecoDexDataProvider.future);
-        final entry = ecoDex.entries.firstWhere(
-          (e) => e.id == newEntries.first,
-        );
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              AppLocalizations.of(context).ecoDexNewDiscoveryMessage(
-                entry.name(languageCode),
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-          ),
-        );
+        final byId = {for (final e in ecoDex.entries) e.id: e};
+        final entries =
+            newIds.map((id) => byId[id]).whereType<EcoDexEntry>().toList();
+        if (entries.isNotEmpty && context.mounted) {
+          await showEcoDexCelebrations(context, entries: entries);
+        }
       }
     }
 
@@ -118,13 +108,6 @@ Future<void> handleActionTap(
           totalDays: logResult.newStreakDays,
         );
       }
-    }
-
-    if (logResult.didUnlockAchievement && context.mounted) {
-      await showAchievementCelebrations(
-        context,
-        definitions: logResult.newlyUnlockedAchievements,
-      );
     }
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
