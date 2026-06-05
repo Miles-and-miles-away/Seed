@@ -8,7 +8,9 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/achievements/data/models/achievement_category.dart';
 import 'package:seed_app/features/achievements/data/models/achievement_criteria_model.dart';
 import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
+import 'package:seed_app/features/achievements/data/models/user_achievement_model.dart';
 import 'package:seed_app/features/achievements/presentation/providers/achievement_providers.dart';
+import 'package:seed_app/features/achievements/presentation/widgets/achievement_detail_sheet.dart';
 import 'package:seed_app/features/achievements/presentation/widgets/profile_achievements_section.dart';
 
 AchievementDefinition _def(String id) => AchievementDefinition(
@@ -30,11 +32,15 @@ Widget _wrap({
   required Set<String> unlockedIds,
   String userId = 'u1',
 }) {
+  final records = [
+    for (final id in unlockedIds)
+      UserAchievementModel(id: id, unlockedAt: DateTime(2026, 5)),
+  ];
   return ProviderScope(
     overrides: [
       achievementDefinitionsProvider.overrideWith((_) async => defs),
-      userUnlockedAchievementIdsProvider(userId)
-          .overrideWith((_) => Stream.value(unlockedIds)),
+      userAchievementsProvider(userId)
+          .overrideWith((_) => Stream.value(records)),
     ],
     child: MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -98,6 +104,23 @@ void main() {
       expect(find.text('5 of 7 unlocked'), findsOneWidget);
     });
 
+    testWidgets('tapping a badge opens the detail sheet, not navigation',
+        (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          defs: [_def('a10')],
+          unlockedIds: const {'a10'},
+        ),
+      );
+      await tester.pump();
+
+      await tester.tap(find.text('a10'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AchievementDetailSheet), findsOneWidget);
+      expect(find.text('Unlocked on May 1, 2026'), findsOneWidget);
+    });
+
     testWidgets('tapping the card navigates to the Achievements route',
         (tester) async {
       const userId = 'u1';
@@ -124,8 +147,9 @@ void main() {
           overrides: [
             achievementDefinitionsProvider
                 .overrideWith((_) async => [_def('a10')]),
-            userUnlockedAchievementIdsProvider(userId)
-                .overrideWith((_) => Stream.value(const <String>{})),
+            userAchievementsProvider(userId).overrideWith(
+              (_) => Stream.value(const <UserAchievementModel>[]),
+            ),
           ],
           child: MaterialApp.router(
             routerConfig: router,

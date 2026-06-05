@@ -6,14 +6,14 @@ import 'package:seed_app/features/progress/domain/services/impact_equivalencies.
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_card.dart';
 
-/// Horizontally scrollable strip of impact-equivalency cards rendered
-/// beneath the headline total card on the Impact dashboard.
+/// Static strip of impact-equivalency cards rendered beneath the
+/// headline total card on the Impact dashboard.
 ///
-/// Card width is fixed (see [EquivalencyCard.width]) so the row
-/// overflows gracefully on narrow screens rather than shrinking each
-/// card past legibility. Height accommodates a 28px icon, the value
-/// row, and a two-line label without the card's inner Column
-/// overflowing.
+/// All four cards share the available width equally so the row always
+/// fits on screen without horizontal scrolling; each card's value uses
+/// a FittedBox and its label ellipsizes, so narrow screens stay
+/// legible. Height accommodates a 28px icon, the value row, and a
+/// two-line label without the card's inner Column overflowing.
 ///
 /// Reads conversion-factor metadata from
 /// [impactEquivalenciesDataProvider], which loads the bundled JSON
@@ -37,12 +37,16 @@ class EquivalencyRow extends ConsumerWidget {
         data: (metadata) {
           final equivalencies =
               computeImpactEquivalencies(totalGrams, metadata);
-          return ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: equivalencies.length,
-            separatorBuilder: (_, __) => const SizedBox(width: spacingSm),
-            itemBuilder: (_, i) =>
-                EquivalencyCard(equivalency: equivalencies[i]),
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < equivalencies.length; i++) ...[
+                if (i > 0) const SizedBox(width: spacingSm),
+                Expanded(
+                  child: EquivalencyCard(equivalency: equivalencies[i]),
+                ),
+              ],
+            ],
           );
         },
         loading: () => const SizedBox.shrink(),

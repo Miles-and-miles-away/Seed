@@ -5,12 +5,16 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/achievements/data/models/achievement_definition_model.dart';
+import 'package:seed_app/features/achievements/data/models/user_achievement_model.dart';
 import 'package:seed_app/features/achievements/domain/services/achievement_checker.dart';
+import 'package:seed_app/features/achievements/domain/services/achievement_progress.dart';
 import 'package:seed_app/features/achievements/presentation/providers/achievement_providers.dart';
 import 'package:seed_app/features/achievements/presentation/widgets/achievement_badge.dart';
+import 'package:seed_app/features/achievements/presentation/widgets/achievement_detail_sheet.dart';
 import 'package:seed_app/features/achievements/presentation/widgets/next_up_section.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Full Achievements screen at `/profile/achievements`. Shows the
 /// overall unlock progress header, a "Next Up" preview of the three
@@ -27,7 +31,20 @@ class AchievementsScreen extends ConsumerWidget {
     final defsAsync = ref.watch(achievementDefinitionsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.achievementsTitle)),
+      appBar: AppBar(
+        title: Text(l10n.achievementsTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: l10n.achievementsInfoTooltip,
+            onPressed: () => InfoSheet.show(
+              context,
+              title: l10n.achievementsInfoTitle,
+              body: l10n.achievementsInfoBody,
+            ),
+          ),
+        ],
+      ),
       body: userAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, __) => Center(child: Text(l10n.achievementsLoadError)),
@@ -39,17 +56,19 @@ class AchievementsScreen extends ConsumerWidget {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (_, __) => Center(child: Text(l10n.achievementsLoadError)),
             data: (definitions) {
-              final unlockedAsync = ref.watch(
-                userUnlockedAchievementIdsProvider(user.uid),
+              // Full unlock records (not just ids) so the detail
+              // sheet can show when each badge was earned.
+              final recordsAsync = ref.watch(
+                userAchievementsProvider(user.uid),
               );
-              return unlockedAsync.when(
+              return recordsAsync.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (_, __) =>
                     Center(child: Text(l10n.achievementsLoadError)),
-                data: (unlockedIds) => _AchievementsBody(
+                data: (records) => _AchievementsBody(
                   user: user,
                   definitions: definitions,
-                  unlockedIds: unlockedIds,
+                  records: records,
                   theme: theme,
                   l10n: l10n,
                 ),
@@ -66,20 +85,22 @@ class _AchievementsBody extends StatelessWidget {
   const _AchievementsBody({
     required this.user,
     required this.definitions,
-    required this.unlockedIds,
+    required this.records,
     required this.theme,
     required this.l10n,
   });
 
   final AppUserModel user;
   final List<AchievementDefinition> definitions;
-  final Set<String> unlockedIds;
+  final List<UserAchievementModel> records;
   final ThemeData theme;
   final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final state = achievementStateFromUser(user);
+    final unlockedAt = {for (final r in records) r.id: r.unlockedAt};
+    final unlockedIds = unlockedAt.keys.toSet();
     final unlocked = definitions
         .where((d) => unlockedIds.contains(d.id))
         .toList(growable: false);
@@ -105,19 +126,34 @@ class _AchievementsBody extends StatelessWidget {
             definitions: definitions,
             unlockedIds: unlockedIds,
             state: state,
+            onItemTap: (definition, progress) => AchievementDetailSheet.show(
+              context,
+              definition: definition,
+              isUnlocked: false,
+              progress: progress,
+            ),
           ),
           const SizedBox(height: spacingXxl),
         ],
         if (unlocked.isNotEmpty) ...[
           _SectionHeader(label: l10n.achievementsUnlocked),
           const SizedBox(height: spacingMd),
-          _BadgeGrid(definitions: unlocked, isUnlocked: true),
+          _BadgeGrid(
+            definitions: unlocked,
+            isUnlocked: true,
+            state: state,
+            unlockedAt: unlockedAt,
+          ),
           const SizedBox(height: spacingXxl),
         ],
         if (locked.isNotEmpty) ...[
           _SectionHeader(label: l10n.achievementsLocked),
           const SizedBox(height: spacingMd),
-          _BadgeGrid(definitions: locked, isUnlocked: false),
+          _BadgeGrid(
+            definitions: locked,
+            isUnlocked: false,
+            state: state,
+          ),
         ],
       ],
     );
@@ -202,27 +238,50 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _BadgeGrid extends StatelessWidget {
-  const _BadgeGrid({required this.definitions, required this.isUnlocked});
+  const _BadgeGrid({
+    required this.definitions,
+    required this.isUnlocked,
+    required this.state,
+    this.unlockedAt = const {},
+  });
 
   final List<AchievementDefinition> definitions;
   final bool isUnlocked;
+  final AchievementUserState state;
+  final Map<String, DateTime> unlockedAt;
 
   @override
   Widget build(BuildContext context) {
+    // Badge height is width-independent, so derive the cell extent
+    // from the badge's own layout math (which tracks theme typography
+    // and text scaling) instead of a width-based childAspectRatio
+    // that overflows on narrow phones.
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         mainAxisSpacing: spacingMd,
         crossAxisSpacing: spacingMd,
-        childAspectRatio: 0.78,
+        mainAxisExtent: AchievementBadge.extentFor(context),
       ),
       itemCount: definitions.length,
-      itemBuilder: (context, i) => AchievementBadge(
-        definition: definitions[i],
-        isUnlocked: isUnlocked,
-      ),
+      itemBuilder: (context, i) {
+        final definition = definitions[i];
+        return AchievementBadge(
+          definition: definition,
+          isUnlocked: isUnlocked,
+          onTap: () => AchievementDetailSheet.show(
+            context,
+            definition: definition,
+            isUnlocked: isUnlocked,
+            progress: isUnlocked
+                ? null
+                : achievementProgressOf(definition.criteria, state),
+            unlockedAt: unlockedAt[definition.id],
+          ),
+        );
+      },
     );
   }
 }

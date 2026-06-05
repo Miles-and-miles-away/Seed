@@ -79,6 +79,26 @@ void main() {
       expect(find.text('PRIVACY'), findsOneWidget);
     });
 
+    testWidgets('renders support section with feedback tile', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(child: const SettingsScreen()),
+      );
+      await tester.pumpAndSettle();
+
+      // Support section may require scrolling
+      await tester.scrollUntilVisible(
+        find.text('SUPPORT'),
+        100,
+      );
+      expect(find.text('SUPPORT'), findsOneWidget);
+      expect(find.text('Send Feedback'), findsOneWidget);
+      expect(
+        find.text('Report a bug or share your thoughts'),
+        findsOneWidget,
+      );
+      expect(find.byIcon(Icons.mail_outline), findsOneWidget);
+    });
+
     testWidgets('renders about section', (tester) async {
       await tester.pumpWidget(
         createTestWidget(child: const SettingsScreen()),
@@ -291,7 +311,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // 5 sections total, but About may be off-screen
+      // 6 sections total, but Support/About may be off-screen
       expect(
         find.byType(SettingsSection),
         findsAtLeast(4),

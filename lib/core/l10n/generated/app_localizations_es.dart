@@ -445,13 +445,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aboutSettingsLicenses => 'Licencias de código abierto';
 
   @override
-  String get aboutSettingsFeedback => 'Enviar comentarios';
-
-  @override
-  String get aboutSettingsFeedbackSubtitle =>
-      'Reporta un error o comparte tu opinión';
-
-  @override
   String get aboutSettingsPrivacy => 'Política de privacidad';
 
   @override
@@ -758,10 +751,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsErrorLoading => 'Error al cargar ajustes';
 
   @override
-  String get aboutLegal => 'Legal';
+  String get settingsSupport => 'Soporte';
 
   @override
-  String get aboutSupport => 'Soporte';
+  String get settingsFeedback => 'Enviar comentarios';
+
+  @override
+  String get settingsFeedbackSubtitle =>
+      'Reporta un error o comparte tu opinión';
+
+  @override
+  String get aboutLegal => 'Legal';
 
   @override
   String get aboutFooterSdg =>
@@ -1227,6 +1227,16 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get ecoDexInfoTooltip => 'Acerca del Eco-Dex';
+
+  @override
+  String get ecoDexInfoTitle => 'Acerca del Eco-Dex';
+
+  @override
+  String get ecoDexInfoBody =>
+      'El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. A diferencia de los Logros, aquí no hay puntos: cada descubrimiento te recompensa con conocimiento.';
+
+  @override
   String get achievementsTitle => 'Logros';
 
   @override
@@ -1260,10 +1270,33 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get achievementTapToContinue => 'Toca para continuar';
+  String get achievementAcknowledge => '¡Genial!';
 
   @override
   String achievementMoreQueued(int count) {
     return '+$count más en cola';
+  }
+
+  @override
+  String get achievementsInfoTooltip => 'Acerca de los logros';
+
+  @override
+  String get achievementsInfoTitle => 'Acerca de los Logros';
+
+  @override
+  String get achievementsInfoBody =>
+      'Los logros son insignias que celebran tus hitos personales: registrar acciones, mantener rachas, subir de nivel, ahorrar CO2 y apoyar los ODS. Cada insignia otorga puntos extra al desbloquearse. Toca cualquier insignia para ver qué se necesita para ganarla y qué tan cerca estás. ¿Prefieres coleccionar datos sobre el planeta? Ese es el Eco-Dex, en la pestaña Progreso.';
+
+  @override
+  String achievementDetailReward(int points) {
+    return 'Recompensa: +$points puntos';
+  }
+
+  @override
+  String achievementDetailUnlockedOn(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Desbloqueado el $dateString';
   }
 }

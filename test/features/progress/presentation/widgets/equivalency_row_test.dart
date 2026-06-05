@@ -64,13 +64,23 @@ void main() {
       expect(find.text('beef burgers'), findsOneWidget);
     });
 
-    testWidgets('scrolls horizontally so cards overflow gracefully',
-        (tester) async {
+    testWidgets('fits all cards statically without scrolling', (tester) async {
       await tester.pumpWidget(_wrap(const EquivalencyRow(totalGrams: 21000)));
       await tester.pumpAndSettle();
 
-      final listView = tester.widget<ListView>(find.byType(ListView));
-      expect(listView.scrollDirection, Axis.horizontal);
+      expect(find.byType(Scrollable), findsNothing);
+      expect(find.byType(EquivalencyCard), findsNWidgets(4));
+    });
+
+    testWidgets('does not overflow on a narrow screen', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      await tester.pumpWidget(_wrap(const EquivalencyRow(totalGrams: 21000)));
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(EquivalencyCard), findsNWidgets(4));
     });
 
     testWidgets('renders even for very large totals without throwing',

@@ -1069,8 +1069,8 @@ with account state.
 #### Navigation
 
 ```
-Profile -> Settings -> About -> Send Feedback (new screen)
-Route: /profile/settings/about/feedback
+Profile -> Settings -> Support -> Send Feedback (new screen)
+Route: /profile/settings/feedback
 ```
 
 #### Tasks
@@ -1080,7 +1080,7 @@ Route: /profile/settings/about/feedback
 | Create FeedbackCategory enum | bug, featureRequest, general | Pending |
 | Create FeedbackScreen | Form with category chips and text field | Pending |
 | Build mailto URI with metadata | Category prefix, body template, device info | Pending |
-| Add route to go_router | /profile/settings/about/feedback | Pending |
+| Add route to go_router | /profile/settings/feedback | Pending |
 | Replace About screen Contact tile | Point to new feedback screen | Pending |
 | Localize all strings | EN/JA | Pending |
 | Write widget tests | Form validation, category selection | Pending |
@@ -1439,12 +1439,12 @@ Stage 6.10: Polish & Testing
 - [x] Celebration appears on unlock (triggered from `handle_action_tap`)
 - [x] Confetti animation plays (`_ConfettiLayer` with 40 particles)
 - [x] Bonus points shown prominently in gold
-- [x] ~~Auto-dismiss~~ replaced with **tap-only dismiss** to avoid rare unlocks scrolling past unread
+- [x] ~~Auto-dismiss~~ replaced with **acknowledge button** ("Awesome!") to avoid rare unlocks scrolling past unread; confetti fades out after its 4s run instead of freezing
 - [x] Queue handles multiple sequentially; "+N more queued" indicator
 - [x] ~~`markPointsClaimed`~~ -- `pointsClaimed` flag dropped (YAGNI; no consumer)
 
 ### 6.10 User Feedback — **Complete**
-- [x] Feedback screen accessible from About > Support (`/profile/settings/about/feedback`)
+- [x] Feedback screen accessible from Settings > Support (`/profile/settings/feedback`)
 - [x] Category selector works (Bug / Feature / General `ChoiceChip`s)
 - [x] Description field validates non-empty (submit disabled until trimmed text is non-empty)
 - [x] Submit builds correct mailto URI with category prefix (`[Bug]` / `[Feature]` / `[Feedback]`)

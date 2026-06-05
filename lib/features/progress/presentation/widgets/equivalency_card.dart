@@ -6,12 +6,11 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 
 /// One tile in the equivalencies row: an icon, the formatted value,
-/// and the localized unit label. Cards have a fixed width so the row
-/// can scroll horizontally on narrow screens without rescaling.
+/// and the localized unit label. Width is dictated by the parent row,
+/// which flexes all four cards equally to fit the screen; the value's
+/// FittedBox and the label's ellipsis keep narrow cards legible.
 class EquivalencyCard extends StatelessWidget {
   const EquivalencyCard({required this.equivalency, super.key});
-
-  static const double width = 96;
 
   final ImpactEquivalency equivalency;
 
@@ -22,7 +21,6 @@ class EquivalencyCard extends StatelessWidget {
     final locale = Localizations.localeOf(context).toLanguageTag();
 
     return Container(
-      width: width,
       padding: const EdgeInsets.symmetric(
         horizontal: spacingSm,
         vertical: spacingMd,

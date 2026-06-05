@@ -111,6 +111,20 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
 
+              // Support Section
+              SettingsSection(
+                title: l10n.settingsSupport,
+                showTopDivider: true,
+                children: [
+                  SettingsTile(
+                    title: l10n.settingsFeedback,
+                    subtitle: l10n.settingsFeedbackSubtitle,
+                    leading: const Icon(Icons.mail_outline),
+                    onTap: () => context.push(appRoutes.settingsFeedback),
+                  ),
+                ],
+              ),
+
               // About Section
               SettingsSection(
                 title: l10n.settingsAbout,
