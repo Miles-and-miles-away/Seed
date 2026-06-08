@@ -477,7 +477,7 @@ final class EcoDexDiscoveryNotifierProvider
 }
 
 String _$ecoDexDiscoveryNotifierHash() =>
-    r'3fd4b46a764c3faf4098d91fb7db1871ebbf9daa';
+    r'f265f37ff68dcc018a353fb79e47c8dfdce94625';
 
 /// Notifier for discovering new Eco-Dex entries.
 

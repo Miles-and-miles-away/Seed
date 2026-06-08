@@ -1,6 +1,8 @@
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/data/eco_dex_entries_data.dart';
@@ -399,6 +401,59 @@ void main() {
       expect(result, isEmpty);
       // Empty-list short-circuits before Firestore call -- no error state.
       expect(c.read(ecoDexDiscoveryProvider).hasError, isFalse);
+    });
+
+    test(
+        'concurrent discoverNewEntries records each unlock once '
+        'via arrayUnion idempotency', () async {
+      final firestore = FakeFirebaseFirestore();
+      const uid = 'u';
+      final userDoc =
+          firestore.collection(AppConstants.collectionUsers).doc(uid);
+      await userDoc.set({AppConstants.fieldEcodexDiscovered: <String>[]});
+
+      final c = ProviderContainer(
+        overrides: [
+          currentUserProvider.overrideWith(
+            (_) => Stream.value(
+              const AppUserModel(uid: uid, email: 'e', totalActionsCount: 5),
+            ),
+          ),
+          firestoreProvider.overrideWithValue(firestore),
+          ecoDexDataProvider.overrideWith(
+            (_) async => EcoDexData(
+              categories: const [],
+              entries: [
+                _entry(id: 'a'),
+                _entry(
+                  id: 'b',
+                  condition: const EcoDexCondition.totalActions(count: 5),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+      addTearDown(c.dispose);
+      await _pump(c);
+
+      final notifier = c.read(ecoDexDiscoveryProvider.notifier);
+      // Two discoveries race: both compute the same unlocks from the same
+      // user snapshot, so arrayUnion must keep the stored set duplicate-free.
+      final results = await Future.wait([
+        notifier.discoverNewEntries(),
+        notifier.discoverNewEntries(),
+      ]);
+
+      expect(results[0], ['a', 'b']);
+      expect(results[1], ['a', 'b']);
+
+      final snapshot = await userDoc.get();
+      final stored = List<String>.from(
+        snapshot.data()![AppConstants.fieldEcodexDiscovered] as List,
+      );
+      expect(stored, unorderedEquals(['a', 'b']));
+      expect(stored.length, 2);
     });
   });
 }

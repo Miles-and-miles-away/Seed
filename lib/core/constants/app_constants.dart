@@ -90,6 +90,9 @@ abstract class AppConstants {
   static const fieldViewedFactDates = 'viewedFactDates';
   static const fieldUnlockedFactDates = 'unlockedFactDates';
 
+  // Firestore eco-dex fields
+  static const fieldEcodexDiscovered = 'ecodexDiscovered';
+
   // Firestore challenge fields
   static const fieldChallengeCompletedDate = 'challengeCompletedDate';
   static const fieldChallengeStreak = 'challengeStreak';
@@ -103,6 +106,7 @@ abstract class AppConstants {
   static const fieldName = 'name';
   static const fieldMascotPoints = 'mascotPoints';
   static const fieldMascotLevel = 'mascotLevel';
+  static const fieldMascotCo2Grams = 'co2SavedGrams';
   static const fieldIsFullyEvolved = 'isFullyEvolved';
   static const fieldLastSeenStage = 'lastSeenStage';
   static const fieldSpeciesId = 'speciesId';

@@ -216,7 +216,7 @@ clear and recognizable at every size.
 | Eco-Dex detail card      | 200 x 200 dp    | High         |
 | Eco-Dex grid thumbnail   | 80 x 80 dp      | High         |
 | Action log icon          | 48 x 48 dp      | Medium       |
-| Achievement popup        | 120 x 120 dp    | Medium       |
+| Eco-Dex discovery popup  | 120 x 120 dp    | Medium       |
 | Garden plant             | 100-200 dp tall | High         |
 | Mascot (home screen)     | 200-300 dp tall | High         |
 
@@ -288,7 +288,7 @@ The collectible encyclopedia. Each entry represents a concept the user
 - **Elements** (8): Natural forces/elements as icons
 - **SDG World** (8): Sustainability concepts, use SDG colors
 - **Eco-Pioneers** (7): Human figures doing eco activities
-- **Milestones** (7): Achievement/progress symbols
+- **Milestones** (7): Progress/milestone symbols
 - **Challenge** (6): Action/activity symbols
 
 Style: Each entry should feel like a collectible card illustration --
@@ -346,7 +346,7 @@ fauna:         friendly animal character, simple features
 elements:      natural element icon, symbolic
 sdg_world:     globe or world concept, sustainability themed
 eco_pioneers:  human figure, minimalist, diverse
-milestones:    achievement symbol, celebratory
+milestones:    milestone symbol, celebratory
 challenge:     action or activity symbol, energetic
 garden:        garden plant with pot or soil, growth stages
 mascot:        cute mascot character, kawaii inspired, expressive
@@ -358,5 +358,5 @@ mascot:        cute mascot character, kawaii inspired, expressive
 
 ---
 
-*Last updated: 2026-03-20*
+*Last updated: 2026-06-08*
 *Maintained alongside `scripts/art_pipeline/config.yaml`*

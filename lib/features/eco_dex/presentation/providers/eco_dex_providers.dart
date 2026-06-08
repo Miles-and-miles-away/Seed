@@ -138,12 +138,13 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
       final user = ref.read(currentUserProvider).value;
       if (user == null) throw Exception('Not logged in');
 
-      final userRef = FirebaseFirestore.instance
+      final userRef = ref
+          .read(firestoreProvider)
           .collection(AppConstants.collectionUsers)
           .doc(user.uid);
 
       await userRef.update({
-        'ecodexDiscovered': FieldValue.arrayUnion(newUnlocks),
+        AppConstants.fieldEcodexDiscovered: FieldValue.arrayUnion(newUnlocks),
       });
     });
 

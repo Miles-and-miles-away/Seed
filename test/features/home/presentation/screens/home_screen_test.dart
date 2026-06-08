@@ -4,8 +4,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/home/presentation/providers/home_providers.dart';
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+
+/// Stubs the router-backed visit signal so the home screen can be pumped in
+/// isolation without initializing Firebase (the real provider reads the
+/// router, which requires a Firebase app).
+class _StubHomeVisitSignal extends HomeVisitSignal {
+  @override
+  int build() => 0;
+}
 
 void main() {
   // Set up mock platform channels for path_provider (used by CachedNetworkImage)
@@ -31,13 +40,14 @@ void main() {
   group('HomeScreen', () {
     // Helper to pump widget and wait for initial frame
     // Note: We use pump() instead of pumpAndSettle() because the SDG carousel
-    // and MascotPreview contain infinite animations that never settle.
+    // and MascotAvatar contain infinite animations that never settle.
     Future<void> pumpHomeScreen(WidgetTester tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             // Mock hasMascotProvider to return false (show mascot selection prompt)
             hasMascotProvider.overrideWithValue(false),
+            homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: [

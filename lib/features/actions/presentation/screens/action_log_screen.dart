@@ -87,6 +87,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.actionLogTitle),
+        // Action log is a primary destination reached via the bottom-nav
+        // Action button; navigation is via the tabs, so suppress the
+        // implicit back arrow to avoid a redundant second exit.
+        automaticallyImplyLeading: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
           child: Padding(

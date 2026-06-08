@@ -16,12 +16,16 @@ class MyGoalCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final goal = ref.watch(currentUserProvider).value?.personalGoal;
+    final userAsync = ref.watch(currentUserProvider);
+    final goal = userAsync.value?.personalGoal;
+    // Until the user stream emits its first value, show a placeholder so an
+    // existing goal doesn't flash the empty prompt on cold load.
+    final loading = !userAsync.hasValue;
 
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => _editGoal(context, ref, goal),
+        onTap: loading ? null : () => _editGoal(context, ref, goal),
         child: Padding(
           padding: const EdgeInsets.all(spacingLg),
           child: Row(
@@ -43,25 +47,31 @@ class MyGoalCard extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: spacingXs),
-                    Text(
-                      goal == null
-                          ? l10n.myGoalEmptyPrompt
-                          : localizedPersonalGoal(goal, l10n),
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color:
-                            goal == null ? colorScheme.onSurfaceVariant : null,
+                    if (loading)
+                      const SkeletonLine()
+                    else
+                      Text(
+                        goal == null
+                            ? l10n.myGoalEmptyPrompt
+                            : localizedPersonalGoal(goal, l10n),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: goal == null
+                              ? colorScheme.onSurfaceVariant
+                              : null,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
-              const SizedBox(width: spacingMd),
-              Icon(
-                goal == null ? Icons.add_circle_outline : Icons.edit_outlined,
-                color: colorScheme.primary,
-                size: 20,
-              ),
+              if (!loading) ...[
+                const SizedBox(width: spacingMd),
+                Icon(
+                  goal == null ? Icons.add_circle_outline : Icons.edit_outlined,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
+              ],
             ],
           ),
         ),
@@ -74,8 +84,17 @@ class MyGoalCard extends ConsumerWidget {
     WidgetRef ref,
     String? currentGoal,
   ) async {
+    final l10n = AppLocalizations.of(context);
     final goal = await GoalPickerSheet.show(context, initialGoal: currentGoal);
-    if (goal == null || goal == currentGoal) return;
-    await ref.read(authProvider.notifier).updatePersonalGoal(goal);
+    if (goal == null || goal == currentGoal || !context.mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      // Optimistic: the card reflects the new goal via the user stream;
+      // only surface a message if the write actually fails.
+      await ref.read(authProvider.notifier).updatePersonalGoal(goal);
+    } on Exception {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+    }
   }
 }

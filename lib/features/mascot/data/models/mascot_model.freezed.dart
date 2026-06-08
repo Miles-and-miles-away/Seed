@@ -29,6 +29,11 @@ mixin _$MascotModel {
   /// Level computed from mascotPoints.
   int get mascotLevel;
 
+  /// Total CO2 (grams) collected together with the user while this mascot
+  /// was active. Accrues for the mascot's whole life -- including after it
+  /// is fully evolved -- so the "collected together" stat keeps growing.
+  int get co2SavedGrams;
+
   /// Whether this mascot has reached max evolution (level >= 50).
   bool get isFullyEvolved;
 
@@ -65,6 +70,8 @@ mixin _$MascotModel {
                 other.mascotPoints == mascotPoints) &&
             (identical(other.mascotLevel, mascotLevel) ||
                 other.mascotLevel == mascotLevel) &&
+            (identical(other.co2SavedGrams, co2SavedGrams) ||
+                other.co2SavedGrams == co2SavedGrams) &&
             (identical(other.isFullyEvolved, isFullyEvolved) ||
                 other.isFullyEvolved == isFullyEvolved) &&
             const DeepCollectionEquality()
@@ -84,6 +91,7 @@ mixin _$MascotModel {
       name,
       mascotPoints,
       mascotLevel,
+      co2SavedGrams,
       isFullyEvolved,
       const DeepCollectionEquality().hash(equippedItems),
       createdAt,
@@ -91,7 +99,7 @@ mixin _$MascotModel {
 
   @override
   String toString() {
-    return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
+    return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, co2SavedGrams: $co2SavedGrams, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
   }
 }
 
@@ -107,6 +115,7 @@ abstract mixin class $MascotModelCopyWith<$Res> {
       String name,
       int mascotPoints,
       int mascotLevel,
+      int co2SavedGrams,
       bool isFullyEvolved,
       List<String> equippedItems,
       @TimestampConverter() DateTime? createdAt,
@@ -130,6 +139,7 @@ class _$MascotModelCopyWithImpl<$Res> implements $MascotModelCopyWith<$Res> {
     Object? name = null,
     Object? mascotPoints = null,
     Object? mascotLevel = null,
+    Object? co2SavedGrams = null,
     Object? isFullyEvolved = null,
     Object? equippedItems = null,
     Object? createdAt = freezed,
@@ -155,6 +165,10 @@ class _$MascotModelCopyWithImpl<$Res> implements $MascotModelCopyWith<$Res> {
       mascotLevel: null == mascotLevel
           ? _self.mascotLevel
           : mascotLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+      co2SavedGrams: null == co2SavedGrams
+          ? _self.co2SavedGrams
+          : co2SavedGrams // ignore: cast_nullable_to_non_nullable
               as int,
       isFullyEvolved: null == isFullyEvolved
           ? _self.isFullyEvolved
@@ -275,6 +289,7 @@ extension MascotModelPatterns on MascotModel {
             String name,
             int mascotPoints,
             int mascotLevel,
+            int co2SavedGrams,
             bool isFullyEvolved,
             List<String> equippedItems,
             @TimestampConverter() DateTime? createdAt,
@@ -291,6 +306,7 @@ extension MascotModelPatterns on MascotModel {
             _that.name,
             _that.mascotPoints,
             _that.mascotLevel,
+            _that.co2SavedGrams,
             _that.isFullyEvolved,
             _that.equippedItems,
             _that.createdAt,
@@ -321,6 +337,7 @@ extension MascotModelPatterns on MascotModel {
             String name,
             int mascotPoints,
             int mascotLevel,
+            int co2SavedGrams,
             bool isFullyEvolved,
             List<String> equippedItems,
             @TimestampConverter() DateTime? createdAt,
@@ -336,6 +353,7 @@ extension MascotModelPatterns on MascotModel {
             _that.name,
             _that.mascotPoints,
             _that.mascotLevel,
+            _that.co2SavedGrams,
             _that.isFullyEvolved,
             _that.equippedItems,
             _that.createdAt,
@@ -365,6 +383,7 @@ extension MascotModelPatterns on MascotModel {
             String name,
             int mascotPoints,
             int mascotLevel,
+            int co2SavedGrams,
             bool isFullyEvolved,
             List<String> equippedItems,
             @TimestampConverter() DateTime? createdAt,
@@ -380,6 +399,7 @@ extension MascotModelPatterns on MascotModel {
             _that.name,
             _that.mascotPoints,
             _that.mascotLevel,
+            _that.co2SavedGrams,
             _that.isFullyEvolved,
             _that.equippedItems,
             _that.createdAt,
@@ -399,6 +419,7 @@ class _MascotModel implements MascotModel {
       this.name = '',
       this.mascotPoints = 0,
       this.mascotLevel = 1,
+      this.co2SavedGrams = 0,
       this.isFullyEvolved = false,
       final List<String> equippedItems = const [],
       @TimestampConverter() this.createdAt,
@@ -429,6 +450,13 @@ class _MascotModel implements MascotModel {
   @override
   @JsonKey()
   final int mascotLevel;
+
+  /// Total CO2 (grams) collected together with the user while this mascot
+  /// was active. Accrues for the mascot's whole life -- including after it
+  /// is fully evolved -- so the "collected together" stat keeps growing.
+  @override
+  @JsonKey()
+  final int co2SavedGrams;
 
   /// Whether this mascot has reached max evolution (level >= 50).
   @override
@@ -485,6 +513,8 @@ class _MascotModel implements MascotModel {
                 other.mascotPoints == mascotPoints) &&
             (identical(other.mascotLevel, mascotLevel) ||
                 other.mascotLevel == mascotLevel) &&
+            (identical(other.co2SavedGrams, co2SavedGrams) ||
+                other.co2SavedGrams == co2SavedGrams) &&
             (identical(other.isFullyEvolved, isFullyEvolved) ||
                 other.isFullyEvolved == isFullyEvolved) &&
             const DeepCollectionEquality()
@@ -504,6 +534,7 @@ class _MascotModel implements MascotModel {
       name,
       mascotPoints,
       mascotLevel,
+      co2SavedGrams,
       isFullyEvolved,
       const DeepCollectionEquality().hash(_equippedItems),
       createdAt,
@@ -511,7 +542,7 @@ class _MascotModel implements MascotModel {
 
   @override
   String toString() {
-    return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
+    return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, co2SavedGrams: $co2SavedGrams, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
   }
 }
 
@@ -529,6 +560,7 @@ abstract mixin class _$MascotModelCopyWith<$Res>
       String name,
       int mascotPoints,
       int mascotLevel,
+      int co2SavedGrams,
       bool isFullyEvolved,
       List<String> equippedItems,
       @TimestampConverter() DateTime? createdAt,
@@ -552,6 +584,7 @@ class __$MascotModelCopyWithImpl<$Res> implements _$MascotModelCopyWith<$Res> {
     Object? name = null,
     Object? mascotPoints = null,
     Object? mascotLevel = null,
+    Object? co2SavedGrams = null,
     Object? isFullyEvolved = null,
     Object? equippedItems = null,
     Object? createdAt = freezed,
@@ -577,6 +610,10 @@ class __$MascotModelCopyWithImpl<$Res> implements _$MascotModelCopyWith<$Res> {
       mascotLevel: null == mascotLevel
           ? _self.mascotLevel
           : mascotLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+      co2SavedGrams: null == co2SavedGrams
+          ? _self.co2SavedGrams
+          : co2SavedGrams // ignore: cast_nullable_to_non_nullable
               as int,
       isFullyEvolved: null == isFullyEvolved
           ? _self.isFullyEvolved

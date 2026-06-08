@@ -27,6 +27,11 @@ abstract class MascotModel with _$MascotModel {
     /// Level computed from mascotPoints.
     @Default(1) int mascotLevel,
 
+    /// Total CO2 (grams) collected together with the user while this mascot
+    /// was active. Accrues for the mascot's whole life -- including after it
+    /// is fully evolved -- so the "collected together" stat keeps growing.
+    @Default(0) int co2SavedGrams,
+
     /// Whether this mascot has reached max evolution (level >= 50).
     @Default(false) bool isFullyEvolved,
 

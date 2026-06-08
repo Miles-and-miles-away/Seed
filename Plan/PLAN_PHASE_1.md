@@ -175,7 +175,7 @@ lib/
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Frontend | Flutter/Dart | 3.38.7 / 3.10.7 |
+| Frontend | Flutter/Dart | 3.44.1 / 3.12.1 |
 | State Management | Riverpod | 3.0.x |
 | Navigation | go_router | 17.0.x |
 | Backend | Firebase | 4.x |

@@ -165,7 +165,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.text(
+        find.textContaining(
           'The following info is included to help us investigate:',
         ),
         findsOneWidget,

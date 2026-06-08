@@ -155,9 +155,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mascotNameRequired => 'Please enter a name';
 
   @override
-  String get mascotNameTooShort => 'Name must be at least 2 characters';
-
-  @override
   String get mascotNameTooLong => 'Name must be 20 characters or less';
 
   @override
@@ -444,6 +441,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSettingsDisplayNameUpdated =>
       'Display name updated successfully';
+
+  @override
+  String get accountSettingsDisplayNameRequired => 'Please enter a name';
 
   @override
   String get aboutSettingsTitle => 'About';
@@ -800,7 +800,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedbackMetadataNote =>
-      'The following info is included to help us investigate:';
+      'The following info is included to help us investigate: app version, device and OS, language, and your account ID.';
 
   @override
   String get feedbackSubmit => 'Submit Feedback';
@@ -817,6 +817,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mascotNextEvolution => 'Next Evolution';
+
+  @override
+  String get mascotStatsTitle => 'Our Journey';
+
+  @override
+  String get mascotStatBirthday => 'Birthday';
+
+  @override
+  String get mascotStatDaysTogether => 'Days together';
+
+  @override
+  String get mascotStatCo2Together => 'CO₂ saved together';
 
   @override
   String mascotLevelShort(int level) {

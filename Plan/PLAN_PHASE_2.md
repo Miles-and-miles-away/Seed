@@ -748,67 +748,69 @@ flutter test test/features/mascot/data/repositories/mascot_repository_test.dart
 
 ## Acceptance Criteria
 
+> **Status (verified 2026-06-08):** Phase 2 is complete -- all 44 criteria are met in code and covered by tests. The final gaps were closed on 2026-06-08
+
 ### Feature 2.1: Data Layer
-- [ ] MascotModel serializes/deserializes correctly
-- [ ] MascotSpeciesModel loads from Firestore
-- [ ] Repository streams real-time updates
-- [ ] All CRUD operations work
-- [ ] Unit tests pass with >90% coverage
+- [x] MascotModel serializes/deserializes correctly
+- [x] MascotSpeciesModel loads from Firestore
+- [x] Repository streams real-time updates
+- [x] All CRUD operations work
+- [x] Unit tests pass with >90% coverage
 
 ### Feature 2.2: Providers
-- [ ] currentMascotProvider streams user's mascot
-- [ ] mascotAssetPathProvider returns correct path for level
-- [ ] MascotNotifier.selectMascot creates mascot document
-- [ ] MascotNotifier.renameMascot updates name
-- [ ] Unit tests pass
+- [x] currentMascotProvider streams user's mascot
+- [x] mascotAssetPathProvider returns correct path for level
+- [x] MascotNotifier.selectMascot creates mascot document
+- [x] MascotNotifier.renameMascot updates name
+- [x] Unit tests pass
 
 ### Feature 2.3: Selection Screen
-- [ ] Screen shows all available species
-- [ ] User can swipe between species
-- [ ] Name input validates (1-20 chars, no empty)
-- [ ] "Start Journey" creates mascot and navigates to home
-- [ ] Screen only appears for users without mascot
-- [ ] Widget tests pass
+- [x] Screen shows all available species
+- [x] User can swipe between species
+- [x] Name input validates (1-20 chars, no empty)
+- [x] "Start Journey" creates mascot and navigates to home
+- [x] Screen only appears for users without mascot
+- [x] Widget tests pass
 
 ### Feature 2.4: Display Widget
-- [ ] MascotDisplay renders correct SVG for evolution stage
-- [ ] Idle animation plays smoothly
-- [ ] MascotAvatar renders at small size
-- [ ] Loading/error states handled
-- [ ] Widget tests pass
+- [x] MascotDisplay renders correct SVG for evolution stage
+- [x] Idle animation plays smoothly
+- [x] MascotAvatar renders at small size
+- [x] Loading/error states handled
+- [x] Widget tests pass
 
 ### Feature 2.5: Home Integration
-- [ ] Mascot appears prominently on home screen
-- [ ] Name displays below mascot
-- [ ] Tap navigates to full mascot screen
-- [ ] Layout is balanced and appealing
+- [x] Mascot appears prominently on home screen
+- [x] Name displays below mascot
+- [x] Tap navigates to full mascot screen
+- [x] Layout is balanced and appealing
 
 ### Feature 2.6: Evolution System
-- [ ] Evolution detected when crossing level thresholds
-- [ ] Celebration overlay appears on first evolution
-- [ ] Overlay dismissable by tap or timeout
-- [ ] Evolution only triggers once per threshold
-- [ ] Tests pass
+- [x] Evolution detected when crossing level thresholds
+- [x] Celebration overlay appears on first evolution
+- [x] Overlay dismissable by tap or timeout
+- [x] Evolution only triggers once per threshold
+- [x] Tests pass
 
 ### Feature 2.7: Naming
-- [ ] Rename dialog accessible from mascot screen
-- [ ] Name validates (1-20 chars)
-- [ ] Name updates in Firestore and UI immediately
-- [ ] Tests pass
+- [x] Rename dialog accessible from mascot screen
+- [x] Name validates (1-20 chars)
+- [x] Name updates in Firestore and UI immediately
+- [x] Tests pass
 
 ### Feature 2.8: Reactions
-- [ ] Happy animation plays on action log
-- [ ] Points float up animation
-- [ ] Animation auto-dismisses
-- [ ] Tests pass
+- [x] Happy animation plays on action log
+- [x] Points float up animation
+- [x] Animation auto-dismisses
+- [x] Tests pass
 
 ### Feature 2.9: Full Screen
-- [ ] Shows large mascot with name
-- [ ] Evolution timeline displays progress
-- [ ] Next evolution shown (grayed)
-- [ ] Stats summary accurate
-- [ ] Rename button works
-- [ ] Tests pass
+- [x] Shows large mascot with name
+- [x] Evolution timeline displays progress
+- [x] Next evolution shown (grayed)
+- [x] Stats summary accurate
+- [x] Rename button works
+- [x] Tests pass
 
 ---
 

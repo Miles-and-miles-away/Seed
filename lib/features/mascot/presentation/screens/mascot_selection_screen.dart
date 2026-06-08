@@ -116,7 +116,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                           _buildSpeciesSelector(locale, speciesList),
 
                         // Mascot preview with first stage
-                        MascotPreview(
+                        MascotAvatar(
                           assetPath: speciesList[_selectedSpeciesIndex]
                               .evolutionStages
                               .first
@@ -162,9 +162,6 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return l10n.mascotNameRequired;
-                    }
-                    if (value.trim().length < 2) {
-                      return l10n.mascotNameTooShort;
                     }
                     if (value.trim().length > 20) {
                       return l10n.mascotNameTooLong;
@@ -241,7 +238,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MascotPreview(
+                  MascotAvatar(
                     assetPath: species.evolutionStages.first.assetPath,
                     size: 50,
                     animate: false,

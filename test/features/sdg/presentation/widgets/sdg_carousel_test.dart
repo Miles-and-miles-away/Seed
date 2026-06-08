@@ -88,6 +88,40 @@ void main() {
       expect(find.byType(SdgCard), findsWidgets);
     });
 
+    testWidgets('recenters on the first goal when resetSignal changes',
+        (tester) async {
+      Widget build(int signal) => MaterialApp(
+            home: Scaffold(
+              body: SizedBox(
+                height: 200,
+                width: 400,
+                child: SdgCarousel(
+                  goals: testGoals,
+                  onGoalTap: (_) {},
+                  resetSignal: signal,
+                ),
+              ),
+            ),
+          );
+
+      await tester.pumpWidget(build(0));
+      await tester.pump();
+
+      final controller =
+          tester.widget<ListView>(find.byType(ListView)).controller!;
+      final centered = controller.offset;
+
+      // Scroll away from the centered first goal.
+      await tester.drag(find.byType(ListView), const Offset(-300, 0));
+      await tester.pump();
+      expect(controller.offset, isNot(closeTo(centered, 0.5)));
+
+      // Bumping the reset signal jumps back to the centered offset.
+      await tester.pumpWidget(build(1));
+      await tester.pump();
+      expect(controller.offset, closeTo(centered, 0.5));
+    });
+
     testWidgets('calls onGoalTap when card is tapped', (tester) async {
       SdgGoal? tappedGoal;
 

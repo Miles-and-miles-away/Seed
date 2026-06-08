@@ -263,6 +263,50 @@ describe('users/{userId} write — personalGoal validation', () => {
   });
 });
 
+describe('users/{userId} write — score integrity', () => {
+  // Defense-in-depth: scoring runs client-side, so rules can't prove a jump
+  // is earned, but they enforce types and that points/level never decrease.
+
+  test('rejects non-integer points', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 1.5}),
+    );
+  });
+
+  test('rejects negative points', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: -10}),
+    );
+  });
+
+  test('rejects a level below 1', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, level: 0}),
+    );
+  });
+
+  test('allows points to increase', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
+    await assertSucceeds(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 150}),
+    );
+  });
+
+  test('rejects points decreasing (reset/tamper)', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 50}),
+    );
+  });
+
+  test('rejects level decreasing', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, level: 5});
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, level: 2}),
+    );
+  });
+});
+
 describe('users/{userId}/actionLog/{logId}', () => {
   const ACTION_ID = 'recycle';
   const logPath = `users/${ALICE}/actionLog/log1`;

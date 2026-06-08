@@ -1,8 +1,8 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.5
-**Last Updated:** May 2026
+**Version:** 1.6
+**Last Updated:** June 2026
 **Author:** Miles
 
 ### Current Status
@@ -58,7 +58,7 @@
 ### Tech Stack (Implemented)
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Frontend | Flutter/Dart | 3.38.7 / 3.10.7 |
+| Frontend | Flutter/Dart | 3.44.1 / 3.12.1 |
 | State Management | Riverpod | 3.0.x |
 | Navigation | go_router | 17.0.x |
 | Backend | Firebase | 4.x |
@@ -1069,34 +1069,27 @@ See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for detailed implementation plan.
 
 **Deliverable:** Four interlocking engagement systems with a coherent reward model (no fake points -- challenges unlock facts, milestones unlock Eco-Dex, actions grow garden).
 
-### Phase 6: CO₂ Dashboard & Achievements (Revised)
-**Goal:** Visualize environmental impact, gamify with achievements, add user feedback channel
+### Phase 6: CO₂ Dashboard & Impact
+**Goal:** Visualize environmental impact, add user feedback channel
 
 See [PLAN_PHASE_6.md](./PLAN_PHASE_6.md) for detailed implementation plan.
 
-> **Revision (June 2026):** the standalone Achievement system was built,
-> then merged into the Eco-Dex and removed. Both were milestone-unlock
-> systems (8 of 15 unlock condition types overlapped) and the split
-> confused even the team. The Eco-Dex absorbed the missing milestones
-> (first action, 500 actions, 100/365-day streaks, all 17 SDGs, 1 tonne
-> CO2; 102 -> 108 entries) and the achievements UX (confetti celebration
-> queue, "Next Up" progress cards, locked-entry progress bars, profile
-> preview card with deep link). Bonus points were dropped entirely,
-> restoring the Phase 5 "No Fake Points" principle: points represent
-> real CO2 savings only; discoveries reward knowledge.
+> **Milestone rewards live in the Eco-Dex (Phase 5).** An earlier draft of
+> Phase 6 included a separate Achievement system; it was merged into the
+> Eco-Dex (the two were near-duplicate milestone systems) and its bonus
+> points were dropped to keep the "No Fake Points" principle. The Eco-Dex
+> absorbed the missing milestones and the celebration / "Next Up" / profile
+> preview UX. See the Eco-Dex in [PLAN_PHASE_5.md](./PLAN_PHASE_5.md).
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
 | CO₂ dashboard | Visualize total/daily/monthly CO₂ saved | P0 | Done |
 | Impact comparisons | "Equivalent to X trees" visualizations | P1 | Done |
 | CO₂ trends | Charts showing progress over time | P1 | Done |
-| Achievement system | Unlockable badges and rewards | P0 | Merged into Eco-Dex (removed) |
-| Achievement categories | Action, streak, level, SDG achievements | P1 | Merged into Eco-Dex entries |
-| Achievement notifications | Celebrate when achievements unlock | P1 | Done (Eco-Dex discovery celebration) |
-| Achievement display | Profile section showing earned badges | P1 | Done (Eco-Dex profile preview) |
 | User feedback form | In-app structured feedback via mailto | P1 | Done |
 
-**Deliverable:** Comprehensive impact visualization, a single unified collection/milestone system (Eco-Dex), and a feedback channel. All code-only, no art bottleneck.
+**Deliverable:** Comprehensive impact visualization and a feedback channel
+(milestones/collection handled by the Eco-Dex). All code-only, no art bottleneck.
 
 ### Phase 7: Mascot Art & Premium Features (Future)
 **Goal:** Final mascot art, RevenueCat integration, premium tier

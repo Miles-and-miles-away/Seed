@@ -258,11 +258,17 @@ GoRouter router(Ref ref) {
         ],
       ),
 
-      // Action log (modal/push route, not in bottom nav)
+      // Action log: a primary nav destination reached via the centre Action
+      // button (and contextual cards). NoTransitionPage makes entering and
+      // leaving instant, matching the shell tabs' IndexedStack swap, instead
+      // of sliding in as a pushed page and out to the edge on exit.
       GoRoute(
         path: appRoutes.actionLog,
-        builder: (context, state) => ActionLogScreen(
-          initialCategory: state.uri.queryParameters['category'],
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: ActionLogScreen(
+            initialCategory: state.uri.queryParameters['category'],
+          ),
         ),
       ),
 

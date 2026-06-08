@@ -79,6 +79,31 @@ void main() {
       expect(find.text('Account'), findsOneWidget);
     });
 
+    testWidgets('display name dialog rejects an empty name with a message',
+        (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const AccountSettingsScreen(),
+          currentUser: testUser,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Open the Display Name dialog.
+      await tester.tap(find.widgetWithText(SettingsTile, 'Display Name'));
+      await tester.pumpAndSettle();
+
+      // Clear the prefilled name (whitespace only) and try to save.
+      await tester.enterText(find.byType(TextFormField), '   ');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+      await tester.pumpAndSettle();
+
+      // A real validation message shows (not the field label) and the
+      // dialog stays open.
+      expect(find.text('Please enter a name'), findsOneWidget);
+      expect(find.byType(AlertDialog), findsOneWidget);
+    });
+
     testWidgets('renders email section', (tester) async {
       await tester.pumpWidget(
         createTestWidget(

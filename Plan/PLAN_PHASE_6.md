@@ -1,8 +1,9 @@
-# Phase 6: CO₂ Dashboard & Achievement System
+# Phase 6: CO₂ Dashboard & Impact
 
-**Version:** 1.0
+**Version:** 1.1
 **Created:** January 2026
-**Status:** Planning
+**Updated:** June 2026
+**Status:** Done (6.1-6.4 + 6.10 shipped; 6.11 polish pending)
 
 ---
 
@@ -12,49 +13,42 @@
 2. [Goals & Deliverables](#goals--deliverables)
 3. [Feature Breakdown](#feature-breakdown)
 4. [CO₂ Dashboard](#co2-dashboard)
-5. [Achievement System](#achievement-system)
-6. [User Feedback](#user-feedback)
-7. [Data Models](#data-models)
-8. [Implementation Order](#implementation-order)
-9. [Testing Strategy](#testing-strategy)
-10. [Acceptance Criteria](#acceptance-criteria)
+5. [User Feedback](#user-feedback)
+6. [Data Models](#data-models)
+7. [Implementation Order](#implementation-order)
+8. [Testing Strategy](#testing-strategy)
+9. [Acceptance Criteria](#acceptance-criteria)
 
 ---
 
 ## Phase Overview
 
-> **Revision (June 2026): Achievement system merged into the Eco-Dex
-> and removed.** The standalone Achievement system described in 6.5-6.9
-> was built as planned, then folded into the Eco-Dex once it became
-> clear the two were near-duplicate milestone systems (8 of 15 unlock
-> condition types overlapped; several thresholds collided exactly, so a
-> single user moment fired both systems). The Eco-Dex absorbed the
-> missing milestones (first action, 500 actions, 100/365-day streaks,
-> all 17 SDGs, 1 tonne CO2 -- 102 to 108 entries) and the achievements
-> UX (confetti celebration queue, "Next Up" progress cards, locked
-> progress bars, profile preview with deep link to `/progress?tab=ecodex`).
-> Bonus points were dropped entirely, restoring the Phase 5
-> **No Fake Points** principle that 6.5's bonus-point reward had
-> silently violated: points represent real CO2 savings only, and
-> Eco-Dex discoveries reward knowledge. Sections 6.5-6.9 below are
-> retained as a historical record of the original design.
+> **Milestone rewards live in the Eco-Dex.** Badges and "collect them all"
+> goals are handled by the **Eco-Dex** (see
+> [PLAN_PHASE_5.md](./PLAN_PHASE_5.md)), not by Phase 6. An earlier draft of
+> this phase specified a separate Achievement system; it was merged into the
+> Eco-Dex because the two were near-duplicate milestone systems, and its
+> bonus-point reward violated the Phase 5 **No Fake Points** principle (points
+> represent real CO2 savings only -- discoveries reward knowledge). The Eco-Dex
+> absorbed the missing milestones (first action, 500 actions, 100/365-day
+> streaks, all 17 SDGs, 1 tonne CO2; 102 -> 108 entries) and the
+> celebration / "Next Up" / profile-preview UX. Phase 6 is therefore code-only
+> with no art bottleneck.
 
-Phase 6 adds two major engagement features and a user feedback channel:
+Phase 6 adds an impact-visualization dashboard and a user feedback channel:
 
 1. **CO₂ Dashboard** - Visualize environmental impact with charts, trends, and relatable equivalencies
-2. **Achievement System** - Gamify the experience with unlockable badges and bonus point rewards (merged into the Eco-Dex; see revision note above)
-3. **User Feedback** - In-app feedback form so users can report issues and suggest features
+2. **User Feedback** - In-app feedback form so users can report issues and suggest features
 
-These features deepen user engagement by making progress tangible, rewarding consistent behavior, and giving users a voice.
+These features deepen engagement by making progress tangible and giving users a voice.
 
 ### Key Objectives
 
 - Add CO₂ dashboard section to Progress screen
 - Display impact across multiple time periods with comparisons
 - Show relatable equivalencies ("equals X trees planted")
-- Implement ~15-20 achievements across multiple categories
-- Award bonus points for achievement completion
-- Show accomplishments on Profile with "next up" suggestions
+- Visualize CO2 trends over time with charts
+- Provide an in-app feedback channel
 
 ---
 
@@ -68,10 +62,6 @@ These features deepen user engagement by making progress tangible, rewarding con
 | Time Period Selector | Today, this week, this month, all time, custom range |
 | Period Comparisons | "20% more than last month" style insights |
 | Impact Equivalencies | Trees, car miles, flights, phone charges |
-| Achievement System | ~15-20 unlockable achievements |
-| Achievement Categories | Action, streak, level, SDG, milestone, special |
-| Achievement Rewards | Bonus points + celebration screen |
-| Achievement Display | Profile section with badges and "next up" |
 | Feedback Form | In-app form with category, description, and device info |
 | Feedback Submission | mailto-based delivery with auto-populated metadata |
 
@@ -87,13 +77,12 @@ These features deepen user engagement by making progress tangible, rewarding con
 | 6.2 Time Period Analytics | P0 | Medium | **Done** (custom range dropped) |
 | 6.3 Impact Equivalencies | P1 | Low | **Done** |
 | 6.4 CO₂ Charts | P1 | Medium | **Done** |
-| 6.5 Achievement Data Layer | P0 | Medium | **Done** |
-| 6.6 Achievement Definitions | P0 | Low | **Done** |
-| 6.7 Achievement Tracking | P0 | Medium | **Done** |
-| 6.8 Achievement UI | P0 | Medium | **Done** |
-| 6.9 Achievement Celebrations | P1 | Low | **Done** |
-| 6.10 User Feedback | P1 | Low | Pending |
+| 6.10 User Feedback | P1 | Low | **Done** |
 | 6.11 UX Polish & Tech Debt | P2 | Low | Pending |
+
+> Milestone/collection rewards (formerly proposed here as 6.5-6.9
+> "Achievements") are delivered by the Eco-Dex in
+> [PLAN_PHASE_5.md](./PLAN_PHASE_5.md).
 
 ---
 
@@ -279,14 +268,14 @@ lib/features/progress/presentation/
 
 #### Acceptance for §6.1
 
-- [ ] Impact segment renders alongside Calendar / Eco-Dex
-- [ ] All four periods (Today, Week, Month, All Time) compute correct totals against seeded daily summaries
-- [ ] Comparison badge shows up/down arrow + percent for non-zero previous totals
-- [ ] Comparison badge hidden for All Time and when previous = 0
-- [ ] `categoryCo2Grams` increments on every action log (verified by repository test)
-- [ ] Total displays in kilograms with one decimal (e.g. `0.4 kg`, `2.5 kg`)
-- [ ] All strings localized in EN/JA/ES
-- [ ] Unit + widget tests pass
+- [x] Impact segment renders alongside Calendar / Eco-Dex
+- [x] All four periods (Today, Week, Month, All Time) compute correct totals against seeded daily summaries
+- [x] Comparison badge shows up/down arrow + percent for non-zero previous totals
+- [x] Comparison badge hidden for All Time and when previous = 0
+- [x] `categoryCo2Grams` increments on every action log (verified by repository test)
+- [x] Total displays in kilograms with one decimal (e.g. `0.4 kg`, `2.5 kg`)
+- [x] All strings localized in EN/JA/ES
+- [x] Unit + widget tests pass
 
 ---
 
@@ -492,504 +481,6 @@ test/features/progress/
 
 ---
 
-## Achievement System
-
-### 6.5 Achievement Data Layer
-
-**Priority:** P0 | **Complexity:** Medium
-
-Define data models and storage for achievements.
-
-#### Data Model
-
-```dart
-@freezed
-class AchievementDefinition with _$AchievementDefinition {
-  const factory AchievementDefinition({
-    required String id,
-    required String nameEn,
-    required String nameJa,
-    required String nameEs,
-    required String descriptionEn,
-    required String descriptionJa,
-    required String descriptionEs,
-    required String category,        // action, streak, level, sdg, milestone, special
-    required String iconName,        // Material icon or custom asset
-    required int bonusPoints,        // Points awarded on unlock
-    required AchievementCriteria criteria,
-  }) = _AchievementDefinition;
-}
-
-@freezed
-class AchievementCriteria with _$AchievementCriteria {
-  // Different criteria types
-  const factory AchievementCriteria.actionCount({
-    required int count,
-    String? category,      // Optional: specific category
-    String? actionId,      // Optional: specific action
-  }) = ActionCountCriteria;
-
-  const factory AchievementCriteria.streakDays({
-    required int days,
-  }) = StreakDaysCriteria;
-
-  const factory AchievementCriteria.levelReached({
-    required int level,
-  }) = LevelReachedCriteria;
-
-  const factory AchievementCriteria.sdgCount({
-    required int count,    // Number of different SDGs supported
-  }) = SdgCountCriteria;
-
-  const factory AchievementCriteria.co2Saved({
-    required int grams,
-  }) = Co2SavedCriteria;
-
-  const factory AchievementCriteria.special({
-    required String type,  // e.g., "first_action", "account_created"
-  }) = SpecialCriteria;
-}
-
-@freezed
-class UserAchievement with _$UserAchievement {
-  const factory UserAchievement({
-    required String odefinitionId,
-    required DateTime unlockedAt,
-  }) = _UserAchievement;
-}
-```
-
-> **Note (§6.9):** the originally-spec'd `pointsClaimed` flag was dropped
-> -- celebration is tap-only and no UI consumes an "unclaimed badge"
-> state. Re-add the field when such a UX actually needs it.
-
-#### Firestore Structure
-
-```
-users/{userId}/achievements/
-├── {achievementId}/
-│   └── unlockedAt: timestamp
-
-# Achievement definitions stored locally (not in Firestore)
-# This keeps them fast and avoids unnecessary reads
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementDefinition model | Hand-written class (matches `EcoDexEntry` pattern); JSON parser + locale fallback helpers | Done |
-| Create AchievementCriteria model | Freezed `sealed` union with `unionKey: 'type'`; 7 variants (actionCount, streakDays, levelReached, sdgCount, co2Saved, categoriesCovered, special) | Done |
-| Create UserAchievement model | Freezed model with `RequiredTimestampConverter`; doc id = achievement id | Done |
-| Create AchievementRepository | Read-only catalog + Firestore CRUD; idempotent unlock; cached definitions | Done |
-| Create achievement definitions file | `data/app/achievements.json` (19 entries, EN/JA/ES) loaded via bundled-asset pattern | Done |
-| Run code generation | Freezed + JSON serializable + Riverpod generators | Done |
-| Write unit tests | Criteria round-trip, definition parser + l10n fallback, JSON loader, remote datasource CRUD, repository end-to-end (36 tests) | Done |
-
-#### Files Created
-
-```
-data/app/achievements.json                                    # 19 entries
-
-lib/features/achievements/
-+-- achievements.dart                                         # Barrel
-+-- data/
-|   +-- achievement_definitions_data.dart                     # rootBundle loader
-|   +-- datasources/achievements_remote_datasource.dart       # Firestore CRUD
-|   +-- models/
-|   |   +-- achievement_category.dart                         # Enum
-|   |   +-- achievement_criteria_model.dart                   # Freezed sealed union
-|   |   +-- achievement_definition_model.dart                 # Hand-written
-|   |   +-- user_achievement_model.dart                       # Freezed
-|   +-- repositories/achievements_repository.dart
-+-- presentation/providers/achievement_providers.dart         # @riverpod
-```
-
-#### Notes vs original plan
-
-- Achievement definitions ship as bundled JSON (`data/app/achievements.json`)
-  rather than a static Dart constant list. Matches the existing
-  catalog convention (`eco_dex_entries.json`, `challenge_templates.json`,
-  `impact_equivalencies.json`) and keeps copy edits out of code.
-- `AchievementDefinition` is hand-written (not Freezed) to mirror
-  `EcoDexEntry`: it is read-only, one-shot loaded, and avoids ~37 KB of
-  generated `.freezed.dart` boilerplate.
-- Added `categoriesCovered` as a first-class criterion variant for
-  `try_all_categories` instead of overloading `actionCount`.
-
----
-
-### 6.6 Achievement Definitions
-
-**Priority:** P0 | **Complexity:** Low
-
-Define the ~15-20 achievements for launch.
-
-#### Achievement List
-
-**Special (2)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `first_action` | First Step | Log your first action | special: first_action | 50 |
-| `joined_seed` | Welcome to Seed | Create your account | special: account_created | 25 |
-
-**Action-Based (5)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `actions_10` | Getting Started | Log 10 actions | actionCount: 10 | 100 |
-| `actions_50` | Making Progress | Log 50 actions | actionCount: 50 | 250 |
-| `actions_100` | Century Club | Log 100 actions | actionCount: 100 | 500 |
-| `actions_500` | Dedicated | Log 500 actions | actionCount: 500 | 1000 |
-| `try_all_categories` | Explorer | Log an action in every category | actionCount: 1, each category | 200 |
-
-**Streak-Based (4)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `streak_7` | One Week Strong | Maintain a 7-day streak | streakDays: 7 | 150 |
-| `streak_30` | Monthly Master | Maintain a 30-day streak | streakDays: 30 | 500 |
-| `streak_100` | Unstoppable | Maintain a 100-day streak | streakDays: 100 | 1500 |
-| `streak_365` | Year of Impact | Maintain a 365-day streak | streakDays: 365 | 5000 |
-
-**Level-Based (3)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `level_5` | Rising Star | Reach level 5 | levelReached: 5 | 100 |
-| `level_10` | Eco Warrior | Reach level 10 | levelReached: 10 | 250 |
-| `level_25` | Sustainability Champion | Reach level 25 | levelReached: 25 | 750 |
-
-**SDG-Based (2)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `sdg_5` | Diverse Impact | Support 5 different SDGs | sdgCount: 5 | 200 |
-| `sdg_all` | Global Citizen | Support all 17 SDGs | sdgCount: 17 | 1000 |
-
-**Milestone-Based (3)**
-| ID | Name | Description | Criteria | Points |
-|----|------|-------------|----------|--------|
-| `co2_1kg` | First Kilogram | Save 1 kg of CO₂ | co2Saved: 1000 | 100 |
-| `co2_100kg` | Carbon Cutter | Save 100 kg of CO₂ | co2Saved: 100000 | 500 |
-| `co2_1000kg` | Climate Hero | Save 1,000 kg of CO₂ | co2Saved: 1000000 | 2000 |
-
-**Total: 19 achievements**
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Define all achievements in JSON | 19 entries in `data/app/achievements.json` (2 special, 5 action, 4 streak, 3 level, 2 sdg, 3 milestone) | Done |
-| Localize achievement names | EN / JA / ES per entry | Done |
-| Localize achievement descriptions | EN / JA / ES per entry | Done |
-| Select icons for each achievement | Material icons (`rocket_launch`, `local_fire_department`, `military_tech`, ...) | Done |
-| Balance point rewards | Range 25 - 5000; total bonus pool 14,175 pts | Done |
-
----
-
-### 6.7 Achievement Tracking
-
-**Priority:** P0 | **Complexity:** Medium
-
-Check for achievement completion and award points.
-
-#### Tracking Logic
-
-Achievements should be checked at these trigger points:
-
-| Trigger | Achievements to Check |
-|---------|----------------------|
-| Action logged | action-based, sdg-based, co2-based, special (first_action) |
-| Streak updated | streak-based |
-| Level up | level-based |
-| Account created | special (joined_seed) |
-
-#### Achievement Checker Service
-
-```dart
-class AchievementChecker {
-  final AchievementsRepository _repository;
-  final List<AchievementDefinition> _definitions;
-
-  /// Check all relevant achievements after an action is logged
-  Future<List<AchievementDefinition>> checkAfterActionLogged({
-    required String userId,
-    required int totalActions,
-    required int totalCo2Grams,
-    required Set<String> categoriesUsed,
-    required Set<String> sdgsSupported,
-  }) async {
-    final unlockedIds = await _repository.getUnlockedIds(userId);
-    final newlyUnlocked = <AchievementDefinition>[];
-
-    for (final definition in _definitions) {
-      if (unlockedIds.contains(definition.id)) continue;
-
-      final isUnlocked = _checkCriteria(
-        definition.criteria,
-        totalActions: totalActions,
-        totalCo2Grams: totalCo2Grams,
-        categoriesUsed: categoriesUsed,
-        sdgsSupported: sdgsSupported,
-      );
-
-      if (isUnlocked) {
-        await _repository.unlockAchievement(userId, definition.id);
-        await _awardPoints(userId, definition.bonusPoints);
-        newlyUnlocked.add(definition);
-      }
-    }
-
-    return newlyUnlocked;
-  }
-}
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementChecker service | Pure sync function over `AchievementUserState`; switch-expression over the 7 criterion variants | Done |
-| Integrate with action logging | Pre-txn unlocked-ids read + in-txn evaluation, all atomic with the existing action-log transaction | Done |
-| Integrate with streak service | Folded into the action-log flow (streak update happens in the same txn) | Done |
-| Integrate with level up | Folded into the action-log flow; bonus points retrigger `calculateLevel` so unlocks that push a level threshold update both fields | Done |
-| Create achievement unlock logic | `transaction.set` on `users/{uid}/achievements/{id}`; per-candidate `transaction.get` race check skips concurrent duplicates | Done |
-| Create point award logic | Bonus points accumulate into `newPoints` inside the same txn that increments the rest of the user-state | Done |
-| Return newly unlocked list | `ActionLogResult.newlyUnlockedAchievements` (consumed by §6.9 celebration screen, defaults to `[]`) | Done |
-| Write unit tests | 18 pure-checker tests + 5 action-log integration tests covering first-action, multi-unlock, idempotency, bonus level recalc, empty catalog | Done |
-
-#### Files Created
-
-```
-lib/features/achievements/domain/services/achievement_checker.dart
-  -- AchievementUserState snapshot + pure AchievementChecker
-
-test/features/achievements/domain/services/
-  +-- achievement_checker_test.dart
-```
-
-#### Files Modified
-
-- `lib/features/actions/data/repositories/action_log_repository.dart`
-  -- threads `achievementsDataSource` + `achievementDefinitions`;
-     pre-txn `getUserAchievements` read; in-txn evaluator + unlock
-     writes + bonus-point accumulation
-- `lib/features/actions/data/repositories/action_log_repository.dart`
-  -- `ActionLogResult.newlyUnlockedAchievements` field + `didUnlockAchievement` getter
-- `lib/features/actions/presentation/providers/actions_providers.dart`
-  -- wires the new repo dependencies via existing achievement providers
-- `test/features/actions/data/repositories/action_log_repository_test.dart`
-  -- updated existing setUps + appended a new `achievement unlocks
-     inside logAction txn` group
-
-#### Notes vs original plan
-
-- `joined_seed` ("Welcome to Seed") **was dropped** in favour of a new
-  `first_streak_3` ("Spark", 3-day streak, 75 pts). Rationale: a signup
-  unlock would require a second integration hook in `AuthRepository`
-  while adding no demonstrable value -- `first_action` already shows
-  the user the achievement system on action #1. `first_streak_3`
-  bridges the gap between `first_action` and `streak_7` and reinforces
-  early-week retention. Catalog now has 19 entries (1 special / 5
-  action / **5** streak / 3 level / 2 sdg / 3 milestone).
-- Account-creation hook in `AuthRepository._createNewUser` is no
-  longer needed; the action-log txn is the sole integration site.
-
----
-
-### 6.8 Achievement UI
-
-**Priority:** P0 | **Complexity:** Medium
-
-Display achievements in the app.
-
-#### Locations
-
-1. **Profile Screen** - "Achievements" section showing earned badges
-2. **Achievements Detail Screen** - Full list with "next up" section
-
-#### Profile Section Design
-
-```
-┌─────────────────────────────────────────┐
-│  ─────── Achievements ───────           │
-│                                         │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ [→]  │
-│  │ 🌟  │ │ 🔥  │ │ 🎯  │ │ +12 │       │
-│  │     │ │     │ │     │ │more │       │
-│  └─────┘ └─────┘ └─────┘ └─────┘       │
-│                                         │
-│  12 of 19 unlocked                      │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Achievements Screen Design
-
-```
-┌─────────────────────────────────────────┐
-│  ←         Achievements                 │
-├─────────────────────────────────────────┤
-│                                         │
-│  12 of 19 unlocked                      │
-│  ████████████░░░░░░░ 63%               │
-│                                         │
-│  ─────── Next Up ───────                │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │ 🎯 Century Club                 │   │
-│  │ Log 100 actions                 │   │
-│  │ ████████░░░░ 78/100            │   │
-│  └─────────────────────────────────┘   │
-│  ┌─────────────────────────────────┐   │
-│  │ 🔥 Monthly Master               │   │
-│  │ Maintain a 30-day streak        │   │
-│  │ ██████░░░░░░ 18/30 days        │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  ─────── Unlocked ───────               │
-│                                         │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐      │
-│  │ 🌟  │ │ 🔥  │ │ 🎯  │ │ 🌍  │      │
-│  │First│ │7-day│ │ 50  │ │5 SDG│      │
-│  │Step │ │strk │ │acts │ │     │      │
-│  └─────┘ └─────┘ └─────┘ └─────┘      │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐      │
-│  │ ... │ │ ... │ │ ... │ │ ... │      │
-│  └─────┘ └─────┘ └─────┘ └─────┘      │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementBadge widget | Circular icon + localized name; locked/unlocked color variants | Done |
-| Create AchievementCard widget | Row layout: icon + name + description + optional progress bar | Done |
-| Create ProfileAchievementsSection | Up to 3 unlocked badges + "+N more" chip + count + tap-through arrow | Done |
-| Create AchievementsScreen | At `/profile/achievements`: progress header + Next Up + Unlocked + Locked grids | Done |
-| Create "Next Up" section | Sorts locked achievements by progress fraction desc (special excluded) | Done |
-| Calculate progress for each | Pure `achievementProgressOf(criteria, state)` helper with `AchievementProgress` value type | Done |
-| Add route to achievements screen | `AppRoutes.achievements` nested under profile shell | Done |
-| Localize all strings | 7 new keys in EN / JA / ES (`achievementsTitle`, `achievementsProgress`, `achievementsEmptyHint`, `achievementsLoadError`, `achievementsNextUp`, `achievementsUnlocked`, `achievementsLocked`) | Done |
-| Write widget tests | 14 tests across 5 files: badge, progress bar, card, next-up sorting/exclusion, profile section overrides | Done |
-
-#### Files Created
-
-```
-lib/features/achievements/
-+-- domain/services/achievement_progress.dart                # Pure progress calc
-+-- presentation/
-|   +-- screens/achievements_screen.dart                     # Full screen
-|   +-- widgets/
-|       +-- achievement_badge.dart                           # Circular badge
-|       +-- achievement_card.dart                            # Detailed row card
-|       +-- achievement_icons.dart                           # iconName -> IconData
-|       +-- achievement_progress_bar.dart                    # Bar + label
-|       +-- next_up_section.dart                             # Top-N closest
-|       +-- profile_achievements_section.dart                # Profile preview
-
-test/features/achievements/
-+-- domain/services/achievement_progress_test.dart           # 9 tests
-+-- presentation/widgets/
-    +-- achievement_badge_test.dart                          # 3 tests
-    +-- achievement_card_test.dart                           # 2 tests
-    +-- achievement_progress_bar_test.dart                   # 2 tests
-    +-- next_up_section_test.dart                            # 4 tests
-    +-- profile_achievements_section_test.dart               # 3 tests
-```
-
-#### Files Modified
-
-- `lib/app/router.dart` -- add `AppRoutes.achievements` + nested `GoRoute`
-- `lib/features/profile/presentation/screens/profile_screen.dart`
-  -- slot `ProfileAchievementsSection` between stats and sign-out
-- `lib/features/achievements/achievements.dart`
-  -- export new domain services, widgets, and screen
-- `lib/core/l10n/app_en.arb` / `app_ja.arb` / `app_es.arb`
-  -- 7 new keys
-
----
-
-### 6.9 Achievement Celebrations
-
-**Priority:** P1 | **Complexity:** Low
-
-Celebrate when users unlock achievements.
-
-#### Celebration Flow
-
-1. User action triggers achievement unlock
-2. Ephemeral celebration screen appears
-3. Shows achievement badge, name, description
-4. Shows bonus points earned
-5. User taps to dismiss or auto-dismiss after 3 seconds
-
-#### Celebration Screen Design
-
-```
-┌─────────────────────────────────────────┐
-│                                         │
-│                                         │
-│           🎉 Achievement! 🎉            │
-│                                         │
-│              ┌───────┐                  │
-│              │  🔥   │                  │
-│              │       │                  │
-│              └───────┘                  │
-│                                         │
-│          One Week Strong                │
-│                                         │
-│    Maintain a 7-day streak              │
-│                                         │
-│           +150 points!                  │
-│                                         │
-│                                         │
-│         [ Tap to continue ]             │
-│                                         │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-#### Implementation
-
-- Use a modal overlay or full-screen route
-- Add confetti animation (reuse from evolution celebration)
-- Auto-dismiss after 3-4 seconds or on tap
-- Queue multiple achievements if unlocked simultaneously
-
-#### Tasks
-
-| Task | Description | Status |
-|------|-------------|--------|
-| Create AchievementCelebrationScreen | Full-screen overlay via `showGeneralDialog` (transparent barrier) with backdrop, confetti, icon, name, description, bonus-point line, "tap to continue" hint, and "+N more queued" indicator | Done |
-| Add confetti animation | Inline `_ConfettiLayer` (40 particles, 4 celebration colors); separate copy from `EggHatchingCelebration` -- enough structural divergence that a shared widget would be premature | Done |
-| Add points animation | `+X points!` in gold animates via `flutter_animate` (fade + scale-out-back) | Done |
-| ~~Implement auto-dismiss~~ | **Dropped:** tap-only dismiss. Auto-dismiss risks rare unlocks scrolling past unread; sequential queue means user controls pacing | Done |
-| Queue multiple achievements | `showAchievementCelebrations(...)` loops the list, awaits dismiss between items, surfaces "+N more queued" count on each | Done |
-| Integrate with achievement checker | Triggered in `handle_action_tap.dart` after the streak-milestone block when `logResult.didUnlockAchievement` | Done |
-| ~~Wire `markPointsClaimed` on dismiss~~ | **Dropped:** `pointsClaimed` flag removed from the data layer entirely. No current consumer relied on it; adding the write path was hypothetical-future-feature work. Re-add the field when an actual "unclaimed badge" UX needs it. | Done |
-| Write widget tests | 5 tests: renders content + bonus + tap hint, "+N more queued" indicator, tap dismisses, queue advances in order, empty list no-op | Done |
-
-#### Files Created
-
-```
-lib/features/achievements/presentation/screens/achievement_celebration_screen.dart
-  -- AchievementCelebrationScreen widget + showAchievementCelebrations helper
-
-test/features/achievements/presentation/screens/
-  +-- achievement_celebration_screen_test.dart
-```
-
-#### Files Modified
-
-- `lib/features/actions/presentation/utils/handle_action_tap.dart`
-  -- consumes `logResult.newlyUnlockedAchievements`
-- `lib/features/achievements/achievements.dart` -- export new screen
-- `lib/core/l10n/app_en.arb` / `app_ja.arb` / `app_es.arb`
-  -- 4 new keys (`achievementUnlockedTitle`, `achievementBonusPoints`,
-     `achievementTapToContinue`, `achievementMoreQueued`)
-
----
-
 ## User Feedback
 
 ### 6.10 User Feedback
@@ -1144,11 +635,11 @@ there are no `HapticFeedback` calls anywhere in `lib/`.
 
 | Item | Description | Notes |
 |------|-------------|-------|
-| Skeleton/shimmer loading states | Shared `SkeletonLoader` and `ShimmerEffect` widgets, applied across screens currently using `CircularProgressIndicator`. | Replaces ad-hoc spinners on Profile stats, Action grid, Progress calendar, Achievements grid. |
-| Haptic feedback | `HapticFeedback.lightImpact()` / `selectionClick()` on key taps (log action, achievement unlock, paywall purchase, mascot interaction). | Currently zero usages in `lib/`. |
+| Skeleton/shimmer loading states | Shared `SkeletonLoader` and `ShimmerEffect` widgets, applied across screens currently using `CircularProgressIndicator`. | Replaces ad-hoc spinners on Profile stats, Action grid, Progress calendar, Eco-Dex grid. |
+| Haptic feedback | `HapticFeedback.lightImpact()` / `selectionClick()` on key taps (log action, eco-dex discovery, paywall purchase, mascot interaction). | Currently zero usages in `lib/`. |
 | Dark mode audit | Walk every screen in dark mode, fix contrast and surface colors. Theme infrastructure already exists in `lib/core/theme/`. | Audit task, not new code. |
 | User-friendly error messages | Shared `ErrorView` widget for failed loads (auth, Firestore reads, action logging). Today errors are caught ad-hoc with bare `catch (e)` blocks. | No shared error widget exists. |
-| Empty states | Shared `EmptyState` widget for "no actions yet", "no achievements unlocked", "no eco-dex entries discovered". | No shared empty-state widget exists. |
+| Empty states | Shared `EmptyState` widget for "no actions yet", "no eco-dex entries discovered". | No shared empty-state widget exists. |
 
 #### Out of Scope (future considerations)
 
@@ -1168,14 +659,14 @@ Park in backlog; revisit only if engagement data calls for it.
 | Apply skeletons to Action grid | Replace spinner during load | Pending |
 | Apply skeletons to Progress calendar | Replace spinner during load | Pending |
 | Add haptic feedback on log action | `HapticFeedback.mediumImpact()` | Pending |
-| Add haptic feedback on achievement unlock | `HapticFeedback.heavyImpact()` | Pending |
+| Add haptic feedback on eco-dex discovery | `HapticFeedback.heavyImpact()` | Pending |
 | Add haptic feedback on subscription purchase | Confirmation feedback | Pending |
 | Dark mode walkthrough | Per-screen contrast and surface check | Pending |
 | Fix dark mode issues found | Adjust colors in `app_colors.dart` | Pending |
 | Create ErrorView widget | Shared error state with retry | Pending |
 | Create EmptyState widget | Shared empty-state with icon + message | Pending |
 | Apply ErrorView to async load failures | Replace bare error text/spinners | Pending |
-| Apply EmptyState to "no data" screens | Action history, achievements, eco-dex | Pending |
+| Apply EmptyState to "no data" screens | Action history, eco-dex | Pending |
 
 #### Files to Create
 
@@ -1296,49 +787,21 @@ Stage 6.3: CO₂ Charts
 ├── Add chart data providers
 └── Write widget tests
 
-Stage 6.4: Achievement Data Layer
-├── Create achievement models (Freezed)
-├── Create achievement definitions
-├── Create AchievementsRepository
-├── Run code generation
-└── Write unit tests
-
-Stage 6.5: Achievement Tracking
-├── Create AchievementChecker service
-├── Integrate with action logging
-├── Integrate with streak service
-├── Integrate with level up
-└── Write unit tests
-
-Stage 6.6: Achievement UI
-├── Create achievement widgets
-├── Create AchievementsScreen
-├── Add profile achievements section
-├── Add route and navigation
-└── Write widget tests
-
-Stage 6.7: Achievement Celebrations
-├── Create celebration screen
-├── Add confetti animation
-├── Implement auto-dismiss
-├── Queue multiple achievements
-└── Write tests
-
-Stage 6.8: User Feedback
+Stage 6.4: User Feedback
 ├── Create FeedbackScreen with category chips
 ├── Build mailto URI with device metadata
 ├── Add route and update About screen
 ├── Localize strings
 └── Write widget tests
 
-Stage 6.9: UX Polish & Tech Debt
+Stage 6.5: UX Polish & Tech Debt
 ├── Build SkeletonLoader and ShimmerEffect widgets
 ├── Apply skeletons across screens with spinner loads
 ├── Add haptic feedback on key interactions
 ├── Walk every screen in dark mode and fix issues
 └── Write tests for new shared widgets
 
-Stage 6.10: Polish & Testing
+Stage 6.6: Polish & Testing
 ├── End-to-end testing
 ├── Localization (EN/ES/JA)
 ├── Bug fixes
@@ -1356,9 +819,6 @@ Stage 6.10: Polish & Testing
 | CO2Stats provider | `co2_stats_provider_test.dart` | Period calculations, comparisons |
 | Equivalency calculator | `impact_equivalencies_test.dart` | All conversion formulas |
 | Chart data provider | `co2_chart_data_provider_test.dart` | Data aggregation |
-| Achievement criteria | `achievement_criteria_test.dart` | All criteria types |
-| Achievement checker | `achievement_checker_test.dart` | Unlock logic, point award |
-| Achievement repository | `achievements_repository_test.dart` | CRUD operations |
 
 ### Widget Tests
 
@@ -1368,10 +828,6 @@ Stage 6.10: Polish & Testing
 | TimePeriodSelector | `time_period_selector_test.dart` | Selection, callback |
 | EquivalencyCard | `equivalency_card_test.dart` | Display formatting |
 | CO2TrendChart | `co2_trend_chart_test.dart` | Rendering, empty state |
-| AchievementBadge | `achievement_badge_test.dart` | Locked/unlocked states |
-| AchievementCard | `achievement_card_test.dart` | Progress display |
-| AchievementsScreen | `achievements_screen_test.dart` | List rendering |
-| CelebrationScreen | `achievement_celebration_test.dart` | Display, dismiss |
 | FeedbackScreen | `feedback_screen_test.dart` | Category selection, validation, mailto URI |
 
 ---
@@ -1426,38 +882,9 @@ Stage 6.10: Polish & Testing
 - [x] Localized in EN/JA/ES
 - [x] Unit + widget tests pass
 
-### 6.5 Achievement Data Layer — **Complete**
-- [x] All models serialize correctly (criteria round-trip + JSON loader covered by unit tests)
-- [x] Repository CRUD works (`fake_cloud_firestore`-backed datasource + repository tests)
-- [x] 19 achievements defined in `data/app/achievements.json`
-- [x] All localized in EN / JA / ES
-
-### 6.6 Achievement Definitions — **Complete**
-- [x] All 6 categories represented (special / action / streak / level / sdg / milestone)
-- [x] Point values balanced from 25 (Welcome to Seed) to 5000 (Year of Impact)
-- [x] Criteria types working — `actionCount`, `streakDays`, `levelReached`, `sdgCount`, `co2Saved`, `categoriesCovered`, `special`
-
-### 6.7 Achievement Tracking — **Complete**
-- [x] Checks trigger at correct times (every `logAction` txn evaluates the full catalog against post-update state)
-- [x] Unlocks save to Firestore atomically with the rest of the user-state update
-- [x] Bonus points awarded correctly; level recomputed after bonuses to catch threshold crossings
-- [x] Multiple unlocks handled in one action (catalog-order list returned via `ActionLogResult.newlyUnlockedAchievements`)
-- [x] Per-candidate `transaction.get` race check prevents concurrent double-awards
-
-### 6.8 Achievement UI — **Complete**
-- [x] Profile section shows badges (up to 3 + "+N more" chip), counter, and tap-through arrow
-- [x] AchievementsScreen at `/profile/achievements` shows progress header, Next Up, Unlocked grid, Locked grid
-- [x] "Next Up" sorts by progress fraction desc; binary (special) criteria excluded
-- [x] Progress bars are accurate (`achievementProgressOf` pure helper, clamped to `[0, target]`)
-- [x] All strings localized in EN / JA / ES
-
-### 6.9 Achievement Celebrations — **Complete**
-- [x] Celebration appears on unlock (triggered from `handle_action_tap`)
-- [x] Confetti animation plays (`_ConfettiLayer` with 40 particles)
-- [x] Bonus points shown prominently in gold
-- [x] ~~Auto-dismiss~~ replaced with **acknowledge button** ("Awesome!") to avoid rare unlocks scrolling past unread; confetti fades out after its 4s run instead of freezing
-- [x] Queue handles multiple sequentially; "+N more queued" indicator
-- [x] ~~`markPointsClaimed`~~ -- `pointsClaimed` flag dropped (YAGNI; no consumer)
+> **Milestone/collection acceptance (formerly 6.5-6.9 "Achievements")** is
+> covered by the Eco-Dex acceptance criteria in
+> [PLAN_PHASE_5.md](./PLAN_PHASE_5.md).
 
 ### 6.10 User Feedback — **Complete**
 - [x] Feedback screen accessible from Settings > Support (`/profile/settings/feedback`)
@@ -1472,7 +899,7 @@ Stage 6.10: Polish & Testing
 ### 6.11 UX Polish & Tech Debt
 - [ ] SkeletonLoader and ShimmerEffect widgets created
 - [ ] Skeletons applied to Profile stats, Action grid, Progress calendar
-- [ ] Haptic feedback on log action, achievement unlock, purchase
+- [ ] Haptic feedback on log action, eco-dex discovery, purchase
 - [ ] Dark mode walkthrough completed; contrast/surface issues fixed
 - [ ] ErrorView widget created and applied to async load failures
 - [ ] EmptyState widget created and applied to "no data" screens
@@ -1517,21 +944,7 @@ dependencies:
   "treesPlanted": "trees",
   "carKmAvoided": "km not driven",
   "phoneCharges": "phone charges",
-  "burgersNotEaten": "burgers",
-
-  "achievements": "Achievements",
-  "achievementUnlocked": "Achievement Unlocked!",
-  "nextUp": "Next Up",
-  "unlocked": "Unlocked",
-  "bonusPoints": "+{count} points!",
-  "@bonusPoints": { "placeholders": { "count": { "type": "int" } } },
-  "achievementsProgress": "{unlocked} of {total} unlocked",
-  "@achievementsProgress": {
-    "placeholders": {
-      "unlocked": { "type": "int" },
-      "total": { "type": "int" }
-    }
-  }
+  "burgersNotEaten": "burgers"
 }
 ```
 
@@ -1540,10 +953,7 @@ dependencies:
 ## Notes
 
 - CO₂ equivalency formulas should be documented with sources
-- Achievement point values may need balancing after testing
-- Consider adding more achievements in future phases
 - Charts should match app theme colors
-- Celebration screen reuses confetti from mascot evolution
 
 ---
 

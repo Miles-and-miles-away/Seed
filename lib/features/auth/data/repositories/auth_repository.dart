@@ -132,6 +132,13 @@ class AuthRepository {
       user.uid,
       {AppConstants.fieldDisplayName: displayName},
     );
+    // Keep the FirebaseAuth profile in sync. Best-effort: Firestore is the
+    // source of truth, so a profile-update failure must not fail the save.
+    try {
+      await user.updateDisplayName(displayName);
+    } on FirebaseAuthException {
+      // Ignore -- the Firestore write already succeeded.
+    }
   }
 
   /// Updates the current user's personal goal in Firestore.

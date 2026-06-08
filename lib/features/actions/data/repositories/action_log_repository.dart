@@ -165,6 +165,14 @@ class ActionLogRepository {
           (m) => m[AppConstants.fieldId] == activeMascotId,
         );
         if (idx != -1) {
+          // CO2 collected together accrues for the active mascot's whole
+          // life, even after it is fully evolved.
+          final oldMascotCo2 =
+              (mascots[idx][AppConstants.fieldMascotCo2Grams] as int?) ?? 0;
+          mascots[idx][AppConstants.fieldMascotCo2Grams] =
+              oldMascotCo2 + action.co2Grams;
+          updates[AppConstants.fieldMascots] = mascots;
+
           final isFullyEvolved =
               (mascots[idx][AppConstants.fieldIsFullyEvolved] as bool?) ??
                   false;

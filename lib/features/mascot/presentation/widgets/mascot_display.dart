@@ -259,9 +259,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       _glowColors[stage] ?? _glowColors[1]!;
 }
 
-/// A simpler mascot display widget for previews (e.g., selection screen).
-class MascotPreview extends StatelessWidget {
-  const MascotPreview({
+/// A small-size mascot avatar (e.g., selection screen, mascot collection).
+class MascotAvatar extends StatelessWidget {
+  const MascotAvatar({
     required this.assetPath,
     this.size = 120,
     this.animate = true,
