@@ -118,38 +118,53 @@ class DailyChallengeCard extends ConsumerWidget {
     int streak,
   ) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(spacingLg),
-        child: Row(
-          children: [
-            Icon(
-              category?.icon ?? Icons.eco,
-              color: category?.color ?? colorScheme.primary,
-              size: 32,
-            ),
-            const SizedBox(width: spacingMd),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: spacingXs),
-                  Text(
-                    l10n.challengeDialogUnlock,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        // Jump straight to the actions that complete this challenge, with
+        // its category filter already applied.
+        onTap: () => context.push(
+          category != null
+              ? appRoutes.actionLogForCategory(category.name)
+              : appRoutes.actionLog,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(spacingLg),
+          child: Row(
+            children: [
+              Icon(
+                category?.icon ?? Icons.eco,
+                color: category?.color ?? colorScheme.primary,
+                size: 32,
               ),
-            ),
-            if (streak > 0) _StreakBadge(streak: streak, l10n: l10n),
-          ],
+              const SizedBox(width: spacingMd),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: spacingXs),
+                    Text(
+                      l10n.challengeDialogUnlock,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (streak > 0) _StreakBadge(streak: streak, l10n: l10n),
+              const SizedBox(width: spacingXs),
+              Icon(
+                Icons.chevron_right,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
         ),
       ),
     );

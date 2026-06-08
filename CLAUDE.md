@@ -156,6 +156,17 @@ Defined in `lib/core/constants/app_constants.dart`:
 - Run all: `flutter test`
 - Run single: `flutter test test/path/to/file_test.dart`
 
+### Firestore security-rules tests
+Rules (`firestore.rules`) can't be tested by the Dart suite
+(`fake_cloud_firestore` ignores rules) — they run against the Firestore
+emulator via Jest. Requires a JDK (installed in the `seed` conda env:
+`conda install -n seed -c conda-forge openjdk=21`). Run from repo root:
+```bash
+conda activate seed   # puts java on PATH for the emulator
+npm run test:rules
+```
+See `test/firestore/README.md`.
+
 ## Python Environment (conda: seed)
 
 Always activate the `seed` conda env before running Python scripts:

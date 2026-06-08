@@ -10,7 +10,8 @@ The app uses go_router with a `StatefulShellRoute.indexedStack` for the
 four main tabs plus a modal Log Action button in the center of the bottom
 bar.
 
-Bottom nav (defined in `lib/app/main_shell.dart`):
+Bottom nav (shared widget `lib/app/app_bottom_nav.dart`, used by both the
+shell and the pushed Log Action screen so every primary screen shows it):
 
 | Index | Label        | Route           | Icon              |
 |-------|--------------|-----------------|-------------------|
@@ -19,6 +20,9 @@ Bottom nav (defined in `lib/app/main_shell.dart`):
 | —     | Log Action   | `/log-action`   | add_circle (push) |
 | 2     | Mascot       | `/mascot`       | pets              |
 | 3     | Profile      | `/profile`      | person            |
+
+On the Log Action screen (a pushed route outside the shell) the same bar's
+tabs use `context.go` to jump straight into the chosen shell branch.
 
 Auth redirect logic (in `router.dart`):
 - Unauthenticated -> `/login`
@@ -63,8 +67,10 @@ Main hub with mascot summary, challenges, and SDG carousel.
   - `/home/daily-fact` (mail icon in app bar)
   - `/home/challenges` (multi-day challenge card)
   - `/log-action` (bottom nav, via shell)
+  - `/log-action?category=<category>` (incomplete daily challenge card)
   - External: UN SDG page (`AppConstants.sdgGoalsUrl`)
-- Functionality: mascot card with streak/points, daily challenge card,
+- Functionality: mascot card with streak/points, daily challenge card
+  (tap when incomplete jumps to the actions for its category),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
   sheet), infinite SDG carousel under an "Explore the SDG Goals" header,
@@ -142,8 +148,12 @@ Timeline of logged actions grouped by date with running points total.
 
 ## Log Action (`/log-action`)
 
-Modal push route — not in the tab stack. Browse and log actions.
-- Links: none (inline confirmation dialog / science bottom sheet)
+Pushed route — not a shell branch, but shows the shared bottom nav so users
+can jump to any tab without backing out first. Browse and log actions.
+- Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
+  inline confirmation dialog / science bottom sheet
+- Query params: `category` pre-selects the matching category tab on open
+  (unknown values fall back to "All").
 - Functionality: search, category tabs, sort dropdown, SDG filter chips,
   action cards with log confirmation and science info.
 
