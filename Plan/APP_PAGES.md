@@ -65,8 +65,10 @@ Main hub with mascot summary, challenges, and SDG carousel.
   - `/log-action` (bottom nav, via shell)
   - External: UN SDG page (`AppConstants.sdgGoalsUrl`)
 - Functionality: mascot card with streak/points, daily challenge card,
-  multi-day challenge card, infinite SDG carousel, "Learn more at UN.org"
-  external link.
+  multi-day challenge card, My Goal card (shows the user's personal
+  sustainability goal or a set-goal prompt; tap opens the goal picker
+  sheet), infinite SDG carousel under an "Explore the SDG Goals" header,
+  "Learn more at UN.org" external link.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
 Individual SDG goal with targets, resources, actions, and impact cards.
@@ -185,8 +187,9 @@ Settings hub.
 
 ### Account Settings (`.../settings/account`)
 - Links: `/login` (on account deletion)
-- Functionality: change email dialog, change password dialog, delete
-  account dialog with re-authentication.
+- Functionality: profile section (display name dialog, My Goal picker
+  sheet with presets + free text), change email dialog, change password
+  dialog, delete account dialog with re-authentication.
 
 ### About (`.../settings/about`)
 - Links:

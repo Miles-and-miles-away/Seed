@@ -124,12 +124,40 @@ class AuthRepository {
     return appUser;
   }
 
+  /// Updates the current user's display name in Firestore.
+  Future<void> updateDisplayName(String displayName) async {
+    final user = currentUser;
+    if (user == null) return;
+    await _userDataSource.updateUser(
+      user.uid,
+      {AppConstants.fieldDisplayName: displayName},
+    );
+  }
+
+  /// Updates the current user's personal goal in Firestore.
+  Future<void> updatePersonalGoal(String personalGoal) async {
+    final user = currentUser;
+    if (user == null) return;
+    await _userDataSource.updateUser(
+      user.uid,
+      {AppConstants.fieldPersonalGoal: personalGoal},
+    );
+  }
+
+  /// Clamps provider display names so they satisfy Firestore rules
+  /// (social providers may supply empty or overly long names).
+  String? _clampDisplayName(String? name) {
+    if (name == null || name.isEmpty) return null;
+    if (name.length <= AppConstants.maxDisplayNameLength) return name;
+    return name.substring(0, AppConstants.maxDisplayNameLength);
+  }
+
   /// Creates a new user document in Firestore.
   Future<AppUserModel> _createNewUser(User firebaseUser) async {
     final newUser = AppUserModel(
       uid: firebaseUser.uid,
       email: firebaseUser.email ?? '',
-      displayName: firebaseUser.displayName,
+      displayName: _clampDisplayName(firebaseUser.displayName),
       photoUrl: firebaseUser.photoURL,
       emailVerified: firebaseUser.emailVerified,
       createdAt: DateTime.now(),

@@ -213,6 +213,10 @@
   "accountSettingsEmailUpdated": "Email updated successfully",
   "accountSettingsPasswordUpdated": "Password updated successfully",
   "accountSettingsReauthRequired": "Please re-enter your password to continue",
+  "accountSettingsProfile": "Profile",
+  "accountSettingsDisplayName": "Display Name",
+  "accountSettingsNotSet": "Not set",
+  "accountSettingsDisplayNameUpdated": "Display name updated successfully",
 
   "aboutSettingsTitle": "About",
   "aboutSettingsVersion": "Version",
@@ -428,10 +432,25 @@
     }
   },
 
-  "homeExploreGoals": "Explore the Goals",
+  "homeExploreGoals": "Explore the SDG Goals",
   "homeExploreGoalsSubtitle": "Tap to learn about the UN Sustainable Development Goals",
   "homeLearnMore": "Learn more at UN.org",
   "homePoints": "Points",
+
+  "myGoalTitle": "My Goal",
+  "myGoalEmptyPrompt": "Tap to set your sustainability goal",
+  "myGoalUpdated": "Goal updated successfully",
+  "goalPickerTitle": "Choose your goal",
+  "goalPickerCustomOption": "Write your own",
+  "goalPickerCustomHint": "My goal is...",
+  "personalGoalReduceFlights": "Reduce long-haul flights",
+  "personalGoalPlantBased": "Eat more plant-based meals",
+  "personalGoalLessPlastic": "Cut out single-use plastic",
+  "personalGoalWalkBike": "Walk or bike instead of driving",
+  "personalGoalLessFoodWaste": "Waste less food",
+  "personalGoalBuyLess": "Buy less, reuse more",
+  "personalGoalInspireOthers": "Inspire friends and family to act",
+  "personalGoalSaveWorld": "Save the world",
 
   "sdgGoalNumber": "Goal {number}",
   "@sdgGoalNumber": {

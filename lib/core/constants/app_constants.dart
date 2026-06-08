@@ -55,10 +55,16 @@ abstract class AppConstants {
   // Auth throttling
   static const authCooldownSeconds = 3;
 
+  // User profile limits
+  static const maxDisplayNameLength = 50;
+  static const maxPersonalGoalLength = 100;
+
   // Daily challenges
   static const recentChallengeIdsLimit = 7;
 
   // Firestore user document fields
+  static const fieldDisplayName = 'displayName';
+  static const fieldPersonalGoal = 'personalGoal';
   static const fieldPoints = 'points';
   static const fieldLevel = 'level';
   static const fieldCurrentStreak = 'currentStreak';

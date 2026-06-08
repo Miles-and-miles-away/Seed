@@ -18,6 +18,9 @@ mixin _$AppUserModel {
   String get email;
   String? get displayName;
   String? get photoUrl;
+
+  /// Personal sustainability goal: a preset ID or free text.
+  String? get personalGoal;
   int get points;
   int get level;
   int get currentStreak;
@@ -124,6 +127,8 @@ mixin _$AppUserModel {
                 other.displayName == displayName) &&
             (identical(other.photoUrl, photoUrl) ||
                 other.photoUrl == photoUrl) &&
+            (identical(other.personalGoal, personalGoal) ||
+                other.personalGoal == personalGoal) &&
             (identical(other.points, points) || other.points == points) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.currentStreak, currentStreak) ||
@@ -195,6 +200,7 @@ mixin _$AppUserModel {
         email,
         displayName,
         photoUrl,
+        personalGoal,
         points,
         level,
         currentStreak,
@@ -231,7 +237,7 @@ mixin _$AppUserModel {
 
   @override
   String toString() {
-    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
+    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
   }
 }
 
@@ -246,6 +252,7 @@ abstract mixin class $AppUserModelCopyWith<$Res> {
       String email,
       String? displayName,
       String? photoUrl,
+      String? personalGoal,
       int points,
       int level,
       int currentStreak,
@@ -298,6 +305,7 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
     Object? email = null,
     Object? displayName = freezed,
     Object? photoUrl = freezed,
+    Object? personalGoal = freezed,
     Object? points = null,
     Object? level = null,
     Object? currentStreak = null,
@@ -347,6 +355,10 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
       photoUrl: freezed == photoUrl
           ? _self.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      personalGoal: freezed == personalGoal
+          ? _self.personalGoal
+          : personalGoal // ignore: cast_nullable_to_non_nullable
               as String?,
       points: null == points
           ? _self.points
@@ -592,6 +604,7 @@ extension AppUserModelPatterns on AppUserModel {
             String email,
             String? displayName,
             String? photoUrl,
+            String? personalGoal,
             int points,
             int level,
             int currentStreak,
@@ -635,6 +648,7 @@ extension AppUserModelPatterns on AppUserModel {
             _that.email,
             _that.displayName,
             _that.photoUrl,
+            _that.personalGoal,
             _that.points,
             _that.level,
             _that.currentStreak,
@@ -692,6 +706,7 @@ extension AppUserModelPatterns on AppUserModel {
             String email,
             String? displayName,
             String? photoUrl,
+            String? personalGoal,
             int points,
             int level,
             int currentStreak,
@@ -734,6 +749,7 @@ extension AppUserModelPatterns on AppUserModel {
             _that.email,
             _that.displayName,
             _that.photoUrl,
+            _that.personalGoal,
             _that.points,
             _that.level,
             _that.currentStreak,
@@ -790,6 +806,7 @@ extension AppUserModelPatterns on AppUserModel {
             String email,
             String? displayName,
             String? photoUrl,
+            String? personalGoal,
             int points,
             int level,
             int currentStreak,
@@ -832,6 +849,7 @@ extension AppUserModelPatterns on AppUserModel {
             _that.email,
             _that.displayName,
             _that.photoUrl,
+            _that.personalGoal,
             _that.points,
             _that.level,
             _that.currentStreak,
@@ -878,6 +896,7 @@ class _AppUserModel implements AppUserModel {
       required this.email,
       this.displayName,
       this.photoUrl,
+      this.personalGoal,
       this.points = 0,
       this.level = 1,
       this.currentStreak = 0,
@@ -931,6 +950,10 @@ class _AppUserModel implements AppUserModel {
   final String? displayName;
   @override
   final String? photoUrl;
+
+  /// Personal sustainability goal: a preset ID or free text.
+  @override
+  final String? personalGoal;
   @override
   @JsonKey()
   final int points;
@@ -1176,6 +1199,8 @@ class _AppUserModel implements AppUserModel {
                 other.displayName == displayName) &&
             (identical(other.photoUrl, photoUrl) ||
                 other.photoUrl == photoUrl) &&
+            (identical(other.personalGoal, personalGoal) ||
+                other.personalGoal == personalGoal) &&
             (identical(other.points, points) || other.points == points) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.currentStreak, currentStreak) ||
@@ -1247,6 +1272,7 @@ class _AppUserModel implements AppUserModel {
         email,
         displayName,
         photoUrl,
+        personalGoal,
         points,
         level,
         currentStreak,
@@ -1283,7 +1309,7 @@ class _AppUserModel implements AppUserModel {
 
   @override
   String toString() {
-    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
+    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
   }
 }
 
@@ -1300,6 +1326,7 @@ abstract mixin class _$AppUserModelCopyWith<$Res>
       String email,
       String? displayName,
       String? photoUrl,
+      String? personalGoal,
       int points,
       int level,
       int currentStreak,
@@ -1354,6 +1381,7 @@ class __$AppUserModelCopyWithImpl<$Res>
     Object? email = null,
     Object? displayName = freezed,
     Object? photoUrl = freezed,
+    Object? personalGoal = freezed,
     Object? points = null,
     Object? level = null,
     Object? currentStreak = null,
@@ -1403,6 +1431,10 @@ class __$AppUserModelCopyWithImpl<$Res>
       photoUrl: freezed == photoUrl
           ? _self.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      personalGoal: freezed == personalGoal
+          ? _self.personalGoal
+          : personalGoal // ignore: cast_nullable_to_non_nullable
               as String?,
       points: null == points
           ? _self.points

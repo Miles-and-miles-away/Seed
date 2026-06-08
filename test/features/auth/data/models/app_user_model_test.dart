@@ -109,6 +109,28 @@ void main() {
 
         expect(model.createdAt, isNull);
       });
+
+      test('round-trips personalGoal', () {
+        final json = {
+          'uid': 'user123',
+          'email': 'test@example.com',
+          'personalGoal': 'save_world',
+        };
+
+        final model = AppUserModel.fromJson(json);
+
+        expect(model.personalGoal, 'save_world');
+        expect(model.toJson()['personalGoal'], 'save_world');
+      });
+
+      test('defaults personalGoal to null', () {
+        final json = {
+          'uid': 'user123',
+          'email': 'test@example.com',
+        };
+
+        expect(AppUserModel.fromJson(json).personalGoal, isNull);
+      });
     });
 
     group('toJson', () {

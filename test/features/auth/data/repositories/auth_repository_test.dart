@@ -150,6 +150,46 @@ void main() {
       verify(() => authDs.sendEmailVerification()).called(1);
       verify(() => userDs.createUser(any())).called(1);
     });
+
+    test('clamps overly long provider display names', () async {
+      final user = fakeFirebaseUser(emailVerified: false);
+      when(() => user.displayName)
+          .thenReturn('x' * (AppConstants.maxDisplayNameLength + 30));
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(() => authDs.createUserWithEmailAndPassword(email, 'pw'))
+          .thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      final result = await repository.createUserWithEmailAndPassword(
+        email,
+        'pw',
+      );
+
+      expect(
+        result.displayName,
+        'x' * AppConstants.maxDisplayNameLength,
+      );
+    });
+
+    test('stores null when provider display name is empty', () async {
+      final user = fakeFirebaseUser(emailVerified: false);
+      when(() => user.displayName).thenReturn('');
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(() => authDs.createUserWithEmailAndPassword(email, 'pw'))
+          .thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      final result = await repository.createUserWithEmailAndPassword(
+        email,
+        'pw',
+      );
+
+      expect(result.displayName, isNull);
+    });
   });
 
   group('signInWithGoogle / signInWithApple', () {
@@ -228,6 +268,54 @@ void main() {
           {AppConstants.fieldEmailVerified: true},
         ),
       ).called(1);
+    });
+  });
+
+  group('updateDisplayName / updatePersonalGoal', () {
+    test('updateDisplayName writes through user data source', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+
+      await repository.updateDisplayName('Eco Hero');
+
+      verify(
+        () => userDs.updateUser(
+          uid,
+          {AppConstants.fieldDisplayName: 'Eco Hero'},
+        ),
+      ).called(1);
+    });
+
+    test('updateDisplayName is a no-op when signed out', () async {
+      when(() => authDs.currentUser).thenReturn(null);
+
+      await repository.updateDisplayName('Eco Hero');
+
+      verifyNever(() => userDs.updateUser(any(), any()));
+    });
+
+    test('updatePersonalGoal writes through user data source', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+
+      await repository.updatePersonalGoal('save_world');
+
+      verify(
+        () => userDs.updateUser(
+          uid,
+          {AppConstants.fieldPersonalGoal: 'save_world'},
+        ),
+      ).called(1);
+    });
+
+    test('updatePersonalGoal is a no-op when signed out', () async {
+      when(() => authDs.currentUser).thenReturn(null);
+
+      await repository.updatePersonalGoal('save_world');
+
+      verifyNever(() => userDs.updateUser(any(), any()));
     });
   });
 

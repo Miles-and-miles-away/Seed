@@ -92,9 +92,22 @@ void main() {
       await pumpHomeScreen(tester);
 
       // Verify SDG section
-      expect(find.text('Explore the Goals'), findsOneWidget);
+      expect(find.text('Explore the SDG Goals'), findsOneWidget);
       expect(
         find.text('Tap to learn about the UN Sustainable Development Goals'),
+        findsOneWidget,
+      );
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('displays my goal prompt card when no goal set',
+        (tester) async {
+      await pumpHomeScreen(tester);
+
+      expect(find.text('My Goal'), findsOneWidget);
+      expect(
+        find.text('Tap to set your sustainability goal'),
         findsOneWidget,
       );
 
@@ -155,7 +168,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       // Content should still be visible after scrolling
-      expect(find.text('Explore the Goals'), findsOneWidget);
+      expect(find.text('Explore the SDG Goals'), findsOneWidget);
 
       await disposeAndFlush(tester);
     });

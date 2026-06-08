@@ -15,6 +15,9 @@ abstract class AppUserModel with _$AppUserModel {
     required String email,
     String? displayName,
     String? photoUrl,
+
+    /// Personal sustainability goal: a preset ID or free text.
+    String? personalGoal,
     @Default(0) int points,
     @Default(1) int level,
     @Default(0) int currentStreak,
