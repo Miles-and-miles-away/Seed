@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
@@ -91,6 +94,67 @@ void main() {
         find.byIcon(Icons.check_circle),
         findsNothing,
       );
+      // Chevron signals the card is tappable.
+      expect(find.byIcon(Icons.chevron_right), findsOneWidget);
+    });
+
+    testWidgets('incomplete card opens action log filtered by category', (
+      tester,
+    ) async {
+      final user = AppUserModel(
+        uid: 'test-uid',
+        email: 'test@example.com',
+      );
+
+      String? capturedCategory;
+      final router = GoRouter(
+        initialLocation: '/',
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, __) => const Scaffold(
+              body: DailyChallengeCard(),
+            ),
+          ),
+          GoRoute(
+            path: '/log-action',
+            builder: (_, state) {
+              capturedCategory = state.uri.queryParameters['category'];
+              return const Scaffold(body: Text('Action Log'));
+            },
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            currentUserProvider.overrideWith(
+              (_) => Stream.value(user),
+            ),
+            challengeTemplateDataProvider.overrideWith(
+              (_) async => testTemplateData,
+            ),
+          ],
+          child: MaterialApp.router(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: router,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Test Challenge'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Action Log'), findsOneWidget);
+      expect(capturedCategory, 'recycling');
     });
 
     testWidgets('renders completed state with checkmark', (

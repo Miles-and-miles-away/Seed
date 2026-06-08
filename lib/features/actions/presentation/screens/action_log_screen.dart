@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/app_bottom_nav.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import '../providers/actions_providers.dart';
 import '../utils/handle_action_tap.dart';
 import '../widgets/action_card.dart';
@@ -15,7 +19,11 @@ import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
 class ActionLogScreen extends ConsumerStatefulWidget {
-  const ActionLogScreen({super.key});
+  const ActionLogScreen({super.key, this.initialCategory});
+
+  /// Category name to pre-select on open (e.g. from the daily challenge
+  /// card). Null or unrecognized values show all categories.
+  final String? initialCategory;
 
   @override
   ConsumerState<ActionLogScreen> createState() => _ActionLogScreenState();
@@ -30,6 +38,18 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
+    final initialCategory = ActionCategory.fromString(
+      widget.initialCategory,
+    );
+    if (initialCategory != null) {
+      // Provider mutations are disallowed during initState, so apply the
+      // incoming filter on the first frame (during the route transition).
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ref.read(selectedCategoryProvider.notifier).select(initialCategory);
+        }
+      });
+    }
   }
 
   @override
@@ -178,7 +198,27 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: AppBottomNav(
+        // No shell tab is active while the Action log is open; the centre
+        // Action button highlights to mark the current screen instead.
+        currentIndex: null,
+        isActionSelected: true,
+        onTabSelected: _goToTab,
+        onActionPressed: () {},
+      ),
     );
+  }
+
+  /// Switches to a main shell tab, replacing the pushed Action log so the
+  /// chosen area opens with its own bottom navigation intact.
+  void _goToTab(int index) {
+    final route = switch (index) {
+      0 => appRoutes.home,
+      1 => appRoutes.progress,
+      2 => appRoutes.mascot,
+      _ => appRoutes.profile,
+    };
+    context.go(route);
   }
 
   Widget _buildActionsGrid(

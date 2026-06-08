@@ -23,30 +23,45 @@ class SdgCarousel extends StatefulWidget {
 }
 
 class _SdgCarouselState extends State<SdgCarousel> {
-  late final ScrollController _scrollController;
+  // Created lazily once goals are loaded and the viewport width is known so
+  // the centered index resolves to goal 1 rather than the empty loading list.
+  ScrollController? _scrollController;
   static const _itemWidth = 120.0;
   static const _itemSpacing = 12.0;
   static const _totalItemWidth = _itemWidth + _itemSpacing;
   static const _multiplier = 1000;
 
-  @override
-  void initState() {
-    super.initState();
-    final initialOffset =
-        _totalItemWidth * widget.goals.length * (_multiplier ~/ 2);
-    _scrollController = ScrollController(
-      initialScrollOffset: initialOffset,
-    );
+  /// Scroll offset that centers the first goal in the viewport, starting from
+  /// the middle of the virtual (infinitely repeating) list.
+  double _initialOffset(double viewportWidth) {
+    final centerIndex = widget.goals.length * (_multiplier ~/ 2);
+    return spacingXxl +
+        centerIndex * _totalItemWidth +
+        _itemWidth / 2 -
+        viewportWidth / 2;
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (widget.goals.isNotEmpty) {
+          _scrollController ??= ScrollController(
+            initialScrollOffset: _initialOffset(constraints.maxWidth),
+          );
+        }
+        return _buildList();
+      },
+    );
+  }
+
+  Widget _buildList() {
     return ListView.builder(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,

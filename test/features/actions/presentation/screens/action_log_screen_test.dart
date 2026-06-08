@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -52,7 +54,7 @@ void main() {
 
     Widget createTestWidget({
       List<ActionModel>? actions,
-      ActionCategory? selectedCategory,
+      String? initialCategory,
       bool isLoading = false,
     }) {
       return ProviderScope(
@@ -84,15 +86,15 @@ void main() {
             );
           }),
         ],
-        child: const MaterialApp(
-          localizationsDelegates: [
+        child: MaterialApp(
+          localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          home: ActionLogScreen(),
+          home: ActionLogScreen(initialCategory: initialCategory),
         ),
       );
     }
@@ -102,6 +104,62 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
+    });
+
+    testWidgets('displays the shared bottom navigation bar', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AppBottomNav), findsOneWidget);
+    });
+
+    testWidgets('bottom nav tab leaves the action log for the shell route', (
+      tester,
+    ) async {
+      final router = GoRouter(
+        initialLocation: '/log-action',
+        routes: [
+          GoRoute(
+            path: '/log-action',
+            builder: (_, __) => const ActionLogScreen(),
+          ),
+          GoRoute(
+            path: '/home',
+            builder: (_, __) => const Scaffold(body: Text('Home Screen')),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
+            actionLibraryProvider.overrideWith(
+              (ref) => Stream.value(testActions),
+            ),
+            filteredActionsProvider.overrideWith(
+              (ref) => AsyncValue.data(testActions),
+            ),
+          ],
+          child: MaterialApp.router(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: router,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Home'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Home Screen'), findsOneWidget);
+      expect(find.byType(ActionLogScreen), findsNothing);
     });
 
     testWidgets('displays search text field', (tester) async {
@@ -117,6 +175,70 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(ActionCategoryTabs), findsOneWidget);
+    });
+
+    testWidgets('pre-selects filter from initialCategory', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(initialCategory: 'transport'),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionCategoryTabs)),
+        ).read(selectedCategoryProvider),
+        ActionCategory.transport,
+      );
+      // Only the single transport action passes the filter.
+      expect(find.byType(ActionCard), findsOneWidget);
+    });
+
+    testWidgets('shows all actions when initialCategory is unknown',
+        (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(initialCategory: 'not-a-category'),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionCategoryTabs)),
+        ).read(selectedCategoryProvider),
+        isNull,
+      );
+      expect(find.byType(ActionCard), findsAtLeast(2));
+    });
+
+    // End-to-end through the REAL filter chain (no filteredActionsProvider
+    // override) to prove initialCategory actually narrows the grid.
+    testWidgets('initialCategory filters the real action grid', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            currentUserProvider.overrideWith(
+              (ref) => Stream.value(testUser),
+            ),
+            actionLibraryProvider.overrideWith(
+              (ref) => Stream.value(testActions),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const ActionLogScreen(initialCategory: 'transport'),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Only the single transport action survives the real filter.
+      expect(find.byType(ActionCard), findsOneWidget);
+      expect(find.text('Bike to Work'), findsOneWidget);
     });
 
     testWidgets('displays action cards when data is loaded', (tester) async {

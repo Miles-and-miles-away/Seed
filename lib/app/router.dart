@@ -61,6 +61,11 @@ class AppRoutes {
   String get mascotSelection => '/mascot-selection';
   String get actionLog => '/log-action';
 
+  /// Action log pre-filtered to a single [ActionCategory] name, used by the
+  /// daily challenge card so its category opens already selected.
+  String actionLogForCategory(String category) =>
+      Uri(path: actionLog, queryParameters: {'category': category}).toString();
+
   // Main shell tabs
   String get home => '/home';
   String get progress => '/progress';
@@ -256,7 +261,9 @@ GoRouter router(Ref ref) {
       // Action log (modal/push route, not in bottom nav)
       GoRoute(
         path: appRoutes.actionLog,
-        builder: (context, state) => const ActionLogScreen(),
+        builder: (context, state) => ActionLogScreen(
+          initialCategory: state.uri.queryParameters['category'],
+        ),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so
