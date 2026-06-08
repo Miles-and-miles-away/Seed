@@ -17,6 +17,10 @@ const int feedbackDescriptionMaxLength = 2000;
 /// [platform] / [osVersion] come from `dart:io` Platform.
 /// [locale] is the active locale tag (e.g. `en`, `ja`).
 /// [userId] is omitted from the body when null (unauthenticated users).
+///
+/// The description is capped at [feedbackDescriptionMaxLength]; the UI also
+/// enforces this, but the cap is applied here too so any caller is safe from
+/// producing an over-long `mailto:` URI.
 Uri buildFeedbackMailto({
   required FeedbackCategory category,
   required String categoryLabel,
@@ -33,10 +37,14 @@ Uri buildFeedbackMailto({
 
   // Match _MetadataFooter: no empty parens when the build number is absent.
   final buildSuffix = buildNumber.isEmpty ? '' : ' ($buildNumber)';
+  final trimmed = description.trim();
+  final cappedDescription = trimmed.length <= feedbackDescriptionMaxLength
+      ? trimmed
+      : trimmed.substring(0, feedbackDescriptionMaxLength);
   final body = StringBuffer()
     ..writeln('Category: $categoryLabel')
     ..writeln('---')
-    ..writeln(description.trim())
+    ..writeln(cappedDescription)
     ..writeln('---')
     ..writeln('App: Seed v$appVersion$buildSuffix')
     ..writeln('Platform: $platform $osVersion')

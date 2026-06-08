@@ -358,12 +358,6 @@ abstract class AppLocalizations {
   /// **'Please enter a name'**
   String get mascotNameRequired;
 
-  /// No description provided for @mascotNameTooShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Name must be at least 2 characters'**
-  String get mascotNameTooShort;
-
   /// No description provided for @mascotNameTooLong.
   ///
   /// In en, this message translates to:
@@ -897,6 +891,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Display name updated successfully'**
   String get accountSettingsDisplayNameUpdated;
+
+  /// No description provided for @accountSettingsDisplayNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get accountSettingsDisplayNameRequired;
 
   /// No description provided for @aboutSettingsTitle.
   ///
@@ -1537,7 +1537,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackMetadataNote.
   ///
   /// In en, this message translates to:
-  /// **'The following info is included to help us investigate:'**
+  /// **'The following info is included to help us investigate: app version, device and OS, language, and your account ID.'**
   String get feedbackMetadataNote;
 
   /// No description provided for @feedbackSubmit.
@@ -1569,6 +1569,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next Evolution'**
   String get mascotNextEvolution;
+
+  /// No description provided for @mascotStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Journey'**
+  String get mascotStatsTitle;
+
+  /// No description provided for @mascotStatBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get mascotStatBirthday;
+
+  /// No description provided for @mascotStatDaysTogether.
+  ///
+  /// In en, this message translates to:
+  /// **'Days together'**
+  String get mascotStatDaysTogether;
+
+  /// No description provided for @mascotStatCo2Together.
+  ///
+  /// In en, this message translates to:
+  /// **'CO₂ saved together'**
+  String get mascotStatCo2Together;
 
   /// No description provided for @mascotLevelShort.
   ///

@@ -91,7 +91,6 @@
   "mascotNameLabel": "Give your companion a name",
   "mascotNameHint": "e.g., Sprouty, Leafy, Bud...",
   "mascotNameRequired": "Please enter a name",
-  "mascotNameTooShort": "Name must be at least 2 characters",
   "mascotNameTooLong": "Name must be 20 characters or less",
   "mascotSelectionConfirm": "Let's Grow Together!",
 
@@ -217,6 +216,7 @@
   "accountSettingsDisplayName": "Display Name",
   "accountSettingsNotSet": "Not set",
   "accountSettingsDisplayNameUpdated": "Display name updated successfully",
+  "accountSettingsDisplayNameRequired": "Please enter a name",
 
   "aboutSettingsTitle": "About",
   "aboutSettingsVersion": "Version",
@@ -405,13 +405,17 @@
   "feedbackCategoryGeneral": "General Feedback",
   "feedbackDescriptionLabel": "Describe your feedback",
   "feedbackDescriptionHint": "Tell us what's on your mind...",
-  "feedbackMetadataNote": "The following info is included to help us investigate:",
+  "feedbackMetadataNote": "The following info is included to help us investigate: app version, device and OS, language, and your account ID.",
   "feedbackSubmit": "Submit Feedback",
   "feedbackThanks": "Thanks for your feedback!",
   "feedbackMailFailed": "Couldn't open your mail app. Please try again.",
 
   "mascotEvolutionTimeline": "Evolution Timeline",
   "mascotNextEvolution": "Next Evolution",
+  "mascotStatsTitle": "Our Journey",
+  "mascotStatBirthday": "Birthday",
+  "mascotStatDaysTogether": "Days together",
+  "mascotStatCo2Together": "CO₂ saved together",
   "mascotLevelShort": "Lv {level}",
   "@mascotLevelShort": {
     "placeholders": {

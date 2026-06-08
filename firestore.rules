@@ -21,7 +21,28 @@ service cloud.firestore {
                        || request.resource.data.personalGoal == null
                        || (request.resource.data.personalGoal is string
                            && request.resource.data.personalGoal.size() >= 1
-                           && request.resource.data.personalGoal.size() <= 100));
+                           && request.resource.data.personalGoal.size() <= 100))
+                   // Score integrity (defense-in-depth). Scoring runs in a
+                   // client transaction, so these fields must stay client-
+                   // writable -- rules cannot prove a points jump is earned.
+                   // What they CAN enforce: correct types and that points /
+                   // level never decrease (no resets or negative tampering).
+                   // Authoritative anti-cheat still requires moving scoring
+                   // server-side (Cloud Functions / admin SDK).
+                   && (!request.resource.data.keys().hasAny(['points'])
+                       || (request.resource.data.points is int
+                           && request.resource.data.points >= 0
+                           && (resource == null
+                               || !resource.data.keys().hasAny(['points'])
+                               || request.resource.data.points
+                                   >= resource.data.points)))
+                   && (!request.resource.data.keys().hasAny(['level'])
+                       || (request.resource.data.level is int
+                           && request.resource.data.level >= 1
+                           && (resource == null
+                               || !resource.data.keys().hasAny(['level'])
+                               || request.resource.data.level
+                                   >= resource.data.level)));
 
       // Subcollection: action log
       match /actionLog/{logId} {

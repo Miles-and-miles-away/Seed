@@ -48,7 +48,6 @@ class DailyChallengeCard extends ConsumerWidget {
       theme,
       colorScheme,
       l10n,
-      locale,
       challenge.title(locale),
       category,
       streak,
@@ -112,7 +111,6 @@ class DailyChallengeCard extends ConsumerWidget {
     ThemeData theme,
     ColorScheme colorScheme,
     AppLocalizations l10n,
-    String locale,
     String title,
     ActionCategory? category,
     int streak,
@@ -121,7 +119,9 @@ class DailyChallengeCard extends ConsumerWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         // Jump straight to the actions that complete this challenge, with
-        // its category filter already applied.
+        // its category filter already applied. Deep-links by category rather
+        // than a specific action -- fine while challenges target a category;
+        // revisit if a challenge ever targets a single action.
         onTap: () => context.push(
           category != null
               ? appRoutes.actionLogForCategory(category.name)

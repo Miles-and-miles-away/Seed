@@ -154,9 +154,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mascotNameRequired => '名前を入力してください';
 
   @override
-  String get mascotNameTooShort => '名前は2文字以上にしてください';
-
-  @override
   String get mascotNameTooLong => '名前は20文字以内にしてください';
 
   @override
@@ -436,6 +433,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get accountSettingsDisplayNameUpdated => '表示名が更新されました';
+
+  @override
+  String get accountSettingsDisplayNameRequired => '名前を入力してください';
 
   @override
   String get aboutSettingsTitle => 'このアプリについて';
@@ -785,7 +785,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get feedbackDescriptionHint => 'ご意見をお聞かせください...';
 
   @override
-  String get feedbackMetadataNote => '調査のため、以下の情報を一緒に送信します:';
+  String get feedbackMetadataNote =>
+      '調査のため、以下の情報を一緒に送信します: アプリのバージョン、端末とOS、言語、アカウントID。';
 
   @override
   String get feedbackSubmit => '送信する';
@@ -801,6 +802,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get mascotNextEvolution => '次の進化';
+
+  @override
+  String get mascotStatsTitle => 'ふたりの歩み';
+
+  @override
+  String get mascotStatBirthday => '誕生日';
+
+  @override
+  String get mascotStatDaysTogether => '一緒に過ごした日数';
+
+  @override
+  String get mascotStatCo2Together => '一緒に削減したCO₂';
 
   @override
   String mascotLevelShort(int level) {

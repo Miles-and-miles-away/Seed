@@ -188,4 +188,19 @@ void main() {
       expect(progress.fraction, 0);
     });
   });
+
+  group('EcoDexProgress.fraction', () {
+    test('returns 0 for a numeric condition with a zero target', () {
+      // Guards the `target <= 0` div-by-zero path: hasProgress is true but
+      // the denominator is 0, so fraction must short-circuit to 0 rather
+      // than divide.
+      const progress = EcoDexProgress(
+        current: 0,
+        target: 0,
+        hasProgress: true,
+      );
+
+      expect(progress.fraction, 0);
+    });
+  });
 }

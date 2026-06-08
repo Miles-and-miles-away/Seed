@@ -12,6 +12,7 @@ _MascotModel _$MascotModelFromJson(Map<String, dynamic> json) => _MascotModel(
       name: json['name'] as String? ?? '',
       mascotPoints: (json['mascotPoints'] as num?)?.toInt() ?? 0,
       mascotLevel: (json['mascotLevel'] as num?)?.toInt() ?? 1,
+      co2SavedGrams: (json['co2SavedGrams'] as num?)?.toInt() ?? 0,
       isFullyEvolved: json['isFullyEvolved'] as bool? ?? false,
       equippedItems: (json['equippedItems'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -29,6 +30,7 @@ Map<String, dynamic> _$MascotModelToJson(_MascotModel instance) =>
       'name': instance.name,
       'mascotPoints': instance.mascotPoints,
       'mascotLevel': instance.mascotLevel,
+      'co2SavedGrams': instance.co2SavedGrams,
       'isFullyEvolved': instance.isFullyEvolved,
       'equippedItems': instance.equippedItems,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),

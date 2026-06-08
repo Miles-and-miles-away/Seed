@@ -1,12 +1,14 @@
 # Test Coverage
 
-Last reviewed: 2026-04-19
+Last reviewed: 2026-06-08
 
 ## Summary
 
-- **Test files:** 102
+- **Test files:** 144
 - **Source files (excluding generated, barrels, `main.dart`, `firebase_options.dart`):** ~127
-- **Rough file-level coverage:** ~80%
+- **Rough file-level coverage:** ~86% (was ~80%; 17 checklist gaps closed and
+  reconciled into "Currently Covered" on 2026-06-08, plus the mascot screen,
+  mascot selection screen, and reactions/points-overlay tests added the same day)
 - **CI:** `.github/workflows/ci.yml` runs `flutter analyze` + `flutter test` on push
   to `development`/`main` and PRs to `main`.
 - **Integration tests:** none.
@@ -16,7 +18,9 @@ Recent pass: Tier 1 repositories (`ActionLogRepository` with ~34 tests),
 `ChallengeSelectionService`. Tier 2 core Riverpod providers (actions, sdg stats,
 progress, challenge, eco-dex). Tier 3 models and loaders (egg, evolution stage,
 daily summary, sdg stats, challenge templates, asset loaders for mascot species,
-SDG goals/targets/resources).
+SDG goals/targets/resources). Reconciled 2026-06-08: mascot/settings providers,
+`app_logger`, several action/auth/eco-dex/mascot/sdg/shared widgets, and
+`legal_content` now have tests.
 
 ---
 
@@ -24,6 +28,7 @@ SDG goals/targets/resources).
 
 ### Core utilities
 
+- [x] `core/utils/app_logger.dart`
 - [x] `core/utils/auth_error_mapper.dart`
 - [x] `core/utils/external_link.dart`
 - [x] `core/utils/firestore_converters.dart`
@@ -37,6 +42,7 @@ SDG goals/targets/resources).
 - [x] `shared/services/analytics_service.dart`
 - [x] `shared/services/notification_service.dart`
 - [x] `shared/services/streak_service.dart`
+- [x] `shared/widgets/error_display.dart`
 - [x] `shared/widgets/level_progress_bar.dart`
 - [x] `shared/widgets/stat_card.dart`
 
@@ -56,7 +62,10 @@ SDG goals/targets/resources).
 - [x] `features/actions/presentation/screens/action_log_screen.dart`
 - [x] `features/actions/presentation/widgets/action_card.dart`
 - [x] `features/actions/presentation/widgets/action_category_tabs.dart`
+- [x] `features/actions/presentation/widgets/action_log_item.dart`
 - [x] `features/actions/presentation/widgets/action_sort_dropdown.dart`
+- [x] `features/actions/presentation/widgets/learn_only_info_dialog.dart`
+- [x] `features/actions/presentation/widgets/points_animation_overlay.dart`
 - [x] `features/actions/presentation/widgets/sdg_filter_chips.dart`
 
 ### Auth
@@ -68,6 +77,8 @@ SDG goals/targets/resources).
 - [x] `features/auth/presentation/screens/email_verification_screen.dart`
 - [x] `features/auth/presentation/screens/login_screen.dart`
 - [x] `features/auth/presentation/screens/register_screen.dart`
+- [x] `features/auth/presentation/widgets/auth_text_field.dart`
+- [x] `features/auth/presentation/widgets/social_sign_in_button.dart`
 
 ### Challenge
 
@@ -90,7 +101,10 @@ SDG goals/targets/resources).
 - [x] `features/eco_dex/domain/services/condition_evaluator.dart`
 - [x] `features/eco_dex/presentation/providers/eco_dex_providers.dart`
       (discovered list, count, de-dup)
+- [x] `features/eco_dex/presentation/widgets/eco_dex_entry_card.dart`
 - [x] `features/eco_dex/presentation/widgets/eco_dex_entry_image.dart`
+- [x] `features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart`
+- [x] `features/eco_dex/presentation/widgets/eco_dex_progress_header.dart`
 
 ### Eco-Fact
 
@@ -113,6 +127,11 @@ SDG goals/targets/resources).
 - [x] `features/mascot/data/repositories/mascot_repository.dart`
 - [x] `features/mascot/data/services/egg_hatching_service.dart`
 - [x] `features/mascot/data/services/mascot_migration_service.dart`
+- [x] `features/mascot/presentation/providers/mascot_providers.dart`
+- [x] `features/mascot/presentation/screens/mascot_screen.dart`
+- [x] `features/mascot/presentation/screens/mascot_selection_screen.dart`
+- [x] `features/mascot/presentation/widgets/egg_progress_widget.dart`
+- [x] `features/mascot/presentation/widgets/mascot_display.dart`
 
 ### Profile
 
@@ -132,6 +151,7 @@ SDG goals/targets/resources).
 - [x] `features/progress/presentation/widgets/day_detail_bottom_sheet.dart`
 - [x] `features/progress/presentation/widgets/progress_calendar.dart`
 - [x] `features/progress/presentation/widgets/rainbow_sun_painter.dart`
+- [x] `features/progress/presentation/widgets/rainbow_sun_widget.dart`
 
 ### SDG
 
@@ -147,14 +167,18 @@ SDG goals/targets/resources).
 - [x] `features/sdg/presentation/screens/home_screen.dart`
 - [x] `features/sdg/presentation/screens/sdg_detail_screen.dart`
 - [x] `features/sdg/presentation/widgets/sdg_carousel.dart`
+- [x] `features/sdg/presentation/widgets/sdg_impact_card.dart`
+- [x] `features/sdg/presentation/widgets/sdg_resources_list.dart`
 - [x] `features/sdg/presentation/widgets/sdg_targets_section.dart`
 
 ### Settings
 
 - [x] `features/settings/data/datasources/settings_remote_datasource.dart`
+- [x] `features/settings/data/legal_content.dart`
 - [x] `features/settings/data/models/notification_schedule_model.dart`
 - [x] `features/settings/data/models/user_settings_model.dart`
 - [x] `features/settings/data/repositories/settings_repository.dart`
+- [x] `features/settings/presentation/providers/settings_providers.dart`
 - [x] `features/settings/presentation/screens/about_screen.dart`
 - [x] `features/settings/presentation/screens/account_settings_screen.dart`
 - [x] `features/settings/presentation/screens/language_settings_screen.dart`
@@ -170,8 +194,8 @@ SDG goals/targets/resources).
 ## Future Coverage Checklist
 
 Ordered by priority. The biggest remaining gaps are `FcmService`, the
-`AuthNotifier` / settings / mascot Riverpod notifiers, and the UI layer
-(screens/widgets not yet exercised, and any integration tests).
+`AuthNotifier` / remaining Riverpod notifiers, and the UI layer
+(screens/celebration widgets not yet exercised, and any integration tests).
 
 ### Tier 1 — Remaining critical services
 
@@ -185,8 +209,6 @@ Ordered by priority. The biggest remaining gaps are `FcmService`, the
 - [ ] `features/auth/presentation/providers/auth_providers.dart`
       — `AuthNotifier` sign-in/sign-out flows. Needs mocked
       `authRepositoryProvider` + analytics override.
-- [ ] `features/mascot/presentation/providers/mascot_providers.dart`
-- [ ] `features/settings/presentation/providers/settings_providers.dart`
 - [ ] `shared/providers/analytics_provider.dart`
 - [ ] `shared/providers/notification_providers.dart`
 - [ ] `shared/providers/package_info_provider.dart`
@@ -198,62 +220,36 @@ Ordered by priority. The biggest remaining gaps are `FcmService`, the
 - [ ] `features/eco_dex/domain/models/eco_dex_entry_state.dart`
       (trivial data holder; low value)
 
-### Tier 4 — Core utilities
-
-- [ ] `core/utils/app_logger.dart` (thin wrapper; low value)
-
-### Tier 5 — Screens
+### Tier 4 — Screens
 
 - [ ] `features/actions/presentation/screens/action_history_screen.dart`
 - [ ] `features/profile/presentation/screens/profile_screen.dart`
 - [ ] `features/eco_dex/presentation/screens/eco_dex_screen.dart`
 - [ ] `features/eco_fact/presentation/screens/eco_fact_detail_screen.dart`
-- [ ] `features/mascot/presentation/screens/mascot_screen.dart`
-- [ ] `features/mascot/presentation/screens/mascot_selection_screen.dart`
 - [ ] `features/settings/presentation/screens/legal_document_screen.dart`
 - [ ] `features/settings/presentation/screens/privacy_policy_screen.dart`
 - [ ] `features/settings/presentation/screens/terms_of_service_screen.dart`
 
-### Tier 6 — Widgets
+### Tier 5 — Widgets
 
 Actions:
 - [ ] `action_log_confirmation_dialog.dart`
-- [ ] `action_log_item.dart`
 - [ ] `action_science_bottom_sheet.dart`
-- [ ] `learn_only_info_dialog.dart`
-- [ ] `points_animation_overlay.dart`
-
-Auth:
-- [ ] `auth_text_field.dart`
-- [ ] `social_sign_in_button.dart`
 
 Eco-Dex:
 - [ ] `eco_dex_category_section.dart`
-- [ ] `eco_dex_entry_card.dart`
 - [ ] `eco_dex_entry_sheet.dart`
-- [ ] `eco_dex_locked_sheet.dart`
-- [ ] `eco_dex_progress_header.dart`
 
 Mascot:
 - [ ] `egg_discovery_celebration.dart`
 - [ ] `egg_hatching_celebration.dart`
-- [ ] `egg_progress_widget.dart`
 - [ ] `evolution_celebration.dart`
-- [ ] `mascot_display.dart`
-
-Progress:
-- [ ] `rainbow_sun_widget.dart`
 
 SDG:
 - [ ] `sdg_actions_grid.dart`
-- [ ] `sdg_impact_card.dart`
 - [ ] `sdg_infographic_viewer.dart`
-- [ ] `sdg_resources_list.dart`
 
-Shared:
-- [ ] `error_display.dart`
-
-### Tier 7 — App wiring and integration
+### Tier 6 — App wiring and integration
 
 - [ ] `app/router.dart` — guard behavior.
 - [ ] `app/main_shell.dart` — bottom-nav routing.
@@ -262,10 +258,9 @@ Shared:
 - [ ] Integration test: sign-up → email verification → mascot selection.
 - [ ] Integration test: calendar month view reflects logged actions.
 
-### Tier 8 — Presentation utils and light data
+### Tier 7 — Presentation utils
 
 - [ ] `features/actions/presentation/utils/handle_action_tap.dart`
-- [ ] `features/settings/data/legal_content.dart` (shape/length sanity)
 
 ---
 

@@ -10,6 +10,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
+import 'package:seed_app/features/home/presentation/providers/home_providers.dart';
 import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
@@ -96,6 +97,7 @@ class HomeScreen extends ConsumerWidget {
                   locale: Localizations.localeOf(
                     context,
                   ).languageCode,
+                  resetSignal: ref.watch(homeVisitSignalProvider),
                   onGoalTap: (goal) {
                     context.push(appRoutes.sdgDetail(goal.number));
                   },
@@ -292,7 +294,7 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         children: [
           // Preview mascot
-          MascotPreview(
+          MascotAvatar(
             assetPath: ref
                     .watch(mascotSpeciesDataProvider)
                     .value

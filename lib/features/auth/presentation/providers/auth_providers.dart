@@ -232,23 +232,23 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   /// Updates the user's display name.
+  ///
+  /// Optimistic: the Firestore write is applied to the local cache
+  /// immediately, so [currentUserProvider] reflects the change without
+  /// waiting for the server. Unlike the auth-lifecycle actions, this does
+  /// not flip the global auth [state] to loading (a profile edit is not an
+  /// auth transition, and doing so would gate any screen watching auth on a
+  /// server round-trip). Rethrows so callers can surface failures.
   Future<void> updateDisplayName(String displayName) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).updateDisplayName(displayName);
-    });
-    if (!ref.mounted) return;
-    state = result;
+    await ref.read(authRepositoryProvider).updateDisplayName(displayName);
   }
 
   /// Updates the user's personal sustainability goal.
+  ///
+  /// Optimistic and non-blocking for the same reasons as
+  /// [updateDisplayName]. Rethrows so callers can surface failures.
   Future<void> updatePersonalGoal(String personalGoal) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).updatePersonalGoal(personalGoal);
-    });
-    if (!ref.mounted) return;
-    state = result;
+    await ref.read(authRepositoryProvider).updatePersonalGoal(personalGoal);
   }
 
   /// Deletes the user's account and all data.

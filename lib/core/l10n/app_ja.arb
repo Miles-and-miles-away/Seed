@@ -91,7 +91,6 @@
   "mascotNameLabel": "相棒に名前をつけよう",
   "mascotNameHint": "例：スプラウティ、リーフィ、バド...",
   "mascotNameRequired": "名前を入力してください",
-  "mascotNameTooShort": "名前は2文字以上にしてください",
   "mascotNameTooLong": "名前は20文字以内にしてください",
   "mascotSelectionConfirm": "一緒に成長しよう！",
 
@@ -217,6 +216,7 @@
   "accountSettingsDisplayName": "表示名",
   "accountSettingsNotSet": "未設定",
   "accountSettingsDisplayNameUpdated": "表示名が更新されました",
+  "accountSettingsDisplayNameRequired": "名前を入力してください",
 
   "aboutSettingsTitle": "このアプリについて",
   "aboutSettingsVersion": "バージョン",
@@ -405,13 +405,17 @@
   "feedbackCategoryGeneral": "一般的なフィードバック",
   "feedbackDescriptionLabel": "フィードバックの内容",
   "feedbackDescriptionHint": "ご意見をお聞かせください...",
-  "feedbackMetadataNote": "調査のため、以下の情報を一緒に送信します:",
+  "feedbackMetadataNote": "調査のため、以下の情報を一緒に送信します: アプリのバージョン、端末とOS、言語、アカウントID。",
   "feedbackSubmit": "送信する",
   "feedbackThanks": "フィードバックありがとうございます！",
   "feedbackMailFailed": "メールアプリを開けませんでした。もう一度お試しください。",
 
   "mascotEvolutionTimeline": "進化タイムライン",
   "mascotNextEvolution": "次の進化",
+  "mascotStatsTitle": "ふたりの歩み",
+  "mascotStatBirthday": "誕生日",
+  "mascotStatDaysTogether": "一緒に過ごした日数",
+  "mascotStatCo2Together": "一緒に削減したCO₂",
   "mascotLevelShort": "Lv {level}",
   "@mascotLevelShort": {
     "placeholders": {

@@ -9,6 +9,7 @@ class SettingsTile extends StatelessWidget {
   const SettingsTile({
     required this.title,
     this.subtitle,
+    this.subtitleWidget,
     this.leading,
     this.trailing,
     this.onTap,
@@ -23,6 +24,10 @@ class SettingsTile extends StatelessWidget {
 
   /// Optional subtitle text shown below the title.
   final String? subtitle;
+
+  /// Optional subtitle widget shown below the title, taking precedence over
+  /// [subtitle]. Use for non-text subtitles such as a loading placeholder.
+  final Widget? subtitleWidget;
 
   /// Optional leading widget (typically an icon).
   final Widget? leading;
@@ -85,14 +90,15 @@ class SettingsTile extends StatelessWidget {
           color: effectiveTextColor,
         ),
       ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            )
-          : null,
+      subtitle: subtitleWidget ??
+          (subtitle != null
+              ? Text(
+                  subtitle!,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                )
+              : null),
       trailing: effectiveTrailing,
       onTap: enabled ? onTap : null,
       contentPadding: const EdgeInsets.symmetric(

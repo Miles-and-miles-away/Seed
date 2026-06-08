@@ -11,12 +11,17 @@ class SdgCarousel extends StatefulWidget {
     required this.goals,
     required this.onGoalTap,
     this.locale = 'en',
+    this.resetSignal = 0,
     super.key,
   });
 
   final List<SdgGoal> goals;
   final void Function(SdgGoal goal) onGoalTap;
   final String locale;
+
+  /// Re-centers the carousel on the first goal whenever this value changes,
+  /// so each fresh visit to the host screen starts from the middle.
+  final int resetSignal;
 
   @override
   State<SdgCarousel> createState() => _SdgCarouselState();
@@ -26,6 +31,10 @@ class _SdgCarouselState extends State<SdgCarousel> {
   // Created lazily once goals are loaded and the viewport width is known so
   // the centered index resolves to goal 1 rather than the empty loading list.
   ScrollController? _scrollController;
+
+  // Viewport width the current offset was computed for, so a rotation /
+  // resize can re-center the carousel instead of letting the goal drift.
+  double? _lastViewportWidth;
   static const _itemWidth = 120.0;
   static const _itemSpacing = 12.0;
   static const _totalItemWidth = _itemWidth + _itemSpacing;
@@ -42,6 +51,33 @@ class _SdgCarouselState extends State<SdgCarousel> {
   }
 
   @override
+  void didUpdateWidget(covariant SdgCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.resetSignal != oldWidget.resetSignal) {
+      _recenterOnFirstGoal();
+    }
+  }
+
+  /// Jumps back to the centered first goal after the host screen signals a
+  /// fresh visit. Runs post-frame so the list is attached before the jump.
+  void _recenterOnFirstGoal() {
+    final width = _lastViewportWidth;
+    if (width == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final controller = _scrollController;
+      if (controller == null || !controller.hasClients) return;
+      final position = controller.position;
+      controller.jumpTo(
+        _initialOffset(width).clamp(
+          position.minScrollExtent,
+          position.maxScrollExtent,
+        ),
+      );
+    });
+  }
+
+  @override
   void dispose() {
     _scrollController?.dispose();
     super.dispose();
@@ -52,13 +88,38 @@ class _SdgCarouselState extends State<SdgCarousel> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (widget.goals.isNotEmpty) {
-          _scrollController ??= ScrollController(
-            initialScrollOffset: _initialOffset(constraints.maxWidth),
-          );
+          _syncControllerToWidth(constraints.maxWidth);
         }
         return _buildList();
       },
     );
+  }
+
+  /// Lazily builds the [ScrollController] centered on the first goal, then
+  /// keeps whatever goal is centered centered after a viewport change by
+  /// shifting the offset by half the width delta on the next frame.
+  void _syncControllerToWidth(double width) {
+    if (_scrollController == null) {
+      _scrollController = ScrollController(
+        initialScrollOffset: _initialOffset(width),
+      );
+      _lastViewportWidth = width;
+      return;
+    }
+    final previousWidth = _lastViewportWidth;
+    if (previousWidth == null || previousWidth == width) return;
+    _lastViewportWidth = width;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final controller = _scrollController;
+      if (controller == null || !controller.hasClients) return;
+      final position = controller.position;
+      final adjusted = (controller.offset + (previousWidth - width) / 2).clamp(
+        position.minScrollExtent,
+        position.maxScrollExtent,
+      );
+      controller.jumpTo(adjusted);
+    });
   }
 
   Widget _buildList() {

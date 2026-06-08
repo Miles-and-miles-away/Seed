@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 
 /// Preset personal goal IDs, ordered from concrete to aspirational.
 ///
@@ -19,8 +20,24 @@ const personalGoalPresetIds = [
   'save_world',
 ];
 
-/// Resolves a stored goal value (preset ID or free text) for display.
+/// Stored prefix marking a goal as free-text custom input. Namespacing custom
+/// goals keeps one that happens to equal a preset ID (e.g. "save_world") from
+/// resolving to the preset's localized label -- it round-trips as the literal
+/// text the user typed instead.
+const personalGoalCustomPrefix = 'custom:';
+
+/// Max length of the free-text portion of a custom goal. The stored value is
+/// [personalGoalCustomPrefix] + this text, so the cap reserves room for the
+/// prefix within [AppConstants.maxPersonalGoalLength] (the size limit the
+/// Firestore rule enforces on the stored string).
+final maxCustomGoalTextLength =
+    AppConstants.maxPersonalGoalLength - personalGoalCustomPrefix.length;
+
+/// Resolves a stored goal value (preset ID or custom text) for display.
 String localizedPersonalGoal(String goal, AppLocalizations l10n) {
+  if (goal.startsWith(personalGoalCustomPrefix)) {
+    return goal.substring(personalGoalCustomPrefix.length);
+  }
   switch (goal) {
     case 'reduce_flights':
       return l10n.personalGoalReduceFlights;
@@ -39,6 +56,8 @@ String localizedPersonalGoal(String goal, AppLocalizations l10n) {
     case 'save_world':
       return l10n.personalGoalSaveWorld;
     default:
+      // Bare value with no prefix: presets are handled above, so this is a
+      // legacy custom goal saved before the prefix scheme. Show it as-is.
       return goal;
   }
 }
@@ -84,9 +103,13 @@ class _GoalPickerSheetState extends State<GoalPickerSheet> {
     super.initState();
     final goal = widget.initialGoal;
     if (goal == null) return;
-    if (personalGoalPresetIds.contains(goal)) {
+    if (goal.startsWith(personalGoalCustomPrefix)) {
+      _selected = _customOption;
+      _customController.text = goal.substring(personalGoalCustomPrefix.length);
+    } else if (personalGoalPresetIds.contains(goal)) {
       _selected = goal;
     } else {
+      // Legacy custom goal stored before the prefix scheme.
       _selected = _customOption;
       _customController.text = goal;
     }
@@ -103,8 +126,9 @@ class _GoalPickerSheetState extends State<GoalPickerSheet> {
       (_selected != _customOption || _customController.text.trim().isNotEmpty);
 
   void _save() {
-    final value =
-        _selected == _customOption ? _customController.text.trim() : _selected;
+    final value = _selected == _customOption
+        ? '$personalGoalCustomPrefix${_customController.text.trim()}'
+        : _selected;
     Navigator.pop(context, value);
   }
 
@@ -142,7 +166,16 @@ class _GoalPickerSheetState extends State<GoalPickerSheet> {
                   child: TextField(
                     controller: _customController,
                     autofocus: true,
-                    maxLength: AppConstants.maxPersonalGoalLength,
+                    maxLength: maxCustomGoalTextLength,
+                    // Cap on UTF-16 units to match the Firestore rule's
+                    // .size(); the stored value prepends
+                    // personalGoalCustomPrefix, so the text cap reserves room
+                    // for it under the limit.
+                    inputFormatters: [
+                      Utf16LengthLimitingTextInputFormatter(
+                        maxCustomGoalTextLength,
+                      ),
+                    ],
                     decoration: InputDecoration(
                       hintText: l10n.goalPickerCustomHint,
                     ),

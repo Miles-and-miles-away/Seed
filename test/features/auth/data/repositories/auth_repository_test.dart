@@ -276,7 +276,28 @@ void main() {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
       when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+      when(() => user.updateDisplayName(any())).thenAnswer((_) async {});
 
+      await repository.updateDisplayName('Eco Hero');
+
+      verify(
+        () => userDs.updateUser(
+          uid,
+          {AppConstants.fieldDisplayName: 'Eco Hero'},
+        ),
+      ).called(1);
+      verify(() => user.updateDisplayName('Eco Hero')).called(1);
+    });
+
+    test('updateDisplayName still succeeds if the Auth profile update fails',
+        () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+      when(() => user.updateDisplayName(any()))
+          .thenThrow(FirebaseAuthException(code: 'unknown'));
+
+      // Must not throw: Firestore is the source of truth.
       await repository.updateDisplayName('Eco Hero');
 
       verify(

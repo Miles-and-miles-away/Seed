@@ -39,7 +39,16 @@ class EcoDexNextUpSection extends ConsumerWidget {
             progress: ecoDexProgressOf(e.entry.condition, user),
           ),
         )
-        .where((c) => c.progress.hasProgress && c.progress.fraction > 0)
+        // Exclude entries already at 100%: their condition is met but not
+        // yet persisted (e.g. a stat-based unlock reached off the log-action
+        // path, or a swallowed discovery-write failure). Showing a full bar
+        // under "Next Up" would look stuck.
+        .where(
+          (c) =>
+              c.progress.hasProgress &&
+              c.progress.fraction > 0 &&
+              c.progress.fraction < 1,
+        )
         .toList()
       ..sort((a, b) => b.progress.fraction.compareTo(a.progress.fraction));
 

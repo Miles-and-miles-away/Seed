@@ -149,7 +149,9 @@ Timeline of logged actions grouped by date with running points total.
 ## Log Action (`/log-action`)
 
 Pushed route — not a shell branch, but shows the shared bottom nav so users
-can jump to any tab without backing out first. Browse and log actions.
+navigate via the tabs. The implicit AppBar back arrow is suppressed
+(`automaticallyImplyLeading: false`) so the bottom nav is the single,
+unambiguous exit. Browse and log actions.
 - Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
   inline confirmation dialog / science bottom sheet
 - Query params: `category` pre-selects the matching category tab on open

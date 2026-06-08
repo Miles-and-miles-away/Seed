@@ -55,9 +55,23 @@ void main() {
       final l10n = AppLocalizations.of(context);
 
       expect(localizedPersonalGoal('save_world', l10n), 'Save the world');
+      // Legacy custom goal stored without the prefix passes through.
       expect(
         localizedPersonalGoal('Plant 100 trees', l10n),
         'Plant 100 trees',
+      );
+      // Prefixed custom goals show their literal text...
+      expect(
+        localizedPersonalGoal(
+          '${personalGoalCustomPrefix}Plant 100 trees',
+          l10n,
+        ),
+        'Plant 100 trees',
+      );
+      // ...even when the text equals a preset ID (the bug this fixes).
+      expect(
+        localizedPersonalGoal('${personalGoalCustomPrefix}save_world', l10n),
+        'save_world',
       );
     });
   });
@@ -111,7 +125,11 @@ void main() {
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
 
-      expect(find.text('result:Plant 100 trees'), findsOneWidget);
+      // The stored value is namespaced with the custom prefix.
+      expect(
+        find.text('result:${personalGoalCustomPrefix}Plant 100 trees'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('empty custom text keeps save disabled', (tester) async {
@@ -149,6 +167,46 @@ void main() {
         find.widgetWithText(ListTile, 'Write your own'),
       );
       expect(tile.selected, isTrue);
+    });
+
+    testWidgets('preselects custom option for a prefixed custom goal',
+        (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          initialGoal: '${personalGoalCustomPrefix}Plant 100 trees',
+        ),
+      );
+      await openSheet(tester);
+
+      // The prefix is stripped for display/editing.
+      expect(find.text('Plant 100 trees'), findsOneWidget);
+      final tile = tester.widget<ListTile>(
+        find.widgetWithText(ListTile, 'Write your own'),
+      );
+      expect(tile.selected, isTrue);
+    });
+
+    testWidgets('custom goal equal to a preset ID round-trips as custom text',
+        (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await openSheet(tester);
+
+      await scrollSheetTo(tester, find.text('Write your own'));
+      await tester.tap(find.text('Write your own'));
+      await tester.pumpAndSettle();
+
+      // Typing a literal preset ID as custom text must not collapse into the
+      // preset; it is namespaced and round-trips as the typed text.
+      await tester.enterText(find.byType(TextField), 'save_world');
+      await tester.pumpAndSettle();
+      await scrollSheetTo(tester, find.text('Save'));
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text('result:${personalGoalCustomPrefix}save_world'),
+        findsOneWidget,
+      );
     });
   });
 }

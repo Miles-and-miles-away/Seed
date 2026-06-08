@@ -52,10 +52,23 @@ void main() {
       expect(find.byIcon(Icons.add_circle_outline), findsNothing);
     });
 
-    testWidgets('shows custom goal text verbatim', (tester) async {
+    testWidgets('shows legacy custom goal text verbatim', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           currentUser: baseUser.copyWith(personalGoal: 'Plant 100 trees'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Plant 100 trees'), findsOneWidget);
+    });
+
+    testWidgets('shows prefixed custom goal text verbatim', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          currentUser: baseUser.copyWith(
+            personalGoal: '${personalGoalCustomPrefix}Plant 100 trees',
+          ),
         ),
       );
       await tester.pumpAndSettle();
