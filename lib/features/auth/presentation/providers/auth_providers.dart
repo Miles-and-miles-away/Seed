@@ -231,6 +231,26 @@ class AuthNotifier extends _$AuthNotifier {
     state = result;
   }
 
+  /// Updates the user's display name.
+  Future<void> updateDisplayName(String displayName) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).updateDisplayName(displayName);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Updates the user's personal sustainability goal.
+  Future<void> updatePersonalGoal(String personalGoal) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).updatePersonalGoal(personalGoal);
+    });
+    if (!ref.mounted) return;
+    state = result;
+  }
+
   /// Deletes the user's account and all data.
   /// Requires re-authentication first.
   Future<void> deleteAccount() async {

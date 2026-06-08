@@ -436,6 +436,19 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por favor ingresa tu contraseña nuevamente para continuar';
 
   @override
+  String get accountSettingsProfile => 'Perfil';
+
+  @override
+  String get accountSettingsDisplayName => 'Nombre para mostrar';
+
+  @override
+  String get accountSettingsNotSet => 'Sin establecer';
+
+  @override
+  String get accountSettingsDisplayNameUpdated =>
+      'Nombre actualizado exitosamente';
+
+  @override
   String get aboutSettingsTitle => 'Acerca de';
 
   @override
@@ -830,7 +843,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'Explora los Objetivos';
+  String get homeExploreGoals => 'Explora los Objetivos ODS';
 
   @override
   String get homeExploreGoalsSubtitle =>
@@ -841,6 +854,52 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homePoints => 'Puntos';
+
+  @override
+  String get myGoalTitle => 'Mi meta';
+
+  @override
+  String get myGoalEmptyPrompt =>
+      'Toca para establecer tu meta de sostenibilidad';
+
+  @override
+  String get myGoalUpdated => 'Meta actualizada exitosamente';
+
+  @override
+  String get goalPickerTitle => 'Elige tu meta';
+
+  @override
+  String get goalPickerCustomOption => 'Escribe la tuya';
+
+  @override
+  String get goalPickerCustomHint => 'Mi meta es...';
+
+  @override
+  String get personalGoalReduceFlights =>
+      'Reducir los vuelos de larga distancia';
+
+  @override
+  String get personalGoalPlantBased => 'Comer más comidas a base de plantas';
+
+  @override
+  String get personalGoalLessPlastic => 'Eliminar el plástico de un solo uso';
+
+  @override
+  String get personalGoalWalkBike =>
+      'Caminar o ir en bicicleta en lugar de conducir';
+
+  @override
+  String get personalGoalLessFoodWaste => 'Desperdiciar menos comida';
+
+  @override
+  String get personalGoalBuyLess => 'Comprar menos y reutilizar más';
+
+  @override
+  String get personalGoalInspireOthers =>
+      'Inspirar a amigos y familiares a actuar';
+
+  @override
+  String get personalGoalSaveWorld => 'Salvar el mundo';
 
   @override
   String sdgGoalNumber(int number) {

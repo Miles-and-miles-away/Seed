@@ -213,6 +213,10 @@
   "accountSettingsEmailUpdated": "メールアドレスが更新されました",
   "accountSettingsPasswordUpdated": "パスワードが更新されました",
   "accountSettingsReauthRequired": "続行するには、パスワードを再入力してください",
+  "accountSettingsProfile": "プロフィール",
+  "accountSettingsDisplayName": "表示名",
+  "accountSettingsNotSet": "未設定",
+  "accountSettingsDisplayNameUpdated": "表示名が更新されました",
 
   "aboutSettingsTitle": "このアプリについて",
   "aboutSettingsVersion": "バージョン",
@@ -428,10 +432,25 @@
     }
   },
 
-  "homeExploreGoals": "目標を探る",
+  "homeExploreGoals": "SDGsの目標を探る",
   "homeExploreGoalsSubtitle": "国連の持続可能な開発目標について学ぶ",
   "homeLearnMore": "UN.orgで詳しく見る",
   "homePoints": "ポイント",
+
+  "myGoalTitle": "マイゴール",
+  "myGoalEmptyPrompt": "タップしてあなたの目標を設定しましょう",
+  "myGoalUpdated": "目標が更新されました",
+  "goalPickerTitle": "目標を選びましょう",
+  "goalPickerCustomOption": "自分で書く",
+  "goalPickerCustomHint": "私の目標は…",
+  "personalGoalReduceFlights": "長距離フライトを減らす",
+  "personalGoalPlantBased": "植物性の食事を増やす",
+  "personalGoalLessPlastic": "使い捨てプラスチックをやめる",
+  "personalGoalWalkBike": "車の代わりに徒歩や自転車で移動する",
+  "personalGoalLessFoodWaste": "食品ロスを減らす",
+  "personalGoalBuyLess": "買う量を減らして再利用する",
+  "personalGoalInspireOthers": "友人や家族に行動を促す",
+  "personalGoalSaveWorld": "世界を救う",
 
   "sdgGoalNumber": "目標 {number}",
   "@sdgGoalNumber": {

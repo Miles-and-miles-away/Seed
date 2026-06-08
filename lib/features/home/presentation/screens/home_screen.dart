@@ -10,6 +10,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/multi_day_challenge_card.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
+import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
@@ -62,6 +63,10 @@ class HomeScreen extends ConsumerWidget {
                   const DailyChallengeCard(),
                   const SizedBox(height: spacingMd),
                   const MultiDayChallengeCard(),
+                  const SizedBox(height: spacingMd),
+
+                  // Personal goal
+                  const MyGoalCard(),
                   const SizedBox(height: spacingXxl),
 
                   // SDG Section header

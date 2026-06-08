@@ -874,6 +874,30 @@ abstract class AppLocalizations {
   /// **'Please re-enter your password to continue'**
   String get accountSettingsReauthRequired;
 
+  /// No description provided for @accountSettingsProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get accountSettingsProfile;
+
+  /// No description provided for @accountSettingsDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get accountSettingsDisplayName;
+
+  /// No description provided for @accountSettingsNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get accountSettingsNotSet;
+
+  /// No description provided for @accountSettingsDisplayNameUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name updated successfully'**
+  String get accountSettingsDisplayNameUpdated;
+
   /// No description provided for @aboutSettingsTitle.
   ///
   /// In en, this message translates to:
@@ -1567,7 +1591,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeExploreGoals.
   ///
   /// In en, this message translates to:
-  /// **'Explore the Goals'**
+  /// **'Explore the SDG Goals'**
   String get homeExploreGoals;
 
   /// No description provided for @homeExploreGoalsSubtitle.
@@ -1587,6 +1611,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Points'**
   String get homePoints;
+
+  /// No description provided for @myGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Goal'**
+  String get myGoalTitle;
+
+  /// No description provided for @myGoalEmptyPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to set your sustainability goal'**
+  String get myGoalEmptyPrompt;
+
+  /// No description provided for @myGoalUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal updated successfully'**
+  String get myGoalUpdated;
+
+  /// No description provided for @goalPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your goal'**
+  String get goalPickerTitle;
+
+  /// No description provided for @goalPickerCustomOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your own'**
+  String get goalPickerCustomOption;
+
+  /// No description provided for @goalPickerCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'My goal is...'**
+  String get goalPickerCustomHint;
+
+  /// No description provided for @personalGoalReduceFlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce long-haul flights'**
+  String get personalGoalReduceFlights;
+
+  /// No description provided for @personalGoalPlantBased.
+  ///
+  /// In en, this message translates to:
+  /// **'Eat more plant-based meals'**
+  String get personalGoalPlantBased;
+
+  /// No description provided for @personalGoalLessPlastic.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut out single-use plastic'**
+  String get personalGoalLessPlastic;
+
+  /// No description provided for @personalGoalWalkBike.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk or bike instead of driving'**
+  String get personalGoalWalkBike;
+
+  /// No description provided for @personalGoalLessFoodWaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Waste less food'**
+  String get personalGoalLessFoodWaste;
+
+  /// No description provided for @personalGoalBuyLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy less, reuse more'**
+  String get personalGoalBuyLess;
+
+  /// No description provided for @personalGoalInspireOthers.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspire friends and family to act'**
+  String get personalGoalInspireOthers;
+
+  /// No description provided for @personalGoalSaveWorld.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the world'**
+  String get personalGoalSaveWorld;
 
   /// No description provided for @sdgGoalNumber.
   ///

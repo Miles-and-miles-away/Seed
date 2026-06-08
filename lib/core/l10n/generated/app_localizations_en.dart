@@ -433,6 +433,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please re-enter your password to continue';
 
   @override
+  String get accountSettingsProfile => 'Profile';
+
+  @override
+  String get accountSettingsDisplayName => 'Display Name';
+
+  @override
+  String get accountSettingsNotSet => 'Not set';
+
+  @override
+  String get accountSettingsDisplayNameUpdated =>
+      'Display name updated successfully';
+
+  @override
   String get aboutSettingsTitle => 'About';
 
   @override
@@ -821,7 +834,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'Explore the Goals';
+  String get homeExploreGoals => 'Explore the SDG Goals';
 
   @override
   String get homeExploreGoalsSubtitle =>
@@ -832,6 +845,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homePoints => 'Points';
+
+  @override
+  String get myGoalTitle => 'My Goal';
+
+  @override
+  String get myGoalEmptyPrompt => 'Tap to set your sustainability goal';
+
+  @override
+  String get myGoalUpdated => 'Goal updated successfully';
+
+  @override
+  String get goalPickerTitle => 'Choose your goal';
+
+  @override
+  String get goalPickerCustomOption => 'Write your own';
+
+  @override
+  String get goalPickerCustomHint => 'My goal is...';
+
+  @override
+  String get personalGoalReduceFlights => 'Reduce long-haul flights';
+
+  @override
+  String get personalGoalPlantBased => 'Eat more plant-based meals';
+
+  @override
+  String get personalGoalLessPlastic => 'Cut out single-use plastic';
+
+  @override
+  String get personalGoalWalkBike => 'Walk or bike instead of driving';
+
+  @override
+  String get personalGoalLessFoodWaste => 'Waste less food';
+
+  @override
+  String get personalGoalBuyLess => 'Buy less, reuse more';
+
+  @override
+  String get personalGoalInspireOthers => 'Inspire friends and family to act';
+
+  @override
+  String get personalGoalSaveWorld => 'Save the world';
 
   @override
   String sdgGoalNumber(int number) {

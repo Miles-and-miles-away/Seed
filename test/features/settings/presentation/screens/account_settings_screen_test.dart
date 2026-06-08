@@ -9,6 +9,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/settings/presentation/screens/account_settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 // Mock classes
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
@@ -175,6 +176,12 @@ void main() {
       );
       await tester.pumpAndSettle();
 
+      // The profile section pushes the warning below the test viewport
+      await tester.scrollUntilVisible(
+        find.textContaining('permanently delete'),
+        100,
+      );
+
       expect(
         find.textContaining('permanently delete'),
         findsOneWidget,
@@ -240,8 +247,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Email section, Account section, Danger zone section
-      expect(find.byType(SettingsSection), findsNWidgets(3));
+      // Profile, Email, Account, Danger zone sections
+      expect(find.byType(SettingsSection), findsNWidgets(4));
     });
 
     testWidgets('renders ListView', (tester) async {
@@ -265,8 +272,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Change Email, Change Password, Delete Account
-      expect(find.byType(SettingsTile), findsNWidgets(3));
+      // Display Name, My Goal, Change Email, Change Password, Delete Account
+      expect(find.byType(SettingsTile), findsNWidgets(5));
     });
 
     testWidgets('tapping change email shows dialog', (tester) async {
@@ -416,6 +423,72 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsOneWidget);
+    });
+
+    testWidgets('renders profile section with display name and goal',
+        (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const AccountSettingsScreen(),
+          currentUser: testUser,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('PROFILE'), findsOneWidget);
+      expect(find.text('Display Name'), findsOneWidget);
+      expect(find.text('Test User'), findsOneWidget);
+      expect(find.text('My Goal'), findsOneWidget);
+      expect(find.text('Not set'), findsOneWidget);
+    });
+
+    testWidgets('shows localized preset text for stored goal ID',
+        (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const AccountSettingsScreen(),
+          currentUser: testUser.copyWith(personalGoal: 'save_world'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Save the world'), findsOneWidget);
+    });
+
+    testWidgets('tapping display name shows prefilled dialog', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const AccountSettingsScreen(),
+          currentUser: testUser,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Display Name'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsOneWidget);
+      expect(
+        find.widgetWithText(TextFormField, 'Test User'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('tapping my goal opens goal picker sheet', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const AccountSettingsScreen(),
+          currentUser: testUser,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('My Goal'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(GoalPickerSheet), findsOneWidget);
+      expect(find.text('Save the world'), findsOneWidget);
+      expect(find.text('Write your own'), findsOneWidget);
     });
   });
 }

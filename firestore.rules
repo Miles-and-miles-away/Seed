@@ -11,7 +11,17 @@ service cloud.firestore {
                    && (!request.resource.data.keys().hasAny(['mascots'])
                        || request.resource.data.mascots.size() <= 20)
                    && (!request.resource.data.keys().hasAny(['language'])
-                       || request.resource.data.language in ['en', 'es', 'ja']);
+                       || request.resource.data.language in ['en', 'es', 'ja'])
+                   && (!request.resource.data.keys().hasAny(['displayName'])
+                       || request.resource.data.displayName == null
+                       || (request.resource.data.displayName is string
+                           && request.resource.data.displayName.size() >= 1
+                           && request.resource.data.displayName.size() <= 50))
+                   && (!request.resource.data.keys().hasAny(['personalGoal'])
+                       || request.resource.data.personalGoal == null
+                       || (request.resource.data.personalGoal is string
+                           && request.resource.data.personalGoal.size() >= 1
+                           && request.resource.data.personalGoal.size() <= 100));
 
       // Subcollection: action log
       match /actionLog/{logId} {

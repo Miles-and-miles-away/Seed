@@ -426,6 +426,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accountSettingsReauthRequired => '続行するには、パスワードを再入力してください';
 
   @override
+  String get accountSettingsProfile => 'プロフィール';
+
+  @override
+  String get accountSettingsDisplayName => '表示名';
+
+  @override
+  String get accountSettingsNotSet => '未設定';
+
+  @override
+  String get accountSettingsDisplayNameUpdated => '表示名が更新されました';
+
+  @override
   String get aboutSettingsTitle => 'このアプリについて';
 
   @override
@@ -806,7 +818,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => '目標を探る';
+  String get homeExploreGoals => 'SDGsの目標を探る';
 
   @override
   String get homeExploreGoalsSubtitle => '国連の持続可能な開発目標について学ぶ';
@@ -816,6 +828,48 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get homePoints => 'ポイント';
+
+  @override
+  String get myGoalTitle => 'マイゴール';
+
+  @override
+  String get myGoalEmptyPrompt => 'タップしてあなたの目標を設定しましょう';
+
+  @override
+  String get myGoalUpdated => '目標が更新されました';
+
+  @override
+  String get goalPickerTitle => '目標を選びましょう';
+
+  @override
+  String get goalPickerCustomOption => '自分で書く';
+
+  @override
+  String get goalPickerCustomHint => '私の目標は…';
+
+  @override
+  String get personalGoalReduceFlights => '長距離フライトを減らす';
+
+  @override
+  String get personalGoalPlantBased => '植物性の食事を増やす';
+
+  @override
+  String get personalGoalLessPlastic => '使い捨てプラスチックをやめる';
+
+  @override
+  String get personalGoalWalkBike => '車の代わりに徒歩や自転車で移動する';
+
+  @override
+  String get personalGoalLessFoodWaste => '食品ロスを減らす';
+
+  @override
+  String get personalGoalBuyLess => '買う量を減らして再利用する';
+
+  @override
+  String get personalGoalInspireOthers => '友人や家族に行動を促す';
+
+  @override
+  String get personalGoalSaveWorld => '世界を救う';
 
   @override
   String sdgGoalNumber(int number) {

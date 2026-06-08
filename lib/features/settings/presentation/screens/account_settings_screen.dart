@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
@@ -47,6 +49,31 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
               top: false,
               child: ListView(
                 children: [
+                  // Profile (display name + personal goal)
+                  SettingsSection(
+                    title: l10n.accountSettingsProfile,
+                    children: [
+                      SettingsTile(
+                        leading: const Icon(Icons.person_outline),
+                        title: l10n.accountSettingsDisplayName,
+                        subtitle: currentUser?.displayName ??
+                            l10n.accountSettingsNotSet,
+                        onTap: () => _showChangeDisplayNameDialog(context),
+                      ),
+                      SettingsTile(
+                        leading: const Icon(Icons.flag_outlined),
+                        title: l10n.myGoalTitle,
+                        subtitle: currentUser?.personalGoal == null
+                            ? l10n.accountSettingsNotSet
+                            : localizedPersonalGoal(
+                                currentUser!.personalGoal!,
+                                l10n,
+                              ),
+                        onTap: _showGoalPicker,
+                      ),
+                    ],
+                  ),
+
                   // Current email display
                   SettingsSection(
                     title: l10n.accountSettingsEmail,
@@ -111,6 +138,99 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                 ],
               ),
             ),
+    );
+  }
+
+  Future<void> _showChangeDisplayNameDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final currentName = ref.read(currentUserProvider).value?.displayName;
+    final nameController = TextEditingController(text: currentName ?? '');
+    final formKey = GlobalKey<FormState>();
+
+    try {
+      final result = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.accountSettingsDisplayName),
+          content: Form(
+            key: formKey,
+            child: TextFormField(
+              controller: nameController,
+              autofocus: true,
+              maxLength: AppConstants.maxDisplayNameLength,
+              decoration: InputDecoration(
+                labelText: l10n.accountSettingsDisplayName,
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return l10n.accountSettingsDisplayName;
+                }
+                return null;
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.buttonCancel),
+            ),
+            FilledButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  Navigator.pop(context, true);
+                }
+              },
+              child: Text(l10n.buttonSave),
+            ),
+          ],
+        ),
+      );
+
+      if ((result ?? false) && mounted) {
+        await _changeDisplayName(nameController.text.trim());
+      }
+    } finally {
+      nameController.dispose();
+    }
+  }
+
+  Future<void> _changeDisplayName(String displayName) async {
+    final l10n = AppLocalizations.of(context);
+    setState(() => _isLoading = true);
+
+    await ref.read(authProvider.notifier).updateDisplayName(displayName);
+
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    // Errors are captured in the notifier state, not thrown
+    final failed = ref.read(authProvider).hasError;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          failed ? l10n.errorGeneric : l10n.accountSettingsDisplayNameUpdated,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showGoalPicker() async {
+    final l10n = AppLocalizations.of(context);
+    final currentGoal = ref.read(currentUserProvider).value?.personalGoal;
+    final goal = await GoalPickerSheet.show(context, initialGoal: currentGoal);
+    if (goal == null || goal == currentGoal || !mounted) return;
+
+    setState(() => _isLoading = true);
+
+    await ref.read(authProvider.notifier).updatePersonalGoal(goal);
+
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    // Errors are captured in the notifier state, not thrown
+    final failed = ref.read(authProvider).hasError;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(failed ? l10n.errorGeneric : l10n.myGoalUpdated),
+      ),
     );
   }
 
