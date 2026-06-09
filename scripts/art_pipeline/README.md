@@ -144,7 +144,12 @@ All settings live in `config.yaml`:
 
 - **recraft** -- API URL, candidates per asset, output format
 - **style.suffix** -- Style description appended to every prompt
-- **style.categories** -- Per-category prompt context
+- **style.apply_category_context** -- When false (default), the
+  per-category phrase is NOT appended; the artPrompt + suffix carry
+  the image alone. Colors are unaffected. Re-enable for terser asset
+  types (mascots, garden) whose prompts benefit from the nudge.
+- **style.categories** -- Per-category prompt context (applied only
+  when `apply_category_context` is true)
 - **category_colors** -- RGB palette sent to Recraft `controls.colors`
 - **palette** -- App colors from `app_colors.dart` for validation
 - **validation** -- Thresholds for pass/fail checks
@@ -167,9 +172,12 @@ Entries live in `data/app/eco_dex_entries.json`. Each has:
 }
 ```
 
-The pipeline only reads `id`, `category`, and `artPrompt`. The
-final prompt is built as:
-`{artPrompt}, {style.categories[category]}, {style.suffix}`.
+The pipeline only reads `id`, `category`, and `artPrompt` (never the
+`fact*` fields -- those are for the app). The final prompt is built as:
+`{artPrompt}, {style.suffix}`, with the per-category phrase inserted
+between them only when `style.apply_category_context` is true.
+`category` is always used for the `controls.colors` palette, and `id`
+names the output files (`candidates/{id}/`, `assets/.../{id}.svg`).
 
 > Note: `eco_dex_manifest.yaml` in this directory is a stale early
 > draft. The pipeline reads from the JSON, not the YAML.
