@@ -379,6 +379,10 @@ Items the user earns with points and equips on their mascot.
   They must look right on every species and every evolution stage.
 - Items scale proportionally — a hat designed for stage 1 should
   still feel right on stage 4.
+  - Set per-stage scale values on the `hatAnchor` and
+    `accessoryAnchor` bones (see §8.3) so cosmetics scale
+    automatically with each evolution stage — no need to redraw
+    or rescale items per stage.
 - Backgrounds are separate .riv files with subtle ambient animation
   loops (swaying trees, drifting clouds, twinkling stars).
 - Each item needs a **static 256x256px SVG thumbnail** for the shop

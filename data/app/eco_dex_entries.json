@@ -757,15 +757,15 @@
     {
       "id": "bio_01",
       "category": "biodiversity",
-      "nameEn": "Web of Life",
-      "nameJa": "命のつながり",
-      "nameEs": "Red de la Vida",
-      "factEn": "Every species on Earth is connected through intricate food webs. Removing even one species can trigger cascading effects throughout an entire ecosystem.",
-      "factJa": "地球上のすべての種は、複雑な食物網を通じてつながっています。たった1つの種を失うだけでも、生態系全体に連鎖的な影響を引き起こす可能性があります。",
-      "factEs": "Cada especie en la Tierra está conectada a través de intrincadas redes alimentarias. Eliminar incluso una sola especie puede desencadenar efectos en cascada a lo largo de todo un ecosistema.",
-      "sourceUrl": "https://www.worldwildlife.org/pages/what-is-biodiversity",
+      "nameEn": "Fungal Carbon Pump",
+      "nameJa": "菌類の炭素ポンプ",
+      "nameEs": "Bomba de Carbono Fúngica",
+      "factEn": "Most land plants partner with mycorrhizal fungi, trading sugars for soil nutrients. Each year plants channel an estimated 13 billion tonnes of CO2 into these underground fungi, roughly a third of the world's annual fossil fuel emissions.",
+      "factJa": "陸上植物の多くは菌根菌と共生し、糖分と引き換えに土壌中の養分を受け取っています。植物は毎年、推定130億トンのCO2をこの地中の菌類に送り込んでおり、これは世界の年間化石燃料排出量の約3分の1に相当します。",
+      "factEs": "La mayoría de las plantas terrestres se asocian con hongos micorrízicos, intercambiando azúcares por nutrientes del suelo. Cada año las plantas canalizan unos 13 mil millones de toneladas de CO2 hacia estos hongos subterráneos, alrededor de un tercio de las emisiones mundiales anuales de combustibles fósiles.",
+      "sourceUrl": "https://www.cell.com/current-biology/fulltext/S0960-9822(23)00167-7",
       "iconName": "bio_01",
-      "artPrompt": "Five animal silhouettes in a row, dark grey to light grey",
+      "artPrompt": "white mycelium threads spreading through brown soil around tree roots",
       "condition": {
         "type": "categoriesCovered",
         "count": 2
@@ -785,7 +785,7 @@
       "factEs": "Los científicos estiman que la tasa actual de extinción de especies es 1,000 veces mayor que las tasas naturales. Estamos perdiendo especies a un ritmo no visto desde que desaparecieron los dinosaurios.",
       "sourceUrl": "https://www.un.org/en/observances/biological-diversity-day",
       "iconName": "bio_02",
-      "artPrompt": "magnifying glass over a green leaf revealing tiny colorful insects",
+      "artPrompt": "row of animal silhouettes, each fainter than the last, ending in an empty outline, light background",
       "condition": {
         "type": "totalActions",
         "count": 10
@@ -877,15 +877,15 @@
     {
       "id": "bio_07",
       "category": "biodiversity",
-      "nameEn": "Mycelium Network",
-      "nameJa": "菌糸ネットワーク",
-      "nameEs": "Red de Micelio",
-      "factEn": "Underground fungal networks connect 90% of plant species, sharing nutrients and chemical warnings. A single network can span entire forests, earning the nickname 'Wood Wide Web.'",
-      "factJa": "地下の菌糸ネットワークは植物種の90%をつなぎ、栄養素や化学的な警告を共有しています。1つのネットワークが森林全体に広がることがあり、「ウッド・ワイド・ウェブ（森のインターネット）」という愛称で呼ばれています。",
-      "factEs": "Las redes fúngicas subterráneas conectan al 90% de las especies vegetales, compartiendo nutrientes y señales químicas de alerta. Una sola red puede abarcar bosques enteros, ganándose el apodo de 'Internet del Bosque'.",
-      "sourceUrl": "https://www.bbc.com/earth/story/20141111-plants-have-a-hidden-internet",
+      "nameEn": "Vanishing Amphibians",
+      "nameJa": "消えゆく両生類",
+      "nameEs": "Anfibios en Peligro",
+      "factEn": "Amphibians are the most threatened class of vertebrates: about 41% of species are at risk of extinction, a larger share than mammals, birds, or reptiles. Habitat loss and disease are the main drivers, and climate change is a fast-rising threat.",
+      "factJa": "両生類は脊椎動物の中で最も絶滅の危機にさらされているグループで、約41%の種が絶滅の危機に瀕しています。これは哺乳類、鳥類、爬虫類を上回る割合です。主な原因は生息地の喪失と病気で、気候変動も急速に高まる脅威となっています。",
+      "factEs": "Los anfibios son la clase de vertebrados más amenazada: alrededor del 41% de las especies está en riesgo de extinción, una proporción mayor que la de mamíferos, aves o reptiles. La pérdida de hábitat y las enfermedades son las causas principales, y el cambio climático es una amenaza que crece rápidamente.",
+      "sourceUrl": "https://www.nature.com/articles/s41586-023-06578-4",
       "iconName": "bio_07",
-      "artPrompt": "white mycelium threads connecting brown tree roots underground",
+      "artPrompt": "green tree frog sitting on a large green leaf",
       "condition": {
         "type": "totalActions",
         "count": 75
@@ -925,7 +925,7 @@
       "factEs": "El IPBES identifica cinco impulsores directos de la pérdida de biodiversidad: el cambio en el uso de la tierra y el mar, la explotación directa de organismos, el cambio climático, la contaminación y las especies invasoras.",
       "sourceUrl": "https://www.ipbes.net/news/Media-Release-Global-Assessment",
       "iconName": "bio_09",
-      "artPrompt": "Golden compass with small green leaf and blue animal motifs around it",
+      "artPrompt": "Golden 5 point star with trees, sea, and city motifs around it",
       "condition": {
         "type": "uniqueActionsLogged",
         "count": 25
@@ -1006,7 +1006,7 @@
       "factEs": "Andar en bicicleta produce prácticamente cero emisiones y es la forma de transporte más eficiente en energía. Si la proporción de viajes en bicicleta se duplicara a nivel global, se ahorrarían 700 millones de toneladas de CO2 al año.",
       "sourceUrl": "https://www.itdp.org/2015/11/12/a-global-high-shift-cycling-scenario/",
       "iconName": "energy_02",
-      "artPrompt": "silver bicycle wheel spinning with green energy lines",
+      "artPrompt": "green bicycle in motion with curved white speed lines",
       "condition": {
         "type": "categoryActions",
         "category": "transport",
@@ -1027,7 +1027,7 @@
       "factEs": "La capacidad global de energía eólica se duplicó entre 2017 y 2023. Una sola turbina eólica moderna puede abastecer a más de 16,000 hogares y desplaza aproximadamente 42,000 toneladas de CO2 al año.",
       "sourceUrl": "https://www.irena.org/wind",
       "iconName": "energy_03",
-      "artPrompt": "white wind turbines on a green hillside",
+      "artPrompt": "white offshore wind turbines standing in calm blue ocean water",
       "condition": {
         "type": "categoryActions",
         "category": "energy",
@@ -1048,7 +1048,7 @@
       "factEs": "Las mejoras en eficiencia energética desde 2000 han evitado más emisiones de CO2 que toda la energía renovable combinada. La energía más barata y limpia es la energía que no usas.",
       "sourceUrl": "https://www.iea.org/reports/energy-efficiency",
       "iconName": "energy_04",
-      "artPrompt": "white light switch in off position with a green ring around it",
+      "artPrompt": "rectangle white light switch turned off with a small green leaf beside it, light blue background",
       "condition": {
         "type": "co2Saved",
         "grams": 8000
@@ -1068,7 +1068,7 @@
       "factEs": "El transporte público produce un 45% menos de CO2 por pasajero-kilómetro que los autos con un solo ocupante. Caminar y andar en bicicleta no producen prácticamente ninguna emisión y mejoran la salud.",
       "sourceUrl": "https://www.apta.com/research-technical-resources/transit-statistics/benefits-of-public-transportation/",
       "iconName": "energy_05",
-      "artPrompt": "bicycle leaning against a tree on a leafy green path",
+      "artPrompt": "row of green footprints leading along a light grey path",
       "condition": {
         "type": "categoryActions",
         "category": "transport",
@@ -1110,7 +1110,7 @@
       "factEs": "Los hábitos energéticos formados durante 7-10 días tienden a mantenerse. Las pequeñas reducciones consistentes en el uso de energía, como apagar luces y desconectar cargadores, ahorran más en un año que los gestos puntuales.",
       "sourceUrl": "https://www.energy.gov/energysaver/energy-saver",
       "iconName": "energy_07",
-      "artPrompt": "row of electrical plugs with red-orange standby dots",
+      "artPrompt": "row of unplugged power plugs with small green check marks",
       "condition": {
         "type": "challengeStreak",
         "days": 10
@@ -1171,7 +1171,7 @@
       "factEs": "Más del 60% de la energía producida a nivel mundial se desperdicia como calor, fricción o ineficiencia. Cerrar esta brecha es una de las formas más rápidas y económicas de reducir emisiones.",
       "sourceUrl": "https://www.iea.org/reports/energy-efficiency",
       "iconName": "energy_10",
-      "artPrompt": "building cross-section showing warm orange inside and cool blue outside",
+      "artPrompt": "building cross-section showing warm orange inside and cool blue outside, warm orange wavy lines escaping from inside to outside",
       "condition": {
         "type": "categoryActions",
         "category": "energy",
@@ -1192,7 +1192,7 @@
       "factEs": "El hidrógeno verde producido a partir de electricidad renovable podría descarbonizar sectores 'difíciles de reducir' como el acero, el transporte marítimo y la aviación, eliminando potencialmente 6 mil millones de toneladas de CO2 al año para 2050.",
       "sourceUrl": "https://www.irena.org/Energy-Transition/Technology/Hydrogen",
       "iconName": "energy_11",
-      "artPrompt": "two blue spheres bonded together floating above blue water, golden sunlight",
+      "artPrompt": "blue water drop releasing small bubbles beneath a golden sun",
       "condition": {
         "type": "categoryActions",
         "category": "energy",
@@ -1276,7 +1276,7 @@
       "factEs": "El smartphone promedio se reemplaza cada 2-3 años. Extender la vida de los electrónicos solo un año podría ahorrar el equivalente en CO2 de retirar 2 millones de autos de las calles al año solo en Europa.",
       "sourceUrl": "https://repair.eu/",
       "iconName": "circular_04",
-      "artPrompt": "hands repairing a small green circuit board with silver tools",
+      "artPrompt": "hands repairing a grey smartphone with a small silver screwdriver, light grey background",
       "condition": {
         "type": "categoryActions",
         "category": "consumption",
@@ -1297,7 +1297,7 @@
       "factEs": "Las comunidades de cero residuos como Kamikatsu, Japón, clasifican los residuos en 45 categorías y reciclan el 80% de su basura. El pueblo busca demostrar que vivir sin residuos es posible para todos.",
       "sourceUrl": "https://zerowasteeurope.eu/",
       "iconName": "circular_05",
-      "artPrompt": "row of colorful recycling bins on a neat Japanese street",
+      "artPrompt": "row of recycling bins each a different color, light grey background",
       "condition": {
         "type": "multiDayChallenge",
         "templateId": "md_zero_waste_week"
@@ -1317,7 +1317,7 @@
       "factEs": "Desde 1950, la humanidad ha producido 8,300 millones de toneladas de plástico. Solo el 9% se ha reciclado, el 12% se ha incinerado y el 79% se ha acumulado en vertederos o en el medio ambiente.",
       "sourceUrl": "https://www.science.org/doi/10.1126/sciadv.1700782",
       "iconName": "circular_06",
-      "artPrompt": "colorful plastic bottles piled on a sandy beach, blue water behind",
+      "artPrompt": "blue-green globe wrapped in colorful plastic bottles and bags",
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
@@ -1359,7 +1359,7 @@
       "factEs": "Una economía circular podría generar $4.5 billones en beneficios económicos para 2030. A diferencia del modelo lineal de 'extraer-fabricar-desechar', diseña para eliminar los residuos y mantener los materiales en uso.",
       "sourceUrl": "https://www.ellenmacarthurfoundation.org/topics/circular-economy-introduction/overview",
       "iconName": "circular_08",
-      "artPrompt": "Green arrows forming a loop with wood, metal, and glass pieces cycling through",
+      "artPrompt": "three green arrows forming a recycling symbol around wood, metal, and glass pieces",
       "condition": {
         "type": "streakDays",
         "days": 21
@@ -1379,7 +1379,7 @@
       "factEs": "Comprar ropa de segunda mano ahorra aproximadamente 13 kg de CO2 por prenda en comparación con comprar nueva. El mercado de reventa crece 25 veces más rápido que el mercado minorista general.",
       "sourceUrl": "https://www.thredup.com/resale",
       "iconName": "circular_09",
-      "artPrompt": "colorful vintage clothes on a warm wood rack with a green heart tag",
+      "artPrompt": "single shirt on a wooden hanger with a green heart-shaped tag",
       "condition": {
         "type": "categoryActions",
         "category": "consumption",
@@ -1421,7 +1421,7 @@
       "factEs": "El movimiento de cero residuos demuestra que las elecciones individuales se multiplican. Cuando la familia de cuatro de Bea Johnson produjo solo un frasco de residuos al año, inspiró un movimiento global.",
       "sourceUrl": "https://zerowastehome.com/",
       "iconName": "circular_11",
-      "artPrompt": "tiny clear glass jar with minimal waste inside",
+      "artPrompt": "small clear glass jar with a little colorful waste inside, light grey background",
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
@@ -1442,7 +1442,7 @@
       "factEs": "Los 17 Objetivos de Desarrollo Sostenible fueron adoptados por los 193 estados miembros de la ONU en 2015. Representan un llamado universal a la acción para acabar con la pobreza, proteger el planeta y garantizar la paz y la prosperidad.",
       "sourceUrl": "https://sdgs.un.org/goals",
       "iconName": "people_01",
-      "artPrompt": "colorful wheel of 17 distinct colored segments arranged in a circle",
+      "artPrompt": "colorful wheel of 17 distinct colored segments arranged in a circle. Count 17 segments, each a different color, with a white circle in the center. 17 is the number of segments",
       "condition": {
         "type": "sdgBreadth",
         "count": 3
@@ -1462,7 +1462,7 @@
       "factEs": "Más de 8.000 comunidades energéticas operan actualmente en la UE, con un objetivo político de una por cada municipio de más de 10.000 habitantes. Los proyectos renovables liderados por la comunidad igualan o superan sistemáticamente a los programas verticales al aprovechar el conocimiento local y la confianza social.",
       "sourceUrl": "https://www.iea.org/commentaries/empowering-people-the-role-of-local-energy-communities-in-clean-energy-transitions",
       "iconName": "people_02",
-      "artPrompt": "Row of colorful silhouettes holding hands above a green garden bed",
+      "artPrompt": "group of diverse people standing together around a shared blue solar panel",
       "condition": {
         "type": "categoryActions",
         "category": "community",
@@ -1503,7 +1503,7 @@
       "factEs": "Los jóvenes menores de 25 años representan el 42% de la población mundial y vivirán más tiempo con las consecuencias de las decisiones climáticas actuales. Los movimientos juveniles ya han influido en políticas a nivel mundial.",
       "sourceUrl": "https://www.unicef.org/environment-and-climate-change",
       "iconName": "people_04",
-      "artPrompt": "Small group of young silhouettes walking with green and blue banners",
+      "artPrompt": "small group of young people marching with green and blue banners",
       "condition": {
         "type": "categoryActions",
         "category": "advocacy",
@@ -1565,7 +1565,7 @@
       "factEs": "Las investigaciones muestran que la participación cívica sostenida es significativamente más efectiva para impulsar el cambio en políticas ambientales que las acciones puntuales. La participación consistente construye relaciones, experiencia e impulso político que los esfuerzos aislados no pueden igualar.",
       "sourceUrl": "https://www.tandfonline.com/doi/full/10.1080/13504622.2022.2135688",
       "iconName": "people_07",
-      "artPrompt": "Two hands in a handshake in front of a green calendar, golden tones",
+      "artPrompt": "green calendar page with a small plant growing taller across the days",
       "condition": {
         "type": "challengeStreak",
         "days": 14
@@ -1626,7 +1626,7 @@
       "factEs": "Los científicos han identificado 9 límites planetarios que definen un 'espacio operativo seguro' para la humanidad. Seis de los nueve ya se han cruzado, señalando un mayor riesgo de desestabilizar los sistemas de la Tierra.",
       "sourceUrl": "https://www.stockholmresilience.org/research/planetary-boundaries.html",
       "iconName": "people_10",
-      "artPrompt": "Nine nested rings, green center shifting to yellow then red at the edge",
+      "artPrompt": "Nine nested rings, green center shifting to yellow then red at the edge. Count 9 rings",
       "condition": {
         "type": "sdgBreadth",
         "count": 13
@@ -1866,7 +1866,7 @@
       "factEs": "La mayoría de la gente juzga mal cuán común es la preocupación climática. Un estudio de 2022 con más de 6.000 estadounidenses halló que entre el 80 y el 90% subestimaba el apoyo público a las principales políticas climáticas, estimándolo en 37-43% cuando el apoyo real era del 66-80%.",
       "sourceUrl": "https://www.nature.com/articles/s41467-022-32412-y",
       "iconName": "journey_08",
-      "artPrompt": "stack of brown books with a golden lightbulb on top",
+      "artPrompt": "stack of brown books with a green bookmark ribbon",
       "condition": {
         "type": "ecoFactsViewed",
         "count": 50
@@ -1926,7 +1926,7 @@
       "factEs": "Los sistemas naturales más antiguos almacenan cantidades desproporcionadas de carbono. Un estudio de 2020 con más de 636.000 árboles del noroeste de EE. UU. halló que los árboles de gran diámetro eran solo el 3,1% de los troncos pero contenían el 42,2% del carbono aéreo.",
       "sourceUrl": "https://www.frontiersin.org/articles/10.3389/ffgc.2020.594274/full",
       "iconName": "journey_11",
-      "artPrompt": "golden shield with a blue-green globe emblem and crossed silver swords",
+      "artPrompt": "huge ancient tree with a wide trunk and a broad golden canopy",
       "condition": {
         "type": "levelReached",
         "level": 30
@@ -2125,7 +2125,7 @@
       "factEs": "Un estudio de 2023 en Science examinó 73 museos de historia natural en 28 países y contó más de 1.100 millones de especímenes y objetos. Estas colecciones sustentan la investigación sobre biodiversidad, extinción y enfermedades, pero solo un 16% está catalogado digitalmente.",
       "sourceUrl": "https://www.nhm.ac.uk/discover/news/2023/march/natural-history-museums-contain-over-1-1-billion-objects.html",
       "iconName": "gem_05",
-      "artPrompt": "Brown treasure chest filled with bright green and blue puzzle pieces",
+      "artPrompt": "brown treasure chest overflowing with colorful gems and crystals",
       "condition": {
         "type": "ecodexCount",
         "count": 25
@@ -2145,7 +2145,7 @@
       "factEs": "Un análisis de 2020 en Global Ecology and Conservation halló que las aves europeas en declive puntuaban más alto en cinco medidas de especialización ecológica que las especies en aumento. Los generalistas, con dietas y hábitats más amplios, suelen resistir mejor el cambio ambiental.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S2351989420301025",
       "iconName": "gem_06",
-      "artPrompt": "silver magnifying glass over a green leaf with golden detail highlights",
+      "artPrompt": "silver magnifying glass over a glowing green gem with golden highlights",
       "condition": {
         "type": "uniqueActionsLogged",
         "count": 15
@@ -2165,7 +2165,7 @@
       "factEs": "Un metaanálisis de 2022 sobre programas de educación ambiental halló un efecto medio-grande en el conocimiento ambiental (g = 0,77) y un efecto menor pero significativo en la conducta proambiental (g = 0,36). El aprendizaje es uno de los predictores más sólidos de la acción sostenida.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S0272494422000275",
       "iconName": "gem_07",
-      "artPrompt": "Golden lightbulb hovering above an open book with green vine accents",
+      "artPrompt": "golden lightbulb with small green leaves growing inside it",
       "condition": {
         "type": "categoryActions",
         "category": "learning",

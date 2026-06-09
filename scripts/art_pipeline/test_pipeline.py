@@ -277,54 +277,65 @@ class TestCheckColorAdherence:
 from generate import build_prompt
 
 
-class TestBuildPrompt:
-    def test_basic_prompt(self, config):
-        entry = {
-            "id": "flora_01",
-            "category": "flora",
-            "subject": "mighty oak tree",
-        }
-        prompt = build_prompt(config, entry)
-        assert "mighty oak tree" in prompt
-        assert config["style"]["prefix"] in prompt
+def _with_context(config, enabled):
+    """Return a config copy with apply_category_context overridden."""
+    return {
+        **config,
+        "style": {**config["style"], "apply_category_context": enabled},
+    }
 
-    def test_includes_category_suffix(self, config):
+
+class TestBuildPrompt:
+    def test_artprompt_leads_and_suffix_follows(self, config):
         entry = {
             "id": "fauna_01",
             "category": "fauna",
-            "subject": "honeybee",
+            "artPrompt": "honeybee on a flower",
         }
         prompt = build_prompt(config, entry)
+        assert prompt.startswith("honeybee on a flower")
+        assert "simple flat vector illustration" in prompt
+
+    def test_category_context_omitted_by_default(self, config):
+        # Real config sets apply_category_context: false.
+        assert config["style"]["apply_category_context"] is False
+        entry = {
+            "id": "fauna_01",
+            "category": "fauna",
+            "artPrompt": "honeybee on a flower",
+        }
+        prompt = build_prompt(config, entry)
+        assert "friendly animal character" not in prompt
+
+    def test_category_context_appended_when_enabled(self, config):
+        entry = {
+            "id": "fauna_01",
+            "category": "fauna",
+            "artPrompt": "honeybee on a flower",
+        }
+        prompt = build_prompt(_with_context(config, True), entry)
         assert "friendly animal character" in prompt
 
-    def test_includes_color_hint(self, config):
+    def test_context_defaults_on_when_flag_absent(self, config):
+        cfg = {**config, "style": {**config["style"]}}
+        del cfg["style"]["apply_category_context"]
         entry = {
-            "id": "flora_01",
-            "category": "flora",
-            "subject": "oak tree",
-            "color_hint": "deep green tones",
+            "id": "fauna_01",
+            "category": "fauna",
+            "artPrompt": "honeybee on a flower",
         }
-        prompt = build_prompt(config, entry)
-        assert "deep green tones" in prompt
+        prompt = build_prompt(cfg, entry)
+        assert "friendly animal character" in prompt
 
-    def test_no_category_match(self, config):
+    def test_unknown_category_when_enabled(self, config):
         entry = {
             "id": "test_01",
             "category": "nonexistent",
-            "subject": "test subject",
+            "artPrompt": "test subject",
         }
-        prompt = build_prompt(config, entry)
-        assert "test subject" in prompt
-
-    def test_no_color_hint(self, config):
-        entry = {
-            "id": "test_01",
-            "category": "flora",
-            "subject": "fern",
-        }
-        prompt = build_prompt(config, entry)
-        parts = prompt.split(", ")
-        assert parts[-1] == "fern"
+        prompt = build_prompt(_with_context(config, True), entry)
+        assert prompt.startswith("test subject")
+        assert "simple flat vector illustration" in prompt
 
 
 # ============================================================

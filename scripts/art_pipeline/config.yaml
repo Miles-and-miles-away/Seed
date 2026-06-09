@@ -26,6 +26,10 @@ style:
     cute rounded shapes, natural tones, centered composition,
     single subject, no gradients, no shadows, no texture,
     no text, no labels, no lettering
+  # When false, the per-category context phrase below is NOT appended
+  # to the prompt -- the artPrompt + suffix carry the image alone.
+  # (The category color palette is unaffected; see category_colors.)
+  apply_category_context: false
   categories:
     # Eco-Dex categories
     climate: ""

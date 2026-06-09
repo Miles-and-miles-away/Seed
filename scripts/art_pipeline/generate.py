@@ -43,20 +43,23 @@ def get_api_token():
 
 
 def build_prompt(config, entry):
-    """Build prompt: subject first, category, then style.
+    """Build prompt: subject first, optional category, then style.
 
     Follows Recraft recommended order:
-        {artPrompt}, {category suffix}, {style suffix}
+        {artPrompt}, [category suffix], {style suffix}
+    The category suffix is appended only when style.apply_category_context
+    is true; otherwise the artPrompt + style suffix carry the image alone.
+    The category color palette (controls.colors) is independent of this.
     """
-    category = entry.get("category", "")
-    category_suffix = config["style"]["categories"].get(
-        category, ""
-    )
-    style_suffix = config["style"]["suffix"]
+    style = config["style"]
+    style_suffix = style["suffix"]
 
     parts = [entry["artPrompt"]]
-    if category_suffix:
-        parts.append(category_suffix)
+    if style.get("apply_category_context", True):
+        category = entry.get("category", "")
+        category_suffix = style["categories"].get(category, "")
+        if category_suffix:
+            parts.append(category_suffix)
     parts.append(style_suffix)
 
     return ", ".join(parts)
