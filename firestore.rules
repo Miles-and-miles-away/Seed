@@ -2,97 +2,355 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Users can only read/write their own data
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Password accounts must verify their email before gameplay writes.
+    // Social providers arrive pre-verified. The user document itself is
+    // created at registration (before verification), so this gate is
+    // applied to actionLog and dailySummaries only.
+    function isVerifiedUser() {
+      return !('firebase' in request.auth.token)
+          || request.auth.token.firebase.sign_in_provider != 'password'
+          || request.auth.token.get('email_verified', false) == true;
+    }
+
+    // Scoring runs in a client transaction, so rules cannot prove a
+    // points jump is earned -- authoritative anti-cheat would require
+    // server-side scoring (deferred until cross-user features exist;
+    // users are isolated today). What the rules below DO enforce:
+    //   - field whitelist, types, and bounds on the user document
+    //   - score fields never decrease and cannot be removed once set
+    //   - points only grow as part of a well-formed action-log write
+    //     (bounded jump, lastActionDate bumped to the server time,
+    //     exactly one new action counted)
+    //   - actionLog entries match the canonical actionLibrary points
+    //     AND co2Grams, and must arrive in the same transaction as the
+    //     matching user-doc update (blocks direct log floods)
+    //   - a 5-second minimum interval between action submissions
+    // Known residual gap: multiple identical creates batched into one
+    // transaction share a single rules evaluation of the user doc, so
+    // they can inflate the log history (not the aggregates). App Check
+    // plus the coupling above keeps this low-value.
+    //
+    // Style note: validation functions take the document maps as
+    // arguments and avoid nested function calls -- Firestore caps a
+    // single evaluation at 1000 expressions and the merged user doc
+    // carries ~36 fields.
     match /users/{userId} {
-      allow read: if request.auth != null
-                  && request.auth.uid == userId;
-      allow write: if request.auth != null
-                   && request.auth.uid == userId
-                   && (!request.resource.data.keys().hasAny(['mascots'])
-                       || request.resource.data.mascots.size() <= 20)
-                   && (!request.resource.data.keys().hasAny(['language'])
-                       || request.resource.data.language in ['en', 'es', 'ja'])
-                   && (!request.resource.data.keys().hasAny(['displayName'])
-                       || request.resource.data.displayName == null
-                       || (request.resource.data.displayName is string
-                           && request.resource.data.displayName.size() >= 1
-                           && request.resource.data.displayName.size() <= 50))
-                   && (!request.resource.data.keys().hasAny(['personalGoal'])
-                       || request.resource.data.personalGoal == null
-                       || (request.resource.data.personalGoal is string
-                           && request.resource.data.personalGoal.size() >= 1
-                           && request.resource.data.personalGoal.size() <= 100))
-                   // Score integrity (defense-in-depth). Scoring runs in a
-                   // client transaction, so these fields must stay client-
-                   // writable -- rules cannot prove a points jump is earned.
-                   // What they CAN enforce: correct types and that points /
-                   // level never decrease (no resets or negative tampering).
-                   // Authoritative anti-cheat still requires moving scoring
-                   // server-side (Cloud Functions / admin SDK).
-                   && (!request.resource.data.keys().hasAny(['points'])
-                       || (request.resource.data.points is int
-                           && request.resource.data.points >= 0
-                           && (resource == null
-                               || !resource.data.keys().hasAny(['points'])
-                               || request.resource.data.points
-                                   >= resource.data.points)))
-                   && (!request.resource.data.keys().hasAny(['level'])
-                       || (request.resource.data.level is int
-                           && request.resource.data.level >= 1
-                           && (resource == null
-                               || !resource.data.keys().hasAny(['level'])
-                               || request.resource.data.level
-                                   >= resource.data.level)));
+
+      // Whitelist plus type/bound checks for every field the app
+      // writes; blocks junk-data floods. `d` is the merged post-write
+      // document (Firestore evaluates update() against the merged
+      // document, not the patch). 'mascot' is the legacy single-mascot
+      // field, kept writable so pre-migration documents can still be
+      // updated (the migration deletes it on first launch).
+      function validUserShape(d) {
+        return d.keys().hasOnly([
+          'uid', 'email', 'displayName', 'photoUrl', 'personalGoal',
+          'points', 'level', 'currentStreak', 'longestStreak',
+          'language', 'notificationTime', 'createdAt', 'emailVerified',
+          'dailyGoalTarget', 'mascots', 'activeMascotId', 'egg',
+          'eggPendingDiscovery', 'eggPendingDiscoverySince',
+          'notificationsEnabled', 'lastActionDate',
+          'streakGracePeriodAvailable', 'fcmToken', 'totalCo2Grams',
+          'totalActionsCount', 'sdgStats', 'viewedFactDates',
+          'unlockedFactDates', 'challengeCompletedDate',
+          'challengeStreak', 'challengesCompleted',
+          'recentChallengeIds', 'activeMultiDayChallenge',
+          'completedMultiDayChallenges', 'ecodexDiscovered',
+          'uniqueActionIds', 'categoryActionCounts', 'settings',
+          'lastStreakReminderDate', 'mascot'
+        ])
+        && (!('uid' in d) || d.uid == userId)
+        // Empty email allowed: social providers can hide it and the
+        // client then stores ''.
+        && (!('email' in d)
+            || (d.email is string && d.email.size() <= 320))
+        && (!('displayName' in d) || d.displayName == null
+            || (d.displayName is string && d.displayName.size() >= 1
+                && d.displayName.size() <= 50))
+        && (!('photoUrl' in d) || d.photoUrl == null
+            || (d.photoUrl is string && d.photoUrl.size() <= 2048))
+        && (!('personalGoal' in d) || d.personalGoal == null
+            || (d.personalGoal is string && d.personalGoal.size() >= 1
+                && d.personalGoal.size() <= 100))
+        && (!('language' in d) || d.language in ['en', 'es', 'ja'])
+        && (!('notificationTime' in d) || d.notificationTime == null
+            || (d.notificationTime is string
+                && d.notificationTime.size() <= 16))
+        && (!('createdAt' in d) || d.createdAt == null
+            || d.createdAt is timestamp)
+        && (!('emailVerified' in d) || d.emailVerified is bool)
+        && (!('dailyGoalTarget' in d) || d.dailyGoalTarget == null
+            || (d.dailyGoalTarget is int && d.dailyGoalTarget >= 1
+                && d.dailyGoalTarget <= 100))
+        && (!('mascots' in d)
+            || (d.mascots is list && d.mascots.size() <= 20))
+        && (!('activeMascotId' in d) || d.activeMascotId == null
+            || (d.activeMascotId is string
+                && d.activeMascotId.size() <= 100))
+        && (!('egg' in d) || d.egg == null || d.egg is map)
+        && (!('eggPendingDiscovery' in d)
+            || d.eggPendingDiscovery is bool)
+        && (!('eggPendingDiscoverySince' in d)
+            || d.eggPendingDiscoverySince == null
+            || d.eggPendingDiscoverySince is timestamp)
+        && (!('notificationsEnabled' in d)
+            || d.notificationsEnabled is bool)
+        // Legacy field (removed from the model 2026-06-12); kept
+        // writable so docs that still carry it pass hasOnly checks.
+        && (!('streakGracePeriodAvailable' in d)
+            || d.streakGracePeriodAvailable is bool)
+        && (!('fcmToken' in d) || d.fcmToken == null
+            || (d.fcmToken is string && d.fcmToken.size() <= 4096))
+        && (!('points' in d)
+            || (d.points is int && d.points >= 0
+                && d.points <= 1000000000))
+        && (!('level' in d)
+            || (d.level is int && d.level >= 1 && d.level <= 1000))
+        && (!('currentStreak' in d)
+            || (d.currentStreak is int && d.currentStreak >= 0
+                && d.currentStreak <= 40000))
+        && (!('longestStreak' in d)
+            || (d.longestStreak is int && d.longestStreak >= 0
+                && d.longestStreak <= 40000))
+        && (!('totalCo2Grams' in d)
+            || (d.totalCo2Grams is int && d.totalCo2Grams >= 0
+                && d.totalCo2Grams <= 100000000000))
+        && (!('totalActionsCount' in d)
+            || (d.totalActionsCount is int && d.totalActionsCount >= 0
+                && d.totalActionsCount <= 10000000))
+        && (!('lastActionDate' in d) || d.lastActionDate == null
+            || d.lastActionDate is timestamp)
+        && (!('sdgStats' in d) || d.sdgStats is map)
+        && (!('viewedFactDates' in d)
+            || (d.viewedFactDates is list
+                && d.viewedFactDates.size() <= 40000))
+        && (!('unlockedFactDates' in d)
+            || (d.unlockedFactDates is list
+                && d.unlockedFactDates.size() <= 40000))
+        && (!('challengeCompletedDate' in d)
+            || (d.challengeCompletedDate is string
+                && d.challengeCompletedDate.size() <= 10))
+        && (!('challengeStreak' in d)
+            || (d.challengeStreak is int && d.challengeStreak >= 0
+                && d.challengeStreak <= 40000))
+        && (!('challengesCompleted' in d)
+            || (d.challengesCompleted is int
+                && d.challengesCompleted >= 0
+                && d.challengesCompleted <= 10000000))
+        && (!('recentChallengeIds' in d)
+            || (d.recentChallengeIds is list
+                && d.recentChallengeIds.size() <= 7))
+        && (!('activeMultiDayChallenge' in d)
+            || d.activeMultiDayChallenge is map)
+        && (!('completedMultiDayChallenges' in d)
+            || (d.completedMultiDayChallenges is list
+                && d.completedMultiDayChallenges.size() <= 1000))
+        && (!('ecodexDiscovered' in d)
+            || (d.ecodexDiscovered is list
+                && d.ecodexDiscovered.size() <= 1000))
+        && (!('uniqueActionIds' in d)
+            || (d.uniqueActionIds is list
+                && d.uniqueActionIds.size() <= 2000))
+        && (!('categoryActionCounts' in d)
+            || d.categoryActionCounts is map)
+        && (!('settings' in d) || d.settings is map)
+        && (!('lastStreakReminderDate' in d)
+            || d.lastStreakReminderDate == null
+            || (d.lastStreakReminderDate is string
+                && d.lastStreakReminderDate.size() <= 10))
+        && (!('mascot' in d) || d.mascot == null || d.mascot is map);
+      }
+
+      // Gameplay-counter integrity on updates. `d` is the merged
+      // post-write document, `old` the pre-write document.
+      function userUpdateOk(d, old) {
+        // Score fields cannot be removed once set: removal would allow
+        // re-creating them at a lower value, bypassing the
+        // never-decreases checks below.
+        return (!('points' in old) || 'points' in d)
+            && (!('level' in old) || 'level' in d)
+            && (!('longestStreak' in old) || 'longestStreak' in d)
+            && (!('totalCo2Grams' in old) || 'totalCo2Grams' in d)
+            && (!('totalActionsCount' in old)
+                || 'totalActionsCount' in d)
+            && (!('challengesCompleted' in old)
+                || 'challengesCompleted' in d)
+            && (!('lastActionDate' in old) || 'lastActionDate' in d)
+            && d.get('points', 0) >= old.get('points', 0)
+            && d.get('level', 1) >= old.get('level', 1)
+            && d.get('longestStreak', 0) >= old.get('longestStreak', 0)
+            && d.get('totalCo2Grams', 0) >= old.get('totalCo2Grams', 0)
+            && d.get('totalActionsCount', 0)
+                >= old.get('totalActionsCount', 0)
+            && d.get('challengesCompleted', 0)
+                >= old.get('challengesCompleted', 0)
+            && d.get('totalActionsCount', 0)
+                - old.get('totalActionsCount', 0) <= 1
+            // Bounded by the largest canonical per-action saving
+            // (~3.4t) with generous headroom.
+            && d.get('totalCo2Grams', 0)
+                - old.get('totalCo2Grams', 0) <= 10000000
+            // Points may only grow as part of an action-log shaped
+            // write: bounded jump, lastActionDate bumped to now, and
+            // exactly one new action counted.
+            && (d.get('points', 0) == old.get('points', 0)
+                || (d.get('points', 0) - old.get('points', 0) <= 10000
+                    && d.get('lastActionDate', null) == request.time
+                    && d.get('totalActionsCount', 0)
+                        == old.get('totalActionsCount', 0) + 1))
+            // lastActionDate is either untouched, or bumped to the
+            // server time of this write with at least 5s since the
+            // previous bump. The client writes it with
+            // FieldValue.serverTimestamp(), which rules evaluate as
+            // request.time.
+            && (d.get('lastActionDate', null)
+                    == old.get('lastActionDate', null)
+                || (d.get('lastActionDate', null) == request.time
+                    && (old.get('lastActionDate', null) == null
+                        || request.time > old.lastActionDate
+                            + duration.value(5, 's'))));
+      }
+
+      allow read: if isOwner(userId);
+
+      // Created once at registration with zeroed gameplay state.
+      allow create: if isOwner(userId)
+          && validUserShape(request.resource.data)
+          && request.resource.data.get('points', 0) == 0
+          && request.resource.data.get('level', 1) == 1
+          && request.resource.data.get('currentStreak', 0) == 0
+          && request.resource.data.get('longestStreak', 0) == 0
+          && request.resource.data.get('totalCo2Grams', 0) == 0
+          && request.resource.data.get('totalActionsCount', 0) == 0
+          && request.resource.data.get('challengeStreak', 0) == 0
+          && request.resource.data.get('challengesCompleted', 0) == 0
+          && request.resource.data.get('lastActionDate', null) == null;
+
+      allow update: if isOwner(userId)
+          && validUserShape(request.resource.data)
+          && userUpdateOk(request.resource.data, resource.data);
+
+      // Deletion happens via the deleteUserAccount Cloud Function
+      // (Admin SDK bypasses rules and removes subcollections too).
+      allow delete: if false;
 
       // Subcollection: action log
       match /actionLog/{logId} {
-        allow read: if request.auth != null
-                    && request.auth.uid == userId;
-        allow create: if request.auth != null
-                      && request.auth.uid == userId
-                      && request.resource.data.keys().hasAll(
-                           ['actionId', 'actionName',
-                            'category', 'points',
-                            'loggedAt', 'co2Grams']
-                         )
-                      && request.resource.data.points is int
-                      && request.resource.data.points >= 0
-                      && request.resource.data.points <= 10000
-                      && request.resource.data.co2Grams is int
-                      && request.resource.data.co2Grams >= 0
-                      && request.resource.data.actionId is string
-                      && request.resource.data.actionName is string
-                      && request.resource.data.category is string
-                      && request.resource.data.loggedAt is timestamp
-                      && request.resource.data.points ==
-                           get(/databases/$(database)/documents
-                               /actionLibrary
-                               /$(request.resource.data.actionId)
-                           ).data.points
-                      // Note field size limit
-                      && (!request.resource.data.keys().hasAny(['note'])
-                          || (request.resource.data.note is string
-                              && request.resource.data.note.size() <= 200))
-                      // Related SDGs array size limit
-                      && (!request.resource.data.keys().hasAny(['relatedSdgs'])
-                          || (request.resource.data.relatedSdgs is list
-                              && request.resource.data.relatedSdgs.size() <= 17))
-                      // Rate limit: 5s between submissions
-                      && (
-                        !exists(/databases/$(database)/documents/users/$(userId))
-                        || !('lastActionDate' in get(/databases/$(database)/documents/users/$(userId)).data)
-                        || request.time > get(/databases/$(database)/documents/users/$(userId)).data.lastActionDate + duration.value(5, 's')
-                      );
-        // Immutable from client; admin SDK bypasses rules
+
+        // Single-call validation; `log` is the new entry, `userBefore`
+        // and `userAfter` the user document around this transaction.
+        function validLogCreate(log, userBefore, userAfter) {
+          return log.keys().hasAll([
+                 'actionId', 'actionName', 'category', 'points',
+                 'loggedAt', 'co2Grams'])
+            && log.keys().hasOnly([
+                 'actionId', 'actionName', 'category', 'points',
+                 'loggedAt', 'co2Grams', 'note', 'relatedSdgs'])
+            && log.actionId is string
+            && log.actionId.size() >= 1
+            && log.actionId.size() <= 200
+            && log.actionName is string
+            && log.actionName.size() >= 1
+            && log.actionName.size() <= 500
+            && log.category is string
+            && log.category.size() >= 1
+            && log.category.size() <= 100
+            && log.points is int
+            && log.points >= 0
+            && log.points <= 10000
+            // Generous window: loggedAt is informational (aggregates
+            // are validated separately), so tolerate clock skew while
+            // blocking wholesale history fabrication.
+            && log.loggedAt is timestamp
+            && log.loggedAt > request.time - duration.value(24, 'h')
+            && log.loggedAt < request.time + duration.value(24, 'h')
+            && (!('note' in log)
+                || log.note == null
+                || (log.note is string && log.note.size() <= 200))
+            && (!('relatedSdgs' in log)
+                || (log.relatedSdgs is list
+                    && log.relatedSdgs.size() <= 17))
+            // Same-transaction coupling: the log must arrive with the
+            // matching user-doc update (lastActionDate bumped to now,
+            // exactly one new action counted). Blocks log creates
+            // that bypass the scoring transaction.
+            && userAfter.get('lastActionDate', null) == request.time
+            && userAfter.get('totalActionsCount', 0)
+                == userBefore.get('totalActionsCount', 0) + 1
+            // Rate limit: 5s between submissions, measured against
+            // the pre-transaction state.
+            && (userBefore.get('lastActionDate', null) == null
+                || request.time > userBefore.lastActionDate
+                    + duration.value(5, 's'));
+        }
+
+        // Canonical values must match the action library exactly.
+        function matchesLibrary(log, libraryAction) {
+          return log.points == libraryAction.points
+              && log.co2Grams is int
+              && log.co2Grams >= 0
+              && log.co2Grams == libraryAction.get('co2Grams', 0);
+        }
+
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+            && isVerifiedUser()
+            && validLogCreate(
+                 request.resource.data,
+                 get(/databases/$(database)/documents/users
+                     /$(userId)).data,
+                 getAfter(/databases/$(database)/documents/users
+                     /$(userId)).data)
+            && matchesLibrary(
+                 request.resource.data,
+                 get(/databases/$(database)/documents/actionLibrary
+                     /$(request.resource.data.actionId)).data);
+
+        // Immutable from the client; admin SDK bypasses rules.
         allow update, delete: if false;
       }
 
       // Subcollection: daily summaries
       match /dailySummaries/{summaryId} {
-        allow read: if request.auth != null
-                    && request.auth.uid == userId;
-        allow write: if request.auth != null
-                     && request.auth.uid == userId;
+
+        function validSummary(s) {
+          return s.keys().hasOnly([
+                 'date', 'goalCount', 'completedSdgs', 'totalPoints',
+                 'totalCo2Grams', 'categoryCo2Grams', 'createdAt',
+                 'updatedAt'])
+            && s.get('date', '') == summaryId
+            && s.get('goalCount', 0) is int
+            && s.get('goalCount', 0) >= 0
+            && s.get('goalCount', 0) <= 100000
+            && s.get('totalPoints', 0) is int
+            && s.get('totalPoints', 0) >= 0
+            && s.get('totalPoints', 0) <= 100000000
+            && s.get('totalCo2Grams', 0) is int
+            && s.get('totalCo2Grams', 0) >= 0
+            && s.get('totalCo2Grams', 0) <= 100000000
+            && (!('completedSdgs' in s)
+                || (s.completedSdgs is list
+                    && s.completedSdgs.size() <= 17))
+            && (!('categoryCo2Grams' in s) || s.categoryCo2Grams is map)
+            && (!('createdAt' in s) || s.createdAt == null
+                || s.createdAt is timestamp)
+            && (!('updatedAt' in s) || s.updatedAt == null
+                || s.updatedAt is timestamp);
+        }
+
+        allow read: if isOwner(userId);
+
+        allow create, update: if isOwner(userId)
+            && isVerifiedUser()
+            && summaryId.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+            && validSummary(request.resource.data);
+
+        allow delete: if false;
       }
     }
 

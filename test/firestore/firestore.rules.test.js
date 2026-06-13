@@ -17,6 +17,11 @@ const {
   setDoc,
   getDoc,
   updateDoc,
+  deleteDoc,
+  deleteField,
+  writeBatch,
+  serverTimestamp,
+  increment,
   Timestamp,
 } = require('firebase/firestore');
 
@@ -43,12 +48,27 @@ function anonDb() {
   return testEnv.unauthenticatedContext().firestore();
 }
 
+// Email/password account context; gameplay writes require
+// email_verified for the password provider.
+function alicePasswordDb(emailVerified) {
+  return testEnv
+    .authenticatedContext(ALICE, {
+      email_verified: emailVerified,
+      firebase: {sign_in_provider: 'password'},
+    })
+    .firestore();
+}
+
 // Seed data bypassing rules (admin-equivalent), e.g. read-only collections
 // and cross-document references the rules depend on.
 async function seed(docPath, data) {
   await testEnv.withSecurityRulesDisabled(async (context) => {
     await setDoc(doc(context.firestore(), docPath), data);
   });
+}
+
+function secondsAgo(seconds) {
+  return Timestamp.fromMillis(Timestamp.now().toMillis() - seconds * 1000);
 }
 
 beforeAll(async () => {
@@ -87,22 +107,76 @@ describe('users/{userId} read', () => {
   });
 });
 
-describe('users/{userId} write — ownership', () => {
-  test('owner can write their own document', async () => {
+describe('users/{userId} create', () => {
+  test('owner can create their own document with zeroed state', async () => {
     await assertSucceeds(
       setDoc(doc(aliceDb(), `users/${ALICE}`), baseUserDoc),
     );
   });
 
-  test('a user cannot write another user document', async () => {
+  test('a user cannot create another user document', async () => {
     await assertFails(
       setDoc(doc(bobDb(), `users/${ALICE}`), baseUserDoc),
     );
   });
 
-  test('an unauthenticated client cannot write', async () => {
+  test('an unauthenticated client cannot create one', async () => {
     await assertFails(
       setDoc(doc(anonDb(), `users/${ALICE}`), baseUserDoc),
+    );
+  });
+
+  test('rejects creating with pre-loaded points', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        points: 500,
+      }),
+    );
+  });
+
+  test('rejects creating with a pre-loaded streak', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        currentStreak: 30,
+      }),
+    );
+  });
+
+  test('rejects creating with lastActionDate already set', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        lastActionDate: Timestamp.now(),
+      }),
+    );
+  });
+
+  test('allows a null lastActionDate (model default)', async () => {
+    await assertSucceeds(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        lastActionDate: null,
+      }),
+    );
+  });
+
+  test('allows an empty email (hidden by social provider)', async () => {
+    await assertSucceeds(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        email: '',
+      }),
+    );
+  });
+
+  test('rejects fields outside the whitelist', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}`), {
+        ...baseUserDoc,
+        adminFlag: true,
+      }),
     );
   });
 });
@@ -263,9 +337,11 @@ describe('users/{userId} write — personalGoal validation', () => {
   });
 });
 
-describe('users/{userId} write — score integrity', () => {
-  // Defense-in-depth: scoring runs client-side, so rules can't prove a jump
-  // is earned, but they enforce types and that points/level never decrease.
+describe('users/{userId} update — score integrity', () => {
+  // Scoring runs client-side; the rules enforce types, monotonicity,
+  // bounded jumps, and that any points increase arrives in an
+  // action-log shaped write (lastActionDate bumped to the server time,
+  // exactly one new action counted).
 
   test('rejects non-integer points', async () => {
     await assertFails(
@@ -285,17 +361,57 @@ describe('users/{userId} write — score integrity', () => {
     );
   });
 
-  test('allows points to increase', async () => {
-    await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
+  test('allows an action-shaped points increase', async () => {
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      points: 100,
+      totalActionsCount: 3,
+      lastActionDate: secondsAgo(10),
+    });
     await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 150}),
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        points: 150,
+        totalActionsCount: increment(1),
+        lastActionDate: serverTimestamp(),
+      }),
     );
   });
+
+  test('rejects a bare points increase (no action-log shape)', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {points: 150}),
+    );
+  });
+
+  test('rejects a points jump above 10000 even when action-shaped',
+    async () => {
+      await seed(`users/${ALICE}`, {
+        ...baseUserDoc,
+        points: 100,
+        totalActionsCount: 3,
+        lastActionDate: secondsAgo(10),
+      });
+      await assertFails(
+        updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+          points: 100 + 10001,
+          totalActionsCount: increment(1),
+          lastActionDate: serverTimestamp(),
+        }),
+      );
+    });
 
   test('rejects points decreasing (reset/tamper)', async () => {
     await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
     await assertFails(
       setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 50}),
+    );
+  });
+
+  test('rejects removing the points field (reset-by-delete)', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {points: deleteField()}),
     );
   });
 
@@ -305,13 +421,54 @@ describe('users/{userId} write — score integrity', () => {
       setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, level: 2}),
     );
   });
+
+  test('rejects totalCo2Grams decreasing', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, totalCo2Grams: 5000});
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {totalCo2Grams: 100}),
+    );
+  });
+
+  test('rejects backdating lastActionDate', async () => {
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      lastActionDate: secondsAgo(10),
+    });
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        lastActionDate: secondsAgo(3600),
+      }),
+    );
+  });
+
+  test('allows unrelated settings updates without gameplay fields',
+    async () => {
+      await seed(`users/${ALICE}`, {
+        ...baseUserDoc,
+        points: 100,
+        lastActionDate: secondsAgo(1),
+      });
+      await assertSucceeds(
+        updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+          'settings.analyticsEnabled': false,
+        }),
+      );
+    });
+
+  test('owner cannot delete their user document (server-side only)',
+    async () => {
+      await seed(`users/${ALICE}`, baseUserDoc);
+      await assertFails(deleteDoc(doc(aliceDb(), `users/${ALICE}`)));
+    });
 });
 
 describe('users/{userId}/actionLog/{logId}', () => {
   const ACTION_ID = 'recycle';
   const logPath = `users/${ALICE}/actionLog/log1`;
 
-  // The create rule requires points to equal the library definition.
+  // The create rule requires points AND co2Grams to equal the library
+  // definition, and the log to arrive in the same transaction/batch as
+  // the matching user-doc update.
   const validLog = {
     actionId: ACTION_ID,
     actionName: 'Recycle',
@@ -321,54 +478,138 @@ describe('users/{userId}/actionLog/{logId}', () => {
     loggedAt: Timestamp.now(),
   };
 
+  // Commits an actionLog create coupled with the user-doc update the
+  // rules demand, mirroring the client's logAction transaction.
+  function logActionBatch(db, logOverrides = {}, userOverrides = {}) {
+    const batch = writeBatch(db);
+    batch.set(doc(db, logPath), {...validLog, ...logOverrides});
+    batch.update(doc(db, `users/${ALICE}`), {
+      lastActionDate: serverTimestamp(),
+      totalActionsCount: increment(1),
+      ...userOverrides,
+    });
+    return batch.commit();
+  }
+
   beforeEach(async () => {
-    await seed(`actionLibrary/${ACTION_ID}`, {points: 10});
+    await seed(`actionLibrary/${ACTION_ID}`, {points: 10, co2Grams: 500});
+    await seed(`users/${ALICE}`, baseUserDoc);
   });
 
-  test('owner can create a well-formed entry', async () => {
-    await assertSucceeds(setDoc(doc(aliceDb(), logPath), validLog));
+  test('owner can create a well-formed coupled entry', async () => {
+    await assertSucceeds(logActionBatch(aliceDb()));
+  });
+
+  test('the full client transaction shape (log + user + summary) passes',
+    async () => {
+      // Mirrors ActionLogRepository.logAction, which writes the daily
+      // summary in the same transaction as the log and user update.
+      const db = aliceDb();
+      const today = new Date().toISOString().slice(0, 10);
+      const batch = writeBatch(db);
+      batch.set(doc(db, logPath), validLog);
+      batch.update(doc(db, `users/${ALICE}`), {
+        lastActionDate: serverTimestamp(),
+        totalActionsCount: increment(1),
+        points: 10,
+        totalCo2Grams: 500,
+      });
+      batch.set(doc(db, `users/${ALICE}/dailySummaries/${today}`), {
+        date: today,
+        goalCount: 1,
+        completedSdgs: [12],
+        totalPoints: 10,
+        totalCo2Grams: 500,
+        categoryCo2Grams: {waste: 500},
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+      });
+      await assertSucceeds(batch.commit());
+    });
+
+  test('rejects a standalone create (no user-doc update)', async () => {
+    await assertFails(setDoc(doc(aliceDb(), logPath), validLog));
+  });
+
+  test('rejects a create that does not count the action', async () => {
+    const db = aliceDb();
+    const batch = writeBatch(db);
+    batch.set(doc(db, logPath), validLog);
+    batch.update(doc(db, `users/${ALICE}`), {
+      lastActionDate: serverTimestamp(),
+    });
+    await assertFails(batch.commit());
   });
 
   test('rejects points that disagree with the action library', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), logPath), {...validLog, points: 9999}),
-    );
+    await assertFails(logActionBatch(aliceDb(), {points: 9999}));
   });
+
+  test('rejects co2Grams that disagree with the action library',
+    async () => {
+      await assertFails(logActionBatch(aliceDb(), {co2Grams: 999999}));
+    });
 
   test('rejects an entry missing a required field', async () => {
     const {co2Grams, ...missingCo2} = validLog;
-    await assertFails(setDoc(doc(aliceDb(), logPath), missingCo2));
+    const db = aliceDb();
+    const batch = writeBatch(db);
+    batch.set(doc(db, logPath), missingCo2);
+    batch.update(doc(db, `users/${ALICE}`), {
+      lastActionDate: serverTimestamp(),
+      totalActionsCount: increment(1),
+    });
+    await assertFails(batch.commit());
+  });
+
+  test('rejects fields outside the whitelist', async () => {
+    await assertFails(logActionBatch(aliceDb(), {bonus: 1}));
   });
 
   test('rejects points above the hard cap even if the library agrees',
     async () => {
       // points == library still has to clear the absolute 0..10000 bound.
-      await seed('actionLibrary/whale', {points: 20000});
+      await seed('actionLibrary/whale', {points: 20000, co2Grams: 1});
       await assertFails(
-        setDoc(doc(aliceDb(), logPath), {
-          ...validLog,
+        logActionBatch(aliceDb(), {
           actionId: 'whale',
           points: 20000,
+          co2Grams: 1,
         }),
       );
     });
 
+  test('rejects loggedAt more than 24h in the past', async () => {
+    await assertFails(
+      logActionBatch(aliceDb(), {loggedAt: secondsAgo(25 * 3600)}),
+    );
+  });
+
+  test('rejects loggedAt more than 24h in the future', async () => {
+    await assertFails(
+      logActionBatch(aliceDb(), {loggedAt: secondsAgo(-25 * 3600)}),
+    );
+  });
+
   test('allows a note at the 200-char limit', async () => {
     await assertSucceeds(
-      setDoc(doc(aliceDb(), logPath), {...validLog, note: 'x'.repeat(200)}),
+      logActionBatch(aliceDb(), {note: 'x'.repeat(200)}),
     );
   });
 
   test('rejects a note over 200 chars', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), logPath), {...validLog, note: 'x'.repeat(201)}),
+      logActionBatch(aliceDb(), {note: 'x'.repeat(201)}),
     );
+  });
+
+  test('allows an explicitly null note', async () => {
+    await assertSucceeds(logActionBatch(aliceDb(), {note: null}));
   });
 
   test('allows relatedSdgs up to 17 entries', async () => {
     await assertSucceeds(
-      setDoc(doc(aliceDb(), logPath), {
-        ...validLog,
+      logActionBatch(aliceDb(), {
         relatedSdgs: Array.from({length: 17}, (_, i) => `${i + 1}`),
       }),
     );
@@ -376,28 +617,41 @@ describe('users/{userId}/actionLog/{logId}', () => {
 
   test('rejects relatedSdgs over 17 entries', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), logPath), {
-        ...validLog,
+      logActionBatch(aliceDb(), {
         relatedSdgs: Array.from({length: 18}, (_, i) => `${i + 1}`),
       }),
     );
   });
 
-  test('rejects a second entry inside the 5s rate-limit window', async () => {
-    // A recent lastActionDate must block the next create.
-    await seed(`users/${ALICE}`, {...baseUserDoc, lastActionDate: Timestamp.now()});
-    await assertFails(setDoc(doc(aliceDb(), logPath), validLog));
-  });
+  test('rejects a second entry inside the 5s rate-limit window',
+    async () => {
+      await seed(`users/${ALICE}`, {
+        ...baseUserDoc,
+        lastActionDate: Timestamp.now(),
+      });
+      await assertFails(logActionBatch(aliceDb()));
+    });
 
   test('allows an entry once the rate-limit window has passed', async () => {
-    const tenSecondsAgo = Timestamp.fromMillis(Timestamp.now().toMillis() - 10000);
-    await seed(`users/${ALICE}`, {...baseUserDoc, lastActionDate: tenSecondsAgo});
-    await assertSucceeds(setDoc(doc(aliceDb(), logPath), validLog));
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      lastActionDate: secondsAgo(10),
+    });
+    await assertSucceeds(logActionBatch(aliceDb()));
   });
 
-  test('another user cannot create entries in someone else log', async () => {
-    await assertFails(setDoc(doc(bobDb(), logPath), validLog));
+  test('a verified password account can log', async () => {
+    await assertSucceeds(logActionBatch(alicePasswordDb(true)));
   });
+
+  test('an unverified password account cannot log', async () => {
+    await assertFails(logActionBatch(alicePasswordDb(false)));
+  });
+
+  test('another user cannot create entries in someone else log',
+    async () => {
+      await assertFails(setDoc(doc(bobDb(), logPath), validLog));
+    });
 
   test('entries are immutable (no update)', async () => {
     await seed(logPath, validLog);
@@ -405,6 +659,128 @@ describe('users/{userId}/actionLog/{logId}', () => {
       updateDoc(doc(aliceDb(), logPath), {points: 10}),
     );
   });
+
+  test('entries cannot be deleted by the client', async () => {
+    await seed(logPath, validLog);
+    await assertFails(deleteDoc(doc(aliceDb(), logPath)));
+  });
+});
+
+describe('users/{userId}/dailySummaries/{summaryId}', () => {
+  const SUMMARY_ID = '2026-06-10';
+  const summaryPath = `users/${ALICE}/dailySummaries/${SUMMARY_ID}`;
+
+  const validSummary = {
+    date: SUMMARY_ID,
+    goalCount: 1,
+    completedSdgs: [12, 13],
+    totalPoints: 10,
+    totalCo2Grams: 500,
+    categoryCo2Grams: {waste: 500},
+    createdAt: Timestamp.now(),
+    updatedAt: Timestamp.now(),
+  };
+
+  test('owner can read their own summary', async () => {
+    await seed(summaryPath, validSummary);
+    await assertSucceeds(getDoc(doc(aliceDb(), summaryPath)));
+  });
+
+  test('another user cannot read it', async () => {
+    await seed(summaryPath, validSummary);
+    await assertFails(getDoc(doc(bobDb(), summaryPath)));
+  });
+
+  test('owner can create a well-formed summary', async () => {
+    await assertSucceeds(
+      setDoc(doc(aliceDb(), summaryPath), validSummary),
+    );
+  });
+
+  test('owner can increment an existing summary', async () => {
+    await seed(summaryPath, validSummary);
+    await assertSucceeds(
+      updateDoc(doc(aliceDb(), summaryPath), {
+        goalCount: increment(1),
+        totalPoints: increment(10),
+        totalCo2Grams: increment(500),
+        'categoryCo2Grams.waste': increment(500),
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  test('rejects a non-date document id', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), `users/${ALICE}/dailySummaries/junk`), {
+        ...validSummary,
+        date: 'junk',
+      }),
+    );
+  });
+
+  test('rejects a date field that mismatches the id', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), summaryPath), {
+        ...validSummary,
+        date: '2026-01-01',
+      }),
+    );
+  });
+
+  test('rejects fields outside the whitelist', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), summaryPath), {
+        ...validSummary,
+        payload: 'x'.repeat(100),
+      }),
+    );
+  });
+
+  test('rejects negative totals', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), summaryPath), {
+        ...validSummary,
+        totalPoints: -5,
+      }),
+    );
+  });
+
+  test('rejects a non-integer goalCount', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), summaryPath), {
+        ...validSummary,
+        goalCount: 1.5,
+      }),
+    );
+  });
+
+  test('rejects completedSdgs over 17 entries', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), summaryPath), {
+        ...validSummary,
+        completedSdgs: Array.from({length: 18}, (_, i) => i + 1),
+      }),
+    );
+  });
+
+  test('another user cannot write it', async () => {
+    await assertFails(
+      setDoc(doc(bobDb(), summaryPath), validSummary),
+    );
+  });
+
+  test('summaries cannot be deleted by the client', async () => {
+    await seed(summaryPath, validSummary);
+    await assertFails(deleteDoc(doc(aliceDb(), summaryPath)));
+  });
+
+  test('an unverified password account cannot write summaries',
+    async () => {
+      await assertFails(
+        setDoc(doc(alicePasswordDb(false), summaryPath), validSummary),
+      );
+    });
 });
 
 describe('read-only collections', () => {
