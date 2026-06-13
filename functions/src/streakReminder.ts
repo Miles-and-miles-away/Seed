@@ -6,6 +6,10 @@ import { logger } from 'firebase-functions';
 const SCHEDULE_CRON = '0 20 * * *'; // 8 PM UTC daily
 const USERS_COLLECTION = 'users';
 const BATCH_SIZE = 500;
+const PAGE_SIZE = 500;
+// Firestore allows at most 500 writes per batch.
+const WRITE_BATCH_LIMIT = 500;
+const LAST_REMINDER_FIELD = 'lastStreakReminderDate';
 
 interface NotificationText {
   title: string;
@@ -51,7 +55,9 @@ export function getNotificationText(
 }
 
 /**
- * Queries Firestore for users at risk of losing their streak.
+ * Queries Firestore for one page of users at risk of losing
+ * their streak. Pages by cursor so an unbounded user count
+ * never has to fit in memory at once.
  *
  * Criteria:
  * - notificationsEnabled == true
@@ -62,8 +68,12 @@ export function getNotificationText(
 export async function getUsersAtRisk(
   db: FirebaseFirestore.Firestore,
   todayStart: Date,
+  pageSize: number = PAGE_SIZE,
+  startAfter?: FirebaseFirestore.QueryDocumentSnapshot,
 ) {
-  const snapshot = await db
+  // Ordering by the inequality field keeps the cursor
+  // stable even though we update user docs mid-run.
+  let query = db
     .collection(USERS_COLLECTION)
     .where('notificationsEnabled', '==', true)
     .where('currentStreak', '>', 0)
@@ -72,9 +82,41 @@ export async function getUsersAtRisk(
       '<',
       Timestamp.fromDate(todayStart),
     )
-    .get();
+    .orderBy('lastActionDate')
+    .limit(pageSize);
 
+  if (startAfter) {
+    query = query.startAfter(startAfter);
+  }
+
+  const snapshot = await query.get();
   return snapshot.docs;
+}
+
+/**
+ * Records the reminder date on each notified user doc so a
+ * scheduler retry (retryCount > 0) does not re-send.
+ */
+export async function recordReminderSends(
+  db: FirebaseFirestore.Firestore,
+  userIds: string[],
+  todayDate: string,
+) {
+  for (
+    let i = 0;
+    i < userIds.length;
+    i += WRITE_BATCH_LIMIT
+  ) {
+    const chunk = userIds.slice(i, i + WRITE_BATCH_LIMIT);
+    const batch = db.batch();
+    for (const userId of chunk) {
+      batch.update(
+        db.collection(USERS_COLLECTION).doc(userId),
+        { [LAST_REMINDER_FIELD]: todayDate },
+      );
+    }
+    await batch.commit();
+  }
 }
 
 /**
@@ -85,26 +127,43 @@ export async function sendReminders(
   db: FirebaseFirestore.Firestore,
   messaging: ReturnType<typeof getMessaging>,
   docs: FirebaseFirestore.QueryDocumentSnapshot[],
+  todayDate: string,
 ) {
   let sent = 0;
   let skipped = 0;
   let failed = 0;
+  const sentUserIds: string[] = [];
 
   for (let i = 0; i < docs.length; i += BATCH_SIZE) {
     const batch = docs.slice(i, i + BATCH_SIZE);
     const results = await Promise.allSettled(
       batch.map(async (doc) => {
         const data = doc.data();
-        const token: string | undefined = data.fcmToken;
+
+        // Already reminded today: this run is a retry.
+        if (data[LAST_REMINDER_FIELD] === todayDate) {
+          skipped++;
+          return;
+        }
+
+        // DocumentData fields are untyped; narrow before use so a
+        // malformed document cannot produce a bogus send.
+        const token =
+          typeof data.fcmToken === 'string' ? data.fcmToken : undefined;
 
         if (!token) {
           skipped++;
           return;
         }
 
-        const language: string =
-          data.language ?? DEFAULT_LANGUAGE;
-        const streak: number = data.currentStreak ?? 0;
+        const language =
+          typeof data.language === 'string'
+            ? data.language
+            : DEFAULT_LANGUAGE;
+        const streak =
+          typeof data.currentStreak === 'number'
+            ? data.currentStreak
+            : 0;
         const text = getNotificationText(language, streak);
 
         try {
@@ -120,6 +179,7 @@ export async function sendReminders(
             },
           });
           sent++;
+          sentUserIds.push(doc.id);
         } catch (err: unknown) {
           const error = err as { code?: string };
           // Clean up invalid tokens
@@ -151,6 +211,8 @@ export async function sendReminders(
     }
   }
 
+  await recordReminderSends(db, sentUserIds, todayDate);
+
   return { sent, skipped, failed };
 }
 
@@ -168,29 +230,60 @@ export const sendStreakReminders = onSchedule(
 
     const todayStart = new Date();
     todayStart.setUTCHours(0, 0, 0, 0);
+    const todayDate = todayStart
+      .toISOString()
+      .slice(0, 10);
 
     logger.info(
       `Running streak reminders for ${todayStart.toISOString()}`,
     );
 
-    const docs = await getUsersAtRisk(db, todayStart);
+    let totalSent = 0;
+    let totalSkipped = 0;
+    let totalFailed = 0;
+    let totalUsers = 0;
+    let cursor:
+      | FirebaseFirestore.QueryDocumentSnapshot
+      | undefined;
 
-    if (docs.length === 0) {
+    for (;;) {
+      const docs = await getUsersAtRisk(
+        db,
+        todayStart,
+        PAGE_SIZE,
+        cursor,
+      );
+
+      if (docs.length === 0) {
+        break;
+      }
+
+      totalUsers += docs.length;
+      logger.info(
+        `Processing page of ${docs.length} at-risk users`,
+      );
+
+      const { sent, skipped, failed } =
+        await sendReminders(db, messaging, docs, todayDate);
+      totalSent += sent;
+      totalSkipped += skipped;
+      totalFailed += failed;
+
+      if (docs.length < PAGE_SIZE) {
+        break;
+      }
+      cursor = docs[docs.length - 1];
+    }
+
+    if (totalUsers === 0) {
       logger.info('No users at risk of losing streak');
       return;
     }
 
-    logger.info(`Found ${docs.length} users at risk`);
-
-    const { sent, skipped, failed } = await sendReminders(
-      db,
-      messaging,
-      docs,
-    );
-
     logger.info(
-      `Streak reminders complete: ` +
-        `${sent} sent, ${skipped} skipped, ${failed} failed`,
+      `Streak reminders complete: ${totalUsers} users, ` +
+        `${totalSent} sent, ${totalSkipped} skipped, ` +
+        `${totalFailed} failed`,
     );
   },
 );
