@@ -825,7 +825,46 @@ service cloud.firestore {
 - **Enable email enumeration protection** in Firebase Console
 - **Require email verification** before full access
 - **Implement rate limiting** on Cloud Functions
-- **Use App Check** to prevent API abuse (add in Phase 2)
+- **Use App Check** to prevent API abuse (see App Check Setup below)
+
+### App Check Setup
+
+App Check is activated in the client (`lib/main.dart`: Play Integrity on
+Android, DeviceCheck on iOS; debug providers in debug builds), but
+**console enforcement is not yet enabled** and registration is blocked
+on creating the Android release/upload keystore. Until enforcement is
+on, App Check provides no protection — registration alone changes
+nothing. Hardened Firestore rules are the current barrier; App Check is
+the defence against scripted/off-device abuse.
+
+Sequence to complete (blocked on the release keystore):
+
+1. Create the Android upload keystore (`keytool -genkey`), wire it into
+   `android/key.properties`, and back it up (losing the upload key is
+   unrecoverable).
+2. Register the Android app in App Check with **Play Integrity**, using
+   the keystore's SHA-256. Token TTL 1h. Leave the advanced toggles
+   (PLAY_RECOGNISED, LICENSED, device-integrity) **off** until
+   distribution moves to Google Play.
+3. After the first Play upload, copy the **Play App Signing**
+   certificate SHA-256 and add it as a second fingerprint (Google
+   re-signs the app, so the upload-key SHA-256 alone is not enough).
+4. Register the iOS app with **DeviceCheck** (needs a `.p8` key, Key ID,
+   and Team ID from the Apple Developer account).
+5. Register **debug tokens** for every dev device/emulator (printed in
+   the debug log on launch) BEFORE enforcing, or dev builds get locked
+   out.
+6. Watch the App Check metrics page until requests show as *verified*,
+   then **Enforce** for Firestore and Storage in the console.
+7. Callables enforce in code, not via the console toggle: add
+   `enforceAppCheck: true` to `deleteUserAccount`'s options in
+   `functions/src/deleteUserAccount.ts` and redeploy. (Left off for now
+   so deletion keeps working while App Check is in monitor mode.)
+
+> Note: server-authoritative scoring (Cloud Function on actionLog
+> create, aggregates rule-locked) stays deferred until leaderboards or
+> any cross-user feature is planned — see the scoring design notes and
+> the `firestore.rules` header comment. Not an App Check task.
 
 ### Secrets Management
 
