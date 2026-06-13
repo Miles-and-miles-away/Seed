@@ -43,7 +43,7 @@ Email/password sign-in plus social sign-in (Google, Apple on iOS).
 
 ### Register (`/register`)
 Create account with email/password and accept terms.
-- Links: `/settings/terms`, `/settings/privacy`, `/login`
+- Links: `/terms`, `/privacy`, `/login`
 - Functionality: email/password/confirm fields, T&C checkbox with
   tappable inline links, Google/Apple sign-up.
 
@@ -180,18 +180,22 @@ stage.
 ### Settings (`/profile/settings`)
 Settings hub.
 - Links:
-  - `/profile/settings/notifications`
   - `/profile/settings/language`
   - `/profile/settings/account`
   - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
-- Functionality: notification toggle, language selector, analytics
-  toggle, section tiles.
+- Functionality: language selector, analytics toggle, section tiles.
+- Note: the Notifications section is hidden while the reminder feature
+  is postponed (the route below still exists but is unreachable from
+  the UI).
 
-### Notification Settings (`.../settings/notifications`)
+### Notification Settings (`.../settings/notifications`) — hidden
+Feature postponed; no UI entry points to this route.
 - Links: none
 - Functionality: master notifications toggle, smart-reminders toggle,
   reminder list (up to 5) with add / edit / delete, time picker.
+  Settings are persisted but no notification is ever scheduled (see
+  notes in `lib/shared/providers/notification_providers.dart`).
 
 ### Language Settings (`.../settings/language`)
 - Links: none
