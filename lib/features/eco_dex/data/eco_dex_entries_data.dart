@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,11 @@ class EcoDexData {
 /// Loads all Eco-Dex data from the bundled JSON asset.
 Future<EcoDexData> loadEcoDexData() async {
   final jsonString = await rootBundle.loadString(_ASSET_PATH);
+  // 160 KB of JSON: decode off the UI thread.
+  return Isolate.run(() => _parseEcoDexData(jsonString));
+}
+
+EcoDexData _parseEcoDexData(String jsonString) {
   final json = jsonDecode(jsonString) as Map<String, dynamic>;
 
   final categories = (json['categories'] as List<dynamic>)

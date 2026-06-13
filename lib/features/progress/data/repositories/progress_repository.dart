@@ -92,21 +92,4 @@ class ProgressRepository {
       AppConstants.fieldDailyGoalTarget: target,
     });
   }
-
-  /// Increment daily summary when an action is logged.
-  Future<void> recordAction({
-    required String userId,
-    required int points,
-    required int co2Grams,
-    required List<int> sdgNumbers,
-    required String category,
-  }) async {
-    await _dataSource.incrementDailySummary(
-      userId: userId,
-      points: points,
-      co2Grams: co2Grams,
-      sdgNumbers: sdgNumbers,
-      category: category,
-    );
-  }
 }

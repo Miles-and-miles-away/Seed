@@ -54,14 +54,6 @@ double calculateLevelProgress(int totalPoints) {
   return (progressPoints / levelRange).clamp(0.0, 1.0);
 }
 
-/// Calculate streak bonus multiplier
-double calculateStreakBonus(int streakDays) {
-  if (streakDays <= 0) return 1;
-
-  final bonus = 1.0 + (streakDays * AppConstants.streakBonusPerDay);
-  return min(bonus, AppConstants.maxStreakBonus);
-}
-
 /// Get mascot evolution stage based on level
 int getEvolutionStage(int level) {
   if (level >= AppConstants.evolutionStage4Level) return 4;

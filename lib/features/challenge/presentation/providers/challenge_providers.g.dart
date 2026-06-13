@@ -93,7 +93,7 @@ final class TodayChallengeProvider extends $FunctionalProvider<
   }
 }
 
-String _$todayChallengeHash() => r'fe63e0f9607da497e9763135739edc1ba0820f38';
+String _$todayChallengeHash() => r'a33fdb91c54dd2ef4414f393fedebf993570d26f';
 
 /// Whether today's daily challenge is completed.
 
@@ -141,16 +141,28 @@ final class IsTodayChallengeCompletedProvider
 String _$isTodayChallengeCompletedHash() =>
     r'98034732425cc74d92a40d2b4c3e5f063b05f11c';
 
-/// Current challenge streak.
+/// Current challenge streak as the user should see it.
+///
+/// The stored value is only corrected by the next completion, so
+/// after a missed day it still holds the old streak; a completion
+/// date before yesterday means the streak is already broken.
 
 @ProviderFor(challengeStreak)
 final challengeStreakProvider = ChallengeStreakProvider._();
 
-/// Current challenge streak.
+/// Current challenge streak as the user should see it.
+///
+/// The stored value is only corrected by the next completion, so
+/// after a missed day it still holds the old streak; a completion
+/// date before yesterday means the streak is already broken.
 
 final class ChallengeStreakProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
-  /// Current challenge streak.
+  /// Current challenge streak as the user should see it.
+  ///
+  /// The stored value is only corrected by the next completion, so
+  /// after a missed day it still holds the old streak; a completion
+  /// date before yesterday means the streak is already broken.
   ChallengeStreakProvider._()
       : super(
           from: null,
@@ -184,7 +196,7 @@ final class ChallengeStreakProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$challengeStreakHash() => r'1788cf637abc474d21b211fd20927e687707b8d8';
+String _$challengeStreakHash() => r'05057cf9ebc5b6af057416b5d0422e39982f3812';
 
 /// Active multi-day challenge data.
 
@@ -375,7 +387,7 @@ final class MultiDayChallengeNotifierProvider
 }
 
 String _$multiDayChallengeNotifierHash() =>
-    r'd1e2ffac78b01182cb1437d866bf5c8f06c19aa0';
+    r'f886fbe8d83c20ec78fe43596e12967af5f31817';
 
 /// Notifier for multi-day challenge actions.
 

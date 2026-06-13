@@ -48,11 +48,17 @@ final class SdgGoalsDataProvider extends $FunctionalProvider<
 String _$sdgGoalsDataHash() => r'e59077305b6d6ec14f641d73095b16d15ded125a';
 
 /// Loads and caches SDG resource data from JSON.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// asset on every screen revisit.
 
 @ProviderFor(sdgResourcesData)
 final sdgResourcesDataProvider = SdgResourcesDataProvider._();
 
 /// Loads and caches SDG resource data from JSON.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// asset on every screen revisit.
 
 final class SdgResourcesDataProvider extends $FunctionalProvider<
         AsyncValue<Map<int, List<SdgResource>>>,
@@ -62,13 +68,16 @@ final class SdgResourcesDataProvider extends $FunctionalProvider<
         $FutureModifier<Map<int, List<SdgResource>>>,
         $FutureProvider<Map<int, List<SdgResource>>> {
   /// Loads and caches SDG resource data from JSON.
+  ///
+  /// keepAlive: static bundled data; autoDispose would re-parse the
+  /// asset on every screen revisit.
   SdgResourcesDataProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'sdgResourcesDataProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -88,14 +97,20 @@ final class SdgResourcesDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$sdgResourcesDataHash() => r'a15a13d7b19303e7cf98322f73535319dd3fccf4';
+String _$sdgResourcesDataHash() => r'da8ee1965a30685ca10692c6183a44a1bfbe0fe7';
 
 /// Loads and caches SDG target data from JSON.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 120 KB asset on every screen revisit.
 
 @ProviderFor(sdgTargetsData)
 final sdgTargetsDataProvider = SdgTargetsDataProvider._();
 
 /// Loads and caches SDG target data from JSON.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 120 KB asset on every screen revisit.
 
 final class SdgTargetsDataProvider extends $FunctionalProvider<
         AsyncValue<Map<int, List<SdgTarget>>>,
@@ -105,13 +120,16 @@ final class SdgTargetsDataProvider extends $FunctionalProvider<
         $FutureModifier<Map<int, List<SdgTarget>>>,
         $FutureProvider<Map<int, List<SdgTarget>>> {
   /// Loads and caches SDG target data from JSON.
+  ///
+  /// keepAlive: static bundled data; autoDispose would re-parse the
+  /// 120 KB asset on every screen revisit.
   SdgTargetsDataProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'sdgTargetsDataProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -131,4 +149,4 @@ final class SdgTargetsDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$sdgTargetsDataHash() => r'2faa3534c247911281e728a746fa949a8d8e2675';
+String _$sdgTargetsDataHash() => r'e2c8047d415d9b4442dfac6eba639af7ed0f5a66';

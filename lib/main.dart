@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -65,6 +66,7 @@ void main() async {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
       await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
+      FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
       appLogger.debug('Connected to Firebase Emulator Suite');
     }
 
@@ -77,26 +79,53 @@ void main() async {
     // Register background message handler for FCM
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    // Initialize notification services in parallel
-    await Future.wait([
-      NotificationService.instance.initialize(
-        onTap: _handleNotificationTap,
-      ),
-      FCMService.instance.initialize(
-        onForeground: _handleForegroundMessage,
-        onTap: _handleFCMMessageTap,
-      ),
-    ]);
-
     runApp(
       const ProviderScope(
         child: SeedApp(),
       ),
     );
+
+    // Notification setup parses the full timezone database and makes
+    // network calls (FCM token); defer it past the first frame so it
+    // can never block startup.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_initializeNotificationServices());
+    });
   }, (error, stack) {
     // Catch any errors that weren't caught by the Flutter framework
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   });
+}
+
+/// Initialize local notification and FCM services after the first
+/// frame. Each failure is logged independently and never rethrown:
+/// notifications are an optional capability and must not crash
+/// startup or be reported as fatal to Crashlytics.
+Future<void> _initializeNotificationServices() async {
+  try {
+    await NotificationService.instance.initialize(
+      onTap: _handleNotificationTap,
+    );
+  } on Object catch (e, stack) {
+    appLogger.error(
+      'NotificationService initialization failed',
+      error: e,
+      stackTrace: stack,
+    );
+  }
+
+  try {
+    await FCMService.instance.initialize(
+      onForeground: _handleForegroundMessage,
+      onTap: _handleFCMMessageTap,
+    );
+  } on Object catch (e, stack) {
+    appLogger.error(
+      'FCMService initialization failed',
+      error: e,
+      stackTrace: stack,
+    );
+  }
 }
 
 /// Handle local notification tap.

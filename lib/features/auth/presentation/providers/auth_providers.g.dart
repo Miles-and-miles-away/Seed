@@ -258,6 +258,67 @@ final class AuthStateChangesProvider
 
 String _$authStateChangesHash() => r'f95512f3016c4609549bf37ef775d5ac547a7179';
 
+/// UID of the signed-in user, or null when signed out.
+///
+/// Providers that only need the identity must watch this instead of
+/// [currentUserProvider]: the user document changes on every logged
+/// action, so whole-doc watchers tear down and recreate their
+/// Firestore listeners/queries each time.
+
+@ProviderFor(userId)
+final userIdProvider = UserIdProvider._();
+
+/// UID of the signed-in user, or null when signed out.
+///
+/// Providers that only need the identity must watch this instead of
+/// [currentUserProvider]: the user document changes on every logged
+/// action, so whole-doc watchers tear down and recreate their
+/// Firestore listeners/queries each time.
+
+final class UserIdProvider
+    extends $FunctionalProvider<String?, String?, String?>
+    with $Provider<String?> {
+  /// UID of the signed-in user, or null when signed out.
+  ///
+  /// Providers that only need the identity must watch this instead of
+  /// [currentUserProvider]: the user document changes on every logged
+  /// action, so whole-doc watchers tear down and recreate their
+  /// Firestore listeners/queries each time.
+  UserIdProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'userIdProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$userIdHash();
+
+  @$internal
+  @override
+  $ProviderElement<String?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  String? create(Ref ref) {
+    return userId(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$userIdHash() => r'9d3abcc21b5e6a8022ddc123b670044df71eaa0c';
+
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
 

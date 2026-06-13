@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
 
 // Mock class for FirebaseAuthException
@@ -8,201 +11,183 @@ import 'package:seed_app/core/utils/auth_error_mapper.dart';
 class MockFirebaseAuthException extends Mock implements FirebaseAuthException {}
 
 void main() {
+  final l10n = lookupAppLocalizations(const Locale('en'));
+  late MockFirebaseAuthException mockError;
+
+  MockFirebaseAuthException errorWithCode(String code) {
+    when(() => mockError.code).thenReturn(code);
+    when(() => mockError.message).thenReturn(null);
+    return mockError;
+  }
+
+  setUp(() {
+    mockError = MockFirebaseAuthException();
+  });
+
   group('mapAuthErrorToMessage', () {
-    late MockFirebaseAuthException mockError;
-
-    setUp(() {
-      mockError = MockFirebaseAuthException();
-    });
-
     group('sign up errors', () {
       test('maps email-already-in-use', () {
-        when(() => mockError.code).thenReturn('email-already-in-use');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'An account already exists with this email address.');
+        expect(
+          mapAuthErrorToMessage(errorWithCode('email-already-in-use'), l10n),
+          l10n.errorAuthEmailInUse,
+        );
       });
 
       test('maps invalid-email', () {
-        when(() => mockError.code).thenReturn('invalid-email');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'Please enter a valid email address.');
+        expect(
+          mapAuthErrorToMessage(errorWithCode('invalid-email'), l10n),
+          l10n.errorAuthInvalidEmail,
+        );
       });
 
       test('maps operation-not-allowed', () {
-        when(() => mockError.code).thenReturn('operation-not-allowed');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'This sign-in method is not enabled. Please contact support.',
+          mapAuthErrorToMessage(errorWithCode('operation-not-allowed'), l10n),
+          l10n.errorAuthOperationNotAllowed,
         );
       });
 
       test('maps weak-password', () {
-        when(() => mockError.code).thenReturn('weak-password');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'Password is too weak. Please use at least 6 characters.',
+          mapAuthErrorToMessage(errorWithCode('weak-password'), l10n),
+          l10n.errorAuthWeakPassword,
         );
       });
     });
 
     group('sign in errors', () {
       test('maps user-disabled', () {
-        when(() => mockError.code).thenReturn('user-disabled');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'This account has been disabled. Please contact support.',
+          mapAuthErrorToMessage(errorWithCode('user-disabled'), l10n),
+          l10n.errorAuthUserDisabled,
         );
       });
 
-      test('maps user-not-found', () {
-        when(() => mockError.code).thenReturn('user-not-found');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'No account found with this email address.');
-      });
-
-      test('maps wrong-password', () {
-        when(() => mockError.code).thenReturn('wrong-password');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'Incorrect password. Please try again.');
-      });
-
-      test('maps invalid-credential', () {
-        when(() => mockError.code).thenReturn('invalid-credential');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'Invalid email or password. Please try again.');
+      test(
+          'collapses user-not-found, wrong-password and invalid-credential '
+          'into one shared message (no account enumeration)', () {
+        // Same message for all three so responses never reveal whether
+        // an email is registered.
+        const codes = [
+          'user-not-found',
+          'wrong-password',
+          'invalid-credential',
+        ];
+        for (final code in codes) {
+          expect(
+            mapAuthErrorToMessage(errorWithCode(code), l10n),
+            l10n.errorAuthInvalidCredentials,
+            reason: 'code: $code',
+          );
+        }
+        expect(
+          l10n.errorAuthInvalidCredentials,
+          'Invalid email or password. Please try again.',
+        );
       });
     });
 
     group('rate limiting', () {
       test('maps too-many-requests', () {
-        when(() => mockError.code).thenReturn('too-many-requests');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'Too many attempts. Please wait a moment and try again.',
+          mapAuthErrorToMessage(errorWithCode('too-many-requests'), l10n),
+          l10n.errorAuthTooManyRequests,
         );
       });
     });
 
     group('network errors', () {
       test('maps network-request-failed', () {
-        when(() => mockError.code).thenReturn('network-request-failed');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'Network error. Please check your internet connection.',
+          mapAuthErrorToMessage(errorWithCode('network-request-failed'), l10n),
+          l10n.errorAuthNetwork,
         );
       });
     });
 
     group('social sign-in errors', () {
       test('maps sign-in-cancelled', () {
-        when(() => mockError.code).thenReturn('sign-in-cancelled');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'Sign-in was cancelled.');
+        expect(
+          mapAuthErrorToMessage(errorWithCode('sign-in-cancelled'), l10n),
+          l10n.errorAuthSignInCancelled,
+        );
       });
 
       test('maps account-exists-with-different-credential', () {
-        when(() => mockError.code)
-            .thenReturn('account-exists-with-different-credential');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
         expect(
-          message,
-          'An account already exists with this email using a different sign-in method.',
+          mapAuthErrorToMessage(
+            errorWithCode('account-exists-with-different-credential'),
+            l10n,
+          ),
+          l10n.errorAuthAccountExistsWithDifferentCredential,
         );
       });
     });
 
     group('email verification errors', () {
       test('maps expired-action-code', () {
-        when(() => mockError.code).thenReturn('expired-action-code');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'This link has expired. Please request a new one.');
+        expect(
+          mapAuthErrorToMessage(errorWithCode('expired-action-code'), l10n),
+          l10n.errorAuthLinkExpired,
+        );
       });
 
       test('maps invalid-action-code', () {
-        when(() => mockError.code).thenReturn('invalid-action-code');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'This link is invalid. Please request a new one.');
+        expect(
+          mapAuthErrorToMessage(errorWithCode('invalid-action-code'), l10n),
+          l10n.errorAuthLinkInvalid,
+        );
       });
     });
 
     group('unknown errors', () {
-      test('uses fallback message for unknown code', () {
+      test('never surfaces raw Firebase text for unknown codes', () {
         when(() => mockError.code).thenReturn('unknown-error-code');
-        when(() => mockError.message).thenReturn('Custom fallback message');
+        when(() => mockError.message).thenReturn('Raw Firebase message');
 
-        final message = mapAuthErrorToMessage(mockError);
+        final message = mapAuthErrorToMessage(mockError, l10n);
 
-        expect(message, 'Custom fallback message');
-      });
-
-      test('uses default message when no fallback provided', () {
-        when(() => mockError.code).thenReturn('unknown-error-code');
-        when(() => mockError.message).thenReturn(null);
-
-        final message = mapAuthErrorToMessage(mockError);
-
-        expect(message, 'An error occurred. Please try again.');
+        expect(message, l10n.errorGeneric);
+        expect(message, isNot(contains('Raw Firebase message')));
       });
 
       test('returns generic message for non-FirebaseAuthException', () {
-        final error = Exception('Some other error');
-        final message = mapAuthErrorToMessage(error);
-
-        expect(message, 'An unexpected error occurred. Please try again.');
+        expect(
+          mapAuthErrorToMessage(Exception('Some other error'), l10n),
+          l10n.errorGeneric,
+        );
       });
 
       test('returns generic message for string error', () {
-        const error = 'String error';
-        final message = mapAuthErrorToMessage(error);
+        expect(mapAuthErrorToMessage('String error', l10n), l10n.errorGeneric);
+      });
+    });
 
-        expect(message, 'An unexpected error occurred. Please try again.');
+    group('localization', () {
+      test('returns Japanese messages for the ja locale', () {
+        final l10nJa = lookupAppLocalizations(const Locale('ja'));
+
+        expect(
+          mapAuthErrorToMessage(errorWithCode('wrong-password'), l10nJa),
+          l10nJa.errorAuthInvalidCredentials,
+        );
+        expect(
+          l10nJa.errorAuthInvalidCredentials,
+          isNot(l10n.errorAuthInvalidCredentials),
+        );
+      });
+
+      test('returns Spanish messages for the es locale', () {
+        final l10nEs = lookupAppLocalizations(const Locale('es'));
+
+        expect(
+          mapAuthErrorToMessage(errorWithCode('weak-password'), l10nEs),
+          l10nEs.errorAuthWeakPassword,
+        );
+        expect(
+          l10nEs.errorAuthWeakPassword,
+          isNot(l10n.errorAuthWeakPassword),
+        );
       });
     });
   });

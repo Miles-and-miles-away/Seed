@@ -182,8 +182,10 @@ class NotificationSettingsScreen extends ConsumerWidget {
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(
-          child: ErrorDisplay(),
+        error: (_, __) => Center(
+          child: ErrorDisplay(
+            onRetry: () => ref.invalidate(userSettingsProvider),
+          ),
         ),
       ),
     );

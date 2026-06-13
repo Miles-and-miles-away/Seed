@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -17,10 +19,13 @@ part 'co2_stats_provider.g.dart';
 /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
 /// (already aggregated on the user doc) and treat the previous period
 /// as zero-width so the comparison badge stays hidden.
+/// Keyed on the user id (not the whole user doc) so logging an action
+/// does not implicitly re-run the queries; ActionLogNotifier and
+/// dayChangeProvider invalidate this explicitly when the data moves.
 @riverpod
 Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) {
     return Co2Stats(
       totalGrams: 0,
       previousTotalGrams: 0,
@@ -36,14 +41,18 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
   final int previousTotal;
 
   if (period == TimePeriod.allTime) {
-    currentTotal = user.totalCo2Grams;
+    // Already aggregated on the user doc; watching just this field is
+    // cheap and keeps the all-time figure live.
+    currentTotal = ref.watch(
+      currentUserProvider.select((user) => user.value?.totalCo2Grams ?? 0),
+    );
     previousTotal = 0;
   } else {
     final currentRange = TimePeriodRange.current(period, now: now);
     final previousRange = TimePeriodRange.previous(period, now: now);
 
     final currentSummaries = await repository.getSummariesForDateRange(
-      user.uid,
+      userId,
       currentRange.start,
       currentRange.end,
     );
@@ -53,7 +62,7 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
     );
 
     final previousSummaries = await repository.getSummariesForDateRange(
-      user.uid,
+      userId,
       previousRange.start,
       previousRange.end,
     );

@@ -39,6 +39,8 @@ abstract class NotificationScheduleModel with _$NotificationScheduleModel {
   }
 
   /// Returns the time formatted for display (e.g., "9:00 AM").
+  // NOTE(postponed): hardcoded AM/PM; when the notifications feature
+  // ships, format via TimeOfDay.format(context) for locale awareness.
   String get displayTime {
     final h = hour % 12 == 0 ? 12 : hour % 12;
     final m = minute.toString().padLeft(2, '0');

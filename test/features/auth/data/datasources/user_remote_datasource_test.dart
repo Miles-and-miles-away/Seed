@@ -1,9 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+
+class _MockFirebaseFunctions extends Mock implements FirebaseFunctions {}
+
+class _MockHttpsCallable extends Mock implements HttpsCallable {}
+
+class _MockHttpsCallableResult extends Mock
+    implements HttpsCallableResult<Object?> {}
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -38,7 +47,6 @@ void main() {
       'totalActionsCount': 0,
       'eggPendingDiscovery': false,
       'notificationsEnabled': true,
-      'streakGracePeriodAvailable': true,
       'mascots': <Map<String, dynamic>>[],
       'sdgStats': <String, dynamic>{},
     });
@@ -151,50 +159,45 @@ void main() {
     });
 
     group('deleteUser', () {
-      test('deletes user document', () async {
-        await seedUser('u1');
+      // Deletion is server-side (rules make actionLog immutable from
+      // clients): the data source must invoke the deleteUserAccount
+      // callable and propagate its failures.
+      late _MockFirebaseFunctions functions;
+      late _MockHttpsCallable callable;
 
-        await dataSource.deleteUser('u1');
-
-        final doc = await usersCollection().doc('u1').get();
-        expect(doc.exists, isFalse);
+      setUp(() {
+        functions = _MockFirebaseFunctions();
+        callable = _MockHttpsCallable();
+        when(() => functions.httpsCallable('deleteUserAccount'))
+            .thenReturn(callable);
+        dataSource = UserRemoteDataSourceImpl(
+          firestore: fakeFirestore,
+          functions: functions,
+        );
       });
 
-      test(
-        'deletes action log subcollection',
-        () async {
-          await seedUser('u1');
-          final logCol = usersCollection()
-              .doc('u1')
-              .collection(AppConstants.collectionActionLog);
-          await logCol.doc('log1').set({
-            'actionId': 'a1',
-            'points': 10,
-          });
-          await logCol.doc('log2').set({
-            'actionId': 'a2',
-            'points': 20,
-          });
+      test('invokes the deleteUserAccount callable', () async {
+        when(() => callable.call<Object?>())
+            .thenAnswer((_) async => _MockHttpsCallableResult());
 
-          await dataSource.deleteUser('u1');
+        await dataSource.deleteUser();
 
-          final remaining = await logCol.get();
-          expect(remaining.docs, isEmpty);
-        },
-      );
+        verify(() => callable.call<Object?>()).called(1);
+      });
 
-      test(
-        'handles user with no action logs',
-        () async {
-          await seedUser('u1');
+      test('propagates callable failures', () async {
+        when(() => callable.call<Object?>()).thenThrow(
+          FirebaseFunctionsException(
+            code: 'unauthenticated',
+            message: 'Sign in required',
+          ),
+        );
 
-          // Should not throw
-          await dataSource.deleteUser('u1');
-
-          final doc = await usersCollection().doc('u1').get();
-          expect(doc.exists, isFalse);
-        },
-      );
+        await expectLater(
+          dataSource.deleteUser(),
+          throwsA(isA<FirebaseFunctionsException>()),
+        );
+      });
     });
   });
 }

@@ -34,7 +34,7 @@ ProviderContainer _container({
   return ProviderContainer(
     overrides: [
       if (library != null)
-        actionLibraryProvider.overrideWith((_) => Stream.value(library)),
+        actionLibraryProvider.overrideWith((_) async => library),
       if (user != null)
         currentUserProvider.overrideWith((_) => Stream.value(user)),
     ],

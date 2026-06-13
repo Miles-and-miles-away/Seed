@@ -8,6 +8,22 @@ import '../services/services.dart';
 
 part 'notification_providers.g.dart';
 
+// NOTE(postponed): The reminder feature is deliberately inactive
+// (decision 2026-06-10). None of the providers below are watched from
+// anywhere, so nothing here ever runs, and the Notification Settings
+// UI entry is hidden in settings_screen.dart. Before reviving:
+// - Keep these providers alive from app startup (e.g. ref.listenManual
+//   in SeedApp/MainShell); a one-shot ref.read of an autoDispose
+//   provider is disposed immediately and never rebuilds.
+// - Set tz.local in NotificationService.initialize: the timezone
+//   package defaults to UTC, so a 9:00 reminder would fire at 9:00 UTC.
+// - Handle the Android 14+ exact-alarm permission (zonedSchedule with
+//   exactAllowWhileIdle throws when not granted) or fall back to
+//   inexact scheduling.
+// - Localize the title/body below and the Android channel name.
+// - Cancel scheduled notifications on sign-out/account deletion.
+// - Consult shouldShowSmartReminder before firing.
+
 /// Provider for the NotificationService singleton.
 @riverpod
 NotificationService notificationService(Ref ref) {

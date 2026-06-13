@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -84,7 +85,9 @@ Future<void> handleActionTap(
     // Eco-Dex discovery evaluation
     if (context.mounted) {
       final newIds =
-          await ref.read(ecoDexDiscoveryProvider.notifier).discoverNewEntries();
+          await ref.read(ecoDexDiscoveryProvider.notifier).discoverNewEntries(
+                minActionsCount: logResult.newTotalActionsCount,
+              );
       if (newIds.isNotEmpty && context.mounted) {
         final ecoDex = await ref.read(ecoDexDataProvider.future);
         final byId = {for (final e in ecoDex.entries) e.id: e};
@@ -110,14 +113,32 @@ Future<void> handleActionTap(
       }
     }
   } else {
+    final logState = ref.read(actionLogProvider);
+    // Null result with no error means another log is in flight
+    // (in-flight guard) -- nothing to report.
+    if (logState.isLoading) return;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          AppLocalizations.of(context).errorGeneric,
-        ),
+        content: Text(_logErrorMessage(context, logState.error)),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
+}
+
+String _logErrorMessage(BuildContext context, Object? error) {
+  final l10n = AppLocalizations.of(context);
+  if (error is FirebaseException) {
+    // permission-denied on a log almost always means the server-side
+    // 5s rate limit rejected a rapid second submission.
+    if (error.code == 'permission-denied') {
+      return l10n.errorActionTooSoon;
+    }
+    if (error.code == 'unavailable') {
+      return l10n.errorOffline;
+    }
+  }
+  return l10n.errorGeneric;
 }

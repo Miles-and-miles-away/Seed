@@ -41,7 +41,7 @@ class _EmailVerificationScreenState
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  mapAuthErrorToMessage(error),
+                  mapAuthErrorToMessage(error, l10n),
                 ),
                 backgroundColor: AppColors.error,
               ),

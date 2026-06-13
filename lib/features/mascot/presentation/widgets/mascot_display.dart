@@ -10,6 +10,7 @@ import '../providers/mascot_providers.dart';
 /// Controller for triggering mascot animations from external widgets.
 class MascotAnimationController extends ChangeNotifier {
   bool _shouldBounce = false;
+  bool _disposed = false;
 
   /// Whether a bounce animation should be triggered.
   bool get shouldBounce => _shouldBounce;
@@ -18,11 +19,19 @@ class MascotAnimationController extends ChangeNotifier {
   void triggerBounce() {
     _shouldBounce = true;
     notifyListeners();
-    // Reset after animation completes
+    // Reset after animation completes; the controller may have been
+    // disposed with its widget before the delay elapses.
     Future.delayed(durationSlow, () {
+      if (_disposed) return;
       _shouldBounce = false;
       notifyListeners();
     });
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
 

@@ -53,7 +53,16 @@ void main() {
     return ProviderScope(
       overrides: [
         currentUserProvider.overrideWith((_) => Stream.value(user)),
-        userActionLogsProvider.overrideWith((_) => Stream.value(logs)),
+        actionsForDayProvider.overrideWith(
+          (_, day) async => logs
+              .where(
+                (l) =>
+                    l.loggedAt.year == day.year &&
+                    l.loggedAt.month == day.month &&
+                    l.loggedAt.day == day.day,
+              )
+              .toList(),
+        ),
         ecoFactsProvider.overrideWith((_) => Future.value(fakeFacts)),
         firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
       ],

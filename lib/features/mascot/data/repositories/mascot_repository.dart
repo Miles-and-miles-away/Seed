@@ -25,66 +25,9 @@ class MascotRepository {
   // Multi-mascot operations
   // =========================================================
 
-  /// Streams all mascots for a user.
-  Stream<List<MascotModel>> watchAllMascots(String userId) {
-    return _userDoc(userId).snapshots().map((doc) {
-      final data = doc.data();
-      if (data == null || !data.containsKey(AppConstants.fieldMascots)) {
-        return <MascotModel>[];
-      }
-      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
-      return list
-          .map(
-            (e) => MascotModel.fromJson(
-              Map<String, dynamic>.from(e as Map),
-            ),
-          )
-          .toList();
-    });
-  }
-
-  /// Streams the active mascot for a user.
-  Stream<MascotModel?> watchActiveMascot(String userId) {
-    return _userDoc(userId).snapshots().map((doc) {
-      final data = doc.data();
-      if (data == null) return null;
-      final activeId = data[AppConstants.fieldActiveMascotId] as String?;
-      if (activeId == null) return null;
-      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
-      for (final item in list) {
-        final map = Map<String, dynamic>.from(item as Map);
-        if (map[AppConstants.fieldId] == activeId) {
-          return MascotModel.fromJson(map);
-        }
-      }
-      return null;
-    });
-  }
-
-  /// Streams the user's egg.
-  Stream<EggModel?> watchEgg(String userId) {
-    return _userDoc(userId).snapshots().map((doc) {
-      final data = doc.data();
-      if (data == null || data[AppConstants.fieldEgg] == null) {
-        return null;
-      }
-      return EggModel.fromJson(
-        Map<String, dynamic>.from(
-          data[AppConstants.fieldEgg] as Map,
-        ),
-      );
-    });
-  }
-
-  /// Whether the user has any mascot in the array.
-  Stream<bool> watchHasMascot(String userId) {
-    return _userDoc(userId).snapshots().map((doc) {
-      final data = doc.data();
-      if (data == null) return false;
-      final list = data[AppConstants.fieldMascots] as List<dynamic>? ?? [];
-      return list.isNotEmpty;
-    });
-  }
+  // NOTE: mascots, the active mascot, and the egg are derived from
+  // the user document already streamed by currentUserProvider;
+  // dedicated watchers here would duplicate that listener.
 
   /// Adds a mascot to the user's array.
   Future<void> addMascot(

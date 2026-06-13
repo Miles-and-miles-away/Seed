@@ -53,7 +53,9 @@ class ProgressCalendar extends ConsumerWidget {
     bool canGoNext,
   ) {
     final theme = Theme.of(context);
-    final monthFormat = DateFormat.yMMMM();
+    final monthFormat = DateFormat.yMMMM(
+      Localizations.localeOf(context).toString(),
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

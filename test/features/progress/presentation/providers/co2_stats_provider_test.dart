@@ -21,6 +21,8 @@ ProviderContainer _container({
   return ProviderContainer(
     overrides: [
       currentUserProvider.overrideWith((_) => Stream.value(user)),
+      // The stats provider keys on the user id, not the whole doc.
+      userIdProvider.overrideWithValue(user?.uid),
       // Replace the whole repository so it uses fake firestore for both
       // its data source and the FirebaseFirestore instance the
       // production provider hands to ProgressRepository.

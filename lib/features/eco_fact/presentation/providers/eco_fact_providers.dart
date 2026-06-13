@@ -9,8 +9,11 @@ import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 
 part 'eco_fact_providers.g.dart';
 
-/// Loads and caches all 365 eco-facts from the JSON asset.
-@riverpod
+/// Loads and caches all eco-facts from the JSON asset.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 440 KB asset on every screen revisit.
+@Riverpod(keepAlive: true)
 Future<List<EcoFact>> ecoFacts(Ref ref) => loadEcoFacts();
 
 /// Today's eco-fact based on the day of year.
@@ -18,7 +21,12 @@ Future<List<EcoFact>> ecoFacts(Ref ref) => loadEcoFacts();
 Future<EcoFact?> todayEcoFact(Ref ref) async {
   final facts = await ref.watch(ecoFactsProvider.future);
   final today = dayOfYear(DateTime.now());
-  return facts.firstWhere((f) => f.dayOfYear == today);
+  for (final fact in facts) {
+    if (fact.dayOfYear == today) return fact;
+  }
+  // Defensive: a malformed data edit must not turn the home screen
+  // into a StateError.
+  return null;
 }
 
 /// Whether today's fact has been viewed.

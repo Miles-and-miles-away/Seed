@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
@@ -11,14 +12,36 @@ import 'package:seed_app/core/utils/app_logger.dart';
 ///
 /// Handles FCM token management and message handling.
 class FCMService {
-  FCMService._();
+  FCMService._()
+      : _messagingOverride = null,
+        _firestoreOverride = null,
+        _authOverride = null;
+
+  /// Test seam: unit tests inject mocks because the real Firebase
+  /// singletons require platform channels and Firebase.initializeApp.
+  @visibleForTesting
+  FCMService.withDependencies({
+    FirebaseMessaging? messaging,
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+  })  : _messagingOverride = messaging,
+        _firestoreOverride = firestore,
+        _authOverride = auth;
 
   static final FCMService _instance = FCMService._();
   static FCMService get instance => _instance;
 
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseMessaging? _messagingOverride;
+  final FirebaseFirestore? _firestoreOverride;
+  final FirebaseAuth? _authOverride;
+
+  // Resolved lazily so the singleton can exist before Firebase is
+  // initialized; real instances are only touched once methods run.
+  FirebaseMessaging get _messaging =>
+      _messagingOverride ?? FirebaseMessaging.instance;
+  FirebaseFirestore get _firestore =>
+      _firestoreOverride ?? FirebaseFirestore.instance;
+  FirebaseAuth get _auth => _authOverride ?? FirebaseAuth.instance;
 
   bool _initialized = false;
 
@@ -31,6 +54,13 @@ class FCMService {
   /// Initialize FCM service.
   ///
   /// Must be called after Firebase.initializeApp().
+  ///
+  /// Deliberately does NOT request notification permission: the
+  /// reminder feature is postponed (see NOTE(postponed) in
+  /// lib/shared/providers/notification_providers.dart), and permission
+  /// will be requested contextually when that feature ships. Listeners
+  /// are still registered unconditionally so message taps start
+  /// working as soon as the user grants permission in OS settings.
   Future<void> initialize({
     void Function(RemoteMessage message)? onForeground,
     void Function(RemoteMessage message)? onTap,
@@ -40,39 +70,29 @@ class FCMService {
     onForegroundMessage = onForeground;
     onMessageTap = onTap;
 
-    // Request permission
-    final settings = await _messaging.requestPermission();
+    // Register listeners before any awaits so a token failure can
+    // never leave message handling unwired.
+    _messaging.onTokenRefresh.listen(_storeToken);
+    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageTap);
 
-    appLogger.debug('FCM auth status: ${settings.authorizationStatus}');
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized ||
-        settings.authorizationStatus == AuthorizationStatus.provisional) {
-      // Get and store token (may fail on simulators - no APNS support)
-      try {
-        final token = await _messaging.getToken();
-        if (token != null) {
-          await _storeToken(token);
-          appLogger.debug('FCM token: ${token.substring(0, 20)}...');
-        }
-      } on Exception catch (e) {
-        // Expected on iOS simulator - APNS tokens not available
-        appLogger.warning('FCM token unavailable (expected on simulator): $e');
+    // Best-effort token fetch: on iOS getToken throws until the user
+    // grants notification permission (APNS token not set), and on
+    // simulators APNS is unavailable entirely.
+    try {
+      final token = await _messaging.getToken();
+      if (token != null) {
+        await _storeToken(token);
+        appLogger.debug('FCM token: ${token.substring(0, 20)}...');
       }
+    } on Exception catch (e) {
+      appLogger.info('FCM token unavailable: $e');
+    }
 
-      // Listen for token refresh
-      _messaging.onTokenRefresh.listen(_storeToken);
-
-      // Handle foreground messages
-      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
-
-      // Handle background message tap
-      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageTap);
-
-      // Check for initial message (app opened from terminated state)
-      final initialMessage = await _messaging.getInitialMessage();
-      if (initialMessage != null) {
-        _handleMessageTap(initialMessage);
-      }
+    // Check for initial message (app opened from terminated state)
+    final initialMessage = await _messaging.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessageTap(initialMessage);
     }
 
     _initialized = true;

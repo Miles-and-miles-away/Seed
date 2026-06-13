@@ -50,10 +50,25 @@ class ActionHistoryScreen extends ConsumerWidget {
           // Group logs by date
           final groupedLogs = _groupByDate(logs);
 
+          // A full page means more history may exist; a sentinel row
+          // at the end of the lazy list extends the query when the
+          // user actually scrolls there.
+          final hasMore = logs.length >=
+              ref.watch(actionHistoryPagesProvider) * actionHistoryPageSize;
+
           return ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: spacingSm),
-            itemCount: groupedLogs.length,
+            itemCount: groupedLogs.length + (hasMore ? 1 : 0),
             itemBuilder: (context, index) {
+              if (index == groupedLogs.length) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ref.read(actionHistoryPagesProvider.notifier).loadMore();
+                });
+                return const Padding(
+                  padding: EdgeInsets.all(spacingLg),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
               final group = groupedLogs[index];
               return _DateGroup(
                 date: group.date,
@@ -131,7 +146,8 @@ class _DateGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final dateLabel = _formatDateLabel(date, l10n);
+    final locale = Localizations.localeOf(context).toString();
+    final dateLabel = _formatDateLabel(date, l10n, locale);
     final totalPoints = logs.fold<int>(0, (sum, log) => sum + log.points);
 
     return Column(
@@ -180,7 +196,11 @@ class _DateGroup extends StatelessWidget {
     );
   }
 
-  String _formatDateLabel(DateTime date, AppLocalizations l10n) {
+  String _formatDateLabel(
+    DateTime date,
+    AppLocalizations l10n,
+    String locale,
+  ) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
@@ -190,9 +210,9 @@ class _DateGroup extends StatelessWidget {
     } else if (date == yesterday) {
       return l10n.yesterday;
     } else if (date.year == today.year) {
-      return DateFormat('EEEE, MMMM d').format(date);
+      return DateFormat.MMMMEEEEd(locale).format(date);
     } else {
-      return DateFormat('EEEE, MMMM d, y').format(date);
+      return DateFormat.yMMMMEEEEd(locale).format(date);
     }
   }
 }

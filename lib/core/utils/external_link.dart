@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 /// Character appended to external link text across the app so
 /// users can tell at a glance that tapping leaves Seed.
 const String externalLinkChar = '\u2197';
@@ -16,4 +20,26 @@ String appendExternalLinkArrow(String markdown) {
     }
     return '[$text $externalLinkChar]($url)';
   });
+}
+
+/// Opens [url] outside the app (browser, mail client, ...).
+///
+/// Deliberately skips `canLaunchUrl`: on Android 11+ it reports false
+/// for schemes missing from the manifest `<queries>` even when a
+/// handler exists, which made links silently dead. Instead the launch
+/// is attempted directly and any failure surfaces as a SnackBar.
+Future<void> openExternalUrl(BuildContext context, String url) async {
+  final uri = Uri.tryParse(url);
+  var launched = false;
+  if (uri != null) {
+    try {
+      launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } on Exception {
+      launched = false;
+    }
+  }
+  if (launched || !context.mounted) return;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(AppLocalizations.of(context).errorOpenLink)),
+  );
 }

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -60,6 +62,19 @@ AuthRepository authRepository(Ref ref) {
 @riverpod
 Stream<User?> authStateChanges(Ref ref) {
   return ref.watch(authRepositoryProvider).authStateChanges;
+}
+
+/// UID of the signed-in user, or null when signed out.
+///
+/// Providers that only need the identity must watch this instead of
+/// [currentUserProvider]: the user document changes on every logged
+/// action, so whole-doc watchers tear down and recreate their
+/// Firestore listeners/queries each time.
+@riverpod
+String? userId(Ref ref) {
+  return ref.watch(
+    authStateChangesProvider.select((auth) => auth.value?.uid),
+  );
 }
 
 /// Stream of the current app user from Firestore.

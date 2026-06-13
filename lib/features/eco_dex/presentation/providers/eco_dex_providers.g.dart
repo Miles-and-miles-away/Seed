@@ -9,23 +9,35 @@ part of 'eco_dex_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// Loads and caches all Eco-Dex data from the JSON asset.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 160 KB asset on every revisit (and after every logged action via
+/// the discovery check).
 
 @ProviderFor(ecoDexData)
 final ecoDexDataProvider = EcoDexDataProvider._();
 
 /// Loads and caches all Eco-Dex data from the JSON asset.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 160 KB asset on every revisit (and after every logged action via
+/// the discovery check).
 
 final class EcoDexDataProvider extends $FunctionalProvider<
         AsyncValue<EcoDexData>, EcoDexData, FutureOr<EcoDexData>>
     with $FutureModifier<EcoDexData>, $FutureProvider<EcoDexData> {
   /// Loads and caches all Eco-Dex data from the JSON asset.
+  ///
+  /// keepAlive: static bundled data; autoDispose would re-parse the
+  /// 160 KB asset on every revisit (and after every logged action via
+  /// the discovery check).
   EcoDexDataProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'ecoDexDataProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -44,7 +56,7 @@ final class EcoDexDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$ecoDexDataHash() => r'a1ee8494b609712631df9d2873785985649518e5';
+String _$ecoDexDataHash() => r'd2c2bad57232d81e8718ba486519756af5cf3a38';
 
 /// Set of entry icon names whose SVG ships in the asset bundle.
 /// Missing entries fall back to a blank white placeholder.
@@ -477,7 +489,7 @@ final class EcoDexDiscoveryNotifierProvider
 }
 
 String _$ecoDexDiscoveryNotifierHash() =>
-    r'f265f37ff68dcc018a353fb79e47c8dfdce94625';
+    r'e39edf7b3342bb9e78dc98f41f5ffec2c12d27d0';
 
 /// Notifier for discovering new Eco-Dex entries.
 

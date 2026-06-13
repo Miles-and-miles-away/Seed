@@ -107,7 +107,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String pointsLabel(int count) {
-    return '$countポイント';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countポイント',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -196,7 +201,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String profileDaysActive(int days) {
-    return '$days日';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days日',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -287,6 +297,54 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorAuth => '認証に失敗しました。もう一度お試しください。';
+
+  @override
+  String get errorOpenLink => 'リンクを開けませんでした。';
+
+  @override
+  String get errorActionTooSoon => 'アクションの記録は数秒おいてから行ってください。';
+
+  @override
+  String get errorOffline => 'オフラインです。接続を確認してもう一度お試しください。';
+
+  @override
+  String get errorAuthEmailInUse => 'このメールアドレスは既に登録されています。';
+
+  @override
+  String get errorAuthInvalidEmail => '有効なメールアドレスを入力してください。';
+
+  @override
+  String get errorAuthOperationNotAllowed =>
+      'このサインイン方法は有効になっていません。サポートにお問い合わせください。';
+
+  @override
+  String get errorAuthWeakPassword => 'パスワードが弱すぎます。6文字以上で設定してください。';
+
+  @override
+  String get errorAuthUserDisabled => 'このアカウントは無効化されています。サポートにお問い合わせください。';
+
+  @override
+  String get errorAuthInvalidCredentials =>
+      'メールアドレスまたはパスワードが正しくありません。もう一度お試しください。';
+
+  @override
+  String get errorAuthTooManyRequests => '試行回数が多すぎます。しばらく待ってからもう一度お試しください。';
+
+  @override
+  String get errorAuthNetwork => 'ネットワークエラーです。インターネット接続を確認してください。';
+
+  @override
+  String get errorAuthSignInCancelled => 'サインインがキャンセルされました。';
+
+  @override
+  String get errorAuthAccountExistsWithDifferentCredential =>
+      'このメールアドレスは別のサインイン方法で既に登録されています。';
+
+  @override
+  String get errorAuthLinkExpired => 'このリンクは有効期限が切れています。新しいリンクをリクエストしてください。';
+
+  @override
+  String get errorAuthLinkInvalid => 'このリンクは無効です。新しいリンクをリクエストしてください。';
 
   @override
   String get buttonSave => '保存';
@@ -522,7 +580,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String sdgActionsLogged(int count) {
-    return '$count件のアクションを記録';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件のアクションを記録',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -822,7 +885,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String mascotLevelsToGo(int count) {
-    return 'あと$countレベル';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'あと$countレベル',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1118,7 +1186,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String challengeDays(int days) {
-    return '$days日間';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days日間',
+    );
+    return '$_temp0';
   }
 
   @override

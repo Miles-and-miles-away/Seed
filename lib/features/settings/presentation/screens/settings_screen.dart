@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
-import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/settings_section.dart';
@@ -21,7 +19,6 @@ class SettingsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     final settingsAsync = ref.watch(userSettingsProvider);
-    final notificationsEnabled = ref.watch(notificationsEnabledProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,42 +29,15 @@ class SettingsScreen extends ConsumerWidget {
           top: false,
           child: ListView(
             children: [
-              // Notifications Section
-              SettingsSection(
-                title: l10n.settingsNotifications,
-                children: [
-                  SettingsSwitchTile(
-                    title: l10n.settingsNotifications,
-                    subtitle: _getReminderSubtitle(
-                      context,
-                      settings.enabledReminderCount,
-                    ),
-                    leading: const Icon(Icons.notifications_outlined),
-                    value: notificationsEnabled,
-                    onChanged: (value) {
-                      ref
-                          .read(settingsProvider.notifier)
-                          .toggleNotifications(enabled: value);
-                    },
-                  ),
-                  SettingsTile(
-                    title: l10n.settingsReminderTime,
-                    subtitle: _formatReminderTimes(
-                      context,
-                      settings.reminderSchedules,
-                    ),
-                    leading: const Icon(Icons.schedule_outlined),
-                    onTap: () => context.push(
-                      appRoutes.settingsNotifications,
-                    ),
-                  ),
-                ],
-              ),
+              // The Notifications section is hidden while the reminder
+              // feature is postponed: the scheduler was never wired up,
+              // so the toggles only wrote Firestore without any local
+              // notification ever firing. Restore it together with the
+              // wiring described in notification_providers.dart.
 
               // Preferences Section
               SettingsSection(
                 title: l10n.settingsPreferences,
-                showTopDivider: true,
                 children: [
                   SettingsTile(
                     title: l10n.settingsLanguage,
@@ -169,43 +139,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-
-  String _getReminderSubtitle(
-    BuildContext context,
-    int count,
-  ) {
-    final l10n = AppLocalizations.of(context);
-    if (count == 0) {
-      return l10n.settingsNoReminders;
-    } else if (count == 1) {
-      return l10n.settingsOneReminder;
-    }
-    return l10n.settingsRemindersCount(count);
-  }
-
-  String _formatReminderTimes(
-    BuildContext context,
-    List<NotificationScheduleModel> schedules,
-  ) {
-    final l10n = AppLocalizations.of(context);
-    if (schedules.isEmpty) {
-      return l10n.settingsTapToAddReminders;
-    }
-
-    final enabled = schedules.where((s) => s.isEnabled).toList();
-    if (enabled.isEmpty) {
-      return l10n.settingsAllRemindersDisabled;
-    }
-
-    if (enabled.length == 1) {
-      return enabled.first.displayTime;
-    }
-
-    return l10n.settingsRemindersPlusMore(
-      enabled.first.displayTime,
-      enabled.length - 1,
     );
   }
 

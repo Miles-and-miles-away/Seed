@@ -99,12 +99,18 @@ String _$settingsRepositoryHash() =>
 
 /// Stream of the current user's settings.
 /// Returns default settings if no settings are found.
+///
+/// Keyed on the user id (not the whole user document) so the settings
+/// listener survives unrelated user-doc writes.
 
 @ProviderFor(userSettings)
 final userSettingsProvider = UserSettingsProvider._();
 
 /// Stream of the current user's settings.
 /// Returns default settings if no settings are found.
+///
+/// Keyed on the user id (not the whole user document) so the settings
+/// listener survives unrelated user-doc writes.
 
 final class UserSettingsProvider extends $FunctionalProvider<
         AsyncValue<UserSettingsModel>,
@@ -115,6 +121,9 @@ final class UserSettingsProvider extends $FunctionalProvider<
         $StreamProvider<UserSettingsModel> {
   /// Stream of the current user's settings.
   /// Returns default settings if no settings are found.
+  ///
+  /// Keyed on the user id (not the whole user document) so the settings
+  /// listener survives unrelated user-doc writes.
   UserSettingsProvider._()
       : super(
           from: null,
@@ -141,7 +150,7 @@ final class UserSettingsProvider extends $FunctionalProvider<
   }
 }
 
-String _$userSettingsHash() => r'b57fde36a7bf22bde06babee7f00ea60ab22bc8d';
+String _$userSettingsHash() => r'9c03e600402f8aec294bba1abebdae1764a6a56d';
 
 /// Returns the list of enabled reminder schedules.
 

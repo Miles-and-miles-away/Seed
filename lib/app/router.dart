@@ -95,12 +95,23 @@ const appRoutes = AppRoutes._();
 
 @riverpod
 GoRouter router(Ref ref) {
-  // Watch auth state to redirect unauthenticated users
-  final authState = ref.watch(authStateChangesProvider);
+  // redirect reads authStateChangesProvider with ref.read (a watch would
+  // recreate the router and reset the navigation stack on every auth
+  // emission). read alone does not retain an autoDispose provider, so an
+  // empty listen keeps it alive. Registered before the refresh stream
+  // subscribes so the provider observes each auth event first and redirect
+  // never reads a stale value.
+  ref.listen(authStateChangesProvider, (_, __) {});
+
+  // Re-evaluates redirect on every auth event. Built once per provider
+  // lifetime and disposed below so the Firebase subscription cannot leak.
+  final refreshStream = GoRouterRefreshStream(
+    ref.watch(firebaseAuthProvider).authStateChanges(),
+  );
 
   final analyticsObserver = AnalyticsService.instance.observer;
 
-  return GoRouter(
+  final router = GoRouter(
     initialLocation: appRoutes.splash,
     debugLogDiagnostics: kDebugMode,
     observers: [
@@ -108,9 +119,7 @@ GoRouter router(Ref ref) {
     ],
 
     // Refresh router when auth state changes
-    refreshListenable: GoRouterRefreshStream(
-      ref.watch(firebaseAuthProvider).authStateChanges(),
-    ),
+    refreshListenable: refreshStream,
 
     routes: [
       // Splash / Loading screen
@@ -286,6 +295,7 @@ GoRouter router(Ref ref) {
 
     // Redirect logic based on auth state
     redirect: (context, state) {
+      final authState = ref.read(authStateChangesProvider);
       return authState.when(
         data: (user) {
           final currentPath = state.matchedLocation;
@@ -337,6 +347,15 @@ GoRouter router(Ref ref) {
       ),
     ),
   );
+
+  // Router first: GoRouter detaches from refreshStream in its dispose,
+  // which must happen while the ChangeNotifier is still usable.
+  ref.onDispose(() {
+    router.dispose();
+    refreshStream.dispose();
+  });
+
+  return router;
 }
 
 /// Splash screen shown while determining auth state.

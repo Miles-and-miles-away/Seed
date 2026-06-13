@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import '../models/app_user_model.dart';
@@ -17,16 +18,26 @@ abstract class UserRemoteDataSource {
   /// Watches a user document for real-time updates.
   Stream<AppUserModel?> watchUser(String uid);
 
-  /// Deletes a user document and all subcollections.
-  Future<void> deleteUser(String uid);
+  /// Deletes the signed-in user's account: the user document, all
+  /// subcollections, and the Auth user.
+  Future<void> deleteUser();
 }
 
 /// Implementation of [UserRemoteDataSource] using Cloud Firestore.
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
-  UserRemoteDataSourceImpl({required FirebaseFirestore firestore})
-      : _firestore = firestore;
+  UserRemoteDataSourceImpl({
+    required FirebaseFirestore firestore,
+    FirebaseFunctions? functions,
+  })  : _firestore = firestore,
+        _functionsOverride = functions;
 
   final FirebaseFirestore _firestore;
+  final FirebaseFunctions? _functionsOverride;
+
+  // Resolved lazily so constructing the data source (e.g. in tests)
+  // does not require an initialized Firebase app.
+  FirebaseFunctions get _functions =>
+      _functionsOverride ?? FirebaseFunctions.instance;
 
   CollectionReference<Map<String, dynamic>> get _usersCollection =>
       _firestore.collection(AppConstants.collectionUsers);
@@ -58,26 +69,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     });
   }
 
-  static const _batchLimit = 500;
-
   @override
-  Future<void> deleteUser(String uid) async {
-    final userDoc = _usersCollection.doc(uid);
-    final logCollection = userDoc.collection(AppConstants.collectionActionLog);
-
-    // Batch-delete action logs (up to 500 per batch)
-    QuerySnapshot<Map<String, dynamic>> snapshot;
-    do {
-      snapshot = await logCollection.limit(_batchLimit).get();
-      if (snapshot.docs.isEmpty) break;
-
-      final batch = _firestore.batch();
-      for (final doc in snapshot.docs) {
-        batch.delete(doc.reference);
-      }
-      await batch.commit();
-    } while (snapshot.docs.length == _batchLimit);
-
-    await userDoc.delete();
+  Future<void> deleteUser() async {
+    // Deletion must run server-side: the rules make actionLog entries
+    // immutable from clients, and only the Admin SDK can remove
+    // subcollections (dailySummaries included) and the Auth user.
+    await _functions.httpsCallable('deleteUserAccount').call<Object?>();
   }
 }

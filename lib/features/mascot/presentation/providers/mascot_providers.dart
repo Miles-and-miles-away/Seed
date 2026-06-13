@@ -42,26 +42,34 @@ MascotMigrationService mascotMigrationService(Ref ref) {
 // Multi-Mascot Providers
 // =============================================================
 
-/// Streams all mascots for the current user.
+/// All mascots for the current user.
+///
+/// Derived from the user document already streamed by
+/// [currentUserProvider]; opening a second Firestore listener on the
+/// same document would only duplicate decode work.
 @riverpod
 Stream<List<MascotModel>> allMascots(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
-    yield <MascotModel>[];
-    return;
-  }
-  yield* ref.watch(mascotRepositoryProvider).watchAllMascots(user.uid);
+  yield user?.mascots ?? <MascotModel>[];
 }
 
-/// Streams the active mascot for the current user.
+/// The active mascot for the current user (derived, see [allMascots]).
 @riverpod
 Stream<MascotModel?> activeMascot(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
+  final activeId = user?.activeMascotId;
+  if (user == null || activeId == null) {
     yield null;
     return;
   }
-  yield* ref.watch(mascotRepositoryProvider).watchActiveMascot(user.uid);
+  MascotModel? active;
+  for (final mascot in user.mascots) {
+    if (mascot.id == activeId) {
+      active = mascot;
+      break;
+    }
+  }
+  yield active;
 }
 
 /// Whether the current user has at least one mascot.
@@ -336,6 +344,11 @@ class MascotNotifier extends _$MascotNotifier {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
+    // The migration transaction always costs a server read; skip it
+    // when the already-streamed doc shows there is nothing to migrate
+    // (mascots exist, or a fresh account that cannot hold legacy data).
+    if (user.mascots.isNotEmpty || user.totalActionsCount == 0) return;
+
     final migrationService = ref.read(mascotMigrationServiceProvider);
     await migrationService.migrateIfNeeded(user.uid);
   }
@@ -355,7 +368,9 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
     Future.delayed(
       durationInstant,
       () {
-        if (state) state = false;
+        // The autoDispose notifier may be gone before the delay
+        // elapses; touching state then throws.
+        if (ref.mounted && state) state = false;
       },
     );
   }

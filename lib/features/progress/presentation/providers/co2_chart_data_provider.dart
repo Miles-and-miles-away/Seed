@@ -18,24 +18,30 @@ part 'co2_chart_data_provider.g.dart';
 /// window contributes one point; missing days are simply absent.
 /// The average is taken across days with data only -- folding in
 /// implicit zeros would pull the line down for users who skip days.
+/// One fetch of the trend window shared by the trend and category
+/// charts (they previously each ran the identical query). Keyed on
+/// the user id; refreshed explicitly after logging and at day change.
+@riverpod
+Future<List<DailySummaryModel>> trendWindowSummaries(
+  Ref ref,
+  TimePeriod period,
+) async {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) return const [];
+
+  final range = TimePeriodRange.trendWindow(period);
+  return ref.watch(progressRepositoryProvider).getSummariesForDateRange(
+        userId,
+        range.start,
+        range.end,
+      );
+}
+
 @riverpod
 Future<Co2TrendData> co2TrendData(Ref ref, TimePeriod period) async {
   final range = TimePeriodRange.trendWindow(period);
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
-    return Co2TrendData(
-      points: const [],
-      averageGrams: 0,
-      windowStart: range.start,
-      windowEnd: range.end,
-    );
-  }
-
-  final repository = ref.watch(progressRepositoryProvider);
-  final summaries = await repository.getSummariesForDateRange(
-    user.uid,
-    range.start,
-    range.end,
+  final summaries = await ref.watch(
+    trendWindowSummariesProvider(period).future,
   );
 
   final points = summaries
@@ -69,17 +75,9 @@ Future<Co2TrendData> co2TrendData(Ref ref, TimePeriod period) async {
 /// category) flow into Other rather than being dropped.
 @riverpod
 Future<Co2CategoryData> co2CategoryData(Ref ref, TimePeriod period) async {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return const Co2CategoryData(slices: [], totalGrams: 0);
-
-  final range = TimePeriodRange.trendWindow(period);
-  final repository = ref.watch(progressRepositoryProvider);
-  final summaries = await repository.getSummariesForDateRange(
-    user.uid,
-    range.start,
-    range.end,
+  final summaries = await ref.watch(
+    trendWindowSummariesProvider(period).future,
   );
-
   return buildCategoryData(summaries);
 }
 

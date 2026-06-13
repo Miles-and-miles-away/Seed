@@ -105,6 +105,20 @@ void main() {
     test('leap year Feb 29 is day 60', () {
       expect(dayOfYear(DateTime(2024, 2, 29)), 60);
     });
+
+    test('mid-summer date is exact in DST timezones', () {
+      // Local-time arithmetic was off by one for the whole DST
+      // half-year; this fails under TZ=America/New_York with the
+      // old implementation.
+      expect(dayOfYear(DateTime(2026, 7)), 182);
+    });
+
+    test('US DST transition days remain distinct', () {
+      expect(
+        dayOfYear(DateTime(2026, 3, 9)) - dayOfYear(DateTime(2026, 3, 8)),
+        1,
+      );
+    });
   });
 
   group('formatDateKey', () {

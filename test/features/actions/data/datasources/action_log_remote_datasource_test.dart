@@ -132,7 +132,7 @@ void main() {
             loggedAt: DateTime(2024, 6, 14),
           );
 
-          final stream = dataSource.watchUserActionLogs(userId);
+          final stream = dataSource.watchUserActionLogs(userId, limit: 50);
 
           await expectLater(
             stream,
@@ -150,7 +150,7 @@ void main() {
       );
 
       test('returns empty list for no logs', () async {
-        final stream = dataSource.watchUserActionLogs(userId);
+        final stream = dataSource.watchUserActionLogs(userId, limit: 50);
 
         await expectLater(stream, emits(isEmpty));
       });
@@ -201,6 +201,81 @@ void main() {
         final collection = dataSource.getActionLogCollection(userId);
 
         expect(collection.path, 'users/$userId/actionLog');
+      });
+    });
+
+    group('watchUserActionLogs limit', () {
+      test('caps the stream at the requested number of logs', () async {
+        for (var i = 0; i < 5; i++) {
+          await seedLog(
+            userId,
+            'log$i',
+            loggedAt: DateTime(2024, 6, 10 + i),
+          );
+        }
+
+        final stream = dataSource.watchUserActionLogs(userId, limit: 3);
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<List<ActionLogModel>>(
+              // Most recent first, capped at 3.
+              (list) => list.length == 3 && list.first.id == 'log4',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('range queries', () {
+      test('watchActionLogsForRange returns only logs in [start, end)',
+          () async {
+        await seedLog(userId, 'before', loggedAt: DateTime(2024, 6, 14, 23));
+        await seedLog(userId, 'inside', loggedAt: DateTime(2024, 6, 15, 9));
+        await seedLog(userId, 'edge', loggedAt: DateTime(2024, 6, 16));
+
+        final stream = dataSource.watchActionLogsForRange(
+          userId,
+          DateTime(2024, 6, 15),
+          DateTime(2024, 6, 16),
+        );
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<List<ActionLogModel>>(
+              (list) => list.length == 1 && list.first.id == 'inside',
+            ),
+          ),
+        );
+      });
+
+      test('getActionLogsForRange returns only logs in [start, end)', () async {
+        await seedLog(userId, 'a', loggedAt: DateTime(2024, 6, 15, 8));
+        await seedLog(userId, 'b', loggedAt: DateTime(2024, 6, 15, 20));
+        await seedLog(userId, 'c', loggedAt: DateTime(2024, 6, 17));
+
+        final logs = await dataSource.getActionLogsForRange(
+          userId,
+          DateTime(2024, 6, 15),
+          DateTime(2024, 6, 16),
+        );
+
+        expect(logs.map((l) => l.id), unorderedEquals(['a', 'b']));
+      });
+
+      test('getActionLogsForRange returns empty when nothing matches',
+          () async {
+        await seedLog(userId, 'a', loggedAt: DateTime(2024, 6, 10));
+
+        final logs = await dataSource.getActionLogsForRange(
+          userId,
+          DateTime(2024, 6, 15),
+          DateTime(2024, 6, 16),
+        );
+
+        expect(logs, isEmpty);
       });
     });
   });

@@ -174,35 +174,7 @@ void main() {
     });
   });
 
-  group('recordAction', () {
-    test('forwards all fields to the data source', () async {
-      when(
-        () => dataSource.incrementDailySummary(
-          userId: uid,
-          points: 20,
-          co2Grams: 500,
-          sdgNumbers: const [3, 11],
-          category: 'transport',
-        ),
-      ).thenAnswer((_) async {});
-
-      await repository.recordAction(
-        userId: uid,
-        points: 20,
-        co2Grams: 500,
-        sdgNumbers: const [3, 11],
-        category: 'transport',
-      );
-
-      verify(
-        () => dataSource.incrementDailySummary(
-          userId: uid,
-          points: 20,
-          co2Grams: 500,
-          sdgNumbers: const [3, 11],
-          category: 'transport',
-        ),
-      ).called(1);
-    });
-  });
+  // Summary increments on action logging are covered by
+  // action_log_repository_test (they happen inside the logAction
+  // transaction).
 }

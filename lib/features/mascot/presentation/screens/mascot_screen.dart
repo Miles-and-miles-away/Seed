@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
@@ -30,6 +31,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
 
   bool _isRenaming = false;
   final _renameController = TextEditingController();
+  final _renameFormKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -423,23 +425,37 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         children: [
           SizedBox(
             width: 150,
-            child: TextField(
-              controller: _renameController,
-              autofocus: true,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: spacingMd,
-                  vertical: spacingSm,
+            child: Form(
+              key: _renameFormKey,
+              child: TextFormField(
+                controller: _renameController,
+                autofocus: true,
+                textAlign: TextAlign.center,
+                maxLength: AppConstants.maxMascotNameLength,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: spacingMd,
+                    vertical: spacingSm,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: borderRadiusSm,
+                  ),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: borderRadiusSm,
-                ),
+                validator: (value) {
+                  final l10n = AppLocalizations.of(context);
+                  if (value == null || value.trim().isEmpty) {
+                    return l10n.mascotNameRequired;
+                  }
+                  if (value.trim().length > AppConstants.maxMascotNameLength) {
+                    return l10n.mascotNameTooLong;
+                  }
+                  return null;
+                },
               ),
             ),
           ),
@@ -497,10 +513,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   }
 
   Future<void> _submitRename() async {
-    final newName = _renameController.text.trim();
-    if (newName.isEmpty || newName.length > 20) {
+    // Surfaces mascotNameRequired/mascotNameTooLong inline instead of
+    // silently ignoring the tap.
+    if (!(_renameFormKey.currentState?.validate() ?? false)) {
       return;
     }
+    final newName = _renameController.text.trim();
 
     await ref.read(mascotProvider.notifier).renameMascot(newName);
     if (mounted) setState(() => _isRenaming = false);

@@ -93,6 +93,27 @@ void main() {
       );
 
       test(
+        'travelling west (now on an earlier day) does not reset',
+        () {
+          // A negative day difference after a westward timezone
+          // change must be treated as same-day, not a broken streak.
+          final egg = EggModel(
+            receivedAt: twoDaysAgo,
+            hatchingStreakDays: 10,
+            lastHatchingActivityDate: DateTime(2024, 6, 15, 0, 30),
+          );
+
+          final result = service.calculateEggStreakUpdate(
+            egg,
+            DateTime(2024, 6, 14, 23),
+          );
+
+          expect(result.newStreakDays, 10);
+          expect(result.streakBroken, isFalse);
+        },
+      );
+
+      test(
         'next day increments streak by 1',
         () {
           final egg = EggModel(

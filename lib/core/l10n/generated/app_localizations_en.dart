@@ -107,7 +107,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String pointsLabel(int count) {
-    return '$count points';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count points',
+      one: '$count point',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -197,7 +203,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileDaysActive(int days) {
-    return '$days days';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '$days day',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -288,6 +300,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorAuth => 'Authentication failed. Please try again.';
+
+  @override
+  String get errorOpenLink => 'Could not open link.';
+
+  @override
+  String get errorActionTooSoon => 'Please wait a few seconds between actions.';
+
+  @override
+  String get errorOffline =>
+      'You\'re offline. Check your connection and try again.';
+
+  @override
+  String get errorAuthEmailInUse =>
+      'An account already exists with this email address.';
+
+  @override
+  String get errorAuthInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get errorAuthOperationNotAllowed =>
+      'This sign-in method is not enabled. Please contact support.';
+
+  @override
+  String get errorAuthWeakPassword =>
+      'Password is too weak. Please use at least 6 characters.';
+
+  @override
+  String get errorAuthUserDisabled =>
+      'This account has been disabled. Please contact support.';
+
+  @override
+  String get errorAuthInvalidCredentials =>
+      'Invalid email or password. Please try again.';
+
+  @override
+  String get errorAuthTooManyRequests =>
+      'Too many attempts. Please wait a moment and try again.';
+
+  @override
+  String get errorAuthNetwork =>
+      'Network error. Please check your internet connection.';
+
+  @override
+  String get errorAuthSignInCancelled => 'Sign-in was cancelled.';
+
+  @override
+  String get errorAuthAccountExistsWithDifferentCredential =>
+      'An account already exists with this email using a different sign-in method.';
+
+  @override
+  String get errorAuthLinkExpired =>
+      'This link has expired. Please request a new one.';
+
+  @override
+  String get errorAuthLinkInvalid =>
+      'This link is invalid. Please request a new one.';
 
   @override
   String get buttonSave => 'Save';
@@ -530,7 +598,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String sdgActionsLogged(int count) {
-    return '$count actions logged';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count actions logged',
+      one: '$count action logged',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -837,7 +911,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mascotLevelsToGo(int count) {
-    return '$count levels to go';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count levels to go',
+      one: '$count level to go',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1142,7 +1222,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String challengeDays(int days) {
-    return '$days days';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '$days day',
+    );
+    return '$_temp0';
   }
 
   @override

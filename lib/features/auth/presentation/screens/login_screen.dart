@@ -68,7 +68,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             _startCooldown();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(mapAuthErrorToMessage(error)),
+                content: Text(mapAuthErrorToMessage(error, l10n)),
                 backgroundColor: AppColors.error,
               ),
             );
@@ -266,49 +266,89 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  void _showForgotPasswordDialog() {
+  Future<void> _showForgotPasswordDialog() async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final emailController = TextEditingController(
       text: _emailController.text,
     );
 
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.authForgotPasswordTitle),
-        content: TextField(
-          controller: emailController,
-          decoration: InputDecoration(
-            labelText: l10n.authEmail,
-            hintText: l10n.authForgotPasswordHint,
-          ),
-          keyboardType: TextInputType.emailAddress,
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              final email = emailController.text.trim();
-              if (emailRegex.hasMatch(email)) {
-                ref.read(authProvider.notifier).sendPasswordResetEmail(email);
+    try {
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) {
+          String? errorText;
+          var isSending = false;
+
+          return StatefulBuilder(
+            builder: (dialogContext, setDialogState) {
+              Future<void> handleSend() async {
+                final email = emailController.text.trim();
+                final validationError = validateEmail(
+                  email,
+                  emptyError: l10n.authValidationEmailRequired,
+                  invalidError: l10n.authValidationEmailInvalid,
+                );
+                if (validationError != null) {
+                  setDialogState(() => errorText = validationError);
+                  return;
+                }
+
+                setDialogState(() {
+                  errorText = null;
+                  isSending = true;
+                });
+                await ref
+                    .read(authProvider.notifier)
+                    .sendPasswordResetEmail(email);
+                if (!dialogContext.mounted) return;
+
+                // Failures surface through the authProvider listener in
+                // build (mapped, localized); keep the dialog open so the
+                // user can retry or cancel.
+                if (ref.read(authProvider).hasError) {
+                  setDialogState(() => isSending = false);
+                  return;
+                }
+
                 Navigator.pop(dialogContext);
-                ScaffoldMessenger.of(context).showSnackBar(
+                messenger.showSnackBar(
                   SnackBar(
-                    content: Text(
-                      l10n.authForgotPasswordSent,
-                    ),
+                    content: Text(l10n.authForgotPasswordSent),
                   ),
                 );
               }
+
+              return AlertDialog(
+                title: Text(l10n.authForgotPasswordTitle),
+                content: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: l10n.authEmail,
+                    hintText: l10n.authForgotPasswordHint,
+                    errorText: errorText,
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: true,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed:
+                        isSending ? null : () => Navigator.pop(dialogContext),
+                    child: Text(l10n.buttonCancel),
+                  ),
+                  FilledButton(
+                    onPressed: isSending ? null : handleSend,
+                    child: Text(l10n.authForgotPasswordSend),
+                  ),
+                ],
+              );
             },
-            child: Text(l10n.authForgotPasswordSend),
-          ),
-        ],
-      ),
-    );
+          );
+        },
+      );
+    } finally {
+      emailController.dispose();
+    }
   }
 }

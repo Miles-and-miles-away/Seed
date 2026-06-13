@@ -1,5 +1,5 @@
 /// Email regex pattern matching standard email format.
-final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,}$');
 
 /// Validates an email address format.
 /// Returns null if valid, error message if invalid.

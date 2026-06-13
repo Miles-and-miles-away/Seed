@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -38,28 +40,34 @@ Future<List<EquivalencyMetadata>> impactEquivalenciesData(Ref ref) =>
     loadImpactEquivalencies();
 
 /// Stream of today's summary for the Rainbow Sun visualization.
+///
+/// Keyed on the user id so the Firestore listener survives user-doc
+/// writes; dayChangeProvider invalidates it at midnight.
 @riverpod
 Stream<DailySummaryModel?> todaySummary(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return Stream.value(null);
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) return Stream.value(null);
 
   final repository = ref.watch(progressRepositoryProvider);
-  return repository.watchTodaySummary(user.uid);
+  return repository.watchTodaySummary(userId);
 }
 
 /// User's daily goal target from their profile.
 @riverpod
 int? dailyGoalTarget(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  return user?.dailyGoalTarget;
+  return ref.watch(
+    currentUserProvider.select((user) => user.value?.dailyGoalTarget),
+  );
 }
 
 /// Whether the user needs to set up their daily goal target.
 @riverpod
 bool needsDailyTargetSetup(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return false;
-  return user.dailyGoalTarget == null;
+  final hasUser = ref.watch(
+    currentUserProvider.select((user) => user.value != null),
+  );
+  if (!hasUser) return false;
+  return ref.watch(dailyGoalTargetProvider) == null;
 }
 
 /// Currently selected month for the calendar view.
@@ -93,17 +101,20 @@ class SelectedMonth extends _$SelectedMonth {
 }
 
 /// Calendar data for the selected month.
+///
+/// Keyed on the user id; refreshed explicitly after logging an action
+/// and at day change instead of on every user-doc write.
 @riverpod
 Future<List<CalendarDayData>> monthCalendarData(Ref ref) async {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return [];
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) return [];
 
   final selectedMonth = ref.watch(selectedMonthProvider);
-  final goalTarget = user.dailyGoalTarget ?? 3;
+  final goalTarget = ref.watch(dailyGoalTargetProvider) ?? 3;
 
   final repository = ref.watch(progressRepositoryProvider);
   return repository.getMonthCalendarData(
-    userId: user.uid,
+    userId: userId,
     year: selectedMonth.year,
     month: selectedMonth.month,
     goalTarget: goalTarget,

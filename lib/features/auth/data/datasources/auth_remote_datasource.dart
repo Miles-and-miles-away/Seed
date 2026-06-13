@@ -53,10 +53,6 @@ abstract class AuthRemoteDataSource {
   /// Updates the current user's password.
   /// Requires re-authentication before calling.
   Future<void> updatePassword(String newPassword);
-
-  /// Deletes the current user's account.
-  /// Requires re-authentication before calling.
-  Future<void> deleteAccount();
 }
 
 /// Implementation of [AuthRemoteDataSource] using Firebase Auth.
@@ -240,19 +236,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     await user.updatePassword(newPassword);
-  }
-
-  @override
-  Future<void> deleteAccount() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) {
-      throw AuthException(
-        code: 'no-user',
-        message: 'No user signed in',
-      );
-    }
-
-    await user.delete();
   }
 }
 

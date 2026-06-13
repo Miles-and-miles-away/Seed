@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,9 +66,10 @@ void main() {
           ),
           actionLibraryProvider.overrideWith((ref) {
             if (isLoading) {
-              return const Stream.empty();
+              // Never completes: keeps the provider in loading state.
+              return Completer<List<ActionModel>>().future;
             }
-            return Stream.value(actions ?? testActions);
+            return Future.value(actions ?? testActions);
           }),
           filteredActionsProvider.overrideWith((ref) {
             if (isLoading) {
@@ -135,7 +138,7 @@ void main() {
           overrides: [
             currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
             actionLibraryProvider.overrideWith(
-              (ref) => Stream.value(testActions),
+              (ref) async => testActions,
             ),
             filteredActionsProvider.overrideWith(
               (ref) => AsyncValue.data(testActions),
@@ -219,7 +222,7 @@ void main() {
               (ref) => Stream.value(testUser),
             ),
             actionLibraryProvider.overrideWith(
-              (ref) => Stream.value(testActions),
+              (ref) async => testActions,
             ),
           ],
           child: MaterialApp(

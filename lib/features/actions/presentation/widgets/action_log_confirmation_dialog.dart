@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/readable_color.dart';
+import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -151,7 +154,14 @@ class _ActionLogConfirmationDialogState
                       prefixIcon: const Icon(Icons.note_add_outlined),
                     ),
                     maxLines: 2,
-                    maxLength: 200,
+                    maxLength: AppConstants.maxNoteLength,
+                    // Cap on UTF-16 units to match the Firestore rule's
+                    // .size().
+                    inputFormatters: [
+                      Utf16LengthLimitingTextInputFormatter(
+                        AppConstants.maxNoteLength,
+                      ),
+                    ],
                   ),
               ],
             ),
@@ -340,9 +350,6 @@ class _ActionLogConfirmationDialogState
   }
 
   void _onLinkTap(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri != null) {
-      launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    unawaited(openExternalUrl(context, url));
   }
 }

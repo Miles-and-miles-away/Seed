@@ -5,7 +5,6 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const _kMaxChildSize = 0.85;
 const _kMinChildSize = 0.3;
@@ -110,7 +109,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                         decoration: TextDecoration.underline,
                         decorationColor: linkColor,
                       ),
-                      onTap: _onLinkTap,
+                      onTap: (url) => openExternalUrl(context, url),
                     ),
                   ],
                 ),
@@ -120,12 +119,5 @@ class ActionScienceBottomSheet extends StatelessWidget {
         );
       },
     );
-  }
-
-  void _onLinkTap(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri != null) {
-      launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
   }
 }

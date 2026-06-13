@@ -149,11 +149,17 @@ String _$impactEquivalenciesDataHash() =>
     r'cb3716f2bff898e31491b195a97a1f6b868f8a99';
 
 /// Stream of today's summary for the Rainbow Sun visualization.
+///
+/// Keyed on the user id so the Firestore listener survives user-doc
+/// writes; dayChangeProvider invalidates it at midnight.
 
 @ProviderFor(todaySummary)
 final todaySummaryProvider = TodaySummaryProvider._();
 
 /// Stream of today's summary for the Rainbow Sun visualization.
+///
+/// Keyed on the user id so the Firestore listener survives user-doc
+/// writes; dayChangeProvider invalidates it at midnight.
 
 final class TodaySummaryProvider extends $FunctionalProvider<
         AsyncValue<DailySummaryModel?>,
@@ -163,6 +169,9 @@ final class TodaySummaryProvider extends $FunctionalProvider<
         $FutureModifier<DailySummaryModel?>,
         $StreamProvider<DailySummaryModel?> {
   /// Stream of today's summary for the Rainbow Sun visualization.
+  ///
+  /// Keyed on the user id so the Firestore listener survives user-doc
+  /// writes; dayChangeProvider invalidates it at midnight.
   TodaySummaryProvider._()
       : super(
           from: null,
@@ -189,7 +198,7 @@ final class TodaySummaryProvider extends $FunctionalProvider<
   }
 }
 
-String _$todaySummaryHash() => r'78b79acbe1d5d6d751bdaabd08b808790e6838bf';
+String _$todaySummaryHash() => r'3b0e8e06868a051c4f75fc407ea646c9c0e01bc4';
 
 /// User's daily goal target from their profile.
 
@@ -234,7 +243,7 @@ final class DailyGoalTargetProvider
   }
 }
 
-String _$dailyGoalTargetHash() => r'423f4e73583f0dc1f47ff9ef65154efe0157c1db';
+String _$dailyGoalTargetHash() => r'b0aa8c19aa93ace7fcee6f73b9d2123c46c096c5';
 
 /// Whether the user needs to set up their daily goal target.
 
@@ -280,7 +289,7 @@ final class NeedsDailyTargetSetupProvider
 }
 
 String _$needsDailyTargetSetupHash() =>
-    r'd6cfcc6a2e8e8343d6770e462d0237dbf842e8a0';
+    r'396ab74d05b5178ba75d1e1e45bed1296dec1186';
 
 /// Currently selected month for the calendar view.
 
@@ -335,11 +344,17 @@ abstract class _$SelectedMonth extends $Notifier<DateTime> {
 }
 
 /// Calendar data for the selected month.
+///
+/// Keyed on the user id; refreshed explicitly after logging an action
+/// and at day change instead of on every user-doc write.
 
 @ProviderFor(monthCalendarData)
 final monthCalendarDataProvider = MonthCalendarDataProvider._();
 
 /// Calendar data for the selected month.
+///
+/// Keyed on the user id; refreshed explicitly after logging an action
+/// and at day change instead of on every user-doc write.
 
 final class MonthCalendarDataProvider extends $FunctionalProvider<
         AsyncValue<List<CalendarDayData>>,
@@ -349,6 +364,9 @@ final class MonthCalendarDataProvider extends $FunctionalProvider<
         $FutureModifier<List<CalendarDayData>>,
         $FutureProvider<List<CalendarDayData>> {
   /// Calendar data for the selected month.
+  ///
+  /// Keyed on the user id; refreshed explicitly after logging an action
+  /// and at day change instead of on every user-doc write.
   MonthCalendarDataProvider._()
       : super(
           from: null,
@@ -375,7 +393,7 @@ final class MonthCalendarDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$monthCalendarDataHash() => r'79aea9a6cf1278cda037f8ee2b44c80883cffbe5';
+String _$monthCalendarDataHash() => r'66be10b48ed6b37d02a5d819ea6049fb80c546bf';
 
 /// Notifier to save the daily goal target.
 

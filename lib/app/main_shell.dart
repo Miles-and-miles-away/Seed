@@ -31,7 +31,8 @@ class _MainShellState extends ConsumerState<MainShell> {
   void initState() {
     super.initState();
 
-    // Start day-change tracking for midnight/resume refresh
+    // Bootstrap day-change tracking (keepAlive, so one read suffices
+    // to keep the midnight/resume refresh running for the app lifetime)
     ref.read(dayChangeProvider);
 
     // Run migration once

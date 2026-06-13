@@ -10,23 +10,35 @@ part of 'day_change_provider.dart';
 // ignore_for_file: type=lint, type=warning
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
+///
+/// Must be keepAlive: it is bootstrapped by a single `ref.read` in
+/// MainShell's initState with no listeners, so an autoDispose provider
+/// would be disposed immediately and the midnight timer would never fire.
 
 @ProviderFor(DayChangeNotifier)
 final dayChangeProvider = DayChangeNotifierProvider._();
 
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
+///
+/// Must be keepAlive: it is bootstrapped by a single `ref.read` in
+/// MainShell's initState with no listeners, so an autoDispose provider
+/// would be disposed immediately and the midnight timer would never fire.
 final class DayChangeNotifierProvider
     extends $NotifierProvider<DayChangeNotifier, String> {
   /// Tracks the current date and invalidates day-sensitive providers
   /// when the date changes (at midnight or on app resume).
+  ///
+  /// Must be keepAlive: it is bootstrapped by a single `ref.read` in
+  /// MainShell's initState with no listeners, so an autoDispose provider
+  /// would be disposed immediately and the midnight timer would never fire.
   DayChangeNotifierProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'dayChangeProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -47,10 +59,14 @@ final class DayChangeNotifierProvider
   }
 }
 
-String _$dayChangeNotifierHash() => r'16c8779e26b99d9c2a204560702165508942d340';
+String _$dayChangeNotifierHash() => r'af21dba9de1cf553bbd57cd04262c8e9b61ffb60';
 
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
+///
+/// Must be keepAlive: it is bootstrapped by a single `ref.read` in
+/// MainShell's initState with no listeners, so an autoDispose provider
+/// would be disposed immediately and the midnight timer would never fire.
 
 abstract class _$DayChangeNotifier extends $Notifier<String> {
   String build();

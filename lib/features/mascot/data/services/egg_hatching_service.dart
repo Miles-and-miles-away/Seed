@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
 import '../models/mascot_species_model.dart';
@@ -31,7 +32,6 @@ class EggHatchingService {
     EggModel egg,
     DateTime now,
   ) {
-    final today = DateTime(now.year, now.month, now.day);
     final lastActivity = egg.lastHatchingActivityDate;
 
     if (lastActivity == null) {
@@ -42,15 +42,11 @@ class EggHatchingService {
       );
     }
 
-    final lastDate = DateTime(
-      lastActivity.year,
-      lastActivity.month,
-      lastActivity.day,
-    );
-    final diff = today.difference(lastDate).inDays;
+    final diff = calendarDaysBetween(lastActivity, now);
 
-    if (diff == 0) {
-      // Same day -- no change
+    if (diff <= 0) {
+      // Same day -- no change. Negative differences happen after
+      // travelling west across timezones; not a broken streak.
       return EggStreakResult(
         newStreakDays: egg.hatchingStreakDays,
         shouldHatch:
