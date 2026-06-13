@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
@@ -11,6 +12,7 @@ import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/services/egg_hatching_service.dart';
+import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,11 +36,28 @@ class ActionLogRepository {
   final List<MascotSpeciesModel> mascotSpecies;
   final EggHatchingService eggHatchingService;
 
-  /// Watches all action logs for the current user.
+  /// Watches the most recent [limit] action logs for the user.
   Stream<List<ActionLogModel>> watchUserActionLogs(
+    String userId, {
+    required int limit,
+  }) =>
+      dataSource.watchUserActionLogs(userId, limit: limit);
+
+  /// Watches action logs whose loggedAt falls in [start, end).
+  Stream<List<ActionLogModel>> watchActionLogsForRange(
     String userId,
+    DateTime start,
+    DateTime end,
   ) =>
-      dataSource.watchUserActionLogs(userId);
+      dataSource.watchActionLogsForRange(userId, start, end);
+
+  /// Gets action logs whose loggedAt falls in [start, end).
+  Future<List<ActionLogModel>> getActionLogsForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) =>
+      dataSource.getActionLogsForRange(userId, start, end);
 
   /// Gets recent action logs for the home screen.
   Future<List<ActionLogModel>> getRecentActionLogs(
@@ -61,6 +80,9 @@ class ActionLogRepository {
     final userRef =
         firestore.collection(AppConstants.collectionUsers).doc(userId);
     final actionLogRef = dataSource.getActionLogCollection(userId).doc();
+    final summaryRef = userRef
+        .collection(AppConstants.collectionDailySummaries)
+        .doc(formatDateKey(now));
 
     final actionLog = ActionLogModel(
       id: actionLogRef.id,
@@ -78,9 +100,21 @@ class ActionLogRepository {
     var newCurrentStreak = 1;
     String? hatchedMascotId;
     var challengeCompleted = false;
+    var newTotalActionsCount = 1;
 
     await firestore.runTransaction((transaction) async {
+      // Firestore retries this closure on contention; reset the
+      // captured outputs so values from an abandoned attempt cannot
+      // leak into the result (e.g. a celebration for a hatch the
+      // final attempt did not perform).
+      crossedMilestoneWeek = null;
+      newCurrentStreak = 1;
+      hatchedMascotId = null;
+      challengeCompleted = false;
+      newTotalActionsCount = 1;
+
       final userDoc = await transaction.get(userRef);
+      final summaryDoc = await transaction.get(summaryRef);
       final userData = userDoc.data() ?? {};
 
       // 1. Global points/level -- always update. Points represent
@@ -112,6 +146,7 @@ class ActionLogRepository {
           (userData[AppConstants.fieldTotalCo2Grams] as int?) ?? 0;
       final currentActionCount =
           (userData[AppConstants.fieldTotalActionsCount] as int?) ?? 0;
+      newTotalActionsCount = currentActionCount + 1;
 
       // Per-category action counts
       final catCountsRaw = (userData[AppConstants.fieldCategoryActionCounts]
@@ -135,13 +170,16 @@ class ActionLogRepository {
         };
       }
 
-      // Base update map
+      // Base update map. lastActionDate must be the server timestamp:
+      // the rules rate-limit compares it against request.time, so a
+      // skewed device clock must not be able to lock the user out (or
+      // bypass the limit).
       final updates = <String, dynamic>{
         AppConstants.fieldPoints: newPoints,
         AppConstants.fieldLevel: newLevel,
         AppConstants.fieldCurrentStreak: streakResult.currentStreak,
         AppConstants.fieldLongestStreak: streakResult.longestStreak,
-        AppConstants.fieldLastActionDate: Timestamp.fromDate(now),
+        AppConstants.fieldLastActionDate: FieldValue.serverTimestamp(),
         AppConstants.fieldTotalCo2Grams: currentCo2 + action.co2Grams,
         AppConstants.fieldTotalActionsCount: currentActionCount + 1,
         AppConstants.fieldSdgStats: updatedSdgStats,
@@ -212,29 +250,36 @@ class ActionLogRepository {
         final eggResult = eggHatchingService.calculateEggStreakUpdate(egg, now);
 
         if (eggResult.shouldHatch) {
-          // Hatch the egg
-          final species = eggHatchingService.selectHatchingSpecies(
-            mascots.map(MascotModel.fromJson).toList(),
-            mascotSpecies,
-          );
-          final newMascotId = _uuid.v4();
-          hatchedMascotId = newMascotId;
-
-          final newMascot = MascotModel(
-            id: newMascotId,
-            speciesId: species.id,
-            createdAt: now,
-          ).toJson();
-
           // Ensure we have latest mascots list
           final currentMascots = updates.containsKey(AppConstants.fieldMascots)
               ? updates[AppConstants.fieldMascots] as List
               : mascots;
-          updates[AppConstants.fieldMascots] = [
-            ...currentMascots,
-            newMascot,
-          ];
-          updates[AppConstants.fieldEgg] = FieldValue.delete();
+          if (currentMascots.length >= AppConstants.maxMascotsPerUser) {
+            // At the mascot cap the rules would reject the whole
+            // transaction on every attempt; dispose the egg instead
+            // of hatching so logging keeps working.
+            updates[AppConstants.fieldEgg] = FieldValue.delete();
+          } else {
+            // Hatch the egg
+            final species = eggHatchingService.selectHatchingSpecies(
+              mascots.map(MascotModel.fromJson).toList(),
+              mascotSpecies,
+            );
+            final newMascotId = _uuid.v4();
+            hatchedMascotId = newMascotId;
+
+            final newMascot = MascotModel(
+              id: newMascotId,
+              speciesId: species.id,
+              createdAt: now,
+            ).toJson();
+
+            updates[AppConstants.fieldMascots] = [
+              ...currentMascots,
+              newMascot,
+            ];
+            updates[AppConstants.fieldEgg] = FieldValue.delete();
+          }
         } else {
           updates[AppConstants.fieldEgg] = {
             ...eggMap,
@@ -263,9 +308,7 @@ class ActionLogRepository {
 
         if (challenge.category == action.category) {
           challengeCompleted = true;
-          final yesterdayKey = formatDateKey(
-            now.subtract(const Duration(days: 1)),
-          );
+          final yesterdayKey = formatDateKey(previousCalendarDay(now));
           final oldStreak =
               (userData[AppConstants.fieldChallengeStreak] as int?) ?? 0;
           final newStreak =
@@ -290,20 +333,28 @@ class ActionLogRepository {
           as Map<String, dynamic>?;
       if (multiDay != null && multiDay.isNotEmpty) {
         final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String;
-        final template = multiDayChallengeTemplates.firstWhere(
-          (t) => t.id == mdTemplateId,
-        );
+        MultiDayChallengeTemplate? template;
+        for (final t in multiDayChallengeTemplates) {
+          if (t.id == mdTemplateId) {
+            template = t;
+            break;
+          }
+        }
         final lastDate =
             multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
         final todayKey2 = formatDateKey(now);
 
-        if (lastDate != todayKey2) {
+        if (template == null) {
+          // Template removed in an app update while still active for
+          // this user: clear the stale challenge instead of throwing,
+          // which would fail every subsequent log.
+          updates[AppConstants.fieldActiveMultiDayChallenge] =
+              <String, dynamic>{};
+        } else if (lastDate != todayKey2) {
           final categoryMatch =
               template.category == null || template.category == action.category;
           if (categoryMatch) {
-            final yesterdayKey = formatDateKey(
-              now.subtract(const Duration(days: 1)),
-            );
+            final yesterdayKey = formatDateKey(previousCalendarDay(now));
             final currentDay =
                 (multiDay[AppConstants.fieldCurrentDay] as int?) ?? 0;
 
@@ -336,10 +387,52 @@ class ActionLogRepository {
         }
       }
 
-      // Write action log + user updates
-      final logData = actionLog.toJson()..remove('id');
+      // Daily summary for the Progress tab, written in this same
+      // transaction (with the same `now`) so the calendar and charts
+      // can never diverge from the action log -- it was previously a
+      // separate transaction whose failures were swallowed and which
+      // could land on the wrong day across midnight.
+      final sdgNumbers =
+          action.relatedSdgs.map(int.tryParse).whereType<int>().toList();
+      final Map<String, dynamic> summaryData;
+      if (summaryDoc.exists) {
+        final existing = DailySummaryModel.fromJson(summaryDoc.data()!);
+        final categoryCo2 = Map<String, int>.from(existing.categoryCo2Grams);
+        categoryCo2[action.category] =
+            (categoryCo2[action.category] ?? 0) + action.co2Grams;
+        summaryData = existing
+            .copyWith(
+              goalCount: existing.goalCount + 1,
+              completedSdgs:
+                  {...existing.completedSdgs, ...sdgNumbers}.toList(),
+              totalPoints: existing.totalPoints + action.points,
+              totalCo2Grams: existing.totalCo2Grams + action.co2Grams,
+              categoryCo2Grams: categoryCo2,
+              updatedAt: now,
+            )
+            .toJson();
+      } else {
+        summaryData = DailySummaryModel(
+          date: formatDateKey(now),
+          goalCount: 1,
+          completedSdgs: sdgNumbers.toSet().toList(),
+          totalPoints: action.points,
+          totalCo2Grams: action.co2Grams,
+          categoryCo2Grams: {action.category: action.co2Grams},
+          createdAt: now,
+          updatedAt: now,
+        ).toJson();
+      }
+
+      // Write action log + user updates. Null fields (e.g. an absent
+      // note) are stripped: the rules validate types on present keys,
+      // and a literal null would fail the string check.
+      final logData = actionLog.toJson()
+        ..remove('id')
+        ..removeWhere((key, value) => value == null);
       transaction
         ..set(actionLogRef, logData)
+        ..set(summaryRef, summaryData)
         ..update(userRef, updates);
     });
 
@@ -349,6 +442,7 @@ class ActionLogRepository {
       newStreakDays: newCurrentStreak,
       hatchedMascotId: hatchedMascotId,
       challengeCompleted: challengeCompleted,
+      newTotalActionsCount: newTotalActionsCount,
     );
   }
 
@@ -369,6 +463,7 @@ class ActionLogResult {
     this.crossedMilestoneWeek,
     this.hatchedMascotId,
     this.challengeCompleted = false,
+    this.newTotalActionsCount = 1,
   });
 
   final ActionLogModel actionLog;
@@ -384,6 +479,10 @@ class ActionLogResult {
 
   /// Whether today's daily challenge was completed.
   final bool challengeCompleted;
+
+  /// The user's total action count after this log; lets callers wait
+  /// for the user stream to catch up before evaluating unlocks.
+  final int newTotalActionsCount;
 
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
 

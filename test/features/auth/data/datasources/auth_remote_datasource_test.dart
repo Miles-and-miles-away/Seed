@@ -194,29 +194,6 @@ void main() {
     });
   });
 
-  group('deleteAccount', () {
-    test('calls delete on current user', () async {
-      final user = _MockUser();
-      when(() => auth.currentUser).thenReturn(user);
-      when(user.delete).thenAnswer((_) async {});
-
-      await dataSource.deleteAccount();
-
-      verify(user.delete).called(1);
-    });
-
-    test('throws AuthException when no user', () async {
-      when(() => auth.currentUser).thenReturn(null);
-
-      await expectLater(
-        dataSource.deleteAccount(),
-        throwsA(
-          isA<AuthException>().having((e) => e.code, 'code', 'no-user'),
-        ),
-      );
-    });
-  });
-
   group('AuthException', () {
     test('toString includes code and message', () {
       final ex = AuthException(code: 'x', message: 'hi');

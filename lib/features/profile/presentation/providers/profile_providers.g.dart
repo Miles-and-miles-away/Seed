@@ -141,7 +141,7 @@ final class EvolutionStageProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$evolutionStageHash() => r'bd295a30ce500c9bfaef66eac59b31db31814e7a';
+String _$evolutionStageHash() => r'e1e2163c6cd7f2017f0842c40dd85b5418c9fc4b';
 
 /// Total CO2 saved across all actions (grams).
 /// Reads denormalized field from user doc instead of
@@ -286,48 +286,3 @@ final class DaysSinceJoinedProvider extends $FunctionalProvider<int, int, int>
 }
 
 String _$daysSinceJoinedHash() => r'b1ad070d990cba30297fe8e28bdeb11db2bd6836';
-
-/// Current streak bonus multiplier.
-
-@ProviderFor(streakBonus)
-final streakBonusProvider = StreakBonusProvider._();
-
-/// Current streak bonus multiplier.
-
-final class StreakBonusProvider
-    extends $FunctionalProvider<double, double, double> with $Provider<double> {
-  /// Current streak bonus multiplier.
-  StreakBonusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'streakBonusProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$streakBonusHash();
-
-  @$internal
-  @override
-  $ProviderElement<double> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  double create(Ref ref) {
-    return streakBonus(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(double value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<double>(value),
-    );
-  }
-}
-
-String _$streakBonusHash() => r'0215f392b92c728b9560397f85214f3021eb425f';

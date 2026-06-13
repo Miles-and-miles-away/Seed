@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 
 /// Remote data source for daily summaries stored in Firestore.
@@ -70,67 +69,7 @@ class DailySummaryRemoteDataSource {
         .toList();
   }
 
-  /// Create or update today's daily summary when an action is logged.
-  Future<void> incrementDailySummary({
-    required String userId,
-    required int points,
-    required int co2Grams,
-    required List<int> sdgNumbers,
-    required String category,
-  }) async {
-    final todayId = _todayDateString();
-    final docRef = _summariesCollection(userId).doc(todayId);
-
-    appLogger
-      ..debug('DailySummary: Recording action for $userId on $todayId')
-      ..debug(
-        'DailySummary: points=$points, co2=$co2Grams, '
-        'sdgs=$sdgNumbers, category=$category',
-      );
-
-    try {
-      await _firestore.runTransaction((transaction) async {
-        final doc = await transaction.get(docRef);
-
-        if (!doc.exists) {
-          // Create new summary for today
-          appLogger.debug('DailySummary: Creating new summary for today');
-          final newSummary = DailySummaryModel(
-            date: todayId,
-            goalCount: 1,
-            completedSdgs: sdgNumbers.toSet().toList(),
-            totalPoints: points,
-            totalCo2Grams: co2Grams,
-            categoryCo2Grams: {category: co2Grams},
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-          );
-          transaction.set(docRef, newSummary.toJson());
-        } else {
-          // Update existing summary
-          appLogger.debug('DailySummary: Updating existing summary');
-          final existing = DailySummaryModel.fromJson(doc.data()!);
-          final updatedSdgs =
-              {...existing.completedSdgs, ...sdgNumbers}.toList();
-          transaction.update(docRef, {
-            AppConstants.fieldGoalCount: FieldValue.increment(1),
-            AppConstants.fieldCompletedSdgs: updatedSdgs,
-            AppConstants.fieldTotalPoints: FieldValue.increment(points),
-            AppConstants.fieldTotalCo2Grams: FieldValue.increment(co2Grams),
-            '${AppConstants.fieldCategoryCo2Grams}.$category':
-                FieldValue.increment(co2Grams),
-            AppConstants.fieldUpdatedAt: FieldValue.serverTimestamp(),
-          });
-        }
-      });
-      appLogger.debug('DailySummary: Transaction completed');
-    } catch (e, stack) {
-      appLogger.error(
-        'DailySummary transaction failed',
-        error: e,
-        stackTrace: stack,
-      );
-      rethrow;
-    }
-  }
+  // NOTE: summary increments on action logging happen inside
+  // ActionLogRepository.logAction's transaction so they can never
+  // diverge from the action log; this data source only reads.
 }

@@ -137,12 +137,20 @@ final class MascotMigrationServiceProvider extends $FunctionalProvider<
 String _$mascotMigrationServiceHash() =>
     r'45636093b4f5698f35b751bd4b75f0a9166215a0';
 
-/// Streams all mascots for the current user.
+/// All mascots for the current user.
+///
+/// Derived from the user document already streamed by
+/// [currentUserProvider]; opening a second Firestore listener on the
+/// same document would only duplicate decode work.
 
 @ProviderFor(allMascots)
 final allMascotsProvider = AllMascotsProvider._();
 
-/// Streams all mascots for the current user.
+/// All mascots for the current user.
+///
+/// Derived from the user document already streamed by
+/// [currentUserProvider]; opening a second Firestore listener on the
+/// same document would only duplicate decode work.
 
 final class AllMascotsProvider extends $FunctionalProvider<
         AsyncValue<List<MascotModel>>,
@@ -151,7 +159,11 @@ final class AllMascotsProvider extends $FunctionalProvider<
     with
         $FutureModifier<List<MascotModel>>,
         $StreamProvider<List<MascotModel>> {
-  /// Streams all mascots for the current user.
+  /// All mascots for the current user.
+  ///
+  /// Derived from the user document already streamed by
+  /// [currentUserProvider]; opening a second Firestore listener on the
+  /// same document would only duplicate decode work.
   AllMascotsProvider._()
       : super(
           from: null,
@@ -178,19 +190,19 @@ final class AllMascotsProvider extends $FunctionalProvider<
   }
 }
 
-String _$allMascotsHash() => r'1590a305c69631a63b1aa45a050c423148f87d53';
+String _$allMascotsHash() => r'cbef656f60a6cff78533a1b79d40205f8a238c7a';
 
-/// Streams the active mascot for the current user.
+/// The active mascot for the current user (derived, see [allMascots]).
 
 @ProviderFor(activeMascot)
 final activeMascotProvider = ActiveMascotProvider._();
 
-/// Streams the active mascot for the current user.
+/// The active mascot for the current user (derived, see [allMascots]).
 
 final class ActiveMascotProvider extends $FunctionalProvider<
         AsyncValue<MascotModel?>, MascotModel?, Stream<MascotModel?>>
     with $FutureModifier<MascotModel?>, $StreamProvider<MascotModel?> {
-  /// Streams the active mascot for the current user.
+  /// The active mascot for the current user (derived, see [allMascots]).
   ActiveMascotProvider._()
       : super(
           from: null,
@@ -217,7 +229,7 @@ final class ActiveMascotProvider extends $FunctionalProvider<
   }
 }
 
-String _$activeMascotHash() => r'e60b8622292ebc8d5ceb74051e00ab00f99c5709';
+String _$activeMascotHash() => r'cc4ca666e43720f6a60c273957d597dfd745cf5e';
 
 /// Whether the current user has at least one mascot.
 
@@ -1042,7 +1054,7 @@ final class MascotNotifierProvider
   }
 }
 
-String _$mascotNotifierHash() => r'1b819ca8e3eead92432d3a512b03390668cff882';
+String _$mascotNotifierHash() => r'220d65ef0dd54f9d6e665e666848f3759a5b67b5';
 
 abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();
@@ -1092,7 +1104,7 @@ final class MascotAnimationTriggerProvider
 }
 
 String _$mascotAnimationTriggerHash() =>
-    r'a3ea3595a2823e2a91090665ce78295e032b9b83';
+    r'5a731cd1cd6cb04ba255ed8ef6f5d59e5a05b4fb';
 
 abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
   bool build();

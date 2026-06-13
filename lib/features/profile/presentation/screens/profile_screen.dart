@@ -11,6 +11,7 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
+import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
 
@@ -84,8 +85,10 @@ class ProfileScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(
-          child: ErrorDisplay(),
+        error: (_, __) => Center(
+          child: ErrorDisplay(
+            onRetry: () => ref.invalidate(currentUserProvider),
+          ),
         ),
       ),
     );
@@ -99,6 +102,7 @@ class ProfileScreen extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     final displayName = user.displayName ?? user.email.split('@').first;
+    final locale = Localizations.localeOf(context).toString();
 
     return Container(
       padding: const EdgeInsets.all(spacingXl),
@@ -157,7 +161,8 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: spacingSm),
                       Text(
-                        '${l10n.profileMemberSince} ${DateFormat.yMMMd().format(user.createdAt!)}',
+                        '${l10n.profileMemberSince} '
+                        '${DateFormat.yMMMd(locale).format(user.createdAt!)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onPrimaryContainer
                               .withValues(alpha: opacityStrong),
@@ -302,7 +307,14 @@ class ProfileScreen extends ConsumerWidget {
         StatCardRow(
           left: StatCard(
             icon: Icons.local_fire_department,
-            value: '${user.currentStreak}',
+            // displayedStreak shows 0 once a missed day has already
+            // broken the streak (the stored value is only corrected
+            // at the next log).
+            value: '${StreakService.instance.displayedStreak(
+              storedStreak: user.currentStreak,
+              lastActionDate: user.lastActionDate,
+              now: DateTime.now(),
+            )}',
             label: l10n.profileCurrentStreak,
             iconColor: Colors.orange,
           ),

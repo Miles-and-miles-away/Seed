@@ -1,6 +1,6 @@
 {
   "@@locale": "es",
-  "@@last_modified": "2025-01-27",
+  "@@last_modified": "2026-06-12",
   "appTitle": "Seed",
   "appTagline": "Cultiva tus hábitos sostenibles",
   "navHome": "Inicio",
@@ -46,7 +46,7 @@
   "yesterday": "Ayer",
   "addNoteOptional": "Añadir una nota (opcional)",
   "noteHint": "Ej.: Usé mi propia bolsa en la tienda",
-  "pointsLabel": "{count} puntos",
+  "pointsLabel": "{count, plural, one{{count} punto} other{{count} puntos}}",
   "@pointsLabel": {
     "placeholders": {
       "count": {
@@ -120,7 +120,7 @@
       }
     }
   },
-  "profileDaysActive": "{days} días",
+  "profileDaysActive": "{days, plural, one{{days} día} other{{days} días}}",
   "@profileDaysActive": {
     "placeholders": {
       "days": {
@@ -164,6 +164,21 @@
   "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
   "errorNetwork": "Sin conexión a internet.",
   "errorAuth": "Error de autenticación. Por favor intenta de nuevo.",
+  "errorOpenLink": "No se pudo abrir el enlace.",
+  "errorActionTooSoon": "Espera unos segundos entre acciones.",
+  "errorOffline": "Sin conexión. Comprueba tu conexión e inténtalo de nuevo.",
+  "errorAuthEmailInUse": "Ya existe una cuenta con este correo electrónico.",
+  "errorAuthInvalidEmail": "Por favor ingresa un correo electrónico válido.",
+  "errorAuthOperationNotAllowed": "Este método de inicio de sesión no está habilitado. Por favor contacta a soporte.",
+  "errorAuthWeakPassword": "La contraseña es muy débil. Por favor usa al menos 6 caracteres.",
+  "errorAuthUserDisabled": "Esta cuenta ha sido deshabilitada. Por favor contacta a soporte.",
+  "errorAuthInvalidCredentials": "Correo o contraseña inválidos. Por favor intenta de nuevo.",
+  "errorAuthTooManyRequests": "Demasiados intentos. Por favor espera un momento e intenta de nuevo.",
+  "errorAuthNetwork": "Error de red. Por favor verifica tu conexión a internet.",
+  "errorAuthSignInCancelled": "Se canceló el inicio de sesión.",
+  "errorAuthAccountExistsWithDifferentCredential": "Ya existe una cuenta con este correo usando otro método de inicio de sesión.",
+  "errorAuthLinkExpired": "Este enlace ha expirado. Por favor solicita uno nuevo.",
+  "errorAuthLinkInvalid": "Este enlace es inválido. Por favor solicita uno nuevo.",
   "buttonSave": "Guardar",
   "buttonCancel": "Cancelar",
   "buttonConfirm": "Confirmar",
@@ -271,7 +286,7 @@
   "allCategories": "Todos",
   "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Tu impacto",
-  "sdgActionsLogged": "{count} acciones registradas",
+  "sdgActionsLogged": "{count, plural, one{{count} acción registrada} other{{count} acciones registradas}}",
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
@@ -439,7 +454,7 @@
       }
     }
   },
-  "mascotLevelsToGo": "{count} niveles restantes",
+  "mascotLevelsToGo": "{count, plural, one{{count} nivel restante} other{{count} niveles restantes}}",
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
@@ -588,7 +603,7 @@
   "challengeAvailable": "Disponible",
   "challengeAbandon": "Abandonar",
   "challengeAbandonConfirm": "Abandonar este desafío? Se perderá el progreso.",
-  "challengeDays": "{days} días",
+  "challengeDays": "{days, plural, one{{days} día} other{{days} días}}",
   "@challengeDays": {
     "placeholders": {
       "days": {

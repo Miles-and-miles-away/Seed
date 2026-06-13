@@ -36,8 +36,22 @@ void main() {
       expect(run('user-name@sub.example.com'), isNull);
     });
 
+    test('accepts TLDs longer than 4 characters', () {
+      expect(run('user@example.email'), isNull);
+      expect(run('curator@example.museum'), isNull);
+      expect(run('studio@example.design'), isNull);
+    });
+
     test('trims leading and trailing whitespace before matching', () {
       expect(run('  alice@example.com '), isNull);
+      // A trailing autocomplete space must not fail validation.
+      expect(run('alice@example.com '), isNull);
+    });
+
+    test('still rejects malformed addresses', () {
+      expect(run('user@example.'), 'invalid');
+      expect(run('user@@example.com'), 'invalid');
+      expect(run('user name@example.com'), 'invalid');
     });
 
     test('rejects TLDs shorter than 2 characters', () {

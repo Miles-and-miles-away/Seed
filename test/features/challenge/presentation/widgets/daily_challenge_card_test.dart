@@ -183,6 +183,10 @@ void main() {
         uid: 'test-uid',
         email: 'test@example.com',
         challengeStreak: 5,
+        // A live streak requires a recent completion -- yesterday, so
+        // today's challenge still renders as in-progress.
+        challengeCompletedDate:
+            formatDateKey(DateTime.now().subtract(const Duration(days: 1))),
       );
 
       await tester.pumpWidget(buildCard(user: user));

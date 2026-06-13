@@ -8,24 +8,33 @@ part of 'eco_fact_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Loads and caches all 365 eco-facts from the JSON asset.
+/// Loads and caches all eco-facts from the JSON asset.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 440 KB asset on every screen revisit.
 
 @ProviderFor(ecoFacts)
 final ecoFactsProvider = EcoFactsProvider._();
 
-/// Loads and caches all 365 eco-facts from the JSON asset.
+/// Loads and caches all eco-facts from the JSON asset.
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 440 KB asset on every screen revisit.
 
 final class EcoFactsProvider extends $FunctionalProvider<
         AsyncValue<List<EcoFact>>, List<EcoFact>, FutureOr<List<EcoFact>>>
     with $FutureModifier<List<EcoFact>>, $FutureProvider<List<EcoFact>> {
-  /// Loads and caches all 365 eco-facts from the JSON asset.
+  /// Loads and caches all eco-facts from the JSON asset.
+  ///
+  /// keepAlive: static bundled data; autoDispose would re-parse the
+  /// 440 KB asset on every screen revisit.
   EcoFactsProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'ecoFactsProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -45,7 +54,7 @@ final class EcoFactsProvider extends $FunctionalProvider<
   }
 }
 
-String _$ecoFactsHash() => r'53dd0477138c84f0af006ed6564a2f42a2074847';
+String _$ecoFactsHash() => r'e2bb12edc8d9ca1778e6ef1a985b75498586d6a5';
 
 /// Today's eco-fact based on the day of year.
 
@@ -83,7 +92,7 @@ final class TodayEcoFactProvider extends $FunctionalProvider<
   }
 }
 
-String _$todayEcoFactHash() => r'723b1a0d55ce424a2e7e705b70a163763b9965a8';
+String _$todayEcoFactHash() => r'27318a29d0467a0360c2f78ff06f36b622be7f47';
 
 /// Whether today's fact has been viewed.
 

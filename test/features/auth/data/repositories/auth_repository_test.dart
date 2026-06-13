@@ -341,28 +341,24 @@ void main() {
   });
 
   group('deleteAccount', () {
-    test('deletes Firestore doc before Firebase account', () async {
-      final currentUser = fakeFirebaseUser();
-      when(() => authDs.currentUser).thenReturn(currentUser);
-      when(() => userDs.deleteUser(uid)).thenAnswer((_) async {});
-      when(() => authDs.deleteAccount()).thenAnswer((_) async {});
+    test('runs the server-side deletion then signs out locally', () async {
+      when(() => userDs.deleteUser()).thenAnswer((_) async {});
+      when(() => authDs.signOut()).thenAnswer((_) async {});
 
       await repository.deleteAccount();
 
       verifyInOrder([
-        () => userDs.deleteUser(uid),
-        () => authDs.deleteAccount(),
+        () => userDs.deleteUser(),
+        () => authDs.signOut(),
       ]);
     });
 
-    test('still calls auth deleteAccount when no current user', () async {
-      when(() => authDs.currentUser).thenReturn(null);
-      when(() => authDs.deleteAccount()).thenAnswer((_) async {});
+    test('does not sign out when the server-side deletion fails', () async {
+      when(() => userDs.deleteUser()).thenThrow(Exception('unavailable'));
 
-      await repository.deleteAccount();
+      await expectLater(repository.deleteAccount(), throwsA(isA<Exception>()));
 
-      verifyNever(() => userDs.deleteUser(any()));
-      verify(() => authDs.deleteAccount()).called(1);
+      verifyNever(() => authDs.signOut());
     });
   });
 

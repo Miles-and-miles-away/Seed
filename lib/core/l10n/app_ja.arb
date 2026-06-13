@@ -1,6 +1,6 @@
 {
   "@@locale": "ja",
-  "@@last_modified": "2025-01-18",
+  "@@last_modified": "2026-06-12",
 
   "appTitle": "Seed",
   "appTagline": "サステナブルな習慣を育てよう",
@@ -48,7 +48,7 @@
   "addNoteOptional": "メモを追加（任意）",
   "noteHint": "例：お店でマイバッグを使った",
 
-  "pointsLabel": "{count}ポイント",
+  "pointsLabel": "{count, plural, other{{count}ポイント}}",
   "@pointsLabel": {
     "placeholders": {
       "count": {"type": "int"}
@@ -111,7 +111,7 @@
       "points": {"type": "int"}
     }
   },
-  "profileDaysActive": "{days}日",
+  "profileDaysActive": "{days, plural, other{{days}日}}",
   "@profileDaysActive": {
     "placeholders": {
       "days": {"type": "int"}
@@ -155,6 +155,21 @@
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
   "errorNetwork": "インターネット接続がありません。",
   "errorAuth": "認証に失敗しました。もう一度お試しください。",
+  "errorOpenLink": "リンクを開けませんでした。",
+  "errorActionTooSoon": "アクションの記録は数秒おいてから行ってください。",
+  "errorOffline": "オフラインです。接続を確認してもう一度お試しください。",
+  "errorAuthEmailInUse": "このメールアドレスは既に登録されています。",
+  "errorAuthInvalidEmail": "有効なメールアドレスを入力してください。",
+  "errorAuthOperationNotAllowed": "このサインイン方法は有効になっていません。サポートにお問い合わせください。",
+  "errorAuthWeakPassword": "パスワードが弱すぎます。6文字以上で設定してください。",
+  "errorAuthUserDisabled": "このアカウントは無効化されています。サポートにお問い合わせください。",
+  "errorAuthInvalidCredentials": "メールアドレスまたはパスワードが正しくありません。もう一度お試しください。",
+  "errorAuthTooManyRequests": "試行回数が多すぎます。しばらく待ってからもう一度お試しください。",
+  "errorAuthNetwork": "ネットワークエラーです。インターネット接続を確認してください。",
+  "errorAuthSignInCancelled": "サインインがキャンセルされました。",
+  "errorAuthAccountExistsWithDifferentCredential": "このメールアドレスは別のサインイン方法で既に登録されています。",
+  "errorAuthLinkExpired": "このリンクは有効期限が切れています。新しいリンクをリクエストしてください。",
+  "errorAuthLinkInvalid": "このリンクは無効です。新しいリンクをリクエストしてください。",
 
   "buttonSave": "保存",
   "buttonCancel": "キャンセル",
@@ -263,7 +278,7 @@
   "co2PerAction": "{amount}g CO₂",
 
   "sdgYourImpact": "あなたの影響",
-  "sdgActionsLogged": "{count}件のアクションを記録",
+  "sdgActionsLogged": "{count, plural, other{{count}件のアクションを記録}}",
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {"type": "int"}
@@ -422,7 +437,7 @@
       "level": {"type": "int"}
     }
   },
-  "mascotLevelsToGo": "あと{count}レベル",
+  "mascotLevelsToGo": "{count, plural, other{あと{count}レベル}}",
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {"type": "int"}
@@ -561,7 +576,7 @@
   "challengeAvailable": "利用可能",
   "challengeAbandon": "中断",
   "challengeAbandonConfirm": "このチャレンジを中断しますか？進捗は失われます。",
-  "challengeDays": "{days}日間",
+  "challengeDays": "{days, plural, other{{days}日間}}",
   "@challengeDays": {
     "placeholders": {
       "days": {"type": "int"}

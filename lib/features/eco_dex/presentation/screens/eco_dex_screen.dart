@@ -19,31 +19,47 @@ class EcoDexScreen extends ConsumerWidget {
     final locale = l10n.localeName;
     final ecoDexAsync = ref.watch(ecoDexDataProvider);
 
+    // Slivers keep entry-card construction lazy: only the grid tiles
+    // near the viewport are built, instead of every entry at once.
     return ecoDexAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const Center(child: ErrorDisplay()),
-      data: (data) => SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: spacingLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: spacingLg),
-            const EcoDexProgressHeader(),
-            const SizedBox(height: spacingXl),
-            const EcoDexNextUpSection(),
-            const SizedBox(height: spacingXl),
-            ...data.categories.map((category) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: spacingXl),
-                child: EcoDexCategorySection(
-                  category: category,
-                  locale: locale,
-                ),
-              );
-            }),
-            const SizedBox(height: spacingLg),
-          ],
+      error: (_, __) => Center(
+        child: ErrorDisplay(
+          onRetry: () => ref.invalidate(ecoDexDataProvider),
         ),
+      ),
+      data: (data) => CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: spacingLg),
+            sliver: SliverMainAxisGroup(
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: spacingLg),
+                ),
+                const SliverToBoxAdapter(child: EcoDexProgressHeader()),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: spacingXl),
+                ),
+                const SliverToBoxAdapter(child: EcoDexNextUpSection()),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: spacingXl),
+                ),
+                for (final category in data.categories)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: spacingXl),
+                    sliver: EcoDexCategorySection(
+                      category: category,
+                      locale: locale,
+                    ),
+                  ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: spacingLg),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

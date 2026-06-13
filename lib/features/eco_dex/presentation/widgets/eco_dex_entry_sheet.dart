@@ -4,7 +4,6 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const double _sheetImageSize = 160;
 
@@ -111,10 +110,6 @@ class EcoDexEntrySheet extends StatelessWidget {
     );
   }
 
-  Future<void> _openSource(BuildContext context) async {
-    final uri = Uri.tryParse(entry.sourceUrl);
-    if (uri != null && await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
+  Future<void> _openSource(BuildContext context) =>
+      openExternalUrl(context, entry.sourceUrl);
 }

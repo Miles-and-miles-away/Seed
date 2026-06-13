@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 
 part 'profile_providers.g.dart';
 
@@ -24,9 +25,10 @@ int pointsToNextLevel(Ref ref) {
 /// Current mascot evolution stage (1-4).
 @riverpod
 int evolutionStage(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return 1;
-  return getEvolutionStage(user.level);
+  // Mirror the mascot screens: derive the stage from the ACTIVE mascot's
+  // level, not the global account level -- they diverge once a second
+  // mascot hatches. Falls back to stage 1 when there is no mascot yet.
+  return ref.watch(activeMascotStageProvider);
 }
 
 /// Total CO2 saved across all actions (grams).
@@ -52,12 +54,4 @@ int daysSinceJoined(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
   if (user == null || user.createdAt == null) return 0;
   return DateTime.now().difference(user.createdAt!).inDays;
-}
-
-/// Current streak bonus multiplier.
-@riverpod
-double streakBonus(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return 1;
-  return calculateStreakBonus(user.currentStreak);
 }

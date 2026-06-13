@@ -39,20 +39,16 @@ SettingsRepository settingsRepository(Ref ref) {
 
 /// Stream of the current user's settings.
 /// Returns default settings if no settings are found.
+///
+/// Keyed on the user id (not the whole user document) so the settings
+/// listener survives unrelated user-doc writes.
 @riverpod
 Stream<UserSettingsModel> userSettings(Ref ref) {
-  final currentUser = ref.watch(currentUserProvider);
-
-  return currentUser.when(
-    data: (user) {
-      if (user == null) {
-        return Stream.value(UserSettingsModel.defaultSettings());
-      }
-      return ref.watch(settingsRepositoryProvider).watchSettings(user.uid);
-    },
-    loading: () => Stream.value(UserSettingsModel.defaultSettings()),
-    error: (_, __) => Stream.value(UserSettingsModel.defaultSettings()),
-  );
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) {
+    return Stream.value(UserSettingsModel.defaultSettings());
+  }
+  return ref.watch(settingsRepositoryProvider).watchSettings(userId);
 }
 
 /// Returns the list of enabled reminder schedules.

@@ -24,7 +24,9 @@ class ActionLogItem extends StatelessWidget {
     final theme = Theme.of(context);
     final category = ActionCategory.fromString(actionLog.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
-    final timeFormat = DateFormat.jm();
+    final timeFormat = DateFormat.jm(
+      Localizations.localeOf(context).toString(),
+    );
 
     return Card(
       margin: const EdgeInsets.symmetric(

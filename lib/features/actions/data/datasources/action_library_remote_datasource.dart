@@ -8,6 +8,9 @@ abstract class ActionLibraryRemoteDataSource {
   /// Watches all active actions from the library.
   Stream<List<ActionModel>> watchActions();
 
+  /// Gets all active actions from the library once.
+  Future<List<ActionModel>> getActions();
+
   /// Gets a single action by ID.
   Future<ActionModel?> getAction(String id);
 }
@@ -31,6 +34,15 @@ class ActionLibraryRemoteDataSourceImpl
         .map((snapshot) {
       return snapshot.docs.map(ActionModel.fromFirestore).toList();
     });
+  }
+
+  @override
+  Future<List<ActionModel>> getActions() async {
+    final snapshot = await _collection
+        .where(AppConstants.fieldIsActive, isEqualTo: true)
+        .orderBy(AppConstants.fieldSortOrder)
+        .get();
+    return snapshot.docs.map(ActionModel.fromFirestore).toList();
   }
 
   @override

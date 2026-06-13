@@ -6,6 +6,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -221,8 +222,8 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     try {
       await ref.read(authProvider.notifier).updateDisplayName(displayName);
       message = l10n.accountSettingsDisplayNameUpdated;
-    } on Exception {
-      message = l10n.errorGeneric;
+    } on Exception catch (e) {
+      message = mapAuthErrorToMessage(e, l10n);
     }
 
     if (!mounted) return;
@@ -263,10 +264,11 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         newEmailController,
       )) {
         if (!mounted) break;
+        // Trim emails to match what the dialog validators accepted.
         final saved = await _changeEmail(
-          currentEmailController.text,
+          currentEmailController.text.trim(),
           passwordController.text,
-          newEmailController.text,
+          newEmailController.text.trim(),
         );
         if (saved || !mounted) break;
         passwordController.clear();
@@ -379,10 +381,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         );
       }
       return true;
-    } on Exception {
+    } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.errorGeneric)),
+          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
         );
       }
       return false;
@@ -409,8 +411,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         confirmPasswordController,
       )) {
         if (!mounted) break;
+        // Trim the email to match what the dialog validator accepted.
         final saved = await _changePassword(
-          currentEmailController.text,
+          currentEmailController.text.trim(),
           currentPasswordController.text,
           newPasswordController.text,
         );
@@ -547,10 +550,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         );
       }
       return true;
-    } on Exception {
+    } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.errorGeneric)),
+          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
         );
       }
       return false;
@@ -579,8 +582,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         isEmailPasswordUser,
       )) {
         if (!mounted) break;
+        // Trim the email to match what the dialog validator accepted.
         final deleted = await _deleteAccount(
-          emailController.text,
+          emailController.text.trim(),
           passwordController.text,
           isEmailPasswordUser,
         );
@@ -706,10 +710,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         context.go(appRoutes.login);
       }
       return true;
-    } on Exception {
+    } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.errorGeneric)),
+          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
         );
       }
       return false;

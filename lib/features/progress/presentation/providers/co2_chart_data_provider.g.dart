@@ -16,9 +16,12 @@ part of 'co2_chart_data_provider.dart';
 /// window contributes one point; missing days are simply absent.
 /// The average is taken across days with data only -- folding in
 /// implicit zeros would pull the line down for users who skip days.
+/// One fetch of the trend window shared by the trend and category
+/// charts (they previously each ran the identical query). Keyed on
+/// the user id; refreshed explicitly after logging and at day change.
 
-@ProviderFor(co2TrendData)
-final co2TrendDataProvider = Co2TrendDataFamily._();
+@ProviderFor(trendWindowSummaries)
+final trendWindowSummariesProvider = TrendWindowSummariesFamily._();
 
 /// Daily-points + average for the trend scatter chart.
 ///
@@ -28,10 +31,17 @@ final co2TrendDataProvider = Co2TrendDataFamily._();
 /// window contributes one point; missing days are simply absent.
 /// The average is taken across days with data only -- folding in
 /// implicit zeros would pull the line down for users who skip days.
+/// One fetch of the trend window shared by the trend and category
+/// charts (they previously each ran the identical query). Keyed on
+/// the user id; refreshed explicitly after logging and at day change.
 
-final class Co2TrendDataProvider extends $FunctionalProvider<
-        AsyncValue<Co2TrendData>, Co2TrendData, FutureOr<Co2TrendData>>
-    with $FutureModifier<Co2TrendData>, $FutureProvider<Co2TrendData> {
+final class TrendWindowSummariesProvider extends $FunctionalProvider<
+        AsyncValue<List<DailySummaryModel>>,
+        List<DailySummaryModel>,
+        FutureOr<List<DailySummaryModel>>>
+    with
+        $FutureModifier<List<DailySummaryModel>>,
+        $FutureProvider<List<DailySummaryModel>> {
   /// Daily-points + average for the trend scatter chart.
   ///
   /// The window is a rolling N-day range tied to the dashboard's
@@ -40,6 +50,111 @@ final class Co2TrendDataProvider extends $FunctionalProvider<
   /// window contributes one point; missing days are simply absent.
   /// The average is taken across days with data only -- folding in
   /// implicit zeros would pull the line down for users who skip days.
+  /// One fetch of the trend window shared by the trend and category
+  /// charts (they previously each ran the identical query). Keyed on
+  /// the user id; refreshed explicitly after logging and at day change.
+  TrendWindowSummariesProvider._(
+      {required TrendWindowSummariesFamily super.from,
+      required TimePeriod super.argument})
+      : super(
+          retry: null,
+          name: r'trendWindowSummariesProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$trendWindowSummariesHash();
+
+  @override
+  String toString() {
+    return r'trendWindowSummariesProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<DailySummaryModel>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<DailySummaryModel>> create(Ref ref) {
+    final argument = this.argument as TimePeriod;
+    return trendWindowSummaries(
+      ref,
+      argument,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TrendWindowSummariesProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$trendWindowSummariesHash() =>
+    r'143cdd5145ce40efca72dee7f5bd147d9704f133';
+
+/// Daily-points + average for the trend scatter chart.
+///
+/// The window is a rolling N-day range tied to the dashboard's
+/// [TimePeriod] selection (7 / 30 / 90 days -- see
+/// [TimePeriodRange.trendWindowDays]). Each daily summary in the
+/// window contributes one point; missing days are simply absent.
+/// The average is taken across days with data only -- folding in
+/// implicit zeros would pull the line down for users who skip days.
+/// One fetch of the trend window shared by the trend and category
+/// charts (they previously each ran the identical query). Keyed on
+/// the user id; refreshed explicitly after logging and at day change.
+
+final class TrendWindowSummariesFamily extends $Family
+    with
+        $FunctionalFamilyOverride<FutureOr<List<DailySummaryModel>>,
+            TimePeriod> {
+  TrendWindowSummariesFamily._()
+      : super(
+          retry: null,
+          name: r'trendWindowSummariesProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  /// Daily-points + average for the trend scatter chart.
+  ///
+  /// The window is a rolling N-day range tied to the dashboard's
+  /// [TimePeriod] selection (7 / 30 / 90 days -- see
+  /// [TimePeriodRange.trendWindowDays]). Each daily summary in the
+  /// window contributes one point; missing days are simply absent.
+  /// The average is taken across days with data only -- folding in
+  /// implicit zeros would pull the line down for users who skip days.
+  /// One fetch of the trend window shared by the trend and category
+  /// charts (they previously each ran the identical query). Keyed on
+  /// the user id; refreshed explicitly after logging and at day change.
+
+  TrendWindowSummariesProvider call(
+    TimePeriod period,
+  ) =>
+      TrendWindowSummariesProvider._(argument: period, from: this);
+
+  @override
+  String toString() => r'trendWindowSummariesProvider';
+}
+
+@ProviderFor(co2TrendData)
+final co2TrendDataProvider = Co2TrendDataFamily._();
+
+final class Co2TrendDataProvider extends $FunctionalProvider<
+        AsyncValue<Co2TrendData>, Co2TrendData, FutureOr<Co2TrendData>>
+    with $FutureModifier<Co2TrendData>, $FutureProvider<Co2TrendData> {
   Co2TrendDataProvider._(
       {required Co2TrendDataFamily super.from,
       required TimePeriod super.argument})
@@ -87,16 +202,7 @@ final class Co2TrendDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$co2TrendDataHash() => r'39fd77610bba646a0290f2d52dbd86883eeca5ab';
-
-/// Daily-points + average for the trend scatter chart.
-///
-/// The window is a rolling N-day range tied to the dashboard's
-/// [TimePeriod] selection (7 / 30 / 90 days -- see
-/// [TimePeriodRange.trendWindowDays]). Each daily summary in the
-/// window contributes one point; missing days are simply absent.
-/// The average is taken across days with data only -- folding in
-/// implicit zeros would pull the line down for users who skip days.
+String _$co2TrendDataHash() => r'ad43d239e03e92d476a3fab3390af372052f278f';
 
 final class Co2TrendDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2TrendData>, TimePeriod> {
@@ -108,15 +214,6 @@ final class Co2TrendDataFamily extends $Family
           $allTransitiveDependencies: null,
           isAutoDispose: true,
         );
-
-  /// Daily-points + average for the trend scatter chart.
-  ///
-  /// The window is a rolling N-day range tied to the dashboard's
-  /// [TimePeriod] selection (7 / 30 / 90 days -- see
-  /// [TimePeriodRange.trendWindowDays]). Each daily summary in the
-  /// window contributes one point; missing days are simply absent.
-  /// The average is taken across days with data only -- folding in
-  /// implicit zeros would pull the line down for users who skip days.
 
   Co2TrendDataProvider call(
     TimePeriod period,
@@ -203,7 +300,7 @@ final class Co2CategoryDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$co2CategoryDataHash() => r'2bd9438347913233dcab0d3b682a4da6701abd9a';
+String _$co2CategoryDataHash() => r'4fb62169425be95cd5531b04e6734efbcc88708d';
 
 /// Top-N category breakdown for the donut, aggregated across daily
 /// summaries in the same trend window as [co2TrendData].

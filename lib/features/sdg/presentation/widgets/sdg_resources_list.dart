@@ -5,7 +5,6 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Displays a list of external resources for an SDG.
 class SdgResourcesList extends ConsumerWidget {
@@ -95,7 +94,7 @@ class _ResourceTile extends StatelessWidget {
         borderRadius: borderRadiusMd,
         child: InkWell(
           borderRadius: borderRadiusMd,
-          onTap: () => _launchUrl(resource.url),
+          onTap: () => openExternalUrl(context, resource.url),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: spacingLg,
@@ -119,15 +118,5 @@ class _ResourceTile extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _launchUrl(String urlString) async {
-    final url = Uri.parse(urlString);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-    }
   }
 }

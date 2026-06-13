@@ -13,6 +13,8 @@ import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 
@@ -73,22 +75,45 @@ Future<ActionLogRepository> actionLogRepository(Ref ref) async {
 // Stream Providers
 // =============================================================================
 
-/// Watches all active actions from the action library.
-@riverpod
-Stream<List<ActionModel>> actionLibrary(Ref ref) {
-  return ref.watch(actionLibraryRepositoryProvider).watchActions();
+/// Page size for the action history; each "load more" extends the
+/// live query by this many entries.
+const actionHistoryPageSize = 50;
+
+/// Loads the active actions from the action library.
+///
+/// keepAlive + one-shot get: the library is read-only reference data,
+/// so a persistent snapshots() listener adds overhead for no benefit.
+/// Content changes ship with reseeds and are picked up on app start.
+@Riverpod(keepAlive: true)
+Future<List<ActionModel>> actionLibrary(Ref ref) {
+  return ref.watch(actionLibraryRepositoryProvider).getActions();
 }
 
-/// Watches action logs for the current user.
+/// How many pages of history the user has requested.
+@riverpod
+class ActionHistoryPages extends _$ActionHistoryPages {
+  @override
+  int build() => 1;
+
+  void loadMore() => state++;
+}
+
+/// Watches action logs for the current user, bounded to the requested
+/// number of history pages (the log grows forever; streaming it whole
+/// scales cost and memory with user loyalty).
 @riverpod
 Stream<List<ActionLogModel>> userActionLogs(Ref ref) async* {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) {
     yield [];
     return;
   }
+  final pages = ref.watch(actionHistoryPagesProvider);
   final repo = await ref.watch(actionLogRepositoryProvider.future);
-  yield* repo.watchUserActionLogs(user.uid);
+  yield* repo.watchUserActionLogs(
+    userId,
+    limit: pages * actionHistoryPageSize,
+  );
 }
 
 // =============================================================================
@@ -157,20 +182,39 @@ class SelectedSdgFilter extends _$SelectedSdgFilter {
   }
 }
 
-/// Gets today's action logs for the current user.
-///
-/// Used by smart reminders to check if user has logged an action today.
+/// One-shot fetch of the logs for a single calendar day (used by the
+/// calendar's day-detail sheet; a range query instead of streaming
+/// the whole history).
 @riverpod
-Future<List<ActionLogModel>> todayActions(Ref ref) async {
-  final userAsync = ref.watch(currentUserProvider);
-  final user = userAsync.asData?.value;
-  if (user == null) return [];
+Future<List<ActionLogModel>> actionsForDay(Ref ref, DateTime day) async {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) return const [];
+
+  final start = DateTime(day.year, day.month, day.day);
+  final end = DateTime(day.year, day.month, day.day + 1);
+  final repo = await ref.watch(actionLogRepositoryProvider.future);
+  return repo.getActionLogsForRange(userId, start, end);
+}
+
+/// Streams today's action logs for the current user via a day-range
+/// query (bounded reads; stays live as new actions land).
+///
+/// Invalidated at midnight by dayChangeProvider so the captured day
+/// rolls over.
+@riverpod
+Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) {
+    yield [];
+    return;
+  }
 
   final now = DateTime.now();
-  final startOfDay = DateTime(now.year, now.month, now.day);
+  final start = DateTime(now.year, now.month, now.day);
+  final end = DateTime(now.year, now.month, now.day + 1);
 
-  final logs = await ref.watch(userActionLogsProvider.future);
-  return logs.where((log) => log.loggedAt.isAfter(startOfDay)).toList();
+  final repo = await ref.watch(actionLogRepositoryProvider.future);
+  yield* repo.watchActionLogsForRange(userId, start, end);
 }
 
 /// User's language code, selected from the user document
@@ -295,6 +339,9 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
   }) async {
+    // In-flight guard: two concurrent callers would double-log.
+    if (state.isLoading) return null;
+
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
     state = const AsyncValue.loading();
 
@@ -309,12 +356,13 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       return null;
     }
 
-    // Capture repositories before async operations
+    // Capture repository before async operations
     final actionLogRepo = await ref.read(
       actionLogRepositoryProvider.future,
     );
-    final progressRepo = ref.read(progressRepositoryProvider);
 
+    // The daily summary is written inside the logAction transaction,
+    // so only analytics remain as follow-up work here.
     final result = await AsyncValue.guard(() async {
       return actionLogRepo.logAction(
         userId: user.uid,
@@ -324,23 +372,19 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       );
     });
 
-    // Update daily summary for progress tracking and log analytics
     if (result.hasValue && result.asData?.value != null) {
-      final sdgNumbers =
-          action.relatedSdgs.map(int.tryParse).whereType<int>().toList();
+      // The chart/stats providers are keyed on the user id (not the
+      // whole user doc) to avoid re-querying on every doc change, so
+      // refresh them explicitly at the one moment their data moves.
+      if (ref.mounted) {
+        ref
+          ..invalidate(co2StatsProvider)
+          ..invalidate(co2TrendDataProvider)
+          ..invalidate(co2CategoryDataProvider)
+          ..invalidate(monthCalendarDataProvider);
+      }
 
-      appLogger.debug('ActionLog: Calling recordAction for progress tracking');
       try {
-        await progressRepo.recordAction(
-          userId: user.uid,
-          points: action.points,
-          co2Grams: action.co2Grams,
-          sdgNumbers: sdgNumbers,
-          category: action.category,
-        );
-        appLogger.debug('ActionLog: recordAction completed');
-
-        // Track analytics event
         await AnalyticsService.instance.logActionLogged(
           actionId: action.id,
           category: action.category,
@@ -357,7 +401,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           );
         }
       } on Exception catch (e) {
-        appLogger.error('ActionLog: recordAction failed', error: e);
+        appLogger.error('ActionLog: analytics failed', error: e);
       }
     }
 

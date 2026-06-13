@@ -78,7 +78,7 @@ void main() {
     ProviderContainer containerWith(List<ActionModel> actions) {
       return ProviderContainer(
         overrides: [
-          actionLibraryProvider.overrideWith((ref) => Stream.value(actions)),
+          actionLibraryProvider.overrideWith((ref) async => actions),
         ],
       );
     }

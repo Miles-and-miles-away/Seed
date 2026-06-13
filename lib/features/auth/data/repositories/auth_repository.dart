@@ -194,13 +194,14 @@ class AuthRepository {
   }
 
   /// Deletes the current user's account and all associated data.
+  ///
+  /// Runs server-side via the deleteUserAccount Cloud Function: rules
+  /// block client deletes of the action log, and only the Admin SDK
+  /// removes subcollections and the Auth user. Re-authentication is
+  /// handled by the UI before this call. Signs out locally afterwards
+  /// to clear the now-invalid session.
   Future<void> deleteAccount() async {
-    final user = currentUser;
-    if (user != null) {
-      // Delete Firestore user document first
-      await _userDataSource.deleteUser(user.uid);
-    }
-    // Then delete the Firebase Auth account
-    await _authDataSource.deleteAccount();
+    await _userDataSource.deleteUser();
+    await _authDataSource.signOut();
   }
 }

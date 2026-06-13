@@ -8,30 +8,30 @@ part of 'home_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Emits an incrementing token each time the Home tab's root route
-/// (`/home`) becomes the visible location -- whether by switching tabs or
-/// by popping a nested route (SDG detail, daily fact, challenges) back to
-/// Home. Widgets such as the SDG carousel watch this so every return to
-/// Home restarts their scroll position rather than retaining wherever the
-/// kept-alive [IndexedStack] branch was left.
+/// Emits an incrementing token each time the visible location *leaves* the
+/// Home tab's root route (`/home`) -- whether by switching tabs or by pushing
+/// a nested route (SDG detail, daily fact, challenges). Widgets such as the
+/// SDG carousel watch this so they reset their scroll position while Home is
+/// offscreen, leaving it already centered (no visible jump) the next time the
+/// kept-alive [IndexedStack] branch is shown.
 
 @ProviderFor(HomeVisitSignal)
 final homeVisitSignalProvider = HomeVisitSignalProvider._();
 
-/// Emits an incrementing token each time the Home tab's root route
-/// (`/home`) becomes the visible location -- whether by switching tabs or
-/// by popping a nested route (SDG detail, daily fact, challenges) back to
-/// Home. Widgets such as the SDG carousel watch this so every return to
-/// Home restarts their scroll position rather than retaining wherever the
-/// kept-alive [IndexedStack] branch was left.
+/// Emits an incrementing token each time the visible location *leaves* the
+/// Home tab's root route (`/home`) -- whether by switching tabs or by pushing
+/// a nested route (SDG detail, daily fact, challenges). Widgets such as the
+/// SDG carousel watch this so they reset their scroll position while Home is
+/// offscreen, leaving it already centered (no visible jump) the next time the
+/// kept-alive [IndexedStack] branch is shown.
 final class HomeVisitSignalProvider
     extends $NotifierProvider<HomeVisitSignal, int> {
-  /// Emits an incrementing token each time the Home tab's root route
-  /// (`/home`) becomes the visible location -- whether by switching tabs or
-  /// by popping a nested route (SDG detail, daily fact, challenges) back to
-  /// Home. Widgets such as the SDG carousel watch this so every return to
-  /// Home restarts their scroll position rather than retaining wherever the
-  /// kept-alive [IndexedStack] branch was left.
+  /// Emits an incrementing token each time the visible location *leaves* the
+  /// Home tab's root route (`/home`) -- whether by switching tabs or by pushing
+  /// a nested route (SDG detail, daily fact, challenges). Widgets such as the
+  /// SDG carousel watch this so they reset their scroll position while Home is
+  /// offscreen, leaving it already centered (no visible jump) the next time the
+  /// kept-alive [IndexedStack] branch is shown.
   HomeVisitSignalProvider._()
       : super(
           from: null,
@@ -59,14 +59,14 @@ final class HomeVisitSignalProvider
   }
 }
 
-String _$homeVisitSignalHash() => r'6f3317efd4af2c0ea5d561e40e3421c05a1793bc';
+String _$homeVisitSignalHash() => r'81b20dff3b60e2fa84bfbf79e5cbbf1588cd8825';
 
-/// Emits an incrementing token each time the Home tab's root route
-/// (`/home`) becomes the visible location -- whether by switching tabs or
-/// by popping a nested route (SDG detail, daily fact, challenges) back to
-/// Home. Widgets such as the SDG carousel watch this so every return to
-/// Home restarts their scroll position rather than retaining wherever the
-/// kept-alive [IndexedStack] branch was left.
+/// Emits an incrementing token each time the visible location *leaves* the
+/// Home tab's root route (`/home`) -- whether by switching tabs or by pushing
+/// a nested route (SDG detail, daily fact, challenges). Widgets such as the
+/// SDG carousel watch this so they reset their scroll position while Home is
+/// offscreen, leaving it already centered (no visible jump) the next time the
+/// kept-alive [IndexedStack] branch is shown.
 
 abstract class _$HomeVisitSignal extends $Notifier<int> {
   int build();

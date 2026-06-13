@@ -63,14 +63,14 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final logsAsync = ref.watch(userActionLogsProvider);
+    // Day-range query instead of streaming the whole action history.
+    final logsAsync = ref.watch(actionsForDayProvider(widget.date));
     final factsAsync = ref.watch(ecoFactsProvider);
     final user = ref.watch(currentUserProvider).value;
     final isLockedToday = ref.watch(isEcoFactLockedProvider);
 
-    final dayLogs = logsAsync.asData?.value != null
-        ? _logsForDay(logsAsync.asData!.value, widget.date)
-        : const <ActionLogModel>[];
+    final dayLogs = [...logsAsync.asData?.value ?? const <ActionLogModel>[]]
+      ..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
     final totalPoints = dayLogs.fold<int>(0, (sum, l) => sum + l.points);
     final totalCo2 = dayLogs.fold<int>(0, (sum, l) => sum + l.co2Grams);
 
@@ -193,18 +193,6 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
       readOnly: true,
     );
   }
-}
-
-List<ActionLogModel> _logsForDay(
-  List<ActionLogModel> logs,
-  DateTime date,
-) {
-  return logs.where((log) {
-    return log.loggedAt.year == date.year &&
-        log.loggedAt.month == date.month &&
-        log.loggedAt.day == date.day;
-  }).toList()
-    ..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
 }
 
 EcoFact? _factForDate(List<EcoFact> facts, DateTime date) {

@@ -1,7 +1,28 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 
 void main() {
+  group('level curve reachability', () {
+    test('full evolution is reachable within ~5 months of daily use', () {
+      // Guard against curve re-tuning that makes stage 4 (and the egg
+      // system behind it) unreachable: ~150 points/day for 150 days.
+      const plausibleLifetimePoints = 150 * 150;
+      expect(
+        calculatePointsForLevel(AppConstants.maxEvolutionLevel),
+        lessThan(plausibleLifetimePoints),
+      );
+    });
+
+    test('stage 2 is reachable within ~2 weeks of daily use', () {
+      const twoWeeksPoints = 150 * 14;
+      expect(
+        calculatePointsForLevel(AppConstants.evolutionStage2Level),
+        lessThan(twoWeeksPoints),
+      );
+    });
+  });
+
   group('calculateLevel', () {
     test('returns 1 for 0 points', () {
       expect(calculateLevel(0), 1);
@@ -21,10 +42,10 @@ void main() {
     });
 
     test('returns correct level for higher point values', () {
-      // Level 3 requires 100 + 150 = 250 points
-      expect(calculateLevel(250), 3);
-      // Level 4 requires 250 + 225 = 475 points
-      expect(calculateLevel(475), 4);
+      // Level 3 requires 100 + 105 = 205 points
+      expect(calculateLevel(205), 3);
+      // Level 5 requires ~431 points
+      expect(calculateLevel(475), 5);
     });
 
     test('handles large point values', () {
@@ -49,8 +70,8 @@ void main() {
     });
 
     test('returns scaled points for level 3', () {
-      // Level 3 requires 100 + 150 = 250 points
-      expect(calculatePointsForLevel(3), 250);
+      // Level 3 requires 100 + 105 = 205 points
+      expect(calculatePointsForLevel(3), 205);
     });
 
     test('increases monotonically with level', () {
@@ -75,9 +96,9 @@ void main() {
     });
 
     test('returns full requirement when just reaching new level', () {
-      // At 100 points, level is 2, next level (3) requires 250 total
-      // So need 250 - 100 = 150 more
-      expect(calculatePointsToNextLevel(100), 150);
+      // At 100 points, level is 2, next level (3) requires 205 total
+      // So need 205 - 100 = 105 more
+      expect(calculatePointsToNextLevel(100), 105);
     });
 
     test('returns positive value for any valid points', () {
@@ -94,17 +115,17 @@ void main() {
     });
 
     test('returns value between 0 and 1 when partially through level', () {
-      // Level 2 is 100-250 points (150 point range)
-      // At 175 points, we're 75/150 = 0.5 through
-      final progress = calculateLevelProgress(175);
+      // Level 2 is 100-205 points (105 point range)
+      // At 152 points, we're ~52/105 = ~0.5 through
+      final progress = calculateLevelProgress(152);
       expect(progress, greaterThan(0.0));
       expect(progress, lessThan(1.0));
       expect(progress, closeTo(0.5, 0.01));
     });
 
     test('returns close to 1.0 near end of level', () {
-      // Just before level 3 (249 points out of 250 needed)
-      final progress = calculateLevelProgress(249);
+      // Just before level 4 (314 points out of 315 needed)
+      final progress = calculateLevelProgress(314);
       expect(progress, greaterThan(0.9));
       expect(progress, lessThanOrEqualTo(1.0));
     });
@@ -117,43 +138,6 @@ void main() {
 
     test('never returns negative', () {
       expect(calculateLevelProgress(-100), greaterThanOrEqualTo(0.0));
-    });
-  });
-
-  group('calculateStreakBonus', () {
-    test('returns 1.0 for 0 streak days', () {
-      expect(calculateStreakBonus(0), 1.0);
-    });
-
-    test('returns 1.0 for negative streak days', () {
-      expect(calculateStreakBonus(-5), 1.0);
-    });
-
-    test('returns bonus greater than 1 for positive streak', () {
-      expect(calculateStreakBonus(1), greaterThan(1.0));
-    });
-
-    test('increases with more streak days', () {
-      final bonus1 = calculateStreakBonus(5);
-      final bonus2 = calculateStreakBonus(10);
-      final bonus3 = calculateStreakBonus(20);
-
-      expect(bonus2, greaterThan(bonus1));
-      expect(bonus3, greaterThan(bonus2));
-    });
-
-    test('caps at max streak bonus (2.0)', () {
-      // maxStreakBonus is 2.0, streakBonusPerDay is 0.033
-      // To reach 2.0: 1 + (days * 0.033) = 2.0 => days = 30.3
-      // So 31 days should hit the cap
-      expect(calculateStreakBonus(31), 2.0);
-      expect(calculateStreakBonus(50), 2.0);
-      expect(calculateStreakBonus(100), 2.0);
-    });
-
-    test('calculates correct bonus for typical values', () {
-      // 10 days: 1 + (10 * 0.033) = 1.33
-      expect(calculateStreakBonus(10), closeTo(1.33, 0.01));
     });
   });
 

@@ -846,7 +846,7 @@ void main() {
         languageCode: 'en',
       );
 
-      final stream = repository.watchUserActionLogs(_uid);
+      final stream = repository.watchUserActionLogs(_uid, limit: 50);
 
       await expectLater(
         stream,
@@ -867,6 +867,153 @@ void main() {
       final recent = await repository.getRecentActionLogs(_uid, 2);
 
       expect(recent, hasLength(2));
+    });
+  });
+
+  group('logAction — daily summary', () {
+    // Written inside the same transaction as the action log so the
+    // Progress tab can never diverge from the log history.
+    Future<Map<String, dynamic>> getSummary() async {
+      final doc = await firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(_uid)
+          .collection(AppConstants.collectionDailySummaries)
+          .doc(formatDateKey(DateTime.now()))
+          .get();
+      expect(doc.exists, isTrue);
+      return doc.data()!;
+    }
+
+    test('creates today summary on first log', () async {
+      await seedUser({});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = await getSummary();
+      expect(data[AppConstants.fieldDate], formatDateKey(DateTime.now()));
+      expect(data[AppConstants.fieldGoalCount], 1);
+      expect(data[AppConstants.fieldTotalPoints], 20);
+      expect(data[AppConstants.fieldTotalCo2Grams], 500);
+      expect(data[AppConstants.fieldCompletedSdgs], containsAll([11, 13]));
+      expect(data[AppConstants.fieldCategoryCo2Grams], {'transport': 500});
+    });
+
+    test('increments existing summary and dedups SDGs', () async {
+      await seedUser({});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = await getSummary();
+      expect(data[AppConstants.fieldGoalCount], 2);
+      expect(data[AppConstants.fieldTotalPoints], 40);
+      expect(data[AppConstants.fieldTotalCo2Grams], 1000);
+      final sdgs = data[AppConstants.fieldCompletedSdgs] as List<dynamic>;
+      expect(sdgs.toSet().length, sdgs.length);
+      expect(sdgs, containsAll([11, 13]));
+      expect(data[AppConstants.fieldCategoryCo2Grams], {'transport': 1000});
+    });
+
+    test('tracks distinct categories independently', () async {
+      await seedUser({});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+      await repository.logAction(
+        userId: _uid,
+        action: _actionNoSdgs,
+        languageCode: 'en',
+      );
+
+      final data = await getSummary();
+      final categoryCo2 =
+          data[AppConstants.fieldCategoryCo2Grams] as Map<String, dynamic>;
+      expect(categoryCo2['transport'], 500);
+      expect(categoryCo2['learn'], 0);
+      expect(data[AppConstants.fieldTotalCo2Grams], 500);
+    });
+  });
+
+  group('logAction — resilience', () {
+    test('tolerates a stale multi-day challenge template', () async {
+      // A template removed in an app update must not brick logging
+      // (firstWhere with no orElse used to throw and fail the whole
+      // transaction). fake_cloud_firestore merges map updates, so the
+      // {} clear itself is not observable here; assert that the log
+      // succeeds and no challenge progress/completion was recorded.
+      await seedUser({
+        AppConstants.fieldActiveMultiDayChallenge: {
+          AppConstants.fieldTemplateId: 'removed-template',
+          AppConstants.fieldCurrentDay: 2,
+          AppConstants.fieldTargetDays: 5,
+          AppConstants.fieldLastCompletionDate: '',
+        },
+      });
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      expect(result.actionLog.points, 20);
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldPoints], 20);
+      final md = data[AppConstants.fieldActiveMultiDayChallenge]
+          as Map<String, dynamic>;
+      expect(md[AppConstants.fieldCurrentDay], 2);
+      expect(
+        data[AppConstants.fieldCompletedMultiDayChallenges],
+        isNull,
+      );
+    });
+
+    test('disposes egg instead of hatching at the mascot cap', () async {
+      // Hatching a 21st mascot would violate the security rules'
+      // cap and reject every future log.
+      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm0',
+        AppConstants.fieldMascots: List.generate(
+          AppConstants.maxMascotsPerUser,
+          (i) => mascot(id: 'm$i', isFullyEvolved: true),
+        ),
+        AppConstants.fieldEgg: {
+          'receivedAt': Timestamp.fromDate(yesterday),
+          AppConstants.fieldHatchingStreakDays: 29,
+          AppConstants.fieldLastHatchingActivityDate:
+              Timestamp.fromDate(yesterday),
+        },
+      });
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      expect(result.hatchedMascotId, isNull);
+      final data = (await getUser()).data()!;
+      expect(data.containsKey(AppConstants.fieldEgg), isFalse);
+      expect(
+        data[AppConstants.fieldMascots] as List<dynamic>,
+        hasLength(AppConstants.maxMascotsPerUser),
+      );
     });
   });
 }

@@ -15,7 +15,7 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:seed_app/shared/services/streak_service.dart';
 
 /// The main home screen of the Seed app
 class HomeScreen extends ConsumerWidget {
@@ -213,7 +213,14 @@ class HomeScreen extends ConsumerWidget {
               _buildQuickStat(
                 context,
                 Icons.local_fire_department,
-                '${user?.currentStreak ?? 0}',
+                // displayedStreak shows 0 once a missed day has
+                // already broken the streak (the stored value is
+                // only corrected at the next log).
+                '${StreakService.instance.displayedStreak(
+                  storedStreak: user?.currentStreak ?? 0,
+                  lastActionDate: user?.lastActionDate,
+                  now: DateTime.now(),
+                )}',
                 l10n.profileCurrentStreak,
                 Colors.orange,
               ),
@@ -345,7 +352,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Center(
       child: TextButton(
-        onPressed: _launchUnSdgPage,
+        onPressed: () => openExternalUrl(context, AppConstants.sdgGoalsUrl),
         child: Text(
           '${AppLocalizations.of(context).homeLearnMore} $externalLinkChar',
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -355,15 +362,5 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _launchUnSdgPage() async {
-    final url = Uri.parse(AppConstants.sdgGoalsUrl);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-    }
   }
 }

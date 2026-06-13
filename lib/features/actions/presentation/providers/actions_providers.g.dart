@@ -182,28 +182,40 @@ final class ActionLogRepositoryProvider extends $FunctionalProvider<
 String _$actionLogRepositoryHash() =>
     r'e5c036818672f0c11a16a7920163b031ee7b42c0';
 
-/// Watches all active actions from the action library.
+/// Loads the active actions from the action library.
+///
+/// keepAlive + one-shot get: the library is read-only reference data,
+/// so a persistent snapshots() listener adds overhead for no benefit.
+/// Content changes ship with reseeds and are picked up on app start.
 
 @ProviderFor(actionLibrary)
 final actionLibraryProvider = ActionLibraryProvider._();
 
-/// Watches all active actions from the action library.
+/// Loads the active actions from the action library.
+///
+/// keepAlive + one-shot get: the library is read-only reference data,
+/// so a persistent snapshots() listener adds overhead for no benefit.
+/// Content changes ship with reseeds and are picked up on app start.
 
 final class ActionLibraryProvider extends $FunctionalProvider<
         AsyncValue<List<ActionModel>>,
         List<ActionModel>,
-        Stream<List<ActionModel>>>
+        FutureOr<List<ActionModel>>>
     with
         $FutureModifier<List<ActionModel>>,
-        $StreamProvider<List<ActionModel>> {
-  /// Watches all active actions from the action library.
+        $FutureProvider<List<ActionModel>> {
+  /// Loads the active actions from the action library.
+  ///
+  /// keepAlive + one-shot get: the library is read-only reference data,
+  /// so a persistent snapshots() listener adds overhead for no benefit.
+  /// Content changes ship with reseeds and are picked up on app start.
   ActionLibraryProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'actionLibraryProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -213,24 +225,81 @@ final class ActionLibraryProvider extends $FunctionalProvider<
 
   @$internal
   @override
-  $StreamProviderElement<List<ActionModel>> $createElement(
+  $FutureProviderElement<List<ActionModel>> $createElement(
           $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+      $FutureProviderElement(pointer);
 
   @override
-  Stream<List<ActionModel>> create(Ref ref) {
+  FutureOr<List<ActionModel>> create(Ref ref) {
     return actionLibrary(ref);
   }
 }
 
-String _$actionLibraryHash() => r'65fe8aa5eb4fe7180c97bc5b3ec9f5b56845e419';
+String _$actionLibraryHash() => r'ea2a351b42414ad21d75ffd583f3220c4d332ea6';
 
-/// Watches action logs for the current user.
+/// How many pages of history the user has requested.
+
+@ProviderFor(ActionHistoryPages)
+final actionHistoryPagesProvider = ActionHistoryPagesProvider._();
+
+/// How many pages of history the user has requested.
+final class ActionHistoryPagesProvider
+    extends $NotifierProvider<ActionHistoryPages, int> {
+  /// How many pages of history the user has requested.
+  ActionHistoryPagesProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'actionHistoryPagesProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionHistoryPagesHash();
+
+  @$internal
+  @override
+  ActionHistoryPages create() => ActionHistoryPages();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$actionHistoryPagesHash() =>
+    r'461c607ba2f7c2c7206405bda37858772601d302';
+
+/// How many pages of history the user has requested.
+
+abstract class _$ActionHistoryPages extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element = ref.element
+        as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Watches action logs for the current user, bounded to the requested
+/// number of history pages (the log grows forever; streaming it whole
+/// scales cost and memory with user loyalty).
 
 @ProviderFor(userActionLogs)
 final userActionLogsProvider = UserActionLogsProvider._();
 
-/// Watches action logs for the current user.
+/// Watches action logs for the current user, bounded to the requested
+/// number of history pages (the log grows forever; streaming it whole
+/// scales cost and memory with user loyalty).
 
 final class UserActionLogsProvider extends $FunctionalProvider<
         AsyncValue<List<ActionLogModel>>,
@@ -239,7 +308,9 @@ final class UserActionLogsProvider extends $FunctionalProvider<
     with
         $FutureModifier<List<ActionLogModel>>,
         $StreamProvider<List<ActionLogModel>> {
-  /// Watches action logs for the current user.
+  /// Watches action logs for the current user, bounded to the requested
+  /// number of history pages (the log grows forever; streaming it whole
+  /// scales cost and memory with user loyalty).
   UserActionLogsProvider._()
       : super(
           from: null,
@@ -266,7 +337,7 @@ final class UserActionLogsProvider extends $FunctionalProvider<
   }
 }
 
-String _$userActionLogsHash() => r'27348877b12e183f817aa0d0d4255320913a6639';
+String _$userActionLogsHash() => r'8e8ac3c908776816872390fe4d1523417a6675cd';
 
 /// Currently selected action category for filtering.
 /// Null means "All" categories.
@@ -491,27 +562,131 @@ abstract class _$SelectedSdgFilter extends $Notifier<int?> {
   }
 }
 
-/// Gets today's action logs for the current user.
-///
-/// Used by smart reminders to check if user has logged an action today.
+/// One-shot fetch of the logs for a single calendar day (used by the
+/// calendar's day-detail sheet; a range query instead of streaming
+/// the whole history).
 
-@ProviderFor(todayActions)
-final todayActionsProvider = TodayActionsProvider._();
+@ProviderFor(actionsForDay)
+final actionsForDayProvider = ActionsForDayFamily._();
 
-/// Gets today's action logs for the current user.
-///
-/// Used by smart reminders to check if user has logged an action today.
+/// One-shot fetch of the logs for a single calendar day (used by the
+/// calendar's day-detail sheet; a range query instead of streaming
+/// the whole history).
 
-final class TodayActionsProvider extends $FunctionalProvider<
+final class ActionsForDayProvider extends $FunctionalProvider<
         AsyncValue<List<ActionLogModel>>,
         List<ActionLogModel>,
         FutureOr<List<ActionLogModel>>>
     with
         $FutureModifier<List<ActionLogModel>>,
         $FutureProvider<List<ActionLogModel>> {
-  /// Gets today's action logs for the current user.
+  /// One-shot fetch of the logs for a single calendar day (used by the
+  /// calendar's day-detail sheet; a range query instead of streaming
+  /// the whole history).
+  ActionsForDayProvider._(
+      {required ActionsForDayFamily super.from,
+      required DateTime super.argument})
+      : super(
+          retry: null,
+          name: r'actionsForDayProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionsForDayHash();
+
+  @override
+  String toString() {
+    return r'actionsForDayProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<ActionLogModel>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<ActionLogModel>> create(Ref ref) {
+    final argument = this.argument as DateTime;
+    return actionsForDay(
+      ref,
+      argument,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ActionsForDayProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$actionsForDayHash() => r'830b0e7496f0b7dbc7c20a5289b67919d6bf4b46';
+
+/// One-shot fetch of the logs for a single calendar day (used by the
+/// calendar's day-detail sheet; a range query instead of streaming
+/// the whole history).
+
+final class ActionsForDayFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<ActionLogModel>>, DateTime> {
+  ActionsForDayFamily._()
+      : super(
+          retry: null,
+          name: r'actionsForDayProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  /// One-shot fetch of the logs for a single calendar day (used by the
+  /// calendar's day-detail sheet; a range query instead of streaming
+  /// the whole history).
+
+  ActionsForDayProvider call(
+    DateTime day,
+  ) =>
+      ActionsForDayProvider._(argument: day, from: this);
+
+  @override
+  String toString() => r'actionsForDayProvider';
+}
+
+/// Streams today's action logs for the current user via a day-range
+/// query (bounded reads; stays live as new actions land).
+///
+/// Invalidated at midnight by dayChangeProvider so the captured day
+/// rolls over.
+
+@ProviderFor(todayActions)
+final todayActionsProvider = TodayActionsProvider._();
+
+/// Streams today's action logs for the current user via a day-range
+/// query (bounded reads; stays live as new actions land).
+///
+/// Invalidated at midnight by dayChangeProvider so the captured day
+/// rolls over.
+
+final class TodayActionsProvider extends $FunctionalProvider<
+        AsyncValue<List<ActionLogModel>>,
+        List<ActionLogModel>,
+        Stream<List<ActionLogModel>>>
+    with
+        $FutureModifier<List<ActionLogModel>>,
+        $StreamProvider<List<ActionLogModel>> {
+  /// Streams today's action logs for the current user via a day-range
+  /// query (bounded reads; stays live as new actions land).
   ///
-  /// Used by smart reminders to check if user has logged an action today.
+  /// Invalidated at midnight by dayChangeProvider so the captured day
+  /// rolls over.
   TodayActionsProvider._()
       : super(
           from: null,
@@ -528,17 +703,17 @@ final class TodayActionsProvider extends $FunctionalProvider<
 
   @$internal
   @override
-  $FutureProviderElement<List<ActionLogModel>> $createElement(
+  $StreamProviderElement<List<ActionLogModel>> $createElement(
           $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+      $StreamProviderElement(pointer);
 
   @override
-  FutureOr<List<ActionLogModel>> create(Ref ref) {
+  Stream<List<ActionLogModel>> create(Ref ref) {
     return todayActions(ref);
   }
 }
 
-String _$todayActionsHash() => r'db26cc3b9364a6a9706a91fd1c915aa79f85d3dd';
+String _$todayActionsHash() => r'd7a4647ca895c1c6e9a8d3a674d5d90b863b12ea';
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -686,7 +861,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'b945f684ce40a11fbc6adaf77ab606992ef68efe';
+String _$actionLogNotifierHash() => r'1dcb781bfdda1a74e6f439172692dc58ff297d9d';
 
 /// Notifier that handles logging actions.
 

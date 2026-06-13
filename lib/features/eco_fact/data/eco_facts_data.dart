@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -11,19 +13,23 @@ const _ASSET_PATH = 'data/app/eco_facts.json';
 /// Loads all eco-facts from the bundled JSON asset.
 Future<List<EcoFact>> loadEcoFacts() async {
   final jsonString = await rootBundle.loadString(_ASSET_PATH);
-  final jsonList = json.decode(jsonString) as List<dynamic>;
-  return jsonList
-      .map(
-        (e) => EcoFact.fromJson(e as Map<String, dynamic>),
-      )
-      .toList();
+  // 440+ KB of JSON: decode off the UI thread.
+  return Isolate.run(
+    () => (json.decode(jsonString) as List<dynamic>)
+        .map(
+          (e) => EcoFact.fromJson(e as Map<String, dynamic>),
+        )
+        .toList(),
+  );
 }
 
 /// Returns the 1-based day of year for the given date.
 /// Returns 366 on leap-year Dec 31; 1-365 otherwise.
 int dayOfYear(DateTime date) {
-  final jan1 = DateTime(date.year);
-  final diff = date.difference(jan1).inDays + 1;
+  // UTC projection: a local-time difference is off by one for the
+  // whole DST half of the year (local days are not always 24h).
+  final jan1 = DateTime.utc(date.year);
+  final diff = dateOnlyUtc(date).difference(jan1).inDays + 1;
   return diff.clamp(1, 366);
 }
 

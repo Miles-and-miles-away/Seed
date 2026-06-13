@@ -51,9 +51,6 @@ abstract class AppUserModel with _$AppUserModel {
     /// Date of the user's last logged action.
     @TimestampConverter() DateTime? lastActionDate,
 
-    /// Whether streak grace period is available.
-    @Default(true) bool streakGracePeriodAvailable,
-
     /// FCM token for push notifications.
     String? fcmToken,
 

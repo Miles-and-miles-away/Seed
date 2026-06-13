@@ -8,8 +8,26 @@ abstract class ActionLogRemoteDataSource {
   /// Creates a new action log entry for a user.
   Future<ActionLogModel> createActionLog(String userId, ActionLogModel log);
 
-  /// Watches all action logs for a user, ordered by most recent first.
-  Stream<List<ActionLogModel>> watchUserActionLogs(String userId);
+  /// Watches action logs for a user, most recent first, capped at
+  /// [limit] entries (the history grows unbounded otherwise).
+  Stream<List<ActionLogModel>> watchUserActionLogs(
+    String userId, {
+    required int limit,
+  });
+
+  /// Watches action logs whose loggedAt falls in [start, end).
+  Stream<List<ActionLogModel>> watchActionLogsForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  );
+
+  /// Gets action logs whose loggedAt falls in [start, end).
+  Future<List<ActionLogModel>> getActionLogsForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  );
 
   /// Gets the most recent action logs for a user.
   Future<List<ActionLogModel>> getRecentActionLogs(String userId, int limit);
@@ -47,15 +65,57 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
     return logWithId;
   }
 
+  Query<Map<String, dynamic>> _rangeQuery(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) =>
+      _userActionLogs(userId)
+          .where(
+            AppConstants.fieldLoggedAt,
+            isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+          )
+          .where(
+            AppConstants.fieldLoggedAt,
+            isLessThan: Timestamp.fromDate(end),
+          )
+          .orderBy(AppConstants.fieldLoggedAt, descending: true);
+
   @override
-  Stream<List<ActionLogModel>> watchUserActionLogs(String userId) {
+  Stream<List<ActionLogModel>> watchUserActionLogs(
+    String userId, {
+    required int limit,
+  }) {
     return _userActionLogs(userId)
         .orderBy(AppConstants.fieldLoggedAt, descending: true)
+        .limit(limit)
         .snapshots()
         .map(
           (snapshot) =>
               snapshot.docs.map(ActionLogModel.fromFirestore).toList(),
         );
+  }
+
+  @override
+  Stream<List<ActionLogModel>> watchActionLogsForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) {
+    return _rangeQuery(userId, start, end).snapshots().map(
+          (snapshot) =>
+              snapshot.docs.map(ActionLogModel.fromFirestore).toList(),
+        );
+  }
+
+  @override
+  Future<List<ActionLogModel>> getActionLogsForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    final snapshot = await _rangeQuery(userId, start, end).get();
+    return snapshot.docs.map(ActionLogModel.fromFirestore).toList();
   }
 
   @override

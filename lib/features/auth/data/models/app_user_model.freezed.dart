@@ -55,9 +55,6 @@ mixin _$AppUserModel {
   @TimestampConverter()
   DateTime? get lastActionDate;
 
-  /// Whether streak grace period is available.
-  bool get streakGracePeriodAvailable;
-
   /// FCM token for push notifications.
   String? get fcmToken;
 
@@ -151,15 +148,13 @@ mixin _$AppUserModel {
             (identical(other.egg, egg) || other.egg == egg) &&
             (identical(other.eggPendingDiscovery, eggPendingDiscovery) ||
                 other.eggPendingDiscovery == eggPendingDiscovery) &&
-            (identical(other.eggPendingDiscoverySince, eggPendingDiscoverySince) ||
+            (identical(
+                    other.eggPendingDiscoverySince, eggPendingDiscoverySince) ||
                 other.eggPendingDiscoverySince == eggPendingDiscoverySince) &&
             (identical(other.notificationsEnabled, notificationsEnabled) ||
                 other.notificationsEnabled == notificationsEnabled) &&
             (identical(other.lastActionDate, lastActionDate) ||
                 other.lastActionDate == lastActionDate) &&
-            (identical(other.streakGracePeriodAvailable, streakGracePeriodAvailable) ||
-                other.streakGracePeriodAvailable ==
-                    streakGracePeriodAvailable) &&
             (identical(other.fcmToken, fcmToken) ||
                 other.fcmToken == fcmToken) &&
             (identical(other.totalCo2Grams, totalCo2Grams) ||
@@ -217,7 +212,6 @@ mixin _$AppUserModel {
         eggPendingDiscoverySince,
         notificationsEnabled,
         lastActionDate,
-        streakGracePeriodAvailable,
         fcmToken,
         totalCo2Grams,
         totalActionsCount,
@@ -237,7 +231,7 @@ mixin _$AppUserModel {
 
   @override
   String toString() {
-    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
+    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
   }
 }
 
@@ -269,7 +263,6 @@ abstract mixin class $AppUserModelCopyWith<$Res> {
       @TimestampConverter() DateTime? eggPendingDiscoverySince,
       bool notificationsEnabled,
       @TimestampConverter() DateTime? lastActionDate,
-      bool streakGracePeriodAvailable,
       String? fcmToken,
       int totalCo2Grams,
       int totalActionsCount,
@@ -322,7 +315,6 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
     Object? eggPendingDiscoverySince = freezed,
     Object? notificationsEnabled = null,
     Object? lastActionDate = freezed,
-    Object? streakGracePeriodAvailable = null,
     Object? fcmToken = freezed,
     Object? totalCo2Grams = null,
     Object? totalActionsCount = null,
@@ -424,10 +416,6 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
           ? _self.lastActionDate
           : lastActionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      streakGracePeriodAvailable: null == streakGracePeriodAvailable
-          ? _self.streakGracePeriodAvailable
-          : streakGracePeriodAvailable // ignore: cast_nullable_to_non_nullable
-              as bool,
       fcmToken: freezed == fcmToken
           ? _self.fcmToken
           : fcmToken // ignore: cast_nullable_to_non_nullable
@@ -621,7 +609,6 @@ extension AppUserModelPatterns on AppUserModel {
             @TimestampConverter() DateTime? eggPendingDiscoverySince,
             bool notificationsEnabled,
             @TimestampConverter() DateTime? lastActionDate,
-            bool streakGracePeriodAvailable,
             String? fcmToken,
             int totalCo2Grams,
             int totalActionsCount,
@@ -665,7 +652,6 @@ extension AppUserModelPatterns on AppUserModel {
             _that.eggPendingDiscoverySince,
             _that.notificationsEnabled,
             _that.lastActionDate,
-            _that.streakGracePeriodAvailable,
             _that.fcmToken,
             _that.totalCo2Grams,
             _that.totalActionsCount,
@@ -723,7 +709,6 @@ extension AppUserModelPatterns on AppUserModel {
             @TimestampConverter() DateTime? eggPendingDiscoverySince,
             bool notificationsEnabled,
             @TimestampConverter() DateTime? lastActionDate,
-            bool streakGracePeriodAvailable,
             String? fcmToken,
             int totalCo2Grams,
             int totalActionsCount,
@@ -766,7 +751,6 @@ extension AppUserModelPatterns on AppUserModel {
             _that.eggPendingDiscoverySince,
             _that.notificationsEnabled,
             _that.lastActionDate,
-            _that.streakGracePeriodAvailable,
             _that.fcmToken,
             _that.totalCo2Grams,
             _that.totalActionsCount,
@@ -823,7 +807,6 @@ extension AppUserModelPatterns on AppUserModel {
             @TimestampConverter() DateTime? eggPendingDiscoverySince,
             bool notificationsEnabled,
             @TimestampConverter() DateTime? lastActionDate,
-            bool streakGracePeriodAvailable,
             String? fcmToken,
             int totalCo2Grams,
             int totalActionsCount,
@@ -866,7 +849,6 @@ extension AppUserModelPatterns on AppUserModel {
             _that.eggPendingDiscoverySince,
             _that.notificationsEnabled,
             _that.lastActionDate,
-            _that.streakGracePeriodAvailable,
             _that.fcmToken,
             _that.totalCo2Grams,
             _that.totalActionsCount,
@@ -913,7 +895,6 @@ class _AppUserModel implements AppUserModel {
       @TimestampConverter() this.eggPendingDiscoverySince,
       this.notificationsEnabled = true,
       @TimestampConverter() this.lastActionDate,
-      this.streakGracePeriodAvailable = true,
       this.fcmToken,
       this.totalCo2Grams = 0,
       this.totalActionsCount = 0,
@@ -1020,11 +1001,6 @@ class _AppUserModel implements AppUserModel {
   @override
   @TimestampConverter()
   final DateTime? lastActionDate;
-
-  /// Whether streak grace period is available.
-  @override
-  @JsonKey()
-  final bool streakGracePeriodAvailable;
 
   /// FCM token for push notifications.
   @override
@@ -1223,15 +1199,13 @@ class _AppUserModel implements AppUserModel {
             (identical(other.egg, egg) || other.egg == egg) &&
             (identical(other.eggPendingDiscovery, eggPendingDiscovery) ||
                 other.eggPendingDiscovery == eggPendingDiscovery) &&
-            (identical(other.eggPendingDiscoverySince, eggPendingDiscoverySince) ||
+            (identical(
+                    other.eggPendingDiscoverySince, eggPendingDiscoverySince) ||
                 other.eggPendingDiscoverySince == eggPendingDiscoverySince) &&
             (identical(other.notificationsEnabled, notificationsEnabled) ||
                 other.notificationsEnabled == notificationsEnabled) &&
             (identical(other.lastActionDate, lastActionDate) ||
                 other.lastActionDate == lastActionDate) &&
-            (identical(other.streakGracePeriodAvailable, streakGracePeriodAvailable) ||
-                other.streakGracePeriodAvailable ==
-                    streakGracePeriodAvailable) &&
             (identical(other.fcmToken, fcmToken) ||
                 other.fcmToken == fcmToken) &&
             (identical(other.totalCo2Grams, totalCo2Grams) ||
@@ -1289,7 +1263,6 @@ class _AppUserModel implements AppUserModel {
         eggPendingDiscoverySince,
         notificationsEnabled,
         lastActionDate,
-        streakGracePeriodAvailable,
         fcmToken,
         totalCo2Grams,
         totalActionsCount,
@@ -1309,7 +1282,7 @@ class _AppUserModel implements AppUserModel {
 
   @override
   String toString() {
-    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, streakGracePeriodAvailable: $streakGracePeriodAvailable, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
+    return 'AppUserModel(uid: $uid, email: $email, displayName: $displayName, photoUrl: $photoUrl, personalGoal: $personalGoal, points: $points, level: $level, currentStreak: $currentStreak, longestStreak: $longestStreak, language: $language, notificationTime: $notificationTime, createdAt: $createdAt, emailVerified: $emailVerified, dailyGoalTarget: $dailyGoalTarget, mascots: $mascots, activeMascotId: $activeMascotId, egg: $egg, eggPendingDiscovery: $eggPendingDiscovery, eggPendingDiscoverySince: $eggPendingDiscoverySince, notificationsEnabled: $notificationsEnabled, lastActionDate: $lastActionDate, fcmToken: $fcmToken, totalCo2Grams: $totalCo2Grams, totalActionsCount: $totalActionsCount, sdgStats: $sdgStats, viewedFactDates: $viewedFactDates, unlockedFactDates: $unlockedFactDates, challengeCompletedDate: $challengeCompletedDate, challengeStreak: $challengeStreak, challengesCompleted: $challengesCompleted, recentChallengeIds: $recentChallengeIds, activeMultiDayChallenge: $activeMultiDayChallenge, completedMultiDayChallenges: $completedMultiDayChallenges, ecodexDiscovered: $ecodexDiscovered, uniqueActionIds: $uniqueActionIds, categoryActionCounts: $categoryActionCounts)';
   }
 }
 
@@ -1343,7 +1316,6 @@ abstract mixin class _$AppUserModelCopyWith<$Res>
       @TimestampConverter() DateTime? eggPendingDiscoverySince,
       bool notificationsEnabled,
       @TimestampConverter() DateTime? lastActionDate,
-      bool streakGracePeriodAvailable,
       String? fcmToken,
       int totalCo2Grams,
       int totalActionsCount,
@@ -1398,7 +1370,6 @@ class __$AppUserModelCopyWithImpl<$Res>
     Object? eggPendingDiscoverySince = freezed,
     Object? notificationsEnabled = null,
     Object? lastActionDate = freezed,
-    Object? streakGracePeriodAvailable = null,
     Object? fcmToken = freezed,
     Object? totalCo2Grams = null,
     Object? totalActionsCount = null,
@@ -1500,10 +1471,6 @@ class __$AppUserModelCopyWithImpl<$Res>
           ? _self.lastActionDate
           : lastActionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      streakGracePeriodAvailable: null == streakGracePeriodAvailable
-          ? _self.streakGracePeriodAvailable
-          : streakGracePeriodAvailable // ignore: cast_nullable_to_non_nullable
-              as bool,
       fcmToken: freezed == fcmToken
           ? _self.fcmToken
           : fcmToken // ignore: cast_nullable_to_non_nullable

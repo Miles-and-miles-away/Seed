@@ -3,15 +3,23 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
+import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
+import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 
 part 'day_change_provider.g.dart';
 
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
-@riverpod
+///
+/// Must be keepAlive: it is bootstrapped by a single `ref.read` in
+/// MainShell's initState with no listeners, so an autoDispose provider
+/// would be disposed immediately and the midnight timer would never fire.
+@Riverpod(keepAlive: true)
 class DayChangeNotifier extends _$DayChangeNotifier {
   Timer? _midnightTimer;
   AppLifecycleListener? _lifecycleListener;
@@ -63,7 +71,13 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(isEcoFactLockedProvider)
       ..invalidate(hasUnreadFactProvider)
       ..invalidate(shouldShowChallengeDialogProvider)
-      ..invalidate(challengeDialogShownProvider);
+      ..invalidate(challengeDialogShownProvider)
+      ..invalidate(todayActionsProvider)
+      ..invalidate(todaySummaryProvider)
+      ..invalidate(monthCalendarDataProvider)
+      ..invalidate(co2StatsProvider)
+      ..invalidate(co2TrendDataProvider)
+      ..invalidate(co2CategoryDataProvider);
 
     // Update state and reschedule
     state = formatDateKey(DateTime.now());

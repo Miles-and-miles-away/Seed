@@ -145,6 +145,58 @@ void main() {
 
         expect(result.currentStreak, equals(6));
       });
+
+      test('travelling west (now on an earlier day) does not reset', () {
+        // Log at 00:30 JST, fly to Honolulu where it is still the
+        // previous calendar day: a negative day difference must be
+        // treated as same-day, not as a broken streak.
+        final result = service.calculateStreakUpdate(
+          lastActionDate: DateTime(2026, 6, 12, 0, 30),
+          currentStreak: 12,
+          longestStreak: 12,
+          now: DateTime(2026, 6, 11, 23),
+        );
+
+        expect(result.currentStreak, equals(12));
+        expect(result.streakWasBroken, isFalse);
+      });
+    });
+
+    group('displayedStreak', () {
+      test('returns the stored streak when last action was yesterday', () {
+        expect(
+          service.displayedStreak(
+            storedStreak: 6,
+            lastActionDate: DateTime(2026, 6, 12, 22),
+            now: DateTime(2026, 6, 13, 8),
+          ),
+          6,
+        );
+      });
+
+      test('returns 0 once a missed day broke the streak', () {
+        expect(
+          service.displayedStreak(
+            storedStreak: 6,
+            lastActionDate: DateTime(2026, 6, 10),
+            now: DateTime(2026, 6, 13),
+          ),
+          0,
+        );
+      });
+
+      test('treats a null lastActionDate as live (pending write)', () {
+        // A pending serverTimestamp briefly reads as null right after
+        // logging; the streak must not flicker to zero.
+        expect(
+          service.displayedStreak(
+            storedStreak: 6,
+            lastActionDate: null,
+            now: DateTime(2026, 6, 13),
+          ),
+          6,
+        );
+      });
     });
 
     group('getStreakWeeks', () {

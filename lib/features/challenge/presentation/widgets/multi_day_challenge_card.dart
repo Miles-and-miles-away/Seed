@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
 /// Compact card showing the active multi-day challenge on the
 /// home screen. Hidden when no challenge is active.
@@ -36,7 +38,15 @@ class MultiDayChallengeCard extends ConsumerWidget {
             );
     if (template == null) return const SizedBox.shrink();
 
-    final currentDay = activeChallenge.currentDay;
+    // A completion date before yesterday means the run is already
+    // broken (the next log resets to day 1); show zero progress
+    // instead of the stale day count.
+    final now = DateTime.now();
+    final lastDate = activeChallenge.lastCompletionDate;
+    final isBroken = lastDate.isNotEmpty &&
+        lastDate != formatDateKey(now) &&
+        lastDate != formatDateKey(previousCalendarDay(now));
+    final currentDay = isBroken ? 0 : activeChallenge.currentDay;
     final targetDays = activeChallenge.targetDays > 0
         ? activeChallenge.targetDays
         : template.targetDays;

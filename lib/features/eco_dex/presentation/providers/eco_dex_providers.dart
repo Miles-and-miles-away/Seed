@@ -17,10 +17,14 @@ const String ecoDexAssetExt = '.svg';
 /// Debug-only. Extra entry IDs force-marked as discovered so art can be
 /// previewed without satisfying unlock conditions. Set to `const []`
 /// before committing -- guarded by `kDebugMode` so it can never ship.
-const List<String> _kDebugForceDiscoveredIds = ['oceans_01'];
+const List<String> _kDebugForceDiscoveredIds = [];
 
 /// Loads and caches all Eco-Dex data from the JSON asset.
-@riverpod
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 160 KB asset on every revisit (and after every logged action via
+/// the discovery check).
+@Riverpod(keepAlive: true)
 Future<EcoDexData> ecoDexData(Ref ref) => loadEcoDexData();
 
 /// Set of entry icon names whose SVG ships in the asset bundle.
@@ -129,7 +133,15 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
 
   /// Discovers entries whose conditions are met.
   /// Returns the list of newly discovered entry IDs.
-  Future<List<String>> discoverNewEntries() async {
+  ///
+  /// [minActionsCount] is the expected post-log total: the user-doc
+  /// stream emission races the log transaction, so without waiting an
+  /// unlock earned by that very action would be missed until the next
+  /// one.
+  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+    if (minActionsCount != null) {
+      await _waitForUserCount(minActionsCount);
+    }
     final newUnlocks = await ref.read(ecoDexNewUnlocksProvider.future);
     if (newUnlocks.isEmpty) return [];
 
@@ -153,5 +165,18 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
     }
 
     return result.hasError ? [] : newUnlocks;
+  }
+
+  /// Waits (bounded) for the user stream to reflect at least
+  /// [minActionsCount] logged actions.
+  Future<void> _waitForUserCount(int minActionsCount) async {
+    for (var attempt = 0; attempt < 10; attempt++) {
+      final user = ref.read(currentUserProvider).value;
+      if (user != null && user.totalActionsCount >= minActionsCount) {
+        return;
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      if (!ref.mounted) return;
+    }
   }
 }

@@ -31,6 +31,51 @@ void main() {
     expect(find.byIcon(Icons.error_outline), findsNothing);
   });
 
+  testWidgets('shows no retry button when onRetry is omitted', (
+    tester,
+  ) async {
+    await tester.pumpWidget(wrap(const ErrorDisplay()));
+
+    expect(find.byType(FilledButton), findsNothing);
+    expect(find.byType(TextButton), findsNothing);
+  });
+
+  testWidgets('tapping the retry button invokes the callback', (
+    tester,
+  ) async {
+    var retries = 0;
+    await tester.pumpWidget(
+      wrap(ErrorDisplay(onRetry: () => retries++)),
+    );
+
+    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    await tester.tap(find.byType(FilledButton));
+    expect(retries, 1);
+  });
+
+  testWidgets('compact form shows a tappable retry button', (
+    tester,
+  ) async {
+    var retries = 0;
+    await tester.pumpWidget(
+      wrap(ErrorDisplay(compact: true, onRetry: () => retries++)),
+    );
+
+    expect(find.byIcon(Icons.error_outline), findsNothing);
+    await tester.tap(find.byType(TextButton));
+    expect(retries, 1);
+  });
+
+  testWidgets('renders the message override instead of the generic one', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(const ErrorDisplay(message: 'Custom message')),
+    );
+
+    expect(find.text('Custom message'), findsOneWidget);
+  });
+
   testWidgets('uses the theme error color for text', (tester) async {
     await tester.pumpWidget(
       MaterialApp(

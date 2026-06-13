@@ -6,11 +6,10 @@ abstract class AppConstants {
 
   // Level system
   static const pointsPerLevel = 100; // Base points needed per level
-  static const levelScalingFactor = 1.5; // Each level requires 1.5x more points
-
-  // Streaks
-  static const maxStreakBonus = 2.0; // Max 2x points at streak 30+
-  static const streakBonusPerDay = 0.033; // ~1% bonus per day
+  // Each level requires 1.05x more points than the last. Tuned so a
+  // full evolution (level 50, ~19,800 cumulative points) takes ~4-5
+  // months at ~150 points/day; stage 2 ~1 week, stage 3 ~4 weeks.
+  static const levelScalingFactor = 1.05;
 
   // Mascot evolution thresholds
   static const evolutionStage1Level = 1;
@@ -51,6 +50,7 @@ abstract class AppConstants {
   static const eggHatchingStreakRequired = 30;
   static const maxEvolutionLevel = 50;
   static const maxMascotsPerUser = 20;
+  static const maxMascotNameLength = 20;
 
   // Auth throttling
   static const authCooldownSeconds = 3;
@@ -58,6 +58,7 @@ abstract class AppConstants {
   // User profile limits
   static const maxDisplayNameLength = 50;
   static const maxPersonalGoalLength = 100;
+  static const maxNoteLength = 200;
 
   // Daily challenges
   static const recentChallengeIdsLimit = 7;

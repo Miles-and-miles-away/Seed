@@ -289,7 +289,7 @@ abstract class AppLocalizations {
   /// No description provided for @pointsLabel.
   ///
   /// In en, this message translates to:
-  /// **'{count} points'**
+  /// **'{count, plural, one{{count} point} other{{count} points}}'**
   String pointsLabel(int count);
 
   /// No description provided for @levelLabel.
@@ -439,7 +439,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileDaysActive.
   ///
   /// In en, this message translates to:
-  /// **'{days} days'**
+  /// **'{days, plural, one{{days} day} other{{days} days}}'**
   String profileDaysActive(int days);
 
   /// No description provided for @profileEvolutionStage.
@@ -615,6 +615,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Authentication failed. Please try again.'**
   String get errorAuth;
+
+  /// No description provided for @errorOpenLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link.'**
+  String get errorOpenLink;
+
+  /// No description provided for @errorActionTooSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait a few seconds between actions.'**
+  String get errorActionTooSoon;
+
+  /// No description provided for @errorOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Check your connection and try again.'**
+  String get errorOffline;
+
+  /// No description provided for @errorAuthEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email address.'**
+  String get errorAuthEmailInUse;
+
+  /// No description provided for @errorAuthInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get errorAuthInvalidEmail;
+
+  /// No description provided for @errorAuthOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is not enabled. Please contact support.'**
+  String get errorAuthOperationNotAllowed;
+
+  /// No description provided for @errorAuthWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak. Please use at least 6 characters.'**
+  String get errorAuthWeakPassword;
+
+  /// No description provided for @errorAuthUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled. Please contact support.'**
+  String get errorAuthUserDisabled;
+
+  /// No description provided for @errorAuthInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password. Please try again.'**
+  String get errorAuthInvalidCredentials;
+
+  /// No description provided for @errorAuthTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment and try again.'**
+  String get errorAuthTooManyRequests;
+
+  /// No description provided for @errorAuthNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your internet connection.'**
+  String get errorAuthNetwork;
+
+  /// No description provided for @errorAuthSignInCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in was cancelled.'**
+  String get errorAuthSignInCancelled;
+
+  /// No description provided for @errorAuthAccountExistsWithDifferentCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email using a different sign-in method.'**
+  String get errorAuthAccountExistsWithDifferentCredential;
+
+  /// No description provided for @errorAuthLinkExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This link has expired. Please request a new one.'**
+  String get errorAuthLinkExpired;
+
+  /// No description provided for @errorAuthLinkInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This link is invalid. Please request a new one.'**
+  String get errorAuthLinkInvalid;
 
   /// No description provided for @buttonSave.
   ///
@@ -1051,7 +1141,7 @@ abstract class AppLocalizations {
   /// No description provided for @sdgActionsLogged.
   ///
   /// In en, this message translates to:
-  /// **'{count} actions logged'**
+  /// **'{count, plural, one{{count} action logged} other{{count} actions logged}}'**
   String sdgActionsLogged(int count);
 
   /// No description provided for @sdgCo2SavedForGoal.
@@ -1603,7 +1693,7 @@ abstract class AppLocalizations {
   /// No description provided for @mascotLevelsToGo.
   ///
   /// In en, this message translates to:
-  /// **'{count} levels to go'**
+  /// **'{count, plural, one{{count} level to go} other{{count} levels to go}}'**
   String mascotLevelsToGo(int count);
 
   /// No description provided for @mascotLevelProgress.
@@ -2161,7 +2251,7 @@ abstract class AppLocalizations {
   /// No description provided for @challengeDays.
   ///
   /// In en, this message translates to:
-  /// **'{days} days'**
+  /// **'{days, plural, one{{days} day} other{{days} days}}'**
   String challengeDays(int days);
 
   /// No description provided for @challengeAnyCategory.

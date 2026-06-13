@@ -1,56 +1,61 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-/// Maps Firebase Auth errors to user-friendly messages.
-String mapAuthErrorToMessage(Object error) {
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+
+/// Maps Firebase Auth errors to localized, user-friendly messages.
+///
+/// Unknown codes and non-auth errors fall back to the localized generic
+/// message; raw Firebase exception text is never shown to users.
+String mapAuthErrorToMessage(Object error, AppLocalizations l10n) {
   if (error is FirebaseAuthException) {
-    return _mapFirebaseAuthCode(error.code, error.message);
+    return _mapFirebaseAuthCode(error.code, l10n);
   }
-  return 'An unexpected error occurred. Please try again.';
+  return l10n.errorGeneric;
 }
 
-String _mapFirebaseAuthCode(String code, String? fallbackMessage) {
+String _mapFirebaseAuthCode(String code, AppLocalizations l10n) {
   switch (code) {
     // Sign up errors
     case 'email-already-in-use':
-      return 'An account already exists with this email address.';
+      return l10n.errorAuthEmailInUse;
     case 'invalid-email':
-      return 'Please enter a valid email address.';
+      return l10n.errorAuthInvalidEmail;
     case 'operation-not-allowed':
-      return 'This sign-in method is not enabled. Please contact support.';
+      return l10n.errorAuthOperationNotAllowed;
     case 'weak-password':
-      return 'Password is too weak. Please use at least 6 characters.';
+      return l10n.errorAuthWeakPassword;
 
-    // Sign in errors
+    // Sign in errors. user-not-found and wrong-password collapse into
+    // one message so responses never reveal whether an email is
+    // registered (account enumeration).
     case 'user-disabled':
-      return 'This account has been disabled. Please contact support.';
+      return l10n.errorAuthUserDisabled;
     case 'user-not-found':
-      return 'No account found with this email address.';
     case 'wrong-password':
-      return 'Incorrect password. Please try again.';
     case 'invalid-credential':
-      return 'Invalid email or password. Please try again.';
+      return l10n.errorAuthInvalidCredentials;
 
     // Rate limiting
     case 'too-many-requests':
-      return 'Too many attempts. Please wait a moment and try again.';
+      return l10n.errorAuthTooManyRequests;
 
     // Network errors
     case 'network-request-failed':
-      return 'Network error. Please check your internet connection.';
+      return l10n.errorAuthNetwork;
 
     // Social sign-in errors
     case 'sign-in-cancelled':
-      return 'Sign-in was cancelled.';
+      return l10n.errorAuthSignInCancelled;
     case 'account-exists-with-different-credential':
-      return 'An account already exists with this email using a different sign-in method.';
+      return l10n.errorAuthAccountExistsWithDifferentCredential;
 
     // Email verification
     case 'expired-action-code':
-      return 'This link has expired. Please request a new one.';
+      return l10n.errorAuthLinkExpired;
     case 'invalid-action-code':
-      return 'This link is invalid. Please request a new one.';
+      return l10n.errorAuthLinkInvalid;
 
     default:
-      return fallbackMessage ?? 'An error occurred. Please try again.';
+      return l10n.errorGeneric;
   }
 }

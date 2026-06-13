@@ -43,6 +43,26 @@ class RainbowSunPainter extends CustomPainter {
   /// Start from top (-90 degrees or -π/2)
   static const double _startAngle = -math.pi / 2;
 
+  // Animation-independent gradients, hoisted so paint() does not
+  // re-allocate them every frame (only their shaders depend on the
+  // frame's geometry). Ray gradients depend on animationValue and
+  // must stay per-frame.
+  static final RadialGradient _ballGradient = RadialGradient(
+    colors: [
+      AppColors.sunYellow,
+      AppColors.sunAmber,
+      AppColors.sunOrange,
+    ],
+    stops: const [0.0, 0.5, 1.0],
+  );
+
+  static final RadialGradient _glowGradient = RadialGradient(
+    colors: [
+      AppColors.sunYellow.withValues(alpha: opacityMuted),
+      AppColors.sunYellow.withValues(alpha: 0),
+    ],
+  );
+
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
@@ -64,34 +84,16 @@ class RainbowSunPainter extends CustomPainter {
   }
 
   void _drawBall(Canvas canvas, Offset center, double radius) {
-    // Create radial gradient from yellow to orange
-    final gradient = RadialGradient(
-      colors: [
-        AppColors.sunYellow,
-        AppColors.sunAmber,
-        AppColors.sunOrange,
-      ],
-      stops: const [0.0, 0.5, 1.0],
-    );
-
     final paint = Paint()
-      ..shader = gradient.createShader(
+      ..shader = _ballGradient.createShader(
         Rect.fromCircle(center: center, radius: radius),
       )
       ..style = PaintingStyle.fill;
 
-    // Draw soft glow around the ball using a gradient instead of blur
+    // Soft glow drawn with a gradient instead of blur
     // (MaskFilter.blur causes Impeller crashes on iOS)
-    final glowGradient = RadialGradient(
-      colors: [
-        AppColors.sunYellow.withValues(
-          alpha: opacityMuted,
-        ),
-        AppColors.sunYellow.withValues(alpha: 0),
-      ],
-    );
     final glowPaint = Paint()
-      ..shader = glowGradient.createShader(
+      ..shader = _glowGradient.createShader(
         Rect.fromCircle(center: center, radius: radius * 1.5),
       );
 

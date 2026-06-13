@@ -35,7 +35,9 @@ class NotificationService {
 
   /// Initialize the notification service.
   ///
-  /// Must be called before any other methods.
+  /// Must be called before any other methods. Parses the full timezone
+  /// database, so main.dart defers this until after the first frame to
+  /// keep startup unblocked.
   Future<void> initialize({
     void Function(String? payload)? onTap,
   }) async {
@@ -43,7 +45,11 @@ class NotificationService {
 
     onNotificationTap = onTap;
 
-    // Initialize timezone
+    // Initialize timezone database.
+    // NOTE(postponed): this leaves tz.local at UTC -- before the
+    // reminder feature ships, resolve the device zone (e.g. via
+    // flutter_timezone) and call tz.setLocalLocation, otherwise
+    // zonedSchedule fires at UTC wall-clock times.
     tz.initializeTimeZones();
 
     // Android initialization

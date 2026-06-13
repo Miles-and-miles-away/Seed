@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2025-01-18",
+  "@@last_modified": "2026-06-12",
 
   "appTitle": "Seed",
   "appTagline": "Grow your sustainability habits",
@@ -48,7 +48,7 @@
   "addNoteOptional": "Add a note (optional)",
   "noteHint": "e.g., Used my own bag at the store",
 
-  "pointsLabel": "{count} points",
+  "pointsLabel": "{count, plural, one{{count} point} other{{count} points}}",
   "@pointsLabel": {
     "placeholders": {
       "count": {"type": "int"}
@@ -111,7 +111,7 @@
       "points": {"type": "int"}
     }
   },
-  "profileDaysActive": "{days} days",
+  "profileDaysActive": "{days, plural, one{{days} day} other{{days} days}}",
   "@profileDaysActive": {
     "placeholders": {
       "days": {"type": "int"}
@@ -155,6 +155,21 @@
   "errorGeneric": "Something went wrong. Please try again.",
   "errorNetwork": "No internet connection.",
   "errorAuth": "Authentication failed. Please try again.",
+  "errorOpenLink": "Could not open link.",
+  "errorActionTooSoon": "Please wait a few seconds between actions.",
+  "errorOffline": "You're offline. Check your connection and try again.",
+  "errorAuthEmailInUse": "An account already exists with this email address.",
+  "errorAuthInvalidEmail": "Please enter a valid email address.",
+  "errorAuthOperationNotAllowed": "This sign-in method is not enabled. Please contact support.",
+  "errorAuthWeakPassword": "Password is too weak. Please use at least 6 characters.",
+  "errorAuthUserDisabled": "This account has been disabled. Please contact support.",
+  "errorAuthInvalidCredentials": "Invalid email or password. Please try again.",
+  "errorAuthTooManyRequests": "Too many attempts. Please wait a moment and try again.",
+  "errorAuthNetwork": "Network error. Please check your internet connection.",
+  "errorAuthSignInCancelled": "Sign-in was cancelled.",
+  "errorAuthAccountExistsWithDifferentCredential": "An account already exists with this email using a different sign-in method.",
+  "errorAuthLinkExpired": "This link has expired. Please request a new one.",
+  "errorAuthLinkInvalid": "This link is invalid. Please request a new one.",
 
   "buttonSave": "Save",
   "buttonCancel": "Cancel",
@@ -263,7 +278,7 @@
   "co2PerAction": "{amount}g CO₂",
 
   "sdgYourImpact": "Your Impact",
-  "sdgActionsLogged": "{count} actions logged",
+  "sdgActionsLogged": "{count, plural, one{{count} action logged} other{{count} actions logged}}",
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {"type": "int"}
@@ -422,7 +437,7 @@
       "level": {"type": "int"}
     }
   },
-  "mascotLevelsToGo": "{count} levels to go",
+  "mascotLevelsToGo": "{count, plural, one{{count} level to go} other{{count} levels to go}}",
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {"type": "int"}
@@ -561,7 +576,7 @@
   "challengeAvailable": "Available",
   "challengeAbandon": "Abandon",
   "challengeAbandonConfirm": "Abandon this challenge? Progress will be lost.",
-  "challengeDays": "{days} days",
+  "challengeDays": "{days, plural, one{{days} day} other{{days} days}}",
   "@challengeDays": {
     "placeholders": {
       "days": {"type": "int"}

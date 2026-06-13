@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
@@ -163,7 +164,8 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return l10n.mascotNameRequired;
                     }
-                    if (value.trim().length > 20) {
+                    if (value.trim().length >
+                        AppConstants.maxMascotNameLength) {
                       return l10n.mascotNameTooLong;
                     }
                     return null;

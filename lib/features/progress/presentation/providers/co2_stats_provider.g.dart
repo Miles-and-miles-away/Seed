@@ -17,6 +17,9 @@ part of 'co2_stats_provider.dart';
 /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
 /// (already aggregated on the user doc) and treat the previous period
 /// as zero-width so the comparison badge stays hidden.
+/// Keyed on the user id (not the whole user doc) so logging an action
+/// does not implicitly re-run the queries; ActionLogNotifier and
+/// dayChangeProvider invalidate this explicitly when the data moves.
 
 @ProviderFor(co2Stats)
 final co2StatsProvider = Co2StatsFamily._();
@@ -30,6 +33,9 @@ final co2StatsProvider = Co2StatsFamily._();
 /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
 /// (already aggregated on the user doc) and treat the previous period
 /// as zero-width so the comparison badge stays hidden.
+/// Keyed on the user id (not the whole user doc) so logging an action
+/// does not implicitly re-run the queries; ActionLogNotifier and
+/// dayChangeProvider invalidate this explicitly when the data moves.
 
 final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
         Co2Stats, FutureOr<Co2Stats>>
@@ -43,6 +49,9 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
   /// (already aggregated on the user doc) and treat the previous period
   /// as zero-width so the comparison badge stays hidden.
+  /// Keyed on the user id (not the whole user doc) so logging an action
+  /// does not implicitly re-run the queries; ActionLogNotifier and
+  /// dayChangeProvider invalidate this explicitly when the data moves.
   Co2StatsProvider._(
       {required Co2StatsFamily super.from, required TimePeriod super.argument})
       : super(
@@ -88,7 +97,7 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   }
 }
 
-String _$co2StatsHash() => r'3cf70000f76add74f17aa1140abe3306ff88248f';
+String _$co2StatsHash() => r'4e350ec6e6465949de5be1c38084b26ce34b5612';
 
 /// Aggregated CO2 totals for the Impact dashboard.
 ///
@@ -99,6 +108,9 @@ String _$co2StatsHash() => r'3cf70000f76add74f17aa1140abe3306ff88248f';
 /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
 /// (already aggregated on the user doc) and treat the previous period
 /// as zero-width so the comparison badge stays hidden.
+/// Keyed on the user id (not the whole user doc) so logging an action
+/// does not implicitly re-run the queries; ActionLogNotifier and
+/// dayChangeProvider invalidate this explicitly when the data moves.
 
 final class Co2StatsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2Stats>, TimePeriod> {
@@ -120,6 +132,9 @@ final class Co2StatsFamily extends $Family
   /// For [TimePeriod.allTime] we read `user.totalCo2Grams` directly
   /// (already aggregated on the user doc) and treat the previous period
   /// as zero-width so the comparison badge stays hidden.
+  /// Keyed on the user id (not the whole user doc) so logging an action
+  /// does not implicitly re-run the queries; ActionLogNotifier and
+  /// dayChangeProvider invalidate this explicitly when the data moves.
 
   Co2StatsProvider call(
     TimePeriod period,

@@ -7,6 +7,9 @@ import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_provide
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_card.dart';
 
 /// A section showing one category's entries in a grid.
+///
+/// Builds slivers (header + lazy grid) so off-screen entry cards are
+/// never instantiated; must be placed inside a [CustomScrollView].
 class EcoDexCategorySection extends ConsumerWidget {
   const EcoDexCategorySection({
     required this.category,
@@ -29,31 +32,32 @@ class EcoDexCategorySection extends ConsumerWidget {
     final progress = progressAsync.value ?? {};
     final categoryProgress = progress[category.id] ?? (0, 0);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                category.name(locale),
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: spacingSm),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    category.name(locale),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  '${categoryProgress.$1}/${categoryProgress.$2}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              '${categoryProgress.$1}/${categoryProgress.$2}',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
+          ),
         ),
-        const SizedBox(height: spacingSm),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+        SliverGrid.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
             mainAxisSpacing: spacingMd,

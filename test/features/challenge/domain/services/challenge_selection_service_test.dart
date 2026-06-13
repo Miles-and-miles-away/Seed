@@ -32,6 +32,13 @@ void main() {
         isNot(dailySeed('u1', DateTime(2026, 4, 20))),
       );
     });
+
+    test('matches the FNV-1a snapshot (cross-platform stability)', () {
+      // String.hashCode is not stable across platforms/SDKs; the seed
+      // uses explicit FNV-1a. If this snapshot ever changes, today's
+      // challenge would silently change for every user mid-day.
+      expect(dailySeed('u1', DateTime(2026, 4, 19)), 1761451693);
+    });
   });
 
   group('selectDailyChallenge', () {

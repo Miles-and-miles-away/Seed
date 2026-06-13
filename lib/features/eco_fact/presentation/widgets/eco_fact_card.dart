@@ -7,7 +7,6 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Card displaying an eco-fact with source, category chip,
 /// and related SDG icons. Supports a locked state for future
@@ -196,12 +195,7 @@ class _SourceLineState extends State<_SourceLine> {
     super.dispose();
   }
 
-  Future<void> _launchUrl() async {
-    final uri = Uri.tryParse(widget.sourceUrl);
-    if (uri != null && await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
+  Future<void> _launchUrl() => openExternalUrl(context, widget.sourceUrl);
 
   @override
   Widget build(BuildContext context) {

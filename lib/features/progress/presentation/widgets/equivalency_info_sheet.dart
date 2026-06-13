@@ -8,7 +8,6 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const double _kMaxChildSize = 0.9;
 const double _kMinChildSize = 0.4;
@@ -178,7 +177,7 @@ class _EquivalencyExplainer extends StatelessWidget {
             _SourceLinkTile(
               label: l10n.impactInfoSourceLabel,
               sourceName: metadata.sourceName,
-              onTap: () => _launch(metadata.sourceUrl),
+              onTap: () => openExternalUrl(context, metadata.sourceUrl),
             ),
             const SizedBox(height: spacingSm),
             _LabeledLine(
@@ -214,14 +213,6 @@ class _EquivalencyExplainer extends StatelessWidget {
         EquivalencyType.phoneCharges => l10n.equivPhoneChargesExplainer,
         EquivalencyType.burgers => l10n.equivBurgersExplainer,
       };
-
-  Future<void> _launch(String urlString) async {
-    final uri = Uri.tryParse(urlString);
-    if (uri == null) return;
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
 }
 
 /// Prominent tappable tile that opens the source URL externally.

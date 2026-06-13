@@ -12,6 +12,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
+import 'package:seed_app/core/utils/validators.dart';
 import '../providers/auth_providers.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_sign_in_button.dart';
@@ -79,7 +80,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  mapAuthErrorToMessage(error),
+                  mapAuthErrorToMessage(error, l10n),
                 ),
                 backgroundColor: AppColors.error,
               ),
@@ -320,14 +321,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     String? value,
     AppLocalizations l10n,
   ) {
-    if (value == null || value.isEmpty) {
-      return l10n.authValidationEmailRequired;
-    }
-    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return l10n.authValidationEmailInvalid;
-    }
-    return null;
+    return validateEmail(
+      value,
+      emptyError: l10n.authValidationEmailRequired,
+      invalidError: l10n.authValidationEmailInvalid,
+    );
   }
 
   String? _validatePassword(

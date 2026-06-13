@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:seed_app/core/utils/date_helpers.dart';
+
 /// Service for streak-related calculations and milestone tracking.
 ///
 /// Provides utility methods for:
@@ -36,8 +38,6 @@ class StreakService {
     required int longestStreak,
     required DateTime now,
   }) {
-    final today = DateTime(now.year, now.month, now.day);
-
     if (lastActionDate == null) {
       // First action ever - start streak at 1
       return StreakUpdateResult(
@@ -47,15 +47,12 @@ class StreakService {
       );
     }
 
-    final lastDate = DateTime(
-      lastActionDate.year,
-      lastActionDate.month,
-      lastActionDate.day,
-    );
-    final difference = today.difference(lastDate).inDays;
+    final difference = calendarDaysBetween(lastActionDate, now);
 
-    if (difference == 0) {
-      // Same day - streak continues but doesn't increment
+    if (difference <= 0) {
+      // Same day - streak continues but doesn't increment. Negative
+      // differences happen after travelling west across timezones;
+      // treating them as a gap would unfairly reset the streak.
       return StreakUpdateResult(
         currentStreak: math.max(1, currentStreak),
         longestStreak: longestStreak,
@@ -85,6 +82,24 @@ class StreakService {
         streakWasBroken: currentStreak > 1,
       );
     }
+  }
+
+  /// The streak value the UI should display.
+  ///
+  /// The stored streak is only corrected by the next log, so after a
+  /// missed day it still holds the old value; a gap of more than one
+  /// calendar day means the streak is already broken. A null
+  /// [lastActionDate] with a positive stored streak is a pending
+  /// serverTimestamp (latency-compensated local write) and is treated
+  /// as live to avoid a flicker to zero right after logging.
+  int displayedStreak({
+    required int storedStreak,
+    required DateTime? lastActionDate,
+    required DateTime now,
+  }) {
+    if (lastActionDate == null) return storedStreak;
+    if (calendarDaysBetween(lastActionDate, now) > 1) return 0;
+    return storedStreak;
   }
 
   /// Converts streak days to complete weeks.

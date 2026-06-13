@@ -10,6 +10,9 @@ class ActionLibraryRepository {
   /// Watches all active actions from the library.
   Stream<List<ActionModel>> watchActions() => dataSource.watchActions();
 
+  /// Gets all active actions from the library once.
+  Future<List<ActionModel>> getActions() => dataSource.getActions();
+
   /// Gets a single action by ID.
   Future<ActionModel?> getAction(String id) => dataSource.getAction(id);
 }

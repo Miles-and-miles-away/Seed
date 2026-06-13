@@ -13,14 +13,20 @@ part 'sdg_providers.g.dart';
 Future<SdgGoalsData> sdgGoalsData(Ref ref) => loadSdgGoals();
 
 /// Loads and caches SDG resource data from JSON.
-@riverpod
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// asset on every screen revisit.
+@Riverpod(keepAlive: true)
 Future<Map<int, List<SdgResource>>> sdgResourcesData(
   Ref ref,
 ) =>
     loadSdgResources();
 
 /// Loads and caches SDG target data from JSON.
-@riverpod
+///
+/// keepAlive: static bundled data; autoDispose would re-parse the
+/// 120 KB asset on every screen revisit.
+@Riverpod(keepAlive: true)
 Future<Map<int, List<SdgTarget>>> sdgTargetsData(
   Ref ref,
 ) =>
