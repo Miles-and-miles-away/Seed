@@ -286,7 +286,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Uploads Crashlytics dSYMs after each build so release crash reports\n# are symbolicated. Firebase is integrated via SPM, so the upload-symbols\n# run script lives in the resolved Firebase iOS SDK package checkout.\nRUN_SCRIPT=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ -f \"$RUN_SCRIPT\" ]; then\n  \"$RUN_SCRIPT\"\nelse\n  echo \"warning: Crashlytics run script not found at $RUN_SCRIPT; dSYMs not uploaded\"\nfi\n";
+			shellScript = "# Uploads Crashlytics dSYMs so release crash reports are symbolicated.\n# Skipped for non-Release builds (no shippable dSYMs) and when the\n# GoogleService-Info.plist is absent, so simulator/dev builds don't fail.\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  echo \"note: skipping Crashlytics dSYM upload for ${CONFIGURATION} build\"\n  exit 0\nfi\nGSP=\"${SRCROOT}/Runner/GoogleService-Info.plist\"\nif [ ! -f \"$GSP\" ]; then\n  echo \"warning: $GSP not found; skipping Crashlytics dSYM upload\"\n  exit 0\nfi\nRUN_SCRIPT=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ -f \"$RUN_SCRIPT\" ]; then\n  \"$RUN_SCRIPT\" -gsp \"$GSP\" -p ios\nelse\n  echo \"warning: Crashlytics run script not found at $RUN_SCRIPT; dSYMs not uploaded\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
