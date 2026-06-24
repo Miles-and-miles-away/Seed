@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
@@ -307,15 +308,7 @@ class RainbowSunPainter extends CustomPainter {
   @override
   bool shouldRepaint(RainbowSunPainter oldDelegate) {
     return completionRatio != oldDelegate.completionRatio ||
-        !_listEquals(completedSdgs, oldDelegate.completedSdgs) ||
+        !listEquals(completedSdgs, oldDelegate.completedSdgs) ||
         animationValue != oldDelegate.animationValue;
-  }
-
-  bool _listEquals(List<int> a, List<int> b) {
-    if (a.length != b.length) return false;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
   }
 }

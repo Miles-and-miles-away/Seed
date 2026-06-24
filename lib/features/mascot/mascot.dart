@@ -3,7 +3,7 @@
 library;
 
 // Data layer - Models
-export 'data/mascot_species_data.dart';
+export 'data/mascot_species_loader.dart';
 export 'data/models/egg_model.dart';
 export 'data/models/evolution_stage_model.dart';
 export 'data/models/mascot_model.dart';

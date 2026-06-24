@@ -12,6 +12,7 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when an egg hatches into
@@ -103,186 +104,171 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     final assetPath = species?.evolutionStages.first.assetPath;
     final speciesName = species?.name(locale) ?? '';
 
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          // Backdrop
-          RepaintBoundary(
-            child: Container(
-              color: Colors.black.withValues(
-                alpha: opacityNearOpaque,
-              ),
-            ).animate().fadeIn(duration: 300.ms),
+    return CelebrationOverlay(
+      children: [
+        // Particles
+        RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _particleController,
+            builder: (context, _) {
+              return CustomPaint(
+                size: Size.infinite,
+                painter: _ConfettiPainter(
+                  particles: _particles,
+                  progress: _particleController.value,
+                ),
+              );
+            },
           ),
+        ),
 
-          // Particles
-          RepaintBoundary(
-            child: AnimatedBuilder(
-              animation: _particleController,
-              builder: (context, _) {
-                return CustomPaint(
-                  size: Size.infinite,
-                  painter: _ConfettiPainter(
-                    particles: _particles,
-                    progress: _particleController.value,
-                  ),
-                );
-              },
-            ),
-          ),
+        // Content
+        SafeArea(
+          child: Column(
+            children: [
+              const Spacer(),
 
-          // Content
-          SafeArea(
-            child: Column(
-              children: [
-                const Spacer(),
+              // Title
+              Text(
+                l10n.eggHatchingTitle,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.2, end: 0),
 
-                // Title
-                Text(
-                  l10n.eggHatchingTitle,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+              const Spacer(),
+
+              // Egg cracking -> mascot reveal
+              if (!_showMascot)
+                const Icon(
+                  Icons.egg,
+                  size: 120,
+                  color: AppColors.eggBeige,
                 )
                     .animate()
-                    .fadeIn(duration: 400.ms)
-                    .slideY(begin: -0.2, end: 0),
+                    .shake(
+                      duration: 600.ms,
+                      hz: 6,
+                    )
+                    .then()
+                    .scale(
+                      end: const Offset(1.3, 1.3),
+                      duration: 200.ms,
+                    )
+              else if (assetPath != null)
+                Column(
+                  children: [
+                    SvgPicture.asset(
+                      assetPath,
+                      width: 160,
+                      height: 160,
+                    ).animate().fadeIn(duration: 500.ms).scale(
+                          begin: const Offset(0.3, 0.3),
+                          end: const Offset(1, 1),
+                          curve: Curves.elasticOut,
+                          duration: 800.ms,
+                        ),
+                    const SizedBox(height: spacingLg),
+                    Text(
+                      speciesName,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: AppColors.gold,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).animate().fadeIn(
+                          delay: 300.ms,
+                          duration: 400.ms,
+                        ),
+                  ],
+                ),
 
-                const Spacer(),
+              const Spacer(),
 
-                // Egg cracking -> mascot reveal
-                if (!_showMascot)
-                  const Icon(
-                    Icons.egg,
-                    size: 120,
-                    color: AppColors.eggBeige,
+              // Name input
+              if (_showNameInput)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: spacingHuge,
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n.eggHatchingNamePrompt,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: spacingMd),
+                      TextField(
+                        controller: _nameController,
+                        autofocus: true,
+                        textAlign: TextAlign.center,
+                        textCapitalization: TextCapitalization.words,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: l10n.mascotNameHint,
+                          hintStyle: TextStyle(
+                            color: Colors.white.withValues(
+                              alpha: opacityMedium,
+                            ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white.withValues(
+                                alpha: opacityHalf,
+                              ),
+                            ),
+                          ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.gold,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: spacingXxl),
+                      FilledButton(
+                        onPressed: _isSubmitting ? null : _handleConfirm,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: spacingHuge,
+                            vertical: spacingLg,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: borderRadiusLg,
+                          ),
+                        ),
+                        child: _isSubmitting
+                            ? const SizedBox(
+                                width: spacingXxl,
+                                height: spacingXxl,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(
+                                l10n.eggHatchingConfirm,
+                              ),
+                      ),
+                    ],
                   )
                       .animate()
-                      .shake(
-                        duration: 600.ms,
-                        hz: 6,
-                      )
-                      .then()
-                      .scale(
-                        end: const Offset(1.3, 1.3),
-                        duration: 200.ms,
-                      )
-                else if (assetPath != null)
-                  Column(
-                    children: [
-                      SvgPicture.asset(
-                        assetPath,
-                        width: 160,
-                        height: 160,
-                      ).animate().fadeIn(duration: 500.ms).scale(
-                            begin: const Offset(0.3, 0.3),
-                            end: const Offset(1, 1),
-                            curve: Curves.elasticOut,
-                            duration: 800.ms,
-                          ),
-                      const SizedBox(height: spacingLg),
-                      Text(
-                        speciesName,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: AppColors.gold,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ).animate().fadeIn(
-                            delay: 300.ms,
-                            duration: 400.ms,
-                          ),
-                    ],
-                  ),
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: 0.2, end: 0),
+                ),
 
-                const Spacer(),
-
-                // Name input
-                if (_showNameInput)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: spacingHuge,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          l10n.eggHatchingNamePrompt,
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: spacingMd),
-                        TextField(
-                          controller: _nameController,
-                          autofocus: true,
-                          textAlign: TextAlign.center,
-                          textCapitalization: TextCapitalization.words,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: l10n.mascotNameHint,
-                            hintStyle: TextStyle(
-                              color: Colors.white.withValues(
-                                alpha: opacityMedium,
-                              ),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white.withValues(
-                                  alpha: opacityHalf,
-                                ),
-                              ),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.gold,
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: spacingXxl),
-                        FilledButton(
-                          onPressed: _isSubmitting ? null : _handleConfirm,
-                          style: FilledButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: spacingHuge,
-                              vertical: spacingLg,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: borderRadiusLg,
-                            ),
-                          ),
-                          child: _isSubmitting
-                              ? const SizedBox(
-                                  width: spacingXxl,
-                                  height: spacingXxl,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : Text(
-                                  l10n.eggHatchingConfirm,
-                                ),
-                        ),
-                      ],
-                    )
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.2, end: 0),
-                  ),
-
-                const SizedBox(height: spacingHuge),
-              ],
-            ),
+              const SizedBox(height: spacingHuge),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -366,16 +352,12 @@ class _ConfettiPainter extends CustomPainter {
 Future<void> showEggHatchingCelebration(
   BuildContext context,
   MascotModel hatchedMascot,
-) async {
-  await showGeneralDialog<void>(
-    context: context,
-    barrierColor: Colors.transparent,
-    pageBuilder: (context, animation, secondaryAnimation) {
-      return EggHatchingCelebration(
-        hatchedMascot: hatchedMascot,
-        onDismiss: () => Navigator.of(context).pop(),
-      );
-    },
-    transitionDuration: Duration.zero,
+) {
+  return showCelebrationOverlay(
+    context,
+    (onDismiss) => EggHatchingCelebration(
+      hatchedMascot: hatchedMascot,
+      onDismiss: onDismiss,
+    ),
   );
 }

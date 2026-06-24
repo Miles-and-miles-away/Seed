@@ -27,6 +27,7 @@ class EcoDexEntrySheet extends StatelessWidget {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(radiusXl),
@@ -44,7 +45,7 @@ class EcoDexEntrySheet extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         spacingXxl,
-        spacingLg,
+        spacingSm,
         spacingXxl,
         spacingXxxl,
       ),
@@ -52,20 +53,6 @@ class EcoDexEntrySheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Drag handle
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.onSurfaceVariant
-                    .withValues(alpha: opacityMedium),
-                borderRadius: BorderRadius.circular(spacingXxs),
-              ),
-            ),
-          ),
-          const SizedBox(height: spacingXl),
-
           // Entry artwork
           Center(
             child: EcoDexEntryImage(

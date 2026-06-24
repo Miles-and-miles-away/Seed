@@ -461,7 +461,7 @@ ChallengeTemplate selectDailyChallenge(
 
 - Different users get different challenges on the same day
 - Exclude last 7 completed challenge template IDs
-- Store recent IDs in SharedPreferences
+- Store recent IDs on the Firestore user doc (`recentChallengeIds`)
 
 #### Multi-Day Challenge Framework
 
@@ -493,7 +493,7 @@ class MultiDayChallenge {
 #### Data Storage
 
 - **Challenge templates:** Const list in app code
-- **Recent daily challenge IDs:** SharedPreferences (last 7 IDs)
+- **Recent daily challenge IDs:** Firestore `users/{uid}` doc (`recentChallengeIds`, last 7)
 - **Daily completion state:** Firestore `users/{uid}` document
   - `challengeCompletedDate`: Timestamp (last completion date)
   - `challengeStreak`: int (consecutive days completing challenges)
@@ -1393,7 +1393,7 @@ refinements. Ordered by priority:
 ### Internal
 - Phase 4 complete (action logging, points, streaks, analytics)
 - User doc contains category counts, streak, level, SDG stats
-- SharedPreferences for local state (recent challenge IDs)
+- Firestore `users/{uid}` doc for recent challenge IDs (`recentChallengeIds`)
 - Existing mascot SVG assets for garden rendering
 
 ### New Package Dependencies

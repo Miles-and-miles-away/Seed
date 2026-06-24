@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,6 +9,8 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/settings_providers.dart';
 
 /// Dialog shown when the user reaches a weekly streak milestone.
@@ -44,7 +45,7 @@ class StreakMilestoneDialog extends ConsumerStatefulWidget {
 class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     with TickerProviderStateMixin {
   late AnimationController _particleController;
-  late List<_Particle> _particles;
+  late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
 
@@ -57,7 +58,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     );
 
     // Generate confetti particles
-    _particles = List.generate(40, (_) => _Particle.random());
+    _particles = List.generate(40, (_) => ConfettiParticle.random());
 
     // Start animations in sequence
     _startAnimationSequence();
@@ -99,345 +100,214 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final assetPath = ref.watch(mascotAssetPathProvider);
+    final assetPath = ref.watch(activeMascotAssetPathProvider);
 
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          // Backdrop
-          RepaintBoundary(
-            child: Container(
-              color: Colors.black.withValues(
-                alpha: opacityNearOpaque,
-              ),
-            ).animate().fadeIn(duration: 300.ms),
+    return CelebrationOverlay(
+      children: [
+        // Confetti particles
+        RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _particleController,
+            builder: (context, child) {
+              return CustomPaint(
+                size: Size.infinite,
+                painter: ConfettiPainter(
+                  particles: _particles,
+                  colors: [
+                    AppColors.gold,
+                    colorScheme.primary,
+                    colorScheme.secondary,
+                    AppColors.success,
+                    AppColors.celebrationPink,
+                  ],
+                ),
+              );
+            },
           ),
+        ),
 
-          // Confetti particles
-          RepaintBoundary(
-            child: AnimatedBuilder(
-              animation: _particleController,
-              builder: (context, child) {
-                return CustomPaint(
-                  size: Size.infinite,
-                  painter: _ConfettiPainter(
-                    particles: _particles,
-                    progress: _particleController.value,
-                    colors: [
-                      AppColors.gold,
-                      colorScheme.primary,
-                      colorScheme.secondary,
-                      AppColors.success,
-                      AppColors.celebrationPink,
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+        // Main content
+        if (_showContent)
+          SafeArea(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(spacingXxxl),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Title
+                    Text(
+                      l10n.streakMilestoneTitle,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                        .animate()
+                        .fadeIn(delay: 100.ms, duration: 400.ms)
+                        .slideY(begin: -0.2, end: 0),
 
-          // Main content
-          if (_showContent)
-            SafeArea(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(spacingXxxl),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Title
-                      Text(
-                        l10n.streakMilestoneTitle,
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    const SizedBox(height: spacingXxxl),
+
+                    // Mascot with glow
+                    if (assetPath != null)
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Glow effect
+                          Container(
+                            width: 160,
+                            height: 160,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.gold.withValues(
+                                    alpha: opacityMedium,
+                                  ),
+                                  blurRadius: 40,
+                                  spreadRadius: 10,
+                                ),
+                              ],
+                            ),
+                          )
+                              .animate()
+                              .fadeIn(delay: 300.ms, duration: 500.ms)
+                              .scale(
+                                begin: const Offset(0.5, 0.5),
+                                end: const Offset(1, 1),
+                              ),
+
+                          // Mascot (bouncing)
+                          SvgPicture.asset(
+                            assetPath,
+                            width: 140,
+                            height: 140,
+                          )
+                              .animate()
+                              .fadeIn(delay: 400.ms, duration: 400.ms)
+                              .scale(
+                                begin: const Offset(0.3, 0.3),
+                                end: const Offset(1, 1),
+                                curve: Curves.elasticOut,
+                                duration: 800.ms,
+                              )
+                              .then() // Chain animation
+                              .animate(
+                                onPlay: (controller) => controller.repeat(
+                                  reverse: true,
+                                ),
+                              )
+                              .moveY(
+                                begin: 0,
+                                end: -8,
+                                duration: 600.ms,
+                                curve: Curves.easeInOut,
+                              ),
+                        ],
+                      ),
+
+                    const SizedBox(height: spacingXxxl),
+
+                    // Week streak badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingXxl,
+                        vertical: spacingMd,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            AppColors.gold,
+                            AppColors.celebrationOrange,
+                          ],
                         ),
-                        textAlign: TextAlign.center,
+                        borderRadius: borderRadiusXxl,
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                AppColors.gold.withValues(alpha: opacityMedium),
+                            blurRadius: 16,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.local_fire_department,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                          const SizedBox(width: spacingSm),
+                          Text(
+                            l10n.streakMilestoneWeeks(widget.weekNumber),
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).animate().fadeIn(delay: 700.ms, duration: 400.ms).scale(
+                          begin: const Offset(0.5, 0.5),
+                          end: const Offset(1, 1),
+                          curve: Curves.elasticOut,
+                        ),
+
+                    const SizedBox(height: spacingLg),
+
+                    // Days count
+                    Text(
+                      l10n.streakMilestoneDays(widget.totalDays),
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: Colors.white70,
+                      ),
+                      textAlign: TextAlign.center,
+                    ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
+
+                    const SizedBox(height: spacingSm),
+
+                    // Encouraging message
+                    Text(
+                      l10n.streakMilestoneKeepGoing,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
+
+                    const SizedBox(height: spacingXxxl),
+
+                    // Continue button
+                    if (_showButton)
+                      FilledButton(
+                        onPressed: _handleDismiss,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: spacingHuge,
+                            vertical: spacingLg,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: borderRadiusLg,
+                          ),
+                        ),
+                        child: Text(l10n.streakMilestoneContinue),
                       )
                           .animate()
-                          .fadeIn(delay: 100.ms, duration: 400.ms)
-                          .slideY(begin: -0.2, end: 0),
-
-                      const SizedBox(height: spacingXxxl),
-
-                      // Mascot with glow
-                      if (assetPath != null)
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Glow effect
-                            Container(
-                              width: 160,
-                              height: 160,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.gold.withValues(
-                                      alpha: opacityMedium,
-                                    ),
-                                    blurRadius: 40,
-                                    spreadRadius: 10,
-                                  ),
-                                ],
-                              ),
-                            )
-                                .animate()
-                                .fadeIn(delay: 300.ms, duration: 500.ms)
-                                .scale(
-                                  begin: const Offset(0.5, 0.5),
-                                  end: const Offset(1, 1),
-                                ),
-
-                            // Mascot (bouncing)
-                            SvgPicture.asset(
-                              assetPath,
-                              width: 140,
-                              height: 140,
-                            )
-                                .animate()
-                                .fadeIn(delay: 400.ms, duration: 400.ms)
-                                .scale(
-                                  begin: const Offset(0.3, 0.3),
-                                  end: const Offset(1, 1),
-                                  curve: Curves.elasticOut,
-                                  duration: 800.ms,
-                                )
-                                .then() // Chain animation
-                                .animate(
-                                  onPlay: (controller) => controller.repeat(
-                                    reverse: true,
-                                  ),
-                                )
-                                .moveY(
-                                  begin: 0,
-                                  end: -8,
-                                  duration: 600.ms,
-                                  curve: Curves.easeInOut,
-                                ),
-                          ],
-                        ),
-
-                      const SizedBox(height: spacingXxxl),
-
-                      // Week streak badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacingXxl,
-                          vertical: spacingMd,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              AppColors.gold,
-                              AppColors.celebrationOrange,
-                            ],
-                          ),
-                          borderRadius: borderRadiusXxl,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.gold
-                                  .withValues(alpha: opacityMedium),
-                              blurRadius: 16,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.local_fire_department,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            const SizedBox(width: spacingSm),
-                            Text(
-                              l10n.streakMilestoneWeeks(widget.weekNumber),
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).animate().fadeIn(delay: 700.ms, duration: 400.ms).scale(
-                            begin: const Offset(0.5, 0.5),
-                            end: const Offset(1, 1),
-                            curve: Curves.elasticOut,
-                          ),
-
-                      const SizedBox(height: spacingLg),
-
-                      // Days count
-                      Text(
-                        l10n.streakMilestoneDays(widget.totalDays),
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: Colors.white70,
-                        ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
-
-                      const SizedBox(height: spacingSm),
-
-                      // Encouraging message
-                      Text(
-                        l10n.streakMilestoneKeepGoing,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.primary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
-
-                      const SizedBox(height: spacingXxxl),
-
-                      // Continue button
-                      if (_showButton)
-                        FilledButton(
-                          onPressed: _handleDismiss,
-                          style: FilledButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: spacingHuge,
-                              vertical: spacingLg,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: borderRadiusLg,
-                            ),
-                          ),
-                          child: Text(l10n.streakMilestoneContinue),
-                        )
-                            .animate()
-                            .fadeIn(duration: 400.ms)
-                            .slideY(begin: 0.3, end: 0),
-                    ],
-                  ),
+                          .fadeIn(duration: 400.ms)
+                          .slideY(begin: 0.3, end: 0),
+                  ],
                 ),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
-}
-
-/// A single confetti particle.
-class _Particle {
-  _Particle({
-    required this.x,
-    required this.y,
-    required this.size,
-    required this.speed,
-    required this.colorIndex,
-    required this.rotation,
-    required this.rotationSpeed,
-    required this.shape,
-  });
-
-  factory _Particle.random() {
-    final random = Random();
-    return _Particle(
-      x: random.nextDouble(),
-      y: -random.nextDouble() * 0.5,
-      size: random.nextDouble() * 10 + 5,
-      speed: random.nextDouble() * 0.5 + 0.3,
-      colorIndex: random.nextInt(5),
-      rotation: random.nextDouble() * pi * 2,
-      rotationSpeed: (random.nextDouble() - 0.5) * 0.2,
-      shape: random.nextInt(3),
-    );
-  }
-
-  final double x;
-  double y;
-  final double size;
-  final double speed;
-  final int colorIndex;
-  double rotation;
-  final double rotationSpeed;
-  final int shape;
-}
-
-/// Paints the confetti particles.
-class _ConfettiPainter extends CustomPainter {
-  _ConfettiPainter({
-    required this.particles,
-    required this.progress,
-    required this.colors,
-  });
-
-  final List<_Particle> particles;
-  final double progress;
-  final List<Color> colors;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final particle in particles) {
-      particle
-        ..y += particle.speed * 0.02
-        ..rotation += particle.rotationSpeed;
-
-      if (particle.y > 1.2) {
-        particle.y = -0.1;
-      }
-
-      final x = particle.x * size.width;
-      final y = particle.y * size.height;
-
-      final paint = Paint()
-        ..color = colors[particle.colorIndex].withValues(
-          alpha: opacityHeavy,
-        );
-
-      canvas
-        ..save()
-        ..translate(x, y)
-        ..rotate(particle.rotation);
-
-      switch (particle.shape) {
-        case 0:
-          canvas.drawRect(
-            Rect.fromCenter(
-              center: Offset.zero,
-              width: particle.size,
-              height: particle.size * 0.6,
-            ),
-            paint,
-          );
-        case 1:
-          canvas.drawCircle(Offset.zero, particle.size * 0.5, paint);
-        case 2:
-          _drawStar(canvas, particle.size * 0.5, paint);
-      }
-
-      canvas.restore();
-    }
-  }
-
-  void _drawStar(Canvas canvas, double radius, Paint paint) {
-    final path = Path();
-    const points = 5;
-    const innerRadius = 0.4;
-
-    for (var i = 0; i < points * 2; i++) {
-      final r = i.isEven ? radius : radius * innerRadius;
-      final angle = (i * pi / points) - (pi / 2);
-      final x = r * cos(angle);
-      final y = r * sin(angle);
-
-      if (i == 0) {
-        path.moveTo(x, y);
-      } else {
-        path.lineTo(x, y);
-      }
-    }
-    path.close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _ConfettiPainter oldDelegate) => true;
 }
 
 /// Shows the streak milestone celebration dialog.
@@ -447,17 +317,13 @@ Future<void> showStreakMilestoneCelebration(
   BuildContext context, {
   required int weekNumber,
   required int totalDays,
-}) async {
-  await showGeneralDialog<void>(
-    context: context,
-    barrierColor: Colors.transparent,
-    pageBuilder: (context, animation, secondaryAnimation) {
-      return StreakMilestoneDialog(
-        weekNumber: weekNumber,
-        totalDays: totalDays,
-        onDismiss: () => Navigator.of(context).pop(),
-      );
-    },
-    transitionDuration: Duration.zero,
+}) {
+  return showCelebrationOverlay(
+    context,
+    (onDismiss) => StreakMilestoneDialog(
+      weekNumber: weekNumber,
+      totalDays: totalDays,
+      onDismiss: onDismiss,
+    ),
   );
 }

@@ -123,45 +123,6 @@ class StreakService {
     }
     return null;
   }
-
-  /// Gets the next milestone week from the current streak.
-  ///
-  /// Returns null if the user has passed all defined milestones.
-  int? getNextMilestoneWeek(int currentStreak) {
-    final currentWeeks = getStreakWeeks(currentStreak);
-
-    for (final milestone in weekMilestones) {
-      if (milestone > currentWeeks) {
-        return milestone;
-      }
-    }
-    return null;
-  }
-
-  /// Gets days until the next milestone.
-  ///
-  /// Returns null if the user has passed all defined milestones.
-  int? getDaysUntilNextMilestone(int currentStreak) {
-    final nextWeek = getNextMilestoneWeek(currentStreak);
-    if (nextWeek == null) return null;
-
-    return (nextWeek * 7) - currentStreak;
-  }
-
-  /// Returns a human-readable milestone description.
-  String getMilestoneDescription(int weeks) {
-    return switch (weeks) {
-      1 => '1 week',
-      2 => '2 weeks',
-      3 => '3 weeks',
-      4 => '1 month',
-      8 => '2 months',
-      12 => '3 months',
-      26 => '6 months',
-      52 => '1 year',
-      _ => '$weeks weeks',
-    };
-  }
 }
 
 /// Result of a streak calculation update.

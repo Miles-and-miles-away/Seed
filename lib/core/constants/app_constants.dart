@@ -1,9 +1,5 @@
 /// App-wide constants
 abstract class AppConstants {
-  // App info
-  static const appName = 'Seed';
-  static const appTagline = 'Grow your sustainability habits';
-
   // Level system
   static const pointsPerLevel = 100; // Base points needed per level
   // Each level requires 1.05x more points than the last. Tuned so a
@@ -17,19 +13,11 @@ abstract class AppConstants {
   static const evolutionStage3Level = 25;
   static const evolutionStage4Level = 50;
 
-  // Notification defaults
+  // Notification defaults (default reminder time for the postponed reminder
+  // feature -- currently hardcoded as 9:00 in user_settings_model.dart and
+  // notification_settings_screen.dart; centralize here when it's revived).
   static const defaultReminderHour = 9;
   static const defaultReminderMinute = 0;
-
-  // API/Network
-  static const apiTimeout = Duration(seconds: 30);
-  static const maxRetries = 3;
-
-  // Local storage keys
-  static const keyOnboardingComplete = 'onboarding_complete';
-  static const keyNotificationTime = 'notification_time';
-  static const keyLanguage = 'language';
-  static const keyThemeMode = 'theme_mode';
 
   // Firebase collections
   static const collectionUsers = 'users';
@@ -151,23 +139,4 @@ abstract class AppConstants {
   static const fieldMinute = 'minute';
   static const fieldIsEnabled = 'isEnabled';
   static const fieldLabel = 'label';
-}
-
-/// Point values for common actions (move to database later)
-abstract class ActionPoints {
-  static const recycleAluminumCan = 5;
-  static const recyclePlasticBottle = 3;
-  static const recycleCardboard = 2;
-  static const reusableBag = 2;
-  static const reusableCup = 5;
-  static const bikeShortTrip = 20;
-  static const bikeMediumTrip = 50;
-  static const publicTransit = 30;
-  static const meatlessMeal = 20;
-  static const localProduce = 10;
-  static const composting = 15;
-  static const shorterShower = 5;
-  static const airDryClothes = 10;
-  static const unplugDevices = 3;
-  static const bringOwnContainer = 10;
 }

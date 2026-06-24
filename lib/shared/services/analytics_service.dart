@@ -4,12 +4,15 @@ import 'package:seed_app/core/utils/app_logger.dart';
 
 /// Service for tracking analytics events.
 ///
-/// This service wraps Firebase Analytics to provide a type-safe API
-/// for tracking app events. Events are defined based on key user actions
-/// that help understand user behavior and app performance.
+/// Wraps Firebase Analytics in a type-safe API. The event surface is
+/// intentionally complete: some methods are defined ahead of their call
+/// sites and get wired up as the matching feature ships (e.g. the shop
+/// events land with Phase 7; see the section dividers). An uncalled method
+/// here is scaffolding, not dead code -- check Plan/PLAN_PHASE_*.md before
+/// removing one.
 ///
-/// The service gracefully handles cases where Firebase isn't initialized
-/// (e.g., in unit tests) by catching exceptions and logging warnings.
+/// Gracefully handles cases where Firebase isn't initialized (e.g. in unit
+/// tests) by catching exceptions and logging warnings.
 class AnalyticsService {
   AnalyticsService._();
 
@@ -285,7 +288,7 @@ class AnalyticsService {
   }
 
   // ============================================================
-  // Shop Events (for Phase 4)
+  // Shop Events (Phase 7 -- cosmetic shop / premium)
   // ============================================================
 
   /// Log when a user views a shop item.
