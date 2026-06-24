@@ -4,72 +4,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-/// Interface for Firebase Auth operations.
-abstract class AuthRemoteDataSource {
-  /// Stream of auth state changes.
-  Stream<User?> get authStateChanges;
-
-  /// The currently signed-in user, or null.
-  User? get currentUser;
-
-  /// Signs in with email and password.
-  Future<UserCredential> signInWithEmailAndPassword(
-    String email,
-    String password,
-  );
-
-  /// Creates a new user with email and password.
-  Future<UserCredential> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  );
-
-  /// Sends email verification to the current user.
-  Future<void> sendEmailVerification();
-
-  /// Sends a password reset email.
-  Future<void> sendPasswordResetEmail(String email);
-
-  /// Signs in with Google.
-  Future<UserCredential> signInWithGoogle();
-
-  /// Signs in with Apple.
-  Future<UserCredential> signInWithApple();
-
-  /// Signs out the current user.
-  Future<void> signOut();
-
-  /// Reloads the current user to get updated emailVerified status.
-  Future<void> reloadCurrentUser();
-
-  /// Re-authenticates the user with email/password.
-  /// Required before sensitive operations like email/password change or account deletion.
-  Future<void> reauthenticateWithEmailPassword(String email, String password);
-
-  /// Updates the current user's email address.
-  /// Requires re-authentication before calling.
-  Future<void> updateEmail(String newEmail);
-
-  /// Updates the current user's password.
-  /// Requires re-authentication before calling.
-  Future<void> updatePassword(String newPassword);
-}
-
-/// Implementation of [AuthRemoteDataSource] using Firebase Auth.
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl({
+/// Firebase Auth operations.
+class AuthRemoteDataSource {
+  AuthRemoteDataSource({
     required FirebaseAuth firebaseAuth,
   }) : _firebaseAuth = firebaseAuth;
 
   final FirebaseAuth _firebaseAuth;
 
-  @override
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  @override
   User? get currentUser => _firebaseAuth.currentUser;
 
-  @override
   Future<UserCredential> signInWithEmailAndPassword(
     String email,
     String password,
@@ -80,7 +26,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
-  @override
   Future<UserCredential> createUserWithEmailAndPassword(
     String email,
     String password,
@@ -91,17 +36,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
-  @override
   Future<void> sendEmailVerification() async {
     await _firebaseAuth.currentUser?.sendEmailVerification();
   }
 
-  @override
   Future<void> sendPasswordResetEmail(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  @override
   Future<UserCredential> signInWithGoogle() async {
     // GoogleSignIn v7.x uses singleton pattern with event-driven auth
     final googleSignIn = GoogleSignIn.instance;
@@ -160,7 +102,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return _firebaseAuth.signInWithCredential(credential);
   }
 
-  @override
   Future<UserCredential> signInWithApple() async {
     final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
@@ -177,7 +118,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return _firebaseAuth.signInWithCredential(oauthCredential);
   }
 
-  @override
   Future<void> signOut() async {
     await Future.wait([
       _firebaseAuth.signOut(),
@@ -185,12 +125,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     ]);
   }
 
-  @override
   Future<void> reloadCurrentUser() async {
     await _firebaseAuth.currentUser?.reload();
   }
 
-  @override
   Future<void> reauthenticateWithEmailPassword(
     String email,
     String password,
@@ -211,7 +149,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     await user.reauthenticateWithCredential(credential);
   }
 
-  @override
   Future<void> updateEmail(String newEmail) async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {
@@ -225,7 +162,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     await user.verifyBeforeUpdateEmail(newEmail);
   }
 
-  @override
   Future<void> updatePassword(String newPassword) async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {

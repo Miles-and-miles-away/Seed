@@ -8,13 +8,13 @@ import 'package:seed_app/features/settings/data/models/user_settings_model.dart'
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
-  late SettingsRemoteDataSourceImpl dataSource;
+  late SettingsRemoteDataSource dataSource;
 
   const testUid = 'test-user';
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = SettingsRemoteDataSourceImpl(
+    dataSource = SettingsRemoteDataSource(
       firestore: fakeFirestore,
     );
   });
@@ -77,7 +77,7 @@ void main() {
         'label': label,
       };
 
-  group('SettingsRemoteDataSourceImpl', () {
+  group('SettingsRemoteDataSource', () {
     group('getSettings', () {
       test('returns settings from user doc', () async {
         await seedUserWithSettings(

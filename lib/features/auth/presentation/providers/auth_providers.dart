@@ -30,14 +30,14 @@ FirebaseFirestore firestore(Ref ref) => FirebaseFirestore.instance;
 
 @riverpod
 AuthRemoteDataSource authRemoteDataSource(Ref ref) {
-  return AuthRemoteDataSourceImpl(
+  return AuthRemoteDataSource(
     firebaseAuth: ref.watch(firebaseAuthProvider),
   );
 }
 
 @riverpod
 UserRemoteDataSource userRemoteDataSource(Ref ref) {
-  return UserRemoteDataSourceImpl(
+  return UserRemoteDataSource(
     firestore: ref.watch(firestoreProvider),
   );
 }

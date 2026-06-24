@@ -6,11 +6,11 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
-  late ActionLibraryRemoteDataSourceImpl dataSource;
+  late ActionLibraryRemoteDataSource dataSource;
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = ActionLibraryRemoteDataSourceImpl(
+    dataSource = ActionLibraryRemoteDataSource(
       firestore: fakeFirestore,
     );
   });
@@ -35,7 +35,7 @@ void main() {
     });
   }
 
-  group('ActionLibraryRemoteDataSourceImpl', () {
+  group('ActionLibraryRemoteDataSource', () {
     group('watchActions', () {
       test('returns stream of active actions', () async {
         await seedAction('a1', sortOrder: 1);
@@ -81,6 +81,25 @@ void main() {
           );
         },
       );
+    });
+
+    group('getActions', () {
+      test('returns active actions ordered by sortOrder', () async {
+        await seedAction('z', sortOrder: 3);
+        await seedAction('a', sortOrder: 1);
+        await seedAction('m', sortOrder: 2);
+        await seedAction('inactive', isActive: false);
+
+        final result = await dataSource.getActions();
+
+        expect(result.map((a) => a.id), ['a', 'm', 'z']);
+      });
+
+      test('returns empty list when no actions', () async {
+        final result = await dataSource.getActions();
+
+        expect(result, isEmpty);
+      });
     });
 
     group('getAction', () {

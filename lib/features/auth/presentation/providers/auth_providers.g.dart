@@ -133,7 +133,7 @@ final class AuthRemoteDataSourceProvider extends $FunctionalProvider<
 }
 
 String _$authRemoteDataSourceHash() =>
-    r'4d59ad9b1123b561fd8fe2faa27d77274f63a125';
+    r'2b428add3d987e8b6c537bc37627ffde6e03d06c';
 
 @ProviderFor(userRemoteDataSource)
 final userRemoteDataSourceProvider = UserRemoteDataSourceProvider._();
@@ -177,7 +177,7 @@ final class UserRemoteDataSourceProvider extends $FunctionalProvider<
 }
 
 String _$userRemoteDataSourceHash() =>
-    r'8d81867fad5991185bd658cb81113e96d02f3fd4';
+    r'5fd84f8cbb545257b54ab3c84303010a64e884cf';
 
 @ProviderFor(authRepository)
 final authRepositoryProvider = AuthRepositoryProvider._();

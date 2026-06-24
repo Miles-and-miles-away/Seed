@@ -6,7 +6,6 @@ import 'package:seed_app/features/actions/data/datasources/action_library_remote
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
-import 'package:seed_app/features/actions/data/repositories/action_library_repository.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
@@ -31,14 +30,14 @@ part 'actions_providers.g.dart';
 
 @riverpod
 ActionLibraryRemoteDataSource actionLibraryDataSource(Ref ref) {
-  return ActionLibraryRemoteDataSourceImpl(
+  return ActionLibraryRemoteDataSource(
     firestore: ref.watch(firestoreProvider),
   );
 }
 
 @riverpod
 ActionLogRemoteDataSource actionLogDataSource(Ref ref) {
-  return ActionLogRemoteDataSourceImpl(
+  return ActionLogRemoteDataSource(
     firestore: ref.watch(firestoreProvider),
   );
 }
@@ -46,13 +45,6 @@ ActionLogRemoteDataSource actionLogDataSource(Ref ref) {
 // =============================================================================
 // Repository Providers
 // =============================================================================
-
-@riverpod
-ActionLibraryRepository actionLibraryRepository(Ref ref) {
-  return ActionLibraryRepository(
-    dataSource: ref.watch(actionLibraryDataSourceProvider),
-  );
-}
 
 @riverpod
 Future<ActionLogRepository> actionLogRepository(Ref ref) async {
@@ -86,7 +78,7 @@ const actionHistoryPageSize = 50;
 /// Content changes ship with reseeds and are picked up on app start.
 @Riverpod(keepAlive: true)
 Future<List<ActionModel>> actionLibrary(Ref ref) {
-  return ref.watch(actionLibraryRepositoryProvider).getActions();
+  return ref.watch(actionLibraryDataSourceProvider).getActions();
 }
 
 /// How many pages of history the user has requested.

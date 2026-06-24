@@ -7,13 +7,13 @@ import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
-  late ActionLogRemoteDataSourceImpl dataSource;
+  late ActionLogRemoteDataSource dataSource;
 
   const userId = 'test-user';
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = ActionLogRemoteDataSourceImpl(
+    dataSource = ActionLogRemoteDataSource(
       firestore: fakeFirestore,
     );
   });
@@ -64,7 +64,7 @@ void main() {
     });
   }
 
-  group('ActionLogRemoteDataSourceImpl', () {
+  group('ActionLogRemoteDataSource', () {
     group('createActionLog', () {
       test('writes document to Firestore', () async {
         final log = createLog();

@@ -51,7 +51,7 @@ final class SettingsRemoteDataSourceProvider extends $FunctionalProvider<
 }
 
 String _$settingsRemoteDataSourceHash() =>
-    r'1c79aed826bd7a8ad1de3a4952e38339dd1cdb1c';
+    r'255d4a6c72e8313ec57de3270c9c5a627a3198fd';
 
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();

@@ -97,7 +97,7 @@ void main() {
   setUp(() {
     firestore = FakeFirebaseFirestore();
     repository = ActionLogRepository(
-      dataSource: ActionLogRemoteDataSourceImpl(firestore: firestore),
+      dataSource: ActionLogRemoteDataSource(firestore: firestore),
       firestore: firestore,
       dailyChallengeTemplates: const [_transportDaily],
       multiDayChallengeTemplates: const [_mdTransport, _mdAnyCategory],
@@ -580,7 +580,7 @@ void main() {
 
     test('category mismatch leaves challenge untouched', () async {
       final repoWaterOnly = ActionLogRepository(
-        dataSource: ActionLogRemoteDataSourceImpl(firestore: firestore),
+        dataSource: ActionLogRemoteDataSource(firestore: firestore),
         firestore: firestore,
         dailyChallengeTemplates: const [_waterDaily],
         multiDayChallengeTemplates: const [],

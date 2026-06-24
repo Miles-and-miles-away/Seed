@@ -17,7 +17,7 @@ part 'settings_providers.g.dart';
 
 @riverpod
 SettingsRemoteDataSource settingsRemoteDataSource(Ref ref) {
-  return SettingsRemoteDataSourceImpl(
+  return SettingsRemoteDataSource(
     firestore: ref.watch(firestoreProvider),
   );
 }
