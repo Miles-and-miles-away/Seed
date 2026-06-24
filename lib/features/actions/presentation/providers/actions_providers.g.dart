@@ -53,7 +53,7 @@ final class ActionLibraryDataSourceProvider extends $FunctionalProvider<
 }
 
 String _$actionLibraryDataSourceHash() =>
-    r'82b4d4fceb21ae648a4ff100fcb4ed6ed1f0ebff';
+    r'68fa4f4ab7fe595ebdf4ad76a3e2496b7ce47b49';
 
 @ProviderFor(actionLogDataSource)
 final actionLogDataSourceProvider = ActionLogDataSourceProvider._();
@@ -97,51 +97,7 @@ final class ActionLogDataSourceProvider extends $FunctionalProvider<
 }
 
 String _$actionLogDataSourceHash() =>
-    r'ed4bb939692d0a319faaff43e461b84968208a64';
-
-@ProviderFor(actionLibraryRepository)
-final actionLibraryRepositoryProvider = ActionLibraryRepositoryProvider._();
-
-final class ActionLibraryRepositoryProvider extends $FunctionalProvider<
-    ActionLibraryRepository,
-    ActionLibraryRepository,
-    ActionLibraryRepository> with $Provider<ActionLibraryRepository> {
-  ActionLibraryRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLibraryRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$actionLibraryRepositoryHash();
-
-  @$internal
-  @override
-  $ProviderElement<ActionLibraryRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  ActionLibraryRepository create(Ref ref) {
-    return actionLibraryRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ActionLibraryRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<ActionLibraryRepository>(value),
-    );
-  }
-}
-
-String _$actionLibraryRepositoryHash() =>
-    r'93944e9e8fe9e2e07b24f5f2451bfea69df10a39';
+    r'a52a90701437ce2029e9acacc2fbad2b90ccd47c';
 
 @ProviderFor(actionLogRepository)
 final actionLogRepositoryProvider = ActionLogRepositoryProvider._();
@@ -235,7 +191,7 @@ final class ActionLibraryProvider extends $FunctionalProvider<
   }
 }
 
-String _$actionLibraryHash() => r'ea2a351b42414ad21d75ffd583f3220c4d332ea6';
+String _$actionLibraryHash() => r'db6dc522bb4ab3c15688f96693ecd76c1dd352e6';
 
 /// How many pages of history the user has requested.
 

@@ -7,7 +7,6 @@ export 'data/models/action_log_model.dart';
 export 'data/models/action_model.dart';
 
 // Data layer - Repositories
-export 'data/repositories/action_library_repository.dart';
 export 'data/repositories/action_log_repository.dart';
 
 // Domain layer

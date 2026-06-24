@@ -16,11 +16,11 @@ class _MockHttpsCallableResult extends Mock
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
-  late UserRemoteDataSourceImpl dataSource;
+  late UserRemoteDataSource dataSource;
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = UserRemoteDataSourceImpl(
+    dataSource = UserRemoteDataSource(
       firestore: fakeFirestore,
     );
   });
@@ -52,7 +52,7 @@ void main() {
     });
   }
 
-  group('UserRemoteDataSourceImpl', () {
+  group('UserRemoteDataSource', () {
     group('getUser', () {
       test('returns user when doc exists', () async {
         await seedUser('u1', email: 'a@b.com', points: 50);
@@ -170,7 +170,7 @@ void main() {
         callable = _MockHttpsCallable();
         when(() => functions.httpsCallable('deleteUserAccount'))
             .thenReturn(callable);
-        dataSource = UserRemoteDataSourceImpl(
+        dataSource = UserRemoteDataSource(
           firestore: fakeFirestore,
           functions: functions,
         );

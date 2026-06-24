@@ -3,44 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 
-/// Interface for action log data operations.
-abstract class ActionLogRemoteDataSource {
-  /// Creates a new action log entry for a user.
-  Future<ActionLogModel> createActionLog(String userId, ActionLogModel log);
-
-  /// Watches action logs for a user, most recent first, capped at
-  /// [limit] entries (the history grows unbounded otherwise).
-  Stream<List<ActionLogModel>> watchUserActionLogs(
-    String userId, {
-    required int limit,
-  });
-
-  /// Watches action logs whose loggedAt falls in [start, end).
-  Stream<List<ActionLogModel>> watchActionLogsForRange(
-    String userId,
-    DateTime start,
-    DateTime end,
-  );
-
-  /// Gets action logs whose loggedAt falls in [start, end).
-  Future<List<ActionLogModel>> getActionLogsForRange(
-    String userId,
-    DateTime start,
-    DateTime end,
-  );
-
-  /// Gets the most recent action logs for a user.
-  Future<List<ActionLogModel>> getRecentActionLogs(String userId, int limit);
-
-  /// Gets a reference to the action log collection for transactions.
-  CollectionReference<Map<String, dynamic>> getActionLogCollection(
-    String userId,
-  );
-}
-
-/// Implementation of [ActionLogRemoteDataSource] using Firestore.
-class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
-  ActionLogRemoteDataSourceImpl({required this.firestore});
+/// Action log data operations, backed by Firestore.
+class ActionLogRemoteDataSource {
+  ActionLogRemoteDataSource({required this.firestore});
 
   final FirebaseFirestore firestore;
 
@@ -50,7 +15,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
           .doc(userId)
           .collection(AppConstants.collectionActionLog);
 
-  @override
   Future<ActionLogModel> createActionLog(
     String userId,
     ActionLogModel log,
@@ -81,7 +45,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
           )
           .orderBy(AppConstants.fieldLoggedAt, descending: true);
 
-  @override
   Stream<List<ActionLogModel>> watchUserActionLogs(
     String userId, {
     required int limit,
@@ -96,7 +59,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
         );
   }
 
-  @override
   Stream<List<ActionLogModel>> watchActionLogsForRange(
     String userId,
     DateTime start,
@@ -108,7 +70,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
         );
   }
 
-  @override
   Future<List<ActionLogModel>> getActionLogsForRange(
     String userId,
     DateTime start,
@@ -118,7 +79,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
     return snapshot.docs.map(ActionLogModel.fromFirestore).toList();
   }
 
-  @override
   Future<List<ActionLogModel>> getRecentActionLogs(
     String userId,
     int limit,
@@ -131,7 +91,6 @@ class ActionLogRemoteDataSourceImpl implements ActionLogRemoteDataSource {
     return snapshot.docs.map(ActionLogModel.fromFirestore).toList();
   }
 
-  @override
   CollectionReference<Map<String, dynamic>> getActionLogCollection(
     String userId,
   ) =>

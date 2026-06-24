@@ -13,7 +13,7 @@ class _FakeAuthCredential extends Fake implements AuthCredential {}
 
 void main() {
   late _MockFirebaseAuth auth;
-  late AuthRemoteDataSourceImpl dataSource;
+  late AuthRemoteDataSource dataSource;
 
   setUpAll(() {
     registerFallbackValue(_FakeAuthCredential());
@@ -21,7 +21,7 @@ void main() {
 
   setUp(() {
     auth = _MockFirebaseAuth();
-    dataSource = AuthRemoteDataSourceImpl(firebaseAuth: auth);
+    dataSource = AuthRemoteDataSource(firebaseAuth: auth);
   });
 
   group('authStateChanges', () {

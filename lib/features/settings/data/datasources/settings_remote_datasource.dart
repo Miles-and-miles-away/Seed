@@ -4,58 +4,12 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import '../models/notification_schedule_model.dart';
 import '../models/user_settings_model.dart';
 
-/// Interface for Firestore settings operations.
-abstract class SettingsRemoteDataSource {
-  /// Gets user settings from the user document.
-  Future<UserSettingsModel> getSettings(String uid);
-
-  /// Updates user settings in the user document.
-  Future<void> updateSettings(String uid, UserSettingsModel settings);
-
-  /// Watches user settings for real-time updates.
-  Stream<UserSettingsModel> watchSettings(String uid);
-
-  /// Adds a new reminder schedule.
-  Future<void> addReminderSchedule(
-    String uid,
-    NotificationScheduleModel schedule,
-  );
-
-  /// Removes a reminder schedule by ID.
-  Future<void> removeReminderSchedule(String uid, String scheduleId);
-
-  /// Updates a specific reminder schedule.
-  Future<void> updateReminderSchedule(
-    String uid,
-    String scheduleId,
-    Map<String, dynamic> updates,
-  );
-
-  /// Updates the notifications enabled flag.
-  Future<void> updateNotificationsEnabled(String uid, {required bool enabled});
-
-  /// Updates the smart reminders flag.
-  Future<void> updateSmartRemindersEnabled(String uid, {required bool enabled});
-
-  /// Updates the language preference.
-  Future<void> updateLanguage(String uid, String language);
-
-  /// Updates the analytics enabled flag.
-  Future<void> updateAnalyticsEnabled(
-    String uid, {
-    required bool enabled,
-  });
-
-  /// Marks a streak milestone as seen.
-  Future<void> markMilestoneSeen(String uid, int weekNumber);
-}
-
-/// Implementation of [SettingsRemoteDataSource] using Cloud Firestore.
+/// Firestore settings operations.
 ///
 /// Settings are stored as a nested object within the user document
 /// at the 'settings' field, rather than a separate subcollection.
-class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
-  SettingsRemoteDataSourceImpl({required FirebaseFirestore firestore})
+class SettingsRemoteDataSource {
+  SettingsRemoteDataSource({required FirebaseFirestore firestore})
       : _firestore = firestore;
 
   final FirebaseFirestore _firestore;
@@ -66,7 +20,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
   DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
       _usersCollection.doc(uid);
 
-  @override
   Future<UserSettingsModel> getSettings(String uid) async {
     final doc = await _userDoc(uid).get();
     if (!doc.exists || doc.data() == null) {
@@ -86,7 +39,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     return UserSettingsModel.fromJson(settingsData);
   }
 
-  @override
   Future<void> updateSettings(String uid, UserSettingsModel settings) async {
     await _userDoc(uid).update({
       AppConstants.fieldSettings: settings.toJson(),
@@ -94,7 +46,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Stream<UserSettingsModel> watchSettings(String uid) {
     return _userDoc(uid).snapshots().map((doc) {
       if (!doc.exists || doc.data() == null) {
@@ -114,7 +65,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> addReminderSchedule(
     String uid,
     NotificationScheduleModel schedule,
@@ -125,7 +75,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> removeReminderSchedule(String uid, String scheduleId) async {
     // First get current schedules, then filter and update
     final doc = await _userDoc(uid).get();
@@ -150,7 +99,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> updateReminderSchedule(
     String uid,
     String scheduleId,
@@ -183,7 +131,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> updateNotificationsEnabled(
     String uid, {
     required bool enabled,
@@ -195,7 +142,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> updateSmartRemindersEnabled(
     String uid, {
     required bool enabled,
@@ -206,7 +152,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> updateLanguage(String uid, String language) async {
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}.${AppConstants.fieldLanguage}': language,
@@ -214,7 +159,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> updateAnalyticsEnabled(
     String uid, {
     required bool enabled,
@@ -225,7 +169,6 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     });
   }
 
-  @override
   Future<void> markMilestoneSeen(String uid, int weekNumber) async {
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}'
