@@ -6,7 +6,7 @@ import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dar
 
 Widget _wrap(Widget child, {String? assetPath}) => ProviderScope(
       overrides: [
-        mascotAssetPathProvider.overrideWith((_) => assetPath),
+        activeMascotAssetPathProvider.overrideWith((_) => assetPath),
       ],
       child: MaterialApp(home: Scaffold(body: Center(child: child))),
     );

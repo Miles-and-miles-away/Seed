@@ -133,12 +133,11 @@ def main():
         data = json.load(f)
 
     url_entries = extract_urls(data)
-    seen = set()
-    unique_entries = []
+    # Dedup by URL, keeping the first path each appears at.
+    unique = {}
     for url, path in url_entries:
-        if url not in seen:
-            seen.add(url)
-            unique_entries.append((url, path))
+        unique.setdefault(url, path)
+    unique_entries = list(unique.items())
 
     total = len(unique_entries)
     if total == 0:
@@ -174,27 +173,13 @@ def main():
     print("RESULTS")
     print("=" * 60)
 
-    if args.verbose and results["OK"]:
-        print(f"\n-- OK ({len(results['OK'])}) --")
-        for url, path, detail in results["OK"]:
-            print(f"  [{detail}] {url}")
-            print(f"         at {path}")
-
-    if results["REDIRECT"]:
-        print(f"\n-- REDIRECT ({len(results['REDIRECT'])}) --")
-        for url, path, detail in results["REDIRECT"]:
-            print(f"  [{detail}] {url}")
-            print(f"         at {path}")
-
-    if results["BROKEN"]:
-        print(f"\n-- BROKEN ({len(results['BROKEN'])}) --")
-        for url, path, detail in results["BROKEN"]:
-            print(f"  [{detail}] {url}")
-            print(f"         at {path}")
-
-    if results["ERROR"]:
-        print(f"\n-- ERROR ({len(results['ERROR'])}) --")
-        for url, path, detail in results["ERROR"]:
+    # OK is only listed under --verbose; problems always print.
+    for category in ("OK", "REDIRECT", "BROKEN", "ERROR"):
+        entries = results[category]
+        if not entries or (category == "OK" and not args.verbose):
+            continue
+        print(f"\n-- {category} ({len(entries)}) --")
+        for url, path, detail in entries:
             print(f"  [{detail}] {url}")
             print(f"         at {path}")
 

@@ -25,9 +25,6 @@ mixin _$SdgStats {
   $SdgStatsCopyWith<SdgStats> get copyWith =>
       _$SdgStatsCopyWithImpl<SdgStats>(this as SdgStats, _$identity);
 
-  /// Serializes this SdgStats to a JSON map.
-  Map<String, dynamic> toJson();
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -41,7 +38,6 @@ mixin _$SdgStats {
                 other.co2SavedGrams == co2SavedGrams));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, sdgNumber, actionsLogged, co2SavedGrams);
@@ -257,14 +253,12 @@ extension SdgStatsPatterns on SdgStats {
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _SdgStats implements SdgStats {
   const _SdgStats(
       {required this.sdgNumber,
       this.actionsLogged = 0,
       this.co2SavedGrams = 0});
-  factory _SdgStats.fromJson(Map<String, dynamic> json) =>
-      _$SdgStatsFromJson(json);
 
   @override
   final int sdgNumber;
@@ -284,13 +278,6 @@ class _SdgStats implements SdgStats {
       __$SdgStatsCopyWithImpl<_SdgStats>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$SdgStatsToJson(
-      this,
-    );
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -303,7 +290,6 @@ class _SdgStats implements SdgStats {
                 other.co2SavedGrams == co2SavedGrams));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, sdgNumber, actionsLogged, co2SavedGrams);

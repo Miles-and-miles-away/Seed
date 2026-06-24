@@ -28,6 +28,7 @@ class EcoDexLockedSheet extends ConsumerWidget {
   }) {
     return showModalBottomSheet<void>(
       context: context,
+      showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(radiusXl),
@@ -48,25 +49,13 @@ class EcoDexLockedSheet extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         spacingXxl,
-        spacingLg,
+        spacingSm,
         spacingXxl,
         spacingXxxl,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Drag handle
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.onSurfaceVariant
-                  .withValues(alpha: opacityMedium),
-              borderRadius: BorderRadius.circular(spacingXxs),
-            ),
-          ),
-          const SizedBox(height: spacingXxl),
-
           // Lock icon
           Container(
             width: 64,

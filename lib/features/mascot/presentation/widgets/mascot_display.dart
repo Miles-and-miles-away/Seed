@@ -124,9 +124,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
 
   @override
   Widget build(BuildContext context) {
-    final assetPath = ref.watch(mascotAssetPathProvider);
+    final assetPath = ref.watch(activeMascotAssetPathProvider);
     final glowColor = ref.watch(
-      currentMascotStageProvider.select(_getGlowColor),
+      activeMascotStageProvider.select(_getGlowColor),
     );
 
     // Watch for external bounce triggers (e.g., after logging an action)

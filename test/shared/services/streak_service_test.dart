@@ -222,60 +222,6 @@ void main() {
       });
     });
 
-    group('getNextMilestoneWeek', () {
-      test('returns 1 for new users', () {
-        expect(service.getNextMilestoneWeek(0), equals(1));
-        expect(service.getNextMilestoneWeek(5), equals(1));
-      });
-
-      test('returns 2 for users past 1 week', () {
-        expect(service.getNextMilestoneWeek(7), equals(2));
-        expect(service.getNextMilestoneWeek(10), equals(2));
-      });
-
-      test('returns 4 for users past 3 weeks', () {
-        expect(service.getNextMilestoneWeek(21), equals(4));
-        expect(service.getNextMilestoneWeek(25), equals(4));
-      });
-
-      test('returns null for users past all milestones', () {
-        expect(service.getNextMilestoneWeek(365), isNull);
-      });
-    });
-
-    group('getDaysUntilNextMilestone', () {
-      test('returns 7 for new users', () {
-        expect(service.getDaysUntilNextMilestone(0), equals(7));
-      });
-
-      test('returns correct days until next milestone', () {
-        expect(service.getDaysUntilNextMilestone(5), equals(2)); // 7 - 5
-        expect(service.getDaysUntilNextMilestone(10), equals(4)); // 14 - 10
-        expect(service.getDaysUntilNextMilestone(20), equals(1)); // 21 - 20
-      });
-
-      test('returns null for users past all milestones', () {
-        expect(service.getDaysUntilNextMilestone(365), isNull);
-      });
-    });
-
-    group('getMilestoneDescription', () {
-      test('returns correct descriptions for milestones', () {
-        expect(service.getMilestoneDescription(1), equals('1 week'));
-        expect(service.getMilestoneDescription(2), equals('2 weeks'));
-        expect(service.getMilestoneDescription(4), equals('1 month'));
-        expect(service.getMilestoneDescription(8), equals('2 months'));
-        expect(service.getMilestoneDescription(12), equals('3 months'));
-        expect(service.getMilestoneDescription(26), equals('6 months'));
-        expect(service.getMilestoneDescription(52), equals('1 year'));
-      });
-
-      test('returns generic description for non-standard milestones', () {
-        expect(service.getMilestoneDescription(5), equals('5 weeks'));
-        expect(service.getMilestoneDescription(100), equals('100 weeks'));
-      });
-    });
-
     group('weekMilestones', () {
       test('contains expected milestone weeks', () {
         expect(StreakService.weekMilestones, contains(1));

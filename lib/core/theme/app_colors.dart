@@ -65,7 +65,9 @@ abstract class AppColors {
   static const glowFresh = Color(0xFF8BC34A);
   static const glowVibrant = Color(0xFF4CAF50);
 
-  // Neutral palette
+  // Neutral palette (full Material grey ramp). Not every shade is
+  // referenced yet -- kept as the available design-system tokens so
+  // new UI can pick from a consistent set rather than inventing greys.
   static const neutral50 = Color(0xFFFAFAFA);
   static const neutral100 = Color(0xFFF5F5F5);
   static const neutral200 = Color(0xFFEEEEEE);

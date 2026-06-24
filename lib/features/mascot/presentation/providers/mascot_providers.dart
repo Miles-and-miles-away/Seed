@@ -79,12 +79,6 @@ bool hasMascot(Ref ref) {
   return mascots != null && mascots.isNotEmpty;
 }
 
-/// Gets all available mascot species.
-@riverpod
-Future<List<MascotSpeciesModel>> allSpecies(Ref ref) async {
-  return ref.watch(mascotSpeciesDataProvider.future);
-}
-
 /// Species data for the active mascot.
 @riverpod
 MascotSpeciesModel? activeSpecies(Ref ref) {
@@ -197,13 +191,6 @@ bool shouldShowEggDiscovery(Ref ref) {
 // =============================================================
 // Localized Name Providers
 // =============================================================
-
-/// Localized name for the active mascot's species.
-@riverpod
-String? speciesLocalizedName(Ref ref, String locale) {
-  final species = ref.watch(activeSpeciesProvider);
-  return species?.name(locale);
-}
 
 /// Localized name for the active mascot's stage.
 @riverpod
@@ -376,43 +363,4 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
   }
 }
 
-// =============================================================
-// Backward-compatible aliases (old names -> new names)
-// Keeps existing widgets working during migration.
-// =============================================================
-
-/// Alias: currentMascotProvider -> activeMascotProvider
-@riverpod
-AsyncValue<MascotModel?> currentMascot(Ref ref) {
-  return ref.watch(activeMascotProvider);
-}
-
-/// Alias: currentSpeciesProvider -> activeSpeciesProvider
-@riverpod
-MascotSpeciesModel? currentSpecies(Ref ref) {
-  return ref.watch(activeSpeciesProvider);
-}
-
-/// Alias: currentMascotStageProvider -> activeMascotStageProvider
-@riverpod
-int currentMascotStage(Ref ref) {
-  return ref.watch(activeMascotStageProvider);
-}
-
-/// Alias: currentStageDataProvider -> activeStageDataProvider
-@riverpod
-EvolutionStageModel? currentStageData(Ref ref) {
-  return ref.watch(activeStageDataProvider);
-}
-
-/// Alias: mascotAssetPathProvider -> activeMascotAssetPathProvider
-@riverpod
-String? mascotAssetPath(Ref ref) {
-  return ref.watch(activeMascotAssetPathProvider);
-}
-
-/// Alias: nextStageDataProvider -> activeNextStageDataProvider
-@riverpod
-EvolutionStageModel? nextStageData(Ref ref) {
-  return ref.watch(activeNextStageDataProvider);
-}
+// All widgets now watch the active* providers directly.

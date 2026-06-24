@@ -463,12 +463,11 @@ dependencies:
   # UI/UX
   flutter_animate: ^4.5.0
   rive: ^0.14.1
-  lottie: ^3.1.2
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.10
 
-  # Local Storage
-  shared_preferences: ^2.2.3      # Key-value storage (Firestore for structured data)
+  # Local Storage: Firestore only (offline persistence built in).
+  # shared_preferences was removed (2026-06) -- all app state lives in Firestore.
 
   # Notifications
   flutter_local_notifications: ^19.5.0
@@ -477,12 +476,10 @@ dependencies:
   # Utilities
   freezed_annotation: ^3.1.0      # Immutable data classes (Freezed 3.x)
   json_annotation: ^4.9.0
-  equatable: ^2.0.5
   uuid: ^4.4.2
   logger: ^2.4.0
   url_launcher: ^6.3.0
   package_info_plus: ^9.0.0
-  connectivity_plus: ^7.0.0
 
 dev_dependencies:
   build_runner: ^2.4.11
@@ -495,7 +492,7 @@ dev_dependencies:
   fake_cloud_firestore: ^4.0.1
 ```
 
-**Note:** Hive was removed in favor of using `shared_preferences` for simple key-value storage and Firestore for structured data. This simplifies the dependency tree and avoids version conflicts with Riverpod 3.x.
+**Note:** Hive was removed early on; `shared_preferences` was later removed too (2026-06) once all app state -- settings, onboarding, language, recent challenge IDs -- moved to Firestore, which provides offline persistence. Local storage is now Firestore-only. Also removed (2026-06): `lottie` (`rive` is the animation target), `equatable` (Freezed gives value equality), and `connectivity_plus` (Firestore handles offline sync).
 
 ### Backend: Firebase
 
@@ -1173,7 +1170,7 @@ See [PLAN_PHASE_7.md](./PLAN_PHASE_7.md) for detailed implementation plan.
 |----------|--------|-------|
 | State management | **Riverpod 3.x** | With code generation via riverpod_generator |
 | Navigation | **go_router 17.x** | Declarative routing with type-safe routes |
-| Local storage | **shared_preferences + Firestore** | Hive removed due to version conflicts |
+| Local storage | **Firestore only** (offline persistence) | Hive, then shared_preferences, removed -- all state in Firestore |
 | Code generation | **Freezed 3.x** | For immutable data classes |
 | Linting | **flutter_lints + very_good_analysis** | Strict analysis enabled |
 | Auth providers | **Email + Google + Apple** | Sign in with Apple required for iOS |

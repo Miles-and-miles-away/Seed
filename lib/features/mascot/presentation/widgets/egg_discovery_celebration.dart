@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.
@@ -84,176 +85,164 @@ class _EggDiscoveryCelebrationState
     final l10n = AppLocalizations.of(context);
     final mascot = ref.watch(activeMascotProvider).value;
 
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          // Backdrop
-          RepaintBoundary(
-            child: Container(
-              color: Colors.black.withValues(
-                alpha: opacityNearOpaque,
-              ),
-            ).animate().fadeIn(duration: 300.ms),
+    return CelebrationOverlay(
+      children: [
+        // Sparkle particles
+        RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _particleController,
+            builder: (context, _) {
+              return CustomPaint(
+                size: Size.infinite,
+                painter: _SparklePainter(
+                  sparkles: _sparkles,
+                  progress: _particleController.value,
+                ),
+              );
+            },
           ),
+        ),
 
-          // Sparkle particles
-          RepaintBoundary(
-            child: AnimatedBuilder(
-              animation: _particleController,
-              builder: (context, _) {
-                return CustomPaint(
-                  size: Size.infinite,
-                  painter: _SparklePainter(
-                    sparkles: _sparkles,
-                    progress: _particleController.value,
+        // Content
+        if (_showContent)
+          SafeArea(
+            child: Column(
+              children: [
+                const Spacer(),
+
+                // Title
+                Text(
+                  l10n.eggDiscoveryTitle,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-            ),
-          ),
+                  textAlign: TextAlign.center,
+                )
+                    .animate()
+                    .fadeIn(
+                      delay: 100.ms,
+                      duration: 400.ms,
+                    )
+                    .slideY(begin: -0.2, end: 0),
 
-          // Content
-          if (_showContent)
-            SafeArea(
-              child: Column(
-                children: [
-                  const Spacer(),
+                const Spacer(),
 
-                  // Title
-                  Text(
-                    l10n.eggDiscoveryTitle,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
+                // Egg with pulsing glow
+                AnimatedBuilder(
+                  animation: _glowController,
+                  builder: (context, child) {
+                    final glowAlpha = 0.3 + _glowController.value * 0.3;
+                    return Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.glowBlue.withValues(
+                              alpha: glowAlpha,
+                            ),
+                            blurRadius: 60,
+                            spreadRadius: 20,
+                          ),
+                        ],
+                      ),
+                      child: child,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.egg_outlined,
+                    size: 120,
+                    color: AppColors.eggBeige,
                   )
                       .animate()
                       .fadeIn(
-                        delay: 100.ms,
-                        duration: 400.ms,
+                        delay: 500.ms,
+                        duration: 600.ms,
                       )
-                      .slideY(begin: -0.2, end: 0),
+                      .scale(
+                        begin: const Offset(0.3, 0.3),
+                        end: const Offset(1, 1),
+                        curve: Curves.elasticOut,
+                        duration: 800.ms,
+                      ),
+                ),
 
-                  const Spacer(),
+                const Spacer(),
 
-                  // Egg with pulsing glow
-                  AnimatedBuilder(
-                    animation: _glowController,
-                    builder: (context, child) {
-                      final glowAlpha = 0.3 + _glowController.value * 0.3;
-                      return Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.glowBlue.withValues(
-                                alpha: glowAlpha,
-                              ),
-                              blurRadius: 60,
-                              spreadRadius: 20,
-                            ),
-                          ],
-                        ),
-                        child: child,
-                      );
-                    },
-                    child: const Icon(
-                      Icons.egg_outlined,
-                      size: 120,
-                      color: AppColors.eggBeige,
-                    )
-                        .animate()
-                        .fadeIn(
-                          delay: 500.ms,
-                          duration: 600.ms,
-                        )
-                        .scale(
-                          begin: const Offset(0.3, 0.3),
-                          end: const Offset(1, 1),
-                          curve: Curves.elasticOut,
-                          duration: 800.ms,
-                        ),
+                // Message
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: spacingXxxl,
                   ),
-
-                  const Spacer(),
-
-                  // Message
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: spacingXxxl,
+                  child: Text(
+                    l10n.eggDiscoveryMessage(
+                      mascot?.name ?? '',
                     ),
-                    child: Text(
-                      l10n.eggDiscoveryMessage(
-                        mascot?.name ?? '',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: Colors.white,
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(
+                        delay: 800.ms,
+                        duration: 400.ms,
                       ),
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: Colors.white,
-                        height: 1.5,
-                      ),
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(
-                          delay: 800.ms,
-                          duration: 400.ms,
-                        ),
+                ),
+
+                const SizedBox(height: spacingMd),
+
+                // Subtitle
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: spacingHuge,
                   ),
+                  child: Text(
+                    l10n.eggDiscoverySubtitle,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.white70,
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(
+                        delay: 1000.ms,
+                        duration: 400.ms,
+                      ),
+                ),
 
-                  const SizedBox(height: spacingMd),
+                const Spacer(flex: 2),
 
-                  // Subtitle
+                // Dismiss button
+                if (_showButton)
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: spacingHuge,
                     ),
-                    child: Text(
-                      l10n.eggDiscoverySubtitle,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white70,
-                      ),
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(
-                          delay: 1000.ms,
-                          duration: 400.ms,
+                    child: FilledButton(
+                      onPressed: _handleDismiss,
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacingHuge,
+                          vertical: spacingLg,
                         ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: borderRadiusLg,
+                        ),
+                      ),
+                      child: Text(
+                        l10n.eggDiscoveryDismiss,
+                      ),
+                    )
+                        .animate()
+                        .fadeIn(duration: 400.ms)
+                        .slideY(begin: 0.3, end: 0),
                   ),
 
-                  const Spacer(flex: 2),
-
-                  // Dismiss button
-                  if (_showButton)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingHuge,
-                      ),
-                      child: FilledButton(
-                        onPressed: _handleDismiss,
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: spacingHuge,
-                            vertical: spacingLg,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: borderRadiusLg,
-                          ),
-                        ),
-                        child: Text(
-                          l10n.eggDiscoveryDismiss,
-                        ),
-                      )
-                          .animate()
-                          .fadeIn(duration: 400.ms)
-                          .slideY(begin: 0.3, end: 0),
-                    ),
-
-                  const SizedBox(height: spacingHuge),
-                ],
-              ),
+                const SizedBox(height: spacingHuge),
+              ],
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }
@@ -318,15 +307,9 @@ class _SparklePainter extends CustomPainter {
 Future<void> showEggDiscoveryCelebration(
   BuildContext context,
   WidgetRef ref,
-) async {
-  await showGeneralDialog<void>(
-    context: context,
-    barrierColor: Colors.transparent,
-    pageBuilder: (context, animation, secondaryAnimation) {
-      return EggDiscoveryCelebration(
-        onDismiss: () => Navigator.of(context).pop(),
-      );
-    },
-    transitionDuration: Duration.zero,
+) {
+  return showCelebrationOverlay(
+    context,
+    (onDismiss) => EggDiscoveryCelebration(onDismiss: onDismiss),
   );
 }

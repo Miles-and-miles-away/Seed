@@ -118,18 +118,6 @@ class FCMService {
     appLogger.debug('FCM token deleted');
   }
 
-  /// Subscribe to a topic for group notifications.
-  Future<void> subscribeToTopic(String topic) async {
-    await _messaging.subscribeToTopic(topic);
-    appLogger.debug('Subscribed to topic: $topic');
-  }
-
-  /// Unsubscribe from a topic.
-  Future<void> unsubscribeFromTopic(String topic) async {
-    await _messaging.unsubscribeFromTopic(topic);
-    appLogger.debug('Unsubscribed from topic: $topic');
-  }
-
   void _handleForegroundMessage(RemoteMessage message) {
     appLogger.debug('Foreground message: ${message.notification?.title}');
     onForegroundMessage?.call(message);

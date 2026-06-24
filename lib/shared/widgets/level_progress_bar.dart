@@ -89,19 +89,17 @@ class LevelProgressBar extends StatelessWidget {
   }
 }
 
-/// Animated version of FractionallySizedBox.
+/// Animated version of FractionallySizedBox (width only).
 class AnimatedFractionallySizedBox extends ImplicitlyAnimatedWidget {
   const AnimatedFractionallySizedBox({
     required super.duration,
     super.key,
     super.curve,
     this.widthFactor,
-    this.heightFactor,
     this.child,
   });
 
   final double? widthFactor;
-  final double? heightFactor;
   final Widget? child;
 
   @override
@@ -112,7 +110,6 @@ class AnimatedFractionallySizedBox extends ImplicitlyAnimatedWidget {
 class _AnimatedFractionallySizedBoxState
     extends AnimatedWidgetBaseState<AnimatedFractionallySizedBox> {
   Tween<double>? _widthFactor;
-  Tween<double>? _heightFactor;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
@@ -121,23 +118,12 @@ class _AnimatedFractionallySizedBoxState
       widget.widthFactor ?? 1.0,
       (dynamic value) => Tween<double>(begin: value as double),
     ) as Tween<double>?;
-    final heightFactor = widget.heightFactor;
-    if (heightFactor != null) {
-      _heightFactor = visitor(
-        _heightFactor,
-        heightFactor,
-        (dynamic value) => Tween<double>(begin: value as double),
-      ) as Tween<double>?;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: _widthFactor?.evaluate(animation),
-      heightFactor: widget.heightFactor != null
-          ? _heightFactor?.evaluate(animation)
-          : null,
       child: widget.child,
     );
   }
