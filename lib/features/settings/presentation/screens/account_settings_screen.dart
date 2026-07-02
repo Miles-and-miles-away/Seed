@@ -6,6 +6,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/core/utils/validators.dart';
@@ -223,6 +224,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       await ref.read(authProvider.notifier).updateDisplayName(displayName);
       message = l10n.accountSettingsDisplayNameUpdated;
     } on Exception catch (e) {
+      appLogger.error('Account: display name update failed', error: e);
       message = mapAuthErrorToMessage(e, l10n);
     }
 
@@ -382,6 +384,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       }
       return true;
     } on Exception catch (e) {
+      appLogger.error('Account: email update failed', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
@@ -551,6 +554,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       }
       return true;
     } on Exception catch (e) {
+      appLogger.error('Account: password update failed', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
@@ -711,6 +715,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       }
       return true;
     } on Exception catch (e) {
+      appLogger.error('Account: account deletion failed', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),

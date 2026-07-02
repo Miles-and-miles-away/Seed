@@ -142,8 +142,12 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
     if (minActionsCount != null) {
       await _waitForUserCount(minActionsCount);
     }
+    // This autoDispose provider can be disposed while the waits above
+    // run (the caller reads it without keeping it alive), so re-check
+    // before every ref use that follows an async gap.
+    if (!ref.mounted) return [];
     final newUnlocks = await ref.read(ecoDexNewUnlocksProvider.future);
-    if (newUnlocks.isEmpty) return [];
+    if (newUnlocks.isEmpty || !ref.mounted) return [];
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {

@@ -34,10 +34,11 @@ service cloud.firestore {
     // they can inflate the log history (not the aggregates). App Check
     // plus the coupling above keeps this low-value.
     //
-    // Style note: validation functions take the document maps as
-    // arguments and avoid nested function calls -- Firestore caps a
-    // single evaluation at 1000 expressions and the merged user doc
-    // carries ~36 fields.
+    // Style note: Firestore caps a single rule evaluation at 1000
+    // expressions. Update validation therefore checks only the changed
+    // fields (request.resource.data.diff(resource.data).affectedKeys())
+    // instead of re-validating the whole merged user document, so cost
+    // stays bounded as a document accumulates fields over time.
     match /users/{userId} {
 
       // Whitelist plus type/bound checks for every field the app
@@ -46,8 +47,9 @@ service cloud.firestore {
       // document, not the patch). 'mascot' is the legacy single-mascot
       // field, kept writable so pre-migration documents can still be
       // updated (the migration deletes it on first launch).
-      function validUserShape(d) {
-        return d.keys().hasOnly([
+      // Field whitelist -- single source of truth for create + update.
+      function userKeys() {
+        return [
           'uid', 'email', 'displayName', 'photoUrl', 'personalGoal',
           'points', 'level', 'currentStreak', 'longestStreak',
           'language', 'notificationTime', 'createdAt', 'emailVerified',
@@ -62,107 +64,125 @@ service cloud.firestore {
           'completedMultiDayChallenges', 'ecodexDiscovered',
           'uniqueActionIds', 'categoryActionCounts', 'settings',
           'lastStreakReminderDate', 'mascot'
-        ])
-        && (!('uid' in d) || d.uid == userId)
+        ];
+      }
+
+      // Type/bound check for each field, gated on the field appearing in
+      // `keys`. Callers choose how many checks run: create passes the
+      // whole key set (validate all); update passes only
+      // diff().affectedKeys() so cost scales with the patch, not the
+      // document -- this keeps evaluation under Firestore's 1000-
+      // expression cap as an established user document grows. Values are
+      // read from `d`, the merged post-write document. 'mascot' is the
+      // legacy single-mascot field, kept writable for pre-migration docs.
+      function userFieldsOk(d, keys) {
+        return (!('uid' in keys) || d.uid == userId)
         // Empty email allowed: social providers can hide it and the
         // client then stores ''.
-        && (!('email' in d)
+        && (!('email' in keys)
             || (d.email is string && d.email.size() <= 320))
-        && (!('displayName' in d) || d.displayName == null
+        && (!('displayName' in keys) || d.displayName == null
             || (d.displayName is string && d.displayName.size() >= 1
                 && d.displayName.size() <= 50))
-        && (!('photoUrl' in d) || d.photoUrl == null
+        && (!('photoUrl' in keys) || d.photoUrl == null
             || (d.photoUrl is string && d.photoUrl.size() <= 2048))
-        && (!('personalGoal' in d) || d.personalGoal == null
+        && (!('personalGoal' in keys) || d.personalGoal == null
             || (d.personalGoal is string && d.personalGoal.size() >= 1
                 && d.personalGoal.size() <= 100))
-        && (!('language' in d) || d.language in ['en', 'es', 'ja'])
-        && (!('notificationTime' in d) || d.notificationTime == null
+        && (!('language' in keys) || d.language in ['en', 'es', 'ja'])
+        && (!('notificationTime' in keys) || d.notificationTime == null
             || (d.notificationTime is string
                 && d.notificationTime.size() <= 16))
-        && (!('createdAt' in d) || d.createdAt == null
+        && (!('createdAt' in keys) || d.createdAt == null
             || d.createdAt is timestamp)
-        && (!('emailVerified' in d) || d.emailVerified is bool)
-        && (!('dailyGoalTarget' in d) || d.dailyGoalTarget == null
+        && (!('emailVerified' in keys) || d.emailVerified is bool)
+        && (!('dailyGoalTarget' in keys) || d.dailyGoalTarget == null
             || (d.dailyGoalTarget is int && d.dailyGoalTarget >= 1
                 && d.dailyGoalTarget <= 100))
-        && (!('mascots' in d)
+        && (!('mascots' in keys)
             || (d.mascots is list && d.mascots.size() <= 20))
-        && (!('activeMascotId' in d) || d.activeMascotId == null
+        && (!('activeMascotId' in keys) || d.activeMascotId == null
             || (d.activeMascotId is string
                 && d.activeMascotId.size() <= 100))
-        && (!('egg' in d) || d.egg == null || d.egg is map)
-        && (!('eggPendingDiscovery' in d)
+        && (!('egg' in keys) || d.egg == null || d.egg is map)
+        && (!('eggPendingDiscovery' in keys)
             || d.eggPendingDiscovery is bool)
-        && (!('eggPendingDiscoverySince' in d)
+        && (!('eggPendingDiscoverySince' in keys)
             || d.eggPendingDiscoverySince == null
             || d.eggPendingDiscoverySince is timestamp)
-        && (!('notificationsEnabled' in d)
+        && (!('notificationsEnabled' in keys)
             || d.notificationsEnabled is bool)
         // Legacy field (removed from the model 2026-06-12); kept
         // writable so docs that still carry it pass hasOnly checks.
-        && (!('streakGracePeriodAvailable' in d)
+        && (!('streakGracePeriodAvailable' in keys)
             || d.streakGracePeriodAvailable is bool)
-        && (!('fcmToken' in d) || d.fcmToken == null
+        && (!('fcmToken' in keys) || d.fcmToken == null
             || (d.fcmToken is string && d.fcmToken.size() <= 4096))
-        && (!('points' in d)
+        && (!('points' in keys)
             || (d.points is int && d.points >= 0
                 && d.points <= 1000000000))
-        && (!('level' in d)
+        && (!('level' in keys)
             || (d.level is int && d.level >= 1 && d.level <= 1000))
-        && (!('currentStreak' in d)
+        && (!('currentStreak' in keys)
             || (d.currentStreak is int && d.currentStreak >= 0
                 && d.currentStreak <= 40000))
-        && (!('longestStreak' in d)
+        && (!('longestStreak' in keys)
             || (d.longestStreak is int && d.longestStreak >= 0
                 && d.longestStreak <= 40000))
-        && (!('totalCo2Grams' in d)
+        && (!('totalCo2Grams' in keys)
             || (d.totalCo2Grams is int && d.totalCo2Grams >= 0
                 && d.totalCo2Grams <= 100000000000))
-        && (!('totalActionsCount' in d)
+        && (!('totalActionsCount' in keys)
             || (d.totalActionsCount is int && d.totalActionsCount >= 0
                 && d.totalActionsCount <= 10000000))
-        && (!('lastActionDate' in d) || d.lastActionDate == null
+        && (!('lastActionDate' in keys) || d.lastActionDate == null
             || d.lastActionDate is timestamp)
-        && (!('sdgStats' in d) || d.sdgStats is map)
-        && (!('viewedFactDates' in d)
+        && (!('sdgStats' in keys) || d.sdgStats is map)
+        && (!('viewedFactDates' in keys)
             || (d.viewedFactDates is list
                 && d.viewedFactDates.size() <= 40000))
-        && (!('unlockedFactDates' in d)
+        && (!('unlockedFactDates' in keys)
             || (d.unlockedFactDates is list
                 && d.unlockedFactDates.size() <= 40000))
-        && (!('challengeCompletedDate' in d)
+        && (!('challengeCompletedDate' in keys)
             || (d.challengeCompletedDate is string
                 && d.challengeCompletedDate.size() <= 10))
-        && (!('challengeStreak' in d)
+        && (!('challengeStreak' in keys)
             || (d.challengeStreak is int && d.challengeStreak >= 0
                 && d.challengeStreak <= 40000))
-        && (!('challengesCompleted' in d)
+        && (!('challengesCompleted' in keys)
             || (d.challengesCompleted is int
                 && d.challengesCompleted >= 0
                 && d.challengesCompleted <= 10000000))
-        && (!('recentChallengeIds' in d)
+        && (!('recentChallengeIds' in keys)
             || (d.recentChallengeIds is list
                 && d.recentChallengeIds.size() <= 7))
-        && (!('activeMultiDayChallenge' in d)
+        && (!('activeMultiDayChallenge' in keys)
             || d.activeMultiDayChallenge is map)
-        && (!('completedMultiDayChallenges' in d)
+        && (!('completedMultiDayChallenges' in keys)
             || (d.completedMultiDayChallenges is list
                 && d.completedMultiDayChallenges.size() <= 1000))
-        && (!('ecodexDiscovered' in d)
+        && (!('ecodexDiscovered' in keys)
             || (d.ecodexDiscovered is list
                 && d.ecodexDiscovered.size() <= 1000))
-        && (!('uniqueActionIds' in d)
+        && (!('uniqueActionIds' in keys)
             || (d.uniqueActionIds is list
                 && d.uniqueActionIds.size() <= 2000))
-        && (!('categoryActionCounts' in d)
+        && (!('categoryActionCounts' in keys)
             || d.categoryActionCounts is map)
-        && (!('settings' in d) || d.settings is map)
-        && (!('lastStreakReminderDate' in d)
+        && (!('settings' in keys) || d.settings is map)
+        && (!('lastStreakReminderDate' in keys)
             || d.lastStreakReminderDate == null
             || (d.lastStreakReminderDate is string
                 && d.lastStreakReminderDate.size() <= 10))
-        && (!('mascot' in d) || d.mascot == null || d.mascot is map);
+        && (!('mascot' in keys) || d.mascot == null || d.mascot is map);
+      }
+
+      // Full-shape check for CREATE: the new document may contain only
+      // whitelisted fields, all well-typed.
+      function validUserShape(d) {
+        return d.keys().hasOnly(userKeys())
+            && userFieldsOk(d, d.keys());
       }
 
       // Gameplay-counter integrity on updates. `d` is the merged
@@ -215,6 +235,15 @@ service cloud.firestore {
                             + duration.value(5, 's'))));
       }
 
+      // Update-shape check: only whitelisted fields may change, and only
+      // the changed fields are type-checked (cost scales with the diff,
+      // not the document size -- see userFieldsOk).
+      function validUserUpdate(d, old, changed) {
+        return changed.hasOnly(userKeys())
+            && userFieldsOk(d, changed)
+            && userUpdateOk(d, old);
+      }
+
       allow read: if isOwner(userId);
 
       // Created once at registration with zeroed gameplay state.
@@ -231,8 +260,10 @@ service cloud.firestore {
           && request.resource.data.get('lastActionDate', null) == null;
 
       allow update: if isOwner(userId)
-          && validUserShape(request.resource.data)
-          && userUpdateOk(request.resource.data, resource.data);
+          && validUserUpdate(
+               request.resource.data,
+               resource.data,
+               request.resource.data.diff(resource.data).affectedKeys());
 
       // Deletion happens via the deleteUserAccount Cloud Function
       // (Admin SDK bypasses rules and removes subcollections too).

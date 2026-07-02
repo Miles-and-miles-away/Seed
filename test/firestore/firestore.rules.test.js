@@ -462,6 +462,111 @@ describe('users/{userId} update — score integrity', () => {
     });
 });
 
+describe('users/{userId} update — large established document', () => {
+  // Regression: update validation must check only the diff, not the whole
+  // merged document. Re-validating every field on a fully-populated doc
+  // blows Firestore's 1000-expression cap and denies ALL writes once a
+  // user has accumulated enough data -- which silently locked out every
+  // established user when the field whitelist was first hardened.
+  // A doc with every whitelisted field present, sized like real usage.
+  const establishedUserDoc = {
+    email: 'alice@example.com',
+    displayName: 'Alice',
+    photoUrl: null,
+    personalGoal: 'inspire_others',
+    points: 820,
+    level: 5,
+    currentStreak: 1,
+    longestStreak: 2,
+    language: 'en',
+    notificationTime: '09:00',
+    createdAt: Timestamp.now(),
+    emailVerified: true,
+    dailyGoalTarget: 3,
+    mascots: [{
+      id: 'm1', speciesId: 'seed', mascotPoints: 170, mascotLevel: 2,
+      isFullyEvolved: false, co2SavedGrams: 0, lastSeenStage: 1,
+      name: 'Pip', equippedItems: [], createdAt: Timestamp.now(),
+    }],
+    activeMascotId: 'm1',
+    egg: null,
+    eggPendingDiscovery: false,
+    notificationsEnabled: true,
+    lastActionDate: secondsAgo(10),
+    streakGracePeriodAvailable: true,
+    fcmToken: 'fcm-token',
+    totalCo2Grams: 8455,
+    totalActionsCount: 14,
+    sdgStats: {
+      1: {co2: 0, count: 2}, 2: {co2: 0, count: 2}, 3: {co2: 490, count: 1},
+      6: {co2: 615, count: 2}, 7: {co2: 2375, count: 3}, 8: {co2: 0, count: 2},
+      10: {co2: 0, count: 2}, 11: {co2: 865, count: 2}, 12: {co2: 7575, count: 9},
+      13: {co2: 5340, count: 8}, 14: {co2: 100, count: 2}, 15: {co2: 0, count: 1},
+      16: {co2: 0, count: 1},
+    },
+    viewedFactDates: ['2026-04-15', '2026-04-19', '2026-06-05'],
+    unlockedFactDates: ['2026-04-19', '2026-06-05'],
+    challengeCompletedDate: '2026-06-05',
+    challengeStreak: 1,
+    challengesCompleted: 3,
+    recentChallengeIds: ['water_3', 'transport_3', 'recycling_1'],
+    activeMultiDayChallenge: {},
+    completedMultiDayChallenges: [],
+    ecodexDiscovered: [
+      'climate_01', 'climate_02', 'bio_01', 'bio_02', 'bio_03', 'bio_04',
+      'bio_08', 'people_01', 'people_03', 'people_05', 'people_08',
+      'selfless_01', 'gem_02', 'gem_03', 'energy_04', 'bio_06', 'journey_13',
+    ],
+    uniqueActionIds: [
+      'recycle_aluminum_can', 'buy_fair_trade', 'escooter_trip',
+      'collect_rainwater', 'cold_wash', 'borrow_instead_buy',
+      'attend_climate_event', 'beach_cleanup',
+    ],
+    categoryActionCounts: {
+      advocacy: 1, community: 1, consumption: 3, energy: 1, recycling: 1,
+      transport: 1, water: 1,
+    },
+    settings: {language: 'en'},
+    lastStreakReminderDate: '2026-06-05',
+    mascot: {
+      createdAt: Timestamp.now(), name: 'Pip', speciesId: 'seed',
+      lastSeenStage: 1, equippedItems: [],
+    },
+  };
+
+  test('allows an action-shaped scoring update on a full-sized doc',
+    async () => {
+      await seed(`users/${ALICE}`, establishedUserDoc);
+      await assertSucceeds(
+        updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+          points: 838,
+          level: 6,
+          currentStreak: 1,
+          totalCo2Grams: 8455,
+          totalActionsCount: increment(1),
+          lastActionDate: serverTimestamp(),
+          sdgStats: {...establishedUserDoc.sdgStats, 13: {co2: 5340, count: 9}},
+          categoryActionCounts: {
+            ...establishedUserDoc.categoryActionCounts, advocacy: 2,
+          },
+          mascots: establishedUserDoc.mascots,
+        }),
+      );
+    });
+
+  test('still rejects a junk field on a full-sized doc', async () => {
+    await seed(`users/${ALICE}`, establishedUserDoc);
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        points: 838,
+        totalActionsCount: increment(1),
+        lastActionDate: serverTimestamp(),
+        hackerField: 'x',
+      }),
+    );
+  });
+});
+
 describe('users/{userId}/actionLog/{logId}', () => {
   const ACTION_ID = 'recycle';
   const logPath = `users/${ALICE}/actionLog/log1`;
