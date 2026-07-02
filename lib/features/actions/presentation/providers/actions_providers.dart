@@ -364,6 +364,14 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       );
     });
 
+    if (result.hasError) {
+      appLogger.error(
+        'ActionLog: logAction failed',
+        error: result.error,
+        stackTrace: result.stackTrace,
+      );
+    }
+
     if (result.hasValue && result.asData?.value != null) {
       // The chart/stats providers are keyed on the user id (not the
       // whole user doc) to avoid re-querying on every doc change, so
