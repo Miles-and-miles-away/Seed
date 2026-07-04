@@ -1,9 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -105,7 +106,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
           ),
           children: [
             Text(
-              _formatDateLabel(widget.date, l10n, locale),
+              formatDateLabel(widget.date, l10n, locale),
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -197,25 +198,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
 
 EcoFact? _factForDate(List<EcoFact> facts, DateTime date) {
   final doy = dayOfYear(date);
-  for (final f in facts) {
-    if (f.dayOfYear == doy) return f;
-  }
-  return null;
-}
-
-String _formatDateLabel(
-  DateTime date,
-  AppLocalizations l10n,
-  String locale,
-) {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-  final yesterday = today.subtract(const Duration(days: 1));
-  final d = DateTime(date.year, date.month, date.day);
-  if (d == today) return l10n.today;
-  if (d == yesterday) return l10n.yesterday;
-  final pattern = date.year == today.year ? 'EEEE, MMMM d' : 'EEEE, MMMM d, y';
-  return DateFormat(pattern, locale).format(date);
+  return facts.firstWhereOrNull((f) => f.dayOfYear == doy);
 }
 
 class _StatsRow extends StatelessWidget {

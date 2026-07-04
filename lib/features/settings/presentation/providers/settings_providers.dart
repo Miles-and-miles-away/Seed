@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/settings/data/datasources/settings_remote_datasource.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
@@ -12,24 +11,13 @@ import 'package:seed_app/shared/services/analytics_service.dart';
 part 'settings_providers.g.dart';
 
 // =============================================================================
-// Data Source Provider
-// =============================================================================
-
-@riverpod
-SettingsRemoteDataSource settingsRemoteDataSource(Ref ref) {
-  return SettingsRemoteDataSource(
-    firestore: ref.watch(firestoreProvider),
-  );
-}
-
-// =============================================================================
 // Repository Provider
 // =============================================================================
 
 @riverpod
 SettingsRepository settingsRepository(Ref ref) {
   return SettingsRepository(
-    dataSource: ref.watch(settingsRemoteDataSourceProvider),
+    firestore: ref.watch(firestoreProvider),
   );
 }
 
@@ -49,17 +37,6 @@ Stream<UserSettingsModel> userSettings(Ref ref) {
     return Stream.value(UserSettingsModel.defaultSettings());
   }
   return ref.watch(settingsRepositoryProvider).watchSettings(userId);
-}
-
-/// Returns the list of enabled reminder schedules.
-@riverpod
-List<NotificationScheduleModel> enabledReminders(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.enabledReminders,
-    loading: () => [],
-    error: (_, __) => [],
-  );
 }
 
 /// Returns whether the user can add more reminders.

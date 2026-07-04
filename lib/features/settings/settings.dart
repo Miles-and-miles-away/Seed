@@ -2,9 +2,6 @@
 /// Export all settings-related classes here
 library;
 
-// Data layer - Datasources
-export 'data/datasources/settings_remote_datasource.dart';
-
 // Data layer - Models
 export 'data/models/notification_schedule_model.dart';
 export 'data/models/user_settings_model.dart';

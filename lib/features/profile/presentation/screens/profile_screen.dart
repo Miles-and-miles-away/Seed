@@ -304,44 +304,58 @@ class ProfileScreen extends ConsumerWidget {
         const SizedBox(height: spacingMd),
 
         // First row: Current streak & Longest streak
-        StatCardRow(
-          left: StatCard(
-            icon: Icons.local_fire_department,
-            // displayedStreak shows 0 once a missed day has already
-            // broken the streak (the stored value is only corrected
-            // at the next log).
-            value: '${StreakService.instance.displayedStreak(
-              storedStreak: user.currentStreak,
-              lastActionDate: user.lastActionDate,
-              now: DateTime.now(),
-            )}',
-            label: l10n.profileCurrentStreak,
-            iconColor: Colors.orange,
-          ),
-          right: StatCard(
-            icon: Icons.emoji_events,
-            value: '${user.longestStreak}',
-            label: l10n.profileLongestStreak,
-            iconColor: Colors.amber,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: StatCard(
+                icon: Icons.local_fire_department,
+                // displayedStreak shows 0 once a missed day has already
+                // broken the streak (the stored value is only corrected
+                // at the next log).
+                value: '${displayedStreak(
+                  storedStreak: user.currentStreak,
+                  lastActionDate: user.lastActionDate,
+                  now: DateTime.now(),
+                )}',
+                label: l10n.profileCurrentStreak,
+                iconColor: Colors.orange,
+              ),
+            ),
+            const SizedBox(width: spacingMd),
+            Expanded(
+              child: StatCard(
+                icon: Icons.emoji_events,
+                value: '${user.longestStreak}',
+                label: l10n.profileLongestStreak,
+                iconColor: Colors.amber,
+              ),
+            ),
+          ],
         ),
 
         const SizedBox(height: spacingMd),
 
         // Second row: Total CO2 & Total actions
-        StatCardRow(
-          left: StatCard(
-            icon: Icons.eco,
-            value: formatCO2Compact(totalCo2),
-            label: l10n.profileTotalCO2,
-            iconColor: colorScheme.primary,
-          ),
-          right: StatCard(
-            icon: Icons.check_circle,
-            value: '$totalActions',
-            label: l10n.profileTotalActions,
-            iconColor: colorScheme.secondary,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: StatCard(
+                icon: Icons.eco,
+                value: formatCO2Compact(totalCo2),
+                label: l10n.profileTotalCO2,
+                iconColor: colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: spacingMd),
+            Expanded(
+              child: StatCard(
+                icon: Icons.check_circle,
+                value: '$totalActions',
+                label: l10n.profileTotalActions,
+                iconColor: colorScheme.secondary,
+              ),
+            ),
+          ],
         ),
 
         const SizedBox(height: spacingMd),

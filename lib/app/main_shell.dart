@@ -31,16 +31,10 @@ class _MainShellState extends ConsumerState<MainShell> {
   void initState() {
     super.initState();
 
-    // Bootstrap day-change tracking (keepAlive, so one read suffices
-    // to keep the midnight/resume refresh running for the app lifetime)
-    ref.read(dayChangeProvider);
-
-    // Run migration once
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(mascotProvider.notifier).runMigrationIfNeeded();
-    });
-
     ref
+      // Bootstrap day-change tracking (keepAlive, so one read suffices
+      // to keep the midnight/resume refresh running for the app lifetime)
+      ..read(dayChangeProvider)
       // React to evolution changes only when value flips
       ..listenManual(hasNewEvolutionProvider, (_, next) {
         if (next && !_hasShownEvolutionCelebration) {

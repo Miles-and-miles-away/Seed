@@ -46,8 +46,10 @@ Future<Co2TrendData> co2TrendData(Ref ref, TimePeriod period) async {
 
   final points = summaries
       .map(
+        // `s.date` is always `YYYY-MM-DD` written by ProgressRepository;
+        // date-only ISO strings parse to local midnight.
         (s) => Co2TrendPoint(
-          date: _parseDateId(s.date),
+          date: DateTime.parse(s.date),
           grams: s.totalCo2Grams,
         ),
       )
@@ -136,20 +138,5 @@ Co2CategoryData buildCategoryData(List<DailySummaryModel> summaries) {
 
 const _kTopCategoryCount = 5;
 
-DateTime _parseDateId(String dateId) {
-  // `dateId` is always `YYYY-MM-DD` written by
-  // DailySummaryRemoteDataSource; parse to local-midnight DateTime.
-  final parts = dateId.split('-');
-  return DateTime(
-    int.parse(parts[0]),
-    int.parse(parts[1]),
-    int.parse(parts[2]),
-  );
-}
-
-ActionCategory? _tryParseCategory(String key) {
-  for (final c in ActionCategory.values) {
-    if (c.name == key) return c;
-  }
-  return null;
-}
+ActionCategory? _tryParseCategory(String key) =>
+    ActionCategory.values.asNameMap()[key];

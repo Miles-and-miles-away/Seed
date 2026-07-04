@@ -1,3 +1,11 @@
+// NOTE(postponed): Part of the notification/reminder feature deferred
+// on 2026-06-10 (see lib/shared/providers/notification_providers.dart).
+// Deliberately kept in-tree, not dead code -- do not delete or flag in
+// dead-code audits. Nothing in lib/ reads lastStreakReminderDate yet;
+// that is expected until the feature is revived. Revival checklist:
+// - Confirm deployment state with `firebase functions:list`.
+// - Switch messaging.send-per-token to messaging.sendEach (one HTTP
+//   call per batch, same per-token error results).
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { getMessaging } from 'firebase-admin/messaging';

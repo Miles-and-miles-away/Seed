@@ -8,7 +8,6 @@ import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
 import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/domain/services/challenge_selection_service.dart';
-import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
 part 'challenge_providers.g.dart';
 

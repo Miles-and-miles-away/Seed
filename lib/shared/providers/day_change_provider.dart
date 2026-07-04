@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
-import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';

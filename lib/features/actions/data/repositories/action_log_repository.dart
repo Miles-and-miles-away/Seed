@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
@@ -7,16 +8,12 @@ import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/domain/services/challenge_selection_service.dart';
-import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/services/egg_hatching_service.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
-import 'package:uuid/uuid.dart';
-
-const _uuid = Uuid();
 
 /// Repository for logging actions and managing user statistics.
 class ActionLogRepository {
@@ -58,13 +55,6 @@ class ActionLogRepository {
     DateTime end,
   ) =>
       dataSource.getActionLogsForRange(userId, start, end);
-
-  /// Gets recent action logs for the home screen.
-  Future<List<ActionLogModel>> getRecentActionLogs(
-    String userId,
-    int limit,
-  ) =>
-      dataSource.getRecentActionLogs(userId, limit);
 
   /// Logs an action and updates user statistics atomically.
   ///
@@ -132,7 +122,7 @@ class ActionLogRepository {
       final longestStreak =
           (userData[AppConstants.fieldLongestStreak] as int?) ?? 0;
 
-      final streakResult = StreakService.instance.calculateStreakUpdate(
+      final streakResult = calculateStreakUpdate(
         lastActionDate: lastActionDate,
         currentStreak: currentStreak,
         longestStreak: longestStreak,
@@ -265,7 +255,9 @@ class ActionLogRepository {
               mascots.map(MascotModel.fromJson).toList(),
               mascotSpecies,
             );
-            final newMascotId = _uuid.v4();
+            // Firestore auto-ID minted client-side (no network call).
+            final newMascotId =
+                firestore.collection(AppConstants.collectionUsers).doc().id;
             hatchedMascotId = newMascotId;
 
             final newMascot = MascotModel(
@@ -323,6 +315,9 @@ class ActionLogRepository {
             challenge.id,
             ...recentIds.take(AppConstants.recentChallengeIdsLimit - 1),
           ];
+          // ponytail: unbounded array on the user doc; cap to the last
+          // year if doc size ever matters (see viewedFactDates note in
+          // eco_fact_providers.dart).
           updates[AppConstants.fieldUnlockedFactDates] =
               FieldValue.arrayUnion([todayKey]);
         }
@@ -333,13 +328,8 @@ class ActionLogRepository {
           as Map<String, dynamic>?;
       if (multiDay != null && multiDay.isNotEmpty) {
         final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String;
-        MultiDayChallengeTemplate? template;
-        for (final t in multiDayChallengeTemplates) {
-          if (t.id == mdTemplateId) {
-            template = t;
-            break;
-          }
-        }
+        final template = multiDayChallengeTemplates
+            .firstWhereOrNull((t) => t.id == mdTemplateId);
         final lastDate =
             multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
         final todayKey2 = formatDateKey(now);

@@ -2,16 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 
 void main() {
-  group('StreakService', () {
-    late StreakService service;
-
-    setUp(() {
-      service = StreakService.instance;
-    });
-
+  group('streak calculations', () {
     group('calculateStreakUpdate', () {
       test('first action ever sets streak to 1', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: null,
           currentStreak: 0,
           longestStreak: 0,
@@ -26,7 +20,7 @@ void main() {
       });
 
       test('action on same day does not change streak', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 27, 9),
           currentStreak: 5,
           longestStreak: 10,
@@ -41,7 +35,7 @@ void main() {
       });
 
       test('action on consecutive day increments streak', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 5,
           longestStreak: 10,
@@ -57,7 +51,7 @@ void main() {
 
       test('action on consecutive day updates longest streak when exceeded',
           () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 10,
           longestStreak: 10,
@@ -69,7 +63,7 @@ void main() {
       });
 
       test('missed day resets streak to 1', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 25), // 2 days ago
           currentStreak: 10,
           longestStreak: 15,
@@ -84,7 +78,7 @@ void main() {
 
       test('missed day does not set streakWasBroken if streak was already 1',
           () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 25), // 2 days ago
           currentStreak: 1,
           longestStreak: 5,
@@ -96,7 +90,7 @@ void main() {
       });
 
       test('detects 1-week milestone crossing (6 to 7 days)', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 6,
           longestStreak: 6,
@@ -109,7 +103,7 @@ void main() {
       });
 
       test('detects 2-week milestone crossing (13 to 14 days)', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 13,
           longestStreak: 13,
@@ -123,7 +117,7 @@ void main() {
 
       test('does not detect milestone if not a milestone week', () {
         // 8 days is not a milestone (not week 1 or 2)
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26),
           currentStreak: 8,
           longestStreak: 8,
@@ -136,7 +130,7 @@ void main() {
       });
 
       test('handles timezone edge case - action just before midnight', () {
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 1, 26, 23, 59),
           currentStreak: 5,
           longestStreak: 5,
@@ -150,7 +144,7 @@ void main() {
         // Log at 00:30 JST, fly to Honolulu where it is still the
         // previous calendar day: a negative day difference must be
         // treated as same-day, not as a broken streak.
-        final result = service.calculateStreakUpdate(
+        final result = calculateStreakUpdate(
           lastActionDate: DateTime(2026, 6, 12, 0, 30),
           currentStreak: 12,
           longestStreak: 12,
@@ -165,7 +159,7 @@ void main() {
     group('displayedStreak', () {
       test('returns the stored streak when last action was yesterday', () {
         expect(
-          service.displayedStreak(
+          displayedStreak(
             storedStreak: 6,
             lastActionDate: DateTime(2026, 6, 12, 22),
             now: DateTime(2026, 6, 13, 8),
@@ -176,7 +170,7 @@ void main() {
 
       test('returns 0 once a missed day broke the streak', () {
         expect(
-          service.displayedStreak(
+          displayedStreak(
             storedStreak: 6,
             lastActionDate: DateTime(2026, 6, 10),
             now: DateTime(2026, 6, 13),
@@ -189,7 +183,7 @@ void main() {
         // A pending serverTimestamp briefly reads as null right after
         // logging; the streak must not flicker to zero.
         expect(
-          service.displayedStreak(
+          displayedStreak(
             storedStreak: 6,
             lastActionDate: null,
             now: DateTime(2026, 6, 13),
@@ -199,46 +193,23 @@ void main() {
       });
     });
 
-    group('getStreakWeeks', () {
-      test('returns 0 for less than 7 days', () {
-        expect(service.getStreakWeeks(0), equals(0));
-        expect(service.getStreakWeeks(6), equals(0));
-      });
-
-      test('returns 1 for 7-13 days', () {
-        expect(service.getStreakWeeks(7), equals(1));
-        expect(service.getStreakWeeks(13), equals(1));
-      });
-
-      test('returns 2 for 14-20 days', () {
-        expect(service.getStreakWeeks(14), equals(2));
-        expect(service.getStreakWeeks(20), equals(2));
-      });
-
-      test('returns correct weeks for larger streaks', () {
-        expect(service.getStreakWeeks(28), equals(4));
-        expect(service.getStreakWeeks(56), equals(8));
-        expect(service.getStreakWeeks(365), equals(52));
-      });
-    });
-
     group('weekMilestones', () {
       test('contains expected milestone weeks', () {
-        expect(StreakService.weekMilestones, contains(1));
-        expect(StreakService.weekMilestones, contains(2));
-        expect(StreakService.weekMilestones, contains(3));
-        expect(StreakService.weekMilestones, contains(4));
-        expect(StreakService.weekMilestones, contains(8));
-        expect(StreakService.weekMilestones, contains(12));
-        expect(StreakService.weekMilestones, contains(26));
-        expect(StreakService.weekMilestones, contains(52));
+        expect(weekMilestones, contains(1));
+        expect(weekMilestones, contains(2));
+        expect(weekMilestones, contains(3));
+        expect(weekMilestones, contains(4));
+        expect(weekMilestones, contains(8));
+        expect(weekMilestones, contains(12));
+        expect(weekMilestones, contains(26));
+        expect(weekMilestones, contains(52));
       });
 
       test('is sorted in ascending order', () {
-        for (var i = 0; i < StreakService.weekMilestones.length - 1; i++) {
+        for (var i = 0; i < weekMilestones.length - 1; i++) {
           expect(
-            StreakService.weekMilestones[i],
-            lessThan(StreakService.weekMilestones[i + 1]),
+            weekMilestones[i],
+            lessThan(weekMilestones[i + 1]),
           );
         }
       });

@@ -202,7 +202,7 @@ final class Co2TrendDataProvider extends $FunctionalProvider<
   }
 }
 
-String _$co2TrendDataHash() => r'ad43d239e03e92d476a3fab3390af372052f278f';
+String _$co2TrendDataHash() => r'd339ace592ba2ca56b2009a1a3768c4034d8bb92';
 
 final class Co2TrendDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2TrendData>, TimePeriod> {

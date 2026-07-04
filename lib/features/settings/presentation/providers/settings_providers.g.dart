@@ -9,50 +9,6 @@ part of 'settings_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(settingsRemoteDataSource)
-final settingsRemoteDataSourceProvider = SettingsRemoteDataSourceProvider._();
-
-final class SettingsRemoteDataSourceProvider extends $FunctionalProvider<
-    SettingsRemoteDataSource,
-    SettingsRemoteDataSource,
-    SettingsRemoteDataSource> with $Provider<SettingsRemoteDataSource> {
-  SettingsRemoteDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'settingsRemoteDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$settingsRemoteDataSourceHash();
-
-  @$internal
-  @override
-  $ProviderElement<SettingsRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  SettingsRemoteDataSource create(Ref ref) {
-    return settingsRemoteDataSource(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SettingsRemoteDataSource value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<SettingsRemoteDataSource>(value),
-    );
-  }
-}
-
-String _$settingsRemoteDataSourceHash() =>
-    r'255d4a6c72e8313ec57de3270c9c5a627a3198fd';
-
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();
 
@@ -95,7 +51,7 @@ final class SettingsRepositoryProvider extends $FunctionalProvider<
 }
 
 String _$settingsRepositoryHash() =>
-    r'18f122b9b975096acb81f3e04a25762e8e36ab4e';
+    r'b5fda680c45b0d745793e729592cb532f5c26802';
 
 /// Stream of the current user's settings.
 /// Returns default settings if no settings are found.
@@ -151,56 +107,6 @@ final class UserSettingsProvider extends $FunctionalProvider<
 }
 
 String _$userSettingsHash() => r'9c03e600402f8aec294bba1abebdae1764a6a56d';
-
-/// Returns the list of enabled reminder schedules.
-
-@ProviderFor(enabledReminders)
-final enabledRemindersProvider = EnabledRemindersProvider._();
-
-/// Returns the list of enabled reminder schedules.
-
-final class EnabledRemindersProvider extends $FunctionalProvider<
-        List<NotificationScheduleModel>,
-        List<NotificationScheduleModel>,
-        List<NotificationScheduleModel>>
-    with $Provider<List<NotificationScheduleModel>> {
-  /// Returns the list of enabled reminder schedules.
-  EnabledRemindersProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'enabledRemindersProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$enabledRemindersHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<NotificationScheduleModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<NotificationScheduleModel> create(Ref ref) {
-    return enabledReminders(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<NotificationScheduleModel> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride:
-          $SyncValueProvider<List<NotificationScheduleModel>>(value),
-    );
-  }
-}
-
-String _$enabledRemindersHash() => r'287947b76f478f8021d0685cfdc8378829a045c2';
 
 /// Returns whether the user can add more reminders.
 

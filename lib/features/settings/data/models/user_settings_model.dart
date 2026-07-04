@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'notification_schedule_model.dart';
 
 part 'user_settings_model.freezed.dart';
@@ -67,8 +68,9 @@ extension UserSettingsModelX on UserSettingsModel {
   List<NotificationScheduleModel> get enabledReminders =>
       reminderSchedules.where((r) => r.isEnabled).toList();
 
-  /// Returns whether the user can add more reminders (max 5).
-  bool get canAddReminder => reminderSchedules.length < 5;
+  /// Returns whether the user can add more reminders.
+  bool get canAddReminder =>
+      reminderSchedules.length < AppConstants.maxRemindersPerUser;
 
   /// Returns the count of enabled reminders.
   int get enabledReminderCount => enabledReminders.length;

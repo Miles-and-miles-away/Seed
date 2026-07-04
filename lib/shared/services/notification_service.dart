@@ -9,6 +9,11 @@ import 'package:timezone/timezone.dart' as tz;
 ///
 /// Handles scheduling daily reminders at user-specified times.
 /// Supports smart notifications that can be conditionally shown.
+///
+/// NOTE(postponed): The reminder feature is deferred (decision
+/// 2026-06-10); most methods here have no callers yet. Kept in-tree
+/// on purpose -- do not delete or flag as dead code. Revival notes in
+/// notification_providers.dart.
 class NotificationService {
   NotificationService._();
 

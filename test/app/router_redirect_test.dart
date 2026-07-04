@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +52,7 @@ void main() {
     return ProviderScope(
       overrides: [
         firebaseAuthProvider.overrideWithValue(auth),
-        firestoreProvider.overrideWithValue(createFakeFirestore()),
+        firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
         // Home renders inside the shell; skip Firestore mascot lookups.
         hasMascotProvider.overrideWithValue(false),
       ],

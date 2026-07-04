@@ -10,6 +10,9 @@ import re
 
 # Common Spanish words that lose diacritics in LLM output.
 # Catch-all -ion -> -ión rule at the end handles most nouns.
+# NOTE: fix_spanish_diacritics.js keeps a sibling table tuned for the
+# action-description corpus (superset: senor, ensenar, maquina, ...).
+# When adding a word here, consider whether it belongs there too.
 DIACRITICS = [
     (r'\bano\b', 'año'), (r'\banos\b', 'años'),
     (r'\bbano\b', 'baño'), (r'\bbanos\b', 'baños'),

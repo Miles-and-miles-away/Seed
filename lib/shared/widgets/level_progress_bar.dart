@@ -65,10 +65,14 @@ class LevelProgressBar extends StatelessWidget {
                 ),
               ),
               // Progress fill
-              AnimatedFractionallySizedBox(
+              TweenAnimationBuilder<double>(
+                tween: Tween(end: progress.clamp(0.0, 1.0)),
                 duration: durationNormal,
                 curve: Curves.easeOut,
-                widthFactor: progress.clamp(0.0, 1.0),
+                builder: (_, widthFactor, child) => FractionallySizedBox(
+                  widthFactor: widthFactor,
+                  child: child,
+                ),
                 child: Container(
                   height: height,
                   decoration: BoxDecoration(
@@ -85,46 +89,6 @@ class LevelProgressBar extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-/// Animated version of FractionallySizedBox (width only).
-class AnimatedFractionallySizedBox extends ImplicitlyAnimatedWidget {
-  const AnimatedFractionallySizedBox({
-    required super.duration,
-    super.key,
-    super.curve,
-    this.widthFactor,
-    this.child,
-  });
-
-  final double? widthFactor;
-  final Widget? child;
-
-  @override
-  AnimatedWidgetBaseState<AnimatedFractionallySizedBox> createState() =>
-      _AnimatedFractionallySizedBoxState();
-}
-
-class _AnimatedFractionallySizedBoxState
-    extends AnimatedWidgetBaseState<AnimatedFractionallySizedBox> {
-  Tween<double>? _widthFactor;
-
-  @override
-  void forEachTween(TweenVisitor<dynamic> visitor) {
-    _widthFactor = visitor(
-      _widthFactor,
-      widget.widthFactor ?? 1.0,
-      (dynamic value) => Tween<double>(begin: value as double),
-    ) as Tween<double>?;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: _widthFactor?.evaluate(animation),
-      child: widget.child,
     );
   }
 }

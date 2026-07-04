@@ -7,23 +7,16 @@ abstract class AppConstants {
   // months at ~150 points/day; stage 2 ~1 week, stage 3 ~4 weeks.
   static const levelScalingFactor = 1.05;
 
-  // Mascot evolution thresholds
-  static const evolutionStage1Level = 1;
-  static const evolutionStage2Level = 10;
-  static const evolutionStage3Level = 25;
-  static const evolutionStage4Level = 50;
-
-  // Notification defaults (default reminder time for the postponed reminder
-  // feature -- currently hardcoded as 9:00 in user_settings_model.dart and
-  // notification_settings_screen.dart; centralize here when it's revived).
-  static const defaultReminderHour = 9;
-  static const defaultReminderMinute = 0;
+  // Reminder limits
+  static const maxRemindersPerUser = 5;
 
   // Firebase collections
   static const collectionUsers = 'users';
   static const collectionActionLog = 'actionLog';
   static const collectionActionLibrary = 'actionLibrary';
-  static const collectionMascotSpecies = 'mascotSpecies';
+  // NOTE(planned): unreferenced until the Phase 7 shop lands --
+  // cosmetic items are seeded to Firestore then (PLAN_PHASE_7.md);
+  // firestore.rules already has the collection block. Keep.
   static const collectionCosmeticItems = 'cosmeticItems';
   static const collectionDailySummaries = 'dailySummaries';
 
@@ -120,7 +113,6 @@ abstract class AppConstants {
   static const fieldGoalCount = 'goalCount';
   static const fieldCompletedSdgs = 'completedSdgs';
   static const fieldTotalPoints = 'totalPoints';
-  static const fieldUpdatedAt = 'updatedAt';
   static const fieldCategoryCo2Grams = 'categoryCo2Grams';
 
   // Firestore SDG stats nested fields

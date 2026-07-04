@@ -9,51 +9,6 @@ part of 'progress_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(dailySummaryRemoteDataSource)
-final dailySummaryRemoteDataSourceProvider =
-    DailySummaryRemoteDataSourceProvider._();
-
-final class DailySummaryRemoteDataSourceProvider extends $FunctionalProvider<
-    DailySummaryRemoteDataSource,
-    DailySummaryRemoteDataSource,
-    DailySummaryRemoteDataSource> with $Provider<DailySummaryRemoteDataSource> {
-  DailySummaryRemoteDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dailySummaryRemoteDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$dailySummaryRemoteDataSourceHash();
-
-  @$internal
-  @override
-  $ProviderElement<DailySummaryRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  DailySummaryRemoteDataSource create(Ref ref) {
-    return dailySummaryRemoteDataSource(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(DailySummaryRemoteDataSource value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<DailySummaryRemoteDataSource>(value),
-    );
-  }
-}
-
-String _$dailySummaryRemoteDataSourceHash() =>
-    r'b9d29e359623237698fe0930c63f7e42d00d17bc';
-
 @ProviderFor(progressRepository)
 final progressRepositoryProvider = ProgressRepositoryProvider._();
 
@@ -96,7 +51,7 @@ final class ProgressRepositoryProvider extends $FunctionalProvider<
 }
 
 String _$progressRepositoryHash() =>
-    r'502739b259ce7fb20113cb6d656f7952ff08856a';
+    r'7df2f1d27155e954dbc2bca3d8c4d84a2b9af969';
 
 /// Loads and caches impact equivalency metadata (conversion factors
 /// and source URLs) from the bundled JSON asset. Cached for the

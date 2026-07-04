@@ -1,82 +1,135 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:seed_app/features/progress/data/datasources/daily_summary_remote_datasource.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 
-class _MockDataSource extends Mock implements DailySummaryRemoteDataSource {}
-
 void main() {
-  late _MockDataSource dataSource;
   late FakeFirebaseFirestore firestore;
   late ProgressRepository repository;
 
   const uid = 'user-1';
 
   setUp(() {
-    dataSource = _MockDataSource();
     firestore = FakeFirebaseFirestore();
-    repository = ProgressRepository(dataSource, firestore);
+    repository = ProgressRepository(firestore);
   });
 
-  group('watchTodaySummary', () {
-    test('delegates to data source', () {
-      final summary = DailySummaryModel(date: '2026-04-19', goalCount: 2);
-      when(() => dataSource.watchTodaySummary(uid))
-          .thenAnswer((_) => Stream.value(summary));
+  CollectionReference<Map<String, dynamic>> summariesCollection(String u) =>
+      firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(u)
+          .collection(AppConstants.collectionDailySummaries);
 
-      expect(repository.watchTodaySummary(uid), emits(summary));
-      verify(() => dataSource.watchTodaySummary(uid)).called(1);
+  Future<void> seedSummary(
+    String dateId, {
+    int goalCount = 1,
+    List<int> completedSdgs = const [1],
+    int totalPoints = 10,
+    int totalCo2Grams = 100,
+  }) async {
+    await summariesCollection(uid).doc(dateId).set({
+      'date': dateId,
+      'goalCount': goalCount,
+      'completedSdgs': completedSdgs,
+      'totalPoints': totalPoints,
+      'totalCo2Grams': totalCo2Grams,
+    });
+  }
+
+  group('watchTodaySummary', () {
+    test('emits null when no summary exists', () async {
+      final stream = repository.watchTodaySummary(uid);
+
+      await expectLater(stream, emits(isNull));
+    });
+
+    test('emits summary for today', () async {
+      final now = DateTime.now();
+      final todayId = '${now.year}'
+          '-${now.month.toString().padLeft(2, '0')}'
+          '-${now.day.toString().padLeft(2, '0')}';
+      await seedSummary(todayId, goalCount: 3, totalPoints: 50);
+
+      final stream = repository.watchTodaySummary(uid);
+
+      await expectLater(
+        stream,
+        emits(
+          predicate<DailySummaryModel?>(
+            (s) => s != null && s.goalCount == 3 && s.totalPoints == 50,
+          ),
+        ),
+      );
     });
   });
 
   group('getMonthSummaries', () {
-    test('queries from first day to last day of the month', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any()))
-          .thenAnswer((_) async => []);
+    test('includes first and last day of the month only', () async {
+      await seedSummary('2026-01-31');
+      await seedSummary('2026-02-01');
+      await seedSummary('2026-02-28');
+      await seedSummary('2026-03-01');
 
-      await repository.getMonthSummaries(uid, 2026, 2);
+      final result = await repository.getMonthSummaries(uid, 2026, 2);
 
-      final captured = verify(
-        () => dataSource.getSummariesInRange(uid, captureAny(), captureAny()),
-      ).captured;
-      expect(captured.first, DateTime(2026, 2));
-      expect(captured.last, DateTime(2026, 2, 28));
+      expect(result.map((s) => s.date), ['2026-02-01', '2026-02-28']);
     });
 
-    test('correctly handles month with 31 days', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any()))
-          .thenAnswer((_) async => []);
+    test('includes leap-year February 29', () async {
+      await seedSummary('2024-02-29');
+      await seedSummary('2024-03-01');
 
-      await repository.getMonthSummaries(uid, 2026, 1);
+      final result = await repository.getMonthSummaries(uid, 2024, 2);
 
-      final captured = verify(
-        () => dataSource.getSummariesInRange(uid, captureAny(), captureAny()),
-      ).captured;
-      expect(captured.first, DateTime(2026));
-      expect(captured.last, DateTime(2026, 1, 31));
+      expect(result.map((s) => s.date), ['2024-02-29']);
     });
 
-    test('correctly handles leap-year February', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any()))
-          .thenAnswer((_) async => []);
+    test('returns empty list for a month with no data', () async {
+      final result = await repository.getMonthSummaries(uid, 2026, 6);
 
-      await repository.getMonthSummaries(uid, 2024, 2);
+      expect(result, isEmpty);
+    });
+  });
 
-      final captured = verify(
-        () => dataSource.getSummariesInRange(uid, captureAny(), captureAny()),
-      ).captured;
-      expect(captured.last, DateTime(2024, 2, 29));
+  group('getSummariesForDateRange', () {
+    test('is inclusive of start and exclusive of end', () async {
+      await seedSummary('2024-06-13');
+      await seedSummary('2024-06-14');
+      await seedSummary('2024-06-15');
+      await seedSummary('2024-06-16');
+
+      final result = await repository.getSummariesForDateRange(
+        uid,
+        DateTime(2024, 6, 14),
+        DateTime(2024, 6, 16),
+      );
+
+      expect(result.map((s) => s.date), ['2024-06-14', '2024-06-15']);
+    });
+
+    test('returns empty list for zero-width or inverted range', () async {
+      await seedSummary('2024-06-14');
+
+      final zeroWidth = await repository.getSummariesForDateRange(
+        uid,
+        DateTime(2024, 6, 14),
+        DateTime(2024, 6, 14),
+      );
+      final inverted = await repository.getSummariesForDateRange(
+        uid,
+        DateTime(2024, 6, 15),
+        DateTime(2024, 6, 14),
+      );
+
+      expect(zeroWidth, isEmpty);
+      expect(inverted, isEmpty);
     });
   });
 
   group('getMonthCalendarData', () {
     test('produces one CalendarDayData per day in month', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any()))
-          .thenAnswer((_) async => []);
-
       final data = await repository.getMonthCalendarData(
         userId: uid,
         year: 2026,
@@ -91,15 +144,7 @@ void main() {
     });
 
     test('merges summaries by date string', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any())).thenAnswer(
-        (_) async => [
-          const DailySummaryModel(
-            date: '2026-04-10',
-            goalCount: 2,
-            completedSdgs: [3, 11],
-          ),
-        ],
-      );
+      await seedSummary('2026-04-10', goalCount: 2, completedSdgs: [3, 11]);
 
       final data = await repository.getMonthCalendarData(
         userId: uid,
@@ -117,9 +162,6 @@ void main() {
     });
 
     test('flags today and future days', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any()))
-          .thenAnswer((_) async => []);
-
       final now = DateTime.now();
       final data = await repository.getMonthCalendarData(
         userId: uid,
@@ -141,11 +183,7 @@ void main() {
     });
 
     test('pads single-digit days/months so ISO lookup matches', () async {
-      when(() => dataSource.getSummariesInRange(uid, any(), any())).thenAnswer(
-        (_) async => [
-          const DailySummaryModel(date: '2026-01-05', goalCount: 5),
-        ],
-      );
+      await seedSummary('2026-01-05', goalCount: 5);
 
       final data = await repository.getMonthCalendarData(
         userId: uid,

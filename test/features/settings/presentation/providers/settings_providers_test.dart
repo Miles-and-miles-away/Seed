@@ -69,28 +69,6 @@ void main() {
   });
 
   group('reminder selectors', () {
-    test('enabledRemindersProvider filters disabled entries', () async {
-      final c = _container(
-        const UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(
-              id: 'r2',
-              hour: 18,
-              minute: 0,
-              isEnabled: false,
-            ),
-          ],
-        ),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
-
-      final enabled = c.read(enabledRemindersProvider);
-      expect(enabled, hasLength(1));
-      expect(enabled.first.id, 'r1');
-    });
-
     test('canAddReminderProvider is false at 5 schedules', () async {
       final c = _container(
         const UserSettingsModel(

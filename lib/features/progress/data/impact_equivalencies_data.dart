@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
+import 'package:seed_app/core/utils/json_asset_loader.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
-
-// ignore_for_file: constant_identifier_names
-const _ASSET_PATH = 'data/app/impact_equivalencies.json';
 
 /// Source metadata for a single equivalency: the conversion factor
 /// in grams of CO2 per natural unit (tree-year, km, charge, burger)
@@ -48,12 +43,7 @@ class EquivalencyMetadata {
 /// Loads all impact equivalencies from the bundled JSON asset.
 /// Returned in JSON order, which matches the display order of the
 /// equivalency row and info sheet.
-Future<List<EquivalencyMetadata>> loadImpactEquivalencies() async {
-  final jsonString = await rootBundle.loadString(_ASSET_PATH);
-  final list = jsonDecode(jsonString) as List<dynamic>;
-  return list
-      .map(
-        (e) => EquivalencyMetadata.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(growable: false);
-}
+Future<List<EquivalencyMetadata>> loadImpactEquivalencies() => loadJsonList(
+      'data/app/impact_equivalencies.json',
+      EquivalencyMetadata.fromJson,
+    );

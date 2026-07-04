@@ -9,7 +9,6 @@ import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart'
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
-import 'package:seed_app/features/mascot/data/services/mascot_migration_service.dart';
 
 part 'mascot_providers.g.dart';
 
@@ -27,13 +26,6 @@ Future<List<MascotSpeciesModel>> mascotSpeciesData(
 @riverpod
 MascotRepository mascotRepository(Ref ref) {
   return MascotRepository(
-    firestore: ref.watch(firestoreProvider),
-  );
-}
-
-@riverpod
-MascotMigrationService mascotMigrationService(Ref ref) {
-  return MascotMigrationService(
     firestore: ref.watch(firestoreProvider),
   );
 }
@@ -166,17 +158,6 @@ double eggHatchingProgress(Ref ref) {
   if (egg == null) return 0;
   return (egg.hatchingStreakDays / AppConstants.eggHatchingStreakRequired)
       .clamp(0.0, 1.0);
-}
-
-/// Days remaining until egg hatches.
-@riverpod
-int eggDaysRemaining(Ref ref) {
-  final egg = ref.watch(currentEggProvider);
-  if (egg == null) {
-    return AppConstants.eggHatchingStreakRequired;
-  }
-  return (AppConstants.eggHatchingStreakRequired - egg.hatchingStreakDays)
-      .clamp(0, AppConstants.eggHatchingStreakRequired);
 }
 
 /// Whether to show the egg discovery celebration.
@@ -326,19 +307,6 @@ class MascotNotifier extends _$MascotNotifier {
     state = result;
   }
 
-  /// Runs migration if needed on first load.
-  Future<void> runMigrationIfNeeded() async {
-    final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
-
-    // The migration transaction always costs a server read; skip it
-    // when the already-streamed doc shows there is nothing to migrate
-    // (mascots exist, or a fresh account that cannot hold legacy data).
-    if (user.mascots.isNotEmpty || user.totalActionsCount == 0) return;
-
-    final migrationService = ref.read(mascotMigrationServiceProvider);
-    await migrationService.migrateIfNeeded(user.uid);
-  }
 }
 
 // =============================================================

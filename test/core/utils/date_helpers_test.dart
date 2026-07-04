@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 
 void main() {
@@ -97,6 +100,37 @@ void main() {
       expect(
         previousCalendarDay(DateTime(2026)),
         DateTime(2025, 12, 31),
+      );
+    });
+  });
+
+  group('formatDateLabel', () {
+    final l10n = lookupAppLocalizations(const Locale('en'));
+
+    setUpAll(() => initializeDateFormatting('en'));
+
+    test('labels today and yesterday', () {
+      final now = DateTime.now();
+      expect(formatDateLabel(now, l10n, 'en'), l10n.today);
+      expect(
+        formatDateLabel(previousCalendarDay(now), l10n, 'en'),
+        l10n.yesterday,
+      );
+    });
+
+    test('includes the year only for other years', () {
+      final now = DateTime.now();
+      // A same-year date at least 2 days back (or forward in January).
+      final sameYear = now.month == 1 && now.day <= 3
+          ? DateTime(now.year, 6, 15)
+          : DateTime(now.year, now.month, now.day - 3);
+      expect(
+        formatDateLabel(sameYear, l10n, 'en'),
+        isNot(contains('${sameYear.year}')),
+      );
+      expect(
+        formatDateLabel(DateTime(now.year - 1, 6, 15), l10n, 'en'),
+        contains('${now.year - 1}'),
       );
     });
   });

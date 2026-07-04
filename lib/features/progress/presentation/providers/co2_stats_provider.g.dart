@@ -97,7 +97,7 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   }
 }
 
-String _$co2StatsHash() => r'4e350ec6e6465949de5be1c38084b26ce34b5612';
+String _$co2StatsHash() => r'754b3b5e6d1fc62e8a741011e3a14a2998673eaa';
 
 /// Aggregated CO2 totals for the Impact dashboard.
 ///

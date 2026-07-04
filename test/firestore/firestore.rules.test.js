@@ -528,10 +528,6 @@ describe('users/{userId} update — large established document', () => {
     },
     settings: {language: 'en'},
     lastStreakReminderDate: '2026-06-05',
-    mascot: {
-      createdAt: Timestamp.now(), name: 'Pip', speciesId: 'seed',
-      lastSeenStage: 1, equippedItems: [],
-    },
   };
 
   test('allows an action-shaped scoring update on a full-sized doc',

@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/progress/data/datasources/daily_summary_remote_datasource.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
@@ -23,14 +22,10 @@ ProviderContainer _container({
       currentUserProvider.overrideWith((_) => Stream.value(user)),
       // The stats provider keys on the user id, not the whole doc.
       userIdProvider.overrideWithValue(user?.uid),
-      // Replace the whole repository so it uses fake firestore for both
-      // its data source and the FirebaseFirestore instance the
-      // production provider hands to ProgressRepository.
+      // Replace the repository so it reads from fake firestore instead
+      // of the FirebaseFirestore.instance the production provider uses.
       progressRepositoryProvider.overrideWith(
-        (_) => ProgressRepository(
-          DailySummaryRemoteDataSource(firestore),
-          firestore,
-        ),
+        (_) => ProgressRepository(firestore),
       ),
     ],
   );

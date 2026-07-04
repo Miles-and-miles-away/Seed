@@ -1,45 +1,33 @@
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
-
-/// Centralized logging that suppresses output in release builds.
-///
-/// Wraps the `logger` package with kDebugMode gating so
-/// no log strings leak into production binaries.
-final _logger = Logger(
-  printer: PrettyPrinter(methodCount: 0),
-  level: kDebugMode ? Level.debug : Level.off,
-);
 
 /// App-wide logging entry point.
 const appLogger = AppLogger._();
 
-/// Debug-gated logging functions, used via [appLogger].
+/// Centralized logging that suppresses output in release builds.
+///
+/// The kDebugMode guard is compile-time constant, so log calls (and
+/// their message interpolation work) are tree-shaken out of release
+/// binaries.
 class AppLogger {
   const AppLogger._();
 
-  void debug(String message) {
-    if (kDebugMode) _logger.d(message);
-  }
+  void debug(String message) => _log('DEBUG', message);
 
-  void info(String message) {
-    if (kDebugMode) _logger.i(message);
-  }
+  void info(String message) => _log('INFO', message);
 
-  void warning(String message) {
-    if (kDebugMode) _logger.w(message);
-  }
+  void warning(String message) => _log('WARN', message);
 
   void error(
     String message, {
     Object? error,
     StackTrace? stackTrace,
   }) {
-    if (kDebugMode) {
-      _logger.e(
-        message,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
+    _log('ERROR', message);
+    if (error != null) _log('ERROR', error.toString());
+    if (stackTrace != null) _log('ERROR', stackTrace.toString());
+  }
+
+  void _log(String level, String message) {
+    if (kDebugMode) debugPrint('[$level] $message');
   }
 }

@@ -279,7 +279,7 @@ final class EcoFactInboxProvider extends $FunctionalProvider<
   }
 }
 
-String _$ecoFactInboxHash() => r'c1f49a63bf817cdba667ce876115f92f734c60eb';
+String _$ecoFactInboxHash() => r'0ab74a3891e4f758ab4f4d1f0d6d4d664f38201c';
 
 /// Notifier to mark an eco-fact as viewed.
 

@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
@@ -94,39 +92,4 @@ MockUser createMockUser({
   when(() => mockUser.providerData).thenReturn(resolvedProviderData);
 
   return mockUser;
-}
-
-/// Creates a FakeFirebaseFirestore with optional seed data.
-FakeFirebaseFirestore createFakeFirestore() {
-  return FakeFirebaseFirestore();
-}
-
-// =============================================================================
-// Common Test Utilities
-// =============================================================================
-
-/// Pumps a widget and waits for all animations and async operations.
-Future<void> pumpAndSettle(
-  WidgetTester tester, {
-  Duration duration = const Duration(milliseconds: 100),
-}) async {
-  await tester.pump(duration);
-  await tester.pumpAndSettle();
-}
-
-/// Finds a widget by text and taps it.
-Future<void> tapByText(WidgetTester tester, String text) async {
-  await tester.tap(find.text(text));
-  await tester.pumpAndSettle();
-}
-
-/// Enters text into a text field identified by its label.
-Future<void> enterTextByLabel(
-  WidgetTester tester,
-  String label,
-  String text,
-) async {
-  final field = find.widgetWithText(TextFormField, label);
-  await tester.enterText(field, text);
-  await tester.pumpAndSettle();
 }

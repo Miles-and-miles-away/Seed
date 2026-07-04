@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
-import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 
 const _uid = 'user-1';
@@ -837,7 +837,7 @@ void main() {
     });
   });
 
-  group('watchUserActionLogs / getRecentActionLogs', () {
+  group('watchUserActionLogs', () {
     test('watchUserActionLogs delegates to data source', () async {
       await seedUser({});
       await repository.logAction(
@@ -854,20 +854,6 @@ void main() {
       );
     });
 
-    test('getRecentActionLogs returns logs up to the limit', () async {
-      await seedUser({});
-      for (var i = 0; i < 3; i++) {
-        await repository.logAction(
-          userId: _uid,
-          action: _action,
-          languageCode: 'en',
-        );
-      }
-
-      final recent = await repository.getRecentActionLogs(_uid, 2);
-
-      expect(recent, hasLength(2));
-    });
   });
 
   group('logAction — daily summary', () {

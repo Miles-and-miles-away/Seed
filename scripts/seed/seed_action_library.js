@@ -14,7 +14,7 @@
  *        > Service Accounts
  *      - Click "Generate New Private Key" and save as
  *        serviceAccountKey.json in the scripts folder
- *   2. Run: node scripts/seed_action_library.js
+ *   2. Run: node scripts/seed/seed_action_library.js
  */
 
 const admin = require('firebase-admin');

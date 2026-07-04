@@ -54,23 +54,6 @@ double calculateLevelProgress(int totalPoints) {
   return (progressPoints / levelRange).clamp(0.0, 1.0);
 }
 
-/// Get mascot evolution stage based on level
-int getEvolutionStage(int level) {
-  if (level >= AppConstants.evolutionStage4Level) return 4;
-  if (level >= AppConstants.evolutionStage3Level) return 3;
-  if (level >= AppConstants.evolutionStage2Level) return 2;
-  return 1;
-}
-
-/// Format CO2 amount for display (full format with CO₂ suffix)
-String formatCO2(int grams) {
-  if (grams >= 1000) {
-    final kg = grams / 1000;
-    return '${kg.toStringAsFixed(1)} kg CO₂';
-  }
-  return '$grams g CO₂';
-}
-
 /// Format CO2 amount in compact form (e.g., "3.4t", "1.2kg", "500g")
 String formatCO2Compact(int grams) {
   if (grams >= 1000000) {
