@@ -29,7 +29,7 @@ python generate_assets.py eco_dex_entries.json --subcategory bio
 # Generate specific IDs
 python generate_assets.py eco_dex_entries.json --ids food_01 food_02
 
-# Generate everything in the JSON (rarely what you want -- 102 entries)
+# Generate everything in the JSON (rarely what you want -- 108 entries)
 python generate_assets.py eco_dex_entries.json
 ```
 
@@ -209,8 +209,8 @@ per entry = 240 units per entry.
 |-------|---------|-------|---------------------|
 | Test (2 entries) | 2 | 480 | 10% |
 | One category (~11) | 11 | 2,640 | 53% |
-| Eco-Dex remaining (80) | 80 | 19,200 | ~4 months |
-| Full Eco-Dex (102) | 102 | 24,480 | ~5 months |
+| Eco-Dex remaining (29) | 29 | 6,960 | ~1.4 months |
+| Full Eco-Dex (108) | 108 | 25,920 | ~5 months |
 
 Check current balance:
 

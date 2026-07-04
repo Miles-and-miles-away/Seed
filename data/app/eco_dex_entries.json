@@ -1686,7 +1686,7 @@
       "factEs": "Algunas de las acciones de sostenibilidad más impactantes no ahorran CO2 directamente: voluntariado, mentoría, firmar peticiones, apoyar negocios locales. Su valor es colectivo y sistémico. Todo movimiento comienza con una persona que actúa más allá del interés propio.",
       "sourceUrl": "https://sdgs.un.org/goals/goal17",
       "iconName": "selfless_01",
-      "artPrompt": "open hand releasing a small green sprout upward against soft white background",
+      "artPrompt": "open hand releasing a small green sprout upward",
       "condition": {
         "type": "uniqueZeroCo2Actions",
         "count": 1
@@ -1706,7 +1706,7 @@
       "factEs": "Un estudio de 2018 en Science halló un punto de inflexión en el cambio social: cuando una minoría comprometida alcanzaba cerca del 25% de un grupo, podía revertir una convención mayoritaria establecida. Por debajo de ese umbral, sus esfuerzos no se propagaban.",
       "sourceUrl": "https://www.science.org/doi/10.1126/science.aas8827",
       "iconName": "selfless_02",
-      "artPrompt": "circle of diverse hands each holding a different small green object, seen from above on white",
+      "artPrompt": "circle of diverse hands holding green leaves and sprouts, seen from above",
       "condition": {
         "type": "uniqueZeroCo2Actions",
         "count": 21
@@ -1726,7 +1726,7 @@
       "factEs": "Lo más difícil de cualquier cambio de conducta es empezar. Un experimento de campo de 2021 halló que presentar una fecha futura como un nuevo comienzo, como un cumpleaños o el primer día de la primavera, aumentó en un 25% las aportaciones acumuladas a una meta de ahorro en ocho meses.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/abs/pii/S0749597821000698",
       "iconName": "journey_01",
-      "artPrompt": "green seedling sprouting from brown cracked earth toward golden light",
+      "artPrompt": "green seedling sprouting from brown cracked earth beneath a golden sun",
       "condition": {
         "type": "streakDays",
         "days": 3
@@ -1766,7 +1766,7 @@
       "factEs": "En la restauración de bosques tropicales y subtropicales en 176 sitios, cerca del 18% de los plantones muere en el primer año y un 44% en cinco años, lo que hace del establecimiento temprano la etapa más frágil y decisiva en la vida de un árbol.",
       "sourceUrl": "https://royalsocietypublishing.org/doi/10.1098/rstb.2021.0067",
       "iconName": "journey_03",
-      "artPrompt": "Three human silhouettes linked by bright green dotted lines",
+      "artPrompt": "small green sapling with fresh new leaves in rich brown soil",
       "condition": {
         "type": "levelReached",
         "level": 5
@@ -1786,7 +1786,7 @@
       "factEs": "Después de 7 días consecutivos, un comportamiento comienza a grabarse en los ganglios basales (el centro de hábitos del cerebro), pasando del esfuerzo consciente a la rutina automática.",
       "sourceUrl": "https://jamesclear.com/atomic-habits",
       "iconName": "journey_04",
-      "artPrompt": "three green circular arrows forming a loop with a golden star at the top",
+      "artPrompt": "green circular arrows looping between a golden sun and a silver crescent moon",
       "condition": {
         "type": "streakDays",
         "days": 7
@@ -1826,7 +1826,7 @@
       "factEs": "Las pequeñas decisiones se acumulan: una comida basada en plantas evita unos 2 kg de CO2e, y sustituir una comida a la semana durante un año evita más de 100 kg, aproximadamente las emisiones de conducir 400 km en un coche de gasolina.",
       "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
       "iconName": "journey_06",
-      "artPrompt": "Row of green circles receding into the distance in perspective",
+      "artPrompt": "row of seven small bullseye targets, each with a golden arrow. Count 7 targets",
       "condition": {
         "type": "challengeStreak",
         "days": 7
@@ -1846,7 +1846,7 @@
       "factEs": "Las decisiones individuales suman. Project Drawdown estima que un conjunto de acciones domésticas al alcance de todos, desde la dieta hasta el transporte y la energía del hogar, podría aportar del 25 al 30% de las reducciones de emisiones globales necesarias para evitar los peores escenarios climáticos.",
       "sourceUrl": "https://drawdown.org/insights/the-powerful-role-of-household-actions-in-solving-climate-change",
       "iconName": "journey_07",
-      "artPrompt": "green shield with golden oak leaf emblem and golden laurel wreath",
+      "artPrompt": "young green tree with round golden fruit",
       "condition": {
         "type": "levelReached",
         "level": 15
@@ -1866,7 +1866,7 @@
       "factEs": "La mayoría de la gente juzga mal cuán común es la preocupación climática. Un estudio de 2022 con más de 6.000 estadounidenses halló que entre el 80 y el 90% subestimaba el apoyo público a las principales políticas climáticas, estimándolo en 37-43% cuando el apoyo real era del 66-80%.",
       "sourceUrl": "https://www.nature.com/articles/s41467-022-32412-y",
       "iconName": "journey_08",
-      "artPrompt": "stack of brown books with a green bookmark ribbon",
+      "artPrompt": "crowd of green human figures standing together, a single red figure among them",
       "condition": {
         "type": "ecoFactsViewed",
         "count": 50
@@ -1886,7 +1886,7 @@
       "factEs": "Registrar una conducta a diario la mejora de forma fiable. Un metaanálisis de 2020 con 32 ensayos halló que el autorregistro de pasos aumentó la caminata en unos 1.126 pasos diarios, un efecto que persistió durante años con menor magnitud.",
       "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7545847/",
       "iconName": "journey_09",
-      "artPrompt": "White calendar page densely filled with green marks, golden border",
+      "artPrompt": "white calendar page of square days mostly filled with green dots, golden border",
       "condition": {
         "type": "streakDays",
         "days": 30
@@ -1906,7 +1906,7 @@
       "factEs": "Un estudio de University College London descubrió que los comportamientos diarios tardan entre 18 y 254 días en volverse automáticos, con una mediana cercana a 66 días. Sostener una acción durante 30 días es el umbral en el que la mayoría de las personas empiezan a sentirla como rutina en lugar de esfuerzo.",
       "sourceUrl": "https://onlinelibrary.wiley.com/doi/10.1002/ejsp.674",
       "iconName": "journey_10",
-      "artPrompt": "grey iron anvil with a green sprout growing from its top, golden star",
+      "artPrompt": "grey iron anvil with a green sprout growing from its top, golden star above",
       "condition": {
         "type": "multiDayChallenge",
         "templateId": "md_streak_30"
@@ -1966,7 +1966,7 @@
       "factEs": "Una acción ecológica tiende a invitar a la siguiente: un metaanálisis en Nature Sustainability halló que una primera conducta proambiental conduce a otra con mayor frecuencia cuando ambas acciones son similares y la motivación es interna, no por recompensas externas.",
       "sourceUrl": "https://www.nature.com/articles/s41893-019-0263-9",
       "iconName": "journey_13",
-      "artPrompt": "a single green domino tipping a curving line of dominoes that sprout tiny leaves as each one falls",
+      "artPrompt": "curving line of green dominoes mid-fall, tiny leaves sprouting from each fallen one",
       "condition": {
         "type": "totalActions",
         "count": 1
@@ -1986,7 +1986,7 @@
       "factEs": "Las decisiones individuales repetidas suman: una revisión de 2020 de casi 7.000 estudios halló que los diez cambios de consumo de mayor impacto, mantenidos juntos, pueden reducir la huella personal en unas 9 toneladas de CO2 equivalente al año en países de ingresos altos.",
       "sourceUrl": "https://iopscience.iop.org/article/10.1088/1748-9326/ab8589",
       "iconName": "journey_14",
-      "artPrompt": "a spiral of stacked green leaves rising from a single sprout, each leaf larger than the last, climbing toward bright light",
+      "artPrompt": "spiral of green leaves rising from a single sprout, each leaf larger than the last",
       "condition": {
         "type": "totalActions",
         "count": 500
@@ -2006,7 +2006,7 @@
       "factEs": "La conducta moldea la identidad tanto como la identidad moldea la conducta: un metaanálisis de 2021 halló que verse a uno mismo como ambientalista es uno de los predictores más fuertes de la conciencia ambiental, y esa identidad se construye con acciones repetidas.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/abs/pii/S0272494421001067",
       "iconName": "journey_15",
-      "artPrompt": "a maturing green sapling whose glowing roots trace the silhouette of a standing figure in the soil beneath",
+      "artPrompt": "green sapling with golden roots forming a human silhouette in the brown soil below",
       "condition": {
         "type": "streakDays",
         "days": 100
@@ -2026,7 +2026,7 @@
       "factEs": "Los cambios sostenidos en el comportamiento cotidiano tienen un alcance enorme: el IPCC halló que los cambios del lado de la demanda en edificios, transporte y alimentación, incluidas las decisiones de estilo de vida, podrían reducir las emisiones globales de esos sectores entre un 40 y un 70% para 2050.",
       "sourceUrl": "https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-5/",
       "iconName": "journey_16",
-      "artPrompt": "a full-grown tree encircled by four seasonal rings of frost, blossom, summer sun, and falling leaves",
+      "artPrompt": "green tree with canopy split into four quarters: white frost, pink blossoms, full green leaves, orange falling leaves",
       "condition": {
         "type": "streakDays",
         "days": 365
@@ -2085,7 +2085,7 @@
       "factEs": "Una investigación de la Universidad de Lund identificó cuatro decisiones personales de alto impacto: una alimentación basada en plantas, vivir sin coche, evitar los vuelos y tener menos hijos. Probar diversas acciones te ayuda a encontrar los cambios de alto impacto que realmente encajan en tu vida.",
       "sourceUrl": "https://www.lunduniversity.lu.se/article/four-lifestyle-choices-most-reduce-your-carbon-footprint",
       "iconName": "gem_03",
-      "artPrompt": "hand holding a fan of five different colored cards",
+      "artPrompt": "hand holding a fan of five blank colored cards",
       "condition": {
         "type": "uniqueActionsLogged",
         "count": 5
@@ -2145,7 +2145,7 @@
       "factEs": "Un análisis de 2020 en Global Ecology and Conservation halló que las aves europeas en declive puntuaban más alto en cinco medidas de especialización ecológica que las especies en aumento. Los generalistas, con dietas y hábitats más amplios, suelen resistir mejor el cambio ambiental.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S2351989420301025",
       "iconName": "gem_06",
-      "artPrompt": "silver magnifying glass over a glowing green gem with golden highlights",
+      "artPrompt": "colorful cards fanned into a full circle, one golden card pulled outward",
       "condition": {
         "type": "uniqueActionsLogged",
         "count": 15
@@ -2160,7 +2160,7 @@
       "nameEn": "Knowledge is Power",
       "nameJa": "知は力なり",
       "nameEs": "El Conocimiento es Poder",
-      "factEn": "A 2022 meta-analysis of environmental education programs found a medium-to-large effect on environmental knowledge (g = 0.77) and a smaller but significant effect on pro-environmental behaviour (g = 0.36). Learning is one of the strongest predictors of sustained action.",
+      "factEn": "A 2022 meta-analysis of environmental education programs found a medium-to-large effect on environmental knowledge and a smaller but significant effect on pro-environmental behaviour. Learning is one of the strongest predictors of sustained action.",
       "factJa": "2022年に発表された環境教育プログラムのメタ分析では、環境知識に対して中〜大の効果（g = 0.77）、そして小さいながらも有意な行動変容の効果（g = 0.36）が確認されました。学びは持続的な行動の最も強い予測因子の一つです。",
       "factEs": "Un metaanálisis de 2022 sobre programas de educación ambiental halló un efecto medio-grande en el conocimiento ambiental (g = 0,77) y un efecto menor pero significativo en la conducta proambiental (g = 0,36). El aprendizaje es uno de los predictores más sólidos de la acción sostenida.",
       "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S0272494422000275",
@@ -2206,7 +2206,7 @@
       "factEs": "Para 2025, la plataforma de ciencia ciudadana eBird superó los 2.000 millones de observaciones de aves aportadas por más de un millón de personas, datos utilizados en más de 1.250 estudios científicos revisados por pares sobre poblaciones y conservación de aves.",
       "sourceUrl": "https://news.cornell.edu/stories/2025/08/lab-ornithology-hits-2-billion-bird-sightings-3-million-recordings",
       "iconName": "gem_09",
-      "artPrompt": "Brown album page with colorful nature stamps on one half, faint grey squares on the other",
+      "artPrompt": "brown album page with colorful plant and animal stickers on one half, faint empty grey squares on the other",
       "condition": {
         "type": "ecodexCount",
         "count": 50

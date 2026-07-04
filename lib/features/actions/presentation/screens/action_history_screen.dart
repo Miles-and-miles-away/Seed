@@ -195,5 +195,4 @@ class _DateGroup extends StatelessWidget {
       ],
     );
   }
-
 }

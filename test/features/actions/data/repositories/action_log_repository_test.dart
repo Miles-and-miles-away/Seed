@@ -853,7 +853,6 @@ void main() {
         emits(predicate<List<Object?>>((list) => list.length == 1)),
       );
     });
-
   });
 
   group('logAction — daily summary', () {
