@@ -32,11 +32,3 @@ int dayOfYear(DateTime date) {
   final diff = dateOnlyUtc(date).difference(jan1).inDays + 1;
   return diff.clamp(1, 366);
 }
-
-/// Formats a date as yyyy-MM-dd for storage.
-String formatDateKey(DateTime date) {
-  final y = date.year.toString().padLeft(4, '0');
-  final m = date.month.toString().padLeft(2, '0');
-  final d = date.day.toString().padLeft(2, '0');
-  return '$y-$m-$d';
-}

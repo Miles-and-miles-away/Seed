@@ -51,22 +51,25 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
     final currentRange = TimePeriodRange.current(period, now: now);
     final previousRange = TimePeriodRange.previous(period, now: now);
 
-    final currentSummaries = await repository.getSummariesForDateRange(
-      userId,
-      currentRange.start,
-      currentRange.end,
-    );
-    currentTotal = currentSummaries.fold<int>(
+    // Independent queries; run them concurrently so the comparison
+    // badge is not gated on two sequential round-trips.
+    final summaries = await Future.wait([
+      repository.getSummariesForDateRange(
+        userId,
+        currentRange.start,
+        currentRange.end,
+      ),
+      repository.getSummariesForDateRange(
+        userId,
+        previousRange.start,
+        previousRange.end,
+      ),
+    ]);
+    currentTotal = summaries[0].fold<int>(
       0,
       (sum, s) => sum + s.totalCo2Grams,
     );
-
-    final previousSummaries = await repository.getSummariesForDateRange(
-      userId,
-      previousRange.start,
-      previousRange.end,
-    );
-    previousTotal = previousSummaries.fold<int>(
+    previousTotal = summaries[1].fold<int>(
       0,
       (sum, s) => sum + s.totalCo2Grams,
     );

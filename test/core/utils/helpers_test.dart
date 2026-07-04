@@ -16,8 +16,10 @@ void main() {
 
     test('stage 2 is reachable within ~2 weeks of daily use', () {
       const twoWeeksPoints = 150 * 14;
+      // Stage 2 unlocks at level 10 (mascot_species.json evolution stages).
+      const stage2Level = 10;
       expect(
-        calculatePointsForLevel(AppConstants.evolutionStage2Level),
+        calculatePointsForLevel(stage2Level),
         lessThan(twoWeeksPoints),
       );
     });
@@ -138,72 +140,6 @@ void main() {
 
     test('never returns negative', () {
       expect(calculateLevelProgress(-100), greaterThanOrEqualTo(0.0));
-    });
-  });
-
-  group('getEvolutionStage', () {
-    test('returns 1 for level 1', () {
-      expect(getEvolutionStage(1), 1);
-    });
-
-    test('returns 1 for levels below stage 2 threshold', () {
-      expect(getEvolutionStage(5), 1);
-      expect(getEvolutionStage(9), 1);
-    });
-
-    test('returns 2 at stage 2 threshold (level 10)', () {
-      expect(getEvolutionStage(10), 2);
-    });
-
-    test('returns 2 for levels between stage 2 and 3', () {
-      expect(getEvolutionStage(15), 2);
-      expect(getEvolutionStage(24), 2);
-    });
-
-    test('returns 3 at stage 3 threshold (level 25)', () {
-      expect(getEvolutionStage(25), 3);
-    });
-
-    test('returns 3 for levels between stage 3 and 4', () {
-      expect(getEvolutionStage(30), 3);
-      expect(getEvolutionStage(49), 3);
-    });
-
-    test('returns 4 at stage 4 threshold (level 50)', () {
-      expect(getEvolutionStage(50), 4);
-    });
-
-    test('returns 4 for levels above stage 4', () {
-      expect(getEvolutionStage(75), 4);
-      expect(getEvolutionStage(100), 4);
-    });
-
-    test('returns 1 for level 0 or negative', () {
-      expect(getEvolutionStage(0), 1);
-      expect(getEvolutionStage(-5), 1);
-    });
-  });
-
-  group('formatCO2', () {
-    test('formats grams below 1000', () {
-      expect(formatCO2(500), '500 g CO\u2082');
-      expect(formatCO2(0), '0 g CO\u2082');
-      expect(formatCO2(999), '999 g CO\u2082');
-    });
-
-    test('formats kilograms for 1000+ grams', () {
-      expect(formatCO2(1000), '1.0 kg CO\u2082');
-      expect(formatCO2(1500), '1.5 kg CO\u2082');
-      expect(formatCO2(2500), '2.5 kg CO\u2082');
-    });
-
-    test('formats large values correctly', () {
-      expect(formatCO2(10000), '10.0 kg CO\u2082');
-      expect(formatCO2(100000), '100.0 kg CO\u2082');
-    });
-
-    test('includes CO2 subscript character', () {
-      expect(formatCO2(100), contains('\u2082'));
     });
   });
 

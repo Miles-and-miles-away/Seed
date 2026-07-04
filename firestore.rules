@@ -44,9 +44,7 @@ service cloud.firestore {
       // Whitelist plus type/bound checks for every field the app
       // writes; blocks junk-data floods. `d` is the merged post-write
       // document (Firestore evaluates update() against the merged
-      // document, not the patch). 'mascot' is the legacy single-mascot
-      // field, kept writable so pre-migration documents can still be
-      // updated (the migration deletes it on first launch).
+      // document, not the patch).
       // Field whitelist -- single source of truth for create + update.
       function userKeys() {
         return [
@@ -63,7 +61,7 @@ service cloud.firestore {
           'recentChallengeIds', 'activeMultiDayChallenge',
           'completedMultiDayChallenges', 'ecodexDiscovered',
           'uniqueActionIds', 'categoryActionCounts', 'settings',
-          'lastStreakReminderDate', 'mascot'
+          'lastStreakReminderDate'
         ];
       }
 
@@ -73,8 +71,7 @@ service cloud.firestore {
       // diff().affectedKeys() so cost scales with the patch, not the
       // document -- this keeps evaluation under Firestore's 1000-
       // expression cap as an established user document grows. Values are
-      // read from `d`, the merged post-write document. 'mascot' is the
-      // legacy single-mascot field, kept writable for pre-migration docs.
+      // read from `d`, the merged post-write document.
       function userFieldsOk(d, keys) {
         return (!('uid' in keys) || d.uid == userId)
         // Empty email allowed: social providers can hide it and the
@@ -174,8 +171,7 @@ service cloud.firestore {
         && (!('lastStreakReminderDate' in keys)
             || d.lastStreakReminderDate == null
             || (d.lastStreakReminderDate is string
-                && d.lastStreakReminderDate.size() <= 10))
-        && (!('mascot' in keys) || d.mascot == null || d.mascot is map);
+                && d.lastStreakReminderDate.size() <= 10));
       }
 
       // Full-shape check for CREATE: the new document may contain only

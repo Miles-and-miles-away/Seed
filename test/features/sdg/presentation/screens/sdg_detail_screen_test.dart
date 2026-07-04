@@ -25,7 +25,7 @@ void main() {
 
     setUp(() {
       mockFirebaseAuth = createMockFirebaseAuth();
-      fakeFirestore = createFakeFirestore();
+      fakeFirestore = FakeFirebaseFirestore();
     });
 
     void setLargeScreenSize(WidgetTester tester) {

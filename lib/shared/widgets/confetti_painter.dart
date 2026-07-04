@@ -19,14 +19,17 @@ class ConfettiParticle {
   });
 
   /// A random particle starting just above the top edge.
-  factory ConfettiParticle.random() {
+  ///
+  /// [colorCount] must match the palette length passed to
+  /// [ConfettiPainter.colors] for an even color distribution.
+  factory ConfettiParticle.random({int colorCount = 5}) {
     final random = Random();
     return ConfettiParticle(
       x: random.nextDouble(),
       y: -random.nextDouble() * 0.5, // Start above screen
       size: random.nextDouble() * 10 + 5,
       speed: random.nextDouble() * 0.5 + 0.3,
-      colorIndex: random.nextInt(5),
+      colorIndex: random.nextInt(colorCount),
       rotation: random.nextDouble() * pi * 2,
       rotationSpeed: (random.nextDouble() - 0.5) * 0.2,
       shape: random.nextInt(3), // 0: rect, 1: circle, 2: star
@@ -69,8 +72,10 @@ class ConfettiPainter extends CustomPainter {
       final x = particle.x * size.width;
       final y = particle.y * size.height;
 
+      // Modulo so palettes shorter than the random colorIndex range
+      // (nextInt(5) above) cannot index out of bounds.
       final paint = Paint()
-        ..color = colors[particle.colorIndex].withValues(
+        ..color = colors[particle.colorIndex % colors.length].withValues(
           alpha: opacityHeavy,
         );
 

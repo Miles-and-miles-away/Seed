@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
@@ -13,6 +12,7 @@ import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when an egg hatches into
@@ -35,7 +35,7 @@ class EggHatchingCelebration extends ConsumerStatefulWidget {
 class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
     with TickerProviderStateMixin {
   late AnimationController _particleController;
-  late List<_Particle> _particles;
+  late List<ConfettiParticle> _particles;
   bool _showMascot = false;
   bool _showNameInput = false;
   final _nameController = TextEditingController();
@@ -48,7 +48,8 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
       vsync: this,
       duration: durationParticleLoop,
     );
-    _particles = List.generate(40, (_) => _Particle.random());
+    _particles =
+        List.generate(40, (_) => ConfettiParticle.random(colorCount: 4));
     _startSequence();
   }
 
@@ -113,9 +114,14 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
             builder: (context, _) {
               return CustomPaint(
                 size: Size.infinite,
-                painter: _ConfettiPainter(
+                painter: ConfettiPainter(
                   particles: _particles,
-                  progress: _particleController.value,
+                  colors: const [
+                    AppColors.gold,
+                    AppColors.success,
+                    AppColors.glowBlue,
+                    AppColors.celebrationPink,
+                  ],
                 ),
               );
             },
@@ -271,81 +277,6 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
       ],
     );
   }
-}
-
-class _Particle {
-  _Particle({
-    required this.x,
-    required this.y,
-    required this.size,
-    required this.speed,
-    required this.colorIndex,
-    required this.rotation,
-    required this.rotationSpeed,
-  });
-
-  factory _Particle.random() {
-    final rng = Random();
-    return _Particle(
-      x: rng.nextDouble(),
-      y: -rng.nextDouble() * 0.5,
-      size: rng.nextDouble() * 8 + 4,
-      speed: rng.nextDouble() * 0.5 + 0.3,
-      colorIndex: rng.nextInt(4),
-      rotation: rng.nextDouble() * pi * 2,
-      rotationSpeed: (rng.nextDouble() - 0.5) * 0.2,
-    );
-  }
-
-  final double x;
-  double y;
-  final double size;
-  final double speed;
-  final int colorIndex;
-  double rotation;
-  final double rotationSpeed;
-}
-
-class _ConfettiPainter extends CustomPainter {
-  _ConfettiPainter({
-    required this.particles,
-    required this.progress,
-  });
-
-  final List<_Particle> particles;
-  final double progress;
-
-  static const _colors = [
-    AppColors.gold,
-    AppColors.success,
-    AppColors.glowBlue,
-    AppColors.celebrationPink,
-  ];
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final p in particles) {
-      p
-        ..y += p.speed * 0.02
-        ..rotation += p.rotationSpeed;
-      if (p.y > 1.2) p.y = -0.1;
-
-      final paint = Paint()
-        ..color = _colors[p.colorIndex].withValues(
-          alpha: opacityStrong,
-        );
-
-      canvas
-        ..save()
-        ..translate(p.x * size.width, p.y * size.height)
-        ..rotate(p.rotation)
-        ..drawCircle(Offset.zero, p.size * 0.5, paint)
-        ..restore();
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ConfettiPainter old) => true;
 }
 
 /// Shows the egg hatching celebration overlay.

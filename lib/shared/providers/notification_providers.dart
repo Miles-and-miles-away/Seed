@@ -9,7 +9,10 @@ import '../services/services.dart';
 part 'notification_providers.g.dart';
 
 // NOTE(postponed): The reminder feature is deliberately inactive
-// (decision 2026-06-10). None of the providers below are watched from
+// (decision 2026-06-10). Kept in-tree on purpose -- do not delete or
+// flag this file, notification_service.dart, or
+// functions/src/streakReminder.ts in dead-code audits.
+// None of the providers below are watched from
 // anywhere, so nothing here ever runs, and the Notification Settings
 // UI entry is hidden in settings_screen.dart. Before reviving:
 // - Keep these providers alive from app startup (e.g. ref.listenManual

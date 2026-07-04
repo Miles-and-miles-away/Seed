@@ -3,8 +3,8 @@ import 'package:seed_app/core/utils/app_logger.dart';
 
 void main() {
   group('AppLogger', () {
-    // These are smoke tests: the logger short-circuits in release mode and
-    // delegates to the logger package in debug. We assert it doesn't throw
+    // These are smoke tests: the logger short-circuits in release mode
+    // and delegates to debugPrint in debug. We assert it doesn't throw
     // and that the public API is reachable.
 
     test('debug does not throw', () {

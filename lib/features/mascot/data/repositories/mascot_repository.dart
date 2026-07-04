@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:uuid/uuid.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
-
-const _uuid = Uuid();
 
 /// Repository for mascot-related data operations.
 ///
@@ -160,8 +157,9 @@ class MascotRepository {
     required String speciesId,
     required String name,
   }) async {
+    // Firestore auto-ID minted client-side (no network call).
     final mascot = MascotModel(
-      id: _uuid.v4(),
+      id: _firestore.collection(AppConstants.collectionUsers).doc().id,
       speciesId: speciesId,
       name: name,
       createdAt: DateTime.now(),

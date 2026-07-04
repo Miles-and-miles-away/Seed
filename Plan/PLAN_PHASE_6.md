@@ -202,7 +202,7 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
 
 Date math lives in a pure helper (`time_period_range.dart`) for
 unit-test clarity; it must respect device timezone (matches
-existing `StreakService` convention).
+the existing streak_service.dart convention).
 
 #### Components
 
@@ -640,6 +640,7 @@ there are no `HapticFeedback` calls anywhere in `lib/`.
 | Dark mode audit | Walk every screen in dark mode, fix contrast and surface colors. Theme infrastructure already exists in `lib/core/theme/`. | Audit task, not new code. |
 | User-friendly error messages | Shared `ErrorView` widget for failed loads (auth, Firestore reads, action logging). Today errors are caught ad-hoc with bare `catch (e)` blocks. | No shared error widget exists. |
 | Empty states | Shared `EmptyState` widget for "no actions yet", "no eco-dex entries discovered". | No shared empty-state widget exists. |
+| Progression analytics wiring | Wire the four defined-but-uncalled `AnalyticsService` events: `logLevelUp`, `logMascotEvolved`, `logMascotUnlocked`, `logStreakBroken`. Needed before Phase 8 beta to validate level-curve pacing (1.05, ~4-5 months to max) and observe streak churn with real users. | Detection points already exist: level-up beside the `logStreakMilestone` call in `actions_providers.dart`; `calculateStreakUpdate` (streak_service.dart) computes `streakWasBroken`; unlock happens in `EggHatchingService` (adjust `pointsSpent` param -- unlocks are hatch-based, not purchases). |
 
 #### Out of Scope (future considerations)
 
@@ -667,6 +668,9 @@ Park in backlog; revisit only if engagement data calls for it.
 | Create EmptyState widget | Shared empty-state with icon + message | Pending |
 | Apply ErrorView to async load failures | Replace bare error text/spinners | Pending |
 | Apply EmptyState to "no data" screens | Action history, eco-dex | Pending |
+| Wire logLevelUp + logMascotEvolved | Call at the level-up/evolution detection points in `actions_providers.dart` / mascot flow | Pending |
+| Wire logStreakBroken | Call where `calculateStreakUpdate` reports `streakWasBroken` | Pending |
+| Wire logMascotUnlocked | Call from `EggHatchingService` hatch success; rework `pointsSpent` param | Pending |
 
 #### Files to Create
 

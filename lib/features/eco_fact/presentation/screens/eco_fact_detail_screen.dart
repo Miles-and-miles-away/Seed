@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
@@ -77,15 +79,8 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
 }
 
 EcoFact? _factForDateKey(List<EcoFact> facts, String dateKey) {
-  final parts = dateKey.split('-');
-  if (parts.length != 3) return null;
-  final y = int.tryParse(parts[0]);
-  final m = int.tryParse(parts[1]);
-  final d = int.tryParse(parts[2]);
-  if (y == null || m == null || d == null) return null;
-  final doy = dayOfYear(DateTime(y, m, d));
-  for (final f in facts) {
-    if (f.dayOfYear == doy) return f;
-  }
-  return null;
+  final date = DateTime.tryParse(dateKey);
+  if (date == null) return null;
+  final doy = dayOfYear(date);
+  return facts.firstWhereOrNull((f) => f.dayOfYear == doy);
 }

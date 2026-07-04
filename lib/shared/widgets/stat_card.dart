@@ -67,26 +67,3 @@ class StatCard extends StatelessWidget {
     );
   }
 }
-
-/// A row of two stat cards.
-class StatCardRow extends StatelessWidget {
-  const StatCardRow({
-    required this.left,
-    required this.right,
-    super.key,
-  });
-
-  final StatCard left;
-  final StatCard right;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: left),
-        const SizedBox(width: spacingMd),
-        Expanded(child: right),
-      ],
-    );
-  }
-}

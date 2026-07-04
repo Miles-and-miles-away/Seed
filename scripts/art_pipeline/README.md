@@ -179,9 +179,6 @@ between them only when `style.apply_category_context` is true.
 `category` is always used for the `controls.colors` palette, and `id`
 names the output files (`candidates/{id}/`, `assets/.../{id}.svg`).
 
-> Note: `eco_dex_manifest.yaml` in this directory is a stale early
-> draft. The pipeline reads from the JSON, not the YAML.
-
 ## Validation Checks
 
 | Check | What it does | Threshold |

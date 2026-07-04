@@ -1,12 +1,11 @@
 {
   "scripts": {
     "firebase": "firebase",
-    "seed": "node scripts/seed_action_library.js",
+    "seed": "node scripts/seed/seed_action_library.js",
     "test:rules": "firebase emulators:exec --only firestore --project=demo-seed \"jest --config test/firestore/jest.config.js\""
   },
   "dependencies": {
     "firebase-admin": "^13.0.0",
-    "firebase-functions": "^7.1.1",
     "firebase-tools": "^15.3.1"
   },
   "devDependencies": {

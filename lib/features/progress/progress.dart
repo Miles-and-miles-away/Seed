@@ -2,7 +2,6 @@
 /// Export all progress-related classes here
 library;
 
-export 'data/datasources/daily_summary_remote_datasource.dart';
 export 'data/models/daily_summary_model.dart';
 export 'data/repositories/progress_repository.dart';
 export 'domain/entities/calendar_day_data.dart';

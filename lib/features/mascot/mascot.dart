@@ -10,7 +10,6 @@ export 'data/models/mascot_model.dart';
 export 'data/models/mascot_species_model.dart';
 export 'data/repositories/mascot_repository.dart';
 export 'data/services/egg_hatching_service.dart';
-export 'data/services/mascot_migration_service.dart';
 
 // Presentation layer
 export 'presentation/providers/mascot_providers.dart';

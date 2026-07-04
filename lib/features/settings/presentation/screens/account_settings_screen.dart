@@ -288,77 +288,18 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     TextEditingController currentEmailController,
     TextEditingController passwordController,
     TextEditingController newEmailController,
-  ) async {
+  ) {
     final l10n = AppLocalizations.of(context);
-    final formKey = GlobalKey<FormState>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.accountSettingsChangeEmail),
-        content: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: currentEmailController,
-                decoration: InputDecoration(
-                  labelText: l10n.accountSettingsCurrentEmail,
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) => validateEmail(
-                  value,
-                  emptyError: l10n.authValidationEmailRequired,
-                  invalidError: l10n.authValidationEmailInvalid,
-                ),
-              ),
-              const SizedBox(height: spacingLg),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: l10n.accountSettingsCurrentPassword,
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return l10n.authValidationPasswordRequired;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: spacingLg),
-              TextFormField(
-                controller: newEmailController,
-                decoration: InputDecoration(
-                  labelText: l10n.accountSettingsNewEmail,
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) => validateEmail(
-                  value,
-                  emptyError: l10n.authValidationEmailRequired,
-                  invalidError: l10n.authValidationEmailInvalid,
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.pop(context, true);
-              }
-            },
-            child: Text(l10n.buttonSave),
-          ),
-        ],
-      ),
+    return _showFormDialog(
+      title: l10n.accountSettingsChangeEmail,
+      children: [
+        _emailField(currentEmailController, l10n.accountSettingsCurrentEmail),
+        const SizedBox(height: spacingLg),
+        _passwordField(passwordController, l10n.accountSettingsCurrentPassword),
+        const SizedBox(height: spacingLg),
+        _emailField(newEmailController, l10n.accountSettingsNewEmail),
+      ],
     );
-    return confirmed ?? false;
   }
 
   /// Re-authenticates then updates the email. Returns true on success so the
@@ -438,97 +379,44 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     TextEditingController currentPasswordController,
     TextEditingController newPasswordController,
     TextEditingController confirmPasswordController,
-  ) async {
+  ) {
     final l10n = AppLocalizations.of(context);
-    final formKey = GlobalKey<FormState>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.accountSettingsChangePassword),
-        content: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: currentEmailController,
-                  decoration: InputDecoration(
-                    labelText: l10n.accountSettingsCurrentEmail,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) => validateEmail(
-                    value,
-                    emptyError: l10n.authValidationEmailRequired,
-                    invalidError: l10n.authValidationEmailInvalid,
-                  ),
-                ),
-                const SizedBox(height: spacingLg),
-                TextFormField(
-                  controller: currentPasswordController,
-                  decoration: InputDecoration(
-                    labelText: l10n.accountSettingsCurrentPassword,
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return l10n.authValidationPasswordRequired;
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: spacingLg),
-                TextFormField(
-                  controller: newPasswordController,
-                  decoration: InputDecoration(
-                    labelText: l10n.accountSettingsNewPassword,
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return l10n.authValidationPasswordRequired;
-                    }
-                    if (value.length < 6) {
-                      return l10n.authValidationPasswordShort;
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: spacingLg),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  decoration: InputDecoration(
-                    labelText: l10n.accountSettingsConfirmNewPassword,
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value != newPasswordController.text) {
-                      return l10n.accountSettingsPasswordMismatch;
-                    }
-                    return null;
-                  },
-                ),
-              ],
-            ),
-          ),
+    return _showFormDialog(
+      title: l10n.accountSettingsChangePassword,
+      children: [
+        _emailField(currentEmailController, l10n.accountSettingsCurrentEmail),
+        const SizedBox(height: spacingLg),
+        _passwordField(
+          currentPasswordController,
+          l10n.accountSettingsCurrentPassword,
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.pop(context, true);
-              }
-            },
-            child: Text(l10n.buttonSave),
-          ),
-        ],
-      ),
+        const SizedBox(height: spacingLg),
+        _passwordField(
+          newPasswordController,
+          l10n.accountSettingsNewPassword,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return l10n.authValidationPasswordRequired;
+            }
+            if (value.length < 6) {
+              return l10n.authValidationPasswordShort;
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: spacingLg),
+        _passwordField(
+          confirmPasswordController,
+          l10n.accountSettingsConfirmNewPassword,
+          validator: (value) {
+            if (value != newPasswordController.text) {
+              return l10n.accountSettingsPasswordMismatch;
+            }
+            return null;
+          },
+        ),
+      ],
     );
-    return confirmed ?? false;
   }
 
   /// Re-authenticates then updates the password. Returns true on success so
@@ -607,7 +495,43 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     TextEditingController emailController,
     TextEditingController passwordController,
     bool isEmailPasswordUser,
-  ) async {
+  ) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    // A Form with no fields validates trivially, so the confirm button
+    // works unchanged for OAuth users with no re-auth fields.
+    return _showFormDialog(
+      title: l10n.accountSettingsDeleteConfirmTitle,
+      confirmText: l10n.accountSettingsDeleteConfirmButton,
+      dangerous: true,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.accountSettingsDeleteConfirmMessage),
+        if (isEmailPasswordUser) ...[
+          const SizedBox(height: spacingLg),
+          Text(
+            l10n.accountSettingsReauthRequired,
+            style: theme.textTheme.bodySmall,
+          ),
+          const SizedBox(height: spacingSm),
+          _emailField(emailController, l10n.authEmail),
+          const SizedBox(height: spacingSm),
+          _passwordField(passwordController, l10n.authPassword),
+        ],
+      ],
+    );
+  }
+
+  /// Shared scaffold for the account dialogs: an [AlertDialog] wrapping
+  /// [children] in a scrollable [Form], with cancel/confirm actions where
+  /// confirm validates the form before popping true.
+  Future<bool> _showFormDialog({
+    required String title,
+    required List<Widget> children,
+    String? confirmText,
+    bool dangerous = false,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  }) async {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final formKey = GlobalKey<FormState>();
@@ -615,57 +539,18 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          l10n.accountSettingsDeleteConfirmTitle,
-          style: TextStyle(color: theme.colorScheme.error),
+          title,
+          style: dangerous ? TextStyle(color: theme.colorScheme.error) : null,
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.accountSettingsDeleteConfirmMessage),
-            if (isEmailPasswordUser) ...[
-              const SizedBox(height: spacingLg),
-              Text(
-                l10n.accountSettingsReauthRequired,
-                style: theme.textTheme.bodySmall,
-              ),
-              const SizedBox(height: spacingSm),
-              Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        labelText: l10n.authEmail,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) => validateEmail(
-                        value,
-                        emptyError: l10n.authValidationEmailRequired,
-                        invalidError: l10n.authValidationEmailInvalid,
-                      ),
-                    ),
-                    const SizedBox(height: spacingSm),
-                    TextFormField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        labelText: l10n.authPassword,
-                      ),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return l10n.authValidationPasswordRequired;
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ],
+        content: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: crossAxisAlignment,
+              children: children,
+            ),
+          ),
         ),
         actions: [
           TextButton(
@@ -673,21 +558,56 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
             child: Text(l10n.buttonCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: theme.colorScheme.error,
-            ),
+            style: dangerous
+                ? FilledButton.styleFrom(
+                    backgroundColor: theme.colorScheme.error,
+                  )
+                : null,
             onPressed: () {
-              if (!isEmailPasswordUser ||
-                  (formKey.currentState?.validate() ?? false)) {
+              if (formKey.currentState!.validate()) {
                 Navigator.pop(context, true);
               }
             },
-            child: Text(l10n.accountSettingsDeleteConfirmButton),
+            child: Text(confirmText ?? l10n.buttonSave),
           ),
         ],
       ),
     );
     return confirmed ?? false;
+  }
+
+  TextFormField _emailField(TextEditingController controller, String label) {
+    final l10n = AppLocalizations.of(context);
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(labelText: label),
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) => validateEmail(
+        value,
+        emptyError: l10n.authValidationEmailRequired,
+        invalidError: l10n.authValidationEmailInvalid,
+      ),
+    );
+  }
+
+  TextFormField _passwordField(
+    TextEditingController controller,
+    String label, {
+    String? Function(String?)? validator,
+  }) {
+    final l10n = AppLocalizations.of(context);
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(labelText: label),
+      obscureText: true,
+      validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return l10n.authValidationPasswordRequired;
+            }
+            return null;
+          },
+    );
   }
 
   /// Re-authenticates if required then deletes the account, navigating to

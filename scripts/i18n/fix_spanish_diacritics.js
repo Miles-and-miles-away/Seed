@@ -4,6 +4,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// NOTE: merge_translations_es.py keeps a sibling table tuned for the
+// eco-fact corpus. When adding a word here, consider whether it
+// belongs there too.
 const REPLACEMENTS = [
   // --- n-tilde words ---
   [/\bano\b/g, 'año'],

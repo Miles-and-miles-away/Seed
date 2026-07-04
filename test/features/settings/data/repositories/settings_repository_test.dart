@@ -1,154 +1,161 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:seed_app/features/settings/data/datasources/settings_remote_datasource.dart';
-import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 
-class MockSettingsRemoteDataSource extends Mock
-    implements SettingsRemoteDataSource {}
-
 void main() {
+  late FakeFirebaseFirestore fakeFirestore;
   late SettingsRepository repository;
-  late MockSettingsRemoteDataSource mockDataSource;
+
+  const testUid = 'test-user';
 
   setUp(() {
-    mockDataSource = MockSettingsRemoteDataSource();
-    repository = SettingsRepository(dataSource: mockDataSource);
+    fakeFirestore = FakeFirebaseFirestore();
+    repository = SettingsRepository(firestore: fakeFirestore);
   });
 
-  setUpAll(() {
-    registerFallbackValue(const UserSettingsModel());
-    registerFallbackValue(
-      const NotificationScheduleModel(id: 'test', hour: 9, minute: 0),
-    );
-    registerFallbackValue(<String, dynamic>{});
-  });
+  DocumentReference userDoc(String uid) =>
+      fakeFirestore.collection(AppConstants.collectionUsers).doc(uid);
 
-  const testUid = 'test-user-123';
+  Future<void> seedUserWithSettings(
+    String uid,
+    Map<String, dynamic> settings, {
+    String? language,
+  }) async {
+    await userDoc(uid).set({
+      'email': 'test@example.com',
+      'settings': settings,
+      if (language != null) 'language': language,
+    });
+  }
+
+  Future<void> seedUserWithoutSettings(
+    String uid, {
+    String language = 'en',
+  }) async {
+    await userDoc(uid).set({
+      'email': 'test@example.com',
+      'language': language,
+    });
+  }
+
+  Map<String, dynamic> settingsJson({
+    bool notificationsEnabled = true,
+    bool smartRemindersEnabled = true,
+    String language = 'en',
+    bool analyticsEnabled = true,
+    List<Map<String, dynamic>> reminderSchedules = const [],
+  }) =>
+      {
+        'notificationsEnabled': notificationsEnabled,
+        'smartRemindersEnabled': smartRemindersEnabled,
+        'language': language,
+        'analyticsEnabled': analyticsEnabled,
+        'reminderSchedules': reminderSchedules,
+        'hasSeenOnboarding': false,
+        'seenStreakMilestones': <String, dynamic>{},
+        'streakGracePeriodUsed': false,
+      };
+
+  Map<String, dynamic> reminderJson({
+    required String id,
+    int hour = 9,
+    int minute = 0,
+    bool isEnabled = true,
+    String label = '',
+  }) =>
+      {
+        'id': id,
+        'hour': hour,
+        'minute': minute,
+        'isEnabled': isEnabled,
+        'label': label,
+      };
+
+  Future<List<dynamic>> savedSchedules() async {
+    final doc = await userDoc(testUid).get();
+    final data = doc.data()! as Map<String, dynamic>;
+    final settings = data['settings'] as Map<String, dynamic>;
+    return settings['reminderSchedules'] as List<dynamic>;
+  }
 
   group('SettingsRepository', () {
-    group('getSettings', () {
-      test('returns settings from data source', () async {
-        const expectedSettings = UserSettingsModel(language: 'ja');
-        when(() => mockDataSource.getSettings(testUid))
-            .thenAnswer((_) async => expectedSettings);
-
-        final result = await repository.getSettings(testUid);
-
-        expect(result, equals(expectedSettings));
-        verify(() => mockDataSource.getSettings(testUid)).called(1);
-      });
-    });
-
     group('watchSettings', () {
-      test('returns stream from data source', () {
-        const settings1 = UserSettingsModel();
-        const settings2 = UserSettingsModel(language: 'ja');
-        when(() => mockDataSource.watchSettings(testUid))
-            .thenAnswer((_) => Stream.fromIterable([settings1, settings2]));
+      test('emits settings from user doc', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(language: 'ja'),
+        );
 
         final stream = repository.watchSettings(testUid);
 
-        expect(stream, emitsInOrder([settings1, settings2]));
-        verify(() => mockDataSource.watchSettings(testUid)).called(1);
-      });
-    });
-
-    group('updateSettings', () {
-      test('calls data source updateSettings', () async {
-        const settings = UserSettingsModel(language: 'es');
-        when(() => mockDataSource.updateSettings(testUid, settings))
-            .thenAnswer((_) async {});
-
-        await repository.updateSettings(testUid, settings);
-
-        verify(() => mockDataSource.updateSettings(testUid, settings))
-            .called(1);
-      });
-    });
-
-    group('setNotificationsEnabled', () {
-      test('calls data source with enabled=true', () async {
-        when(
-          () => mockDataSource.updateNotificationsEnabled(
-            testUid,
-            enabled: true,
+        await expectLater(
+          stream,
+          emits(
+            predicate<UserSettingsModel>(
+              (s) => s.language == 'ja',
+            ),
           ),
-        ).thenAnswer((_) async {});
-
-        await repository.setNotificationsEnabled(testUid, enabled: true);
-
-        verify(
-          () => mockDataSource.updateNotificationsEnabled(
-            testUid,
-            enabled: true,
-          ),
-        ).called(1);
+        );
       });
 
-      test('calls data source with enabled=false', () async {
-        when(
-          () => mockDataSource.updateNotificationsEnabled(
-            testUid,
-            enabled: false,
-          ),
-        ).thenAnswer((_) async {});
+      test('emits defaults when no settings field', () async {
+        await seedUserWithoutSettings(testUid);
 
-        await repository.setNotificationsEnabled(testUid, enabled: false);
+        final stream = repository.watchSettings(testUid);
 
-        verify(
-          () => mockDataSource.updateNotificationsEnabled(
-            testUid,
-            enabled: false,
+        await expectLater(
+          stream,
+          emits(
+            predicate<UserSettingsModel>(
+              (s) => s.notificationsEnabled && s.language == 'en',
+            ),
           ),
-        ).called(1);
+        );
       });
-    });
 
-    group('setSmartRemindersEnabled', () {
-      test('calls data source with enabled value', () async {
-        when(
-          () => mockDataSource.updateSmartRemindersEnabled(
-            testUid,
-            enabled: true,
+      test('emits defaults with user language fallback', () async {
+        await seedUserWithoutSettings(testUid, language: 'ja');
+
+        final stream = repository.watchSettings(testUid);
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<UserSettingsModel>(
+              (s) => s.language == 'ja',
+            ),
           ),
-        ).thenAnswer((_) async {});
-
-        await repository.setSmartRemindersEnabled(testUid, enabled: true);
-
-        verify(
-          () => mockDataSource.updateSmartRemindersEnabled(
-            testUid,
-            enabled: true,
-          ),
-        ).called(1);
+        );
       });
-    });
 
-    group('setLanguage', () {
-      test('calls data source updateLanguage', () async {
-        when(() => mockDataSource.updateLanguage(testUid, 'ja'))
-            .thenAnswer((_) async {});
+      test('emits defaults when user doc missing', () async {
+        final stream = repository.watchSettings(testUid);
 
-        await repository.setLanguage(testUid, 'ja');
-
-        verify(() => mockDataSource.updateLanguage(testUid, 'ja')).called(1);
+        await expectLater(
+          stream,
+          emits(
+            predicate<UserSettingsModel>(
+              (s) => s.notificationsEnabled && s.language == 'en',
+            ),
+          ),
+        );
       });
     });
 
     group('addReminder', () {
-      test('returns schedule when under max reminders', () async {
-        const currentSettings = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-          ],
+      test('appends schedule and returns it', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1'),
+            ],
+          ),
         );
-        when(() => mockDataSource.getSettings(testUid))
-            .thenAnswer((_) async => currentSettings);
-        when(() => mockDataSource.addReminderSchedule(testUid, any()))
-            .thenAnswer((_) async {});
 
         final result = await repository.addReminder(
           testUid,
@@ -161,22 +168,21 @@ void main() {
         expect(result.minute, 30);
         expect(result.label, 'Evening');
         expect(result.id, isNotEmpty);
-        verify(() => mockDataSource.addReminderSchedule(testUid, any()))
-            .called(1);
+
+        final schedules = await savedSchedules();
+        expect(schedules, hasLength(2));
       });
 
       test('returns null when at max reminders', () async {
-        const maxedSettings = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(id: 'r2', hour: 10, minute: 0),
-            NotificationScheduleModel(id: 'r3', hour: 11, minute: 0),
-            NotificationScheduleModel(id: 'r4', hour: 12, minute: 0),
-            NotificationScheduleModel(id: 'r5', hour: 13, minute: 0),
-          ],
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(
+            reminderSchedules: [
+              for (var i = 0; i < AppConstants.maxRemindersPerUser; i++)
+                reminderJson(id: 'r$i', hour: 9 + i),
+            ],
+          ),
         );
-        when(() => mockDataSource.getSettings(testUid))
-            .thenAnswer((_) async => maxedSettings);
 
         final result = await repository.addReminder(
           testUid,
@@ -184,15 +190,13 @@ void main() {
         );
 
         expect(result, isNull);
-        verifyNever(() => mockDataSource.addReminderSchedule(testUid, any()));
+
+        final schedules = await savedSchedules();
+        expect(schedules, hasLength(AppConstants.maxRemindersPerUser));
       });
 
       test('creates reminder with empty label when none provided', () async {
-        const currentSettings = UserSettingsModel();
-        when(() => mockDataSource.getSettings(testUid))
-            .thenAnswer((_) async => currentSettings);
-        when(() => mockDataSource.addReminderSchedule(testUid, any()))
-            .thenAnswer((_) async {});
+        await seedUserWithSettings(testUid, settingsJson());
 
         final result = await repository.addReminder(
           testUid,
@@ -205,140 +209,172 @@ void main() {
     });
 
     group('removeReminder', () {
-      test('calls data source removeReminderSchedule', () async {
-        when(() => mockDataSource.removeReminderSchedule(testUid, 'schedule-1'))
-            .thenAnswer((_) async {});
+      test('removes schedule by ID', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1', label: 'Morning'),
+              reminderJson(id: 'r2', label: 'Evening'),
+            ],
+          ),
+        );
 
-        await repository.removeReminder(testUid, 'schedule-1');
+        await repository.removeReminder(testUid, 'r1');
 
-        verify(
-          () => mockDataSource.removeReminderSchedule(testUid, 'schedule-1'),
-        ).called(1);
+        final schedules = await savedSchedules();
+        expect(schedules, hasLength(1));
+        expect((schedules[0] as Map)['id'], 'r2');
+      });
+
+      test('no-op when schedule ID not found', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1'),
+            ],
+          ),
+        );
+
+        await repository.removeReminder(testUid, 'nonexistent');
+
+        final schedules = await savedSchedules();
+        expect(schedules, hasLength(1));
       });
     });
 
     group('updateReminderTime', () {
-      test('calls data source with hour and minute', () async {
-        when(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'hour': 14, 'minute': 30},
+      test('updates matching schedule fields', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1'),
+              reminderJson(id: 'r2'),
+            ],
           ),
-        ).thenAnswer((_) async {});
+        );
 
         await repository.updateReminderTime(
           testUid,
-          'schedule-1',
+          'r1',
           const TimeOfDay(hour: 14, minute: 30),
         );
 
-        verify(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'hour': 14, 'minute': 30},
-          ),
-        ).called(1);
+        final schedules = await savedSchedules();
+        final updated = schedules[0] as Map<String, dynamic>;
+        expect(updated['hour'], 14);
+        expect(updated['minute'], 30);
+        final untouched = schedules[1] as Map<String, dynamic>;
+        expect(untouched['hour'], 9);
       });
     });
 
     group('setReminderEnabled', () {
-      test('calls data source with isEnabled field', () async {
-        when(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'isEnabled': false},
-          ),
-        ).thenAnswer((_) async {});
-
-        await repository.setReminderEnabled(
+      test('updates isEnabled on the matching schedule', () async {
+        await seedUserWithSettings(
           testUid,
-          'schedule-1',
-          enabled: false,
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1'),
+            ],
+          ),
         );
 
-        verify(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'isEnabled': false},
-          ),
-        ).called(1);
+        await repository.setReminderEnabled(testUid, 'r1', enabled: false);
+
+        final schedules = await savedSchedules();
+        expect((schedules[0] as Map)['isEnabled'], isFalse);
       });
     });
 
     group('updateReminderLabel', () {
-      test('calls data source with label field', () async {
-        when(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'label': 'Work Time'},
-          ),
-        ).thenAnswer((_) async {});
-
-        await repository.updateReminderLabel(
+      test('updates label on the matching schedule', () async {
+        await seedUserWithSettings(
           testUid,
-          'schedule-1',
-          'Work Time',
+          settingsJson(
+            reminderSchedules: [
+              reminderJson(id: 'r1'),
+            ],
+          ),
         );
 
-        verify(
-          () => mockDataSource.updateReminderSchedule(
-            testUid,
-            'schedule-1',
-            {'label': 'Work Time'},
-          ),
-        ).called(1);
+        await repository.updateReminderLabel(testUid, 'r1', 'Work Time');
+
+        final schedules = await savedSchedules();
+        expect((schedules[0] as Map)['label'], 'Work Time');
+      });
+    });
+
+    group('setNotificationsEnabled', () {
+      test('updates both settings and top-level', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.setNotificationsEnabled(testUid, enabled: false);
+
+        final doc = await userDoc(testUid).get();
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        expect(settings['notificationsEnabled'], isFalse);
+        expect(data['notificationsEnabled'], isFalse);
+      });
+    });
+
+    group('setSmartRemindersEnabled', () {
+      test('updates smart reminders flag', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.setSmartRemindersEnabled(testUid, enabled: false);
+
+        final doc = await userDoc(testUid).get();
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        expect(settings['smartRemindersEnabled'], isFalse);
+      });
+    });
+
+    group('setLanguage', () {
+      test('updates both settings and top-level language', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.setLanguage(testUid, 'ja');
+
+        final doc = await userDoc(testUid).get();
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        expect(settings['language'], 'ja');
+        expect(data['language'], 'ja');
+      });
+    });
+
+    group('setAnalyticsEnabled', () {
+      test('updates analytics flag', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.setAnalyticsEnabled(testUid, enabled: false);
+
+        final doc = await userDoc(testUid).get();
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        expect(settings['analyticsEnabled'], isFalse);
       });
     });
 
     group('markMilestoneSeen', () {
-      test('calls data source markMilestoneSeen', () async {
-        when(() => mockDataSource.markMilestoneSeen(testUid, 1))
-            .thenAnswer((_) async {});
+      test('marks week milestones as seen independently', () async {
+        await seedUserWithSettings(testUid, settingsJson());
 
         await repository.markMilestoneSeen(testUid, 1);
+        await repository.markMilestoneSeen(testUid, 4);
 
-        verify(() => mockDataSource.markMilestoneSeen(testUid, 1)).called(1);
-      });
-    });
-
-    group('initializeSettings', () {
-      test('creates default settings with specified language', () async {
-        when(() => mockDataSource.updateSettings(testUid, any()))
-            .thenAnswer((_) async {});
-
-        await repository.initializeSettings(testUid, language: 'ja');
-
-        verify(
-          () => mockDataSource.updateSettings(
-            testUid,
-            any(
-              that: isA<UserSettingsModel>()
-                  .having((s) => s.language, 'language', 'ja'),
-            ),
-          ),
-        ).called(1);
-      });
-
-      test('uses English as default language', () async {
-        when(() => mockDataSource.updateSettings(testUid, any()))
-            .thenAnswer((_) async {});
-
-        await repository.initializeSettings(testUid);
-
-        verify(
-          () => mockDataSource.updateSettings(
-            testUid,
-            any(
-              that: isA<UserSettingsModel>()
-                  .having((s) => s.language, 'language', 'en'),
-            ),
-          ),
-        ).called(1);
+        final doc = await userDoc(testUid).get();
+        final data = doc.data()! as Map<String, dynamic>;
+        final settings = data['settings'] as Map<String, dynamic>;
+        final milestones =
+            settings['seenStreakMilestones'] as Map<String, dynamic>;
+        expect(milestones['1'], isTrue);
+        expect(milestones['4'], isTrue);
       });
     });
   });

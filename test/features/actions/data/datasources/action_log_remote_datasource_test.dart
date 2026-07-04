@@ -156,46 +156,6 @@ void main() {
       });
     });
 
-    group('getRecentActionLogs', () {
-      test('respects limit parameter', () async {
-        await seedLog(
-          userId,
-          'log1',
-          loggedAt: DateTime(2024, 6, 13),
-        );
-        await seedLog(
-          userId,
-          'log2',
-          loggedAt: DateTime(2024, 6, 15),
-        );
-        await seedLog(
-          userId,
-          'log3',
-          loggedAt: DateTime(2024, 6, 14),
-        );
-
-        final result = await dataSource.getRecentActionLogs(
-          userId,
-          2,
-        );
-
-        expect(result, hasLength(2));
-        expect(result[0].id, 'log2');
-        expect(result[1].id, 'log3');
-      });
-
-      test('returns all when limit exceeds count', () async {
-        await seedLog(userId, 'log1');
-
-        final result = await dataSource.getRecentActionLogs(
-          userId,
-          10,
-        );
-
-        expect(result, hasLength(1));
-      });
-    });
-
     group('getActionLogCollection', () {
       test('returns correct collection path', () {
         final collection = dataSource.getActionLogCollection(userId);

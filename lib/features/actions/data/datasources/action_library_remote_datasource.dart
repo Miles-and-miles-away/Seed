@@ -12,27 +12,11 @@ class ActionLibraryRemoteDataSource {
   CollectionReference<Map<String, dynamic>> get _collection =>
       firestore.collection(AppConstants.collectionActionLibrary);
 
-  Stream<List<ActionModel>> watchActions() {
-    return _collection
-        .where(AppConstants.fieldIsActive, isEqualTo: true)
-        .orderBy(AppConstants.fieldSortOrder)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map(ActionModel.fromFirestore).toList();
-    });
-  }
-
   Future<List<ActionModel>> getActions() async {
     final snapshot = await _collection
         .where(AppConstants.fieldIsActive, isEqualTo: true)
         .orderBy(AppConstants.fieldSortOrder)
         .get();
     return snapshot.docs.map(ActionModel.fromFirestore).toList();
-  }
-
-  Future<ActionModel?> getAction(String id) async {
-    final doc = await _collection.doc(id).get();
-    if (!doc.exists) return null;
-    return ActionModel.fromFirestore(doc);
   }
 }

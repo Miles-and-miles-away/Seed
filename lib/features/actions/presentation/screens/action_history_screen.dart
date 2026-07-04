@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_item.dart';
@@ -147,7 +147,7 @@ class _DateGroup extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final dateLabel = _formatDateLabel(date, l10n, locale);
+    final dateLabel = formatDateLabel(date, l10n, locale);
     final totalPoints = logs.fold<int>(0, (sum, log) => sum + log.points);
 
     return Column(
@@ -196,23 +196,4 @@ class _DateGroup extends StatelessWidget {
     );
   }
 
-  String _formatDateLabel(
-    DateTime date,
-    AppLocalizations l10n,
-    String locale,
-  ) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-
-    if (date == today) {
-      return l10n.today;
-    } else if (date == yesterday) {
-      return l10n.yesterday;
-    } else if (date.year == today.year) {
-      return DateFormat.MMMMEEEEd(locale).format(date);
-    } else {
-      return DateFormat.yMMMMEEEEd(locale).format(date);
-    }
-  }
 }

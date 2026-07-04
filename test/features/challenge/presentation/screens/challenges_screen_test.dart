@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +53,7 @@ void main() {
           (_) => Stream.value(user),
         ),
         firestoreProvider.overrideWithValue(
-          createFakeFirestore(),
+          FakeFirebaseFirestore(),
         ),
         challengeTemplateDataProvider.overrideWith(
           (_) async => templateData,

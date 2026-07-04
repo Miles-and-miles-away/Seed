@@ -1,51 +1,99 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:uuid/uuid.dart';
 
-import '../datasources/settings_remote_datasource.dart';
 import '../models/notification_schedule_model.dart';
 import '../models/user_settings_model.dart';
 
-/// Repository that coordinates settings operations.
+/// User settings persistence.
 ///
-/// Provides a clean API for the presentation layer to interact with
-/// user settings, including notification preferences and language.
+/// Settings are stored as a nested object within the user document
+/// at the 'settings' field, rather than a separate subcollection.
 class SettingsRepository {
-  SettingsRepository({
-    required SettingsRemoteDataSource dataSource,
-  }) : _dataSource = dataSource;
+  SettingsRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
 
-  final SettingsRemoteDataSource _dataSource;
-  final _uuid = const Uuid();
+  final FirebaseFirestore _firestore;
 
-  /// Gets the current user settings.
-  Future<UserSettingsModel> getSettings(String uid) {
-    return _dataSource.getSettings(uid);
+  DocumentReference<Map<String, dynamic>> _userDoc(String uid) =>
+      _firestore.collection(AppConstants.collectionUsers).doc(uid);
+
+  /// Mints a Firestore auto-ID client-side (no network call).
+  String _newId() =>
+      _firestore.collection(AppConstants.collectionUsers).doc().id;
+
+  /// Parses the settings field out of a user document, falling back to
+  /// defaults (with the user's top-level language preference) when the
+  /// document or field is missing.
+  UserSettingsModel _settingsFromData(Map<String, dynamic>? data) {
+    if (data == null) return UserSettingsModel.defaultSettings();
+
+    final settingsData =
+        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
+    if (settingsData == null) {
+      final language = data[AppConstants.fieldLanguage] as String? ?? 'en';
+      return UserSettingsModel.defaultSettings(language: language);
+    }
+
+    return UserSettingsModel.fromJson(settingsData);
+  }
+
+  Future<UserSettingsModel> _getSettings(String uid) async {
+    final doc = await _userDoc(uid).get();
+    return _settingsFromData(doc.data());
   }
 
   /// Watches user settings for real-time updates.
   Stream<UserSettingsModel> watchSettings(String uid) {
-    return _dataSource.watchSettings(uid);
-  }
-
-  /// Updates all user settings at once.
-  Future<void> updateSettings(String uid, UserSettingsModel settings) {
-    return _dataSource.updateSettings(uid, settings);
+    return _userDoc(uid).snapshots().map((doc) => _settingsFromData(doc.data()));
   }
 
   /// Enables or disables all notifications.
-  Future<void> setNotificationsEnabled(String uid, {required bool enabled}) {
-    return _dataSource.updateNotificationsEnabled(uid, enabled: enabled);
+  Future<void> setNotificationsEnabled(
+    String uid, {
+    required bool enabled,
+  }) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldNotificationsEnabled}':
+          enabled,
+      AppConstants.fieldNotificationsEnabled: enabled,
+    });
   }
 
   /// Enables or disables smart reminders.
-  Future<void> setSmartRemindersEnabled(String uid, {required bool enabled}) {
-    return _dataSource.updateSmartRemindersEnabled(uid, enabled: enabled);
+  Future<void> setSmartRemindersEnabled(
+    String uid, {
+    required bool enabled,
+  }) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldSmartRemindersEnabled}':
+          enabled,
+    });
   }
 
   /// Updates the language preference.
-  Future<void> setLanguage(String uid, String language) {
-    return _dataSource.updateLanguage(uid, language);
+  Future<void> setLanguage(String uid, String language) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldLanguage}': language,
+      AppConstants.fieldLanguage: language,
+    });
+  }
+
+  /// Enables or disables analytics and crashlytics collection.
+  Future<void> setAnalyticsEnabled(String uid, {required bool enabled}) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldAnalyticsEnabled}':
+          enabled,
+    });
+  }
+
+  /// Marks a streak milestone as seen.
+  Future<void> markMilestoneSeen(String uid, int weekNumber) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}'
+          '.${AppConstants.fieldSeenStreakMilestones}'
+          '.$weekNumber': true,
+    });
   }
 
   /// Adds a new reminder at the specified time.
@@ -56,26 +104,33 @@ class SettingsRepository {
     required TimeOfDay time,
     String? label,
   }) async {
-    // Check if user can add more reminders
-    final settings = await _dataSource.getSettings(uid);
+    final settings = await _getSettings(uid);
     if (!settings.canAddReminder) {
       return null;
     }
 
     final schedule = NotificationScheduleModel(
-      id: _uuid.v4(),
+      id: _newId(),
       hour: time.hour,
       minute: time.minute,
       label: label ?? '',
     );
 
-    await _dataSource.addReminderSchedule(uid, schedule);
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':
+          FieldValue.arrayUnion([schedule.toJson()]),
+    });
     return schedule;
   }
 
   /// Removes a reminder by its ID.
-  Future<void> removeReminder(String uid, String scheduleId) {
-    return _dataSource.removeReminderSchedule(uid, scheduleId);
+  Future<void> removeReminder(String uid, String scheduleId) async {
+    await _updateSchedules(
+      uid,
+      (schedules) => schedules
+          .where((s) => s[AppConstants.fieldId] != scheduleId)
+          .toList(),
+    );
   }
 
   /// Updates a reminder's time.
@@ -84,7 +139,7 @@ class SettingsRepository {
     String scheduleId,
     TimeOfDay time,
   ) {
-    return _dataSource.updateReminderSchedule(uid, scheduleId, {
+    return _updateReminderSchedule(uid, scheduleId, {
       AppConstants.fieldHour: time.hour,
       AppConstants.fieldMinute: time.minute,
     });
@@ -96,7 +151,7 @@ class SettingsRepository {
     String scheduleId, {
     required bool enabled,
   }) {
-    return _dataSource.updateReminderSchedule(uid, scheduleId, {
+    return _updateReminderSchedule(uid, scheduleId, {
       AppConstants.fieldIsEnabled: enabled,
     });
   }
@@ -107,27 +162,46 @@ class SettingsRepository {
     String scheduleId,
     String label,
   ) {
-    return _dataSource.updateReminderSchedule(uid, scheduleId, {
+    return _updateReminderSchedule(uid, scheduleId, {
       AppConstants.fieldLabel: label,
     });
   }
 
-  /// Enables or disables analytics and crashlytics collection.
-  Future<void> setAnalyticsEnabled(
-    String uid, {
-    required bool enabled,
-  }) {
-    return _dataSource.updateAnalyticsEnabled(uid, enabled: enabled);
+  Future<void> _updateReminderSchedule(
+    String uid,
+    String scheduleId,
+    Map<String, dynamic> updates,
+  ) async {
+    await _updateSchedules(
+      uid,
+      (schedules) => schedules
+          .map(
+            (s) => s[AppConstants.fieldId] == scheduleId
+                ? {...s, ...updates}
+                : s,
+          )
+          .toList(),
+    );
   }
 
-  /// Marks a streak milestone as seen.
-  Future<void> markMilestoneSeen(String uid, int weekNumber) {
-    return _dataSource.markMilestoneSeen(uid, weekNumber);
-  }
+  /// Read-modify-write of the reminder schedules array.
+  Future<void> _updateSchedules(
+    String uid,
+    List<Map<String, dynamic>> Function(List<Map<String, dynamic>>) transform,
+  ) async {
+    final doc = await _userDoc(uid).get();
+    final settingsData =
+        doc.data()?[AppConstants.fieldSettings] as Map<String, dynamic>?;
+    if (settingsData == null) return;
 
-  /// Creates default settings for a new user.
-  Future<void> initializeSettings(String uid, {String language = 'en'}) async {
-    final settings = UserSettingsModel.defaultSettings(language: language);
-    await _dataSource.updateSettings(uid, settings);
+    final schedules =
+        (settingsData[AppConstants.fieldReminderSchedules] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>() ??
+            [];
+
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':
+          transform(schedules),
+    });
   }
 }

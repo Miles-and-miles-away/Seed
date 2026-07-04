@@ -9,7 +9,6 @@ import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
-import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 
 /// Compact card showing the active multi-day challenge on the
 /// home screen. Hidden when no challenge is active.

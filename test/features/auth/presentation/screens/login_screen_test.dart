@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     mockFirebaseAuth = createMockFirebaseAuth();
-    fakeFirestore = createFakeFirestore();
+    fakeFirestore = FakeFirebaseFirestore();
 
     // Setup default mock behavior
     when(

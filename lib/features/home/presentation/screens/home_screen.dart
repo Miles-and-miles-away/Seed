@@ -216,7 +216,7 @@ class HomeScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has
                 // already broken the streak (the stored value is
                 // only corrected at the next log).
-                '${StreakService.instance.displayedStreak(
+                '${displayedStreak(
                   storedStreak: user?.currentStreak ?? 0,
                   lastActionDate: user?.lastActionDate,
                   now: DateTime.now(),

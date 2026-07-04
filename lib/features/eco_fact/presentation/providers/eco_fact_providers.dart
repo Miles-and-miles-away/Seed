@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
@@ -95,7 +96,8 @@ Future<List<EcoFactInboxItem>> ecoFactInbox(Ref ref) async {
   final items = <EcoFactInboxItem>[];
 
   for (final key in allKeys) {
-    final date = _parseDateKey(key);
+    // Date-only ISO strings parse to local midnight.
+    final date = DateTime.tryParse(key);
     if (date == null) continue;
     final fact = factsByDay[dayOfYear(date)];
     if (fact == null) continue;
@@ -114,16 +116,6 @@ Future<List<EcoFactInboxItem>> ecoFactInbox(Ref ref) async {
 
   items.sort((a, b) => b.date.compareTo(a.date));
   return items;
-}
-
-DateTime? _parseDateKey(String key) {
-  final parts = key.split('-');
-  if (parts.length != 3) return null;
-  final y = int.tryParse(parts[0]);
-  final m = int.tryParse(parts[1]);
-  final d = int.tryParse(parts[2]);
-  if (y == null || m == null || d == null) return null;
-  return DateTime(y, m, d);
 }
 
 /// Notifier to mark an eco-fact as viewed.
@@ -147,6 +139,10 @@ class FactViewedNotifier extends _$FactViewedNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final firestore = ref.read(firestoreProvider);
+      // ponytail: unbounded array on the user doc (~365 entries/year,
+      // re-shipped to listeners on every user-doc write). Cap to the
+      // last year (derive older reads from a count) if doc size or
+      // listener bandwidth ever matters.
       await firestore
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)

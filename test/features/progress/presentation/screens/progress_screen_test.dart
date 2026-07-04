@@ -41,7 +41,7 @@ void main() {
 
   setUp(() {
     mockFirebaseAuth = createMockFirebaseAuth();
-    fakeFirestore = createFakeFirestore();
+    fakeFirestore = FakeFirebaseFirestore();
   });
 
   group('ProgressScreen', () {

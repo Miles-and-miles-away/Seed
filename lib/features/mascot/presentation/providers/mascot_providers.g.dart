@@ -93,50 +93,6 @@ final class MascotRepositoryProvider extends $FunctionalProvider<
 
 String _$mascotRepositoryHash() => r'07f81837435cff1826af88d6440e0fddf751c32f';
 
-@ProviderFor(mascotMigrationService)
-final mascotMigrationServiceProvider = MascotMigrationServiceProvider._();
-
-final class MascotMigrationServiceProvider extends $FunctionalProvider<
-    MascotMigrationService,
-    MascotMigrationService,
-    MascotMigrationService> with $Provider<MascotMigrationService> {
-  MascotMigrationServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotMigrationServiceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$mascotMigrationServiceHash();
-
-  @$internal
-  @override
-  $ProviderElement<MascotMigrationService> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  MascotMigrationService create(Ref ref) {
-    return mascotMigrationService(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(MascotMigrationService value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<MascotMigrationService>(value),
-    );
-  }
-}
-
-String _$mascotMigrationServiceHash() =>
-    r'45636093b4f5698f35b751bd4b75f0a9166215a0';
-
 /// All mascots for the current user.
 ///
 /// Derived from the user document already streamed by
@@ -701,51 +657,6 @@ final class EggHatchingProgressProvider
 String _$eggHatchingProgressHash() =>
     r'1e21a80390cefe4ee20f0e6a3b17cfdc27588aac';
 
-/// Days remaining until egg hatches.
-
-@ProviderFor(eggDaysRemaining)
-final eggDaysRemainingProvider = EggDaysRemainingProvider._();
-
-/// Days remaining until egg hatches.
-
-final class EggDaysRemainingProvider extends $FunctionalProvider<int, int, int>
-    with $Provider<int> {
-  /// Days remaining until egg hatches.
-  EggDaysRemainingProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'eggDaysRemainingProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$eggDaysRemainingHash();
-
-  @$internal
-  @override
-  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  int create(Ref ref) {
-    return eggDaysRemaining(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
-}
-
-String _$eggDaysRemainingHash() => r'666cca3a1dee8704c825b2aacded185c1beacb1f';
-
 /// Whether to show the egg discovery celebration.
 /// True if eggPendingDiscovery flag is set.
 
@@ -919,7 +830,7 @@ final class MascotNotifierProvider
   }
 }
 
-String _$mascotNotifierHash() => r'220d65ef0dd54f9d6e665e666848f3759a5b67b5';
+String _$mascotNotifierHash() => r'e4c107aff3104e983939835243bc27ce9338de82';
 
 abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

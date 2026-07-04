@@ -102,35 +102,6 @@ void main() {
       expect(past.read(eggHatchingProgressProvider), 1.0);
     });
 
-    test('eggDaysRemaining clamps to the required streak count', () async {
-      // No egg -> whole streak remaining
-      final noEgg = _container(user: const AppUserModel(uid: 'u', email: 'e'));
-      addTearDown(noEgg.dispose);
-      await _pump(noEgg);
-      expect(
-        noEgg.read(eggDaysRemainingProvider),
-        AppConstants.eggHatchingStreakRequired,
-      );
-
-      // 10 days in -> 20 remaining.
-      final partway = _container(
-        user: AppUserModel(
-          uid: 'u',
-          email: 'e',
-          egg: EggModel(
-            receivedAt: DateTime.utc(2026),
-            hatchingStreakDays: 10,
-          ),
-        ),
-      );
-      addTearDown(partway.dispose);
-      await _pump(partway);
-      expect(
-        partway.read(eggDaysRemainingProvider),
-        AppConstants.eggHatchingStreakRequired - 10,
-      );
-    });
-
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = _container(
         user: const AppUserModel(

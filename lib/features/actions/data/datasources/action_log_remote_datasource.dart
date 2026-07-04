@@ -79,18 +79,6 @@ class ActionLogRemoteDataSource {
     return snapshot.docs.map(ActionLogModel.fromFirestore).toList();
   }
 
-  Future<List<ActionLogModel>> getRecentActionLogs(
-    String userId,
-    int limit,
-  ) async {
-    final snapshot = await _userActionLogs(userId)
-        .orderBy(AppConstants.fieldLoggedAt, descending: true)
-        .limit(limit)
-        .get();
-
-    return snapshot.docs.map(ActionLogModel.fromFirestore).toList();
-  }
-
   CollectionReference<Map<String, dynamic>> getActionLogCollection(
     String userId,
   ) =>

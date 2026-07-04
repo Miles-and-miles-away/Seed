@@ -22,7 +22,7 @@ void main() {
       currentUser: mockUser,
       authStateChanges: Stream.value(mockUser),
     );
-    fakeFirestore = createFakeFirestore();
+    fakeFirestore = FakeFirebaseFirestore();
 
     // Setup default mock behavior
     when(() => mockUser.reload()).thenAnswer((_) async {});
