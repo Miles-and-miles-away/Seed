@@ -306,7 +306,6 @@ class MascotNotifier extends _$MascotNotifier {
     if (!ref.mounted) return;
     state = result;
   }
-
 }
 
 // =============================================================

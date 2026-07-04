@@ -45,7 +45,9 @@ class SettingsRepository {
 
   /// Watches user settings for real-time updates.
   Stream<UserSettingsModel> watchSettings(String uid) {
-    return _userDoc(uid).snapshots().map((doc) => _settingsFromData(doc.data()));
+    return _userDoc(uid)
+        .snapshots()
+        .map((doc) => _settingsFromData(doc.data()));
   }
 
   /// Enables or disables all notifications.
@@ -176,9 +178,8 @@ class SettingsRepository {
       uid,
       (schedules) => schedules
           .map(
-            (s) => s[AppConstants.fieldId] == scheduleId
-                ? {...s, ...updates}
-                : s,
+            (s) =>
+                s[AppConstants.fieldId] == scheduleId ? {...s, ...updates} : s,
           )
           .toList(),
     );
