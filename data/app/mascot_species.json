@@ -38,5 +38,45 @@
         "nameEs": "\u00c1rbol"
       }
     ]
+  },
+  {
+    "id": "coral",
+    "nameEn": "Coral",
+    "nameJa": "コーラル",
+    "nameEs": "Coral",
+    "descriptionEn": "A tiny ocean friend with a big heart! Help it grow into a thriving reef.",
+    "descriptionJa": "大きな心を持つ小さな海のともだち！にぎやかなサンゴ礁への成長を助けよう。",
+    "descriptionEs": "¡Un pequeño amigo del océano con un gran corazón! Ayúdalo a crecer hasta ser un arrecife próspero.",
+    "availability": "free",
+    "evolutionStages": [
+      {
+        "level": 1,
+        "assetPath": "assets/animations/coral_stage_2.riv",
+        "nameEn": "Polyp",
+        "nameJa": "ポリプ",
+        "nameEs": "Pólipo"
+      },
+      {
+        "level": 10,
+        "assetPath": "assets/animations/coral_stage_2.riv",
+        "nameEn": "Colony",
+        "nameJa": "コロニー",
+        "nameEs": "Colonia"
+      },
+      {
+        "level": 25,
+        "assetPath": "assets/animations/coral_stage_2.riv",
+        "nameEn": "Reef",
+        "nameJa": "サンゴしょう",
+        "nameEs": "Arrecife"
+      },
+      {
+        "level": 50,
+        "assetPath": "assets/animations/coral_stage_2.riv",
+        "nameEn": "Ecosystem",
+        "nameJa": "せいたいけい",
+        "nameEs": "Ecosistema"
+      }
+    ]
   }
 ]

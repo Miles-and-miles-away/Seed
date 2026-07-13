@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -16,6 +15,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/egg_progress_widget.dart';
 import '../widgets/mascot_display.dart';
+import '../widgets/mascot_image.dart';
 
 /// The main mascot screen with evolution timeline and
 /// multi-mascot collection.
@@ -347,8 +347,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              stage.assetPath,
+            MascotImage(
+              assetPath: stage.assetPath,
               width: 44,
               height: 44,
             ),
@@ -651,7 +651,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         children: [
           Expanded(
             child: isUnlocked
-                ? SvgPicture.asset(stage.assetPath)
+                ? MascotImage(assetPath: stage.assetPath)
                 : ColorFiltered(
                     colorFilter: const ColorFilter.matrix(<double>[
                       0.2126,
@@ -675,7 +675,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                       0.4,
                       0,
                     ]),
-                    child: SvgPicture.asset(stage.assetPath),
+                    child: MascotImage(assetPath: stage.assetPath),
                   ),
           ),
           const SizedBox(height: spacingXs),
@@ -793,8 +793,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                 0.6,
                 0,
               ]),
-              child: SvgPicture.asset(
-                nextStage.assetPath,
+              child: MascotImage(
+                assetPath: nextStage.assetPath,
               ),
             ),
           ),

@@ -893,3 +893,68 @@ abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
     element.handleCreate(ref, build);
   }
 }
+
+/// Fires the mascot smile animation, e.g. before opening the action log.
+///
+/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// ignore it.
+
+@ProviderFor(MascotSmileTrigger)
+final mascotSmileTriggerProvider = MascotSmileTriggerProvider._();
+
+/// Fires the mascot smile animation, e.g. before opening the action log.
+///
+/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// ignore it.
+final class MascotSmileTriggerProvider
+    extends $NotifierProvider<MascotSmileTrigger, bool> {
+  /// Fires the mascot smile animation, e.g. before opening the action log.
+  ///
+  /// Rive-animated mascots play their smile timeline; static SVG mascots
+  /// ignore it.
+  MascotSmileTriggerProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'mascotSmileTriggerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$mascotSmileTriggerHash();
+
+  @$internal
+  @override
+  MascotSmileTrigger create() => MascotSmileTrigger();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$mascotSmileTriggerHash() =>
+    r'6146970c03b45858fc8f68211d15d11be7ff4ff8';
+
+/// Fires the mascot smile animation, e.g. before opening the action log.
+///
+/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// ignore it.
+
+abstract class _$MascotSmileTrigger extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    element.handleCreate(ref, build);
+  }
+}

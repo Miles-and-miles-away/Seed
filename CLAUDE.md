@@ -155,6 +155,10 @@ Defined in `lib/core/constants/app_constants.dart`:
 - Mocking: `mocktail`
 - Run all: `flutter test`
 - Run single: `flutter test test/path/to/file_test.dart`
+- Rive: tests that render `.riv` mascots need the rive_native host
+  library (gitignored under `build/`). If they fail with a missing
+  `loadRiveFile` symbol, run once:
+  `dart run rive_native:setup --clean --platform macos`
 
 ### Firestore security-rules tests
 Rules (`firestore.rules`) can't be tested by the Dart suite

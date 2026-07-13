@@ -53,5 +53,10 @@ jobs:
       - name: Analyze
         run: flutter analyze --fatal-infos
 
+      # Rive file parsing in widget tests needs the rive_native host
+      # library, which is not committed (build/ is gitignored).
+      - name: Fetch rive_native host library
+        run: dart run rive_native:setup --clean --platform linux
+
       - name: Test
         run: flutter test

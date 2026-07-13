@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
 import '../shared/providers/day_change_provider.dart';
 import 'app_bottom_nav.dart';
@@ -24,6 +25,9 @@ class MainShell extends ConsumerStatefulWidget {
 }
 
 class _MainShellState extends ConsumerState<MainShell> {
+  // Shell tabs where the mascot is visible (0 Home, 2 Mascot).
+  static const _mascotTabs = {0, 2};
+
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
 
@@ -72,9 +76,21 @@ class _MainShellState extends ConsumerState<MainShell> {
       bottomNavigationBar: AppBottomNav(
         currentIndex: widget.navigationShell.currentIndex,
         onTabSelected: _onItemTapped,
-        onActionPressed: () => context.push(appRoutes.actionLog),
+        onActionPressed: _onActionPressed,
       ),
     );
+  }
+
+  void _onActionPressed() {
+    // Let the mascot smile briefly before the action log slides in.
+    if (_mascotTabs.contains(widget.navigationShell.currentIndex)) {
+      ref.read(mascotSmileTriggerProvider.notifier).triggerSmile();
+      Future.delayed(durationSlow, () {
+        if (mounted) context.push(appRoutes.actionLog);
+      });
+    } else {
+      context.push(appRoutes.actionLog);
+    }
   }
 
   void _onItemTapped(int index) {

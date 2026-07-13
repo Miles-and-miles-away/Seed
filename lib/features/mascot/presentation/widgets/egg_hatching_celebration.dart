@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
@@ -14,6 +13,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/mascot_providers.dart';
+import 'mascot_image.dart';
 
 /// Full-screen celebration shown when an egg hatches into
 /// a new mascot. Includes a name input field.
@@ -166,8 +166,8 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
               else if (assetPath != null)
                 Column(
                   children: [
-                    SvgPicture.asset(
-                      assetPath,
+                    MascotImage(
+                      assetPath: assetPath,
                       width: 160,
                       height: 160,
                     ).animate().fadeIn(duration: 500.ms).scale(
