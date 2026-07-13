@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/settings_providers.dart';
@@ -180,8 +180,8 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                               ),
 
                           // Mascot (bouncing)
-                          SvgPicture.asset(
-                            assetPath,
+                          MascotImage(
+                            assetPath: assetPath,
                             width: 140,
                             height: 140,
                           )

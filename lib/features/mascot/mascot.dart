@@ -20,3 +20,4 @@ export 'presentation/widgets/egg_hatching_celebration.dart';
 export 'presentation/widgets/egg_progress_widget.dart';
 export 'presentation/widgets/evolution_celebration.dart';
 export 'presentation/widgets/mascot_display.dart';
+export 'presentation/widgets/mascot_image.dart';

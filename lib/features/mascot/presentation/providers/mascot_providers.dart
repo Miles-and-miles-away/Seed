@@ -330,4 +330,26 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
   }
 }
 
+/// Fires the mascot smile animation, e.g. before opening the action log.
+///
+/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// ignore it.
+@riverpod
+class MascotSmileTrigger extends _$MascotSmileTrigger {
+  @override
+  bool build() => false;
+
+  void triggerSmile() {
+    state = true;
+    Future.delayed(
+      durationInstant,
+      () {
+        // The autoDispose notifier may be gone before the delay
+        // elapses; touching state then throws.
+        if (ref.mounted && state) state = false;
+      },
+    );
+  }
+}
+
 // All widgets now watch the active* providers directly.

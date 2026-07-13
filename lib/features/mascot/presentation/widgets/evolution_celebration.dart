@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
@@ -11,6 +10,7 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/mascot_providers.dart';
+import 'mascot_image.dart';
 
 /// Full-screen celebration overlay shown when the mascot evolves to a new stage.
 ///
@@ -201,8 +201,8 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                             0.5,
                             0,
                           ]),
-                          child: SvgPicture.asset(
-                            previousAssetPath,
+                          child: MascotImage(
+                            assetPath: previousAssetPath,
                             width: 100,
                             height: 100,
                           ),
@@ -249,8 +249,8 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                                 ),
 
                             // Mascot
-                            SvgPicture.asset(
-                              assetPath,
+                            MascotImage(
+                              assetPath: assetPath,
                               width: 160,
                               height: 160,
                             )
