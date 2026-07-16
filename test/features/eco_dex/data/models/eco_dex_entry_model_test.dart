@@ -82,10 +82,7 @@ void main() {
       });
 
       test('returns Japanese for ja', () {
-        expect(
-          entry.fact('ja'),
-          '温室効果がなければ地球は-18度です。',
-        );
+        expect(entry.fact('ja'), '温室効果がなければ地球は-18度です。');
       });
 
       test('falls back to English when ja is empty', () {

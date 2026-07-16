@@ -8,10 +8,8 @@ part 'co2_chart_data.freezed.dart';
 /// CO2 logged on that day in grams.
 @freezed
 abstract class Co2TrendPoint with _$Co2TrendPoint {
-  const factory Co2TrendPoint({
-    required DateTime date,
-    required int grams,
-  }) = _Co2TrendPoint;
+  const factory Co2TrendPoint({required DateTime date, required int grams}) =
+      _Co2TrendPoint;
 }
 
 /// Source data for the trend scatter chart: a list of daily points

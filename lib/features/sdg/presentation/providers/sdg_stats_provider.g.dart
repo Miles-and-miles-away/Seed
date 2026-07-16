@@ -22,15 +22,16 @@ final class SdgStatsProvider
     with $Provider<SdgStats> {
   /// Aggregated stats for a specific SDG from the
   /// denormalized sdgStats map on the user document.
-  SdgStatsProvider._(
-      {required SdgStatsFamily super.from, required int super.argument})
-      : super(
-          retry: null,
-          name: r'sdgStatsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  SdgStatsProvider._({
+    required SdgStatsFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'sdgStatsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$sdgStatsHash();
@@ -50,10 +51,7 @@ final class SdgStatsProvider
   @override
   SdgStats create(Ref ref) {
     final argument = this.argument as int;
-    return sdgStats(
-      ref,
-      argument,
-    );
+    return sdgStats(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -83,20 +81,18 @@ String _$sdgStatsHash() => r'83d105172f465f50195f9f82a90495fa57b05a38';
 final class SdgStatsFamily extends $Family
     with $FunctionalFamilyOverride<SdgStats, int> {
   SdgStatsFamily._()
-      : super(
-          retry: null,
-          name: r'sdgStatsProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'sdgStatsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Aggregated stats for a specific SDG from the
   /// denormalized sdgStats map on the user document.
 
-  SdgStatsProvider call(
-    int sdgNumber,
-  ) =>
+  SdgStatsProvider call(int sdgNumber) =>
       SdgStatsProvider._(argument: sdgNumber, from: this);
 
   @override
@@ -112,22 +108,26 @@ final sdgRelatedActionsProvider = SdgRelatedActionsFamily._();
 /// Filters the action library to only actions related
 /// to a specific SDG.
 
-final class SdgRelatedActionsProvider extends $FunctionalProvider<
-    List<ActionModel>,
-    List<ActionModel>,
-    List<ActionModel>> with $Provider<List<ActionModel>> {
+final class SdgRelatedActionsProvider
+    extends
+        $FunctionalProvider<
+          List<ActionModel>,
+          List<ActionModel>,
+          List<ActionModel>
+        >
+    with $Provider<List<ActionModel>> {
   /// Filters the action library to only actions related
   /// to a specific SDG.
-  SdgRelatedActionsProvider._(
-      {required SdgRelatedActionsFamily super.from,
-      required int super.argument})
-      : super(
-          retry: null,
-          name: r'sdgRelatedActionsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  SdgRelatedActionsProvider._({
+    required SdgRelatedActionsFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'sdgRelatedActionsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$sdgRelatedActionsHash();
@@ -142,16 +142,13 @@ final class SdgRelatedActionsProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<List<ActionModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   List<ActionModel> create(Ref ref) {
     final argument = this.argument as int;
-    return sdgRelatedActions(
-      ref,
-      argument,
-    );
+    return sdgRelatedActions(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -173,7 +170,7 @@ final class SdgRelatedActionsProvider extends $FunctionalProvider<
   }
 }
 
-String _$sdgRelatedActionsHash() => r'926fc5e2e214f61ee6031c57460c7a2c9274c278';
+String _$sdgRelatedActionsHash() => r'fe21ad45a7063d9ed583a10fecd5340026161496';
 
 /// Filters the action library to only actions related
 /// to a specific SDG.
@@ -181,20 +178,18 @@ String _$sdgRelatedActionsHash() => r'926fc5e2e214f61ee6031c57460c7a2c9274c278';
 final class SdgRelatedActionsFamily extends $Family
     with $FunctionalFamilyOverride<List<ActionModel>, int> {
   SdgRelatedActionsFamily._()
-      : super(
-          retry: null,
-          name: r'sdgRelatedActionsProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'sdgRelatedActionsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Filters the action library to only actions related
   /// to a specific SDG.
 
-  SdgRelatedActionsProvider call(
-    int sdgNumber,
-  ) =>
+  SdgRelatedActionsProvider call(int sdgNumber) =>
       SdgRelatedActionsProvider._(argument: sdgNumber, from: this);
 
   @override

@@ -101,6 +101,9 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
     final assetPath = ref.watch(activeMascotAssetPathProvider);
+    final artboardName = ref.watch(
+      activeStageDataProvider.select((stage) => stage?.artboardName),
+    );
 
     return CelebrationOverlay(
       children: [
@@ -137,13 +140,13 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                   children: [
                     // Title
                     Text(
-                      l10n.streakMilestoneTitle,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
+                          l10n.streakMilestoneTitle,
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
                         .animate()
                         .fadeIn(delay: 100.ms, duration: 400.ms)
                         .slideY(begin: -0.2, end: 0),
@@ -157,21 +160,21 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                         children: [
                           // Glow effect
                           Container(
-                            width: 160,
-                            height: 160,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.gold.withValues(
-                                    alpha: opacityMedium,
-                                  ),
-                                  blurRadius: 40,
-                                  spreadRadius: 10,
+                                width: 160,
+                                height: 160,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.gold.withValues(
+                                        alpha: opacityMedium,
+                                      ),
+                                      blurRadius: 40,
+                                      spreadRadius: 10,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
+                              )
                               .animate()
                               .fadeIn(delay: 300.ms, duration: 500.ms)
                               .scale(
@@ -181,10 +184,11 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
 
                           // Mascot (bouncing)
                           MascotImage(
-                            assetPath: assetPath,
-                            width: 140,
-                            height: 140,
-                          )
+                                assetPath: assetPath,
+                                artboardName: artboardName,
+                                width: 140,
+                                height: 140,
+                              )
                               .animate()
                               .fadeIn(delay: 400.ms, duration: 400.ms)
                               .scale(
@@ -195,9 +199,8 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                               )
                               .then() // Chain animation
                               .animate(
-                                onPlay: (controller) => controller.repeat(
-                                  reverse: true,
-                                ),
+                                onPlay: (controller) =>
+                                    controller.repeat(reverse: true),
                               )
                               .moveY(
                                 begin: 0,
@@ -212,46 +215,50 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
 
                     // Week streak badge
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingXxl,
-                        vertical: spacingMd,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            AppColors.gold,
-                            AppColors.celebrationOrange,
-                          ],
-                        ),
-                        borderRadius: borderRadiusXxl,
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                AppColors.gold.withValues(alpha: opacityMedium),
-                            blurRadius: 16,
-                            spreadRadius: 2,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: spacingXxl,
+                            vertical: spacingMd,
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.local_fire_department,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          const SizedBox(width: spacingSm),
-                          Text(
-                            l10n.streakMilestoneWeeks(widget.weekNumber),
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.gold,
+                                AppColors.celebrationOrange,
+                              ],
                             ),
+                            borderRadius: borderRadiusXxl,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.gold.withValues(
+                                  alpha: opacityMedium,
+                                ),
+                                blurRadius: 16,
+                                spreadRadius: 2,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ).animate().fadeIn(delay: 700.ms, duration: 400.ms).scale(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.local_fire_department,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              const SizedBox(width: spacingSm),
+                              Text(
+                                l10n.streakMilestoneWeeks(widget.weekNumber),
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(delay: 700.ms, duration: 400.ms)
+                        .scale(
                           begin: const Offset(0.5, 0.5),
                           end: const Offset(1, 1),
                           curve: Curves.elasticOut,
@@ -285,18 +292,18 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                     // Continue button
                     if (_showButton)
                       FilledButton(
-                        onPressed: _handleDismiss,
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: spacingHuge,
-                            vertical: spacingLg,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: borderRadiusLg,
-                          ),
-                        ),
-                        child: Text(l10n.streakMilestoneContinue),
-                      )
+                            onPressed: _handleDismiss,
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: spacingHuge,
+                                vertical: spacingLg,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: borderRadiusLg,
+                              ),
+                            ),
+                            child: Text(l10n.streakMilestoneContinue),
+                          )
                           .animate()
                           .fadeIn(duration: 400.ms)
                           .slideY(begin: 0.3, end: 0),

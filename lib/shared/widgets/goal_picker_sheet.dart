@@ -160,9 +160,7 @@ class _GoalPickerSheetState extends State<GoalPickerSheet> {
               _buildOption(_customOption, l10n.goalPickerCustomOption),
               if (_selected == _customOption)
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: spacingXxl,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
                   child: TextField(
                     controller: _customController,
                     autofocus: true,

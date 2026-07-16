@@ -31,10 +31,7 @@ class SettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showTopDivider)
-          Divider(
-            color: colorScheme.outlineVariant,
-            height: spacingXxxl,
-          ),
+          Divider(color: colorScheme.outlineVariant, height: spacingXxxl),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: spacingLg,

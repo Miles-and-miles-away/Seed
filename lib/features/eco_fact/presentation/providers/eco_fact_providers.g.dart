@@ -21,23 +21,28 @@ final ecoFactsProvider = EcoFactsProvider._();
 /// keepAlive: static bundled data; autoDispose would re-parse the
 /// 440 KB asset on every screen revisit.
 
-final class EcoFactsProvider extends $FunctionalProvider<
-        AsyncValue<List<EcoFact>>, List<EcoFact>, FutureOr<List<EcoFact>>>
+final class EcoFactsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EcoFact>>,
+          List<EcoFact>,
+          FutureOr<List<EcoFact>>
+        >
     with $FutureModifier<List<EcoFact>>, $FutureProvider<List<EcoFact>> {
   /// Loads and caches all eco-facts from the JSON asset.
   ///
   /// keepAlive: static bundled data; autoDispose would re-parse the
   /// 440 KB asset on every screen revisit.
   EcoFactsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoFactsProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoFactsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoFactsHash();
@@ -45,8 +50,8 @@ final class EcoFactsProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<EcoFact>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<EcoFact>> create(Ref ref) {
@@ -63,20 +68,21 @@ final todayEcoFactProvider = TodayEcoFactProvider._();
 
 /// Today's eco-fact based on the day of year.
 
-final class TodayEcoFactProvider extends $FunctionalProvider<
-        AsyncValue<EcoFact?>, EcoFact?, FutureOr<EcoFact?>>
+final class TodayEcoFactProvider
+    extends
+        $FunctionalProvider<AsyncValue<EcoFact?>, EcoFact?, FutureOr<EcoFact?>>
     with $FutureModifier<EcoFact?>, $FutureProvider<EcoFact?> {
   /// Today's eco-fact based on the day of year.
   TodayEcoFactProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'todayEcoFactProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todayEcoFactProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$todayEcoFactHash();
@@ -102,18 +108,19 @@ final isTodayFactViewedProvider = IsTodayFactViewedProvider._();
 /// Whether today's fact has been viewed.
 
 final class IsTodayFactViewedProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether today's fact has been viewed.
   IsTodayFactViewedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'isTodayFactViewedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isTodayFactViewedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$isTodayFactViewedHash();
@@ -147,18 +154,19 @@ final isEcoFactLockedProvider = IsEcoFactLockedProvider._();
 /// Whether the eco-fact is locked behind challenge completion.
 
 final class IsEcoFactLockedProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether the eco-fact is locked behind challenge completion.
   IsEcoFactLockedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'isEcoFactLockedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isEcoFactLockedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$isEcoFactLockedHash();
@@ -195,15 +203,15 @@ final class HasUnreadFactProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// True when the user has an unread, unlocked fact (drives red dot).
   HasUnreadFactProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hasUnreadFactProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hasUnreadFactProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hasUnreadFactHash();
@@ -242,10 +250,13 @@ final ecoFactInboxProvider = EcoFactInboxProvider._();
 /// metaphor. Future mail types (announcements etc.) can be merged in
 /// later.
 
-final class EcoFactInboxProvider extends $FunctionalProvider<
-        AsyncValue<List<EcoFactInboxItem>>,
-        List<EcoFactInboxItem>,
-        FutureOr<List<EcoFactInboxItem>>>
+final class EcoFactInboxProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EcoFactInboxItem>>,
+          List<EcoFactInboxItem>,
+          FutureOr<List<EcoFactInboxItem>>
+        >
     with
         $FutureModifier<List<EcoFactInboxItem>>,
         $FutureProvider<List<EcoFactInboxItem>> {
@@ -254,15 +265,15 @@ final class EcoFactInboxProvider extends $FunctionalProvider<
   /// metaphor. Future mail types (announcements etc.) can be merged in
   /// later.
   EcoFactInboxProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoFactInboxProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoFactInboxProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoFactInboxHash();
@@ -270,8 +281,8 @@ final class EcoFactInboxProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<EcoFactInboxItem>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<EcoFactInboxItem>> create(Ref ref) {
@@ -291,15 +302,15 @@ final class FactViewedNotifierProvider
     extends $NotifierProvider<FactViewedNotifier, AsyncValue<void>> {
   /// Notifier to mark an eco-fact as viewed.
   FactViewedNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'factViewedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'factViewedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$factViewedNotifierHash();
@@ -328,11 +339,14 @@ abstract class _$FactViewedNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

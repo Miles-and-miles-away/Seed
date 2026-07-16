@@ -23,8 +23,13 @@ final ecoDexDataProvider = EcoDexDataProvider._();
 /// 160 KB asset on every revisit (and after every logged action via
 /// the discovery check).
 
-final class EcoDexDataProvider extends $FunctionalProvider<
-        AsyncValue<EcoDexData>, EcoDexData, FutureOr<EcoDexData>>
+final class EcoDexDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<EcoDexData>,
+          EcoDexData,
+          FutureOr<EcoDexData>
+        >
     with $FutureModifier<EcoDexData>, $FutureProvider<EcoDexData> {
   /// Loads and caches all Eco-Dex data from the JSON asset.
   ///
@@ -32,15 +37,15 @@ final class EcoDexDataProvider extends $FunctionalProvider<
   /// 160 KB asset on every revisit (and after every logged action via
   /// the discovery check).
   EcoDexDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexDataProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexDataHash();
@@ -67,21 +72,26 @@ final ecoDexAvailableIconsProvider = EcoDexAvailableIconsProvider._();
 /// Set of entry icon names whose SVG ships in the asset bundle.
 /// Missing entries fall back to a blank white placeholder.
 
-final class EcoDexAvailableIconsProvider extends $FunctionalProvider<
-        AsyncValue<Set<String>>, Set<String>, FutureOr<Set<String>>>
+final class EcoDexAvailableIconsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Set<String>>,
+          Set<String>,
+          FutureOr<Set<String>>
+        >
     with $FutureModifier<Set<String>>, $FutureProvider<Set<String>> {
   /// Set of entry icon names whose SVG ships in the asset bundle.
   /// Missing entries fall back to a blank white placeholder.
   EcoDexAvailableIconsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexAvailableIconsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexAvailableIconsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexAvailableIconsHash();
@@ -89,8 +99,8 @@ final class EcoDexAvailableIconsProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<Set<String>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Set<String>> create(Ref ref) {
@@ -113,15 +123,15 @@ final class EcoDexDiscoveredProvider
     with $Provider<List<String>> {
   /// User's set of discovered Eco-Dex entry IDs.
   EcoDexDiscoveredProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexDiscoveredProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexDiscoveredProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexDiscoveredHash();
@@ -155,18 +165,19 @@ final ecoDexDiscoveredCountProvider = EcoDexDiscoveredCountProvider._();
 /// Total discovered count for progress display.
 
 final class EcoDexDiscoveredCountProvider
-    extends $FunctionalProvider<int, int, int> with $Provider<int> {
+    extends $FunctionalProvider<int, int, int>
+    with $Provider<int> {
   /// Total discovered count for progress display.
   EcoDexDiscoveredCountProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexDiscoveredCountProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexDiscoveredCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexDiscoveredCountHash();
@@ -200,24 +211,27 @@ final ecoDexEntriesProvider = EcoDexEntriesProvider._();
 
 /// All entries with their discovered state.
 
-final class EcoDexEntriesProvider extends $FunctionalProvider<
-        AsyncValue<List<EcoDexEntryState>>,
-        List<EcoDexEntryState>,
-        FutureOr<List<EcoDexEntryState>>>
+final class EcoDexEntriesProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EcoDexEntryState>>,
+          List<EcoDexEntryState>,
+          FutureOr<List<EcoDexEntryState>>
+        >
     with
         $FutureModifier<List<EcoDexEntryState>>,
         $FutureProvider<List<EcoDexEntryState>> {
   /// All entries with their discovered state.
   EcoDexEntriesProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexEntriesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexEntriesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexEntriesHash();
@@ -225,8 +239,8 @@ final class EcoDexEntriesProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<EcoDexEntryState>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<EcoDexEntryState>> create(Ref ref) {
@@ -243,24 +257,27 @@ final ecoDexEntriesByCategoryProvider = EcoDexEntriesByCategoryFamily._();
 
 /// Entries filtered by category.
 
-final class EcoDexEntriesByCategoryProvider extends $FunctionalProvider<
-        AsyncValue<List<EcoDexEntryState>>,
-        List<EcoDexEntryState>,
-        FutureOr<List<EcoDexEntryState>>>
+final class EcoDexEntriesByCategoryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EcoDexEntryState>>,
+          List<EcoDexEntryState>,
+          FutureOr<List<EcoDexEntryState>>
+        >
     with
         $FutureModifier<List<EcoDexEntryState>>,
         $FutureProvider<List<EcoDexEntryState>> {
   /// Entries filtered by category.
-  EcoDexEntriesByCategoryProvider._(
-      {required EcoDexEntriesByCategoryFamily super.from,
-      required String super.argument})
-      : super(
-          retry: null,
-          name: r'ecoDexEntriesByCategoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  EcoDexEntriesByCategoryProvider._({
+    required EcoDexEntriesByCategoryFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'ecoDexEntriesByCategoryProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexEntriesByCategoryHash();
@@ -275,16 +292,13 @@ final class EcoDexEntriesByCategoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<EcoDexEntryState>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<EcoDexEntryState>> create(Ref ref) {
     final argument = this.argument as String;
-    return ecoDexEntriesByCategory(
-      ref,
-      argument,
-    );
+    return ecoDexEntriesByCategory(ref, argument);
   }
 
   @override
@@ -307,19 +321,17 @@ String _$ecoDexEntriesByCategoryHash() =>
 final class EcoDexEntriesByCategoryFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<EcoDexEntryState>>, String> {
   EcoDexEntriesByCategoryFamily._()
-      : super(
-          retry: null,
-          name: r'ecoDexEntriesByCategoryProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'ecoDexEntriesByCategoryProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Entries filtered by category.
 
-  EcoDexEntriesByCategoryProvider call(
-    String category,
-  ) =>
+  EcoDexEntriesByCategoryProvider call(String category) =>
       EcoDexEntriesByCategoryProvider._(argument: category, from: this);
 
   @override
@@ -333,76 +345,39 @@ final ecoDexCategoryProgressProvider = EcoDexCategoryProgressProvider._();
 
 /// Per-category progress (discovered / total).
 
-final class EcoDexCategoryProgressProvider extends $FunctionalProvider<
-        AsyncValue<
-            Map<
-                String,
-                (
-                  int,
-                  int,
-                )>>,
-        Map<
-            String,
-            (
-              int,
-              int,
-            )>,
-        FutureOr<
-            Map<
-                String,
-                (
-                  int,
-                  int,
-                )>>>
+final class EcoDexCategoryProgressProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Map<String, (int, int)>>,
+          Map<String, (int, int)>,
+          FutureOr<Map<String, (int, int)>>
+        >
     with
-        $FutureModifier<
-            Map<
-                String,
-                (
-                  int,
-                  int,
-                )>>,
-        $FutureProvider<
-            Map<
-                String,
-                (
-                  int,
-                  int,
-                )>> {
+        $FutureModifier<Map<String, (int, int)>>,
+        $FutureProvider<Map<String, (int, int)>> {
   /// Per-category progress (discovered / total).
   EcoDexCategoryProgressProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexCategoryProgressProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexCategoryProgressProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexCategoryProgressHash();
 
   @$internal
   @override
-  $FutureProviderElement<
-      Map<
-          String,
-          (
-            int,
-            int,
-          )>> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<Map<String, (int, int)>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<
-      Map<
-          String,
-          (
-            int,
-            int,
-          )>> create(Ref ref) {
+  FutureOr<Map<String, (int, int)>> create(Ref ref) {
     return ecoDexCategoryProgress(ref);
   }
 }
@@ -419,21 +394,26 @@ final ecoDexNewUnlocksProvider = EcoDexNewUnlocksProvider._();
 /// Evaluates which entries a user can unlock but hasn't yet.
 /// Returns IDs of newly unlockable entries.
 
-final class EcoDexNewUnlocksProvider extends $FunctionalProvider<
-        AsyncValue<List<String>>, List<String>, FutureOr<List<String>>>
+final class EcoDexNewUnlocksProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<String>>,
+          List<String>,
+          FutureOr<List<String>>
+        >
     with $FutureModifier<List<String>>, $FutureProvider<List<String>> {
   /// Evaluates which entries a user can unlock but hasn't yet.
   /// Returns IDs of newly unlockable entries.
   EcoDexNewUnlocksProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexNewUnlocksProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexNewUnlocksProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexNewUnlocksHash();
@@ -441,8 +421,8 @@ final class EcoDexNewUnlocksProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<String>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<String>> create(Ref ref) {
@@ -462,15 +442,15 @@ final class EcoDexDiscoveryNotifierProvider
     extends $NotifierProvider<EcoDexDiscoveryNotifier, AsyncValue<void>> {
   /// Notifier for discovering new Eco-Dex entries.
   EcoDexDiscoveryNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ecoDexDiscoveryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ecoDexDiscoveryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ecoDexDiscoveryNotifierHash();
@@ -499,11 +479,14 @@ abstract class _$EcoDexDiscoveryNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

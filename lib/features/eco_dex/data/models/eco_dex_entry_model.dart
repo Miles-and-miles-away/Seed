@@ -56,20 +56,20 @@ class EcoDexEntry {
   final String hintEs;
 
   String name(String locale) => switch (locale) {
-        'ja' => nameJa,
-        'es' when nameEs.isNotEmpty => nameEs,
-        _ => nameEn,
-      };
+    'ja' => nameJa,
+    'es' when nameEs.isNotEmpty => nameEs,
+    _ => nameEn,
+  };
 
   String fact(String locale) => switch (locale) {
-        'ja' when factJa.isNotEmpty => factJa,
-        'es' when factEs.isNotEmpty => factEs,
-        _ => factEn,
-      };
+    'ja' when factJa.isNotEmpty => factJa,
+    'es' when factEs.isNotEmpty => factEs,
+    _ => factEn,
+  };
 
   String hint(String locale) => switch (locale) {
-        'ja' when hintJa.isNotEmpty => hintJa,
-        'es' when hintEs.isNotEmpty => hintEs,
-        _ => hintEn,
-      };
+    'ja' when hintJa.isNotEmpty => hintJa,
+    'es' when hintEs.isNotEmpty => hintEs,
+    _ => hintEn,
+  };
 }

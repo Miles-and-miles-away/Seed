@@ -11,7 +11,7 @@ import '../models/user_settings_model.dart';
 /// at the 'settings' field, rather than a separate subcollection.
 class SettingsRepository {
   SettingsRepository({required FirebaseFirestore firestore})
-      : _firestore = firestore;
+    : _firestore = firestore;
 
   final FirebaseFirestore _firestore;
 
@@ -45,9 +45,9 @@ class SettingsRepository {
 
   /// Watches user settings for real-time updates.
   Stream<UserSettingsModel> watchSettings(String uid) {
-    return _userDoc(uid)
-        .snapshots()
-        .map((doc) => _settingsFromData(doc.data()));
+    return _userDoc(
+      uid,
+    ).snapshots().map((doc) => _settingsFromData(doc.data()));
   }
 
   /// Enables or disables all notifications.
@@ -93,8 +93,9 @@ class SettingsRepository {
   Future<void> markMilestoneSeen(String uid, int weekNumber) async {
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}'
-          '.${AppConstants.fieldSeenStreakMilestones}'
-          '.$weekNumber': true,
+              '.${AppConstants.fieldSeenStreakMilestones}'
+              '.$weekNumber':
+          true,
     });
   }
 
@@ -197,8 +198,8 @@ class SettingsRepository {
 
     final schedules =
         (settingsData[AppConstants.fieldReminderSchedules] as List<dynamic>?)
-                ?.cast<Map<String, dynamic>>() ??
-            [];
+            ?.cast<Map<String, dynamic>>() ??
+        [];
 
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}.${AppConstants.fieldReminderSchedules}':

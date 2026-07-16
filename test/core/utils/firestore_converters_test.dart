@@ -27,10 +27,7 @@ void main() {
       final date = DateTime.utc(2026, 4, 19, 12, 30);
       final roundTripped = converter.fromJson(converter.toJson(date));
 
-      expect(
-        roundTripped!.millisecondsSinceEpoch,
-        date.millisecondsSinceEpoch,
-      );
+      expect(roundTripped!.millisecondsSinceEpoch, date.millisecondsSinceEpoch);
     });
   });
 

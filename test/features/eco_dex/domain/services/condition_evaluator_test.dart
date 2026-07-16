@@ -6,10 +6,8 @@ import 'package:seed_app/features/eco_dex/domain/services/condition_evaluator.da
 
 void main() {
   /// Minimal user with all defaults (zeroed stats).
-  AppUserModel baseUser() => const AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+  AppUserModel baseUser() =>
+      const AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
   group('isConditionMet', () {
     // ---------------------------------------------------------------
@@ -48,23 +46,17 @@ void main() {
       });
 
       test('false when below threshold', () {
-        final user = baseUser().copyWith(
-          categoryActionCounts: {'food': 4},
-        );
+        final user = baseUser().copyWith(categoryActionCounts: {'food': 4});
         expect(isConditionMet(condition, user), isFalse);
       });
 
       test('true when at threshold', () {
-        final user = baseUser().copyWith(
-          categoryActionCounts: {'food': 5},
-        );
+        final user = baseUser().copyWith(categoryActionCounts: {'food': 5});
         expect(isConditionMet(condition, user), isTrue);
       });
 
       test('ignores other categories', () {
-        final user = baseUser().copyWith(
-          categoryActionCounts: {'energy': 100},
-        );
+        final user = baseUser().copyWith(categoryActionCounts: {'energy': 100});
         expect(isConditionMet(condition, user), isFalse);
       });
     });
@@ -207,11 +199,7 @@ void main() {
 
       test('true when at threshold', () {
         final user = baseUser().copyWith(
-          viewedFactDates: [
-            '2026-01-01',
-            '2026-01-02',
-            '2026-01-03',
-          ],
+          viewedFactDates: ['2026-01-01', '2026-01-02', '2026-01-03'],
         );
         expect(isConditionMet(condition, user), isTrue);
       });
@@ -239,11 +227,7 @@ void main() {
 
       test('true when at threshold', () {
         final user = baseUser().copyWith(
-          categoryActionCounts: {
-            'food': 5,
-            'energy': 2,
-            'water': 1,
-          },
+          categoryActionCounts: {'food': 5, 'energy': 2, 'water': 1},
         );
         expect(isConditionMet(condition, user), isTrue);
       });
@@ -347,9 +331,7 @@ void main() {
     });
 
     test('returns count for present category', () {
-      final user = baseUser().copyWith(
-        categoryActionCounts: {'food': 12},
-      );
+      final user = baseUser().copyWith(categoryActionCounts: {'food': 12});
       expect(categoryActionCount(user, 'food'), 12);
     });
   });

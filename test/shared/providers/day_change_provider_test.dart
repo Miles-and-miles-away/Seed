@@ -9,17 +9,12 @@ import 'package:seed_app/shared/providers/day_change_provider.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final testUser = AppUserModel(
-    uid: 'test-uid',
-    email: 'test@example.com',
-  );
+  final testUser = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
   ProviderContainer createContainer() {
     return ProviderContainer(
       overrides: [
-        currentUserProvider.overrideWith(
-          (_) => Stream.value(testUser),
-        ),
+        currentUserProvider.overrideWith((_) => Stream.value(testUser)),
       ],
     );
   }

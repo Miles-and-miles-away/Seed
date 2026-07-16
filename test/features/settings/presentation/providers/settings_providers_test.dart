@@ -13,16 +13,14 @@ ProviderContainer _container(UserSettingsModel settings) {
 }
 
 Future<void> _pump(ProviderContainer c) async {
-  c.listen(userSettingsProvider, (_, __) {});
+  c.listen(userSettingsProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
 void main() {
   group('derived settings selectors', () {
     test('currentLanguageProvider reflects the settings language', () async {
-      final c = _container(
-        const UserSettingsModel(language: 'ja'),
-      );
+      final c = _container(const UserSettingsModel(language: 'ja'));
       addTearDown(c.dispose);
       await _pump(c);
 
@@ -50,9 +48,7 @@ void main() {
     });
 
     test('analyticsEnabledProvider mirrors the setting', () async {
-      final c = _container(
-        const UserSettingsModel(analyticsEnabled: false),
-      );
+      final c = _container(const UserSettingsModel(analyticsEnabled: false));
       addTearDown(c.dispose);
       await _pump(c);
 

@@ -30,11 +30,7 @@ class MyGoalCard extends ConsumerWidget {
           padding: const EdgeInsets.all(spacingLg),
           child: Row(
             children: [
-              Icon(
-                Icons.flag_outlined,
-                color: colorScheme.primary,
-                size: 32,
-              ),
+              Icon(Icons.flag_outlined, color: colorScheme.primary, size: 32),
               const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(

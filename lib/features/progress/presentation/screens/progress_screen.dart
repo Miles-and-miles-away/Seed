@@ -53,11 +53,11 @@ class ProgressScreen extends ConsumerWidget {
 enum _ProgressSegment { calendar, impact, ecoDex }
 
 _ProgressSegment? _segmentFromTab(String? tab) => switch (tab) {
-      progressTabCalendar => _ProgressSegment.calendar,
-      progressTabImpact => _ProgressSegment.impact,
-      progressTabEcoDex => _ProgressSegment.ecoDex,
-      _ => null,
-    };
+  progressTabCalendar => _ProgressSegment.calendar,
+  progressTabImpact => _ProgressSegment.impact,
+  progressTabEcoDex => _ProgressSegment.ecoDex,
+  _ => null,
+};
 
 class _ProgressContent extends ConsumerStatefulWidget {
   const _ProgressContent({this.initialTab});
@@ -96,10 +96,7 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.progressTitle),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(l10n.progressTitle), centerTitle: true),
       body: Column(
         children: [
           // Segmented control
@@ -139,8 +136,10 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
           // Content
           Expanded(
             child: switch (_segment) {
-              _ProgressSegment.calendar =>
-                _CalendarView(theme: theme, l10n: l10n),
+              _ProgressSegment.calendar => _CalendarView(
+                theme: theme,
+                l10n: l10n,
+              ),
               _ProgressSegment.impact => const ImpactDashboard(),
               _ProgressSegment.ecoDex => const EcoDexScreen(),
             },
@@ -152,10 +151,7 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
 }
 
 class _CalendarView extends ConsumerWidget {
-  const _CalendarView({
-    required this.theme,
-    required this.l10n,
-  });
+  const _CalendarView({required this.theme, required this.l10n});
 
   final ThemeData theme;
   final AppLocalizations l10n;
@@ -193,10 +189,8 @@ class _CalendarView extends ConsumerWidget {
                   sdgColors: sdgColors,
                 );
               },
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              error: (_, __) => Center(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (_, _) => Center(
                 child: ErrorDisplay(
                   onRetry: () => ref.invalidate(todaySummaryProvider),
                 ),
@@ -206,21 +200,14 @@ class _CalendarView extends ConsumerWidget {
 
           // Today's stats
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingXxl,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
             child: todaySummaryAsync.when(
               data: (summary) {
                 final goalCount = summary?.goalCount ?? 0;
-                return _buildTodayStats(
-                  theme,
-                  l10n,
-                  goalCount,
-                  goalTarget,
-                );
+                return _buildTodayStats(theme, l10n, goalCount, goalTarget);
               },
               loading: () => const SizedBox.shrink(),
-              error: (_, __) => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
             ),
           ),
 
@@ -228,9 +215,7 @@ class _CalendarView extends ConsumerWidget {
 
           // Calendar section
           Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: spacingLg,
-            ),
+            margin: const EdgeInsets.symmetric(horizontal: spacingLg),
             padding: const EdgeInsets.all(spacingLg),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerLow,
@@ -265,21 +250,18 @@ class _CalendarView extends ConsumerWidget {
                 text: '$goalCount',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color:
-                      isGoalMet ? colorScheme.primary : colorScheme.onSurface,
+                  color: isGoalMet
+                      ? colorScheme.primary
+                      : colorScheme.onSurface,
                 ),
               ),
               TextSpan(
                 text: ' / $goalTarget ',
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                style: TextStyle(color: colorScheme.onSurfaceVariant),
               ),
               TextSpan(
                 text: l10n.progressGoalsToday,
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                style: TextStyle(color: colorScheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -298,11 +280,7 @@ class _CalendarView extends ConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.celebration,
-                  size: 20,
-                  color: colorScheme.primary,
-                ),
+                Icon(Icons.celebration, size: 20, color: colorScheme.primary),
                 const SizedBox(width: spacingSm),
                 Text(
                   l10n.progressGoalReached,

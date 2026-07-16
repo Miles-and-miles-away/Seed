@@ -13,9 +13,9 @@ import 'package:seed_app/core/utils/app_logger.dart';
 /// Handles FCM token management and message handling.
 class FCMService {
   FCMService._()
-      : _messagingOverride = null,
-        _firestoreOverride = null,
-        _authOverride = null;
+    : _messagingOverride = null,
+      _firestoreOverride = null,
+      _authOverride = null;
 
   /// Test seam: unit tests inject mocks because the real Firebase
   /// singletons require platform channels and Firebase.initializeApp.
@@ -24,9 +24,9 @@ class FCMService {
     FirebaseMessaging? messaging,
     FirebaseFirestore? firestore,
     FirebaseAuth? auth,
-  })  : _messagingOverride = messaging,
-        _firestoreOverride = firestore,
-        _authOverride = auth;
+  }) : _messagingOverride = messaging,
+       _firestoreOverride = firestore,
+       _authOverride = auth;
 
   static final FCMService _instance = FCMService._();
   static FCMService get instance => _instance;

@@ -72,11 +72,11 @@ class EquivalencyCard extends StatelessWidget {
   }
 
   IconData _iconFor(EquivalencyType type) => switch (type) {
-        EquivalencyType.trees => Icons.park,
-        EquivalencyType.carKm => Icons.directions_car_outlined,
-        EquivalencyType.phoneCharges => Icons.battery_charging_full,
-        EquivalencyType.burgers => Icons.lunch_dining,
-      };
+    EquivalencyType.trees => Icons.park,
+    EquivalencyType.carKm => Icons.directions_car_outlined,
+    EquivalencyType.phoneCharges => Icons.battery_charging_full,
+    EquivalencyType.burgers => Icons.lunch_dining,
+  };
 
   String _labelFor(EquivalencyType type, AppLocalizations l10n) =>
       switch (type) {

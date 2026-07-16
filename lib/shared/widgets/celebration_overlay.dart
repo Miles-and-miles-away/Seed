@@ -42,8 +42,6 @@ Future<void> showCelebrationOverlay(
     context: context,
     barrierColor: Colors.transparent,
     transitionDuration: Duration.zero,
-    pageBuilder: (context, _, __) => builder(
-      () => Navigator.of(context).pop(),
-    ),
+    pageBuilder: (context, _, _) => builder(() => Navigator.of(context).pop()),
   );
 }

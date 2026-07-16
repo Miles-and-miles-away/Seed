@@ -34,9 +34,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
     super.initState();
     final midCycle = _REPEAT_COUNT ~/ 2;
     final offset = midCycle * _CYCLE_LENGTH * _ESTIMATED_CHIP_WIDTH;
-    _scrollController = ScrollController(
-      initialScrollOffset: offset,
-    );
+    _scrollController = ScrollController(initialScrollOffset: offset);
   }
 
   @override
@@ -64,9 +62,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: spacingLg,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: spacingLg),
         itemCount: cycleLength * _REPEAT_COUNT,
         itemBuilder: (context, index) {
           final i = index % cycleLength;
@@ -80,11 +76,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
                 label: Text(l10n.allCategories),
                 selected: isSelected,
                 onSelected: (_) {
-                  ref
-                      .read(
-                        selectedSdgFilterProvider.notifier,
-                      )
-                      .clear();
+                  ref.read(selectedSdgFilterProvider.notifier).clear();
                 },
                 labelStyle: TextStyle(
                   color: isSelected
@@ -95,9 +87,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
                 backgroundColor: theme.colorScheme.surfaceContainerHighest,
                 selectedColor: theme.colorScheme.primary,
                 checkmarkColor: theme.colorScheme.onPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: borderRadiusXl,
-                ),
+                shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
               ),
             );
           }
@@ -127,16 +117,10 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
               selected: isSelected,
               onSelected: (_) {
                 if (isSelected) {
-                  ref
-                      .read(
-                        selectedSdgFilterProvider.notifier,
-                      )
-                      .clear();
+                  ref.read(selectedSdgFilterProvider.notifier).clear();
                 } else {
                   ref
-                      .read(
-                        selectedSdgFilterProvider.notifier,
-                      )
+                      .read(selectedSdgFilterProvider.notifier)
                       .select(sdg.number);
                 }
               },
@@ -150,9 +134,7 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
               backgroundColor: theme.colorScheme.surfaceContainerHighest,
               selectedColor: sdg.color,
               checkmarkColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: borderRadiusXl,
-              ),
+              shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
             ),
           );
         },

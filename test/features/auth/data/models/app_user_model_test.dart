@@ -6,20 +6,14 @@ void main() {
   group('AppUserModel', () {
     group('construction', () {
       test('creates model with required fields', () {
-        const model = AppUserModel(
-          uid: 'user123',
-          email: 'test@example.com',
-        );
+        const model = AppUserModel(uid: 'user123', email: 'test@example.com');
 
         expect(model.uid, 'user123');
         expect(model.email, 'test@example.com');
       });
 
       test('has correct default values', () {
-        const model = AppUserModel(
-          uid: 'user123',
-          email: 'test@example.com',
-        );
+        const model = AppUserModel(uid: 'user123', email: 'test@example.com');
 
         expect(model.displayName, isNull);
         expect(model.photoUrl, isNull);
@@ -124,10 +118,7 @@ void main() {
       });
 
       test('defaults personalGoal to null', () {
-        final json = {
-          'uid': 'user123',
-          'email': 'test@example.com',
-        };
+        final json = {'uid': 'user123', 'email': 'test@example.com'};
 
         expect(AppUserModel.fromJson(json).personalGoal, isNull);
       });
@@ -196,30 +187,18 @@ void main() {
 
     group('equality', () {
       test('two models with same values are equal', () {
-        const model1 = AppUserModel(
-          uid: 'user123',
-          email: 'test@example.com',
-        );
+        const model1 = AppUserModel(uid: 'user123', email: 'test@example.com');
 
-        const model2 = AppUserModel(
-          uid: 'user123',
-          email: 'test@example.com',
-        );
+        const model2 = AppUserModel(uid: 'user123', email: 'test@example.com');
 
         expect(model1, equals(model2));
         expect(model1.hashCode, equals(model2.hashCode));
       });
 
       test('two models with different values are not equal', () {
-        const model1 = AppUserModel(
-          uid: 'user123',
-          email: 'test@example.com',
-        );
+        const model1 = AppUserModel(uid: 'user123', email: 'test@example.com');
 
-        const model2 = AppUserModel(
-          uid: 'user456',
-          email: 'test@example.com',
-        );
+        const model2 = AppUserModel(uid: 'user456', email: 'test@example.com');
 
         expect(model1, isNot(equals(model2)));
       });

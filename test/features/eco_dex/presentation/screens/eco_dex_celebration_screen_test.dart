@@ -140,15 +140,11 @@ void main() {
       expect(dismissed, 0);
     });
 
-    testWidgets('confetti stops repainting after fade-out completes',
-        (tester) async {
+    testWidgets('confetti stops repainting after fade-out completes', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        _wrap(
-          EcoDexCelebrationScreen(
-            entry: _entry('e1'),
-            onDismiss: () {},
-          ),
-        ),
+        _wrap(EcoDexCelebrationScreen(entry: _entry('e1'), onDismiss: () {})),
       );
 
       // Run past the confetti window (4s) plus the fade (600ms); the
@@ -168,9 +164,7 @@ void main() {
         _entry('third', nameEn: 'Third Up'),
       ];
 
-      await tester.pumpWidget(
-        _wrap(_CelebrationLauncher(entries: entries)),
-      );
+      await tester.pumpWidget(_wrap(_CelebrationLauncher(entries: entries)));
       await tester.tap(find.text('launch'));
       await tester.pump(const Duration(seconds: 2));
 
@@ -197,9 +191,7 @@ void main() {
     });
 
     testWidgets('empty list is a no-op (no dialog opens)', (tester) async {
-      await tester.pumpWidget(
-        _wrap(const _CelebrationLauncher(entries: [])),
-      );
+      await tester.pumpWidget(_wrap(const _CelebrationLauncher(entries: [])));
       await tester.tap(find.text('launch'));
       await tester.pump(const Duration(seconds: 1));
 

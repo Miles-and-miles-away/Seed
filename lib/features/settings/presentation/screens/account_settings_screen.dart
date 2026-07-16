@@ -44,12 +44,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     // Check if user signed in with email/password
     final isEmailPasswordUser =
         firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-            false;
+        false;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.accountSettingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.accountSettingsTitle)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -63,10 +61,12 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       SettingsTile(
                         leading: const Icon(Icons.person_outline),
                         title: l10n.accountSettingsDisplayName,
-                        subtitle: currentUser?.displayName ??
+                        subtitle:
+                            currentUser?.displayName ??
                             l10n.accountSettingsNotSet,
-                        subtitleWidget:
-                            isUserLoading ? const SkeletonLine() : null,
+                        subtitleWidget: isUserLoading
+                            ? const SkeletonLine()
+                            : null,
                         onTap: isUserLoading
                             ? null
                             : () => _showChangeDisplayNameDialog(context),
@@ -80,8 +80,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                                 currentUser!.personalGoal!,
                                 l10n,
                               ),
-                        subtitleWidget:
-                            isUserLoading ? const SkeletonLine() : null,
+                        subtitleWidget: isUserLoading
+                            ? const SkeletonLine()
+                            : null,
                         onTap: isUserLoading ? null : _showGoalPicker,
                       ),
                     ],
@@ -327,9 +328,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     } on Exception catch (e) {
       appLogger.error('Account: email update failed', error: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
       }
       return false;
     } finally {
@@ -444,9 +445,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     } on Exception catch (e) {
       appLogger.error('Account: password update failed', error: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
       }
       return false;
     } finally {
@@ -460,7 +461,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     final firebaseUser = ref.read(firebaseAuthProvider).currentUser;
     final isEmailPasswordUser =
         firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-            false;
+        false;
 
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -600,7 +601,8 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       controller: controller,
       decoration: InputDecoration(labelText: label),
       obscureText: true,
-      validator: validator ??
+      validator:
+          validator ??
           (value) {
             if (value == null || value.isEmpty) {
               return l10n.authValidationPasswordRequired;
@@ -637,9 +639,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     } on Exception catch (e) {
       appLogger.error('Account: account deletion failed', error: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
       }
       return false;
     } finally {

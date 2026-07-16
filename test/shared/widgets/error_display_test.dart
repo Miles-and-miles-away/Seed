@@ -6,15 +6,15 @@ import 'package:seed_app/shared/widgets/error_display.dart';
 
 void main() {
   Widget wrap(Widget child) => MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: Center(child: child)),
-      );
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: Scaffold(body: Center(child: child)),
+  );
 
   testWidgets('default form shows an icon and localized message', (
     tester,
@@ -31,31 +31,23 @@ void main() {
     expect(find.byIcon(Icons.error_outline), findsNothing);
   });
 
-  testWidgets('shows no retry button when onRetry is omitted', (
-    tester,
-  ) async {
+  testWidgets('shows no retry button when onRetry is omitted', (tester) async {
     await tester.pumpWidget(wrap(const ErrorDisplay()));
 
     expect(find.byType(FilledButton), findsNothing);
     expect(find.byType(TextButton), findsNothing);
   });
 
-  testWidgets('tapping the retry button invokes the callback', (
-    tester,
-  ) async {
+  testWidgets('tapping the retry button invokes the callback', (tester) async {
     var retries = 0;
-    await tester.pumpWidget(
-      wrap(ErrorDisplay(onRetry: () => retries++)),
-    );
+    await tester.pumpWidget(wrap(ErrorDisplay(onRetry: () => retries++)));
 
     expect(find.byIcon(Icons.refresh), findsOneWidget);
     await tester.tap(find.byType(FilledButton));
     expect(retries, 1);
   });
 
-  testWidgets('compact form shows a tappable retry button', (
-    tester,
-  ) async {
+  testWidgets('compact form shows a tappable retry button', (tester) async {
     var retries = 0;
     await tester.pumpWidget(
       wrap(ErrorDisplay(compact: true, onRetry: () => retries++)),
@@ -87,9 +79,7 @@ void main() {
         ],
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
-          colorScheme: const ColorScheme.light(
-            error: Color(0xFFCC0022),
-          ),
+          colorScheme: const ColorScheme.light(error: Color(0xFFCC0022)),
         ),
         home: const Scaffold(body: Center(child: ErrorDisplay())),
       ),

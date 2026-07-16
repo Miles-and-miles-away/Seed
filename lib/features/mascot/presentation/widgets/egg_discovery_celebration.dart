@@ -16,10 +16,7 @@ import '../providers/mascot_providers.dart';
 /// Modeled after EvolutionCelebration with the same overlay
 /// pattern -- confetti, dramatic entrance, and dismiss button.
 class EggDiscoveryCelebration extends ConsumerStatefulWidget {
-  const EggDiscoveryCelebration({
-    required this.onDismiss,
-    super.key,
-  });
+  const EggDiscoveryCelebration({required this.onDismiss, super.key});
 
   final VoidCallback onDismiss;
 
@@ -56,9 +53,7 @@ class _EggDiscoveryCelebrationState
 
   Future<void> _startAnimationSequence() async {
     unawaited(_particleController.repeat());
-    unawaited(
-      _glowController.repeat(reverse: true),
-    );
+    unawaited(_glowController.repeat(reverse: true));
 
     await Future<void>.delayed(durationNormal);
     if (mounted) setState(() => _showContent = true);
@@ -112,18 +107,15 @@ class _EggDiscoveryCelebrationState
 
                 // Title
                 Text(
-                  l10n.eggDiscoveryTitle,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(
-                      delay: 100.ms,
-                      duration: 400.ms,
+                      l10n.eggDiscoveryTitle,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     )
+                    .animate()
+                    .fadeIn(delay: 100.ms, duration: 400.ms)
                     .slideY(begin: -0.2, end: 0),
 
                 const Spacer(),
@@ -151,63 +143,49 @@ class _EggDiscoveryCelebrationState
                       child: child,
                     );
                   },
-                  child: const Icon(
-                    Icons.egg_outlined,
-                    size: 120,
-                    color: AppColors.eggBeige,
-                  )
-                      .animate()
-                      .fadeIn(
-                        delay: 500.ms,
-                        duration: 600.ms,
-                      )
-                      .scale(
-                        begin: const Offset(0.3, 0.3),
-                        end: const Offset(1, 1),
-                        curve: Curves.elasticOut,
-                        duration: 800.ms,
-                      ),
+                  child:
+                      const Icon(
+                            Icons.egg_outlined,
+                            size: 120,
+                            color: AppColors.eggBeige,
+                          )
+                          .animate()
+                          .fadeIn(delay: 500.ms, duration: 600.ms)
+                          .scale(
+                            begin: const Offset(0.3, 0.3),
+                            end: const Offset(1, 1),
+                            curve: Curves.elasticOut,
+                            duration: 800.ms,
+                          ),
                 ),
 
                 const Spacer(),
 
                 // Message
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: spacingXxxl,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: spacingXxxl),
                   child: Text(
-                    l10n.eggDiscoveryMessage(
-                      mascot?.name ?? '',
-                    ),
+                    l10n.eggDiscoveryMessage(mascot?.name ?? ''),
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.white,
                       height: 1.5,
                     ),
                     textAlign: TextAlign.center,
-                  ).animate().fadeIn(
-                        delay: 800.ms,
-                        duration: 400.ms,
-                      ),
+                  ).animate().fadeIn(delay: 800.ms, duration: 400.ms),
                 ),
 
                 const SizedBox(height: spacingMd),
 
                 // Subtitle
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: spacingHuge,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: spacingHuge),
                   child: Text(
                     l10n.eggDiscoverySubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
-                  ).animate().fadeIn(
-                        delay: 1000.ms,
-                        duration: 400.ms,
-                      ),
+                  ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
                 ),
 
                 const Spacer(flex: 2),
@@ -218,24 +196,23 @@ class _EggDiscoveryCelebrationState
                     padding: const EdgeInsets.symmetric(
                       horizontal: spacingHuge,
                     ),
-                    child: FilledButton(
-                      onPressed: _handleDismiss,
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacingHuge,
-                          vertical: spacingLg,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: borderRadiusLg,
-                        ),
-                      ),
-                      child: Text(
-                        l10n.eggDiscoveryDismiss,
-                      ),
-                    )
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.3, end: 0),
+                    child:
+                        FilledButton(
+                              onPressed: _handleDismiss,
+                              style: FilledButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: spacingHuge,
+                                  vertical: spacingLg,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: borderRadiusLg,
+                                ),
+                              ),
+                              child: Text(l10n.eggDiscoveryDismiss),
+                            )
+                            .animate()
+                            .fadeIn(duration: 400.ms)
+                            .slideY(begin: 0.3, end: 0),
                   ),
 
                 const SizedBox(height: spacingHuge),
@@ -276,10 +253,7 @@ class _Sparkle {
 }
 
 class _SparklePainter extends CustomPainter {
-  _SparklePainter({
-    required this.sparkles,
-    required this.progress,
-  });
+  _SparklePainter({required this.sparkles, required this.progress});
 
   final List<_Sparkle> sparkles;
   final double progress;
@@ -304,10 +278,7 @@ class _SparklePainter extends CustomPainter {
 }
 
 /// Shows the egg discovery celebration as a dialog overlay.
-Future<void> showEggDiscoveryCelebration(
-  BuildContext context,
-  WidgetRef ref,
-) {
+Future<void> showEggDiscoveryCelebration(BuildContext context, WidgetRef ref) {
   return showCelebrationOverlay(
     context,
     (onDismiss) => EggDiscoveryCelebration(onDismiss: onDismiss),

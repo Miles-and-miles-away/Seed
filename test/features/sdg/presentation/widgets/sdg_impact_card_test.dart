@@ -9,29 +9,26 @@ import 'package:seed_app/features/sdg/presentation/widgets/sdg_impact_card.dart'
 
 void main() {
   Widget wrap(Widget child, {AppUserModel? user}) => ProviderScope(
-        overrides: [
-          currentUserProvider.overrideWith((_) => Stream.value(user)),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: Padding(padding: const EdgeInsets.all(16), child: child),
-          ),
-        ),
-      );
-
-  testWidgets('shows zero counts when the user has no logged impact',
-      (tester) async {
-    await tester.pumpWidget(
-      wrap(
-        const SdgImpactCard(goalNumber: 7, goalColor: Colors.orange),
+    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+    child: MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(
+        body: Padding(padding: const EdgeInsets.all(16), child: child),
       ),
+    ),
+  );
+
+  testWidgets('shows zero counts when the user has no logged impact', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(const SdgImpactCard(goalNumber: 7, goalColor: Colors.orange)),
     );
     await tester.pump();
 

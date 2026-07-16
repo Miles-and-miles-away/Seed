@@ -88,10 +88,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                       children: [
                         const MascotDisplay(size: 220),
                         const SizedBox(height: spacingLg),
-                        _buildNameSection(
-                          mascot.name,
-                          colorScheme,
-                        ),
+                        _buildNameSection(mascot.name, colorScheme),
                         const SizedBox(height: spacingSm),
                         _buildStageBadge(
                           stageName ?? l10n.stageFallback(currentStage),
@@ -295,17 +292,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: mascots.length + (hasEgg ? 1 : 0),
-          separatorBuilder: (_, __) => const SizedBox(width: spacingMd),
+          separatorBuilder: (_, _) => const SizedBox(width: spacingMd),
           itemBuilder: (context, index) {
             if (index < mascots.length) {
               final m = mascots[index];
               final isActive = m.id == activeMascotId;
-              return _buildMascotThumbnail(
-                m,
-                isActive,
-                locale,
-                colorScheme,
-              );
+              return _buildMascotThumbnail(m, isActive, locale, colorScheme);
             }
             // Egg at the end
             return const EggProgressWidget();
@@ -338,10 +330,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               : colorScheme.surfaceContainerLow,
           borderRadius: borderRadiusMd,
           border: isActive
-              ? Border.all(
-                  color: colorScheme.primary,
-                  width: 2,
-                )
+              ? Border.all(color: colorScheme.primary, width: 2)
               : null,
         ),
         child: Column(
@@ -349,6 +338,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           children: [
             MascotImage(
               assetPath: stage.assetPath,
+              artboardName: stage.artboardName,
               width: 44,
               height: 44,
             ),
@@ -356,8 +346,8 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             Text(
               mascot.name.isEmpty ? species.name(locale) : mascot.name,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: isActive ? FontWeight.bold : null,
-                  ),
+                fontWeight: isActive ? FontWeight.bold : null,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -365,9 +355,9 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             Text(
               AppLocalizations.of(context).mascotLevelShort(mascot.mascotLevel),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontSize: 10,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                fontSize: 10,
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -376,11 +366,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   }
 
   MascotSpeciesModel? _getSpeciesForMascot(String id) {
-    final speciesList = ref
-        .read(
-          mascotSpeciesDataProvider,
-        )
-        .value;
+    final speciesList = ref.read(mascotSpeciesDataProvider).value;
     if (speciesList == null) return null;
     return getSpeciesById(id, speciesList);
   }
@@ -415,10 +401,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
   // Existing UI sections (adapted for mascotLevel)
   // =========================================================
 
-  Widget _buildNameSection(
-    String name,
-    ColorScheme colorScheme,
-  ) {
+  Widget _buildNameSection(String name, ColorScheme colorScheme) {
     if (_isRenaming) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -432,19 +415,16 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 maxLength: AppConstants.maxMascotNameLength,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
                 decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: spacingMd,
                     vertical: spacingSm,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: borderRadiusSm,
-                  ),
+                  border: OutlineInputBorder(borderRadius: borderRadiusSm),
                 ),
                 validator: (value) {
                   final l10n = AppLocalizations.of(context);
@@ -462,17 +442,11 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           const SizedBox(width: spacingSm),
           IconButton(
             onPressed: _submitRename,
-            icon: Icon(
-              Icons.check,
-              color: colorScheme.primary,
-            ),
+            icon: Icon(Icons.check, color: colorScheme.primary),
           ),
           IconButton(
             onPressed: _cancelRename,
-            icon: Icon(
-              Icons.close,
-              color: colorScheme.error,
-            ),
+            icon: Icon(Icons.close, color: colorScheme.error),
           ),
         ],
       );
@@ -483,19 +457,14 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
       children: [
         Text(
           name,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(width: spacingSm),
         IconButton(
           onPressed: _startRename,
-          icon: Icon(
-            Icons.edit,
-            size: 20,
-            color: colorScheme.onSurfaceVariant,
-          ),
+          icon: Icon(Icons.edit, size: 20, color: colorScheme.onSurfaceVariant),
           tooltip: AppLocalizations.of(context).mascotRename,
         ),
       ],
@@ -547,19 +516,15 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.star,
-            size: 18,
-            color: colorScheme.primary,
-          ),
+          Icon(Icons.star, size: 18, color: colorScheme.primary),
           const SizedBox(width: 6),
           Text(
             '$stageName'
             ' - ${l10n.levelLabel(mascotLevel)}',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -584,9 +549,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
             return Expanded(
               child: Container(
                 height: 4,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: spacingXs,
-                ),
+                margin: const EdgeInsets.symmetric(horizontal: spacingXs),
                 decoration: BoxDecoration(
                   color: isUnlocked
                       ? colorScheme.primary
@@ -635,15 +598,13 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         color: isCurrentStage
             ? colorScheme.primaryContainer
             : isUnlocked
-                ? colorScheme.surfaceContainerLow
-                : colorScheme.surfaceContainerHighest
-                    .withValues(alpha: opacityHalf),
+            ? colorScheme.surfaceContainerLow
+            : colorScheme.surfaceContainerHighest.withValues(
+                alpha: opacityHalf,
+              ),
         borderRadius: borderRadiusMd,
         border: isCurrentStage
-            ? Border.all(
-                color: colorScheme.primary,
-                width: 2,
-              )
+            ? Border.all(color: colorScheme.primary, width: 2)
             : null,
       ),
       child: Column(
@@ -651,7 +612,10 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
         children: [
           Expanded(
             child: isUnlocked
-                ? MascotImage(assetPath: stage.assetPath)
+                ? MascotImage(
+                    assetPath: stage.assetPath,
+                    artboardName: stage.artboardName,
+                  )
                 : ColorFiltered(
                     colorFilter: const ColorFilter.matrix(<double>[
                       0.2126,
@@ -675,20 +639,21 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                       0.4,
                       0,
                     ]),
-                    child: MascotImage(assetPath: stage.assetPath),
+                    child: MascotImage(
+                      assetPath: stage.assetPath,
+                      artboardName: stage.artboardName,
+                    ),
                   ),
           ),
           const SizedBox(height: spacingXs),
           Text(
             stageName,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: isUnlocked
-                      ? colorScheme.onSurface
-                      : colorScheme.onSurface.withValues(
-                          alpha: opacityHalf,
-                        ),
-                  fontWeight: isCurrentStage ? FontWeight.bold : null,
-                ),
+              color: isUnlocked
+                  ? colorScheme.onSurface
+                  : colorScheme.onSurface.withValues(alpha: opacityHalf),
+              fontWeight: isCurrentStage ? FontWeight.bold : null,
+            ),
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -696,13 +661,11 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           Text(
             AppLocalizations.of(context).mascotLevelShort(stage.level),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: isUnlocked
-                      ? colorScheme.primary
-                      : colorScheme.onSurface.withValues(
-                          alpha: opacityMedium,
-                        ),
-                  fontSize: 10,
-                ),
+              color: isUnlocked
+                  ? colorScheme.primary
+                  : colorScheme.onSurface.withValues(alpha: opacityMedium),
+              fontSize: 10,
+            ),
           ),
         ],
       ),
@@ -710,9 +673,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
 
     if (isCurrentStage) {
       card = card
-          .animate(
-            onPlay: (c) => c.repeat(reverse: true),
-          )
+          .animate(onPlay: (c) => c.repeat(reverse: true))
           .scale(
             begin: const Offset(1, 1),
             end: const Offset(1.02, 1.02),
@@ -747,18 +708,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            colorScheme.primaryContainer.withValues(
-              alpha: opacityHalf,
-            ),
-            colorScheme.secondaryContainer.withValues(
-              alpha: opacityHalf,
-            ),
+            colorScheme.primaryContainer.withValues(alpha: opacityHalf),
+            colorScheme.secondaryContainer.withValues(alpha: opacityHalf),
           ],
         ),
         borderRadius: borderRadiusLg,
-        border: Border.all(
-          color: colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -795,6 +750,7 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               ]),
               child: MascotImage(
                 assetPath: nextStage.assetPath,
+                artboardName: nextStage.artboardName,
               ),
             ),
           ),
@@ -823,17 +779,12 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
                     value: progress.clamp(0.0, 1.0),
                     minHeight: 8,
                     backgroundColor: colorScheme.surfaceContainerHighest,
-                    valueColor: AlwaysStoppedAnimation(
-                      colorScheme.primary,
-                    ),
+                    valueColor: AlwaysStoppedAnimation(colorScheme.primary),
                   ),
                 ),
                 const SizedBox(height: spacingXs),
                 Text(
-                  l10n.mascotLevelProgress(
-                    mascotLevel,
-                    nextStage.level,
-                  ),
+                  l10n.mascotLevelProgress(mascotLevel, nextStage.level),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -852,76 +803,67 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
     final hasEgg = ref.watch(hasEggProvider);
 
     return Container(
-      padding: const EdgeInsets.all(spacingXxl),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.gold,
-            AppColors.celebrationOrange,
-          ],
-        ),
-        borderRadius: borderRadiusLg,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.gold.withValues(
-              alpha: opacityMuted,
+          padding: const EdgeInsets.all(spacingXxl),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.gold, AppColors.celebrationOrange],
             ),
-            blurRadius: 16,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(spacingMd),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(
-                alpha: opacityLight,
+            borderRadius: borderRadiusLg,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.gold.withValues(alpha: opacityMuted),
+                blurRadius: 16,
+                spreadRadius: 2,
               ),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.emoji_events,
-              color: Colors.white,
-              size: 32,
-            ),
+            ],
           ),
-          const SizedBox(width: spacingLg),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.maxEvolutionTitle,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(spacingMd),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: opacityLight),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: spacingXs),
-                Text(
-                  hasEgg ? l10n.maxEvolutionEggHint : l10n.maxEvolutionSubtitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.9),
-                  ),
+                child: const Icon(
+                  Icons.emoji_events,
+                  color: Colors.white,
+                  size: 32,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: spacingLg),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.maxEvolutionTitle,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: spacingXs),
+                    Text(
+                      hasEgg
+                          ? l10n.maxEvolutionEggHint
+                          : l10n.maxEvolutionSubtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    )
-        .animate(
-          onPlay: (c) => c.repeat(reverse: true),
         )
+        .animate(onPlay: (c) => c.repeat(reverse: true))
         .shimmer(
           duration: 2.seconds,
-          color: Colors.white.withValues(
-            alpha: opacityMuted,
-          ),
+          color: Colors.white.withValues(alpha: opacityMuted),
         );
   }
 }

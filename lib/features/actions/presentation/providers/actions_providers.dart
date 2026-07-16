@@ -30,16 +30,12 @@ part 'actions_providers.g.dart';
 
 @riverpod
 ActionLibraryRemoteDataSource actionLibraryDataSource(Ref ref) {
-  return ActionLibraryRemoteDataSource(
-    firestore: ref.watch(firestoreProvider),
-  );
+  return ActionLibraryRemoteDataSource(firestore: ref.watch(firestoreProvider));
 }
 
 @riverpod
 ActionLogRemoteDataSource actionLogDataSource(Ref ref) {
-  return ActionLogRemoteDataSource(
-    firestore: ref.watch(firestoreProvider),
-  );
+  return ActionLogRemoteDataSource(firestore: ref.watch(firestoreProvider));
 }
 
 // =============================================================================
@@ -48,12 +44,8 @@ ActionLogRemoteDataSource actionLogDataSource(Ref ref) {
 
 @riverpod
 Future<ActionLogRepository> actionLogRepository(Ref ref) async {
-  final challengeData = await ref.watch(
-    challengeTemplateDataProvider.future,
-  );
-  final speciesData = await ref.watch(
-    mascotSpeciesDataProvider.future,
-  );
+  final challengeData = await ref.watch(challengeTemplateDataProvider.future);
+  final speciesData = await ref.watch(mascotSpeciesDataProvider.future);
   return ActionLogRepository(
     dataSource: ref.watch(actionLogDataSourceProvider),
     firestore: ref.watch(firestoreProvider),
@@ -102,10 +94,7 @@ Stream<List<ActionLogModel>> userActionLogs(Ref ref) async* {
   }
   final pages = ref.watch(actionHistoryPagesProvider);
   final repo = await ref.watch(actionLogRepositoryProvider.future);
-  yield* repo.watchUserActionLogs(
-    userId,
-    limit: pages * actionHistoryPageSize,
-  );
+  yield* repo.watchUserActionLogs(userId, limit: pages * actionHistoryPageSize);
 }
 
 // =============================================================================
@@ -230,17 +219,13 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
 
     if (selectedCategory != null) {
       filtered = filtered
-          .where(
-            (a) => a.category == selectedCategory.name,
-          )
+          .where((a) => a.category == selectedCategory.name)
           .toList();
     }
 
     if (selectedSdg != null) {
       filtered = filtered
-          .where(
-            (a) => a.relatedSdgs.contains(selectedSdg.toString()),
-          )
+          .where((a) => a.relatedSdgs.contains(selectedSdg.toString()))
           .toList();
     }
 
@@ -292,21 +277,13 @@ List<ActionModel> _sortActions(
         (a, b) => b.name(languageCode).compareTo(a.name(languageCode)),
       );
     case ActionSortOption.co2HighToLow:
-      sorted.sort(
-        (a, b) => b.co2Grams.compareTo(a.co2Grams),
-      );
+      sorted.sort((a, b) => b.co2Grams.compareTo(a.co2Grams));
     case ActionSortOption.co2LowToHigh:
-      sorted.sort(
-        (a, b) => a.co2Grams.compareTo(b.co2Grams),
-      );
+      sorted.sort((a, b) => a.co2Grams.compareTo(b.co2Grams));
     case ActionSortOption.pointsHighToLow:
-      sorted.sort(
-        (a, b) => b.points.compareTo(a.points),
-      );
+      sorted.sort((a, b) => b.points.compareTo(a.points));
     case ActionSortOption.pointsLowToHigh:
-      sorted.sort(
-        (a, b) => a.points.compareTo(b.points),
-      );
+      sorted.sort((a, b) => a.points.compareTo(b.points));
   }
 
   return sorted;
@@ -349,9 +326,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     }
 
     // Capture repository before async operations
-    final actionLogRepo = await ref.read(
-      actionLogRepositoryProvider.future,
-    );
+    final actionLogRepo = await ref.read(actionLogRepositoryProvider.future);
 
     // The daily summary is written inside the logAction transaction,
     // so only analytics remain as follow-up work here.

@@ -10,14 +10,12 @@ import 'package:seed_app/features/challenge/presentation/providers/challenge_pro
 
 ProviderContainer _container(AppUserModel? user) {
   return ProviderContainer(
-    overrides: [
-      currentUserProvider.overrideWith((_) => Stream.value(user)),
-    ],
+    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
   );
 }
 
 Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, __) {});
+  c.listen(currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
@@ -34,11 +32,7 @@ void main() {
     test('returns true only when completedDate matches today', () async {
       final todayKey = formatDateKey(DateTime.now());
       final c = _container(
-        AppUserModel(
-          uid: 'u',
-          email: 'e',
-          challengeCompletedDate: todayKey,
-        ),
+        AppUserModel(uid: 'u', email: 'e', challengeCompletedDate: todayKey),
       );
       addTearDown(c.dispose);
       await _pump(c);
@@ -47,14 +41,11 @@ void main() {
     });
 
     test('returns false for a stale completion date', () async {
-      final yesterday =
-          formatDateKey(DateTime.now().subtract(const Duration(days: 1)));
+      final yesterday = formatDateKey(
+        DateTime.now().subtract(const Duration(days: 1)),
+      );
       final c = _container(
-        AppUserModel(
-          uid: 'u',
-          email: 'e',
-          challengeCompletedDate: yesterday,
-        ),
+        AppUserModel(uid: 'u', email: 'e', challengeCompletedDate: yesterday),
       );
       addTearDown(c.dispose);
       await _pump(c);
@@ -185,7 +176,7 @@ void main() {
     test('returns false after dialog has been shown this session', () async {
       final c = _container(const AppUserModel(uid: 'u', email: 'e'));
       addTearDown(c.dispose);
-      c.listen(shouldShowChallengeDialogProvider, (_, __) {});
+      c.listen(shouldShowChallengeDialogProvider, (_, _) {});
       await _pump(c);
 
       c.read(challengeDialogShownProvider.notifier).markShown();
@@ -196,11 +187,7 @@ void main() {
     test('returns false when challenge already completed today', () async {
       final todayKey = formatDateKey(DateTime.now());
       final c = _container(
-        AppUserModel(
-          uid: 'u',
-          email: 'e',
-          challengeCompletedDate: todayKey,
-        ),
+        AppUserModel(uid: 'u', email: 'e', challengeCompletedDate: todayKey),
       );
       addTearDown(c.dispose);
       await _pump(c);
@@ -211,12 +198,12 @@ void main() {
 
   group('todayChallengeProvider', () {
     DailyChallengeTemplate t(String id) => DailyChallengeTemplate(
-          id: id,
-          category: 'transport',
-          titleEn: id,
-          titleEs: '',
-          titleJa: '',
-        );
+      id: id,
+      category: 'transport',
+      titleEn: id,
+      titleEs: '',
+      titleJa: '',
+    );
 
     ProviderContainer containerWith(AppUserModel user) {
       return ProviderContainer(
@@ -271,16 +258,16 @@ void main() {
 
   group('startChallenge', () {
     MultiDayChallengeTemplate md(String id) => MultiDayChallengeTemplate(
-          id: id,
-          category: 'transport',
-          targetDays: 3,
-          titleEn: id,
-          titleEs: '',
-          titleJa: '',
-          descriptionEn: '',
-          descriptionEs: '',
-          descriptionJa: '',
-        );
+      id: id,
+      category: 'transport',
+      targetDays: 3,
+      titleEn: id,
+      titleEs: '',
+      titleJa: '',
+      descriptionEn: '',
+      descriptionEs: '',
+      descriptionJa: '',
+    );
 
     test('does not stomp a challenge already active elsewhere', () async {
       final firestore = FakeFirebaseFirestore();
@@ -319,8 +306,9 @@ void main() {
           .collection(AppConstants.collectionUsers)
           .doc('u')
           .get();
-      final active = doc.data()![AppConstants.fieldActiveMultiDayChallenge]
-          as Map<String, dynamic>;
+      final active =
+          doc.data()![AppConstants.fieldActiveMultiDayChallenge]
+              as Map<String, dynamic>;
       expect(active[AppConstants.fieldTemplateId], 'other');
     });
   });

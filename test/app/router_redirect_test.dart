@@ -28,14 +28,14 @@ void main() {
     const channel = MethodChannel('plugins.flutter.io/path_provider');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (methodCall) async {
-      switch (methodCall.method) {
-        case 'getTemporaryDirectory':
-        case 'getApplicationSupportDirectory':
-        case 'getApplicationDocumentsDirectory':
-          return '/tmp';
-      }
-      return null;
-    });
+          switch (methodCall.method) {
+            case 'getTemporaryDirectory':
+            case 'getApplicationSupportDirectory':
+            case 'getApplicationDocumentsDirectory':
+              return '/tmp';
+          }
+          return null;
+        });
   });
 
   // Each call must return a fresh stream: the router listens twice (the
@@ -78,12 +78,9 @@ void main() {
     );
   }
 
-  String locationOf(WidgetTester tester) => containerOf(tester)
-      .read(routerProvider)
-      .routerDelegate
-      .currentConfiguration
-      .uri
-      .path;
+  String locationOf(WidgetTester tester) => containerOf(
+    tester,
+  ).read(routerProvider).routerDelegate.currentConfiguration.uri.path;
 
   // The home shell hosts infinite animations (SDG carousel), so
   // pumpAndSettle would never return; bounded pumps let the auth event,
@@ -121,8 +118,9 @@ void main() {
       expect(find.byType(LoginScreen), findsOneWidget);
     });
 
-    testWidgets('signed-in verified user reaches the home shell',
-        (tester) async {
+    testWidgets('signed-in verified user reaches the home shell', (
+      tester,
+    ) async {
       setLargeScreenSize(tester);
       final user = createMockUser();
 
@@ -135,8 +133,9 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('unverified password user is sent to verify-email',
-        (tester) async {
+    testWidgets('unverified password user is sent to verify-email', (
+      tester,
+    ) async {
       setLargeScreenSize(tester);
       final user = createMockUser(emailVerified: false);
 
@@ -147,8 +146,9 @@ void main() {
       expect(find.byType(EmailVerificationScreen), findsOneWidget);
     });
 
-    testWidgets('sign-out mid-session lands on /login with the same router',
-        (tester) async {
+    testWidgets('sign-out mid-session lands on /login with the same router', (
+      tester,
+    ) async {
       setLargeScreenSize(tester);
       final user = createMockUser();
       final auth = MockFirebaseAuth();

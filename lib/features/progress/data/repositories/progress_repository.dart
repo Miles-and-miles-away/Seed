@@ -18,11 +18,10 @@ class ProgressRepository {
 
   CollectionReference<Map<String, dynamic>> _summariesCollection(
     String userId,
-  ) =>
-      _firestore
-          .collection(AppConstants.collectionUsers)
-          .doc(userId)
-          .collection(AppConstants.collectionDailySummaries);
+  ) => _firestore
+      .collection(AppConstants.collectionUsers)
+      .doc(userId)
+      .collection(AppConstants.collectionDailySummaries);
 
   /// Stream today's summary.
   Stream<DailySummaryModel?> watchTodaySummary(String userId) {
@@ -99,7 +98,8 @@ class ProgressRepository {
       final date = DateTime(year, month, day);
       final summary = summaryMap[formatDateKey(date)];
 
-      final isToday = date.year == today.year &&
+      final isToday =
+          date.year == today.year &&
           date.month == today.month &&
           date.day == today.day;
       final isFuture = date.isAfter(today);
@@ -124,8 +124,6 @@ class ProgressRepository {
     await _firestore
         .collection(AppConstants.collectionUsers)
         .doc(userId)
-        .update({
-      AppConstants.fieldDailyGoalTarget: target,
-    });
+        .update({AppConstants.fieldDailyGoalTarget: target});
   }
 }

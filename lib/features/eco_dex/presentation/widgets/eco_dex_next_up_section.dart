@@ -31,26 +31,27 @@ class EcoDexNextUpSection extends ConsumerWidget {
 
     if (user == null || entries == null) return const SizedBox.shrink();
 
-    final candidates = entries
-        .where((e) => !e.isDiscovered)
-        .map(
-          (e) => (
-            entry: e.entry,
-            progress: ecoDexProgressOf(e.entry.condition, user),
-          ),
-        )
-        // Exclude entries already at 100%: their condition is met but not
-        // yet persisted (e.g. a stat-based unlock reached off the log-action
-        // path, or a swallowed discovery-write failure). Showing a full bar
-        // under "Next Up" would look stuck.
-        .where(
-          (c) =>
-              c.progress.hasProgress &&
-              c.progress.fraction > 0 &&
-              c.progress.fraction < 1,
-        )
-        .toList()
-      ..sort((a, b) => b.progress.fraction.compareTo(a.progress.fraction));
+    final candidates =
+        entries
+            .where((e) => !e.isDiscovered)
+            .map(
+              (e) => (
+                entry: e.entry,
+                progress: ecoDexProgressOf(e.entry.condition, user),
+              ),
+            )
+            // Exclude entries already at 100%: their condition is met but not
+            // yet persisted (e.g. a stat-based unlock reached off the log-action
+            // path, or a swallowed discovery-write failure). Showing a full bar
+            // under "Next Up" would look stuck.
+            .where(
+              (c) =>
+                  c.progress.hasProgress &&
+                  c.progress.fraction > 0 &&
+                  c.progress.fraction < 1,
+            )
+            .toList()
+          ..sort((a, b) => b.progress.fraction.compareTo(a.progress.fraction));
 
     final top = candidates.take(maxItems).toList(growable: false);
 
@@ -100,11 +101,8 @@ class _NextUpCard extends StatelessWidget {
       borderRadius: borderRadiusLg,
       child: InkWell(
         borderRadius: borderRadiusLg,
-        onTap: () => EcoDexLockedSheet.show(
-          context,
-          entry: entry,
-          locale: locale,
-        ),
+        onTap: () =>
+            EcoDexLockedSheet.show(context, entry: entry, locale: locale),
         child: Padding(
           padding: const EdgeInsets.all(spacingLg),
           child: Row(

@@ -21,9 +21,7 @@ class SdgImpactCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final stats = ref.watch(
-      sdgStatsProvider(goalNumber),
-    );
+    final stats = ref.watch(sdgStatsProvider(goalNumber));
 
     return Container(
       padding: const EdgeInsets.all(spacingLg),
@@ -41,11 +39,7 @@ class SdgImpactCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.insights,
-                color: goalColor,
-                size: 20,
-              ),
+              Icon(Icons.insights, color: goalColor, size: 20),
               const SizedBox(width: spacingSm),
               Text(
                 l10n.sdgYourImpact,
@@ -62,9 +56,7 @@ class SdgImpactCard extends ConsumerWidget {
                 child: _StatTile(
                   icon: Icons.check_circle_outline,
                   value: stats.actionsLogged.toString(),
-                  label: l10n.sdgActionsLogged(
-                    stats.actionsLogged,
-                  ),
+                  label: l10n.sdgActionsLogged(stats.actionsLogged),
                   color: goalColor,
                 ),
               ),
@@ -72,13 +64,9 @@ class SdgImpactCard extends ConsumerWidget {
               Expanded(
                 child: _StatTile(
                   icon: Icons.eco,
-                  value: formatCO2Compact(
-                    stats.co2SavedGrams,
-                  ),
+                  value: formatCO2Compact(stats.co2SavedGrams),
                   label: l10n.sdgCo2SavedForGoal(
-                    formatCO2Compact(
-                      stats.co2SavedGrams,
-                    ),
+                    formatCO2Compact(stats.co2SavedGrams),
                   ),
                   color: goalColor,
                 ),

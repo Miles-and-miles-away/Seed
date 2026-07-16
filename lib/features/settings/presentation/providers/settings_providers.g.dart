@@ -12,20 +12,24 @@ part of 'settings_providers.dart';
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();
 
-final class SettingsRepositoryProvider extends $FunctionalProvider<
-    SettingsRepository,
-    SettingsRepository,
-    SettingsRepository> with $Provider<SettingsRepository> {
+final class SettingsRepositoryProvider
+    extends
+        $FunctionalProvider<
+          SettingsRepository,
+          SettingsRepository,
+          SettingsRepository
+        >
+    with $Provider<SettingsRepository> {
   SettingsRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'settingsRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'settingsRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$settingsRepositoryHash();
@@ -33,8 +37,8 @@ final class SettingsRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<SettingsRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   SettingsRepository create(Ref ref) {
@@ -68,10 +72,13 @@ final userSettingsProvider = UserSettingsProvider._();
 /// Keyed on the user id (not the whole user document) so the settings
 /// listener survives unrelated user-doc writes.
 
-final class UserSettingsProvider extends $FunctionalProvider<
-        AsyncValue<UserSettingsModel>,
-        UserSettingsModel,
-        Stream<UserSettingsModel>>
+final class UserSettingsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<UserSettingsModel>,
+          UserSettingsModel,
+          Stream<UserSettingsModel>
+        >
     with
         $FutureModifier<UserSettingsModel>,
         $StreamProvider<UserSettingsModel> {
@@ -81,15 +88,15 @@ final class UserSettingsProvider extends $FunctionalProvider<
   /// Keyed on the user id (not the whole user document) so the settings
   /// listener survives unrelated user-doc writes.
   UserSettingsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'userSettingsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userSettingsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$userSettingsHash();
@@ -97,8 +104,8 @@ final class UserSettingsProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<UserSettingsModel> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<UserSettingsModel> create(Ref ref) {
@@ -119,15 +126,15 @@ final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Returns whether the user can add more reminders.
   CanAddReminderProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'canAddReminderProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'canAddReminderProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$canAddReminderHash();
@@ -151,7 +158,7 @@ final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$canAddReminderHash() => r'fca40fb1a98c6681e527d1262bc2136df3bef733';
+String _$canAddReminderHash() => r'820c461f953340e005d7b7d00a3018d1bcc1cf96';
 
 /// Returns the current language setting.
 
@@ -161,18 +168,19 @@ final currentLanguageProvider = CurrentLanguageProvider._();
 /// Returns the current language setting.
 
 final class CurrentLanguageProvider
-    extends $FunctionalProvider<String, String, String> with $Provider<String> {
+    extends $FunctionalProvider<String, String, String>
+    with $Provider<String> {
   /// Returns the current language setting.
   CurrentLanguageProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'currentLanguageProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentLanguageProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$currentLanguageHash();
@@ -196,7 +204,7 @@ final class CurrentLanguageProvider
   }
 }
 
-String _$currentLanguageHash() => r'd2d3a06fa837edd402b67f8418b7628ce5c633f8';
+String _$currentLanguageHash() => r'854ca47145b583688de1a2e299f30cd121857145';
 
 /// Returns whether notifications are enabled.
 
@@ -206,18 +214,19 @@ final notificationsEnabledProvider = NotificationsEnabledProvider._();
 /// Returns whether notifications are enabled.
 
 final class NotificationsEnabledProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Returns whether notifications are enabled.
   NotificationsEnabledProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notificationsEnabledProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notificationsEnabledProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notificationsEnabledHash();
@@ -242,7 +251,7 @@ final class NotificationsEnabledProvider
 }
 
 String _$notificationsEnabledHash() =>
-    r'22949effe74eaaf92edfbcf80f70fcccdae262b5';
+    r'0f146eba8b45a99e555aca8150fffa21ba14e206';
 
 /// Returns whether smart reminders are enabled.
 
@@ -252,18 +261,19 @@ final smartRemindersEnabledProvider = SmartRemindersEnabledProvider._();
 /// Returns whether smart reminders are enabled.
 
 final class SmartRemindersEnabledProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Returns whether smart reminders are enabled.
   SmartRemindersEnabledProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'smartRemindersEnabledProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'smartRemindersEnabledProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$smartRemindersEnabledHash();
@@ -288,7 +298,7 @@ final class SmartRemindersEnabledProvider
 }
 
 String _$smartRemindersEnabledHash() =>
-    r'08e5ed2976077c07a36aa10d0856dfb98b9369d4';
+    r'050d746175d90109766b1c3669195147f37ca948';
 
 /// Returns whether analytics collection is enabled.
 
@@ -298,18 +308,19 @@ final analyticsEnabledProvider = AnalyticsEnabledProvider._();
 /// Returns whether analytics collection is enabled.
 
 final class AnalyticsEnabledProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Returns whether analytics collection is enabled.
   AnalyticsEnabledProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'analyticsEnabledProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'analyticsEnabledProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$analyticsEnabledHash();
@@ -333,7 +344,7 @@ final class AnalyticsEnabledProvider
   }
 }
 
-String _$analyticsEnabledHash() => r'9664fa8a59370dc6bbd0a93381e5f00ea8915ac1';
+String _$analyticsEnabledHash() => r'58815e5a71335f8b7ab349c5c3c00f9744526cf2';
 
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
@@ -345,19 +356,20 @@ final appLocaleProvider = AppLocaleProvider._();
 /// Falls back to English if no setting is found.
 
 final class AppLocaleProvider
-    extends $FunctionalProvider<Locale, Locale, Locale> with $Provider<Locale> {
+    extends $FunctionalProvider<Locale, Locale, Locale>
+    with $Provider<Locale> {
   /// Returns the current app locale based on user settings.
   /// Falls back to English if no setting is found.
   AppLocaleProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'appLocaleProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appLocaleProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$appLocaleHash();
@@ -396,15 +408,15 @@ final class SettingsNotifierProvider
   /// Notifier that handles settings mutations.
   /// Uses AsyncValue to track loading and error states.
   SettingsNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'settingsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'settingsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$settingsNotifierHash();
@@ -433,11 +445,14 @@ abstract class _$SettingsNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

@@ -93,14 +93,12 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  const baseUser = AppUserModel(
-    uid: 'u1',
-    email: 'test@example.com',
-  );
+  const baseUser = AppUserModel(uid: 'u1', email: 'test@example.com');
 
   group('DayDetailBottomSheet', () {
-    testWidgets('shows stats and action list for day with activity',
-        (tester) async {
+    testWidgets('shows stats and action list for day with activity', (
+      tester,
+    ) async {
       final date = DateTime(2024, 5, 10);
       final logs = [
         _log(
@@ -118,11 +116,7 @@ void main() {
       ];
 
       await tester.pumpWidget(
-        buildHarness(
-          user: baseUser,
-          logs: logs,
-          date: date,
-        ),
+        buildHarness(user: baseUser, logs: logs, date: date),
       );
       await openSheet(tester);
 
@@ -147,11 +141,7 @@ void main() {
       ];
 
       await tester.pumpWidget(
-        buildHarness(
-          user: baseUser,
-          logs: logs,
-          date: target,
-        ),
+        buildHarness(user: baseUser, logs: logs, date: target),
       );
       await openSheet(tester);
 
@@ -173,8 +163,9 @@ void main() {
       expect(find.text('No actions logged this day'), findsOneWidget);
     });
 
-    testWidgets('today with completed challenge shows unlocked fact card',
-        (tester) async {
+    testWidgets('today with completed challenge shows unlocked fact card', (
+      tester,
+    ) async {
       final today = DateTime.now();
       final todayKey = formatDateKey(today);
       final user = baseUser.copyWith(challengeCompletedDate: todayKey);
@@ -192,8 +183,9 @@ void main() {
       expect(card.isLocked, isFalse);
     });
 
-    testWidgets('today with incomplete challenge shows locked fact card',
-        (tester) async {
+    testWidgets('today with incomplete challenge shows locked fact card', (
+      tester,
+    ) async {
       final today = DateTime.now();
 
       await tester.pumpWidget(
@@ -209,19 +201,14 @@ void main() {
       expect(card.isLocked, isTrue);
     });
 
-    testWidgets('past day in unlockedFactDates shows unlocked fact card',
-        (tester) async {
+    testWidgets('past day in unlockedFactDates shows unlocked fact card', (
+      tester,
+    ) async {
       final past = DateTime(2024, 3, 14);
-      final user = baseUser.copyWith(
-        unlockedFactDates: [formatDateKey(past)],
-      );
+      final user = baseUser.copyWith(unlockedFactDates: [formatDateKey(past)]);
 
       await tester.pumpWidget(
-        buildHarness(
-          user: user,
-          logs: const [],
-          date: past,
-        ),
+        buildHarness(user: user, logs: const [], date: past),
       );
       await openSheet(tester);
 
@@ -229,8 +216,9 @@ void main() {
       expect(card.isLocked, isFalse);
     });
 
-    testWidgets('past day not in any unlock set shows no-fact panel',
-        (tester) async {
+    testWidgets('past day not in any unlock set shows no-fact panel', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildHarness(
           user: baseUser,
@@ -241,10 +229,7 @@ void main() {
       await openSheet(tester);
 
       expect(find.byType(EcoFactCard), findsNothing);
-      expect(
-        find.text('No eco-fact unlocked this day'),
-        findsOneWidget,
-      );
+      expect(find.text('No eco-fact unlocked this day'), findsOneWidget);
     });
   });
 }

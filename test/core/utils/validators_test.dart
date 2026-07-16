@@ -2,11 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/utils/validators.dart';
 
 void main() {
-  String? run(String? input) => validateEmail(
-        input,
-        emptyError: 'empty',
-        invalidError: 'invalid',
-      );
+  String? run(String? input) =>
+      validateEmail(input, emptyError: 'empty', invalidError: 'invalid');
 
   group('validateEmail', () {
     test('returns empty error for null', () {

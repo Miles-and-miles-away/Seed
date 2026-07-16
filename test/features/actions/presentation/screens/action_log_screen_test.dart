@@ -61,9 +61,7 @@ void main() {
     }) {
       return ProviderScope(
         overrides: [
-          currentUserProvider.overrideWith(
-            (ref) => Stream.value(testUser),
-          ),
+          currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
           actionLibraryProvider.overrideWith((ref) {
             if (isLoading) {
               // Never completes: keeps the provider in loading state.
@@ -81,11 +79,7 @@ void main() {
               return AsyncValue.data(allActions);
             }
             return AsyncValue.data(
-              allActions
-                  .where(
-                    (a) => a.category == selected.name,
-                  )
-                  .toList(),
+              allActions.where((a) => a.category == selected.name).toList(),
             );
           }),
         ],
@@ -124,11 +118,11 @@ void main() {
         routes: [
           GoRoute(
             path: '/log-action',
-            builder: (_, __) => const ActionLogScreen(),
+            builder: (_, _) => const ActionLogScreen(),
           ),
           GoRoute(
             path: '/home',
-            builder: (_, __) => const Scaffold(body: Text('Home Screen')),
+            builder: (_, _) => const Scaffold(body: Text('Home Screen')),
           ),
         ],
       );
@@ -137,9 +131,7 @@ void main() {
         ProviderScope(
           overrides: [
             currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
-            actionLibraryProvider.overrideWith(
-              (ref) async => testActions,
-            ),
+            actionLibraryProvider.overrideWith((ref) async => testActions),
             filteredActionsProvider.overrideWith(
               (ref) => AsyncValue.data(testActions),
             ),
@@ -181,9 +173,7 @@ void main() {
     });
 
     testWidgets('pre-selects filter from initialCategory', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(initialCategory: 'transport'),
-      );
+      await tester.pumpWidget(createTestWidget(initialCategory: 'transport'));
       await tester.pumpAndSettle();
 
       expect(
@@ -196,8 +186,9 @@ void main() {
       expect(find.byType(ActionCard), findsOneWidget);
     });
 
-    testWidgets('shows all actions when initialCategory is unknown',
-        (tester) async {
+    testWidgets('shows all actions when initialCategory is unknown', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(initialCategory: 'not-a-category'),
       );
@@ -218,12 +209,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            currentUserProvider.overrideWith(
-              (ref) => Stream.value(testUser),
-            ),
-            actionLibraryProvider.overrideWith(
-              (ref) async => testActions,
-            ),
+            currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
+            actionLibraryProvider.overrideWith((ref) async => testActions),
           ],
           child: MaterialApp(
             localizationsDelegates: const [
@@ -266,16 +253,18 @@ void main() {
       expect(find.byType(GridView), findsOneWidget);
     });
 
-    testWidgets('displays empty state when no actions match filter',
-        (tester) async {
+    testWidgets('displays empty state when no actions match filter', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(actions: []));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.search_off), findsOneWidget);
     });
 
-    testWidgets('search field has clear button when text entered',
-        (tester) async {
+    testWidgets('search field has clear button when text entered', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 

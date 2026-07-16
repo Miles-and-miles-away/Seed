@@ -9,22 +9,22 @@ import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
 Widget _wrap() => ProviderScope(
-      overrides: [
-        sdgGoalsDataProvider.overrideWith(
-          (_) async => const SdgGoalsData(goals: [], goalMap: {}),
-        ),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(body: SizedBox()),
-      ),
-    );
+  overrides: [
+    sdgGoalsDataProvider.overrideWith(
+      (_) async => const SdgGoalsData(goals: [], goalMap: {}),
+    ),
+  ],
+  child: MaterialApp(
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: const Scaffold(body: SizedBox()),
+  ),
+);
 
 void main() {
   testWidgets('displays the action name and a dismiss button', (tester) async {

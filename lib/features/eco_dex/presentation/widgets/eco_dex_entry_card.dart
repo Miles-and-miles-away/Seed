@@ -55,10 +55,7 @@ class EcoDexEntryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (isDiscovered)
-              EcoDexEntryImage(
-                iconName: entry.iconName,
-                size: _cardImageSize,
-              )
+              EcoDexEntryImage(iconName: entry.iconName, size: _cardImageSize)
             else
               Icon(
                 Icons.lock_outline,
@@ -69,9 +66,7 @@ class EcoDexEntryCard extends StatelessWidget {
               ),
             const SizedBox(height: spacingXs),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: spacingXs,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: spacingXs),
               child: Text(
                 isDiscovered ? entry.name(locale) : '???',
                 style: theme.textTheme.labelSmall?.copyWith(
@@ -80,8 +75,9 @@ class EcoDexEntryCard extends StatelessWidget {
                       : theme.colorScheme.onSurfaceVariant.withValues(
                           alpha: opacityDisabled,
                         ),
-                  fontWeight:
-                      isDiscovered ? FontWeight.w600 : FontWeight.normal,
+                  fontWeight: isDiscovered
+                      ? FontWeight.w600
+                      : FontWeight.normal,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,

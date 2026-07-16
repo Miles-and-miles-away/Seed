@@ -11,10 +11,7 @@ const _ASSET_PATH = 'data/app/eco_dex_entries.json';
 
 /// Loaded Eco-Dex data: categories + entries.
 class EcoDexData {
-  const EcoDexData({
-    required this.categories,
-    required this.entries,
-  });
+  const EcoDexData({required this.categories, required this.entries});
 
   final List<EcoDexCategory> categories;
   final List<EcoDexEntry> entries;
@@ -31,19 +28,11 @@ EcoDexData _parseEcoDexData(String jsonString) {
   final json = jsonDecode(jsonString) as Map<String, dynamic>;
 
   final categories = (json['categories'] as List<dynamic>)
-      .map(
-        (e) => EcoDexCategory.fromJson(
-          e as Map<String, dynamic>,
-        ),
-      )
+      .map((e) => EcoDexCategory.fromJson(e as Map<String, dynamic>))
       .toList();
 
   final entries = (json['entries'] as List<dynamic>)
-      .map(
-        (e) => EcoDexEntry.fromJson(
-          e as Map<String, dynamic>,
-        ),
-      )
+      .map((e) => EcoDexEntry.fromJson(e as Map<String, dynamic>))
       .toList();
 
   return EcoDexData(categories: categories, entries: entries);

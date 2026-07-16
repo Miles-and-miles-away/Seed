@@ -37,8 +37,9 @@ final co2StatsProvider = Co2StatsFamily._();
 /// does not implicitly re-run the queries; ActionLogNotifier and
 /// dayChangeProvider invalidate this explicitly when the data moves.
 
-final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
-        Co2Stats, FutureOr<Co2Stats>>
+final class Co2StatsProvider
+    extends
+        $FunctionalProvider<AsyncValue<Co2Stats>, Co2Stats, FutureOr<Co2Stats>>
     with $FutureModifier<Co2Stats>, $FutureProvider<Co2Stats> {
   /// Aggregated CO2 totals for the Impact dashboard.
   ///
@@ -52,15 +53,16 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   /// Keyed on the user id (not the whole user doc) so logging an action
   /// does not implicitly re-run the queries; ActionLogNotifier and
   /// dayChangeProvider invalidate this explicitly when the data moves.
-  Co2StatsProvider._(
-      {required Co2StatsFamily super.from, required TimePeriod super.argument})
-      : super(
-          retry: null,
-          name: r'co2StatsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  Co2StatsProvider._({
+    required Co2StatsFamily super.from,
+    required TimePeriod super.argument,
+  }) : super(
+         retry: null,
+         name: r'co2StatsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$co2StatsHash();
@@ -80,10 +82,7 @@ final class Co2StatsProvider extends $FunctionalProvider<AsyncValue<Co2Stats>,
   @override
   FutureOr<Co2Stats> create(Ref ref) {
     final argument = this.argument as TimePeriod;
-    return co2Stats(
-      ref,
-      argument,
-    );
+    return co2Stats(ref, argument);
   }
 
   @override
@@ -115,13 +114,13 @@ String _$co2StatsHash() => r'754b3b5e6d1fc62e8a741011e3a14a2998673eaa';
 final class Co2StatsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2Stats>, TimePeriod> {
   Co2StatsFamily._()
-      : super(
-          retry: null,
-          name: r'co2StatsProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'co2StatsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Aggregated CO2 totals for the Impact dashboard.
   ///
@@ -136,9 +135,7 @@ final class Co2StatsFamily extends $Family
   /// does not implicitly re-run the queries; ActionLogNotifier and
   /// dayChangeProvider invalidate this explicitly when the data moves.
 
-  Co2StatsProvider call(
-    TimePeriod period,
-  ) =>
+  Co2StatsProvider call(TimePeriod period) =>
       Co2StatsProvider._(argument: period, from: this);
 
   @override

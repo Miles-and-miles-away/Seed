@@ -77,11 +77,7 @@ void main() {
       for (final entry in json.entries) {
         final goalNumber = int.parse(entry.key);
         final resources = (entry.value as List<dynamic>)
-            .map(
-              (e) => SdgResource.fromJson(
-                e as Map<String, dynamic>,
-              ),
-            )
+            .map((e) => SdgResource.fromJson(e as Map<String, dynamic>))
             .toList();
         sdgResources[goalNumber] = resources;
       }
@@ -117,7 +113,8 @@ void main() {
           expect(
             resource.url,
             startsWith('https://'),
-            reason: 'Goal ${entry.key}: invalid URL '
+            reason:
+                'Goal ${entry.key}: invalid URL '
                 '${resource.url}',
           );
         }
@@ -130,19 +127,22 @@ void main() {
           expect(
             resource.titleEn,
             isNotEmpty,
-            reason: 'Goal ${entry.key} has empty EN '
+            reason:
+                'Goal ${entry.key} has empty EN '
                 'title',
           );
           expect(
             resource.titleJa,
             isNotEmpty,
-            reason: 'Goal ${entry.key} has empty JA '
+            reason:
+                'Goal ${entry.key} has empty JA '
                 'title',
           );
           expect(
             resource.titleEs,
             isNotEmpty,
-            reason: 'Goal ${entry.key} has empty ES '
+            reason:
+                'Goal ${entry.key} has empty ES '
                 'title',
           );
         }
@@ -157,7 +157,8 @@ void main() {
         expect(
           hasOfficial,
           isTrue,
-          reason: 'Goal ${entry.key} missing official '
+          reason:
+              'Goal ${entry.key} missing official '
               'resource',
         );
       }
@@ -171,7 +172,8 @@ void main() {
         expect(
           official.url,
           contains('sdgs.un.org'),
-          reason: 'Goal ${entry.key} official resource '
+          reason:
+              'Goal ${entry.key} official resource '
               'not on UN site',
         );
       }

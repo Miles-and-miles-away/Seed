@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 
 /// Supported social sign-in providers.
-enum SocialProvider {
-  google,
-  apple,
-}
+enum SocialProvider { google, apple }
 
 /// A button for social sign-in (Google, Apple).
 class SocialSignInButton extends StatelessWidget {
@@ -28,17 +25,17 @@ class SocialSignInButton extends StatelessWidget {
 
     final (icon, label, backgroundColor, foregroundColor) = switch (provider) {
       SocialProvider.google => (
-          Icons.g_mobiledata,
-          'Google',
-          isDark ? const Color(0xFF4285F4) : Colors.white,
-          isDark ? Colors.white : Colors.black87,
-        ),
+        Icons.g_mobiledata,
+        'Google',
+        isDark ? const Color(0xFF4285F4) : Colors.white,
+        isDark ? Colors.white : Colors.black87,
+      ),
       SocialProvider.apple => (
-          Icons.apple,
-          'Apple',
-          isDark ? Colors.white : Colors.black,
-          isDark ? Colors.black : Colors.white,
-        ),
+        Icons.apple,
+        'Apple',
+        isDark ? Colors.white : Colors.black,
+        isDark ? Colors.black : Colors.white,
+      ),
     };
 
     return SizedBox(
@@ -51,9 +48,7 @@ class SocialSignInButton extends StatelessWidget {
           side: BorderSide(
             color: isDark ? Colors.transparent : theme.colorScheme.outline,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: borderRadiusMd,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: borderRadiusMd),
         ),
         child: isLoading
             ? SizedBox(

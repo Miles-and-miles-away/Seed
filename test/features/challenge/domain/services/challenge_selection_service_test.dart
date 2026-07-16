@@ -57,12 +57,10 @@ void main() {
       final templates = [_t('a'), _t('b'), _t('c')];
 
       for (var i = 0; i < 10; i++) {
-        final pick = selectDailyChallenge(
-          'seed-$i',
-          date,
-          ['a', 'b'],
-          templates,
-        );
+        final pick = selectDailyChallenge('seed-$i', date, [
+          'a',
+          'b',
+        ], templates);
         expect(pick.id, 'c');
       }
     });
@@ -72,12 +70,11 @@ void main() {
       final templates = [_t('a'), _t('b')];
 
       // All IDs are in recent list but we must still pick one.
-      final pick = selectDailyChallenge(
-        'user-seed',
-        date,
-        ['a', 'b', 'x'],
-        templates,
-      );
+      final pick = selectDailyChallenge('user-seed', date, [
+        'a',
+        'b',
+        'x',
+      ], templates);
 
       expect(['a', 'b'], contains(pick.id));
     });

@@ -20,6 +20,7 @@ const double mascotLookRange = 100;
 class MascotImage extends StatefulWidget {
   const MascotImage({
     required this.assetPath,
+    this.artboardName,
     this.width,
     this.height,
     this.onRiveInit,
@@ -28,6 +29,11 @@ class MascotImage extends StatefulWidget {
 
   /// Bundled asset path, either `.riv` or `.svg`.
   final String assetPath;
+
+  /// Artboard to render for multi-artboard `.riv` files (case-sensitive
+  /// editor name). Null renders the file's default artboard. Ignored
+  /// for SVGs.
+  final String? artboardName;
 
   final double? width;
   final double? height;
@@ -52,7 +58,8 @@ class _MascotImageState extends State<MascotImage> {
   @override
   void didUpdateWidget(covariant MascotImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.assetPath != widget.assetPath) {
+    if (oldWidget.assetPath != widget.assetPath ||
+        oldWidget.artboardName != widget.artboardName) {
       _fileLoader?.dispose();
       _fileLoader = null;
       _createLoader();
@@ -86,15 +93,23 @@ class _MascotImageState extends State<MascotImage> {
         height: widget.height,
       );
     }
+    final artboardName = widget.artboardName;
     return SizedBox(
       width: widget.width,
       height: widget.height,
       child: rive.RiveWidgetBuilder(
+        // Force a fresh builder when the target artboard changes; the
+        // builder resolves its artboard once on load.
+        key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
         fileLoader: fileLoader,
+        artboardSelector: artboardName == null
+            ? rive.ArtboardSelector.byDefault()
+            : rive.ArtboardSelector.byName(artboardName),
         onLoaded: (state) => widget.onRiveInit?.call(state.controller),
         builder: (context, state) => switch (state) {
-          rive.RiveLoaded(:final controller) =>
-            rive.RiveWidget(controller: controller),
+          rive.RiveLoaded(:final controller) => rive.RiveWidget(
+            controller: controller,
+          ),
           _ => SizedBox(width: widget.width, height: widget.height),
         },
       ),

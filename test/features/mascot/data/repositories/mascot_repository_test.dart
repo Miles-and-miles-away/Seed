@@ -27,7 +27,7 @@ void main() {
       'uid': userId,
       'email': 'test@example.com',
       if (mascots.isNotEmpty) 'mascots': mascots,
-      if (activeMascotId != null) 'activeMascotId': activeMascotId,
+      'activeMascotId': ?activeMascotId,
       ...?extra,
     });
   }
@@ -40,17 +40,16 @@ void main() {
     int mascotLevel = 1,
     bool isFullyEvolved = false,
     int lastSeenStage = 1,
-  }) =>
-      {
-        'id': id,
-        'speciesId': speciesId,
-        'name': name,
-        'mascotPoints': mascotPoints,
-        'mascotLevel': mascotLevel,
-        'isFullyEvolved': isFullyEvolved,
-        'equippedItems': <String>[],
-        'lastSeenStage': lastSeenStage,
-      };
+  }) => {
+    'id': id,
+    'speciesId': speciesId,
+    'name': name,
+    'mascotPoints': mascotPoints,
+    'mascotLevel': mascotLevel,
+    'isFullyEvolved': isFullyEvolved,
+    'equippedItems': <String>[],
+    'lastSeenStage': lastSeenStage,
+  };
 
   group('MascotRepository', () {
     group('addMascot', () {
@@ -68,24 +67,17 @@ void main() {
         final data = doc.data()!;
         final mascots = data['mascots'] as List<dynamic>;
         expect(mascots, hasLength(1));
-        expect(
-          (mascots[0] as Map)['speciesId'],
-          'seed',
-        );
+        expect((mascots[0] as Map)['speciesId'], 'seed');
         expect(data['activeMascotId'], 'm1');
       });
     });
 
     group('setActiveMascot', () {
       test('updates activeMascotId', () async {
-        await createUserWithMascots(
-          'user1',
-          [
-            mascotJson(id: 'm1'),
-            mascotJson(id: 'm2'),
-          ],
-          activeMascotId: 'm1',
-        );
+        await createUserWithMascots('user1', [
+          mascotJson(id: 'm1'),
+          mascotJson(id: 'm2'),
+        ], activeMascotId: 'm1');
 
         await repository.setActiveMascot('user1', 'm2');
 
@@ -106,10 +98,7 @@ void main() {
           name: 'Updated',
           mascotPoints: 100,
         );
-        await repository.updateMascotInArray(
-          'user1',
-          updated,
-        );
+        await repository.updateMascotInArray('user1', updated);
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
         final mascots = doc.data()!['mascots'] as List<dynamic>;
@@ -126,44 +115,25 @@ void main() {
           mascotJson(id: 'm2', name: 'Other'),
         ]);
 
-        await repository.updateMascotName(
-          'user1',
-          'm1',
-          'NewName',
-        );
+        await repository.updateMascotName('user1', 'm1', 'NewName');
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
         final mascots = doc.data()!['mascots'] as List<dynamic>;
-        expect(
-          (mascots[0] as Map)['name'],
-          'NewName',
-        );
+        expect((mascots[0] as Map)['name'], 'NewName');
         // Other mascot unchanged
-        expect(
-          (mascots[1] as Map)['name'],
-          'Other',
-        );
+        expect((mascots[1] as Map)['name'], 'Other');
       });
     });
 
     group('updateLastSeenStage', () {
       test('updates stage for specific mascot', () async {
-        await createUserWithMascots('user1', [
-          mascotJson(id: 'm1'),
-        ]);
+        await createUserWithMascots('user1', [mascotJson(id: 'm1')]);
 
-        await repository.updateLastSeenStage(
-          'user1',
-          'm1',
-          3,
-        );
+        await repository.updateLastSeenStage('user1', 'm1', 3);
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
         final mascots = doc.data()!['mascots'] as List<dynamic>;
-        expect(
-          (mascots[0] as Map)['lastSeenStage'],
-          3,
-        );
+        expect((mascots[0] as Map)['lastSeenStage'], 3);
       });
     });
 
@@ -175,9 +145,7 @@ void main() {
           extra: {'eggPendingDiscovery': true},
         );
 
-        final egg = EggModel(
-          receivedAt: DateTime(2024, 6, 15),
-        );
+        final egg = EggModel(receivedAt: DateTime(2024, 6, 15));
         await repository.createEgg('user1', egg);
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
@@ -215,43 +183,34 @@ void main() {
           extra: {'eggPendingDiscovery': true},
         );
 
-        await repository.clearEggPendingDiscovery(
-          'user1',
-        );
+        await repository.clearEggPendingDiscovery('user1');
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
-        expect(
-          doc.data()!['eggPendingDiscovery'],
-          false,
-        );
+        expect(doc.data()!['eggPendingDiscovery'], false);
       });
     });
 
     group('selectMascot', () {
-      test(
-        'creates mascot array with one mascot',
-        () async {
-          await createUserWithMascots('user1', []);
+      test('creates mascot array with one mascot', () async {
+        await createUserWithMascots('user1', []);
 
-          await repository.selectMascot(
-            userId: 'user1',
-            speciesId: 'seed',
-            name: 'MyPlant',
-          );
+        await repository.selectMascot(
+          userId: 'user1',
+          speciesId: 'seed',
+          name: 'MyPlant',
+        );
 
-          final doc =
-              await fakeFirestore.collection('users').doc('user1').get();
-          final data = doc.data()!;
-          final mascots = data['mascots'] as List<dynamic>;
-          expect(mascots, hasLength(1));
-          final first = mascots[0] as Map<String, dynamic>;
-          expect(first['speciesId'], 'seed');
-          expect(first['name'], 'MyPlant');
-          expect(first['lastSeenStage'], 1);
-          expect(first['id'], isNotNull);
-          expect(data['activeMascotId'], first['id']);
-        },
-      );
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
+        final data = doc.data()!;
+        final mascots = data['mascots'] as List<dynamic>;
+        expect(mascots, hasLength(1));
+        final first = mascots[0] as Map<String, dynamic>;
+        expect(first['speciesId'], 'seed');
+        expect(first['name'], 'MyPlant');
+        expect(first['lastSeenStage'], 1);
+        expect(first['id'], isNotNull);
+        expect(data['activeMascotId'], first['id']);
+      });
     });
   });
 

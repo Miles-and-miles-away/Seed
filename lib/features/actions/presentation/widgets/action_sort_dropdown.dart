@@ -47,11 +47,7 @@ class ActionSortDropdown extends ConsumerWidget {
                 ),
               ),
               if (option == selectedOption)
-                Icon(
-                  Icons.check,
-                  size: 18,
-                  color: theme.colorScheme.primary,
-                ),
+                Icon(Icons.check, size: 18, color: theme.colorScheme.primary),
             ],
           ),
         );

@@ -9,9 +9,7 @@ void main() {
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = ActionLibraryRemoteDataSource(
-      firestore: fakeFirestore,
-    );
+    dataSource = ActionLibraryRemoteDataSource(firestore: fakeFirestore);
   });
 
   Future<void> seedAction(
@@ -23,15 +21,15 @@ void main() {
         .collection(AppConstants.collectionActionLibrary)
         .doc(id)
         .set({
-      'nameEn': 'Action $id',
-      'nameJa': 'Action $id JA',
-      'category': 'energy',
-      'points': 10,
-      'co2Grams': 100,
-      'isActive': isActive,
-      'sortOrder': sortOrder,
-      'relatedSdgs': ['7'],
-    });
+          'nameEn': 'Action $id',
+          'nameJa': 'Action $id JA',
+          'category': 'energy',
+          'points': 10,
+          'co2Grams': 100,
+          'isActive': isActive,
+          'sortOrder': sortOrder,
+          'relatedSdgs': ['7'],
+        });
   }
 
   group('ActionLibraryRemoteDataSource', () {

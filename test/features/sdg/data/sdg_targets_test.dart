@@ -48,10 +48,7 @@ void main() {
     });
 
     test('description falls back to EN if empty', () {
-      const target = SdgTarget(
-        code: '1.1',
-        descriptionEn: 'End poverty',
-      );
+      const target = SdgTarget(code: '1.1', descriptionEn: 'End poverty');
       expect(target.description('ja'), 'End poverty');
       expect(target.description('es'), 'End poverty');
     });
@@ -76,18 +73,15 @@ void main() {
     late Map<int, List<SdgTarget>> sdgTargets;
 
     setUpAll(() async {
-      final jsonString =
-          await rootBundle.loadString('data/app/sdg_targets.json');
+      final jsonString = await rootBundle.loadString(
+        'data/app/sdg_targets.json',
+      );
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       sdgTargets = {};
       for (final entry in json.entries) {
         final goalNumber = int.parse(entry.key);
         final targets = (entry.value as List<dynamic>)
-            .map(
-              (e) => SdgTarget.fromJson(
-                e as Map<String, dynamic>,
-              ),
-            )
+            .map((e) => SdgTarget.fromJson(e as Map<String, dynamic>))
             .toList();
         sdgTargets[goalNumber] = targets;
       }
@@ -99,11 +93,7 @@ void main() {
 
     test('keys are 1 through 17', () {
       for (var i = 1; i <= 17; i++) {
-        expect(
-          sdgTargets.containsKey(i),
-          isTrue,
-          reason: 'Missing goal $i',
-        );
+        expect(sdgTargets.containsKey(i), isTrue, reason: 'Missing goal $i');
       }
     });
 
@@ -118,8 +108,10 @@ void main() {
     });
 
     test('total target count is 169', () {
-      final total =
-          sdgTargets.values.fold<int>(0, (sum, list) => sum + list.length);
+      final total = sdgTargets.values.fold<int>(
+        0,
+        (sum, list) => sum + list.length,
+      );
       expect(total, 169);
     });
 
@@ -147,7 +139,8 @@ void main() {
         expect(
           sdgTargets[entry.key]!.length,
           entry.value,
-          reason: 'Goal ${entry.key} expected '
+          reason:
+              'Goal ${entry.key} expected '
               '${entry.value} targets',
         );
       }
@@ -171,7 +164,8 @@ void main() {
           expect(
             target.descriptionEn,
             isNotEmpty,
-            reason: 'Target ${target.code} has empty '
+            reason:
+                'Target ${target.code} has empty '
                 'description',
           );
         }
@@ -184,7 +178,8 @@ void main() {
           expect(
             target.code,
             startsWith('${entry.key}.'),
-            reason: 'Target ${target.code} does not '
+            reason:
+                'Target ${target.code} does not '
                 'start with goal ${entry.key}',
           );
         }
@@ -218,7 +213,8 @@ void main() {
           expect(
             target.descriptionJa,
             isNotEmpty,
-            reason: 'Target ${target.code} has '
+            reason:
+                'Target ${target.code} has '
                 'empty JA description',
           );
         }
@@ -231,7 +227,8 @@ void main() {
           expect(
             target.descriptionEs,
             isNotEmpty,
-            reason: 'Target ${target.code} has '
+            reason:
+                'Target ${target.code} has '
                 'empty ES description',
           );
         }

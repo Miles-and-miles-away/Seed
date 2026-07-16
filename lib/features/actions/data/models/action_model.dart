@@ -34,10 +34,7 @@ abstract class ActionModel with _$ActionModel {
   /// Creates an ActionModel from a Firestore document.
   factory ActionModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>? ?? {};
-    return ActionModel.fromJson({
-      'id': doc.id,
-      ...data,
-    });
+    return ActionModel.fromJson({'id': doc.id, ...data});
   }
 }
 

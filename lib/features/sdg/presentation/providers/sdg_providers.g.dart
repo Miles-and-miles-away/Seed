@@ -15,20 +15,25 @@ final sdgGoalsDataProvider = SdgGoalsDataProvider._();
 
 /// Loads and caches SDG goal data from JSON.
 
-final class SdgGoalsDataProvider extends $FunctionalProvider<
-        AsyncValue<SdgGoalsData>, SdgGoalsData, FutureOr<SdgGoalsData>>
+final class SdgGoalsDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<SdgGoalsData>,
+          SdgGoalsData,
+          FutureOr<SdgGoalsData>
+        >
     with $FutureModifier<SdgGoalsData>, $FutureProvider<SdgGoalsData> {
   /// Loads and caches SDG goal data from JSON.
   SdgGoalsDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'sdgGoalsDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sdgGoalsDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$sdgGoalsDataHash();
@@ -36,8 +41,8 @@ final class SdgGoalsDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<SdgGoalsData> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<SdgGoalsData> create(Ref ref) {
@@ -60,10 +65,13 @@ final sdgResourcesDataProvider = SdgResourcesDataProvider._();
 /// keepAlive: static bundled data; autoDispose would re-parse the
 /// asset on every screen revisit.
 
-final class SdgResourcesDataProvider extends $FunctionalProvider<
-        AsyncValue<Map<int, List<SdgResource>>>,
-        Map<int, List<SdgResource>>,
-        FutureOr<Map<int, List<SdgResource>>>>
+final class SdgResourcesDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Map<int, List<SdgResource>>>,
+          Map<int, List<SdgResource>>,
+          FutureOr<Map<int, List<SdgResource>>>
+        >
     with
         $FutureModifier<Map<int, List<SdgResource>>>,
         $FutureProvider<Map<int, List<SdgResource>>> {
@@ -72,15 +80,15 @@ final class SdgResourcesDataProvider extends $FunctionalProvider<
   /// keepAlive: static bundled data; autoDispose would re-parse the
   /// asset on every screen revisit.
   SdgResourcesDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'sdgResourcesDataProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sdgResourcesDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$sdgResourcesDataHash();
@@ -88,8 +96,8 @@ final class SdgResourcesDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<Map<int, List<SdgResource>>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Map<int, List<SdgResource>>> create(Ref ref) {
@@ -112,10 +120,13 @@ final sdgTargetsDataProvider = SdgTargetsDataProvider._();
 /// keepAlive: static bundled data; autoDispose would re-parse the
 /// 120 KB asset on every screen revisit.
 
-final class SdgTargetsDataProvider extends $FunctionalProvider<
-        AsyncValue<Map<int, List<SdgTarget>>>,
-        Map<int, List<SdgTarget>>,
-        FutureOr<Map<int, List<SdgTarget>>>>
+final class SdgTargetsDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Map<int, List<SdgTarget>>>,
+          Map<int, List<SdgTarget>>,
+          FutureOr<Map<int, List<SdgTarget>>>
+        >
     with
         $FutureModifier<Map<int, List<SdgTarget>>>,
         $FutureProvider<Map<int, List<SdgTarget>>> {
@@ -124,15 +135,15 @@ final class SdgTargetsDataProvider extends $FunctionalProvider<
   /// keepAlive: static bundled data; autoDispose would re-parse the
   /// 120 KB asset on every screen revisit.
   SdgTargetsDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'sdgTargetsDataProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sdgTargetsDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$sdgTargetsDataHash();
@@ -140,8 +151,8 @@ final class SdgTargetsDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<Map<int, List<SdgTarget>>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Map<int, List<SdgTarget>>> create(Ref ref) {

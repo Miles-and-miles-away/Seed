@@ -14,9 +14,7 @@ class SdgResource {
       titleJa: json['titleJa'] as String,
       titleEs: json['titleEs'] as String,
       url: json['url'] as String,
-      type: SdgResourceType.values.byName(
-        json['type'] as String,
-      ),
+      type: SdgResourceType.values.byName(json['type'] as String),
     );
   }
 

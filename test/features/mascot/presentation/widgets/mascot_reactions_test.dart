@@ -13,7 +13,7 @@ void main() {
 
       // Keep the provider alive across the reset delay (a bare read would let
       // it auto-dispose before the delayed reset callback runs).
-      container.listen(mascotAnimationTriggerProvider, (_, __) {});
+      container.listen(mascotAnimationTriggerProvider, (_, _) {});
 
       expect(container.read(mascotAnimationTriggerProvider), isFalse);
 

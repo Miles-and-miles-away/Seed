@@ -9,9 +9,13 @@ part of 'user_settings_model.dart';
 _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
     _UserSettingsModel(
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
-      reminderSchedules: (json['reminderSchedules'] as List<dynamic>?)
-              ?.map((e) =>
-                  NotificationScheduleModel.fromJson(e as Map<String, dynamic>))
+      reminderSchedules:
+          (json['reminderSchedules'] as List<dynamic>?)
+              ?.map(
+                (e) => NotificationScheduleModel.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
               .toList() ??
           const [],
       smartRemindersEnabled: json['smartRemindersEnabled'] as bool? ?? true,
@@ -19,9 +23,9 @@ _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
       hasSeenOnboarding: json['hasSeenOnboarding'] as bool? ?? false,
       seenStreakMilestones:
           (json['seenStreakMilestones'] as Map<String, dynamic>?)?.map(
-                (k, e) => MapEntry(k, e as bool),
-              ) ??
-              const {},
+            (k, e) => MapEntry(k, e as bool),
+          ) ??
+          const {},
       streakGracePeriodUsed: json['streakGracePeriodUsed'] as bool? ?? false,
       analyticsEnabled: json['analyticsEnabled'] as bool? ?? true,
     );

@@ -49,18 +49,20 @@ void main() {
         expect(result.streakWasBroken, isFalse);
       });
 
-      test('action on consecutive day updates longest streak when exceeded',
-          () {
-        final result = calculateStreakUpdate(
-          lastActionDate: DateTime(2026, 1, 26),
-          currentStreak: 10,
-          longestStreak: 10,
-          now: DateTime(2026, 1, 27),
-        );
+      test(
+        'action on consecutive day updates longest streak when exceeded',
+        () {
+          final result = calculateStreakUpdate(
+            lastActionDate: DateTime(2026, 1, 26),
+            currentStreak: 10,
+            longestStreak: 10,
+            now: DateTime(2026, 1, 27),
+          );
 
-        expect(result.currentStreak, equals(11));
-        expect(result.longestStreak, equals(11));
-      });
+          expect(result.currentStreak, equals(11));
+          expect(result.longestStreak, equals(11));
+        },
+      );
 
       test('missed day resets streak to 1', () {
         final result = calculateStreakUpdate(
@@ -76,18 +78,20 @@ void main() {
         expect(result.streakWasBroken, isTrue);
       });
 
-      test('missed day does not set streakWasBroken if streak was already 1',
-          () {
-        final result = calculateStreakUpdate(
-          lastActionDate: DateTime(2026, 1, 25), // 2 days ago
-          currentStreak: 1,
-          longestStreak: 5,
-          now: DateTime(2026, 1, 27),
-        );
+      test(
+        'missed day does not set streakWasBroken if streak was already 1',
+        () {
+          final result = calculateStreakUpdate(
+            lastActionDate: DateTime(2026, 1, 25), // 2 days ago
+            currentStreak: 1,
+            longestStreak: 5,
+            now: DateTime(2026, 1, 27),
+          );
 
-        expect(result.currentStreak, equals(1));
-        expect(result.streakWasBroken, isFalse);
-      });
+          expect(result.currentStreak, equals(1));
+          expect(result.streakWasBroken, isFalse);
+        },
+      );
 
       test('detects 1-week milestone crossing (6 to 7 days)', () {
         final result = calculateStreakUpdate(
@@ -207,10 +211,7 @@ void main() {
 
       test('is sorted in ascending order', () {
         for (var i = 0; i < weekMilestones.length - 1; i++) {
-          expect(
-            weekMilestones[i],
-            lessThan(weekMilestones[i + 1]),
-          );
+          expect(weekMilestones[i], lessThan(weekMilestones[i + 1]));
         }
       });
     });

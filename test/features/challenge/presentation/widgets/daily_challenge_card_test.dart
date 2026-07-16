@@ -32,32 +32,24 @@ void main() {
     multiDay: [],
   );
 
-  Widget buildCard({
-    required AppUserModel user,
-  }) {
+  Widget buildCard({required AppUserModel user}) {
     return ProviderScope(
       overrides: [
-        currentUserProvider.overrideWith(
-          (_) => Stream.value(user),
-        ),
+        currentUserProvider.overrideWith((_) => Stream.value(user)),
         challengeTemplateDataProvider.overrideWith(
           (_) async => testTemplateData,
         ),
       ],
       child: createTestWidget(
         child: const Scaffold(
-          body: SingleChildScrollView(
-            child: DailyChallengeCard(),
-          ),
+          body: SingleChildScrollView(child: DailyChallengeCard()),
         ),
       ),
     );
   }
 
   group('DailyChallengeCard', () {
-    testWidgets('renders nothing when user is null', (
-      tester,
-    ) async {
+    testWidgets('renders nothing when user is null', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
@@ -66,9 +58,7 @@ void main() {
             ),
           ],
           child: createTestWidget(
-            child: const Scaffold(
-              body: DailyChallengeCard(),
-            ),
+            child: const Scaffold(body: DailyChallengeCard()),
           ),
         ),
       );
@@ -77,23 +67,15 @@ void main() {
       expect(find.byType(Card), findsNothing);
     });
 
-    testWidgets('renders incomplete state with title', (
-      tester,
-    ) async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+    testWidgets('renders incomplete state with title', (tester) async {
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       await tester.pumpWidget(buildCard(user: user));
       await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
       // Should not show checkmark for incomplete
-      expect(
-        find.byIcon(Icons.check_circle),
-        findsNothing,
-      );
+      expect(find.byIcon(Icons.check_circle), findsNothing);
       // Chevron signals the card is tappable.
       expect(find.byIcon(Icons.chevron_right), findsOneWidget);
     });
@@ -101,10 +83,7 @@ void main() {
     testWidgets('incomplete card opens action log filtered by category', (
       tester,
     ) async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       String? capturedCategory;
       final router = GoRouter(
@@ -112,9 +91,7 @@ void main() {
         routes: [
           GoRoute(
             path: '/',
-            builder: (_, __) => const Scaffold(
-              body: DailyChallengeCard(),
-            ),
+            builder: (_, _) => const Scaffold(body: DailyChallengeCard()),
           ),
           GoRoute(
             path: '/log-action',
@@ -129,9 +106,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            currentUserProvider.overrideWith(
-              (_) => Stream.value(user),
-            ),
+            currentUserProvider.overrideWith((_) => Stream.value(user)),
             challengeTemplateDataProvider.overrideWith(
               (_) async => testTemplateData,
             ),
@@ -157,9 +132,7 @@ void main() {
       expect(capturedCategory, 'recycling');
     });
 
-    testWidgets('renders completed state with checkmark', (
-      tester,
-    ) async {
+    testWidgets('renders completed state with checkmark', (tester) async {
       final user = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',
@@ -170,50 +143,35 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
-      expect(
-        find.byIcon(Icons.check_circle),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.check_circle), findsOneWidget);
     });
 
-    testWidgets('shows streak badge when streak > 0', (
-      tester,
-    ) async {
+    testWidgets('shows streak badge when streak > 0', (tester) async {
       final user = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',
         challengeStreak: 5,
         // A live streak requires a recent completion -- yesterday, so
         // today's challenge still renders as in-progress.
-        challengeCompletedDate:
-            formatDateKey(DateTime.now().subtract(const Duration(days: 1))),
+        challengeCompletedDate: formatDateKey(
+          DateTime.now().subtract(const Duration(days: 1)),
+        ),
       );
 
       await tester.pumpWidget(buildCard(user: user));
       await tester.pumpAndSettle();
 
-      expect(
-        find.byIcon(Icons.local_fire_department),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.local_fire_department), findsOneWidget);
       expect(find.text('5'), findsOneWidget);
     });
 
-    testWidgets('hides streak badge when streak is 0', (
-      tester,
-    ) async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+    testWidgets('hides streak badge when streak is 0', (tester) async {
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       await tester.pumpWidget(buildCard(user: user));
       await tester.pumpAndSettle();
 
-      expect(
-        find.byIcon(Icons.local_fire_department),
-        findsNothing,
-      );
+      expect(find.byIcon(Icons.local_fire_department), findsNothing);
     });
   });
 }

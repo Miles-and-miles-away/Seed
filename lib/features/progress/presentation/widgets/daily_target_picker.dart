@@ -9,10 +9,7 @@ import '../providers/progress_providers.dart';
 ///
 /// Uses a ListWheelScrollView for picking a target between 1-10 goals.
 class DailyTargetPicker extends ConsumerStatefulWidget {
-  const DailyTargetPicker({
-    required this.onComplete,
-    super.key,
-  });
+  const DailyTargetPicker({required this.onComplete, super.key});
 
   /// Called when the user has selected and confirmed their target.
   final VoidCallback onComplete;
@@ -117,8 +114,9 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
                     child: AnimatedDefaultTextStyle(
                       duration: durationFast,
                       style: theme.textTheme.headlineLarge!.copyWith(
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         color: isSelected
                             ? colorScheme.primary
                             : colorScheme.onSurface.withValues(
@@ -152,9 +150,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
           FilledButton(
             onPressed: notifierState.isLoading ? null : _saveTarget,
             style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: spacingLg,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: spacingLg),
             ),
             child: notifierState.isLoading
                 ? const SizedBox(

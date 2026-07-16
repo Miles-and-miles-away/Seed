@@ -25,9 +25,7 @@ class SdgGoal {
       titleEn: json['title'] as String,
       shortTitleEn: json['shortTitle'] as String,
       descriptionEn: json['description'] as String,
-      color: Color(
-        int.parse(hex, radix: 16) + 0xFF000000,
-      ),
+      color: Color(int.parse(hex, radix: 16) + 0xFF000000),
       iconUrl: json['iconUrl'] as String,
       isLearnOnly: json['isLearnOnly'] as bool? ?? false,
       titleJa: json['titleJa'] as String? ?? '',
@@ -54,23 +52,24 @@ class SdgGoal {
   final String descriptionEs;
 
   String title(String locale) => switch (locale) {
-        'ja' when titleJa.isNotEmpty => titleJa,
-        'es' when titleEs.isNotEmpty => titleEs,
-        _ => titleEn,
-      };
+    'ja' when titleJa.isNotEmpty => titleJa,
+    'es' when titleEs.isNotEmpty => titleEs,
+    _ => titleEn,
+  };
 
   String shortTitle(String locale) => switch (locale) {
-        'ja' when shortTitleJa.isNotEmpty => shortTitleJa,
-        'es' when shortTitleEs.isNotEmpty => shortTitleEs,
-        _ => shortTitleEn,
-      };
+    'ja' when shortTitleJa.isNotEmpty => shortTitleJa,
+    'es' when shortTitleEs.isNotEmpty => shortTitleEs,
+    _ => shortTitleEn,
+  };
 
   String description(String locale) => switch (locale) {
-        'ja' when descriptionJa.isNotEmpty => descriptionJa,
-        'es' when descriptionEs.isNotEmpty => descriptionEs,
-        _ => descriptionEn,
-      };
+    'ja' when descriptionJa.isNotEmpty => descriptionJa,
+    'es' when descriptionEs.isNotEmpty => descriptionEs,
+    _ => descriptionEn,
+  };
 
-  String get infographicAsset => 'assets/images/sdg_infographics/'
+  String get infographicAsset =>
+      'assets/images/sdg_infographics/'
       'sdg_infographic_$number.jpg';
 }

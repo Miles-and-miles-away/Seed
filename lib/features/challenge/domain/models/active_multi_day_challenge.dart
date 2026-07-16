@@ -14,9 +14,7 @@ class ActiveMultiDayChallenge {
   final int targetDays;
   final String lastCompletionDate;
 
-  static ActiveMultiDayChallenge? fromMap(
-    Map<String, dynamic>? map,
-  ) {
+  static ActiveMultiDayChallenge? fromMap(Map<String, dynamic>? map) {
     if (map == null || map.isEmpty) return null;
     final templateId = map[AppConstants.fieldTemplateId] as String?;
     if (templateId == null || templateId.isEmpty) {

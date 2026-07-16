@@ -15,21 +15,25 @@ final notificationServiceProvider = NotificationServiceProvider._();
 
 /// Provider for the NotificationService singleton.
 
-final class NotificationServiceProvider extends $FunctionalProvider<
-    NotificationService,
-    NotificationService,
-    NotificationService> with $Provider<NotificationService> {
+final class NotificationServiceProvider
+    extends
+        $FunctionalProvider<
+          NotificationService,
+          NotificationService,
+          NotificationService
+        >
+    with $Provider<NotificationService> {
   /// Provider for the NotificationService singleton.
   NotificationServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notificationServiceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notificationServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notificationServiceHash();
@@ -37,8 +41,8 @@ final class NotificationServiceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<NotificationService> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   NotificationService create(Ref ref) {
@@ -69,15 +73,15 @@ final class FcmServiceProvider
     with $Provider<FCMService> {
   /// Provider for the FCMService singleton.
   FcmServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'fcmServiceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fcmServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$fcmServiceHash();
@@ -119,15 +123,15 @@ final class NotificationSchedulerProvider
   ///
   /// This watches user settings and reschedules notifications when they change.
   NotificationSchedulerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notificationSchedulerProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notificationSchedulerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notificationSchedulerHash();
@@ -150,11 +154,14 @@ abstract class _$NotificationScheduler extends $AsyncNotifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, void>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -177,15 +184,15 @@ final class ShouldShowSmartReminderProvider
   ///
   /// Returns true if the user hasn't logged an action today.
   ShouldShowSmartReminderProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'shouldShowSmartReminderProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'shouldShowSmartReminderProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$shouldShowSmartReminderHash();
@@ -220,15 +227,15 @@ final class FCMTokenManagerProvider
   ///
   /// Watches auth state and updates FCM token when user logs in.
   FCMTokenManagerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'fCMTokenManagerProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fCMTokenManagerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$fCMTokenManagerHash();
@@ -250,11 +257,14 @@ abstract class _$FCMTokenManager extends $AsyncNotifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, void>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -272,15 +282,15 @@ final class NotificationPermissionStatusProvider
     with $FutureModifier<bool>, $FutureProvider<bool> {
   /// Provider for checking notification permission status.
   NotificationPermissionStatusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notificationPermissionStatusProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notificationPermissionStatusProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notificationPermissionStatusHash();
@@ -306,24 +316,27 @@ final fcmAuthorizationStatusProvider = FcmAuthorizationStatusProvider._();
 
 /// Provider for FCM authorization status.
 
-final class FcmAuthorizationStatusProvider extends $FunctionalProvider<
-        AsyncValue<AuthorizationStatus>,
-        AuthorizationStatus,
-        FutureOr<AuthorizationStatus>>
+final class FcmAuthorizationStatusProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<AuthorizationStatus>,
+          AuthorizationStatus,
+          FutureOr<AuthorizationStatus>
+        >
     with
         $FutureModifier<AuthorizationStatus>,
         $FutureProvider<AuthorizationStatus> {
   /// Provider for FCM authorization status.
   FcmAuthorizationStatusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'fcmAuthorizationStatusProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fcmAuthorizationStatusProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$fcmAuthorizationStatusHash();
@@ -331,8 +344,8 @@ final class FcmAuthorizationStatusProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<AuthorizationStatus> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<AuthorizationStatus> create(Ref ref) {

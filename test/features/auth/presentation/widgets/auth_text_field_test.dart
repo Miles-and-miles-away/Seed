@@ -4,19 +4,17 @@ import 'package:seed_app/features/auth/presentation/widgets/auth_text_field.dart
 
 void main() {
   Widget wrap(Widget child) => MaterialApp(
-        home: Scaffold(
-          body: Padding(padding: const EdgeInsets.all(16), child: child),
-        ),
-      );
+    home: Scaffold(
+      body: Padding(padding: const EdgeInsets.all(16), child: child),
+    ),
+  );
 
   testWidgets('renders label text', (tester) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
 
     await tester.pumpWidget(
-      wrap(
-        AuthTextField(controller: controller, label: 'Email'),
-      ),
+      wrap(AuthTextField(controller: controller, label: 'Email')),
     );
 
     expect(find.text('Email'), findsOneWidget);
@@ -27,9 +25,7 @@ void main() {
     addTearDown(controller.dispose);
 
     await tester.pumpWidget(
-      wrap(
-        AuthTextField(controller: controller, label: 'Email'),
-      ),
+      wrap(AuthTextField(controller: controller, label: 'Email')),
     );
     await tester.enterText(find.byType(TextFormField), 'hello@x.com');
 

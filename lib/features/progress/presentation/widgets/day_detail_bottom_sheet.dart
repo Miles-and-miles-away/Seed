@@ -34,9 +34,7 @@ class DayDetailBottomSheet extends ConsumerStatefulWidget {
       isScrollControlled: true,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
       builder: (_) => DayDetailBottomSheet(date: date),
     );
@@ -133,9 +131,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               )
             else if (dayLogs.isEmpty)
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: spacingLg,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: spacingLg),
                 child: Text(
                   l10n.dayDetailNoActions,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -177,14 +173,12 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     });
   }
 
-  Future<void> _openActionInfo(
-    BuildContext context,
-    ActionLogModel log,
-  ) async {
+  Future<void> _openActionInfo(BuildContext context, ActionLogModel log) async {
     final actions = await ref.read(actionLibraryProvider.future);
-    final action = actions
-        .cast<ActionModel?>()
-        .firstWhere((a) => a!.id == log.actionId, orElse: () => null);
+    final action = actions.cast<ActionModel?>().firstWhere(
+      (a) => a!.id == log.actionId,
+      orElse: () => null,
+    );
     if (action == null || !context.mounted) return;
     final languageCode = Localizations.localeOf(context).languageCode;
     await ActionLogConfirmationDialog.show(
@@ -313,10 +307,7 @@ class _FactUnavailable extends StatelessWidget {
         padding: const EdgeInsets.all(spacingXl),
         child: Row(
           children: [
-            Icon(
-              Icons.lock_outline,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            Icon(Icons.lock_outline, color: theme.colorScheme.onSurfaceVariant),
             const SizedBox(width: spacingMd),
             Expanded(
               child: Text(

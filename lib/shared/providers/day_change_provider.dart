@@ -35,20 +35,14 @@ class DayChangeNotifier extends _$DayChangeNotifier {
   void _scheduleMidnightRefresh() {
     _midnightTimer?.cancel();
     final now = DateTime.now();
-    final midnight = DateTime(
-      now.year,
-      now.month,
-      now.day + 1,
-    );
+    final midnight = DateTime(now.year, now.month, now.day + 1);
     // 1s buffer to ensure we're past midnight
     final duration = midnight.difference(now) + const Duration(seconds: 1);
     _midnightTimer = Timer(duration, _onDayChanged);
   }
 
   void _listenToAppResume() {
-    _lifecycleListener = AppLifecycleListener(
-      onResume: checkDayChanged,
-    );
+    _lifecycleListener = AppLifecycleListener(onResume: checkDayChanged);
   }
 
   /// Checks if the day has changed and invalidates providers

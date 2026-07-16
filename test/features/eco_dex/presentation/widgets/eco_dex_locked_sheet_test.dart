@@ -11,49 +11,44 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sh
 
 void main() {
   Widget wrap(Widget child, {AppUserModel? user}) => ProviderScope(
-        overrides: [
-          currentUserProvider.overrideWith((_) => Stream.value(user)),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(body: child),
-        ),
-      );
+    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+    child: MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(body: child),
+    ),
+  );
 
   EcoDexEntry makeEntry({
     String hintEn = 'Walk five times',
     String hintJa = '',
     String hintEs = '',
     EcoDexCondition condition = const EcoDexCondition.totalActions(count: 5),
-  }) =>
-      EcoDexEntry(
-        id: 'e1',
-        category: 'transport',
-        nameEn: 'Walking',
-        nameJa: '',
-        nameEs: '',
-        factEn: '',
-        factJa: '',
-        factEs: '',
-        sourceUrl: '',
-        iconName: 'walking',
-        condition: condition,
-        hintEn: hintEn,
-        hintJa: hintJa,
-        hintEs: hintEs,
-      );
+  }) => EcoDexEntry(
+    id: 'e1',
+    category: 'transport',
+    nameEn: 'Walking',
+    nameJa: '',
+    nameEs: '',
+    factEn: '',
+    factJa: '',
+    factEs: '',
+    sourceUrl: '',
+    iconName: 'walking',
+    condition: condition,
+    hintEn: hintEn,
+    hintJa: hintJa,
+    hintEs: hintEs,
+  );
 
   testWidgets('shows lock icon and hint in the active locale', (tester) async {
     await tester.pumpWidget(
-      wrap(
-        EcoDexLockedSheet(entry: makeEntry(), locale: 'en'),
-      ),
+      wrap(EcoDexLockedSheet(entry: makeEntry(), locale: 'en')),
     );
     await tester.pump();
 
@@ -95,11 +90,7 @@ void main() {
     await tester.pumpWidget(
       wrap(
         EcoDexLockedSheet(entry: makeEntry(), locale: 'en'),
-        user: const AppUserModel(
-          uid: 'u',
-          email: 'e',
-          totalActionsCount: 3,
-        ),
+        user: const AppUserModel(uid: 'u', email: 'e', totalActionsCount: 3),
       ),
     );
     await tester.pump();
@@ -125,9 +116,7 @@ void main() {
 
   testWidgets('hides progress when no user is signed in', (tester) async {
     await tester.pumpWidget(
-      wrap(
-        EcoDexLockedSheet(entry: makeEntry(), locale: 'en'),
-      ),
+      wrap(EcoDexLockedSheet(entry: makeEntry(), locale: 'en')),
     );
     await tester.pump();
 

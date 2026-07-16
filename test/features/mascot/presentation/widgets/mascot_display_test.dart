@@ -5,11 +5,11 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 
 Widget _wrap(Widget child, {String? assetPath}) => ProviderScope(
-      overrides: [
-        activeMascotAssetPathProvider.overrideWith((_) => assetPath),
-      ],
-      child: MaterialApp(home: Scaffold(body: Center(child: child))),
-    );
+  overrides: [activeMascotAssetPathProvider.overrideWith((_) => assetPath)],
+  child: MaterialApp(
+    home: Scaffold(body: Center(child: child)),
+  ),
+);
 
 void main() {
   group('MascotAnimationController', () {

@@ -109,25 +109,19 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final color =
-        isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant;
+    final color = isSelected
+        ? colorScheme.primary
+        : colorScheme.onSurfaceVariant;
 
     return InkWell(
       onTap: onTap,
       borderRadius: borderRadiusMd,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 4,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              isSelected ? selectedIcon : icon,
-              color: color,
-              size: 24,
-            ),
+            Icon(isSelected ? selectedIcon : icon, color: color, size: 24),
             const SizedBox(height: 4),
             // Labels render at natural size; FittedBox.scaleDown only
             // shrinks them when a translation (e.g. JP katakana) would

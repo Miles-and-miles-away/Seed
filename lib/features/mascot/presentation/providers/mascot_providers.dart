@@ -18,16 +18,12 @@ part 'mascot_providers.g.dart';
 
 /// Loads and caches mascot species data from JSON.
 @riverpod
-Future<List<MascotSpeciesModel>> mascotSpeciesData(
-  Ref ref,
-) =>
+Future<List<MascotSpeciesModel>> mascotSpeciesData(Ref ref) =>
     loadMascotSpecies();
 
 @riverpod
 MascotRepository mascotRepository(Ref ref) {
-  return MascotRepository(
-    firestore: ref.watch(firestoreProvider),
-  );
+  return MascotRepository(firestore: ref.watch(firestoreProvider));
 }
 
 // =============================================================
@@ -90,14 +86,9 @@ int activeMascotStage(Ref ref) {
   if (mascot == null) return 1;
   final speciesList = ref.watch(mascotSpeciesDataProvider).value;
   if (speciesList == null) return 1;
-  final species = getSpeciesById(
-    mascot.speciesId,
-    speciesList,
-  );
+  final species = getSpeciesById(mascot.speciesId, speciesList);
   if (species == null) return 1;
-  return species.getStageIndexForLevel(
-    mascot.mascotLevel,
-  );
+  return species.getStageIndexForLevel(mascot.mascotLevel);
 }
 
 /// Evolution stage data for the active mascot.
@@ -224,11 +215,7 @@ class MascotNotifier extends _$MascotNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateMascotName(
-        user.uid,
-        mascot.id,
-        name,
-      );
+      await repo.updateMascotName(user.uid, mascot.id, name);
     });
     if (!ref.mounted) return;
     state = result;
@@ -244,20 +231,14 @@ class MascotNotifier extends _$MascotNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateLastSeenStage(
-        user.uid,
-        mascot.id,
-        stage,
-      );
+      await repo.updateLastSeenStage(user.uid, mascot.id, stage);
     });
     if (!ref.mounted) return;
     state = result;
   }
 
   /// Switches the active mascot.
-  Future<void> switchActiveMascot(
-    String mascotId,
-  ) async {
+  Future<void> switchActiveMascot(String mascotId) async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
@@ -286,21 +267,14 @@ class MascotNotifier extends _$MascotNotifier {
   }
 
   /// Names a newly hatched mascot and makes it active.
-  Future<void> nameHatchedMascot(
-    String mascotId,
-    String name,
-  ) async {
+  Future<void> nameHatchedMascot(String mascotId, String name) async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateMascotName(
-        user.uid,
-        mascotId,
-        name,
-      );
+      await repo.updateMascotName(user.uid, mascotId, name);
       await repo.setActiveMascot(user.uid, mascotId);
     });
     if (!ref.mounted) return;
@@ -319,14 +293,11 @@ class MascotAnimationTrigger extends _$MascotAnimationTrigger {
 
   void triggerBounce() {
     state = true;
-    Future.delayed(
-      durationInstant,
-      () {
-        // The autoDispose notifier may be gone before the delay
-        // elapses; touching state then throws.
-        if (ref.mounted && state) state = false;
-      },
-    );
+    Future.delayed(durationInstant, () {
+      // The autoDispose notifier may be gone before the delay
+      // elapses; touching state then throws.
+      if (ref.mounted && state) state = false;
+    });
   }
 }
 
@@ -341,14 +312,11 @@ class MascotSmileTrigger extends _$MascotSmileTrigger {
 
   void triggerSmile() {
     state = true;
-    Future.delayed(
-      durationInstant,
-      () {
-        // The autoDispose notifier may be gone before the delay
-        // elapses; touching state then throws.
-        if (ref.mounted && state) state = false;
-      },
-    );
+    Future.delayed(durationInstant, () {
+      // The autoDispose notifier may be gone before the delay
+      // elapses; touching state then throws.
+      if (ref.mounted && state) state = false;
+    });
   }
 }
 

@@ -24,11 +24,7 @@ class SdgInfographicViewer extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(
-              Icons.insert_chart_outlined,
-              color: goal.color,
-              size: 20,
-            ),
+            Icon(Icons.insert_chart_outlined, color: goal.color, size: 20),
             const SizedBox(width: spacingSm),
             Text(
               'UN Infographic',
@@ -67,20 +63,15 @@ class SdgInfographicViewer extends StatelessWidget {
         barrierColor: Colors.black54,
         transitionDuration: durationSlower,
         reverseTransitionDuration: durationEmphasis,
-        pageBuilder: (_, __, ___) => _FullScreenInfographic(
-          goal: goal,
-          locale: locale,
-        ),
+        pageBuilder: (_, _, _) =>
+            _FullScreenInfographic(goal: goal, locale: locale),
       ),
     );
   }
 }
 
 class _FullScreenInfographic extends StatelessWidget {
-  const _FullScreenInfographic({
-    required this.goal,
-    required this.locale,
-  });
+  const _FullScreenInfographic({required this.goal, required this.locale});
 
   final SdgGoal goal;
   final String locale;
@@ -99,10 +90,7 @@ class _FullScreenInfographic extends StatelessWidget {
         title: Text(
           'Goal ${goal.number}: '
           '${goal.shortTitle(locale)}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
       body: InteractiveViewer(
@@ -111,17 +99,13 @@ class _FullScreenInfographic extends StatelessWidget {
         child: Center(
           child: AnimatedBuilder(
             animation: bounceScale,
-            builder: (context, child) => Transform.scale(
-              scale: bounceScale.value,
-              child: child,
-            ),
+            builder: (context, child) =>
+                Transform.scale(scale: bounceScale.value, child: child),
             child: Hero(
-              tag: 'sdg_infographic_'
+              tag:
+                  'sdg_infographic_'
                   '${goal.number}',
-              child: Image.asset(
-                goal.infographicAsset,
-                fit: BoxFit.contain,
-              ),
+              child: Image.asset(goal.infographicAsset, fit: BoxFit.contain),
             ),
           ),
         ),

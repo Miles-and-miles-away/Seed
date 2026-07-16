@@ -8,11 +8,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 /// A list item displaying a logged action.
 class ActionLogItem extends StatelessWidget {
-  const ActionLogItem({
-    required this.actionLog,
-    this.onTap,
-    super.key,
-  });
+  const ActionLogItem({required this.actionLog, this.onTap, super.key});
 
   final ActionLogModel actionLog;
 
@@ -45,15 +41,10 @@ class ActionLogItem extends StatelessWidget {
                 width: spacingHuge,
                 height: spacingHuge,
                 decoration: BoxDecoration(
-                  color: categoryColor.withValues(
-                    alpha: opacityFaint,
-                  ),
+                  color: categoryColor.withValues(alpha: opacityFaint),
                   borderRadius: borderRadiusMd,
                 ),
-                child: Icon(
-                  category?.icon ?? Icons.eco,
-                  color: categoryColor,
-                ),
+                child: Icon(category?.icon ?? Icons.eco, color: categoryColor),
               ),
               const SizedBox(width: spacingMd),
               // Action details
@@ -118,9 +109,7 @@ class ActionLogItem extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: categoryColor.withValues(
-                    alpha: opacityFaint,
-                  ),
+                  color: categoryColor.withValues(alpha: opacityFaint),
                   borderRadius: borderRadiusLg,
                 ),
                 child: Text(

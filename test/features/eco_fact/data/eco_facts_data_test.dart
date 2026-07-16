@@ -38,7 +38,8 @@ void main() {
         expect(
           validCategories.contains(fact.category),
           isTrue,
-          reason: 'Invalid category "${fact.category}" '
+          reason:
+              'Invalid category "${fact.category}" '
               'for day ${fact.dayOfYear}',
         );
       }
@@ -51,7 +52,8 @@ void main() {
           expect(
             sdg >= 1 && sdg <= 17,
             isTrue,
-            reason: 'SDG $sdg out of range '
+            reason:
+                'SDG $sdg out of range '
                 'for day ${fact.dayOfYear}',
           );
         }

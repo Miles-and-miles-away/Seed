@@ -50,23 +50,17 @@ Future<ProviderContainer> createContainerWithUser(
 }) async {
   final container = ProviderContainer(
     overrides: [
-      currentUserProvider.overrideWith(
-        (ref) => Stream.value(user),
-      ),
-      activeMascotProvider.overrideWith(
-        (ref) => Stream.value(activeMascot),
-      ),
-      mascotSpeciesDataProvider.overrideWith(
-        (ref) async => _species,
-      ),
+      currentUserProvider.overrideWith((ref) => Stream.value(user)),
+      activeMascotProvider.overrideWith((ref) => Stream.value(activeMascot)),
+      mascotSpeciesDataProvider.overrideWith((ref) async => _species),
     ],
   );
 
   // Subscribe and wait for the streams to emit
   final subscriptions = [
-    container.listen(currentUserProvider, (_, __) {}),
-    container.listen(activeMascotProvider, (_, __) {}),
-    container.listen(mascotSpeciesDataProvider, (_, __) {}),
+    container.listen(currentUserProvider, (_, _) {}),
+    container.listen(activeMascotProvider, (_, _) {}),
+    container.listen(mascotSpeciesDataProvider, (_, _) {}),
   ];
 
   // Give time for the streams to emit
@@ -184,10 +178,7 @@ void main() {
 
       final container = await createContainerWithUser(
         user,
-        activeMascot: const MascotModel(
-          id: 'm2',
-          speciesId: 'seed',
-        ),
+        activeMascot: const MascotModel(id: 'm2', speciesId: 'seed'),
       );
       addTearDown(container.dispose);
 
@@ -196,10 +187,7 @@ void main() {
     });
 
     test('returns the top stage at high mascot levels', () async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       final container = await createContainerWithUser(
         user,
@@ -226,10 +214,7 @@ void main() {
     });
 
     test('returns 0 when createdAt is null', () async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       final container = await createContainerWithUser(user);
       addTearDown(container.dispose);

@@ -36,11 +36,7 @@ void main() {
 
   Widget createTestWidget({required Widget child}) {
     return ProviderScope(
-      overrides: [
-        sdgGoalsDataProvider.overrideWith(
-          (ref) async => sdgData,
-        ),
-      ],
+      overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
       child: MaterialApp(
         localizationsDelegates: const [
           AppLocalizations.delegate,
@@ -57,9 +53,7 @@ void main() {
   group('EcoFactCard', () {
     testWidgets('shows fact text', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
       );
       await tester.pumpAndSettle();
 
@@ -68,23 +62,16 @@ void main() {
 
     testWidgets('shows source', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Test source'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Test source'), findsOneWidget);
     });
 
     testWidgets('shows category chip', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
       );
       await tester.pumpAndSettle();
 
@@ -93,9 +80,7 @@ void main() {
 
     testWidgets('shows related SDG badges', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
       );
       await tester.pumpAndSettle();
 
@@ -105,9 +90,7 @@ void main() {
 
     testWidgets('shows UN World Day badge', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
       );
       await tester.pumpAndSettle();
 
@@ -116,9 +99,7 @@ void main() {
 
     testWidgets('hides UN World Day when null', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _minimalFact),
-        ),
+        createTestWidget(child: const EcoFactCard(fact: _minimalFact)),
       );
       await tester.pumpAndSettle();
 
@@ -128,10 +109,7 @@ void main() {
     testWidgets('shows lock icon when locked', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: const EcoFactCard(
-            fact: _testFact,
-            isLocked: true,
-          ),
+          child: const EcoFactCard(fact: _testFact, isLocked: true),
         ),
       );
       await tester.pumpAndSettle();
@@ -140,18 +118,13 @@ void main() {
       expect(find.text('Test fact content'), findsNothing);
     });
 
-    testWidgets(
-      'does not show lock icon when unlocked',
-      (tester) async {
-        await tester.pumpWidget(
-          createTestWidget(
-            child: const EcoFactCard(fact: _testFact),
-          ),
-        );
-        await tester.pumpAndSettle();
+    testWidgets('does not show lock icon when unlocked', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(child: const EcoFactCard(fact: _testFact)),
+      );
+      await tester.pumpAndSettle();
 
-        expect(find.byIcon(Icons.lock_outline), findsNothing);
-      },
-    );
+      expect(find.byIcon(Icons.lock_outline), findsNothing);
+    });
   });
 }

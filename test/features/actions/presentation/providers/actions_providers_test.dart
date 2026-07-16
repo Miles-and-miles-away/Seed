@@ -15,22 +15,18 @@ ActionModel _a({
   List<String> sdgs = const [],
   String nameJa = '',
   String desc = '',
-}) =>
-    ActionModel(
-      id: id,
-      nameEn: name,
-      nameJa: nameJa.isEmpty ? name : nameJa,
-      category: category,
-      points: points,
-      co2Grams: co2,
-      relatedSdgs: sdgs,
-      descriptionEn: desc,
-    );
+}) => ActionModel(
+  id: id,
+  nameEn: name,
+  nameJa: nameJa.isEmpty ? name : nameJa,
+  category: category,
+  points: points,
+  co2Grams: co2,
+  relatedSdgs: sdgs,
+  descriptionEn: desc,
+);
 
-ProviderContainer _container({
-  List<ActionModel>? library,
-  AppUserModel? user,
-}) {
+ProviderContainer _container({List<ActionModel>? library, AppUserModel? user}) {
   return ProviderContainer(
     overrides: [
       if (library != null)
@@ -43,27 +39,15 @@ ProviderContainer _container({
 
 Future<void> _pump(ProviderContainer c) async {
   c
-    ..listen(actionLibraryProvider, (_, __) {})
-    ..listen(currentUserProvider, (_, __) {});
+    ..listen(actionLibraryProvider, (_, _) {})
+    ..listen(currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
 void main() {
   final actions = [
-    _a(
-      id: 'walk',
-      name: 'Walk',
-      co2: 500,
-      points: 20,
-      sdgs: ['11', '13'],
-    ),
-    _a(
-      id: 'bike',
-      name: 'Bike',
-      co2: 800,
-      points: 15,
-      sdgs: ['11'],
-    ),
+    _a(id: 'walk', name: 'Walk', co2: 500, points: 20, sdgs: ['11', '13']),
+    _a(id: 'bike', name: 'Bike', co2: 800, points: 15, sdgs: ['11']),
     _a(
       id: 'veggies',
       name: 'Eat veggies',
@@ -180,10 +164,7 @@ void main() {
       c.read(selectedSdgFilterProvider.notifier).select(13);
       final filtered = c.read(baseFilteredActionsProvider).value!;
 
-      expect(
-        filtered.map((a) => a.id).toSet(),
-        {'walk', 'veggies'},
-      );
+      expect(filtered.map((a) => a.id).toSet(), {'walk', 'veggies'});
     });
 
     test('filters by search query (case-insensitive)', () async {
@@ -219,8 +200,8 @@ void main() {
       addTearDown(c.dispose);
       // Keep state alive across the upcoming reads.
       c
-        ..listen(filteredActionsProvider, (_, __) {})
-        ..listen(selectedSortOptionProvider, (_, __) {});
+        ..listen(filteredActionsProvider, (_, _) {})
+        ..listen(selectedSortOptionProvider, (_, _) {});
       await _pump(c);
       c.read(selectedSortOptionProvider.notifier).select(sort);
       await Future<void>.delayed(Duration.zero);
@@ -229,45 +210,57 @@ void main() {
 
     test('alphabeticalAsc sorts by localized name ascending', () async {
       // Bike, Eat veggies, Short shower, Walk.
-      expect(
-        await sortedIds(ActionSortOption.alphabeticalAsc),
-        ['bike', 'veggies', 'shower', 'walk'],
-      );
+      expect(await sortedIds(ActionSortOption.alphabeticalAsc), [
+        'bike',
+        'veggies',
+        'shower',
+        'walk',
+      ]);
     });
 
     test('alphabeticalDesc reverses the order', () async {
-      expect(
-        await sortedIds(ActionSortOption.alphabeticalDesc),
-        ['walk', 'shower', 'veggies', 'bike'],
-      );
+      expect(await sortedIds(ActionSortOption.alphabeticalDesc), [
+        'walk',
+        'shower',
+        'veggies',
+        'bike',
+      ]);
     });
 
     test('co2HighToLow sorts by co2 descending', () async {
-      expect(
-        await sortedIds(ActionSortOption.co2HighToLow),
-        ['bike', 'walk', 'veggies', 'shower'],
-      );
+      expect(await sortedIds(ActionSortOption.co2HighToLow), [
+        'bike',
+        'walk',
+        'veggies',
+        'shower',
+      ]);
     });
 
     test('co2LowToHigh is the reverse', () async {
-      expect(
-        await sortedIds(ActionSortOption.co2LowToHigh),
-        ['shower', 'veggies', 'walk', 'bike'],
-      );
+      expect(await sortedIds(ActionSortOption.co2LowToHigh), [
+        'shower',
+        'veggies',
+        'walk',
+        'bike',
+      ]);
     });
 
     test('pointsHighToLow sorts by points descending', () async {
-      expect(
-        await sortedIds(ActionSortOption.pointsHighToLow),
-        ['walk', 'bike', 'veggies', 'shower'],
-      );
+      expect(await sortedIds(ActionSortOption.pointsHighToLow), [
+        'walk',
+        'bike',
+        'veggies',
+        'shower',
+      ]);
     });
 
     test('pointsLowToHigh is the reverse', () async {
-      expect(
-        await sortedIds(ActionSortOption.pointsLowToHigh),
-        ['shower', 'veggies', 'bike', 'walk'],
-      );
+      expect(await sortedIds(ActionSortOption.pointsLowToHigh), [
+        'shower',
+        'veggies',
+        'bike',
+        'walk',
+      ]);
     });
   });
 }

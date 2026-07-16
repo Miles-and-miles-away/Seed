@@ -60,32 +60,35 @@ class EcoDexCelebrationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    l10n.ecoDexDiscoveryTitle,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
+                        l10n.ecoDexDiscoveryTitle,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
                       .animate()
                       .fadeIn(duration: 400.ms)
                       .slideY(begin: -0.2, end: 0),
                   const SizedBox(height: spacingXxxl),
                   Container(
-                    width: 140,
-                    height: 140,
-                    padding: const EdgeInsets.all(spacingLg),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: ClipOval(
-                      child: EcoDexEntryImage(
-                        iconName: entry.iconName,
-                        size: 96,
-                      ),
-                    ),
-                  ).animate().fadeIn(duration: 400.ms).scale(
+                        width: 140,
+                        height: 140,
+                        padding: const EdgeInsets.all(spacingLg),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipOval(
+                          child: EcoDexEntryImage(
+                            iconName: entry.iconName,
+                            size: 96,
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .scale(
                         begin: const Offset(0.3, 0.3),
                         end: const Offset(1, 1),
                         curve: Curves.elasticOut,
@@ -110,18 +113,18 @@ class EcoDexCelebrationScreen extends StatelessWidget {
                   ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                   const SizedBox(height: spacingHuge),
                   FilledButton(
-                    onPressed: onDismiss,
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingHuge,
-                        vertical: spacingLg,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: borderRadiusLg,
-                      ),
-                    ),
-                    child: Text(l10n.ecoDexDiscoveryAcknowledge),
-                  )
+                        onPressed: onDismiss,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: spacingHuge,
+                            vertical: spacingLg,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: borderRadiusLg,
+                          ),
+                        ),
+                        child: Text(l10n.ecoDexDiscoveryAcknowledge),
+                      )
                       .animate(delay: 800.ms)
                       .fadeIn(duration: 400.ms)
                       .slideY(begin: 0.3, end: 0),
@@ -162,7 +165,7 @@ Future<void> showEcoDexCelebrations(
     await showGeneralDialog<void>(
       context: context,
       barrierColor: Colors.transparent,
-      pageBuilder: (dialogContext, _, __) {
+      pageBuilder: (dialogContext, _, _) {
         return EcoDexCelebrationScreen(
           entry: entries[i],
           remainingInQueue: remaining,

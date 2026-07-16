@@ -34,10 +34,7 @@ part 'router.g.dart';
 
 int _parseSdgGoalNumber(String? value) {
   final parsed = int.tryParse(value ?? '') ?? AppConstants.sdgMinGoal;
-  return parsed.clamp(
-    AppConstants.sdgMinGoal,
-    AppConstants.sdgMaxGoal,
-  );
+  return parsed.clamp(AppConstants.sdgMinGoal, AppConstants.sdgMaxGoal);
 }
 
 /// Full-path routes for use at navigation call sites via [appRoutes].
@@ -101,7 +98,7 @@ GoRouter router(Ref ref) {
   // empty listen keeps it alive. Registered before the refresh stream
   // subscribes so the provider observes each auth event first and redirect
   // never reads a stale value.
-  ref.listen(authStateChangesProvider, (_, __) {});
+  ref.listen(authStateChangesProvider, (_, _) {});
 
   // Re-evaluates redirect on every auth event. Built once per provider
   // lifetime and disposed below so the Firebase subscription cannot leak.
@@ -114,9 +111,7 @@ GoRouter router(Ref ref) {
   final router = GoRouter(
     initialLocation: appRoutes.splash,
     debugLogDiagnostics: kDebugMode,
-    observers: [
-      if (analyticsObserver != null) analyticsObserver,
-    ],
+    observers: [?analyticsObserver],
 
     // Refresh router when auth state changes
     refreshListenable: refreshStream,
@@ -299,11 +294,13 @@ GoRouter router(Ref ref) {
       return authState.when(
         data: (user) {
           final currentPath = state.matchedLocation;
-          final isOnAuthPage = currentPath == appRoutes.login ||
+          final isOnAuthPage =
+              currentPath == appRoutes.login ||
               currentPath == appRoutes.register;
           final isOnSplash = currentPath == appRoutes.splash;
           final isOnVerification = currentPath == appRoutes.emailVerification;
-          final isOnPublicLegal = currentPath == appRoutes.privacy ||
+          final isOnPublicLegal =
+              currentPath == appRoutes.privacy ||
               currentPath == appRoutes.terms;
 
           // Not logged in - allow auth pages and public legal docs only
@@ -312,8 +309,9 @@ GoRouter router(Ref ref) {
           }
 
           // Logged in but email not verified (email/password users only)
-          final isEmailPasswordUser =
-              user.providerData.any((p) => p.providerId == 'password');
+          final isEmailPasswordUser = user.providerData.any(
+            (p) => p.providerId == 'password',
+          );
           if (!user.emailVerified && isEmailPasswordUser) {
             if (isOnVerification || isOnPublicLegal) return null;
             return appRoutes.emailVerification;
@@ -331,9 +329,10 @@ GoRouter router(Ref ref) {
           final isOnSplash = state.matchedLocation == appRoutes.splash;
           return isOnSplash ? null : appRoutes.splash;
         },
-        error: (_, __) {
+        error: (_, _) {
           // On error, redirect to login
-          final isOnAuthPage = state.matchedLocation == appRoutes.login ||
+          final isOnAuthPage =
+              state.matchedLocation == appRoutes.login ||
               state.matchedLocation == appRoutes.register;
           return isOnAuthPage ? null : appRoutes.login;
         },
@@ -341,11 +340,8 @@ GoRouter router(Ref ref) {
     },
 
     // Error handling
-    errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('Page not found: ${state.uri}'),
-      ),
-    ),
+    errorBuilder: (context, state) =>
+        Scaffold(body: Center(child: Text('Page not found: ${state.uri}'))),
   );
 
   // Router first: GoRouter detaches from refreshStream in its dispose,
@@ -370,11 +366,7 @@ class _SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.eco,
-              size: 80,
-              color: theme.colorScheme.primary,
-            ),
+            Icon(Icons.eco, size: 80, color: theme.colorScheme.primary),
             const SizedBox(height: 24),
             const CircularProgressIndicator(),
           ],

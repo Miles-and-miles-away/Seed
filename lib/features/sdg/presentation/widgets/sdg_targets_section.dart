@@ -47,17 +47,11 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () => setState(
-              () => _expanded = !_expanded,
-            ),
+            onTap: () => setState(() => _expanded = !_expanded),
             behavior: HitTestBehavior.opaque,
             child: Row(
               children: [
-                Icon(
-                  Icons.info_outline,
-                  color: goal.color,
-                  size: 20,
-                ),
+                Icon(Icons.info_outline, color: goal.color, size: 20),
                 const SizedBox(width: spacingSm),
                 Expanded(
                   child: Text(
@@ -88,11 +82,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
           ),
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
-            secondChild: _buildTargets(
-              theme,
-              l10n,
-              goal,
-            ),
+            secondChild: _buildTargets(theme, l10n, goal),
             crossFadeState: _expanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
@@ -103,11 +93,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
     );
   }
 
-  Widget _buildTargets(
-    ThemeData theme,
-    AppLocalizations l10n,
-    SdgGoal goal,
-  ) {
+  Widget _buildTargets(ThemeData theme, AppLocalizations l10n, SdgGoal goal) {
     final allTargets = ref.watch(sdgTargetsDataProvider).value ?? {};
     final targets = allTargets[goal.number] ?? [];
     if (targets.isEmpty) {
@@ -165,9 +151,7 @@ class _TargetRow extends StatelessWidget {
               vertical: spacingXs,
             ),
             decoration: BoxDecoration(
-              color: goalColor.withValues(
-                alpha: opacitySubtle,
-              ),
+              color: goalColor.withValues(alpha: opacitySubtle),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(

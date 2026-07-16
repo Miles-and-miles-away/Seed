@@ -23,12 +23,8 @@ void main() {
     );
 
     final container = ProviderContainer(
-      overrides: [
-        currentUserProvider.overrideWith(
-          (_) => Stream.value(user),
-        ),
-      ],
-    )..listen(currentUserProvider, (_, __) {});
+      overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+    )..listen(currentUserProvider, (_, _) {});
 
     return container;
   }
@@ -44,9 +40,7 @@ void main() {
     });
 
     test('returns false when challenge completed', () async {
-      final container = createContainer(
-        challengeCompletedDate: todayKey,
-      );
+      final container = createContainer(challengeCompletedDate: todayKey);
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -65,33 +59,25 @@ void main() {
       expect(result, isFalse);
     });
 
-    test(
-      'returns true when challenge completed and fact not viewed',
-      () async {
-        final container = createContainer(
-          challengeCompletedDate: todayKey,
-        );
-        addTearDown(container.dispose);
+    test('returns true when challenge completed and fact not viewed', () async {
+      final container = createContainer(challengeCompletedDate: todayKey);
+      addTearDown(container.dispose);
 
-        await Future<void>.delayed(Duration.zero);
-        final result = container.read(hasUnreadFactProvider);
-        expect(result, isTrue);
-      },
-    );
+      await Future<void>.delayed(Duration.zero);
+      final result = container.read(hasUnreadFactProvider);
+      expect(result, isTrue);
+    });
 
-    test(
-      'returns false when challenge completed and fact viewed',
-      () async {
-        final container = createContainer(
-          challengeCompletedDate: todayKey,
-          viewedFactDates: [todayKey],
-        );
-        addTearDown(container.dispose);
+    test('returns false when challenge completed and fact viewed', () async {
+      final container = createContainer(
+        challengeCompletedDate: todayKey,
+        viewedFactDates: [todayKey],
+      );
+      addTearDown(container.dispose);
 
-        await Future<void>.delayed(Duration.zero);
-        final result = container.read(hasUnreadFactProvider);
-        expect(result, isFalse);
-      },
-    );
+      await Future<void>.delayed(Duration.zero);
+      final result = container.read(hasUnreadFactProvider);
+      expect(result, isFalse);
+    });
   });
 }

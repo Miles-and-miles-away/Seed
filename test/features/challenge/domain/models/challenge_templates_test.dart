@@ -97,14 +97,8 @@ void main() {
     });
 
     test('returns null when templateId is missing or empty', () {
-      expect(
-        ActiveMultiDayChallenge.fromMap(const {'currentDay': 1}),
-        isNull,
-      );
-      expect(
-        ActiveMultiDayChallenge.fromMap(const {'templateId': ''}),
-        isNull,
-      );
+      expect(ActiveMultiDayChallenge.fromMap(const {'currentDay': 1}), isNull);
+      expect(ActiveMultiDayChallenge.fromMap(const {'templateId': ''}), isNull);
     });
 
     test('parses all fields from a well-formed map', () {

@@ -73,9 +73,7 @@ void main() {
     setUpAll(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
 
-      final jsonString = await rootBundle.loadString(
-        'data/app/sdg_goals.json',
-      );
+      final jsonString = await rootBundle.loadString('data/app/sdg_goals.json');
       expect(jsonString, isNotEmpty);
 
       data = await loadSdgGoals();
@@ -155,10 +153,7 @@ void main() {
     test('goalMap provides O(1) lookup', () {
       expect(data.goalMap[1]?.titleEn, 'No Poverty');
       expect(data.goalMap[13]?.titleEn, 'Climate Action');
-      expect(
-        data.goalMap[17]?.titleEn,
-        'Partnerships for the Goals',
-      );
+      expect(data.goalMap[17]?.titleEn, 'Partnerships for the Goals');
     });
 
     test('all goals have Japanese translations', () {

@@ -49,9 +49,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isCooldown = true);
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer(
-      const Duration(
-        seconds: AppConstants.authCooldownSeconds,
-      ),
+      const Duration(seconds: AppConstants.authCooldownSeconds),
       () {
         if (mounted) setState(() => _isCooldown = false);
       },
@@ -65,30 +63,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = authState.isLoading;
 
-    ref.listen<AsyncValue<void>>(
-      authProvider,
-      (previous, next) {
-        next.when(
-          data: (_) {
-            if (previous?.isLoading ?? false) {
-              context.go(appRoutes.emailVerification);
-            }
-          },
-          loading: () {},
-          error: (error, _) {
-            _startCooldown();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  mapAuthErrorToMessage(error, l10n),
-                ),
-                backgroundColor: AppColors.error,
-              ),
-            );
-          },
-        );
-      },
-    );
+    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
+      next.when(
+        data: (_) {
+          if (previous?.isLoading ?? false) {
+            context.go(appRoutes.emailVerification);
+          }
+        },
+        loading: () {},
+        error: (error, _) {
+          _startCooldown();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(mapAuthErrorToMessage(error, l10n)),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        },
+      );
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -100,11 +93,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: spacingXxxl),
-                Icon(
-                  Icons.eco,
-                  size: 64,
-                  color: theme.colorScheme.primary,
-                ),
+                Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                 const SizedBox(height: spacingLg),
                 Text(
                   l10n.authCreateAccount,
@@ -144,9 +133,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           : Icons.visibility_off_outlined,
                     ),
                     onPressed: () {
-                      setState(
-                        () => _obscurePassword = !_obscurePassword,
-                      );
+                      setState(() => _obscurePassword = !_obscurePassword);
                     },
                   ),
                   validator: (v) => _validatePassword(v, l10n),
@@ -183,16 +170,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       onChanged: isLoading
                           ? null
                           : (value) {
-                              setState(
-                                () => _acceptedTerms = value ?? false,
-                              );
+                              setState(() => _acceptedTerms = value ?? false);
                             },
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: spacingMd,
-                        ),
+                        padding: const EdgeInsets.only(top: spacingMd),
                         child: Text.rich(
                           TextSpan(
                             text: l10n.authAgreePrefix,
@@ -206,13 +189,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   decoration: TextDecoration.underline,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => context.push(
-                                        appRoutes.terms,
-                                      ),
+                                  ..onTap = () => context.push(appRoutes.terms),
                               ),
-                              TextSpan(
-                                text: l10n.authAgreeAnd,
-                              ),
+                              TextSpan(text: l10n.authAgreeAnd),
                               TextSpan(
                                 text: l10n.settingsPrivacy,
                                 style: TextStyle(
@@ -221,9 +200,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   decoration: TextDecoration.underline,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => context.push(
-                                        appRoutes.privacy,
-                                      ),
+                                  ..onTap = () =>
+                                      context.push(appRoutes.privacy),
                               ),
                             ],
                           ),
@@ -284,11 +262,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
                           isLoading: isLoading || _isCooldown,
-                          onPressed: () => ref
-                              .read(
-                                authProvider.notifier,
-                              )
-                              .signInWithApple(),
+                          onPressed: () =>
+                              ref.read(authProvider.notifier).signInWithApple(),
                         ),
                       ),
                     ],
@@ -303,8 +278,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       style: theme.textTheme.bodyMedium,
                     ),
                     TextButton(
-                      onPressed:
-                          isLoading ? null : () => context.go(appRoutes.login),
+                      onPressed: isLoading
+                          ? null
+                          : () => context.go(appRoutes.login),
                       child: Text(l10n.authSignIn),
                     ),
                   ],
@@ -317,10 +293,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  String? _validateEmail(
-    String? value,
-    AppLocalizations l10n,
-  ) {
+  String? _validateEmail(String? value, AppLocalizations l10n) {
     return validateEmail(
       value,
       emptyError: l10n.authValidationEmailRequired,
@@ -328,10 +301,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  String? _validatePassword(
-    String? value,
-    AppLocalizations l10n,
-  ) {
+  String? _validatePassword(String? value, AppLocalizations l10n) {
     if (value == null || value.isEmpty) {
       return l10n.authValidationPasswordRequired;
     }
@@ -341,10 +311,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return null;
   }
 
-  String? _validateConfirmPassword(
-    String? value,
-    AppLocalizations l10n,
-  ) {
+  String? _validateConfirmPassword(String? value, AppLocalizations l10n) {
     if (value == null || value.isEmpty) {
       return l10n.authValidationConfirmRequired;
     }
@@ -367,7 +334,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
 
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(authProvider.notifier).createUserWithEmailAndPassword(
+      ref
+          .read(authProvider.notifier)
+          .createUserWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text,
           );

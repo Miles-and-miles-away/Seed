@@ -4,40 +4,43 @@ import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.d
 
 void main() {
   TextEditingValue value(String text) => TextEditingValue(
-        text: text,
-        selection: TextSelection.collapsed(offset: text.length),
-      );
+    text: text,
+    selection: TextSelection.collapsed(offset: text.length),
+  );
 
   group('Utf16LengthLimitingTextInputFormatter', () {
     test('leaves a value within the limit unchanged', () {
       final formatter = Utf16LengthLimitingTextInputFormatter(5);
       final input = value('abcd');
 
-      expect(
-        formatter.formatEditUpdate(TextEditingValue.empty, input),
-        input,
-      );
+      expect(formatter.formatEditUpdate(TextEditingValue.empty, input), input);
     });
 
     test('allows a value exactly at the limit', () {
       final formatter = Utf16LengthLimitingTextInputFormatter(5);
 
-      final result =
-          formatter.formatEditUpdate(TextEditingValue.empty, value('abcde'));
+      final result = formatter.formatEditUpdate(
+        TextEditingValue.empty,
+        value('abcde'),
+      );
 
       expect(result.text, 'abcde');
     });
 
-    test('truncates an over-long ASCII value and moves the cursor to the end',
-        () {
-      final formatter = Utf16LengthLimitingTextInputFormatter(3);
+    test(
+      'truncates an over-long ASCII value and moves the cursor to the end',
+      () {
+        final formatter = Utf16LengthLimitingTextInputFormatter(3);
 
-      final result =
-          formatter.formatEditUpdate(TextEditingValue.empty, value('abcdef'));
+        final result = formatter.formatEditUpdate(
+          TextEditingValue.empty,
+          value('abcdef'),
+        );
 
-      expect(result.text, 'abc');
-      expect(result.selection.baseOffset, 3);
-    });
+        expect(result.text, 'abc');
+        expect(result.selection.baseOffset, 3);
+      },
+    );
 
     test('counts UTF-16 units, matching the rule (BMP chars are one unit)', () {
       // 'あ' is one UTF-16 unit; a 5-unit cap allows exactly 5 of them.

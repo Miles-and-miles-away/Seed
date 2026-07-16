@@ -17,11 +17,7 @@ class AppLogger {
 
   void warning(String message) => _log('WARN', message);
 
-  void error(
-    String message, {
-    Object? error,
-    StackTrace? stackTrace,
-  }) {
+  void error(String message, {Object? error, StackTrace? stackTrace}) {
     _log('ERROR', message);
     if (error != null) _log('ERROR', error.toString());
     if (stackTrace != null) _log('ERROR', stackTrace.toString());

@@ -55,7 +55,8 @@ Uri buildFeedbackMailto({
 
   // Build the query string manually so spaces encode as `%20` (RFC 6068)
   // instead of `+`, which some mail clients render literally in the body.
-  final query = 'subject=${Uri.encodeComponent(subject)}'
+  final query =
+      'subject=${Uri.encodeComponent(subject)}'
       '&body=${Uri.encodeComponent(body.toString())}';
 
   return Uri.parse('mailto:$recipient?$query');

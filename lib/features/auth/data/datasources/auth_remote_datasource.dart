@@ -6,9 +6,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Firebase Auth operations.
 class AuthRemoteDataSource {
-  AuthRemoteDataSource({
-    required FirebaseAuth firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth;
+  AuthRemoteDataSource({required FirebaseAuth firebaseAuth})
+    : _firebaseAuth = firebaseAuth;
 
   final FirebaseAuth _firebaseAuth;
 
@@ -90,14 +89,12 @@ class AuthRemoteDataSource {
     }
 
     // Get the authorization tokens for Firebase
-    final authorization =
-        await googleSignIn.authorizationClient.authorizeScopes(<String>[]);
+    final authorization = await googleSignIn.authorizationClient
+        .authorizeScopes(<String>[]);
     final accessToken = authorization.accessToken;
 
     // Create Firebase credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: accessToken,
-    );
+    final credential = GoogleAuthProvider.credential(accessToken: accessToken);
 
     return _firebaseAuth.signInWithCredential(credential);
   }
@@ -135,10 +132,7 @@ class AuthRemoteDataSource {
   ) async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {
-      throw AuthException(
-        code: 'no-user',
-        message: 'No user signed in',
-      );
+      throw AuthException(code: 'no-user', message: 'No user signed in');
     }
 
     final credential = EmailAuthProvider.credential(
@@ -152,10 +146,7 @@ class AuthRemoteDataSource {
   Future<void> updateEmail(String newEmail) async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {
-      throw AuthException(
-        code: 'no-user',
-        message: 'No user signed in',
-      );
+      throw AuthException(code: 'no-user', message: 'No user signed in');
     }
 
     // verifyBeforeUpdateEmail sends a verification to new email first
@@ -165,10 +156,7 @@ class AuthRemoteDataSource {
   Future<void> updatePassword(String newPassword) async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {
-      throw AuthException(
-        code: 'no-user',
-        message: 'No user signed in',
-      );
+      throw AuthException(code: 'no-user', message: 'No user signed in');
     }
 
     await user.updatePassword(newPassword);
@@ -177,10 +165,7 @@ class AuthRemoteDataSource {
 
 /// Custom exception for auth errors to provide consistent error handling.
 class AuthException implements Exception {
-  AuthException({
-    required this.code,
-    this.message,
-  });
+  AuthException({required this.code, this.message});
 
   final String code;
   final String? message;

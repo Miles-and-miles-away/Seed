@@ -25,25 +25,17 @@ class _SeedAppState extends ConsumerState<SeedApp> {
 
     // Sync analytics toggle only on change
     ref
-      ..listenManual(
-        analyticsEnabledProvider,
-        (_, on) {
-          AnalyticsService.instance.setEnabled(enabled: on);
-          FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
-          FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(on);
-        },
-        fireImmediately: true,
-      )
+      ..listenManual(analyticsEnabledProvider, (_, on) {
+        AnalyticsService.instance.setEnabled(enabled: on);
+        FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
+        FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(on);
+      }, fireImmediately: true)
       // Sync Crashlytics user ID only on auth change
-      ..listenManual(
-        authStateChangesProvider,
-        (_, next) {
-          next.whenData((user) {
-            FirebaseCrashlytics.instance.setUserIdentifier(user?.uid ?? '');
-          });
-        },
-        fireImmediately: true,
-      );
+      ..listenManual(authStateChangesProvider, (_, next) {
+        next.whenData((user) {
+          FirebaseCrashlytics.instance.setUserIdentifier(user?.uid ?? '');
+        });
+      }, fireImmediately: true);
   }
 
   @override
@@ -64,11 +56,7 @@ class _SeedAppState extends ConsumerState<SeedApp> {
 
       // Localization - use user's preferred locale
       locale: appLocale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('es'),
-        Locale('ja'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('es'), Locale('ja')],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

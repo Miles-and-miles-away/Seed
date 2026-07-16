@@ -90,8 +90,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   void didUpdateWidget(covariant MascotDisplay oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.animationController != widget.animationController) {
-      oldWidget.animationController
-          ?.removeListener(_onAnimationControllerChange);
+      oldWidget.animationController?.removeListener(
+        _onAnimationControllerChange,
+      );
       widget.animationController?.addListener(_onAnimationControllerChange);
     }
   }
@@ -117,9 +118,21 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     }
     final vm = _faceVm!;
     // Properties may live on the root view model or the nested Face one.
-    _lookX = vm.number(mascotVmLookX) ?? vm.number('Face/$mascotVmLookX');
-    _lookY = vm.number(mascotVmLookY) ?? vm.number('Face/$mascotVmLookY');
-    _smile = vm.trigger(mascotVmSmile) ?? vm.trigger('Face/$mascotVmSmile');
+    // The coral_mascot file currently exposes the Face VM through a root
+    // property named `propertyOfFace` (editor default name); keep `Face/`
+    // first so a future rename in the editor keeps working.
+    _lookX =
+        vm.number(mascotVmLookX) ??
+        vm.number('Face/$mascotVmLookX') ??
+        vm.number('propertyOfFace/$mascotVmLookX');
+    _lookY =
+        vm.number(mascotVmLookY) ??
+        vm.number('Face/$mascotVmLookY') ??
+        vm.number('propertyOfFace/$mascotVmLookY');
+    _smile =
+        vm.trigger(mascotVmSmile) ??
+        vm.trigger('Face/$mascotVmSmile') ??
+        vm.trigger('propertyOfFace/$mascotVmSmile');
   }
 
   bool get _hasGaze => _lookX != null || _lookY != null;
@@ -129,9 +142,11 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   void _onPointer(PointerEvent event) {
     if (!_hasGaze) return;
     final half = widget.size / 2;
-    _lookX?.value = ((event.localPosition.dx - half) / half).clamp(-1.0, 1.0) *
+    _lookX?.value =
+        ((event.localPosition.dx - half) / half).clamp(-1.0, 1.0) *
         mascotLookRange;
-    _lookY?.value = ((event.localPosition.dy - half) / half).clamp(-1.0, 1.0) *
+    _lookY?.value =
+        ((event.localPosition.dy - half) / half).clamp(-1.0, 1.0) *
         mascotLookRange;
   }
 
@@ -171,6 +186,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   @override
   Widget build(BuildContext context) {
     final assetPath = ref.watch(activeMascotAssetPathProvider);
+    final artboardName = ref.watch(
+      activeStageDataProvider.select((stage) => stage?.artboardName),
+    );
     final glowColor = ref.watch(
       activeMascotStageProvider.select(_getGlowColor),
     );
@@ -193,9 +211,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       return SizedBox(
         width: widget.size,
         height: widget.size,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
+        child: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -236,9 +252,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: glowColor.withValues(
-                              alpha: opacityMuted,
-                            ),
+                            color: glowColor.withValues(alpha: opacityMuted),
                             blurRadius: 40,
                             spreadRadius: 10,
                           ),
@@ -249,7 +263,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
                 ),
 
               // Mascot with animations
-              _buildAnimatedMascot(assetPath),
+              _buildAnimatedMascot(assetPath, artboardName),
             ],
           ),
         ),
@@ -257,9 +271,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     );
   }
 
-  Widget _buildAnimatedMascot(String assetPath) {
+  Widget _buildAnimatedMascot(String assetPath, String? artboardName) {
     Widget mascot = MascotImage(
       assetPath: assetPath,
+      artboardName: artboardName,
       width: widget.size * 0.8,
       height: widget.size * 0.8,
       onRiveInit: _onRiveInit,
@@ -267,21 +282,14 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
 
     // Apply tap feedback
     if (_isTapped) {
-      mascot = Transform.scale(
-        scale: 0.95,
-        child: mascot,
-      );
+      mascot = Transform.scale(scale: 0.95, child: mascot);
     }
 
     // Apply bounce animation
     if (_isBouncing) {
       mascot = mascot
           .animate()
-          .scaleXY(
-            begin: 1,
-            end: 0.9,
-            duration: 100.ms,
-          )
+          .scaleXY(begin: 1, end: 0.9, duration: 100.ms)
           .then()
           .scaleXY(
             begin: 0.9,
@@ -332,12 +340,17 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
 class MascotAvatar extends StatelessWidget {
   const MascotAvatar({
     required this.assetPath,
+    this.artboardName,
     this.size = 120,
     this.animate = true,
     super.key,
   });
 
   final String assetPath;
+
+  /// Artboard for multi-artboard `.riv` assets; see [MascotImage].
+  final String? artboardName;
+
   final double size;
   final bool animate;
 
@@ -345,6 +358,7 @@ class MascotAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget mascot = MascotImage(
       assetPath: assetPath,
+      artboardName: artboardName,
       width: size,
       height: size,
     );
@@ -364,10 +378,6 @@ class MascotAvatar extends StatelessWidget {
       );
     }
 
-    return SizedBox(
-      width: size,
-      height: size,
-      child: mascot,
-    );
+    return SizedBox(width: size, height: size, child: mascot);
   }
 }

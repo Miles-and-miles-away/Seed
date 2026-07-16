@@ -37,24 +37,21 @@ class ActionLogRepository {
   Stream<List<ActionLogModel>> watchUserActionLogs(
     String userId, {
     required int limit,
-  }) =>
-      dataSource.watchUserActionLogs(userId, limit: limit);
+  }) => dataSource.watchUserActionLogs(userId, limit: limit);
 
   /// Watches action logs whose loggedAt falls in [start, end).
   Stream<List<ActionLogModel>> watchActionLogsForRange(
     String userId,
     DateTime start,
     DateTime end,
-  ) =>
-      dataSource.watchActionLogsForRange(userId, start, end);
+  ) => dataSource.watchActionLogsForRange(userId, start, end);
 
   /// Gets action logs whose loggedAt falls in [start, end).
   Future<List<ActionLogModel>> getActionLogsForRange(
     String userId,
     DateTime start,
     DateTime end,
-  ) =>
-      dataSource.getActionLogsForRange(userId, start, end);
+  ) => dataSource.getActionLogsForRange(userId, start, end);
 
   /// Logs an action and updates user statistics atomically.
   ///
@@ -67,8 +64,9 @@ class ActionLogRepository {
     String? note,
   }) async {
     final now = DateTime.now();
-    final userRef =
-        firestore.collection(AppConstants.collectionUsers).doc(userId);
+    final userRef = firestore
+        .collection(AppConstants.collectionUsers)
+        .doc(userId);
     final actionLogRef = dataSource.getActionLogCollection(userId).doc();
     final summaryRef = userRef
         .collection(AppConstants.collectionDailySummaries)
@@ -139,7 +137,8 @@ class ActionLogRepository {
       newTotalActionsCount = currentActionCount + 1;
 
       // Per-category action counts
-      final catCountsRaw = (userData[AppConstants.fieldCategoryActionCounts]
+      final catCountsRaw =
+          (userData[AppConstants.fieldCategoryActionCounts]
               as Map<String, dynamic>?) ??
           {};
       final updatedCatCounts = Map<String, dynamic>.from(catCountsRaw);
@@ -183,9 +182,7 @@ class ActionLogRepository {
       final mascotsRaw =
           (userData[AppConstants.fieldMascots] as List<dynamic>?) ?? [];
       final mascots = mascotsRaw
-          .map(
-            (e) => Map<String, dynamic>.from(e as Map),
-          )
+          .map((e) => Map<String, dynamic>.from(e as Map))
           .toList();
 
       if (activeMascotId != null && mascots.isNotEmpty) {
@@ -203,7 +200,7 @@ class ActionLogRepository {
 
           final isFullyEvolved =
               (mascots[idx][AppConstants.fieldIsFullyEvolved] as bool?) ??
-                  false;
+              false;
 
           if (!isFullyEvolved) {
             final oldMascotPts =
@@ -256,8 +253,10 @@ class ActionLogRepository {
               mascotSpecies,
             );
             // Firestore auto-ID minted client-side (no network call).
-            final newMascotId =
-                firestore.collection(AppConstants.collectionUsers).doc().id;
+            final newMascotId = firestore
+                .collection(AppConstants.collectionUsers)
+                .doc()
+                .id;
             hatchedMascotId = newMascotId;
 
             final newMascot = MascotModel(
@@ -266,10 +265,7 @@ class ActionLogRepository {
               createdAt: now,
             ).toJson();
 
-            updates[AppConstants.fieldMascots] = [
-              ...currentMascots,
-              newMascot,
-            ];
+            updates[AppConstants.fieldMascots] = [...currentMascots, newMascot];
             updates[AppConstants.fieldEgg] = FieldValue.delete();
           }
         } else {
@@ -289,8 +285,8 @@ class ActionLogRepository {
       if (challengeCompletedDate != todayKey) {
         final recentIds =
             (userData[AppConstants.fieldRecentChallengeIds] as List<dynamic>?)
-                    ?.cast<String>() ??
-                [];
+                ?.cast<String>() ??
+            [];
         final challenge = selectDailyChallenge(
           userId,
           now,
@@ -303,14 +299,15 @@ class ActionLogRepository {
           final yesterdayKey = formatDateKey(previousCalendarDay(now));
           final oldStreak =
               (userData[AppConstants.fieldChallengeStreak] as int?) ?? 0;
-          final newStreak =
-              challengeCompletedDate == yesterdayKey ? oldStreak + 1 : 1;
+          final newStreak = challengeCompletedDate == yesterdayKey
+              ? oldStreak + 1
+              : 1;
 
           updates[AppConstants.fieldChallengeCompletedDate] = todayKey;
           updates[AppConstants.fieldChallengeStreak] = newStreak;
           updates[AppConstants.fieldChallengesCompleted] =
               ((userData[AppConstants.fieldChallengesCompleted] as int?) ?? 0) +
-                  1;
+              1;
           updates[AppConstants.fieldRecentChallengeIds] = [
             challenge.id,
             ...recentIds.take(AppConstants.recentChallengeIdsLimit - 1),
@@ -318,18 +315,21 @@ class ActionLogRepository {
           // ponytail: unbounded array on the user doc; cap to the last
           // year if doc size ever matters (see viewedFactDates note in
           // eco_fact_providers.dart).
-          updates[AppConstants.fieldUnlockedFactDates] =
-              FieldValue.arrayUnion([todayKey]);
+          updates[AppConstants.fieldUnlockedFactDates] = FieldValue.arrayUnion([
+            todayKey,
+          ]);
         }
       }
 
       // 7. Multi-day challenge progress
-      final multiDay = userData[AppConstants.fieldActiveMultiDayChallenge]
-          as Map<String, dynamic>?;
+      final multiDay =
+          userData[AppConstants.fieldActiveMultiDayChallenge]
+              as Map<String, dynamic>?;
       if (multiDay != null && multiDay.isNotEmpty) {
         final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String;
-        final template = multiDayChallengeTemplates
-            .firstWhereOrNull((t) => t.id == mdTemplateId);
+        final template = multiDayChallengeTemplates.firstWhereOrNull(
+          (t) => t.id == mdTemplateId,
+        );
         final lastDate =
             multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
         final todayKey2 = formatDateKey(now);
@@ -382,8 +382,10 @@ class ActionLogRepository {
       // can never diverge from the action log -- it was previously a
       // separate transaction whose failures were swallowed and which
       // could land on the wrong day across midnight.
-      final sdgNumbers =
-          action.relatedSdgs.map(int.tryParse).whereType<int>().toList();
+      final sdgNumbers = action.relatedSdgs
+          .map(int.tryParse)
+          .whereType<int>()
+          .toList();
       final Map<String, dynamic> summaryData;
       if (summaryDoc.exists) {
         final existing = DailySummaryModel.fromJson(summaryDoc.data()!);
@@ -393,8 +395,10 @@ class ActionLogRepository {
         summaryData = existing
             .copyWith(
               goalCount: existing.goalCount + 1,
-              completedSdgs:
-                  {...existing.completedSdgs, ...sdgNumbers}.toList(),
+              completedSdgs: {
+                ...existing.completedSdgs,
+                ...sdgNumbers,
+              }.toList(),
               totalPoints: existing.totalPoints + action.points,
               totalCo2Grams: existing.totalCo2Grams + action.co2Grams,
               categoryCo2Grams: categoryCo2,

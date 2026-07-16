@@ -28,20 +28,14 @@ SdgStats sdgStats(Ref ref, int sdgNumber) {
 /// Filters the action library to only actions related
 /// to a specific SDG.
 @riverpod
-List<ActionModel> sdgRelatedActions(
-  Ref ref,
-  int sdgNumber,
-) {
+List<ActionModel> sdgRelatedActions(Ref ref, int sdgNumber) {
   final actionsAsync = ref.watch(actionLibraryProvider);
   final sdgStr = sdgNumber.toString();
 
   return actionsAsync.when(
-    data: (actions) => actions
-        .where(
-          (a) => a.relatedSdgs.contains(sdgStr),
-        )
-        .toList(),
+    data: (actions) =>
+        actions.where((a) => a.relatedSdgs.contains(sdgStr)).toList(),
     loading: () => [],
-    error: (_, __) => [],
+    error: (_, _) => [],
   );
 }

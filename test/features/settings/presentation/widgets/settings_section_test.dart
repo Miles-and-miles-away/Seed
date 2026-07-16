@@ -4,11 +4,7 @@ import 'package:seed_app/features/settings/presentation/widgets/settings_section
 
 void main() {
   Widget createTestWidget({required Widget child}) {
-    return MaterialApp(
-      home: Scaffold(
-        body: child,
-      ),
-    );
+    return MaterialApp(home: Scaffold(body: child));
   }
 
   group('SettingsSection', () {
@@ -17,9 +13,7 @@ void main() {
         createTestWidget(
           child: const SettingsSection(
             title: 'Notifications',
-            children: [
-              ListTile(title: Text('Item 1')),
-            ],
+            children: [ListTile(title: Text('Item 1'))],
           ),
         ),
       );
@@ -50,9 +44,7 @@ void main() {
           child: const SettingsSection(
             title: 'Section',
             showTopDivider: true,
-            children: [
-              ListTile(title: Text('Item')),
-            ],
+            children: [ListTile(title: Text('Item'))],
           ),
         ),
       );
@@ -65,9 +57,7 @@ void main() {
         createTestWidget(
           child: const SettingsSection(
             title: 'Section',
-            children: [
-              ListTile(title: Text('Item')),
-            ],
+            children: [ListTile(title: Text('Item'))],
           ),
         ),
       );
@@ -81,9 +71,7 @@ void main() {
         createTestWidget(
           child: const SettingsSection(
             title: 'Section',
-            children: [
-              ListTile(title: Text('Item')),
-            ],
+            children: [ListTile(title: Text('Item'))],
           ),
         ),
       );

@@ -51,7 +51,8 @@ void main() {
       bool needsSetup = false,
       int? dailyGoalTarget,
     }) {
-      final testUser = user ??
+      final testUser =
+          user ??
           AppUserModel(
             uid: 'test-uid',
             email: 'test@example.com',
@@ -82,14 +83,14 @@ void main() {
           currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
           needsDailyTargetSetupProvider.overrideWithValue(needsSetup),
           dailyGoalTargetProvider.overrideWithValue(testUser.dailyGoalTarget),
-          todaySummaryProvider
-              .overrideWith((ref) => Stream.value(todaySummary)),
-          selectedMonthProvider
-              .overrideWith(() => TestSelectedMonth(testMonth)),
-          monthCalendarDataProvider.overrideWith((ref) async => calendarData),
-          sdgGoalsDataProvider.overrideWith(
-            (ref) async => sdgData,
+          todaySummaryProvider.overrideWith(
+            (ref) => Stream.value(todaySummary),
           ),
+          selectedMonthProvider.overrideWith(
+            () => TestSelectedMonth(testMonth),
+          ),
+          monthCalendarDataProvider.overrideWith((ref) async => calendarData),
+          sdgGoalsDataProvider.overrideWith((ref) async => sdgData),
         ],
         child: const MaterialApp(
           localizationsDelegates: [
@@ -111,8 +112,9 @@ void main() {
       expect(find.byType(DailyTargetPicker), findsOneWidget);
     });
 
-    testWidgets('shows main content for users with daily target set',
-        (tester) async {
+    testWidgets('shows main content for users with daily target set', (
+      tester,
+    ) async {
       // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(needsSetup: false));
       await tester.pumpAndSettle();
@@ -130,8 +132,9 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('displays EmptyRainbowSun when no goals completed',
-        (tester) async {
+    testWidgets('displays EmptyRainbowSun when no goals completed', (
+      tester,
+    ) async {
       // ignore: avoid_redundant_argument_values
       await tester.pumpWidget(createTestWidget(todaySummary: null));
       await tester.pumpAndSettle();
@@ -139,8 +142,9 @@ void main() {
       expect(find.byType(EmptyRainbowSun), findsOneWidget);
     });
 
-    testWidgets('displays RainbowSunWidget when goals are completed',
-        (tester) async {
+    testWidgets('displays RainbowSunWidget when goals are completed', (
+      tester,
+    ) async {
       final summary = DailySummaryModel(
         date: '2024-01-15',
         goalCount: 3,
@@ -192,8 +196,9 @@ void main() {
       expect(find.byIcon(Icons.celebration), findsOneWidget);
     });
 
-    testWidgets('does not display celebration when goal is not met',
-        (tester) async {
+    testWidgets('does not display celebration when goal is not met', (
+      tester,
+    ) async {
       final summary = DailySummaryModel(
         date: '2024-01-15',
         goalCount: 3,
@@ -225,8 +230,9 @@ void main() {
       expect(find.byType(SingleChildScrollView), findsOneWidget);
     });
 
-    testWidgets('shows loading indicator while fetching today summary',
-        (tester) async {
+    testWidgets('shows loading indicator while fetching today summary', (
+      tester,
+    ) async {
       final now = DateTime.now();
       // Use a StreamController to simulate a loading state without timers
       final summaryController = StreamController<DailySummaryModel?>();
@@ -252,8 +258,9 @@ void main() {
           selectedMonthProvider.overrideWith(
             () => TestSelectedMonth(DateTime(now.year, now.month)),
           ),
-          monthCalendarDataProvider
-              .overrideWith((ref) async => <CalendarDayData>[]),
+          monthCalendarDataProvider.overrideWith(
+            (ref) async => <CalendarDayData>[],
+          ),
         ],
         child: const MaterialApp(
           localizationsDelegates: [
@@ -325,8 +332,9 @@ void main() {
           selectedMonthProvider.overrideWith(
             () => TestSelectedMonth(DateTime(now.year, now.month)),
           ),
-          monthCalendarDataProvider
-              .overrideWith((ref) async => <CalendarDayData>[]),
+          monthCalendarDataProvider.overrideWith(
+            (ref) async => <CalendarDayData>[],
+          ),
         ],
         child: const MaterialApp(
           localizationsDelegates: [

@@ -12,20 +12,24 @@ part of 'progress_providers.dart';
 @ProviderFor(progressRepository)
 final progressRepositoryProvider = ProgressRepositoryProvider._();
 
-final class ProgressRepositoryProvider extends $FunctionalProvider<
-    ProgressRepository,
-    ProgressRepository,
-    ProgressRepository> with $Provider<ProgressRepository> {
+final class ProgressRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ProgressRepository,
+          ProgressRepository,
+          ProgressRepository
+        >
+    with $Provider<ProgressRepository> {
   ProgressRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'progressRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'progressRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$progressRepositoryHash();
@@ -33,8 +37,8 @@ final class ProgressRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ProgressRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ProgressRepository create(Ref ref) {
@@ -64,10 +68,13 @@ final impactEquivalenciesDataProvider = ImpactEquivalenciesDataProvider._();
 /// and source URLs) from the bundled JSON asset. Cached for the
 /// lifetime of the app -- factors are static scientific constants.
 
-final class ImpactEquivalenciesDataProvider extends $FunctionalProvider<
-        AsyncValue<List<EquivalencyMetadata>>,
-        List<EquivalencyMetadata>,
-        FutureOr<List<EquivalencyMetadata>>>
+final class ImpactEquivalenciesDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EquivalencyMetadata>>,
+          List<EquivalencyMetadata>,
+          FutureOr<List<EquivalencyMetadata>>
+        >
     with
         $FutureModifier<List<EquivalencyMetadata>>,
         $FutureProvider<List<EquivalencyMetadata>> {
@@ -75,15 +82,15 @@ final class ImpactEquivalenciesDataProvider extends $FunctionalProvider<
   /// and source URLs) from the bundled JSON asset. Cached for the
   /// lifetime of the app -- factors are static scientific constants.
   ImpactEquivalenciesDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'impactEquivalenciesDataProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'impactEquivalenciesDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$impactEquivalenciesDataHash();
@@ -91,8 +98,8 @@ final class ImpactEquivalenciesDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<EquivalencyMetadata>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<EquivalencyMetadata>> create(Ref ref) {
@@ -116,10 +123,13 @@ final todaySummaryProvider = TodaySummaryProvider._();
 /// Keyed on the user id so the Firestore listener survives user-doc
 /// writes; dayChangeProvider invalidates it at midnight.
 
-final class TodaySummaryProvider extends $FunctionalProvider<
-        AsyncValue<DailySummaryModel?>,
-        DailySummaryModel?,
-        Stream<DailySummaryModel?>>
+final class TodaySummaryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<DailySummaryModel?>,
+          DailySummaryModel?,
+          Stream<DailySummaryModel?>
+        >
     with
         $FutureModifier<DailySummaryModel?>,
         $StreamProvider<DailySummaryModel?> {
@@ -128,15 +138,15 @@ final class TodaySummaryProvider extends $FunctionalProvider<
   /// Keyed on the user id so the Firestore listener survives user-doc
   /// writes; dayChangeProvider invalidates it at midnight.
   TodaySummaryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'todaySummaryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todaySummaryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$todaySummaryHash();
@@ -144,8 +154,8 @@ final class TodaySummaryProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<DailySummaryModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<DailySummaryModel?> create(Ref ref) {
@@ -163,18 +173,19 @@ final dailyGoalTargetProvider = DailyGoalTargetProvider._();
 /// User's daily goal target from their profile.
 
 final class DailyGoalTargetProvider
-    extends $FunctionalProvider<int?, int?, int?> with $Provider<int?> {
+    extends $FunctionalProvider<int?, int?, int?>
+    with $Provider<int?> {
   /// User's daily goal target from their profile.
   DailyGoalTargetProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dailyGoalTargetProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dailyGoalTargetProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dailyGoalTargetHash();
@@ -208,18 +219,19 @@ final needsDailyTargetSetupProvider = NeedsDailyTargetSetupProvider._();
 /// Whether the user needs to set up their daily goal target.
 
 final class NeedsDailyTargetSetupProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether the user needs to set up their daily goal target.
   NeedsDailyTargetSetupProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'needsDailyTargetSetupProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'needsDailyTargetSetupProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$needsDailyTargetSetupHash();
@@ -256,15 +268,15 @@ final class SelectedMonthProvider
     extends $NotifierProvider<SelectedMonth, DateTime> {
   /// Currently selected month for the calendar view.
   SelectedMonthProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'selectedMonthProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedMonthProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$selectedMonthHash();
@@ -292,8 +304,14 @@ abstract class _$SelectedMonth extends $Notifier<DateTime> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<DateTime, DateTime>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<DateTime, DateTime>, DateTime, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DateTime, DateTime>,
+              DateTime,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -311,10 +329,13 @@ final monthCalendarDataProvider = MonthCalendarDataProvider._();
 /// Keyed on the user id; refreshed explicitly after logging an action
 /// and at day change instead of on every user-doc write.
 
-final class MonthCalendarDataProvider extends $FunctionalProvider<
-        AsyncValue<List<CalendarDayData>>,
-        List<CalendarDayData>,
-        FutureOr<List<CalendarDayData>>>
+final class MonthCalendarDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<CalendarDayData>>,
+          List<CalendarDayData>,
+          FutureOr<List<CalendarDayData>>
+        >
     with
         $FutureModifier<List<CalendarDayData>>,
         $FutureProvider<List<CalendarDayData>> {
@@ -323,15 +344,15 @@ final class MonthCalendarDataProvider extends $FunctionalProvider<
   /// Keyed on the user id; refreshed explicitly after logging an action
   /// and at day change instead of on every user-doc write.
   MonthCalendarDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'monthCalendarDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'monthCalendarDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$monthCalendarDataHash();
@@ -339,8 +360,8 @@ final class MonthCalendarDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<CalendarDayData>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<CalendarDayData>> create(Ref ref) {
@@ -360,15 +381,15 @@ final class DailyTargetNotifierProvider
     extends $NotifierProvider<DailyTargetNotifier, AsyncValue<void>> {
   /// Notifier to save the daily goal target.
   DailyTargetNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dailyTargetProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dailyTargetProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dailyTargetNotifierHash();
@@ -397,11 +418,14 @@ abstract class _$DailyTargetNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

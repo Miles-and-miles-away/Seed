@@ -33,17 +33,13 @@ class ActionLogRemoteDataSource {
     String userId,
     DateTime start,
     DateTime end,
-  ) =>
-      _userActionLogs(userId)
-          .where(
-            AppConstants.fieldLoggedAt,
-            isGreaterThanOrEqualTo: Timestamp.fromDate(start),
-          )
-          .where(
-            AppConstants.fieldLoggedAt,
-            isLessThan: Timestamp.fromDate(end),
-          )
-          .orderBy(AppConstants.fieldLoggedAt, descending: true);
+  ) => _userActionLogs(userId)
+      .where(
+        AppConstants.fieldLoggedAt,
+        isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+      )
+      .where(AppConstants.fieldLoggedAt, isLessThan: Timestamp.fromDate(end))
+      .orderBy(AppConstants.fieldLoggedAt, descending: true);
 
   Stream<List<ActionLogModel>> watchUserActionLogs(
     String userId, {
@@ -65,9 +61,8 @@ class ActionLogRemoteDataSource {
     DateTime end,
   ) {
     return _rangeQuery(userId, start, end).snapshots().map(
-          (snapshot) =>
-              snapshot.docs.map(ActionLogModel.fromFirestore).toList(),
-        );
+      (snapshot) => snapshot.docs.map(ActionLogModel.fromFirestore).toList(),
+    );
   }
 
   Future<List<ActionLogModel>> getActionLogsForRange(
@@ -81,6 +76,5 @@ class ActionLogRemoteDataSource {
 
   CollectionReference<Map<String, dynamic>> getActionLogCollection(
     String userId,
-  ) =>
-      _userActionLogs(userId);
+  ) => _userActionLogs(userId);
 }

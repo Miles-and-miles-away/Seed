@@ -38,9 +38,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
-    final initialCategory = ActionCategory.fromString(
-      widget.initialCategory,
-    );
+    final initialCategory = ActionCategory.fromString(widget.initialCategory);
     if (initialCategory != null) {
       // Provider mutations are disallowed during initState, so apply the
       // incoming filter on the first frame (during the route transition).
@@ -66,14 +64,11 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     _showClear.value = _searchController.text.isNotEmpty;
 
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(
-      durationNormal,
-      () {
-        ref
-            .read(actionSearchQueryProvider.notifier)
-            .setQuery(_searchController.text);
-      },
-    );
+    _debounceTimer = Timer(durationNormal, () {
+      ref
+          .read(actionSearchQueryProvider.notifier)
+          .setQuery(_searchController.text);
+    });
   }
 
   @override
@@ -114,9 +109,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                             _searchController.clear();
                             _debounceTimer?.cancel();
                             ref
-                                .read(
-                                  actionSearchQueryProvider.notifier,
-                                )
+                                .read(actionSearchQueryProvider.notifier)
                                 .clear();
                           },
                         )
@@ -155,9 +148,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const ActionSortDropdown(),
-              ],
+              children: [const ActionSortDropdown()],
             ),
           ),
           // SDG filter chips
@@ -166,13 +157,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           // Actions grid
           Expanded(
             child: filteredActionsAsync.when(
-              data: (actions) => _buildActionsGrid(
-                actions,
-                languageCode,
-              ),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              data: (actions) => _buildActionsGrid(actions, languageCode),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -183,15 +169,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                       color: theme.colorScheme.error,
                     ),
                     const SizedBox(height: spacingLg),
-                    Text(
-                      l10n.errorGeneric,
-                      style: theme.textTheme.bodyLarge,
-                    ),
+                    Text(l10n.errorGeneric, style: theme.textTheme.bodyLarge),
                     const SizedBox(height: spacingSm),
                     FilledButton.icon(
-                      onPressed: () => ref.invalidate(
-                        actionLibraryProvider,
-                      ),
+                      onPressed: () => ref.invalidate(actionLibraryProvider),
                       icon: const Icon(Icons.refresh),
                       label: Text(l10n.buttonRetry),
                     ),

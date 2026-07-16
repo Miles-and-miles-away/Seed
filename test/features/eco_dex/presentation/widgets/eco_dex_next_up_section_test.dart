@@ -16,23 +16,22 @@ EcoDexEntry _entry(
   String id, {
   required EcoDexCondition condition,
   String? hintEn,
-}) =>
-    EcoDexEntry(
-      id: id,
-      category: 'climate',
-      nameEn: id,
-      nameJa: '',
-      nameEs: '',
-      factEn: '',
-      factJa: '',
-      factEs: '',
-      sourceUrl: '',
-      iconName: id,
-      condition: condition,
-      hintEn: hintEn ?? 'hint-$id',
-      hintJa: '',
-      hintEs: '',
-    );
+}) => EcoDexEntry(
+  id: id,
+  category: 'climate',
+  nameEn: id,
+  nameJa: '',
+  nameEs: '',
+  factEn: '',
+  factJa: '',
+  factEs: '',
+  sourceUrl: '',
+  iconName: id,
+  condition: condition,
+  hintEn: hintEn ?? 'hint-$id',
+  hintJa: '',
+  hintEs: '',
+);
 
 Widget _wrap({
   required List<EcoDexEntry> entries,
@@ -75,15 +74,13 @@ void main() {
     longestStreak: 3,
   );
 
-  testWidgets('shows closest undiscovered entries sorted by progress',
-      (tester) async {
+  testWidgets('shows closest undiscovered entries sorted by progress', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       _wrap(
         entries: [
-          _entry(
-            'mid',
-            condition: const EcoDexCondition.streakDays(days: 30),
-          ),
+          _entry('mid', condition: const EcoDexCondition.streakDays(days: 30)),
           _entry(
             'close',
             condition: const EcoDexCondition.totalActions(count: 10),
@@ -107,8 +104,7 @@ void main() {
     expect(closeY, lessThan(midY));
   });
 
-  testWidgets(
-      'excludes discovered, binary, and zero-progress entries '
+  testWidgets('excludes discovered, binary, and zero-progress entries '
       'and respects maxItems', (tester) async {
     await tester.pumpWidget(
       _wrap(
@@ -117,26 +113,14 @@ void main() {
             'done',
             condition: const EcoDexCondition.totalActions(count: 5),
           ),
-          _entry(
-            'binary',
-            condition: const EcoDexCondition.profileComplete(),
-          ),
+          _entry('binary', condition: const EcoDexCondition.profileComplete()),
           _entry(
             'zero',
             condition: const EcoDexCondition.co2Saved(grams: 5000),
           ),
-          _entry(
-            'a',
-            condition: const EcoDexCondition.totalActions(count: 10),
-          ),
-          _entry(
-            'b',
-            condition: const EcoDexCondition.totalActions(count: 20),
-          ),
-          _entry(
-            'c',
-            condition: const EcoDexCondition.totalActions(count: 50),
-          ),
+          _entry('a', condition: const EcoDexCondition.totalActions(count: 10)),
+          _entry('b', condition: const EcoDexCondition.totalActions(count: 20)),
+          _entry('c', condition: const EcoDexCondition.totalActions(count: 50)),
           _entry(
             'd',
             condition: const EcoDexCondition.totalActions(count: 1000),
@@ -177,8 +161,9 @@ void main() {
     expect(find.text('Next Up'), findsNothing);
   });
 
-  testWidgets('tapping a card opens the locked sheet with progress',
-      (tester) async {
+  testWidgets('tapping a card opens the locked sheet with progress', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       _wrap(
         entries: [

@@ -18,9 +18,7 @@ class AboutScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.aboutSettingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.aboutSettingsTitle)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -41,9 +39,7 @@ class AboutScreen extends ConsumerWidget {
                     return ListTile(
                       leading: const Icon(Icons.info_outline),
                       title: Text('$version ($buildNumber)'),
-                      subtitle: Text(
-                        'Seed - ${l10n.aboutSubtitleTracker}',
-                      ),
+                      subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
                     );
                   },
                 ),

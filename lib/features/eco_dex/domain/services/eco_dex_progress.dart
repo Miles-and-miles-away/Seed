@@ -19,10 +19,7 @@ class EcoDexProgress {
 
   /// Always reports zero progress on a binary condition -- the entry
   /// is either locked or discovered with nothing in between.
-  const EcoDexProgress.binary()
-      : current = 0,
-        target = 0,
-        hasProgress = false;
+  const EcoDexProgress.binary() : current = 0, target = 0, hasProgress = false;
 
   /// Latest measured stat value (clamped to `[0, target]` so the bar
   /// can render `current/target` directly without overshooting).
@@ -47,47 +44,66 @@ class EcoDexProgress {
 /// Computes how close the user is to satisfying `condition`. Pure:
 /// used by the locked-entry sheet progress bar and by the "next up"
 /// picker that sorts undiscovered entries by `fraction`.
-EcoDexProgress ecoDexProgressOf(
-  EcoDexCondition condition,
-  AppUserModel user,
-) {
+EcoDexProgress ecoDexProgressOf(EcoDexCondition condition, AppUserModel user) {
   return switch (condition) {
-    TotalActionsCondition(:final count) =>
-      _numeric(current: user.totalActionsCount, target: count),
-    CategoryActionsCondition(:final category, :final count) =>
-      _numeric(current: categoryActionCount(user, category), target: count),
-    Co2SavedCondition(:final grams) =>
-      _numeric(current: user.totalCo2Grams, target: grams),
-    StreakDaysCondition(:final days) =>
-      _numeric(current: user.longestStreak, target: days),
-    LevelReachedCondition(:final level) =>
-      _numeric(current: user.level, target: level),
-    SdgBreadthCondition(:final count) =>
-      _numeric(current: sdgBreadthCount(user), target: count),
-    ChallengeStreakCondition(:final days) =>
-      _numeric(current: user.challengeStreak, target: days),
+    TotalActionsCondition(:final count) => _numeric(
+      current: user.totalActionsCount,
+      target: count,
+    ),
+    CategoryActionsCondition(:final category, :final count) => _numeric(
+      current: categoryActionCount(user, category),
+      target: count,
+    ),
+    Co2SavedCondition(:final grams) => _numeric(
+      current: user.totalCo2Grams,
+      target: grams,
+    ),
+    StreakDaysCondition(:final days) => _numeric(
+      current: user.longestStreak,
+      target: days,
+    ),
+    LevelReachedCondition(:final level) => _numeric(
+      current: user.level,
+      target: level,
+    ),
+    SdgBreadthCondition(:final count) => _numeric(
+      current: sdgBreadthCount(user),
+      target: count,
+    ),
+    ChallengeStreakCondition(:final days) => _numeric(
+      current: user.challengeStreak,
+      target: days,
+    ),
     MultiDayChallengeCondition() => const EcoDexProgress.binary(),
-    EcoFactsViewedCondition(:final count) =>
-      _numeric(current: user.viewedFactDates.length, target: count),
-    CategoriesCoveredCondition(:final count) =>
-      _numeric(current: categoriesCoveredCount(user), target: count),
-    UniqueActionsLoggedCondition(:final count) =>
-      _numeric(current: user.uniqueActionIds.length, target: count),
+    EcoFactsViewedCondition(:final count) => _numeric(
+      current: user.viewedFactDates.length,
+      target: count,
+    ),
+    CategoriesCoveredCondition(:final count) => _numeric(
+      current: categoriesCoveredCount(user),
+      target: count,
+    ),
+    UniqueActionsLoggedCondition(:final count) => _numeric(
+      current: user.uniqueActionIds.length,
+      target: count,
+    ),
     ProfileCompleteCondition() => const EcoDexProgress.binary(),
-    EcodexCountCondition(:final count) =>
-      _numeric(current: user.ecodexDiscovered.length, target: count),
-    ChallengesCompletedCondition(:final count) =>
-      _numeric(current: user.challengesCompleted, target: count),
-    UniqueZeroCo2ActionsCondition(:final count) =>
-      _numeric(current: uniqueZeroCo2ActionsCount(user), target: count),
+    EcodexCountCondition(:final count) => _numeric(
+      current: user.ecodexDiscovered.length,
+      target: count,
+    ),
+    ChallengesCompletedCondition(:final count) => _numeric(
+      current: user.challengesCompleted,
+      target: count,
+    ),
+    UniqueZeroCo2ActionsCondition(:final count) => _numeric(
+      current: uniqueZeroCo2ActionsCount(user),
+      target: count,
+    ),
   };
 }
 
 EcoDexProgress _numeric({required int current, required int target}) {
   final clamped = current < 0 ? 0 : (current > target ? target : current);
-  return EcoDexProgress(
-    current: clamped,
-    target: target,
-    hasProgress: true,
-  );
+  return EcoDexProgress(current: clamped, target: target, hasProgress: true);
 }

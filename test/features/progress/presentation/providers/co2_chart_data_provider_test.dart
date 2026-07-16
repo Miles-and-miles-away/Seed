@@ -36,9 +36,7 @@ void main() {
       ]);
 
       expect(result.totalGrams, 350);
-      final byCategory = {
-        for (final s in result.slices) s.category: s.grams,
-      };
+      final byCategory = {for (final s in result.slices) s.category: s.grams};
       expect(byCategory[ActionCategory.transport], 300);
       expect(byCategory[ActionCategory.food], 50);
     });

@@ -9,8 +9,8 @@ class UserRemoteDataSource {
   UserRemoteDataSource({
     required FirebaseFirestore firestore,
     FirebaseFunctions? functions,
-  })  : _firestore = firestore,
-        _functionsOverride = functions;
+  }) : _firestore = firestore,
+       _functionsOverride = functions;
 
   final FirebaseFirestore _firestore;
   final FirebaseFunctions? _functionsOverride;

@@ -66,10 +66,7 @@ class EcoDexCategorySection extends ConsumerWidget {
           ),
           itemCount: entries.length,
           itemBuilder: (context, index) {
-            return EcoDexEntryCard(
-              entryState: entries[index],
-              locale: locale,
-            );
+            return EcoDexEntryCard(entryState: entries[index], locale: locale);
           },
         ),
       ],

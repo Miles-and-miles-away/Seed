@@ -25,12 +25,8 @@ void main() {
     );
 
     final container = ProviderContainer(
-      overrides: [
-        currentUserProvider.overrideWith(
-          (_) => Stream.value(user),
-        ),
-      ],
-    )..listen(currentUserProvider, (_, __) {});
+      overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+    )..listen(currentUserProvider, (_, _) {});
 
     return container;
   }
@@ -47,9 +43,7 @@ void main() {
 
     test('returns true when today is in viewedFactDates', () async {
       final todayKey = formatDateKey(DateTime.now());
-      final container = createContainer(
-        viewedFactDates: [todayKey],
-      );
+      final container = createContainer(viewedFactDates: [todayKey]);
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -58,9 +52,7 @@ void main() {
     });
 
     test('returns false when only other dates are viewed', () async {
-      final container = createContainer(
-        viewedFactDates: ['2020-01-01'],
-      );
+      final container = createContainer(viewedFactDates: ['2020-01-01']);
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -72,9 +64,7 @@ void main() {
   group('hasUnreadFactProvider', () {
     test('returns true when fact not viewed and challenge done', () async {
       final todayKey = formatDateKey(DateTime.now());
-      final container = createContainer(
-        challengeCompletedDate: todayKey,
-      );
+      final container = createContainer(challengeCompletedDate: todayKey);
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -84,9 +74,7 @@ void main() {
 
     test('returns false when fact viewed', () async {
       final todayKey = formatDateKey(DateTime.now());
-      final container = createContainer(
-        viewedFactDates: [todayKey],
-      );
+      final container = createContainer(viewedFactDates: [todayKey]);
       addTearDown(container.dispose);
 
       await Future<void>.delayed(Duration.zero);
@@ -121,7 +109,7 @@ void main() {
   group('ecoFactInboxProvider', () {
     test('includes today row when no viewed dates', () async {
       final container = createContainer()
-        ..listen(ecoFactInboxProvider, (_, __) {});
+        ..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);
@@ -132,7 +120,7 @@ void main() {
     test('marks today as read when in viewedFactDates', () async {
       final todayKey = formatDateKey(DateTime.now());
       final container = createContainer(viewedFactDates: [todayKey])
-        ..listen(ecoFactInboxProvider, (_, __) {});
+        ..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);
@@ -144,7 +132,7 @@ void main() {
       final container = createContainer(
         viewedFactDates: [todayKey, '2026-01-05', '2026-02-10'],
         challengeCompletedDate: todayKey,
-      )..listen(ecoFactInboxProvider, (_, __) {});
+      )..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);
@@ -157,7 +145,7 @@ void main() {
 
     test('today row is locked when challenge incomplete', () async {
       final container = createContainer()
-        ..listen(ecoFactInboxProvider, (_, __) {});
+        ..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);
@@ -169,7 +157,7 @@ void main() {
       final container = createContainer(
         unlockedFactDates: [todayKey, '2026-02-10'],
         challengeCompletedDate: todayKey,
-      )..listen(ecoFactInboxProvider, (_, __) {});
+      )..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);
@@ -185,7 +173,7 @@ void main() {
         viewedFactDates: ['2026-01-05'],
         unlockedFactDates: [todayKey, '2026-01-05', '2026-02-10'],
         challengeCompletedDate: todayKey,
-      )..listen(ecoFactInboxProvider, (_, __) {});
+      )..listen(ecoFactInboxProvider, (_, _) {});
       addTearDown(container.dispose);
 
       final items = await container.read(ecoFactInboxProvider.future);

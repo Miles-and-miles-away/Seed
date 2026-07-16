@@ -69,53 +69,54 @@ const _equivalencyFixture = <EquivalencyMetadata>[
 Co2Stats _statsFor(TimePeriod period) {
   return switch (period) {
     TimePeriod.today => const Co2Stats(
-        totalGrams: 1500,
-        previousTotalGrams: 0,
-        percentChange: 0,
-        period: TimePeriod.today,
-      ),
+      totalGrams: 1500,
+      previousTotalGrams: 0,
+      percentChange: 0,
+      period: TimePeriod.today,
+    ),
     TimePeriod.thisWeek => const Co2Stats(
-        totalGrams: 7200,
-        previousTotalGrams: 0,
-        percentChange: 0,
-        period: TimePeriod.thisWeek,
-      ),
+      totalGrams: 7200,
+      previousTotalGrams: 0,
+      percentChange: 0,
+      period: TimePeriod.thisWeek,
+    ),
     TimePeriod.thisMonth => const Co2Stats(
-        totalGrams: 30500,
-        previousTotalGrams: 0,
-        percentChange: 0,
-        period: TimePeriod.thisMonth,
-      ),
+      totalGrams: 30500,
+      previousTotalGrams: 0,
+      percentChange: 0,
+      period: TimePeriod.thisMonth,
+    ),
     TimePeriod.allTime => const Co2Stats(
-        totalGrams: 184000,
-        previousTotalGrams: 0,
-        percentChange: 0,
-        period: TimePeriod.allTime,
-      ),
+      totalGrams: 184000,
+      previousTotalGrams: 0,
+      percentChange: 0,
+      period: TimePeriod.allTime,
+    ),
   };
 }
 
 Widget _wrap(Widget child) => ProviderScope(
-      overrides: [
-        co2StatsProvider.overrideWith((ref, period) async => _statsFor(period)),
-        impactEquivalenciesDataProvider
-            .overrideWith((_) async => _equivalencyFixture),
-        co2TrendDataProvider
-            .overrideWith((ref, period) async => _emptyTrend(period)),
-        co2CategoryDataProvider
-            .overrideWith((ref, period) async => _emptyCategory),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: child),
-      ),
-    );
+  overrides: [
+    co2StatsProvider.overrideWith((ref, period) async => _statsFor(period)),
+    impactEquivalenciesDataProvider.overrideWith(
+      (_) async => _equivalencyFixture,
+    ),
+    co2TrendDataProvider.overrideWith(
+      (ref, period) async => _emptyTrend(period),
+    ),
+    co2CategoryDataProvider.overrideWith((ref, period) async => _emptyCategory),
+  ],
+  child: MaterialApp(
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: Scaffold(body: child),
+  ),
+);
 
 Future<void> _pumpDashboard(WidgetTester tester) async {
   await tester.pumpWidget(_wrap(const ImpactDashboard()));
@@ -132,8 +133,9 @@ void main() {
       expect(find.text('CO2 saved today'), findsOneWidget);
     });
 
-    testWidgets('switching to This Week updates the displayed total',
-        (tester) async {
+    testWidgets('switching to This Week updates the displayed total', (
+      tester,
+    ) async {
       await _pumpDashboard(tester);
 
       await tester.tap(find.text('This Week'));
@@ -146,8 +148,9 @@ void main() {
       expect(find.text('1.5 kg'), findsNothing);
     });
 
-    testWidgets('switching to This Month updates the displayed total',
-        (tester) async {
+    testWidgets('switching to This Month updates the displayed total', (
+      tester,
+    ) async {
       await _pumpDashboard(tester);
 
       await tester.tap(find.text('This Month'));
@@ -158,8 +161,9 @@ void main() {
       expect(find.text('CO2 saved this month'), findsOneWidget);
     });
 
-    testWidgets('switching to All Time updates the displayed total',
-        (tester) async {
+    testWidgets('switching to All Time updates the displayed total', (
+      tester,
+    ) async {
       await _pumpDashboard(tester);
 
       await tester.tap(find.text('All Time'));
@@ -170,8 +174,9 @@ void main() {
       expect(find.text('CO2 saved all time'), findsOneWidget);
     });
 
-    testWidgets('hides equivalencies section when total is zero',
-        (tester) async {
+    testWidgets('hides equivalencies section when total is zero', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
@@ -183,12 +188,15 @@ void main() {
                 period: TimePeriod.today,
               ),
             ),
-            impactEquivalenciesDataProvider
-                .overrideWith((_) async => _equivalencyFixture),
-            co2TrendDataProvider
-                .overrideWith((ref, period) async => _emptyTrend(period)),
-            co2CategoryDataProvider
-                .overrideWith((ref, period) async => _emptyCategory),
+            impactEquivalenciesDataProvider.overrideWith(
+              (_) async => _equivalencyFixture,
+            ),
+            co2TrendDataProvider.overrideWith(
+              (ref, period) async => _emptyTrend(period),
+            ),
+            co2CategoryDataProvider.overrideWith(
+              (ref, period) async => _emptyCategory,
+            ),
           ],
           child: MaterialApp(
             localizationsDelegates: const [

@@ -7,10 +7,7 @@ import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_resources_list.dart';
 
-Widget _wrap(
-  Widget child, {
-  required Map<int, List<SdgResource>> resources,
-}) =>
+Widget _wrap(Widget child, {required Map<int, List<SdgResource>> resources}) =>
     ProviderScope(
       overrides: [
         sdgResourcesDataProvider.overrideWith((_) async => resources),

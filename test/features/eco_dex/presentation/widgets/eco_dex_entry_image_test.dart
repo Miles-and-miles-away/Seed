@@ -19,15 +19,14 @@ void main() {
           ),
         ],
         child: MaterialApp(
-          home: Scaffold(
-            body: EcoDexEntryImage(iconName: iconName, size: 48),
-          ),
+          home: Scaffold(body: EcoDexEntryImage(iconName: iconName, size: 48)),
         ),
       );
     }
 
-    testWidgets('falls back to blank white container when asset missing',
-        (tester) async {
+    testWidgets('falls back to blank white container when asset missing', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildWidget(iconName: 'missing_99', availableIcons: {'climate_01'}),
       );
