@@ -61,9 +61,13 @@ MockFirebaseAuth createMockFirebaseAuth({
   final mockAuth = MockFirebaseAuth();
 
   when(() => mockAuth.currentUser).thenReturn(currentUser);
+  // Production observes userChanges() (see AuthRemoteDataSource.authStateChanges);
+  // the [authStateChanges] param feeds it. authStateChanges() is stubbed too
+  // for any direct callers.
   when(
-    mockAuth.authStateChanges,
+    mockAuth.userChanges,
   ).thenAnswer((_) => authStateChanges ?? Stream.value(currentUser));
+  when(mockAuth.authStateChanges).thenAnswer((_) => Stream.value(currentUser));
 
   return mockAuth;
 }

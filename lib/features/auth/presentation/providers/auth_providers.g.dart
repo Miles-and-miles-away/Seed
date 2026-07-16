@@ -382,23 +382,41 @@ String _$currentUserHash() => r'ff66b69d4f47d38fb10700fc72ecc47921396388';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
+///
+/// Kept alive: it is the app-global auth controller, and its methods run
+/// multi-step async work (sign-out clears FCM then signs out of Firebase).
+/// As an autoDispose provider it was disposed mid-flight when the caller
+/// only `read` it (e.g. the profile logout button), so `ref` reads after
+/// the first await threw and the Firebase sign-out never ran.
 
 @ProviderFor(AuthNotifier)
 final authProvider = AuthNotifierProvider._();
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
+///
+/// Kept alive: it is the app-global auth controller, and its methods run
+/// multi-step async work (sign-out clears FCM then signs out of Firebase).
+/// As an autoDispose provider it was disposed mid-flight when the caller
+/// only `read` it (e.g. the profile logout button), so `ref` reads after
+/// the first await threw and the Firebase sign-out never ran.
 final class AuthNotifierProvider
     extends $NotifierProvider<AuthNotifier, AsyncValue<void>> {
   /// Notifier that handles authentication actions.
   /// Uses AsyncValue to track loading and error states.
+  ///
+  /// Kept alive: it is the app-global auth controller, and its methods run
+  /// multi-step async work (sign-out clears FCM then signs out of Firebase).
+  /// As an autoDispose provider it was disposed mid-flight when the caller
+  /// only `read` it (e.g. the profile logout button), so `ref` reads after
+  /// the first await threw and the Firebase sign-out never ran.
   AuthNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'authProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -419,16 +437,22 @@ final class AuthNotifierProvider
   }
 }
 
-String _$authNotifierHash() => r'9a500c5da4a741657e732d0e8deec321116885ec';
+String _$authNotifierHash() => r'2db8b200a0da6450daaff993c4f2c8cda0fca069';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
+///
+/// Kept alive: it is the app-global auth controller, and its methods run
+/// multi-step async work (sign-out clears FCM then signs out of Firebase).
+/// As an autoDispose provider it was disposed mid-flight when the caller
+/// only `read` it (e.g. the profile logout button), so `ref` reads after
+/// the first await threw and the Firebase sign-out never ran.
 
 abstract class _$AuthNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
     final element =
         ref.element
@@ -438,6 +462,6 @@ abstract class _$AuthNotifier extends $Notifier<AsyncValue<void>> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

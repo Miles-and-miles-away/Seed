@@ -167,7 +167,9 @@ class _EmailVerificationScreenState
     try {
       await ref.read(authProvider.notifier).reloadUser();
 
-      final user = ref.read(authStateChangesProvider).asData?.value;
+      // Read the freshly reloaded user directly; the auth stream may not have
+      // propagated the updated emailVerified flag yet at this point.
+      final user = ref.read(authRepositoryProvider).currentUser;
       if (user != null && user.emailVerified) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

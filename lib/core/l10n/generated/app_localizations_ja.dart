@@ -1324,6 +1324,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoDexViewSource => '出典を見る';
 
   @override
+  String ecoDexAchievement(String hint) {
+    return '実績: $hint';
+  }
+
+  @override
   String get ecoDexNewDiscovery => '新しいエコ図鑑の発見！';
 
   @override

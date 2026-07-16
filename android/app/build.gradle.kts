@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.seedapp.seed_app"
+        applicationId = "com.seedapp"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

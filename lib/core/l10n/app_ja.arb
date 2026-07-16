@@ -634,6 +634,7 @@
   },
   "ecoDexLocked": "未発見",
   "ecoDexViewSource": "出典を見る",
+  "ecoDexAchievement": "実績: {hint}",
   "ecoDexNewDiscovery": "新しいエコ図鑑の発見！",
   "ecoDexNextUp": "もうすぐ発見",
   "ecoDexDiscoveryTitle": "新発見！",

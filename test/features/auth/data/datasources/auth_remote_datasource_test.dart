@@ -25,9 +25,9 @@ void main() {
   });
 
   group('authStateChanges', () {
-    test('forwards FirebaseAuth stream', () {
+    test('forwards FirebaseAuth userChanges stream', () {
       final stream = Stream<User?>.value(null);
-      when(auth.authStateChanges).thenAnswer((_) => stream);
+      when(auth.userChanges).thenAnswer((_) => stream);
 
       expect(dataSource.authStateChanges, same(stream));
     });
@@ -189,6 +189,20 @@ void main() {
         dataSource.updatePassword('newpw'),
         throwsA(isA<AuthException>().having((e) => e.code, 'code', 'no-user')),
       );
+    });
+  });
+
+  group('signOut', () {
+    test('signs out of Firebase even when Google disconnect is '
+        'unavailable', () async {
+      when(auth.signOut).thenAnswer((_) async {});
+
+      // GoogleSignIn.instance is uninitialized here, so disconnect() fails;
+      // signOut must still complete and sign out of Firebase (the operation
+      // that drives the auth-state redirect).
+      await dataSource.signOut();
+
+      verify(auth.signOut).called(1);
     });
   });
 
