@@ -61,8 +61,9 @@ MockFirebaseAuth createMockFirebaseAuth({
   final mockAuth = MockFirebaseAuth();
 
   when(() => mockAuth.currentUser).thenReturn(currentUser);
-  when(mockAuth.authStateChanges)
-      .thenAnswer((_) => authStateChanges ?? Stream.value(currentUser));
+  when(
+    mockAuth.authStateChanges,
+  ).thenAnswer((_) => authStateChanges ?? Stream.value(currentUser));
 
   return mockAuth;
 }

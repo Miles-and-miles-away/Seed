@@ -16,11 +16,7 @@ class PointsAnimationOverlay extends StatefulWidget {
   final Color? color;
 
   /// Shows the points animation overlay.
-  static void show(
-    BuildContext context, {
-    required int points,
-    Color? color,
-  }) {
+  static void show(BuildContext context, {required int points, Color? color}) {
     final overlay = Overlay.of(context);
     late OverlayEntry entry;
 
@@ -50,58 +46,34 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: durationShowcase,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: durationShowcase, vsync: this);
 
     // Scale up quickly, then hold
     _scaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0, end: 1.2)
-            .chain(CurveTween(curve: Curves.easeOutBack)),
+        tween: Tween<double>(
+          begin: 0,
+          end: 1.2,
+        ).chain(CurveTween(curve: Curves.easeOutBack)),
         weight: 30,
       ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.2, end: 1),
-        weight: 10,
-      ),
-      TweenSequenceItem(
-        tween: ConstantTween<double>(1),
-        weight: 40,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1, end: 0.8),
-        weight: 20,
-      ),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1), weight: 10),
+      TweenSequenceItem(tween: ConstantTween<double>(1), weight: 40),
+      TweenSequenceItem(tween: Tween<double>(begin: 1, end: 0.8), weight: 20),
     ]).animate(_controller);
 
     // Fade in quickly, hold, then fade out
     _opacityAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0, end: 1),
-        weight: 20,
-      ),
-      TweenSequenceItem(
-        tween: ConstantTween<double>(1),
-        weight: 50,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1, end: 0),
-        weight: 30,
-      ),
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: 1), weight: 20),
+      TweenSequenceItem(tween: ConstantTween<double>(1), weight: 50),
+      TweenSequenceItem(tween: Tween<double>(begin: 1, end: 0), weight: 30),
     ]).animate(_controller);
 
     // Float upward
     _positionAnimation = Tween<Offset>(
       begin: Offset.zero,
       end: const Offset(0, -50),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOut,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward().then((_) => widget.onDismiss());
   }
@@ -145,9 +117,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                   borderRadius: BorderRadius.circular(32),
                   boxShadow: [
                     BoxShadow(
-                      color: color.withValues(
-                        alpha: opacityMedium,
-                      ),
+                      color: color.withValues(alpha: opacityMedium),
                       blurRadius: 20,
                       spreadRadius: 4,
                     ),

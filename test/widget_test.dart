@@ -19,11 +19,7 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: Text('Seed App'),
-            ),
-          ),
+          home: Scaffold(body: Center(child: Text('Seed App'))),
         ),
       ),
     );
@@ -35,11 +31,7 @@ void main() {
   testWidgets('ProviderScope is properly initialized', (tester) async {
     // Verify Riverpod provider scope works correctly
     await tester.pumpWidget(
-      const ProviderScope(
-        child: MaterialApp(
-          home: _TestConsumerWidget(),
-        ),
-      ),
+      const ProviderScope(child: MaterialApp(home: _TestConsumerWidget())),
     );
 
     expect(find.text('Provider works!'), findsOneWidget);
@@ -52,10 +44,6 @@ class _TestConsumerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Provider works!'),
-      ),
-    );
+    return const Scaffold(body: Center(child: Text('Provider works!')));
   }
 }

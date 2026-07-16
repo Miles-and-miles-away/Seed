@@ -121,17 +121,16 @@ void main() {
     int points = 0,
     int level = 1,
     bool isFullyEvolved = false,
-  }) =>
-      {
-        AppConstants.fieldId: id,
-        AppConstants.fieldSpeciesId: speciesId,
-        AppConstants.fieldName: 'M-$id',
-        AppConstants.fieldMascotPoints: points,
-        AppConstants.fieldMascotLevel: level,
-        AppConstants.fieldIsFullyEvolved: isFullyEvolved,
-        'equippedItems': <String>[],
-        AppConstants.fieldLastSeenStage: 1,
-      };
+  }) => {
+    AppConstants.fieldId: id,
+    AppConstants.fieldSpeciesId: speciesId,
+    AppConstants.fieldName: 'M-$id',
+    AppConstants.fieldMascotPoints: points,
+    AppConstants.fieldMascotLevel: level,
+    AppConstants.fieldIsFullyEvolved: isFullyEvolved,
+    'equippedItems': <String>[],
+    AppConstants.fieldLastSeenStage: 1,
+  };
 
   group('logAction — core points and level', () {
     test('first action ever creates points and sets streak to 1', () async {
@@ -294,10 +293,7 @@ void main() {
     test('per-SDG counters accumulate for all related SDGs', () async {
       await seedUser({
         AppConstants.fieldSdgStats: {
-          '11': {
-            AppConstants.fieldCount: 2,
-            AppConstants.fieldCo2: 100,
-          },
+          '11': {AppConstants.fieldCount: 2, AppConstants.fieldCo2: 100},
         },
       });
 
@@ -307,16 +303,17 @@ void main() {
         languageCode: 'en',
       );
 
-      final stats = (await getUser()).data()![AppConstants.fieldSdgStats]
-          as Map<String, dynamic>;
-      expect(
-        stats['11'],
-        {AppConstants.fieldCount: 3, AppConstants.fieldCo2: 600},
-      );
-      expect(
-        stats['13'],
-        {AppConstants.fieldCount: 1, AppConstants.fieldCo2: 500},
-      );
+      final stats =
+          (await getUser()).data()![AppConstants.fieldSdgStats]
+              as Map<String, dynamic>;
+      expect(stats['11'], {
+        AppConstants.fieldCount: 3,
+        AppConstants.fieldCo2: 600,
+      });
+      expect(stats['13'], {
+        AppConstants.fieldCount: 1,
+        AppConstants.fieldCo2: 500,
+      });
     });
 
     test('per-category counts and unique action IDs update', () async {
@@ -352,13 +349,14 @@ void main() {
         languageCode: 'en',
       );
 
-      final stats = (await getUser()).data()![AppConstants.fieldSdgStats]
-          as Map<String, dynamic>;
+      final stats =
+          (await getUser()).data()![AppConstants.fieldSdgStats]
+              as Map<String, dynamic>;
       expect(stats, hasLength(1));
-      expect(
-        stats['11'],
-        {AppConstants.fieldCount: 2, AppConstants.fieldCo2: 100},
-      );
+      expect(stats['11'], {
+        AppConstants.fieldCount: 2,
+        AppConstants.fieldCo2: 100,
+      });
     });
   });
 
@@ -381,9 +379,7 @@ void main() {
     test('active mascot accumulates points and level', () async {
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
-        AppConstants.fieldMascots: [
-          mascot(id: 'm1', points: 90),
-        ],
+        AppConstants.fieldMascots: [mascot(id: 'm1', points: 90)],
       });
 
       await repository.logAction(
@@ -438,8 +434,9 @@ void main() {
       );
 
       final data = (await getUser()).data()!;
-      final m = (data[AppConstants.fieldMascots] as List).first
-          as Map<String, dynamic>;
+      final m =
+          (data[AppConstants.fieldMascots] as List).first
+              as Map<String, dynamic>;
       expect(m[AppConstants.fieldIsFullyEvolved], isTrue);
       expect(data[AppConstants.fieldEggPendingDiscovery], isTrue);
       expect(
@@ -449,13 +446,12 @@ void main() {
     });
 
     test('does not reset pending discovery when already flagged', () async {
-      final alreadySince =
-          Timestamp.fromDate(DateTime.now().subtract(const Duration(days: 2)));
+      final alreadySince = Timestamp.fromDate(
+        DateTime.now().subtract(const Duration(days: 2)),
+      );
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
-        AppConstants.fieldMascots: [
-          mascot(id: 'm1', points: 50),
-        ],
+        AppConstants.fieldMascots: [mascot(id: 'm1', points: 50)],
         AppConstants.fieldEggPendingDiscovery: true,
         AppConstants.fieldEggPendingDiscoverySince: alreadySince,
       });
@@ -479,8 +475,9 @@ void main() {
         AppConstants.fieldEgg: {
           'receivedAt': Timestamp.fromDate(yesterday),
           AppConstants.fieldHatchingStreakDays: 5,
-          AppConstants.fieldLastHatchingActivityDate:
-              Timestamp.fromDate(yesterday),
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            yesterday,
+          ),
         },
       });
 
@@ -490,8 +487,9 @@ void main() {
         languageCode: 'en',
       );
 
-      final egg = (await getUser()).data()![AppConstants.fieldEgg]
-          as Map<String, dynamic>;
+      final egg =
+          (await getUser()).data()![AppConstants.fieldEgg]
+              as Map<String, dynamic>;
       expect(egg[AppConstants.fieldHatchingStreakDays], 6);
       expect(result.hatchedMascotId, isNull);
     });
@@ -505,8 +503,9 @@ void main() {
         AppConstants.fieldEgg: {
           'receivedAt': Timestamp.fromDate(yesterday),
           AppConstants.fieldHatchingStreakDays: 29,
-          AppConstants.fieldLastHatchingActivityDate:
-              Timestamp.fromDate(yesterday),
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            yesterday,
+          ),
         },
       });
 
@@ -530,14 +529,13 @@ void main() {
       // Only 'leaf' should remain as a valid hatching candidate.
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
-        AppConstants.fieldMascots: [
-          mascot(id: 'm1', isFullyEvolved: true),
-        ],
+        AppConstants.fieldMascots: [mascot(id: 'm1', isFullyEvolved: true)],
         AppConstants.fieldEgg: {
           'receivedAt': Timestamp.fromDate(yesterday),
           AppConstants.fieldHatchingStreakDays: 29,
-          AppConstants.fieldLastHatchingActivityDate:
-              Timestamp.fromDate(yesterday),
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            yesterday,
+          ),
         },
       });
 
@@ -623,8 +621,9 @@ void main() {
     });
 
     test('yesterday completion continues the challenge streak', () async {
-      final yesterdayKey =
-          formatDateKey(DateTime.now().subtract(const Duration(days: 1)));
+      final yesterdayKey = formatDateKey(
+        DateTime.now().subtract(const Duration(days: 1)),
+      );
       await seedUser({
         AppConstants.fieldChallengeCompletedDate: yesterdayKey,
         AppConstants.fieldChallengeStreak: 3,
@@ -640,8 +639,9 @@ void main() {
     });
 
     test('gap in completion resets streak to 1', () async {
-      final twoDaysAgoKey =
-          formatDateKey(DateTime.now().subtract(const Duration(days: 2)));
+      final twoDaysAgoKey = formatDateKey(
+        DateTime.now().subtract(const Duration(days: 2)),
+      );
       await seedUser({
         AppConstants.fieldChallengeCompletedDate: twoDaysAgoKey,
         AppConstants.fieldChallengeStreak: 10,
@@ -669,8 +669,9 @@ void main() {
         languageCode: 'en',
       );
 
-      final ids = (await getUser())
-          .data()![AppConstants.fieldRecentChallengeIds] as List<dynamic>;
+      final ids =
+          (await getUser()).data()![AppConstants.fieldRecentChallengeIds]
+              as List<dynamic>;
       expect(ids, hasLength(AppConstants.recentChallengeIdsLimit));
       expect(ids.first, 'daily-transport');
     });
@@ -682,14 +683,13 @@ void main() {
       int currentDay = 0,
       int target = 3,
       String lastDate = '',
-    }) =>
-        {
-          AppConstants.fieldTemplateId: templateId,
-          AppConstants.fieldCurrentDay: currentDay,
-          AppConstants.fieldTargetDays: target,
-          AppConstants.fieldLastCompletionDate: lastDate,
-          AppConstants.fieldStartDate: formatDateKey(DateTime.now()),
-        };
+    }) => {
+      AppConstants.fieldTemplateId: templateId,
+      AppConstants.fieldCurrentDay: currentDay,
+      AppConstants.fieldTargetDays: target,
+      AppConstants.fieldLastCompletionDate: lastDate,
+      AppConstants.fieldStartDate: formatDateKey(DateTime.now()),
+    };
 
     test('increments currentDay when matching category on new day', () async {
       await seedUser({
@@ -713,11 +713,14 @@ void main() {
     });
 
     test('completes and clears challenge at target days', () async {
-      final yesterdayKey =
-          formatDateKey(DateTime.now().subtract(const Duration(days: 1)));
+      final yesterdayKey = formatDateKey(
+        DateTime.now().subtract(const Duration(days: 1)),
+      );
       await seedUser({
-        AppConstants.fieldActiveMultiDayChallenge:
-            activeMultiDay(currentDay: 2, lastDate: yesterdayKey),
+        AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
+          currentDay: 2,
+          lastDate: yesterdayKey,
+        ),
       });
 
       await repository.logAction(
@@ -738,11 +741,14 @@ void main() {
     });
 
     test('gap day resets currentDay to 1', () async {
-      final threeDaysAgoKey =
-          formatDateKey(DateTime.now().subtract(const Duration(days: 3)));
+      final threeDaysAgoKey = formatDateKey(
+        DateTime.now().subtract(const Duration(days: 3)),
+      );
       await seedUser({
-        AppConstants.fieldActiveMultiDayChallenge:
-            activeMultiDay(currentDay: 2, lastDate: threeDaysAgoKey),
+        AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
+          currentDay: 2,
+          lastDate: threeDaysAgoKey,
+        ),
       });
 
       await repository.logAction(
@@ -760,8 +766,10 @@ void main() {
     test('same-day action does not double-count', () async {
       final todayKey = formatDateKey(DateTime.now());
       await seedUser({
-        AppConstants.fieldActiveMultiDayChallenge:
-            activeMultiDay(currentDay: 1, lastDate: todayKey),
+        AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
+          currentDay: 1,
+          lastDate: todayKey,
+        ),
       });
 
       await repository.logAction(
@@ -778,8 +786,9 @@ void main() {
 
     test('category-less multi-day challenge counts any action', () async {
       await seedUser({
-        AppConstants.fieldActiveMultiDayChallenge:
-            activeMultiDay(templateId: 'md-any'),
+        AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
+          templateId: 'md-any',
+        ),
       });
 
       // Use learn-only (different category) to prove the null-category path.
@@ -959,13 +968,11 @@ void main() {
       expect(result.actionLog.points, 20);
       final data = (await getUser()).data()!;
       expect(data[AppConstants.fieldPoints], 20);
-      final md = data[AppConstants.fieldActiveMultiDayChallenge]
-          as Map<String, dynamic>;
+      final md =
+          data[AppConstants.fieldActiveMultiDayChallenge]
+              as Map<String, dynamic>;
       expect(md[AppConstants.fieldCurrentDay], 2);
-      expect(
-        data[AppConstants.fieldCompletedMultiDayChallenges],
-        isNull,
-      );
+      expect(data[AppConstants.fieldCompletedMultiDayChallenges], isNull);
     });
 
     test('disposes egg instead of hatching at the mascot cap', () async {
@@ -981,8 +988,9 @@ void main() {
         AppConstants.fieldEgg: {
           'receivedAt': Timestamp.fromDate(yesterday),
           AppConstants.fieldHatchingStreakDays: 29,
-          AppConstants.fieldLastHatchingActivityDate:
-              Timestamp.fromDate(yesterday),
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            yesterday,
+          ),
         },
       });
 

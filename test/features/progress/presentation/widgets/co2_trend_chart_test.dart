@@ -8,15 +8,15 @@ import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_trend_chart.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 Co2TrendData _fixture({
   int days = 7,
@@ -49,9 +49,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           Co2TrendChart(
-            data: _fixture(
-              points: const [(0, 500), (3, 1200), (6, 900)],
-            ),
+            data: _fixture(points: const [(0, 500), (3, 1200), (6, 900)]),
           ),
         ),
       );
@@ -62,8 +60,9 @@ void main() {
       expect(find.byType(LineChart), findsOneWidget);
     });
 
-    testWidgets('renders without throwing for sparse 90-day data',
-        (tester) async {
+    testWidgets('renders without throwing for sparse 90-day data', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           Co2TrendChart(

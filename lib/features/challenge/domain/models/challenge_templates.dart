@@ -11,9 +11,7 @@ class DailyChallengeTemplate {
     required this.titleJa,
   });
 
-  factory DailyChallengeTemplate.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory DailyChallengeTemplate.fromJson(Map<String, dynamic> json) {
     return DailyChallengeTemplate(
       id: json['id'] as String,
       category: json['category'] as String,
@@ -52,9 +50,7 @@ class MultiDayChallengeTemplate {
     required this.descriptionJa,
   });
 
-  factory MultiDayChallengeTemplate.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory MultiDayChallengeTemplate.fromJson(Map<String, dynamic> json) {
     return MultiDayChallengeTemplate(
       id: json['id'] as String,
       category: json['category'] as String?,
@@ -97,10 +93,7 @@ class MultiDayChallengeTemplate {
 
 /// Loaded challenge template data.
 class ChallengeTemplateData {
-  const ChallengeTemplateData({
-    required this.daily,
-    required this.multiDay,
-  });
+  const ChallengeTemplateData({required this.daily, required this.multiDay});
 
   final List<DailyChallengeTemplate> daily;
   final List<MultiDayChallengeTemplate> multiDay;

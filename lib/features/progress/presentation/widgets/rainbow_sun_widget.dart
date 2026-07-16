@@ -43,10 +43,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: durationReveal,
-    );
+    _controller = AnimationController(vsync: this, duration: durationReveal);
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutCubic,
@@ -61,8 +58,10 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     super.didUpdateWidget(oldWidget);
 
     final newCompletionRatio = _calculateCompletionRatio();
-    final hasNewSdgs =
-        !_listEquals(widget.completedSdgs, _previousCompletedSdgs);
+    final hasNewSdgs = !_listEquals(
+      widget.completedSdgs,
+      _previousCompletedSdgs,
+    );
 
     // Animate when completion changes or new SDGs are completed
     if (newCompletionRatio != _previousCompletionRatio || hasNewSdgs) {
@@ -131,16 +130,11 @@ class EmptyRainbowSun extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
-                  colors: [
-                    Colors.amber.shade200,
-                    Colors.orange.shade200,
-                  ],
+                  colors: [Colors.amber.shade200, Colors.orange.shade200],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.amber.withValues(
-                      alpha: opacityMuted,
-                    ),
+                    color: Colors.amber.withValues(alpha: opacityMuted),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),

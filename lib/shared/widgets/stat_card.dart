@@ -43,11 +43,7 @@ class StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 28,
-            color: iconColor ?? colorScheme.primary,
-          ),
+          Icon(icon, size: 28, color: iconColor ?? colorScheme.primary),
           const SizedBox(height: spacingMd),
           Text(
             value,

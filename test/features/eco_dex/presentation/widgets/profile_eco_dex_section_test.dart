@@ -14,33 +14,33 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_ima
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
 
 EcoDexEntry _entry(String id) => EcoDexEntry(
-      id: id,
-      category: 'climate',
-      nameEn: 'name-$id',
-      nameJa: '',
-      nameEs: '',
-      factEn: 'fact-$id',
-      factJa: '',
-      factEs: '',
-      sourceUrl: '',
-      iconName: id,
-      condition: const EcoDexCondition.totalActions(count: 1),
-      hintEn: '',
-      hintJa: '',
-      hintEs: '',
-    );
+  id: id,
+  category: 'climate',
+  nameEn: 'name-$id',
+  nameJa: '',
+  nameEs: '',
+  factEn: 'fact-$id',
+  factJa: '',
+  factEs: '',
+  sourceUrl: '',
+  iconName: id,
+  condition: const EcoDexCondition.totalActions(count: 1),
+  hintEn: '',
+  hintJa: '',
+  hintEs: '',
+);
 
 EcoDexData _data(List<EcoDexEntry> entries) => EcoDexData(
-      categories: const [
-        EcoDexCategory(
-          id: 'climate',
-          nameEn: 'Climate',
-          nameJa: '気候',
-          nameEs: 'Clima',
-        ),
-      ],
-      entries: entries,
-    );
+  categories: const [
+    EcoDexCategory(
+      id: 'climate',
+      nameEn: 'Climate',
+      nameJa: '気候',
+      nameEs: 'Clima',
+    ),
+  ],
+  entries: entries,
+);
 
 Widget _scoped({
   required List<EcoDexEntry> entries,
@@ -75,25 +75,21 @@ Widget _wrap({
 
 void main() {
   group('ProfileEcoDexSection', () {
-    testWidgets('renders count and empty hint when nothing discovered',
-        (tester) async {
+    testWidgets('renders count and empty hint when nothing discovered', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        _wrap(
-          entries: [_entry('e1'), _entry('e2')],
-          discovered: const [],
-        ),
+        _wrap(entries: [_entry('e1'), _entry('e2')], discovered: const []),
       );
       await tester.pump();
 
       expect(find.text('0 / 2 discovered'), findsOneWidget);
-      expect(
-        find.textContaining('Log your first action'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Log your first action'), findsOneWidget);
     });
 
-    testWidgets('shows most recent discoveries with an overflow chip',
-        (tester) async {
+    testWidgets('shows most recent discoveries with an overflow chip', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           entries: [for (var i = 1; i <= 5; i++) _entry('e$i')],
@@ -110,10 +106,7 @@ void main() {
 
     testWidgets('tapping a thumbnail opens the entry sheet', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          entries: [_entry('e1')],
-          discovered: const ['e1'],
-        ),
+        _wrap(entries: [_entry('e1')], discovered: const ['e1']),
       );
       await tester.pump();
 
@@ -123,17 +116,16 @@ void main() {
       expect(find.text('fact-e1'), findsOneWidget);
     });
 
-    testWidgets('tapping the card deep-links to the Eco-Dex tab',
-        (tester) async {
+    testWidgets('tapping the card deep-links to the Eco-Dex tab', (
+      tester,
+    ) async {
       String? receivedTab;
       final router = GoRouter(
         initialLocation: '/',
         routes: [
           GoRoute(
             path: '/',
-            builder: (_, __) => const Scaffold(
-              body: ProfileEcoDexSection(),
-            ),
+            builder: (_, _) => const Scaffold(body: ProfileEcoDexSection()),
           ),
           GoRoute(
             path: appRoutes.progress,

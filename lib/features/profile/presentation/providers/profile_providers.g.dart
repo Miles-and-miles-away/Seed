@@ -16,18 +16,19 @@ final levelProgressProvider = LevelProgressProvider._();
 /// Computed level progress (0.0 to 1.0) from user points.
 
 final class LevelProgressProvider
-    extends $FunctionalProvider<double, double, double> with $Provider<double> {
+    extends $FunctionalProvider<double, double, double>
+    with $Provider<double> {
   /// Computed level progress (0.0 to 1.0) from user points.
   LevelProgressProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'levelProgressProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'levelProgressProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$levelProgressHash();
@@ -64,15 +65,15 @@ final class PointsToNextLevelProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Points needed to reach the next level.
   PointsToNextLevelProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'pointsToNextLevelProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pointsToNextLevelProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$pointsToNextLevelHash();
@@ -109,15 +110,15 @@ final class EvolutionStageProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Current mascot evolution stage (1-4).
   EvolutionStageProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'evolutionStageProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'evolutionStageProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$evolutionStageHash();
@@ -160,15 +161,15 @@ final class TotalCo2SavedProvider extends $FunctionalProvider<int, int, int>
   /// Reads denormalized field from user doc instead of
   /// streaming entire actionLog subcollection.
   TotalCo2SavedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'totalCo2SavedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'totalCo2SavedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$totalCo2SavedHash();
@@ -208,15 +209,15 @@ final class TotalActionsCountProvider extends $FunctionalProvider<int, int, int>
   /// Total number of actions logged.
   /// Reads denormalized field from user doc.
   TotalActionsCountProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'totalActionsCountProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'totalActionsCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$totalActionsCountHash();
@@ -253,15 +254,15 @@ final class DaysSinceJoinedProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Number of days since the user joined.
   DaysSinceJoinedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'daysSinceJoinedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'daysSinceJoinedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$daysSinceJoinedHash();

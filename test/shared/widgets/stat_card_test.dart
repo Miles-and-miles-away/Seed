@@ -8,11 +8,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: StatCard(
-              icon: Icons.star,
-              value: '100',
-              label: 'Points',
-            ),
+            body: StatCard(icon: Icons.star, value: '100', label: 'Points'),
           ),
         ),
       );
@@ -24,11 +20,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: StatCard(
-              icon: Icons.star,
-              value: '1,234',
-              label: 'Points',
-            ),
+            body: StatCard(icon: Icons.star, value: '1,234', label: 'Points'),
           ),
         ),
       );
@@ -74,11 +66,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: StatCard(
-              icon: Icons.star,
-              value: '100',
-              label: 'Points',
-            ),
+            body: StatCard(icon: Icons.star, value: '100', label: 'Points'),
           ),
         ),
       );

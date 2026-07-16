@@ -67,10 +67,7 @@ void main() {
   // settle. Each step yields to the real event loop via runAsync so the
   // (cache-warmed) species future and the overridden mascot streams can emit
   // and the screen rebuild past its loading spinner.
-  Future<void> pumpUntilFound(
-    WidgetTester tester,
-    Finder finder,
-  ) async {
+  Future<void> pumpUntilFound(WidgetTester tester, Finder finder) async {
     for (var i = 0; i < 30 && finder.evaluate().isEmpty; i++) {
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 20)),
@@ -105,8 +102,9 @@ void main() {
   }
 
   group('MascotScreen', () {
-    testWidgets('renders the Our Journey section and mascot name',
-        (tester) async {
+    testWidgets('renders the Our Journey section and mascot name', (
+      tester,
+    ) async {
       await pumpMascotScreen(tester);
 
       expect(find.text('Our Journey'), findsOneWidget);
@@ -115,8 +113,9 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('shows formatted birthday, CO2 together and days label',
-        (tester) async {
+    testWidgets('shows formatted birthday, CO2 together and days label', (
+      tester,
+    ) async {
       await pumpMascotScreen(tester);
 
       // DateFormat.yMMMd('en') for DateTime(2026, 1, 1).
@@ -129,8 +128,9 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('tapping the rename icon reveals an editable field',
-        (tester) async {
+    testWidgets('tapping the rename icon reveals an editable field', (
+      tester,
+    ) async {
       await pumpMascotScreen(tester);
 
       expect(find.byType(TextField), findsNothing);

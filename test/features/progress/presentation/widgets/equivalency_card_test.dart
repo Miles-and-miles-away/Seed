@@ -7,15 +7,15 @@ import 'package:seed_app/features/progress/domain/entities/impact_equivalency.da
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_card.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 void main() {
   group('EquivalencyCard', () {
@@ -104,9 +104,7 @@ void main() {
       expect(find.text('beef burgers'), findsOneWidget);
     });
 
-    testWidgets('floors sub-rounding tree values to "<0.1"', (
-      tester,
-    ) async {
+    testWidgets('floors sub-rounding tree values to "<0.1"', (tester) async {
       // 0.04 would format as "0.0" -- replace with the sentinel so
       // a real action never reads as zero impact.
       await tester.pumpWidget(

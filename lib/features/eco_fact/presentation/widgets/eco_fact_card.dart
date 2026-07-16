@@ -12,11 +12,7 @@ import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart'
 /// and related SDG icons. Supports a locked state for future
 /// challenge integration.
 class EcoFactCard extends ConsumerWidget {
-  const EcoFactCard({
-    required this.fact,
-    this.isLocked = false,
-    super.key,
-  });
+  const EcoFactCard({required this.fact, this.isLocked = false, super.key});
 
   final EcoFact fact;
   final bool isLocked;
@@ -61,10 +57,7 @@ class EcoFactCard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Category chip
-            _CategoryChip(
-              category: fact.category,
-              l10n: l10n,
-            ),
+            _CategoryChip(category: fact.category, l10n: l10n),
             const SizedBox(height: spacingLg),
 
             // "Did you know?" header
@@ -78,10 +71,7 @@ class EcoFactCard extends ConsumerWidget {
             const SizedBox(height: spacingSm),
 
             // Fact text
-            Text(
-              fact.fact(locale),
-              style: theme.textTheme.bodyLarge,
-            ),
+            Text(fact.fact(locale), style: theme.textTheme.bodyLarge),
             const SizedBox(height: spacingLg),
 
             // Source (name itself is the link when a URL is present)
@@ -114,12 +104,7 @@ class EcoFactCard extends ConsumerWidget {
             // Related SDGs
             if (fact.relatedSdgs.isNotEmpty) ...[
               const SizedBox(height: spacingMd),
-              _buildSdgBadges(
-                fact.relatedSdgs,
-                goalMap,
-                locale,
-                theme,
-              ),
+              _buildSdgBadges(fact.relatedSdgs, goalMap, locale, theme),
             ],
           ],
         ),
@@ -164,10 +149,7 @@ class EcoFactCard extends ConsumerWidget {
 }
 
 class _SourceLine extends StatefulWidget {
-  const _SourceLine({
-    required this.sourceName,
-    required this.sourceUrl,
-  });
+  const _SourceLine({required this.sourceName, required this.sourceUrl});
 
   final String sourceName;
   final String sourceUrl;
@@ -243,10 +225,7 @@ class _SourceLineState extends State<_SourceLine> {
 }
 
 class _CategoryChip extends StatelessWidget {
-  const _CategoryChip({
-    required this.category,
-    required this.l10n,
-  });
+  const _CategoryChip({required this.category, required this.l10n});
 
   final String category;
   final AppLocalizations l10n;
@@ -275,10 +254,7 @@ class _CategoryChip extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: spacingXs,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: spacingXs),
       decoration: BoxDecoration(
         color: colorScheme.secondaryContainer,
         borderRadius: borderRadiusMd,

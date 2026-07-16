@@ -34,8 +34,10 @@ class Co2TrendChart extends StatelessWidget {
 
     // x-axis is in days since windowStart so calendar gaps render
     // as visual gaps.
-    final daysInWindow =
-        data.windowEnd.difference(data.windowStart).inDays.toDouble();
+    final daysInWindow = data.windowEnd
+        .difference(data.windowStart)
+        .inDays
+        .toDouble();
     final maxX = math.max<double>(daysInWindow - 1, 1);
 
     final dotSpots = data.points
@@ -58,10 +60,8 @@ class Co2TrendChart extends StatelessWidget {
       color: Colors.transparent,
       barWidth: 0,
       dotData: FlDotData(
-        getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-          radius: 4,
-          color: theme.colorScheme.primary,
-        ),
+        getDotPainter: (spot, percent, bar, index) =>
+            FlDotCirclePainter(radius: 4, color: theme.colorScheme.primary),
       ),
     );
 
@@ -105,9 +105,7 @@ class Co2TrendChart extends StatelessWidget {
                 Container(
                   width: 16,
                   height: 1.5,
-                  decoration: BoxDecoration(
-                    color: avgColor,
-                  ),
+                  decoration: BoxDecoration(color: avgColor),
                 ),
                 const SizedBox(width: spacingXs),
                 Text(
@@ -169,8 +167,9 @@ class Co2TrendChart extends StatelessWidget {
                         if (!atStart && !atEnd && !atMid) {
                           return const SizedBox.shrink();
                         }
-                        final date =
-                            data.windowStart.add(Duration(days: value.round()));
+                        final date = data.windowStart.add(
+                          Duration(days: value.round()),
+                        );
                         return Padding(
                           padding: const EdgeInsets.only(top: spacingXs),
                           child: Text(
@@ -191,8 +190,9 @@ class Co2TrendChart extends StatelessWidget {
                       // users don't tap the dashed line and get a
                       // confusing "average" duplicate at every x.
                       if (spot.barIndex != 0) return null;
-                      final date =
-                          data.windowStart.add(Duration(days: spot.x.round()));
+                      final date = data.windowStart.add(
+                        Duration(days: spot.x.round()),
+                      );
                       return LineTooltipItem(
                         '${dateFormat.format(date)}\n'
                         '${spot.y.toStringAsFixed(1)} kg',

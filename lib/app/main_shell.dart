@@ -13,10 +13,7 @@ import 'router.dart';
 /// Handles showing celebrations in priority order:
 /// Evolution > Egg Discovery
 class MainShell extends ConsumerStatefulWidget {
-  const MainShell({
-    required this.navigationShell,
-    super.key,
-  });
+  const MainShell({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 
@@ -51,22 +48,16 @@ class _MainShellState extends ConsumerState<MainShell> {
         }
       })
       // React to egg discovery flag
-      ..listenManual(
-        shouldShowEggDiscoveryProvider,
-        (_, next) {
-          if (next && !_hasShownEggDiscovery) {
-            _hasShownEggDiscovery = true;
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
-                showEggDiscoveryCelebration(
-                  context,
-                  ref,
-                );
-              }
-            });
-          }
-        },
-      );
+      ..listenManual(shouldShowEggDiscoveryProvider, (_, next) {
+        if (next && !_hasShownEggDiscovery) {
+          _hasShownEggDiscovery = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              showEggDiscoveryCelebration(context, ref);
+            }
+          });
+        }
+      });
   }
 
   @override

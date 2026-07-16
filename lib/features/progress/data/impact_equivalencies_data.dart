@@ -44,6 +44,6 @@ class EquivalencyMetadata {
 /// Returned in JSON order, which matches the display order of the
 /// equivalency row and info sheet.
 Future<List<EquivalencyMetadata>> loadImpactEquivalencies() => loadJsonList(
-      'data/app/impact_equivalencies.json',
-      EquivalencyMetadata.fromJson,
-    );
+  'data/app/impact_equivalencies.json',
+  EquivalencyMetadata.fromJson,
+);

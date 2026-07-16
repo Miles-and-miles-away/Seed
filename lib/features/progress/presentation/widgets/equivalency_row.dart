@@ -35,22 +35,22 @@ class EquivalencyRow extends ConsumerWidget {
       height: height,
       child: metadataAsync.when(
         data: (metadata) {
-          final equivalencies =
-              computeImpactEquivalencies(totalGrams, metadata);
+          final equivalencies = computeImpactEquivalencies(
+            totalGrams,
+            metadata,
+          );
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               for (var i = 0; i < equivalencies.length; i++) ...[
                 if (i > 0) const SizedBox(width: spacingSm),
-                Expanded(
-                  child: EquivalencyCard(equivalency: equivalencies[i]),
-                ),
+                Expanded(child: EquivalencyCard(equivalency: equivalencies[i])),
               ],
             ],
           );
         },
         loading: () => const SizedBox.shrink(),
-        error: (_, __) => const SizedBox.shrink(),
+        error: (_, _) => const SizedBox.shrink(),
       ),
     );
   }

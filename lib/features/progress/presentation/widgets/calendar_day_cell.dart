@@ -8,11 +8,7 @@ import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dar
 /// Displays a ball sized by goal completion ratio, with special
 /// styling for today and empty days.
 class CalendarDayCell extends StatelessWidget {
-  const CalendarDayCell({
-    required this.data,
-    this.onTap,
-    super.key,
-  });
+  const CalendarDayCell({required this.data, this.onTap, super.key});
 
   final CalendarDayData data;
 
@@ -63,11 +59,7 @@ class CalendarDayCell extends StatelessWidget {
     );
 
     if (onTap == null) return cell;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: borderRadiusSm,
-      child: cell,
-    );
+    return InkWell(onTap: onTap, borderRadius: borderRadiusSm, child: cell);
   }
 
   Widget _buildDayNumber(BuildContext context, {bool isDisabled = false}) {
@@ -79,14 +71,10 @@ class CalendarDayCell extends StatelessWidget {
       style: theme.textTheme.bodySmall?.copyWith(
         fontWeight: data.isToday ? FontWeight.bold : null,
         color: isDisabled
-            ? colorScheme.onSurface.withValues(
-                alpha: opacityDisabled,
-              )
+            ? colorScheme.onSurface.withValues(alpha: opacityDisabled)
             : data.isToday
-                ? colorScheme.primary
-                : colorScheme.onSurface.withValues(
-                    alpha: opacityStrong,
-                  ),
+            ? colorScheme.primary
+            : colorScheme.onSurface.withValues(alpha: opacityStrong),
       ),
     );
   }
@@ -109,17 +97,12 @@ class CalendarDayCell extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: ballColor,
                   border: isToday
-                      ? Border.all(
-                          color: colorScheme.primary,
-                          width: 2,
-                        )
+                      ? Border.all(color: colorScheme.primary, width: 2)
                       : null,
                   boxShadow: data.isGoalMet
                       ? [
                           BoxShadow(
-                            color: ballColor.withValues(
-                              alpha: opacityMedium,
-                            ),
+                            color: ballColor.withValues(alpha: opacityMedium),
                             blurRadius: 6,
                             spreadRadius: 1,
                           ),
@@ -128,18 +111,15 @@ class CalendarDayCell extends StatelessWidget {
                 ),
               )
             : isToday
-                ? Container(
-                    width: _minBallSize,
-                    height: _minBallSize,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: colorScheme.primary,
-                        width: 1.5,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
+            ? Container(
+                width: _minBallSize,
+                height: _minBallSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colorScheme.primary, width: 1.5),
+                ),
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }

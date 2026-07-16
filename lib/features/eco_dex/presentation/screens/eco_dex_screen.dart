@@ -23,10 +23,8 @@ class EcoDexScreen extends ConsumerWidget {
     // near the viewport are built, instead of every entry at once.
     return ecoDexAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => Center(
-        child: ErrorDisplay(
-          onRetry: () => ref.invalidate(ecoDexDataProvider),
-        ),
+      error: (_, _) => Center(
+        child: ErrorDisplay(onRetry: () => ref.invalidate(ecoDexDataProvider)),
       ),
       data: (data) => CustomScrollView(
         slivers: [
@@ -34,17 +32,11 @@ class EcoDexScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: spacingLg),
             sliver: SliverMainAxisGroup(
               slivers: [
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: spacingLg),
-                ),
+                const SliverToBoxAdapter(child: SizedBox(height: spacingLg)),
                 const SliverToBoxAdapter(child: EcoDexProgressHeader()),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: spacingXl),
-                ),
+                const SliverToBoxAdapter(child: SizedBox(height: spacingXl)),
                 const SliverToBoxAdapter(child: EcoDexNextUpSection()),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: spacingXl),
-                ),
+                const SliverToBoxAdapter(child: SizedBox(height: spacingXl)),
                 for (final category in data.categories)
                   SliverPadding(
                     padding: const EdgeInsets.only(bottom: spacingXl),
@@ -53,9 +45,7 @@ class EcoDexScreen extends ConsumerWidget {
                       locale: locale,
                     ),
                   ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: spacingLg),
-                ),
+                const SliverToBoxAdapter(child: SizedBox(height: spacingLg)),
               ],
             ),
           ),

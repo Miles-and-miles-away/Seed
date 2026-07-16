@@ -37,10 +37,7 @@ class HomeScreen extends ConsumerWidget {
               title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.eco,
-                    color: theme.colorScheme.primary,
-                  ),
+                  Icon(Icons.eco, color: theme.colorScheme.primary),
                   const SizedBox(width: spacingSm),
                   Text(l10n.appTitle),
                 ],
@@ -94,9 +91,7 @@ class HomeScreen extends ConsumerWidget {
                 height: 140,
                 child: SdgCarousel(
                   goals: ref.watch(sdgGoalsDataProvider).value?.goals ?? [],
-                  locale: Localizations.localeOf(
-                    context,
-                  ).languageCode,
+                  locale: Localizations.localeOf(context).languageCode,
                   resetSignal: ref.watch(homeVisitSignalProvider),
                   onGoalTap: (goal) {
                     context.push(appRoutes.sdgDetail(goal.number));
@@ -111,15 +106,11 @@ class HomeScreen extends ConsumerWidget {
                 horizontal: spacingXxl,
                 vertical: spacingLg,
               ),
-              sliver: SliverToBoxAdapter(
-                child: _buildLearnMoreLink(context),
-              ),
+              sliver: SliverToBoxAdapter(child: _buildLearnMoreLink(context)),
             ),
 
             // Bottom padding
-            const SliverPadding(
-              padding: EdgeInsets.only(bottom: 100),
-            ),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
           ],
         ),
       ),
@@ -154,9 +145,7 @@ class HomeScreen extends ConsumerWidget {
           // Mascot display
           GestureDetector(
             onTap: () => context.push(appRoutes.mascot),
-            child: const MascotDisplay(
-              size: 160,
-            ),
+            child: const MascotDisplay(size: 160),
           ),
 
           const SizedBox(height: spacingMd),
@@ -179,19 +168,13 @@ class HomeScreen extends ConsumerWidget {
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(
-                alpha: opacitySubtle,
-              ),
+              color: colorScheme.primary.withValues(alpha: opacitySubtle),
               borderRadius: borderRadiusXl,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.star,
-                  size: 16,
-                  color: colorScheme.primary,
-                ),
+                Icon(Icons.star, size: 16, color: colorScheme.primary),
                 const SizedBox(width: spacingSm),
                 Text(
                   '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
@@ -216,11 +199,7 @@ class HomeScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has
                 // already broken the streak (the stored value is
                 // only corrected at the next log).
-                '${displayedStreak(
-                  storedStreak: user?.currentStreak ?? 0,
-                  lastActionDate: user?.lastActionDate,
-                  now: DateTime.now(),
-                )}',
+                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: DateTime.now())}',
                 l10n.profileCurrentStreak,
                 Colors.orange,
               ),
@@ -302,7 +281,8 @@ class HomeScreen extends ConsumerWidget {
         children: [
           // Preview mascot
           MascotAvatar(
-            assetPath: ref
+            assetPath:
+                ref
                     .watch(mascotSpeciesDataProvider)
                     .value
                     ?.first
@@ -310,6 +290,13 @@ class HomeScreen extends ConsumerWidget {
                     .first
                     .assetPath ??
                 'assets/images/mascot/seed_stage1.svg',
+            artboardName: ref
+                .watch(mascotSpeciesDataProvider)
+                .value
+                ?.first
+                .evolutionStages
+                .first
+                .artboardName,
           ),
 
           const SizedBox(height: spacingLg),

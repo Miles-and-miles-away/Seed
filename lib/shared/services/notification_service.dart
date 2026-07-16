@@ -43,9 +43,7 @@ class NotificationService {
   /// Must be called before any other methods. Parses the full timezone
   /// database, so main.dart defers this until after the first frame to
   /// keep startup unblocked.
-  Future<void> initialize({
-    void Function(String? payload)? onTap,
-  }) async {
+  Future<void> initialize({void Function(String? payload)? onTap}) async {
     if (_initialized) return;
 
     onNotificationTap = onTap;
@@ -98,7 +96,8 @@ class NotificationService {
 
     await _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
   }
 
@@ -112,8 +111,10 @@ class NotificationService {
   /// Returns true if permissions were granted.
   Future<bool> requestPermissions() async {
     if (Platform.isIOS) {
-      final iosPlugin = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final iosPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
 
       final result = await iosPlugin?.requestPermissions(
         alert: true,
@@ -125,8 +126,10 @@ class NotificationService {
     }
 
     if (Platform.isAndroid) {
-      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
 
       final result = await androidPlugin?.requestNotificationsPermission();
       return result ?? false;
@@ -138,16 +141,20 @@ class NotificationService {
   /// Check if notification permissions are granted.
   Future<bool> checkPermissions() async {
     if (Platform.isIOS) {
-      final iosPlugin = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final iosPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
 
       final settings = await iosPlugin?.checkPermissions();
       return settings?.isEnabled ?? false;
     }
 
     if (Platform.isAndroid) {
-      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
 
       final result = await androidPlugin?.areNotificationsEnabled();
       return result ?? false;
@@ -251,18 +258,18 @@ class NotificationService {
 
   /// Notification details for both platforms.
   NotificationDetails get _notificationDetails => NotificationDetails(
-        android: AndroidNotificationDetails(
-          channelId,
-          channelName,
-          channelDescription: channelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
-        ),
-        iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      );
+    android: AndroidNotificationDetails(
+      channelId,
+      channelName,
+      channelDescription: channelDescription,
+      importance: Importance.high,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    ),
+    iOS: const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    ),
+  );
 }

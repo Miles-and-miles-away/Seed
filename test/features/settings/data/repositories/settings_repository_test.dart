@@ -28,7 +28,7 @@ void main() {
     await userDoc(uid).set({
       'email': 'test@example.com',
       'settings': settings,
-      if (language != null) 'language': language,
+      'language': ?language,
     });
   }
 
@@ -36,10 +36,7 @@ void main() {
     String uid, {
     String language = 'en',
   }) async {
-    await userDoc(uid).set({
-      'email': 'test@example.com',
-      'language': language,
-    });
+    await userDoc(uid).set({'email': 'test@example.com', 'language': language});
   }
 
   Map<String, dynamic> settingsJson({
@@ -48,17 +45,16 @@ void main() {
     String language = 'en',
     bool analyticsEnabled = true,
     List<Map<String, dynamic>> reminderSchedules = const [],
-  }) =>
-      {
-        'notificationsEnabled': notificationsEnabled,
-        'smartRemindersEnabled': smartRemindersEnabled,
-        'language': language,
-        'analyticsEnabled': analyticsEnabled,
-        'reminderSchedules': reminderSchedules,
-        'hasSeenOnboarding': false,
-        'seenStreakMilestones': <String, dynamic>{},
-        'streakGracePeriodUsed': false,
-      };
+  }) => {
+    'notificationsEnabled': notificationsEnabled,
+    'smartRemindersEnabled': smartRemindersEnabled,
+    'language': language,
+    'analyticsEnabled': analyticsEnabled,
+    'reminderSchedules': reminderSchedules,
+    'hasSeenOnboarding': false,
+    'seenStreakMilestones': <String, dynamic>{},
+    'streakGracePeriodUsed': false,
+  };
 
   Map<String, dynamic> reminderJson({
     required String id,
@@ -66,14 +62,13 @@ void main() {
     int minute = 0,
     bool isEnabled = true,
     String label = '',
-  }) =>
-      {
-        'id': id,
-        'hour': hour,
-        'minute': minute,
-        'isEnabled': isEnabled,
-        'label': label,
-      };
+  }) => {
+    'id': id,
+    'hour': hour,
+    'minute': minute,
+    'isEnabled': isEnabled,
+    'label': label,
+  };
 
   Future<List<dynamic>> savedSchedules() async {
     final doc = await userDoc(testUid).get();
@@ -85,20 +80,13 @@ void main() {
   group('SettingsRepository', () {
     group('watchSettings', () {
       test('emits settings from user doc', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(language: 'ja'),
-        );
+        await seedUserWithSettings(testUid, settingsJson(language: 'ja'));
 
         final stream = repository.watchSettings(testUid);
 
         await expectLater(
           stream,
-          emits(
-            predicate<UserSettingsModel>(
-              (s) => s.language == 'ja',
-            ),
-          ),
+          emits(predicate<UserSettingsModel>((s) => s.language == 'ja')),
         );
       });
 
@@ -124,11 +112,7 @@ void main() {
 
         await expectLater(
           stream,
-          emits(
-            predicate<UserSettingsModel>(
-              (s) => s.language == 'ja',
-            ),
-          ),
+          emits(predicate<UserSettingsModel>((s) => s.language == 'ja')),
         );
       });
 
@@ -150,11 +134,7 @@ void main() {
       test('appends schedule and returns it', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1'),
-            ],
-          ),
+          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
         );
 
         final result = await repository.addReminder(
@@ -230,11 +210,7 @@ void main() {
       test('no-op when schedule ID not found', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1'),
-            ],
-          ),
+          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
         );
 
         await repository.removeReminder(testUid, 'nonexistent');
@@ -275,11 +251,7 @@ void main() {
       test('updates isEnabled on the matching schedule', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1'),
-            ],
-          ),
+          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
         );
 
         await repository.setReminderEnabled(testUid, 'r1', enabled: false);
@@ -293,11 +265,7 @@ void main() {
       test('updates label on the matching schedule', () async {
         await seedUserWithSettings(
           testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1'),
-            ],
-          ),
+          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
         );
 
         await repository.updateReminderLabel(testUid, 'r1', 'Work Time');

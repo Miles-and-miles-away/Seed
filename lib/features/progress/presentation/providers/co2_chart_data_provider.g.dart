@@ -35,10 +35,13 @@ final trendWindowSummariesProvider = TrendWindowSummariesFamily._();
 /// charts (they previously each ran the identical query). Keyed on
 /// the user id; refreshed explicitly after logging and at day change.
 
-final class TrendWindowSummariesProvider extends $FunctionalProvider<
-        AsyncValue<List<DailySummaryModel>>,
-        List<DailySummaryModel>,
-        FutureOr<List<DailySummaryModel>>>
+final class TrendWindowSummariesProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<DailySummaryModel>>,
+          List<DailySummaryModel>,
+          FutureOr<List<DailySummaryModel>>
+        >
     with
         $FutureModifier<List<DailySummaryModel>>,
         $FutureProvider<List<DailySummaryModel>> {
@@ -53,16 +56,16 @@ final class TrendWindowSummariesProvider extends $FunctionalProvider<
   /// One fetch of the trend window shared by the trend and category
   /// charts (they previously each ran the identical query). Keyed on
   /// the user id; refreshed explicitly after logging and at day change.
-  TrendWindowSummariesProvider._(
-      {required TrendWindowSummariesFamily super.from,
-      required TimePeriod super.argument})
-      : super(
-          retry: null,
-          name: r'trendWindowSummariesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  TrendWindowSummariesProvider._({
+    required TrendWindowSummariesFamily super.from,
+    required TimePeriod super.argument,
+  }) : super(
+         retry: null,
+         name: r'trendWindowSummariesProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$trendWindowSummariesHash();
@@ -77,16 +80,13 @@ final class TrendWindowSummariesProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<DailySummaryModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<DailySummaryModel>> create(Ref ref) {
     final argument = this.argument as TimePeriod;
-    return trendWindowSummaries(
-      ref,
-      argument,
-    );
+    return trendWindowSummaries(ref, argument);
   }
 
   @override
@@ -117,16 +117,18 @@ String _$trendWindowSummariesHash() =>
 
 final class TrendWindowSummariesFamily extends $Family
     with
-        $FunctionalFamilyOverride<FutureOr<List<DailySummaryModel>>,
-            TimePeriod> {
+        $FunctionalFamilyOverride<
+          FutureOr<List<DailySummaryModel>>,
+          TimePeriod
+        > {
   TrendWindowSummariesFamily._()
-      : super(
-          retry: null,
-          name: r'trendWindowSummariesProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'trendWindowSummariesProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Daily-points + average for the trend scatter chart.
   ///
@@ -140,9 +142,7 @@ final class TrendWindowSummariesFamily extends $Family
   /// charts (they previously each ran the identical query). Keyed on
   /// the user id; refreshed explicitly after logging and at day change.
 
-  TrendWindowSummariesProvider call(
-    TimePeriod period,
-  ) =>
+  TrendWindowSummariesProvider call(TimePeriod period) =>
       TrendWindowSummariesProvider._(argument: period, from: this);
 
   @override
@@ -152,19 +152,24 @@ final class TrendWindowSummariesFamily extends $Family
 @ProviderFor(co2TrendData)
 final co2TrendDataProvider = Co2TrendDataFamily._();
 
-final class Co2TrendDataProvider extends $FunctionalProvider<
-        AsyncValue<Co2TrendData>, Co2TrendData, FutureOr<Co2TrendData>>
+final class Co2TrendDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Co2TrendData>,
+          Co2TrendData,
+          FutureOr<Co2TrendData>
+        >
     with $FutureModifier<Co2TrendData>, $FutureProvider<Co2TrendData> {
-  Co2TrendDataProvider._(
-      {required Co2TrendDataFamily super.from,
-      required TimePeriod super.argument})
-      : super(
-          retry: null,
-          name: r'co2TrendDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  Co2TrendDataProvider._({
+    required Co2TrendDataFamily super.from,
+    required TimePeriod super.argument,
+  }) : super(
+         retry: null,
+         name: r'co2TrendDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$co2TrendDataHash();
@@ -179,16 +184,13 @@ final class Co2TrendDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<Co2TrendData> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Co2TrendData> create(Ref ref) {
     final argument = this.argument as TimePeriod;
-    return co2TrendData(
-      ref,
-      argument,
-    );
+    return co2TrendData(ref, argument);
   }
 
   @override
@@ -207,17 +209,15 @@ String _$co2TrendDataHash() => r'd339ace592ba2ca56b2009a1a3768c4034d8bb92';
 final class Co2TrendDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2TrendData>, TimePeriod> {
   Co2TrendDataFamily._()
-      : super(
-          retry: null,
-          name: r'co2TrendDataProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'co2TrendDataProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  Co2TrendDataProvider call(
-    TimePeriod period,
-  ) =>
+  Co2TrendDataProvider call(TimePeriod period) =>
       Co2TrendDataProvider._(argument: period, from: this);
 
   @override
@@ -243,8 +243,13 @@ final co2CategoryDataProvider = Co2CategoryDataFamily._();
 /// (e.g. data written by a future build that introduced a new
 /// category) flow into Other rather than being dropped.
 
-final class Co2CategoryDataProvider extends $FunctionalProvider<
-        AsyncValue<Co2CategoryData>, Co2CategoryData, FutureOr<Co2CategoryData>>
+final class Co2CategoryDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Co2CategoryData>,
+          Co2CategoryData,
+          FutureOr<Co2CategoryData>
+        >
     with $FutureModifier<Co2CategoryData>, $FutureProvider<Co2CategoryData> {
   /// Top-N category breakdown for the donut, aggregated across daily
   /// summaries in the same trend window as [co2TrendData].
@@ -253,16 +258,16 @@ final class Co2CategoryDataProvider extends $FunctionalProvider<
   /// "Other" slice so the donut stays legible. Unknown category keys
   /// (e.g. data written by a future build that introduced a new
   /// category) flow into Other rather than being dropped.
-  Co2CategoryDataProvider._(
-      {required Co2CategoryDataFamily super.from,
-      required TimePeriod super.argument})
-      : super(
-          retry: null,
-          name: r'co2CategoryDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  Co2CategoryDataProvider._({
+    required Co2CategoryDataFamily super.from,
+    required TimePeriod super.argument,
+  }) : super(
+         retry: null,
+         name: r'co2CategoryDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$co2CategoryDataHash();
@@ -277,16 +282,13 @@ final class Co2CategoryDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<Co2CategoryData> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Co2CategoryData> create(Ref ref) {
     final argument = this.argument as TimePeriod;
-    return co2CategoryData(
-      ref,
-      argument,
-    );
+    return co2CategoryData(ref, argument);
   }
 
   @override
@@ -313,13 +315,13 @@ String _$co2CategoryDataHash() => r'4fb62169425be95cd5531b04e6734efbcc88708d';
 final class Co2CategoryDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2CategoryData>, TimePeriod> {
   Co2CategoryDataFamily._()
-      : super(
-          retry: null,
-          name: r'co2CategoryDataProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'co2CategoryDataProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Top-N category breakdown for the donut, aggregated across daily
   /// summaries in the same trend window as [co2TrendData].
@@ -329,9 +331,7 @@ final class Co2CategoryDataFamily extends $Family
   /// (e.g. data written by a future build that introduced a new
   /// category) flow into Other rather than being dropped.
 
-  Co2CategoryDataProvider call(
-    TimePeriod period,
-  ) =>
+  Co2CategoryDataProvider call(TimePeriod period) =>
       Co2CategoryDataProvider._(argument: period, from: this);
 
   @override

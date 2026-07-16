@@ -9,20 +9,21 @@ import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_category_chart.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 void main() {
   group('Co2CategoryChart', () {
-    testWidgets('renders title, donut center, and legend with percentages',
-        (tester) async {
+    testWidgets('renders title, donut center, and legend with percentages', (
+      tester,
+    ) async {
       const data = Co2CategoryData(
         slices: [
           Co2CategorySlice(
@@ -62,11 +63,7 @@ void main() {
             grams: 800,
             percentage: 80,
           ),
-          Co2CategorySlice(
-            category: null,
-            grams: 200,
-            percentage: 20,
-          ),
+          Co2CategorySlice(category: null, grams: 200, percentage: 20),
         ],
         totalGrams: 1000,
       );

@@ -19,10 +19,7 @@ import '../widgets/sdg_targets_section.dart';
 
 /// Detail screen showing information about a specific SDG.
 class SdgDetailScreen extends ConsumerStatefulWidget {
-  const SdgDetailScreen({
-    required this.goalNumber,
-    super.key,
-  });
+  const SdgDetailScreen({required this.goalNumber, super.key});
 
   final int goalNumber;
 
@@ -34,24 +31,18 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
   @override
   void initState() {
     super.initState();
-    AnalyticsService.instance.logSdgViewed(
-      sdgNumber: widget.goalNumber,
-    );
+    AnalyticsService.instance.logSdgViewed(sdgNumber: widget.goalNumber);
   }
 
   @override
   Widget build(BuildContext context) {
     final sdgData = ref.watch(sdgGoalsDataProvider).value;
     if (sdgData == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     final goal = sdgData.goalMap[widget.goalNumber] ?? sdgData.goals.first;
     final languageCode = ref.watch(
-      currentUserProvider.select(
-        (u) => u.value?.language ?? 'en',
-      ),
+      currentUserProvider.select((u) => u.value?.language ?? 'en'),
     );
 
     return Scaffold(
@@ -67,27 +58,16 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 Text(
                   goal.title(languageCode),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: spacingXxl),
-                SdgTargetsSection(
-                  goal: goal,
-                  locale: languageCode,
-                ),
+                SdgTargetsSection(goal: goal, locale: languageCode),
                 const SizedBox(height: spacingXxl),
                 if (goal.isLearnOnly)
-                  ..._buildLearnOnlyContent(
-                    context,
-                    goal,
-                    languageCode,
-                  )
+                  ..._buildLearnOnlyContent(context, goal, languageCode)
                 else
-                  ..._buildDirectContent(
-                    context,
-                    goal,
-                    languageCode,
-                  ),
+                  ..._buildDirectContent(context, goal, languageCode),
                 const SizedBox(height: spacingXxl),
                 SdgInfographicViewer(goal: goal),
                 const SizedBox(height: spacingXxxl),
@@ -108,10 +88,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     String languageCode,
   ) {
     return [
-      SdgImpactCard(
-        goalNumber: goal.number,
-        goalColor: goal.color,
-      ),
+      SdgImpactCard(goalNumber: goal.number, goalColor: goal.color),
       const SizedBox(height: spacingXxl),
       SdgActionsGrid(
         goalNumber: goal.number,
@@ -140,24 +117,14 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       Container(
         padding: const EdgeInsets.all(spacingXl),
         decoration: BoxDecoration(
-          color: goal.color.withValues(
-            alpha: opacityVeryFaint,
-          ),
+          color: goal.color.withValues(alpha: opacityVeryFaint),
           borderRadius: borderRadiusLg,
-          border: Border.all(
-            color: goal.color.withValues(
-              alpha: opacityLight,
-            ),
-          ),
+          border: Border.all(color: goal.color.withValues(alpha: opacityLight)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              Icons.info_outline,
-              color: goal.color,
-              size: 24,
-            ),
+            Icon(Icons.info_outline, color: goal.color, size: 24),
             const SizedBox(width: spacingMd),
             Expanded(
               child: Text(
@@ -195,9 +162,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
               end: Alignment.bottomCenter,
               colors: [
                 goal.color,
-                goal.color.withValues(
-                  alpha: opacityHeavy,
-                ),
+                goal.color.withValues(alpha: opacityHeavy),
               ],
             ),
           ),
@@ -214,9 +179,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                   placeholder: (context, url) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white.withValues(
-                      alpha: opacityLight,
-                    ),
+                    color: Colors.white.withValues(alpha: opacityLight),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -231,9 +194,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                   errorWidget: (context, url, error) => Container(
                     width: 120,
                     height: 120,
-                    color: Colors.white.withValues(
-                      alpha: opacityLight,
-                    ),
+                    color: Colors.white.withValues(alpha: opacityLight),
                     child: Center(
                       child: Text(
                         '${goal.number}',
@@ -254,10 +215,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     );
   }
 
-  Widget _buildGoalBadge(
-    BuildContext context,
-    SdgGoal goal,
-  ) {
+  Widget _buildGoalBadge(BuildContext context, SdgGoal goal) {
     return Row(
       children: [
         Container(
@@ -290,20 +248,14 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ),
           child: Text(
             AppLocalizations.of(context).sdgBadge,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildGoalNavigation(
-    BuildContext context,
-    SdgGoal goal,
-  ) {
+  Widget _buildGoalNavigation(BuildContext context, SdgGoal goal) {
     final prevNumber = goal.number == AppConstants.sdgMinGoal
         ? AppConstants.sdgMaxGoal
         : goal.number - 1;
@@ -320,16 +272,14 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         _GoalNavButton(
           goal: prevGoal,
           isPrevious: true,
-          onTap: () => context.pushReplacement(
-            appRoutes.sdgDetail(prevGoal.number),
-          ),
+          onTap: () =>
+              context.pushReplacement(appRoutes.sdgDetail(prevGoal.number)),
         ),
         _GoalNavButton(
           goal: nextGoal,
           isPrevious: false,
-          onTap: () => context.pushReplacement(
-            appRoutes.sdgDetail(nextGoal.number),
-          ),
+          onTap: () =>
+              context.pushReplacement(appRoutes.sdgDetail(nextGoal.number)),
         ),
       ],
     );
@@ -350,9 +300,7 @@ class _GoalNavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: goal.color.withValues(
-        alpha: opacityFaint,
-      ),
+      color: goal.color.withValues(alpha: opacityFaint),
       borderRadius: borderRadiusMd,
       child: InkWell(
         onTap: onTap,

@@ -19,9 +19,9 @@ void main() {
                 initialGoal: initialGoal,
               );
               if (goal != null && context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('result:$goal')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('result:$goal')));
               }
             },
             child: const Text('open'),
@@ -48,18 +48,16 @@ void main() {
   }
 
   group('localizedPersonalGoal', () {
-    testWidgets('resolves preset IDs and passes through custom text',
-        (tester) async {
+    testWidgets('resolves preset IDs and passes through custom text', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       final context = tester.element(find.text('open'));
       final l10n = AppLocalizations.of(context);
 
       expect(localizedPersonalGoal('save_world', l10n), 'Save the world');
       // Legacy custom goal stored without the prefix passes through.
-      expect(
-        localizedPersonalGoal('Plant 100 trees', l10n),
-        'Plant 100 trees',
-      );
+      expect(localizedPersonalGoal('Plant 100 trees', l10n), 'Plant 100 trees');
       // Prefixed custom goals show their literal text...
       expect(
         localizedPersonalGoal(
@@ -110,8 +108,9 @@ void main() {
       expect(find.text('result:save_world'), findsOneWidget);
     });
 
-    testWidgets('custom option shows text field and returns trimmed text',
-        (tester) async {
+    testWidgets('custom option shows text field and returns trimmed text', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await openSheet(tester);
 
@@ -155,11 +154,10 @@ void main() {
       expect(tile.selected, isTrue);
     });
 
-    testWidgets('preselects custom option for stored free text',
-        (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(initialGoal: 'Plant 100 trees'),
-      );
+    testWidgets('preselects custom option for stored free text', (
+      tester,
+    ) async {
+      await tester.pumpWidget(createTestWidget(initialGoal: 'Plant 100 trees'));
       await openSheet(tester);
 
       expect(find.text('Plant 100 trees'), findsOneWidget);
@@ -169,8 +167,9 @@ void main() {
       expect(tile.selected, isTrue);
     });
 
-    testWidgets('preselects custom option for a prefixed custom goal',
-        (tester) async {
+    testWidgets('preselects custom option for a prefixed custom goal', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           initialGoal: '${personalGoalCustomPrefix}Plant 100 trees',
@@ -186,8 +185,9 @@ void main() {
       expect(tile.selected, isTrue);
     });
 
-    testWidgets('custom goal equal to a preset ID round-trips as custom text',
-        (tester) async {
+    testWidgets('custom goal equal to a preset ID round-trips as custom text', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await openSheet(tester);
 

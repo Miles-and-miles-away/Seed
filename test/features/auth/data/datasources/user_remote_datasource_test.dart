@@ -20,9 +20,7 @@ void main() {
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
-    dataSource = UserRemoteDataSource(
-      firestore: fakeFirestore,
-    );
+    dataSource = UserRemoteDataSource(firestore: fakeFirestore);
   });
 
   CollectionReference<Map<String, dynamic>> usersCollection() =>
@@ -74,10 +72,7 @@ void main() {
 
     group('createUser', () {
       test('creates user document in Firestore', () async {
-        const user = AppUserModel(
-          uid: 'u1',
-          email: 'new@example.com',
-        );
+        const user = AppUserModel(uid: 'u1', email: 'new@example.com');
 
         await dataSource.createUser(user);
 
@@ -85,44 +80,35 @@ void main() {
         expect(doc.exists, isTrue);
         expect(doc.data()!['email'], 'new@example.com');
         // uid should not be stored in the document
-        expect(
-          doc.data()!.containsKey('uid'),
-          isFalse,
-        );
+        expect(doc.data()!.containsKey('uid'), isFalse);
       });
 
-      test(
-        'stores all fields correctly',
-        () async {
-          const user = AppUserModel(
-            uid: 'u1',
-            email: 'user@test.com',
-            displayName: 'Test User',
-            language: 'ja',
-            points: 100,
-            level: 5,
-          );
+      test('stores all fields correctly', () async {
+        const user = AppUserModel(
+          uid: 'u1',
+          email: 'user@test.com',
+          displayName: 'Test User',
+          language: 'ja',
+          points: 100,
+          level: 5,
+        );
 
-          await dataSource.createUser(user);
+        await dataSource.createUser(user);
 
-          final doc = await usersCollection().doc('u1').get();
-          final data = doc.data()!;
-          expect(data['displayName'], 'Test User');
-          expect(data['language'], 'ja');
-          expect(data['points'], 100);
-          expect(data['level'], 5);
-        },
-      );
+        final doc = await usersCollection().doc('u1').get();
+        final data = doc.data()!;
+        expect(data['displayName'], 'Test User');
+        expect(data['language'], 'ja');
+        expect(data['points'], 100);
+        expect(data['level'], 5);
+      });
     });
 
     group('updateUser', () {
       test('updates specific fields', () async {
         await seedUser('u1');
 
-        await dataSource.updateUser('u1', {
-          'points': 500,
-          'level': 3,
-        });
+        await dataSource.updateUser('u1', {'points': 500, 'level': 3});
 
         final doc = await usersCollection().doc('u1').get();
         expect(doc.data()!['points'], 500);
@@ -148,14 +134,11 @@ void main() {
         );
       });
 
-      test(
-        'emits null for nonexistent user',
-        () async {
-          final stream = dataSource.watchUser('nonexistent');
+      test('emits null for nonexistent user', () async {
+        final stream = dataSource.watchUser('nonexistent');
 
-          await expectLater(stream, emits(isNull));
-        },
-      );
+        await expectLater(stream, emits(isNull));
+      });
     });
 
     group('deleteUser', () {
@@ -168,8 +151,9 @@ void main() {
       setUp(() {
         functions = _MockFirebaseFunctions();
         callable = _MockHttpsCallable();
-        when(() => functions.httpsCallable('deleteUserAccount'))
-            .thenReturn(callable);
+        when(
+          () => functions.httpsCallable('deleteUserAccount'),
+        ).thenReturn(callable);
         dataSource = UserRemoteDataSource(
           firestore: fakeFirestore,
           functions: functions,
@@ -177,8 +161,9 @@ void main() {
       });
 
       test('invokes the deleteUserAccount callable', () async {
-        when(() => callable.call<Object?>())
-            .thenAnswer((_) async => _MockHttpsCallableResult());
+        when(
+          () => callable.call<Object?>(),
+        ).thenAnswer((_) async => _MockHttpsCallableResult());
 
         await dataSource.deleteUser();
 

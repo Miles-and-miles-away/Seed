@@ -35,11 +35,7 @@ void main() {
       VoidCallback? onTap,
     }) {
       return ProviderScope(
-        overrides: [
-          sdgGoalsDataProvider.overrideWith(
-            (ref) async => sdgData,
-          ),
-        ],
+        overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
         child: MaterialApp(
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -95,11 +91,7 @@ void main() {
 
     testWidgets('is tappable', (tester) async {
       var tapped = false;
-      await tester.pumpWidget(
-        createTestWidget(
-          onTap: () => tapped = true,
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(onTap: () => tapped = true));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionCard));
@@ -181,8 +173,9 @@ void main() {
     });
 
     group('SDG badges', () {
-      testWidgets('displays SDG badges when action has related SDGs',
-          (tester) async {
+      testWidgets('displays SDG badges when action has related SDGs', (
+        tester,
+      ) async {
         const actionWithSdgs = ActionModel(
           id: 'action5',
           nameEn: 'Recycle Paper',
@@ -201,8 +194,9 @@ void main() {
         expect(find.text('13'), findsOneWidget);
       });
 
-      testWidgets('does not display SDG badges when no related SDGs',
-          (tester) async {
+      testWidgets('does not display SDG badges when no related SDGs', (
+        tester,
+      ) async {
         // testAction has no relatedSdgs
         await tester.pumpWidget(createTestWidget());
         await tester.pumpAndSettle();
@@ -213,8 +207,9 @@ void main() {
         }
       });
 
-      testWidgets('limits visible SDG badges to 3 with +N indicator',
-          (tester) async {
+      testWidgets('limits visible SDG badges to 3 with +N indicator', (
+        tester,
+      ) async {
         const actionWithManySdgs = ActionModel(
           id: 'action6',
           nameEn: 'Sustainable Action',
@@ -236,8 +231,9 @@ void main() {
         expect(find.text('+2'), findsOneWidget);
       });
 
-      testWidgets('displays 4 badges without +N when exactly 4 SDGs',
-          (tester) async {
+      testWidgets('displays 4 badges without +N when exactly 4 SDGs', (
+        tester,
+      ) async {
         const actionWith4Sdgs = ActionModel(
           id: 'action7',
           nameEn: 'Four SDG Action',

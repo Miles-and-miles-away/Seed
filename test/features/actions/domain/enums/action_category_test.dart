@@ -86,10 +86,7 @@ void main() {
       });
 
       test('community has volunteer activism icon', () {
-        expect(
-          ActionCategory.community.icon,
-          Icons.volunteer_activism,
-        );
+        expect(ActionCategory.community.icon, Icons.volunteer_activism);
       });
 
       test('advocacy has campaign icon', () {
@@ -122,14 +119,8 @@ void main() {
           ActionCategory.fromString('community'),
           ActionCategory.community,
         );
-        expect(
-          ActionCategory.fromString('advocacy'),
-          ActionCategory.advocacy,
-        );
-        expect(
-          ActionCategory.fromString('learning'),
-          ActionCategory.learning,
-        );
+        expect(ActionCategory.fromString('advocacy'), ActionCategory.advocacy);
+        expect(ActionCategory.fromString('learning'), ActionCategory.learning);
       });
 
       test('returns correct category for mixed case string', () {

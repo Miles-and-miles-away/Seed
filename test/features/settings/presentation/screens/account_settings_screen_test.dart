@@ -35,18 +35,16 @@ void main() {
     bool isEmailPasswordUser = true,
   }) {
     // Set up mock user info
-    when(() => mockUserInfo.providerId).thenReturn(
-      isEmailPasswordUser ? 'password' : 'google.com',
-    );
+    when(
+      () => mockUserInfo.providerId,
+    ).thenReturn(isEmailPasswordUser ? 'password' : 'google.com');
     when(() => mockUser.providerData).thenReturn([mockUserInfo]);
     when(() => mockUser.email).thenReturn('test@example.com');
     when(() => mockFirebaseAuth.currentUser).thenReturn(mockUser);
 
     return ProviderScope(
       overrides: [
-        currentUserProvider.overrideWith(
-          (ref) => Stream.value(currentUser),
-        ),
+        currentUserProvider.overrideWith((ref) => Stream.value(currentUser)),
         firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
       ],
       child: MaterialApp(
@@ -79,8 +77,9 @@ void main() {
       expect(find.text('Account'), findsOneWidget);
     });
 
-    testWidgets('display name dialog rejects an empty name with a message',
-        (tester) async {
+    testWidgets('display name dialog rejects an empty name with a message', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -140,8 +139,9 @@ void main() {
       expect(find.text('user@example.com'), findsOneWidget);
     });
 
-    testWidgets('shows change email option for email/password users',
-        (tester) async {
+    testWidgets('shows change email option for email/password users', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -153,8 +153,9 @@ void main() {
       expect(find.text('Change Email'), findsOneWidget);
     });
 
-    testWidgets('shows change password option for email/password users',
-        (tester) async {
+    testWidgets('shows change password option for email/password users', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -207,10 +208,7 @@ void main() {
         100,
       );
 
-      expect(
-        find.textContaining('permanently delete'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('permanently delete'), findsOneWidget);
     });
 
     testWidgets('shows email icon', (tester) async {
@@ -333,8 +331,9 @@ void main() {
       expect(find.text('Change Password'), findsNWidgets(2)); // Title + button
     });
 
-    testWidgets('tapping delete account shows confirmation dialog',
-        (tester) async {
+    testWidgets('tapping delete account shows confirmation dialog', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -437,8 +436,9 @@ void main() {
       expect(find.byType(AlertDialog), findsNothing);
     });
 
-    testWidgets('shows account section for email/password users',
-        (tester) async {
+    testWidgets('shows account section for email/password users', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -450,8 +450,9 @@ void main() {
       expect(find.text('ACCOUNT'), findsOneWidget);
     });
 
-    testWidgets('renders profile section with display name and goal',
-        (tester) async {
+    testWidgets('renders profile section with display name and goal', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -467,8 +468,9 @@ void main() {
       expect(find.text('Not set'), findsOneWidget);
     });
 
-    testWidgets('shows localized preset text for stored goal ID',
-        (tester) async {
+    testWidgets('shows localized preset text for stored goal ID', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const AccountSettingsScreen(),
@@ -493,10 +495,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AlertDialog), findsOneWidget);
-      expect(
-        find.widgetWithText(TextFormField, 'Test User'),
-        findsOneWidget,
-      );
+      expect(find.widgetWithText(TextFormField, 'Test User'), findsOneWidget);
     });
 
     testWidgets('tapping my goal opens goal picker sheet', (tester) async {

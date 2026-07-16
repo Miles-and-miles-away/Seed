@@ -19,9 +19,7 @@ class ActionHistoryScreen extends ConsumerWidget {
     final actionLogsAsync = ref.watch(userActionLogsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.actionHistoryTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.actionHistoryTitle)),
       body: actionLogsAsync.when(
         data: (logs) {
           if (logs.isEmpty) {
@@ -53,7 +51,8 @@ class ActionHistoryScreen extends ConsumerWidget {
           // A full page means more history may exist; a sentinel row
           // at the end of the lazy list extends the query when the
           // user actually scrolls there.
-          final hasMore = logs.length >=
+          final hasMore =
+              logs.length >=
               ref.watch(actionHistoryPagesProvider) * actionHistoryPageSize;
 
           return ListView.builder(
@@ -70,16 +69,11 @@ class ActionHistoryScreen extends ConsumerWidget {
                 );
               }
               final group = groupedLogs[index];
-              return _DateGroup(
-                date: group.date,
-                logs: group.logs,
-              );
+              return _DateGroup(date: group.date, logs: group.logs);
             },
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,10 +84,7 @@ class ActionHistoryScreen extends ConsumerWidget {
                 color: theme.colorScheme.error,
               ),
               const SizedBox(height: spacingLg),
-              Text(
-                l10n.errorGeneric,
-                style: theme.textTheme.bodyLarge,
-              ),
+              Text(l10n.errorGeneric, style: theme.textTheme.bodyLarge),
               const SizedBox(height: spacingSm),
               FilledButton.icon(
                 onPressed: () => ref.invalidate(userActionLogsProvider),
@@ -134,10 +125,7 @@ class _DateLogGroup {
 }
 
 class _DateGroup extends StatelessWidget {
-  const _DateGroup({
-    required this.date,
-    required this.logs,
-  });
+  const _DateGroup({required this.date, required this.logs});
 
   final DateTime date;
   final List<ActionLogModel> logs;

@@ -27,8 +27,9 @@ DailyChallengeTemplate selectDailyChallenge(
   List<String> recentIds,
   List<DailyChallengeTemplate> templates,
 ) {
-  final recentSet =
-      recentIds.take(AppConstants.recentChallengeIdsLimit).toSet();
+  final recentSet = recentIds
+      .take(AppConstants.recentChallengeIdsLimit)
+      .toSet();
 
   var candidates = templates.where((t) => !recentSet.contains(t.id)).toList();
 

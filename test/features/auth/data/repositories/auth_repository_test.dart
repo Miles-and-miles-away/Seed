@@ -43,10 +43,7 @@ void main() {
   setUp(() {
     authDs = _MockAuthDataSource();
     userDs = _MockUserDataSource();
-    repository = AuthRepository(
-      authDataSource: authDs,
-      userDataSource: userDs,
-    );
+    repository = AuthRepository(authDataSource: authDs, userDataSource: userDs);
   });
 
   group('pass-through getters', () {
@@ -66,35 +63,39 @@ void main() {
   });
 
   group('signInWithEmailAndPassword', () {
-    test('returns existing app user unchanged when verification matches',
-        () async {
-      final user = fakeFirebaseUser();
-      final credential = _MockCredential();
-      when(() => credential.user).thenReturn(user);
-      when(() => authDs.signInWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+    test(
+      'returns existing app user unchanged when verification matches',
+      () async {
+        final user = fakeFirebaseUser();
+        final credential = _MockCredential();
+        when(() => credential.user).thenReturn(user);
+        when(
+          () => authDs.signInWithEmailAndPassword(email, 'pw'),
+        ).thenAnswer((_) async => credential);
 
-      const existing = AppUserModel(
-        uid: uid,
-        email: email,
-        points: 100,
-        emailVerified: true,
-      );
-      when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
+        const existing = AppUserModel(
+          uid: uid,
+          email: email,
+          points: 100,
+          emailVerified: true,
+        );
+        when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+        final result = await repository.signInWithEmailAndPassword(email, 'pw');
 
-      expect(result, existing);
-      verifyNever(() => userDs.updateUser(any(), any()));
-      verifyNever(() => userDs.createUser(any()));
-    });
+        expect(result, existing);
+        verifyNever(() => userDs.updateUser(any(), any()));
+        verifyNever(() => userDs.createUser(any()));
+      },
+    );
 
     test('syncs emailVerified to Firestore when it changed', () async {
       final user = fakeFirebaseUser();
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
-      when(() => authDs.signInWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
 
       const stale = AppUserModel(uid: uid, email: email);
       when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
@@ -104,10 +105,7 @@ void main() {
 
       expect(result.emailVerified, isTrue);
       verify(
-        () => userDs.updateUser(
-          uid,
-          {AppConstants.fieldEmailVerified: true},
-        ),
+        () => userDs.updateUser(uid, {AppConstants.fieldEmailVerified: true}),
       ).called(1);
     });
 
@@ -115,8 +113,9 @@ void main() {
       final user = fakeFirebaseUser();
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
-      when(() => authDs.signInWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
@@ -134,8 +133,9 @@ void main() {
       final user = fakeFirebaseUser(emailVerified: false);
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
-      when(() => authDs.createUserWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
       when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
@@ -153,12 +153,14 @@ void main() {
 
     test('clamps overly long provider display names', () async {
       final user = fakeFirebaseUser(emailVerified: false);
-      when(() => user.displayName)
-          .thenReturn('x' * (AppConstants.maxDisplayNameLength + 30));
+      when(
+        () => user.displayName,
+      ).thenReturn('x' * (AppConstants.maxDisplayNameLength + 30));
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
-      when(() => authDs.createUserWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
       when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
@@ -167,10 +169,7 @@ void main() {
         'pw',
       );
 
-      expect(
-        result.displayName,
-        'x' * AppConstants.maxDisplayNameLength,
-      );
+      expect(result.displayName, 'x' * AppConstants.maxDisplayNameLength);
     });
 
     test('stores null when provider display name is empty', () async {
@@ -178,8 +177,9 @@ void main() {
       when(() => user.displayName).thenReturn('');
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
-      when(() => authDs.createUserWithEmailAndPassword(email, 'pw'))
-          .thenAnswer((_) async => credential);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
       when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
@@ -212,8 +212,11 @@ void main() {
       final credential = _MockCredential();
       when(() => credential.user).thenReturn(user);
       when(() => authDs.signInWithApple()).thenAnswer((_) async => credential);
-      const existing =
-          AppUserModel(uid: uid, email: email, emailVerified: true);
+      const existing = AppUserModel(
+        uid: uid,
+        email: email,
+        emailVerified: true,
+      );
       when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
       final result = await repository.signInWithApple();
@@ -249,8 +252,9 @@ void main() {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
       const existing = AppUserModel(uid: uid, email: email);
-      when(() => userDs.watchUser(uid))
-          .thenAnswer((_) => Stream.value(existing));
+      when(
+        () => userDs.watchUser(uid),
+      ).thenAnswer((_) => Stream.value(existing));
 
       expect(repository.watchCurrentUser(), emits(existing));
     });
@@ -263,10 +267,7 @@ void main() {
       await repository.updateEmailVerified(uid, verified: true);
 
       verify(
-        () => userDs.updateUser(
-          uid,
-          {AppConstants.fieldEmailVerified: true},
-        ),
+        () => userDs.updateUser(uid, {AppConstants.fieldEmailVerified: true}),
       ).called(1);
     });
   });
@@ -281,32 +282,32 @@ void main() {
       await repository.updateDisplayName('Eco Hero');
 
       verify(
-        () => userDs.updateUser(
-          uid,
-          {AppConstants.fieldDisplayName: 'Eco Hero'},
-        ),
+        () =>
+            userDs.updateUser(uid, {AppConstants.fieldDisplayName: 'Eco Hero'}),
       ).called(1);
       verify(() => user.updateDisplayName('Eco Hero')).called(1);
     });
 
-    test('updateDisplayName still succeeds if the Auth profile update fails',
-        () async {
-      final user = fakeFirebaseUser();
-      when(() => authDs.currentUser).thenReturn(user);
-      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
-      when(() => user.updateDisplayName(any()))
-          .thenThrow(FirebaseAuthException(code: 'unknown'));
+    test(
+      'updateDisplayName still succeeds if the Auth profile update fails',
+      () async {
+        final user = fakeFirebaseUser();
+        when(() => authDs.currentUser).thenReturn(user);
+        when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+        when(
+          () => user.updateDisplayName(any()),
+        ).thenThrow(FirebaseAuthException(code: 'unknown'));
 
-      // Must not throw: Firestore is the source of truth.
-      await repository.updateDisplayName('Eco Hero');
+        // Must not throw: Firestore is the source of truth.
+        await repository.updateDisplayName('Eco Hero');
 
-      verify(
-        () => userDs.updateUser(
-          uid,
-          {AppConstants.fieldDisplayName: 'Eco Hero'},
-        ),
-      ).called(1);
-    });
+        verify(
+          () => userDs.updateUser(uid, {
+            AppConstants.fieldDisplayName: 'Eco Hero',
+          }),
+        ).called(1);
+      },
+    );
 
     test('updateDisplayName is a no-op when signed out', () async {
       when(() => authDs.currentUser).thenReturn(null);
@@ -324,10 +325,9 @@ void main() {
       await repository.updatePersonalGoal('save_world');
 
       verify(
-        () => userDs.updateUser(
-          uid,
-          {AppConstants.fieldPersonalGoal: 'save_world'},
-        ),
+        () => userDs.updateUser(uid, {
+          AppConstants.fieldPersonalGoal: 'save_world',
+        }),
       ).called(1);
     });
 
@@ -347,10 +347,7 @@ void main() {
 
       await repository.deleteAccount();
 
-      verifyInOrder([
-        () => userDs.deleteUser(),
-        () => authDs.signOut(),
-      ]);
+      verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
     });
 
     test('does not sign out when the server-side deletion fails', () async {
@@ -396,18 +393,21 @@ void main() {
     });
 
     test('reauthenticateWithEmailPassword forwards', () async {
-      when(() => authDs.reauthenticateWithEmailPassword(email, 'pw'))
-          .thenAnswer((_) async {});
+      when(
+        () => authDs.reauthenticateWithEmailPassword(email, 'pw'),
+      ).thenAnswer((_) async {});
 
       await repository.reauthenticateWithEmailPassword(email, 'pw');
 
-      verify(() => authDs.reauthenticateWithEmailPassword(email, 'pw'))
-          .called(1);
+      verify(
+        () => authDs.reauthenticateWithEmailPassword(email, 'pw'),
+      ).called(1);
     });
 
     test('updateEmail forwards', () async {
-      when(() => authDs.updateEmail('new@example.com'))
-          .thenAnswer((_) async {});
+      when(
+        () => authDs.updateEmail('new@example.com'),
+      ).thenAnswer((_) async {});
 
       await repository.updateEmail('new@example.com');
 

@@ -21,10 +21,7 @@ import 'mascot_image.dart';
 /// - Stage name reveal
 /// - Dismiss button
 class EvolutionCelebration extends ConsumerStatefulWidget {
-  const EvolutionCelebration({
-    required this.onDismiss,
-    super.key,
-  });
+  const EvolutionCelebration({required this.onDismiss, super.key});
 
   /// Callback when the celebration is dismissed.
   final VoidCallback onDismiss;
@@ -92,9 +89,10 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     final locale = Localizations.localeOf(context).languageCode;
 
     final assetPath = ref.watch(activeMascotAssetPathProvider);
-    final stageName = ref.watch(
-      stageLocalizedNameProvider(locale),
+    final artboardName = ref.watch(
+      activeStageDataProvider.select((stage) => stage?.artboardName),
     );
+    final stageName = ref.watch(stageLocalizedNameProvider(locale));
     final species = ref.watch(activeSpeciesProvider);
     final currentStage = ref.watch(activeMascotStageProvider);
     final mascotName = ref.watch(
@@ -103,12 +101,15 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
     // Get the previous stage asset path
     String? previousAssetPath;
+    String? previousArtboardName;
     if (species != null && currentStage > 1) {
       final previousStageIndex = currentStage - 2; // 0-indexed
       if (previousStageIndex >= 0 &&
           previousStageIndex < species.evolutionStages.length) {
         previousAssetPath =
             species.evolutionStages[previousStageIndex].assetPath;
+        previousArtboardName =
+            species.evolutionStages[previousStageIndex].artboardName;
       }
     }
 
@@ -145,13 +146,13 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
                 // Title
                 Text(
-                  l10n.evolutionTitle,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                )
+                      l10n.evolutionTitle,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
                     .animate()
                     .fadeIn(delay: 100.ms, duration: 400.ms)
                     .slideY(begin: -0.2, end: 0),
@@ -203,16 +204,17 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                           ]),
                           child: MascotImage(
                             assetPath: previousAssetPath,
+                            artboardName: previousArtboardName,
                             width: 100,
                             height: 100,
                           ),
                         ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                         const SizedBox(width: spacingLg),
                         Icon(
-                          Icons.arrow_forward,
-                          color: colorScheme.primary,
-                          size: 32,
-                        )
+                              Icons.arrow_forward,
+                              color: colorScheme.primary,
+                              size: 32,
+                            )
                             .animate()
                             .fadeIn(delay: 500.ms, duration: 400.ms)
                             .slideX(begin: -0.5, end: 0),
@@ -226,21 +228,21 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                           children: [
                             // Glow effect
                             Container(
-                              width: 180,
-                              height: 180,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.gold.withValues(
-                                      alpha: opacityHalf,
-                                    ),
-                                    blurRadius: 60,
-                                    spreadRadius: 20,
+                                  width: 180,
+                                  height: 180,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.gold.withValues(
+                                          alpha: opacityHalf,
+                                        ),
+                                        blurRadius: 60,
+                                        spreadRadius: 20,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )
+                                )
                                 .animate()
                                 .fadeIn(delay: 600.ms, duration: 600.ms)
                                 .scale(
@@ -250,10 +252,11 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
                             // Mascot
                             MascotImage(
-                              assetPath: assetPath,
-                              width: 160,
-                              height: 160,
-                            )
+                                  assetPath: assetPath,
+                                  artboardName: artboardName,
+                                  width: 160,
+                                  height: 160,
+                                )
                                 .animate()
                                 .fadeIn(delay: 700.ms, duration: 500.ms)
                                 .scale(
@@ -272,47 +275,43 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
                 // Stage badge
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: spacingXxl,
-                    vertical: spacingMd,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        AppColors.gold,
-                        AppColors.celebrationOrange,
-                      ],
-                    ),
-                    borderRadius: borderRadiusXxl,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.gold.withValues(
-                          alpha: opacityMedium,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingXxl,
+                        vertical: spacingMd,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [AppColors.gold, AppColors.celebrationOrange],
                         ),
-                        blurRadius: 16,
-                        spreadRadius: 2,
+                        borderRadius: borderRadiusXxl,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.gold.withValues(
+                              alpha: opacityMedium,
+                            ),
+                            blurRadius: 16,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 24,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.white, size: 24),
+                          const SizedBox(width: spacingSm),
+                          Text(
+                            stageName ?? l10n.stageFallback(currentStage),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: spacingSm),
-                      Text(
-                        stageName ?? l10n.stageFallback(currentStage),
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ).animate().fadeIn(delay: 1000.ms, duration: 400.ms).scale(
+                    )
+                    .animate()
+                    .fadeIn(delay: 1000.ms, duration: 400.ms)
+                    .scale(
                       begin: const Offset(0.5, 0.5),
                       end: const Offset(1, 1),
                       curve: Curves.elasticOut,
@@ -337,22 +336,23 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                     padding: const EdgeInsets.symmetric(
                       horizontal: spacingHuge,
                     ),
-                    child: FilledButton(
-                      onPressed: _handleDismiss,
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacingHuge,
-                          vertical: spacingLg,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: borderRadiusLg,
-                        ),
-                      ),
-                      child: Text(l10n.evolutionContinue),
-                    )
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.3, end: 0),
+                    child:
+                        FilledButton(
+                              onPressed: _handleDismiss,
+                              style: FilledButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: spacingHuge,
+                                  vertical: spacingLg,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: borderRadiusLg,
+                                ),
+                              ),
+                              child: Text(l10n.evolutionContinue),
+                            )
+                            .animate()
+                            .fadeIn(duration: 400.ms)
+                            .slideY(begin: 0.3, end: 0),
                   ),
 
                 const SizedBox(height: spacingHuge),

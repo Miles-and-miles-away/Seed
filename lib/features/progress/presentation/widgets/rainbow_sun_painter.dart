@@ -49,11 +49,7 @@ class RainbowSunPainter extends CustomPainter {
   // frame's geometry). Ray gradients depend on animationValue and
   // must stay per-frame.
   static final RadialGradient _ballGradient = RadialGradient(
-    colors: [
-      AppColors.sunYellow,
-      AppColors.sunAmber,
-      AppColors.sunOrange,
-    ],
+    colors: [AppColors.sunYellow, AppColors.sunAmber, AppColors.sunOrange],
     stops: const [0.0, 0.5, 1.0],
   );
 
@@ -147,8 +143,9 @@ class RainbowSunPainter extends CustomPainter {
         ? innerRadius + (outerRadius - innerRadius) * animationValue
         : outerRadius;
 
-    final animatedColor =
-        isCompleted ? color.withValues(alpha: color.a * animationValue) : color;
+    final animatedColor = isCompleted
+        ? color.withValues(alpha: color.a * animationValue)
+        : color;
 
     // Create path for the arc segment (pie slice with hole)
     final innerEndAngle = startAngle + sweepAngle - 0.02;
@@ -229,12 +226,8 @@ class RainbowSunPainter extends CustomPainter {
 
     final gradient = LinearGradient(
       colors: [
-        color.withValues(
-          alpha: opacityStrong * animationValue,
-        ),
-        color.withValues(
-          alpha: opacityMuted * animationValue,
-        ),
+        color.withValues(alpha: opacityStrong * animationValue),
+        color.withValues(alpha: opacityMuted * animationValue),
         color.withValues(alpha: 0),
       ],
       stops: const [0.0, 0.5, 1.0],

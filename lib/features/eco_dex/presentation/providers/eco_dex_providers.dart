@@ -88,16 +88,12 @@ Future<List<EcoDexEntryState>> ecoDexEntriesByCategory(
 
 /// Per-category progress (discovered / total).
 @riverpod
-Future<Map<String, (int, int)>> ecoDexCategoryProgress(
-  Ref ref,
-) async {
+Future<Map<String, (int, int)>> ecoDexCategoryProgress(Ref ref) async {
   final data = await ref.watch(ecoDexDataProvider.future);
   final entries = await ref.watch(ecoDexEntriesProvider.future);
   final result = <String, (int, int)>{};
   for (final cat in data.categories) {
-    final catEntries = entries.where(
-      (e) => e.entry.category == cat.id,
-    );
+    final catEntries = entries.where((e) => e.entry.category == cat.id);
     final discovered = catEntries.where((e) => e.isDiscovered).length;
     result[cat.id] = (discovered, catEntries.length);
   }

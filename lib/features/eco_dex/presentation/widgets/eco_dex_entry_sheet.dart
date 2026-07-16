@@ -29,9 +29,7 @@ class EcoDexEntrySheet extends StatelessWidget {
       isScrollControlled: true,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
       builder: (_) => EcoDexEntrySheet(entry: entry, locale: locale),
     );
@@ -74,9 +72,7 @@ class EcoDexEntrySheet extends StatelessWidget {
           // Fact
           Text(
             entry.fact(locale),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              height: 1.5,
-            ),
+            style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
           ),
           const SizedBox(height: spacingLg),
 

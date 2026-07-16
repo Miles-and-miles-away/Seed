@@ -28,9 +28,7 @@ class AnalyticsService {
   }
 
   /// Toggle analytics and crashlytics collection on Firebase.
-  Future<void> setCollectionEnabled({
-    required bool enabled,
-  }) async {
+  Future<void> setCollectionEnabled({required bool enabled}) async {
     try {
       await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
     } on Object catch (e) {
@@ -169,10 +167,7 @@ class AnalyticsService {
 
   /// Log when a user reaches a streak milestone.
   Future<void> logStreakMilestone({required int days}) {
-    return _log('streak_milestone', {
-      'days': days,
-      'weeks': days ~/ 7,
-    });
+    return _log('streak_milestone', {'days': days, 'weeks': days ~/ 7});
   }
 
   /// Log when a user's streak is broken.

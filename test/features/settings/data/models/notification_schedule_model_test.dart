@@ -123,11 +123,7 @@ void main() {
       });
 
       test('formats midnight correctly', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 0,
-          minute: 0,
-        );
+        const model = NotificationScheduleModel(id: 'test', hour: 0, minute: 0);
 
         expect(model.timeString, '00:00');
       });
@@ -145,11 +141,7 @@ void main() {
 
     group('displayTime', () {
       test('formats morning time correctly', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 9,
-          minute: 0,
-        );
+        const model = NotificationScheduleModel(id: 'test', hour: 9, minute: 0);
 
         expect(model.displayTime, '9:00 AM');
       });
@@ -175,11 +167,7 @@ void main() {
       });
 
       test('formats midnight correctly', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 0,
-          minute: 0,
-        );
+        const model = NotificationScheduleModel(id: 'test', hour: 0, minute: 0);
 
         expect(model.displayTime, '12:00 AM');
       });
@@ -195,11 +183,7 @@ void main() {
       });
 
       test('formats 12:01 AM correctly', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 0,
-          minute: 1,
-        );
+        const model = NotificationScheduleModel(id: 'test', hour: 0, minute: 1);
 
         expect(model.displayTime, '12:01 AM');
       });
@@ -215,11 +199,7 @@ void main() {
       });
 
       test('pads minutes with leading zero', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 9,
-          minute: 5,
-        );
+        const model = NotificationScheduleModel(id: 'test', hour: 9, minute: 5);
 
         expect(model.displayTime, '9:05 AM');
       });

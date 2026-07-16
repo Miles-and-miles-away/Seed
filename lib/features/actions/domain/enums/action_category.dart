@@ -65,8 +65,8 @@ enum ActionCategory {
   static ActionCategory? fromString(String? value) {
     if (value == null) return null;
     return ActionCategory.values.cast<ActionCategory?>().firstWhere(
-          (c) => c?.name == value.toLowerCase(),
-          orElse: () => null,
-        );
+      (c) => c?.name == value.toLowerCase(),
+      orElse: () => null,
+    );
   }
 }

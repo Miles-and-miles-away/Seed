@@ -27,10 +27,8 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
   }) {
     return showDialog<void>(
       context: context,
-      builder: (context) => LearnOnlyInfoDialog(
-        action: action,
-        languageCode: languageCode,
-      ),
+      builder: (context) =>
+          LearnOnlyInfoDialog(action: action, languageCode: languageCode),
     );
   }
 
@@ -52,9 +50,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(spacingXxl),
             decoration: BoxDecoration(
-              color: categoryColor.withValues(
-                alpha: opacityVeryFaint,
-              ),
+              color: categoryColor.withValues(alpha: opacityVeryFaint),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
                 topRight: Radius.circular(28),
@@ -85,11 +81,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (action.description(languageCode).isNotEmpty) ...[
-                  _buildDescription(
-                    context,
-                    theme,
-                    categoryColor,
-                  ),
+                  _buildDescription(context, theme, categoryColor),
                   const SizedBox(height: spacingLg),
                 ],
                 Text(
@@ -109,11 +101,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: spacingSm),
-                  _buildSdgRow(
-                    action.relatedSdgs,
-                    goalMap,
-                    theme,
-                  ),
+                  _buildSdgRow(action.relatedSdgs, goalMap, theme),
                 ],
               ],
             ),
@@ -169,11 +157,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: spacingSm),
-          Icon(
-            Icons.info_outline,
-            size: 16,
-            color: categoryColor,
-          ),
+          Icon(Icons.info_outline, size: 16, color: categoryColor),
         ],
       ),
     );
@@ -184,12 +168,13 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
     Map<int, SdgGoal> goalMap,
     ThemeData theme,
   ) {
-    final parsed = sdgNumbers
-        .map(int.tryParse)
-        .whereType<int>()
-        .where((n) => n >= 1 && n <= 17)
-        .toList()
-      ..sort();
+    final parsed =
+        sdgNumbers
+            .map(int.tryParse)
+            .whereType<int>()
+            .where((n) => n >= 1 && n <= 17)
+            .toList()
+          ..sort();
 
     return Wrap(
       alignment: WrapAlignment.center,
@@ -201,10 +186,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
         return Container(
           width: 28,
           height: 28,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           child: Center(
             child: Text(
               '$number',

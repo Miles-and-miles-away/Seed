@@ -25,11 +25,7 @@ class SdgResourcesList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final allResources = ref
-        .watch(
-          sdgResourcesDataProvider,
-        )
-        .value;
+    final allResources = ref.watch(sdgResourcesDataProvider).value;
     final resources = allResources?[goalNumber] ?? [];
 
     if (resources.isEmpty) return const SizedBox.shrink();
@@ -39,11 +35,7 @@ class SdgResourcesList extends ConsumerWidget {
       children: [
         Row(
           children: [
-            Icon(
-              Icons.link,
-              color: goalColor,
-              size: 20,
-            ),
+            Icon(Icons.link, color: goalColor, size: 20),
             const SizedBox(width: spacingSm),
             Text(
               headerText ?? l10n.sdgResources,

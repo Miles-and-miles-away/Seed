@@ -10,7 +10,8 @@ _DailySummaryModel _$DailySummaryModelFromJson(Map<String, dynamic> json) =>
     _DailySummaryModel(
       date: json['date'] as String,
       goalCount: (json['goalCount'] as num?)?.toInt() ?? 0,
-      completedSdgs: (json['completedSdgs'] as List<dynamic>?)
+      completedSdgs:
+          (json['completedSdgs'] as List<dynamic>?)
               ?.map((e) => (e as num).toInt())
               .toList() ??
           const [],
@@ -18,13 +19,15 @@ _DailySummaryModel _$DailySummaryModelFromJson(Map<String, dynamic> json) =>
       totalCo2Grams: (json['totalCo2Grams'] as num?)?.toInt() ?? 0,
       categoryCo2Grams:
           (json['categoryCo2Grams'] as Map<String, dynamic>?)?.map(
-                (k, e) => MapEntry(k, (e as num).toInt()),
-              ) ??
-              const <String, int>{},
-      createdAt:
-          const TimestampConverter().fromJson(json['createdAt'] as Timestamp?),
-      updatedAt:
-          const TimestampConverter().fromJson(json['updatedAt'] as Timestamp?),
+            (k, e) => MapEntry(k, (e as num).toInt()),
+          ) ??
+          const <String, int>{},
+      createdAt: const TimestampConverter().fromJson(
+        json['createdAt'] as Timestamp?,
+      ),
+      updatedAt: const TimestampConverter().fromJson(
+        json['updatedAt'] as Timestamp?,
+      ),
     );
 
 Map<String, dynamic> _$DailySummaryModelToJson(_DailySummaryModel instance) =>

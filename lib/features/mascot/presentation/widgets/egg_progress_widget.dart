@@ -12,10 +12,7 @@ import '../providers/mascot_providers.dart';
 /// hatching progress (Day X/30). Wobbles when close to
 /// hatching (day 25+).
 class EggProgressWidget extends ConsumerWidget {
-  const EggProgressWidget({
-    this.size = 80,
-    super.key,
-  });
+  const EggProgressWidget({this.size = 80, super.key});
 
   final double size;
 
@@ -40,9 +37,7 @@ class EggProgressWidget extends ConsumerWidget {
     // Wobble when close to hatching
     if (isCloseToHatching) {
       eggIcon = eggIcon
-          .animate(
-            onPlay: (c) => c.repeat(reverse: true),
-          )
+          .animate(onPlay: (c) => c.repeat(reverse: true))
           .rotate(
             begin: -0.05,
             end: 0.05,
@@ -87,9 +82,9 @@ class EggProgressWidget extends ConsumerWidget {
               AppConstants.eggHatchingStreakRequired,
             ),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  fontSize: 10,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              fontSize: 10,
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),

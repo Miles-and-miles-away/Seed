@@ -37,25 +37,26 @@ const _fixture = <EquivalencyMetadata>[
 ];
 
 Widget _wrap(Widget home) => ProviderScope(
-      overrides: [
-        impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: home,
-      ),
-    );
+  overrides: [
+    impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
+  ],
+  child: MaterialApp(
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: home,
+  ),
+);
 
 void main() {
   group('EquivalencyInfoSheet', () {
-    testWidgets('shows title, intro, all four explainers, and sources',
-        (tester) async {
+    testWidgets('shows title, intro, all four explainers, and sources', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           Builder(

@@ -65,10 +65,7 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
         previousRange.end,
       ),
     ]);
-    currentTotal = summaries[0].fold<int>(
-      0,
-      (sum, s) => sum + s.totalCo2Grams,
-    );
+    currentTotal = summaries[0].fold<int>(0, (sum, s) => sum + s.totalCo2Grams);
     previousTotal = summaries[1].fold<int>(
       0,
       (sum, s) => sum + s.totalCo2Grams,

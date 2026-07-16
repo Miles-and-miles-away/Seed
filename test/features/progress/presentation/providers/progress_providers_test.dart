@@ -6,14 +6,12 @@ import 'package:seed_app/features/progress/presentation/providers/progress_provi
 
 ProviderContainer _containerWithUser(AppUserModel? user) {
   return ProviderContainer(
-    overrides: [
-      currentUserProvider.overrideWith((_) => Stream.value(user)),
-    ],
+    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
   );
 }
 
 Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, __) {});
+  c.listen(currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
@@ -28,9 +26,7 @@ void main() {
     });
 
     test('returns null when user has no target set', () async {
-      final c = _containerWithUser(
-        const AppUserModel(uid: 'u', email: 'e'),
-      );
+      final c = _containerWithUser(const AppUserModel(uid: 'u', email: 'e'));
       addTearDown(c.dispose);
       await _pump(c);
 
@@ -58,9 +54,7 @@ void main() {
     });
 
     test('returns true when user has no target', () async {
-      final c = _containerWithUser(
-        const AppUserModel(uid: 'u', email: 'e'),
-      );
+      final c = _containerWithUser(const AppUserModel(uid: 'u', email: 'e'));
       addTearDown(c.dispose);
       await _pump(c);
 

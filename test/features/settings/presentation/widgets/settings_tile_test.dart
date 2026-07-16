@@ -4,11 +4,7 @@ import 'package:seed_app/features/settings/presentation/widgets/settings_tile.da
 
 void main() {
   Widget createTestWidget({required Widget child}) {
-    return MaterialApp(
-      home: Scaffold(
-        body: child,
-      ),
-    );
+    return MaterialApp(home: Scaffold(body: child));
   }
 
   group('SettingsTile', () {
@@ -27,11 +23,7 @@ void main() {
 
     testWidgets('renders title', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsTile(
-            title: 'Test Title',
-          ),
-        ),
+        createTestWidget(child: const SettingsTile(title: 'Test Title')),
       );
 
       expect(find.text('Test Title'), findsOneWidget);
@@ -40,10 +32,7 @@ void main() {
     testWidgets('renders subtitle when provided', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: const SettingsTile(
-            title: 'Title',
-            subtitle: 'Subtitle text',
-          ),
+          child: const SettingsTile(title: 'Title', subtitle: 'Subtitle text'),
         ),
       );
 
@@ -53,10 +42,7 @@ void main() {
     testWidgets('does not render subtitle when not provided', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: const SettingsTile(
-            title: 'Title',
-            showChevron: false,
-          ),
+          child: const SettingsTile(title: 'Title', showChevron: false),
         ),
       );
 
@@ -65,29 +51,24 @@ void main() {
       expect(find.text('Subtitle'), findsNothing);
     });
 
-    testWidgets('shows chevron when onTap provided and showChevron true',
-        (tester) async {
+    testWidgets('shows chevron when onTap provided and showChevron true', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: SettingsTile(
-            title: 'Title',
-            onTap: () {},
-          ),
+          child: SettingsTile(title: 'Title', onTap: () {}),
         ),
       );
 
       expect(find.byIcon(Icons.chevron_right), findsOneWidget);
     });
 
-    testWidgets('does not show chevron when showChevron is false',
-        (tester) async {
+    testWidgets('does not show chevron when showChevron is false', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: SettingsTile(
-            title: 'Title',
-            showChevron: false,
-            onTap: () {},
-          ),
+          child: SettingsTile(title: 'Title', showChevron: false, onTap: () {}),
         ),
       );
 
@@ -99,10 +80,7 @@ void main() {
 
       await tester.pumpWidget(
         createTestWidget(
-          child: SettingsTile(
-            title: 'Title',
-            onTap: () => tapped = true,
-          ),
+          child: SettingsTile(title: 'Title', onTap: () => tapped = true),
         ),
       );
 
@@ -115,10 +93,7 @@ void main() {
     testWidgets('renders trailing widget when provided', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
-          child: const SettingsTile(
-            title: 'Title',
-            trailing: Icon(Icons.star),
-          ),
+          child: const SettingsTile(title: 'Title', trailing: Icon(Icons.star)),
         ),
       );
 
@@ -222,8 +197,9 @@ void main() {
       expect(switchWidget.value, isFalse);
     });
 
-    testWidgets('triggers onChanged callback when switch toggled',
-        (tester) async {
+    testWidgets('triggers onChanged callback when switch toggled', (
+      tester,
+    ) async {
       bool? receivedValue;
 
       await tester.pumpWidget(
@@ -242,8 +218,9 @@ void main() {
       expect(receivedValue, isTrue);
     });
 
-    testWidgets('triggers onChanged when tile tapped (not just switch)',
-        (tester) async {
+    testWidgets('triggers onChanged when tile tapped (not just switch)', (
+      tester,
+    ) async {
       bool? receivedValue;
 
       await tester.pumpWidget(

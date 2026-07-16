@@ -49,9 +49,7 @@ class ProfileEcoDexSection extends ConsumerWidget {
       borderRadius: borderRadiusLg,
       child: InkWell(
         borderRadius: borderRadiusLg,
-        onTap: () => context.go(
-          '${appRoutes.progress}?tab=$progressTabEcoDex',
-        ),
+        onTap: () => context.go('${appRoutes.progress}?tab=$progressTabEcoDex'),
         child: Padding(
           padding: const EdgeInsets.all(spacingLg),
           child: Column(
@@ -84,11 +82,7 @@ class ProfileEcoDexSection extends ConsumerWidget {
                   ),
                 )
               else
-                _ThumbRow(
-                  recent: recent,
-                  remaining: remaining,
-                  locale: locale,
-                ),
+                _ThumbRow(recent: recent, remaining: remaining, locale: locale),
               const SizedBox(height: spacingMd),
               Text(
                 l10n.ecoDexProgress(
@@ -130,11 +124,8 @@ class _ThumbRow extends StatelessWidget {
             padding: const EdgeInsets.only(right: spacingMd),
             child: InkWell(
               customBorder: const CircleBorder(),
-              onTap: () => EcoDexEntrySheet.show(
-                context,
-                entry: entry,
-                locale: locale,
-              ),
+              onTap: () =>
+                  EcoDexEntrySheet.show(context, entry: entry, locale: locale),
               child: Container(
                 width: 52,
                 height: 52,
@@ -146,10 +137,7 @@ class _ThumbRow extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
-                  child: EcoDexEntryImage(
-                    iconName: entry.iconName,
-                    size: 40,
-                  ),
+                  child: EcoDexEntryImage(iconName: entry.iconName, size: 40),
                 ),
               ),
             ),

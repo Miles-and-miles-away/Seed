@@ -57,14 +57,14 @@ class SettingsTile extends StatelessWidget {
     final effectiveTextColor = !enabled
         ? colorScheme.onSurface.withValues(alpha: opacityDisabled)
         : dangerous
-            ? colorScheme.error
-            : null;
+        ? colorScheme.error
+        : null;
 
     final effectiveIconColor = !enabled
         ? colorScheme.onSurface.withValues(alpha: opacityDisabled)
         : dangerous
-            ? colorScheme.error
-            : colorScheme.primary;
+        ? colorScheme.error
+        : colorScheme.primary;
 
     var effectiveTrailing = trailing;
     if (effectiveTrailing == null && showChevron && onTap != null) {
@@ -77,20 +77,16 @@ class SettingsTile extends StatelessWidget {
     return ListTile(
       leading: leading != null
           ? IconTheme(
-              data: IconThemeData(
-                color: effectiveIconColor,
-                size: 24,
-              ),
+              data: IconThemeData(color: effectiveIconColor, size: 24),
               child: leading!,
             )
           : null,
       title: Text(
         title,
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: effectiveTextColor,
-        ),
+        style: theme.textTheme.bodyLarge?.copyWith(color: effectiveTextColor),
       ),
-      subtitle: subtitleWidget ??
+      subtitle:
+          subtitleWidget ??
           (subtitle != null
               ? Text(
                   subtitle!,

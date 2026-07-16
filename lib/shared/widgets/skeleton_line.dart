@@ -17,9 +17,9 @@ class SkeletonLine extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(
-              alpha: opacityLight,
-            ),
+        color: Theme.of(
+          context,
+        ).colorScheme.onSurfaceVariant.withValues(alpha: opacityLight),
         borderRadius: borderRadiusSm,
       ),
     );

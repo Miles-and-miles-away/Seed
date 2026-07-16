@@ -26,7 +26,8 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: MascotImage(
-            assetPath: 'assets/animations/coral_stage_2.riv',
+            assetPath: 'assets/animations/coral_mascot.riv',
+            artboardName: 'Coral_Stage2',
             width: 100,
             height: 100,
           ),

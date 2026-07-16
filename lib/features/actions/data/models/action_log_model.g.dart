@@ -13,11 +13,13 @@ _ActionLogModel _$ActionLogModelFromJson(Map<String, dynamic> json) =>
       actionName: json['actionName'] as String,
       category: json['category'] as String,
       points: (json['points'] as num).toInt(),
-      loggedAt: const RequiredTimestampConverter()
-          .fromJson(json['loggedAt'] as Timestamp),
+      loggedAt: const RequiredTimestampConverter().fromJson(
+        json['loggedAt'] as Timestamp,
+      ),
       co2Grams: (json['co2Grams'] as num?)?.toInt() ?? 0,
       note: json['note'] as String?,
-      relatedSdgs: (json['relatedSdgs'] as List<dynamic>?)
+      relatedSdgs:
+          (json['relatedSdgs'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],

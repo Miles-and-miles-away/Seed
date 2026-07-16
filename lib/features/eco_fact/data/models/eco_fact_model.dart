@@ -31,7 +31,8 @@ class EcoFact {
       sourceJa: json['sourceJa'] as String? ?? '',
       sourceEs: json['sourceEs'] as String? ?? '',
       sourceUrl: json['sourceUrl'] as String? ?? '',
-      relatedSdgs: (json['relatedSdgs'] as List<dynamic>?)
+      relatedSdgs:
+          (json['relatedSdgs'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??
           const [],
@@ -55,20 +56,20 @@ class EcoFact {
   final String? unWorldDay;
 
   String name(String locale) => switch (locale) {
-        'ja' when nameJa.isNotEmpty => nameJa,
-        'es' when nameEs.isNotEmpty => nameEs,
-        _ => nameEn,
-      };
+    'ja' when nameJa.isNotEmpty => nameJa,
+    'es' when nameEs.isNotEmpty => nameEs,
+    _ => nameEn,
+  };
 
   String fact(String locale) => switch (locale) {
-        'ja' when factJa.isNotEmpty => factJa,
-        'es' when factEs.isNotEmpty => factEs,
-        _ => factEn,
-      };
+    'ja' when factJa.isNotEmpty => factJa,
+    'es' when factEs.isNotEmpty => factEs,
+    _ => factEn,
+  };
 
   String source(String locale) => switch (locale) {
-        'ja' when sourceJa.isNotEmpty => sourceJa,
-        'es' when sourceEs.isNotEmpty => sourceEs,
-        _ => sourceEn,
-      };
+    'ja' when sourceJa.isNotEmpty => sourceJa,
+    'es' when sourceEs.isNotEmpty => sourceEs,
+    _ => sourceEn,
+  };
 }

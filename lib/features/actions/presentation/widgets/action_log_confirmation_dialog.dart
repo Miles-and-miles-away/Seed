@@ -14,10 +14,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
-  const ActionLogConfirmationResult({
-    required this.confirmed,
-    this.note,
-  });
+  const ActionLogConfirmationResult({required this.confirmed, this.note});
 
   final bool confirmed;
   final String? note;
@@ -91,9 +88,7 @@ class _ActionLogConfirmationDialogState
           Container(
             padding: const EdgeInsets.all(spacingXxl),
             decoration: BoxDecoration(
-              color: categoryColor.withValues(
-                alpha: opacityFaint,
-              ),
+              color: categoryColor.withValues(alpha: opacityFaint),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(28),
                 topRight: Radius.circular(28),
@@ -171,20 +166,18 @@ class _ActionLogConfirmationDialogState
       actions: widget.readOnly
           ? [
               FilledButton(
-                onPressed: () => Navigator.of(context).pop(
-                  const ActionLogConfirmationResult(confirmed: false),
-                ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: categoryColor,
-                ),
+                onPressed: () => Navigator.of(
+                  context,
+                ).pop(const ActionLogConfirmationResult(confirmed: false)),
+                style: FilledButton.styleFrom(backgroundColor: categoryColor),
                 child: Text(l10n.buttonClose),
               ),
             ]
           : [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(
-                  const ActionLogConfirmationResult(confirmed: false),
-                ),
+                onPressed: () => Navigator.of(
+                  context,
+                ).pop(const ActionLogConfirmationResult(confirmed: false)),
                 child: Text(l10n.buttonCancel),
               ),
               FilledButton(
@@ -196,9 +189,7 @@ class _ActionLogConfirmationDialogState
                         : _noteController.text.trim(),
                   ),
                 ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: categoryColor,
-                ),
+                style: FilledButton.styleFrom(backgroundColor: categoryColor),
                 child: Text(l10n.buttonConfirm),
               ),
             ],
@@ -213,8 +204,9 @@ class _ActionLogConfirmationDialogState
     final desc = widget.action.description(widget.languageCode);
     final hasDesc = desc.isNotEmpty;
     final hasCo2 = widget.action.co2Grams > 0;
-    final hasLong =
-        widget.action.descriptionLong(widget.languageCode).isNotEmpty;
+    final hasLong = widget.action
+        .descriptionLong(widget.languageCode)
+        .isNotEmpty;
 
     if (!hasDesc && !hasCo2) return const SizedBox.shrink();
 
@@ -231,11 +223,7 @@ class _ActionLogConfirmationDialogState
         ? Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.eco,
-                size: 16,
-                color: theme.colorScheme.primary,
-              ),
+              Icon(Icons.eco, size: 16, color: theme.colorScheme.primary),
               const SizedBox(width: spacingSm),
               Text(
                 l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
@@ -250,10 +238,10 @@ class _ActionLogConfirmationDialogState
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (descWidget != null) descWidget,
+        ?descWidget,
         if (descWidget != null && co2Widget != null)
           const SizedBox(height: spacingSm),
-        if (co2Widget != null) co2Widget,
+        ?co2Widget,
       ],
     );
 
@@ -311,17 +299,13 @@ class _ActionLogConfirmationDialogState
 
   Widget _buildScienceContent(ThemeData theme, Color categoryColor) {
     final isDark = theme.brightness == Brightness.dark;
-    final mdConfig =
-        isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
+    final mdConfig = isDark
+        ? MarkdownConfig.darkConfig
+        : MarkdownConfig.defaultConfig;
     final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        spacingLg,
-        0,
-        spacingLg,
-        spacingLg,
-      ),
+      padding: const EdgeInsets.fromLTRB(spacingLg, 0, spacingLg, spacingLg),
       child: MarkdownBlock(
         data: appendExternalLinkArrow(
           widget.action.descriptionLong(widget.languageCode),

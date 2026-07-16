@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
+import '../mascot_species_loader.dart';
 import '../models/egg_model.dart';
 import '../models/mascot_model.dart';
 import '../models/mascot_species_model.dart';
@@ -28,10 +29,7 @@ class EggHatchingService {
   /// - Same day: no change
   /// - Next day: increment streak
   /// - Gap > 1 day: reset to 1
-  EggStreakResult calculateEggStreakUpdate(
-    EggModel egg,
-    DateTime now,
-  ) {
+  EggStreakResult calculateEggStreakUpdate(EggModel egg, DateTime now) {
     final lastActivity = egg.lastHatchingActivityDate;
 
     if (lastActivity == null) {
@@ -71,6 +69,7 @@ class EggHatchingService {
 
   /// Selects a random species for the hatching egg.
   ///
+  /// Only currently-offered species (see [selectableSpecies]) can hatch.
   /// Prefers species the user hasn't fully evolved yet.
   /// If all are fully evolved, picks any random species.
   MascotSpeciesModel selectHatchingSpecies(
@@ -79,6 +78,11 @@ class EggHatchingService {
   ) {
     final rng = Random();
 
+    // Restrict to species currently offered; fall back to the full list
+    // if data ever leaves us with none (never hatch nothing).
+    final offered = selectableSpecies(allSpecies);
+    final pool = offered.isNotEmpty ? offered : allSpecies;
+
     // Species IDs that have been fully evolved
     final fullyEvolvedSpeciesIds = ownedMascots
         .where((m) => m.isFullyEvolved)
@@ -86,10 +90,8 @@ class EggHatchingService {
         .toSet();
 
     // Prefer species not yet fully evolved
-    final candidates = allSpecies
-        .where(
-          (s) => !fullyEvolvedSpeciesIds.contains(s.id),
-        )
+    final candidates = pool
+        .where((s) => !fullyEvolvedSpeciesIds.contains(s.id))
         .toList();
 
     if (candidates.isNotEmpty) {
@@ -97,6 +99,6 @@ class EggHatchingService {
     }
 
     // All species fully evolved -- pick any
-    return allSpecies[rng.nextInt(allSpecies.length)];
+    return pool[rng.nextInt(pool.length)];
   }
 }

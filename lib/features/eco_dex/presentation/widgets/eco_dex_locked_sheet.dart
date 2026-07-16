@@ -30,9 +30,7 @@ class EcoDexLockedSheet extends ConsumerWidget {
       context: context,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
       builder: (_) => EcoDexLockedSheet(entry: entry, locale: locale),
     );
@@ -43,8 +41,9 @@ class EcoDexLockedSheet extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final user = ref.watch(currentUserProvider).value;
-    final progress =
-        user == null ? null : ecoDexProgressOf(entry.condition, user);
+    final progress = user == null
+        ? null
+        : ecoDexProgressOf(entry.condition, user);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(

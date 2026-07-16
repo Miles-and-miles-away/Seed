@@ -30,9 +30,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
     final canAddReminder = ref.watch(canAddReminderProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.notifSettingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.notifSettingsTitle)),
       body: settingsAsync.when(
         data: (settings) => SafeArea(
           top: false,
@@ -101,8 +99,9 @@ class NotificationSettingsScreen extends ConsumerWidget {
                           Icon(
                             Icons.alarm_off,
                             size: spacingHuge,
-                            color: colorScheme.onSurfaceVariant
-                                .withValues(alpha: opacityHalf),
+                            color: colorScheme.onSurfaceVariant.withValues(
+                              alpha: opacityHalf,
+                            ),
                           ),
                           const SizedBox(height: spacingSm),
                           Text(
@@ -126,10 +125,9 @@ class NotificationSettingsScreen extends ConsumerWidget {
                       (schedule) => ReminderListTile(
                         schedule: schedule,
                         onToggle: (enabled) {
-                          ref.read(settingsProvider.notifier).toggleReminder(
-                                schedule.id,
-                                enabled: enabled,
-                              );
+                          ref
+                              .read(settingsProvider.notifier)
+                              .toggleReminder(schedule.id, enabled: enabled);
                         },
                         onDelete: () => _confirmDeleteReminder(
                           context,
@@ -164,8 +162,9 @@ class NotificationSettingsScreen extends ConsumerWidget {
                   // Max reminders info
                   if (!canAddReminder)
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: spacingLg),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingLg,
+                      ),
                       child: Text(
                         l10n.notifMaxReminders,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -182,7 +181,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => Center(
+        error: (_, _) => Center(
           child: ErrorDisplay(
             onRetry: () => ref.invalidate(userSettingsProvider),
           ),
@@ -211,25 +210,19 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
     if (existingScheduleId != null) {
       // Update existing reminder
-      await ref.read(settingsProvider.notifier).updateReminderTime(
-            existingScheduleId,
-            time,
-          );
+      await ref
+          .read(settingsProvider.notifier)
+          .updateReminderTime(existingScheduleId, time);
     } else {
       // Add new reminder
       final label = await _showLabelDialog(context);
       if (!context.mounted) return;
 
-      await ref.read(settingsProvider.notifier).addReminder(
-            time,
-            label: label,
-          );
+      await ref.read(settingsProvider.notifier).addReminder(time, label: label);
     }
   }
 
-  Future<String?> _showLabelDialog(
-    BuildContext context,
-  ) async {
+  Future<String?> _showLabelDialog(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     final controller = TextEditingController();
 
@@ -253,10 +246,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
             child: Text(l10n.buttonSkip),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(
-              ctx,
-              controller.text.trim(),
-            ),
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
             child: Text(l10n.notifAdd),
           ),
         ],
@@ -278,9 +268,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.notifDeleteTitle),
-        content: Text(
-          l10n.notifDeleteMessage(displayTime),
-        ),
+        content: Text(l10n.notifDeleteMessage(displayTime)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),

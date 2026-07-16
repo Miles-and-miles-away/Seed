@@ -62,7 +62,7 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
         appBar: AppBar(title: Text(l10n.ecoFactTitle)),
         body: const Center(child: CircularProgressIndicator()),
       ),
-      error: (_, __) => Scaffold(
+      error: (_, _) => Scaffold(
         appBar: AppBar(title: Text(l10n.ecoFactTitle)),
         body: const Center(child: ErrorDisplay()),
       ),

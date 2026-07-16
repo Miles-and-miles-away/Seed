@@ -67,8 +67,9 @@ void main() {
       expect(find.text('Please enter your password'), findsOneWidget);
     });
 
-    testWidgets('shows validation error for invalid email format',
-        (tester) async {
+    testWidgets('shows validation error for invalid email format', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const LoginScreen(),
@@ -154,8 +155,9 @@ void main() {
       expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
     });
 
-    testWidgets('calls signInWithEmailAndPassword on valid form submission',
-        (tester) async {
+    testWidgets('calls signInWithEmailAndPassword on valid form submission', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const LoginScreen(),

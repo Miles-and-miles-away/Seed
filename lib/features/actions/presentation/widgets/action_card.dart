@@ -38,10 +38,7 @@ class ActionCard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Category color accent bar
-            Container(
-              height: 4,
-              color: categoryColor,
-            ),
+            Container(height: 4, color: categoryColor),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(spacingLg),
@@ -76,8 +73,9 @@ class ActionCard extends ConsumerWidget {
                           vertical: spacingXs,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                              theme.colorScheme.outline.withValues(alpha: 0.12),
+                          color: theme.colorScheme.outline.withValues(
+                            alpha: 0.12,
+                          ),
                           borderRadius: borderRadiusMd,
                         ),
                         child: Row(
@@ -106,9 +104,7 @@ class ActionCard extends ConsumerWidget {
                           vertical: spacingXs,
                         ),
                         decoration: BoxDecoration(
-                          color: categoryColor.withValues(
-                            alpha: opacityFaint,
-                          ),
+                          color: categoryColor.withValues(alpha: opacityFaint),
                           borderRadius: borderRadiusMd,
                         ),
                         child: Text(
@@ -135,17 +131,15 @@ class ActionCard extends ConsumerWidget {
   }
 
   /// Builds a row of small SDG badges showing which goals this action supports.
-  Widget _buildSdgBadges(
-    List<String> sdgNumbers,
-    Map<int, SdgGoal> goalMap,
-  ) {
+  Widget _buildSdgBadges(List<String> sdgNumbers, Map<int, SdgGoal> goalMap) {
     // Parse and sort SDG numbers, limit to 4 visible badges
-    final parsedNumbers = sdgNumbers
-        .map(int.tryParse)
-        .whereType<int>()
-        .where((n) => n >= 1 && n <= 17)
-        .toList()
-      ..sort();
+    final parsedNumbers =
+        sdgNumbers
+            .map(int.tryParse)
+            .whereType<int>()
+            .where((n) => n >= 1 && n <= 17)
+            .toList()
+          ..sort();
 
     final visibleCount = parsedNumbers.length > 4 ? 3 : parsedNumbers.length;
     final remainingCount = parsedNumbers.length - visibleCount;
@@ -184,20 +178,14 @@ class ActionCard extends ConsumerWidget {
   }
 
   /// Builds a single SDG badge with the goal number and color.
-  Widget _buildSdgBadge(
-    int sdgNumber,
-    Map<int, SdgGoal> goalMap,
-  ) {
+  Widget _buildSdgBadge(int sdgNumber, Map<int, SdgGoal> goalMap) {
     final sdg = goalMap[sdgNumber];
     final color = sdg?.color ?? Colors.grey;
 
     return Container(
       width: 18,
       height: 18,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Center(
         child: Text(
           '$sdgNumber',

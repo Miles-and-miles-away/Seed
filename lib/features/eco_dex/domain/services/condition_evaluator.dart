@@ -3,16 +3,10 @@ import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.da
 import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
 
 /// Checks if a condition is met given the user's stats.
-bool isConditionMet(
-  EcoDexCondition condition,
-  AppUserModel user,
-) {
+bool isConditionMet(EcoDexCondition condition, AppUserModel user) {
   return switch (condition) {
     TotalActionsCondition(:final count) => user.totalActionsCount >= count,
-    CategoryActionsCondition(
-      :final category,
-      :final count,
-    ) =>
+    CategoryActionsCondition(:final category, :final count) =>
       categoryActionCount(user, category) >= count,
     Co2SavedCondition(:final grams) => user.totalCo2Grams >= grams,
     StreakDaysCondition(:final days) => user.longestStreak >= days,
@@ -43,10 +37,7 @@ int uniqueZeroCo2ActionsCount(AppUserModel user) {
 }
 
 /// Counts actions in a specific category.
-int categoryActionCount(
-  AppUserModel user,
-  String category,
-) {
+int categoryActionCount(AppUserModel user, String category) {
   final counts = user.categoryActionCounts;
   return counts[category] ?? 0;
 }

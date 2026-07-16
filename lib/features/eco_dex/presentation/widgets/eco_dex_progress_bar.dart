@@ -7,10 +7,7 @@ import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart'
 /// nothing when `progress.hasProgress` is false so binary conditions
 /// cleanly opt out without the caller branching.
 class EcoDexProgressBar extends StatelessWidget {
-  const EcoDexProgressBar({
-    required this.progress,
-    super.key,
-  });
+  const EcoDexProgressBar({required this.progress, super.key});
 
   final EcoDexProgress progress;
 

@@ -30,17 +30,19 @@ ProviderContainer _container({
 
 Future<void> _pump(ProviderContainer c) async {
   c
-    ..listen(currentUserProvider, (_, __) {})
-    ..listen(allMascotsProvider, (_, __) {})
-    ..listen(activeMascotProvider, (_, __) {})
-    ..listen(mascotSpeciesDataProvider, (_, __) {});
+    ..listen(currentUserProvider, (_, _) {})
+    ..listen(allMascotsProvider, (_, _) {})
+    ..listen(activeMascotProvider, (_, _) {})
+    ..listen(mascotSpeciesDataProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
 void main() {
   group('egg providers', () {
     test('currentEgg and hasEgg are null/false when user has no egg', () async {
-      final c = _container(user: const AppUserModel(uid: 'u', email: 'e'));
+      final c = _container(
+        user: const AppUserModel(uid: 'u', email: 'e'),
+      );
       addTearDown(c.dispose);
       await _pump(c);
 
@@ -63,44 +65,48 @@ void main() {
       expect(c.read(hasEggProvider), isTrue);
     });
 
-    test('eggHatchingProgress is 0 when no egg, normalizes otherwise',
-        () async {
-      // No egg
-      final noEgg = _container(user: const AppUserModel(uid: 'u', email: 'e'));
-      addTearDown(noEgg.dispose);
-      await _pump(noEgg);
-      expect(noEgg.read(eggHatchingProgressProvider), 0);
+    test(
+      'eggHatchingProgress is 0 when no egg, normalizes otherwise',
+      () async {
+        // No egg
+        final noEgg = _container(
+          user: const AppUserModel(uid: 'u', email: 'e'),
+        );
+        addTearDown(noEgg.dispose);
+        await _pump(noEgg);
+        expect(noEgg.read(eggHatchingProgressProvider), 0);
 
-      // Half-way
-      final halfEgg = _container(
-        user: AppUserModel(
-          uid: 'u',
-          email: 'e',
-          egg: EggModel(
-            receivedAt: DateTime.utc(2026),
-            hatchingStreakDays: AppConstants.eggHatchingStreakRequired ~/ 2,
+        // Half-way
+        final halfEgg = _container(
+          user: AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime.utc(2026),
+              hatchingStreakDays: AppConstants.eggHatchingStreakRequired ~/ 2,
+            ),
           ),
-        ),
-      );
-      addTearDown(halfEgg.dispose);
-      await _pump(halfEgg);
-      expect(halfEgg.read(eggHatchingProgressProvider), closeTo(0.5, 0.02));
+        );
+        addTearDown(halfEgg.dispose);
+        await _pump(halfEgg);
+        expect(halfEgg.read(eggHatchingProgressProvider), closeTo(0.5, 0.02));
 
-      // Over-full (should clamp to 1.0)
-      final past = _container(
-        user: AppUserModel(
-          uid: 'u',
-          email: 'e',
-          egg: EggModel(
-            receivedAt: DateTime.utc(2026),
-            hatchingStreakDays: AppConstants.eggHatchingStreakRequired + 5,
+        // Over-full (should clamp to 1.0)
+        final past = _container(
+          user: AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime.utc(2026),
+              hatchingStreakDays: AppConstants.eggHatchingStreakRequired + 5,
+            ),
           ),
-        ),
-      );
-      addTearDown(past.dispose);
-      await _pump(past);
-      expect(past.read(eggHatchingProgressProvider), 1.0);
-    });
+        );
+        addTearDown(past.dispose);
+        await _pump(past);
+        expect(past.read(eggHatchingProgressProvider), 1.0);
+      },
+    );
 
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = _container(
@@ -128,9 +134,7 @@ void main() {
 
     test('true when list has mascots', () async {
       final c = _container(
-        mascots: const [
-          MascotModel(id: 'm1', speciesId: 'seed'),
-        ],
+        mascots: const [MascotModel(id: 'm1', speciesId: 'seed')],
       );
       addTearDown(c.dispose);
       await _pump(c);
@@ -215,11 +219,7 @@ void main() {
 
     test('hasNewEvolution compares lastSeenStage to current stage', () async {
       final stale = _container(
-        active: const MascotModel(
-          id: 'm1',
-          speciesId: 'seed',
-          mascotLevel: 12,
-        ),
+        active: const MascotModel(id: 'm1', speciesId: 'seed', mascotLevel: 12),
         species: species,
       );
       addTearDown(stale.dispose);
@@ -240,18 +240,20 @@ void main() {
       expect(current.read(hasNewEvolutionProvider), isFalse);
     });
 
-    test('stageLocalizedName falls back to English for unknown locale',
-        () async {
-      final c = _container(
-        active: const MascotModel(id: 'm1', speciesId: 'seed'),
-        species: species,
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+    test(
+      'stageLocalizedName falls back to English for unknown locale',
+      () async {
+        final c = _container(
+          active: const MascotModel(id: 'm1', speciesId: 'seed'),
+          species: species,
+        );
+        addTearDown(c.dispose);
+        await _pump(c);
 
-      expect(c.read(stageLocalizedNameProvider('fr')), 'Seed');
-      expect(c.read(stageLocalizedNameProvider('ja')), 'シード');
-      expect(c.read(stageLocalizedNameProvider('es')), 'Semilla');
-    });
+        expect(c.read(stageLocalizedNameProvider('fr')), 'Seed');
+        expect(c.read(stageLocalizedNameProvider('ja')), 'シード');
+        expect(c.read(stageLocalizedNameProvider('es')), 'Semilla');
+      },
+    );
   });
 }

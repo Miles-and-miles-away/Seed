@@ -29,10 +29,7 @@ void main() {
     }
 
     /// Scrolls left until [finder] becomes visible.
-    Future<void> scrollToVisible(
-      WidgetTester tester,
-      Finder finder,
-    ) async {
+    Future<void> scrollToVisible(WidgetTester tester, Finder finder) async {
       await tester.scrollUntilVisible(
         finder,
         -200,
@@ -40,187 +37,125 @@ void main() {
       );
     }
 
-    testWidgets(
-      'displays All tab',
-      (tester) async {
-        await tester.pumpWidget(createTestWidget());
-        await tester.pumpAndSettle();
+    testWidgets('displays All tab', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-        await scrollToVisible(
-          tester,
-          find.text('All'),
-        );
-        expect(find.text('All'), findsOneWidget);
-      },
-    );
+      await scrollToVisible(tester, find.text('All'));
+      expect(find.text('All'), findsOneWidget);
+    });
 
-    testWidgets(
-      'displays all category tabs',
-      (tester) async {
-        await tester.pumpWidget(createTestWidget());
-        await tester.pumpAndSettle();
+    testWidgets('displays all category tabs', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-        expect(
-          find.byType(FilterChip),
-          findsAtLeast(4),
-        );
-      },
-    );
+      expect(find.byType(FilterChip), findsAtLeast(4));
+    });
 
-    testWidgets(
-      'All tab is selected when selectedCategory is null',
-      (tester) async {
-        await tester.pumpWidget(
+    testWidgets('All tab is selected when selectedCategory is null', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        // ignore: avoid_redundant_argument_values
+        createTestWidget(selectedCategory: null),
+      );
+      await tester.pumpAndSettle();
+
+      await scrollToVisible(tester, find.text('All'));
+
+      final allChipFinder = find.ancestor(
+        of: find.text('All'),
+        matching: find.byType(FilterChip),
+      );
+      final allChip = tester.widget<FilterChip>(allChipFinder);
+      expect(allChip.selected, isTrue);
+    });
+
+    testWidgets('category tab is selected when matching', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(selectedCategory: ActionCategory.recycling),
+      );
+      await tester.pumpAndSettle();
+
+      // Scroll to All - should not be selected
+      await scrollToVisible(tester, find.text('All'));
+      final allChipFinder = find.ancestor(
+        of: find.text('All'),
+        matching: find.byType(FilterChip),
+      );
+      final allChip = tester.widget<FilterChip>(allChipFinder);
+      expect(allChip.selected, isFalse);
+    });
+
+    testWidgets('tapping All calls onCategorySelected with null', (
+      tester,
+    ) async {
+      ActionCategory? selectedValue = ActionCategory.recycling;
+
+      await tester.pumpWidget(
+        createTestWidget(
+          selectedCategory: ActionCategory.recycling,
+          onCategorySelected: (category) => selectedValue = category,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await scrollToVisible(tester, find.text('All'));
+      await tester.tap(find.text('All'));
+      await tester.pumpAndSettle();
+
+      expect(selectedValue, isNull);
+    });
+
+    testWidgets('tapping category calls onCategorySelected', (tester) async {
+      ActionCategory? selectedValue;
+
+      await tester.pumpWidget(
+        createTestWidget(
           // ignore: avoid_redundant_argument_values
-          createTestWidget(selectedCategory: null),
-        );
-        await tester.pumpAndSettle();
+          selectedCategory: null,
+          onCategorySelected: (category) => selectedValue = category,
+        ),
+      );
+      await tester.pumpAndSettle();
 
-        await scrollToVisible(
-          tester,
-          find.text('All'),
-        );
+      // Scroll to Recycling tab and tap it
+      await scrollToVisible(tester, find.text('Recycling'));
+      await tester.tap(find.text('Recycling'));
+      await tester.pumpAndSettle();
 
-        final allChipFinder = find.ancestor(
-          of: find.text('All'),
-          matching: find.byType(FilterChip),
-        );
-        final allChip = tester.widget<FilterChip>(allChipFinder);
-        expect(allChip.selected, isTrue);
-      },
-    );
+      expect(selectedValue, ActionCategory.recycling);
+    });
 
-    testWidgets(
-      'category tab is selected when matching',
-      (tester) async {
-        await tester.pumpWidget(
-          createTestWidget(
-            selectedCategory: ActionCategory.recycling,
-          ),
-        );
-        await tester.pumpAndSettle();
+    testWidgets('is horizontally scrollable', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-        // Scroll to All - should not be selected
-        await scrollToVisible(
-          tester,
-          find.text('All'),
-        );
-        final allChipFinder = find.ancestor(
-          of: find.text('All'),
-          matching: find.byType(FilterChip),
-        );
-        final allChip = tester.widget<FilterChip>(allChipFinder);
-        expect(allChip.selected, isFalse);
-      },
-    );
+      expect(find.byType(ListView), findsOneWidget);
 
-    testWidgets(
-      'tapping All calls onCategorySelected with null',
-      (tester) async {
-        ActionCategory? selectedValue = ActionCategory.recycling;
+      final listView = tester.widget<ListView>(find.byType(ListView));
+      expect(listView.scrollDirection, Axis.horizontal);
+    });
 
-        await tester.pumpWidget(
-          createTestWidget(
-            selectedCategory: ActionCategory.recycling,
-            onCategorySelected: (category) => selectedValue = category,
-          ),
-        );
-        await tester.pumpAndSettle();
+    testWidgets('has correct height', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-        await scrollToVisible(
-          tester,
-          find.text('All'),
-        );
-        await tester.tap(find.text('All'));
-        await tester.pumpAndSettle();
+      final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox).first);
+      expect(sizedBox.height, 48);
+    });
 
-        expect(selectedValue, isNull);
-      },
-    );
+    testWidgets('displays category icons', (tester) async {
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-    testWidgets(
-      'tapping category calls onCategorySelected',
-      (tester) async {
-        ActionCategory? selectedValue;
+      // Scroll to All tab - grid_view icon
+      await scrollToVisible(tester, find.text('All'));
+      expect(find.byIcon(Icons.grid_view), findsOneWidget);
 
-        await tester.pumpWidget(
-          createTestWidget(
-            // ignore: avoid_redundant_argument_values
-            selectedCategory: null,
-            onCategorySelected: (category) => selectedValue = category,
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        // Scroll to Recycling tab and tap it
-        await scrollToVisible(
-          tester,
-          find.text('Recycling'),
-        );
-        await tester.tap(find.text('Recycling'));
-        await tester.pumpAndSettle();
-
-        expect(selectedValue, ActionCategory.recycling);
-      },
-    );
-
-    testWidgets(
-      'is horizontally scrollable',
-      (tester) async {
-        await tester.pumpWidget(createTestWidget());
-        await tester.pumpAndSettle();
-
-        expect(find.byType(ListView), findsOneWidget);
-
-        final listView = tester.widget<ListView>(
-          find.byType(ListView),
-        );
-        expect(
-          listView.scrollDirection,
-          Axis.horizontal,
-        );
-      },
-    );
-
-    testWidgets(
-      'has correct height',
-      (tester) async {
-        await tester.pumpWidget(createTestWidget());
-        await tester.pumpAndSettle();
-
-        final sizedBox = tester.widget<SizedBox>(
-          find.byType(SizedBox).first,
-        );
-        expect(sizedBox.height, 48);
-      },
-    );
-
-    testWidgets(
-      'displays category icons',
-      (tester) async {
-        await tester.pumpWidget(createTestWidget());
-        await tester.pumpAndSettle();
-
-        // Scroll to All tab - grid_view icon
-        await scrollToVisible(
-          tester,
-          find.text('All'),
-        );
-        expect(
-          find.byIcon(Icons.grid_view),
-          findsOneWidget,
-        );
-
-        // Scroll to Recycling tab
-        await scrollToVisible(
-          tester,
-          find.text('Recycling'),
-        );
-        expect(
-          find.byIcon(Icons.recycling),
-          findsOneWidget,
-        );
-      },
-    );
+      // Scroll to Recycling tab
+      await scrollToVisible(tester, find.text('Recycling'));
+      expect(find.byIcon(Icons.recycling), findsOneWidget);
+    });
   });
 }

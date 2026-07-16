@@ -15,9 +15,7 @@ void main() {
   }) {
     return ProviderScope(
       overrides: [
-        userSettingsProvider.overrideWith(
-          (ref) => Stream.value(settings),
-        ),
+        userSettingsProvider.overrideWith((ref) => Stream.value(settings)),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -30,22 +28,19 @@ void main() {
 
   group('SettingsScreen', () {
     testWidgets('renders app bar with settings title', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.text('Settings'), findsOneWidget);
     });
 
-    testWidgets('does not render the hidden notifications section',
-        (tester) async {
+    testWidgets('does not render the hidden notifications section', (
+      tester,
+    ) async {
       // Feature postponed: the section stays hidden until the reminder
       // scheduling pipeline is actually wired up.
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('NOTIFICATIONS'), findsNothing);
@@ -53,88 +48,63 @@ void main() {
     });
 
     testWidgets('renders preferences section', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('PREFERENCES'), findsOneWidget);
     });
 
     testWidgets('renders account section', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsOneWidget);
     });
 
     testWidgets('renders privacy section', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('PRIVACY'), findsOneWidget);
     });
 
     testWidgets('renders support section with feedback tile', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       // Support section may require scrolling
-      await tester.scrollUntilVisible(
-        find.text('SUPPORT'),
-        100,
-      );
+      await tester.scrollUntilVisible(find.text('SUPPORT'), 100);
       expect(find.text('SUPPORT'), findsOneWidget);
       expect(find.text('Send Feedback'), findsOneWidget);
-      expect(
-        find.text('Report a bug or share your thoughts'),
-        findsOneWidget,
-      );
+      expect(find.text('Report a bug or share your thoughts'), findsOneWidget);
       expect(find.byIcon(Icons.mail_outline), findsOneWidget);
     });
 
     testWidgets('renders about section', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       // About section may require scrolling
-      await tester.scrollUntilVisible(
-        find.text('ABOUT'),
-        100,
-      );
+      await tester.scrollUntilVisible(find.text('ABOUT'), 100);
       expect(find.text('ABOUT'), findsOneWidget);
     });
 
     testWidgets('renders the analytics toggle switch', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.byType(SettingsSwitchTile), findsOneWidget);
     });
 
     testWidgets('shows language setting', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('Language'), findsOneWidget);
     });
 
     testWidgets('shows account setting', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       // Account tile
@@ -142,25 +112,16 @@ void main() {
     });
 
     testWidgets('shows about setting', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       // Scroll to make the ABOUT section header visible
-      await tester.scrollUntilVisible(
-        find.text('ABOUT'),
-        100,
-      );
+      await tester.scrollUntilVisible(find.text('ABOUT'), 100);
       expect(find.text('About'), findsWidgets);
     });
 
     testWidgets('shows correct language display for English', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsScreen(),
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('English'), findsOneWidget);
@@ -169,10 +130,7 @@ void main() {
     testWidgets('shows correct language display for Japanese', (tester) async {
       const settings = UserSettingsModel(language: 'ja');
       await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsScreen(),
-          settings: settings,
-        ),
+        createTestWidget(child: const SettingsScreen(), settings: settings),
       );
       await tester.pumpAndSettle();
 
@@ -180,98 +138,66 @@ void main() {
     });
 
     testWidgets('renders multiple SettingsSections', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       // 6 sections total, but Support/About may be off-screen
-      expect(
-        find.byType(SettingsSection),
-        findsAtLeast(4),
-      );
+      expect(find.byType(SettingsSection), findsAtLeast(4));
     });
 
     testWidgets('renders language icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.language_outlined), findsOneWidget);
     });
 
     testWidgets('renders person icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.person_outline), findsOneWidget);
     });
 
     testWidgets('renders info icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
-      await tester.scrollUntilVisible(
-        find.byIcon(Icons.info_outline),
-        100,
-      );
+      await tester.scrollUntilVisible(find.byIcon(Icons.info_outline), 100);
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
     });
 
     testWidgets('shows version in about tile', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
-      await tester.scrollUntilVisible(
-        find.textContaining('Version'),
-        100,
-      );
+      await tester.scrollUntilVisible(find.textContaining('Version'), 100);
       expect(find.textContaining('Version'), findsOneWidget);
     });
 
     testWidgets('renders ListView', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsScreen()),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('analytics switch reflects enabled state', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsScreen(),
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(child: const SettingsScreen()));
       await tester.pumpAndSettle();
 
-      final switchWidget = tester.widget<Switch>(
-        find.byType(Switch).first,
-      );
+      final switchWidget = tester.widget<Switch>(find.byType(Switch).first);
       expect(switchWidget.value, isTrue);
     });
 
     testWidgets('analytics switch reflects disabled state', (tester) async {
       const settings = UserSettingsModel(analyticsEnabled: false);
       await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsScreen(),
-          settings: settings,
-        ),
+        createTestWidget(child: const SettingsScreen(), settings: settings),
       );
       await tester.pumpAndSettle();
 
-      final switchWidget = tester.widget<Switch>(
-        find.byType(Switch).first,
-      );
+      final switchWidget = tester.widget<Switch>(find.byType(Switch).first);
       expect(switchWidget.value, isFalse);
     });
   });

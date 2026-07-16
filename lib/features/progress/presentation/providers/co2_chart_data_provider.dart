@@ -30,11 +30,9 @@ Future<List<DailySummaryModel>> trendWindowSummaries(
   if (userId == null) return const [];
 
   final range = TimePeriodRange.trendWindow(period);
-  return ref.watch(progressRepositoryProvider).getSummariesForDateRange(
-        userId,
-        range.start,
-        range.end,
-      );
+  return ref
+      .watch(progressRepositoryProvider)
+      .getSummariesForDateRange(userId, range.start, range.end);
 }
 
 @riverpod
@@ -44,17 +42,18 @@ Future<Co2TrendData> co2TrendData(Ref ref, TimePeriod period) async {
     trendWindowSummariesProvider(period).future,
   );
 
-  final points = summaries
-      .map(
-        // `s.date` is always `YYYY-MM-DD` written by ProgressRepository;
-        // date-only ISO strings parse to local midnight.
-        (s) => Co2TrendPoint(
-          date: DateTime.parse(s.date),
-          grams: s.totalCo2Grams,
-        ),
-      )
-      .toList()
-    ..sort((a, b) => a.date.compareTo(b.date));
+  final points =
+      summaries
+          .map(
+            // `s.date` is always `YYYY-MM-DD` written by ProgressRepository;
+            // date-only ISO strings parse to local midnight.
+            (s) => Co2TrendPoint(
+              date: DateTime.parse(s.date),
+              grams: s.totalCo2Grams,
+            ),
+          )
+          .toList()
+        ..sort((a, b) => a.date.compareTo(b.date));
 
   final average = points.isEmpty
       ? 0.0
@@ -120,8 +119,9 @@ Co2CategoryData buildCategoryData(List<DailySummaryModel> summaries) {
     );
   }
 
-  final tailGrams =
-      knownEntries.skip(topCount).fold<int>(0, (a, e) => a + e.value);
+  final tailGrams = knownEntries
+      .skip(topCount)
+      .fold<int>(0, (a, e) => a + e.value);
   final otherGrams = tailGrams + preexistingOther;
   if (otherGrams > 0) {
     slices.add(

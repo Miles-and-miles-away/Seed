@@ -29,10 +29,6 @@ class EcoDexEntryImage extends ConsumerWidget {
       );
     }
 
-    return Container(
-      width: size,
-      height: size,
-      color: Colors.white,
-    );
+    return Container(width: size, height: size, color: Colors.white);
   }
 }

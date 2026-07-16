@@ -22,8 +22,8 @@ class SdgTarget {
   final String descriptionEs;
 
   String description(String locale) => switch (locale) {
-        'ja' when descriptionJa.isNotEmpty => descriptionJa,
-        'es' when descriptionEs.isNotEmpty => descriptionEs,
-        _ => descriptionEn,
-      };
+    'ja' when descriptionJa.isNotEmpty => descriptionJa,
+    'es' when descriptionEs.isNotEmpty => descriptionEs,
+    _ => descriptionEn,
+  };
 }

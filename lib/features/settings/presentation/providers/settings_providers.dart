@@ -16,9 +16,7 @@ part 'settings_providers.g.dart';
 
 @riverpod
 SettingsRepository settingsRepository(Ref ref) {
-  return SettingsRepository(
-    firestore: ref.watch(firestoreProvider),
-  );
+  return SettingsRepository(firestore: ref.watch(firestoreProvider));
 }
 
 // =============================================================================
@@ -46,7 +44,7 @@ bool canAddReminder(Ref ref) {
   return settings.when(
     data: (s) => s.canAddReminder,
     loading: () => false,
-    error: (_, __) => false,
+    error: (_, _) => false,
   );
 }
 
@@ -57,7 +55,7 @@ String currentLanguage(Ref ref) {
   return settings.when(
     data: (s) => s.language,
     loading: () => 'en',
-    error: (_, __) => 'en',
+    error: (_, _) => 'en',
   );
 }
 
@@ -68,7 +66,7 @@ bool notificationsEnabled(Ref ref) {
   return settings.when(
     data: (s) => s.notificationsEnabled,
     loading: () => true,
-    error: (_, __) => true,
+    error: (_, _) => true,
   );
 }
 
@@ -79,7 +77,7 @@ bool smartRemindersEnabled(Ref ref) {
   return settings.when(
     data: (s) => s.smartRemindersEnabled,
     loading: () => true,
-    error: (_, __) => true,
+    error: (_, _) => true,
   );
 }
 
@@ -90,7 +88,7 @@ bool analyticsEnabled(Ref ref) {
   return settings.when(
     data: (s) => s.analyticsEnabled,
     loading: () => true,
-    error: (_, __) => true,
+    error: (_, _) => true,
   );
 }
 
@@ -150,11 +148,10 @@ class SettingsNotifier extends _$SettingsNotifier {
       await ref
           .read(settingsRepositoryProvider)
           .setAnalyticsEnabled(uid, enabled: enabled);
-      await AnalyticsService.instance.setCollectionEnabled(
-        enabled: enabled,
+      await AnalyticsService.instance.setCollectionEnabled(enabled: enabled);
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+        enabled,
       );
-      await FirebaseCrashlytics.instance
-          .setCrashlyticsCollectionEnabled(enabled);
       AnalyticsService.instance.setEnabled(enabled: enabled);
     });
     if (!ref.mounted) return;

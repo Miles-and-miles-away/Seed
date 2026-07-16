@@ -57,10 +57,7 @@ void main() {
       });
 
       test('handles null relatedSdgs', () {
-        final json = {
-          ...minimalJson,
-          'relatedSdgs': null,
-        };
+        final json = {...minimalJson, 'relatedSdgs': null};
         final fact = EcoFact.fromJson(json);
         expect(fact.relatedSdgs, isEmpty);
       });

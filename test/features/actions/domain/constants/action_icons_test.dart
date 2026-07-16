@@ -6,60 +6,24 @@ void main() {
   group('actionIconMap', () {
     test('contains expected icon entries', () {
       expect(actionIconMap, isNotEmpty);
-      expect(
-        actionIconMap.length,
-        greaterThanOrEqualTo(40),
-      );
+      expect(actionIconMap.length, greaterThanOrEqualTo(40));
     });
 
     test('maps known icon names to correct icons', () {
-      expect(
-        actionIconMap['recycling'],
-        Icons.recycling,
-      );
-      expect(
-        actionIconMap['bike'],
-        Icons.pedal_bike,
-      );
-      expect(
-        actionIconMap['water_drop'],
-        Icons.water_drop,
-      );
-      expect(
-        actionIconMap['bolt'],
-        Icons.bolt,
-      );
-      expect(
-        actionIconMap['eco'],
-        Icons.eco,
-      );
+      expect(actionIconMap['recycling'], Icons.recycling);
+      expect(actionIconMap['bike'], Icons.pedal_bike);
+      expect(actionIconMap['water_drop'], Icons.water_drop);
+      expect(actionIconMap['bolt'], Icons.bolt);
+      expect(actionIconMap['eco'], Icons.eco);
     });
 
     test('contains expanded Phase 4 icons', () {
-      expect(
-        actionIconMap['campaign'],
-        Icons.campaign,
-      );
-      expect(
-        actionIconMap['menu_book'],
-        Icons.menu_book,
-      );
-      expect(
-        actionIconMap['groups'],
-        Icons.groups,
-      );
-      expect(
-        actionIconMap['volunteer_activism'],
-        Icons.volunteer_activism,
-      );
-      expect(
-        actionIconMap['school'],
-        Icons.school,
-      );
-      expect(
-        actionIconMap['handshake'],
-        Icons.handshake,
-      );
+      expect(actionIconMap['campaign'], Icons.campaign);
+      expect(actionIconMap['menu_book'], Icons.menu_book);
+      expect(actionIconMap['groups'], Icons.groups);
+      expect(actionIconMap['volunteer_activism'], Icons.volunteer_activism);
+      expect(actionIconMap['school'], Icons.school);
+      expect(actionIconMap['handshake'], Icons.handshake);
     });
 
     test('all values are valid IconData', () {
@@ -75,17 +39,11 @@ void main() {
 
   group('getActionIcon', () {
     test('returns mapped icon for known name', () {
-      expect(
-        getActionIcon('recycling'),
-        Icons.recycling,
-      );
+      expect(getActionIcon('recycling'), Icons.recycling);
     });
 
     test('returns Icons.eco for unknown name', () {
-      expect(
-        getActionIcon('nonexistent_icon'),
-        Icons.eco,
-      );
+      expect(getActionIcon('nonexistent_icon'), Icons.eco);
     });
 
     test('returns Icons.eco for empty string', () {

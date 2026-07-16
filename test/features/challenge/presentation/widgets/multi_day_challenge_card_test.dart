@@ -24,55 +24,33 @@ void main() {
     );
     final json = jsonDecode(jsonString) as Map<String, dynamic>;
     final daily = (json['daily'] as List<dynamic>)
-        .map(
-          (e) => DailyChallengeTemplate.fromJson(
-            e as Map<String, dynamic>,
-          ),
-        )
+        .map((e) => DailyChallengeTemplate.fromJson(e as Map<String, dynamic>))
         .toList();
     final multiDay = (json['multiDay'] as List<dynamic>)
         .map(
-          (e) => MultiDayChallengeTemplate.fromJson(
-            e as Map<String, dynamic>,
-          ),
+          (e) => MultiDayChallengeTemplate.fromJson(e as Map<String, dynamic>),
         )
         .toList();
-    templateData = ChallengeTemplateData(
-      daily: daily,
-      multiDay: multiDay,
-    );
+    templateData = ChallengeTemplateData(daily: daily, multiDay: multiDay);
   });
 
-  Widget buildCard({
-    required AppUserModel user,
-  }) {
+  Widget buildCard({required AppUserModel user}) {
     return ProviderScope(
       overrides: [
-        currentUserProvider.overrideWith(
-          (_) => Stream.value(user),
-        ),
-        challengeTemplateDataProvider.overrideWith(
-          (_) async => templateData,
-        ),
+        currentUserProvider.overrideWith((_) => Stream.value(user)),
+        challengeTemplateDataProvider.overrideWith((_) async => templateData),
       ],
       child: createTestWidget(
         child: const Scaffold(
-          body: SingleChildScrollView(
-            child: MultiDayChallengeCard(),
-          ),
+          body: SingleChildScrollView(child: MultiDayChallengeCard()),
         ),
       ),
     );
   }
 
   group('MultiDayChallengeCard', () {
-    testWidgets('renders nothing when no active challenge', (
-      tester,
-    ) async {
-      final user = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+    testWidgets('renders nothing when no active challenge', (tester) async {
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
       await tester.pumpWidget(buildCard(user: user));
       await tester.pumpAndSettle();
@@ -80,9 +58,7 @@ void main() {
       expect(find.byType(Card), findsNothing);
     });
 
-    testWidgets('renders card with active challenge', (
-      tester,
-    ) async {
+    testWidgets('renders card with active challenge', (tester) async {
       final user = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',
@@ -101,27 +77,16 @@ void main() {
       // Shows template title
       expect(find.text('Vegan Week'), findsOneWidget);
       // Shows progress indicator
-      expect(
-        find.byType(LinearProgressIndicator),
-        findsOneWidget,
-      );
+      expect(find.byType(LinearProgressIndicator), findsOneWidget);
       // Shows chevron
-      expect(
-        find.byIcon(Icons.chevron_right),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.chevron_right), findsOneWidget);
     });
 
-    testWidgets('renders nothing with empty template ID', (
-      tester,
-    ) async {
+    testWidgets('renders nothing with empty template ID', (tester) async {
       final user = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',
-        activeMultiDayChallenge: {
-          'currentDay': 0,
-          'targetDays': 7,
-        },
+        activeMultiDayChallenge: {'currentDay': 0, 'targetDays': 7},
       );
 
       await tester.pumpWidget(buildCard(user: user));

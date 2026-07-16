@@ -17,9 +17,7 @@ Future<SdgGoalsData> sdgGoalsData(Ref ref) => loadSdgGoals();
 /// keepAlive: static bundled data; autoDispose would re-parse the
 /// asset on every screen revisit.
 @Riverpod(keepAlive: true)
-Future<Map<int, List<SdgResource>>> sdgResourcesData(
-  Ref ref,
-) =>
+Future<Map<int, List<SdgResource>>> sdgResourcesData(Ref ref) =>
     loadSdgResources();
 
 /// Loads and caches SDG target data from JSON.
@@ -27,7 +25,4 @@ Future<Map<int, List<SdgResource>>> sdgResourcesData(
 /// keepAlive: static bundled data; autoDispose would re-parse the
 /// 120 KB asset on every screen revisit.
 @Riverpod(keepAlive: true)
-Future<Map<int, List<SdgTarget>>> sdgTargetsData(
-  Ref ref,
-) =>
-    loadSdgTargets();
+Future<Map<int, List<SdgTarget>>> sdgTargetsData(Ref ref) => loadSdgTargets();

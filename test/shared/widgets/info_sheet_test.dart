@@ -24,11 +24,8 @@ void main() {
           home: Scaffold(
             body: Builder(
               builder: (context) => TextButton(
-                onPressed: () => InfoSheet.show(
-                  context,
-                  title: 'Title',
-                  body: 'Body',
-                ),
+                onPressed: () =>
+                    InfoSheet.show(context, title: 'Title', body: 'Body'),
                 child: const Text('open'),
               ),
             ),

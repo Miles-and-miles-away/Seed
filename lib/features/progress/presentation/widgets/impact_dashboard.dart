@@ -86,7 +86,7 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
               height: 160,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (_, __) => const SizedBox(
+            error: (_, _) => const SizedBox(
               height: 160,
               child: Center(child: ErrorDisplay()),
             ),

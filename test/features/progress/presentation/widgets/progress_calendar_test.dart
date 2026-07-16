@@ -37,41 +37,40 @@ void main() {
       final testMonth = selectedMonth ?? DateTime(now.year, now.month);
 
       // Generate test calendar data for the month
-      final testData = calendarData ??
-          List.generate(
-            DateTime(testMonth.year, testMonth.month + 1, 0).day,
-            (index) {
-              final day = index + 1;
-              final date = DateTime(testMonth.year, testMonth.month, day);
-              final isToday = date.year == now.year &&
-                  date.month == now.month &&
-                  date.day == now.day;
-              final isFuture = date.isAfter(now);
+      final testData =
+          calendarData ??
+          List.generate(DateTime(testMonth.year, testMonth.month + 1, 0).day, (
+            index,
+          ) {
+            final day = index + 1;
+            final date = DateTime(testMonth.year, testMonth.month, day);
+            final isToday =
+                date.year == now.year &&
+                date.month == now.month &&
+                date.day == now.day;
+            final isFuture = date.isAfter(now);
 
-              return CalendarDayData(
-                date: date,
-                goalCount: isFuture ? 0 : (day % 3 == 0 ? 5 : day % 2),
-                goalTarget: 5,
-                completedSdgs: isFuture ? const [] : [1, 2],
-                isToday: isToday,
-                isFuture: isFuture,
-              );
-            },
-          );
+            return CalendarDayData(
+              date: date,
+              goalCount: isFuture ? 0 : (day % 3 == 0 ? 5 : day % 2),
+              goalTarget: 5,
+              completedSdgs: isFuture ? const [] : [1, 2],
+              isToday: isToday,
+              isFuture: isFuture,
+            );
+          });
 
       return ProviderScope(
         overrides: [
           // For Notifier providers in Riverpod 3.x, use overrideWith
-          selectedMonthProvider
-              .overrideWith(() => TestSelectedMonth(testMonth)),
-          monthCalendarDataProvider
-              .overrideWith((ref) => Future.value(testData)),
-        ],
-        child: const MaterialApp(
-          home: Scaffold(
-            body: ProgressCalendar(),
+          selectedMonthProvider.overrideWith(
+            () => TestSelectedMonth(testMonth),
           ),
-        ),
+          monthCalendarDataProvider.overrideWith(
+            (ref) => Future.value(testData),
+          ),
+        ],
+        child: const MaterialApp(home: Scaffold(body: ProgressCalendar())),
       );
     }
 
@@ -124,15 +123,12 @@ void main() {
 
       final widget = ProviderScope(
         overrides: [
-          selectedMonthProvider
-              .overrideWith(() => TestSelectedMonth(DateTime(2024))),
+          selectedMonthProvider.overrideWith(
+            () => TestSelectedMonth(DateTime(2024)),
+          ),
           monthCalendarDataProvider.overrideWith((ref) => completer.future),
         ],
-        child: const MaterialApp(
-          home: Scaffold(
-            body: ProgressCalendar(),
-          ),
-        ),
+        child: const MaterialApp(home: Scaffold(body: ProgressCalendar())),
       );
 
       await tester.pumpWidget(widget);
@@ -174,8 +170,9 @@ void main() {
       );
     });
 
-    testWidgets('next month button is disabled for current month',
-        (tester) async {
+    testWidgets('next month button is disabled for current month', (
+      tester,
+    ) async {
       setMobileScreenSize(tester);
       addTearDown(() => resetScreenSize(tester));
 
@@ -191,10 +188,7 @@ void main() {
 
       // The IconButton should have null onPressed for current month
       final iconButton = tester.widget<IconButton>(
-        find.ancestor(
-          of: nextButton,
-          matching: find.byType(IconButton),
-        ),
+        find.ancestor(of: nextButton, matching: find.byType(IconButton)),
       );
       expect(iconButton.onPressed, isNull);
     });

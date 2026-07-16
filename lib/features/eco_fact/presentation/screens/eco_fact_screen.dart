@@ -29,12 +29,12 @@ class EcoFactScreen extends ConsumerWidget {
           }
           return ListView.separated(
             itemCount: items.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
+            separatorBuilder: (_, _) => const Divider(height: 1),
             itemBuilder: (context, i) => _InboxRow(item: items[i]),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(child: ErrorDisplay()),
+        error: (_, _) => const Center(child: ErrorDisplay()),
       ),
     );
   }
@@ -53,8 +53,8 @@ class _InboxRow extends ConsumerWidget {
     final state = item.isLocked
         ? MailRowState.locked
         : item.isRead
-            ? MailRowState.read
-            : MailRowState.unread;
+        ? MailRowState.read
+        : MailRowState.unread;
 
     final subject = item.isLocked
         ? l10n.ecoFactInboxLockedSubject

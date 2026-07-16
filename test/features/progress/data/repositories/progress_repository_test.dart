@@ -47,7 +47,8 @@ void main() {
 
     test('emits summary for today', () async {
       final now = DateTime.now();
-      final todayId = '${now.year}'
+      final todayId =
+          '${now.year}'
           '-${now.month.toString().padLeft(2, '0')}'
           '-${now.day.toString().padLeft(2, '0')}';
       await seedSummary(todayId, goalCount: 3, totalPoints: 50);

@@ -36,8 +36,9 @@ void main() {
     );
 
     when(() => auth.currentUser).thenReturn(null);
-    when(() => messaging.onTokenRefresh)
-        .thenAnswer((_) => const Stream<String>.empty());
+    when(
+      () => messaging.onTokenRefresh,
+    ).thenAnswer((_) => const Stream<String>.empty());
     when(messaging.getToken).thenAnswer((_) async => null);
     when(messaging.getInitialMessage).thenAnswer((_) async => null);
   });

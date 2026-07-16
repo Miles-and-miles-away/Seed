@@ -44,9 +44,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isCooldown = true);
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer(
-      const Duration(
-        seconds: AppConstants.authCooldownSeconds,
-      ),
+      const Duration(seconds: AppConstants.authCooldownSeconds),
       () {
         if (mounted) setState(() => _isCooldown = false);
       },
@@ -60,22 +58,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = authState.isLoading;
 
-    ref.listen<AsyncValue<void>>(
-      authProvider,
-      (previous, next) {
-        next.whenOrNull(
-          error: (error, _) {
-            _startCooldown();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(mapAuthErrorToMessage(error, l10n)),
-                backgroundColor: AppColors.error,
-              ),
-            );
-          },
-        );
-      },
-    );
+    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
+      next.whenOrNull(
+        error: (error, _) {
+          _startCooldown();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(mapAuthErrorToMessage(error, l10n)),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        },
+      );
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -87,11 +82,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: spacingHuge),
-                Icon(
-                  Icons.eco,
-                  size: 64,
-                  color: theme.colorScheme.primary,
-                ),
+                Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                 const SizedBox(height: spacingLg),
                 Text(
                   l10n.authWelcomeBack,
@@ -132,9 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           : Icons.visibility_off_outlined,
                     ),
                     onPressed: () {
-                      setState(
-                        () => _obscurePassword = !_obscurePassword,
-                      );
+                      setState(() => _obscurePassword = !_obscurePassword);
                     },
                   ),
                   validator: (v) => _validatePassword(v, l10n),
@@ -199,11 +188,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
                           isLoading: isLoading || _isCooldown,
-                          onPressed: () => ref
-                              .read(
-                                authProvider.notifier,
-                              )
-                              .signInWithApple(),
+                          onPressed: () =>
+                              ref.read(authProvider.notifier).signInWithApple(),
                         ),
                       ),
                     ],
@@ -213,10 +199,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      l10n.authNoAccount,
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    Text(l10n.authNoAccount, style: theme.textTheme.bodyMedium),
                     TextButton(
                       onPressed: isLoading
                           ? null
@@ -233,10 +216,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  String? _validateEmail(
-    String? value,
-    AppLocalizations l10n,
-  ) {
+  String? _validateEmail(String? value, AppLocalizations l10n) {
     return validateEmail(
       value,
       emptyError: l10n.authValidationEmailRequired,
@@ -244,10 +224,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  String? _validatePassword(
-    String? value,
-    AppLocalizations l10n,
-  ) {
+  String? _validatePassword(String? value, AppLocalizations l10n) {
     if (value == null || value.isEmpty) {
       return l10n.authValidationPasswordRequired;
     }
@@ -259,7 +236,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _handleSignIn() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(authProvider.notifier).signInWithEmailAndPassword(
+      ref
+          .read(authProvider.notifier)
+          .signInWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text,
           );
@@ -269,9 +248,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _showForgotPasswordDialog() async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
-    final emailController = TextEditingController(
-      text: _emailController.text,
-    );
+    final emailController = TextEditingController(text: _emailController.text);
 
     try {
       await showDialog<void>(
@@ -313,9 +290,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 Navigator.pop(dialogContext);
                 messenger.showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.authForgotPasswordSent),
-                  ),
+                  SnackBar(content: Text(l10n.authForgotPasswordSent)),
                 );
               }
 
@@ -333,8 +308,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 actions: [
                   TextButton(
-                    onPressed:
-                        isSending ? null : () => Navigator.pop(dialogContext),
+                    onPressed: isSending
+                        ? null
+                        : () => Navigator.pop(dialogContext),
                     child: Text(l10n.buttonCancel),
                   ),
                   FilledButton(

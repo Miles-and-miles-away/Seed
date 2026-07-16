@@ -35,10 +35,7 @@ void main() {
     });
 
     test('counts whole gaps', () {
-      expect(
-        calendarDaysBetween(DateTime(2026, 6), DateTime(2026, 6, 12)),
-        11,
-      );
+      expect(calendarDaysBetween(DateTime(2026, 6), DateTime(2026, 6, 12)), 11);
     });
 
     test('spans month and year boundaries', () {
@@ -86,21 +83,12 @@ void main() {
     });
 
     test('crosses month boundaries', () {
-      expect(
-        previousCalendarDay(DateTime(2026, 3)),
-        DateTime(2026, 2, 28),
-      );
-      expect(
-        previousCalendarDay(DateTime(2028, 3)),
-        DateTime(2028, 2, 29),
-      );
+      expect(previousCalendarDay(DateTime(2026, 3)), DateTime(2026, 2, 28));
+      expect(previousCalendarDay(DateTime(2028, 3)), DateTime(2028, 2, 29));
     });
 
     test('crosses year boundaries', () {
-      expect(
-        previousCalendarDay(DateTime(2026)),
-        DateTime(2025, 12, 31),
-      );
+      expect(previousCalendarDay(DateTime(2026)), DateTime(2025, 12, 31));
     });
   });
 

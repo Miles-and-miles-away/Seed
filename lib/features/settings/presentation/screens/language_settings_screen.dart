@@ -24,9 +24,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.languageSettingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.languageSettingsTitle)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -103,10 +101,7 @@ class _LanguageTile extends StatelessWidget {
       title: Text(language.nativeName),
       subtitle: Text(language.name),
       trailing: isSelected
-          ? Icon(
-              Icons.check_circle,
-              color: theme.colorScheme.primary,
-            )
+          ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
           : null,
       onTap: onTap,
       selected: isSelected,

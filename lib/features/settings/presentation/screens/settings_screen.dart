@@ -21,9 +21,7 @@ class SettingsScreen extends ConsumerWidget {
     final settingsAsync = ref.watch(userSettingsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.settingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: settingsAsync.when(
         data: (settings) => SafeArea(
           top: false,
@@ -106,9 +104,7 @@ class SettingsScreen extends ConsumerWidget {
                       final version = pkgAsync.value?.version ?? '...';
                       return SettingsTile(
                         title: l10n.settingsAbout,
-                        subtitle: l10n.settingsVersionFormat(
-                          version,
-                        ),
+                        subtitle: l10n.settingsVersionFormat(version),
                         leading: const Icon(Icons.info_outline),
                         onTap: () => context.push(appRoutes.settingsAbout),
                       );
@@ -126,15 +122,9 @@ class SettingsScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                l10n.settingsErrorLoading,
-                style: theme.textTheme.bodyLarge,
-              ),
+              Text(l10n.settingsErrorLoading, style: theme.textTheme.bodyLarge),
               const SizedBox(height: spacingSm),
-              Text(
-                error.toString(),
-                style: theme.textTheme.bodySmall,
-              ),
+              Text(error.toString(), style: theme.textTheme.bodySmall),
             ],
           ),
         ),

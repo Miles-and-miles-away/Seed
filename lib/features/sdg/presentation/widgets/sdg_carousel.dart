@@ -69,10 +69,9 @@ class _SdgCarouselState extends State<SdgCarousel> {
       if (controller == null || !controller.hasClients) return;
       final position = controller.position;
       controller.jumpTo(
-        _initialOffset(width).clamp(
-          position.minScrollExtent,
-          position.maxScrollExtent,
-        ),
+        _initialOffset(
+          width,
+        ).clamp(position.minScrollExtent, position.maxScrollExtent),
       );
     });
   }
@@ -126,18 +125,14 @@ class _SdgCarouselState extends State<SdgCarousel> {
     return ListView.builder(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(
-        horizontal: spacingXxl,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
       itemCount: widget.goals.length * _multiplier,
       itemBuilder: (context, index) {
         final goalIndex = index % widget.goals.length;
         final goal = widget.goals[goalIndex];
 
         return Padding(
-          padding: const EdgeInsets.only(
-            right: _itemSpacing,
-          ),
+          padding: const EdgeInsets.only(right: _itemSpacing),
           child: SdgCard(
             goal: goal,
             locale: widget.locale,
@@ -173,9 +168,7 @@ class SdgCard extends StatelessWidget {
           borderRadius: borderRadiusLg,
           boxShadow: [
             BoxShadow(
-              color: goal.color.withValues(
-                alpha: opacityMedium,
-              ),
+              color: goal.color.withValues(alpha: opacityMedium),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -194,9 +187,7 @@ class SdgCard extends StatelessWidget {
                 placeholder: (context, url) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(
-                    alpha: opacityLight,
-                  ),
+                  color: Colors.white.withValues(alpha: opacityLight),
                   child: const Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
@@ -207,9 +198,7 @@ class SdgCard extends StatelessWidget {
                 errorWidget: (context, url, error) => Container(
                   width: 80,
                   height: 80,
-                  color: Colors.white.withValues(
-                    alpha: opacityLight,
-                  ),
+                  color: Colors.white.withValues(alpha: opacityLight),
                   child: Center(
                     child: Text(
                       '${goal.number}',
@@ -225,9 +214,7 @@ class SdgCard extends StatelessWidget {
             ),
             const SizedBox(height: spacingSm),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: spacingSm,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: spacingSm),
               child: Text(
                 goal.shortTitle(locale),
                 style: const TextStyle(

@@ -179,10 +179,7 @@ void main() {
               child: SizedBox(
                 width: 50,
                 height: 60,
-                child: CalendarDayCell(
-                  data: data,
-                  onTap: () => taps++,
-                ),
+                child: CalendarDayCell(data: data, onTap: () => taps++),
               ),
             ),
           ),
@@ -210,10 +207,7 @@ void main() {
               child: SizedBox(
                 width: 50,
                 height: 60,
-                child: CalendarDayCell(
-                  data: data,
-                  onTap: () {},
-                ),
+                child: CalendarDayCell(data: data, onTap: () {}),
               ),
             ),
           ),

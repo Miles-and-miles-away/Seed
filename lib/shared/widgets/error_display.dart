@@ -34,10 +34,7 @@ class ErrorDisplay extends StatelessWidget {
     if (compact) {
       final messageText = Text(
         message ?? l10n.errorGeneric,
-        style: TextStyle(
-          color: colorScheme.error,
-          fontSize: 13,
-        ),
+        style: TextStyle(color: colorScheme.error, fontSize: 13),
         textAlign: TextAlign.center,
       );
       if (onRetry == null) return messageText;
@@ -46,10 +43,7 @@ class ErrorDisplay extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           messageText,
-          TextButton(
-            onPressed: onRetry,
-            child: Text(l10n.buttonRetry),
-          ),
+          TextButton(onPressed: onRetry, child: Text(l10n.buttonRetry)),
         ],
       );
     }
@@ -57,11 +51,7 @@ class ErrorDisplay extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.error_outline,
-          color: colorScheme.error,
-          size: 32,
-        ),
+        Icon(Icons.error_outline, color: colorScheme.error, size: 32),
         const SizedBox(height: spacingSm),
         Text(
           message ?? l10n.errorGeneric,

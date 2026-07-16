@@ -38,20 +38,20 @@ const _fixture = <EquivalencyMetadata>[
 ];
 
 Widget _wrap(Widget child) => ProviderScope(
-      overrides: [
-        impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: child),
-      ),
-    );
+  overrides: [
+    impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
+  ],
+  child: MaterialApp(
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: Scaffold(body: child),
+  ),
+);
 
 void main() {
   group('EquivalencyRow', () {
@@ -83,10 +83,12 @@ void main() {
       expect(find.byType(EquivalencyCard), findsNWidgets(4));
     });
 
-    testWidgets('renders even for very large totals without throwing',
-        (tester) async {
-      await tester
-          .pumpWidget(_wrap(const EquivalencyRow(totalGrams: 100000000)));
+    testWidgets('renders even for very large totals without throwing', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(const EquivalencyRow(totalGrams: 100000000)),
+      );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       expect(find.byType(EquivalencyCard), findsNWidgets(4));

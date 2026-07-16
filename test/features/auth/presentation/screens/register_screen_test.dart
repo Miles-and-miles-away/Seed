@@ -71,8 +71,9 @@ void main() {
       expect(find.text('Please enter your password'), findsOneWidget);
     });
 
-    testWidgets('shows validation error for invalid email format',
-        (tester) async {
+    testWidgets('shows validation error for invalid email format', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const RegisterScreen(),
@@ -307,46 +308,48 @@ void main() {
       expect(checkboxAncestor, findsOneWidget);
     });
 
-    testWidgets('calls createUserWithEmailAndPassword on valid form submission',
-        (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+    testWidgets(
+      'calls createUserWithEmailAndPassword on valid form submission',
+      (tester) async {
+        await tester.pumpWidget(
+          createTestWidget(
+            child: const RegisterScreen(),
+            firebaseAuth: mockFirebaseAuth,
+            firestore: fakeFirestore,
+          ),
+        );
 
-      // Accept terms
-      await tester.tap(find.byType(Checkbox));
-      await tester.pumpAndSettle();
+        // Accept terms
+        await tester.tap(find.byType(Checkbox));
+        await tester.pumpAndSettle();
 
-      // Enter valid credentials
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'test@example.com',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        'password123',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        'password123',
-      );
+        // Enter valid credentials
+        await tester.enterText(
+          find.widgetWithText(TextFormField, 'Email'),
+          'test@example.com',
+        );
+        await tester.enterText(
+          find.widgetWithText(TextFormField, 'Password'),
+          'password123',
+        );
+        await tester.enterText(
+          find.widgetWithText(TextFormField, 'Confirm Password'),
+          'password123',
+        );
 
-      // Tap create account
-      await tester.tap(find.widgetWithText(FilledButton, 'Create Account'));
-      await tester.pump();
+        // Tap create account
+        await tester.tap(find.widgetWithText(FilledButton, 'Create Account'));
+        await tester.pump();
 
-      // Verify createUserWithEmailAndPassword was called
-      verify(
-        () => mockFirebaseAuth.createUserWithEmailAndPassword(
-          email: 'test@example.com',
-          password: 'password123',
-        ),
-      ).called(1);
-    });
+        // Verify createUserWithEmailAndPassword was called
+        verify(
+          () => mockFirebaseAuth.createUserWithEmailAndPassword(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
+        ).called(1);
+      },
+    );
 
     testWidgets('shows Google sign-in button', (tester) async {
       await tester.pumpWidget(
@@ -389,8 +392,9 @@ void main() {
       expect(find.byIcon(Icons.lock_outlined), findsNWidgets(2));
     });
 
-    testWidgets('displays Terms of Service and Privacy Policy text',
-        (tester) async {
+    testWidgets('displays Terms of Service and Privacy Policy text', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const RegisterScreen(),

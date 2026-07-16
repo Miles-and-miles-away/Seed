@@ -17,24 +17,21 @@ class MultiDayChallengeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeChallenge = ref.watch(
-      activeMultiDayChallengeProvider,
-    );
+    final activeChallenge = ref.watch(activeMultiDayChallengeProvider);
     if (activeChallenge == null) {
       return const SizedBox.shrink();
     }
 
-    final templateDataAsync = ref.watch(
-      challengeTemplateDataProvider,
-    );
+    final templateDataAsync = ref.watch(challengeTemplateDataProvider);
     final templateData = templateDataAsync.value;
     if (templateData == null) return const SizedBox.shrink();
 
-    final template =
-        templateData.multiDay.cast<MultiDayChallengeTemplate?>().firstWhere(
-              (t) => t?.id == activeChallenge.templateId,
-              orElse: () => null,
-            );
+    final template = templateData.multiDay
+        .cast<MultiDayChallengeTemplate?>()
+        .firstWhere(
+          (t) => t?.id == activeChallenge.templateId,
+          orElse: () => null,
+        );
     if (template == null) return const SizedBox.shrink();
 
     // A completion date before yesterday means the run is already
@@ -42,7 +39,8 @@ class MultiDayChallengeCard extends ConsumerWidget {
     // instead of the stale day count.
     final now = DateTime.now();
     final lastDate = activeChallenge.lastCompletionDate;
-    final isBroken = lastDate.isNotEmpty &&
+    final isBroken =
+        lastDate.isNotEmpty &&
         lastDate != formatDateKey(now) &&
         lastDate != formatDateKey(previousCalendarDay(now));
     final currentDay = isBroken ? 0 : activeChallenge.currentDay;
@@ -53,16 +51,16 @@ class MultiDayChallengeCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(
-      context,
-    ).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
 
     final categoryStr = template.category;
-    final category =
-        categoryStr != null ? ActionCategory.fromString(categoryStr) : null;
+    final category = categoryStr != null
+        ? ActionCategory.fromString(categoryStr)
+        : null;
 
-    final progress =
-        targetDays > 0 ? (currentDay / targetDays).clamp(0.0, 1.0) : 0.0;
+    final progress = targetDays > 0
+        ? (currentDay / targetDays).clamp(0.0, 1.0)
+        : 0.0;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -90,10 +88,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: spacingXs),
                     Text(
-                      l10n.challengeMultiDayProgress(
-                        currentDay,
-                        targetDays,
-                      ),
+                      l10n.challengeMultiDayProgress(currentDay, targetDays),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -110,10 +105,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: spacingSm),
-              Icon(
-                Icons.chevron_right,
-                color: colorScheme.onSurfaceVariant,
-              ),
+              Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
             ],
           ),
         ),

@@ -32,14 +32,10 @@ class ActionScienceBottomSheet extends StatelessWidget {
       isScrollControlled: true,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radiusXl),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
-      builder: (context) => ActionScienceBottomSheet(
-        action: action,
-        languageCode: languageCode,
-      ),
+      builder: (context) =>
+          ActionScienceBottomSheet(action: action, languageCode: languageCode),
     );
   }
 
@@ -49,8 +45,9 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final category = ActionCategory.fromString(action.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
     final isDark = theme.brightness == Brightness.dark;
-    final mdConfig =
-        isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
+    final mdConfig = isDark
+        ? MarkdownConfig.darkConfig
+        : MarkdownConfig.defaultConfig;
     final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
 
     return DraggableScrollableSheet(

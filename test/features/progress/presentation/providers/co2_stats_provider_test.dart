@@ -32,17 +32,16 @@ ProviderContainer _container({
 }
 
 Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, __) {});
+  c.listen(currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
 CollectionReference<Map<String, dynamic>> _summariesCollection(
   FakeFirebaseFirestore firestore,
-) =>
-    firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_userId)
-        .collection(AppConstants.collectionDailySummaries);
+) => firestore
+    .collection(AppConstants.collectionUsers)
+    .doc(_userId)
+    .collection(AppConstants.collectionDailySummaries);
 
 String _dateId(DateTime date) =>
     '${date.year}-${date.month.toString().padLeft(2, '0')}'
@@ -152,9 +151,7 @@ void main() {
       addTearDown(c.dispose);
       await _pump(c);
 
-      final stats = await c.read(
-        co2StatsProvider(TimePeriod.thisWeek).future,
-      );
+      final stats = await c.read(co2StatsProvider(TimePeriod.thisWeek).future);
 
       // Both seeded days could fall within this week or one in last week
       // depending on weekday. The total is at least 100 (today) and at

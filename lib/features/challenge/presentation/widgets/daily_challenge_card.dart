@@ -19,28 +19,17 @@ class DailyChallengeCard extends ConsumerWidget {
     final challenge = challengeAsync.value;
     if (challenge == null) return const SizedBox.shrink();
 
-    final completed = ref.watch(
-      isTodayChallengeCompletedProvider,
-    );
+    final completed = ref.watch(isTodayChallengeCompletedProvider);
     final streak = ref.watch(challengeStreakProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(
-      context,
-    ).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
 
-    final category = ActionCategory.fromString(
-      challenge.category,
-    );
+    final category = ActionCategory.fromString(challenge.category);
 
     if (completed) {
-      return _buildCompletedCard(
-        context,
-        theme,
-        colorScheme,
-        l10n,
-      );
+      return _buildCompletedCard(context, theme, colorScheme, l10n);
     }
 
     return _buildIncompleteCard(
@@ -61,18 +50,12 @@ class DailyChallengeCard extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     return Card(
-      color: colorScheme.primaryContainer.withValues(
-        alpha: opacityHalf,
-      ),
+      color: colorScheme.primaryContainer.withValues(alpha: opacityHalf),
       child: Padding(
         padding: const EdgeInsets.all(spacingLg),
         child: Row(
           children: [
-            Icon(
-              Icons.check_circle,
-              color: colorScheme.primary,
-              size: 32,
-            ),
+            Icon(Icons.check_circle, color: colorScheme.primary, size: 32),
             const SizedBox(width: spacingMd),
             Expanded(
               child: Column(
@@ -159,10 +142,7 @@ class DailyChallengeCard extends ConsumerWidget {
               ),
               if (streak > 0) _StreakBadge(streak: streak, l10n: l10n),
               const SizedBox(width: spacingXs),
-              Icon(
-                Icons.chevron_right,
-                color: colorScheme.onSurfaceVariant,
-              ),
+              Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
             ],
           ),
         ),
@@ -172,10 +152,7 @@ class DailyChallengeCard extends ConsumerWidget {
 }
 
 class _StreakBadge extends StatelessWidget {
-  const _StreakBadge({
-    required this.streak,
-    required this.l10n,
-  });
+  const _StreakBadge({required this.streak, required this.l10n});
 
   final int streak;
   final AppLocalizations l10n;

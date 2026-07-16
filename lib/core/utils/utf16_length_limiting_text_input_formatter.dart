@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 /// text no longer than [maxUnits] units.
 class Utf16LengthLimitingTextInputFormatter extends TextInputFormatter {
   Utf16LengthLimitingTextInputFormatter(this.maxUnits)
-      : assert(maxUnits > 0, 'maxUnits must be positive');
+    : assert(maxUnits > 0, 'maxUnits must be positive');
 
   /// The maximum number of UTF-16 code units allowed.
   final int maxUnits;

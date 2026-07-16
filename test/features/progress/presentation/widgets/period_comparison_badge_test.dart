@@ -8,15 +8,15 @@ import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/period_comparison_badge.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 void main() {
   group('PeriodComparisonBadge', () {
@@ -56,8 +56,9 @@ void main() {
       expect(find.textContaining('vs.'), findsNothing);
     });
 
-    testWidgets('shows up arrow + percent + reference for positive change',
-        (tester) async {
+    testWidgets('shows up arrow + percent + reference for positive change', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           const PeriodComparisonBadge(
@@ -93,8 +94,9 @@ void main() {
       expect(find.text('30% vs. last week'), findsOneWidget);
     });
 
-    testWidgets('uses period-specific reference label for thisMonth',
-        (tester) async {
+    testWidgets('uses period-specific reference label for thisMonth', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           const PeriodComparisonBadge(

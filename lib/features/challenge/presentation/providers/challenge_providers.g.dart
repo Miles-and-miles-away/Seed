@@ -15,24 +15,27 @@ final challengeTemplateDataProvider = ChallengeTemplateDataProvider._();
 
 /// Loads and caches challenge template data from JSON.
 
-final class ChallengeTemplateDataProvider extends $FunctionalProvider<
-        AsyncValue<ChallengeTemplateData>,
-        ChallengeTemplateData,
-        FutureOr<ChallengeTemplateData>>
+final class ChallengeTemplateDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ChallengeTemplateData>,
+          ChallengeTemplateData,
+          FutureOr<ChallengeTemplateData>
+        >
     with
         $FutureModifier<ChallengeTemplateData>,
         $FutureProvider<ChallengeTemplateData> {
   /// Loads and caches challenge template data from JSON.
   ChallengeTemplateDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'challengeTemplateDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'challengeTemplateDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$challengeTemplateDataHash();
@@ -40,8 +43,8 @@ final class ChallengeTemplateDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<ChallengeTemplateData> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<ChallengeTemplateData> create(Ref ref) {
@@ -59,24 +62,27 @@ final todayChallengeProvider = TodayChallengeProvider._();
 
 /// Today's challenge based on user ID and recent IDs.
 
-final class TodayChallengeProvider extends $FunctionalProvider<
-        AsyncValue<DailyChallengeTemplate?>,
-        DailyChallengeTemplate?,
-        FutureOr<DailyChallengeTemplate?>>
+final class TodayChallengeProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<DailyChallengeTemplate?>,
+          DailyChallengeTemplate?,
+          FutureOr<DailyChallengeTemplate?>
+        >
     with
         $FutureModifier<DailyChallengeTemplate?>,
         $FutureProvider<DailyChallengeTemplate?> {
   /// Today's challenge based on user ID and recent IDs.
   TodayChallengeProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'todayChallengeProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todayChallengeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$todayChallengeHash();
@@ -84,8 +90,8 @@ final class TodayChallengeProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<DailyChallengeTemplate?> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<DailyChallengeTemplate?> create(Ref ref) {
@@ -103,18 +109,19 @@ final isTodayChallengeCompletedProvider = IsTodayChallengeCompletedProvider._();
 /// Whether today's daily challenge is completed.
 
 final class IsTodayChallengeCompletedProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether today's daily challenge is completed.
   IsTodayChallengeCompletedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'isTodayChallengeCompletedProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isTodayChallengeCompletedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$isTodayChallengeCompletedHash();
@@ -164,15 +171,15 @@ final class ChallengeStreakProvider extends $FunctionalProvider<int, int, int>
   /// after a missed day it still holds the old streak; a completion
   /// date before yesterday means the streak is already broken.
   ChallengeStreakProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'challengeStreakProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'challengeStreakProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$challengeStreakHash();
@@ -205,21 +212,25 @@ final activeMultiDayChallengeProvider = ActiveMultiDayChallengeProvider._();
 
 /// Active multi-day challenge data.
 
-final class ActiveMultiDayChallengeProvider extends $FunctionalProvider<
-    ActiveMultiDayChallenge?,
-    ActiveMultiDayChallenge?,
-    ActiveMultiDayChallenge?> with $Provider<ActiveMultiDayChallenge?> {
+final class ActiveMultiDayChallengeProvider
+    extends
+        $FunctionalProvider<
+          ActiveMultiDayChallenge?,
+          ActiveMultiDayChallenge?,
+          ActiveMultiDayChallenge?
+        >
+    with $Provider<ActiveMultiDayChallenge?> {
   /// Active multi-day challenge data.
   ActiveMultiDayChallengeProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeMultiDayChallengeProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeMultiDayChallengeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeMultiDayChallengeHash();
@@ -227,8 +238,8 @@ final class ActiveMultiDayChallengeProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ActiveMultiDayChallenge?> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ActiveMultiDayChallenge? create(Ref ref) {
@@ -260,15 +271,15 @@ final class ChallengeDialogShownProvider
   /// Session-scoped flag: has the challenge dialog been
   /// shown this session?
   ChallengeDialogShownProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'challengeDialogShownProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'challengeDialogShownProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$challengeDialogShownHash();
@@ -298,8 +309,14 @@ abstract class _$ChallengeDialogShown extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -312,18 +329,19 @@ final shouldShowChallengeDialogProvider = ShouldShowChallengeDialogProvider._();
 /// Whether the daily challenge dialog should be shown.
 
 final class ShouldShowChallengeDialogProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether the daily challenge dialog should be shown.
   ShouldShowChallengeDialogProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'shouldShowChallengeDialogProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'shouldShowChallengeDialogProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$shouldShowChallengeDialogHash();
@@ -360,15 +378,15 @@ final class MultiDayChallengeNotifierProvider
     extends $NotifierProvider<MultiDayChallengeNotifier, AsyncValue<void>> {
   /// Notifier for multi-day challenge actions.
   MultiDayChallengeNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'multiDayChallengeProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'multiDayChallengeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$multiDayChallengeNotifierHash();
@@ -397,11 +415,14 @@ abstract class _$MultiDayChallengeNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

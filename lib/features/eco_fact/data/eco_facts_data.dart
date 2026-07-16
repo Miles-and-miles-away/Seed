@@ -16,9 +16,7 @@ Future<List<EcoFact>> loadEcoFacts() async {
   // 440+ KB of JSON: decode off the UI thread.
   return Isolate.run(
     () => (json.decode(jsonString) as List<dynamic>)
-        .map(
-          (e) => EcoFact.fromJson(e as Map<String, dynamic>),
-        )
+        .map((e) => EcoFact.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

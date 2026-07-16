@@ -12,21 +12,24 @@ part of 'actions_providers.dart';
 @ProviderFor(actionLibraryDataSource)
 final actionLibraryDataSourceProvider = ActionLibraryDataSourceProvider._();
 
-final class ActionLibraryDataSourceProvider extends $FunctionalProvider<
-        ActionLibraryRemoteDataSource,
-        ActionLibraryRemoteDataSource,
-        ActionLibraryRemoteDataSource>
+final class ActionLibraryDataSourceProvider
+    extends
+        $FunctionalProvider<
+          ActionLibraryRemoteDataSource,
+          ActionLibraryRemoteDataSource,
+          ActionLibraryRemoteDataSource
+        >
     with $Provider<ActionLibraryRemoteDataSource> {
   ActionLibraryDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLibraryDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionLibraryDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionLibraryDataSourceHash();
@@ -34,8 +37,8 @@ final class ActionLibraryDataSourceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ActionLibraryRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ActionLibraryRemoteDataSource create(Ref ref) {
@@ -46,8 +49,9 @@ final class ActionLibraryDataSourceProvider extends $FunctionalProvider<
   Override overrideWithValue(ActionLibraryRemoteDataSource value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride:
-          $SyncValueProvider<ActionLibraryRemoteDataSource>(value),
+      providerOverride: $SyncValueProvider<ActionLibraryRemoteDataSource>(
+        value,
+      ),
     );
   }
 }
@@ -58,20 +62,24 @@ String _$actionLibraryDataSourceHash() =>
 @ProviderFor(actionLogDataSource)
 final actionLogDataSourceProvider = ActionLogDataSourceProvider._();
 
-final class ActionLogDataSourceProvider extends $FunctionalProvider<
-    ActionLogRemoteDataSource,
-    ActionLogRemoteDataSource,
-    ActionLogRemoteDataSource> with $Provider<ActionLogRemoteDataSource> {
+final class ActionLogDataSourceProvider
+    extends
+        $FunctionalProvider<
+          ActionLogRemoteDataSource,
+          ActionLogRemoteDataSource,
+          ActionLogRemoteDataSource
+        >
+    with $Provider<ActionLogRemoteDataSource> {
   ActionLogDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLogDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionLogDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionLogDataSourceHash();
@@ -79,8 +87,8 @@ final class ActionLogDataSourceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ActionLogRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ActionLogRemoteDataSource create(Ref ref) {
@@ -102,23 +110,26 @@ String _$actionLogDataSourceHash() =>
 @ProviderFor(actionLogRepository)
 final actionLogRepositoryProvider = ActionLogRepositoryProvider._();
 
-final class ActionLogRepositoryProvider extends $FunctionalProvider<
-        AsyncValue<ActionLogRepository>,
-        ActionLogRepository,
-        FutureOr<ActionLogRepository>>
+final class ActionLogRepositoryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ActionLogRepository>,
+          ActionLogRepository,
+          FutureOr<ActionLogRepository>
+        >
     with
         $FutureModifier<ActionLogRepository>,
         $FutureProvider<ActionLogRepository> {
   ActionLogRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLogRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionLogRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionLogRepositoryHash();
@@ -126,8 +137,8 @@ final class ActionLogRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<ActionLogRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<ActionLogRepository> create(Ref ref) {
@@ -153,10 +164,13 @@ final actionLibraryProvider = ActionLibraryProvider._();
 /// so a persistent snapshots() listener adds overhead for no benefit.
 /// Content changes ship with reseeds and are picked up on app start.
 
-final class ActionLibraryProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionModel>>,
-        List<ActionModel>,
-        FutureOr<List<ActionModel>>>
+final class ActionLibraryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionModel>>,
+          List<ActionModel>,
+          FutureOr<List<ActionModel>>
+        >
     with
         $FutureModifier<List<ActionModel>>,
         $FutureProvider<List<ActionModel>> {
@@ -166,15 +180,15 @@ final class ActionLibraryProvider extends $FunctionalProvider<
   /// so a persistent snapshots() listener adds overhead for no benefit.
   /// Content changes ship with reseeds and are picked up on app start.
   ActionLibraryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLibraryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionLibraryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionLibraryHash();
@@ -182,8 +196,8 @@ final class ActionLibraryProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<ActionModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<ActionModel>> create(Ref ref) {
@@ -203,15 +217,15 @@ final class ActionHistoryPagesProvider
     extends $NotifierProvider<ActionHistoryPages, int> {
   /// How many pages of history the user has requested.
   ActionHistoryPagesProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionHistoryPagesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionHistoryPagesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionHistoryPagesHash();
@@ -240,8 +254,14 @@ abstract class _$ActionHistoryPages extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element
-        as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -257,10 +277,13 @@ final userActionLogsProvider = UserActionLogsProvider._();
 /// number of history pages (the log grows forever; streaming it whole
 /// scales cost and memory with user loyalty).
 
-final class UserActionLogsProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionLogModel>>,
-        List<ActionLogModel>,
-        Stream<List<ActionLogModel>>>
+final class UserActionLogsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionLogModel>>,
+          List<ActionLogModel>,
+          Stream<List<ActionLogModel>>
+        >
     with
         $FutureModifier<List<ActionLogModel>>,
         $StreamProvider<List<ActionLogModel>> {
@@ -268,15 +291,15 @@ final class UserActionLogsProvider extends $FunctionalProvider<
   /// number of history pages (the log grows forever; streaming it whole
   /// scales cost and memory with user loyalty).
   UserActionLogsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'userActionLogsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userActionLogsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$userActionLogsHash();
@@ -284,8 +307,8 @@ final class UserActionLogsProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<ActionLogModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<ActionLogModel>> create(Ref ref) {
@@ -308,15 +331,15 @@ final class SelectedCategoryProvider
   /// Currently selected action category for filtering.
   /// Null means "All" categories.
   SelectedCategoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'selectedCategoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedCategoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$selectedCategoryHash();
@@ -345,11 +368,14 @@ abstract class _$SelectedCategory extends $Notifier<ActionCategory?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<ActionCategory?, ActionCategory?>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<ActionCategory?, ActionCategory?>,
-        ActionCategory?,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ActionCategory?, ActionCategory?>,
+              ActionCategory?,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -364,15 +390,15 @@ final class ActionSearchQueryProvider
     extends $NotifierProvider<ActionSearchQuery, String> {
   /// Search query for filtering actions.
   ActionSearchQueryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionSearchQueryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionSearchQueryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionSearchQueryHash();
@@ -400,8 +426,14 @@ abstract class _$ActionSearchQuery extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -416,15 +448,15 @@ final class SelectedSortOptionProvider
     extends $NotifierProvider<SelectedSortOption, ActionSortOption> {
   /// Currently selected sort option for the action library.
   SelectedSortOptionProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'selectedSortOptionProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedSortOptionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$selectedSortOptionHash();
@@ -453,11 +485,14 @@ abstract class _$SelectedSortOption extends $Notifier<ActionSortOption> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<ActionSortOption, ActionSortOption>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<ActionSortOption, ActionSortOption>,
-        ActionSortOption,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ActionSortOption, ActionSortOption>,
+              ActionSortOption,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -475,15 +510,15 @@ final class SelectedSdgFilterProvider
   /// Selected SDG for filtering actions.
   /// Null means "All" SDGs.
   SelectedSdgFilterProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'selectedSdgFilterProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedSdgFilterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$selectedSdgFilterHash();
@@ -512,8 +547,14 @@ abstract class _$SelectedSdgFilter extends $Notifier<int?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int?, int?>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<int?, int?>, int?, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int?, int?>,
+              int?,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -529,26 +570,29 @@ final actionsForDayProvider = ActionsForDayFamily._();
 /// calendar's day-detail sheet; a range query instead of streaming
 /// the whole history).
 
-final class ActionsForDayProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionLogModel>>,
-        List<ActionLogModel>,
-        FutureOr<List<ActionLogModel>>>
+final class ActionsForDayProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionLogModel>>,
+          List<ActionLogModel>,
+          FutureOr<List<ActionLogModel>>
+        >
     with
         $FutureModifier<List<ActionLogModel>>,
         $FutureProvider<List<ActionLogModel>> {
   /// One-shot fetch of the logs for a single calendar day (used by the
   /// calendar's day-detail sheet; a range query instead of streaming
   /// the whole history).
-  ActionsForDayProvider._(
-      {required ActionsForDayFamily super.from,
-      required DateTime super.argument})
-      : super(
-          retry: null,
-          name: r'actionsForDayProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  ActionsForDayProvider._({
+    required ActionsForDayFamily super.from,
+    required DateTime super.argument,
+  }) : super(
+         retry: null,
+         name: r'actionsForDayProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$actionsForDayHash();
@@ -563,16 +607,13 @@ final class ActionsForDayProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<ActionLogModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<ActionLogModel>> create(Ref ref) {
     final argument = this.argument as DateTime;
-    return actionsForDay(
-      ref,
-      argument,
-    );
+    return actionsForDay(ref, argument);
   }
 
   @override
@@ -595,21 +636,19 @@ String _$actionsForDayHash() => r'830b0e7496f0b7dbc7c20a5289b67919d6bf4b46';
 final class ActionsForDayFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<ActionLogModel>>, DateTime> {
   ActionsForDayFamily._()
-      : super(
-          retry: null,
-          name: r'actionsForDayProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'actionsForDayProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// One-shot fetch of the logs for a single calendar day (used by the
   /// calendar's day-detail sheet; a range query instead of streaming
   /// the whole history).
 
-  ActionsForDayProvider call(
-    DateTime day,
-  ) =>
+  ActionsForDayProvider call(DateTime day) =>
       ActionsForDayProvider._(argument: day, from: this);
 
   @override
@@ -631,10 +670,13 @@ final todayActionsProvider = TodayActionsProvider._();
 /// Invalidated at midnight by dayChangeProvider so the captured day
 /// rolls over.
 
-final class TodayActionsProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionLogModel>>,
-        List<ActionLogModel>,
-        Stream<List<ActionLogModel>>>
+final class TodayActionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionLogModel>>,
+          List<ActionLogModel>,
+          Stream<List<ActionLogModel>>
+        >
     with
         $FutureModifier<List<ActionLogModel>>,
         $StreamProvider<List<ActionLogModel>> {
@@ -644,15 +686,15 @@ final class TodayActionsProvider extends $FunctionalProvider<
   /// Invalidated at midnight by dayChangeProvider so the captured day
   /// rolls over.
   TodayActionsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'todayActionsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todayActionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$todayActionsHash();
@@ -660,8 +702,8 @@ final class TodayActionsProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<ActionLogModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<ActionLogModel>> create(Ref ref) {
@@ -680,23 +722,26 @@ final baseFilteredActionsProvider = BaseFilteredActionsProvider._();
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
 
-final class BaseFilteredActionsProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionModel>>,
-        AsyncValue<List<ActionModel>>,
-        AsyncValue<List<ActionModel>>>
+final class BaseFilteredActionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionModel>>,
+          AsyncValue<List<ActionModel>>,
+          AsyncValue<List<ActionModel>>
+        >
     with $Provider<AsyncValue<List<ActionModel>>> {
   /// Filtered actions (category, SDG, search) -- no sort.
   /// Separated so that changing sort doesn't re-filter.
   BaseFilteredActionsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'baseFilteredActionsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'baseFilteredActionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$baseFilteredActionsHash();
@@ -704,8 +749,8 @@ final class BaseFilteredActionsProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<AsyncValue<List<ActionModel>>> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   AsyncValue<List<ActionModel>> create(Ref ref) {
@@ -716,8 +761,9 @@ final class BaseFilteredActionsProvider extends $FunctionalProvider<
   Override overrideWithValue(AsyncValue<List<ActionModel>> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride:
-          $SyncValueProvider<AsyncValue<List<ActionModel>>>(value),
+      providerOverride: $SyncValueProvider<AsyncValue<List<ActionModel>>>(
+        value,
+      ),
     );
   }
 }
@@ -736,24 +782,27 @@ final filteredActionsProvider = FilteredActionsProvider._();
 /// option or language changes; filter changes propagate
 /// through baseFilteredActions.
 
-final class FilteredActionsProvider extends $FunctionalProvider<
-        AsyncValue<List<ActionModel>>,
-        AsyncValue<List<ActionModel>>,
-        AsyncValue<List<ActionModel>>>
+final class FilteredActionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ActionModel>>,
+          AsyncValue<List<ActionModel>>,
+          AsyncValue<List<ActionModel>>
+        >
     with $Provider<AsyncValue<List<ActionModel>>> {
   /// Filtered + sorted actions. Only re-sorts when sort
   /// option or language changes; filter changes propagate
   /// through baseFilteredActions.
   FilteredActionsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'filteredActionsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'filteredActionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$filteredActionsHash();
@@ -761,8 +810,8 @@ final class FilteredActionsProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<AsyncValue<List<ActionModel>>> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   AsyncValue<List<ActionModel>> create(Ref ref) {
@@ -773,8 +822,9 @@ final class FilteredActionsProvider extends $FunctionalProvider<
   Override overrideWithValue(AsyncValue<List<ActionModel>> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride:
-          $SyncValueProvider<AsyncValue<List<ActionModel>>>(value),
+      providerOverride: $SyncValueProvider<AsyncValue<List<ActionModel>>>(
+        value,
+      ),
     );
   }
 }
@@ -791,15 +841,15 @@ final class ActionLogNotifierProvider
     extends $NotifierProvider<ActionLogNotifier, AsyncValue<ActionLogResult?>> {
   /// Notifier that handles logging actions.
   ActionLogNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'actionLogProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionLogProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$actionLogNotifierHash();
@@ -827,13 +877,20 @@ abstract class _$ActionLogNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref
-        as $Ref<AsyncValue<ActionLogResult?>, AsyncValue<ActionLogResult?>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<ActionLogResult?>, AsyncValue<ActionLogResult?>>,
-        AsyncValue<ActionLogResult?>,
-        Object?,
-        Object?>;
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<ActionLogResult?>, AsyncValue<ActionLogResult?>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<ActionLogResult?>,
+                AsyncValue<ActionLogResult?>
+              >,
+              AsyncValue<ActionLogResult?>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

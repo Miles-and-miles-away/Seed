@@ -75,14 +75,10 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
     if (!mounted) return;
 
     if (launched) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.feedbackThanks)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.feedbackThanks)));
       navigator.pop();
     } else {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.feedbackMailFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.feedbackMailFailed)));
     }
   }
 
@@ -149,10 +145,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
 }
 
 class _CategorySection extends StatelessWidget {
-  const _CategorySection({
-    required this.selected,
-    required this.onChanged,
-  });
+  const _CategorySection({required this.selected, required this.onChanged});
 
   final FeedbackCategory selected;
   final ValueChanged<FeedbackCategory> onChanged;

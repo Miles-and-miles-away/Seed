@@ -49,9 +49,7 @@ bool isEcoFactLocked(Ref ref) {
 @riverpod
 bool hasUnreadFact(Ref ref) {
   final viewed = ref.watch(isTodayFactViewedProvider);
-  final unlocked = ref.watch(
-    isTodayChallengeCompletedProvider,
-  );
+  final unlocked = ref.watch(isTodayChallengeCompletedProvider);
   return !viewed && unlocked;
 }
 
@@ -147,8 +145,8 @@ class FactViewedNotifier extends _$FactViewedNotifier {
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)
           .update({
-        AppConstants.fieldViewedFactDates: FieldValue.arrayUnion([dateKey]),
-      });
+            AppConstants.fieldViewedFactDates: FieldValue.arrayUnion([dateKey]),
+          });
     });
 
     if (ref.mounted) {

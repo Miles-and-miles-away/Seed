@@ -39,9 +39,7 @@ void main() {
 
   Widget buildScreen(List<EcoFactInboxItem> items) {
     return ProviderScope(
-      overrides: [
-        ecoFactInboxProvider.overrideWith((_) async => items),
-      ],
+      overrides: [ecoFactInboxProvider.overrideWith((_) async => items)],
       child: const MaterialApp(
         localizationsDelegates: [
           AppLocalizations.delegate,
@@ -94,23 +92,20 @@ void main() {
       expect(find.text('Read earlier'), findsOneWidget);
     });
 
-    testWidgets(
-      'locked today row shows locked subject',
-      (tester) async {
-        final items = [
-          buildItem(
-            date: DateTime.now(),
-            isRead: false,
-            isLocked: true,
-            name: 'Should be hidden',
-          ),
-        ];
-        await tester.pumpWidget(buildScreen(items));
-        await tester.pumpAndSettle();
+    testWidgets('locked today row shows locked subject', (tester) async {
+      final items = [
+        buildItem(
+          date: DateTime.now(),
+          isRead: false,
+          isLocked: true,
+          name: 'Should be hidden',
+        ),
+      ];
+      await tester.pumpWidget(buildScreen(items));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Locked eco-fact'), findsOneWidget);
-        expect(find.text('Should be hidden'), findsNothing);
-      },
-    );
+      expect(find.text('Locked eco-fact'), findsOneWidget);
+      expect(find.text('Should be hidden'), findsNothing);
+    });
   });
 }

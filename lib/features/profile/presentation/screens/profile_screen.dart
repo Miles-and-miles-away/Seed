@@ -85,7 +85,7 @@ class ProfileScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => Center(
+        error: (_, _) => Center(
           child: ErrorDisplay(
             onRetry: () => ref.invalidate(currentUserProvider),
           ),
@@ -145,8 +145,9 @@ class ProfileScreen extends ConsumerWidget {
                 Text(
                   user.email,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer
-                        .withValues(alpha: opacityStrong),
+                    color: colorScheme.onPrimaryContainer.withValues(
+                      alpha: opacityStrong,
+                    ),
                   ),
                 ),
                 if (user.createdAt != null) ...[
@@ -156,16 +157,18 @@ class ProfileScreen extends ConsumerWidget {
                       Icon(
                         Icons.calendar_today_outlined,
                         size: 14,
-                        color: colorScheme.onPrimaryContainer
-                            .withValues(alpha: opacityStrong),
+                        color: colorScheme.onPrimaryContainer.withValues(
+                          alpha: opacityStrong,
+                        ),
                       ),
                       const SizedBox(width: spacingSm),
                       Text(
                         '${l10n.profileMemberSince} '
                         '${DateFormat.yMMMd(locale).format(user.createdAt!)}',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onPrimaryContainer
-                              .withValues(alpha: opacityStrong),
+                          color: colorScheme.onPrimaryContainer.withValues(
+                            alpha: opacityStrong,
+                          ),
                         ),
                       ),
                     ],
@@ -235,11 +238,7 @@ class ProfileScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.star,
-                      size: 16,
-                      color: colorScheme.tertiary,
-                    ),
+                    Icon(Icons.star, size: 16, color: colorScheme.tertiary),
                     const SizedBox(width: spacingSm),
                     Text(
                       l10n.profileEvolutionStage(evolutionStage),
@@ -257,10 +256,7 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: spacingXl),
 
           // Level progress bar
-          LevelProgressBar(
-            progress: levelProgress,
-            currentLevel: user.level,
-          ),
+          LevelProgressBar(progress: levelProgress, currentLevel: user.level),
 
           const SizedBox(height: spacingSm),
 
@@ -312,11 +308,8 @@ class ProfileScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has already
                 // broken the streak (the stored value is only corrected
                 // at the next log).
-                value: '${displayedStreak(
-                  storedStreak: user.currentStreak,
-                  lastActionDate: user.lastActionDate,
-                  now: DateTime.now(),
-                )}',
+                value:
+                    '${displayedStreak(storedStreak: user.currentStreak, lastActionDate: user.lastActionDate, now: DateTime.now())}',
                 label: l10n.profileCurrentStreak,
                 iconColor: Colors.orange,
               ),

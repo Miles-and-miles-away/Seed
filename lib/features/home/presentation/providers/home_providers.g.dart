@@ -33,15 +33,15 @@ final class HomeVisitSignalProvider
   /// offscreen, leaving it already centered (no visible jump) the next time the
   /// kept-alive [IndexedStack] branch is shown.
   HomeVisitSignalProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'homeVisitSignalProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'homeVisitSignalProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$homeVisitSignalHash();
@@ -74,8 +74,14 @@ abstract class _$HomeVisitSignal extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element
-        as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

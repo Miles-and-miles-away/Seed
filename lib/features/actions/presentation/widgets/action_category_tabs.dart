@@ -37,9 +37,7 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
     super.initState();
     final midCycle = _repeatCount ~/ 2;
     final offset = midCycle * _cycleLength * _estimatedChipWidth;
-    _scrollController = ScrollController(
-      initialScrollOffset: offset,
-    );
+    _scrollController = ScrollController(initialScrollOffset: offset);
   }
 
   @override
@@ -58,9 +56,7 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: spacingLg,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: spacingLg),
         itemCount: _cycleLength * _repeatCount,
         itemBuilder: (context, index) {
           final i = index % _cycleLength;
@@ -117,11 +113,7 @@ class _CategoryChip extends StatelessWidget {
     return FilterChip(
       selected: isSelected,
       showCheckmark: false,
-      avatar: Icon(
-        icon,
-        size: 18,
-        color: isSelected ? Colors.white : color,
-      ),
+      avatar: Icon(icon, size: 18, color: isSelected ? Colors.white : color),
       label: Text(label),
       labelStyle: theme.textTheme.labelMedium?.copyWith(
         color: isSelected ? Colors.white : theme.colorScheme.onSurface,
@@ -132,9 +124,7 @@ class _CategoryChip extends StatelessWidget {
       side: BorderSide(
         color: isSelected
             ? color
-            : theme.colorScheme.outline.withValues(
-                alpha: opacityMuted,
-              ),
+            : theme.colorScheme.outline.withValues(alpha: opacityMuted),
       ),
       onSelected: (_) => onTap(),
     );

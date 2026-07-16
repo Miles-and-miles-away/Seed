@@ -21,11 +21,6 @@ List<ImpactEquivalency> computeImpactEquivalencies(
 ) {
   final g = (totalGrams < 0 ? 0 : totalGrams).toDouble();
   return metadata
-      .map(
-        (m) => ImpactEquivalency(
-          type: m.type,
-          value: g / m.gramsPerUnit,
-        ),
-      )
+      .map((m) => ImpactEquivalency(type: m.type, value: g / m.gramsPerUnit))
       .toList(growable: false);
 }

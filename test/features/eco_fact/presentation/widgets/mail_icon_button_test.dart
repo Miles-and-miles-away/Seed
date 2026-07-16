@@ -9,14 +9,8 @@ void main() {
   group('MailIconButton', () {
     Widget buildWidget({bool hasUnread = true}) {
       return ProviderScope(
-        overrides: [
-          hasUnreadFactProvider.overrideWith((_) => hasUnread),
-        ],
-        child: const MaterialApp(
-          home: Scaffold(
-            appBar: _TestAppBar(),
-          ),
-        ),
+        overrides: [hasUnreadFactProvider.overrideWith((_) => hasUnread)],
+        child: const MaterialApp(home: Scaffold(appBar: _TestAppBar())),
       );
     }
 
@@ -60,8 +54,6 @@ class _TestAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      actions: const [MailIconButton()],
-    );
+    return AppBar(actions: const [MailIconButton()]);
   }
 }

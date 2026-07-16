@@ -27,10 +27,7 @@ abstract class ActionLogModel with _$ActionLogModel {
   /// Creates an ActionLogModel from a Firestore document.
   factory ActionLogModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>? ?? {};
-    return ActionLogModel.fromJson({
-      'id': doc.id,
-      ...data,
-    });
+    return ActionLogModel.fromJson({'id': doc.id, ...data});
   }
 }
 

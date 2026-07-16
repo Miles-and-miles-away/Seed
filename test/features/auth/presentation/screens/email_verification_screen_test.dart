@@ -160,8 +160,9 @@ void main() {
       expect(find.text('Verification email sent!'), findsOneWidget);
     });
 
-    testWidgets('tapping verify button calls reload when email not verified',
-        (tester) async {
+    testWidgets('tapping verify button calls reload when email not verified', (
+      tester,
+    ) async {
       setLargeScreenSize(tester);
       // Setup mock to return unverified user
       when(() => mockUser.reload()).thenAnswer((_) async {});
@@ -256,8 +257,9 @@ void main() {
       expect(find.text(''), findsWidgets);
     });
 
-    testWidgets('container with email icon has correct decoration',
-        (tester) async {
+    testWidgets('container with email icon has correct decoration', (
+      tester,
+    ) async {
       setLargeScreenSize(tester);
       await tester.pumpWidget(
         createTestWidget(

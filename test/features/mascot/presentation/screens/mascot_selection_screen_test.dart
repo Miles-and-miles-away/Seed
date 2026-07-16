@@ -23,11 +23,9 @@ void main() {
   // override list is built per pump so closures are not shared across the
   // independent ProviderScopes each test creates.
   ProviderScope wrap(Widget child) => ProviderScope(
-        overrides: [
-          currentUserProvider.overrideWith((_) => Stream.value(null)),
-        ],
-        child: child,
-      );
+    overrides: [currentUserProvider.overrideWith((_) => Stream.value(null))],
+    child: child,
+  );
 
   // Give the test a tall viewport so the full-height selection screen does
   // not overflow the default 800x600 surface (an overflow throws and tears
@@ -55,10 +53,7 @@ void main() {
   // settle. Each step yields to the real event loop via runAsync so the
   // (cache-warmed) species future can complete and the screen rebuild past
   // its loading spinner.
-  Future<void> pumpUntilFound(
-    WidgetTester tester,
-    Finder finder,
-  ) async {
+  Future<void> pumpUntilFound(WidgetTester tester, Finder finder) async {
     for (var i = 0; i < 30 && finder.evaluate().isEmpty; i++) {
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 20)),
@@ -120,16 +115,14 @@ void main() {
       await tester.tap(find.text("Let's Grow Together!"));
       await tester.pump();
 
-      expect(
-        find.text('Name must be 20 characters or less'),
-        findsOneWidget,
-      );
+      expect(find.text('Name must be 20 characters or less'), findsOneWidget);
 
       await disposeAndFlush(tester);
     });
 
-    testWidgets('single-character name is valid and navigates home',
-        (tester) async {
+    testWidgets('single-character name is valid and navigates home', (
+      tester,
+    ) async {
       await sizeViewport(tester);
       await warmSpeciesBundle(tester);
       final router = GoRouter(
@@ -137,13 +130,11 @@ void main() {
         routes: [
           GoRoute(
             path: '/mascot-selection',
-            builder: (_, __) => const MascotSelectionScreen(),
+            builder: (_, _) => const MascotSelectionScreen(),
           ),
           GoRoute(
             path: '/home',
-            builder: (_, __) => const Scaffold(
-              body: Text('HOME-OK'),
-            ),
+            builder: (_, _) => const Scaffold(body: Text('HOME-OK')),
           ),
         ],
       );
@@ -167,10 +158,7 @@ void main() {
       // Navigation to /home means the validator passed (1 char is valid).
       expect(find.text('HOME-OK'), findsOneWidget);
       expect(find.text('Please enter a name'), findsNothing);
-      expect(
-        find.text('Name must be 20 characters or less'),
-        findsNothing,
-      );
+      expect(find.text('Name must be 20 characters or less'), findsNothing);
 
       await disposeAndFlush(tester);
     });

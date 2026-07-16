@@ -24,17 +24,17 @@ void main() {
     const channel = MethodChannel('plugins.flutter.io/path_provider');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (methodCall) async {
-      if (methodCall.method == 'getTemporaryDirectory') {
-        return '/tmp';
-      }
-      if (methodCall.method == 'getApplicationSupportDirectory') {
-        return '/tmp';
-      }
-      if (methodCall.method == 'getApplicationDocumentsDirectory') {
-        return '/tmp';
-      }
-      return null;
-    });
+          if (methodCall.method == 'getTemporaryDirectory') {
+            return '/tmp';
+          }
+          if (methodCall.method == 'getApplicationSupportDirectory') {
+            return '/tmp';
+          }
+          if (methodCall.method == 'getApplicationDocumentsDirectory') {
+            return '/tmp';
+          }
+          return null;
+        });
   });
 
   group('HomeScreen', () {
@@ -87,8 +87,9 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('displays mascot selection prompt when no mascot',
-        (tester) async {
+    testWidgets('displays mascot selection prompt when no mascot', (
+      tester,
+    ) async {
       await pumpHomeScreen(tester);
 
       // Verify mascot selection prompt is shown (uses localized strings)
@@ -111,15 +112,13 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('displays my goal prompt card when no goal set',
-        (tester) async {
+    testWidgets('displays my goal prompt card when no goal set', (
+      tester,
+    ) async {
       await pumpHomeScreen(tester);
 
       expect(find.text('My Goal'), findsOneWidget);
-      expect(
-        find.text('Tap to set your sustainability goal'),
-        findsOneWidget,
-      );
+      expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
 
       await disposeAndFlush(tester);
     });
@@ -155,8 +154,9 @@ void main() {
       expect(find.byType(SliverAppBar), findsOneWidget);
 
       // Verify it's configured as floating
-      final sliverAppBar =
-          tester.widget<SliverAppBar>(find.byType(SliverAppBar));
+      final sliverAppBar = tester.widget<SliverAppBar>(
+        find.byType(SliverAppBar),
+      );
       expect(sliverAppBar.floating, isTrue);
 
       await disposeAndFlush(tester);
@@ -169,10 +169,7 @@ void main() {
       expect(find.byType(CustomScrollView), findsOneWidget);
 
       // Perform a scroll gesture
-      await tester.drag(
-        find.byType(CustomScrollView),
-        const Offset(0, -200),
-      );
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -200));
       // Use pump instead of pumpAndSettle to avoid infinite animation timeout
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
@@ -195,8 +192,9 @@ void main() {
     testWidgets('app bar title is centered', (tester) async {
       await pumpHomeScreen(tester);
 
-      final sliverAppBar =
-          tester.widget<SliverAppBar>(find.byType(SliverAppBar));
+      final sliverAppBar = tester.widget<SliverAppBar>(
+        find.byType(SliverAppBar),
+      );
       expect(sliverAppBar.centerTitle, isTrue);
 
       await disposeAndFlush(tester);

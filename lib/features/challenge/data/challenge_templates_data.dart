@@ -13,19 +13,11 @@ Future<ChallengeTemplateData> loadChallengeTemplates() async {
   final json = jsonDecode(jsonString) as Map<String, dynamic>;
 
   final daily = (json['daily'] as List<dynamic>)
-      .map(
-        (e) => DailyChallengeTemplate.fromJson(
-          e as Map<String, dynamic>,
-        ),
-      )
+      .map((e) => DailyChallengeTemplate.fromJson(e as Map<String, dynamic>))
       .toList();
 
   final multiDay = (json['multiDay'] as List<dynamic>)
-      .map(
-        (e) => MultiDayChallengeTemplate.fromJson(
-          e as Map<String, dynamic>,
-        ),
-      )
+      .map((e) => MultiDayChallengeTemplate.fromJson(e as Map<String, dynamic>))
       .toList();
 
   return ChallengeTemplateData(daily: daily, multiDay: multiDay);

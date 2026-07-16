@@ -10,8 +10,8 @@ class AuthRepository {
   AuthRepository({
     required AuthRemoteDataSource authDataSource,
     required UserRemoteDataSource userDataSource,
-  })  : _authDataSource = authDataSource,
-        _userDataSource = userDataSource;
+  }) : _authDataSource = authDataSource,
+       _userDataSource = userDataSource;
 
   final AuthRemoteDataSource _authDataSource;
   final UserRemoteDataSource _userDataSource;
@@ -102,8 +102,9 @@ class AuthRepository {
 
   /// Updates the email verified status in Firestore.
   Future<void> updateEmailVerified(String uid, {required bool verified}) async {
-    await _userDataSource
-        .updateUser(uid, {AppConstants.fieldEmailVerified: verified});
+    await _userDataSource.updateUser(uid, {
+      AppConstants.fieldEmailVerified: verified,
+    });
   }
 
   /// Gets an existing user or creates a new one.
@@ -114,10 +115,9 @@ class AuthRepository {
     } else {
       // Update emailVerified status if it has changed
       if (appUser.emailVerified != firebaseUser.emailVerified) {
-        await _userDataSource.updateUser(
-          firebaseUser.uid,
-          {AppConstants.fieldEmailVerified: firebaseUser.emailVerified},
-        );
+        await _userDataSource.updateUser(firebaseUser.uid, {
+          AppConstants.fieldEmailVerified: firebaseUser.emailVerified,
+        });
         appUser = appUser.copyWith(emailVerified: firebaseUser.emailVerified);
       }
     }
@@ -128,10 +128,9 @@ class AuthRepository {
   Future<void> updateDisplayName(String displayName) async {
     final user = currentUser;
     if (user == null) return;
-    await _userDataSource.updateUser(
-      user.uid,
-      {AppConstants.fieldDisplayName: displayName},
-    );
+    await _userDataSource.updateUser(user.uid, {
+      AppConstants.fieldDisplayName: displayName,
+    });
     // Keep the FirebaseAuth profile in sync. Best-effort: Firestore is the
     // source of truth, so a profile-update failure must not fail the save.
     try {
@@ -145,10 +144,9 @@ class AuthRepository {
   Future<void> updatePersonalGoal(String personalGoal) async {
     final user = currentUser;
     if (user == null) return;
-    await _userDataSource.updateUser(
-      user.uid,
-      {AppConstants.fieldPersonalGoal: personalGoal},
-    );
+    await _userDataSource.updateUser(user.uid, {
+      AppConstants.fieldPersonalGoal: personalGoal,
+    });
   }
 
   /// Clamps provider display names so they satisfy Firestore rules

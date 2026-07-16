@@ -49,17 +49,17 @@ abstract class MascotSpeciesModel with _$MascotSpeciesModel {
 extension MascotSpeciesModelX on MascotSpeciesModel {
   /// Gets the localized name based on the given locale.
   String name(String locale) => switch (locale) {
-        'ja' => nameJa,
-        'es' when nameEs.isNotEmpty => nameEs,
-        _ => nameEn,
-      };
+    'ja' => nameJa,
+    'es' when nameEs.isNotEmpty => nameEs,
+    _ => nameEn,
+  };
 
   /// Gets the localized description based on the given locale.
   String description(String locale) => switch (locale) {
-        'ja' => descriptionJa,
-        'es' when descriptionEs.isNotEmpty => descriptionEs,
-        _ => descriptionEn,
-      };
+    'ja' => descriptionJa,
+    'es' when descriptionEs.isNotEmpty => descriptionEs,
+    _ => descriptionEn,
+  };
 
   /// Gets the evolution stage for a given level.
   EvolutionStageModel getStageForLevel(int level) {

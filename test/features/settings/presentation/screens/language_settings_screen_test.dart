@@ -47,8 +47,9 @@ void main() {
       expect(find.text('English'), findsWidgets);
     });
 
-    testWidgets('shows Spanish option with native name and subtitle',
-        (tester) async {
+    testWidgets('shows Spanish option with native name and subtitle', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(child: const LanguageSettingsScreen()),
       );
@@ -58,8 +59,9 @@ void main() {
       expect(find.text('Spanish'), findsOneWidget);
     });
 
-    testWidgets('shows Japanese option with native name and subtitle',
-        (tester) async {
+    testWidgets('shows Japanese option with native name and subtitle', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(child: const LanguageSettingsScreen()),
       );
@@ -69,12 +71,11 @@ void main() {
       expect(find.text('Japanese'), findsOneWidget);
     });
 
-    testWidgets('shows checkmark on current language (English)',
-        (tester) async {
+    testWidgets('shows checkmark on current language (English)', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const LanguageSettingsScreen(),
-        ),
+        createTestWidget(child: const LanguageSettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -82,8 +83,9 @@ void main() {
       expect(find.byIcon(Icons.check_circle), findsOneWidget);
     });
 
-    testWidgets('shows checkmark on current language (Spanish)',
-        (tester) async {
+    testWidgets('shows checkmark on current language (Spanish)', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const LanguageSettingsScreen(),
@@ -95,8 +97,9 @@ void main() {
       expect(find.byIcon(Icons.check_circle), findsOneWidget);
     });
 
-    testWidgets('shows checkmark on current language (Japanese)',
-        (tester) async {
+    testWidgets('shows checkmark on current language (Japanese)', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const LanguageSettingsScreen(),
@@ -126,10 +129,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // The description about choosing preferred language should be visible
-      expect(
-        find.textContaining('preferred'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('preferred'), findsOneWidget);
     });
 
     testWidgets('displays note about content', (tester) async {
@@ -139,10 +139,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // The note about action library content
-      expect(
-        find.textContaining('content'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('content'), findsOneWidget);
     });
 
     testWidgets('renders ListTile for each language', (tester) async {

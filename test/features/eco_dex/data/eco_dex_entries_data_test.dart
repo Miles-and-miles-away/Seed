@@ -35,7 +35,8 @@ void main() {
         expect(
           validCats.contains(entry.category),
           isTrue,
-          reason: 'Entry ${entry.id} has invalid category '
+          reason:
+              'Entry ${entry.id} has invalid category '
               '"${entry.category}"',
         );
       }

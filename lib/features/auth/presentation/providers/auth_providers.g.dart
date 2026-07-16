@@ -16,15 +16,15 @@ final class FirebaseAuthProvider
     extends $FunctionalProvider<FirebaseAuth, FirebaseAuth, FirebaseAuth>
     with $Provider<FirebaseAuth> {
   FirebaseAuthProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'firebaseAuthProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'firebaseAuthProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$firebaseAuthHash();
@@ -53,18 +53,24 @@ String _$firebaseAuthHash() => r'8f84097cccd00af817397c1715c5f537399ba780';
 @ProviderFor(firestore)
 final firestoreProvider = FirestoreProvider._();
 
-final class FirestoreProvider extends $FunctionalProvider<FirebaseFirestore,
-    FirebaseFirestore, FirebaseFirestore> with $Provider<FirebaseFirestore> {
+final class FirestoreProvider
+    extends
+        $FunctionalProvider<
+          FirebaseFirestore,
+          FirebaseFirestore,
+          FirebaseFirestore
+        >
+    with $Provider<FirebaseFirestore> {
   FirestoreProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'firestoreProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'firestoreProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$firestoreHash();
@@ -72,8 +78,8 @@ final class FirestoreProvider extends $FunctionalProvider<FirebaseFirestore,
   @$internal
   @override
   $ProviderElement<FirebaseFirestore> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   FirebaseFirestore create(Ref ref) {
@@ -94,20 +100,24 @@ String _$firestoreHash() => r'597b1a9eb96f2fae51f5b578f4b5debe4f6d30c6';
 @ProviderFor(authRemoteDataSource)
 final authRemoteDataSourceProvider = AuthRemoteDataSourceProvider._();
 
-final class AuthRemoteDataSourceProvider extends $FunctionalProvider<
-    AuthRemoteDataSource,
-    AuthRemoteDataSource,
-    AuthRemoteDataSource> with $Provider<AuthRemoteDataSource> {
+final class AuthRemoteDataSourceProvider
+    extends
+        $FunctionalProvider<
+          AuthRemoteDataSource,
+          AuthRemoteDataSource,
+          AuthRemoteDataSource
+        >
+    with $Provider<AuthRemoteDataSource> {
   AuthRemoteDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authRemoteDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRemoteDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authRemoteDataSourceHash();
@@ -115,8 +125,8 @@ final class AuthRemoteDataSourceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<AuthRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   AuthRemoteDataSource create(Ref ref) {
@@ -138,20 +148,24 @@ String _$authRemoteDataSourceHash() =>
 @ProviderFor(userRemoteDataSource)
 final userRemoteDataSourceProvider = UserRemoteDataSourceProvider._();
 
-final class UserRemoteDataSourceProvider extends $FunctionalProvider<
-    UserRemoteDataSource,
-    UserRemoteDataSource,
-    UserRemoteDataSource> with $Provider<UserRemoteDataSource> {
+final class UserRemoteDataSourceProvider
+    extends
+        $FunctionalProvider<
+          UserRemoteDataSource,
+          UserRemoteDataSource,
+          UserRemoteDataSource
+        >
+    with $Provider<UserRemoteDataSource> {
   UserRemoteDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'userRemoteDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userRemoteDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$userRemoteDataSourceHash();
@@ -159,8 +173,8 @@ final class UserRemoteDataSourceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<UserRemoteDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   UserRemoteDataSource create(Ref ref) {
@@ -186,15 +200,15 @@ final class AuthRepositoryProvider
     extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
     with $Provider<AuthRepository> {
   AuthRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authRepositoryHash();
@@ -232,15 +246,15 @@ final class AuthStateChangesProvider
     with $FutureModifier<User?>, $StreamProvider<User?> {
   /// Stream of Firebase auth state changes.
   AuthStateChangesProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authStateChangesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authStateChangesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authStateChangesHash();
@@ -285,15 +299,15 @@ final class UserIdProvider
   /// action, so whole-doc watchers tear down and recreate their
   /// Firestore listeners/queries each time.
   UserIdProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'userIdProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userIdProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$userIdHash();
@@ -328,21 +342,26 @@ final currentUserProvider = CurrentUserProvider._();
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
 
-final class CurrentUserProvider extends $FunctionalProvider<
-        AsyncValue<AppUserModel?>, AppUserModel?, Stream<AppUserModel?>>
+final class CurrentUserProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<AppUserModel?>,
+          AppUserModel?,
+          Stream<AppUserModel?>
+        >
     with $FutureModifier<AppUserModel?>, $StreamProvider<AppUserModel?> {
   /// Stream of the current app user from Firestore.
   /// Updates in real-time when user data changes.
   CurrentUserProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'currentUserProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentUserProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$currentUserHash();
@@ -350,8 +369,8 @@ final class CurrentUserProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<AppUserModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<AppUserModel?> create(Ref ref) {
@@ -359,7 +378,7 @@ final class CurrentUserProvider extends $FunctionalProvider<
   }
 }
 
-String _$currentUserHash() => r'f3986f3fe006ef98b1558b25cc245b4401df5188';
+String _$currentUserHash() => r'ff66b69d4f47d38fb10700fc72ecc47921396388';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
@@ -374,15 +393,15 @@ final class AuthNotifierProvider
   /// Notifier that handles authentication actions.
   /// Uses AsyncValue to track loading and error states.
   AuthNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authNotifierHash();
@@ -411,11 +430,14 @@ abstract class _$AuthNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

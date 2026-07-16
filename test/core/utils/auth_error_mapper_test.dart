@@ -63,8 +63,7 @@ void main() {
         );
       });
 
-      test(
-          'collapses user-not-found, wrong-password and invalid-credential '
+      test('collapses user-not-found, wrong-password and invalid-credential '
           'into one shared message (no account enumeration)', () {
         // Same message for all three so responses never reveal whether
         // an email is registered.
@@ -184,10 +183,7 @@ void main() {
           mapAuthErrorToMessage(errorWithCode('weak-password'), l10nEs),
           l10nEs.errorAuthWeakPassword,
         );
-        expect(
-          l10nEs.errorAuthWeakPassword,
-          isNot(l10n.errorAuthWeakPassword),
-        );
+        expect(l10nEs.errorAuthWeakPassword, isNot(l10n.errorAuthWeakPassword));
       });
     });
   });

@@ -21,11 +21,11 @@ void main() {
   });
 
   PackageInfo fakePackageInfo() => PackageInfo(
-        appName: 'Seed',
-        packageName: 'com.seed.app',
-        version: '1.2.0',
-        buildNumber: '42',
-      );
+    appName: 'Seed',
+    packageName: 'com.seed.app',
+    version: '1.2.0',
+    buildNumber: '42',
+  );
 
   Widget createTestWidget({bool packageInfoError = false}) {
     return ProviderScope(
@@ -47,8 +47,9 @@ void main() {
   }
 
   group('FeedbackScreen', () {
-    testWidgets('renders title, category chips and submit button',
-        (tester) async {
+    testWidgets('renders title, category chips and submit button', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -59,8 +60,9 @@ void main() {
       expect(find.text('Submit Feedback'), findsOneWidget);
     });
 
-    testWidgets('submit button is disabled when description is empty',
-        (tester) async {
+    testWidgets('submit button is disabled when description is empty', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -68,8 +70,9 @@ void main() {
       expect(button.onPressed, isNull);
     });
 
-    testWidgets('submit button enables once description is non-empty',
-        (tester) async {
+    testWidgets('submit button enables once description is non-empty', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -80,8 +83,9 @@ void main() {
       expect(button.onPressed, isNotNull);
     });
 
-    testWidgets('submit button stays disabled for whitespace-only input',
-        (tester) async {
+    testWidgets('submit button stays disabled for whitespace-only input', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -100,8 +104,9 @@ void main() {
       expect(field.maxLength, feedbackDescriptionMaxLength);
     });
 
-    testWidgets('submit recovers when package info fails to load',
-        (tester) async {
+    testWidgets('submit recovers when package info fails to load', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(packageInfoError: true));
       await tester.pumpAndSettle();
 
@@ -150,14 +155,8 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('App v1.2.0 (42)'),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('en'),
-        findsWidgets,
-      );
+      expect(find.textContaining('App v1.2.0 (42)'), findsOneWidget);
+      expect(find.textContaining('en'), findsWidgets);
     });
 
     testWidgets('shows metadata note explaining what is sent', (tester) async {

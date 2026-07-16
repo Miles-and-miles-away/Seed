@@ -9,36 +9,30 @@ import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/egg_progress_widget.dart';
 
 Widget _wrap(AppUserModel? user) => ProviderScope(
-      overrides: [
-        currentUserProvider.overrideWith((_) => Stream.value(user)),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(
-          body: Center(
-            child: SizedBox(
-              width: 120,
-              height: 140,
-              child: EggProgressWidget(size: 100),
-            ),
-          ),
+  overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+  child: MaterialApp(
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: const Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 120,
+          height: 140,
+          child: EggProgressWidget(size: 100),
         ),
       ),
-    );
+    ),
+  ),
+);
 
 void main() {
   testWidgets('renders nothing when there is no egg', (tester) async {
-    await tester.pumpWidget(
-      _wrap(
-        const AppUserModel(uid: 'u', email: 'e'),
-      ),
-    );
+    await tester.pumpWidget(_wrap(const AppUserModel(uid: 'u', email: 'e')));
     await tester.pump();
 
     // SizedBox.shrink has a fixed layout; no circular progress should render.
@@ -54,10 +48,7 @@ void main() {
         AppUserModel(
           uid: 'u',
           email: 'e',
-          egg: EggModel(
-            receivedAt: DateTime.utc(2026),
-            hatchingStreakDays: 10,
-          ),
+          egg: EggModel(receivedAt: DateTime.utc(2026), hatchingStreakDays: 10),
         ),
       ),
     );
@@ -73,10 +64,7 @@ void main() {
         AppUserModel(
           uid: 'u',
           email: 'e',
-          egg: EggModel(
-            receivedAt: DateTime.utc(2026),
-            hatchingStreakDays: 15,
-          ),
+          egg: EggModel(receivedAt: DateTime.utc(2026), hatchingStreakDays: 15),
         ),
       ),
     );

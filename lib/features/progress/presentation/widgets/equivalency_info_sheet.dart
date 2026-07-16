@@ -96,10 +96,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
                     ...metadataAsync.when(
                       data: (metadata) => [
                         for (final m in metadata)
-                          _EquivalencyExplainer(
-                            metadata: m,
-                            locale: locale,
-                          ),
+                          _EquivalencyExplainer(metadata: m, locale: locale),
                       ],
                       loading: () => const [
                         Padding(
@@ -107,7 +104,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
                           child: Center(child: CircularProgressIndicator()),
                         ),
                       ],
-                      error: (_, __) => const [SizedBox.shrink()],
+                      error: (_, _) => const [SizedBox.shrink()],
                     ),
                   ],
                 ),
@@ -121,10 +118,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
 }
 
 class _EquivalencyExplainer extends StatelessWidget {
-  const _EquivalencyExplainer({
-    required this.metadata,
-    required this.locale,
-  });
+  const _EquivalencyExplainer({required this.metadata, required this.locale});
 
   final EquivalencyMetadata metadata;
   final String locale;
@@ -133,8 +127,9 @@ class _EquivalencyExplainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final formattedFactor =
-        NumberFormat.decimalPattern(locale).format(metadata.gramsPerUnit);
+    final formattedFactor = NumberFormat.decimalPattern(
+      locale,
+    ).format(metadata.gramsPerUnit);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: spacingLg),
@@ -192,11 +187,11 @@ class _EquivalencyExplainer extends StatelessWidget {
   }
 
   IconData _iconFor(EquivalencyType type) => switch (type) {
-        EquivalencyType.trees => Icons.park,
-        EquivalencyType.carKm => Icons.directions_car_outlined,
-        EquivalencyType.phoneCharges => Icons.battery_charging_full,
-        EquivalencyType.burgers => Icons.lunch_dining,
-      };
+    EquivalencyType.trees => Icons.park,
+    EquivalencyType.carKm => Icons.directions_car_outlined,
+    EquivalencyType.phoneCharges => Icons.battery_charging_full,
+    EquivalencyType.burgers => Icons.lunch_dining,
+  };
 
   String _labelFor(EquivalencyType type, AppLocalizations l10n) =>
       switch (type) {

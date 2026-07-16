@@ -6,6 +6,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/mascot_display.dart';
@@ -38,19 +39,15 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
     setState(() => _isSubmitting = true);
 
-    final speciesList = ref
-        .read(
-          mascotSpeciesDataProvider,
-        )
-        .value;
-    if (speciesList == null) return;
+    final allSpecies = ref.read(mascotSpeciesDataProvider).value;
+    if (allSpecies == null) return;
+    final speciesList = selectableSpecies(allSpecies);
 
     final species = speciesList[_selectedSpeciesIndex];
 
-    await ref.read(mascotProvider.notifier).selectMascot(
-          speciesId: species.id,
-          name: _nameController.text.trim(),
-        );
+    await ref
+        .read(mascotProvider.notifier)
+        .selectMascot(speciesId: species.id, name: _nameController.text.trim());
 
     if (mounted) {
       // Navigate to home
@@ -66,13 +63,13 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
     final locale = Localizations.localeOf(context).languageCode;
 
     final speciesAsync = ref.watch(mascotSpeciesDataProvider);
-    final speciesList = speciesAsync.value;
+    final allSpecies = speciesAsync.value;
 
-    if (speciesList == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+    if (allSpecies == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
+    // Only currently-offered species can be picked as a starter.
+    final speciesList = selectableSpecies(allSpecies);
 
     return Scaffold(
       body: SafeArea(
@@ -122,6 +119,10 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                               .evolutionStages
                               .first
                               .assetPath,
+                          artboardName: speciesList[_selectedSpeciesIndex]
+                              .evolutionStages
+                              .first
+                              .artboardName,
                           size: 180,
                         ),
 
@@ -136,8 +137,9 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                         ),
                         const SizedBox(height: spacingSm),
                         Text(
-                          speciesList[_selectedSpeciesIndex]
-                              .description(locale),
+                          speciesList[_selectedSpeciesIndex].description(
+                            locale,
+                          ),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -155,9 +157,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                     labelText: l10n.mascotNameLabel,
                     hintText: l10n.mascotNameHint,
                     prefixIcon: const Icon(Icons.edit),
-                    border: OutlineInputBorder(
-                      borderRadius: borderRadiusMd,
-                    ),
+                    border: OutlineInputBorder(borderRadius: borderRadiusMd),
                   ),
                   textCapitalization: TextCapitalization.words,
                   validator: (value) {
@@ -178,20 +178,14 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                 FilledButton(
                   onPressed: _isSubmitting ? null : _onSubmit,
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: spacingLg,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: borderRadiusMd,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: spacingLg),
+                    shape: RoundedRectangleBorder(borderRadius: borderRadiusMd),
                   ),
                   child: _isSubmitting
                       ? const SizedBox(
                           width: spacingXxl,
                           height: spacingXxl,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : Text(l10n.mascotSelectionConfirm),
                 ),
@@ -222,9 +216,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
             onTap: () => setState(() => _selectedSpeciesIndex = index),
             child: Container(
               width: 80,
-              margin: const EdgeInsets.symmetric(
-                horizontal: spacingSm,
-              ),
+              margin: const EdgeInsets.symmetric(horizontal: spacingSm),
               decoration: BoxDecoration(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primaryContainer
@@ -242,6 +234,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                 children: [
                   MascotAvatar(
                     assetPath: species.evolutionStages.first.assetPath,
+                    artboardName: species.evolutionStages.first.artboardName,
                     size: 50,
                     animate: false,
                   ),

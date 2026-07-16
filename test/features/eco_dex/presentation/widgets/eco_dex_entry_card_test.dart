@@ -6,10 +6,7 @@ import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/domain/models/eco_dex_entry_state.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_card.dart';
 
-EcoDexEntry _entry({
-  String id = 'e1',
-  String nameEn = 'Forests',
-}) =>
+EcoDexEntry _entry({String id = 'e1', String nameEn = 'Forests'}) =>
     EcoDexEntry(
       id: id,
       category: 'forests',
@@ -29,14 +26,12 @@ EcoDexEntry _entry({
 
 void main() {
   Widget wrap(Widget child) => ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: SizedBox(width: 100, height: 100, child: child),
-            ),
-          ),
-        ),
-      );
+    child: MaterialApp(
+      home: Scaffold(
+        body: Center(child: SizedBox(width: 100, height: 100, child: child)),
+      ),
+    ),
+  );
 
   testWidgets('locked entry renders ??? label and lock icon', (tester) async {
     await tester.pumpWidget(

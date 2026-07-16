@@ -13,21 +13,21 @@ import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_provide
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_header.dart';
 
 EcoDexEntry _entry(String id) => EcoDexEntry(
-      id: id,
-      category: 'forests',
-      nameEn: id,
-      nameJa: '',
-      nameEs: '',
-      factEn: '',
-      factJa: '',
-      factEs: '',
-      sourceUrl: '',
-      iconName: id,
-      condition: const EcoDexCondition.totalActions(count: 1),
-      hintEn: '',
-      hintJa: '',
-      hintEs: '',
-    );
+  id: id,
+  category: 'forests',
+  nameEn: id,
+  nameJa: '',
+  nameEs: '',
+  factEn: '',
+  factJa: '',
+  factEs: '',
+  sourceUrl: '',
+  iconName: id,
+  condition: const EcoDexCondition.totalActions(count: 1),
+  hintEn: '',
+  hintJa: '',
+  hintEs: '',
+);
 
 Widget _wrap({
   required List<EcoDexEntry> entries,

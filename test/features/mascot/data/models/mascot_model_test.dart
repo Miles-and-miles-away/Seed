@@ -6,20 +6,14 @@ void main() {
   group('MascotModel', () {
     group('construction', () {
       test('creates model with required fields', () {
-        const model = MascotModel(
-          id: 'test-id',
-          speciesId: 'seed',
-        );
+        const model = MascotModel(id: 'test-id', speciesId: 'seed');
 
         expect(model.speciesId, 'seed');
         expect(model.id, 'test-id');
       });
 
       test('has correct default values', () {
-        const model = MascotModel(
-          id: 'test-id',
-          speciesId: 'seed',
-        );
+        const model = MascotModel(id: 'test-id', speciesId: 'seed');
 
         expect(model.name, '');
         expect(model.mascotPoints, 0);
@@ -73,9 +67,7 @@ void main() {
       });
 
       test('creates model from JSON with Timestamp', () {
-        final timestamp = Timestamp.fromDate(
-          DateTime(2024, 6, 15),
-        );
+        final timestamp = Timestamp.fromDate(DateTime(2024, 6, 15));
         final json = {
           'id': 'test-id',
           'speciesId': 'seed',
@@ -89,10 +81,7 @@ void main() {
       });
 
       test('handles missing optional fields', () {
-        final json = {
-          'id': 'test-id',
-          'speciesId': 'seed',
-        };
+        final json = {'id': 'test-id', 'speciesId': 'seed'};
 
         final model = MascotModel.fromJson(json);
 
@@ -133,10 +122,7 @@ void main() {
         final json = model.toJson();
 
         expect(json['createdAt'], isA<Timestamp>());
-        expect(
-          (json['createdAt'] as Timestamp).toDate(),
-          createdAt,
-        );
+        expect((json['createdAt'] as Timestamp).toDate(), createdAt);
       });
     });
 
@@ -183,10 +169,7 @@ void main() {
         );
 
         expect(model1, equals(model2));
-        expect(
-          model1.hashCode,
-          equals(model2.hashCode),
-        );
+        expect(model1.hashCode, equals(model2.hashCode));
       });
 
       test('models with different values not equal', () {

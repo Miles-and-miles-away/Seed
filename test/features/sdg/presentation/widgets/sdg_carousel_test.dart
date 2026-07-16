@@ -38,10 +38,7 @@ void main() {
           home: Scaffold(
             body: SizedBox(
               height: 200,
-              child: SdgCarousel(
-                goals: testGoals,
-                onGoalTap: (_) {},
-              ),
+              child: SdgCarousel(goals: testGoals, onGoalTap: (_) {}),
             ),
           ),
         ),
@@ -56,10 +53,7 @@ void main() {
           home: Scaffold(
             body: SizedBox(
               height: 200,
-              child: SdgCarousel(
-                goals: testGoals,
-                onGoalTap: (_) {},
-              ),
+              child: SdgCarousel(goals: testGoals, onGoalTap: (_) {}),
             ),
           ),
         ),
@@ -75,10 +69,7 @@ void main() {
           home: Scaffold(
             body: SizedBox(
               height: 200,
-              child: SdgCarousel(
-                goals: testGoals,
-                onGoalTap: (_) {},
-              ),
+              child: SdgCarousel(goals: testGoals, onGoalTap: (_) {}),
             ),
           ),
         ),
@@ -88,27 +79,29 @@ void main() {
       expect(find.byType(SdgCard), findsWidgets);
     });
 
-    testWidgets('recenters on the first goal when resetSignal changes',
-        (tester) async {
+    testWidgets('recenters on the first goal when resetSignal changes', (
+      tester,
+    ) async {
       Widget build(int signal) => MaterialApp(
-            home: Scaffold(
-              body: SizedBox(
-                height: 200,
-                width: 400,
-                child: SdgCarousel(
-                  goals: testGoals,
-                  onGoalTap: (_) {},
-                  resetSignal: signal,
-                ),
-              ),
+        home: Scaffold(
+          body: SizedBox(
+            height: 200,
+            width: 400,
+            child: SdgCarousel(
+              goals: testGoals,
+              onGoalTap: (_) {},
+              resetSignal: signal,
             ),
-          );
+          ),
+        ),
+      );
 
       await tester.pumpWidget(build(0));
       await tester.pump();
 
-      final controller =
-          tester.widget<ListView>(find.byType(ListView)).controller!;
+      final controller = tester
+          .widget<ListView>(find.byType(ListView))
+          .controller!;
       final centered = controller.offset;
 
       // Scroll away from the centered first goal.
@@ -166,10 +159,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -185,10 +175,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -207,10 +194,7 @@ void main() {
               child: SizedBox(
                 height: 200,
                 width: 150,
-                child: SdgCard(
-                  goal: testGoal,
-                  onTap: () => tapped = true,
-                ),
+                child: SdgCard(goal: testGoal, onTap: () => tapped = true),
               ),
             ),
           ),
@@ -232,10 +216,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -256,10 +237,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -277,10 +255,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -296,10 +271,7 @@ void main() {
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),
@@ -313,18 +285,16 @@ void main() {
       expect(textWidget.style?.color, Colors.white);
     });
 
-    testWidgets('renders Column with centered main axis alignment',
-        (tester) async {
+    testWidgets('renders Column with centered main axis alignment', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(
-                goal: testGoal,
-                onTap: () {},
-              ),
+              child: SdgCard(goal: testGoal, onTap: () {}),
             ),
           ),
         ),

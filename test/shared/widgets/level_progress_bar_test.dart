@@ -9,10 +9,7 @@ Widget wrapProgressBar(LevelProgressBar progressBar) {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: 300,
-            child: progressBar,
-          ),
+          child: SizedBox(width: 300, child: progressBar),
         ),
       ),
     ),
@@ -23,12 +20,7 @@ void main() {
   group('LevelProgressBar', () {
     testWidgets('displays current level label', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(
-          const LevelProgressBar(
-            progress: 0.5,
-            currentLevel: 5,
-          ),
-        ),
+        wrapProgressBar(const LevelProgressBar(progress: 0.5, currentLevel: 5)),
       );
       await tester.pumpAndSettle();
 
@@ -37,12 +29,7 @@ void main() {
 
     testWidgets('displays next level label', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(
-          const LevelProgressBar(
-            progress: 0.5,
-            currentLevel: 5,
-          ),
-        ),
+        wrapProgressBar(const LevelProgressBar(progress: 0.5, currentLevel: 5)),
       );
       await tester.pumpAndSettle();
 
@@ -67,12 +54,7 @@ void main() {
 
     testWidgets('renders progress bar container', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(
-          const LevelProgressBar(
-            progress: 0.5,
-            currentLevel: 1,
-          ),
-        ),
+        wrapProgressBar(const LevelProgressBar(progress: 0.5, currentLevel: 1)),
       );
       await tester.pumpAndSettle();
 
@@ -83,11 +65,7 @@ void main() {
     testWidgets('uses custom height', (tester) async {
       await tester.pumpWidget(
         wrapProgressBar(
-          const LevelProgressBar(
-            progress: 0.5,
-            currentLevel: 1,
-            height: 20,
-          ),
+          const LevelProgressBar(progress: 0.5, currentLevel: 1, height: 20),
         ),
       );
       await tester.pumpAndSettle();
@@ -98,12 +76,7 @@ void main() {
 
     testWidgets('handles zero progress', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(
-          const LevelProgressBar(
-            progress: 0,
-            currentLevel: 1,
-          ),
-        ),
+        wrapProgressBar(const LevelProgressBar(progress: 0, currentLevel: 1)),
       );
       await tester.pumpAndSettle();
 
@@ -112,12 +85,7 @@ void main() {
 
     testWidgets('handles full progress', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(
-          const LevelProgressBar(
-            progress: 1,
-            currentLevel: 1,
-          ),
-        ),
+        wrapProgressBar(const LevelProgressBar(progress: 1, currentLevel: 1)),
       );
       await tester.pumpAndSettle();
 

@@ -39,10 +39,7 @@ class ReminderListTile extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: spacingLg),
         color: colorScheme.error,
-        child: Icon(
-          Icons.delete_outline,
-          color: colorScheme.onError,
-        ),
+        child: Icon(Icons.delete_outline, color: colorScheme.onError),
       ),
       child: ListTile(
         leading: Icon(
@@ -78,9 +75,7 @@ class ReminderListTile extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.delete_outline,
-                color: colorScheme.error.withValues(
-                  alpha: opacityStrong,
-                ),
+                color: colorScheme.error.withValues(alpha: opacityStrong),
               ),
               onPressed: onDelete,
               tooltip: AppLocalizations.of(context).buttonDelete,

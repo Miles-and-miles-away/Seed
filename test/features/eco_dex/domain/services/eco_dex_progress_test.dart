@@ -6,10 +6,8 @@ import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart'
 
 void main() {
   /// Minimal user with all defaults (zeroed stats).
-  AppUserModel baseUser() => const AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-      );
+  AppUserModel baseUser() =>
+      const AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
   group('ecoDexProgressOf', () {
     test('totalActions reports current and target', () {
@@ -194,11 +192,7 @@ void main() {
       // Guards the `target <= 0` div-by-zero path: hasProgress is true but
       // the denominator is 0, so fraction must short-circuit to 0 rather
       // than divide.
-      const progress = EcoDexProgress(
-        current: 0,
-        target: 0,
-        hasProgress: true,
-      );
+      const progress = EcoDexProgress(current: 0, target: 0, hasProgress: true);
 
       expect(progress.fraction, 0);
     });

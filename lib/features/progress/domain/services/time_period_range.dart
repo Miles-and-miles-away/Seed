@@ -69,11 +69,11 @@ class TimePeriodRange {
   /// calendar period -- when the user is partway through "This Week"
   /// we still want a meaningful 7-bar/dot history, not just Mon-Tue.
   static int trendWindowDays(TimePeriod period) => switch (period) {
-        TimePeriod.today => 7,
-        TimePeriod.thisWeek => 7,
-        TimePeriod.thisMonth => 30,
-        TimePeriod.allTime => 90,
-      };
+    TimePeriod.today => 7,
+    TimePeriod.thisWeek => 7,
+    TimePeriod.thisMonth => 30,
+    TimePeriod.allTime => 90,
+  };
 
   /// Half-open rolling-window range for the trend chart: the last
   /// `trendWindowDays(period)` days ending at tomorrow's midnight

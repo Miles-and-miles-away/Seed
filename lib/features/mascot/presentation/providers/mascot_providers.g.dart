@@ -15,24 +15,27 @@ final mascotSpeciesDataProvider = MascotSpeciesDataProvider._();
 
 /// Loads and caches mascot species data from JSON.
 
-final class MascotSpeciesDataProvider extends $FunctionalProvider<
-        AsyncValue<List<MascotSpeciesModel>>,
-        List<MascotSpeciesModel>,
-        FutureOr<List<MascotSpeciesModel>>>
+final class MascotSpeciesDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<MascotSpeciesModel>>,
+          List<MascotSpeciesModel>,
+          FutureOr<List<MascotSpeciesModel>>
+        >
     with
         $FutureModifier<List<MascotSpeciesModel>>,
         $FutureProvider<List<MascotSpeciesModel>> {
   /// Loads and caches mascot species data from JSON.
   MascotSpeciesDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotSpeciesDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'mascotSpeciesDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$mascotSpeciesDataHash();
@@ -40,8 +43,8 @@ final class MascotSpeciesDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<MascotSpeciesModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<MascotSpeciesModel>> create(Ref ref) {
@@ -54,20 +57,24 @@ String _$mascotSpeciesDataHash() => r'558b72453c2852607aff195d06d2725737cefa37';
 @ProviderFor(mascotRepository)
 final mascotRepositoryProvider = MascotRepositoryProvider._();
 
-final class MascotRepositoryProvider extends $FunctionalProvider<
-    MascotRepository,
-    MascotRepository,
-    MascotRepository> with $Provider<MascotRepository> {
+final class MascotRepositoryProvider
+    extends
+        $FunctionalProvider<
+          MascotRepository,
+          MascotRepository,
+          MascotRepository
+        >
+    with $Provider<MascotRepository> {
   MascotRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'mascotRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$mascotRepositoryHash();
@@ -108,10 +115,13 @@ final allMascotsProvider = AllMascotsProvider._();
 /// [currentUserProvider]; opening a second Firestore listener on the
 /// same document would only duplicate decode work.
 
-final class AllMascotsProvider extends $FunctionalProvider<
-        AsyncValue<List<MascotModel>>,
-        List<MascotModel>,
-        Stream<List<MascotModel>>>
+final class AllMascotsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<MascotModel>>,
+          List<MascotModel>,
+          Stream<List<MascotModel>>
+        >
     with
         $FutureModifier<List<MascotModel>>,
         $StreamProvider<List<MascotModel>> {
@@ -121,15 +131,15 @@ final class AllMascotsProvider extends $FunctionalProvider<
   /// [currentUserProvider]; opening a second Firestore listener on the
   /// same document would only duplicate decode work.
   AllMascotsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'allMascotsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allMascotsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$allMascotsHash();
@@ -137,8 +147,8 @@ final class AllMascotsProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<MascotModel>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<MascotModel>> create(Ref ref) {
@@ -155,20 +165,25 @@ final activeMascotProvider = ActiveMascotProvider._();
 
 /// The active mascot for the current user (derived, see [allMascots]).
 
-final class ActiveMascotProvider extends $FunctionalProvider<
-        AsyncValue<MascotModel?>, MascotModel?, Stream<MascotModel?>>
+final class ActiveMascotProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<MascotModel?>,
+          MascotModel?,
+          Stream<MascotModel?>
+        >
     with $FutureModifier<MascotModel?>, $StreamProvider<MascotModel?> {
   /// The active mascot for the current user (derived, see [allMascots]).
   ActiveMascotProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeMascotProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeMascotProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeMascotHash();
@@ -176,8 +191,8 @@ final class ActiveMascotProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<MascotModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<MascotModel?> create(Ref ref) {
@@ -198,15 +213,15 @@ final class HasMascotProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Whether the current user has at least one mascot.
   HasMascotProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hasMascotProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hasMascotProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hasMascotHash();
@@ -239,21 +254,25 @@ final activeSpeciesProvider = ActiveSpeciesProvider._();
 
 /// Species data for the active mascot.
 
-final class ActiveSpeciesProvider extends $FunctionalProvider<
-    MascotSpeciesModel?,
-    MascotSpeciesModel?,
-    MascotSpeciesModel?> with $Provider<MascotSpeciesModel?> {
+final class ActiveSpeciesProvider
+    extends
+        $FunctionalProvider<
+          MascotSpeciesModel?,
+          MascotSpeciesModel?,
+          MascotSpeciesModel?
+        >
+    with $Provider<MascotSpeciesModel?> {
   /// Species data for the active mascot.
   ActiveSpeciesProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeSpeciesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeSpeciesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeSpeciesHash();
@@ -261,8 +280,8 @@ final class ActiveSpeciesProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<MascotSpeciesModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   MascotSpeciesModel? create(Ref ref) {
@@ -297,15 +316,15 @@ final class ActiveMascotStageProvider extends $FunctionalProvider<int, int, int>
   /// Computes species inline to avoid double-watching
   /// activeMascotProvider through activeSpeciesProvider.
   ActiveMascotStageProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeMascotStageProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeMascotStageProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeMascotStageHash();
@@ -338,21 +357,25 @@ final activeStageDataProvider = ActiveStageDataProvider._();
 
 /// Evolution stage data for the active mascot.
 
-final class ActiveStageDataProvider extends $FunctionalProvider<
-    EvolutionStageModel?,
-    EvolutionStageModel?,
-    EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
+final class ActiveStageDataProvider
+    extends
+        $FunctionalProvider<
+          EvolutionStageModel?,
+          EvolutionStageModel?,
+          EvolutionStageModel?
+        >
+    with $Provider<EvolutionStageModel?> {
   /// Evolution stage data for the active mascot.
   ActiveStageDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeStageDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeStageDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeStageDataHash();
@@ -360,8 +383,8 @@ final class ActiveStageDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<EvolutionStageModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   EvolutionStageModel? create(Ref ref) {
@@ -391,15 +414,15 @@ final class ActiveMascotAssetPathProvider
     with $Provider<String?> {
   /// Asset path for the active mascot's current stage.
   ActiveMascotAssetPathProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeMascotAssetPathProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeMascotAssetPathProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeMascotAssetPathHash();
@@ -433,21 +456,25 @@ final activeNextStageDataProvider = ActiveNextStageDataProvider._();
 
 /// Next evolution stage for the active mascot, or null.
 
-final class ActiveNextStageDataProvider extends $FunctionalProvider<
-    EvolutionStageModel?,
-    EvolutionStageModel?,
-    EvolutionStageModel?> with $Provider<EvolutionStageModel?> {
+final class ActiveNextStageDataProvider
+    extends
+        $FunctionalProvider<
+          EvolutionStageModel?,
+          EvolutionStageModel?,
+          EvolutionStageModel?
+        >
+    with $Provider<EvolutionStageModel?> {
   /// Next evolution stage for the active mascot, or null.
   ActiveNextStageDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'activeNextStageDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeNextStageDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$activeNextStageDataHash();
@@ -455,8 +482,8 @@ final class ActiveNextStageDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<EvolutionStageModel?> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   EvolutionStageModel? create(Ref ref) {
@@ -483,18 +510,19 @@ final hasNewEvolutionProvider = HasNewEvolutionProvider._();
 /// Whether the active mascot has a new unseen evolution.
 
 final class HasNewEvolutionProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether the active mascot has a new unseen evolution.
   HasNewEvolutionProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hasNewEvolutionProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hasNewEvolutionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hasNewEvolutionHash();
@@ -532,15 +560,15 @@ final class CurrentEggProvider
     with $Provider<EggModel?> {
   /// The user's current egg (derived from user data).
   CurrentEggProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'currentEggProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentEggProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$currentEggHash();
@@ -577,15 +605,15 @@ final class HasEggProvider extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
   /// Whether the user has an egg.
   HasEggProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hasEggProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hasEggProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hasEggHash();
@@ -619,18 +647,19 @@ final eggHatchingProgressProvider = EggHatchingProgressProvider._();
 /// Egg hatching progress (0.0 to 1.0).
 
 final class EggHatchingProgressProvider
-    extends $FunctionalProvider<double, double, double> with $Provider<double> {
+    extends $FunctionalProvider<double, double, double>
+    with $Provider<double> {
   /// Egg hatching progress (0.0 to 1.0).
   EggHatchingProgressProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'eggHatchingProgressProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eggHatchingProgressProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$eggHatchingProgressHash();
@@ -667,19 +696,20 @@ final shouldShowEggDiscoveryProvider = ShouldShowEggDiscoveryProvider._();
 /// True if eggPendingDiscovery flag is set.
 
 final class ShouldShowEggDiscoveryProvider
-    extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   /// Whether to show the egg discovery celebration.
   /// True if eggPendingDiscovery flag is set.
   ShouldShowEggDiscoveryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'shouldShowEggDiscoveryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'shouldShowEggDiscoveryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$shouldShowEggDiscoveryHash();
@@ -717,16 +747,16 @@ final class StageLocalizedNameProvider
     extends $FunctionalProvider<String?, String?, String?>
     with $Provider<String?> {
   /// Localized name for the active mascot's stage.
-  StageLocalizedNameProvider._(
-      {required StageLocalizedNameFamily super.from,
-      required String super.argument})
-      : super(
-          retry: null,
-          name: r'stageLocalizedNameProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  StageLocalizedNameProvider._({
+    required StageLocalizedNameFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'stageLocalizedNameProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$stageLocalizedNameHash();
@@ -746,10 +776,7 @@ final class StageLocalizedNameProvider
   @override
   String? create(Ref ref) {
     final argument = this.argument as String;
-    return stageLocalizedName(
-      ref,
-      argument,
-    );
+    return stageLocalizedName(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -779,19 +806,17 @@ String _$stageLocalizedNameHash() =>
 final class StageLocalizedNameFamily extends $Family
     with $FunctionalFamilyOverride<String?, String> {
   StageLocalizedNameFamily._()
-      : super(
-          retry: null,
-          name: r'stageLocalizedNameProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'stageLocalizedNameProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   /// Localized name for the active mascot's stage.
 
-  StageLocalizedNameProvider call(
-    String locale,
-  ) =>
+  StageLocalizedNameProvider call(String locale) =>
       StageLocalizedNameProvider._(argument: locale, from: this);
 
   @override
@@ -804,15 +829,15 @@ final mascotProvider = MascotNotifierProvider._();
 final class MascotNotifierProvider
     extends $NotifierProvider<MascotNotifier, AsyncValue<void>> {
   MascotNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'mascotProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$mascotNotifierHash();
@@ -838,11 +863,14 @@ abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
-        AsyncValue<void>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -853,15 +881,15 @@ final mascotAnimationTriggerProvider = MascotAnimationTriggerProvider._();
 final class MascotAnimationTriggerProvider
     extends $NotifierProvider<MascotAnimationTrigger, bool> {
   MascotAnimationTriggerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotAnimationTriggerProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'mascotAnimationTriggerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$mascotAnimationTriggerHash();
@@ -888,8 +916,14 @@ abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -913,15 +947,15 @@ final class MascotSmileTriggerProvider
   /// Rive-animated mascots play their smile timeline; static SVG mascots
   /// ignore it.
   MascotSmileTriggerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'mascotSmileTriggerProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'mascotSmileTriggerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$mascotSmileTriggerHash();
@@ -953,8 +987,14 @@ abstract class _$MascotSmileTrigger extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

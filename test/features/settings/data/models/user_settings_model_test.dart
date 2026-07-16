@@ -103,9 +103,7 @@ void main() {
       });
 
       test('handles empty reminderSchedules array', () {
-        final json = {
-          'reminderSchedules': <Map<String, dynamic>>[],
-        };
+        final json = {'reminderSchedules': <Map<String, dynamic>>[]};
 
         final model = UserSettingsModel.fromJson(json);
 
@@ -113,9 +111,7 @@ void main() {
       });
 
       test('handles missing optional fields', () {
-        final json = {
-          'language': 'es',
-        };
+        final json = {'language': 'es'};
 
         final model = UserSettingsModel.fromJson(json);
 
@@ -337,9 +333,7 @@ void main() {
 
     group('hasSeenMilestone', () {
       test('returns false for unseen milestone', () {
-        const model = UserSettingsModel(
-          seenStreakMilestones: {'1': true},
-        );
+        const model = UserSettingsModel(seenStreakMilestones: {'1': true});
 
         expect(model.hasSeenMilestone(2), isFalse);
       });
@@ -390,9 +384,7 @@ void main() {
       });
 
       test('handles overwriting existing milestone', () {
-        const model = UserSettingsModel(
-          seenStreakMilestones: {'1': true},
-        );
+        const model = UserSettingsModel(seenStreakMilestones: {'1': true});
 
         final updated = model.withMilestoneSeen(1);
 

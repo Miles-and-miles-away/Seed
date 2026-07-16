@@ -8,15 +8,15 @@ import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 void main() {
   group('Co2TotalCard', () {
@@ -55,8 +55,9 @@ void main() {
       expect(find.text('0.4 kg'), findsOneWidget);
     });
 
-    testWidgets('renders large total formatted with one decimal',
-        (tester) async {
+    testWidgets('renders large total formatted with one decimal', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           const Co2TotalCard(

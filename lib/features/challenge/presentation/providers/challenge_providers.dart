@@ -13,9 +13,7 @@ part 'challenge_providers.g.dart';
 
 /// Loads and caches challenge template data from JSON.
 @riverpod
-Future<ChallengeTemplateData> challengeTemplateData(
-  Ref ref,
-) =>
+Future<ChallengeTemplateData> challengeTemplateData(Ref ref) =>
     loadChallengeTemplates();
 
 /// Today's challenge based on user ID and recent IDs.
@@ -23,9 +21,7 @@ Future<ChallengeTemplateData> challengeTemplateData(
 Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
   final user = ref.watch(currentUserProvider).value;
   if (user == null) return null;
-  final data = await ref.watch(
-    challengeTemplateDataProvider.future,
-  );
+  final data = await ref.watch(challengeTemplateDataProvider.future);
 
   // Completing a challenge prepends its id to recentChallengeIds,
   // which feeds the deterministic selection below -- without this
@@ -80,9 +76,7 @@ int challengeStreak(Ref ref) {
 @riverpod
 ActiveMultiDayChallenge? activeMultiDayChallenge(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  return ActiveMultiDayChallenge.fromMap(
-    user?.activeMultiDayChallenge,
-  );
+  return ActiveMultiDayChallenge.fromMap(user?.activeMultiDayChallenge);
 }
 
 /// Session-scoped flag: has the challenge dialog been
@@ -118,24 +112,22 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
 
-    final data = await ref.read(
-      challengeTemplateDataProvider.future,
-    );
-    final template = data.multiDay.firstWhere(
-      (t) => t.id == templateId,
-    );
+    final data = await ref.read(challengeTemplateDataProvider.future);
+    final template = data.multiDay.firstWhere((t) => t.id == templateId);
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final firestore = ref.read(firestoreProvider);
-      final userRef =
-          firestore.collection(AppConstants.collectionUsers).doc(user.uid);
+      final userRef = firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(user.uid);
       // Transaction: a blind update could stomp a challenge started
       // concurrently on another device.
       await firestore.runTransaction((transaction) async {
         final doc = await transaction.get(userRef);
-        final active = doc.data()?[AppConstants.fieldActiveMultiDayChallenge]
-            as Map<String, dynamic>?;
+        final active =
+            doc.data()?[AppConstants.fieldActiveMultiDayChallenge]
+                as Map<String, dynamic>?;
         if (active != null && active.isNotEmpty) {
           throw StateError('A multi-day challenge is already active');
         }
@@ -165,8 +157,8 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
           .collection(AppConstants.collectionUsers)
           .doc(user.uid)
           .update({
-        AppConstants.fieldActiveMultiDayChallenge: <String, dynamic>{},
-      });
+            AppConstants.fieldActiveMultiDayChallenge: <String, dynamic>{},
+          });
     });
     if (ref.mounted) state = result;
   }

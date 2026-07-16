@@ -5,27 +5,28 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 
-const MethodChannel _launcherChannel =
-    MethodChannel('plugins.flutter.io/url_launcher');
+const MethodChannel _launcherChannel = MethodChannel(
+  'plugins.flutter.io/url_launcher',
+);
 const String _testUrl = 'https://example.org';
 
 Widget _wrap() => MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(
-        body: Builder(
-          builder: (context) => TextButton(
-            onPressed: () => openExternalUrl(context, _testUrl),
-            child: const Text('open'),
-          ),
-        ),
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(
+    body: Builder(
+      builder: (context) => TextButton(
+        onPressed: () => openExternalUrl(context, _testUrl),
+        child: const Text('open'),
       ),
-    );
+    ),
+  ),
+);
 
 void main() {
   group('appendExternalLinkArrow', () {
@@ -43,7 +44,8 @@ void main() {
 
     test('appends arrow to every link when multiple are present', () {
       const input = 'Read [one](https://a.org) and [two](https://b.org).';
-      const expected = 'Read [one $externalLinkChar](https://a.org) and '
+      const expected =
+          'Read [one $externalLinkChar](https://a.org) and '
           '[two $externalLinkChar](https://b.org).';
       expect(appendExternalLinkArrow(input), expected);
     });
@@ -73,11 +75,15 @@ void main() {
       WidgetTester tester,
       Future<Object?> Function(MethodCall call) handler,
     ) {
-      tester.binding.defaultBinaryMessenger
-          .setMockMethodCallHandler(_launcherChannel, handler);
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        _launcherChannel,
+        handler,
+      );
       addTearDown(
-        () => tester.binding.defaultBinaryMessenger
-            .setMockMethodCallHandler(_launcherChannel, null),
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          _launcherChannel,
+          null,
+        ),
       );
     }
 
@@ -93,10 +99,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(calls.single.method, 'launch');
-      expect(
-        calls.single.arguments,
-        containsPair('url', _testUrl),
-      );
+      expect(calls.single.arguments, containsPair('url', _testUrl));
       expect(find.byType(SnackBar), findsNothing);
     });
 

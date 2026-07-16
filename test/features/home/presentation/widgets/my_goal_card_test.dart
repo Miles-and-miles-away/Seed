@@ -31,15 +31,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('My Goal'), findsOneWidget);
-      expect(
-        find.text('Tap to set your sustainability goal'),
-        findsOneWidget,
-      );
+      expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
       expect(find.byIcon(Icons.add_circle_outline), findsOneWidget);
     });
 
-    testWidgets('shows localized preset and edit icon when goal set',
-        (tester) async {
+    testWidgets('shows localized preset and edit icon when goal set', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           currentUser: baseUser.copyWith(personalGoal: 'save_world'),

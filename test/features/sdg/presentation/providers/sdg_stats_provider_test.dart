@@ -8,14 +8,12 @@ import 'package:seed_app/features/sdg/presentation/providers/sdg_stats_provider.
 
 ProviderContainer _containerWithUser(AppUserModel? user) {
   return ProviderContainer(
-    overrides: [
-      currentUserProvider.overrideWith((ref) => Stream.value(user)),
-    ],
+    overrides: [currentUserProvider.overrideWith((ref) => Stream.value(user))],
   );
 }
 
 Future<void> _pumpStream(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, __) {});
+  c.listen(currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
 }
 
@@ -77,9 +75,7 @@ void main() {
   group('sdgRelatedActionsProvider', () {
     ProviderContainer containerWith(List<ActionModel> actions) {
       return ProviderContainer(
-        overrides: [
-          actionLibraryProvider.overrideWith((ref) async => actions),
-        ],
+        overrides: [actionLibraryProvider.overrideWith((ref) async => actions)],
       );
     }
 
@@ -111,7 +107,7 @@ void main() {
 
       final c = containerWith([a1, a2, a3]);
       addTearDown(c.dispose);
-      c.listen(actionLibraryProvider, (_, __) {});
+      c.listen(actionLibraryProvider, (_, _) {});
       await Future<void>.delayed(Duration.zero);
 
       final eleven = c.read(sdgRelatedActionsProvider(11));

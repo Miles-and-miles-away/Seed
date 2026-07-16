@@ -21,25 +21,17 @@ class ChallengesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final activeChallenge = ref.watch(
-      activeMultiDayChallengeProvider,
-    );
+    final activeChallenge = ref.watch(activeMultiDayChallengeProvider);
     final user = ref.watch(currentUserProvider).value;
     final completedIds = user?.completedMultiDayChallenges ?? [];
     final activeTemplateId = activeChallenge?.templateId;
-    final templateDataAsync = ref.watch(
-      challengeTemplateDataProvider,
-    );
+    final templateDataAsync = ref.watch(challengeTemplateDataProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.challengesScreenTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.challengesScreenTitle)),
       body: templateDataAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (_, __) => Center(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (_, _) => Center(
           child: ErrorDisplay(
             onRetry: () => ref.invalidate(challengeTemplateDataProvider),
           ),
@@ -101,13 +93,12 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(
-      context,
-    ).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
 
     final categoryStr = template.category;
-    final category =
-        categoryStr != null ? ActionCategory.fromString(categoryStr) : null;
+    final category = categoryStr != null
+        ? ActionCategory.fromString(categoryStr)
+        : null;
 
     final isBlocked = state == _ChallengeState.blocked;
 
@@ -152,9 +143,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                       ),
                       const SizedBox(height: spacingXxs),
                       Text(
-                        l10n.challengeDays(
-                          template.targetDays,
-                        ),
+                        l10n.challengeDays(template.targetDays),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant.withValues(
                             alpha: isBlocked ? opacityDisabled : 1.0,
@@ -164,12 +153,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-                _buildStateBadge(
-                  context,
-                  theme,
-                  colorScheme,
-                  l10n,
-                ),
+                _buildStateBadge(context, theme, colorScheme, l10n),
               ],
             ),
             const SizedBox(height: spacingSm),
@@ -183,21 +167,11 @@ class _ChallengeTemplateCard extends ConsumerWidget {
             ),
             if (state == _ChallengeState.active) ...[
               const SizedBox(height: spacingMd),
-              _buildActiveSection(
-                context,
-                ref,
-                theme,
-                colorScheme,
-                l10n,
-              ),
+              _buildActiveSection(context, ref, theme, colorScheme, l10n),
             ],
             if (state == _ChallengeState.available) ...[
               const SizedBox(height: spacingMd),
-              _buildStartButton(
-                context,
-                ref,
-                l10n,
-              ),
+              _buildStartButton(context, ref, l10n),
             ],
           ],
         ),
@@ -213,28 +187,25 @@ class _ChallengeTemplateCard extends ConsumerWidget {
   ) {
     final (label, color) = switch (state) {
       _ChallengeState.completed => (
-          l10n.challengeCompletedBadge,
-          colorScheme.primary,
-        ),
-      _ChallengeState.active => (
-          l10n.challengeActive,
-          AppColors.streak,
-        ),
+        l10n.challengeCompletedBadge,
+        colorScheme.primary,
+      ),
+      _ChallengeState.active => (l10n.challengeActive, AppColors.streak),
       _ChallengeState.available => (
-          l10n.challengeAvailable,
-          colorScheme.onSurfaceVariant,
-        ),
+        l10n.challengeAvailable,
+        colorScheme.onSurfaceVariant,
+      ),
       _ChallengeState.blocked => (
-          l10n.challengeLocked,
-          colorScheme.onSurfaceVariant,
-        ),
+        l10n.challengeLocked,
+        colorScheme.onSurfaceVariant,
+      ),
     };
 
     final icon = state == _ChallengeState.completed
         ? Icons.check_circle
         : state == _ChallengeState.blocked
-            ? Icons.lock_outline
-            : null;
+        ? Icons.lock_outline
+        : null;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -273,8 +244,9 @@ class _ChallengeTemplateCard extends ConsumerWidget {
   ) {
     final currentDay = activeChallenge?.currentDay ?? 0;
     final targetDays = activeChallenge?.targetDays ?? template.targetDays;
-    final progress =
-        targetDays > 0 ? (currentDay / targetDays).clamp(0.0, 1.0) : 0.0;
+    final progress = targetDays > 0
+        ? (currentDay / targetDays).clamp(0.0, 1.0)
+        : 0.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,18 +256,12 @@ class _ChallengeTemplateCard extends ConsumerWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius: borderRadiusXs,
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 6,
-                ),
+                child: LinearProgressIndicator(value: progress, minHeight: 6),
               ),
             ),
             const SizedBox(width: spacingMd),
             Text(
-              l10n.challengeMultiDayProgress(
-                currentDay,
-                targetDays,
-              ),
+              l10n.challengeMultiDayProgress(currentDay, targetDays),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -306,11 +272,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () => _confirmAbandon(
-              context,
-              ref,
-              l10n,
-            ),
+            onPressed: () => _confirmAbandon(context, ref, l10n),
             child: Text(l10n.challengeAbandon),
           ),
         ),
@@ -326,11 +288,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: FilledButton(
-        onPressed: () => _confirmStart(
-          context,
-          ref,
-          l10n,
-        ),
+        onPressed: () => _confirmStart(context, ref, l10n),
         child: Text(l10n.challengeStart),
       ),
     );
@@ -381,9 +339,7 @@ Future<bool> _showConfirmDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: Text(
-            MaterialLocalizations.of(context).cancelButtonLabel,
-          ),
+          child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, true),

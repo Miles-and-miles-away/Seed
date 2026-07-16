@@ -22,6 +22,12 @@ abstract class EvolutionStageModel with _$EvolutionStageModel {
     /// The Japanese name of this evolution stage.
     required String nameJa,
 
+    /// The Rive artboard to render for this stage, for `.riv` assets
+    /// containing multiple stage artboards (e.g. coral_mascot.riv).
+    /// Null falls back to the file's default artboard. Must match the
+    /// editor artboard name exactly (case-sensitive).
+    String? artboardName,
+
     /// The Spanish name of this evolution stage.
     @Default('') String nameEs,
   }) = _EvolutionStageModel;

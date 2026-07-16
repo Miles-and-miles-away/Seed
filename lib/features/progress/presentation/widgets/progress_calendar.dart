@@ -20,8 +20,9 @@ class ProgressCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final calendarDataAsync = ref.watch(monthCalendarDataProvider);
-    final canGoNext =
-        ref.watch(selectedMonthProvider.notifier).canGoToNextMonth;
+    final canGoNext = ref
+        .watch(selectedMonthProvider.notifier)
+        .canGoToNextMonth;
 
     return Column(
       children: [
@@ -35,11 +36,9 @@ class ProgressCalendar extends ConsumerWidget {
             height: 200,
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (_, __) => const SizedBox(
+          error: (_, _) => const SizedBox(
             height: 200,
-            child: Center(
-              child: ErrorDisplay(compact: true),
-            ),
+            child: Center(child: ErrorDisplay(compact: true)),
           ),
         ),
       ],
@@ -149,9 +148,9 @@ class ProgressCalendar extends ConsumerWidget {
                   onTap: dayData.isFuture
                       ? null
                       : () => DayDetailBottomSheet.show(
-                            context,
-                            date: dayData.date,
-                          ),
+                          context,
+                          date: dayData.date,
+                        ),
                 ),
               ),
             ),

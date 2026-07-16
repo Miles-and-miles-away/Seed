@@ -13,22 +13,16 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      wrap(
-        const SocialSignInButton(provider: SocialProvider.google),
-      ),
+      wrap(const SocialSignInButton(provider: SocialProvider.google)),
     );
 
     expect(find.text('Google'), findsOneWidget);
     expect(find.byIcon(Icons.g_mobiledata), findsOneWidget);
   });
 
-  testWidgets('Apple variant renders the Apple label and icon', (
-    tester,
-  ) async {
+  testWidgets('Apple variant renders the Apple label and icon', (tester) async {
     await tester.pumpWidget(
-      wrap(
-        const SocialSignInButton(provider: SocialProvider.apple),
-      ),
+      wrap(const SocialSignInButton(provider: SocialProvider.apple)),
     );
 
     expect(find.text('Apple'), findsOneWidget);

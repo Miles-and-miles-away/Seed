@@ -48,10 +48,7 @@ class EcoDexProgressHeader extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      l10n.ecoDexProgress(
-                        discoveredCount,
-                        totalCount,
-                      ),
+                      l10n.ecoDexProgress(discoveredCount, totalCount),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

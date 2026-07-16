@@ -22,79 +22,80 @@ import 'shared/services/services.dart';
 const _useEmulator = bool.fromEnvironment('USE_EMULATOR');
 
 void main() async {
-  await runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  await runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-    // Initialize Firebase
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-    // Initialize App Check before other Firebase services
-    await FirebaseAppCheck.instance.activate(
-      providerAndroid: kDebugMode
-          ? const AndroidDebugProvider()
-          : const AndroidPlayIntegrityProvider(),
-      providerApple: kDebugMode
-          ? const AppleDebugProvider()
-          : const AppleDeviceCheckProvider(),
-    );
+      // Initialize App Check before other Firebase services
+      await FirebaseAppCheck.instance.activate(
+        providerAndroid: kDebugMode
+            ? const AndroidDebugProvider()
+            : const AndroidPlayIntegrityProvider(),
+        providerApple: kDebugMode
+            ? const AppleDebugProvider()
+            : const AppleDeviceCheckProvider(),
+      );
 
-    // Configure Crashlytics
-    // Disable in debug mode to avoid noise during development
-    await FirebaseCrashlytics.instance
-        .setCrashlyticsCollectionEnabled(!kDebugMode);
+      // Configure Crashlytics
+      // Disable in debug mode to avoid noise during development
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+        !kDebugMode,
+      );
 
-    // Pass all uncaught Flutter errors to Crashlytics
-    FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
+      // Pass all uncaught Flutter errors to Crashlytics
+      FlutterError.onError = (errorDetails) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      };
 
-    // Pass all uncaught asynchronous errors to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
+      // Pass all uncaught asynchronous errors to Crashlytics
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
+
+      // Disable performance monitoring in debug mode
+      await FirebasePerformance.instance.setPerformanceCollectionEnabled(
+        !kDebugMode,
+      );
+
+      // Connect to Firebase Emulator Suite in debug mode
+      if (_useEmulator) {
+        const emulatorHost = '10.0.2.2'; // Android emulator
+        FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+        await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+        await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
+        FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
+        appLogger.debug('Connected to Firebase Emulator Suite');
+      }
+
+      // Configure Firestore offline persistence
+      FirebaseFirestore.instance.settings = const Settings(
+        persistenceEnabled: true,
+        cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+      );
+
+      // Register background message handler for FCM
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+      runApp(const ProviderScope(child: SeedApp()));
+
+      // Notification setup parses the full timezone database and makes
+      // network calls (FCM token); defer it past the first frame so it
+      // can never block startup.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_initializeNotificationServices());
+      });
+    },
+    (error, stack) {
+      // Catch any errors that weren't caught by the Flutter framework
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-
-    // Disable performance monitoring in debug mode
-    await FirebasePerformance.instance
-        .setPerformanceCollectionEnabled(!kDebugMode);
-
-    // Connect to Firebase Emulator Suite in debug mode
-    if (_useEmulator) {
-      const emulatorHost = '10.0.2.2'; // Android emulator
-      FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
-      await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
-      await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
-      FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
-      appLogger.debug('Connected to Firebase Emulator Suite');
-    }
-
-    // Configure Firestore offline persistence
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
-
-    // Register background message handler for FCM
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-    runApp(
-      const ProviderScope(
-        child: SeedApp(),
-      ),
-    );
-
-    // Notification setup parses the full timezone database and makes
-    // network calls (FCM token); defer it past the first frame so it
-    // can never block startup.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_initializeNotificationServices());
-    });
-  }, (error, stack) {
-    // Catch any errors that weren't caught by the Flutter framework
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-  });
+    },
+  );
 }
 
 /// Initialize local notification and FCM services after the first

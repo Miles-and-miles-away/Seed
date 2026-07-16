@@ -21,13 +21,13 @@ void main() {
   }) {
     return ProviderScope(
       overrides: [
-        userSettingsProvider.overrideWith(
-          (ref) => Stream.value(settings),
+        userSettingsProvider.overrideWith((ref) => Stream.value(settings)),
+        notificationsEnabledProvider.overrideWith(
+          (ref) => notificationsEnabled,
         ),
-        notificationsEnabledProvider
-            .overrideWith((ref) => notificationsEnabled),
-        smartRemindersEnabledProvider
-            .overrideWith((ref) => smartRemindersEnabled),
+        smartRemindersEnabledProvider.overrideWith(
+          (ref) => smartRemindersEnabled,
+        ),
         canAddReminderProvider.overrideWith((ref) => canAddReminder),
       ],
       child: MaterialApp(
@@ -122,9 +122,7 @@ void main() {
 
     testWidgets('shows no reminders message when empty', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const NotificationSettingsScreen(),
-        ),
+        createTestWidget(child: const NotificationSettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -134,9 +132,7 @@ void main() {
 
     testWidgets('shows alarm_off icon when no reminders', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const NotificationSettingsScreen(),
-        ),
+        createTestWidget(child: const NotificationSettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -224,9 +220,7 @@ void main() {
 
     testWidgets('notification toggle reflects enabled state', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const NotificationSettingsScreen(),
-        ),
+        createTestWidget(child: const NotificationSettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -248,12 +242,11 @@ void main() {
       expect(switches.first.value, isFalse);
     });
 
-    testWidgets('smart reminders toggle reflects enabled state',
-        (tester) async {
+    testWidgets('smart reminders toggle reflects enabled state', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const NotificationSettingsScreen(),
-        ),
+        createTestWidget(child: const NotificationSettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -262,8 +255,9 @@ void main() {
       expect(switches[1].value, isTrue);
     });
 
-    testWidgets('smart reminders toggle reflects disabled state',
-        (tester) async {
+    testWidgets('smart reminders toggle reflects disabled state', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createTestWidget(
           child: const NotificationSettingsScreen(),

@@ -33,23 +33,18 @@ class _EmailVerificationScreenState
 
     final userEmail = authChanges.asData?.value?.email ?? '';
 
-    ref.listen<AsyncValue<void>>(
-      authProvider,
-      (previous, next) {
-        next.whenOrNull(
-          error: (error, _) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  mapAuthErrorToMessage(error, l10n),
-                ),
-                backgroundColor: AppColors.error,
-              ),
-            );
-          },
-        );
-      },
-    );
+    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
+      next.whenOrNull(
+        error: (error, _) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(mapAuthErrorToMessage(error, l10n)),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        },
+      );
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -122,9 +117,7 @@ class _EmailVerificationScreenState
                         color: Colors.white,
                       ),
                     )
-                  : const Icon(
-                      Icons.check_circle_outline,
-                    ),
+                  : const Icon(Icons.check_circle_outline),
               label: Text(
                 _checkingVerification
                     ? l10n.authChecking
@@ -141,20 +134,14 @@ class _EmailVerificationScreenState
                   : () {
                       ref.read(authProvider.notifier).resendVerificationEmail();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            l10n.authVerificationSent,
-                          ),
-                        ),
+                        SnackBar(content: Text(l10n.authVerificationSent)),
                       );
                     },
               icon: isLoading
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : const Icon(Icons.refresh),
               label: Text(l10n.authResendEmail),
@@ -195,9 +182,7 @@ class _EmailVerificationScreenState
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                l10n.authEmailNotVerified,
-              ),
+              content: Text(l10n.authEmailNotVerified),
               backgroundColor: AppColors.warning,
             ),
           );
@@ -205,9 +190,7 @@ class _EmailVerificationScreenState
       }
     } finally {
       if (mounted) {
-        setState(
-          () => _checkingVerification = false,
-        );
+        setState(() => _checkingVerification = false);
       }
     }
   }

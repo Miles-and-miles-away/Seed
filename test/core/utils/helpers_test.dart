@@ -18,10 +18,7 @@ void main() {
       const twoWeeksPoints = 150 * 14;
       // Stage 2 unlocks at level 10 (mascot_species.json evolution stages).
       const stage2Level = 10;
-      expect(
-        calculatePointsForLevel(stage2Level),
-        lessThan(twoWeeksPoints),
-      );
+      expect(calculatePointsForLevel(stage2Level), lessThan(twoWeeksPoints));
     });
   });
 

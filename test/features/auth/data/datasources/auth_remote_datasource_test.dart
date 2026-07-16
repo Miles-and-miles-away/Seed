@@ -46,14 +46,13 @@ void main() {
     test('delegates to FirebaseAuth with named args', () async {
       final credential = _MockUserCredential();
       when(
-        () => auth.signInWithEmailAndPassword(
-          email: 'a@b.com',
-          password: 'pw',
-        ),
+        () => auth.signInWithEmailAndPassword(email: 'a@b.com', password: 'pw'),
       ).thenAnswer((_) async => credential);
 
-      final result =
-          await dataSource.signInWithEmailAndPassword('a@b.com', 'pw');
+      final result = await dataSource.signInWithEmailAndPassword(
+        'a@b.com',
+        'pw',
+      );
 
       expect(result, same(credential));
     });
@@ -69,8 +68,10 @@ void main() {
         ),
       ).thenAnswer((_) async => credential);
 
-      final result =
-          await dataSource.createUserWithEmailAndPassword('a@b.com', 'pw');
+      final result = await dataSource.createUserWithEmailAndPassword(
+        'a@b.com',
+        'pw',
+      );
 
       expect(result, same(credential));
     });
@@ -96,8 +97,9 @@ void main() {
 
   group('sendPasswordResetEmail', () {
     test('delegates to FirebaseAuth', () async {
-      when(() => auth.sendPasswordResetEmail(email: 'a@b.com'))
-          .thenAnswer((_) async {});
+      when(
+        () => auth.sendPasswordResetEmail(email: 'a@b.com'),
+      ).thenAnswer((_) async {});
 
       await dataSource.sendPasswordResetEmail('a@b.com');
 
@@ -127,8 +129,9 @@ void main() {
     test('calls reauthenticateWithCredential', () async {
       final user = _MockUser();
       when(() => auth.currentUser).thenReturn(user);
-      when(() => user.reauthenticateWithCredential(any()))
-          .thenAnswer((_) async => _MockUserCredential());
+      when(
+        () => user.reauthenticateWithCredential(any()),
+      ).thenAnswer((_) async => _MockUserCredential());
 
       await dataSource.reauthenticateWithEmailPassword('a@b.com', 'pw');
 
@@ -140,9 +143,7 @@ void main() {
 
       await expectLater(
         dataSource.reauthenticateWithEmailPassword('a@b.com', 'pw'),
-        throwsA(
-          isA<AuthException>().having((e) => e.code, 'code', 'no-user'),
-        ),
+        throwsA(isA<AuthException>().having((e) => e.code, 'code', 'no-user')),
       );
     });
   });
@@ -151,8 +152,9 @@ void main() {
     test('calls verifyBeforeUpdateEmail on current user', () async {
       final user = _MockUser();
       when(() => auth.currentUser).thenReturn(user);
-      when(() => user.verifyBeforeUpdateEmail('new@x.com'))
-          .thenAnswer((_) async {});
+      when(
+        () => user.verifyBeforeUpdateEmail('new@x.com'),
+      ).thenAnswer((_) async {});
 
       await dataSource.updateEmail('new@x.com');
 
@@ -164,9 +166,7 @@ void main() {
 
       await expectLater(
         dataSource.updateEmail('new@x.com'),
-        throwsA(
-          isA<AuthException>().having((e) => e.code, 'code', 'no-user'),
-        ),
+        throwsA(isA<AuthException>().having((e) => e.code, 'code', 'no-user')),
       );
     });
   });
@@ -187,9 +187,7 @@ void main() {
 
       await expectLater(
         dataSource.updatePassword('newpw'),
-        throwsA(
-          isA<AuthException>().having((e) => e.code, 'code', 'no-user'),
-        ),
+        throwsA(isA<AuthException>().having((e) => e.code, 'code', 'no-user')),
       );
     });
   });

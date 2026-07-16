@@ -30,16 +30,12 @@ FirebaseFirestore firestore(Ref ref) => FirebaseFirestore.instance;
 
 @riverpod
 AuthRemoteDataSource authRemoteDataSource(Ref ref) {
-  return AuthRemoteDataSource(
-    firebaseAuth: ref.watch(firebaseAuthProvider),
-  );
+  return AuthRemoteDataSource(firebaseAuth: ref.watch(firebaseAuthProvider));
 }
 
 @riverpod
 UserRemoteDataSource userRemoteDataSource(Ref ref) {
-  return UserRemoteDataSource(
-    firestore: ref.watch(firestoreProvider),
-  );
+  return UserRemoteDataSource(firestore: ref.watch(firestoreProvider));
 }
 
 // =============================================================================
@@ -72,9 +68,7 @@ Stream<User?> authStateChanges(Ref ref) {
 /// Firestore listeners/queries each time.
 @riverpod
 String? userId(Ref ref) {
-  return ref.watch(
-    authStateChangesProvider.select((auth) => auth.value?.uid),
-  );
+  return ref.watch(authStateChangesProvider.select((auth) => auth.value?.uid));
 }
 
 /// Stream of the current app user from Firestore.
@@ -89,7 +83,7 @@ Stream<AppUserModel?> currentUser(Ref ref) {
       return ref.watch(authRepositoryProvider).watchCurrentUser();
     },
     loading: () => Stream.value(null),
-    error: (_, __) => Stream.value(null),
+    error: (_, _) => Stream.value(null),
   );
 }
 
@@ -108,10 +102,9 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).signInWithEmailAndPassword(
-            email,
-            password,
-          );
+      await ref
+          .read(authRepositoryProvider)
+          .signInWithEmailAndPassword(email, password);
       await AnalyticsService.instance.logLogin(method: 'email');
     });
     if (!ref.mounted) return;
@@ -126,10 +119,9 @@ class AuthNotifier extends _$AuthNotifier {
   ) async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).createUserWithEmailAndPassword(
-            email,
-            password,
-          );
+      await ref
+          .read(authRepositoryProvider)
+          .createUserWithEmailAndPassword(email, password);
       await AnalyticsService.instance.logSignUp(method: 'email');
     });
     if (!ref.mounted) return;
@@ -194,10 +186,16 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> signOut() async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      // Clear FCM token before signing out (userId still available)
-      final fcm = ref.read(fcmServiceProvider);
-      await fcm.removeStoredToken();
-      await fcm.deleteToken();
+      // FCM cleanup is best-effort: it must never block sign-out. On iOS
+      // deleteToken() throws when the APNS token hasn't arrived yet, which
+      // would otherwise abort the whole sign-out and leave the user logged in.
+      try {
+        final fcm = ref.read(fcmServiceProvider);
+        await fcm.removeStoredToken();
+        await fcm.deleteToken();
+      } on Object catch (e, s) {
+        await FirebaseCrashlytics.instance.recordError(e, s);
+      }
       await ref.read(authRepositoryProvider).signOut();
       await AnalyticsService.instance.logLogout();
       await AnalyticsService.instance.setUserId(null);
@@ -215,10 +213,9 @@ class AuthNotifier extends _$AuthNotifier {
   ) async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).reauthenticateWithEmailPassword(
-            email,
-            password,
-          );
+      await ref
+          .read(authRepositoryProvider)
+          .reauthenticateWithEmailPassword(email, password);
     });
     if (!ref.mounted) return;
     state = result;

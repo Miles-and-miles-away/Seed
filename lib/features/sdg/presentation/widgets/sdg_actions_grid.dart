@@ -29,9 +29,7 @@ class SdgActionsGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final actions = ref.watch(
-      sdgRelatedActionsProvider(goalNumber),
-    );
+    final actions = ref.watch(sdgRelatedActionsProvider(goalNumber));
 
     if (actions.isEmpty) return const SizedBox.shrink();
 
@@ -47,11 +45,7 @@ class SdgActionsGrid extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.eco,
-                  color: goalColor,
-                  size: 20,
-                ),
+                Icon(Icons.eco, color: goalColor, size: 20),
                 const SizedBox(width: spacingSm),
                 Text(
                   l10n.sdgRelatedActions,
@@ -63,11 +57,7 @@ class SdgActionsGrid extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                ref
-                    .read(
-                      selectedSdgFilterProvider.notifier,
-                    )
-                    .select(goalNumber);
+                ref.read(selectedSdgFilterProvider.notifier).select(goalNumber);
                 context.push(appRoutes.actionLog);
               },
               child: Text(l10n.sdgViewAllActions),
@@ -80,7 +70,7 @@ class SdgActionsGrid extends ConsumerWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: visible.length,
-            separatorBuilder: (_, __) => const SizedBox(width: spacingMd),
+            separatorBuilder: (_, _) => const SizedBox(width: spacingMd),
             itemBuilder: (context, index) => SizedBox(
               width: 150,
               child: ActionCard(
