@@ -81,8 +81,8 @@ open -a Simulator
 flutter run
 
 # Or specify a device
-flutter run -d "Medium_Phone_API_36.1"   # Android
-flutter run -d "iPhone 17 Pro"           # iOS
+flutter run -d emulator-5554   # Android
+flutter run -d "iPhone 17 Pro" # iOS
 ```
 
 ### Step 4: Development Cycle

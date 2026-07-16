@@ -663,6 +663,7 @@
   },
   "ecoDexLocked": "No descubierto",
   "ecoDexViewSource": "Ver fuente",
+  "ecoDexAchievement": "Logro: {hint}",
   "ecoDexNewDiscovery": "Nuevo descubrimiento en Eco-Dex!",
   "ecoDexNextUp": "Próximos",
   "ecoDexDiscoveryTitle": "¡Nuevo Descubrimiento!",

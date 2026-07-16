@@ -2,6 +2,7 @@
 /// Export reusable widgets here as you create them
 library;
 
+export 'balanced_text.dart';
 export 'error_display.dart';
 export 'goal_picker_sheet.dart';
 export 'info_sheet.dart';

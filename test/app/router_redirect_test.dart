@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,8 +17,54 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/auth/presentation/screens/email_verification_screen.dart';
 import 'package:seed_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/providers/notification_providers.dart';
+import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/services/fcm_service.dart';
 
 import '../helpers/test_helpers.dart';
+
+// Firebase-touching services signOut() calls; no-ops keep the flow off the
+// network under test.
+class _FakeAnalyticsService extends Fake implements AnalyticsService {
+  @override
+  Future<void> logLogout() async {}
+  @override
+  Future<void> setUserId(String? id) async {}
+}
+
+class _FakeCrashlytics extends Fake implements FirebaseCrashlytics {
+  @override
+  Future<void> setUserIdentifier(String identifier) async {}
+}
+
+class _FakeFcmService extends Fake implements FCMService {
+  @override
+  Future<void> removeStoredToken() async {}
+  @override
+  Future<void> deleteToken() async {}
+}
+
+/// The routed app under a caller-supplied ProviderScope.
+class _RouterApp extends StatelessWidget {
+  const _RouterApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, _) => MaterialApp.router(
+        routerConfig: ref.watch(routerProvider),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+      ),
+    );
+  }
+}
 
 void main() {
   setUpAll(() {
@@ -41,10 +88,12 @@ void main() {
   // Each call must return a fresh stream: the router listens twice (the
   // auth state provider and the refresh listenable) and a shared
   // single-subscription stream would throw on the second listen.
+  // Production uses userChanges() (not authStateChanges) so email
+  // verification via reload() propagates.
   MockFirebaseAuth authReturning(User? user) {
     final auth = MockFirebaseAuth();
     when(() => auth.currentUser).thenReturn(user);
-    when(auth.authStateChanges).thenAnswer((_) => Stream.value(user));
+    when(auth.userChanges).thenAnswer((_) => Stream.value(user));
     return auth;
   }
 
@@ -56,18 +105,7 @@ void main() {
         // Home renders inside the shell; skip Firestore mascot lookups.
         hasMascotProvider.overrideWithValue(false),
       ],
-      child: Consumer(
-        builder: (context, ref, _) => MaterialApp.router(
-          routerConfig: ref.watch(routerProvider),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-        ),
-      ),
+      child: const _RouterApp(),
     );
   }
 
@@ -155,7 +193,7 @@ void main() {
       final controller = StreamController<User?>.broadcast();
       addTearDown(controller.close);
       when(() => auth.currentUser).thenReturn(user);
-      when(auth.authStateChanges).thenAnswer((_) => controller.stream);
+      when(auth.userChanges).thenAnswer((_) => controller.stream);
 
       await tester.pumpWidget(buildApp(auth));
       // Listeners attach during the first build; a broadcast stream drops
@@ -174,6 +212,52 @@ void main() {
       // The fix keeps one GoRouter per provider lifetime: an auth event
       // must re-run redirect, not rebuild the provider.
       expect(identical(routerBefore, routerAfter), isTrue);
+      expect(locationOf(tester), appRoutes.login);
+      expect(find.byType(LoginScreen), findsOneWidget);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('AuthNotifier.signOut drives the app from home to /login', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      final user = createMockUser();
+      final auth = MockFirebaseAuth();
+      final controller = StreamController<User?>.broadcast();
+      addTearDown(controller.close);
+      when(() => auth.currentUser).thenReturn(user);
+      when(auth.userChanges).thenAnswer((_) => controller.stream);
+      // The real repository/datasource call firebaseAuth.signOut(); simulate
+      // Firebase clearing the session and emitting on userChanges.
+      when(auth.signOut).thenAnswer((_) async {
+        when(() => auth.currentUser).thenReturn(null);
+        controller.add(null);
+      });
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            firebaseAuthProvider.overrideWithValue(auth),
+            firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
+            hasMascotProvider.overrideWithValue(false),
+            analyticsServiceProvider.overrideWithValue(_FakeAnalyticsService()),
+            crashlyticsProvider.overrideWithValue(_FakeCrashlytics()),
+            fcmServiceProvider.overrideWithValue(_FakeFcmService()),
+          ],
+          child: const _RouterApp(),
+        ),
+      );
+      controller.add(user);
+      await pumpRedirects(tester);
+      expect(locationOf(tester), appRoutes.home);
+
+      // Exactly what the profile logout button does: read the notifier and
+      // call signOut. Exercises the full notifier -> repository -> datasource
+      // -> auth-stream -> router chain that the logout bugs lived in.
+      await containerOf(tester).read(authProvider.notifier).signOut();
+      await pumpRedirects(tester);
+
       expect(locationOf(tester), appRoutes.login);
       expect(find.byType(LoginScreen), findsOneWidget);
 

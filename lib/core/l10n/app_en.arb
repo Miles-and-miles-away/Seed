@@ -634,6 +634,14 @@
   },
   "ecoDexLocked": "Undiscovered",
   "ecoDexViewSource": "View source",
+  "ecoDexAchievement": "Achievement: {hint}",
+  "@ecoDexAchievement": {
+    "placeholders": {
+      "hint": {
+        "type": "String"
+      }
+    }
+  },
   "ecoDexNewDiscovery": "New Eco-Dex discovery!",
   "ecoDexNextUp": "Next Up",
   "ecoDexDiscoveryTitle": "New Discovery!",

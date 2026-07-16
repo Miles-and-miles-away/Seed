@@ -4,6 +4,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
+import 'package:seed_app/shared/widgets/balanced_text.dart';
 
 const double _sheetImageSize = 160;
 
@@ -61,10 +62,28 @@ class EcoDexEntrySheet extends StatelessWidget {
           const SizedBox(height: spacingXl),
 
           // Title
-          Text(
-            entry.name(locale),
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              entry.name(locale),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: spacingXs),
+
+          // How it was discovered
+          SizedBox(
+            width: double.infinity,
+            child: BalancedText(
+              l10n.ecoDexAchievement(entry.hint(locale)),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: spacingLg),

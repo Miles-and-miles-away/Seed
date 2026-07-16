@@ -4,6 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+/// Web (server) OAuth client ID for the Firebase project. Passing it as
+/// google_sign_in's serverClientId makes authenticate() mint an ID token
+/// with this audience, which is what Firebase accepts for the Google
+/// provider. The iOS client ID is read from the bundled
+/// GoogleService-Info.plist automatically.
+const String _googleServerClientId =
+    '49522523534-9qnjjncgea403kq4364bvc55lf9u40r8.apps.googleusercontent.com';
+
 /// Firebase Auth operations.
 class AuthRemoteDataSource {
   AuthRemoteDataSource({required FirebaseAuth firebaseAuth})
@@ -11,7 +19,23 @@ class AuthRemoteDataSource {
 
   final FirebaseAuth _firebaseAuth;
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  // google_sign_in 7.x requires initialize() before authenticate()/disconnect.
+  // Run it once per process and reuse the result.
+  static Future<void>? _googleInit;
+
+  Future<void> _ensureGoogleSignInInitialized() {
+    return _googleInit ??= GoogleSignIn.instance.initialize(
+      serverClientId: _googleServerClientId,
+    );
+  }
+
+  /// Emits on sign-in/out AND on user updates like `reload()`.
+  ///
+  /// Uses `userChanges()` rather than `authStateChanges()` so email
+  /// verification propagates: `authStateChanges()` does not fire after
+  /// `reload()`, so the router would keep a stale unverified user and bounce
+  /// a just-verified user back to the verification screen.
+  Stream<User?> get authStateChanges => _firebaseAuth.userChanges();
 
   User? get currentUser => _firebaseAuth.currentUser;
 
@@ -44,58 +68,24 @@ class AuthRemoteDataSource {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    // GoogleSignIn v7.x uses singleton pattern with event-driven auth
-    final googleSignIn = GoogleSignIn.instance;
+    await _ensureGoogleSignInInitialized();
 
-    // Set up completer to wait for authentication result
-    final completer = Completer<GoogleSignInAccount?>();
-
-    // Listen for authentication events
-    StreamSubscription<GoogleSignInAuthenticationEvent>? subscription;
-    subscription = googleSignIn.authenticationEvents.listen(
-      (event) {
-        // Handle different event types
-        if (event is GoogleSignInAuthenticationEventSignIn) {
-          subscription?.cancel();
-          completer.complete(event.user);
-        } else if (event is GoogleSignInAuthenticationEventSignOut) {
-          subscription?.cancel();
-          completer.complete(null);
-        }
-      },
-      onError: (Object error) {
-        subscription?.cancel();
-        completer.completeError(error);
-      },
-    );
-
-    // Trigger the sign-in flow
+    final GoogleSignInAccount account;
     try {
-      await googleSignIn.authenticate();
-    } catch (e) {
-      await subscription.cancel();
+      account = await GoogleSignIn.instance.authenticate();
+    } on GoogleSignInException catch (e) {
       throw AuthException(
-        code: 'google-sign-in-failed',
-        message: 'Google sign-in failed: $e',
+        code: e.code == GoogleSignInExceptionCode.canceled
+            ? 'sign-in-cancelled'
+            : 'google-sign-in-failed',
+        message: 'Google sign-in failed: ${e.description ?? e.code.name}',
       );
     }
 
-    final googleUser = await completer.future;
-    if (googleUser == null) {
-      throw AuthException(
-        code: 'sign-in-cancelled',
-        message: 'Google sign-in was cancelled',
-      );
-    }
-
-    // Get the authorization tokens for Firebase
-    final authorization = await googleSignIn.authorizationClient
-        .authorizeScopes(<String>[]);
-    final accessToken = authorization.accessToken;
-
-    // Create Firebase credential
-    final credential = GoogleAuthProvider.credential(accessToken: accessToken);
-
+    // Firebase authenticates with the Google ID token minted for the web
+    // (server) client; initialize() sets that audience via serverClientId.
+    final idToken = account.authentication.idToken;
+    final credential = GoogleAuthProvider.credential(idToken: idToken);
     return _firebaseAuth.signInWithCredential(credential);
   }
 
@@ -116,10 +106,18 @@ class AuthRemoteDataSource {
   }
 
   Future<void> signOut() async {
-    await Future.wait([
-      _firebaseAuth.signOut(),
-      GoogleSignIn.instance.disconnect(),
-    ]);
+    // Firebase sign-out is what actually logs the user out and drives the
+    // auth-state redirect, so it must be awaited and complete first.
+    await _firebaseAuth.signOut();
+    // Revoking the Google grant is best-effort cleanup: disconnect() throws
+    // for users who never signed in with Google (GoogleSignIn was never
+    // initialized) and can hang on the iOS simulator. It must never block or
+    // fail sign-out, so fire it detached and swallow both failure modes.
+    try {
+      unawaited(GoogleSignIn.instance.disconnect().catchError((Object _) {}));
+    } on Object catch (_) {
+      // GoogleSignIn not initialized -- nothing to revoke.
+    }
   }
 
   Future<void> reloadCurrentUser() async {

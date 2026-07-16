@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
-import 'package:seed_app/shared/services/analytics_service.dart';
 
 part 'auth_providers.g.dart';
 
@@ -93,7 +93,13 @@ Stream<AppUserModel?> currentUser(Ref ref) {
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
-@riverpod
+///
+/// Kept alive: it is the app-global auth controller, and its methods run
+/// multi-step async work (sign-out clears FCM then signs out of Firebase).
+/// As an autoDispose provider it was disposed mid-flight when the caller
+/// only `read` it (e.g. the profile logout button), so `ref` reads after
+/// the first await threw and the Firebase sign-out never ran.
+@Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
@@ -105,7 +111,7 @@ class AuthNotifier extends _$AuthNotifier {
       await ref
           .read(authRepositoryProvider)
           .signInWithEmailAndPassword(email, password);
-      await AnalyticsService.instance.logLogin(method: 'email');
+      await ref.read(analyticsServiceProvider).logLogin(method: 'email');
     });
     if (!ref.mounted) return;
     state = result;
@@ -122,7 +128,7 @@ class AuthNotifier extends _$AuthNotifier {
       await ref
           .read(authRepositoryProvider)
           .createUserWithEmailAndPassword(email, password);
-      await AnalyticsService.instance.logSignUp(method: 'email');
+      await ref.read(analyticsServiceProvider).logSignUp(method: 'email');
     });
     if (!ref.mounted) return;
     state = result;
@@ -135,7 +141,7 @@ class AuthNotifier extends _$AuthNotifier {
       await ref.read(authRepositoryProvider).signInWithGoogle();
       // Note: For social sign-in, we track as login since we can't easily
       // distinguish first-time from returning users without modifying the repo.
-      await AnalyticsService.instance.logLogin(method: 'google');
+      await ref.read(analyticsServiceProvider).logLogin(method: 'google');
     });
     if (!ref.mounted) return;
     state = result;
@@ -146,7 +152,7 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signInWithApple();
-      await AnalyticsService.instance.logLogin(method: 'apple');
+      await ref.read(analyticsServiceProvider).logLogin(method: 'apple');
     });
     if (!ref.mounted) return;
     state = result;
@@ -193,13 +199,14 @@ class AuthNotifier extends _$AuthNotifier {
         final fcm = ref.read(fcmServiceProvider);
         await fcm.removeStoredToken();
         await fcm.deleteToken();
-      } on Object catch (e, s) {
-        await FirebaseCrashlytics.instance.recordError(e, s);
+      } on Object catch (e) {
+        // Expected on iOS when the APNS token isn't set yet (e.g. simulator).
+        appLogger.info('FCM cleanup skipped during sign-out: $e');
       }
       await ref.read(authRepositoryProvider).signOut();
-      await AnalyticsService.instance.logLogout();
-      await AnalyticsService.instance.setUserId(null);
-      await FirebaseCrashlytics.instance.setUserIdentifier('');
+      await ref.read(analyticsServiceProvider).logLogout();
+      await ref.read(analyticsServiceProvider).setUserId(null);
+      await ref.read(crashlyticsProvider).setUserIdentifier('');
     });
     if (!ref.mounted) return;
     state = result;

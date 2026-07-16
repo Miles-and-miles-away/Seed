@@ -1377,6 +1377,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ecoDexViewSource => 'Ver fuente';
 
   @override
+  String ecoDexAchievement(String hint) {
+    return 'Logro: $hint';
+  }
+
+  @override
   String get ecoDexNewDiscovery => 'Nuevo descubrimiento en Eco-Dex!';
 
   @override

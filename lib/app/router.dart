@@ -102,8 +102,10 @@ GoRouter router(Ref ref) {
 
   // Re-evaluates redirect on every auth event. Built once per provider
   // lifetime and disposed below so the Firebase subscription cannot leak.
+  // userChanges() (not authStateChanges()) so email verification via
+  // reload() re-runs the redirect and lets a verified user reach home.
   final refreshStream = GoRouterRefreshStream(
-    ref.watch(firebaseAuthProvider).authStateChanges(),
+    ref.watch(firebaseAuthProvider).userChanges(),
   );
 
   final analyticsObserver = AnalyticsService.instance.observer;

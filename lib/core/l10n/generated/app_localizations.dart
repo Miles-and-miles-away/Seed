@@ -2494,6 +2494,12 @@ abstract class AppLocalizations {
   /// **'View source'**
   String get ecoDexViewSource;
 
+  /// No description provided for @ecoDexAchievement.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement: {hint}'**
+  String ecoDexAchievement(String hint);
+
   /// No description provided for @ecoDexNewDiscovery.
   ///
   /// In en, this message translates to:

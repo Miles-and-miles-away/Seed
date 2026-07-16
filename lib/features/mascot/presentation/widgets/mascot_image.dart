@@ -45,42 +45,50 @@ class MascotImage extends StatefulWidget {
   State<MascotImage> createState() => _MascotImageState();
 }
 
+/// Process-wide cache of Rive file loaders, keyed by asset path.
+///
+/// Loaders are shared and never disposed on widget teardown. Disposing a
+/// loader while its `File.asset` decode is still in flight crashes rive
+/// 0.14.7 (dispose() nulls the load completer that the resumed decode then
+/// force-unwraps) -- easily hit when a screen tears down mid-load (logout,
+/// navigation). Sharing also avoids re-decoding the multi-MB mascot file on
+/// every screen. Artboard selection happens in the builder, so one loader
+/// per file serves every artboard.
+final Map<String, rive.FileLoader> _riveLoaderCache = {};
+
+rive.FileLoader _sharedRiveLoader(String assetPath) {
+  return _riveLoaderCache.putIfAbsent(
+    assetPath,
+    // Flutter renderer: the Rive renderer needs a GPU context and
+    // aborts under flutter_tester (widget tests).
+    () =>
+        rive.FileLoader.fromAsset(assetPath, riveFactory: rive.Factory.flutter),
+  );
+}
+
 class _MascotImageState extends State<MascotImage> {
-  // Owned here: RiveWidgetBuilder does not dispose the loader's file.
   rive.FileLoader? _fileLoader;
 
   @override
   void initState() {
     super.initState();
-    _createLoader();
+    _resolveLoader();
   }
 
   @override
   void didUpdateWidget(covariant MascotImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.assetPath != widget.assetPath ||
-        oldWidget.artboardName != widget.artboardName) {
-      _fileLoader?.dispose();
-      _fileLoader = null;
-      _createLoader();
+    // Artboard changes are handled by the builder's key; only the asset
+    // path decides which shared loader to use.
+    if (oldWidget.assetPath != widget.assetPath) {
+      _resolveLoader();
     }
   }
 
-  @override
-  void dispose() {
-    _fileLoader?.dispose();
-    super.dispose();
-  }
-
-  void _createLoader() {
-    if (widget.assetPath.endsWith('.riv')) {
-      // Flutter renderer: the Rive renderer needs a GPU context and
-      // aborts under flutter_tester (widget tests).
-      _fileLoader = rive.FileLoader.fromAsset(
-        widget.assetPath,
-        riveFactory: rive.Factory.flutter,
-      );
-    }
+  void _resolveLoader() {
+    _fileLoader = widget.assetPath.endsWith('.riv')
+        ? _sharedRiveLoader(widget.assetPath)
+        : null;
   }
 
   @override
