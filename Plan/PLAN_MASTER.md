@@ -1141,9 +1141,10 @@ See [PLAN_PHASE_7.md](./PLAN_PHASE_7.md) for detailed implementation plan.
 **Deliverable:** Polished animated mascots plus the points-based shop
 and unlock economy. No payment required anywhere in this phase.
 
-### Phase 8: Transport Carbon Calculator (Future)
-**Goal:** Explorable, evidence-backed transport emissions -- build a
-multi-leg journey, see its CO2e, compare alternatives side by side
+### Phase 8: Carbon Calculators - Transport, Food & Home Energy (Future)
+**Goal:** Explorable, evidence-backed emissions -- build a journey,
+a meal, or a daily energy routine, see its CO2e, compare
+alternatives side by side. Covers the "big three": move, eat, power
 
 See [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) for detailed implementation plan.
 
@@ -1154,12 +1155,20 @@ See [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) for detailed implementation plan.
 | Journey comparison | 2-3 door-to-door options side by side, delta + equivalencies | P0 | Planned |
 | Methodology & sources UI | Per-mode science sheets + methodology screen | P0 | Planned |
 | Entry points & analytics | Impact-segment card, transport-tab banner, new route | P1 | Planned |
+| Food item dataset | ~45 foods with cited kgCO2e/kg factors (OWID / Poore & Nemecek), serving presets, EN/JA/ES | P0 | Planned |
+| Meal builder + engine | Multi-ingredient meals (item + grams/serving), pure Dart math | P0 | Planned |
+| Meal comparison | 2-3 meals side by side, delta + equivalencies | P0 | Planned |
+| Food methodology & entry points | Per-item science sheets, spread + organic/local honesty, new route | P0/P1 | Planned |
+| Energy behavior dataset | ~25 behaviors with cited kWh + carrier factors (DEFRA, IEA), physics-derived, EN/JA/ES | P0 | Planned |
+| Routine builder + engine | Behavior + quantity usages, pure Dart math, shared grid factor | P0 | Planned |
+| Routine comparison | Bath vs shower, dryer vs line, heater vs kotatsu; delta + equivalencies | P0 | Planned |
+| Energy methodology & entry points | Heat-vs-light hierarchy, carrier factors, new route | P0/P1 | Planned |
 | Logging bridge | Log the chosen greener option as real CO2 saved | P2 | Deferred (anti-gaming design needed) |
 
-**Deliverable:** Educational transport calculator with fully cited
-emission factors. Code + data only (no art), independent of Phases 7
-and 9 -- can be scheduled before or in parallel. No points awarded in
-v1 (No Fake Points).
+**Deliverable:** Educational transport, food, and home-energy
+calculators with fully cited emission factors. Code + data only (no
+art), independent of Phases 7 and 9 -- can be scheduled before or in
+parallel. No points awarded in v1 (No Fake Points).
 
 ### Phase 9: Premium & Monetization (Future)
 **Goal:** RevenueCat integration, premium tier, paywall
