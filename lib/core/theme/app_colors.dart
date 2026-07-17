@@ -11,6 +11,16 @@ abstract class AppColors {
   // removed. The Material scheme derives from `primary` via
   // ColorScheme.fromSeed.
 
+  // Theme seed per mascot species id (data/app/mascot_species.json).
+  // The active species re-seeds the whole ColorScheme; unknown or no
+  // species falls back to [primary]. 'fungi' is pre-registered for
+  // the planned third species.
+  static const speciesThemeSeeds = <String, Color>{
+    'seed': primary,
+    'coral': Color(0xFF4FC3F7), // light ocean blue
+    'fungi': Color(0xFFA1887F), // light chocolate brown
+  };
+
   // Action category colors
   static const categoryRecycling = Color(0xFF4CAF50);
   static const categoryTransport = Color(0xFF2196F3);

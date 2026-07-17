@@ -1,8 +1,8 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.6
-**Last Updated:** June 2026
+**Version:** 1.7
+**Last Updated:** July 2026
 **Author:** Miles
 
 ### Current Status
@@ -1127,28 +1127,60 @@ See [PLAN_PHASE_6.md](./PLAN_PHASE_6.md) for detailed implementation plan.
 **Deliverable:** Comprehensive impact visualization and a feedback channel
 (milestones/collection handled by the Eco-Dex). All code-only, no art bottleneck.
 
-### Phase 7: Mascot Art & Premium Features (Future)
-**Goal:** Final mascot art, RevenueCat integration, premium tier
+### Phase 7: Mascot Art & Shop (In Progress)
+**Goal:** Final mascot art, points-based cosmetic shop, species unlocking
 
 See [PLAN_PHASE_7.md](./PLAN_PHASE_7.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Final mascot art | Commission/create art for 3 species × 4 stages | P0 | Planned |
+| Final mascot art | 3 species × 4 stages; Coral shipped as animated Rive with interactive face | P0 | In Progress |
+| Cosmetic shop (§7.3) | Base shop infrastructure, buy with points | P0 | Planned |
+| Mascot species unlocking (§7.4) | 3 species, point-based unlocks | P0 | Planned |
+
+**Deliverable:** Polished animated mascots plus the points-based shop
+and unlock economy. No payment required anywhere in this phase.
+
+### Phase 8: Transport Carbon Calculator (Future)
+**Goal:** Explorable, evidence-backed transport emissions -- build a
+multi-leg journey, see its CO2e, compare alternatives side by side
+
+See [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Transport mode dataset | ~20 modes with cited gCO2e/km factors (DEFRA, OWID, IEA), EN/JA/ES | P0 | Planned |
+| Journey builder + engine | Multi-leg journeys (mode + distance + car occupancy), pure Dart math | P0 | Planned |
+| Journey comparison | 2-3 door-to-door options side by side, delta + equivalencies | P0 | Planned |
+| Methodology & sources UI | Per-mode science sheets + methodology screen | P0 | Planned |
+| Entry points & analytics | Impact-segment card, transport-tab banner, new route | P1 | Planned |
+| Logging bridge | Log the chosen greener option as real CO2 saved | P2 | Deferred (anti-gaming design needed) |
+
+**Deliverable:** Educational transport calculator with fully cited
+emission factors. Code + data only (no art), independent of Phases 7
+and 9 -- can be scheduled before or in parallel. No points awarded in
+v1 (No Fake Points).
+
+### Phase 9: Premium & Monetization (Future)
+**Goal:** RevenueCat integration, premium tier, paywall
+
+See [PLAN_PHASE_9.md](./PLAN_PHASE_9.md) for detailed implementation plan.
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
 | RevenueCat integration | Subscription infrastructure + entitlements | P0 | Planned |
 | Premium tier definition | Define free vs premium features | P0 | Planned |
 | Paywall UI | Subscription screen with benefits | P0 | Planned |
 | Restore purchases | Handle subscription restoration | P0 | Planned |
-| Cosmetic shop (§7.10) | Base shop infrastructure | P0 | Planned |
-| Mascot species unlocking (§7.11) | 3 species, point-based unlocks | P0 | Planned |
-| Premium cosmetic items (§7.12) | Premium-only shop items | P1 | Planned |
-| Streak grace period (§7.9) | Premium feature for streak recovery | P1 | Planned |
+| Streak grace period (§9.7) | Premium feature for streak recovery | P1 | Planned |
+| Premium cosmetic items (§9.8) | Premium-only shop items | P1 | Planned |
 | Ad-free experience | Remove ads for premium (if ads added) | P2 | Planned |
-| Premium mascot species (§7.13) | Exclusive species for subscribers | P2 | Planned |
+| Premium mascot species (§9.9) | Exclusive species for subscribers | P2 | Planned |
 
-**Deliverable:** Polished mascot art and working subscription monetization.
+**Deliverable:** Working subscription monetization on top of the
+Phase 7 shop and unlock systems.
 
-### Phase 8+: App Store & Post-Launch (Future)
+### Phase 10+: App Store & Post-Launch (Future)
 **Goal:** App store submission and iteration
 
 - App Store prep (screenshots, descriptions, review guidelines)

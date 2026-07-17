@@ -127,19 +127,7 @@ class HomeScreen extends ConsumerWidget {
     final user = ref.watch(currentUserProvider).value;
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
 
-    return Container(
-      padding: const EdgeInsets.all(spacingXl),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            colorScheme.primaryContainer,
-            colorScheme.secondaryContainer,
-          ],
-        ),
-        borderRadius: borderRadiusXxl,
-      ),
+    return MascotHousing(
       child: Column(
         children: [
           // Mascot display

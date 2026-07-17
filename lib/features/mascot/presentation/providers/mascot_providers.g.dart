@@ -299,6 +299,56 @@ final class ActiveSpeciesProvider
 
 String _$activeSpeciesHash() => r'5379e04b9409ff23e5e478d4835a4e808a997014';
 
+/// Theme seed color for the active mascot's species (green fallback
+/// when signed out or before data loads).
+
+@ProviderFor(activeSpeciesThemeSeed)
+final activeSpeciesThemeSeedProvider = ActiveSpeciesThemeSeedProvider._();
+
+/// Theme seed color for the active mascot's species (green fallback
+/// when signed out or before data loads).
+
+final class ActiveSpeciesThemeSeedProvider
+    extends $FunctionalProvider<Color, Color, Color>
+    with $Provider<Color> {
+  /// Theme seed color for the active mascot's species (green fallback
+  /// when signed out or before data loads).
+  ActiveSpeciesThemeSeedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeSpeciesThemeSeedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$activeSpeciesThemeSeedHash();
+
+  @$internal
+  @override
+  $ProviderElement<Color> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Color create(Ref ref) {
+    return activeSpeciesThemeSeed(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Color value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Color>(value),
+    );
+  }
+}
+
+String _$activeSpeciesThemeSeedHash() =>
+    r'59bb1ad9e771b063f143a565a8a98c71d9d13063';
+
 /// Evolution stage index (1-4) for the active mascot.
 /// Computes species inline to avoid double-watching
 /// activeMascotProvider through activeSpeciesProvider.

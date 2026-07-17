@@ -1,10 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart' as rive;
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/theme/app_colors.dart';
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
@@ -41,7 +41,6 @@ class MascotAnimationController extends ChangeNotifier {
 /// Features:
 /// - Loads the correct SVG based on evolution stage
 /// - Idle float animation (subtle up/down movement)
-/// - Tap feedback animation
 /// - Happy bounce animation (triggered via controller)
 class MascotDisplay extends ConsumerStatefulWidget {
   const MascotDisplay({
@@ -71,7 +70,6 @@ class MascotDisplay extends ConsumerStatefulWidget {
 class _MascotDisplayState extends ConsumerState<MascotDisplay>
     with SingleTickerProviderStateMixin {
   bool _isBouncing = false;
-  bool _isTapped = false;
 
   // Rive face bindings; all stay null for SVG mascots or Rive files
   // without a view model, turning gaze and smile into no-ops.
@@ -80,10 +78,17 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   rive.ViewModelInstanceNumber? _lookY;
   rive.ViewModelInstanceTrigger? _smile;
 
+  // Screen size cached in build; pointer callbacks must not depend on
+  // inherited widgets.
+  Size _screenSize = Size.zero;
+
   @override
   void initState() {
     super.initState();
     widget.animationController?.addListener(_onAnimationControllerChange);
+    // Eyes follow the pointer anywhere on screen, not just over the
+    // mascot, so listen to all pointer traffic rather than local hits.
+    GestureBinding.instance.pointerRouter.addGlobalRoute(_onGlobalPointer);
   }
 
   @override
@@ -99,6 +104,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
 
   @override
   void dispose() {
+    GestureBinding.instance.pointerRouter.removeGlobalRoute(_onGlobalPointer);
     widget.animationController?.removeListener(_onAnimationControllerChange);
     _faceVm?.dispose();
     super.dispose();
@@ -117,42 +123,36 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       return;
     }
     final vm = _faceVm!;
-    // Properties may live on the root view model or the nested Face one.
-    // The coral_mascot file currently exposes the Face VM through a root
-    // property named `propertyOfFace` (editor default name); keep `Face/`
-    // first so a future rename in the editor keeps working.
-    _lookX =
-        vm.number(mascotVmLookX) ??
-        vm.number('Face/$mascotVmLookX') ??
-        vm.number('propertyOfFace/$mascotVmLookX');
-    _lookY =
-        vm.number(mascotVmLookY) ??
-        vm.number('Face/$mascotVmLookY') ??
-        vm.number('propertyOfFace/$mascotVmLookY');
-    _smile =
-        vm.trigger(mascotVmSmile) ??
-        vm.trigger('Face/$mascotVmSmile') ??
-        vm.trigger('propertyOfFace/$mascotVmSmile');
+    // Properties may live on the root view model or the nested face one
+    // (root property `face`, camelCase per Rive naming rules).
+    _lookX = vm.number(mascotVmLookX) ?? vm.number('face/$mascotVmLookX');
+    _lookY = vm.number(mascotVmLookY) ?? vm.number('face/$mascotVmLookY');
+    _smile = vm.trigger(mascotVmSmile) ?? vm.trigger('face/$mascotVmSmile');
   }
 
   bool get _hasGaze => _lookX != null || _lookY != null;
 
   // Raw targets only: smoothing, idle wander, and blinks live in the
   // FaceRig script inside the Rive file, where the designer tunes them.
-  void _onPointer(PointerEvent event) {
-    if (!_hasGaze) return;
-    final half = widget.size / 2;
-    _lookX?.value =
-        ((event.localPosition.dx - half) / half).clamp(-1.0, 1.0) *
-        mascotLookRange;
-    _lookY?.value =
-        ((event.localPosition.dy - half) / half).clamp(-1.0, 1.0) *
-        mascotLookRange;
-  }
-
-  void _onPointerEnd(PointerEvent event) {
-    _lookX?.value = 0;
-    _lookY?.value = 0;
+  void _onGlobalPointer(PointerEvent event) {
+    if (!_hasGaze || !mounted) return;
+    if (event is PointerUpEvent || event is PointerCancelEvent) {
+      // Touch lifted: recentre. Mouse re-aims on its next hover event.
+      _lookX?.value = 0;
+      _lookY?.value = 0;
+      return;
+    }
+    if (event is! PointerDownEvent &&
+        event is! PointerMoveEvent &&
+        event is! PointerHoverEvent) {
+      return;
+    }
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null || !box.attached || !box.hasSize) return;
+    final center = box.localToGlobal(box.size.center(Offset.zero));
+    final gaze = mascotGazeTarget(event.position, center, _screenSize);
+    _lookX?.value = gaze.dx;
+    _lookY?.value = gaze.dy;
   }
 
   void _onAnimationControllerChange() {
@@ -170,32 +170,21 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     });
   }
 
-  void _onTapDown(TapDownDetails _) {
-    setState(() => _isTapped = true);
-  }
-
-  void _onTapUp(TapUpDetails _) {
-    setState(() => _isTapped = false);
-    widget.onTap?.call();
-  }
-
-  void _onTapCancel() {
-    setState(() => _isTapped = false);
-  }
-
   @override
   Widget build(BuildContext context) {
     final assetPath = ref.watch(activeMascotAssetPathProvider);
     final artboardName = ref.watch(
       activeStageDataProvider.select((stage) => stage?.artboardName),
     );
-    final glowColor = ref.watch(
-      activeMascotStageProvider.select(_getGlowColor),
-    );
 
-    // Smile trigger (e.g. when the user opens the action log)
+    // Smile trigger (e.g. when the user opens the action log).
+    // Offstage mascots (inactive tabs) have frozen tickers and would
+    // queue the smile and replay it on return; only the visible one
+    // reacts.
     ref.listen(mascotSmileTriggerProvider, (_, shouldSmile) {
-      if (shouldSmile) _smile?.trigger();
+      if (shouldSmile && TickerMode.valuesOf(context).enabled) {
+        _smile?.trigger();
+      }
     });
 
     // Watch for external bounce triggers (e.g., after logging an action)
@@ -215,57 +204,52 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       );
     }
 
+    _screenSize = MediaQuery.sizeOf(context);
+
     return GestureDetector(
-      onTapDown: _onTapDown,
-      onTapUp: _onTapUp,
-      onTapCancel: _onTapCancel,
-      // Raw pointer events (not a drag gesture) so the eyes can follow
-      // the finger without stealing scroll from ancestor scrollables.
-      child: Listener(
-        onPointerDown: _onPointer,
-        onPointerMove: _onPointer,
-        onPointerUp: _onPointerEnd,
-        onPointerCancel: _onPointerEnd,
-        child: SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Glow effect (wrapped in RepaintBoundary for Impeller compatibility)
-              if (widget.showGlow)
-                RepaintBoundary(
-                  child: Animate(
-                    onPlay: (controller) => controller.repeat(reverse: true),
-                    effects: [
-                      ScaleEffect(
-                        begin: const Offset(0.95, 0.95),
-                        end: const Offset(1.05, 1.05),
-                        duration: 2.seconds,
-                        curve: Curves.easeInOut,
-                      ),
-                    ],
-                    child: Container(
-                      width: widget.size * 0.9,
-                      height: widget.size * 0.9,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: glowColor.withValues(alpha: opacityMuted),
-                            blurRadius: 40,
-                            spreadRadius: 10,
+      onTap: widget.onTap,
+      child: SizedBox(
+        width: widget.size,
+        height: widget.size,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Glow effect (wrapped in RepaintBoundary for Impeller compatibility)
+            if (widget.showGlow)
+              RepaintBoundary(
+                child: Animate(
+                  onPlay: (controller) => controller.repeat(reverse: true),
+                  effects: [
+                    ScaleEffect(
+                      begin: const Offset(0.95, 0.95),
+                      end: const Offset(1.05, 1.05),
+                      duration: 2.seconds,
+                      curve: Curves.easeInOut,
+                    ),
+                  ],
+                  child: Container(
+                    width: widget.size * 0.9,
+                    height: widget.size * 0.9,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      // Soft white feathering behind the mascot
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withValues(
+                            alpha: opacityModerate,
                           ),
-                        ],
-                      ),
+                          blurRadius: 40,
+                          spreadRadius: 10,
+                        ),
+                      ],
                     ),
                   ),
                 ),
+              ),
 
-              // Mascot with animations
-              _buildAnimatedMascot(assetPath, artboardName),
-            ],
-          ),
+            // Mascot with animations
+            _buildAnimatedMascot(assetPath, artboardName),
+          ],
         ),
       ),
     );
@@ -279,11 +263,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
       height: widget.size * 0.8,
       onRiveInit: _onRiveInit,
     );
-
-    // Apply tap feedback
-    if (_isTapped) {
-      mascot = Transform.scale(scale: 0.95, child: mascot);
-    }
 
     // Apply bounce animation
     if (_isBouncing) {
@@ -306,8 +285,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
           );
     }
 
-    // Apply idle float animation (only when not bouncing or tapped)
-    if (!_isBouncing && !_isTapped) {
+    // Apply idle float animation (only when not bouncing).
+    // Rive mascots author their own idle motion; floating the widget too
+    // would double the movement.
+    if (!_isBouncing && !assetPath.endsWith('.riv')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [
@@ -324,16 +305,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
 
     return mascot;
   }
-
-  static const _glowColors = {
-    1: AppColors.glowEarth,
-    2: AppColors.glowFresh,
-    3: AppColors.glowVibrant,
-    4: AppColors.gold,
-  };
-
-  static Color _getGlowColor(int stage) =>
-      _glowColors[stage] ?? _glowColors[1]!;
 }
 
 /// A small-size mascot avatar (e.g., selection screen, mascot collection).
@@ -363,7 +334,8 @@ class MascotAvatar extends StatelessWidget {
       height: size,
     );
 
-    if (animate) {
+    // Rive mascots author their own idle motion (see MascotDisplay).
+    if (animate && !assetPath.endsWith('.riv')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [

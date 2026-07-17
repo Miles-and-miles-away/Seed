@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
+import '../features/mascot/presentation/providers/mascot_providers.dart';
 import '../features/settings/settings.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
@@ -42,14 +43,20 @@ class _SeedAppState extends ConsumerState<SeedApp> {
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     final appLocale = ref.watch(appLocaleProvider);
+    final themeSeed = ref.watch(activeSpeciesThemeSeedProvider);
 
     return MaterialApp.router(
       title: 'Seed',
       debugShowCheckedModeBanner: false,
 
-      // Theme
-      theme: appThemeLight,
-      darkTheme: appThemeDark,
+      // Disable Android 12+ stretch overscroll app-wide
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        overscroll: false,
+      ),
+
+      // Theme, seeded by the active mascot species
+      theme: appTheme(Brightness.light, seedColor: themeSeed),
+      darkTheme: appTheme(Brightness.dark, seedColor: themeSeed),
 
       // Routing
       routerConfig: router,
