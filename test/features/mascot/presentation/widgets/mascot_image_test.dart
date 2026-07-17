@@ -27,7 +27,7 @@ void main() {
         const MaterialApp(
           home: MascotImage(
             assetPath: 'assets/animations/coral_mascot.riv',
-            artboardName: 'Coral_Stage2',
+            artboardName: 'Coral_stage2',
             width: 100,
             height: 100,
           ),

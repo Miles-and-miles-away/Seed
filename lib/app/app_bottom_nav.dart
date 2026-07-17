@@ -13,6 +13,7 @@ class AppBottomNav extends StatelessWidget {
     required this.currentIndex,
     required this.onTabSelected,
     required this.onActionPressed,
+    this.onActionHover,
     this.isActionSelected = false,
     super.key,
   });
@@ -26,6 +27,10 @@ class AppBottomNav extends StatelessWidget {
 
   /// Called when the centre Action button is tapped.
   final VoidCallback onActionPressed;
+
+  /// Called when a mouse pointer enters (true) or leaves (false) the
+  /// centre Action button. Touch never hovers, so this is mouse-only.
+  final ValueChanged<bool>? onActionHover;
 
   /// Whether the centre Action button should render as selected.
   final bool isActionSelected;
@@ -64,6 +69,7 @@ class AppBottomNav extends StatelessWidget {
               label: l10n.navLogAction,
               isSelected: isActionSelected,
               onTap: onActionPressed,
+              onHover: onActionHover,
             ),
           ),
           Expanded(
@@ -97,6 +103,7 @@ class _NavBarItem extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
+    this.onHover,
   });
 
   final IconData icon;
@@ -104,6 +111,7 @@ class _NavBarItem extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
+  final ValueChanged<bool>? onHover;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +123,7 @@ class _NavBarItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      onHover: onHover,
       borderRadius: borderRadiusMd,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),

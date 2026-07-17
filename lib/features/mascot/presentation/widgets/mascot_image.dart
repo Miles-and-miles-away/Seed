@@ -13,6 +13,19 @@ const String mascotVmSmile = 'smile';
 /// Value sent to lookX/lookY at full gaze deflection.
 const double mascotLookRange = 100;
 
+/// Gaze deflection for a pointer at [pointer] (global coordinates) relative
+/// to a mascot centred at [center]. Full deflection (±[mascotLookRange]) is
+/// reached at the screen edges.
+Offset mascotGazeTarget(Offset pointer, Offset center, Size screen) {
+  double axis(double p, double c, double extent) => extent <= 0
+      ? 0
+      : ((p - c) / (extent / 2)).clamp(-1.0, 1.0) * mascotLookRange;
+  return Offset(
+    axis(pointer.dx, center.dx, screen.width),
+    axis(pointer.dy, center.dy, screen.height),
+  );
+}
+
 /// Renders a mascot asset, dispatching on file extension.
 ///
 /// Animated Rive mascots (`.riv`) play their default state machine;

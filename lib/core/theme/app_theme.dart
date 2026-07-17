@@ -5,10 +5,14 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'app_colors.dart';
 
 /// App theme configuration using the Material 3 design system.
-ThemeData _theme(Brightness brightness) => ThemeData(
+///
+/// [seedColor] follows the active mascot species (see
+/// AppColors.speciesThemeSeeds), so the whole scheme tints per
+/// character.
+ThemeData appTheme(Brightness brightness, {Color? seedColor}) => ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
-    seedColor: AppColors.primary,
+    seedColor: seedColor ?? AppColors.primary,
     brightness: brightness,
   ),
   appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
@@ -27,9 +31,3 @@ ThemeData _theme(Brightness brightness) => ThemeData(
     border: OutlineInputBorder(borderRadius: borderRadiusMd),
   ),
 );
-
-/// Light theme.
-final ThemeData appThemeLight = _theme(Brightness.light);
-
-/// Dark theme.
-final ThemeData appThemeDark = _theme(Brightness.dark);

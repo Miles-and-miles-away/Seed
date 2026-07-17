@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ void main() {
     bool isActionSelected = false,
     ValueChanged<int>? onTabSelected,
     VoidCallback? onActionPressed,
+    ValueChanged<bool>? onActionHover,
   }) {
     return MaterialApp(
       localizationsDelegates: const [
@@ -26,6 +28,7 @@ void main() {
           isActionSelected: isActionSelected,
           onTabSelected: onTabSelected ?? (_) {},
           onActionPressed: onActionPressed ?? () {},
+          onActionHover: onActionHover,
         ),
       ),
     );
@@ -65,6 +68,25 @@ void main() {
       await tester.pump();
 
       expect(pressed, 1);
+    });
+
+    testWidgets('reports hover enter and exit on the centre button', (
+      tester,
+    ) async {
+      final hovers = <bool>[];
+      await tester.pumpWidget(wrap(onActionHover: hovers.add));
+
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+
+      await gesture.moveTo(tester.getCenter(find.text('Action')));
+      await tester.pump();
+      expect(hovers, [true]);
+
+      await gesture.moveTo(tester.getCenter(find.text('Home')));
+      await tester.pump();
+      expect(hovers, [true, false]);
     });
 
     testWidgets('shows the filled icon only for the selected tab', (

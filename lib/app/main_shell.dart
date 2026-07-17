@@ -68,19 +68,28 @@ class _MainShellState extends ConsumerState<MainShell> {
         currentIndex: widget.navigationShell.currentIndex,
         onTabSelected: _onItemTapped,
         onActionPressed: _onActionPressed,
+        onActionHover: _onActionHover,
       ),
     );
   }
 
   void _onActionPressed() {
-    // Let the mascot smile briefly before the action log slides in.
+    // Touch never hovers, so let the mascot smile briefly before the
+    // action log slides in.
     if (_mascotTabs.contains(widget.navigationShell.currentIndex)) {
       ref.read(mascotSmileTriggerProvider.notifier).triggerSmile();
-      Future.delayed(durationSlow, () {
+      Future.delayed(durationNormal, () {
         if (mounted) context.push(appRoutes.actionLog);
       });
     } else {
       context.push(appRoutes.actionLog);
+    }
+  }
+
+  // Mouse-only counterpart: smile while the pointer rests on the button.
+  void _onActionHover(bool hovering) {
+    if (hovering && _mascotTabs.contains(widget.navigationShell.currentIndex)) {
+      ref.read(mascotSmileTriggerProvider.notifier).triggerSmile();
     }
   }
 

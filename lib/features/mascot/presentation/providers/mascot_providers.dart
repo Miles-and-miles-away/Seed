@@ -1,7 +1,10 @@
+import 'dart:ui' show Color;
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
@@ -75,6 +78,14 @@ MascotSpeciesModel? activeSpecies(Ref ref) {
   final speciesList = ref.watch(mascotSpeciesDataProvider).value;
   if (speciesList == null) return null;
   return getSpeciesById(mascot.speciesId, speciesList);
+}
+
+/// Theme seed color for the active mascot's species (green fallback
+/// when signed out or before data loads).
+@riverpod
+Color activeSpeciesThemeSeed(Ref ref) {
+  final species = ref.watch(activeSpeciesProvider);
+  return AppColors.speciesThemeSeeds[species?.id] ?? AppColors.primary;
 }
 
 /// Evolution stage index (1-4) for the active mascot.

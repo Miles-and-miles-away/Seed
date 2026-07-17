@@ -205,7 +205,7 @@ Use these packages in scripts for data tasks, web research, and automation:
 
 ## Architecture Documentation
 
-Detailed architecture, data models, security rules, and development phases are documented in `Plan/MASTER_PLAN.md`.
+Detailed architecture, data models, security rules, and development phases are documented in `Plan/PLAN_MASTER.md`.
 
 ### Data Audit Checklists
 Before doing any research, updating, auditing, or validating data files (eco facts, CO2 actions, SDG data), always check:

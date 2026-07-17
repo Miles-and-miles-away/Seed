@@ -15,6 +15,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/egg_progress_widget.dart';
 import '../widgets/mascot_display.dart';
+import '../widgets/mascot_housing.dart';
 import '../widgets/mascot_image.dart';
 
 /// The main mascot screen with evolution timeline and
@@ -82,8 +83,9 @@ class _MascotScreenState extends ConsumerState<MascotScreen> {
               padding: const EdgeInsets.all(spacingXxl),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  // Mascot display
-                  Center(
+                  // Mascot display, in the shared housing card so the
+                  // background matches the home screen
+                  MascotHousing(
                     child: Column(
                       children: [
                         const MascotDisplay(size: 220),
