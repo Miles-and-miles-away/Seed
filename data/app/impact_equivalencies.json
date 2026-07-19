@@ -7,9 +7,9 @@
   },
   {
     "type": "carKm",
-    "gramsPerUnit": 200,
-    "sourceName": "UK DEFRA — 2023 GHG Conversion Factors",
-    "sourceUrl": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023"
+    "gramsPerUnit": 162.72,
+    "sourceName": "UK DEFRA — 2025 GHG Conversion Factors (average petrol car, matches transport_modes.json)",
+    "sourceUrl": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025"
   },
   {
     "type": "phoneCharges",

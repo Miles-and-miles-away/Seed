@@ -1,9 +1,10 @@
 # Transport Emission Factor Research
 
-**Version:** 1.0
+**Version:** 1.1
 **Created:** 2026-07-17
-**Status:** Initial research pass complete (24 shipped modes
-decided; open items tracked in section 7)
+**Status:** Initial research pass complete (27 shipped modes
+decided; open items tracked in section 7). Section 9 adds the
+distance-estimation conventions for the city prefill.
 **Feeds:** `data/app/transport_modes.json` (Phase 8.1, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md))
 
@@ -37,7 +38,7 @@ accessed 2026-07-17):
 | UK electricity factor | -26% | All UK-grid electric modes drop |
 | London Underground | -44 to -45% | "amended to reflect the changes to electricity grid emissions" |
 | National rail | -13% | "following updates to fleet composition and passenger usage since the last revision in 2021" |
-| International rail (Eurostar) | +154 to -156% | "significant changes in service patterns and rolling stock utilisation" -- the famous 4 g/pkm figure is obsolete |
+| International rail (Eurostar) | +154 to +156% | "significant changes in service patterns and rolling stock utilisation" -- the famous 4 g/pkm figure is obsolete |
 | Coaches | +42 to 43% | "replacing outdated data that implied unrealistically high occupancy rates" |
 
 Implication: several widely-quoted numbers (rail 35, Eurostar 4,
@@ -201,7 +202,7 @@ revisit.
 | Local bus, average | 103.85 | passenger-km | High |
 | London bus | 68.75 | passenger-km | Medium (single source) |
 | Coach | 27.76 | passenger-km | High for 2025; 2026 raises coach 42-43% (~39.5 computed, unverified) |
-| Taxi (regular) | 148.61 | passenger-km | Medium (single source) |
+| Taxi (regular) | 208.06 | vehicle-km | Medium-high (SustainMetrics row + DESNZ methodology construction) |
 
 Key sources (accessed 2026-07-17):
 - SustainMetrics DEFRA 2025 factor tables:
@@ -233,6 +234,37 @@ occupancy; car/motorbike per vehicle-km. DEFRA's PHEV km factor
 covers the fuel side only (charging electricity is a separate
 line) -- combined with the T&E real-world finding, present PHEV
 conservatively or drop the mode from v1.
+
+**Taxi basis (corrected by decision R2-D1, 2026-07-18):** ships
+per VEHICLE-km at 208.06 ("Taxis > Regular taxi | Scope 3 |
+0.20806 | km", SustainMetrics land page, verified 2026-07-18).
+DESNZ 2025 methodology para 5.39: regular-taxi factors are the
+average medium/large-car type-approval CO2 uplifted 40% for the
+real-world taxi duty cycle (TfL data); the per-passenger-km
+variant 148.61 divides by an assumed 1.4 passengers (L.E.K.
+Consulting, 2002) and is NOT shipped (dated occupancy embedded
+invisibly). Deadheading is explicitly excluded -- para 5.42: "It
+should be noted that the current conversion factors for taxis do
+not take into account emissions spent from 'cruising' for fares."
+Post-2020 context for the science sheet: CARB SB 1014 2018
+Base-year Emissions Inventory Report (Dec 2019,
+https://ww2.arb.ca.gov/sites/default/files/2019-12/SB%201014%20-%20Base%20year%20Emissions%20Inventory_December_2019.pdf
+-- "it is estimated that in 2018, almost 38.5 percent of total
+TNC VMT in California was deadhead miles"; note the PDF is
+bot-blocked for plain HTTP clients but opens in a browser); UCS
+2020 ("Ride-Hailing's Climate Risks",
+https://www.ucs.org/resources/ride-hailing-climate-risks --
+"ride-hailing trips today result in an estimated 69 percent more
+climate pollution on average than the trips they displace"; the
+report's non-pooled case is ~47% above a comparable private-car
+trip, ~239 g/km applied to our car figure). The shipped
+208.06 is therefore conservative. Dropped (R3): the TRUE
+Initiative 2024 Scotland corroboration carried no citation
+anywhere in the repo and could not be live-verified, so it was
+trimmed from the calc note; restore only with a verified URL +
+quote. No self-derived deadheading
+factor ships (PHEV precedent: never ship a derived number that
+contradicts the cited set).
 
 Cross-checks: US EPA "The average passenger vehicle emits about
 400 grams of CO2 per mile" (~249 g/km CO2-only, US fleet,
@@ -298,10 +330,11 @@ Key sources (accessed 2026-07-17):
   "around 1/12th" of the aircraft. Use as the quotable in-app
   fact.
 - Absolute per-passenger-km: **20 g CO2/pkm** adopted. Two
-  agreeing sources: JR East FY2023 environmental-report figure as
-  restated by Planet Forward
+  agreeing sources: the FY2023 figure reported by Planet Forward
   (https://planetforward.org/story/japans-trains-climate/, "rail
-  travel emits just 20 grams of CO2 per passenger-kilometer") and
+  travel emits just 20 grams of CO2 per passenger-kilometer" --
+  the page does not name the underlying reporter; do not
+  attribute it to a specific JR company) and
   the MLIT-supervised Navitime reference page
   (https://www.navitime.co.jp/pcstorage/html/co2info.html:
   airplane 96, train 20, bus 66, car 145 g/km; source line
@@ -336,10 +369,22 @@ sheet.
 
 | Mode | Chosen g CO2e/km | Scope of chosen value | Confidence |
 |------|------------------|-----------------------|------------|
-| Walking | 0 | direct emissions (metabolic excluded by convention) | High |
-| Cycling | 16 | marginal food, average European diet (OWID) | High |
-| E-bike | 8 (derived) | food 6.3 + electricity ~1.5-2; manufacture excluded | Medium |
+| Walking | 0 | operational (metabolic excluded) | High |
+| Cycling | 0 | operational (metabolic excluded) | High |
+| E-bike | 2 (derived) | electricity only: 5.3 Wh/km x 386 g/kWh house grid | Medium |
 | E-scooter (private) | 6 (derived) | electricity only: ~15 Wh/km x 386 g/kWh house grid | Medium |
+
+> **Owner decision 2026-07-18 (supersedes the 2026-07-17 draft
+> values cycle 16 / ebike 8):** active modes ship
+> electricity-only, making the dataset's operational-energy scope
+> statement true for every row. Metabolic food energy is excluded
+> for ALL human-powered modes and documented in the calc notes and
+> methodology sheet: OWID's cycling 16-50 g/km (diet-dependent)
+> and walking ~56 g/km remain quotable context, with OWID's
+> additionality caveat. `bike_instead_of_car` in
+> co2_actions_database.json deliberately KEEPS the 16 g rider
+> footprint inside its savings delta -- different role; do not
+> sync these numbers.
 
 Verified underlying figures and quotes (accessed 2026-07-17):
 
@@ -458,13 +503,17 @@ rows into this series.
   scientific evidence", covering "contrail cirrus and emissions
   of nitrogen oxides (NOx)"; uncertainty "between 1 and 4 times"
   (https://www.gov.uk/government/publications/transport-energy-and-environment-statistics-notes-and-definitions/journey-emissions-comparisons-methodology-and-guidance).
-- Current 2025/2026 releases: strong secondary evidence the
-  multiplier is now **1.7** (Thrust Carbon: "DEFRA factors
-  include radiative forcing at 1.7x"; greencalculus data page:
-  "High-altitude non-CO2 effects add roughly 1.7x"). Not yet
-  verified against the DESNZ methodology paper itself (PDF).
-  **Do not print "1.9x" in app copy**; say "includes the
-  high-altitude uplift" and verify 1.7 before quoting a number.
+- Current 2025 release: **1.7, VERIFIED on the DESNZ 2025
+  methodology paper itself** (sec 8.43, read 2026-07-18,
+  https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf):
+  "A multiplier of 1.7 is recommended as a central estimate,
+  based on the best available scientific evidence". Sec 8.44
+  adds the caveat that the value "is subject to significant
+  uncertainty and should only be applied to the CO2 component of
+  direct emissions"; sec 8.45 recommends applying it "equally to
+  all flights irrespective of distance or altitude".
+  **Do not print "1.9x" in app copy** -- that is the legacy
+  value; 1.7 is now quotable with the citation above.
 - Science citation for the why -- Lee et al. 2021, "The
   contribution of global aviation to anthropogenic climate
   forcing for 2000 to 2018", Atmospheric Environment. Verified on
@@ -500,8 +549,8 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | id | Mode | g CO2e/km | Basis | Vintage / source | Confidence |
 |----|------|-----------|-------|------------------|------------|
 | walk | Walking | 0 | pkm | convention (sec 3.3) | High |
-| cycle | Cycling | 16 | pkm | OWID, food-only | High |
-| ebike | E-bike | 8 | pkm | derived: ECF components minus manufacture, house grid | Medium |
+| cycle | Cycling | 0 | pkm | convention (sec 3.3, owner decision 2026-07-18) | High |
+| ebike | E-bike | 2 | pkm | derived: electricity only, 5.3 Wh/km x 386 house grid (sec 3.3) | Medium |
 | escooter_private | E-scooter (private) | 6 | pkm | derived: 15 Wh/km x 386 (Springer 2024 consumption) | Medium |
 | car_petrol_small | Small petrol car | 143.08 | vkm | DEFRA 2025 | High |
 | car_petrol_medium | Medium petrol car | 174.74 | vkm | DEFRA 2025 | High |
@@ -513,15 +562,18 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | motorbike | Motorbike (average) | 113.67 | vkm | DEFRA 2025 | High |
 | bus_city | City bus | 103.85 | pkm | DEFRA 2025 (avg local bus) | High |
 | coach | Coach (long distance) | 27.76 | pkm | DEFRA 2025; 2026 raises ~42% -- re-verify at next pass | High (2025) |
+| taxi | Taxi | 208.06 | vkm | DEFRA 2025 regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
 | rail_national | Local / national rail | 35.46 | pkm | DEFRA 2025; 2026 -13% flagged | High (2025) |
-| rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | JR East FY2023 via Planet Forward + MLIT-supervised Navitime | Medium-high |
+| rail_international | International rail (Eurostar) | 4.46 | pkm | DEFRA 2025; 2026 raises ~2.5x -- order-of-magnitude only (D3) | High (2025) |
+| rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | FY2023 figure via Planet Forward + MLIT-supervised Navitime | Medium-high |
 | metro | Metro / underground | 27.8 | pkm | DEFRA 2025 (London Underground); 2026 -44% flagged | High (2025) |
 | tram | Tram / light rail | 28.6 | pkm | DEFRA 2025 | High |
 | ferry_foot | Ferry (foot passenger) | 18.71 | pkm | DEFRA 2025 | High |
+| ferry_car | Ferry (car passenger) | 129.33 | pkm | DEFRA 2025; one leg covers vehicle + passenger (D3) | High |
 | flight_domestic | Domestic flight | 229.28 | pkm | DEFRA 2025, avg passenger, with RF | High |
 | flight_shorthaul | Short-haul flight (economy) | 125.76 | pkm | DEFRA 2025, with RF | High |
 | flight_longhaul | Long-haul flight (economy) | 117.04 | pkm | DEFRA 2025, with RF | High |
-| private_jet | Private jet | 1000 | pkm | derived (sec 8.1); CE Delft 5-14x band; no RF | Medium |
+| private_jet | Private jet | 1700 | pkm | derived (sec 8.1); 1,000 combustion base x 1.7 verified RF (D2) | Medium |
 | helicopter | Helicopter | 450 | pkm | derived (sec 8.2); turbine class, 4-5 pax | Medium |
 
 **Dropped from v1 (documented decisions):**
@@ -534,14 +586,16 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
   (Hollingsworth 202 g/mile; modern fleets 28-40 g/pkm) --
   incompatible with the operational scope rule. Methodology
   sheet covers it.
-- Eurostar/international rail (4.46): Europe-specific and about
-  to more than double in the 2026 set; kept as methodology
-  context, not a mode.
-- Ferry with car (129.33): v1 ships foot passenger; car-ferry
-  needs journey-builder UX thought (it is a car leg AND a ferry
-  leg). Open item.
 - Yacht: not defensible as a per-km mode (section 8.3); ships as
   an eco-fact candidate instead.
+
+**Un-dropped by owner decision D3 (2026-07-17, see the PDR):**
+international rail (4.46, loud order-of-magnitude caveat), taxi
+(per-vehicle 208.06 -- D3's original 148.61 passenger-km basis
+was corrected by decision R2-D1 on 2026-07-18: deadheading is
+excluded per DESNZ 5.42 and the 1.4 assumed occupancy is dated),
+and ferry_car (129.33, one leg covers the vehicle-plus-passenger
+crossing) now ship with the caveats recorded in their calc notes.
 
 **Cabin class:** economy factors shipped; multipliers (premium
 1.6x, business 1.5x SH / 2.9x LH, first 4.0x) documented in the
@@ -551,12 +605,20 @@ methodology sheet, selector deferred.
 
 ## 6. Sanity Invariants (for the test suite)
 
-Pin these orderings as dataset regression tests (all hold for the
-section 5 values; each survives the flagged 2026 revisions):
+Pin these orderings as dataset regression tests. They are **data
+pins for the shipped DEFRA-2025-vintage values** (section 5), not
+truth claims: the flagged 2026 revisions break some of them
+(noted inline), so every pin must be re-derived at the next data
+pass rather than assumed to survive it.
 
-1. walking < cycling-family (cycle, ebike, escooter_private) <
-   every motorized mode's per-passenger figure
-2. shinkansen <= metro/tram/national-rail band (20 <= 27.8-35.46)
+1. walking (0) <= cycling-family (cycle 0, ebike 2,
+   escooter_private 6) < every motorized mode's per-passenger
+   figure. Documented exception: rail_international (4.46) sits
+   below the e-scooter until the ~2.5x 2026 revision (~11) lands.
+   Thinnest remaining margin: full BEV 73/4 = 18.25 vs e-scooter 6.
+2. shinkansen <= tram/national-rail (20 <= 28.6-35.46). Metro is
+   deliberately excluded: the 2026 revision cuts London
+   Underground ~44% to ~15.4, below shinkansen's 20.
 3. rail band < city bus < solo average petrol car
    (35.46 < 103.85 < 162.72)
 4. coach < solo average petrol car (27.76 < 162.72; still holds
@@ -570,7 +632,12 @@ section 5 values; each survives the flagged 2026 revisions):
 8. ferry_foot < city bus (18.71 < 103.85)
 9. helicopter > every ground mode's solo per-passenger figure
    (450 > 268.28)
-10. private jet > every other mode (1000 > 450)
+10. private jet > every other mode (1700 > 450)
+11. rail_international < shinkansen (4.46 < 20; 2026 ~11 < 20,
+    stable)
+12. taxi > city bus (208.06 > 103.85; duty-cycle uplift,
+    deadheading excluded per DESNZ 5.42)
+13. ferry_car > ferry_foot (129.33 > 18.71)
 
 **Deliberate non-invariants** (do NOT pin; they are the honest
 surprises the feature exists to surface):
@@ -592,32 +659,27 @@ Shinkansen basis settled (20 g/pkm, per passenger-km; JR Central
 settled (electricity-only + lifecycle caveat in methodology).
 
 Also resolved: high-impact modes researched and decided
-(section 8: private jet 1000 and helicopter 450 ship as a
-"high-impact" group; yacht rejected as a mode, kept as an
-eco-fact candidate).
+(section 8: private jet -- 1,000 base, shipped at 1,700 with-RF
+per decision D2 -- and helicopter 450 ship as a "high-impact"
+group; yacht rejected as a mode, kept as an eco-fact candidate).
+
+Resolved 2026-07-18: RF multiplier verified at 1.7 on the DESNZ
+2025 methodology paper (sec 4); private jet gains the same uplift
+(1,700, decision D2, sec 8.1); ferry_car shipped with the
+one-leg-covers-both calc note (decision D3); JSON build step done
+(`data/app/transport_modes.json`, 27 modes).
 
 Remaining:
 
-- [ ] Verify the DESNZ 2025/2026 RF multiplier (1.7 vs legacy
-      1.9) against the methodology paper before any in-app copy
-      quotes a number (factors shipped are with-RF either way)
 - [ ] Re-verify exact MLIT FY2023/FY2024 chart values before the
       Japan-context numbers appear anywhere user-facing
 - [ ] Next DEFRA pass (when 2026 numbers become quotable):
       coach (+42%), national rail (-13%), LU (-44%), BEV UK
-      anchor (~30); re-run invariant checks
-- [ ] Car-ferry UX question (car leg + ferry leg) before adding
-      ferry_car (129.33, verified, on the shelf)
-- [ ] When the RF multiplier is verified, decide whether the
-      private-jet factor gains the same uplift as airline rows
-      (currently combustion-only, i.e. conservative; ~1,700 with
-      a 1.7x uplift)
+      anchor (~30), international rail (~2.5x to ~11);
+      re-derive all invariant pins (sec 6)
 - [ ] Yacht eco-fact: draft `eco_facts.json` candidate from the
       Barros & Wilk 7,020 t/yr figure (run through
       [AUDIT_FACT_DATA.md](./AUDIT_FACT_DATA.md) criteria)
-- [ ] JSON build step: convert section 5 + per-mode sources into
-      `data/app/transport_modes.json` with EN/JA/ES names
-      (Phase 8.1 implementation order step 2)
 
 ---
 
@@ -627,7 +689,7 @@ Requested addition for comparison-view education value. Verdict:
 **ship private jet and helicopter (derived factors, fully
 citable inputs); do not ship yacht as a journey mode.**
 
-### 8.1 Private jet -- SHIP at 1,000 g CO2e/pkm (derived)
+### 8.1 Private jet -- SHIP at 1,700 g CO2e/pkm (1,000 derived base x 1.7 RF, decision D2)
 
 No government per-pkm factor exists; the shipped value is derived
 from citable inputs, cross-checked three ways, and deliberately
@@ -646,7 +708,7 @@ mid-band:
   passengers per flight" (venturajet.com, industry stat,
   low-medium confidence).
 - Cross-checks: US EIA jet fuel "9.75 kg CO2/gallon" reproduces
-  the same within 1%
+  the same within 1.2%
   (https://www.eia.gov/environment/emissions/co2_vol_mass.php);
   T&E's "Two tonnes of CO2 Emitted by a private jet in one hour"
   at ~800 km/h and 4 pax = 0.63 kg/pkm.
@@ -665,13 +727,22 @@ mid-band:
   in 2023, or about 3.6 t CO2 per flight." Fuel burns "182-2180 L
   per hour". CO2-only, "does not consider non-CO2 warming."
 
-**Chosen: 1,000 g CO2e/pkm**, calc note "derived: light-midsize
-jet cruise 0.53-0.74 at 4 pax; CE Delft 5-14x commercial supports
-0.6-3.2 band for real-world hops; mid-band chosen, combustion
-CO2e only". **No RF uplift applied** (inputs are combustion-only;
-the airline factors embed DEFRA's uplift, this one does not --
-the private-jet bar is therefore CONSERVATIVE, and still ~4-9x
-the airline bars). Revisit with the RF multiplier open item.
+**Chosen: 1,700 g CO2e/pkm (decision D2, resolved 2026-07-18).**
+The combustion-only base is 1,000 g/pkm -- the conservative lower
+band of the CE Delft-implied 0.6-3.2 kg/pkm real-world range
+(cruise-phase floor 0.53-0.74 at 4 pax; real hops at 2-3 pax sit
+well above it). The DESNZ RF multiplier was then verified at 1.7
+directly on the 2025 methodology paper (sec 4 above) and applied
+for chart consistency with the airline rows, which all embed the
+same uplift: 1,000 x 1.7 = **1,700 g/pkm**. Shipping the no-RF
+1,000 next to with-RF airline bars understated the jet-vs-airline
+gap ~1.7x in the pro-jet direction, which failed the "honest,
+not generous" rule. The in-chart footnote should say the jet bar
+includes the same high-altitude uplift as the airline bars.
+One acknowledged simplification: DESNZ (para 8.44) says the 1.7
+multiplier should be applied only to the CO2 component of direct
+emissions, while this derivation applies it to the full CO2e
+base -- immaterial, as CH4/N2O are under 1% of aviation CO2e.
 
 ### 8.2 Helicopter -- SHIP at 450 g CO2e/pkm (derived)
 
@@ -715,3 +786,145 @@ pad, submarines and pools emits about 7,020 tons of CO2 a year"
 https://theconversation.com/private-planes-mansions-and-superyachts-what-gives-billionaires-like-musk-and-abramovich-such-a-massive-carbon-footprint-152514,
 2021). Candidate for `eco_facts.json` / an Eco-Dex entry rather
 than `transport_modes.json`.
+
+---
+
+## 9. Distance Estimation for the City Prefill (verified 2026-07-17)
+
+The journey builder prefills editable distance estimates from a
+bundled city list (`data/app/cities.json`, generated by
+`scripts/generators/build_cities.py`). Conventions and sources:
+
+- **Straight-line base:** haversine over city coordinates.
+  City data: GeoNames cities15000 (CC BY 4.0,
+  https://download.geonames.org/export/dump/cities15000.zip),
+  top 5 per country by population (top 15 for JP), capitals with
+  zero recorded population excluded, duplicate records deduped.
+  Region mapping: ISO-3166 regional codes (lukes GitHub dataset).
+- **Ground circuity x1.3:** road-network distance exceeds
+  straight-line; US-average driving circuity is ~1.3 (range
+  1.2-1.42 across the literature). Sources:
+  https://circuity.org/method/ ;
+  US nationwide driving-vs-straight-line study
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC3835347/ ;
+  canonical country-circuity paper (Ballou et al. 2002)
+  https://www.sciencedirect.com/science/article/abs/pii/S0965856401000441
+  Applied to ground and active estimates. Rail-specific circuity
+  not separately sourced; ground factor applied (open item).
+- **Flight = great-circle + 95 km:** the EN 16258 (2012)
+  distance correction used by myclimate and EU monitoring
+  conventions
+  (https://www.myclimate.org/en/information/about-myclimate/downloads/flight-emission-calculator/).
+- **Ferry = straight line** (no detour factor; conservative).
+- **Port-anchored ferry links (Fix Backlog 3, R3-D4):** every
+  ferry link carries a representative port coordinate and a
+  catchment radius per side; a ferry is suggested only when each
+  city lies within its side's radius. This scopes a mass-level
+  link to the corridor it names by construction: the Gibraltar
+  link cannot manufacture Red Sea ferries, the Ireland-France
+  link cannot reach Groningen, and Sevilla-Tangier (killed by
+  the old cap approach) is revived. Radii are catchment
+  decisions verified against dataset coordinates (see
+  PDR_TRANSPORT_CALCULATOR.md sec 13.1). A `max_km`
+  straight-line cap (default 500) remains as a backstop and
+  where a real crossing needs more (Ireland-France 900,
+  Dublin/Cork-Paris at 779-838 km). Portless links (the
+  synthetic ones in unit tests) gate on distance alone;
+  rail_tunnel links stay portless because through-rail reach is
+  real. The full 481,671-pair sweep after anchoring: 21 ferry
+  pairs total, every one on the corridor its link names.
+- **Continental convention (Suez):** Africa-Eurasia ground stays
+  unmodeled even where a real land corridor exists
+  (Cairo-Jerusalem drives via Suez) -- a mass-level ground link
+  cannot scope regionally and would leak ground suggestions
+  across the Strait of Gibraltar (Sevilla-Tangier). Users can
+  still build the journey manually.
+- **2,000 km ground cap (product rule, not science):** ground
+  modes are only *suggested* up to 2,000 km straight-line -- "a
+  plausible long drive or single rail/coach journey" (owner
+  decision, 2026-07-17, relocating the city_pairs prototype's
+  build-time filter to a runtime rule). Users can always build
+  any journey manually.
+- **250 km minimum flight distance:** below it, no scheduled
+  service is plausible enough to suggest -- except as the
+  fallback when a cross-water pair has no other kind at all
+  (real short island hops, e.g. San Juan-Charlotte Amalie,
+  125 km).
+- **100 km air-fallback floor (`fallbackAirMinKm`, decision
+  R2-D3):** linkless cross-water pairs below 100 km straight-line
+  return an empty suggestion map instead of a padded
+  "17 km hop -> 112 km flight" fiction (Marigot-The Valley).
+  These are local boat hops the model does not cover; the UI
+  falls back to manual distance entry. NaN coordinates likewise
+  return an empty map.
+- **Active cap split:** the active suggestion kind is offered up
+  to 150 km straight-line (cycle family); walking is only mapped
+  in up to 40 km (`walkModeMaxKm`, applied at kind-to-mode
+  mapping time -- a 195 km road walk is not a suggestion).
+- **Landmass model + fixed links:** road-connected masses with
+  islands isolated (from the city_pairs prototype; multi-island
+  countries ID/PH/NZ/IT/GQ/TZ/KM/PG/CV/FJ/BS/TC/VI -- plus a
+  latent MY Borneo guard -- are split per island by city
+  coordinates); fixed crossings declared explicitly: Channel
+  Tunnel (rail), Dover-Calais, Irish Sea, Ireland-France,
+  Busan-Fukuoka, Gibraltar Strait, Messina
+  Strait/Naples-Palermo, Dar es Salaam-Zanzibar, Cook Strait,
+  St Thomas-St Croix (ferries). The Malta-Sicily link was
+  removed (R3): the only Sicilian city in the dataset is
+  Palermo, a corridor with no direct Malta ferry (the real
+  service runs to Pozzallo/Catania); Malta keeps its air
+  suggestion, and the link returns if Catania is ever
+  force-included.
+  Ferry links enable ferry legs only; rail_tunnel links enable
+  ground modes. **Links are not chained:** each link connects
+  exactly the two masses it names (Malta-Sicily plus
+  Sicily-Eurasia does not imply Malta-Eurasia).
+
+Known limitations (documented, accepted for v1):
+- Same-mass circuity (x1.3) cannot see missing or banned
+  crossings: every Bahrain-Qatar pair suggests ~185 km cycling
+  although the causeway was never built (real road ~400 km via
+  Saudi Arabia), and Hong Kong-Macau active suggestions ignore
+  that bicycles are banned on the bridge. Distances stay
+  user-editable; no fix shipped.
+- The same blindness covers enclosed seas, gulfs, and unbridged
+  rivers inside one landmass (R3): Helsinki-Tallinn suggests
+  107 km cycling across the Gulf of Finland; Kinshasa-Brazzaville
+  a 10 km walk across the unbridged Congo; Stockholm-Helsinki
+  ground 514 km vs ~1,750 real road around the Gulf of Bothnia;
+  Buenos Aires-Montevideo 263 km vs ~600 real. Direction of the
+  error is generous (understated distance). Real fix is
+  water-polygon awareness or per-strait exclusion, out of scope
+  for v1; distances stay user-editable.
+- Ferry estimates price the whole straight-line distance at the
+  foot-ferry rate even when the sea leg is a fraction of it
+  (Dublin-Paris: ~350 km crossing inside a 779 km estimate).
+  Port anchoring bounds who gets the suggestion (a city can be
+  at most one catchment radius from its port); the estimate
+  itself stays a single-mode approximation, and distances stay
+  user-editable.
+- (Historical, resolved by port anchoring:) the Gibraltar link
+  briefly shipped with a 150 km cap because no distance cap
+  could both kill the Red Sea/Levant fiction (152-191 km) and
+  keep Sevilla-Tangier (180 km). Ports resolve the conflict by
+  construction: the link now yields Gibraltar-Tangier and
+  Sevilla-Tangier only.
+- The house grid factor 386 g/kWh sits below current
+  global-average estimates (~470-480 g/kWh) and below Japan's
+  grid, so the EV/e-bike/e-scooter rows are correspondingly
+  generous (EV 73 would be ~86-90 at those factors). App-wide
+  house rule per AUDIT_ACTION_DATA.md, out of scope for this
+  feature; the planned EV sublabel and the methodology sheet
+  carry the context.
+
+Open items added by this section:
+- [x] Port-anchored ferry links -- DONE (Fix Backlog 3, R3-D4);
+      Malta-Sicily can return with ports at Valletta/Pozzallo
+      once Catania is force-included
+- [ ] JA/ES localization of city names (ship EN-only v1)
+- [ ] Rail-specific circuity factor if a citable source lands
+- [ ] Per-mode `maxSuggestKm` (high-impact modes currently have
+      no suggestion caps) -- belongs in the UI PR
+- [ ] Leg-length -> flight-band mapping (a 400 km leg priced at
+      the long-haul rate halves the honest figure) -- belongs in
+      the UI PR

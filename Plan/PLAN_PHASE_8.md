@@ -78,7 +78,7 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 
 | Deliverable | Description |
 |-------------|-------------|
-| Transport mode dataset | `data/app/transport_modes.json`: ~24 modes, gCO2e/km factors, EN/JA/ES names, full source citations |
+| Transport mode dataset | `data/app/transport_modes.json`: ~27 modes, gCO2e/km factors, EN/JA/ES names, full source citations |
 | Calculator engine | Pure Dart: legs -> per-leg and total CO2e, occupancy handling |
 | Journey builder UI | Add/edit/remove legs (mode, distance, car occupancy) |
 | Comparison UI | 2-3 journey options side by side with delta and equivalencies |
@@ -180,18 +180,22 @@ Notes locked in now (they shape the schema):
   per-km is *lower* than domestic (cruise efficiency), which is
   exactly the counterintuitive fact the comparison view surfaces --
   total flight impact still dwarfs rail because of distance.
-- **Cycling keeps the 16 g/km metabolic figure** already used by
-  `bike_instead_of_car` in `co2_actions_database.json` for
-  consistency across the app.
+- **Active modes ship electricity-only (owner decision
+  2026-07-18):** walking and cycling are 0; metabolic food energy
+  is excluded by convention for all human-powered modes and
+  documented in the methodology sheet with OWID's additionality
+  caveat. The 16 g/km figure stays inside `bike_instead_of_car`'s
+  savings delta -- different role, deliberately not synced.
 - **Shinkansen needs a non-DEFRA source** (JR Central environmental
   report and/or IEA rail study; Eurostar's ~6 g/km is
   French-nuclear-specific and must not be presented as generic
   high-speed rail).
-- **Scope:** direct + well-to-tank energy emissions, consistent with
-  DEFRA conversion-factor conventions. Vehicle manufacturing and
-  infrastructure are excluded and the methodology sheet says so
-  (with a note that this understates EV vs petrol manufacturing
-  differences).
+- **Scope:** direct (tank-to-wheel) operational energy emissions,
+  consistent with DEFRA conversion-factor conventions; well-to-tank
+  uplifts are a separate DEFRA factor set and must never be mixed
+  in. Vehicle manufacturing and infrastructure are excluded and the
+  methodology sheet says so (with a note that this understates EV
+  vs petrol manufacturing differences).
 
 #### Schema
 
@@ -199,7 +203,7 @@ Notes locked in now (they shape the schema):
 {
   "metadata": {
     "version": 1,
-    "scope": "direct + well-to-tank; excludes vehicle manufacture",
+    "scope": "operational energy only; excludes vehicle manufacture",
     "primary_source": "UK DEFRA GHG Conversion Factors",
     "grid_factor_g_per_kwh": 386
   },
@@ -271,11 +275,11 @@ journeyCo2e = sum(legCo2e for legs)
 +------------------------------------------+
 |  Journey A                        [name] |
 |  +--------------------------------------+
-|  | 1. Taxi (medium petrol, 1p)   20 km  |
+|  | 1. Taxi                       20 km  |
 |  | 2. Domestic flight           515 km  |
 |  | [+ Add leg]                          |
 |  +--------------------------------------+
-|  Total: 130.1 kg CO2e                    |
+|  Total: 122.2 kg CO2e                    |
 +------------------------------------------+
 ```
 
@@ -295,7 +299,7 @@ journeyCo2e = sum(legCo2e for legs)
 
 Users rarely know km distances, so the leg editor offers an
 optional city-pair picker that prefills an editable estimate. No
-maps API and no pairs matrix -- `data/app/cities.json` ships ~977
+maps API and no pairs matrix -- `data/app/cities.json` ships ~982
 cities (GeoNames top-5 per country, top-15 for JP; name, country,
 lat/lon, landmass tag) plus a curated list of fixed crossings
 (Channel Tunnel, Busan-Fukuoka ferry, Gibraltar ferries, etc.).
@@ -310,15 +314,15 @@ all constants citable, every prefill user-editable):
 | Kind | Offered when | Estimate |
 |------|--------------|----------|
 | ground (car/bus/rail) | same landmass or rail_tunnel link, straight-line <= 2,000 km | haversine x 1.3 circuity |
-| air | straight-line >= 150 km | haversine + 95 km (EN 16258) |
-| ferry | ferry link between masses | haversine |
-| active | ground rules and <= 150 km | haversine x 1.3 |
+| air | straight-line >= 250 km, or >= 100 km when no other kind is available (below 100 km: no suggestions, manual entry) | haversine + 95 km (EN 16258) |
+| ferry | ferry link between masses, straight-line <= the link's max_km (default 500) | haversine |
+| active | ground rules and <= 150 km (cycle family); walking only <= 40 km, applied when mapping the kind to modes | haversine x 1.3 |
 
 The 2,000 km ground cap is a product rule ("a plausible long
 drive or one rail/coach journey"); beyond it or across unlinked
 water the comparison degrades gracefully to air-only (airline vs
 private jet). City names ship EN-only in v1 (JA/ES localization
-of ~977 proper nouns is an open item).
+of ~982 proper nouns is an open item).
 
 ---
 
@@ -337,12 +341,12 @@ legs).
 +------------------------------------------+
 |  Tokyo -> Osaka                           |
 |                                          |
-|  Fly        ############------  130 kg   |
-|  Drive (1p) ##########--------   85 kg   |
+|  Fly        ############------  122 kg   |
+|  Drive (1p) ##########--------   81 kg   |
 |  Rail       #-----------------   10 kg   |
 |                                          |
-|  Rail saves 120 kg CO2e vs flying (92%)  |
-|  = 6 trees growing for a year            |
+|  Rail emits 112 kg less CO2e (92%)       |
+|  = 5 trees growing for a year            |
 +------------------------------------------+
 ```
 
@@ -351,6 +355,20 @@ legs).
 - Delta line compares best vs worst; equivalencies reuse the Phase
   6 impact-equivalency helpers (trees, phone charges, car-km) --
   no new equivalency code.
+- **Copy rule (data review 2026-07-17):** deltas are hypothetical
+  comparisons, so say "emits X kg less CO2e", never "saves" --
+  nothing was saved. Never generate copy claiming walking beats
+  cycling (scope-convention artifact) or coach-beats-rail
+  superlatives (ordering flips in the 2026 DEFRA revision).
+- **UI requirements from the data review (2026-07-17):**
+  - Electric car rows/bars carry the sublabel "global-average
+    grid; varies with your electricity" (the 73 g/km figure is
+    grid-dependent, ~6-150 worldwide).
+  - The private-jet bar carries a footnote that it includes the
+    same high-altitude (radiative forcing) uplift as the airline
+    bars (D2, resolved 2026-07-18 at 1,700 g/pkm).
+  - Active modes show their basis ("0 direct emissions";
+    e-bike/e-scooter "electricity only").
 - Optional educational presets (P2): 2-3 bundled example
   comparisons ("500 km: plane vs train vs car") to demonstrate the
   distance crossover without the user entering anything.
@@ -542,13 +560,13 @@ compare alternative meals side by side (beef burger vs chicken
 burger vs bean burger).
 
 Example: chicken 150 g + potatoes 200 g + 1 can of beer
-= ~0.9 + ~0.1 + ~0.4 = **~1.4 kg CO2e**.
+= ~1.5 + ~0.1 + ~0.4 = **~2.0 kg CO2e**.
 
 The insight this part teaches -- *what* you eat matters far more
 than how far it travelled or how it is packaged, and the gap
-between foods spans two orders of magnitude (beef ~60x potatoes per
-kg) -- is the food-side twin of Part 1's "mode choice dominates"
-lesson. Our World in Data's per-food charts (Poore & Nemecek 2018)
+between foods spans two orders of magnitude (beef is >100x
+potatoes per kg) -- is the food-side twin of Part 1's "mode choice
+dominates" lesson. Our World in Data's per-food charts (Poore & Nemecek 2018)
 make it vivid; this part turns that chart into an explorable tool.
 
 It deliberately reuses the Part 1 architecture wholesale: bundled
@@ -602,6 +620,15 @@ values) -- the research task fixes exact values, quotes, and access
 dates before anything ships, exactly as RESEARCH_TRANSPORT.md did
 for Part 1. Output goes to `Plan/RESEARCH_FOOD.md`.
 
+**Research complete (2026-07-18):** verified factors, sources,
+quotes, chosen dataset values (P&N means per decision D1),
+serving presets, sanity invariants, and UI/copy requirements live
+in [RESEARCH_FOOD.md](./RESEARCH_FOOD.md), reviewed in
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md). That document
+is the source of truth for the JSON build step; the table above
+remains illustrative (and is the retired median set -- shipped
+means are higher).
+
 | Group | Item | Illustrative kgCO2e/kg |
 |-------|------|------------------------|
 | Meat | Beef (beef herd) | ~60 |
@@ -632,7 +659,7 @@ for Part 1. Output goes to `Plan/RESEARCH_FOOD.md`.
 | Fruit | Apples | ~0.4 |
 | Fruit | Citrus | ~0.4 |
 | Fruit | Berries | ~1.5 |
-| Drinks | Coffee (per cup, ~7 g grounds) | ~17 /kg dry |
+| Drinks | Coffee (per cup, ~10 g grounds) | ~17 /kg dry |
 | Drinks | Beer | ~1.2 /L |
 | Drinks | Wine | ~1.4 /L |
 | Drinks | Soy milk | ~1 /L |
@@ -666,11 +693,12 @@ Notes locked in now (they shape the schema):
   typical raw portions; the methodology notes cooked weight
   differs (rice ~3x). Home cooking energy is excluded, and the
   sheet says so.
-- **Coffee needs care:** the headline per-kg figure (~17) applies
-  to dry grounds, so the preset ("1 cup, ~7 g grounds") is the
-  only sane entry path. Same pattern for any item where per-kg
-  invites a 100x user error.
-- **Beef is split beef-herd vs dairy-herd** (3x apart); picker
+- **Coffee needs care:** the headline per-kg figure (~28.5 under
+  the chosen means) applies to dry grounds, so the preset
+  ("1 cup, ~10 g grounds", SCA-based) is the only sane entry
+  path. Same pattern for any item where per-kg invites a 100x
+  user error.
+- **Beef is split beef-herd vs dairy-herd** (~3x apart); picker
   defaults to beef herd with dairy herd one tap away. Collapsing
   them would hide the single most interesting fact in the dataset.
 - **JA/ES coverage:** item names must be everyday grocery words,
@@ -693,9 +721,9 @@ Notes locked in now (they shape the schema):
       "name_en": "Chicken",
       "name_ja": "...",
       "name_es": "...",
-      "kg_co2e_per_kg": 6.1,
+      "kg_co2e_per_kg": 9.87,
       "servings": [
-        { "id": "breast", "name_en": "1 breast", "name_ja": "...", "name_es": "...", "grams": 120 }
+        { "id": "breast", "name_en": "1 breast", "name_ja": "...", "name_es": "...", "grams": 170 }
       ],
       "calculation_notes": "Global mean, Poore & Nemecek 2018 ...",
       "sources": [
@@ -722,9 +750,11 @@ Same rules as Part 1: [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md)
 and [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) sections 2 and
 8. Tier-1 sources (OWID, Poore & Nemecek 2018, FAO), direct quotes,
 access dates, arithmetic reproducible from `calculation_notes`.
-Include a `FOOD_LOGIC_CHECK` section. One extra rule: where OWID
-shows both the 2018 means and later revisions, record which vintage
-was used and why, per item.
+Include a `FOOD_LOGIC_CHECK` section. One extra rule: record per
+item which *statistic* (mean vs median) and whether supply-chain
+losses are included, plus the OWID vintage used and why -- the
+mean/median distinction, not the vintage, turned out to be the
+real fork (PDR finding FR-1).
 
 **Consistency check with existing data:** `meatless_meal_beef`,
 `meatless_meal_chicken`, `meatless_meal_pork`, and
@@ -733,6 +763,26 @@ per-meal deltas derived from these same per-kg factors. The
 research step must verify the new dataset reproduces those deltas
 (or flag the action data for correction) so the app never shows two
 numbers for the same swap.
+
+**Resolved gotchas (research + owner decisions, 2026-07-18; see
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md)):**
+
+- Poore & Nemecek publish both MEANS and MEDIANS per food. The
+  famous "beef = 60" chart -- and this section's illustrative
+  table -- is the median set, retired from OWID in 2022. Owner
+  decision D1: the dataset ships the **means** (live-quotable
+  digit-for-digit from OWID; the Wayback-cited median set is the
+  documented fallback if a mean becomes unavailable). Under
+  means: beef (beef herd) 99.48, pork 12.31, chicken 9.87.
+- The action data's chicken (6.9 kg/kg) and pork (7.6 kg/kg) came
+  from a PMC study range and match neither statistic. Correct
+  `meatless_meal_chicken` to ~890 g, `meatless_meal_pork` to
+  ~1100 g, and `meatless_meal_beef` to ~9700 g in the same PR as
+  the dataset (never two numbers for one swap).
+- Serving presets ship researched sourced weights (e.g. chicken
+  breast 170 g raw, USDA), replacing the schema example's 120 g
+  and the old mock's 150 g; presets encode raw as-purchased
+  portions.
 
 ### 8.8 Meal Builder & Calculator Engine
 
@@ -756,12 +806,12 @@ mealCo2e = sum(ingredientCo2e for ingredients)
 +------------------------------------------+
 |  Meal A                           [name] |
 |  +--------------------------------------+
-|  | 1. Chicken (1 breast)         150 g  |
+|  | 1. Chicken (1 breast)         170 g  |
 |  | 2. Potatoes                   200 g  |
 |  | 3. Beer (1 can)               330 ml |
 |  | [+ Add ingredient]                   |
 |  +--------------------------------------+
-|  Total: 1.4 kg CO2e                      |
+|  Total: 2.2 kg CO2e                      |
 +------------------------------------------+
 ```
 
@@ -789,15 +839,17 @@ do not write a second bar-comparison widget.
 +------------------------------------------+
 |  Burger night                             |
 |                                          |
-|  Beef       ################--  3.2 kg   |
-|  Chicken    ####--------------  0.8 kg   |
-|  Bean       #-----------------  0.3 kg   |
+|  Beef       ################--  11.2 kg  |
+|  Chicken    ##----------------   1.1 kg  |
+|  Bean       #-----------------   0.2 kg  |
 |                                          |
-|  Bean saves 2.9 kg CO2e vs beef (91%)    |
-|  = 24 km not driven in a petrol car      |
+|  Bean emits 11.0 kg less CO2e (98%)      |
+|  = 68 km not driven in a petrol car      |
 +------------------------------------------+
 ```
 
+- Same copy rule as 8.3: deltas are hypothetical comparisons, so
+  say "emits X kg less CO2e", never "saves".
 - Optional educational presets (P2): 2-3 bundled comparisons
   ("Burger night: beef vs chicken vs bean") to demonstrate the
   protein gap without any data entry.
@@ -817,7 +869,9 @@ Same two layers as 8.4:
     transport calculator's operational-only scope.
   - **Spread:** factors are global means; the same food varies
     ~10-50x between producers. Show one example range in text
-    (e.g. beef 9-105 kgCO2e/kg).
+    (beef: 9-105 kg CO2e per 100 g of protein, OWID -- note the
+    per-protein basis; the per-kg tomato range is unsourced and
+    blocked, see RESEARCH_FOOD.md open items).
   - **"Organic" and "local" honesty:** transport is typically
     <10% of food footprint, so "local beef" beats "imported
     beans" on zero metrics; organic often has similar or higher
@@ -925,7 +979,7 @@ abstract class MealIngredient with _$MealIngredient {
 |------|-------|
 | Dataset validation | Every item has all three locales, a positive factor, at least one source with url+quote+accessed; serving presets have positive grams and all locales; ids unique (mirror `transport_dataset_invariants_test.dart`) |
 | Engine | Grams x factor math, multi-ingredient sums, zero-gram ingredients, display rounding (g -> kg -> t) |
-| Sanity checks | Cross-item invariants pinned as tests: beef (beef herd) > lamb > pork > chicken > tofu > potatoes per kg; beef (beef herd) > 3x beef (dairy herd); cheese > chicken; plant milks < dairy milk |
+| Sanity checks | Cross-item invariants pinned as tests (data pins with margins, per [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md); full safe-pin and never-pin lists in RESEARCH_FOOD.md): beef (beef herd) > lamb > pork > chicken > tofu > potatoes per kg; 2.5 < beef-herd/dairy-herd < 3.5 (band -- ratio is ~3.0, a strict >3x fails); cheese > chicken; max(plant milk) x 2 < dairy milk |
 | Consistency | Dataset-derived meal deltas match the cited deltas in `meatless_meal_*` action data within tolerance |
 | Widgets | Ingredient add/edit/remove, preset chip fills grams field, comparison bar ordering and delta copy |
 | Localization | Item and preset names resolve in EN/JA/ES |
@@ -1135,8 +1189,8 @@ kotatsu evening".
 |  30 C + dryer ###########-----  1.1 kg   |
 |  30 C + line  ##---------------  0.15 kg |
 |                                          |
-|  Line drying saves 1.15 kg vs 60C+dryer  |
-|  = 77 phone charges... wait, 190         |
+|  Line drying emits 1.15 kg less CO2e     |
+|  than 60C+dryer = 190 phone charges      |
 +------------------------------------------+
 ```
 
