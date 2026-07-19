@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "version": "1.0",
+    "version": "1.1",
     "created": "2026-01-31",
-    "last_verified": "2026-01-31",
+    "last_verified": "2026-07-18",
     "description": "Fact-checked CO2 savings database for Seed sustainability app",
     "methodology": "Values cross-referenced from 2-3 tier-1 sources minimum. Conservative estimates used when sources disagree.",
     "grid_factors": {
@@ -191,27 +191,27 @@
       "action_id": "meatless_meal_beef",
       "action_name": "Meatless meal (beef avoided)",
       "category": "food",
-      "co2_grams": 6000,
+      "co2_grams": 9700,
       "unit": "per_100g_serving",
-      "calculation_notes": "Beef emits 60kg CO2e per kg. Per 100g serving = 6000g. Compared to plant alternatives ~200g = 5800g saved. Rounded to 6000g.",
+      "calculation_notes": "Beef (beef herd) 99.48 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher. The widely quoted 60 kg/kg is the MEDIAN (without losses) of the same study. Per 100 g serving = 9948 g. Minus plant-alternative baseline of ~200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g) = 9748 g. Rounded down to 9700 g (conservative).",
       "sources": [
         {
-          "name": "Our World in Data / Poore & Nemecek",
-          "url": "https://ourworldindata.org/food-choice-vs-eating-local",
-          "quote": "Producing a kilogram of beef emits 60 kilograms of greenhouse gases; peas emit just 1 kilogram. This is data from the largest meta-analysis of global food systems to date, published in Science by Joseph Poore and Thomas Nemecek (2018).",
-          "accessed": "2026-01-31"
+          "name": "Our World in Data / Poore & Nemecek grapher CSV",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Beef (beef herd),2010,99.48",
+          "accessed": "2026-07-18"
         },
         {
-          "name": "Poore & Nemecek 2018 Science",
-          "url": "https://pubmed.ncbi.nlm.nih.gov/29853680/",
-          "quote": "Food production creates ~32% of global terrestrial acidification and ~78% of eutrophication. The farm stage dominates, representing 61% of food's GHG emissions.",
-          "accessed": "2026-01-31"
+          "name": "MyCarbon Food Emissions Database",
+          "url": "https://www.mycarbon.co.uk/knowledge-hub/food-emissions-database/food-emissions-database-beef-beef-herd-global-average-2018-reducing-foods-environmental-impacts-through-producers-and-consumers-poore-nemecek-science-2018/",
+          "quote": "The greenhouse gas emissions of Beef (beef herd) (Global Average) are 99.477404614 kg CO2e per kilogram of food product.",
+          "accessed": "2026-07-18"
         },
         {
-          "name": "Carbon Brief",
-          "url": "https://interactive.carbonbrief.org/what-is-the-climate-impact-of-eating-meat-and-dairy/index.html",
-          "quote": "Greenhouse gas emissions per kilogram for different food groups. Data source: Poore & Nemecek (2018). The chart illustrates how the climate impact of beef and lamb dwarfs that of other foods.",
-          "accessed": "2026-01-31"
+          "name": "Our World in Data FAQ",
+          "url": "https://ourworldindata.org/faqs-environmental-impacts-food",
+          "quote": "On one chart you previously showed a value of 99.5 kilograms CO2eq per kilogram of beef from beef herds. On another, it was shown as 60 kgCO2eq per kilogram. Why were these values different? ... The former showed the mean, and the latter the median. This is how the data is made available in the underlying study from Poore and Nemecek (2018). ... We updated the data on the breakdown of emissions on 15th June 2022 based on supplementary data provided by the author, with supply chain losses included, and given as the mean. This means these two charts are now consistent.",
+          "accessed": "2026-07-18"
         }
       ],
       "confidence": "high",
@@ -221,21 +221,21 @@
       "action_id": "meatless_meal_chicken",
       "action_name": "Meatless meal (chicken avoided)",
       "category": "food",
-      "co2_grams": 600,
+      "co2_grams": 890,
       "unit": "per_100g_serving",
-      "calculation_notes": "Chicken ~6.9kg CO2e per kg. Per 100g = 690g. Minus plant alternative ~100g = ~600g saved.",
+      "calculation_notes": "Chicken 9.87 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Poultry Meat'). Per 100 g serving = 987 g. Minus plant-alternative baseline of ~100 g CO2e per 100 g serving (peas, OWID mean 0.98 kg/kg = 98 g, rounded up to 100 g) = 887 g. Rounded to 890 g. Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
       "sources": [
         {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/environmental-impacts-of-food",
-          "quote": "Producing 100 grams of protein from beef emits 25 kilograms of carbon dioxide-equivalents (CO2eq), on average. But this ranges from 9 kilograms to 105 kilograms of CO2eq.",
-          "accessed": "2026-01-31"
+          "name": "Our World in Data / Poore & Nemecek grapher CSV",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Poultry Meat,2010,9.87",
+          "accessed": "2026-07-18"
         },
         {
           "name": "PMC/Multiple Studies",
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
-          "quote": "Some studies report higher values, specifically, 16–68 kg CO2-eq/kg for beef, 6.08–12.3 kg CO2-eq/kg for pork, and 2.6–3.3 kg CO2-eq/kg for chicken.",
-          "accessed": "2026-01-31"
+          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+          "accessed": "2026-07-18"
         }
       ],
       "confidence": "high",
@@ -245,21 +245,21 @@
       "action_id": "meatless_meal_pork",
       "action_name": "Meatless meal (pork avoided)",
       "category": "food",
-      "co2_grams": 700,
+      "co2_grams": 1100,
       "unit": "per_100g_serving",
-      "calculation_notes": "Pork ~7.6kg CO2e per kg. Per 100g = 760g. Minus plant alternative = ~700g saved.",
+      "calculation_notes": "Pork 12.31 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Pig Meat'). Per 100 g serving = 1231 g. Minus plant-alternative baseline of ~100 g CO2e per 100 g serving (peas, OWID mean 0.98 kg/kg = 98 g, rounded up to 100 g) = 1131 g. Rounded down to 1100 g (conservative). Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
       "sources": [
+        {
+          "name": "Our World in Data / Poore & Nemecek grapher CSV",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Pig Meat,2010,12.31",
+          "accessed": "2026-07-18"
+        },
         {
           "name": "PMC/Multiple Studies",
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
-          "quote": "6.08–12.3 kg CO2-eq/kg for pork",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/environmental-impacts-of-food",
-          "quote": "Environmental impacts are calculated based on life-cycle analyses that consider impacts across the supply chain.",
-          "accessed": "2026-01-31"
+          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+          "accessed": "2026-07-18"
         }
       ],
       "confidence": "high",
@@ -595,13 +595,19 @@
       "category": "food",
       "co2_grams": 460,
       "unit": "per_250ml_serving",
-      "calculation_notes": "Dairy milk ~3.2kg CO2/L, oat milk ~0.9kg CO2/L. Per 250ml serving: 800g vs 225g = 575g saved. Conservative 460g.",
+      "calculation_notes": "Dairy milk 3.15 kg CO2e/L (Poore & Nemecek 2018 global MEAN with supply-chain losses via the OWID grapher), oat milk 0.903 kg CO2e/L (OWID milks chart, mean, 0.9031262). Per 250 ml serving: 787.5 g vs 225.75 g = 561.75 g delta. Shipped value stays 460 g, deliberately conservative below the mean-basis delta.",
       "sources": [
         {
-          "name": "Our World in Data / Poore & Nemecek",
-          "url": "https://ourworldindata.org/environmental-impacts-of-food",
-          "quote": "Dairy milk has significantly higher emissions than plant-based alternatives across all environmental indicators.",
-          "accessed": "2026-01-31"
+          "name": "Our World in Data / Poore & Nemecek grapher CSV",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Milk,2010,3.15",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data milks comparison CSV",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Oat milk,2013,0.76,0.9031262,48.24,1.622563",
+          "accessed": "2026-07-18"
         }
       ],
       "confidence": "high",

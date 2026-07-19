@@ -1,0 +1,1399 @@
+{
+  "metadata": {
+    "version": 1,
+    "scope": "Poore & Nemecek 2018 cradle-to-retail lifecycle emissions including land-use change and supply-chain losses (GWP100), as published by Our World in Data. Statistic: production-weighted MEANS dataset-wide (owner decision D1, 2026-07-18); the archived MEDIAN-without-losses set is the approved fallback with mandatory disclosure. Weights are as-purchased raw/dry; liquids at density 1.0 so per litre = per kg (error < 1.5%). Excluded: retail-to-home transport, home cooking and refrigeration energy, household food waste. Global category means, no organic/local modifier. This boundary differs from the transport calculator's operational-only scope -- values from the two calculators must NOT be summed.",
+    "primary_source": "Poore & Nemecek 2018 (Science 360:987-992) via Our World in Data, means with supply-chain losses",
+    "basis": "kg CO2e per kg of food as-purchased (raw/dry weight); serving presets are raw/dry grams; liquids per litre = per kg at density 1.0",
+    "citation_note": "CSV-row citations (OWID grapher downloads) and Poore & Nemecek accepted-manuscript figure rows are verbatim data-row transcriptions (manuscript rows with single spaces), not page sentences. CarbonCloud citations are 'product | value | value-as-of date' transcriptions: CarbonCloud live values drift over time and are corroboration-with-access-date only (QA-6)."
+  },
+  "items": [
+    {
+      "id": "beef_beef_herd",
+      "group": "meat",
+      "name_en": "Beef (beef herd)",
+      "name_ja": "牛肉（肉牛）",
+      "name_es": "Carne de res (ganado de carne)",
+      "kg_co2e_per_kg": 99.48,
+      "servings": [
+        {
+          "id": "quarter_pound_patty",
+          "name_en": "1 quarter-pound patty",
+          "name_ja": "パティ1枚",
+          "name_es": "1 hamburguesa",
+          "grams": 113
+        },
+        {
+          "id": "steak_medium",
+          "name_en": "1 steak (medium)",
+          "name_ja": "ステーキ1枚",
+          "name_es": "1 filete (mediano)",
+          "grams": 225
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses, cradle-to-retail incl. land-use change. Per-kg grapher literal 99.48; eight-stage supply-chain sum at full precision 99.4774 confirms (the two-decimal addends total 99.47, so always sum at full precision). The famous 60 kg/kg is the same study's MEDIAN without losses, not a rounding of this mean; the methodology sheet explains the difference.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Beef (beef herd),2010,99.48",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Beef (beef herd),2018,23.237535,56.22806,2.6809785,1.811083,0.4941246,0.23353784,0.35208446,14.439998",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "MyCarbon Food Emissions Database",
+          "url": "https://www.mycarbon.co.uk/knowledge-hub/food-emissions-database/food-emissions-database-beef-beef-herd-global-average-2018-reducing-foods-environmental-impacts-through-producers-and-consumers-poore-nemecek-science-2018/",
+          "quote": "The greenhouse gas emissions of Beef (beef herd) (Global Average) are 99.477404614 kg CO2e per kilogram of food product.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "beef_dairy_herd",
+      "group": "meat",
+      "name_en": "Beef (dairy herd)",
+      "name_ja": "牛肉（乳牛）",
+      "name_es": "Carne de res (ganado lechero)",
+      "kg_co2e_per_kg": 33.3,
+      "servings": [
+        {
+          "id": "quarter_pound_patty",
+          "name_en": "1 quarter-pound patty",
+          "name_ja": "パティ1枚",
+          "name_es": "1 hamburguesa",
+          "grams": 113
+        },
+        {
+          "id": "steak_medium",
+          "name_en": "1 steak (medium)",
+          "name_ja": "ステーキ1枚",
+          "name_es": "1 filete (mediano)",
+          "grams": 225
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher literal 33.3; supply-chain sum 33.3014. The beef-herd/dairy-herd ratio is 2.99 -- inside the pinned 2.5-3.5 band, deliberately never claimed as '3x' (false under both statistics: 2.99 mean, 2.86 median).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Beef (dairy herd),2010,33.3",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Beef (dairy herd),2018,1.2660223,21.91553,3.5036733,1.5476644,0.5924098,0.2540323,0.3745491,3.8475146",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "lamb",
+      "group": "meat",
+      "name_en": "Lamb",
+      "name_ja": "ラム肉",
+      "name_es": "Cordero",
+      "kg_co2e_per_kg": 39.72,
+      "servings": [
+        {
+          "id": "loin_chop",
+          "name_en": "1 loin chop",
+          "name_ja": "ラムチョップ1本",
+          "name_es": "1 chuleta",
+          "grams": 85
+        },
+        {
+          "id": "serving_110",
+          "name_en": "1 serving",
+          "name_ja": "1人前",
+          "name_es": "1 ración",
+          "grams": 110
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Lamb & Mutton'. Grapher literal 39.72; supply-chain sum 39.7223.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Lamb & Mutton,2010,39.72",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Lamb & Mutton,2018,0.648247,27.02575,3.2831702,1.5395962,0.6788543,0.30081406,0.34760362,5.8982344",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "pork",
+      "group": "meat",
+      "name_en": "Pork",
+      "name_ja": "豚肉",
+      "name_es": "Cerdo",
+      "kg_co2e_per_kg": 12.31,
+      "servings": [
+        {
+          "id": "chop_boneless",
+          "name_en": "1 pork chop (boneless)",
+          "name_ja": "豚ロース1枚",
+          "name_es": "1 chuleta de cerdo (sin hueso)",
+          "grams": 140
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Pig Meat'. Grapher literal 12.31; supply-chain sum 12.3057. Stored unrounded per FR-18 (a pre-rounded 12 would flatter by -2.5%). The PMC review range cited excludes land-use change, which is why it sits below this mean.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Pig Meat,2010,12.31",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "PMC11743834 (meat LCA review)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
+          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "chicken",
+      "group": "meat",
+      "name_en": "Chicken",
+      "name_ja": "鶏肉",
+      "name_es": "Pollo",
+      "kg_co2e_per_kg": 9.87,
+      "servings": [
+        {
+          "id": "breast_fillet",
+          "name_en": "1 breast fillet",
+          "name_ja": "胸肉1枚",
+          "name_es": "1 pechuga",
+          "grams": 170
+        },
+        {
+          "id": "serving_3oz",
+          "name_en": "3 oz serving",
+          "name_ja": "1人前（85g）",
+          "name_es": "1 ración (85 g)",
+          "grams": 85
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Poultry Meat'. Grapher literal 9.87; supply-chain sum 9.8658. The PMC review range cited excludes land-use change.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Poultry Meat,2010,9.87",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "PMC11743834 (meat LCA review)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
+          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "prawns_farmed",
+      "group": "seafood",
+      "name_en": "Prawns (farmed)",
+      "name_ja": "エビ（養殖）",
+      "name_es": "Gambas (de cultivo)",
+      "kg_co2e_per_kg": 26.87,
+      "servings": [
+        {
+          "id": "portion",
+          "name_en": "1 portion",
+          "name_ja": "1人前",
+          "name_es": "1 ración",
+          "grams": 110
+        },
+        {
+          "id": "small_portion",
+          "name_en": "Small portion",
+          "name_ja": "少なめ1人前",
+          "name_es": "Ración pequeña",
+          "grams": 85
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher row 'Prawns (farmed)' = 26.87; the supply-chain CSV names the same product 'Shrimps (farmed)' and its stage sum verifies at 26.8659 (cross-CSV row mapping, PDR FR-17). Single coarse global farmed-prawn category with large spread. The Gephart 2021 figure (9.43) is a narrower on/off-farm boundary recorded for spread context only, never mixed into this factor.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Prawns (farmed),2010,26.87",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (narrower boundary)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Shrimp (farmed),2021,9.428016",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (narrower boundary)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "fish_farmed",
+      "group": "seafood",
+      "name_en": "Fish (farmed)",
+      "name_ja": "魚（養殖）",
+      "name_es": "Pescado (de cultivo)",
+      "kg_co2e_per_kg": 13.63,
+      "servings": [
+        {
+          "id": "fillet",
+          "name_en": "1 fillet",
+          "name_ja": "切り身1切れ",
+          "name_es": "1 filete",
+          "grams": 110
+        },
+        {
+          "id": "salmon_fillet_large",
+          "name_en": "1 salmon fillet (large)",
+          "name_ja": "サーモン切り身（大）",
+          "name_es": "1 filete de salmón (grande)",
+          "grams": 198
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 13.63; supply-chain sum 13.6324. Single coarse global farmed-fish category; Gephart 2021 species figures (salmon 5.10, trout 5.4, tilapia 10.7) are a narrower boundary, spread context only.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Fish (farmed),2010,13.63",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Fish (farmed),2018,1.1947172,8.056115,1.8344203,0.04459863,0.24795863,0.08997562,0.13753739,2.0271227",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (narrower boundary)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Salmon (farmed),2021,5.100986",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "cheese",
+      "group": "dairy_eggs",
+      "name_en": "Cheese",
+      "name_ja": "チーズ",
+      "name_es": "Queso",
+      "kg_co2e_per_kg": 23.88,
+      "servings": [
+        {
+          "id": "slice",
+          "name_en": "1 slice",
+          "name_ja": "スライス1枚",
+          "name_es": "1 loncha",
+          "grams": 22
+        },
+        {
+          "id": "portion_1oz",
+          "name_en": "1 portion (1 oz)",
+          "name_ja": "1人前（30g）",
+          "name_es": "1 porción (30 g)",
+          "grams": 30
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 23.88; supply-chain sum 23.8776. CarbonCloud cheddar drifted 18.11 -> 15.09 between fetches -- the example behind the QA-6 rule that CarbonCloud is corroboration-with-access-date only.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Cheese,2010,23.88",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "butter",
+      "group": "dairy_eggs",
+      "name_en": "Butter",
+      "name_ja": "バター",
+      "name_es": "Mantequilla",
+      "kg_co2e_per_kg": 12.0,
+      "servings": [
+        {
+          "id": "tablespoon",
+          "name_en": "1 tablespoon",
+          "name_ja": "大さじ1",
+          "name_es": "1 cucharada",
+          "grams": 14
+        },
+        {
+          "id": "pat",
+          "name_en": "1 pat",
+          "name_ja": "ひとかけ",
+          "name_es": "1 porción individual",
+          "grams": 5
+        }
+      ],
+      "calculation_notes": "Not in Poore & Nemecek; mean of three independent dairy LCAs: foodfootprint.nl/RIVM 12.2 (61 g CO2eq per 5 g portion -> 12.2/kg), LiveLCA 10.18 (analysis of 12 studies), CarbonCloud 11.89 (live value as of 2026-07-18). (12.2 + 10.18 + 11.89) / 3 = 11.42, rounded UP to 12.0 (honest-not-generous). Sits between milk (3.15) and cheese (23.88). The 14 g tablespoon preset is density-derived (RACC gives 1 tbsp / 15 mL; 0.911 x 15 = 13.665 g; USDA lists 14.2 g).",
+      "sources": [
+        {
+          "name": "foodfootprint.nl (RIVM, average Dutch market)",
+          "url": "https://foodfootprint.nl/en/foodprintfinder/butter/",
+          "quote": "61 g CO2eq",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "LiveLCA (analysis of 12 studies)",
+          "url": "https://livelca.com/products/butter_273d0577-1c3b-4e5e-94fb-4084b0eebe78",
+          "quote": "Butter 10.179 12",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "CarbonCloud ClimateHub",
+          "url": "https://apps.carboncloud.com/climatehub/product-reports/id/116838100638",
+          "quote": "Butter, 80% fat, unsalted | 11.89 | live value as of 2026-07-18",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "eggs",
+      "group": "dairy_eggs",
+      "name_en": "Eggs",
+      "name_ja": "卵",
+      "name_es": "Huevos",
+      "kg_co2e_per_kg": 4.67,
+      "servings": [
+        {
+          "id": "large_egg",
+          "name_en": "1 large egg",
+          "name_ja": "卵1個",
+          "name_es": "1 huevo grande",
+          "grams": 50
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 4.67; supply-chain sum 4.6695. Per large 50 g egg: 234 g CO2e. CarbonCloud's 2.15 is a regional (EU/Nordic) lower bound; the ~2x gap is global feed land-use change vs European feed, not an error.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Eggs,2010,4.67",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "milk_dairy",
+      "group": "dairy_eggs",
+      "name_en": "Milk (dairy)",
+      "name_ja": "牛乳",
+      "name_es": "Leche de vaca",
+      "kg_co2e_per_kg": 3.15,
+      "servings": [
+        {
+          "id": "glass",
+          "name_en": "1 glass",
+          "name_ja": "コップ1杯",
+          "name_es": "1 vaso",
+          "grams": 200
+        },
+        {
+          "id": "cup",
+          "name_en": "1 cup",
+          "name_ja": "1カップ",
+          "name_es": "1 taza",
+          "grams": 240
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher literal 3.15; the milks chart GHG column agrees (3.15/L). Per litre = per kg at density 1.0 (error < 1.5%).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Milk,2010,3.15",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Dairy milk,2013,8.95,3.15,628.2,10.65",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "tofu",
+      "group": "plant_protein",
+      "name_en": "Tofu",
+      "name_ja": "豆腐",
+      "name_es": "Tofu",
+      "kg_co2e_per_kg": 3.16,
+      "servings": [
+        {
+          "id": "serving_3oz",
+          "name_en": "1 serving (3 oz)",
+          "name_ja": "1人前（85g）",
+          "name_es": "1 ración (85 g)",
+          "grams": 85
+        },
+        {
+          "id": "half_block",
+          "name_en": "1/2 block",
+          "name_ja": "半丁",
+          "name_es": "1/2 bloque",
+          "grams": 175
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 3.16; supply-chain sum 3.1617. CarbonCloud's 1.34 (deforestation-free regional soy) corroborates the low-single-digit magnitude only.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Tofu,2010,3.16",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "beans_lentils",
+      "group": "plant_protein",
+      "name_en": "Beans & lentils",
+      "name_ja": "豆・レンズ豆",
+      "name_es": "Alubias y lentejas",
+      "kg_co2e_per_kg": 1.79,
+      "servings": [
+        {
+          "id": "serving_dry",
+          "name_en": "1 serving (dry)",
+          "name_ja": "1人前（乾燥豆）",
+          "name_es": "1 ración (en seco)",
+          "grams": 35
+        },
+        {
+          "id": "half_can_drained",
+          "name_en": "1/2 can (drained)",
+          "name_ja": "缶半分（汁気を切って）",
+          "name_es": "1/2 lata (escurrida)",
+          "grams": 130
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Other Pulses' (beans, lentils, chickpeas -- NOT peas; OWID's famous 'peas emit just 1 kilogram' sentence belongs to the peas item and must never be attached here). Grapher literal 1.79; supply-chain sum 1.7864. Factor is on the DRY pulse basis; the half-can preset is a convenience approximation until a separate canned factor lands (open item).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Other Pulses,2010,1.79",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "peas",
+      "group": "plant_protein",
+      "name_en": "Peas",
+      "name_ja": "グリーンピース",
+      "name_es": "Guisantes",
+      "kg_co2e_per_kg": 0.98,
+      "servings": [
+        {
+          "id": "serving",
+          "name_en": "1 serving",
+          "name_ja": "1人前",
+          "name_es": "1 ración",
+          "grams": 85
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.98; supply-chain sum 0.9751.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Peas,2010,0.98",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-choice-vs-eating-local",
+          "url": "https://ourworldindata.org/food-choice-vs-eating-local",
+          "quote": "Producing a kilogram of beef emits 60 kilograms of greenhouse gases; peas emit just 1 kilogram",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "nuts",
+      "group": "plant_protein",
+      "name_en": "Nuts",
+      "name_ja": "ナッツ",
+      "name_es": "Frutos secos",
+      "kg_co2e_per_kg": 0.43,
+      "servings": [
+        {
+          "id": "handful_1oz",
+          "name_en": "1 handful (1 oz)",
+          "name_ja": "ひとつかみ",
+          "name_es": "1 puñado",
+          "grams": 30
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses, INCLUDING a large orchard land-use-change carbon credit (-3.26): stage sum 0.43314 -> 0.43. With LUC set to zero the figure is ~3.69 (~3.7). Never publish a negative value and never emit 'lowest-impact protein' copy -- the ranking hinges on the credit.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Nuts,2010,0.43",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Nuts,2018,-3.257812,3.3744068,0,0.051419526,0.10673449,0.04263857,0.12374754,-0.007999532",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "rice",
+      "group": "staples",
+      "name_en": "Rice",
+      "name_ja": "米",
+      "name_es": "Arroz",
+      "kg_co2e_per_kg": 4.45,
+      "servings": [
+        {
+          "id": "rice_cooker_cup",
+          "name_en": "1 rice-cooker cup (dry)",
+          "name_ja": "米1合",
+          "name_es": "1 vaso de arrocera (en seco)",
+          "grams": 150
+        },
+        {
+          "id": "serving_dry",
+          "name_en": "1 serving (dry)",
+          "name_ja": "1人前（乾燥45g）",
+          "name_es": "1 ración (en seco)",
+          "grams": 45
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 4.45; supply-chain sum 4.4516, methane-dominated (farm stage 3.55 of 4.45). Presets are RAW weight: a 150 g rice-cooker cup becomes ~330 g cooked (~2.2x by weight); the factor multiplies the raw grams -- quantity-editor helper required.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Rice,2010,4.45",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, carbon-footprint-food-methane",
+          "url": "https://ourworldindata.org/carbon-footprint-food-methane",
+          "quote": "This is not the case for plant-based foods, with the exception of rice. Paddy rice is typically grown in flooded fields: the microbes in these waterlogged soils produce methane.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "bread_wheat",
+      "group": "staples",
+      "name_en": "Bread (wheat)",
+      "name_ja": "パン",
+      "name_es": "Pan",
+      "kg_co2e_per_kg": 1.57,
+      "servings": [
+        {
+          "id": "slice",
+          "name_en": "1 slice",
+          "name_ja": "食パン1枚",
+          "name_es": "1 rebanada",
+          "grams": 50
+        },
+        {
+          "id": "sandwich",
+          "name_en": "2 slices / sandwich",
+          "name_ja": "食パン2枚（サンドイッチ）",
+          "name_es": "2 rebanadas (sándwich)",
+          "grams": 100
+        }
+      ],
+      "calculation_notes": "Derived: P&N publishes no bread product; mapped to the 'Wheat & Rye' grain mean with supply-chain losses (1.57; supply-chain sum 1.5738). Baking energy is not added (outside the grain's farm-to-retail boundary). Stored as the exact 1.57 (FR-18); UI rounding may show 1.6.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Wheat & Rye,2010,1.57",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "pasta",
+      "group": "staples",
+      "name_en": "Pasta",
+      "name_ja": "パスタ",
+      "name_es": "Pasta",
+      "kg_co2e_per_kg": 1.57,
+      "servings": [
+        {
+          "id": "portion_dry",
+          "name_en": "1 portion (dry)",
+          "name_ja": "1人前（乾麺）",
+          "name_es": "1 ración (en seco)",
+          "grams": 55
+        },
+        {
+          "id": "large_portion_dry",
+          "name_en": "1 large portion (dry)",
+          "name_ja": "大盛り1人前（乾麺）",
+          "name_es": "1 ración grande (en seco)",
+          "grams": 100
+        }
+      ],
+      "calculation_notes": "Derived: mapped to the P&N 'Wheat & Rye' grain mean with supply-chain losses (1.57), same as bread; milling/drying energy not added (dried durum product, no leavening). Dry-weight basis (55 g dry is ~140 g cooked).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Wheat & Rye,2010,1.57",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "oats",
+      "group": "staples",
+      "name_en": "Oats",
+      "name_ja": "オートミール",
+      "name_es": "Avena",
+      "kg_co2e_per_kg": 1.84,
+      "servings": [
+        {
+          "id": "bowl_dry",
+          "name_en": "1 bowl (dry)",
+          "name_ja": "ボウル1杯（乾燥）",
+          "name_es": "1 bol (en seco)",
+          "grams": 40
+        }
+      ],
+      "calculation_notes": "Owner decision D3 (2026-07-18): average of the two credible candidates as accessed 2026-07-18 -- P&N 'Oatmeal' mean with losses 2.48 (grapher literal; supply-chain sum 2.4804) and CarbonCloud 'Rolled oats' live value 1.20 (was 1.25 at the research fetch; CarbonCloud drifts). (2.48 + 1.20) / 2 = 1.84. Re-read the live input and recompute at the next data pass. The per-kg grapher's 'Oatmeal' is the grain, not oat milk.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Oatmeal,2010,2.48",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "CarbonCloud ClimateHub",
+          "url": "https://apps.carboncloud.com/climatehub/product-reports/id/61296836049",
+          "quote": "Rolled oats | 1.20 | live value as of 2026-07-18 (1.25 at the research fetch)",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "potatoes",
+      "group": "staples",
+      "name_en": "Potatoes",
+      "name_ja": "じゃがいも",
+      "name_es": "Patatas",
+      "kg_co2e_per_kg": 0.46,
+      "servings": [
+        {
+          "id": "medium_potato",
+          "name_en": "1 medium potato",
+          "name_ja": "じゃがいも中1個",
+          "name_es": "1 patata mediana",
+          "grams": 213
+        },
+        {
+          "id": "small_potato",
+          "name_en": "1 small potato",
+          "name_ja": "じゃがいも小1個",
+          "name_es": "1 patata pequeña",
+          "grams": 170
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.46; supply-chain sum 0.4601. Lowest staple (farm 0.19, near-zero land-use change). Stored unrounded per FR-18.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Potatoes,2010,0.46",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "tomatoes",
+      "group": "vegetables",
+      "name_en": "Tomatoes",
+      "name_ja": "トマト",
+      "name_es": "Tomates",
+      "kg_co2e_per_kg": 2.09,
+      "servings": [
+        {
+          "id": "medium_tomato",
+          "name_en": "1 medium tomato",
+          "name_ja": "トマト中1個",
+          "name_es": "1 tomate mediano",
+          "grams": 123
+        },
+        {
+          "id": "cherry_tomato",
+          "name_en": "1 cherry tomato",
+          "name_ja": "ミニトマト1個",
+          "name_es": "1 tomate cherry",
+          "grams": 17
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 2.09; supply-chain sum 2.0887 (LUC 0.373, losses 0.658). Global mean across field and greenhouse production. Heated-greenhouse production is substantially higher than field/imported (Theurl et al. 2014), but no numeric spread range is quotable yet (open item) -- qualitative copy only.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Tomatoes,2010,2.09",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Theurl, Haberl, Erb & Lindenthal 2014, Agronomy for Sustainable Development 34",
+          "url": "https://link.springer.com/article/10.1007/s13593-013-0171-8",
+          "quote": "Imported tomatoes from Spain and Italy have two times lower greenhouse gas emissions than those produced in Austria in capital-intensive heated systems.",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "root_vegetables",
+      "group": "vegetables",
+      "name_en": "Root vegetables",
+      "name_ja": "根菜",
+      "name_es": "Verduras de raíz",
+      "kg_co2e_per_kg": 0.43,
+      "servings": [
+        {
+          "id": "medium_carrot",
+          "name_en": "1 medium carrot",
+          "name_ja": "にんじん中1本",
+          "name_es": "1 zanahoria mediana",
+          "grams": 61
+        },
+        {
+          "id": "cup_chopped",
+          "name_en": "1 cup chopped",
+          "name_ja": "1カップ（刻み）",
+          "name_es": "1 taza troceada",
+          "grams": 128
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Root Vegetables'. Grapher literal 0.43; supply-chain sum 0.4263. Clune et al. 2017 fresh root-veg medians sub-0.5 agree in magnitude and ordering.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Root Vegetables,2010,0.43",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "cabbage_broccoli",
+      "group": "vegetables",
+      "name_en": "Cabbage & broccoli",
+      "name_ja": "キャベツ・ブロッコリー",
+      "name_es": "Col y brócoli",
+      "kg_co2e_per_kg": 0.51,
+      "servings": [
+        {
+          "id": "cup_broccoli_chopped",
+          "name_en": "1 cup broccoli (chopped)",
+          "name_ja": "ブロッコリー1カップ（刻み）",
+          "name_es": "1 taza de brócoli troceado",
+          "grams": 91
+        },
+        {
+          "id": "broccoli_stalk",
+          "name_en": "1 broccoli stalk",
+          "name_ja": "ブロッコリー1株",
+          "name_es": "1 tallo de brócoli",
+          "grams": 151
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Brassicas', renamed to everyday grocery words for the app. Grapher literal 0.51; supply-chain sum 0.5146. Stored as the exact 0.51 (FR-18; a pre-rounded 0.5 would flatter by -2.0%).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Brassicas,2010,0.51",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "onions_leeks",
+      "group": "vegetables",
+      "name_en": "Onions & leeks",
+      "name_ja": "玉ねぎ・ネギ",
+      "name_es": "Cebollas y puerros",
+      "kg_co2e_per_kg": 0.5,
+      "servings": [
+        {
+          "id": "medium_onion",
+          "name_en": "1 medium onion",
+          "name_ja": "玉ねぎ中1個",
+          "name_es": "1 cebolla mediana",
+          "grams": 110
+        },
+        {
+          "id": "large_onion",
+          "name_en": "1 large onion",
+          "name_ja": "玉ねぎ大1個",
+          "name_es": "1 cebolla grande",
+          "grams": 150
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Onions & Leeks'. Grapher literal 0.5; supply-chain sum 0.4968.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Onions & Leeks,2010,0.5",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "bananas",
+      "group": "fruit",
+      "name_en": "Bananas",
+      "name_ja": "バナナ",
+      "name_es": "Plátanos",
+      "kg_co2e_per_kg": 0.86,
+      "servings": [
+        {
+          "id": "medium_banana",
+          "name_en": "1 medium banana",
+          "name_ja": "バナナ中1本",
+          "name_es": "1 plátano mediano",
+          "grams": 118
+        },
+        {
+          "id": "large_banana",
+          "name_en": "1 large banana",
+          "name_ja": "バナナ大1本",
+          "name_es": "1 plátano grande",
+          "grams": 136
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.86; supply-chain sum 0.8619 (small negative orchard LUC term, -0.026). Presets use PEELED/edible weight; whole-fruit conversion factor 1.5625 if ever needed (USDA refuse ~36%). Svanes & Aronsson's 1.37 covers a fuller chain; the FAO 324-1124 g range brackets the factor.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Bananas,2010,0.86",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Svanes & Aronsson 2013 (banana cradle-to-retail LCA)",
+          "url": "https://link.springer.com/article/10.1007/s11367-013-0602-4",
+          "quote": "The carbon footprint of bananas from cradle to retail was 1.37 kg CO2 per kilogram banana.",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "FAO World Banana Forum",
+          "url": "https://www.fao.org/world-banana-forum/projects/good-practices/carbon-footprint/en/",
+          "quote": "The results vary widely based on the methodology and data used: from 324g to 1124g CO2e/kg of bananas.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "apples",
+      "group": "fruit",
+      "name_en": "Apples",
+      "name_ja": "りんご",
+      "name_es": "Manzanas",
+      "kg_co2e_per_kg": 0.43,
+      "servings": [
+        {
+          "id": "medium_apple",
+          "name_en": "1 medium apple",
+          "name_ja": "りんご中1個",
+          "name_es": "1 manzana mediana",
+          "grams": 182
+        },
+        {
+          "id": "small_apple",
+          "name_en": "1 small apple",
+          "name_ja": "りんご小1個",
+          "name_es": "1 manzana pequeña",
+          "grams": 149
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.43; supply-chain sum 0.4284 (small negative orchard LUC term, -0.029). China farm-gate 0.23 plus packaging, transport and losses is consistent.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Apples,2010,0.43",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Scientific Reports 2025 (apple orchards, China)",
+          "url": "https://www.nature.com/articles/s41598-025-88885-6",
+          "quote": "In 2021, the average CEY for apple orchards in China was 0.23 kg CO2 eq kg-1",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "citrus",
+      "group": "fruit",
+      "name_en": "Citrus",
+      "name_ja": "柑橘類",
+      "name_es": "Cítricos",
+      "kg_co2e_per_kg": 0.39,
+      "servings": [
+        {
+          "id": "orange",
+          "name_en": "1 orange",
+          "name_ja": "オレンジ1個",
+          "name_es": "1 naranja",
+          "grams": 131
+        },
+        {
+          "id": "large_orange",
+          "name_en": "1 large orange",
+          "name_ja": "オレンジ大1個",
+          "name_es": "1 naranja grande",
+          "grams": 184
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Citrus Fruit'. Grapher literal 0.39; supply-chain sum 0.3877 (small negative orchard LUC term, -0.146). Independent corroboration is order-of-magnitude only (open item).",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Citrus Fruit,2010,0.39",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "berries",
+      "group": "fruit",
+      "name_en": "Berries",
+      "name_ja": "ベリー類",
+      "name_es": "Frutos rojos",
+      "kg_co2e_per_kg": 1.53,
+      "servings": [
+        {
+          "id": "cup_strawberries",
+          "name_en": "1 cup strawberries",
+          "name_ja": "いちご1カップ",
+          "name_es": "1 taza de fresas",
+          "grams": 144
+        },
+        {
+          "id": "medium_strawberry",
+          "name_en": "1 medium strawberry",
+          "name_ja": "いちご1粒",
+          "name_es": "1 fresa",
+          "grams": 12
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Berries & Grapes' -- a berries-plus-grapes BLEND. Grapher literal 1.53; supply-chain sum 1.5319. Air-freighted out-of-season soft berries sit well above this; table grapes below. Science sheet must say 'includes grapes'.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Berries & Grapes,2010,1.53",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "EU CAP Network, Breeding Value project",
+          "url": "https://eu-cap-network.ec.europa.eu/projects/practice-abstracts/how-improve-environmental-sustainability-strawberry-production_en",
+          "quote": "the carbon footprint of 1 kg strawberry ranged from 0.21 to 3.80 kg CO2 eq/kg strawberry with an average of 0.58.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "coffee",
+      "group": "drinks",
+      "name_en": "Coffee (dry grounds)",
+      "name_ja": "コーヒー（豆・粉）",
+      "name_es": "Café (molido)",
+      "kg_co2e_per_kg": 28.53,
+      "servings": [
+        {
+          "id": "cup_10g_grounds",
+          "name_en": "1 cup (10 g grounds)",
+          "name_ja": "1杯（粉10g）",
+          "name_es": "1 taza (10 g de café)",
+          "grams": 10
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses, per kg of DRY ROASTED grounds -- a food consumed ~10 g at a time, so the per-cup preset is the entry path (never the raw grams field). Grapher literal 28.53; supply-chain sum 28.5279. Per-cup chain: 10 g x 28.53 / 1000 = 0.2853 kg CO2e, mid-range of the published 0.1-0.4 kg/cup band; at P&N's own 15 g unit 0.428 kg. Green-bean LCAs (~15.33/kg, Nab & Maslin) sit below because roasting mass loss and supply-chain losses are not yet applied.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Coffee,2010,28.53",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Nab & Maslin 2020, Geo: Geography and Environment",
+          "url": "https://rgs-ibg.onlinelibrary.wiley.com/doi/full/10.1002/geo2.96",
+          "quote": "The average carbon footprint of Arabica coffee from both countries was calculated as 15.33 (+/-0.72) kg CO2 [equivalent per 1 kg of green coffee] for conventional coffee production and 3.51 (+/-0.13) kg CO2 [for sustainable production].",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "co2everything",
+          "url": "https://co2everything.com/co2e-of/coffee",
+          "quote": "One cup of Coffee (15g) is equivalent to 0.4kg CO2e",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "beer",
+      "group": "drinks",
+      "name_en": "Beer",
+      "name_ja": "ビール",
+      "name_es": "Cerveza",
+      "kg_co2e_per_kg": 1.2,
+      "servings": [
+        {
+          "id": "can_330ml",
+          "name_en": "1 can (330 ml)",
+          "name_ja": "缶1本（330ml）",
+          "name_es": "1 lata (330 ml)",
+          "grams": 330
+        },
+        {
+          "id": "can_350ml",
+          "name_en": "1 can (350 ml)",
+          "name_ja": "缶1本（350ml）",
+          "name_es": "1 lata (350 ml)",
+          "grams": 350
+        },
+        {
+          "id": "can_355ml",
+          "name_en": "1 can (12 oz)",
+          "name_ja": "缶1本（355ml）",
+          "name_es": "1 lata (355 ml)",
+          "grams": 355
+        },
+        {
+          "id": "us_pint",
+          "name_en": "1 US pint",
+          "name_ja": "1パイント（473ml）",
+          "name_es": "1 pinta (473 ml)",
+          "grams": 473
+        }
+      ],
+      "calculation_notes": "Owner decision D2 (2026-07-18): P&N mean on the per-alcohol-unit basis, derived to per litre. Manuscript: 0.24 kg CO2e per unit (mean); 1 unit = 10 ml alcohol; at 5% ABV the volume per unit is 10 / 0.05 = 200 ml; 0.24 / 0.200 = 1.2 kg/L. Per litre = per kg at density 1.0. The dedicated packaged-beer LCA range (0.400-1.475/L; packaged-format mean ~0.67) is science-sheet spread context, not the factor. Per 330 ml can: 0.396 kg.",
+      "sources": [
+        {
+          "name": "Poore & Nemecek 2018, accepted manuscript",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
+          "quote": "Beer (5% ABV) 695 0.14 0.24",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Poore & Nemecek 2018, accepted manuscript",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
+          "quote": "(H) Alcoholic beverages (1 unit = 10ml alcohol).",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "co2everything",
+          "url": "https://co2everything.com/co2e-of/beer",
+          "quote": "One bottle of Beer (355ml) is equivalent to 0.25kg CO2e",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "wine",
+      "group": "drinks",
+      "name_en": "Wine",
+      "name_ja": "ワイン",
+      "name_es": "Vino",
+      "kg_co2e_per_kg": 1.79,
+      "servings": [
+        {
+          "id": "glass",
+          "name_en": "1 glass",
+          "name_ja": "グラス1杯",
+          "name_es": "1 copa",
+          "grams": 150
+        },
+        {
+          "id": "bottle",
+          "name_en": "1 bottle",
+          "name_ja": "1本（750ml）",
+          "name_es": "1 botella (750 ml)",
+          "grams": 750
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 1.79. Manuscript cross-check: 0.14 kg per unit at 12.5% ABV = 10 / 0.125 = 80 ml per unit -> 1.75/L; the grapher 1.79 (losses included) is adopted. Per 750 ml bottle: 1.34 kg, inside the Nature 2024 0.06-3.0 kg/bottle range. Per litre = per kg at density 1.0.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Wine,2010,1.79",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Poore & Nemecek 2018, accepted manuscript",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
+          "quote": "Wine (12.5% ABV) 154 0.07 0.14",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Nature Communications Earth & Environment 2024",
+          "url": "https://www.nature.com/articles/s43247-024-01766-0",
+          "quote": "the conventional farming exhibits higher values of 0.06-3.0 kg CO [2-eq] bottle [-1] of 750 mL wine as compared to mixed and organic farming.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "soy_milk",
+      "group": "drinks",
+      "name_en": "Soy milk",
+      "name_ja": "豆乳",
+      "name_es": "Leche de soja",
+      "kg_co2e_per_kg": 0.98,
+      "servings": [
+        {
+          "id": "glass",
+          "name_en": "1 glass (250 ml)",
+          "name_ja": "コップ1杯（250ml）",
+          "name_es": "1 vaso (250 ml)",
+          "grams": 250
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Triple-corroborated: per-kg grapher 0.98, milks chart 0.98/L, manuscript mean ~1.0/L. Per litre = per kg at density 1.0. Per 250 ml glass: 0.245 kg.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Soy milk,2010,0.98",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Soy milk,2013,0.66,0.98,27.8,1.06",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "oat_milk",
+      "group": "drinks",
+      "name_en": "Oat milk",
+      "name_ja": "オーツミルク",
+      "name_es": "Leche de avena",
+      "kg_co2e_per_kg": 0.9031262,
+      "servings": [
+        {
+          "id": "glass",
+          "name_en": "1 glass (250 ml)",
+          "name_ja": "コップ1杯（250ml）",
+          "name_es": "1 vaso (250 ml)",
+          "grams": 250
+        }
+      ],
+      "calculation_notes": "P&N mean from the milks chart, per litre -- the only OWID surface for oat milk (the per-kg grapher's 'Oatmeal' is the grain, never the drink). Stored exact 0.9031262 (FR-18); displays 0.90. Commercial LCAs run lower (Oatly 0.43-0.64/L), so confidence is Medium. Per litre = per kg at density 1.0. Per 250 ml glass: 0.226 kg.",
+      "sources": [
+        {
+          "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Oat milk,2013,0.76,0.9031262,48.24,1.622563",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Impacts are measured per liter of milk. These are based on a meta-analysis of food system impact studies across the supply chain which includes land use change, on-farm production, processing, transport, and packaging.",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "GreenQueen",
+          "url": "https://greenqueen.com.hk/oatly-calls-for-mandatory-carbon-labelling-offers-big-dairy-free-ad-space-to-publish-climate-footprint/",
+          "quote": "soy milk emits 0.98kg, oat milk amounts to 0.9kg, and almond milk 0.7kg per litre.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "dark_chocolate",
+      "group": "treats",
+      "name_en": "Dark chocolate",
+      "name_ja": "ダークチョコレート",
+      "name_es": "Chocolate negro",
+      "kg_co2e_per_kg": 46.65,
+      "servings": [
+        {
+          "id": "small_bar_1oz",
+          "name_en": "1 small bar (1 oz)",
+          "name_ja": "小さい板チョコ1枚",
+          "name_es": "1 barrita (28 g)",
+          "grams": 28
+        },
+        {
+          "id": "square",
+          "name_en": "1 square",
+          "name_ja": "1かけ",
+          "name_es": "1 cuadradito",
+          "grams": 12.6
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses (owner decision D1: means dataset-wide). Grapher literal 46.65; supply-chain sum 46.6467. Land-use change is 55% of the total (deforestation-linked cocoa) -- the mandatory sublabel explains why sourcing moves this from near-zero to 46+. The famous ~19 is the same study's median WITHOUT losses (archived stage sum 18.7) -- approved fallback provenance only, not the shipped value. The 12.6 g square preset is derived: FDC 170273 '1 bar = 101.0 g' / 8 = 12.625 g.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Dark Chocolate,2010,46.65",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Dark Chocolate,2018,25.814833,6.687002,0,0.3337439,0.1108714,0.037652217,0.7224336,12.940208",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Project Drawdown",
+          "url": "https://drawdown.org/insights/what-type-of-chocolate-is-best-for-climate",
+          "quote": "Globally, cocoa beans account for an average of 46 kilograms of CO2-eq emissions per kilogram - about half from deforestation. Poore notes that the distribution of emissions associated with this crop is hugely different depending on where it is sourced. \"If cacao trees are planted on former cropland, cacao can even sequester carbon.\"",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "cane_sugar",
+      "group": "treats",
+      "name_en": "Cane sugar",
+      "name_ja": "砂糖（さとうきび）",
+      "name_es": "Azúcar de caña",
+      "kg_co2e_per_kg": 3.2,
+      "servings": [
+        {
+          "id": "teaspoon",
+          "name_en": "1 teaspoon",
+          "name_ja": "小さじ1",
+          "name_es": "1 cucharadita",
+          "grams": 4.2
+        },
+        {
+          "id": "cube",
+          "name_en": "1 sugar cube",
+          "name_ja": "角砂糖1個",
+          "name_es": "1 terrón",
+          "grams": 2.3
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 3.2; supply-chain sum 3.1989 (land-use change 39%). Factory-gate LCAs (0.474-1.036, Belize PCF) sit below because they exclude transport, retail and losses -- and demonstrate the dominant LUC sensitivity.",
+      "sources": [
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Cane Sugar,2010,3.2",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Cane Sugar,2018,1.2630405,0.49126986,0,0.037380975,0.7945103,0.036723007,0.08427718,0.4917223",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Martinez, The Carbon Footprint of Raw Cane Sugar",
+          "url": "https://marianne-martinez.squarespace.com/s/The-Carbon-Footprint-of-Raw-Cane-Sugar-Final.pdf",
+          "quote": "The raw cane sugar PCF from cradle to factory gate amounts to 0.474 kg CO2e per kg raw sugar when using remote sensing data, 0.760 kg CO2e per kg when using national average LUC rates and 1.036 kg CO2...",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "olive_oil",
+      "group": "oils",
+      "name_en": "Olive oil",
+      "name_ja": "オリーブオイル",
+      "name_es": "Aceite de oliva",
+      "kg_co2e_per_kg": 5.42,
+      "servings": [
+        {
+          "id": "tablespoon",
+          "name_en": "1 tablespoon",
+          "name_ja": "大さじ1",
+          "name_es": "1 cucharada",
+          "grams": 13.5
+        },
+        {
+          "id": "teaspoon",
+          "name_en": "1 teaspoon",
+          "name_ja": "小さじ1",
+          "name_es": "1 cucharadita",
+          "grams": 4.5
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Not in the per-kg grapher; the factor is the eight-stage supply-chain sum -0.3236843 + 3.672172 + 0 + 0.5671888 + 0.41411418 + 0.039322365 + 0.7401167 + 0.31564602 = 5.4249 -> 5.42. Net-negative land-use change (groves sequester). Palm-vs-olive ordering is boundary-dependent: on a production-only basis the two are close and can reverse -- no superlative copy.",
+      "sources": [
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Olive Oil,2018,-0.3236843,3.672172,0,0.5671888,0.41411418,0.039322365,0.7401167,0.31564602",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "palm_oil",
+      "group": "oils",
+      "name_en": "Palm oil",
+      "name_ja": "パーム油",
+      "name_es": "Aceite de palma",
+      "kg_co2e_per_kg": 7.32,
+      "servings": [
+        {
+          "id": "tablespoon",
+          "name_en": "1 tablespoon",
+          "name_ja": "大さじ1",
+          "name_es": "1 cucharada",
+          "grams": 13.6
+        }
+      ],
+      "calculation_notes": "P&N mean with supply-chain losses. Not in the per-kg grapher; the factor is the eight-stage supply-chain sum 2.7555852 + 1.875132 + 0 + 1.1253257 + 0.18511687 + 0.038737673 + 0.78810805 + 0.5487651 = 7.3168 -> 7.32. Land-use change is ~38% of the total. On a production-only basis (~2.2) palm and olive are close and can reverse -- ordering is boundary-dependent, no superlatives.",
+      "sources": [
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Palm Oil,2018,2.7555852,1.875132,0,1.1253257,0.18511687,0.038737673,0.78810805,0.5487651",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "oaepublish (Carbon Footprints 2025)",
+          "url": "https://www.oaepublish.com/articles/cf.2025.90",
+          "quote": "investigated refined palm oil, defined kernel as by-product and used mass allocation in order to allocate GHG emissions, they calculated a CF for refined palm oil of 2.2 t CO2eq t",
+          "accessed": "2026-07-18"
+        }
+      ]
+    }
+  ]
+}

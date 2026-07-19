@@ -14,7 +14,7 @@ const _fixture = <EquivalencyMetadata>[
   ),
   EquivalencyMetadata(
     type: EquivalencyType.carKm,
-    gramsPerUnit: 200,
+    gramsPerUnit: 162.72,
     sourceName: 'DEFRA',
     sourceUrl: 'https://example.org/defra',
   ),
@@ -52,12 +52,12 @@ void main() {
     });
 
     test('values match documented conversion factors', () {
-      // 21,000 g of CO2 = 1 tree-year, 105 km, 2625 charges, 7 burgers.
+      // 21,000 g of CO2 = 1 tree-year, ~129 km, 2625 charges, 7 burgers.
       final results = computeImpactEquivalencies(21000, _fixture);
       final byType = {for (final e in results) e.type: e.value};
 
       expect(byType[EquivalencyType.trees], 1.0);
-      expect(byType[EquivalencyType.carKm], 105.0);
+      expect(byType[EquivalencyType.carKm], closeTo(129.056, 0.001));
       expect(byType[EquivalencyType.phoneCharges], 2625.0);
       expect(byType[EquivalencyType.burgers], 7.0);
     });

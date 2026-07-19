@@ -1,0 +1,602 @@
+{
+  "metadata": {
+    "version": 1,
+    "scope": "Operational energy emissions only: direct combustion (CO2, CH4, N2O) for engine modes and electricity-generation emissions for the traction/charging energy of electric modes. Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ 2025 methodology, 1.7x central estimate); helicopter is combustion-only (low-altitude flight), per entry. Primary vintage: UK DEFRA/DESNZ 2025 unless a mode notes otherwise.",
+    "primary_source": "UK DEFRA/DESNZ 2025 GHG Conversion Factors",
+    "grid_factor_g_per_kwh": 386,
+    "citation_note": "Table-row citations (SustainMetrics, SCIF, Greencalculus, EV Database) are transcribed as pipe-delimited row cells with ASCII substitutions ('>' for '›', '-' for em dash); they are row transcriptions, not page sentences."
+  },
+  "modes": [
+    {
+      "id": "walk",
+      "group": "active",
+      "name_en": "Walking",
+      "name_ja": "徒歩",
+      "name_es": "Caminar",
+      "g_co2e_per_km": 0,
+      "per_vehicle": false,
+      "calculation_notes": "0 g/km by scope convention: only direct/electricity emissions are counted, metabolic calories are excluded. A widely cited food-metabolic estimate (~56 g/km) exists but is not shipped as the value; see methodology sheet.",
+      "sources": [
+        {
+          "name": "Cycling UK",
+          "url": "https://www.cyclinguk.org/article/how-much-carbon-can-you-save-cycling-work",
+          "quote": "56g for walking",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "cycle",
+      "group": "active",
+      "name_en": "Cycling",
+      "name_ja": "自転車",
+      "name_es": "Bicicleta",
+      "g_co2e_per_km": 0,
+      "per_vehicle": false,
+      "calculation_notes": "Zero operational emissions (no fuel, no electricity), consistent with the dataset scope. Metabolic food energy is excluded for all human-powered modes: OWID estimates cycling at 16-50 g/km depending on diet, but questions whether those calories are additional to a normal diet. The savings action bike_instead_of_car in co2_actions_database.json deliberately keeps the 16 g rider footprint inside its delta -- different role, do not sync these numbers.",
+      "sources": [
+        {
+          "name": "Our World in Data",
+          "url": "https://ourworldindata.org/travel-carbon-footprint",
+          "quote": "the carbon footprint of cycling one kilometer is usually in the range of 16 to 50 grams CO2eq per km",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "ebike",
+      "group": "active",
+      "name_en": "E-bike",
+      "name_ja": "電動アシスト自転車",
+      "name_es": "Bicicleta eléctrica",
+      "g_co2e_per_km": 2,
+      "per_vehicle": false,
+      "calculation_notes": "Derived, electricity only: 5.3 Wh/km (BikeRadar real-world measurement) x house global grid factor 386 g/kWh = 2.05, rounded to 2. Excluded per the operational scope: metabolic food energy (~6.3 g/km) and manufacturing (~7 g/km); the widely cited ECF lifecycle total is 14.8 g/km.",
+      "sources": [
+        {
+          "name": "BikeRadar",
+          "url": "https://www.bikeradar.com/features/long-reads/cycling-environmental-impact",
+          "quote": "Travelling 94km on 500Wh works out to 5.3Wh per km.",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Cycling UK",
+          "url": "https://www.cyclinguk.org/article/how-much-carbon-can-you-save-cycling-work",
+          "quote": "just 14.8g for e-cycles",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "escooter_private",
+      "group": "micro",
+      "name_en": "E-scooter (private)",
+      "name_ja": "電動キックスクーター（個人所有）",
+      "name_es": "Patinete eléctrico (privado)",
+      "g_co2e_per_km": 6,
+      "per_vehicle": false,
+      "calculation_notes": "Derived: electricity-only. The Springer 2024 LCA measures 1.4 kWh/100 km (plastic frame) to 1.576 kWh/100 km (aluminium frame) = 14-15.8 Wh/km; at the house grid factor 386 g/kWh that is 5.4-6.1 g/km. Ships 6, the upper end of the band (honest direction). Excludes full lifecycle manufacturing (~32 g/km lifecycle figure for the same private-scooter case is noted in the methodology sheet).",
+      "sources": [
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "1.4 kWh/100 km",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "The Al e-scooter has an electricity consumption of 1.576 kWh/100 km, based on its 20.1 km range and a Li-Ion battery capacity of 316.8 Wh",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_petrol_small",
+      "group": "car",
+      "name_en": "Small petrol car",
+      "name_ja": "小型ガソリン車",
+      "name_es": "Coche de gasolina pequeño",
+      "g_co2e_per_km": 143.08,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car <1.4L, vehicle-km. Stored per vehicle and divided by the selected occupant count (1-4).",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Small car > Petrol | Scope 1 | 0.14308 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_petrol_medium",
+      "group": "car",
+      "name_en": "Medium petrol car",
+      "name_ja": "中型ガソリン車",
+      "name_es": "Coche de gasolina mediano",
+      "g_co2e_per_km": 174.74,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car 1.4-2.0L, vehicle-km.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Medium car > Petrol | Scope 1 | 0.17474 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_petrol_large",
+      "group": "car",
+      "name_en": "Large petrol car / SUV",
+      "name_ja": "大型ガソリン車・SUV",
+      "name_es": "Coche grande de gasolina / SUV",
+      "g_co2e_per_km": 268.28,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car >2.0L, vehicle-km.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Large car > Petrol | Scope 1 | 0.26828 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_petrol_avg",
+      "group": "car",
+      "name_en": "Petrol car (average)",
+      "name_ja": "ガソリン車（平均）",
+      "name_es": "Coche de gasolina (promedio)",
+      "g_co2e_per_km": 162.72,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 average petrol car, vehicle-km. Cross-checked against OWID's 170 g/km (pre-2025 vintage) and US EPA's ~249 g/km CO2-only US-fleet figure -- magnitudes agree.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Greencalculus",
+          "url": "https://greencalculus.com/data/business-travel-freight-logistics-emission-factors/",
+          "quote": "Car - average (unknown fuel) petrol / diesel / hybrid | 0.16272 / 0.17304 / 0.12825 | kg CO2e/km",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "SCIF",
+          "url": "https://scif.org.uk/news/how-we-calculate-travel-emissions/",
+          "quote": "Petrol Car | 0.16272 | kgCO2e/km",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "car_diesel_avg",
+      "group": "car",
+      "name_en": "Diesel car (average)",
+      "name_ja": "ディーゼル車（平均）",
+      "name_es": "Coche diésel (promedio)",
+      "g_co2e_per_km": 173.04,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 average diesel car, vehicle-km.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Diesel | Scope 1 | 0.17304 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_hybrid",
+      "group": "car",
+      "name_en": "Hybrid car",
+      "name_ja": "ハイブリッド車",
+      "name_es": "Coche híbrido",
+      "g_co2e_per_km": 128.25,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 full (non-plug-in) hybrid car average, vehicle-km. Plug-in hybrid was researched and deliberately dropped from v1: DEFRA's official figure (91.67) assumes charging discipline, while T&E/EEA real-world testing finds ~135 g/km -- neither number satisfies the 'honest, not generous' rule cleanly.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Hybrid | Scope 1 | 0.12825 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "car_bev",
+      "group": "car",
+      "name_en": "Electric car",
+      "name_ja": "電気自動車",
+      "name_es": "Coche eléctrico",
+      "g_co2e_per_km": 73,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "Derived: real-world EV consumption 0.188 kWh/km x house global grid factor 386 g CO2/kWh = 72.6, rounded to 73. Deliberately deviates from DEFRA's UK-grid BEV figure (40.47 g/km, 2025; ~30 g/km in the 2026 release) because the app's audience is global with Japan as the primary market, and Japan's grid is more carbon-intensive than the UK's. Methodology sheet documents both anchor points. The EV Database cheatsheet is live-updating; the 188 Wh/km average was read 2026-07-19 and can drift between data passes.",
+      "sources": [
+        {
+          "name": "EV Database",
+          "url": "https://ev-database.org/cheatsheet/energy-consumption-electric-car",
+          "quote": "Average 188 Wh/km",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "motorbike",
+      "group": "car",
+      "name_en": "Motorbike (average)",
+      "name_ja": "オートバイ（平均）",
+      "name_es": "Motocicleta (promedio)",
+      "g_co2e_per_km": 113.67,
+      "per_vehicle": true,
+      "max_occupants": 2,
+      "calculation_notes": "DEFRA 2025 average motorbike, vehicle-km. max_occupants is 2 (rider + pillion), not the standard 4 used for cars, since a motorbike cannot realistically carry more.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Motorbike > Average | Scope 3 | 0.11367 | km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "bus_city",
+      "group": "bus",
+      "name_en": "City bus",
+      "name_ja": "市内バス",
+      "name_es": "Autobús urbano",
+      "g_co2e_per_km": 103.85,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 local bus average, per passenger-km at average occupancy. An extra passenger on a scheduled bus is near-marginal-zero; this average is the honest planning figure (see methodology sheet).",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Bus > Average local bus | Scope 3 | 0.10385 | passenger.km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "coach",
+      "group": "bus",
+      "name_en": "Coach (long distance)",
+      "name_ja": "長距離バス",
+      "name_es": "Autocar (larga distancia)",
+      "g_co2e_per_km": 27.76,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 average occupancy. The 2026 release raises this figure ~42-43% after correcting for unrealistically high occupancy assumptions; the 2026 number is not yet second-source verified, revisit at the next data pass.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Bus > Coach | Scope 3 | 0.02776 | passenger.km",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "taxi",
+      "group": "taxi",
+      "name_en": "Taxi",
+      "name_ja": "タクシー",
+      "name_es": "Taxi",
+      "g_co2e_per_km": 208.06,
+      "per_vehicle": true,
+      "max_occupants": 4,
+      "calculation_notes": "DEFRA 2025 regular taxi, per VEHICLE-km, divided by the passenger count (stepper counts passengers, default 1). Basis per the DESNZ 2025 methodology para 5.39: average medium/large-car type-approval CO2 uplifted 40% for the real-world taxi duty cycle (TfL data) -- which is why a taxi km exceeds an average petrol-car km. DEFRA's per-passenger-km variant (148.61 = 208.06 / 1.4 assumed passengers, L.E.K. 2002) is NOT shipped: the dated occupancy assumption would be embedded invisibly. Deadheading (empty running between fares) is explicitly EXCLUDED by DEFRA (para 5.42), so the true door-to-door footprint is higher than shown: CARB's SB 1014 base-year inventory puts 2018 ride-hail deadhead miles at ~38.5%, and UCS 2020 finds a non-pooled ride-hail trip ~47% more polluting than the same private-car trip (~239 g/km applied to our car figure). The shipped 208.06 is therefore conservative.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Taxis > Regular taxi | Scope 3 | 0.20806 | km",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "DESNZ 2025 GHG Conversion Factors methodology paper",
+          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
+          "quote": "It should be noted that the current conversion factors for taxis do not take into account emissions spent from “cruising” for fares.",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "CARB SB 1014 2018 Base-year Emissions Inventory Report (Dec 2019)",
+          "url": "https://ww2.arb.ca.gov/sites/default/files/2019-12/SB%201014%20-%20Base%20year%20Emissions%20Inventory_December_2019.pdf",
+          "quote": "it is estimated that in 2018, almost 38.5 percent of total TNC VMT in California was deadhead miles",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "rail_national",
+      "group": "rail",
+      "name_en": "Local / national rail",
+      "name_ja": "在来線・国内鉄道",
+      "name_es": "Tren nacional / de cercanías",
+      "g_co2e_per_km": 35.46,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 national rail average, per passenger-km. The 2026 release cuts this figure ~13% following fleet and passenger-usage updates; not yet second-source verified, revisit at the next data pass.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Rail > National rail | Scope 3 | 0.03546 | passenger.km",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Our World in Data",
+          "url": "https://ourworldindata.org/travel-carbon-footprint",
+          "quote": "National rail emits around 35 grams per kilometer",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "rail_international",
+      "group": "rail",
+      "name_en": "International rail (Eurostar)",
+      "name_ja": "国際鉄道（ユーロスター）",
+      "name_es": "Tren internacional (Eurostar)",
+      "g_co2e_per_km": 4.46,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 international rail, per passenger-km. Eurostar-weighted and French-nuclear-specific -- NOT generic high-speed rail. Treat as order-of-magnitude only: the 2026 release raises this figure ~2.5x to ~11 g/pkm after significant changes in service patterns and rolling stock utilisation; revisit at the next data pass.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Rail > International rail | Scope 3 | 0.00446 | passenger.km",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data",
+          "url": "https://ourworldindata.org/travel-carbon-footprint",
+          "quote": "Taking the Eurostar emits around 4 grams of CO2 per passenger kilometer",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "rail_shinkansen",
+      "group": "rail",
+      "name_en": "Shinkansen (bullet train)",
+      "name_ja": "新幹線",
+      "name_es": "Shinkansen (tren bala)",
+      "g_co2e_per_km": 20,
+      "per_vehicle": false,
+      "calculation_notes": "Non-DEFRA source. Basis: Japan rail average, CO2 (not CO2e), per passenger-km -- a national average across all rail, not a Shinkansen-specific factor (Shinkansen-specific would be similar or better at typical load factors). Primary figure is the FY2023 value via Planet Forward; the Navitime corroboration page is the MLIT-supervised 2018 edition of Transport and Environment, an older vintage. JR Central's own quotable comparison for the Tokyo-Osaka Shinkansen vs an equivalent flight is ~1/8 the energy and ~1/12 the CO2 of the aircraft.",
+      "sources": [
+        {
+          "name": "Planet Forward",
+          "url": "https://planetforward.org/story/japans-trains-climate/",
+          "quote": "rail travel emits just 20 grams of CO2 per passenger-kilometer",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Navitime (MLIT-supervised reference page)",
+          "url": "https://www.navitime.co.jp/pcstorage/html/co2info.html",
+          "quote": "自動車 145g/km | バス 66g/km | 航空 96g/km | 鉄道 20g/km | … | 出典元:｢運輸･交通と環境2018年版」 (our translation: car 145, bus 66, airplane 96, rail 20 g/km per passenger-km; skipped lines list walking and cycling at 0; source: Transport and Environment, 2018 edition)",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "JR Central",
+          "url": "https://global.jr-central.co.jp/en/company/about_shinkansen/",
+          "quote": "The energy consumption amount per seat when traveling between Tokyo and Osaka is approximately 1/8th of that of an aircraft | The CO2 emission rate for the same is around 1/12th",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "metro",
+      "group": "rail",
+      "name_en": "Metro / underground",
+      "name_ja": "地下鉄",
+      "name_es": "Metro",
+      "g_co2e_per_km": 27.8,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 London Underground, per passenger-km. The 2026 release cuts this figure 44-45% after an electricity-grid update; not yet second-source verified, revisit at the next data pass.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Rail > London Underground | Scope 3 | 0.0278 | passenger.km",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "tram",
+      "group": "rail",
+      "name_en": "Tram / light rail",
+      "name_ja": "路面電車・LRT",
+      "name_es": "Tranvía / tren ligero",
+      "g_co2e_per_km": 28.6,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 light rail and tram average, per passenger-km.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Rail > Light rail and tram | Scope 3 | 0.0286 | passenger.km",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "ferry_foot",
+      "group": "water",
+      "name_en": "Ferry (foot passenger)",
+      "name_ja": "フェリー（徒歩乗船）",
+      "name_es": "Ferri (pasajero a pie)",
+      "g_co2e_per_km": 18.71,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 ferry foot-passenger average, per passenger-km. Boarding with a car is a different factor -- see ferry_car (129.33 g/pkm), roughly 7x this figure.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-sea",
+          "quote": "Ferry > Foot passenger | Scope 3 | 0.01871 | passenger.km",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "ferry_car",
+      "group": "water",
+      "name_en": "Ferry (car passenger)",
+      "name_ja": "フェリー（自動車同乗）",
+      "name_es": "Ferri (pasajero con coche)",
+      "g_co2e_per_km": 129.33,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 ferry car-passenger average, per passenger-km. One leg covers the vehicle-plus-passenger crossing: do not add a separate car leg for the same distance.",
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-sea",
+          "quote": "Ferry > Car passenger | Scope 3 | 0.12933 | passenger.km",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "flight_domestic",
+      "group": "air",
+      "name_en": "Domestic flight",
+      "name_ja": "国内線",
+      "name_es": "Vuelo nacional",
+      "g_co2e_per_km": 229.28,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 domestic average passenger, per passenger-km, includes the radiative-forcing uplift. Do not mix with pre-2025-vintage domestic figures (e.g. OWID's commonly cited 246 g/km).",
+      "sources": [
+        {
+          "name": "OpenCO2.net",
+          "url": "https://www.openco2.net/en/emission-factor/2171/",
+          "quote": "229,28 g/hkm",
+          "accessed": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "flight_shorthaul",
+      "group": "air",
+      "name_en": "Short-haul flight (economy)",
+      "name_ja": "短距離国際線（エコノミー）",
+      "name_es": "Vuelo internacional de corta distancia (turista)",
+      "g_co2e_per_km": 125.76,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 short-haul international economy, per passenger-km, includes radiative forcing. Notably lower per-km than a solo average petrol car (162.72) -- the car only wins once it carries 2+ occupants. This is an intentional, non-hidden result the comparison view surfaces.",
+      "sources": [
+        {
+          "name": "CarbonPass",
+          "url": "https://carbonpass.co/guides/defra-emission-factors-2025-uk",
+          "quote": "A short-haul economy flight produces 0.12576 kgCO2e per passenger-km (including radiative forcing)",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "flight_longhaul",
+      "group": "air",
+      "name_en": "Long-haul flight (economy)",
+      "name_ja": "長距離国際線（エコノミー）",
+      "name_es": "Vuelo internacional de larga distancia (turista)",
+      "g_co2e_per_km": 117.04,
+      "per_vehicle": false,
+      "calculation_notes": "DEFRA 2025 long-haul international economy, per passenger-km, includes radiative forcing. Lower per-km than short-haul or domestic flights due to cruise-phase efficiency -- total trip impact is still far larger than rail because of distance, which is exactly the counterintuitive fact the comparison view is meant to surface.",
+      "sources": [
+        {
+          "name": "myCarbon",
+          "url": "https://www.mycarbon.co.uk/2025/06/17/2025-defra-emissions-factor-update-what-it-reveals-about-uk-carbon-reductions/",
+          "quote": "0.11704 kgCO2e per passenger km",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "CarbonPass",
+          "url": "https://carbonpass.co/guides/defra-emission-factors-2025-uk",
+          "quote": "A short-haul economy flight produces 0.12576 kgCO2e per passenger-km (including radiative forcing), compared with 0.11704 for long-haul economy",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "DESNZ 2025 GHG Conversion Factors methodology paper (para 8.45)",
+          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
+          "quote": "The multiplier is therefore recommended to be applied equally to all flights irrespective of distance or altitude and to equally to all phases of the flight, albeit accepting the approximations involved in this approach.",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "private_jet",
+      "group": "high_impact",
+      "name_en": "Private jet",
+      "name_ja": "プライベートジェット",
+      "name_es": "Jet privado",
+      "g_co2e_per_km": 1700,
+      "per_vehicle": false,
+      "calculation_notes": "Derived (no government per-passenger-km factor exists): light/midsize business jet cruise fuel burn implies 0.53-0.74 kg CO2e/pkm combustion-only at ~4 passengers; CE Delft's independently cited 5-14x commercial-flight multiplier implies a 0.6-3.2 kg/pkm real-world band. Combustion base 1,000 g/km chosen from the conservative lower band of that range, then the DESNZ radiative-forcing multiplier of 1.7 (2025 methodology paper, sec 8.43, verified 2026-07-18) is applied for consistency with the airline rows: 1,000 x 1.7 = 1,700 g/km. Still conservative for typical 2-3-passenger hops.",
+      "sources": [
+        {
+          "name": "DESNZ 2025 GHG Conversion Factors methodology paper",
+          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
+          "quote": "A multiplier of 1.7 is recommended as a central estimate, based on the best available scientific evidence",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "PrivateJetCardComparisons",
+          "url": "https://privatejetcardcomparisons.com/the-basics/private-jet-fuel-cost-per-hour-in-gallons/",
+          "quote": "The Embraer Phenom 300 light jet gulps 183 gallons per hour.",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Transport & Environment",
+          "url": "https://www.transportenvironment.org/articles/private-jets-can-the-super-rich-supercharge-zero-emission-aviation",
+          "quote": "Our report finds that private jets are 5 to 14 times more polluting than commercial planes (per passenger), and 50 times more polluting than trains, a gap which will grow as private jet users move towards aircraft which are bigger and more polluting than their commercial alternatives.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "CE Delft",
+          "url": "https://cedelft.eu/publications/co2-emissions-of-private-aviation-in-europe/",
+          "quote": "Private flights produce much higher CO2 emissions per passenger kilometre than commercial flights: they are five to 14 times more polluting, according to Transport & Environment.",
+          "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "helicopter",
+      "group": "high_impact",
+      "name_en": "Helicopter",
+      "name_ja": "ヘリコプター",
+      "name_es": "Helicóptero",
+      "g_co2e_per_km": 450,
+      "per_vehicle": false,
+      "calculation_notes": "Derived (no government per-passenger-km factor exists): turbine helicopter (Airbus H125 / Bell 407 class) at typical 4-5 passengers; per-type derivations range 210-690 g/pkm depending on aircraft and load factor. No radiative-forcing uplift applied (low-altitude flight, not applicable).",
+      "sources": [
+        {
+          "name": "3AF",
+          "url": "https://www.3af.fr/en/news/comparison-of-co2-emissions-from-helicopters-2504",
+          "quote": "1 kg of jet fuel emits 3.16 kg of CO2 during combustion",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "travelandclimate.org",
+          "url": "https://travelandclimate.org/climate-footprint-of-activities",
+          "quote": "180 litres of aviation fuel per hour",
+          "accessed": "2026-07-18"
+        }
+      ]
+    }
+  ]
+}

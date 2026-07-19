@@ -629,7 +629,11 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de carne de res o cordero hoy',
     category: 'food',
-    co2Grams: 6000,
+    // Beef case, matches meatless_meal_beef in
+    // co2_actions_database v1.1 (P&N 2018 mean incl. LUC:
+    // 9948g/100g serving - 200g plant alt, rounded down).
+    // Lamb case implies ~3.8kg.
+    co2Grams: 9700,
     effort: 2,
     frequency: 3,
     impact: 4,
@@ -653,6 +657,9 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de pollo, cerdo o pescado hoy',
     category: 'food',
+    // Between the chicken (890) and pork (1100) cases of
+    // co2_actions_database v1.1 (P&N 2018 means); farmed fish
+    // implies ~1.3kg. Conservative for pork/fish skippers.
     co2Grams: 1000,
     effort: 2,
     frequency: 3,
@@ -698,7 +705,10 @@ const actions = [
       'Elegir leche vegetal en vez de '
       + 'leche de vaca',
     category: 'food',
-    co2Grams: 550, // 250ml; dairy 3.2 vs oat 0.45/L
+    // Matches plant_milk_vs_dairy in co2_actions_database
+    // v1.1: 250ml, dairy 3.15 vs oat 0.903 kg/L implies 562g;
+    // 460 stays conservative (soy case implies 543g).
+    co2Grams: 460,
     effort: 2, // widely available alternative
     frequency: 5, // daily: coffee, cereal
     impact: 3, // dairy: methane, land, water
