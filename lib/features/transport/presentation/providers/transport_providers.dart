@@ -47,7 +47,7 @@ Future<Set<String>> transportWaterBlockedPairs(Ref ref) =>
 /// Suggested distances per journey kind for a city pair.
 ///
 /// Threads the water-blocked pair set into [suggestedDistancesKm]
-/// (PDR R4-10): without it, cross-water same-mass pairs like
+/// (review requirement): without it, cross-water same-mass pairs like
 /// Helsinki-Tallinn would get fictional ground/cycling estimates.
 /// Every UI consumer must go through this provider, never call
 /// [suggestedDistancesKm] with its silent empty default.

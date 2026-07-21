@@ -4,10 +4,10 @@
 **Created:** 2026-07-18
 **Status:** Assembled from the five research tracks and three
 adversarial check reports (math, quotes, coherence). All corrections
-from [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) applied;
+from the 2026-07-18 adversarial data review applied;
 owner decisions D1-D3 (2026-07-18) applied. 42 items decided (37 at
 the first pass; fish (wild-caught), plant-based meat and tea added
-2026-07-19 closing the PDR product calls; small oily fish and
+2026-07-19 closing the review product calls; small oily fish and
 canned beans added 2026-07-20 closing the follow-up open items);
 open items tracked in section 9.
 **Feeds:** `data/app/food_items.json` (Phase 8.7, see
@@ -85,7 +85,7 @@ products (beef 99.48 mean vs 60 median; dark chocolate 46.65 vs
 > losses included, and given as the mean. This means these two
 > charts are now consistent."
 
-The two coherent value sets, stated precisely (per PDR FR-6 and
+The two coherent value sets, stated precisely (per the data review -- FR-6 and
 FR-15 -- earlier track drafts over-claimed here and are corrected
 by this section):
 
@@ -145,11 +145,11 @@ above). Both sets are honest; a dataset must pick ONE (section 2).
 CarbonCloud publishes "live footprints" that **drift over time**
 (observed during the quote audit: cheddar 18.11 -> 15.09 between
 research fetch and audit fetch, -17%; rolled oats 1.25 -> 1.20).
-Rule (PDR QA-6): CarbonCloud values are corroboration with an
+Rule (data review, 2026-07-18): CarbonCloud values are corroboration with an
 access date, never a digit-for-digit second verification. Every
 CarbonCloud number in this document carries its full product URL
 and a value-as-of date; values without recorded URLs were dropped
-from the corpus as unverifiable (PDR/check_quotes F-6, F-7) and
+from the corpus as unverifiable (quote audit, 2026-07-18) and
 are not carried here.
 
 ---
@@ -181,7 +181,7 @@ Conventions:
   set (section 1) is the approved fallback if a mean is ever
   unavailable or retired; any fallback item must disclose its
   statistic in `calculation_notes` and the science sheet.
-- **Per item, record statistic AND losses basis** (PDR FR-15).
+- **Per item, record statistic AND losses basis** (data-review rule).
   All 42 items below are mean-with-losses except where the
   chosen-values table says otherwise (butter, oats, beer,
   bread/pasta, and the 2026-07 additions fish (wild-caught),
@@ -205,7 +205,7 @@ Conventions:
   > of carbon dioxide-equivalents (CO2eq), on average. But this
   > ranges from 9 kilograms to 105 kilograms of CO2eq."
 - **Dataset JSON stores exact unrounded values; the UI rounds
-  for display** (PDR FR-18 -- storing pre-rounded values produced
+  for display** (data-review rule -- storing pre-rounded values produced
   two flattering roundings, pork -2.5% and brassicas -2.0%).
 - Transport-is-small context (OWID FAQ, verbatim): "No, transport
   accounts for just 5% of greenhouse gas emissions from food."
@@ -256,7 +256,7 @@ Animal feed, Processing, Transport, Retail, Packaging, Losses):
 > "Fish (farmed),2018,1.1947172,8.056115,1.8344203,0.04459863,0.24795863,0.08997562,0.13753739,2.0271227"
 > "Lamb & Mutton,2018,0.648247,27.02575,3.2831702,1.5395962,0.6788543,0.30081406,0.34760362,5.8982344"
 
-**Row-name mapping (PDR FR-17):** the supply-chain CSV names the
+**Row-name mapping (data-review finding):** the supply-chain CSV names the
 prawn row **"Shrimps (farmed)"** while the per-kg CSV uses
 **"Prawns (farmed)"**. Same product, one dataset; the sum verifies
 (26.8659). The dataset item is "Prawns (farmed)" and its
@@ -326,7 +326,7 @@ categories are single coarse global averages with large spread --
 Medium-High confidence, spread caveat required on the science
 sheet (sec 8).
 
-**Fish (wild-caught) -- added 2026-07-19 (PDR product call), not
+**Fish (wild-caught) -- added 2026-07-19 (owner product call), not
 in P&N.** The per-kg grapher has no wild-fish row (re-verified
 2026-07-19: the only fish rows are the farmed two above), so
 tuna/wild eaters had a wrong-by-its-own-label proxy. Assembled
@@ -540,7 +540,7 @@ Anchor rows, verbatim: `Tofu,2010,3.16`,
   -- regional deforestation-free soy; corroborates the
   low-single-digit magnitude.
 
-**Plant-based meat -- added 2026-07-19 (PDR product call), not in
+**Plant-based meat -- added 2026-07-19 (owner product call), not in
 P&N** (per-kg grapher re-inspected 2026-07-19: no meat-substitute
 row exists; the category postdates the study). Without it, the
 flagship burger-swap comparison flattered the swap 2-4x when users
@@ -1022,7 +1022,7 @@ alcohol)."
   Oat milk 0.22 kg / soy milk 0.25 kg per 250 ml glass
   (https://co2everything.com/co2e-of/oat-milk, /co2e-of/soy-milk).
 
-**Tea -- added 2026-07-19 (PDR product call), not in P&N** (per-kg
+**Tea -- added 2026-07-19 (owner product call), not in P&N** (per-kg
 grapher re-inspected 2026-07-19: 37 entities, no Tea row). Coffee
 without tea in a JP-first app meant a 5-10x per-cup overstatement
 for anyone proxying. The factor is per kg of DRY LEAVES,
@@ -1276,10 +1276,10 @@ basis" now rests on a sourced ~1.7-3.0 production-phase band.
 ## 4. Chosen Dataset Values
 
 Final v1 table for `food_items.json`. **Store the exact values
-below unrounded; the UI rounds for display** (PDR FR-18). Basis:
+below unrounded; the UI rounds for display** (data-review rule). Basis:
 kg CO2e per kg as-purchased (liquids: per L = per kg at density
 1.0). Statistic column records mean/median and losses basis per
-item (PDR FR-15). Full quotes/URLs live in section 3; the JSON
+item (data-review rule). Full quotes/URLs live in section 3; the JSON
 carries per-item `sources[]` built from those.
 
 | id | Item | kg CO2e/kg | Statistic / basis | Confidence |
@@ -1547,7 +1547,7 @@ Preset quotes added 2026-07-20 (accessed 2026-07-20):
 
 Pin these as dataset regression tests. They are **DATA PINS for
 the shipped mean-with-losses values in section 4, not truth
-claims** (transport PDR-5 lesson): several orderings flip under
+claims** (lesson from the transport data review): several orderings flip under
 the median statistic or a boundary change, so every pin must be
 re-derived at the next data pass rather than assumed to survive
 it.
@@ -1680,7 +1680,7 @@ Additional fixes (all closed):
   band (780-1163) -- BUT wild fish (~750 g implied) and small
   oily fish (~350 g) now sit below it; whether that action
   should split or lower is an owner points-economy call
-  (flagged in the seeder comment and the PDR).
+  (flagged in the seeder comment).
 - [x] **Swap the beef action's stale quote** -- verified shipped:
   the beef action's `sources[]` carry the mean CSV row, the
   MyCarbon 99.477404614 restatement and the OWID FAQ
@@ -1785,7 +1785,7 @@ verbatim on the live page (QA-8); butter's un-URLed 12.1
 candidate dropped with the factor unchanged (QA-3); all quote
 hygiene fixes QA-2/4/5/7 applied in sections 3 and 5.
 
-Resolved 2026-07-19 (second pass): the three PDR product calls
+Resolved 2026-07-19 (second pass): the three review product calls
 shipped as dataset items (fish_wild 9.50, plant_based_meat 4.5,
 tea 9.0 -- sections 3.1, 3.3, 3.7, with pins in section 6 and UI
 rules 14-16 in section 8); citrus independent corroboration

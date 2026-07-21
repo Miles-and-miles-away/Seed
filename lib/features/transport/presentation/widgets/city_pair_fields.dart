@@ -88,7 +88,7 @@ class _CityField extends StatelessWidget {
     return Autocomplete<City>(
       // The form step unmounts this field; seeding from the selected
       // city keeps the visible text in sync with the estimate-driving
-      // state when the mode step remounts it (PDR R5-17).
+      // state when the mode step remounts it.
       initialValue: TextEditingValue(
         text: city == null ? '' : _cityLabel(city),
       ),

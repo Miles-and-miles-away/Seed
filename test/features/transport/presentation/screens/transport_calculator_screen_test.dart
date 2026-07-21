@@ -295,7 +295,7 @@ void main() {
     });
 
     testWidgets('accepts a locale decimal comma in the distance '
-        '(PDR R5-16)', (tester) async {
+        '(review requirement)', (tester) async {
       await openEditor(tester);
       await addLeg(tester, modeName: 'Test Rail', distance: '12,5');
 
@@ -304,9 +304,7 @@ void main() {
       expect(find.text('Enter a distance of 0 km or more'), findsNothing);
     });
 
-    testWidgets('seeds the edit field with full precision (PDR R5-19)', (
-      tester,
-    ) async {
+    testWidgets('seeds the edit field with full precision', (tester) async {
       await openEditor(tester);
       await addLeg(tester, modeName: 'Test Rail', distance: '12.345');
       // The card display rounds; the edit round-trip must not.
@@ -318,7 +316,7 @@ void main() {
     });
 
     testWidgets('city fields keep their text across a step round-trip '
-        '(PDR R5-17)', (tester) async {
+        '(review requirement)', (tester) async {
       await openEditor(tester);
       await pickCities(tester);
 
@@ -338,7 +336,7 @@ void main() {
     });
 
     testWidgets('estimate flag resets when the new mode has no '
-        'suggestion (PDR R5-19)', (tester) async {
+        'suggestion', (tester) async {
       await openEditor(tester);
       await pickCities(tester);
 
@@ -356,9 +354,7 @@ void main() {
       expect(find.text(_estimateNote), findsNothing);
     });
 
-    testWidgets('a same-city pair shows no suggestions (PDR R5-19)', (
-      tester,
-    ) async {
+    testWidgets('a same-city pair shows no suggestions', (tester) async {
       await openEditor(tester);
 
       await tester.enterText(find.byType(TextField).first, 'Alpha');
@@ -375,9 +371,7 @@ void main() {
       expect(find.textContaining('~'), findsNothing);
     });
 
-    testWidgets('occupancy stepper exposes semantic labels (PDR R5-18)', (
-      tester,
-    ) async {
+    testWidgets('occupancy stepper exposes semantic labels', (tester) async {
       final handle = tester.ensureSemantics();
       await openEditor(tester);
       await tester.tap(find.text('Test Car').last);
