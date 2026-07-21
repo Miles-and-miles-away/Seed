@@ -13,7 +13,7 @@ import 'package:seed_app/features/transport/presentation/widgets/transport_displ
 // views: the electric car row carries a "global-average grid; varies
 // with your electricity" sublabel, the private jet a radiative-
 // forcing footnote, and active modes show their electricity-only
-// basis (PDR Standing Decisions).
+// basis (project data-honesty rules).
 
 /// Grouped transport mode list for the leg editor.
 ///

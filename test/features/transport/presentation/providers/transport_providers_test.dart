@@ -42,7 +42,7 @@ void main() {
     });
   });
 
-  group('citySuggestions waterBlocked threading (PDR R4-10)', () {
+  group('citySuggestions waterBlocked threading', () {
     Future<(City, City)> helsinkiTallinn(ProviderContainer container) async {
       final cities = await container.read(transportCitiesProvider.future);
       return (
@@ -72,7 +72,7 @@ void main() {
       expect(unthreaded, contains(kindGround));
     });
 
-    test('a same-city pair yields no suggestions (PDR R5-19)', () async {
+    test('a same-city pair yields no suggestions', () async {
       // Without the provider guard the pair would suggest "~0 km"
       // ground and active estimates.
       final container = createContainer();

@@ -623,8 +623,8 @@ for Part 1. Output goes to `Plan/RESEARCH_FOOD.md`.
 **Research complete (2026-07-18):** verified factors, sources,
 quotes, chosen dataset values (P&N means per decision D1),
 serving presets, sanity invariants, and UI/copy requirements live
-in [RESEARCH_FOOD.md](./RESEARCH_FOOD.md), reviewed in
-[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md). That document
+in [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) (adversarially
+reviewed 2026-07-18/19). That document
 is the source of truth for the JSON build step; the table above
 remains illustrative (and is the retired median set -- shipped
 means are higher).
@@ -754,7 +754,7 @@ Include a `FOOD_LOGIC_CHECK` section. One extra rule: record per
 item which *statistic* (mean vs median) and whether supply-chain
 losses are included, plus the OWID vintage used and why -- the
 mean/median distinction, not the vintage, turned out to be the
-real fork (PDR finding FR-1).
+real fork (food data-review finding, 2026-07-19).
 
 **Consistency check with existing data:** `meatless_meal_beef`,
 `meatless_meal_chicken`, `meatless_meal_pork`, and
@@ -764,8 +764,7 @@ research step must verify the new dataset reproduces those deltas
 (or flag the action data for correction) so the app never shows two
 numbers for the same swap.
 
-**Resolved gotchas (research + owner decisions, 2026-07-18; see
-[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md)):**
+**Resolved gotchas (research + owner decisions, 2026-07-18):**
 
 - Poore & Nemecek publish both MEANS and MEDIANS per food. The
   famous "beef = 60" chart -- and this section's illustrative
@@ -984,7 +983,7 @@ abstract class MealIngredient with _$MealIngredient {
 |------|-------|
 | Dataset validation | Every item has all three locales, a positive factor, at least one source with url+quote+accessed; serving presets have positive grams and all locales; ids unique (mirror `transport_dataset_invariants_test.dart`) |
 | Engine | Grams x factor math, multi-ingredient sums, zero-gram ingredients, display rounding (g -> kg -> t) |
-| Sanity checks | Cross-item invariants pinned as tests (data pins with margins, per [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md); full safe-pin and never-pin lists in RESEARCH_FOOD.md): beef (beef herd) > lamb > pork > chicken > tofu > potatoes per kg; 2.5 < beef-herd/dairy-herd < 3.5 (band -- ratio is ~3.0, a strict >3x fails); cheese > chicken; max(plant milk) x 2 < dairy milk |
+| Sanity checks | Cross-item invariants pinned as tests (data pins with margins; full safe-pin and never-pin lists in RESEARCH_FOOD.md): beef (beef herd) > lamb > pork > chicken > tofu > potatoes per kg; 2.5 < beef-herd/dairy-herd < 3.5 (band -- ratio is ~3.0, a strict >3x fails); cheese > chicken; max(plant milk) x 2 < dairy milk |
 | Consistency | Dataset-derived meal deltas match the cited deltas in `meatless_meal_*` action data within tolerance |
 | Widgets | Ingredient add/edit/remove, preset chip fills grams field, comparison bar ordering and delta copy |
 | Localization | Item and preset names resolve in EN/JA/ES |

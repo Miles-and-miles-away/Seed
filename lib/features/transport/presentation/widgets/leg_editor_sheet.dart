@@ -176,7 +176,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     Map<String, double>? suggestions;
     if (from != null && to != null) {
       // citySuggestionsProvider threads the water-blocked pair set
-      // (PDR R4-10); never call suggestedDistancesKm directly here.
+      // (review requirement); never call suggestedDistancesKm directly here.
       suggestions = ref.watch(citySuggestionsProvider(from, to)).value;
     }
     return Column(

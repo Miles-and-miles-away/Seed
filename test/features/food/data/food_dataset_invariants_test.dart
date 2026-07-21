@@ -138,8 +138,8 @@ void main() {
   });
 
   test('11. decision pins: D1/D2/D3 values ship exactly', () {
-    // Owner decisions 2026-07-18/19 (PDR_FOOD_CALCULATOR.md
-    // section 2). None of these is reachable by the ordering pins
+    // Owner decisions 2026-07-18/19 (rationale in
+    // RESEARCH_FOOD.md). None of these is reachable by the ordering pins
     // above: reverting chocolate to the median 18.7, oats to the
     // raw anchor 2.48, or beer to a packaged-LCA figure would
     // otherwise pass the whole suite silently.

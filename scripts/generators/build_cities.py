@@ -160,7 +160,7 @@ ISLAND_ANCHORS = {
 # no Dublin-Groningen foot-ferry from the Ireland-France link) and
 # revives Sevilla-Tangier, which the old distance-cap approach had
 # to kill. Radii are catchment decisions, verified against dataset
-# coordinates -- see PDR_TRANSPORT_CALCULATOR.md sec 13.1. The
+# coordinates -- rationale in the per-link comments below. The
 # optional "max_km" still caps total straight-line distance
 # (default: the Dart ferryModeMaxKm, 500); it remains only where
 # it must exceed the default (Ireland-France 900, Paris pairs at

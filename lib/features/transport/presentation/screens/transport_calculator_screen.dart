@@ -122,7 +122,7 @@ class _TotalBar extends StatelessWidget {
             vertical: spacingMd,
           ),
           // Both texts flex so large text scales wrap instead of
-          // overflowing the bar (PDR R5-19).
+          // overflowing the bar.
           child: Row(
             children: [
               Expanded(
@@ -158,7 +158,7 @@ class _EmptyJourney extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     // Scrollable so the empty state stays reachable at the largest
-    // accessibility text scales (PDR R5-19).
+    // accessibility text scales.
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(spacingXxl),

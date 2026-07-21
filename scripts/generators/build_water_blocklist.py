@@ -20,7 +20,7 @@ replaces the Round 3 pair-by-pair MANUAL_ALLOW curation, which a
 Round 4 audit showed had a false-positive class in the hundreds
 (Jakarta-Surabaya, Bangkok-KL, Lagos-Accra...).
 
-Honesty bar (calibrated 2026-07-19, see PDR sec 6.2 item 3): the
+Honesty bar (calibrated 2026-07-19): the
 app shows estimate = GROUND_CIRCUITY x straight, so a corridor is
 honest when real-road <= HONESTY_MAX x that estimate. Grid paths
 underestimate real roads by ~ROAD_OVER_GEODESIC, giving

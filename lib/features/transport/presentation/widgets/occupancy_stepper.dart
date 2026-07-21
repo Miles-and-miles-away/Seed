@@ -44,7 +44,7 @@ class OccupancyStepper extends StatelessWidget {
           '$value',
           style: theme.textTheme.titleMedium,
           // A bare number reads meaninglessly out of context to a
-          // screen reader; bind it to its label (PDR R5-18).
+          // screen reader; bind it to its label.
           semanticsLabel: l10n.transportOccupantsSemantic(value),
         ),
         IconButton(

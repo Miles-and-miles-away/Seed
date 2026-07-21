@@ -287,7 +287,7 @@ String _$transportWaterBlockedPairsHash() =>
 /// Suggested distances per journey kind for a city pair.
 ///
 /// Threads the water-blocked pair set into [suggestedDistancesKm]
-/// (PDR R4-10): without it, cross-water same-mass pairs like
+/// (review requirement): without it, cross-water same-mass pairs like
 /// Helsinki-Tallinn would get fictional ground/cycling estimates.
 /// Every UI consumer must go through this provider, never call
 /// [suggestedDistancesKm] with its silent empty default.
@@ -298,7 +298,7 @@ final citySuggestionsProvider = CitySuggestionsFamily._();
 /// Suggested distances per journey kind for a city pair.
 ///
 /// Threads the water-blocked pair set into [suggestedDistancesKm]
-/// (PDR R4-10): without it, cross-water same-mass pairs like
+/// (review requirement): without it, cross-water same-mass pairs like
 /// Helsinki-Tallinn would get fictional ground/cycling estimates.
 /// Every UI consumer must go through this provider, never call
 /// [suggestedDistancesKm] with its silent empty default.
@@ -316,7 +316,7 @@ final class CitySuggestionsProvider
   /// Suggested distances per journey kind for a city pair.
   ///
   /// Threads the water-blocked pair set into [suggestedDistancesKm]
-  /// (PDR R4-10): without it, cross-water same-mass pairs like
+  /// (review requirement): without it, cross-water same-mass pairs like
   /// Helsinki-Tallinn would get fictional ground/cycling estimates.
   /// Every UI consumer must go through this provider, never call
   /// [suggestedDistancesKm] with its silent empty default.
@@ -369,7 +369,7 @@ String _$citySuggestionsHash() => r'810f6c616dc9e1da385162c1f0a8fb8d261119b8';
 /// Suggested distances per journey kind for a city pair.
 ///
 /// Threads the water-blocked pair set into [suggestedDistancesKm]
-/// (PDR R4-10): without it, cross-water same-mass pairs like
+/// (review requirement): without it, cross-water same-mass pairs like
 /// Helsinki-Tallinn would get fictional ground/cycling estimates.
 /// Every UI consumer must go through this provider, never call
 /// [suggestedDistancesKm] with its silent empty default.
@@ -389,7 +389,7 @@ final class CitySuggestionsFamily extends $Family
   /// Suggested distances per journey kind for a city pair.
   ///
   /// Threads the water-blocked pair set into [suggestedDistancesKm]
-  /// (PDR R4-10): without it, cross-water same-mass pairs like
+  /// (review requirement): without it, cross-water same-mass pairs like
   /// Helsinki-Tallinn would get fictional ground/cycling estimates.
   /// Every UI consumer must go through this provider, never call
   /// [suggestedDistancesKm] with its silent empty default.
