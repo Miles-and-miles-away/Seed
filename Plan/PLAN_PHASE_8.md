@@ -590,14 +590,14 @@ its dataset; it can start once 8.2-8.4 have landed.
 - **No Fake Points.** Logging bridge deferred (8.12), same
   anti-gaming reasoning as 8.6.
 - **Lookup, not barcode-scanning.** No product databases, no APIs,
-  no photos. ~45 generic food categories with cited factors. Same
+  no photos. ~42 generic food categories with cited factors. Same
   trade as Part 1's "category comparisons, not route lookups".
 
 ### Part 2 Deliverables
 
 | Deliverable | Description |
 |-------------|-------------|
-| Food item dataset | `data/app/food_items.json`: ~45 items, kgCO2e/kg factors, serving presets, EN/JA/ES names, full source citations |
+| Food item dataset | `data/app/food_items.json`: 42 items, kgCO2e/kg factors, serving presets, EN/JA/ES names, full source citations |
 | Calculator engine | Pure Dart: ingredients -> per-ingredient and total CO2e |
 | Meal builder UI | Add/edit/remove ingredients (item, quantity via grams or serving presets) |
 | Comparison UI | 2-3 meals side by side with delta and equivalencies |
@@ -691,7 +691,7 @@ Notes locked in now (they shape the schema):
   warns against summing across the two calculators.
 - **Weights are as-purchased (raw) weights.** Presets encode
   typical raw portions; the methodology notes cooked weight
-  differs (rice ~3x). Home cooking energy is excluded, and the
+  differs (rice ~2.2x). Home cooking energy is excluded, and the
   sheet says so.
 - **Coffee needs care:** the headline per-kg figure (~28.5 under
   the chosen means) applies to dry grounds, so the preset
@@ -775,10 +775,11 @@ numbers for the same swap.
   documented fallback if a mean becomes unavailable). Under
   means: beef (beef herd) 99.48, pork 12.31, chicken 9.87.
 - The action data's chicken (6.9 kg/kg) and pork (7.6 kg/kg) came
-  from a PMC study range and match neither statistic. Correct
-  `meatless_meal_chicken` to ~890 g, `meatless_meal_pork` to
-  ~1100 g, and `meatless_meal_beef` to ~9700 g in the same PR as
-  the dataset (never two numbers for one swap).
+  from a PMC study range and match neither statistic. Corrected
+  under means with a standardized 200 g beans/lentils baseline
+  (2026-07-20): `meatless_meal_beef` 9700 g,
+  `meatless_meal_chicken` 780 g, `meatless_meal_pork` 1000 g --
+  same PR as the dataset (never two numbers for one swap).
 - Serving presets ship researched sourced weights (e.g. chicken
   breast 170 g raw, USDA), replacing the schema example's 120 g
   and the old mock's 150 g; presets encode raw as-purchased
@@ -870,8 +871,10 @@ Same two layers as 8.4:
   - **Spread:** factors are global means; the same food varies
     ~10-50x between producers. Show one example range in text
     (beef: 9-105 kg CO2e per 100 g of protein, OWID -- note the
-    per-protein basis; the per-kg tomato range is unsourced and
-    blocked, see RESEARCH_FOOD.md open items).
+    per-protein basis; the tomato field-vs-heated-greenhouse
+    range is now sourced via Clune et al. 2017: field median
+    0.45 vs heated greenhouse 2.20 kg CO2e/kg, see
+    RESEARCH_FOOD.md section 3.5).
   - **"Organic" and "local" honesty:** transport is typically
     <10% of food footprint, so "local beef" beats "imported
     beans" on zero metrics; organic often has similar or higher
@@ -912,9 +915,11 @@ meal is ~3 kg, not ~500 kg), so this bridge may ship before 8.6 --
 but it still needs per-log CO2 ceilings and a daily cap first.
 
 Interim: the comparison result cross-links the existing food
-actions (`meatless_meal_beef`, `meatless_meal_chicken`,
-`meatless_meal_pork`, `plant_milk_vs_dairy`) so honest users have
-a logging path today.
+actions in the LIVE action library (`skip_high_impact_food`,
+`skip_medium_impact_food`, `plant_milk`) so honest users have a
+logging path today. The `meatless_meal_*` ids exist only in the
+research database (`data/seed/`), not in the seeded library --
+do not cross-link them (design review DR-2, 2026-07-19).
 
 ### Part 2 Data Models
 
@@ -986,7 +991,7 @@ abstract class MealIngredient with _$MealIngredient {
 
 ### Part 2 Acceptance Criteria
 
-- [ ] ~45 items shipped with fully cited factors (quote + URL +
+- [ ] 42 items shipped with fully cited factors (quote + URL +
       access date per source), passing dataset validation tests
 - [ ] User can build a multi-ingredient meal and see total CO2e
 - [ ] Quantities enterable via serving presets or raw grams/ml

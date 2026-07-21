@@ -27,6 +27,7 @@ import '../features/settings/presentation/screens/notification_settings_screen.d
 import '../features/settings/presentation/screens/privacy_policy_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/settings/presentation/screens/terms_of_service_screen.dart';
+import '../features/transport/transport.dart';
 import '../shared/services/analytics_service.dart';
 import 'main_shell.dart';
 
@@ -57,6 +58,7 @@ class AppRoutes {
   String get emailVerification => '/verify-email';
   String get mascotSelection => '/mascot-selection';
   String get actionLog => '/log-action';
+  String get transportCalculator => '/transport-calculator';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -276,6 +278,13 @@ GoRouter router(Ref ref) {
             initialCategory: state.uri.queryParameters['category'],
           ),
         ),
+      ),
+
+      // Transport carbon calculator: educational tool pushed
+      // full-screen from contextual entry points (Phase 8).
+      GoRoute(
+        path: appRoutes.transportCalculator,
+        builder: (context, state) => const TransportCalculatorScreen(),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so

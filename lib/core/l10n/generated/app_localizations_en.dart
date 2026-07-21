@@ -1339,7 +1339,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equivBurgersExplainer =>
-      'Full lifecycle emissions of one beef burger, from cattle farming to retail. Chicken or plant-based burgers emit roughly 5-10x less.';
+      'Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.';
 
   @override
   String equivFormulaTemplate(String factor) {
@@ -1395,4 +1395,128 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ecoDexInfoBody =>
       'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.';
+
+  @override
+  String get transportCalculatorTitle => 'Transport Calculator';
+
+  @override
+  String get transportCalculatorCardTitle => 'Compare transport options';
+
+  @override
+  String get transportCalculatorCardSubtitle =>
+      'Build a journey and see its CO2e footprint';
+
+  @override
+  String get transportJourneyEmpty =>
+      'Add a leg to build your journey and see its CO2e footprint.';
+
+  @override
+  String get transportAddLeg => 'Add leg';
+
+  @override
+  String get transportEditLeg => 'Edit leg';
+
+  @override
+  String get transportSelectMode => 'Choose a transport mode';
+
+  @override
+  String get transportChangeMode => 'Change';
+
+  @override
+  String get transportDistanceLabel => 'Distance (km)';
+
+  @override
+  String get transportDistanceInvalid => 'Enter a distance of 0 km or more';
+
+  @override
+  String get transportDistanceEstimateNote =>
+      'Estimate derived from city locations. Edit it to match your route.';
+
+  @override
+  String get transportOccupantsLabel => 'People in the vehicle';
+
+  @override
+  String get transportOccupantsAdd => 'Add a person';
+
+  @override
+  String get transportOccupantsRemove => 'Remove a person';
+
+  @override
+  String transportOccupantsSemantic(int count) {
+    return 'People in the vehicle: $count';
+  }
+
+  @override
+  String get transportTotalLabel => 'Total';
+
+  @override
+  String get transportRemoveLeg => 'Remove leg';
+
+  @override
+  String get transportFromCity => 'From city';
+
+  @override
+  String get transportToCity => 'To city';
+
+  @override
+  String get transportCityPrefillHint =>
+      'Pick two cities to estimate leg distances.';
+
+  @override
+  String transportEstimatedKm(String km) {
+    return '~$km km';
+  }
+
+  @override
+  String transportKmValue(String km) {
+    return '$km km';
+  }
+
+  @override
+  String transportOccupantsValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people',
+      one: '1 person',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String transportModeFactorPerPassenger(int grams) {
+    return '$grams g CO2e per km';
+  }
+
+  @override
+  String transportModeFactorPerVehicle(int grams) {
+    return '$grams g CO2e per vehicle km';
+  }
+
+  @override
+  String get transportGroupActive => 'Walking & cycling';
+
+  @override
+  String get transportGroupMicro => 'Micromobility';
+
+  @override
+  String get transportGroupCar => 'Car & motorbike';
+
+  @override
+  String get transportGroupBus => 'Bus & coach';
+
+  @override
+  String get transportGroupTaxi => 'Taxi';
+
+  @override
+  String get transportGroupRail => 'Rail';
+
+  @override
+  String get transportGroupWater => 'Water';
+
+  @override
+  String get transportGroupAir => 'Air';
+
+  @override
+  String get transportGroupHighImpact => 'High impact';
 }

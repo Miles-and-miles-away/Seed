@@ -2461,7 +2461,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivBurgersExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Full lifecycle emissions of one beef burger, from cattle farming to retail. Chicken or plant-based burgers emit roughly 5-10x less.'**
+  /// **'Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.'**
   String get equivBurgersExplainer;
 
   /// No description provided for @equivFormulaTemplate.
@@ -2553,6 +2553,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.'**
   String get ecoDexInfoBody;
+
+  /// No description provided for @transportCalculatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport Calculator'**
+  String get transportCalculatorTitle;
+
+  /// No description provided for @transportCalculatorCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare transport options'**
+  String get transportCalculatorCardTitle;
+
+  /// No description provided for @transportCalculatorCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build a journey and see its CO2e footprint'**
+  String get transportCalculatorCardSubtitle;
+
+  /// No description provided for @transportJourneyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a leg to build your journey and see its CO2e footprint.'**
+  String get transportJourneyEmpty;
+
+  /// No description provided for @transportAddLeg.
+  ///
+  /// In en, this message translates to:
+  /// **'Add leg'**
+  String get transportAddLeg;
+
+  /// No description provided for @transportEditLeg.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit leg'**
+  String get transportEditLeg;
+
+  /// No description provided for @transportSelectMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a transport mode'**
+  String get transportSelectMode;
+
+  /// No description provided for @transportChangeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get transportChangeMode;
+
+  /// No description provided for @transportDistanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance (km)'**
+  String get transportDistanceLabel;
+
+  /// No description provided for @transportDistanceInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a distance of 0 km or more'**
+  String get transportDistanceInvalid;
+
+  /// No description provided for @transportDistanceEstimateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate derived from city locations. Edit it to match your route.'**
+  String get transportDistanceEstimateNote;
+
+  /// No description provided for @transportOccupantsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'People in the vehicle'**
+  String get transportOccupantsLabel;
+
+  /// No description provided for @transportOccupantsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a person'**
+  String get transportOccupantsAdd;
+
+  /// No description provided for @transportOccupantsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove a person'**
+  String get transportOccupantsRemove;
+
+  /// No description provided for @transportOccupantsSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'People in the vehicle: {count}'**
+  String transportOccupantsSemantic(int count);
+
+  /// No description provided for @transportTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get transportTotalLabel;
+
+  /// No description provided for @transportRemoveLeg.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove leg'**
+  String get transportRemoveLeg;
+
+  /// No description provided for @transportFromCity.
+  ///
+  /// In en, this message translates to:
+  /// **'From city'**
+  String get transportFromCity;
+
+  /// No description provided for @transportToCity.
+  ///
+  /// In en, this message translates to:
+  /// **'To city'**
+  String get transportToCity;
+
+  /// No description provided for @transportCityPrefillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two cities to estimate leg distances.'**
+  String get transportCityPrefillHint;
+
+  /// No description provided for @transportEstimatedKm.
+  ///
+  /// In en, this message translates to:
+  /// **'~{km} km'**
+  String transportEstimatedKm(String km);
+
+  /// No description provided for @transportKmValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km'**
+  String transportKmValue(String km);
+
+  /// No description provided for @transportOccupantsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 person} other{{count} people}}'**
+  String transportOccupantsValue(int count);
+
+  /// No description provided for @transportModeFactorPerPassenger.
+  ///
+  /// In en, this message translates to:
+  /// **'{grams} g CO2e per km'**
+  String transportModeFactorPerPassenger(int grams);
+
+  /// No description provided for @transportModeFactorPerVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'{grams} g CO2e per vehicle km'**
+  String transportModeFactorPerVehicle(int grams);
+
+  /// No description provided for @transportGroupActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking & cycling'**
+  String get transportGroupActive;
+
+  /// No description provided for @transportGroupMicro.
+  ///
+  /// In en, this message translates to:
+  /// **'Micromobility'**
+  String get transportGroupMicro;
+
+  /// No description provided for @transportGroupCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Car & motorbike'**
+  String get transportGroupCar;
+
+  /// No description provided for @transportGroupBus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bus & coach'**
+  String get transportGroupBus;
+
+  /// No description provided for @transportGroupTaxi.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxi'**
+  String get transportGroupTaxi;
+
+  /// No description provided for @transportGroupRail.
+  ///
+  /// In en, this message translates to:
+  /// **'Rail'**
+  String get transportGroupRail;
+
+  /// No description provided for @transportGroupWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get transportGroupWater;
+
+  /// No description provided for @transportGroupAir.
+  ///
+  /// In en, this message translates to:
+  /// **'Air'**
+  String get transportGroupAir;
+
+  /// No description provided for @transportGroupHighImpact.
+  ///
+  /// In en, this message translates to:
+  /// **'High impact'**
+  String get transportGroupHighImpact;
 }
 
 class _AppLocalizationsDelegate

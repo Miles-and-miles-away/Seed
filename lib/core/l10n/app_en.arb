@@ -617,7 +617,7 @@
   "equivTreesExplainer": "Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.",
   "equivCarKmExplainer": "Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.",
   "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
-  "equivBurgersExplainer": "Full lifecycle emissions of one beef burger, from cattle farming to retail. Chicken or plant-based burgers emit roughly 5-10x less.",
+  "equivBurgersExplainer": "Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.",
   "equivFormulaTemplate": "g of CO2 / {factor}",
   "@equivFormulaTemplate": {
     "placeholders": {
@@ -655,5 +655,70 @@
   "ecoDexEmptyHint": "Log your first action to make your first discovery.",
   "ecoDexInfoTooltip": "About the Eco-Dex",
   "ecoDexInfoTitle": "About the Eco-Dex",
-  "ecoDexInfoBody": "The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge."
+  "ecoDexInfoBody": "The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.",
+
+  "transportCalculatorTitle": "Transport Calculator",
+  "transportCalculatorCardTitle": "Compare transport options",
+  "transportCalculatorCardSubtitle": "Build a journey and see its CO2e footprint",
+  "transportJourneyEmpty": "Add a leg to build your journey and see its CO2e footprint.",
+  "transportAddLeg": "Add leg",
+  "transportEditLeg": "Edit leg",
+  "transportSelectMode": "Choose a transport mode",
+  "transportChangeMode": "Change",
+  "transportDistanceLabel": "Distance (km)",
+  "transportDistanceInvalid": "Enter a distance of 0 km or more",
+  "transportDistanceEstimateNote": "Estimate derived from city locations. Edit it to match your route.",
+  "transportOccupantsLabel": "People in the vehicle",
+  "transportOccupantsAdd": "Add a person",
+  "transportOccupantsRemove": "Remove a person",
+  "transportOccupantsSemantic": "People in the vehicle: {count}",
+  "@transportOccupantsSemantic": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transportTotalLabel": "Total",
+  "transportRemoveLeg": "Remove leg",
+  "transportFromCity": "From city",
+  "transportToCity": "To city",
+  "transportCityPrefillHint": "Pick two cities to estimate leg distances.",
+  "transportEstimatedKm": "~{km} km",
+  "@transportEstimatedKm": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+  "transportKmValue": "{km} km",
+  "@transportKmValue": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+  "transportOccupantsValue": "{count, plural, one{1 person} other{{count} people}}",
+  "@transportOccupantsValue": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transportModeFactorPerPassenger": "{grams} g CO2e per km",
+  "@transportModeFactorPerPassenger": {
+    "placeholders": {
+      "grams": {"type": "int"}
+    }
+  },
+  "transportModeFactorPerVehicle": "{grams} g CO2e per vehicle km",
+  "@transportModeFactorPerVehicle": {
+    "placeholders": {
+      "grams": {"type": "int"}
+    }
+  },
+  "transportGroupActive": "Walking & cycling",
+  "transportGroupMicro": "Micromobility",
+  "transportGroupCar": "Car & motorbike",
+  "transportGroupBus": "Bus & coach",
+  "transportGroupTaxi": "Taxi",
+  "transportGroupRail": "Rail",
+  "transportGroupWater": "Water",
+  "transportGroupAir": "Air",
+  "transportGroupHighImpact": "High impact"
 }

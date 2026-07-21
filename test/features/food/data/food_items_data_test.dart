@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// straight from disk (`flutter test` runs with the package root
 /// as cwd) instead of through a loader.
 void main() {
-  const itemCount = 37;
+  const itemCount = 42;
   const validGroups = {
     'meat',
     'seafood',
@@ -100,6 +100,15 @@ void main() {
         final id = item['id'] as String;
         final servings = (item['servings'] as List<dynamic>)
             .cast<Map<String, dynamic>>();
+        // Every shipped item has researched presets; an empty list
+        // would make this loop pass vacuously.
+        expect(servings, isNotEmpty, reason: id);
+        final presetIds = servings.map((p) => p['id'] as String).toList();
+        expect(
+          presetIds.toSet().length,
+          presetIds.length,
+          reason: '$id has duplicate preset ids',
+        );
         for (final preset in servings) {
           expect(
             (preset['grams'] as num).toDouble(),
@@ -122,6 +131,37 @@ void main() {
         );
       }
     });
+
+    test('group sizes match the researched dataset', () {
+      // Data pin: catches silent group reassignment, which no
+      // other test observes (RESEARCH_FOOD.md section 4).
+      const expected = {
+        'meat': 5,
+        'seafood': 4,
+        'dairy_eggs': 4,
+        'plant_protein': 6,
+        'staples': 5,
+        'vegetables': 4,
+        'fruit': 4,
+        'drinks': 6,
+        'treats': 2,
+        'oils': 2,
+      };
+      final counts = <String, int>{};
+      for (final item in items) {
+        counts.update(item['group'] as String, (c) => c + 1, ifAbsent: () => 1);
+      }
+      expect(counts, expected);
+    });
+
+    test('beans never carries the famous peas quote', () {
+      // The OWID "peas emit just 1 kilogram" sentence belongs to
+      // Peas (0.98); attached to Beans & lentils (1.79) it would
+      // overstate the item by ~80% (RESEARCH_FOOD.md section 8).
+      final beans = items.firstWhere((i) => i['id'] == 'beans_lentils');
+      final text = json.encode(beans).toLowerCase();
+      expect(text.contains('peas emit just 1 kilogram'), isFalse);
+    });
   });
 
   group('food_items.json metadata', () {
@@ -139,6 +179,9 @@ void main() {
       expect(scope, contains('transport calculator'));
       expect(metadata['primary_source'] as String, contains('Poore'));
       expect(metadata['basis'] as String, isNotEmpty);
+      // Table-row/CSV-row citation convention must stay declared;
+      // several sources depend on it to be honest.
+      expect(metadata['citation_note'] as String, isNotEmpty);
     });
   });
 }

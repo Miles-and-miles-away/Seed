@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "version": "1.1",
+    "version": "1.2",
     "created": "2026-01-31",
-    "last_verified": "2026-07-18",
+    "last_verified": "2026-07-20",
     "description": "Fact-checked CO2 savings database for Seed sustainability app",
     "methodology": "Values cross-referenced from 2-3 tier-1 sources minimum. Conservative estimates used when sources disagree.",
     "grid_factors": {
@@ -193,7 +193,7 @@
       "category": "food",
       "co2_grams": 9700,
       "unit": "per_100g_serving",
-      "calculation_notes": "Beef (beef herd) 99.48 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher. The widely quoted 60 kg/kg is the MEDIAN (without losses) of the same study. Per 100 g serving = 9948 g. Minus plant-alternative baseline of ~200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g) = 9748 g. Rounded down to 9700 g (conservative).",
+      "calculation_notes": "Beef (beef herd) 99.48 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher. The widely quoted 60 kg/kg is the MEDIAN (without losses) of the same study. Per 100 g serving = 9948 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 9748 g. Rounded down to 9700 g (conservative).",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
@@ -221,20 +221,14 @@
       "action_id": "meatless_meal_chicken",
       "action_name": "Meatless meal (chicken avoided)",
       "category": "food",
-      "co2_grams": 890,
+      "co2_grams": 780,
       "unit": "per_100g_serving",
-      "calculation_notes": "Chicken 9.87 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Poultry Meat'). Per 100 g serving = 987 g. Minus plant-alternative baseline of ~100 g CO2e per 100 g serving (peas, OWID mean 0.98 kg/kg = 98 g, rounded up to 100 g) = 887 g. Rounded to 890 g. Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
+      "calculation_notes": "Chicken 9.87 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Poultry Meat'). Per 100 g serving = 987 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 787 g. Rounded down to 780 g (conservative; baseline standardized 2026-07-20, previously 880 g against a 100 g peas baseline).",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Poultry Meat,2010,9.87",
-          "accessed": "2026-07-18"
-        },
-        {
-          "name": "PMC/Multiple Studies",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
-          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
           "accessed": "2026-07-18"
         }
       ],
@@ -245,9 +239,9 @@
       "action_id": "meatless_meal_pork",
       "action_name": "Meatless meal (pork avoided)",
       "category": "food",
-      "co2_grams": 1100,
+      "co2_grams": 1000,
       "unit": "per_100g_serving",
-      "calculation_notes": "Pork 12.31 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Pig Meat'). Per 100 g serving = 1231 g. Minus plant-alternative baseline of ~100 g CO2e per 100 g serving (peas, OWID mean 0.98 kg/kg = 98 g, rounded up to 100 g) = 1131 g. Rounded down to 1100 g (conservative). Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
+      "calculation_notes": "Pork 12.31 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Pig Meat'). Per 100 g serving = 1231 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 1031 g. Rounded down to 1000 g (conservative; baseline standardized 2026-07-20, previously 1100 g against a 100 g peas baseline). Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
@@ -595,7 +589,7 @@
       "category": "food",
       "co2_grams": 460,
       "unit": "per_250ml_serving",
-      "calculation_notes": "Dairy milk 3.15 kg CO2e/L (Poore & Nemecek 2018 global MEAN with supply-chain losses via the OWID grapher), oat milk 0.903 kg CO2e/L (OWID milks chart, mean, 0.9031262). Per 250 ml serving: 787.5 g vs 225.75 g = 561.75 g delta. Shipped value stays 460 g, deliberately conservative below the mean-basis delta.",
+      "calculation_notes": "Dairy milk 3.15 kg CO2e/L (Poore & Nemecek 2018 global MEAN with supply-chain losses via the OWID grapher), oat milk 0.903 kg CO2e/L (OWID milks chart, mean, 0.9031262). Per 250 ml serving: 787.5 g vs 225.8 g = 561.7 g delta (oat); the soy variant implies 543 g. Shipped value stays 460 g, deliberately conservative below both mean-basis deltas.",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",

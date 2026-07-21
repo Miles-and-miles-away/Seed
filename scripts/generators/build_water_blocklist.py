@@ -1,28 +1,54 @@
 #!/usr/bin/env python3
 """Inject metadata.water_blocked into data/app/cities.json.
 
-Same-landmass city pairs within ground range can still face open
-water the landmass model cannot see (Helsinki-Tallinn share
-Eurasia; Buenos Aires-Montevideo share SouthAmerica). For every
-unordered same-mass pair within GROUND_MODE_MAX_KM this script
-densifies the great-circle chord and measures the longest
-continuous water span against Natural Earth 1:50m land polygons
-(public domain, data/reference/natural_earth/). Pairs whose
-longest span exceeds WATER_SPAN_BLOCK_KM are emitted as sorted
-[i, j] index pairs (i < j, indices into the stored cities array)
-so the Dart side can suppress ground/active suggestions.
+City pairs the picker would ground can still face open water the
+landmass model cannot see: same-mass pairs across enclosed seas
+(Helsinki-Tallinn share Eurasia) and rail_tunnel-linked cross-mass
+pairs (the Channel Tunnel grounds every GB-Eurasia pair, including
+Glasgow-Stavanger across the North Sea).
 
-Cross-mass pairs are already handled by the landmass model and
-never appear here. Rivers and lakes are not in ne_50m_land, so
-MANUAL_BLOCK covers water the polygons cannot see and
-MANUAL_ALLOW exempts real bridged/tunneled corridors the raw
-span test would wrongly block.
+Blocking criterion (Fix Backlog 4, R4): a candidate pair is
+blocked iff its great-circle chord crosses more than
+WATER_SPAN_BLOCK_KM of continuous water (measured against Natural
+Earth 1:50m land polygons) AND no honest land route exists. The
+honesty test runs on a rasterized land graph (RASTER_DEG cells,
+8-connected, geodesic edge weights) augmented with FIXED_CROSSINGS
+(real bridges/tunnels/causeways): the pair stays open when the
+shortest land path is at most DETOUR_MAX x straight-line (+
+PATH_SLACK_KM for grid discretization on short hops). This
+replaces the Round 3 pair-by-pair MANUAL_ALLOW curation, which a
+Round 4 audit showed had a false-positive class in the hundreds
+(Jakarta-Surabaya, Bangkok-KL, Lagos-Accra...).
+
+Honesty bar (calibrated 2026-07-19, see PDR sec 6.2 item 3): the
+app shows estimate = GROUND_CIRCUITY x straight, so a corridor is
+honest when real-road <= HONESTY_MAX x that estimate. Grid paths
+underestimate real roads by ~ROAD_OVER_GEODESIC, giving
+  block iff grid_path > (HONESTY_MAX x GROUND_CIRCUITY /
+  ROAD_OVER_GEODESIC) x straight + PATH_SLACK_KM  (~1.58x).
+Verified verdicts at this bar: open -- Copenhagen-Hamburg (1.39),
+Istanbul-Bursa (1.30 via Osman Gazi), London-Madrid/Copenhagen/
+Stockholm (via tunnel), Bangkok-KL (1.26), Jakarta-Surabaya,
+Lagos-Accra, Auckland-Wellington, Dubai-Muscat, Colombo-Jaffna;
+blocked -- Malmo-Arhus (1.78), Buenos Aires-Montevideo (~2.7),
+Bahrain-Qatar (~2.4), Stockholm-Helsinki (~6), Helsinki-Tallinn,
+Glasgow-Stavanger (~3).
+
+Political closures are water-independent: CLOSED_BORDERS blocks
+every candidate pair across a closed border; MANUAL_BLOCK holds
+pair-level cases (front lines, closed crossings, sub-resolution
+rivers). MANUAL_ALLOW remains only as a rare escape hatch.
+
+Known gaps (documented in RESEARCH_TRANSPORT.md sec 9): lakes are
+not in ne_50m_land (Kampala-Mwanza keeps ground across Lake
+Victoria); blocked pairs may still receive the >= 100 km air
+fallback even where no flight exists (Seoul-Pyongyang).
 
 Usage (from repo root, seed conda env):
   python scripts/generators/build_water_blocklist.py
 
 Rewrites data/app/cities.json in place, touching only
-metadata.water_blocked. See PDR_TRANSPORT_CALCULATOR.md sec 13.2.
+metadata.water_blocked. Run sweep_suggestions.py afterwards.
 """
 import json
 import math
@@ -33,13 +59,15 @@ from pathlib import Path
 import numpy as np
 import shapefile
 import shapely
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import connected_components, dijkstra
 from shapely.geometry import shape
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CITIES_PATH = REPO_ROOT / "data" / "app" / "cities.json"
-LAND_SHP = (
-    REPO_ROOT / "data" / "reference" / "natural_earth" / "ne_50m_land.shp"
-)
+NE_DIR = REPO_ROOT / "data" / "reference" / "natural_earth"
+LAND_SHP = NE_DIR / "ne_50m_land.shp"
+RASTER_CACHE = NE_DIR / "land_raster_0p1.npz"
 
 EARTH_RADIUS_KM = 6371.0088
 # Mirrors groundModeMaxKm in the Dart journey_distance service.
@@ -53,234 +81,100 @@ COARSE_STEP_KM = 12.0
 # genuine open-water crossings (Gulf of Finland ~60 km) block.
 WATER_SPAN_BLOCK_KM = 25.0
 
-# Water invisible to ne_50m_land (rivers, sub-resolution
-# channels). Keys are "CC/Name" as stored in the cities array.
+# Land raster resolution and coverage (all dataset cities lie
+# within these latitudes).
+RASTER_DEG = 0.1
+LAT_MIN, LAT_MAX = -60.0, 75.0
+# Cities/crossing endpoints may fall in a sea cell at 0.1 deg;
+# snap to the nearest land cell within this Chebyshev radius.
+SNAP_CELLS = 5
+
+# Honesty bar for the land-path detour (see module docstring).
+# GROUND_CIRCUITY mirrors groundCircuityFactor in the Dart.
+GROUND_CIRCUITY = 1.3
+HONESTY_MAX = 1.4
+ROAD_OVER_GEODESIC = 1.15
+PATH_LIMIT_FACTOR = HONESTY_MAX * GROUND_CIRCUITY / ROAD_OVER_GEODESIC
+PATH_SLACK_KM = 30.0
+
+# Real fixed crossings injected as graph edges. Rail-only links
+# count: the ground suggestion kind covers rail modes (Seikan and
+# the Channel Tunnel carry passengers without a road). Verified
+# needed 2026-07-19: removing any entry below flips at least one
+# must-open corridor to blocked. Not included: Rodby-Puttgarden
+# (ferry until the Fehmarnbelt tunnel opens ~2029).
+FIXED_CROSSINGS = [
+    ("Channel Tunnel", 51.097, 1.121, 50.923, 1.781),
+    ("Oresund bridge", 55.61, 12.68, 55.57, 12.98),
+    ("Great Belt fixed link", 55.341, 11.136, 55.295, 10.828),
+    # Endpoints sit well inland of the ~1 km strait: closer
+    # points collapse into one raster cell, making the edge a
+    # useless self-loop (Fredericia/Jutland - Middelfart/Funen).
+    ("Little Belt bridge", 55.57, 9.53, 55.49, 9.79),
+    ("Bosphorus bridges", 41.09, 29.03, 41.09, 29.06),
+    ("1915 Canakkale bridge", 40.31, 26.65, 40.35, 26.72),
+    ("Kanmon tunnels", 33.96, 130.94, 33.93, 130.96),
+    ("Seikan tunnel", 41.45, 140.12, 41.20, 140.32),
+    ("Tokyo Bay Aqua-Line", 35.46, 139.87, 35.42, 139.92),
+    ("HK-Zhuhai-Macau bridge", 22.30, 113.94, 22.22, 113.55),
+    ("Shenzhen-Zhongshan link", 22.59, 113.78, 22.51, 113.55),
+    ("King Fahd Causeway", 26.20, 50.45, 26.24, 50.32),
+    ("Osman Gazi bridge", 40.757, 29.513, 40.646, 29.516),
+    ("Johor-Singapore Causeway", 1.45, 103.77, 1.44, 103.77),
+    ("Rio-Antirrio bridge", 38.32, 21.77, 38.34, 21.77),
+]
+
+# Country pairs whose shared border is closed to travel; every
+# candidate pair across one is blocked regardless of water.
+# Verified 2026-07-19 (R4-3/R4-6): FI-RU crossings closed since
+# 2023-12-15, extended "until further notice" 2026-06-04; the
+# others are long-standing closed borders.
+CLOSED_BORDERS = [
+    ("KP", "KR"),
+    ("IL", "LB"),
+    ("AM", "AZ"),
+    ("RU", "FI"),
+]
+
+# Pair-level blocks the raster cannot see. Keys are "CC/Name" as
+# stored in the cities array.
 MANUAL_BLOCK = [
     # Unbridged Congo river; Kinshasa-Brazzaville is ferry-only.
     ("CD/Kinshasa", "CG/Brazzaville"),
+    # Front line crosses the corridor (R4-3).
+    ("UA/Odesa", "UA/Donetsk"),
+    # Narva closed to vehicles until the war ends; the open
+    # detour via Luhamaa makes the estimate ~1.45x dishonest
+    # (R4-4).
+    ("RU/Saint Petersburg", "EE/Tallinn"),
+    ("RU/Saint Petersburg", "EE/Kohtla-Järve"),
+    # Abkhazia line, closed (Batumi-Sokhumi precedent).
+    ("AM/Yerevan", "GE/Sokhumi"),
+    ("AM/Gyumri", "GE/Sokhumi"),
+    # The 0.1 deg raster reads the Parana delta's channels as
+    # land, faking a short path across the Rio de la Plata; the
+    # real route runs ~700 km via the Zarate bridges.
+    ("AR/Buenos Aires", "UY/Montevideo"),
+    ("AR/Buenos Aires", "UY/Maldonado"),
+    # Grid geodesics undercut real bridge-chain roads, so these
+    # measured-dishonest corridors (R4-5; real road vs the shown
+    # 1.3x estimate) slip the automated bar: Malmo-Arhus 1.8,
+    # Malmo-Aalborg 1.6, Copenhagen-Aalborg 1.42 (+ twin),
+    # Trondheim-Stavanger ~1.4-1.5 ferry-free (Boknafjord ferry
+    # until Rogfast ~2033), Yangon-Mawlamyine 1.44 (+ twin).
+    ("SE/Malmö", "DK/Århus"),
+    ("SE/Malmö", "DK/Aalborg"),
+    ("DK/Copenhagen", "DK/Aalborg"),
+    ("DK/Frederiksberg", "DK/Aalborg"),
+    ("NO/Trondheim", "NO/Stavanger"),
+    ("MM/Yangon", "MM/Mawlamyine"),
+    ("MM/Hlaingthaya", "MM/Mawlamyine"),
 ]
 
-# Real corridors the raw span test wrongly blocks: either a
-# fixed crossing (bridge/tunnel/causeway) carries the pair, or a
-# continuous land route with a modest detour exists and the chord
-# merely grazes offshore water (coastal-clip artifact). Every
-# entry was verified against a full exploration run on
-# 2026-07-19; comments name the physical crossing or corridor.
-# Conservative: unbridged straits stay blocked (Helsinki-Tallinn,
-# Bahrain-Qatar, Bonifacio...), as do land detours over ~1.5x or
-# politically impassable routes (Seoul-DPRK, Batumi-Sokhumi).
-MANUAL_ALLOW = [
-    # -- Denmark/Sweden/Norway: Great Belt + Little Belt fixed
-    # links (road+rail) join Zealand-Funen-Jutland; the Oresund
-    # bridge joins Copenhagen-Sweden. Chords also graze Kattegat/
-    # Baltic coastal water on all-land E4/E6 corridors.
-    ("DK/Copenhagen", "DK/Odense"),  # Great Belt fixed link
-    ("DK/Frederiksberg", "DK/Odense"),  # Great Belt fixed link
-    ("DK/Copenhagen", "DK/Århus"),  # Great Belt + Little Belt
-    ("DK/Frederiksberg", "DK/Århus"),  # Great Belt + Little Belt
-    ("DK/Copenhagen", "DK/Aalborg"),  # Great Belt + Little Belt
-    ("DK/Odense", "DK/Århus"),  # Little Belt bridge
-    ("DK/Odense", "DK/Aalborg"),  # Little Belt bridge
-    ("SE/Malmö", "DK/Odense"),  # Oresund + Great Belt
-    ("SE/Malmö", "DK/Århus"),  # Oresund + Great Belt
-    ("SE/Malmö", "DK/Aalborg"),  # Oresund + Great Belt
-    ("SE/Gothenburg", "DK/Copenhagen"),  # Oresund bridge trains
-    ("SE/Gothenburg", "DK/Frederiksberg"),  # Oresund bridge
-    ("SE/Stockholm", "DK/Copenhagen"),  # Oresund bridge trains
-    ("SE/Uppsala", "DK/Copenhagen"),  # Oresund bridge
-    ("SE/Linköping", "DK/Copenhagen"),  # Oresund bridge
-    ("SE/Stockholm", "SE/Malmö"),  # all-land E4; Baltic graze
-    ("SE/Gothenburg", "SE/Malmö"),  # all-land E6; Kattegat graze
-    ("NO/Oslo", "SE/Malmö"),  # all-land E6 via Svinesund bridge
-    ("NO/Oslo", "DK/Copenhagen"),  # E6 + Oresund, direct trains
-    ("NO/Oslo", "DK/Frederiksberg"),  # E6 + Oresund
-    ("NO/Trondheim", "NO/Stavanger"),  # all-land E6/E134 inland
-    # -- Baltic rim: continuous land corridors whose chords cross
-    # the Gulfs of Finland/Riga. Finland-Baltics pairs stay
-    # blocked (real route is the Tallinn ferry).
-    ("EE/Tallinn", "LV/Riga"),  # Via Baltica E67, all land
-    ("RU/Saint Petersburg", "FI/Helsinki"),  # E18 via Vyborg
-    ("RU/Saint Petersburg", "FI/Espoo"),  # E18 via Vyborg
-    ("RU/Saint Petersburg", "FI/Vantaa"),  # E18 via Vyborg
-    ("RU/Saint Petersburg", "FI/Tampere"),  # E18 via Vyborg
-    ("RU/Saint Petersburg", "EE/Tallinn"),  # E20 via Narva
-    ("RU/Saint Petersburg", "EE/Kohtla-Järve"),  # E20 via Narva
-    # -- Mediterranean coastal corridors, all land end to end;
-    # chords graze offshore water along concave coastlines.
-    ("TR/Istanbul", "TR/Bursa"),  # Osman Gazi bridge (O-5)
-    ("TR/Istanbul", "TR/İzmir"),  # Osman Gazi bridge + O-5
-    ("GR/Athens", "GR/Lárisa"),  # A1 motorway, all land
-    ("GR/Thessaloníki", "GR/Lárisa"),  # A1 motorway, all land
-    ("GR/Athens", "GR/Pátra"),  # A8 over the Corinth Canal
-    ("GR/Pátra", "GR/Piraeus"),  # A8 over the Corinth Canal
-    ("GR/Thessaloníki", "GR/Pátra"),  # Rio-Antirrio bridge route
-    ("IT/Rome", "IT/Naples"),  # A1 autostrada; Gaeta gulf graze
-    ("HR/Split", "HR/Rijeka"),  # A1 motorway; Adriatic graze
-    ("AL/Vlorë", "AL/Shkodër"),  # SH2/A1 corridor, all land
-    ("AL/Durrës", "AL/Shkodër"),  # SH2 corridor, all land
-    ("ES/Barcelona", "ES/Valencia"),  # AP-7 + Euromed rail
-    ("ES/Barcelona", "ES/Sevilla"),  # AVE rail, all land
-    ("FR/Marseille", "FR/Toulouse"),  # A61/A9; Gulf of Lion graze
-    ("PT/Porto", "PT/Amadora"),  # A1 Porto-Lisbon, all land
-    # -- North Africa coastal corridors, all land.
-    ("MA/Casablanca", "MA/Rabat"),  # A1 + Al Boraq high-speed rail
-    ("MA/Rabat", "MA/Tangier"),  # A1 + Al Boraq high-speed rail
-    ("MA/Casablanca", "MA/Tangier"),  # A1 + Al Boraq rail
-    ("TN/Tunis", "TN/Sousse"),  # A1 motorway, all land
-    ("TN/Sousse", "TN/Sukrah"),  # A1 motorway, all land
-    ("DZ/Algiers", "DZ/Annaba"),  # East-West motorway, all land
-    ("DZ/Annaba", "DZ/Blida"),  # East-West motorway, all land
-    ("LY/Tripoli", "LY/Misratah"),  # coastal highway, all land
-    ("LY/Misratah", "LY/Al Khums"),  # coastal highway, all land
-    ("EG/Alexandria", "EG/Port Said"),  # International Coastal Rd
-    # -- Gulf fixed links and land borders.
-    ("BH/Manama", "SA/Dammam"),  # King Fahd Causeway
-    ("BH/Al Muharraq", "SA/Dammam"),  # King Fahd Causeway
-    ("BH/Ar Rifā‘", "SA/Dammam"),  # King Fahd Causeway
-    ("BH/Sitrah", "SA/Dammam"),  # King Fahd Causeway
-    ("BH/Madīnat Ḩamad", "SA/Dammam"),  # King Fahd Causeway
-    ("BH/Manama", "SA/Riyadh"),  # King Fahd Causeway
-    ("BH/Al Muharraq", "SA/Riyadh"),  # King Fahd Causeway
-    ("BH/Ar Rifā‘", "SA/Riyadh"),  # King Fahd Causeway
-    ("BH/Sitrah", "SA/Riyadh"),  # King Fahd Causeway
-    ("BH/Madīnat Ḩamad", "SA/Riyadh"),  # King Fahd Causeway
-    ("IQ/Basrah", "KW/Ḩawallī"),  # Highway 80 via Safwan border
-    ("IQ/Basrah", "KW/Şabāḩ as Sālim"),  # Highway 80 via Safwan
-    ("IQ/Basrah", "KW/Al Aḩmadī"),  # Highway 80 via Safwan
-    ("IQ/Basrah", "KW/Al Faḩāḩīl"),  # Highway 80 via Safwan
-    ("AE/Abu Dhabi", "AE/Sharjah"),  # E11 highway, all land
-    ("AE/Abu Dhabi", "AE/Ajman"),  # E11 highway, all land
-    ("IR/Mashhad", "IR/Tabriz"),  # all-land via Tehran; chord
-    # crosses the Caspian cutout
-    ("TM/Ashgabat", "TM/Türkmenbaşy"),  # M37; Caspian gulf graze
-    ("TM/Mary", "TM/Türkmenbaşy"),  # M37; Caspian gulf graze
-    ("UA/Odesa", "UA/Donetsk"),  # M14; Dnieper estuary graze
-    # -- Japan (primary market). Honshu-Kyushu pairs ride the
-    # Kanmon tunnels (San'yo Shinkansen + Kanmon expressway);
-    # Sapporo-eastern-Honshu pairs ride the Seikan tunnel
-    # (Hokkaido Shinkansen); Tokyo Bay is crossed by the
-    # Aqua-Line and ringed by land via Tokyo; Inland Sea grazes
-    # follow the all-land San'yo corridor along Honshu.
-    # Sapporo x western Japan stays blocked: those chords run
-    # hundreds of km over the open Pacific and straight-line
-    # ground distance would be badly wrong.
-    ("JP/Chiba", "JP/Kawasaki"),  # Tokyo Bay Aqua-Line
-    ("JP/Chiba", "JP/Yokohama"),  # Tokyo Bay Aqua-Line
-    ("JP/Chiba", "JP/Nagoya"),  # land ring via Tokyo (Tokaido)
-    ("JP/Chiba", "JP/Kyoto"),  # land ring via Tokyo (Tokaido)
-    ("JP/Chiba", "JP/Osaka"),  # land ring via Tokyo (Tokaido)
-    ("JP/Chiba", "JP/Kobe"),  # land ring via Tokyo (Tokaido)
-    ("JP/Chiba", "JP/Sakai"),  # land ring via Tokyo (Tokaido)
-    ("JP/Chiba", "JP/Hiroshima"),  # Tokaido + San'yo corridor
-    ("JP/Chiba", "JP/Kitakyushu"),  # San'yo + Kanmon tunnels
-    ("JP/Chiba", "JP/Fukuoka"),  # San'yo + Kanmon tunnels
-    ("JP/Chiba", "JP/Sapporo"),  # Tohoku + Seikan tunnel
-    ("JP/Hiroshima", "JP/Yokohama"),  # all-land San'yo corridor
-    ("JP/Hiroshima", "JP/Kobe"),  # all-land San'yo corridor
-    ("JP/Hiroshima", "JP/Osaka"),  # all-land San'yo corridor
-    ("JP/Hiroshima", "JP/Sakai"),  # all-land San'yo corridor
-    ("JP/Hiroshima", "JP/Sendai"),  # all-land Tohoku + San'yo
-    ("JP/Fukuoka", "JP/Hiroshima"),  # Kanmon tunnels
-    ("JP/Fukuoka", "JP/Kyoto"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Kobe"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Osaka"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Sakai"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Nagoya"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Saitama"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Tokyo"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Kawasaki"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Yokohama"),  # Kanmon + San'yo Shinkansen
-    ("JP/Fukuoka", "JP/Sendai"),  # Kanmon + San'yo Shinkansen
-    ("JP/Kitakyushu", "JP/Kyoto"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Tokyo"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Nagoya"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Kobe"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Osaka"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Sakai"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Yokohama"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Kawasaki"),  # Kanmon tunnels
-    ("JP/Kitakyushu", "JP/Sendai"),  # Kanmon tunnels
-    ("JP/Sapporo", "JP/Tokyo"),  # Seikan tunnel (Shinkansen)
-    ("JP/Sapporo", "JP/Saitama"),  # Seikan tunnel
-    ("JP/Sapporo", "JP/Kawasaki"),  # Seikan tunnel
-    ("JP/Sapporo", "JP/Yokohama"),  # Seikan tunnel
-    ("JP/Sapporo", "JP/Sendai"),  # Seikan tunnel
-    # -- Pearl River Delta and Chinese trunk corridors.
-    ("HK/Hong Kong", "MO/Macau"),  # HK-Zhuhai-Macau bridge
-    ("HK/Hong Kong", "MO/Sé"),  # HK-Zhuhai-Macau bridge
-    ("HK/Hong Kong", "MO/Taipa"),  # HK-Zhuhai-Macau bridge
-    ("HK/Hong Kong", "MO/Zhuojiacun"),  # HK-Zhuhai-Macau bridge
-    ("HK/Hong Kong", "MO/Luhuan"),  # HK-Zhuhai-Macau bridge
-    ("HK/Victoria", "MO/Macau"),  # HK-Zhuhai-Macau bridge
-    ("HK/Victoria", "MO/Sé"),  # HK-Zhuhai-Macau bridge
-    ("HK/Victoria", "MO/Taipa"),  # HK-Zhuhai-Macau bridge
-    ("HK/Victoria", "MO/Zhuojiacun"),  # HK-Zhuhai-Macau bridge
-    ("HK/Victoria", "MO/Luhuan"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sham Shui Po", "MO/Macau"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sham Shui Po", "MO/Sé"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sham Shui Po", "MO/Taipa"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sham Shui Po", "MO/Zhuojiacun"),  # HZM bridge
-    ("HK/Sham Shui Po", "MO/Luhuan"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sha Tin", "MO/Macau"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sha Tin", "MO/Sé"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sha Tin", "MO/Taipa"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sha Tin", "MO/Zhuojiacun"),  # HK-Zhuhai-Macau bridge
-    ("HK/Sha Tin", "MO/Luhuan"),  # HK-Zhuhai-Macau bridge
-    ("HK/Tuen Mun", "MO/Macau"),  # HK-Zhuhai-Macau bridge
-    ("HK/Tuen Mun", "MO/Sé"),  # HK-Zhuhai-Macau bridge
-    ("HK/Tuen Mun", "MO/Taipa"),  # HK-Zhuhai-Macau bridge
-    ("HK/Tuen Mun", "MO/Zhuojiacun"),  # HK-Zhuhai-Macau bridge
-    ("HK/Tuen Mun", "MO/Luhuan"),  # HK-Zhuhai-Macau bridge
-    ("CN/Guangzhou", "HK/Hong Kong"),  # XRL rail via Shenzhen
-    ("CN/Guangzhou", "HK/Victoria"),  # XRL rail via Shenzhen
-    ("CN/Guangzhou", "HK/Sham Shui Po"),  # XRL rail via Shenzhen
-    ("CN/Guangzhou", "HK/Sha Tin"),  # XRL rail via Shenzhen
-    ("CN/Guangzhou", "HK/Tuen Mun"),  # XRL rail via Shenzhen
-    ("CN/Chengdu", "HK/Hong Kong"),  # all-land HSR via Shenzhen
-    ("CN/Chengdu", "HK/Victoria"),  # all-land HSR via Shenzhen
-    ("CN/Chengdu", "HK/Sham Shui Po"),  # all-land HSR
-    ("CN/Chengdu", "HK/Tuen Mun"),  # all-land HSR via Shenzhen
-    ("CN/Shenzhen", "MO/Macau"),  # Shenzhen-Zhongshan link (2024)
-    ("CN/Shenzhen", "MO/Sé"),  # Shenzhen-Zhongshan link
-    ("CN/Shenzhen", "MO/Taipa"),  # Shenzhen-Zhongshan link
-    ("CN/Shenzhen", "MO/Zhuojiacun"),  # Shenzhen-Zhongshan link
-    ("CN/Shenzhen", "MO/Luhuan"),  # Shenzhen-Zhongshan link
-    ("CN/Beijing", "MO/Macau"),  # all-land rail via Zhuhai
-    ("CN/Beijing", "MO/Sé"),  # all-land rail via Zhuhai
-    ("CN/Beijing", "MO/Taipa"),  # all-land rail via Zhuhai
-    ("CN/Beijing", "MO/Zhuojiacun"),  # all-land rail via Zhuhai
-    ("CN/Beijing", "MO/Luhuan"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "MO/Macau"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "MO/Sé"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "MO/Taipa"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "MO/Zhuojiacun"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "MO/Luhuan"),  # all-land rail via Zhuhai
-    ("CN/Shanghai", "CN/Beijing"),  # Jinghu HSR; Bohai graze
-    # -- South and Southeast Asia land corridors.
-    ("IN/Mumbai", "IN/Ahmedabad"),  # NH48/Western Railway; chord
-    # crosses the Gulf of Khambhat
-    ("BD/Dhaka", "BD/Chattogram"),  # N1 + Meghna bridges
-    ("BD/Chattogram", "BD/Gazipur"),  # N1 + Meghna bridges
-    ("BD/Chattogram", "BD/Khulna"),  # Padma bridge + N1
-    ("MM/Yangon", "MM/Mawlamyine"),  # AH1 + Thanlwin bridge
-    ("MM/Hlaingthaya", "MM/Mawlamyine"),  # AH1 + Thanlwin bridge
-    # -- Americas coastal corridors, all land.
-    ("BR/São Paulo", "BR/Rio de Janeiro"),  # BR-116 Via Dutra
-    ("UY/Montevideo", "UY/Maldonado"),  # Ruta IB, all land
-    ("PE/Callao", "PE/Trujillo"),  # Pan-American Highway
-    ("PE/Lima", "PE/Piura"),  # Pan-American Highway
-    ("PE/Callao", "PE/Piura"),  # Pan-American Highway
-    ("VE/Caracas", "VE/Maracaibo"),  # Rafael Urdaneta bridge
-    ("CU/Havana", "CU/Santiago de Cuba"),  # Carretera Central
-    ("PA/David", "PA/Colón"),  # Pan-American Highway via Panama
-    # -- Sub-Saharan coastal corridors, all land.
-    ("GH/Accra", "GH/Sekondi"),  # N1 coastal highway
-    ("GH/Accra", "GH/Takoradi"),  # N1 coastal highway
-    ("NG/Lagos", "NG/Port Harcourt"),  # A2/E1 land route; chord
-    # crosses the Gulf of Guinea
-    ("MZ/Maputo", "MZ/Beira"),  # EN1, all land
-    ("MZ/Matola", "MZ/Beira"),  # EN1, all land
-]
+# Escape hatch for pairs the land-graph test gets wrong. Empty by
+# design after Fix Backlog 4: prefer fixing FIXED_CROSSINGS or the
+# calibration over re-growing a curation list.
+MANUAL_ALLOW = []
 
 TOP_BLOCKED_REPORT = 15
 
@@ -306,7 +200,7 @@ def haversine_km(lat1, lon1, lat2, lon2):
         math.sin(dp / 2) ** 2
         + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     )
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(a))
+    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
 
 
 def unit_vector(lat, lon):
@@ -355,43 +249,167 @@ def longest_water_span_km(land, v1, v2, dist_km):
             span = haversine_km(
                 lats[run_start], lons[run_start], lats[i - 1], lons[i - 1]
             )
-            best = max(best, span)
+            # First-to-last wet sample understates the true span
+            # by up to one step per side (R4-9); pad to keep the
+            # error on the blocking (honest) side.
+            best = max(best, span + SAMPLE_STEP_KM)
             run_start = None
     return best
 
 
-def candidate_pairs(cities):
-    """Unordered same-mass index pairs within ground range."""
-    by_mass = {}
-    for i, c in enumerate(cities):
-        by_mass.setdefault(c["mass"], []).append(i)
-    pairs = []
-    for idxs in by_mass.values():
-        lats = np.radians([cities[i]["lat"] for i in idxs])
-        lons = np.radians([cities[i]["lon"] for i in idxs])
-        for a, i in enumerate(idxs):
-            dp = lats[a + 1:] - lats[a]
-            dl = lons[a + 1:] - lons[a]
-            h = (
-                np.sin(dp / 2) ** 2
-                + math.cos(lats[a]) * np.cos(lats[a + 1:]) * np.sin(dl / 2) ** 2
+def build_raster(land):
+    """Boolean land raster at RASTER_DEG cell centers (cached)."""
+    if RASTER_CACHE.exists():
+        return np.load(RASTER_CACHE)["land"]
+    n_lat = int(round((LAT_MAX - LAT_MIN) / RASTER_DEG))
+    n_lon = int(round(360.0 / RASTER_DEG))
+    lats = LAT_MIN + (np.arange(n_lat) + 0.5) * RASTER_DEG
+    lons = -180.0 + (np.arange(n_lon) + 0.5) * RASTER_DEG
+    grid = np.zeros((n_lat, n_lon), dtype=bool)
+    for r in range(n_lat):
+        grid[r] = shapely.contains_xy(land, lons, np.full(n_lon, lats[r]))
+    np.savez_compressed(RASTER_CACHE, land=grid)
+    return grid
+
+
+def cell_of(lat, lon):
+    r = int((lat - LAT_MIN) / RASTER_DEG)
+    c = int((lon + 180.0) / RASTER_DEG)
+    return r, c
+
+
+def cell_center(r, c):
+    return (
+        LAT_MIN + (r + 0.5) * RASTER_DEG,
+        -180.0 + (c + 0.5) * RASTER_DEG,
+    )
+
+
+def snap_to_land(grid, lat, lon):
+    """Nearest land cell within SNAP_CELLS (coastal cities can
+    fall in a sea cell at this resolution)."""
+    r0, c0 = cell_of(lat, lon)
+    n_lat, n_lon = grid.shape
+    best, best_d = None, None
+    for dr in range(-SNAP_CELLS, SNAP_CELLS + 1):
+        r = r0 + dr
+        if not 0 <= r < n_lat:
+            continue
+        for dc in range(-SNAP_CELLS, SNAP_CELLS + 1):
+            c = (c0 + dc) % n_lon
+            if not grid[r, c]:
+                continue
+            clat, clon = cell_center(r, c)
+            d = haversine_km(lat, lon, clat, clon)
+            if best_d is None or d < best_d:
+                best, best_d = (r, c), d
+    return best
+
+
+def build_land_graph(grid, crossings):
+    """8-connected CSR graph over land cells with geodesic edge
+    weights, longitude-wrapped, plus fixed-crossing edges."""
+    n_lat, n_lon = grid.shape
+    node = np.full(grid.shape, -1, dtype=np.int32)
+    land_idx = np.argwhere(grid)
+    node[grid] = np.arange(len(land_idx), dtype=np.int32)
+
+    lat_step = RASTER_DEG * math.pi / 180.0 * EARTH_RADIUS_KM
+    row_lats = np.radians(LAT_MIN + (np.arange(n_lat) + 0.5) * RASTER_DEG)
+    lon_step = lat_step * np.cos(row_lats)
+
+    rows, cols, data = [], [], []
+
+    def add_edges(dr, dc, weight_by_row):
+        src_r = np.arange(max(0, -dr), min(n_lat, n_lat - dr))
+        for r in src_r:
+            r2 = r + dr
+            a = node[r]
+            b = np.roll(node[r2], -dc)
+            ok = (a >= 0) & (b >= 0)
+            if not ok.any():
+                continue
+            rows.append(a[ok])
+            cols.append(b[ok])
+            data.append(np.full(ok.sum(), weight_by_row(r), dtype=np.float32))
+
+    for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
+        if dr == 0:
+            add_edges(0, 1, lambda r: lon_step[r])
+        elif dc == 0:
+            add_edges(1, 0, lambda r: lat_step)
+        else:
+            add_edges(
+                dr,
+                dc,
+                lambda r: math.hypot(
+                    lat_step, (lon_step[r] + lon_step[r + 1]) / 2
+                ),
             )
-            d = 2 * EARTH_RADIUS_KM * np.arcsin(np.sqrt(h))
-            for b in np.nonzero(d <= GROUND_MODE_MAX_KM)[0]:
-                j = idxs[a + 1 + b]
-                pairs.append((min(i, j), max(i, j), float(d[b])))
+
+    n = len(land_idx)
+    for name, lat1, lon1, lat2, lon2 in crossings:
+        s1 = snap_to_land(grid, lat1, lon1)
+        s2 = snap_to_land(grid, lat2, lon2)
+        if s1 is None or s2 is None:
+            sys.exit(f"FIXED_CROSSINGS: no land near endpoint of {name}")
+        a, b = node[s1], node[s2]
+        w = max(haversine_km(lat1, lon1, lat2, lon2), 1.0)
+        rows.append(np.array([a], dtype=np.int32))
+        cols.append(np.array([b], dtype=np.int32))
+        data.append(np.array([w], dtype=np.float32))
+
+    rows = np.concatenate(rows)
+    cols = np.concatenate(cols)
+    data = np.concatenate(data)
+    graph = csr_matrix((data, (rows, cols)), shape=(n, n))
+    return node, graph + graph.T
+
+
+def candidate_pairs(cities, links):
+    """Unordered index pairs the picker could ground: same-mass,
+    plus cross-mass pairs joined by a rail_tunnel link (R4-1)."""
+    tunnel = {
+        frozenset((lk["a"], lk["b"]))
+        for lk in links
+        if lk["kind"] == "rail_tunnel"
+    }
+    groups = {}
+    for i, c in enumerate(cities):
+        groups.setdefault(c["mass"], []).append(i)
+    mass_pairs = [(m, m) for m in groups]
+    mass_pairs += [tuple(sorted(t)) for t in tunnel]
+    pairs = []
+    seen = set()
+    for ma, mb in mass_pairs:
+        if (ma, mb) in seen:
+            continue
+        seen.add((ma, mb))
+        idx_a = groups.get(ma, [])
+        idx_b = groups.get(mb, [])
+        for ai, i in enumerate(idx_a):
+            ci = cities[i]
+            others = idx_a[ai + 1:] if ma == mb else idx_b
+            for j in others:
+                cj = cities[j]
+                d = haversine_km(ci["lat"], ci["lon"], cj["lat"], cj["lon"])
+                if d <= GROUND_MODE_MAX_KM:
+                    pairs.append((min(i, j), max(i, j), d))
     return pairs
 
 
-def resolve_manual(cities, entries, label):
+def resolve_manual(cities, entries, label, allowed_masses):
     index = {city_key(c): i for i, c in enumerate(cities)}
     resolved = set()
     for a, b in entries:
         if a not in index or b not in index:
             sys.exit(f"{label}: unknown city in ({a}, {b})")
         i, j = sorted((index[a], index[b]))
-        if cities[i]["mass"] != cities[j]["mass"]:
-            sys.exit(f"{label}: ({a}, {b}) is cross-mass; not applicable")
+        masses = frozenset(
+            (cities[i]["mass"], cities[j]["mass"])
+        )
+        if len(masses) > 1 and masses not in allowed_masses:
+            sys.exit(f"{label}: ({a}, {b}) pair can never ground")
         resolved.add((i, j))
     return resolved
 
@@ -401,32 +419,81 @@ def main():
     with open(CITIES_PATH, encoding="utf-8") as f:
         payload = json.load(f)
     cities = payload["cities"]
-    links_before = json.dumps(payload["metadata"]["links"])
+    links = payload["metadata"]["links"]
+    links_before = json.dumps(links)
     cities_before = json.dumps(cities)
+    previous = {
+        tuple(p) for p in payload["metadata"].get("water_blocked", [])
+    }
 
     land = load_land()
-    manual_block = resolve_manual(cities, MANUAL_BLOCK, "MANUAL_BLOCK")
-    manual_allow = resolve_manual(cities, MANUAL_ALLOW, "MANUAL_ALLOW")
+    grid = build_raster(land)
+    node, graph = build_land_graph(grid, FIXED_CROSSINGS)
+    n_comp, comp = connected_components(graph, directed=False)
 
-    pairs = candidate_pairs(cities)
+    tunnel_masses = {
+        frozenset((lk["a"], lk["b"]))
+        for lk in links
+        if lk["kind"] == "rail_tunnel"
+    }
+    overlap = set(MANUAL_BLOCK) & set(MANUAL_ALLOW)
+    assert not overlap, f"MANUAL_BLOCK/ALLOW overlap: {overlap}"
+    manual_block = resolve_manual(
+        cities, MANUAL_BLOCK, "MANUAL_BLOCK", tunnel_masses
+    )
+    manual_allow = resolve_manual(
+        cities, MANUAL_ALLOW, "MANUAL_ALLOW", tunnel_masses
+    )
+    closed = {frozenset(p) for p in CLOSED_BORDERS}
+
+    pairs = candidate_pairs(cities, links)
+
+    city_node = {}
+    for i, c in enumerate(cities):
+        s = snap_to_land(grid, c["lat"], c["lon"])
+        city_node[i] = None if s is None else int(node[s])
+
+    # Pass 1: politics and chord spans; collect pairs that need
+    # the land-path honesty test.
     blocked = {}
-    allowed = []
+    need_path = {}
+    vecs = {}
     for i, j, dist in pairs:
-        v1 = unit_vector(cities[i]["lat"], cities[i]["lon"])
-        v2 = unit_vector(cities[j]["lat"], cities[j]["lon"])
-        span = longest_water_span_km(land, v1, v2, dist)
+        key = (i, j)
+        if frozenset((cities[i]["cc"], cities[j]["cc"])) in closed:
+            blocked[key] = -1.0
+            continue
+        if key in manual_block:
+            blocked[key] = 0.0
+            continue
+        for k in (i, j):
+            if k not in vecs:
+                vecs[k] = unit_vector(cities[k]["lat"], cities[k]["lon"])
+        span = longest_water_span_km(land, vecs[i], vecs[j], dist)
         if span <= WATER_SPAN_BLOCK_KM:
             continue
-        if (i, j) in manual_allow:
-            allowed.append((i, j, span))
+        if key in manual_allow:
             continue
-        blocked[(i, j)] = span
-    stale_allow = manual_allow - {(i, j) for i, j, _ in allowed}
-    for i, j in sorted(stale_allow):
-        print(
-            "WARNING stale MANUAL_ALLOW (not blocked): "
-            f"{city_key(cities[i])} - {city_key(cities[j])}"
+        a, b = city_node[i], city_node[j]
+        if a is None or b is None or comp[a] != comp[b]:
+            blocked[key] = span
+            continue
+        need_path.setdefault(i, []).append((j, dist, span))
+
+    # Pass 2: single-source Dijkstra per remaining source with a
+    # cutoff at its largest partner budget.
+    for i, partners in need_path.items():
+        budget = max(
+            PATH_LIMIT_FACTOR * d + PATH_SLACK_KM for _, d, _ in partners
         )
+        dists = dijkstra(
+            graph, directed=False, indices=city_node[i], limit=budget
+        )
+        for j, d, span in partners:
+            path = dists[city_node[j]]
+            if not (path <= PATH_LIMIT_FACTOR * d + PATH_SLACK_KM):
+                blocked[(i, j)] = span
+
     for pair in manual_block:
         blocked.setdefault(pair, 0.0)
 
@@ -440,19 +507,26 @@ def main():
         json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
+    added = set(result) - previous
+    removed = previous - set(result)
     print(f"pairs scanned: {len(pairs)}")
-    print(f"blocked: {len(result)} (manual: {len(manual_block)})")
-    print(f"allowed by MANUAL_ALLOW: {len(allowed)}")
-    top = sorted(
-        blocked,
-        key=lambda p: -(cities[p[0]]["pop"] + cities[p[1]]["pop"]),
-    )[:TOP_BLOCKED_REPORT]
-    print("top blocked pairs by combined population:")
-    for i, j in top:
-        print(
-            f"  {city_key(cities[i])} - {city_key(cities[j])}"
-            f" (span {blocked[(i, j)]:.0f} km)"
-        )
+    print(f"blocked: {len(result)} (was {len(previous)}; "
+          f"+{len(added)} / -{len(removed)})")
+
+    def top_by_pop(pair_set, n):
+        return sorted(
+            pair_set,
+            key=lambda p: -(cities[p[0]]["pop"] + cities[p[1]]["pop"]),
+        )[:n]
+
+    for title, group in (
+        ("top blocked", top_by_pop(set(result), TOP_BLOCKED_REPORT)),
+        ("top newly blocked", top_by_pop(added, TOP_BLOCKED_REPORT)),
+        ("top newly unblocked", top_by_pop(removed, TOP_BLOCKED_REPORT)),
+    ):
+        print(f"{title}:")
+        for i, j in group:
+            print(f"  {city_key(cities[i])} - {city_key(cities[j])}")
     print(f"runtime: {time.time() - start:.1f}s")
 
 

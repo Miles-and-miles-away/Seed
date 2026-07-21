@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
@@ -92,6 +94,8 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
             ),
           ),
           _ChartsSection(period: _period),
+          const SizedBox(height: spacingLg),
+          const _TransportCalculatorCard(),
           const SizedBox(height: spacingXxl),
         ],
       ),
@@ -131,6 +135,28 @@ class _ChartsSection extends ConsumerWidget {
           if (hasTrend && hasCategory) const SizedBox(height: spacingMd),
           if (hasCategory) Co2CategoryChart(data: categoryData!),
         ],
+      ),
+    );
+  }
+}
+
+/// Entry card for the transport carbon calculator (Phase 8.5): the
+/// impact-curious user is already here, so this is its home.
+class _TransportCalculatorCard extends StatelessWidget {
+  const _TransportCalculatorCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        leading: Icon(Icons.commute, color: theme.colorScheme.primary),
+        title: Text(l10n.transportCalculatorCardTitle),
+        subtitle: Text(l10n.transportCalculatorCardSubtitle),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(appRoutes.transportCalculator),
       ),
     );
   }

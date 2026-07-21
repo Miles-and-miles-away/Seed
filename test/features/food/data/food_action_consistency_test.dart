@@ -13,11 +13,13 @@ import 'package:flutter_test/flutter_test.dart';
 /// (0.1 kg of meat avoided minus a documented plant-alternative
 /// baseline) within 10%.
 void main() {
-  // Plant-alternative baselines per section 7: the beef action
-  // documents ~200 g CO2e per 100 g plant alternative; chicken
-  // and pork document ~100 g.
-  const beefPlantAltG = 200.0;
-  const otherPlantAltG = 100.0;
+  // Standardized plant-alternative baseline (section 7, closed
+  // 2026-07-20): every meatless action deducts 200 g CO2e per
+  // 100 g serving (beans/lentils, OWID "Other Pulses" 1.79 kg/kg
+  // = 179 g, rounded up to 200 g). Before standardization the
+  // beef action used 200 g but chicken/pork used a 100 g peas
+  // baseline.
+  const plantAltBaselineG = 200.0;
   const tolerance = 0.10;
 
   late Map<String, double> factorById;
@@ -56,6 +58,9 @@ void main() {
 
   void expectWithinTolerance(String actionId, double implied) {
     final shipped = shippedGrams(actionId);
+    // Guard: a non-positive implied delta would make the relative
+    // tolerance below unfalsifiable.
+    expect(implied, greaterThan(0), reason: actionId);
     expect(
       (shipped - implied).abs() / implied,
       lessThanOrEqualTo(tolerance),
@@ -66,46 +71,57 @@ void main() {
   }
 
   test('meatless_meal_beef matches the dataset within 10%', () {
-    // 9948 - 200 = 9748 -> corrected action ships ~9700 g. The
-    // legacy 6000 g encoded the median 60 kg/kg and must fail
-    // here until the section 7 correction lands.
+    // 9948 - 200 = 9748 -> ships 9700 (savings always round
+    // DOWN). The legacy 6000 g encoded the median 60 kg/kg.
     expectWithinTolerance(
       'meatless_meal_beef',
-      impliedGrams('beef_beef_herd', beefPlantAltG),
+      impliedGrams('beef_beef_herd', plantAltBaselineG),
     );
   });
 
   test('meatless_meal_chicken matches the dataset within 10%', () {
-    // 987 - 100 = 887 -> corrected action ships ~890 g.
+    // 987 - 200 = 787 -> ships 780 (was 880 against the old
+    // 100 g peas baseline).
     expectWithinTolerance(
       'meatless_meal_chicken',
-      impliedGrams('chicken', otherPlantAltG),
+      impliedGrams('chicken', plantAltBaselineG),
     );
   });
 
   test('meatless_meal_pork matches the dataset within 10%', () {
-    // 1231 - 100 = 1131 -> corrected action ships ~1100 g.
+    // 1231 - 200 = 1031 -> ships 1000 (was 1100 against the old
+    // 100 g peas baseline).
     expectWithinTolerance(
       'meatless_meal_pork',
-      impliedGrams('pork', otherPlantAltG),
+      impliedGrams('pork', plantAltBaselineG),
     );
   });
 
   test('plant_milk_vs_dairy stays honestly conservative', () {
-    // Dataset-implied delta per 250 ml: (3.15 - 0.9031262) x 0.25
-    // = 562 g. The shipped 460 g deliberately stays BELOW the
-    // implied delta (soy variant implies 543 g, still above), so
-    // this asserts an upper bound rather than a 10% match.
-    final implied =
+    // The action covers plant milks generically, so the binding
+    // conservative bound is the SMALLEST implied delta across the
+    // shipped plant milks: soy (543 g), not oat (562 g). Shipped
+    // 460 g must sit at or below it.
+    final impliedOat =
         (factorById['milk_dairy']! - factorById['oat_milk']!) * 0.25 * 1000;
+    final impliedSoy =
+        (factorById['milk_dairy']! - factorById['soy_milk']!) * 0.25 * 1000;
+    final binding = impliedSoy < impliedOat ? impliedSoy : impliedOat;
     final shipped = shippedGrams('plant_milk_vs_dairy');
     expect(shipped, greaterThan(0));
     expect(
       shipped,
-      lessThanOrEqualTo(implied),
+      lessThanOrEqualTo(binding),
       reason:
-          'shipped $shipped vs dataset-implied '
-          '${implied.toStringAsFixed(0)}',
+          'shipped $shipped vs binding dataset-implied bound '
+          '${binding.toStringAsFixed(0)}',
     );
+  });
+
+  test('decision pin: plant_milk_vs_dairy ships exactly 460 g', () {
+    // Deliberately conservative value, kept unchanged through the
+    // 2026-07 correction pass; a silent change here is a points-
+    // economy change.
+    expect(shippedGrams('plant_milk_vs_dairy'), 460);
   });
 }

@@ -630,9 +630,9 @@ const actions = [
       + 'de carne de res o cordero hoy',
     category: 'food',
     // Beef case, matches meatless_meal_beef in
-    // co2_actions_database v1.1 (P&N 2018 mean incl. LUC:
-    // 9948g/100g serving - 200g plant alt, rounded down).
-    // Lamb case implies ~3.8kg.
+    // co2_actions_database v1.2 (P&N 2018 mean incl. LUC:
+    // 9948g/100g serving - 200g standardized beans baseline,
+    // rounded down). Lamb case implies ~3.8kg.
     co2Grams: 9700,
     effort: 2,
     frequency: 3,
@@ -657,9 +657,12 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de pollo, cerdo o pescado hoy',
     category: 'food',
-    // Between the chicken (890) and pork (1100) cases of
-    // co2_actions_database v1.1 (P&N 2018 means); farmed fish
-    // implies ~1.3kg. Conservative for pork/fish skippers.
+    // Chicken (780) to pork (1000) band of co2_actions_database
+    // v1.2 (P&N 2018 means, standardized 200g beans baseline);
+    // matches the pork case, farmed fish implies ~1.2kg. NOTE:
+    // wild fish (~750g) and small oily fish (~350g) now sit
+    // below 1000 -- whether "fish" here should split or lower
+    // is an owner points-economy call, not yet made.
     co2Grams: 1000,
     effort: 2,
     frequency: 3,

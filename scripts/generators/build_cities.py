@@ -137,6 +137,13 @@ ISLAND_ANCHORS = {
         ("ST_THOMAS", 18.3419, -64.9307),
         ("ST_CROIX", 17.7275, -64.747),
     ],
+    # San Pedro sits on Ambergris Caye (R4-7); the rest of the
+    # top 5 are mainland.
+    "BZ": [
+        ("AMBERGRIS", 17.916, -87.9659),
+        ("MAINLAND", 17.4995, -88.1976), ("MAINLAND", 17.1588, -89.0696),
+        ("MAINLAND", 18.0812, -88.5633), ("MAINLAND", 17.2538, -88.764),
+    ],
 }
 
 # Fixed connections between masses. kind: "rail_tunnel" enables

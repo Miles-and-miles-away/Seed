@@ -115,7 +115,8 @@ Impact, and Eco-Dex.
 CO2 dashboard showing total saved across selectable time periods,
 real-world equivalencies (tree-years, car km, phone charges, beef
 burgers), and trend / category charts of the same window.
-- Links: external source URLs from the equivalencies info sheet
+- Links: `/transport-calculator` ("Compare transport options" card);
+  external source URLs from the equivalencies info sheet
   (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
   Time); headline kg total card with period-over-period comparison
@@ -123,7 +124,8 @@ burgers), and trend / category charts of the same window.
   per-equivalency explainer, formula, and tappable source citation;
   daily-trend scatter chart with dashed mean line; category donut
   (Top 5 + Other) with center kg total and color-dot legend. Charts
-  hide themselves when the window has insufficient data.
+  hide themselves when the window has insufficient data. A
+  "Compare transport options" entry card sits below the charts.
 
 ### Eco-Dex (embedded in Progress)
 Encyclopedia of planet facts organized by category, with a progress
@@ -158,6 +160,24 @@ unambiguous exit. Browse and log actions.
   (unknown values fall back to "All").
 - Functionality: search, category tabs, sort dropdown, SDG filter chips,
   action cards with log confirmation and science info.
+
+## Transport Calculator (`/transport-calculator`)
+
+Pushed full-screen route (Phase 8). Educational journey builder:
+add/edit/remove legs (mode + distance + occupancy for per-vehicle
+modes) and see per-leg and total CO2e. Awards nothing — no points,
+no logged CO2 (No Fake Points).
+- Reached from: "Compare transport options" card on the Progress
+  Impact segment.
+- Links: none yet (8.3 comparison view, 8.4 methodology sheet, and
+  the Action Log banner entry point are follow-up stages).
+- Functionality: leg list with per-leg CO2e and delete; leg editor
+  bottom sheet with grouped mode picker (dataset groups), numeric
+  km field (rejects negative/NaN; always editable), occupancy
+  stepper only for per-vehicle modes (capped at the mode's max
+  occupants); optional city-pair picker prefilling editable
+  distance estimates per mode group (water-blocked pairs never
+  suggest ground/active modes); running journey total.
 
 ## Tab 2 — Mascot (`/mascot`)
 
@@ -249,6 +269,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `emailVerification`       | `/verify-email`                   |
 | `mascotSelection`         | `/mascot-selection`               |
 | `actionLog`               | `/log-action`                     |
+| `transportCalculator`     | `/transport-calculator`           |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `mascot`                  | `/mascot`                         |

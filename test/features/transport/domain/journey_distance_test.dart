@@ -403,6 +403,39 @@ void main() {
       expect(s.keys, contains(kindGround));
     });
 
+    test('honest land corridors keep ground despite coastal water', () {
+      // Round 4 false-positive class: chords graze sea the road
+      // never touches. The land-graph honesty test must keep them.
+      for (final pair in [
+        ['Copenhagen', 'DK', 'Hamburg', 'DE'],
+        ['Bangkok', 'TH', 'Kuala Lumpur', 'MY'],
+        ['Jakarta', 'ID', 'Surabaya', 'ID'],
+        ['Lagos', 'NG', 'Accra', 'GH'],
+        ['Auckland', 'NZ', 'Wellington', 'NZ'],
+      ]) {
+        final s = suggest(city(pair[0], pair[1]), city(pair[2], pair[3]));
+        expect(s.keys, contains(kindGround), reason: '${pair[0]}-${pair[2]}');
+      }
+    });
+
+    test('London-Madrid: grounded through the tunnel, honest detour', () {
+      final s = suggest(city('London', 'GB'), city('Madrid', 'ES'));
+      expect(s.keys, contains(kindGround));
+    });
+
+    test('Glasgow-Stavanger: tunnel link cannot ground the North Sea', () {
+      // Round 4 blind spot: cross-mass tunnel pairs bypassed the
+      // water blocklist entirely (real route ~2,900 km vs 897).
+      final s = suggest(city('Glasgow', 'GB'), city('Stavanger', 'NO'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Seoul-Pyongyang: closed border suggests no ground', () {
+      final s = suggest(city('Seoul', 'KR'), city('Pyongyang', 'KP'));
+      expect(s.keys, isNot(contains(kindGround)));
+      expect(s.keys, isNot(contains(kindActive)));
+    });
+
     test('Wellington-Christchurch: Cook Strait ferry exists', () {
       final s = suggest(city('Wellington', 'NZ'), city('Christchurch', 'NZ'));
       expect(s.keys, contains(kindFerry));

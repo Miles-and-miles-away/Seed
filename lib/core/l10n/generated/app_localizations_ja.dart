@@ -1302,7 +1302,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get equivBurgersExplainer =>
-      '牛肉バーガー一個分の生産から小売までのライフサイクル排出量です。鶏肉や植物性バーガーは概ね 5〜10 分の 1 程度に収まります。';
+      '牛肉バーガー1個（パティ113g）の生産から小売までのライフサイクル排出量です。鶏肉バーガーは約10分の1、豆のバーガーは約50分の1です。';
 
   @override
   String equivFormulaTemplate(String factor) {
@@ -1357,4 +1357,123 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get ecoDexInfoBody =>
       'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。';
+
+  @override
+  String get transportCalculatorTitle => '移動のCO2計算';
+
+  @override
+  String get transportCalculatorCardTitle => '移動手段を比べる';
+
+  @override
+  String get transportCalculatorCardSubtitle => '行程を組み立ててCO2e排出量を確認しましょう';
+
+  @override
+  String get transportJourneyEmpty => '区間を追加して行程を作ると、CO2e排出量が表示されます。';
+
+  @override
+  String get transportAddLeg => '区間を追加';
+
+  @override
+  String get transportEditLeg => '区間を編集';
+
+  @override
+  String get transportSelectMode => '移動手段を選ぶ';
+
+  @override
+  String get transportChangeMode => '変更';
+
+  @override
+  String get transportDistanceLabel => '距離（km）';
+
+  @override
+  String get transportDistanceInvalid => '0km以上の距離を入力してください';
+
+  @override
+  String get transportDistanceEstimateNote => '直線距離からの概算です。実際の経路に合わせて編集できます。';
+
+  @override
+  String get transportOccupantsLabel => '乗車人数';
+
+  @override
+  String get transportOccupantsAdd => '1人増やす';
+
+  @override
+  String get transportOccupantsRemove => '1人減らす';
+
+  @override
+  String transportOccupantsSemantic(int count) {
+    return '乗車人数：$count人';
+  }
+
+  @override
+  String get transportTotalLabel => '合計';
+
+  @override
+  String get transportRemoveLeg => '区間を削除';
+
+  @override
+  String get transportFromCity => '出発都市';
+
+  @override
+  String get transportToCity => '到着都市';
+
+  @override
+  String get transportCityPrefillHint => '都市を2つ選ぶと区間の距離を概算します。';
+
+  @override
+  String transportEstimatedKm(String km) {
+    return '約$km km';
+  }
+
+  @override
+  String transportKmValue(String km) {
+    return '$km km';
+  }
+
+  @override
+  String transportOccupantsValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String transportModeFactorPerPassenger(int grams) {
+    return '1kmあたり$grams g CO2e';
+  }
+
+  @override
+  String transportModeFactorPerVehicle(int grams) {
+    return '車両1kmあたり$grams g CO2e';
+  }
+
+  @override
+  String get transportGroupActive => '徒歩・自転車';
+
+  @override
+  String get transportGroupMicro => 'マイクロモビリティ';
+
+  @override
+  String get transportGroupCar => '車・バイク';
+
+  @override
+  String get transportGroupBus => 'バス';
+
+  @override
+  String get transportGroupTaxi => 'タクシー';
+
+  @override
+  String get transportGroupRail => '鉄道';
+
+  @override
+  String get transportGroupWater => '船';
+
+  @override
+  String get transportGroupAir => '飛行機';
+
+  @override
+  String get transportGroupHighImpact => '高排出';
 }

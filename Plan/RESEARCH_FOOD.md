@@ -5,8 +5,11 @@
 **Status:** Assembled from the five research tracks and three
 adversarial check reports (math, quotes, coherence). All corrections
 from [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) applied;
-owner decisions D1-D3 (2026-07-18) applied. 37 items decided; open
-items tracked in section 9.
+owner decisions D1-D3 (2026-07-18) applied. 42 items decided (37 at
+the first pass; fish (wild-caught), plant-based meat and tea added
+2026-07-19 closing the PDR product calls; small oily fish and
+canned beans added 2026-07-20 closing the follow-up open items);
+open items tracked in section 9.
 **Feeds:** `data/app/food_items.json` (Phase 8.7, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 2)
 
@@ -179,9 +182,11 @@ Conventions:
   unavailable or retired; any fallback item must disclose its
   statistic in `calculation_notes` and the science sheet.
 - **Per item, record statistic AND losses basis** (PDR FR-15).
-  All 37 items below are mean-with-losses except where the
+  All 42 items below are mean-with-losses except where the
   chosen-values table says otherwise (butter, oats, beer,
-  bread/pasta -- each with its derivation documented).
+  bread/pasta, and the 2026-07 additions fish (wild-caught),
+  plant-based meat, tea, small oily fish and canned beans -- each
+  with its derivation documented).
 - **Weights are as-purchased raw / dry.** Cooking changes mass
   (rice 150 g raw -> ~330 g cooked, ~2.2x by weight); presets
   encode raw portions and the quantity editor must say so.
@@ -228,6 +233,8 @@ Conventions:
 | Chicken | 9.87 | mean w/ losses | High |
 | Prawns (farmed) | 26.87 | mean w/ losses | Medium-High |
 | Fish (farmed) | 13.63 | mean w/ losses | Medium-High |
+| Fish (wild-caught) | 9.50 | non-P&N, assembled (added 2026-07-19) | Medium |
+| Small oily fish (sardines, mackerel) | 5.5 | non-P&N, assembled (added 2026-07-20) | Medium-High |
 
 Anchor rows, verbatim from `ghg-per-kg-poore.csv` (accessed
 2026-07-18):
@@ -314,9 +321,138 @@ Fish (farmed):
 | 5.10 / 5.4 / 10.7 | Gephart salmon / trout / tilapia, narrower | seafood grapher |
 
 Both chosen at the P&N mean for scope consistency (one boundary
-across all 37 items). The P&N farmed prawn/fish categories are
-single coarse global averages with large spread -- Medium-High
-confidence, spread caveat required on the science sheet (sec 8).
+across all 37 first-pass items). The P&N farmed prawn/fish
+categories are single coarse global averages with large spread --
+Medium-High confidence, spread caveat required on the science
+sheet (sec 8).
+
+**Fish (wild-caught) -- added 2026-07-19 (PDR product call), not
+in P&N.** The per-kg grapher has no wild-fish row (re-verified
+2026-07-19: the only fish rows are the farmed two above), so
+tuna/wild eaters had a wrong-by-its-own-label proxy. Assembled
+butter-style from Gephart et al. 2021 wild-fishery data completed
+to the P&N cradle-to-retail boundary. Gephart boundary and unit,
+verbatim from the grapher metadata (accessed 2026-07-19,
+https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json):
+
+> "Includes on-farm and off-farm, but does not include
+> post-farmgate emissions. This means it does not include impacts
+> such as transport to retail, packaging, processing or cooking."
+> "Impacts are given in kilograms of carbon dioxide-equivalents
+> per kilogram of edible weight."
+
+Wild-capture rows, verbatim from `ghg-emissions-seafood.csv`
+(accessed 2026-07-19):
+
+> "Tuna (wild),2021,7.6290536"
+> ""Cod, haddock (wild)",2021,5.1250386"
+> ""Herring, sardines (wild)",2021,3.8779404"
+> ""Salmon, trout (wild)",2021,6.8813386"
+> "Jack fish (wild),2021,9.6651745"
+> ""Redfish, bass (wild)",2021,9.91465"
+> "Flounder (wild),2021,20.313314"
+
+Candidate table:
+
+| Value | Construction / boundary | Source |
+|------:|-------------------------|--------|
+| **9.05** | wild finfish mix: mean of the 6 species groups above excl. the flounder outlier (farm-gate 7.182) + P&N farmed-fish post-farmgate stages excl. losses (0.520) x losses uplift (17.5%, the P&N fish loss share) | Gephart 2021 + P&N supply-chain CSV |
+| **9.53** | canned tuna: Gephart tuna 7.629 + high-end canning energy 1.38 (Hospido et al. 2006 as quoted in the WWF report; excludes can material) + P&N packaging/transport/retail 0.520; no loss uplift (shelf-stable) | Gephart 2021 + Tan & Culaba 2009 + P&N |
+| 9.36 / 9.03 / 14.11 | CarbonCloud canned-tuna store-shelf values (benchmark Sweden / Thailand / one branded US product), values as of 2026-07-19, corroboration only | https://apps.carboncloud.com/climatehub/product-reports/id/153769684173, .../120259468117, .../1080864344791 |
+
+Chosen: **9.50** = mean(9.05, 9.53) = 9.29, rounded UP
+(honest-not-generous, butter precedent). ONE item covers wild fish
+AND canned tuna: the two constructions converge within 5%, so a
+tuna-can logger and a wild-sashimi logger are both served without
+either being misled. Confidence Medium (mixed boundaries: Gephart
+farm-gate edible weight completed with P&N stages). Key quotes
+(Tan & Culaba 2009, WWF-commissioned, live PDF accessed
+2026-07-19,
+https://wwfeu.awsassets.panda.org/downloads/estimating_the_carbon_footprint_of_tuna_fisheries_9may2009.pdf):
+
+> "Based on these assumptions, the partial carbon footprint is
+> estimated at 0.63 – 1.38 kg CO2 per kg of product, if all of the
+> energy consumption is allocated to the canned tuna."
+> "Note that these estimates exclude the footprint contributed by
+> the packaging material."
+> "this study estimates on carbon dioxide emissions, and does not
+> include the contributions of other greenhouse gases generated
+> within the supply chain."
+
+(Hospido & Tyedmers 2005 / Hospido et al. 2006 publisher pages
+returned HTTP 403 on 2026-07-19; their figures are cited
+second-hand via this live PDF only.) Parker et al. 2018, Nature
+Climate Change (https://www.nature.com/articles/s41558-018-0117-x,
+abstract, magnitude corroboration only), verbatim: "fisheries
+consumed 40 billion litres of fuel in 2011 and generated a total
+of 179 million tonnes of CO2-equivalent GHGs (4% of global food
+production)".
+
+Caveats for the science sheet: assembled value with mixed
+boundaries; the edible-weight basis coincides with as-purchased
+for fillets and drained cans but overstates whole fish
+(conservative direction); species spread is large (some
+trawl-caught flatfish ~double) -- sardines, mackerel and saury
+have their own item since 2026-07-20 (Small oily fish, 5.5,
+below); gear matters (longline ~3-6x purse seine per kg landed)
+and one factor cannot distinguish it.
+NEAR-TIE: 9.50 vs chicken 9.87 (3.9%) -- never-pin (section 6),
+and the sources disagree at this resolution (Gephart's own
+farm-gate chicken 8.335 sits ABOVE their tuna 7.629). Wild <
+farmed IS source-supported: wild fisheries burn fuel but carry no
+feed or land-use-change stages, the two largest farmed-fish
+components (8.06 farm + 1.83 feed + 1.19 LUC).
+
+**Small oily fish (sardines, mackerel) -- added 2026-07-20,
+closing the small-fish split flagged when fish (wild-caught)
+shipped.** JP-first justification: iwashi, saba and sanma are
+everyday fish and the tuna-centred fish_wild overstates them ~2x.
+Construction is arithmetically identical to fish_wild, anchored
+to Gephart's only small-pelagic row, verbatim from
+`ghg-emissions-seafood.csv` (accessed 2026-07-20):
+
+> ""Herring, sardines (wild)",2021,3.8779404"
+
+(Mackerel/saury are not broken out; the herring/sardine row is
+the best proxy and, per the fuel-use literature below, if
+anything conservative for saba.) Constructions:
+
+- Fresh: (3.8779404 + 0.52007027 post-farmgate) x 1.1747 losses
+  uplift = **5.17**.
+- Canned: 3.8779404 + 0.52007027 + 1.38 high-end canning
+  (Hospido et al. 2006 via the WWF PDF, quote in the fish_wild
+  block) = **5.78**; no loss uplift (shelf-stable).
+- Chosen: mean (5.17 + 5.78) / 2 = 5.47 -> **5.5** (rounded up).
+  Fresh and canned differ by only ~12%, so one item covers both.
+
+Confidence Medium-High: same recipe as the shipped fish_wild,
+single authoritative anchor row, and the ~half-of-tuna magnitude
+is independently corroborated by fuel-use data (purse-seined
+small pelagics are the most fuel-efficient fisheries) and by
+CarbonCloud canned tuna (~9.4, roughly double). Parker et al.
+2015 fuel-use summary (Univ. of Miami Shark Research,
+https://sharkresearch.earth.miami.edu/fuel-consumption-of-global-fishing-fleets/,
+accessed 2026-07-20; the Wiley original is paywalled, magnitude
+only), verbatim:
+
+> "Catches like the Peruvian Anchovy, Atlantic Mackerel, and
+> Australian Sardine are some of the most efficient fisheries"
+> "The use of purse seine gear or other surrounding nets average
+> an FUI of 71 liters per ton"
+> "Trawling for small pelagic fish has an FUI of 169 liters per
+> ton"
+
+Caveats: represents purse-seine fisheries (the dominant method;
+trawl-caught runs higher). Presets use the weights the factor
+applies to: mackerel can drained 140 g (Sokensha publishes
+190g/固形量140g -- closed 2026-07-20; the interim net-weight
+preset is retired) and whole sardine edible 32 g (80 g fish,
+refuse 60% per MEXT -- using whole weight would overstate 2.5x).
+NEAR-TIE: 5.5 vs eggs 4.67 (17.8%) -- never-pin; 5.5 sits just
+above the eggs / plant-based-meat cluster and copy must frame it
+as "the same low-impact neighbourhood", never a ranked step.
+Distinct from fish_wild (-42%): the "small fish are ~half" claim
+IS safe to make.
 
 ### 3.2 Dairy & eggs (verified 2026-07-18)
 
@@ -368,8 +504,10 @@ drift example that motivates the QA-6 rule.
 
 | Item | kg CO2e/kg | Statistic | Confidence |
 |------|-----------:|-----------|------------|
+| Plant-based meat | 4.5 | non-P&N, assembled (added 2026-07-19) | Medium-High (raised 2026-07-20) |
 | Tofu | 3.16 | mean w/ losses | High |
-| Beans / lentils | 1.79 | mean w/ losses ("Other Pulses") | Medium |
+| Beans / lentils | 1.79 | mean w/ losses ("Other Pulses"); dry basis | Medium |
+| Beans (canned) | 1.7 | non-P&N, assembled; DRAINED basis (added 2026-07-20) | Medium |
 | Peas | 0.98 | mean w/ losses | High |
 | Nuts | 0.43 | mean w/ losses (incl. LUC credit) | Medium |
 
@@ -401,6 +539,166 @@ Anchor rows, verbatim: `Tofu,2010,3.16`,
   (https://apps.carboncloud.com/climatehub/product-reports/id/224275434558)
   -- regional deforestation-free soy; corroborates the
   low-single-digit magnitude.
+
+**Plant-based meat -- added 2026-07-19 (PDR product call), not in
+P&N** (per-kg grapher re-inspected 2026-07-19: no meat-substitute
+row exists; the category postdates the study). Without it, the
+flagship burger-swap comparison flattered the swap 2-4x when users
+proxied with beans or tofu. Candidate table:
+
+| Value | Boundary | Commissioner | Source |
+|------:|----------|--------------|--------|
+| 3.4 | cradle-to-distribution (incl. retail transport; no losses) | Beyond Meat | Heller & Keoleian 2018, Univ. of Michigan CSS report CSS18-10 |
+| 3.5 (95% CI 3.1-4.0) | cradle-to-gate (no distribution/retail/losses) | Impossible Foods | Quantis 2019 |
+| ~0.98 | cradle-to-mfg gate, pre-packaging, hypothetical recipes | GFI (advocacy) | EarthShift Global 2024 -- EXCLUDED as a flattering low outlier |
+| 2.62 | cradle-to-shelf, autogenerated proxy data | independent DB | CarbonCloud, value as of 2026-07-19 |
+
+Chosen: **4.5** = mean(3.4, 3.5) = 3.45, times a conservative
+~1.3x uplift compensating the narrower-than-P&N boundaries (no
+retail for Quantis, no supply-chain losses for either -- a
+processed chilled/frozen product typically gains ~1.2-1.3x to a
+loss-inclusive retail boundary) and the commissioner-low bias:
+3.45 x 1.3 = 4.49, rounded UP to 4.5. Confidence Medium: the
+magnitude (single digits, an order below beef) is robust across
+5+ studies, but no independent P&N-boundary per-kg LCA exists and
+the per-kg anchors are commissioner-biased low.
+
+Key quotes (accessed 2026-07-19):
+
+- Heller & Keoleian 2018
+  (https://css.umich.edu/sites/default/files/publication/CSS18-10.pdf):
+  > "The GHGE associated with producing and delivering a ¼ pound
+  > Beyond Burger to retail are 0.384 kg CO2eq/quarter pound BB
+  > (or 3.4 kg CO2eq. /kg BB)."
+  > "Beyond Meat commissioned the Center for Sustainable Systems
+  > at University of Michigan to conduct a
+  > 'cradle-to-distribution' life cycle assessment of the Beyond
+  > Burger, a plant-based patty designed to look, cook and taste
+  > like fresh ground beef."
+- Quantis 2019
+  (https://assets.ctfassets.net/hhv516v5f7sj/4exF7Ex74UoYku640WSF3t/cc213b148ee80fa2d8062e430012ec56/Impossible_foods_comparative_LCA.pdf):
+  > "The functional unit for this study is cradle-to-gate
+  > assessment of 1 kg of Impossible Burger®, which will be
+  > benchmarked against 1 kg of boneless retail-ready U.S.
+  > conventional ground beef burger."
+  (Table 1: Impossible Burger GWP 3.5 kg CO2-eq, 95% CI 3.1-4.0,
+  vs beef burger 30.6.)
+- Independent peer-reviewed per-patty corroboration (both
+  cradle-to-grave INCLUDING cooking, so directional only, never
+  divisible to per-kg): Saget et al. 2021, Sustainable Production
+  and Consumption 28:936-952
+  (https://researchrepository.ul.ie/bitstreams/7edd3652-290b-4944-b878-cb3b2074a91d/download):
+  > "Plant-based patties have a smaller environmental footprint
+  > across most categories, including a 77% smaller climate change
+  > burden ... compared with Brazilian beef patties."
+  Tsakiridis et al. 2024, Sustainability 16(11):4417
+  (https://pure-oai.bham.ac.uk/ws/files/229139412/sustainability-16-04417.pdf):
+  > "The results demonstrated that the plant-based burger had
+  > significantly lower environmental impacts across several
+  > categories, including a 65% reduction in global warming
+  > potential."
+
+Fabrication guard: the widely restated "Bryant 2022 average 2.4
+kg CO2e/kg" could NOT be verified on any live page (only
+percentage reductions are quotable) and is not used anywhere.
+
+Consequences: 113 g plant patty = 0.51 kg CO2e vs beef patty
+11.24 kg (~22x lower) -- the honest correction roughly halves the
+over-flattering beans-proxy headline (56x). NEAR-TIES: 4.5 vs
+eggs 4.67 (3.8%) and vs rice 4.45 (1.1%) -- never-pin (section
+6). Science sheet must disclose category breadth (soy mince to
+formulated patties), the narrower source boundaries, and the
+uplift (section 8).
+
+**Independent corroboration added 2026-07-20 (closes the
+independent-LCA open item; confidence raised Medium ->
+Medium-High).** Detzel et al. 2021, "Life cycle assessment of
+animal-based foods and plant-based protein-rich alternatives", J.
+Sci. Food Agric., DOI 10.1002/jsfa.11417 -- authored at ifeu
+(Institut fuer Energie- und Umweltforschung, an independent
+non-profit), funded by EU Horizon 2020 Protein2Food, commissioned
+by no plant-meat brand or advocacy body. Open full text fetched
+via the IITA repository
+(https://biblio.iita.org/documents/S21ArtDetzelLifeInthomNodev.pdf-8c60b1ab6f64641c2b6e66577fb8da59.pdf,
+accessed 2026-07-20), verbatim:
+
+> "Comparisons that were conducted on a mass basis show values of
+> 235 g CO2 equivalents and 240 g CO2 equivalents for VMA
+> extrudates from lupin protein combined with amaranth or
+> buckwheat flour, respectively."
+> "The LCA was designed as a 'cradle-to-gate' LCA comprising all
+> the life cycle steps from biotic and abiotic raw material
+> sourcing up to the final food products at the factory gate."
+
+Independent per-kg cradle-to-gate values (own prototypes 2.35 /
+2.40; collated independent commercial replacers: soy meal 2.72,
+minced soy 3.90, wheat gluten 3.81, pea isolate 2.38 -- Detzel's
+"potato+soy 3.47" citation is the Quantis Impossible study
+restated and is NOT counted as independent). Re-derivation under
+this dataset's rules: independent mean (2.35 + 2.40 + 2.72 + 3.90
++ 3.81 + 2.38) / 6 = 3.26 cradle-to-gate, x 1.3 boundary uplift =
+4.24 -> rounds up to the shipped 4.5. KEY REVISION: the
+commissioned anchors (3.4 / 3.5) sit mid-range of the independent
+values, so the "commissioner-low bias" premise behind the uplift
+is retired -- the 1.3x is justified on boundary grounds alone
+(gate -> retail + supply-chain losses). Smetana et al. 2015 is
+independent but cradle-to-plate per cooked meal (no per-kg
+numbers, unusable); "Bryant 2022 = 2.4" re-checked 2026-07-20 and
+still unverifiable on any live page -- still not used.
+
+**Beans (canned) -- added 2026-07-20, closing the canned-beans
+open item.** The dry-basis 1.79 factor and a drained-can preset
+were physically inconsistent (canned beans are ~2.5x hydrated,
+plus canning energy and a steel can). A dry-equivalent preset
+alone fails the honesty check: the CarbonCloud US canned-bean
+model attributes processing 19% + packaging 42% = 61% of the
+footprint to the canning chain (~129 g CO2e per 130 g drained
+serving -- more than the ~93 g the dry content alone counts), and
+the packaging-dominance structure is peer-review-corroborated
+(Foods 13(5):655 via PMC10930983, accessed 2026-07-20, citing
+Tidaker et al., verbatim: "For canned pulses, the energy use
+associated with retorting was almost negligible compared to the
+energy expended in the production and subsequent management of
+packaging waste."). So a separate DRAINED-basis item ships.
+
+Hydration ratio (for the dry item's guidance note), triangulated:
+Bean Institute
+(https://beaninstitute.com/resources/cook-with-beans/dry-vs-canned/,
+verbatim: "One cup of dry beans" produces "3 cups cooked beans,
+drained" -> ~2.66x by weight via USDA cup weights); USDA FDC
+dry-matter method (water 11.0% raw vs 65.7% boiled black beans,
+FDC 173734 / 173735 live API -> 89.0 / 34.3 = 2.60x); USDA Food
+Buying Guide yields (~2.0-2.1x incl. service losses).
+Conservative 2.5x -> a drained 130 g half-can is ~52 g dry.
+
+Candidate table (per kg DRAINED):
+
+| Value | Construction | Source |
+|------:|--------------|--------|
+| **1.62** | CarbonCloud US canned plain beans 1.10 as-sold / 0.677 USDA-FBG drained fraction (10.5 oz / 15.5 oz can) | CarbonCloud + USDA FBG |
+| **1.71** | bottom-up: P&N Other Pulses 1.79 dry / 2.5 hydration = 0.716 content + canning-and-can share (61% x 1.10 / 0.677 = 0.99) | P&N + CarbonCloud model shares |
+| 0.8 | Tidaker et al. 2021, per kg cooked canned beans, Tetra Recart carton, Sweden -- peer-reviewed LOWER BOUND, not averaged (packaging format mismatch) | https://doi.org/10.1016/j.spc.2021.01.017 (abstract via the Semantic Scholar record), verbatim: "Emissions of greenhouse gases per kg cooked product ranged from 0.1 kg CO2e for Swedish pulses purchased dry to 0.8 kg CO2e for canned beans." |
+
+Chosen: **1.7** = mean(1.62, 1.71) = 1.665 rounded UP. CarbonCloud
+inputs (all accessed 2026-07-20, autogenerated proxy models):
+BLACK BEANS, Iberia Foods 1.10
+(https://apps.carboncloud.com/climatehub/product-reports/id/1067146899478,
+agriculture 29% / transport 10% / processing 19% / packaging 42%);
+DARK RED KIDNEY BEANS, Supervalu 1.10
+(https://apps.carboncloud.com/climatehub/product-reports/id/1195624044624);
+ORGANIC BLACK BEANS, Alanric 1.10
+(https://apps.carboncloud.com/climatehub/product-reports/id/945064833732).
+A branded "Bush's" cluster at 3.88 covers sugary baked beans and
+is excluded. Confidence Medium (proxy-model-dependent; the two
+constructions agree within 6%; peer-reviewed datum is a
+lower-bound carton format). Result: 130 g drained = 221 g CO2e vs
+233 g under the old inconsistent arithmetic (-5%) -- the old
+output was accidentally near-right on a wrong basis. NEVER
+compare beans_canned (1.7, drained) with beans_lentils (1.79,
+dry): different bases, and the numbers are a 5% apparent tie.
+Tidaker per-stage snippets ("packaging 0.14 / processing 0.02",
+"0.97 steel tin chickpeas") appeared only in search snippets,
+were never fetched verbatim, and are NOT used.
 
 ### 3.4 Staples (verified 2026-07-18)
 
@@ -507,14 +805,36 @@ sourcing, both live-verified:
   > tomatoes imported from long distances from warmer production
   > regions."
 
-The 2.09 factor was never affected (OWID-anchored). The specific
+The 2.09 factor was never affected (OWID-anchored). The old
 numeric range "field 0.1-0.5 vs heated greenhouse 0.4-10.1
-kg CO2e/kg" and the ">20x swing" phrasing remain **UNSOURCED**
-and must not appear in app copy until a verifiable source lands
-(open item, section 9). The real Payen, Basset-Mens & Perret
-tomato paper is "LCA of local and imported tomato: an energy and
-water trade-off", J. Cleaner Production 87:139-148 (2015) --
-located but paywalled, no quotable text (section 9).
+kg CO2e/kg" and the ">20x swing" phrasing are NOT reproduced by
+any verifiable source and stay banned from app copy. SOURCED
+replacement numbers (closed 2026-07-19): Clune, Crossin &
+Verghese 2017, accepted manuscript openly hosted by Lancaster
+University (CC BY-NC-ND,
+https://eprints.lancs.ac.uk/id/eprint/79432/; PDF
+https://eprints.lancs.ac.uk/id/eprint/79432/4/1_s2.0_S0959652616303584_main.pdf).
+Table 5 row transcriptions (median, mean, stdev, deviation, min,
+max, Q1, Q3, studies, values; single spaces):
+
+> "Tomatoes 0.45 0.46 0.18 39% 0.08 1.00 0.35 0.55 19 56"
+> "Tomatoes: passive greenhouse 0.51 0.67 0.34 51% 0.32 1.28 0.44 0.86 5 8"
+> "Tomatoes: heated greenhouse 2.20 2.69 1.36 51% 0.92 6.12 1.86 3.65 13 33"
+
+Supporting prose, verbatim from the same PDF:
+
+> "Greenhouse fruit and vegetables from heated greenhouses were
+> notably higher than fieldgrown equivalents, with a median of
+> 2.13 kg CO2-eq/kg. Passive greenhouses with no auxillary heating
+> had GWP figures comparable with the upper quartile of some field
+> grown fruit and vegetables (1.10 kg CO2-eq/kg)."
+
+App copy may now state: field-grown median 0.45 (range 0.08-1.00)
+vs heated-greenhouse median 2.20 (range 0.92-6.12) kg CO2e/kg --
+a ~5x median gap, consistent with the qualitative Theurl point
+above. The real Payen, Basset-Mens & Perret 2015 paper remains
+unreadable (Agritrop refused connections 2026-07-19; abstract
+publisher-elided) but is no longer needed.
 
 Meta-analysis corroboration: Clune et al. 2017
 (https://www.sciencedirect.com/science/article/abs/pii/S0959652616303584)
@@ -530,7 +850,7 @@ https://apps.carboncloud.com/climatehub/product-reports/id/89051480645).
 |------|-----------:|---------------|------------|
 | Bananas | 0.86 | Bananas | High |
 | Apples | 0.43 | Apples | High |
-| Citrus | 0.39 | Citrus Fruit | Medium-High |
+| Citrus | 0.39 | Citrus Fruit | High (raised 2026-07-19) |
 | Berries | 1.53 | Berries & Grapes | Medium |
 
 Anchor rows, verbatim: `Bananas,2010,0.86`, `Apples,2010,0.43`,
@@ -568,15 +888,33 @@ Key sources (accessed 2026-07-18):
 Caveats: the OWID "Berries & Grapes" category is a
 berries-plus-grapes BLEND -- pure soft berries air-freighted out
 of season sit well above 1.53, table grapes below; science sheet
-must say "includes grapes" (section 8). Citrus has no
-verbatim-verified independent source (order-of-magnitude
-corroboration only -- open item, section 9).
+must say "includes grapes" (section 8). Citrus corroboration
+CLOSED 2026-07-19 (was order-of-magnitude only) with two
+independent live-quotable sources; confidence raised to High:
+
+- Bell & Horvath 2020, Environ. Res. Lett. 15 034040 (open
+  access,
+  https://iopscience.iop.org/article/10.1088/1748-9326/ab6c2f),
+  verbatim:
+  > "Unique life-cycle production footprints for five of the
+  > seven regions were calculated, ranging from 0.20 kgCO2e/kg
+  > (California, Texas) to 0.33 kgCO2e/kg (South Africa)."
+  > "the cradle-to-market carbon footprint of oranges delivered
+  > to US cities can vary by more than a factor of two, depending
+  > on the production origin (e.g. 0.3 kgCO2e/kg for Californian
+  > oranges delivered to New York City versus 0.7 kgCO2e/kg for
+  > Mexican oranges delivered to New York City)."
+- Clune et al. 2017, Table 5 (Lancaster OA copy, URLs in 3.5),
+  row transcription: "Orange 0.33 0.35 0.12 34% 0.18 0.59 0.25
+  0.45 9 20" -- median 0.33, range 0.18-0.59 (9 studies, 20
+  values), bracketing the shipped 0.39.
 
 ### 3.7 Drinks (verified 2026-07-18)
 
 | Item | kg CO2e/kg (= /L) | Statistic / basis | Confidence |
 |------|------------------:|-------------------|------------|
 | Coffee (dry grounds) | 28.53 | mean w/ losses, per kg roasted | High (anchor); per-cup Medium |
+| Tea (dry leaves) | 9.0 | non-P&N, assembled (added 2026-07-19) | Medium |
 | Beer | 1.2 | P&N mean, per-alcohol-unit derived (D2) | Medium |
 | Wine | 1.79 | mean w/ losses | High |
 | Soy milk | 0.98 | mean w/ losses | High |
@@ -684,6 +1022,134 @@ alcohol)."
   Oat milk 0.22 kg / soy milk 0.25 kg per 250 ml glass
   (https://co2everything.com/co2e-of/oat-milk, /co2e-of/soy-milk).
 
+**Tea -- added 2026-07-19 (PDR product call), not in P&N** (per-kg
+grapher re-inspected 2026-07-19: 37 entities, no Tea row). Coffee
+without tea in a JP-first app meant a 5-10x per-cup overstatement
+for anyone proxying. The factor is per kg of DRY LEAVES,
+cradle-to-retail, with the water-boiling stage stripped from every
+candidate (home preparation energy is excluded for every item in
+this dataset).
+
+Candidate table (leaves-only kg CO2e/kg dry):
+
+| Value | Source (origin) | In mean? |
+|------:|-----------------|----------|
+| 8.70 | Doublet & Jungbluth 2010 (Darjeeling; mean of 4 retail scenarios, boiling 33.0 g/cup removed, FU 1.75 g/cup) | Yes |
+| 8.90 | Cichorowski et al. 2015 (Darjeeling; base case via Xu 2019 Fig. 6, 17.8 g per 2 g cup) | Yes |
+| 12.42 | Xu et al. 2019 (5 Chinese organic teas: 19.2 / 19.9 green, 11.9 black, 6.6 oolong, 4.5 export) | Yes |
+| 6.13 | Premalatha et al. 2024 (S. India; Table 4 cultivation + processing + packaging + transport) | Yes |
+| ~2.00 | Azapagic et al. 2016 (Kenya; paywalled -- figures via Xu 2019 Fig. 6 and Premalatha 2024, wood-fuelled CTC at exceptional yields) | Sensitivity only |
+| ~21.6 | Munasinghe et al. 2017 (Sri Lanka; packaging-dominated outlier, secondary) | Sensitivity only |
+| 3.33 / 4.34 | CarbonCloud Kenya product / Europe farm benchmark, values as of 2026-07-19 (https://apps.carboncloud.com/climatehub/product-reports/id/49306062174; .../agricultural-reports/benchmarks/b417814e-f264-4fc4-bce4-05e5333ffef6) | Corroboration only |
+
+Chosen: **9.0** = (8.70 + 8.90 + 12.42 + 6.13) / 4 = 9.04. The
+all-candidate mean including Kenya is 7.63; 9.0 (the JP-relevant
+subset mean) sits 18% ABOVE it -- the conservative direction,
+justified because Japan drinks mostly domestic green tea and
+Japanese cultivation tops the global N-fertilizer intensity range.
+Premalatha et al., verbatim: "Nitrogen fertilizers, used
+extensively, are a primary driver, with application rates
+exceeding 800 kg N/ha/yr globally and reaching 2000 kg N/ha/yr in
+Japan (29, 30)." Confidence Medium. No land-use-change term (none
+of the candidate LCAs model LUC, unlike P&N coffee).
+
+Key quotes (accessed 2026-07-19):
+
+- Doublet & Jungbluth 2010, LCA of drinking Darjeeling tea
+  (ESU-services, full PDF,
+  https://esu-services.ch/fileadmin/download/doublet-2010-LCA-Darjeeling-tea-1.0.pdf):
+  > "the processing of the fresh tea leaves amounts to 13-15% of
+  > the total carbon footprint and the boiling of water in an
+  > electric kettle at home causes 64-73% of the total carbon
+  > footprint."
+  > "The GWP of a cup of tea is around 48 g CO2-eq whereas it
+  > reaches 114 g CO2-eq per cup of coffee."
+  > "In conclusion, the assumption of using the coffee life cycle
+  > for tea for the environmental product information wasn't
+  > appropriate and led to a slight overestimation of the
+  > environmental impacts."
+- Cichorowski et al. 2015, Int. J. LCA 20:426-439
+  (https://link.springer.com/article/10.1007/s11367-014-0840-0):
+  > "The cradle-to-gate PCF of 1 kg Darjeeling tea is between 7.1
+  > and 25.3 kg CO2e"
+  > "The largest share, 51 %, makes up the use phase, which is
+  > clearly dominated by the boiling of water."
+- Xu et al. 2019, J. Cleaner Production 233:782-792 (full PDF via
+  the China Agricultural University mirror,
+  https://clst.cau.edu.cn/module/download/downfile.jsp?classid=0&filename=e528392575be4ac0b98b18aa71148c75.pdf;
+  publisher record https://doi.org/10.1016/j.jclepro.2019.06.136):
+  > "The carbon footprint of the two domestic green teas,
+  > Wuyangchunyu and Longjing, were highest with 19.2 and 19.9 kg
+  > CO2 eq. kg-1 dry tea. The only black tea Wuyangkungfu had a
+  > carbon footprint of 11.9 kg CO2 eq. kg-1 dry tea, whereas the
+  > oolong tea Jinkengoolong had a carbon footprint of 6.6 kg CO2
+  > eq. kg-1 dry tea. The export teabag tea, Green tablets, had a
+  > footprint of 4.5 kg CO2 eq. kg-1 dry tea."
+- Premalatha et al. 2024, Plant Science Today 11(sp4):01-09
+  (https://horizonepublishing.com/journals/index.php/PST/article/download/5374/4828/37914):
+  > "The findings revealed that the consumption stage contributed
+  > the highest CO2 emissions, accounting for 45%-56% to overall
+  > CF."
+- Boiling-dominance context (Circular Ecology,
+  https://circularecology.com/news/the-carbon-footprint-of-a-cup-of-tea):
+  > "The total footprint is 31.5 kg CO2e per kg of tea"
+  (base case INCLUDING consumption -- vs the leaves-only 9.0; the
+  science sheet must state the exclusion prominently.)
+
+Dropped sources: co2everything tea page returned HTTP 404
+(2026-07-19); Berners-Lee cup figures are not verifiable on a
+live page.
+
+Per-cup arithmetic: 2 g tea bag x 9.0 = 18 g CO2e (~6% of
+coffee's 285 g cup -- the proxy overstatement was ~16x); 3 g
+loose leaf = 27 g. One item covers green and black tea (study
+ranges overlap almost completely: black 6.4-11.9, green
+4.5-19.9); matcha is OUT of scope (whole-leaf powder, shaded
+cultivation -- research separately if demanded). Milk in tea is
+logged as dairy, not part of this factor. Tea inherits the coffee
+UI rule: preset-only entry, per-kg sublabel (section 8).
+NEAR-TIES: tea 9.0 vs chicken 9.87 and vs fish (wild-caught) 9.50
+-- never-pin (section 6).
+
+**Japanese sencha LCA verified 2026-07-20 (closes the open
+item; 9.0 holds).** Masuda & Tomioka 2011, "Evaluation of
+Greenhouse Gas Emissions from Tea Cultivation Systems Using the
+Life Cycle Assessment Method", Journal of Farm Management
+(農業経営研究) 49(3):97-102, DOI 10.11300/fmsj.49.3_97 -- Shiga
+Prefecture, Yabukita cultivar (the dominant sencha cultivar);
+free access on J-STAGE
+(https://www.jstage.jst.go.jp/article/fmsj/49/3/49_97/_article/-char/ja/;
+note the article id is `49_97` -- the `49_3_97` form the DOI page
+implies returns HTTP 500). Verbatim (JA):
+
+> 「荒茶収量 1kg 当たり温室効果ガス排出量は，平坦地体系
+> 6.28kgCO2eq/kg，山間地体系 8.51kgCO2eq/kg であり，平坦地体系の
+> 方が少なかった。」
+
+("GHG emissions per 1 kg of aracha yield were 6.28 kgCO2eq/kg for
+the flat-land system and 8.51 kgCO2eq/kg for the mountainous
+system.") Aracha (荒茶, dried crude tea) is already a per-kg-dry
+functional unit -- no dose conversion needed. Boundary:
+cradle-to-processing-gate incl. tea-processing energy and
+shipping materials, boiling excluded (slightly narrower than
+to-retail; extending it would nudge the value UP toward 9.0).
+Corroborated by MAFF's 2021 tea report, which reproduces the same
+6.28 / 8.51 figures as its case study 3
+(https://www.maff.go.jp/j/kanbo/kankyo/seisaku/s_kanri/pdf/dai1bu.pdf).
+Fertilizer-driven N2O is the largest single contributor
+(36.4-37.7%) -- the high-N hypothesis is confirmed at source
+level, yet the Japanese total (mean ~7.4) lands mid-range, just
+BELOW the four-study mean. Recomputed five-study mean: (8.70 +
+8.90 + 12.42 + 6.13 + 7.40) / 5 = 8.71; flat-only / mtn-only
+sensitivities span 8.49-8.93 -- all round to 9. The factor stays
+9.0 (the four-study mean, conservative side of the five-study
+recomputation); Masuda & Tomioka ships in `sources[]` as the JP
+anchor. Also documented: SuMPO/METI CFP certified green-tea pages
+no longer serve numeric values; ITO EN publishes per-bottle
+beverage footprints only (wrong functional unit); MAFF's producer
+interviews state Japanese makers do not maintain per-lifecycle
+leaf-tea CFP data -- explaining the scarcity.
+
 ### 3.8 Treats (verified 2026-07-18)
 
 | Item | kg CO2e/kg | Statistic | Confidence |
@@ -781,8 +1247,29 @@ renders subscripts as "CO 2eq t -1"):
 > and used mass allocation in order to allocate GHG emissions,
 > they calculated a CF for refined palm oil of 2.2 t CO2eq t"
 (= ~2.2 kg/kg production excl. most LUC; OWID's 7.32 adds LUC and
-the retail chain.) Olive oil's ~2.4 production-only figure is
-directional only (paywalled -- open item, section 9).
+the retail chain.) Olive-oil production-only corroboration CLOSED
+2026-07-19: Ruiz-Carrasco et al. 2023, "Life Cycle Assessment of
+Olive Oil Production in Turkey", Agriculture 13(6):1192 (Gold OA
+CC BY, https://doi.org/10.3390/agriculture13061192; abstract
+verbatim via the Semantic Scholar record for the DOI -- MDPI
+blocked automated fetch):
+
+> "In the climate change category, analysis results gave a value
+> of 3.04 kg of CO2 equivalent for 1 kg of unpackaged virgin
+> olive oil. The phase that contributes the most in all impact
+> categories is the farming phase (2.53 kg of CO2 equivalent),
+> whereas the most impactful activities are fertilization and
+> irrigation (69.5% of impact in this stage)."
+
+Plus two live CarbonCloud pages (values as of 2026-07-19,
+corroboration only): "Olive oil" UK 1.77
+(https://apps.carboncloud.com/climatehub/product-reports/id/177975059702,
+agriculture 79% of total) and "Olive oil, origin: ESP" 1.74
+(https://apps.carboncloud.com/climatehub/product-reports/id/177559379541)
+-- both drifted down from the 1.92/1.89 seen in search-index
+snapshots, reconfirming the QA-6 re-read rule. The methodology
+note's "palm ~2.2 vs olive ~2.4 are close on a production-only
+basis" now rests on a sourced ~1.7-3.0 production-phase band.
 
 ---
 
@@ -804,6 +1291,8 @@ carries per-item `sources[]` built from those.
 | chicken | Chicken | 9.87 | P&N mean w/ losses ("Poultry Meat") | High |
 | prawns_farmed | Prawns (farmed) | 26.87 | P&N mean w/ losses (supply CSV row "Shrimps (farmed)") | Medium-High |
 | fish_farmed | Fish (farmed) | 13.63 | P&N mean w/ losses | High -> Medium-High (coarse category) |
+| fish_wild | Fish (wild-caught) | 9.50 | non-P&N; Gephart 2021 wild fisheries completed with P&N post-farmgate stages; mean of wild-mix 9.05 and canned-tuna 9.53, rounded up (added 2026-07-19) | Medium |
+| small_fish | Small oily fish (sardines, mackerel) | 5.5 | non-P&N; Gephart herring/sardines row completed as fish_wild; mean of fresh 5.17 and canned 5.78, rounded up (added 2026-07-20) | Medium-High |
 | cheese | Cheese | 23.88 | P&N mean w/ losses | High |
 | butter | Butter | 12.0 | non-P&N; mean of 3 independent dairy LCAs (11.42 -> 12.0 up) | Medium |
 | eggs | Eggs | 4.67 | P&N mean w/ losses | High |
@@ -812,6 +1301,8 @@ carries per-item `sources[]` built from those.
 | beans_lentils | Beans / lentils | 1.79 | P&N mean w/ losses ("Other Pulses"); dry basis | Medium |
 | peas | Peas | 0.98 | P&N mean w/ losses | High |
 | nuts | Nuts | 0.43 | P&N mean w/ losses (incl. orchard LUC credit -3.26) | Medium |
+| plant_based_meat | Plant-based meat | 4.5 | non-P&N; mean of Beyond 3.4 and Impossible 3.5 LCAs x ~1.3 boundary uplift, rounded up (added 2026-07-19; independent ifeu corroboration 2026-07-20 reproduces ~4.5) | Medium-High (raised 2026-07-20) |
+| beans_canned | Beans (canned) | 1.7 | non-P&N; DRAINED basis; mean of CarbonCloud/USDA-FBG 1.62 and P&N bottom-up 1.71, rounded up (added 2026-07-20) | Medium |
 | rice | Rice | 4.45 | P&N mean w/ losses; dry basis | High |
 | bread_wheat | Bread (wheat) | 1.57 | derived: P&N "Wheat & Rye" mean w/ losses | Medium |
 | pasta | Pasta | 1.57 | derived: P&N "Wheat & Rye" mean w/ losses; dry basis | Medium |
@@ -823,13 +1314,14 @@ carries per-item `sources[]` built from those.
 | onions_leeks | Onions & leeks | 0.50 | P&N mean w/ losses ("Onions & Leeks") | High |
 | bananas | Bananas | 0.86 | P&N mean w/ losses; edible (peeled) preset basis | High |
 | apples | Apples | 0.43 | P&N mean w/ losses | High |
-| citrus | Citrus | 0.39 | P&N mean w/ losses ("Citrus Fruit") | Medium-High |
+| citrus | Citrus | 0.39 | P&N mean w/ losses ("Citrus Fruit") | High (raised 2026-07-19) |
 | berries | Berries | 1.53 | P&N mean w/ losses ("Berries & Grapes" blend) | Medium |
 | dark_chocolate | Dark chocolate | 46.65 | P&N mean w/ losses (D1; median 18.7 = fallback provenance only) | Medium |
 | cane_sugar | Cane sugar | 3.20 | P&N mean w/ losses | Medium-High |
 | olive_oil | Olive oil | 5.42 | P&N mean w/ losses (supply-chain sum; net-negative LUC) | Medium |
 | palm_oil | Palm oil | 7.32 | P&N mean w/ losses (supply-chain sum; LUC 38%) | Medium |
 | coffee | Coffee (dry grounds) | 28.53 | P&N mean w/ losses, per kg roasted; per-cup preset is the entry path | High (anchor) / Medium (per cup) |
+| tea | Tea (green or black) | 9.0 | non-P&N; mean of 4 boiling-stripped tea LCAs (8.70 / 8.90 / 12.42 / 6.13), per kg dry leaves (added 2026-07-19; JP sencha LCA verified 2026-07-20 at 6.28-8.51, consistent) | Medium |
 | beer | Beer | 1.2 | D2: P&N mean, per-alcohol-unit derived to per L | Medium |
 | wine | Wine | 1.79 | P&N mean w/ losses; per L = per kg | High |
 | soy_milk | Soy milk | 0.98 | P&N mean w/ losses; per L = per kg | High |
@@ -869,9 +1361,14 @@ agent.
 | Prawns (farmed) | small portion | 85 | USDA/FDA 3 oz serving equivalent |
 | Fish (farmed) | 1 fillet | 110 | FDA RACC uncooked |
 | Fish (farmed) | 1 salmon fillet (large) | 198 | USDA FDC 175167 "1/2 fillet (198g)" |
+| Fish (wild-caught) | 1 small tuna can | 70 | Hagoromo Sea Chicken L Flake net content 70 g (JP standard can), quote below |
+| Fish (wild-caught) | 1 fillet | 110 | FDA RACC uncooked fish (canned-fish RACC is 85 g; USDA FDC 171986 lists 3 oz = 85 g, 1 can = 165 g as US alternates) |
+| Small oily fish | 1 mackerel can (drained) | 140 | Sokensha さば水煮 "190g（固形量140g）", quote below (closed 2026-07-20; replaces the net-weight interim) |
+| Small oily fish | 1 sardine can (drained) | 92 | USDA FDC 175139 "1 can (3.75 oz) = 92 g" drained solids; FDA canned-fish RACC 85 g is the US-serving alternate |
+| Small oily fish | 1 sardine (edible portion) | 32 | Slism "マイワシ 1尾 80gの可食部 32g"; MEXT food composition DB まいわし/生 refuse rate 60% corroborates (closed 2026-07-20) |
 | Cheese | 1 slice | 22 | typical pre-sliced cheddar slice |
 | Cheese | 1 portion (1 oz) | 30 | FDA RACC "Cheese, all others" 30 g |
-| Butter | 1 tbsp | 14 | RACC gives volume (1 tbsp / 15 mL); density 0.911 x 15 = 13.665 g; USDA lists 14.2 g -- derived, Medium confidence, derivation stays in calculation_notes |
+| Butter | 1 tbsp | 14.2 | USDA FDC 173410 direct portion, quote below (closed 2026-07-19; replaces the earlier density derivation) |
 | Butter | 1 pat | 5 | standard restaurant pat (USDA ~5 g) |
 | Eggs | 1 large egg | 50 | FDA RACC "Eggs (all sizes) 50 g", label "1 large" |
 | Milk | 1 glass | 200 | common 200 ml glass |
@@ -879,9 +1376,12 @@ agent.
 | Tofu | 1 serving (3 oz) | 85 | FDA RACC "Tofu, tempeh 85 g" |
 | Tofu | 1/2 block | 175 | half a typical ~350 g retail block |
 | Beans/lentils | 1 serving (dry) | 35 | FDA RACC "35 g dry" -- physically consistent with the dry-basis factor |
-| Beans/lentils | 1/2 can (drained) | 130 | FDA RACC "130 g ... canned in liquid" (canned factor = open item) |
+| Beans (canned) | 1 serving (drained) | 130 | FDA RACC "130 g ... canned in liquid" (drained-basis item added 2026-07-20; the old half-can preset on the dry item is retired) |
+| Beans (canned) | 1/2 can (drained) | 150 | USDA Food Buying Guide "1 No. 300 can = about 10.5 oz (1-3/8 cups) heated, drained beans" -> 298 g/can, half rounded up |
+| Beans (canned) | 1 can (drained) | 300 | same USDA FBG yield, 298 g rounded up |
 | Peas | 1 serving | 85 | FDA RACC vegetables "85 g fresh or frozen" |
 | Nuts | 1 handful (1 oz) | 30 | FDA RACC "Nuts, seeds ... 30 g" |
+| Plant-based meat | 1 quarter-pound patty | 113 | definitional 4 oz = 113.4 g; matches the beef patty preset so the burger swap is like for like; the flagship LCAs use the same functional unit ("¼ pound Beyond Burger") |
 | Rice | 1 rice-cooker cup (dry) | 150 | Just One Cookbook, quote below (JP primary market) |
 | Rice | 1 serving (dry) | 45 | FDA RACC "Grains ... 140 g prepared; 45 g dry" |
 | Bread (wheat) | 1 slice | 50 | FDA RACC row quoted below (QA-5 exact name) |
@@ -915,6 +1415,8 @@ agent.
 | Olive oil | 1 tsp | 4.5 | USDA FDC 171413 "1 tsp = 4.5 g" |
 | Palm oil | 1 tbsp | 13.6 | USDA FDC 171015 "1 tbsp = 13.6 g" -- direct FDC portion (QA-8; replaces the earlier density derivation) |
 | Coffee | 1 cup (grounds) | 10 | SCA Golden Cup ratio, quote below; standard-mug midpoint (filter ~7-11 g, espresso ~18 g, P&N unit 15 g) |
+| Tea | 1 tea bag | 2 | most common bag weight + ISO 3103's 2 g per 100 ml, quotes below |
+| Tea | 1 cup, loose leaf | 3 | ITO EN sencha/gyokuro guidance (2-3 g per serving), quote below; conservative upper of the JP range |
 | Beer | 1 can (EU) | 330 | Wikipedia Drink can, quotes below |
 | Beer | 1 can (JP / US) | 350 / 355 | JP most common 350 ml; US 12 oz = 355 ml |
 | Beer | 1 pint (US) | 473 | US pint (UK pint = 568 ml -- note if targeting UK) |
@@ -981,6 +1483,64 @@ Preset source quotes, verbatim (accessed 2026-07-18):
   -> factor 1/(1 - 0.36) = 1.5625 (~1.56; FR-16 -- an earlier
   draft wrote ~1.55).
 
+Preset quotes added 2026-07-19 (all accessed 2026-07-19):
+
+- JP tuna can (Hagoromo Foods, Sea Chicken L Flake product page,
+  https://www.hagoromofoods.co.jp/products/detail/265.html):
+  net content (内容量) "70g" -- the standard JP single-can size
+  from Japan's dominant canned-tuna brand.
+- Butter tbsp (USDA FDC 173410, Butter, salted, SR Legacy; live
+  API
+  https://api.nal.usda.gov/fdc/v1/food/173410?api_key=DEMO_KEY),
+  verbatim foodPortions JSON:
+  > {"amount": 1.0, "modifier": "tbsp", "gramWeight": 14.2, "sequenceNumber": 2}
+  (The same record lists pat 5.0 g -- confirming the pat preset --
+  cup 227 g, stick 113 g.)
+- Tea bag weight (Chen Sheng Hao,
+  https://cspuerh.com/blogs/tea-101/how-much-tea-is-in-a-tea-bag):
+  > "A single tea bag usually contains between 1.5 to 3 grams of
+  > tea, with 2 grams being the most common weight."
+  ISO 3103 (via Wikipedia,
+  https://en.wikipedia.org/wiki/ISO_3103):
+  > "2 grams of tea (measured to ±2% accuracy) per 100 ml boiling
+  > water is placed into the pot."
+- JP loose-leaf serving (ITO EN Global,
+  https://www.itoen-global.com/allabout_greentea/how_to_prepare/):
+  preparation table lists sencha "4.0g" per 2 servings (2 g per
+  cup) and gyokuro "6.0g" per 2 servings (3 g). 3 g is the
+  conservative upper of the 2-3 g range; JP practice re-steeps
+  the same leaves, so per cup drunk this over- rather than
+  under-counts.
+
+Preset quotes added 2026-07-20 (accessed 2026-07-20):
+
+- JP saba can drained weight (Sokensha 創健社 さば水煮,
+  https://sokensha.co.jp/products/product_detail/121407):
+  product name verbatim "創健社 さば水煮 190g（固形量140g）" --
+  the standard 190 g can with a published drained weight
+  (固形量) of 140 g. (The Maruha Nichiro / Umios page for the
+  same format, JAN 4901901145714, publishes 内容量 "190g" only;
+  it remains the net-content citation.)
+- Whole sardine edible portion (Slism nutrition DB,
+  https://calorie.slism.jp/110047/):
+  > "マイワシ 1尾 80gの可食部 32g"
+  Corroborated by the MEXT Standard Tables of Food Composition
+  entry まいわし/生
+  (https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=10_10047_7):
+  refuse rate (廃棄率) "60%" -- 80 g x 0.4 = 32 g edible. The
+  factor's basis is edible weight (Gephart), so the preset uses
+  the 32 g edible portion, not the whole-fish weight.
+- US sardine can (USDA FDC 175139, "Fish, sardine, Atlantic,
+  canned in oil, drained solids with bone"): portion "1.0 can
+  (3.75 oz) = 92.0 g".
+- Canned beans drained yield (USDA Food Buying Guide, Section 1
+  yield table,
+  https://foodbuyingguide.fns.usda.gov/files/Reports/USDA_FBG_Section1_MeatsAndMeatAlternatesYieldTable.pdf):
+  > "1 No. 300 can = about 10.5 oz (1-3/8 cups) heated, drained
+  > beans"
+  (10.5 oz = 298 g drained per can; also gives the 0.677 drained
+  fraction used in the beans_canned factor.)
+
 ---
 
 ## 6. Sanity Invariants (for the test suite)
@@ -1021,6 +1581,22 @@ it.
 10. **Coffee per-cup guardrail** (pins the 100x-error protection,
     not an ordering): `coffee 10 g preset result < 0.5 kg CO2e`
     (actual 0.2853 kg).
+11. `fish_farmed > fish_wild > small_fish` (13.63 > 9.50 > 5.5;
+    +43% / +73%) -- direction source-supported (wild fisheries
+    carry no feed or LUC stages; small pelagics are the most
+    fuel-efficient fisheries).
+12. `tofu < plant_based_meat < chicken` (3.16 < 4.5 < 9.87;
+    margins +42% / +119%).
+13. `tea < coffee` per kg (9.0 < 28.53, +217%); **tea per-cup
+    guardrail**: every tea preset result < 0.05 kg CO2e (actual
+    18 / 27 g).
+14. **Assembled-value pins** (RV-1 pattern): fish_wild 9.5,
+    plant_based_meat 4.5, tea 9.0, small_fish 5.5 and
+    beans_canned 1.7 ship exactly -- none is reachable by the
+    ordering pins above, so a silent revert to a
+    narrower-boundary source value (Gephart 7.63 or 3.88, Heller
+    & Keoleian 3.4, Kenya tea 2.0, Tidaker 0.8) would otherwise
+    pass the suite.
 
 ### Never pin / never generate superlative copy
 
@@ -1056,6 +1632,21 @@ file; the copy engine must not emit "X beats Y" for any of them
   credit (~3.7 without it).
 - **brassicas vs onions & leeks vs potatoes vs root veg** (0.51 /
   0.50 / 0.46 / 0.43) -- all display as ~0.5 after rounding.
+- **fish_wild vs chicken** (9.50 vs 9.87, 3.9%) -- and the sources
+  disagree at this resolution (Gephart's farm-gate chicken 8.335
+  sits ABOVE their tuna 7.629).
+- **plant_based_meat vs eggs** (4.5 vs 4.67, 3.8%) **and vs rice**
+  (4.5 vs 4.45, 1.1%) -- statistical ties.
+- **tea vs chicken / fish_wild** (9.0 vs 9.87 / 9.50, <10%) --
+  per-kg dry-leaf ties, and per-kg tea copy misleads anyway (tea
+  is consumed 2-3 g at a time; coffee rule applies).
+- **small_fish vs eggs** (5.5 vs 4.67, 17.8%) -- and vs
+  plant_based_meat (5.5 vs 4.5, 22%, adjacent): frame as one
+  low-impact neighbourhood, never a ranked step.
+- **beans_canned vs beans_lentils** (1.7 drained vs 1.79 dry) --
+  DIFFERENT BASES; comparing them per kg is meaningless and the
+  numbers read as a 5% tie. Copy compares per serving or not at
+  all.
 
 ---
 
@@ -1067,25 +1658,37 @@ for one swap in the app):
 
 | Action | Shipped | Means-implied | Verdict |
 |--------|--------:|---------------|---------|
-| `meatless_meal_beef` (per 100 g) | 6000 g | 9948 - 200 = 9748 -> **~9700 g** | NEEDS CORRECTION (shipped is 39% low; it encodes the median 60) |
-| `meatless_meal_chicken` (per 100 g) | 600 g | 987 - 100 = 887 -> **~890 g** | NEEDS CORRECTION (current 6.9 kg/kg is a PMC-range midpoint matching neither statistic) |
-| `meatless_meal_pork` (per 100 g) | 700 g | 1231 - 100 = 1131 -> **~1100 g** | NEEDS CORRECTION (current 7.6 kg/kg matches neither statistic) |
-| `plant_milk_vs_dairy` (per 250 ml) | 460 g | delta (3.15 - 0.903) x 0.25 = 562 g | NO co2_grams change -- 460 g stays honestly conservative. Align the note's "3.2 kg/L" to **3.15** so the app never shows two dairy-milk numbers |
+| `meatless_meal_beef` (per 100 g) | 6000 g | 9948 - 200 = 9748 -> **9700 g** | CORRECTED (the old value encoded the median 60) |
+| `meatless_meal_chicken` (per 100 g) | 600 g | 987 - 200 = 787 -> **780 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 880 g against a 100 g peas baseline) | CORRECTED |
+| `meatless_meal_pork` (per 100 g) | 700 g | 1231 - 200 = 1031 -> **1000 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 1100 g) | CORRECTED |
+| `plant_milk_vs_dairy` (per 250 ml) | 460 g | delta (3.15 - 0.903) x 0.25 = 562 g | NO co2_grams change -- 460 g stays honestly conservative; note aligned to 3.15 |
 
-Additional required fixes while correcting:
+Additional fixes (all closed):
 
-- **Standardize the plant-alternative baselines.** The beef
-  action's note assumes ~200 g CO2e per 100 g plant alternative;
-  chicken/pork assume ~100 g. Those are themselves inconsistent
-  (beans/lentils 1.79 kg/kg implies ~180 g; peas 0.98 implies
-  ~100 g). Pick one documented baseline (per swap ingredient) and
-  apply it to all three actions.
-- **Swap the beef action's stale quote.** Its current 60 kg/kg
-  rests on OWID article prose that is legacy median text inside a
-  page whose embedded chart serves 99.48; under means the action's
-  `sources[].quote` must move to the mean citation (section 3.1).
-- The action notes must record statistic + losses basis, matching
-  this document's convention (FR-15).
+- [x] **Standardize the plant-alternative baselines** (closed
+  2026-07-20). Every meatless action now deducts the SAME
+  documented baseline: 200 g CO2e per 100 g serving
+  (beans/lentils, OWID "Other Pulses" mean 1.79 kg/kg = 179 g,
+  rounded up to 200 g -- rounding the baseline up rounds the
+  saving down). Savings round DOWN to two significant figures:
+  beef 9748 -> 9700 (unchanged), chicken 787 -> 780 (was 880),
+  pork 1031 -> 1000 (was 1100). Database metadata bumped to
+  v1.2; `food_action_consistency_test.dart` asserts the single
+  baseline. Seeder impact: `skip_high_impact_food` (9700 g)
+  unchanged; `skip_medium_impact_food` (1000 g) now matches the
+  pork case exactly and stays inside the chicken-to-farmed-fish
+  band (780-1163) -- BUT wild fish (~750 g implied) and small
+  oily fish (~350 g) now sit below it; whether that action
+  should split or lower is an owner points-economy call
+  (flagged in the seeder comment and the PDR).
+- [x] **Swap the beef action's stale quote** -- verified shipped:
+  the beef action's `sources[]` carry the mean CSV row, the
+  MyCarbon 99.477404614 restatement and the OWID FAQ
+  mean-vs-median explanation; no legacy "60 kg" prose quote
+  remains.
+- [x] **Statistic + losses basis in action notes** -- verified
+  shipped: all four food-action notes record "global MEAN with
+  supply-chain losses, cradle-to-retail" (FR-15 convention).
 
 ---
 
@@ -1138,6 +1741,32 @@ not suggestions:
     berries-vs-bread comparative copy.
 13. **Palm-vs-olive: no superlatives or ordering copy**;
     methodology note per section 3.9.
+14. **Tea inherits the coffee rule** (added 2026-07-19):
+    preset-only entry, per-kg sublabel ("per kg of dry leaves --
+    one tea bag uses ~2 g (~18 g CO2e)"), excluded from
+    auto-generated "worst item" copy. The methodology sheet states
+    prominently that home boiling is excluded and that published
+    per-cup tea figures are mostly kettle energy.
+15. **Plant-based meat disclosure** (added 2026-07-19): science
+    sheet states the category breadth (soy mince to formulated
+    patties), that the underlying LCAs are company-commissioned
+    with narrower boundaries, and that the value was uplifted and
+    rounded up to compensate; never rank it against eggs or rice
+    (ties).
+16. **Wild fish notes** (added 2026-07-19, updated 2026-07-20):
+    item copy says "includes canned tuna"; science sheet points
+    sardines/mackerel/saury to the dedicated Small oily fish item
+    and keeps the flatfish caveat; never compare wild fish vs
+    chicken (tie).
+17. **Small fish / canned beans copy rules** (added 2026-07-20):
+    small oily fish sits in the same low-impact neighbourhood as
+    eggs and plant-based meat -- no ranked-step copy; fish
+    presets are drained / edible weights and the quantity editor
+    says so (whole-fish grams typed raw would overstate ~2.5x).
+    Canned vs dry beans are different weight bases -- the
+    quantity editor says "drained weight" on the canned item and
+    "dry weight" on the dry item, and no per-kg comparison copy
+    is generated between them.
 
 Also required by section 7: `meatless_meal_*` and the dataset must
 ship in the same PR, and the beans/lentils item must never carry
@@ -1156,47 +1785,77 @@ verbatim on the live page (QA-8); butter's un-URLed 12.1
 candidate dropped with the factor unchanged (QA-3); all quote
 hygiene fixes QA-2/4/5/7 applied in sections 3 and 5.
 
-Remaining:
+Resolved 2026-07-19 (second pass): the three PDR product calls
+shipped as dataset items (fish_wild 9.50, plant_based_meat 4.5,
+tea 9.0 -- sections 3.1, 3.3, 3.7, with pins in section 6 and UI
+rules 14-16 in section 8); citrus independent corroboration
+closed with two live-quotable sources, confidence raised to High
+(Bell & Horvath 2020 + Clune 2017, section 3.6); the unsourced
+tomato numeric range replaced with sourced Clune 2017 numbers
+(field median 0.45 vs heated greenhouse 2.20, section 3.5);
+olive-oil production-only corroboration closed (Ruiz-Carrasco
+2023 + two CarbonCloud pages, section 3.9); butter tbsp closed
+with the direct USDA FDC 173410 portion, preset updated to 14.2 g
+(section 5); oats live input re-read (1.20 unchanged as of
+2026-07-19; D3 average still 1.84, section 10).
 
-- [ ] **Citrus independent corroboration** is order-of-magnitude
-      only: the Oregon DEQ citrus PEF report 404s and the
-      Springer/IOP Valencia studies are paywalled. OWID 0.39 is
-      fully anchored; confidence stays Medium-High until an
-      independent page is quotable.
-- [ ] **Olive-oil production-only corroboration** (~2.4 kg/kg) is
-      directional only (ScienceDirect paywalled). OWID 5.42 is
-      anchored; the production-only comparison in the methodology
-      note should avoid exact digits until a quotable source
-      lands.
-- [ ] **Tomato field-vs-heated-greenhouse numeric range**
-      ("0.1-0.5 vs 0.4-10.1", ">20x swing") is UNSOURCED -- the
-      original citation was fabricated (wrong paper, quotes
-      unfindable). The verified Theurl and Naked Scientists quotes
-      (section 3.5) support only the qualitative "heated
-      greenhouses dominate" point and a "two times lower"
-      comparison. Any methodology copy stating a numeric spread
-      for tomatoes is blocked until the real Payen 2015 paper
-      (J. Cleaner Production 87:139-148, paywalled) or another
-      tier-1 source is quotable.
-- [ ] **Oats live input re-read**: D3's CarbonCloud input (1.20,
-      2026-07-18) drifts; re-read at the next data pass and
-      recompute the average.
-- [ ] **Canned beans/lentils**: the 1.79 factor is dry-basis; the
-      half-can preset is physically inconsistent with it. A
-      separate canned factor is a schema follow-up.
-- [ ] **Median fallback provenance**: if any item ever falls back
-      to the median set, cite the archived grapher endpoint
-      (section 1) and disclose statistic + losses basis in
-      calculation_notes and the science sheet.
-- [ ] **CarbonCloud rows without recorded URLs** (assorted cheese
-      variants, chickpeas, potato starch/chips, NL tomato, red
-      cabbage, dry onion, oats-UK farm benchmark) were dropped
-      from this document as unverifiable; do not resurrect them
-      into `sources[]` without full product URLs and fresh
-      values.
-- [ ] **Butter tbsp gram weight** (14 g) is density-derived (RACC
-      gives volume only); replace with a direct FDC quote if one
-      is located.
+Resolved 2026-07-20 (third pass, four research agents):
+**canned beans** shipped as a separate drained-basis item
+(beans_canned 1.7, section 3.3) after the dry-equivalent route
+failed the honesty check; **small-fish split** shipped
+(small_fish 5.5, section 3.1); **Japan sencha LCA** found and
+verified (Masuda & Tomioka 2011, 6.28-8.51 per kg aracha --
+consistent with the shipped 9.0, which holds; section 3.7);
+**plant-based meat independent LCA** found (Detzel/ifeu 2021,
+corroborates 4.5, confidence raised, uplift rationale re-based on
+boundary; section 3.3); **oats re-read** 2026-07-20: 1.20
+unchanged, D3 average holds.
+
+Standing rules -- permanent by design, never "done", re-checked
+or enforced at every data pass (moved out of the open list
+2026-07-20 so they stop reading as pending tasks):
+
+- **Oats live input re-read** (recurring): D3's CarbonCloud input
+  drifts (1.25 -> 1.20); re-read at each data pass and recompute
+  the average. Last re-read 2026-07-20: 1.20 unchanged, average
+  holds at 1.84.
+- **Median fallback provenance** (conditional rule, currently
+  unused): if any item ever falls back to the median set, cite
+  the archived grapher endpoint (section 1) and disclose
+  statistic + losses basis in calculation_notes and the science
+  sheet. No item uses the fallback today.
+- **CarbonCloud no-URL guard** (prohibition, permanently in
+  force): the rows dropped as unverifiable (assorted cheese
+  variants, chickpeas, potato starch/chips, NL tomato, red
+  cabbage, dry onion, oats-UK farm benchmark) must not be
+  resurrected into `sources[]` without full product URLs and
+  fresh values.
+
+Also resolved 2026-07-20 (same-day follow-up): **JP saba-can
+drained weight** -- Sokensha publishes the standard can as
+"190g（固形量140g）"; the mackerel-can preset now uses the 140 g
+drained weight (section 5). **Whole-iwashi preset** -- shipped at
+the 32 g edible portion (Slism "1尾 80gの可食部 32g", corroborated
+by the MEXT refuse rate 60%); edible basis matches the factor,
+whole weight would overstate 2.5x.
+
+Open:
+
+- [ ] **Tidaker et al. 2021 full text** (new 2026-07-20):
+      ScienceDirect blocks automated fetch (re-attempted
+      2026-07-20 via Unpaywall, CORE and the SLU research portal
+      -- all blocked or missing); the per-stage
+      packaging/processing split and the steel-tin chickpea
+      figure exist only as unverified snippets. If the full text
+      becomes readable, consider refining beans_canned's
+      candidate table with it.
+- [ ] **skip_medium_impact_food vs the new fish items** (new
+      2026-07-20, owner points-economy call): the live library
+      action (1000 g, "chicken, pork, or fish") now overstates a
+      wild-fish skipper (~750 g implied) and a small-oily-fish
+      skipper (~350 g). Options: lower to the chicken floor
+      (780), split fish out, or accept the mid-band value.
+      Flagged in the seeder comment.
 
 ---
 
@@ -1205,7 +1864,9 @@ Remaining:
 Arithmetic and provenance chain per chosen value. All OWID sums
 recomputed independently by the check agent from freshly
 downloaded CSVs (byte-identical to the research-phase copies;
-152 automated checks). Access date 2026-07-18 throughout.
+152 automated checks). Access date 2026-07-18 throughout
+(2026-07-19 for entries 38-40 and the second-pass closures;
+2026-07-20 for entries 41-42 and the third-pass closures).
 
 Conventions verified once for all items:
 
@@ -1278,7 +1939,8 @@ total at full precision):
     "Rolled oats" 1.20 (live value at the audit fetch; 1.25 at
     the research fetch -- the drift is why D3 fixes the inputs by
     access date). **(2.48 + 1.20) / 2 = 1.84.** Bowl: 40 g x
-    1.84 = 74 g CO2e. Medium.
+    1.84 = 74 g CO2e. Medium. Re-read 2026-07-19 and 2026-07-20:
+    live value still 1.20; the average holds.
 20. **Potatoes = 0.46.** CSV literal; sum 0.4601. Store 0.46
     exactly. Medium potato: 213 g x 0.46 = 98 g CO2e. High.
 21. **Tomatoes = 2.09.** CSV literal; sum 2.0887 (LUC 0.373,
@@ -1299,7 +1961,7 @@ total at full precision):
 26. **Apples = 0.43.** CSV literal; sum 0.4284. Per medium apple:
     0.43 x 0.182 = 78 g CO2e. China farm-gate 0.23 + chain is
     consistent. High.
-27. **Citrus = 0.39.** CSV "Citrus Fruit"; sum 0.3877 (LUC
+27. **Citrus = 0.39.** CSV "Citrus Fruit"; sum 0.3876 (LUC
     -0.146). Per orange: 0.39 x 0.131 = 51 g CO2e. Independent
     corroboration order-of-magnitude only (open item).
     Medium-High.
@@ -1312,8 +1974,9 @@ total at full precision):
     LUC share 25.81/46.65 = 55%. Fallback provenance (NOT
     shipped): median-without-losses stages 14.3 + 0 + 3.7 + 0.2
     + 0.1 + 0.4 + 0 = 18.7 (LUC 76%), reproduced live from the
-    archived endpoint (section 1). Per oz: 46.65 x 0.02835 =
-    1.32 kg CO2e; per 12.6 g square: 0.59 kg. Medium.
+    archived endpoint (section 1). Per 28 g shipped preset:
+    46.65 x 0.028 = 1.31 kg CO2e; per 12.6 g square: 0.59 kg.
+    Medium.
 30. **Cane sugar = 3.20.** CSV literal "3.2"; sum 3.1989 (LUC
     39%). Per tsp: 3.20 x 0.0042 = 13.4 g CO2e. Medium-High.
 31. **Olive oil = 5.42.** Not in the per-kg CSV (absence
@@ -1357,10 +2020,67 @@ total at full precision):
     exact; displays 0.90). Per 250 ml glass: 0.226 kg
     (co2everything 0.22). "Oatmeal" 2.48 in the per-kg grapher is
     the GRAIN -- never use it for the drink. Medium.
+38. **Fish (wild-caught) = 9.50 (assembled, added 2026-07-19).**
+    Wild-mix construction: Gephart six-group farm-gate mean
+    (7.6290536 + 6.8813386 + 3.8779404 + 5.1250386 + 9.6651745
+    + 9.91465) / 6 = 7.182; + P&N fish post-farmgate stages excl.
+    losses (0.04459863 + 0.24795863 + 0.08997562 + 0.13753739 =
+    0.520) = 7.702; x 1.1747 losses uplift (P&N fish losses
+    2.0271 / pre-loss 11.605 = 17.5%) = 9.048 -> 9.05.
+    Canned-tuna construction: 7.629 + 1.38 (canning energy, high
+    end) + 0.520 = 9.529 -> 9.53; no loss uplift (shelf-stable).
+    Mean (9.05 + 9.53) / 2 = 9.29 -> ships 9.50 (rounded up,
+    butter precedent). Per JP can: 70 g x 9.50 = 665 g CO2e; per
+    fillet: 110 g x 9.50 = 1.05 kg. Store-shelf corroborators
+    9.03-9.36 (CarbonCloud, as of 2026-07-19). Medium.
+39. **Plant-based meat = 4.5 (assembled, added 2026-07-19).**
+    (3.4 + 3.5) / 2 = 3.45; x 1.3 boundary/commissioner uplift =
+    4.485 -> ships 4.5 (rounded up). Per 113 g patty: 0.51 kg
+    CO2e vs beef patty 11.24 kg (~22x lower; the beans proxy
+    overstated the gap at 56x). Medium.
+40. **Tea = 9.0 (assembled, added 2026-07-19).** Leaves-only
+    candidates: Doublet & Jungbluth retail-scenario mean
+    ((46.9 - 33.0) + (51.6 - 33.0) + (44.9 - 33.0) +
+    (49.5 - 33.0)) / 4 = 15.225 g/cup / 1.75 g = 8.70;
+    Cichorowski base case 17.8 g / 2 g = 8.90; Xu five-product
+    mean (19.2 + 19.9 + 11.9 + 6.6 + 4.5) / 5 = 12.42; Premalatha
+    leaves-only stage sums 1.5 + 2.506 + 2.34 + 0.096 = 6.44
+    (black) and 1.5 + 1.88 + 2.34 + 0.096 = 5.82 (green), mean
+    6.13. (8.70 + 8.90 + 12.42 + 6.13) / 4 = 9.04 -> ships 9.0.
+    Per tea bag: 2 g x 9.0 = 18 g CO2e; per loose-leaf cup: 3 g =
+    27 g. Kenya (~2.0) and Sri Lanka (~21.6) bracket the range.
+    Medium. JP check 2026-07-20: Masuda & Tomioka mean (6.28 +
+    8.51) / 2 = 7.40; five-study mean (36.15 + 7.40) / 5 = 8.71
+    (sensitivities 8.49-8.93) -- all round to 9, factor holds.
+41. **Small oily fish = 5.5 (assembled, added 2026-07-20).**
+    Fresh: (3.8779404 + 0.52007027) x 1.1747 = 5.166 -> 5.17.
+    Canned: 3.8779404 + 0.52007027 + 1.38 = 5.778 -> 5.78. Mean
+    (5.17 + 5.78) / 2 = 5.47 -> ships 5.5 (rounded up). Per
+    mackerel can (drained 140 g): 770 g CO2e; per sardine can
+    (drained 92 g): 506 g; per whole sardine (edible 32 g):
+    176 g. Fuel corroboration: purse
+    seine 71 L/tonne = 0.071 L/kg x ~2.7 kg CO2/L diesel = ~0.19
+    kg CO2/kg landed from fuel, consistent with the low farm-gate
+    anchor. Medium-High.
+42. **Beans (canned) = 1.7 per kg DRAINED (assembled, added
+    2026-07-20).** Candidate 1: 1.10 as-sold / (10.5 / 15.5 =
+    0.677 drained fraction) = 1.62. Candidate 2: content 1.79 /
+    2.5 = 0.716; canning-and-can share (0.19 + 0.42) x 1.10 =
+    0.671 as-sold / 0.677 = 0.991; 0.716 + 0.991 = 1.71. Mean
+    (1.62 + 1.71) / 2 = 1.665 -> ships 1.7 (rounded up). Tidaker
+    0.8 = peer-reviewed lower bound (carton format, not
+    averaged; averaging it in would give 1.38 -> 1.4, and the
+    conservative rule keeps 1.7). Hydration cross-check: dry
+    matter (100 - 11.0) / (100 - 65.7) = 2.60x; Bean Institute
+    volume route 2.66x; conservative 2.5x -> 130 g drained = 52 g
+    dry. Per serving: 130 g x 1.7 = 221 g CO2e (old inconsistent
+    arithmetic gave 233 g -- near-right magnitude on a wrong
+    basis). Medium.
 
-Cross-checks on the action corrections (section 7): beef
-9948 - 200 = 9748; chicken 987 - 100 = 887; pork 1231 - 100 =
-1131; milk delta (3.15 - 0.903) x 0.25 = 0.5618 kg (562 g),
+Cross-checks on the action corrections (section 7; standardized
+200 g baseline as of 2026-07-20): beef 9948 - 200 = 9748 ->
+9700; chicken 987 - 200 = 787 -> 780; pork 1231 - 200 = 1031 ->
+1000; milk delta (3.15 - 0.903) x 0.25 = 0.5618 kg (562 g),
 shipped 460 g conservative; soy variant (3.15 - 0.98) x 0.25 =
 543 g, still conservative.
 
@@ -1368,6 +2088,6 @@ Serving-preset sanity (grams x factor, spot values): beef patty
 11.24 kg; steak 22.38 kg; chicken fillet (170 g) 1.68 kg; pork
 chop 1.72 kg; prawn portion 2.96 kg; salmon fillet 2.70 kg;
 egg 234 g; cheese portion 716 g; rice cup 668 g; banana 101 g;
-chocolate oz 1.32 kg; coffee cup 285 g; beer can 396 g; wine
+chocolate 28 g 1.31 kg; coffee cup 285 g; beer can 396 g; wine
 glass 269 g. All recomputed and consistent with the factors
 above.
