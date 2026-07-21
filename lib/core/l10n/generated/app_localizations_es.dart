@@ -1355,7 +1355,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get equivBurgersExplainer =>
-      'Emisiones del ciclo de vida completo de una hamburguesa de carne, desde la ganadería hasta el comercio. Las hamburguesas de pollo o vegetales emiten entre 5 y 10 veces menos.';
+      'Emisiones del ciclo de vida completo de una hamburguesa de carne (113 g de carne), desde la ganadería hasta el comercio. Una hamburguesa de pollo emite unas 10 veces menos; una de frijoles, unas 50 veces menos.';
 
   @override
   String equivFormulaTemplate(String factor) {
@@ -1411,4 +1411,129 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get ecoDexInfoBody =>
       'El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no otorgan puntos: cada uno te recompensa con conocimiento.';
+
+  @override
+  String get transportCalculatorTitle => 'Calculadora de transporte';
+
+  @override
+  String get transportCalculatorCardTitle => 'Compara opciones de transporte';
+
+  @override
+  String get transportCalculatorCardSubtitle =>
+      'Crea un trayecto y mira su huella de CO2e';
+
+  @override
+  String get transportJourneyEmpty =>
+      'Añade un tramo para crear tu trayecto y ver su huella de CO2e.';
+
+  @override
+  String get transportAddLeg => 'Añadir tramo';
+
+  @override
+  String get transportEditLeg => 'Editar tramo';
+
+  @override
+  String get transportSelectMode => 'Elige un modo de transporte';
+
+  @override
+  String get transportChangeMode => 'Cambiar';
+
+  @override
+  String get transportDistanceLabel => 'Distancia (km)';
+
+  @override
+  String get transportDistanceInvalid =>
+      'Introduce una distancia de 0 km o más';
+
+  @override
+  String get transportDistanceEstimateNote =>
+      'Estimación derivada de la ubicación de las ciudades. Edítala según tu ruta.';
+
+  @override
+  String get transportOccupantsLabel => 'Personas en el vehículo';
+
+  @override
+  String get transportOccupantsAdd => 'Añadir una persona';
+
+  @override
+  String get transportOccupantsRemove => 'Quitar una persona';
+
+  @override
+  String transportOccupantsSemantic(int count) {
+    return 'Personas en el vehículo: $count';
+  }
+
+  @override
+  String get transportTotalLabel => 'Total';
+
+  @override
+  String get transportRemoveLeg => 'Eliminar tramo';
+
+  @override
+  String get transportFromCity => 'Ciudad de origen';
+
+  @override
+  String get transportToCity => 'Ciudad de destino';
+
+  @override
+  String get transportCityPrefillHint =>
+      'Elige dos ciudades para estimar las distancias.';
+
+  @override
+  String transportEstimatedKm(String km) {
+    return '~$km km';
+  }
+
+  @override
+  String transportKmValue(String km) {
+    return '$km km';
+  }
+
+  @override
+  String transportOccupantsValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '1 persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String transportModeFactorPerPassenger(int grams) {
+    return '$grams g CO2e por km';
+  }
+
+  @override
+  String transportModeFactorPerVehicle(int grams) {
+    return '$grams g CO2e por vehículo y km';
+  }
+
+  @override
+  String get transportGroupActive => 'A pie y en bici';
+
+  @override
+  String get transportGroupMicro => 'Micromovilidad';
+
+  @override
+  String get transportGroupCar => 'Coche y moto';
+
+  @override
+  String get transportGroupBus => 'Autobús';
+
+  @override
+  String get transportGroupTaxi => 'Taxi';
+
+  @override
+  String get transportGroupRail => 'Tren';
+
+  @override
+  String get transportGroupWater => 'Barco';
+
+  @override
+  String get transportGroupAir => 'Avión';
+
+  @override
+  String get transportGroupHighImpact => 'Alto impacto';
 }

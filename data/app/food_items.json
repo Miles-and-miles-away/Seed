@@ -1,10 +1,10 @@
 {
   "metadata": {
     "version": 1,
-    "scope": "Poore & Nemecek 2018 cradle-to-retail lifecycle emissions including land-use change and supply-chain losses (GWP100), as published by Our World in Data. Statistic: production-weighted MEANS dataset-wide (owner decision D1, 2026-07-18); the archived MEDIAN-without-losses set is the approved fallback with mandatory disclosure. Weights are as-purchased raw/dry; liquids at density 1.0 so per litre = per kg (error < 1.5%). Excluded: retail-to-home transport, home cooking and refrigeration energy, household food waste. Global category means, no organic/local modifier. This boundary differs from the transport calculator's operational-only scope -- values from the two calculators must NOT be summed.",
+    "scope": "Poore & Nemecek 2018 cradle-to-retail lifecycle emissions including land-use change and supply-chain losses (GWP100), as published by Our World in Data. Statistic: production-weighted MEANS dataset-wide; an archived MEDIAN-without-losses set exists as a documented fallback and is always disclosed when used. Weights are as-purchased raw/dry; liquids at density 1.0 so per litre = per kg (error < 1.5%). Excluded: retail-to-home transport, home cooking and refrigeration energy, household food waste. Global category means, no organic/local modifier. This boundary differs from the transport calculator's operational-only scope -- values from the two calculators must NOT be summed.",
     "primary_source": "Poore & Nemecek 2018 (Science 360:987-992) via Our World in Data, means with supply-chain losses",
     "basis": "kg CO2e per kg of food as-purchased (raw/dry weight); serving presets are raw/dry grams; liquids per litre = per kg at density 1.0",
-    "citation_note": "CSV-row citations (OWID grapher downloads) and Poore & Nemecek accepted-manuscript figure rows are verbatim data-row transcriptions (manuscript rows with single spaces), not page sentences. CarbonCloud citations are 'product | value | value-as-of date' transcriptions: CarbonCloud live values drift over time and are corroboration-with-access-date only (QA-6)."
+    "citation_note": "CSV-row citations (OWID grapher downloads) and Poore & Nemecek accepted-manuscript figure rows are verbatim data-row transcriptions (manuscript rows with single spaces), not page sentences. CarbonCloud citations are 'product | value | value-as-of date' transcriptions: CarbonCloud live values drift over time and are corroboration-with-access-date only. The LiveLCA butter citation is a products-table row transcription (product, CO2e per kg, number of studies, single spaces), not a page sentence."
   },
   "items": [
     {
@@ -30,7 +30,7 @@
           "grams": 225
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses, cradle-to-retail incl. land-use change. Per-kg grapher literal 99.48; eight-stage supply-chain sum at full precision 99.4774 confirms (the two-decimal addends total 99.47, so always sum at full precision). The famous 60 kg/kg is the same study's MEDIAN without losses, not a rounding of this mean; the methodology sheet explains the difference.",
+      "calculation_notes": "Global mean from Poore & Nemecek 2018, cradle-to-retail including land-use change and supply-chain losses. Per-kg chart value 99.48; the eight supply-chain stages sum to 99.4774 at full precision, confirming it (the two-decimal stage figures alone total 99.47, a rounding artifact). The widely quoted 60 kg per kg is the same study's median without losses, not a rounding of this mean; the methodology sheet explains the difference.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -75,7 +75,7 @@
           "grams": 225
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher literal 33.3; supply-chain sum 33.3014. The beef-herd/dairy-herd ratio is 2.99 -- inside the pinned 2.5-3.5 band, deliberately never claimed as '3x' (false under both statistics: 2.99 mean, 2.86 median).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Per-kg chart value 33.3; supply-chain stage sum 33.3014. Beef from dedicated beef herds emits about 2.99 times as much as this dairy-herd beef -- close to, but not exactly, 3x (2.86 under the study's medians).",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -114,7 +114,7 @@
           "grams": 110
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Lamb & Mutton'. Grapher literal 39.72; supply-chain sum 39.7223.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Lamb & Mutton'. Chart value 39.72; supply-chain stage sum 39.7223.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -146,7 +146,7 @@
           "grams": 140
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Pig Meat'. Grapher literal 12.31; supply-chain sum 12.3057. Stored unrounded per FR-18 (a pre-rounded 12 would flatter by -2.5%). The PMC review range cited excludes land-use change, which is why it sits below this mean.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Pig Meat'. Chart value 12.31; supply-chain stage sum 12.3057. Stored at the exact 12.31 rather than a rounded 12, which would understate by 2.5%. The independent review range cited (6.08-12.3) excludes land-use change, which is why it sits at or below this mean.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -185,18 +185,12 @@
           "grams": 85
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Poultry Meat'. Grapher literal 9.87; supply-chain sum 9.8658. The PMC review range cited excludes land-use change.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Poultry Meat'. Chart value 9.87; supply-chain stage sum 9.8658.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Poultry Meat,2010,9.87",
-          "accessed": "2026-07-18"
-        },
-        {
-          "name": "PMC11743834 (meat LCA review)",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
-          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
           "accessed": "2026-07-18"
         }
       ]
@@ -224,7 +218,7 @@
           "grams": 85
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher row 'Prawns (farmed)' = 26.87; the supply-chain CSV names the same product 'Shrimps (farmed)' and its stage sum verifies at 26.8659 (cross-CSV row mapping, PDR FR-17). Single coarse global farmed-prawn category with large spread. The Gephart 2021 figure (9.43) is a narrower on/off-farm boundary recorded for spread context only, never mixed into this factor.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. The per-kg chart row 'Prawns (farmed)' is 26.87; the supply-chain chart names the same product 'Shrimps (farmed)', and its stage sum verifies at 26.8659. This is a single coarse global farmed-prawn category with a large spread. The Gephart 2021 figure (9.43) uses a narrower on-farm and off-farm boundary and is context on the spread only, never mixed into this factor.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -240,7 +234,7 @@
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (narrower boundary)",
-          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
           "accessed": "2026-07-18"
         }
@@ -269,7 +263,7 @@
           "grams": 198
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 13.63; supply-chain sum 13.6324. Single coarse global farmed-fish category; Gephart 2021 species figures (salmon 5.10, trout 5.4, tilapia 10.7) are a narrower boundary, spread context only.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 13.63; supply-chain stage sum 13.6324. A single coarse global farmed-fish category; the Gephart 2021 species figures (salmon 5.10, trout 5.4, tilapia 10.7) use a narrower boundary and are context on the spread only.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -288,6 +282,127 @@
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Salmon (farmed),2021,5.100986",
           "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "fish_wild",
+      "group": "seafood",
+      "name_en": "Fish (wild-caught)",
+      "name_ja": "魚（天然）",
+      "name_es": "Pescado (salvaje)",
+      "kg_co2e_per_kg": 9.5,
+      "servings": [
+        {
+          "id": "tuna_can_small",
+          "name_en": "1 small tuna can",
+          "name_ja": "ツナ缶1缶",
+          "name_es": "1 lata de atún (pequeña)",
+          "grams": 70
+        },
+        {
+          "id": "fillet",
+          "name_en": "1 fillet",
+          "name_ja": "切り身1切れ",
+          "name_es": "1 filete",
+          "grams": 110
+        }
+      ],
+      "calculation_notes": "Not in Poore & Nemecek, which covers farmed fish only; assembled from Gephart et al. 2021 wild-fishery data completed to the same cradle-to-retail boundary. Wild finfish mix (tuna, salmon/trout, herring/sardines, cod/haddock, jack, redfish/bass; farm-gate mean 7.18) plus the Poore & Nemecek farmed-fish post-farmgate stages (0.52) and losses share (17.5%) gives 9.05; canned tuna built the same way with high-end canning energy (7.63 + 1.38 + 0.52) gives 9.53. Mean of the two constructions 9.29, rounded up to 9.50 so the estimate errs against understating. Includes canned tuna. Wild fisheries burn fuel but need no feed or land-use change, which is why this sits below farmed fish (13.63). Species vary widely: sardines, mackerel and saury have their own item (Small oily fish, 5.5, roughly half this value); some trawl-caught flatfish run double.",
+      "sources": [
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, seafood grapher",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Tuna (wild),2021,7.6290536",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, grapher metadata (boundary)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018; post-farmgate stages used to complete the boundary)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Fish (farmed),2018,1.1947172,8.056115,1.8344203,0.04459863,0.24795863,0.08997562,0.13753739,2.0271227",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Tan & Culaba 2009, Estimating the Carbon Footprint of Tuna Fisheries (WWF-commissioned)",
+          "url": "https://wwfeu.awsassets.panda.org/downloads/estimating_the_carbon_footprint_of_tuna_fisheries_9may2009.pdf",
+          "quote": "Based on these assumptions, the partial carbon footprint is estimated at 0.63 – 1.38 kg CO2 per kg of product, if all of the energy consumption is allocated to the canned tuna.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "CarbonCloud ClimateHub",
+          "url": "https://apps.carboncloud.com/climatehub/product-reports/id/153769684173",
+          "quote": "Benchmark Canned tuna, Sweden | 9.36 | live value as of 2026-07-19",
+          "accessed": "2026-07-19"
+        }
+      ]
+    },
+    {
+      "id": "small_fish",
+      "group": "seafood",
+      "name_en": "Small oily fish (sardines, mackerel)",
+      "name_ja": "青魚（いわし・さば・さんま）",
+      "name_es": "Pescado azul (sardinas, caballa)",
+      "kg_co2e_per_kg": 5.5,
+      "servings": [
+        {
+          "id": "mackerel_can_drained",
+          "name_en": "1 mackerel can (drained)",
+          "name_ja": "さば缶1缶（固形量）",
+          "name_es": "1 lata de caballa (escurrida)",
+          "grams": 140
+        },
+        {
+          "id": "sardine_can_drained",
+          "name_en": "1 sardine can (drained)",
+          "name_ja": "いわし缶1缶（固形量）",
+          "name_es": "1 lata de sardinas (escurrida)",
+          "grams": 92
+        },
+        {
+          "id": "sardine_whole_edible",
+          "name_en": "1 sardine (edible portion)",
+          "name_ja": "いわし1尾（可食部）",
+          "name_es": "1 sardina (porción comestible)",
+          "grams": 32
+        }
+      ],
+      "calculation_notes": "Not in Poore & Nemecek; assembled with the same construction as Fish (wild-caught) so the two items are directly comparable. Gephart et al. 2021 wild herring/sardines farm-gate value 3.8779 plus the Poore & Nemecek farmed-fish post-farmgate stages (0.520) and losses uplift (17.5%) gives 5.17 fresh; the canned construction (3.878 + high-end canning energy 1.38 + 0.520) gives 5.78. Mean 5.47, rounded up to 5.5. Covers sardine, mackerel and saury, fresh or canned (the two paths differ by only ~12%). Represents efficient purse-seine fisheries, the dominant method for small pelagics; trawl-caught would run higher. Presets use the weights the factor actually applies to: the mackerel-can preset is the drained weight (140 g) of the standard 190 g JP can, and the whole-sardine preset is the edible portion (32 g of a typical 80 g fish; refuse rate 60% per the Japanese food composition tables), matching the factor's edible-weight basis.",
+      "sources": [
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, seafood grapher",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "\"Herring, sardines (wild)\",2021,3.8779404",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, grapher metadata (boundary)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018; post-farmgate stages used to complete the boundary)",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Fish (farmed),2018,1.1947172,8.056115,1.8344203,0.04459863,0.24795863,0.08997562,0.13753739,2.0271227",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "Tan & Culaba 2009, Estimating the Carbon Footprint of Tuna Fisheries (WWF-commissioned; canning energy)",
+          "url": "https://wwfeu.awsassets.panda.org/downloads/estimating_the_carbon_footprint_of_tuna_fisheries_9may2009.pdf",
+          "quote": "Based on these assumptions, the partial carbon footprint is estimated at 0.63 - 1.38 kg CO2 per kg of product, if all of the energy consumption is allocated to the canned tuna.",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "Parker et al. 2015 fuel-use summary (Univ. of Miami Shark Research; fuel-efficiency corroboration)",
+          "url": "https://sharkresearch.earth.miami.edu/fuel-consumption-of-global-fishing-fleets/",
+          "quote": "Catches like the Peruvian Anchovy, Atlantic Mackerel, and Australian Sardine are some of the most efficient fisheries",
+          "accessed": "2026-07-20"
         }
       ]
     },
@@ -314,7 +429,7 @@
           "grams": 30
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 23.88; supply-chain sum 23.8776. CarbonCloud cheddar drifted 18.11 -> 15.09 between fetches -- the example behind the QA-6 rule that CarbonCloud is corroboration-with-access-date only.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 23.88; supply-chain stage sum 23.8776. Covers cheese as a global category; individual cheeses vary widely with milk intensity.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -337,7 +452,7 @@
           "name_en": "1 tablespoon",
           "name_ja": "大さじ1",
           "name_es": "1 cucharada",
-          "grams": 14
+          "grams": 14.2
         },
         {
           "id": "pat",
@@ -347,7 +462,7 @@
           "grams": 5
         }
       ],
-      "calculation_notes": "Not in Poore & Nemecek; mean of three independent dairy LCAs: foodfootprint.nl/RIVM 12.2 (61 g CO2eq per 5 g portion -> 12.2/kg), LiveLCA 10.18 (analysis of 12 studies), CarbonCloud 11.89 (live value as of 2026-07-18). (12.2 + 10.18 + 11.89) / 3 = 11.42, rounded UP to 12.0 (honest-not-generous). Sits between milk (3.15) and cheese (23.88). The 14 g tablespoon preset is density-derived (RACC gives 1 tbsp / 15 mL; 0.911 x 15 = 13.665 g; USDA lists 14.2 g).",
+      "calculation_notes": "Not in Poore & Nemecek; mean of three independent dairy LCAs: foodfootprint.nl/RIVM 12.2 (61 g CO2eq per 5 g portion), LiveLCA 10.18 (analysis of 12 studies) and CarbonCloud 11.89 (live value as of 2026-07-18). (12.2 + 10.18 + 11.89) / 3 = 11.42, rounded up to 12.0 so the estimate errs against understating. Sits between milk (3.15) and cheese (23.88). The tablespoon preset is the direct USDA portion weight (FoodData Central 173410, Butter, salted: 1 tbsp = 14.2 g).",
       "sources": [
         {
           "name": "foodfootprint.nl (RIVM, average Dutch market)",
@@ -385,7 +500,7 @@
           "grams": 50
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 4.67; supply-chain sum 4.6695. Per large 50 g egg: 234 g CO2e. CarbonCloud's 2.15 is a regional (EU/Nordic) lower bound; the ~2x gap is global feed land-use change vs European feed, not an error.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 4.67; supply-chain stage sum 4.6695. Per large 50 g egg: 234 g CO2e. Regional European estimates run lower because European feed carries little of the global feed land-use change included here.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -413,12 +528,12 @@
         {
           "id": "cup",
           "name_en": "1 cup",
-          "name_ja": "1カップ",
+          "name_ja": "1カップ（240ml）",
           "name_es": "1 taza",
           "grams": 240
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Per-kg grapher literal 3.15; the milks chart GHG column agrees (3.15/L). Per litre = per kg at density 1.0 (error < 1.5%).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Per-kg chart value 3.15; the milks comparison chart agrees (3.15 per litre). Per litre = per kg at density 1.0 (error under 1.5%).",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -457,7 +572,7 @@
           "grams": 175
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 3.16; supply-chain sum 3.1617. CarbonCloud's 1.34 (deforestation-free regional soy) corroborates the low-single-digit magnitude only.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 3.16; supply-chain stage sum 3.1617. CarbonCloud's 1.34 for deforestation-free regional soy corroborates the low-single-digit magnitude only.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -481,22 +596,73 @@
           "name_ja": "1人前（乾燥豆）",
           "name_es": "1 ración (en seco)",
           "grams": 35
-        },
-        {
-          "id": "half_can_drained",
-          "name_en": "1/2 can (drained)",
-          "name_ja": "缶半分（汁気を切って）",
-          "name_es": "1/2 lata (escurrida)",
-          "grams": 130
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Other Pulses' (beans, lentils, chickpeas -- NOT peas; OWID's famous 'peas emit just 1 kilogram' sentence belongs to the peas item and must never be attached here). Grapher literal 1.79; supply-chain sum 1.7864. Factor is on the DRY pulse basis; the half-can preset is a convenience approximation until a separate canned factor lands (open item).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Other Pulses' covers beans, lentils and chickpeas -- not peas, which are a separate item. Chart value 1.79; supply-chain stage sum 1.7864. The factor is per kg of dry pulses, so weigh canned or cooked beans as their dry equivalent (a drained 130 g half-can is roughly 55 g dry).",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Other Pulses,2010,1.79",
           "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "beans_canned",
+      "group": "plant_protein",
+      "name_en": "Beans (canned)",
+      "name_ja": "豆の缶詰",
+      "name_es": "Alubias en lata",
+      "kg_co2e_per_kg": 1.7,
+      "servings": [
+        {
+          "id": "serving_drained",
+          "name_en": "1 serving (drained)",
+          "name_ja": "1人前（汁気を切って）",
+          "name_es": "1 ración (escurrida)",
+          "grams": 130
+        },
+        {
+          "id": "half_can_drained",
+          "name_en": "1/2 can (drained)",
+          "name_ja": "1/2缶（汁気を切って）",
+          "name_es": "1/2 lata (escurrida)",
+          "grams": 150
+        },
+        {
+          "id": "can_drained",
+          "name_en": "1 can (drained)",
+          "name_ja": "1缶（汁気を切って）",
+          "name_es": "1 lata (escurrida)",
+          "grams": 300
+        }
+      ],
+      "calculation_notes": "Per kg of DRAINED canned beans -- unlike the dry-basis Beans / lentils item, this factor is multiplied by the drained weight you eat. Not in Poore & Nemecek; assembled as the mean of two constructions: (a) the CarbonCloud US canned-bean model 1.10 kg CO2e/kg as-sold divided by the USDA Food Buying Guide drained fraction (10.5 oz drained per 15.5 oz can = 0.677) = 1.62; and (b) a bottom-up build from the Poore & Nemecek dry-pulse factor (1.79 / 2.5 hydration = 0.72 content) plus the canning and can share of the same model (0.99) = 1.71. Mean 1.665, rounded up to 1.7. Canning energy is small but the steel can is not: packaging is the largest single share of a canned bean's footprint. Tidaker et al. 2021 (0.8 kg CO2e/kg, carton-packed, Sweden) is the peer-reviewed lower bound. Beans cooked from dry are roughly half this per drained kg -- use the Beans / lentils item with dry weight.",
+      "sources": [
+        {
+          "name": "CarbonCloud ClimateHub (autogenerated US canned-bean model)",
+          "url": "https://apps.carboncloud.com/climatehub/product-reports/id/1067146899478",
+          "quote": "BLACK BEANS, Iberia Foods Corporation | 1.10 | live value as of 2026-07-20 (agriculture 29%, transport 10%, processing 19%, packaging 42%)",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "USDA Food Buying Guide, Section 1 yield table (drained fraction)",
+          "url": "https://foodbuyingguide.fns.usda.gov/files/Reports/USDA_FBG_Section1_MeatsAndMeatAlternatesYieldTable.pdf",
+          "quote": "1 No. 300 can = about 10.5 oz (1-3/8 cups) heated, drained beans",
+          "accessed": "2026-07-20"
+        },
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018; dry-pulse input to the bottom-up build)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Other Pulses,2010,1.79",
+          "accessed": "2026-07-18"
+        },
+        {
+          "name": "Tidaker et al. 2021, Sustainable Production and Consumption (abstract via the Semantic Scholar record; peer-reviewed lower bound, carton-packed)",
+          "url": "https://doi.org/10.1016/j.spc.2021.01.017",
+          "quote": "Emissions of greenhouse gases per kg cooked product ranged from 0.1 kg CO2e for Swedish pulses purchased dry to 0.8 kg CO2e for canned beans.",
+          "accessed": "2026-07-20"
         }
       ]
     },
@@ -516,7 +682,7 @@
           "grams": 85
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.98; supply-chain sum 0.9751.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 0.98; supply-chain stage sum 0.9751. The well-known 'peas emit just 1 kilogram' sentence quoted below uses the study's medians; this dataset ships the mean, 0.98 -- nearly identical for peas. The 60 for beef in the same sentence is also the median: the beef mean is 99.48, explained on the beef entry and the methodology sheet.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -548,7 +714,7 @@
           "grams": 30
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses, INCLUDING a large orchard land-use-change carbon credit (-3.26): stage sum 0.43314 -> 0.43. With LUC set to zero the figure is ~3.69 (~3.7). Never publish a negative value and never emit 'lowest-impact protein' copy -- the ranking hinges on the credit.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. The stage sum is 0.43314 -> 0.43, and it includes a large land-use-change carbon credit of -3.26 for orchards planted on former cropland; without that credit the figure would be about 3.7. Nuts' low position in the ranking hinges entirely on this credit.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -565,6 +731,56 @@
       ]
     },
     {
+      "id": "plant_based_meat",
+      "group": "plant_protein",
+      "name_en": "Plant-based meat",
+      "name_ja": "プラントベースミート",
+      "name_es": "Carne vegetal",
+      "kg_co2e_per_kg": 4.5,
+      "servings": [
+        {
+          "id": "quarter_pound_patty",
+          "name_en": "1 quarter-pound patty",
+          "name_ja": "パティ1枚",
+          "name_es": "1 hamburguesa",
+          "grams": 113
+        }
+      ],
+      "calculation_notes": "Not in Poore & Nemecek, which predates the category; assembled from the two flagship burger LCAs: Beyond Burger 3.4 (Heller & Keoleian 2018, cradle-to-distribution) and Impossible Burger 3.5 (Quantis 2019, cradle-to-gate), mean 3.45. Both are company-commissioned and use boundaries narrower than the rest of this dataset (no retail or supply-chain losses), so a conservative 1.3x uplift is applied: 3.45 x 1.3 = 4.49, rounded up to 4.5. Independently corroborated by Detzel et al. 2021 (ifeu institute, EU-funded): real meat substitutes span 2.4-3.9 kg CO2e/kg cradle-to-gate, and the independent mean (3.26) with the same boundary uplift reproduces ~4.5. The commissioned anchors sit mid-range of the independent values, so the uplift compensates the boundary, not a commissioner bias. A category average spanning simple soy mince to formulated patties; recipes and factory energy genuinely differ. The 113 g patty preset matches the beef patty preset so the burger comparison is like for like.",
+      "sources": [
+        {
+          "name": "Heller & Keoleian 2018, Beyond Burger LCA (Univ. of Michigan CSS report CSS18-10; commissioned by Beyond Meat)",
+          "url": "https://css.umich.edu/sites/default/files/publication/CSS18-10.pdf",
+          "quote": "The GHGE associated with producing and delivering a ¼ pound Beyond Burger to retail are 0.384 kg CO2eq/quarter pound BB (or 3.4 kg CO2eq. /kg BB).",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Quantis 2019, Impossible Burger comparative LCA (commissioned by Impossible Foods)",
+          "url": "https://assets.ctfassets.net/hhv516v5f7sj/4exF7Ex74UoYku640WSF3t/cc213b148ee80fa2d8062e430012ec56/Impossible_foods_comparative_LCA.pdf",
+          "quote": "The functional unit for this study is cradle-to-gate assessment of 1 kg of Impossible Burger®, which will be benchmarked against 1 kg of boneless retail-ready U.S. conventional ground beef burger.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Saget et al. 2021, Sustainable Production and Consumption 28:936-952 (independent, peer-reviewed; per-patty corroboration)",
+          "url": "https://researchrepository.ul.ie/bitstreams/7edd3652-290b-4944-b878-cb3b2074a91d/download",
+          "quote": "Plant-based patties have a smaller environmental footprint across most categories, including a 77% smaller climate change burden ... compared with Brazilian beef patties.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "CarbonCloud ClimateHub (autogenerated proxy data)",
+          "url": "https://apps.carboncloud.com/climatehub/product-reports/id/2107786194843",
+          "quote": "Beyond Burger (Plant based burger) | 2.62 | live value as of 2026-07-19",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Detzel et al. 2021, J. Sci. Food Agric. (ifeu institute, EU Horizon 2020 Protein2Food -- independent; open PDF via IITA repository)",
+          "url": "https://biblio.iita.org/documents/S21ArtDetzelLifeInthomNodev.pdf-8c60b1ab6f64641c2b6e66577fb8da59.pdf",
+          "quote": "Comparisons that were conducted on a mass basis show values of 235 g CO2 equivalents and 240 g CO2 equivalents for VMA extrudates from lupin protein combined with amaranth or buckwheat flour, respectively.",
+          "accessed": "2026-07-20"
+        }
+      ]
+    },
+    {
       "id": "rice",
       "group": "staples",
       "name_en": "Rice",
@@ -575,7 +791,7 @@
         {
           "id": "rice_cooker_cup",
           "name_en": "1 rice-cooker cup (dry)",
-          "name_ja": "米1合",
+          "name_ja": "米1合（150g）",
           "name_es": "1 vaso de arrocera (en seco)",
           "grams": 150
         },
@@ -587,7 +803,7 @@
           "grams": 45
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 4.45; supply-chain sum 4.4516, methane-dominated (farm stage 3.55 of 4.45). Presets are RAW weight: a 150 g rice-cooker cup becomes ~330 g cooked (~2.2x by weight); the factor multiplies the raw grams -- quantity-editor helper required.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 4.45; supply-chain stage sum 4.4516. Methane from flooded paddies dominates (farm stage 3.55 of 4.45). The factor and presets use raw dry weight: a 150 g rice-cooker cup becomes about 330 g cooked (~2.2x by weight), so enter the raw amount.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -626,7 +842,7 @@
           "grams": 100
         }
       ],
-      "calculation_notes": "Derived: P&N publishes no bread product; mapped to the 'Wheat & Rye' grain mean with supply-chain losses (1.57; supply-chain sum 1.5738). Baking energy is not added (outside the grain's farm-to-retail boundary). Stored as the exact 1.57 (FR-18); UI rounding may show 1.6.",
+      "calculation_notes": "Derived: Poore & Nemecek publish no bread product, so bread is mapped to their 'Wheat & Rye' grain mean, including land-use change and supply-chain losses (1.57; stage sum 1.5738). Baking energy is not added -- it falls outside the grain's farm-to-retail boundary. Stored as the exact 1.57; display rounding may show 1.6.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -659,7 +875,7 @@
           "grams": 100
         }
       ],
-      "calculation_notes": "Derived: mapped to the P&N 'Wheat & Rye' grain mean with supply-chain losses (1.57), same as bread; milling/drying energy not added (dried durum product, no leavening). Dry-weight basis (55 g dry is ~140 g cooked).",
+      "calculation_notes": "Derived: mapped to the Poore & Nemecek 'Wheat & Rye' grain mean, including land-use change and supply-chain losses (1.57), the same basis as bread; milling and drying energy are not added (dried durum product, no leavening). Dry-weight basis: 55 g dry is about 140 g cooked.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -685,7 +901,7 @@
           "grams": 40
         }
       ],
-      "calculation_notes": "Owner decision D3 (2026-07-18): average of the two credible candidates as accessed 2026-07-18 -- P&N 'Oatmeal' mean with losses 2.48 (grapher literal; supply-chain sum 2.4804) and CarbonCloud 'Rolled oats' live value 1.20 (was 1.25 at the research fetch; CarbonCloud drifts). (2.48 + 1.20) / 2 = 1.84. Re-read the live input and recompute at the next data pass. The per-kg grapher's 'Oatmeal' is the grain, not oat milk.",
+      "calculation_notes": "Average of the two credible published figures, both as accessed 2026-07-18: the Poore & Nemecek 'Oatmeal' mean including land-use change and supply-chain losses, 2.48 (chart value; stage sum 2.4804), and CarbonCloud's live 'Rolled oats' value, 1.20 (it read 1.25 at an earlier fetch; CarbonCloud values drift over time). (2.48 + 1.20) / 2 = 1.84. The per-kg chart's 'Oatmeal' is the grain, not oat milk.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -724,7 +940,7 @@
           "grams": 170
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.46; supply-chain sum 0.4601. Lowest staple (farm 0.19, near-zero land-use change). Stored unrounded per FR-18.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 0.46; supply-chain stage sum 0.4601. The lowest-impact staple: farm stage 0.19 and near-zero land-use change.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -757,7 +973,7 @@
           "grams": 17
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 2.09; supply-chain sum 2.0887 (LUC 0.373, losses 0.658). Global mean across field and greenhouse production. Heated-greenhouse production is substantially higher than field/imported (Theurl et al. 2014), but no numeric spread range is quotable yet (open item) -- qualitative copy only.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 2.09; supply-chain stage sum 2.0887 (land-use change 0.373, losses 0.658). A global mean across field and greenhouse production: heated-greenhouse tomatoes run substantially higher than field-grown or imported ones (Theurl et al. 2014), though no precise spread range is well-sourced yet.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -768,7 +984,7 @@
         {
           "name": "Theurl, Haberl, Erb & Lindenthal 2014, Agronomy for Sustainable Development 34",
           "url": "https://link.springer.com/article/10.1007/s13593-013-0171-8",
-          "quote": "Imported tomatoes from Spain and Italy have two times lower greenhouse gas emissions than those produced in Austria in capital-intensive heated systems.",
+          "quote": "[I]mported tomatoes from Spain and Italy have two times lower greenhouse gas emissions than those produced in Austria in capital-intensive heated systems.",
           "accessed": "2026-07-19"
         }
       ]
@@ -784,7 +1000,7 @@
         {
           "id": "medium_carrot",
           "name_en": "1 medium carrot",
-          "name_ja": "にんじん中1本",
+          "name_ja": "にんじん1本（61g）",
           "name_es": "1 zanahoria mediana",
           "grams": 61
         },
@@ -796,7 +1012,7 @@
           "grams": 128
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Root Vegetables'. Grapher literal 0.43; supply-chain sum 0.4263. Clune et al. 2017 fresh root-veg medians sub-0.5 agree in magnitude and ordering.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Root Vegetables'. Chart value 0.43; supply-chain stage sum 0.4263. Clune et al. 2017 fresh root-vegetable medians below 0.5 agree in magnitude.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -829,7 +1045,7 @@
           "grams": 151
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Brassicas', renamed to everyday grocery words for the app. Grapher literal 0.51; supply-chain sum 0.5146. Stored as the exact 0.51 (FR-18; a pre-rounded 0.5 would flatter by -2.0%).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Brassicas', renamed to everyday grocery words for the app. Chart value 0.51; supply-chain stage sum 0.5146. Stored at the exact 0.51 rather than a rounded 0.5, which would understate by 2%.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -862,7 +1078,7 @@
           "grams": 150
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Onions & Leeks'. Grapher literal 0.5; supply-chain sum 0.4968.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Onions & Leeks'. Chart value 0.5; supply-chain stage sum 0.4968.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -895,7 +1111,7 @@
           "grams": 136
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.86; supply-chain sum 0.8619 (small negative orchard LUC term, -0.026). Presets use PEELED/edible weight; whole-fruit conversion factor 1.5625 if ever needed (USDA refuse ~36%). Svanes & Aronsson's 1.37 covers a fuller chain; the FAO 324-1124 g range brackets the factor.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 0.86; supply-chain stage sum 0.8619 (including a small orchard land-use credit, -0.026). Presets use peeled edible weight; multiply by 1.5625 for whole-fruit weight (USDA refuse ~36%). Svanes & Aronsson's 1.37 measures a single Costa Rica-to-Norway chain over the same cradle-to-retail boundary and sits above this global mean; the FAO 324-1124 g range brackets the factor.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -940,7 +1156,7 @@
           "grams": 149
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 0.43; supply-chain sum 0.4284 (small negative orchard LUC term, -0.029). China farm-gate 0.23 plus packaging, transport and losses is consistent.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 0.43; supply-chain stage sum 0.4284 (small orchard land-use credit, -0.029). The Chinese farm-gate figure of 0.23 plus packaging, transport and losses is consistent with this.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -960,7 +1176,7 @@
       "id": "citrus",
       "group": "fruit",
       "name_en": "Citrus",
-      "name_ja": "柑橘類",
+      "name_ja": "みかん・オレンジ",
       "name_es": "Cítricos",
       "kg_co2e_per_kg": 0.39,
       "servings": [
@@ -979,7 +1195,7 @@
           "grams": 184
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Citrus Fruit'. Grapher literal 0.39; supply-chain sum 0.3877 (small negative orchard LUC term, -0.146). Independent corroboration is order-of-magnitude only (open item).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Citrus Fruit'. Chart value 0.39; supply-chain stage sum 0.3876 (small orchard land-use credit, -0.146). Independent corroboration is order-of-magnitude only so far.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1012,7 +1228,7 @@
           "grams": 12
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses; OWID category 'Berries & Grapes' -- a berries-plus-grapes BLEND. Grapher literal 1.53; supply-chain sum 1.5319. Air-freighted out-of-season soft berries sit well above this; table grapes below. Science sheet must say 'includes grapes'.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Berries & Grapes', so this factor is a blend that includes grapes. Chart value 1.53; supply-chain stage sum 1.5319. Air-freighted out-of-season soft berries sit well above this figure; table grapes below it.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1044,7 +1260,7 @@
           "grams": 10
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses, per kg of DRY ROASTED grounds -- a food consumed ~10 g at a time, so the per-cup preset is the entry path (never the raw grams field). Grapher literal 28.53; supply-chain sum 28.5279. Per-cup chain: 10 g x 28.53 / 1000 = 0.2853 kg CO2e, mid-range of the published 0.1-0.4 kg/cup band; at P&N's own 15 g unit 0.428 kg. Green-bean LCAs (~15.33/kg, Nab & Maslin) sit below because roasting mass loss and supply-chain losses are not yet applied.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses, per kg of dry roasted grounds -- a food consumed about 10 g at a time, so per-cup amounts are the meaningful scale. Chart value 28.53; supply-chain stage sum 28.5279. Per cup: 10 g x 28.53 / 1000 = 0.2853 kg CO2e, in line with published per-cup estimates of roughly 0.3-0.4 kg; at Poore & Nemecek's own 15 g serving unit it is 0.428 kg. Green-bean studies (~15.33 per kg, Nab & Maslin) sit below because roasting mass loss and supply-chain losses are not yet applied.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1055,7 +1271,7 @@
         {
           "name": "Nab & Maslin 2020, Geo: Geography and Environment",
           "url": "https://rgs-ibg.onlinelibrary.wiley.com/doi/full/10.1002/geo2.96",
-          "quote": "The average carbon footprint of Arabica coffee from both countries was calculated as 15.33 (+/-0.72) kg CO2 [equivalent per 1 kg of green coffee] for conventional coffee production and 3.51 (+/-0.13) kg CO2 [for sustainable production].",
+          "quote": "The average carbon footprint of Arabica coffee from both countries was calculated as 15.33 (+/-0.72) kg of carbon dioxide equivalent per 1 kg of green coffee (kg CO2e kg-1) for conventional coffee production and 3.51 (+/-0.13) kg CO2e kg-1 for sustainable coffee production.",
           "accessed": "2026-07-18"
         },
         {
@@ -1063,6 +1279,63 @@
           "url": "https://co2everything.com/co2e-of/coffee",
           "quote": "One cup of Coffee (15g) is equivalent to 0.4kg CO2e",
           "accessed": "2026-07-18"
+        }
+      ]
+    },
+    {
+      "id": "tea",
+      "group": "drinks",
+      "name_en": "Tea (green or black)",
+      "name_ja": "お茶（緑茶・紅茶）",
+      "name_es": "Té (verde o negro)",
+      "kg_co2e_per_kg": 9.0,
+      "servings": [
+        {
+          "id": "tea_bag",
+          "name_en": "1 tea bag",
+          "name_ja": "ティーバッグ1袋",
+          "name_es": "1 bolsita de té",
+          "grams": 2
+        },
+        {
+          "id": "cup_loose_leaf",
+          "name_en": "1 cup, loose leaf",
+          "name_ja": "茶葉1杯分",
+          "name_es": "1 taza (hojas sueltas)",
+          "grams": 3
+        }
+      ],
+      "calculation_notes": "Not in Poore & Nemecek; mean of four independent tea LCAs with the water-boiling stage removed: Darjeeling 8.70 (Doublet & Jungbluth 2010), Darjeeling 8.90 (Cichorowski et al. 2015), Chinese organic teas 12.42 (Xu et al. 2019), South Indian 6.13 (Premalatha et al. 2024): (8.70 + 8.90 + 12.42 + 6.13) / 4 = 9.04, shipped as 9.0. Kenyan tea (~2.0) and Sri Lankan orthodox tea (~21.6) bracket the range. Covers green and black tea, per kg of dry leaves; no land-use-change term (none of the underlying LCAs model it). Boiling water at home is excluded for every item in this dataset, which is why published per-cup tea figures (mostly kettle energy) are far larger. A 2 g tea bag is 18 g CO2e versus about 285 g for a 10 g cup of coffee. A Japanese sencha LCA (Masuda & Tomioka 2011; Shiga, Yabukita cultivar) is verified at 6.28 (flat-land) / 8.51 (mountainous) kg CO2e per kg of dried crude tea (aracha), cradle-to-processing-gate with boiling excluded -- consistent with this mean (a five-study mean of 8.71 still rounds to 9.0, so the factor is unchanged).",
+      "sources": [
+        {
+          "name": "Doublet & Jungbluth 2010, LCA of drinking Darjeeling tea (ESU-services)",
+          "url": "https://esu-services.ch/fileadmin/download/doublet-2010-LCA-Darjeeling-tea-1.0.pdf",
+          "quote": "the processing of the fresh tea leaves amounts to 13-15% of the total carbon footprint and the boiling of water in an electric kettle at home causes 64-73% of the total carbon footprint.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Cichorowski et al. 2015, Int. J. Life Cycle Assessment 20:426-439",
+          "url": "https://link.springer.com/article/10.1007/s11367-014-0840-0",
+          "quote": "The cradle-to-gate PCF of 1 kg Darjeeling tea is between 7.1 and 25.3 kg CO2e",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Xu et al. 2019, J. Cleaner Production 233:782-792 (full text via China Agricultural University mirror)",
+          "url": "https://clst.cau.edu.cn/module/download/downfile.jsp?classid=0&filename=e528392575be4ac0b98b18aa71148c75.pdf",
+          "quote": "The carbon footprint of the two domestic green teas, Wuyangchunyu and Longjing, were highest with 19.2 and 19.9 kg CO2 eq. kg-1 dry tea. The only black tea Wuyangkungfu had a carbon footprint of 11.9 kg CO2 eq. kg-1 dry tea, whereas the oolong tea Jinkengoolong had a carbon footprint of 6.6 kg CO2 eq. kg-1 dry tea.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Premalatha et al. 2024, Plant Science Today 11(sp4):01-09",
+          "url": "https://horizonepublishing.com/journals/index.php/PST/article/download/5374/4828/37914",
+          "quote": "The findings revealed that the consumption stage contributed the highest CO2 emissions, accounting for 45%-56% to overall CF.",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Masuda & Tomioka 2011, Journal of Farm Management 49(3):97-102 (Japanese sencha LCA, Shiga; J-STAGE, free access)",
+          "url": "https://www.jstage.jst.go.jp/article/fmsj/49/3/49_97/_article/-char/ja/",
+          "quote": "荒茶収量 1kg 当たり温室効果ガス排出量は，平坦地体系 6.28kgCO2eq/kg，山間地体系 8.51kgCO2eq/kg であり，平坦地体系の方が少なかった。",
+          "accessed": "2026-07-20"
         }
       ]
     },
@@ -1089,13 +1362,6 @@
           "grams": 350
         },
         {
-          "id": "can_355ml",
-          "name_en": "1 can (12 oz)",
-          "name_ja": "缶1本（355ml）",
-          "name_es": "1 lata (355 ml)",
-          "grams": 355
-        },
-        {
           "id": "us_pint",
           "name_en": "1 US pint",
           "name_ja": "1パイント（473ml）",
@@ -1103,7 +1369,7 @@
           "grams": 473
         }
       ],
-      "calculation_notes": "Owner decision D2 (2026-07-18): P&N mean on the per-alcohol-unit basis, derived to per litre. Manuscript: 0.24 kg CO2e per unit (mean); 1 unit = 10 ml alcohol; at 5% ABV the volume per unit is 10 / 0.05 = 200 ml; 0.24 / 0.200 = 1.2 kg/L. Per litre = per kg at density 1.0. The dedicated packaged-beer LCA range (0.400-1.475/L; packaged-format mean ~0.67) is science-sheet spread context, not the factor. Per 330 ml can: 0.396 kg.",
+      "calculation_notes": "Derived from the Poore & Nemecek mean on the per-alcohol-unit basis: 0.24 kg CO2e per unit, where 1 unit = 10 ml of alcohol; at 5% ABV one unit is 10 / 0.05 = 200 ml of beer, so 0.24 / 0.200 = 1.2 kg per litre. Per litre = per kg at density 1.0. Because this comes from the manuscript's per-unit figures, it may not include the supply-chain-losses uplift applied to the chart values. Dedicated packaged-beer LCAs report roughly 0.51-0.84 kg per litre, below this factor -- context on the spread, not the factor itself. Per 330 ml can: 0.396 kg.",
       "sources": [
         {
           "name": "Poore & Nemecek 2018, accepted manuscript",
@@ -1148,7 +1414,7 @@
           "grams": 750
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 1.79. Manuscript cross-check: 0.14 kg per unit at 12.5% ABV = 10 / 0.125 = 80 ml per unit -> 1.75/L; the grapher 1.79 (losses included) is adopted. Per 750 ml bottle: 1.34 kg, inside the Nature 2024 0.06-3.0 kg/bottle range. Per litre = per kg at density 1.0.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 1.79. Cross-check from the manuscript's per-alcohol-unit figures: 0.14 kg per unit at 12.5% ABV = 10 / 0.125 = 80 ml per unit, giving 1.75 per litre; the chart's 1.79 (losses included) is the shipped value. Per 750 ml bottle: 1.34 kg, inside the 0.06-3.0 kg per bottle range reported in Nature 2024. Per litre = per kg at density 1.0.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1186,7 +1452,7 @@
           "grams": 250
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Triple-corroborated: per-kg grapher 0.98, milks chart 0.98/L, manuscript mean ~1.0/L. Per litre = per kg at density 1.0. Per 250 ml glass: 0.245 kg.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Triple-corroborated: per-kg chart 0.98, milks comparison chart 0.98 per litre, manuscript mean ~1.0 per litre. Per litre = per kg at density 1.0. Per 250 ml glass: 0.245 kg.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1218,7 +1484,7 @@
           "grams": 250
         }
       ],
-      "calculation_notes": "P&N mean from the milks chart, per litre -- the only OWID surface for oat milk (the per-kg grapher's 'Oatmeal' is the grain, never the drink). Stored exact 0.9031262 (FR-18); displays 0.90. Commercial LCAs run lower (Oatly 0.43-0.64/L), so confidence is Medium. Per litre = per kg at density 1.0. Per 250 ml glass: 0.226 kg.",
+      "calculation_notes": "Poore & Nemecek mean from the milks comparison chart, per litre -- the only Our World in Data figure for oat milk (the per-kg chart's 'Oatmeal' is the grain, not the drink). Stored at the chart's exact 0.9031262; displays as 0.90. Commercial LCAs run lower (Oatly reports 0.43-0.64 per litre), so confidence is Medium. Per litre = per kg at density 1.0. Per 250 ml glass: 0.226 kg.",
       "sources": [
         {
           "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
@@ -1228,7 +1494,7 @@
         },
         {
           "name": "Our World in Data, environmental-footprint-milks grapher (Poore & Nemecek 2018)",
-          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks",
           "quote": "Impacts are measured per liter of milk. These are based on a meta-analysis of food system impact studies across the supply chain which includes land use change, on-farm production, processing, transport, and packaging.",
           "accessed": "2026-07-18"
         },
@@ -1263,7 +1529,7 @@
           "grams": 12.6
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses (owner decision D1: means dataset-wide). Grapher literal 46.65; supply-chain sum 46.6467. Land-use change is 55% of the total (deforestation-linked cocoa) -- the mandatory sublabel explains why sourcing moves this from near-zero to 46+. The famous ~19 is the same study's median WITHOUT losses (archived stage sum 18.7) -- approved fallback provenance only, not the shipped value. The 12.6 g square preset is derived: FDC 170273 '1 bar = 101.0 g' / 8 = 12.625 g.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 46.65; supply-chain stage sum 46.6467. Land-use change is 55% of the total (deforestation-linked cocoa), which is why sourcing can move chocolate from near-zero to 46+. The widely seen ~19 is the same study's median without losses (stage sum 18.7), not this mean. The 12.6 g square preset is one eighth of a standard 101.0 g bar (USDA FDC 170273): 101.0 / 8 = 12.625 g.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1308,7 +1574,7 @@
           "grams": 2.3
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Grapher literal 3.2; supply-chain sum 3.1989 (land-use change 39%). Factory-gate LCAs (0.474-1.036, Belize PCF) sit below because they exclude transport, retail and losses -- and demonstrate the dominant LUC sensitivity.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 3.2; supply-chain stage sum 3.1989, with land-use change 39% of the total. Factory-gate studies (0.474-1.036, Belize) sit below because they exclude transport, retail and losses -- and show how sensitive the total is to land-use change.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1353,7 +1619,7 @@
           "grams": 4.5
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Not in the per-kg grapher; the factor is the eight-stage supply-chain sum -0.3236843 + 3.672172 + 0 + 0.5671888 + 0.41411418 + 0.039322365 + 0.7401167 + 0.31564602 = 5.4249 -> 5.42. Net-negative land-use change (groves sequester). Palm-vs-olive ordering is boundary-dependent: on a production-only basis the two are close and can reverse -- no superlative copy.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum -0.3236843 + 3.672172 + 0 + 0.5671888 + 0.41411418 + 0.039322365 + 0.7401167 + 0.31564602 = 5.4249 -> 5.42. Land-use change is net negative (groves sequester carbon). The palm-vs-olive ordering depends on the boundary: on a production-only basis the two are close and can reverse. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the spoon presets are already in grams.",
       "sources": [
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
@@ -1379,7 +1645,7 @@
           "grams": 13.6
         }
       ],
-      "calculation_notes": "P&N mean with supply-chain losses. Not in the per-kg grapher; the factor is the eight-stage supply-chain sum 2.7555852 + 1.875132 + 0 + 1.1253257 + 0.18511687 + 0.038737673 + 0.78810805 + 0.5487651 = 7.3168 -> 7.32. Land-use change is ~38% of the total. On a production-only basis (~2.2) palm and olive are close and can reverse -- ordering is boundary-dependent, no superlatives.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum 2.7555852 + 1.875132 + 0 + 1.1253257 + 0.18511687 + 0.038737673 + 0.78810805 + 0.5487651 = 7.3168 -> 7.32. Land-use change is about 38% of the total. On a production-only basis (~2.2) palm and olive are close and can reverse -- the ordering depends on the boundary. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the tablespoon preset is already in grams.",
       "sources": [
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",

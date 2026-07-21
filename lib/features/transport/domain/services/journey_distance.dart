@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:seed_app/features/transport/data/models/city_model.dart';
+import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 
 /// Distance estimation and mode availability for city-pair
 /// prefill. Estimates only -- every prefilled distance stays
@@ -90,14 +91,20 @@ bool _withinPort(
   return haversineKm(city.lat, city.lon, portLat, portLon) <= radiusKm;
 }
 
+bool _sidesAllow(City sideA, City sideB, CityLink link) =>
+    _withinPort(sideA, link.portALat, link.portALon, link.radiusAKm) &&
+    _withinPort(sideB, link.portBLat, link.portBLon, link.radiusBKm);
+
 /// Whether both cities sit inside the link's port catchments.
 /// Portless sides always pass (legacy distance-only links).
 bool _portsAllow(City a, City b, CityLink link) {
+  if (link.a == link.b) {
+    // Self-links (same-mass corridors) have no orientation;
+    // accept either assignment so argument order cannot matter.
+    return _sidesAllow(a, b, link) || _sidesAllow(b, a, link);
+  }
   final aIsSideA = a.mass == link.a;
-  final sideA = aIsSideA ? a : b;
-  final sideB = aIsSideA ? b : a;
-  return _withinPort(sideA, link.portALat, link.portALon, link.radiusAKm) &&
-      _withinPort(sideB, link.portBLat, link.portBLon, link.radiusBKm);
+  return aIsSideA ? _sidesAllow(a, b, link) : _sidesAllow(b, a, link);
 }
 
 /// Canonical key for an unordered city pair, matching the keys in
@@ -164,4 +171,34 @@ Map<String, double> suggestedDistancesKm(
     result[kindAir] = straight + flightDetourKm;
   }
   return result;
+}
+
+/// Prefill distance (km) for [mode] from a [suggestedDistancesKm]
+/// map, or null when the pair has no suggestion for that mode.
+///
+/// Kind-to-group mapping (Phase 8 plan): ground covers the car, bus,
+/// and rail groups; active covers the cycle family, with walking only
+/// up to [walkModeMaxKm] straight-line; ferry covers water; air
+/// covers air. Groups outside the map (micro, taxi, high impact) are
+/// never suggested. A null return only withholds the estimate -- the
+/// mode stays manually addable at any distance.
+double? prefillKmForMode(TransportMode mode, Map<String, double> suggestions) {
+  switch (mode.group) {
+    case 'car' || 'bus' || 'rail':
+      return suggestions[kindGround];
+    case 'active':
+      final estimate = suggestions[kindActive];
+      if (estimate == null) return null;
+      // The walk cap is on straight-line km but the estimate carries
+      // the circuity factor, so compare against the scaled cap.
+      final walksTooFar =
+          mode.id == 'walk' && estimate > walkModeMaxKm * groundCircuityFactor;
+      return walksTooFar ? null : estimate;
+    case 'water':
+      return suggestions[kindFerry];
+    case 'air':
+      return suggestions[kindAir];
+    default:
+      return null;
+  }
 }

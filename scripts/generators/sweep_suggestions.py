@@ -61,8 +61,7 @@ def within_port(city, lat, lon, radius):
     return haversine_km(city["lat"], city["lon"], lat, lon) <= radius
 
 
-def ports_allow(a, b, link):
-    side_a, side_b = (a, b) if a["mass"] == link["a"] else (b, a)
+def _sides_allow(side_a, side_b, link):
     return within_port(
         side_a,
         link.get("port_a_lat"),
@@ -74,6 +73,15 @@ def ports_allow(a, b, link):
         link.get("port_b_lon"),
         link.get("radius_b_km"),
     )
+
+
+def ports_allow(a, b, link):
+    if link["a"] == link["b"]:
+        # Self-links have no orientation; accept either assignment
+        # so the result is order-independent (mirrors the Dart).
+        return _sides_allow(a, b, link) or _sides_allow(b, a, link)
+    side_a, side_b = (a, b) if a["mass"] == link["a"] else (b, a)
+    return _sides_allow(side_a, side_b, link)
 
 
 def suggest(a, b, links, blocked, pair_index):
@@ -97,7 +105,9 @@ def suggest(a, b, links, blocked, pair_index):
     ferry = find_link(a, b, links, "ferry")
     if (
         ferry
-        and straight <= ferry.get("max_km", FERRY_MODE_MAX_KM)
+        # `or` (not dict.get default) mirrors Dart's `??`, which
+        # also covers an explicit JSON null.
+        and straight <= (ferry.get("max_km") or FERRY_MODE_MAX_KM)
         and ports_allow(a, b, ferry)
     ):
         result["ferry"] = straight
@@ -119,19 +129,59 @@ def main():
     if pin not in dart:
         violations.append(f"CITY_COUNT pin mismatch: expected '{pin}'")
 
+    # The Dart resolves blocklist indices to cc/name keys, so the
+    # gate's index-space checks only match app behavior while
+    # (cc, name) uniquely identifies a city (R4-8).
+    keys = [f'{c["cc"]}/{c["name"]}' for c in cities]
+    if len(set(keys)) != n:
+        dupes = {k for k in keys if keys.count(k) > 1}
+        violations.append(f"duplicate cc/name keys: {sorted(dupes)}")
+
     masses = {c["mass"] for c in cities}
+    labels = [lk["label"] for lk in links]
+    if len(set(labels)) != len(labels):
+        violations.append("duplicate link labels alias the dead-link check")
+    port_fields = (
+        "port_a_lat", "port_a_lon", "radius_a_km",
+        "port_b_lat", "port_b_lon", "radius_b_km",
+    )
     for link in links:
         if link["a"] not in masses or link["b"] not in masses:
             violations.append(f"link references missing mass: {link}")
+        # A partial port set silently degrades the link to
+        # distance-only gating in the Dart (R4-9).
+        present = sum(link.get(f) is not None for f in port_fields)
+        if present not in (0, len(port_fields)):
+            violations.append(f"partial port fields: {link['label']}")
 
     tunnel_pairs = {
         frozenset((lk["a"], lk["b"]))
         for lk in links
         if lk["kind"] == "rail_tunnel"
     }
+    raw_blocked = root["metadata"].get("water_blocked", [])
+    if len(blocked) != len(raw_blocked):
+        violations.append("water_blocked contains duplicate pairs")
+    for entry in raw_blocked:
+        if (
+            not isinstance(entry, list)
+            or len(entry) != 2
+            or not all(isinstance(x, int) for x in entry)
+            or not 0 <= entry[0] < entry[1] < n
+        ):
+            violations.append(f"malformed water_blocked entry: {entry}")
+            continue
+        ma = cities[entry[0]]["mass"]
+        mb = cities[entry[1]]["mass"]
+        if ma != mb and frozenset((ma, mb)) not in tunnel_pairs:
+            violations.append(
+                f"water_blocked pair can never ground: {entry}"
+            )
+
     link_hits = Counter()
     kind_counts = Counter()
     fallback_min = None
+    honored = 0
     for i in range(n):
         a = cities[i]
         for j in range(i + 1, n):
@@ -151,14 +201,21 @@ def main():
             if "ferry" in s:
                 link = find_link(a, b, links, "ferry")
                 link_hits[link["label"]] += 1
-                if straight > link.get("max_km", FERRY_MODE_MAX_KM):
+                if straight > (link.get("max_km") or FERRY_MODE_MAX_KM):
                     violations.append(f"ferry over cap: {name}")
                 if not ports_allow(a, b, link):
                     violations.append(f"ferry outside ports: {name}")
-            if (i, j) in blocked and (
-                "ground" in s or "active" in s
-            ):
-                violations.append(f"water-blocked pair got ground: {name}")
+            if (i, j) in blocked:
+                if "ground" in s or "active" in s:
+                    violations.append(
+                        f"water-blocked pair got ground: {name}"
+                    )
+                elif straight <= GROUND_MODE_MAX_KM and (
+                    a["mass"] == b["mass"]
+                    or frozenset((a["mass"], b["mass"])) in tunnel_pairs
+                ):
+                    # The entry actually suppressed a ground offer.
+                    honored += 1
             if s.keys() == {"air"} and straight < MIN_FLIGHT_KM:
                 fallback_min = min(fallback_min or straight, straight)
                 if straight < FALLBACK_AIR_MIN_KM:
@@ -171,7 +228,7 @@ def main():
     total = n * (n - 1) // 2
     print(f"pairs swept: {total}")
     print(f"kind counts: {dict(kind_counts)}")
-    print(f"water-blocked pairs honored: {len(blocked)}")
+    print(f"water-blocked entries: {len(blocked)}; honored: {honored}")
     print(f"ferry pairs per link: {dict(link_hits)}")
     if fallback_min is not None:
         print(f"smallest air fallback: {fallback_min:.1f} km")

@@ -1540,9 +1540,9 @@
   {
     "dayOfYear": 83,
     "category": "comparison",
-    "factEn": "Replacing a single beef burger with a bean burger saves 6.5 kg of CO2, 340 litres of water, and 3.6 square metres of land. Small swaps, multiplied by millions, change everything.",
-    "factEs": "Reemplazar una sola hamburguesa de carne por una de frijoles ahorra 6,5 kg de CO2, 340 litros de agua y 3,6 metros cuadrados de tierra. Pequeños cambios, multiplicados por millones, lo cambian todo.",
-    "factJa": "牛肉バーガー1個を豆のバーガーに替えるだけで、6.5 kgのCO2、340リットルの水、3.6 m2の土地を節約できます。小さな選択が何百万人に広がれば、すべてが変わります。",
+    "factEn": "Replacing a single beef burger with a bean burger saves around 11 kg of CO2e, 340 litres of water, and 3.6 square metres of land. Small swaps, multiplied by millions, change everything.",
+    "factEs": "Reemplazar una sola hamburguesa de carne por una de frijoles ahorra unos 11 kg de CO2e, 340 litros de agua y 3,6 metros cuadrados de tierra. Pequeños cambios, multiplicados por millones, lo cambian todo.",
+    "factJa": "牛肉バーガー1個を豆のバーガーに替えるだけで、約11 kgのCO2e、340リットルの水、3.6 m2の土地を節約できます。小さな選択が何百万人に広がれば、すべてが変わります。",
     "sourceEn": "Our World in Data / Poore & Nemecek",
     "sourceEs": "Our World in Data / Poore & Nemecek",
     "sourceJa": "Our World in Data / Poore & Nemecek",
