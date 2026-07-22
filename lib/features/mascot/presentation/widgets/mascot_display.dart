@@ -77,6 +77,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   rive.ViewModelInstanceNumber? _lookX;
   rive.ViewModelInstanceNumber? _lookY;
   rive.ViewModelInstanceTrigger? _smile;
+  rive.ViewModelInstanceNumber? _smileHold;
 
   // Screen size cached in build; pointer callbacks must not depend on
   // inherited widgets.
@@ -116,6 +117,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     _lookX = null;
     _lookY = null;
     _smile = null;
+    _smileHold = null;
     try {
       _faceVm = controller.dataBind(rive.DataBind.auto());
     } on rive.RiveDataBindException {
@@ -128,6 +130,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     _lookX = vm.number(mascotVmLookX) ?? vm.number('face/$mascotVmLookX');
     _lookY = vm.number(mascotVmLookY) ?? vm.number('face/$mascotVmLookY');
     _smile = vm.trigger(mascotVmSmile) ?? vm.trigger('face/$mascotVmSmile');
+    _smileHold =
+        vm.number(mascotVmSmileHold) ?? vm.number('face/$mascotVmSmileHold');
   }
 
   bool get _hasGaze => _lookX != null || _lookY != null;
@@ -184,6 +188,11 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     ref.listen(mascotSmileTriggerProvider, (_, shouldSmile) {
       if (shouldSmile && TickerMode.valuesOf(context).enabled) {
         _smile?.trigger();
+        // Raise the hold so FaceRig pushes the next blink past the smile;
+        // the provider flips back to false ~100ms later, dropping it to 0.
+        _smileHold?.value = 1;
+      } else if (!shouldSmile) {
+        _smileHold?.value = 0;
       }
     });
 
@@ -259,8 +268,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     Widget mascot = MascotImage(
       assetPath: assetPath,
       artboardName: artboardName,
-      width: widget.size * 0.8,
-      height: widget.size * 0.8,
+      width: widget.size * 0.96,
+      height: widget.size * 0.96,
       onRiveInit: _onRiveInit,
     );
 

@@ -32,6 +32,24 @@ from datetime import date
 
 TOP_N = 5
 TOP_N_JP = 15  # primary market: denser coverage
+
+# Same-settlement duplicates: GeoNames carries separate records
+# for districts/twin listings of one town (Majuro + its urban
+# core "Dalap-Uliga-Dorrit"; Macau's Se/Zhuojiacun districts).
+# Within a country, a city closer than this to a larger one is
+# the same settlement and is dropped before the top-N cut.
+# ponytail: 1.5 km keeps adjacent municipalities (Frederiksberg
+# sits 2.0 km from Copenhagen); raise only with a dataset diff.
+DEDUP_KM = 1.5
+
+# Cities excluded by owner rule (R6-1, 2026-07-21): the Gaza
+# Strip is sealed (Rafah quota-only, Erez closed, no land route
+# to the West Bank), so its cities cannot honestly appear in a
+# travel picker at all. Predicate, not a name list: any PS city
+# west of the strip/West Bank gap. West Bank cities sit at
+# lon >= 35.0; the strip spans 34.2-34.6.
+def excluded(cc, lat, lon):
+    return cc == "PS" and lon < 34.9
 # ponytail: PPL lets US boroughs (Brooklyn, Queens) crowd out real
 # cities in the top-5; prefer PPLA*/PPLC for US if that ever matters.
 KEEP_CODES = {"PPL", "PPLA", "PPLA2", "PPLA3", "PPLA4", "PPLA5", "PPLC", "PPLG"}
@@ -237,6 +255,9 @@ def load_cities(path):
                 cities.append((cc, name, lat, lon, pop))
     # GeoNames occasionally carries two records for one place
     # (e.g. La Ceiba HN); keep the highest-population record.
+    # Known upstream mislabel kept as-is: ER/Himora is actually
+    # Humera, ET (14.30N 36.61E sits in Tigray, Ethiopia); fixing
+    # it here would desync from the GeoNames source of truth.
     # Rounded coords keep genuinely distinct same-named cities
     # (the two Suzhous, CN) from being merged.
     best = {}
@@ -247,15 +268,33 @@ def load_cities(path):
     return list(best.values())
 
 
+def _same_settlement(lat1, lon1, lat2, lon2):
+    # Equirectangular km: exact enough at settlement scale.
+    from math import cos, radians
+    dy = (lat1 - lat2) * 111.32
+    dx = (lon1 - lon2) * 111.32 * cos(radians((lat1 + lat2) / 2))
+    return dx * dx + dy * dy < DEDUP_KM * DEDUP_KM
+
+
 def top_per_country(cities):
     by_country = {}
     for cc, name, lat, lon, pop in cities:
+        if excluded(cc, lat, lon):
+            continue
         by_country.setdefault(cc, []).append((pop, name, lat, lon))
     pool = []
     for cc, lst in by_country.items():
         lst.sort(reverse=True)
+        # Population-descending pass: a city is dropped when a
+        # larger same-country city already sits within DEDUP_KM.
+        kept = []
+        for row in lst:
+            if not any(
+                _same_settlement(row[2], row[3], k[2], k[3]) for k in kept
+            ):
+                kept.append(row)
         limit = TOP_N_JP if cc == "JP" else TOP_N
-        for pop, name, lat, lon in lst[:limit]:
+        for pop, name, lat, lon in kept[:limit]:
             pool.append(
                 {"cc": cc, "name": name, "lat": lat, "lon": lon, "pop": pop},
             )

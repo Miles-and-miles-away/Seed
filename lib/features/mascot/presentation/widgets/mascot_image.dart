@@ -10,6 +10,11 @@ const String mascotVmLookX = 'lookX';
 const String mascotVmLookY = 'lookY';
 const String mascotVmSmile = 'smile';
 
+/// Number the app raises (0->1) while holding the smile so the FaceRig
+/// script defers blinks; a blink during the held smile looks like a pause
+/// on shut eyes.
+const String mascotVmSmileHold = 'smileHold';
+
 /// Value sent to lookX/lookY at full gaze deflection.
 const double mascotLookRange = 100;
 

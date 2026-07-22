@@ -321,9 +321,15 @@ void main() {
       expect(s.keys, isNot(contains(kindActive)));
     });
 
-    test('Port Said-Gaza: no fictional Red Sea/Levant ferry', () {
-      final s = suggest(city('Port Said', 'EG'), city('Gaza', 'PS'));
+    test('Port Said-Tel Aviv: no fictional Red Sea/Levant ferry', () {
+      // Historically pinned via Gaza; the Gaza Strip cities were
+      // removed in Round 6, so Tel Aviv carries the pin.
+      final s = suggest(city('Port Said', 'EG'), city('Tel Aviv', 'IL'));
       expect(s.keys, isNot(contains(kindFerry)));
+    });
+
+    test('no Gaza Strip city ships (sealed; owner ruling R6-1)', () {
+      expect(cities.where((c) => c.cc == 'PS' && c.lon < 34.9), isEmpty);
     });
 
     test('Dublin-Paris: Ireland-France ferry link is alive', () {
@@ -434,6 +440,85 @@ void main() {
       final s = suggest(city('Seoul', 'KR'), city('Pyongyang', 'KP'));
       expect(s.keys, isNot(contains(kindGround)));
       expect(s.keys, isNot(contains(kindActive)));
+    });
+
+    test('Beijing-Seoul: the DMZ wall severs the peninsula', () {
+      final s = suggest(city('Beijing', 'CN'), city('Seoul', 'KR'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Warsaw-Helsinki: closed RU-FI border forces the Bothnia loop', () {
+      final s = suggest(city('Warsaw', 'PL'), city('Helsinki', 'FI'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Helsinki-Oulu and Tallinn-Riga: walls must not leak inland', () {
+      // Domestic Finland and the Baltic coast road are untouched
+      // by the RU-FI and Narva walls.
+      final fi = suggest(city('Helsinki', 'FI'), city('Oulu', 'FI'));
+      expect(fi.keys, contains(kindGround));
+      final baltic = suggest(city('Tallinn', 'EE'), city('Riga', 'LV'));
+      expect(baltic.keys, contains(kindGround));
+    });
+
+    test('Mumbai-Karachi: closed IN-PK border suggests no ground', () {
+      final s = suggest(city('Mumbai', 'IN'), city('Karachi', 'PK'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Yerevan-Istanbul: TR-AM border closed since 1993', () {
+      final s = suggest(city('Yerevan', 'AM'), city('Istanbul', 'TR'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Santo Domingo-Port-au-Prince: closed DO-HT border', () {
+      final s = suggest(
+        city('Santo Domingo', 'DO'),
+        city('Port-au-Prince', 'HT'),
+      );
+      expect(s.keys, isNot(contains(kindGround)));
+      expect(s.keys, isNot(contains(kindActive)));
+    });
+
+    test('Jerusalem-Hebron: West Bank corridor keeps its ground', () {
+      // Guard against over-blocking PS: only the Gaza Strip was
+      // removed; West Bank crossings stay real.
+      final s = suggest(city('Jerusalem', 'IL'), city('Hebron', 'PS'));
+      expect(s.keys, contains(kindGround));
+    });
+
+    test('Khartoum-Nyala: the Kordofan front line severs Darfur', () {
+      final s = suggest(city('Khartoum', 'SD'), city('Nyala', 'SD'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Khartoum-Port Sudan: SAF-side corridor stays open', () {
+      final s = suggest(city('Khartoum', 'SD'), city('Port Sudan', 'SD'));
+      expect(s.keys, contains(kindGround));
+    });
+
+    test('Tiraspol-Odesa blocked; Chisinau-Odesa keeps ground', () {
+      // Transnistrian-segment crossings shut since 2022; the
+      // Palanca corridor from Chisinau stays honest.
+      final t = suggest(city('Tiraspol', 'MD'), city('Odesa', 'UA'));
+      expect(t.keys, isNot(contains(kindGround)));
+      final c = suggest(city('Chisinau', 'MD'), city('Odesa', 'UA'));
+      expect(c.keys, contains(kindGround));
+    });
+
+    test('Tehran-Muscat: no honest land route around the Gulf', () {
+      final s = suggest(city('Tehran', 'IR'), city('Muscat', 'OM'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Istanbul-Athens: dishonest corridor stays blocked', () {
+      final s = suggest(city('Istanbul', 'TR'), city('Athens', 'GR'));
+      expect(s.keys, isNot(contains(kindGround)));
+    });
+
+    test('Fortaleza-Cayenne: no ground across the Amazon delta', () {
+      final s = suggest(city('Fortaleza', 'BR'), city('Cayenne', 'GF'));
+      expect(s.keys, isNot(contains(kindGround)));
     });
 
     test('Wellington-Christchurch: Cook Strait ferry exists', () {
