@@ -506,6 +506,13 @@ void main() {
       expect(c.keys, contains(kindGround));
     });
 
+    test('Maracaibo-Valencia: lake bridge keeps its ground', () {
+      // The Urdaneta bridge crossing must stay load-bearing or
+      // the unconditional path test re-blocks this honest road.
+      final s = suggest(city('Maracaibo', 'VE'), city('Valencia', 'VE'));
+      expect(s.keys, contains(kindGround));
+    });
+
     test('Tehran-Muscat: no honest land route around the Gulf', () {
       final s = suggest(city('Tehran', 'IR'), city('Muscat', 'OM'));
       expect(s.keys, isNot(contains(kindGround)));

@@ -139,6 +139,11 @@ FIXED_CROSSINGS = [
     # Patras side vs Antirrio inland; the old endpoints collapsed
     # into one raster cell and self-looped (R5-11).
     ("Rio-Antirrio bridge", 38.28, 21.79, 38.37, 21.75),
+    # Crosses the Lake Maracaibo outlet (Route 3); found by the
+    # R7 diff audit when the unconditional path test falsely
+    # blocked Maracaibo-Valencia/Barquisimeto (~1.8x around the
+    # lake vs an honest bridge road).
+    ("General Rafael Urdaneta Bridge", 10.60, -71.62, 10.52, -71.51),
 ]
 
 # Weight slack for the crossing self-check: a crossing is

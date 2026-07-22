@@ -11,18 +11,36 @@ Run after ANY change to cities.json (or the Dart gates):
 
     conda activate seed && python scripts/generators/sweep_suggestions.py
 
+Includes the political screen (R7): grounded cross-country
+pairs are diffed against data/reference/
+reviewed_cc_ground_pairs.json; a new, unscreened corridor fails
+the gate. After verifying the new border(s) open for ordinary
+travelers (owner rules: active fighting = closed; in doubt,
+remove -- block via build_water_blocklist.py mechanisms), rerun
+with --update-reviewed to refresh the list.
+
 Keep the constants below in lockstep with journey_distance.dart.
 """
 import json
 import math
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 CITIES_JSON = REPO / "data" / "app" / "cities.json"
 CITIES_DATA_DART = (
     REPO / "lib" / "features" / "transport" / "data" / "cities_data.dart"
+)
+# Political screen (R7): every cross-country pair that carries a
+# ground suggestion must appear in this reviewed list (border
+# verified open for ordinary travelers, dated). Regeneration that
+# introduces a new grounded cc-pair fails the gate until the
+# border is screened and the list refreshed with
+# `--update-reviewed` (run it only AFTER the review).
+REVIEWED_CC_PATH = (
+    REPO / "data" / "reference" / "reviewed_cc_ground_pairs.json"
 )
 
 EARTH_RADIUS_KM = 6371.0088
@@ -180,6 +198,7 @@ def main():
 
     link_hits = Counter()
     kind_counts = Counter()
+    cc_ground = set()
     fallback_min = None
     honored = 0
     for i in range(n):
@@ -188,6 +207,8 @@ def main():
             b = cities[j]
             s, straight = suggest(a, b, links, blocked, (i, j))
             kind_counts.update(s.keys())
+            if "ground" in s and a["cc"] != b["cc"]:
+                cc_ground.add("-".join(sorted((a["cc"], b["cc"]))))
             cross = a["mass"] != b["mass"]
             name = (
                 f'{a["name"]},{a["cc"]} - {b["name"]},{b["cc"]}'
@@ -225,9 +246,38 @@ def main():
         if kind == "ferry" and link_hits[link["label"]] == 0:
             violations.append(f"dead link (zero pairs): {link['label']}")
 
+    # Political screen: a regenerated dataset may backfill new
+    # cities and ground a country pair nobody has screened
+    # against closed borders or active conflicts (R6 found 12
+    # such classes). Same-country front lines stay a manual
+    # concern -- cc granularity cannot see them.
+    update_reviewed = "--update-reviewed" in sys.argv
+    if REVIEWED_CC_PATH.exists():
+        reviewed = set(
+            json.load(open(REVIEWED_CC_PATH, encoding="utf-8"))["pairs"]
+        )
+    else:
+        reviewed = set()
+        if not update_reviewed:
+            violations.append(
+                f"reviewed cc-pair list missing: {REVIEWED_CC_PATH}"
+            )
+    new_cc = sorted(cc_ground - reviewed)
+    if new_cc and not update_reviewed:
+        for p in new_cc:
+            violations.append(
+                f"unreviewed political corridor: {p} -- verify the "
+                "border is open to ordinary travelers (owner rules: "
+                "active fighting = closed; in doubt, remove), then "
+                "rerun with --update-reviewed"
+            )
+
     total = n * (n - 1) // 2
     print(f"pairs swept: {total}")
     print(f"kind counts: {dict(kind_counts)}")
+    print(f"grounded cc-pairs: {len(cc_ground)} "
+          f"(reviewed: {len(reviewed)}, new: {len(new_cc)}, "
+          f"stale: {len(reviewed - cc_ground)})")
     print(f"water-blocked entries: {len(blocked)}; honored: {honored}")
     print(f"ferry pairs per link: {dict(link_hits)}")
     if fallback_min is not None:
@@ -237,6 +287,23 @@ def main():
         for v in violations[:50]:
             print(f"  {v}")
         sys.exit(1)
+    if update_reviewed:
+        # Only reachable when the gate is otherwise clean, so a
+        # broken dataset can never be baked into the review list.
+        payload = {
+            "reviewed": date.today().isoformat(),
+            "note": (
+                "cross-country pairs with a ground suggestion, each "
+                "border screened open for ordinary travelers; "
+                "refresh ONLY after screening via "
+                "sweep_suggestions.py --update-reviewed"
+            ),
+            "pairs": sorted(cc_ground),
+        }
+        with open(REVIEWED_CC_PATH, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=1)
+            f.write("\n")
+        print(f"reviewed cc-pair list updated: {len(cc_ground)} pairs")
     print("\nPASS: sweep gate clean")
 
 
