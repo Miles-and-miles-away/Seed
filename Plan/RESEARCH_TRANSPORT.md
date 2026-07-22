@@ -986,11 +986,16 @@ Known limitations (documented, accepted for v1):
 
 Regeneration gate: after ANY change to cities.json or the Dart
 gates, run `scripts/generators/sweep_suggestions.py` (seed env).
-It replicates the suggestion logic over all 481,671 pairs and
-fails on fictional ferries, cross-water ground/active,
-port/cap/floor violations, water_blocked leaks, or dead links.
-Regeneration order: build_cities.py -> build_water_blocklist.py
--> sweep_suggestions.py; not done until the gate passes.
+It replicates the suggestion logic over every unordered pair
+and fails on fictional ferries, cross-water ground/active,
+port/cap/floor violations, water_blocked leaks, dead links, or
+-- the political screen (R7) -- any grounded cross-country pair
+absent from data/reference/reviewed_cc_ground_pairs.json (new
+corridors must be border-screened, closed ones blocked in
+build_water_blocklist.py, then the list refreshed with
+--update-reviewed). Regeneration order: build_cities.py ->
+build_water_blocklist.py -> sweep_suggestions.py; not done
+until the gate passes.
 
 Open items added by this section:
 - [x] Port-anchored ferry links -- DONE (Fix Backlog 3, R3-D4);
