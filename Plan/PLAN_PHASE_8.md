@@ -95,16 +95,16 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 |---------|----------|------------|--------|
 | 8.1 Transport mode dataset | P0 | Medium (research-heavy) | Planned |
 | 8.2 Journey builder + engine | P0 | Medium | Planned |
-| 8.3 Journey comparison | P0 | Medium | Planned |
-| 8.4 Methodology & sources UI | P0 | Low | Planned |
-| 8.5 Entry points & analytics | P1 | Low | Planned |
-| 8.6 Logging bridge | P2 | Medium | Deferred |
+| 8.3 Journey comparison | P0 | Medium | Done (2026-07-22) |
+| 8.4 Methodology & sources UI | P0 | Low | Done (2026-07-22) |
+| 8.5 Entry points & analytics | P1 | Low | Done (2026-07-22) |
+| 8.6 Logging bridge | P2 | Medium | In v1 (2026-07-22, owner) |
 | 8.7 Food item dataset (Part 2) | P0 | Medium (research-heavy) | Planned |
-| 8.8 Meal builder + engine (Part 2) | P0 | Medium | Planned |
-| 8.9 Meal comparison (Part 2) | P0 | Medium | Planned |
-| 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Planned |
-| 8.11 Food entry points & analytics (Part 2) | P1 | Low | Planned |
-| 8.12 Food logging bridge (Part 2) | P2 | Medium | Deferred |
+| 8.8 Meal builder + engine (Part 2) | P0 | Medium | Done (2026-07-23) |
+| 8.9 Meal comparison (Part 2) | P0 | Medium | Done (2026-07-23) |
+| 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Done (2026-07-23) |
+| 8.11 Food entry points & analytics (Part 2) | P1 | Low | Done (2026-07-23) |
+| 8.12 Food logging bridge (Part 2) | P2 | In v1 (2026-07-23, owner) | Done |
 | 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Planned |
 | 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Planned |
 | 8.15 Routine comparison (Part 3) | P0 | Low | Planned |
@@ -408,12 +408,16 @@ quotes.
 - New route (proposal): `/transport-calculator`, pushed full-screen
   like `/log-action`. Comparison and methodology are internal
   navigation within the feature.
-- Entry points:
-  1. Card on the Progress screen's Impact segment ("Compare
-     transport options") -- the impact-curious user is already
-     there.
-  2. Banner row in the Action Log screen when the transport
-     category tab is active.
+- Entry points (revised 2026-07-23):
+  1. AppBar calculator-chooser icon on the Action Log screen -> a
+     bottom sheet with transport / food / home-energy tiles (food
+     and home energy disabled until they ship). This is the shared
+     "Calculators" entry the Part 2 open question anticipated.
+  2. "Compare & log a transport choice" card shown only in the
+     Action Log's transport category view.
+  The Progress Impact-segment card was dropped -- calculators are
+  consolidated under the Action screen, off the (five-button)
+  bottom nav.
 - **Update [APP_PAGES.md](./APP_PAGES.md)** in the same PR as the
   route change (standing rule).
 - Analytics: add `transport_comparison_run` (params: mode ids, leg
@@ -424,7 +428,42 @@ quotes.
 
 ## Logging Bridge (Deferred)
 
-### 8.6 "I took the greener option" (P2, not in v1)
+### 8.6 "I took the greener option" (BUILT in v1, 2026-07-22)
+
+**Owner reversed the deferral (2026-07-22).** The headline risk
+(fabricated large savings gaming a leaderboard) is moot: users are
+isolated, no leaderboards planned (scoring design decision), so
+self-reported inflation only affects the user's own stats. Decisions:
+bank the **difference** (avoided emissions); **no caps** (rely on
+isolation; the existing per-write totalCo2Grams bound still applies);
+**transport-comparison only** (not general custom actions).
+
+**Counterfactual = user-designated (Option C, 2026-07-23).** The bank
+credits `baseline - chosen`, where the user picks which option they
+took ("I took", default greenest) and which they avoided ("instead
+of", default worst). For two options the pair is unambiguous so the
+pickers are hidden; with three the pickers appear so banking is an
+affirmed choice, not an assumed best-vs-worst extreme. Banking is
+disabled unless the two picks differ and the delta is positive.
+Template ids are a content hash (name+co2+points) so re-banking an
+identical choice reuses one template instead of inflating the user's
+`uniqueActionIds` set.
+
+Implementation:
+- `users/{uid}/customActions/{id}` template holds the client-computed
+  co2 (the delta) and points (`co2^0.4`, neutral multipliers, floor 1).
+- Firestore rules: a new `customActions` collection (owner CRUD, no
+  numeric cap, immutable once created) plus a relaxed `actionLog`
+  create that accepts a log matching EITHER a library action OR the
+  user's own template (`exists()`-guarded so neither branch
+  dereferences null). Emulator-tested (`test/firestore`).
+- Logging reuses `ActionLogRepository.logAction` unchanged by adapting
+  the template to an `ActionModel`. Reproduce = re-log the template
+  from the Progress calendar day-detail sheet ("Do this again").
+
+Original deferral rationale retained below for context.
+
+#### Original deferral note (P2, superseded)
 
 The obvious follow-up: after comparing, the user logs that they
 chose rail over flying and banks the CO2e difference as a real
@@ -1009,7 +1048,7 @@ abstract class MealIngredient with _$MealIngredient {
 
 | Question | Current lean |
 |----------|--------------|
-| Merge transport + food into one "Calculators" hub screen? | Separate routes v1; shared entry card if both ship |
+| Merge transport + food into one "Calculators" hub screen? | Resolved (2026-07-23): a shared AppBar chooser sheet on the Action screen lists transport / food / home energy; each opens its own full-screen route |
 | Recipe presets ("cheeseburger", "curry rice")? | P2; presets are just saved ingredient lists, easy later |
 | Per-serving vs per-100g display toggle? | Total per meal only in v1; per-item view shows per kg |
 | Protein-normalized comparison (gCO2e per 100 g protein)? | P2 educational view; the OWID chart exists, powerful but adds a data column |

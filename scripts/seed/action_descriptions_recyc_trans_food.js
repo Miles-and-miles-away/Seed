@@ -1086,9 +1086,9 @@ const descriptions = {
 
   skip_medium_impact_food: {
     en:
-      'Replacing a meal of chicken, pork, '
-      + 'or fish with a plant-based option '
-      + 'saves roughly **1,000g of CO2 '
+      'Replacing a meal of chicken or pork '
+      + 'with a plant-based option saves '
+      + 'roughly **1,000g of CO2 '
       + 'equivalent**. While these proteins '
       + 'carry a lighter footprint than beef, '
       + 'they still require significant land, '
@@ -1097,9 +1097,8 @@ const descriptions = {
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)). '
       + 'Chicken produces about 6kg CO2eq per '
-      + 'kilogram, pork about 7kg, and farmed '
-      + 'fish 5-13kg, versus 1-3kg for most '
-      + 'plant proteins '
+      + 'kilogram and pork about 7kg, versus '
+      + '1-3kg for most plant proteins '
       + '([Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
       + '/science.aaq0216)). Swapping a few '
@@ -1108,7 +1107,7 @@ const descriptions = {
       + 'carbon footprint without going fully '
       + 'vegetarian.',
     ja:
-      '鶏肉、豚肉、魚の1食分を植物性の'
+      '鶏肉や豚肉の1食分を植物性の'
       + '選択肢に替えると約**1,000gのCO2'
       + '相当**を削減できます。牛肉ほどでは'
       + 'ないものの相当な土地、水、飼料資源'
@@ -1116,8 +1115,8 @@ const descriptions = {
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)）。'
       + '鶏肉は約6kg CO2eq/kg、豚肉は約'
-      + '7kg、養殖魚は5〜13kgで植物性'
-      + 'タンパクの1〜3kgと比較されます'
+      + '7kgで植物性タンパクの1〜3kgと'
+      + '比較されます'
       + '（[Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
       + '/science.aaq0216)）。週に数食を'
@@ -1126,8 +1125,8 @@ const descriptions = {
       + 'フットプリントを下げる実用的な'
       + '方法です。',
     es:
-      'Reemplazar una comida de pollo, cerdo '
-      + 'o pescado por una opción vegetal '
+      'Reemplazar una comida de pollo o '
+      + 'cerdo por una opción vegetal '
       + 'ahorra aproximadamente **1.000g de '
       + 'CO2 equivalente**. Aunque estas '
       + 'proteínas tienen menor huella que la '
@@ -1136,9 +1135,8 @@ const descriptions = {
       + 'y pienso ([Our World in Data]'
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)). '
-      + 'El pollo produce unos 6kg CO2eq/kg, '
-      + 'el cerdo 7kg y el pescado de '
-      + 'acuicultura 5-13kg, frente a 1-3kg '
+      + 'El pollo produce unos 6kg CO2eq/kg '
+      + 'y el cerdo 7kg, frente a 1-3kg '
       + 'de la mayoría de proteínas vegetales '
       + '([Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
@@ -1148,6 +1146,58 @@ const descriptions = {
       + 'reducir la huella de carbono '
       + 'alimentaria sin ser completamente '
       + 'vegetariano.',
+  },
+
+  skip_fish: {
+    en:
+      'Replacing a fish meal with a '
+      + 'plant-based option saves roughly '
+      + '**1,200g of CO2 equivalent**. '
+      + 'Wild-caught and white fish average '
+      + 'about 9-10kg CO2eq per kilogram once '
+      + 'fishing fuel and processing are '
+      + 'counted, versus 1-3kg for most plant '
+      + 'proteins ([Poore & Nemecek, Science '
+      + '2018](https://www.science.org/doi'
+      + '/10.1126/science.aaq0216); '
+      + '[Our World in Data]'
+      + '(https://ourworldindata.org'
+      + '/carbon-footprint-food-methane)). '
+      + 'Small oily fish such as sardines and '
+      + 'mackerel are lower still, so this is '
+      + 'a conservative estimate.',
+    ja:
+      '魚の1食分を植物性の選択肢に替えると'
+      + '約**1,200gのCO2相当**を削減'
+      + 'できます。漁業燃料と加工まで含めると'
+      + '天然魚や白身魚は約9〜10kg CO2eq/kg'
+      + 'で、植物性タンパクの1〜3kgと'
+      + '比較されます（[Poore & Nemecek, '
+      + 'Science 2018](https://www.science.org'
+      + '/doi/10.1126/science.aaq0216)、'
+      + '[Our World in Data]'
+      + '(https://ourworldindata.org'
+      + '/carbon-footprint-food-methane)）。'
+      + 'イワシやサバなどの小型青魚はさらに'
+      + '低いため、これは控えめな見積もり'
+      + 'です。',
+    es:
+      'Reemplazar una comida de pescado por '
+      + 'una opción vegetal ahorra '
+      + 'aproximadamente **1.200g de CO2 '
+      + 'equivalente**. El pescado salvaje y '
+      + 'blanco promedia unos 9-10kg CO2eq/kg '
+      + 'contando el combustible de pesca y el '
+      + 'procesado, frente a 1-3kg de la '
+      + 'mayoría de proteínas vegetales '
+      + '([Poore & Nemecek, Science 2018]'
+      + '(https://www.science.org/doi/10.1126'
+      + '/science.aaq0216); [Our World in '
+      + 'Data](https://ourworldindata.org'
+      + '/carbon-footprint-food-methane)). '
+      + 'El pescado azul pequeño, como '
+      + 'sardinas y caballa, es aún menor, así '
+      + 'que es una estimación conservadora.',
   },
 
   no_food_waste: {

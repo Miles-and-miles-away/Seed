@@ -1362,10 +1362,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportCalculatorTitle => '移動のCO2計算';
 
   @override
-  String get transportCalculatorCardTitle => '移動手段を比べる';
+  String get calculatorsSheetTitle => '計算ツール';
 
   @override
-  String get transportCalculatorCardSubtitle => '行程を組み立ててCO2e排出量を確認しましょう';
+  String get calculatorsButtonTooltip => '計算ツール';
+
+  @override
+  String get calculatorHomeEnergy => '家庭のエネルギー';
+
+  @override
+  String get calculatorComingSoon => '近日公開';
 
   @override
   String get transportJourneyEmpty => '区間を追加して行程を作ると、CO2e排出量が表示されます。';
@@ -1476,4 +1482,280 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get transportGroupHighImpact => '高排出';
+
+  @override
+  String get transportModeScienceTooltip => 'この係数について';
+
+  @override
+  String get transportBasisEvGrid => '世界平均の電源構成。電力事情により変動します';
+
+  @override
+  String get transportBasisJetRf => '飛行機と同じ高高度（放射強制力）の上乗せを含みます';
+
+  @override
+  String get transportBasisZeroDirect => '直接排出ゼロ';
+
+  @override
+  String get transportBasisElectricityOnly => '電力のみ';
+
+  @override
+  String get transportScienceNotesHeading => '計算方法';
+
+  @override
+  String get transportScienceSourcesHeading => '出典';
+
+  @override
+  String transportScienceAccessed(String date) {
+    return '$dateに取得';
+  }
+
+  @override
+  String get transportComparisonTitle => '移動手段を比較';
+
+  @override
+  String get transportAddToComparison => '比較に追加';
+
+  @override
+  String transportComparisonFull(int max) {
+    return '比較は満杯です（$max件）';
+  }
+
+  @override
+  String transportCompareOptions(int count) {
+    return '$count件を比較';
+  }
+
+  @override
+  String transportOptionStaged(int count) {
+    return 'オプション$countを追加しました';
+  }
+
+  @override
+  String transportComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$labelは$worseよりCO2eを$amount少なく排出します（$percent%減）';
+  }
+
+  @override
+  String transportComparisonTreesEquiv(String count) {
+    return 'これは約$count本の木が1年間CO2を吸収する量に相当します';
+  }
+
+  @override
+  String get transportMethodologyTitle => '算定方法と出典';
+
+  @override
+  String transportMethodologyBody(int grid) {
+    return 'このツールの数値はすべて学習用の推定値であり、下記の出典にたどれます。\n\n### 対象となる排出\n運用エネルギーのみを対象とします。エンジンが燃やす燃料と、電動モードの発電による排出です。車両の製造やインフラ建設は除外します。徒歩と自転車は慣例上ゼロとします（消費カロリーは通常の食事に上乗せされない可能性があるため除外）。\n\n### 乗車人数\n自動車とタクシーは車両単位で測定し、乗車人数で割ります。バス・鉄道・飛行機は既に一般的な乗車率での旅客単位です。\n\n### 飛行機と放射強制力\n航空機は飛行機雲や高高度の影響により、CO2以外でも気候を温暖化させます。DESNZ 2025に従い、飛行機とプライベートジェットの係数にはCO2成分へ1.7倍（中央値）の上乗せを含みます。プライベートジェットも同じ上乗せを含むため、比較は対等です。\n\n### 電動モードと電源構成\n電気自動車・電動自転車・電動キックボードは走行時の排気ガスはゼロで、排出は発電に由来します。本ツールは世界平均の電源構成として1kWhあたり${grid}g CO2eを用います。これは国や時間帯で大きく変動するため、実際の値はこれより高くも低くもなります。\n\n### 平均値であり、あなたの旅程そのものではありません\n係数はカテゴリの平均であり、あなたの具体的な車両・経路・運転の仕方ではありません。選択肢の比較には使えますが、厳密な炭素計算には向きません。\n\n### 僅差の場合\n長距離バスと鉄道のように非常に近い手段もあり、その順位は年ごとの係数改定で入れ替わることがあります。小さな差は明確な勝者ではなく引き分けとみなしてください。';
+  }
+
+  @override
+  String get transportLogChoiceTitle => 'より環境に優しい選択をしますか？';
+
+  @override
+  String transportLogChoiceBody(String amount) {
+    return 'これを移動のアクションとして記録し、低炭素な選択で避けられた$amountのCO2eを貯めましょう。';
+  }
+
+  @override
+  String transportLogChoiceCta(String label) {
+    return '$labelを選んだ';
+  }
+
+  @override
+  String transportChoiceLoggedMessage(String amount) {
+    return '記録しました。$amountのCO2eを貯めました。';
+  }
+
+  @override
+  String transportCustomActionName(String greener, String worse) {
+    return '$worseではなく$greenerを選択';
+  }
+
+  @override
+  String get transportChoseLabel => '選んだ手段';
+
+  @override
+  String get transportInsteadOfLabel => '避けた手段';
+
+  @override
+  String get transportChoiceDistinctHint => '記録するには異なる2つの選択肢を選んでください。';
+
+  @override
+  String get transportActionsEntryTitle => '移動手段を比較して記録';
+
+  @override
+  String get transportActionsEntrySubtitle => '排出の少ない手段を確認し、その差を貯めましょう';
+
+  @override
+  String get actionReproduce => 'もう一度行う';
+
+  @override
+  String get actionReproducedMessage => '再度記録しました';
+
+  @override
+  String get foodCalculatorTitle => '食事の計算機';
+
+  @override
+  String get foodMethodologyTitle => '計算方法と出典';
+
+  @override
+  String get foodTotalLabel => '合計';
+
+  @override
+  String get foodMealEmpty => '食材を追加して食事を組み立て、CO2e排出量を確認しましょう。';
+
+  @override
+  String get foodAddIngredient => '食材を追加';
+
+  @override
+  String get foodEditIngredient => '食材を編集';
+
+  @override
+  String get foodSelectItem => '食品を選択';
+
+  @override
+  String get foodChangeItem => '変更';
+
+  @override
+  String get foodQuantityLabel => '分量 (g)';
+
+  @override
+  String get foodQuantityInvalid => '0 g以上の分量を入力してください';
+
+  @override
+  String foodGramsValue(String grams) {
+    return '$grams g';
+  }
+
+  @override
+  String get foodRemoveIngredient => '食材を削除';
+
+  @override
+  String get foodItemScienceTooltip => 'この係数について';
+
+  @override
+  String foodItemFactorPerKg(String value) {
+    return '1kgあたり$value kg CO2e';
+  }
+
+  @override
+  String get foodScienceNotesHeading => '計算方法';
+
+  @override
+  String get foodScienceSourcesHeading => '出典';
+
+  @override
+  String foodScienceAccessed(String date) {
+    return '$dateに取得';
+  }
+
+  @override
+  String get foodGroupMeat => '肉';
+
+  @override
+  String get foodGroupSeafood => '魚介類';
+
+  @override
+  String get foodGroupDairyEggs => '乳製品・卵';
+
+  @override
+  String get foodGroupPlantProtein => '植物性たんぱく質';
+
+  @override
+  String get foodGroupStaples => '主食';
+
+  @override
+  String get foodGroupVegetables => '野菜';
+
+  @override
+  String get foodGroupFruit => '果物';
+
+  @override
+  String get foodGroupDrinks => '飲み物';
+
+  @override
+  String get foodGroupTreats => '嗜好品';
+
+  @override
+  String get foodGroupOils => '油';
+
+  @override
+  String get foodAddToComparison => '比較に追加';
+
+  @override
+  String foodComparisonFull(int max) {
+    return '比較は満杯です（$max件）';
+  }
+
+  @override
+  String foodCompareOptions(int count) {
+    return '$count件を比較';
+  }
+
+  @override
+  String foodOptionStaged(int count) {
+    return 'オプション$countを追加しました';
+  }
+
+  @override
+  String get foodComparisonTitle => '食事を比較';
+
+  @override
+  String foodComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$labelは$worseよりCO2eを$amount少なく排出します（$percent%減）';
+  }
+
+  @override
+  String foodComparisonCarKmEquiv(int km) {
+    return 'これはガソリン車で約${km}km走らないのと同じです';
+  }
+
+  @override
+  String get foodChoseLabel => '食べたもの';
+
+  @override
+  String get foodInsteadOfLabel => '避けたもの';
+
+  @override
+  String foodLogChoiceBody(String amount) {
+    return 'これを食事のアクションとして記録し、低炭素な食事を選んで避けられた$amountのCO2eを貯めましょう。';
+  }
+
+  @override
+  String get foodChoiceDistinctHint => '記録するには異なる2つの食事を選んでください。';
+
+  @override
+  String foodLogChoiceCta(String label) {
+    return '$labelを選んだ';
+  }
+
+  @override
+  String foodChoiceLoggedMessage(String amount) {
+    return '記録しました。$amountのCO2eを貯めました。';
+  }
+
+  @override
+  String foodCustomActionName(String greener, String worse) {
+    return '$worseではなく$greenerを選択';
+  }
+
+  @override
+  String get foodActionsEntryTitle => '食事を比較して記録';
+
+  @override
+  String get foodActionsEntrySubtitle => '排出の少ない食事を確認し、その差を貯めましょう';
+
+  @override
+  String get foodMethodologyBody =>
+      'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。\n\n### 「牛肉＝60」を見たことがあるかもしれません\nこのツールは中央値ではなく、生産量で重み付けした平均値を採用しています。よく引用される「牛肉は60 kg」はサプライチェーン損失を含まない中央値で、損失を含む平均値はより高くなります。平均値のほうが世界全体の影響をよく表すため、こちらを使用します。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」がどの指標でも「輸入した豆」に勝つことはなく、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
 }

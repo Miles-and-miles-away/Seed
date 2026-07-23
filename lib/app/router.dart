@@ -14,6 +14,7 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
+import '../features/food/food.dart';
 import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
@@ -59,6 +60,7 @@ class AppRoutes {
   String get mascotSelection => '/mascot-selection';
   String get actionLog => '/log-action';
   String get transportCalculator => '/transport-calculator';
+  String get foodCalculator => '/food-calculator';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -285,6 +287,13 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: appRoutes.transportCalculator,
         builder: (context, state) => const TransportCalculatorScreen(),
+      ),
+
+      // Food carbon calculator: educational tool pushed full-screen
+      // from contextual entry points (Phase 8, Part 2).
+      GoRoute(
+        path: appRoutes.foodCalculator,
+        builder: (context, state) => const FoodCalculatorScreen(),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so

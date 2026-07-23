@@ -446,7 +446,7 @@ final class JourneyBuilderProvider
   }
 }
 
-String _$journeyBuilderHash() => r'cd64675013a5cf8b12ace4fe67e3b7dc7fd35a1d';
+String _$journeyBuilderHash() => r'ea8947c9987ed04abfa81d1702efe4033c1672bb';
 
 /// Ephemeral journey legs for the builder screen.
 ///
@@ -464,6 +464,85 @@ abstract class _$JourneyBuilder extends $Notifier<List<JourneyLeg>> {
             as $ClassProviderElement<
               AnyNotifier<List<JourneyLeg>, List<JourneyLeg>>,
               List<JourneyLeg>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// Snapshotted journeys staged for side-by-side comparison (8.3).
+///
+/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
+/// screen state, never persisted (Phase 8 plan). Each entry is a
+/// full multi-leg journey snapshot, so a door-to-door flight option
+/// keeps its airport legs.
+
+@ProviderFor(JourneyComparison)
+final journeyComparisonProvider = JourneyComparisonProvider._();
+
+/// Snapshotted journeys staged for side-by-side comparison (8.3).
+///
+/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
+/// screen state, never persisted (Phase 8 plan). Each entry is a
+/// full multi-leg journey snapshot, so a door-to-door flight option
+/// keeps its airport legs.
+final class JourneyComparisonProvider
+    extends $NotifierProvider<JourneyComparison, List<List<JourneyLeg>>> {
+  /// Snapshotted journeys staged for side-by-side comparison (8.3).
+  ///
+  /// autoDispose like [JourneyBuilder]: comparisons are ephemeral
+  /// screen state, never persisted (Phase 8 plan). Each entry is a
+  /// full multi-leg journey snapshot, so a door-to-door flight option
+  /// keeps its airport legs.
+  JourneyComparisonProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'journeyComparisonProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$journeyComparisonHash();
+
+  @$internal
+  @override
+  JourneyComparison create() => JourneyComparison();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<List<JourneyLeg>> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<List<JourneyLeg>>>(value),
+    );
+  }
+}
+
+String _$journeyComparisonHash() => r'd18eca737c52b0ff29a6a56e0024605876e676fc';
+
+/// Snapshotted journeys staged for side-by-side comparison (8.3).
+///
+/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
+/// screen state, never persisted (Phase 8 plan). Each entry is a
+/// full multi-leg journey snapshot, so a door-to-door flight option
+/// keeps its airport legs.
+
+abstract class _$JourneyComparison extends $Notifier<List<List<JourneyLeg>>> {
+  List<List<JourneyLeg>> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<List<List<JourneyLeg>>, List<List<JourneyLeg>>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<List<JourneyLeg>>, List<List<JourneyLeg>>>,
+              List<List<JourneyLeg>>,
               Object?,
               Object?
             >;

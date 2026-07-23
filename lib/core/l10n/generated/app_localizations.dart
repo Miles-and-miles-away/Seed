@@ -2560,17 +2560,29 @@ abstract class AppLocalizations {
   /// **'Transport Calculator'**
   String get transportCalculatorTitle;
 
-  /// No description provided for @transportCalculatorCardTitle.
+  /// No description provided for @calculatorsSheetTitle.
   ///
   /// In en, this message translates to:
-  /// **'Compare transport options'**
-  String get transportCalculatorCardTitle;
+  /// **'Calculators'**
+  String get calculatorsSheetTitle;
 
-  /// No description provided for @transportCalculatorCardSubtitle.
+  /// No description provided for @calculatorsButtonTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Build a journey and see its CO2e footprint'**
-  String get transportCalculatorCardSubtitle;
+  /// **'Calculators'**
+  String get calculatorsButtonTooltip;
+
+  /// No description provided for @calculatorHomeEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Home energy'**
+  String get calculatorHomeEnergy;
+
+  /// No description provided for @calculatorComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get calculatorComingSoon;
 
   /// No description provided for @transportJourneyEmpty.
   ///
@@ -2757,6 +2769,454 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'High impact'**
   String get transportGroupHighImpact;
+
+  /// No description provided for @transportModeScienceTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'About this factor'**
+  String get transportModeScienceTooltip;
+
+  /// No description provided for @transportBasisEvGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Global-average grid; varies with your electricity'**
+  String get transportBasisEvGrid;
+
+  /// No description provided for @transportBasisJetRf.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes the same high-altitude (radiative forcing) uplift as flights'**
+  String get transportBasisJetRf;
+
+  /// No description provided for @transportBasisZeroDirect.
+  ///
+  /// In en, this message translates to:
+  /// **'0 direct emissions'**
+  String get transportBasisZeroDirect;
+
+  /// No description provided for @transportBasisElectricityOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity only'**
+  String get transportBasisElectricityOnly;
+
+  /// No description provided for @transportScienceNotesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'How it\'s calculated'**
+  String get transportScienceNotesHeading;
+
+  /// No description provided for @transportScienceSourcesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get transportScienceSourcesHeading;
+
+  /// No description provided for @transportScienceAccessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessed {date}'**
+  String transportScienceAccessed(String date);
+
+  /// No description provided for @transportComparisonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare journeys'**
+  String get transportComparisonTitle;
+
+  /// No description provided for @transportAddToComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comparison'**
+  String get transportAddToComparison;
+
+  /// No description provided for @transportComparisonFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison full ({max} options)'**
+  String transportComparisonFull(int max);
+
+  /// No description provided for @transportCompareOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare {count} options'**
+  String transportCompareOptions(int count);
+
+  /// No description provided for @transportOptionStaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Added option {count}'**
+  String transportOptionStaged(int count);
+
+  /// No description provided for @transportComparisonDelta.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} emits {amount} CO2e less than {worse} ({percent}% lower)'**
+  String transportComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  );
+
+  /// No description provided for @transportComparisonTreesEquiv.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s about {count} trees absorbing CO2 for a year'**
+  String transportComparisonTreesEquiv(String count);
+
+  /// No description provided for @transportMethodologyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Methodology & sources'**
+  String get transportMethodologyTitle;
+
+  /// No description provided for @transportMethodologyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.'**
+  String transportMethodologyBody(int grid);
+
+  /// No description provided for @transportLogChoiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the greener option?'**
+  String get transportLogChoiceTitle;
+
+  /// No description provided for @transportLogChoiceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this as a transport action and bank the {amount} CO2e you avoid by choosing the lower-carbon option.'**
+  String transportLogChoiceBody(String amount);
+
+  /// No description provided for @transportLogChoiceCta.
+  ///
+  /// In en, this message translates to:
+  /// **'I chose {label}'**
+  String transportLogChoiceCta(String label);
+
+  /// No description provided for @transportChoiceLoggedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged. You banked {amount} CO2e.'**
+  String transportChoiceLoggedMessage(String amount);
+
+  /// No description provided for @transportCustomActionName.
+  ///
+  /// In en, this message translates to:
+  /// **'Chose {greener} over {worse}'**
+  String transportCustomActionName(String greener, String worse);
+
+  /// No description provided for @transportChoseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I took'**
+  String get transportChoseLabel;
+
+  /// No description provided for @transportInsteadOfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'instead of'**
+  String get transportInsteadOfLabel;
+
+  /// No description provided for @transportChoiceDistinctHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two different options to log the choice you made.'**
+  String get transportChoiceDistinctHint;
+
+  /// No description provided for @transportActionsEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare & log a transport choice'**
+  String get transportActionsEntryTitle;
+
+  /// No description provided for @transportActionsEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See which option emits less, then bank the difference'**
+  String get transportActionsEntrySubtitle;
+
+  /// No description provided for @actionReproduce.
+  ///
+  /// In en, this message translates to:
+  /// **'Do this again'**
+  String get actionReproduce;
+
+  /// No description provided for @actionReproducedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged again'**
+  String get actionReproducedMessage;
+
+  /// No description provided for @foodCalculatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Calculator'**
+  String get foodCalculatorTitle;
+
+  /// No description provided for @foodMethodologyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Methodology & sources'**
+  String get foodMethodologyTitle;
+
+  /// No description provided for @foodTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get foodTotalLabel;
+
+  /// No description provided for @foodMealEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an ingredient to build your meal and see its CO2e footprint.'**
+  String get foodMealEmpty;
+
+  /// No description provided for @foodAddIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient'**
+  String get foodAddIngredient;
+
+  /// No description provided for @foodEditIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit ingredient'**
+  String get foodEditIngredient;
+
+  /// No description provided for @foodSelectItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a food'**
+  String get foodSelectItem;
+
+  /// No description provided for @foodChangeItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get foodChangeItem;
+
+  /// No description provided for @foodQuantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity (g)'**
+  String get foodQuantityLabel;
+
+  /// No description provided for @foodQuantityInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a quantity of 0 g or more'**
+  String get foodQuantityInvalid;
+
+  /// No description provided for @foodGramsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{grams} g'**
+  String foodGramsValue(String grams);
+
+  /// No description provided for @foodRemoveIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove ingredient'**
+  String get foodRemoveIngredient;
+
+  /// No description provided for @foodItemScienceTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'About this factor'**
+  String get foodItemScienceTooltip;
+
+  /// No description provided for @foodItemFactorPerKg.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} kg CO2e per kg'**
+  String foodItemFactorPerKg(String value);
+
+  /// No description provided for @foodScienceNotesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'How it\'s calculated'**
+  String get foodScienceNotesHeading;
+
+  /// No description provided for @foodScienceSourcesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get foodScienceSourcesHeading;
+
+  /// No description provided for @foodScienceAccessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessed {date}'**
+  String foodScienceAccessed(String date);
+
+  /// No description provided for @foodGroupMeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Meat'**
+  String get foodGroupMeat;
+
+  /// No description provided for @foodGroupSeafood.
+  ///
+  /// In en, this message translates to:
+  /// **'Seafood'**
+  String get foodGroupSeafood;
+
+  /// No description provided for @foodGroupDairyEggs.
+  ///
+  /// In en, this message translates to:
+  /// **'Dairy & eggs'**
+  String get foodGroupDairyEggs;
+
+  /// No description provided for @foodGroupPlantProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'Plant protein'**
+  String get foodGroupPlantProtein;
+
+  /// No description provided for @foodGroupStaples.
+  ///
+  /// In en, this message translates to:
+  /// **'Staples'**
+  String get foodGroupStaples;
+
+  /// No description provided for @foodGroupVegetables.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetables'**
+  String get foodGroupVegetables;
+
+  /// No description provided for @foodGroupFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit'**
+  String get foodGroupFruit;
+
+  /// No description provided for @foodGroupDrinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks'**
+  String get foodGroupDrinks;
+
+  /// No description provided for @foodGroupTreats.
+  ///
+  /// In en, this message translates to:
+  /// **'Treats'**
+  String get foodGroupTreats;
+
+  /// No description provided for @foodGroupOils.
+  ///
+  /// In en, this message translates to:
+  /// **'Oils'**
+  String get foodGroupOils;
+
+  /// No description provided for @foodAddToComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comparison'**
+  String get foodAddToComparison;
+
+  /// No description provided for @foodComparisonFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison full ({max} options)'**
+  String foodComparisonFull(int max);
+
+  /// No description provided for @foodCompareOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare {count} options'**
+  String foodCompareOptions(int count);
+
+  /// No description provided for @foodOptionStaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Added option {count}'**
+  String foodOptionStaged(int count);
+
+  /// No description provided for @foodComparisonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare meals'**
+  String get foodComparisonTitle;
+
+  /// No description provided for @foodComparisonDelta.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} emits {amount} CO2e less than {worse} ({percent}% lower)'**
+  String foodComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  );
+
+  /// No description provided for @foodComparisonCarKmEquiv.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s about {km} km not driven in a petrol car'**
+  String foodComparisonCarKmEquiv(int km);
+
+  /// No description provided for @foodChoseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I ate'**
+  String get foodChoseLabel;
+
+  /// No description provided for @foodInsteadOfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'instead of'**
+  String get foodInsteadOfLabel;
+
+  /// No description provided for @foodLogChoiceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this as a food action and bank the {amount} CO2e you avoid by choosing the lower-carbon meal.'**
+  String foodLogChoiceBody(String amount);
+
+  /// No description provided for @foodChoiceDistinctHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two different meals to log the choice you made.'**
+  String get foodChoiceDistinctHint;
+
+  /// No description provided for @foodLogChoiceCta.
+  ///
+  /// In en, this message translates to:
+  /// **'I chose {label}'**
+  String foodLogChoiceCta(String label);
+
+  /// No description provided for @foodChoiceLoggedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged. You banked {amount} CO2e.'**
+  String foodChoiceLoggedMessage(String amount);
+
+  /// No description provided for @foodCustomActionName.
+  ///
+  /// In en, this message translates to:
+  /// **'Chose {greener} over {worse}'**
+  String foodCustomActionName(String greener, String worse);
+
+  /// No description provided for @foodActionsEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare & log a food choice'**
+  String get foodActionsEntryTitle;
+
+  /// No description provided for @foodActionsEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See which meal emits less, then bank the difference'**
+  String get foodActionsEntrySubtitle;
+
+  /// No description provided for @foodMethodologyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together.\n\n### You may have seen \'beef = 60\'\nThis tool ships the study\'s production-weighted means, not its medians. The widely shared \'beef is 60 kg\' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
+  String get foodMethodologyBody;
 }
 
 class _AppLocalizationsDelegate
