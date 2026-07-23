@@ -144,7 +144,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               ...dayLogs.map(
                 (log) => ActionLogItem(
                   actionLog: log,
-                  onTap: () => _openActionInfo(context, log),
+                  onTap: () => _openActionInfo(log),
                 ),
               ),
             const SizedBox(height: spacingXl),
@@ -173,19 +173,73 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     });
   }
 
-  Future<void> _openActionInfo(BuildContext context, ActionLogModel log) async {
+  Future<void> _openActionInfo(ActionLogModel log) async {
     final actions = await ref.read(actionLibraryProvider.future);
     final action = actions.cast<ActionModel?>().firstWhere(
       (a) => a!.id == log.actionId,
       orElse: () => null,
     );
-    if (action == null || !context.mounted) return;
-    final languageCode = Localizations.localeOf(context).languageCode;
-    await ActionLogConfirmationDialog.show(
-      context,
-      action: action,
-      languageCode: languageCode,
-      readOnly: true,
+    if (!mounted) return;
+    if (action != null) {
+      await ActionLogConfirmationDialog.show(
+        context,
+        action: action,
+        languageCode: Localizations.localeOf(context).languageCode,
+        readOnly: true,
+      );
+      return;
+    }
+    // Not in the library: a banked custom action (e.g. a transport
+    // choice). Offer to log it again (reproduce).
+    await _confirmReproduce(log);
+  }
+
+  Future<void> _confirmReproduce(ActionLogModel log) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(log.actionName),
+        content: Text(
+          l10n.transportLogChoiceBody(formatCO2Compact(log.co2Grams)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l10n.buttonCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(l10n.actionReproduce),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    // Rebuild an ActionModel from the log; the still-present custom
+    // template makes the relaxed actionLog rule accept the re-log.
+    final result = await ref
+        .read(actionLogProvider.notifier)
+        .logAction(
+          ActionModel(
+            id: log.actionId,
+            nameEn: log.actionName,
+            nameJa: log.actionName,
+            nameEs: log.actionName,
+            category: log.category,
+            points: log.points,
+            co2Grams: log.co2Grams,
+            relatedSdgs: log.relatedSdgs,
+          ),
+          languageCode: Localizations.localeOf(context).languageCode,
+        );
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          result != null ? l10n.actionReproducedMessage : l10n.errorGeneric,
+        ),
+      ),
     );
   }
 }

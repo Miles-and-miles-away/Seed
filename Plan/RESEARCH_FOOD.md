@@ -1841,6 +1841,14 @@ whole weight would overstate 2.5x.
 
 Open:
 
+- [ ] **actionLibrary re-seed (FR-22, operational)**: the seeder
+      code is synced to the corrected values
+      (`skip_high_impact_food` 9700, `skip_medium_impact_food`
+      1000, `plant_milk` 460; v1.2 comments). The remaining step
+      is to actually re-seed: `node
+      scripts/seed/seed_action_library.js` (needs the Firebase
+      service account). Points for those actions change from the
+      next seed onward.
 - [ ] **Tidaker et al. 2021 full text** (new 2026-07-20):
       ScienceDirect blocks automated fetch (re-attempted
       2026-07-20 via Unpaywall, CORE and the SLU research portal
@@ -1849,13 +1857,34 @@ Open:
       figure exist only as unverified snippets. If the full text
       becomes readable, consider refining beans_canned's
       candidate table with it.
-- [ ] **skip_medium_impact_food vs the new fish items** (new
-      2026-07-20, owner points-economy call): the live library
-      action (1000 g, "chicken, pork, or fish") now overstates a
-      wild-fish skipper (~750 g implied) and a small-oily-fish
-      skipper (~350 g). Options: lower to the chicken floor
-      (780), split fish out, or accept the mid-band value.
-      Flagged in the seeder comment.
+- [x] **skip_medium_impact_food vs the new fish items** (owner
+      call 2026-07-23: **split fish out**). `skip_medium_impact_food`
+      narrows to chicken/pork (1000 g unchanged; relatedSdgs drop
+      14). New `skip_fish` ships at 1200 g -- average white/wild
+      fish, `fish_wild` 9.5 x 150 g fillet = 1425 g minus the 200 g
+      beans baseline (D4) = 1225 g, rounded down to two significant
+      figures. In `seed_action_library.js` +
+      `action_descriptions_recyc_trans_food.js`; pinned by a
+      derivation guard in `food_action_consistency_test.dart`.
+      Applied live by the re-seed (bundled with FR-22).
+
+Implementation-PR dependencies (recorded, not blockers):
+
+- The mean-vs-median methodology explainer and the UI/copy
+  behaviors (section 8) must ship WITH the calculator UI; the
+  9700 g `skip_high_impact_food` action is user-visible before
+  then, so the explainer must not lag the corrected number.
+- Schema flags for UI behaviors (preset-only entry, sublabels)
+  are deliberately deferred -- additive JSON keys are
+  non-breaking to add once the UI design is real.
+- Residual preset-name polish (ES patty naming, JA/ES size
+  wording) folds into the Part 2 l10n pass.
+
+Verification gate (food-specific): dataset value changes must
+keep the section-6 invariant pins green in a scoped
+`flutter test test/features/food` run before moving on -- the
+pins are the food equivalent of the transport sweep gate. Any
+new or changed source quote is re-verified LIVE before pasting.
 
 ---
 

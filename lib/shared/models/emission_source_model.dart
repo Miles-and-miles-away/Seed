@@ -3,7 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'emission_source_model.freezed.dart';
 part 'emission_source_model.g.dart';
 
-/// A single citation backing a transport mode's emission factor.
+/// A single citation backing an emission factor (transport mode, food
+/// item, energy behavior). Shared across the Phase 8 calculators.
 @freezed
 abstract class EmissionSource with _$EmissionSource {
   const factory EmissionSource({

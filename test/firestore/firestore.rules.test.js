@@ -765,6 +765,126 @@ describe('users/{userId}/actionLog/{logId}', () => {
     await seed(logPath, validLog);
     await assertFails(deleteDoc(doc(aliceDb(), logPath)));
   });
+
+  // Phase 8.6: a log may instead match one of the user's own custom
+  // transport actions. Templates carry no numeric ceiling (users are
+  // isolated), but the log's points and co2Grams must equal them.
+  describe('custom transport action logs', () => {
+    const CUSTOM_ID = 'custom1';
+    const customPath = `users/${ALICE}/customActions/${CUSTOM_ID}`;
+    const template = {
+      name: 'Chose Rail over Air',
+      co2Grams: 112000,
+      points: 105,
+      category: 'transport',
+      relatedSdgs: ['11', '13'],
+      createdAt: Timestamp.now(),
+    };
+    const customLog = {
+      actionId: CUSTOM_ID,
+      actionName: 'Chose Rail over Air',
+      category: 'transport',
+      points: 105,
+      co2Grams: 112000,
+      loggedAt: Timestamp.now(),
+    };
+
+    function logCustomBatch(db, overrides = {}) {
+      const batch = writeBatch(db);
+      batch.set(doc(db, logPath), {...customLog, ...overrides});
+      batch.update(doc(db, `users/${ALICE}`), {
+        lastActionDate: serverTimestamp(),
+        totalActionsCount: increment(1),
+        totalCo2Grams: increment(112000),
+      });
+      return batch.commit();
+    }
+
+    test('a log matching the user template succeeds (no library doc)',
+      async () => {
+        await seed(customPath, template);
+        await assertSucceeds(logCustomBatch(aliceDb()));
+      });
+
+    test('rejects a log whose points disagree with the template',
+      async () => {
+        await seed(customPath, template);
+        await assertFails(logCustomBatch(aliceDb(), {points: 99999}));
+      });
+
+    test('rejects a log whose co2Grams disagree with the template',
+      async () => {
+        await seed(customPath, template);
+        await assertFails(logCustomBatch(aliceDb(), {co2Grams: 1}));
+      });
+
+    test('rejects a custom log with no matching template', async () => {
+      await assertFails(logCustomBatch(aliceDb()));
+    });
+  });
+});
+
+describe('users/{userId}/customActions/{actionId}', () => {
+  const customPath = `users/${ALICE}/customActions/c1`;
+  const validCustom = {
+    name: 'Chose Rail over Air',
+    co2Grams: 112000,
+    points: 105,
+    category: 'transport',
+    relatedSdgs: ['11', '13'],
+    createdAt: Timestamp.now(),
+  };
+
+  beforeEach(async () => {
+    await seed(`users/${ALICE}`, baseUserDoc);
+  });
+
+  test('owner can create a valid template', async () => {
+    await assertSucceeds(setDoc(doc(aliceDb(), customPath), validCustom));
+  });
+
+  test('rejects a missing required field', async () => {
+    const {points, ...noPoints} = validCustom;
+    await assertFails(setDoc(doc(aliceDb(), customPath), noPoints));
+  });
+
+  test('rejects negative co2Grams', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: -1}),
+    );
+  });
+
+  test('rejects points above the 10000 ceiling', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), customPath), {...validCustom, points: 10001}),
+    );
+  });
+
+  test('rejects fields outside the whitelist', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), customPath), {...validCustom, bonus: 1}),
+    );
+  });
+
+  test('templates are immutable (no update)', async () => {
+    await seed(customPath, validCustom);
+    await assertFails(
+      updateDoc(doc(aliceDb(), customPath), {co2Grams: 1}),
+    );
+  });
+
+  test('owner can delete a template', async () => {
+    await seed(customPath, validCustom);
+    await assertSucceeds(deleteDoc(doc(aliceDb(), customPath)));
+  });
+
+  test('another user cannot read or create', async () => {
+    await seed(customPath, validCustom);
+    await assertFails(getDoc(doc(bobDb(), customPath)));
+    await assertFails(
+      setDoc(doc(bobDb(), `users/${ALICE}/customActions/c2`), validCustom),
+    );
+  });
 });
 
 describe('users/{userId}/dailySummaries/{summaryId}', () => {

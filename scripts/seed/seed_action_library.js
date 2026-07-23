@@ -611,7 +611,7 @@ const actions = [
   },
 
   // ---------------------------------------------------------
-  // FOOD (10 actions)
+  // FOOD (9 actions)
   // Research: Poore & Nemecek 2018, Our World in Data, EPA
   // ---------------------------------------------------------
   {
@@ -649,26 +649,25 @@ const actions = [
     nameEs: 'Evitar comida de impacto medio',
     descriptionEn:
       'Choose a plant-based meal instead '
-      + 'of chicken, pork, or fish today',
+      + 'of chicken or pork today',
     descriptionJa:
-      '今日は鶏肉、豚肉、魚の代わりに'
+      '今日は鶏肉や豚肉の代わりに'
       + '植物性の食事を選択する',
     descriptionEs:
       'Elegir una comida vegetal en vez '
-      + 'de pollo, cerdo o pescado hoy',
+      + 'de pollo o cerdo hoy',
     category: 'food',
     // Chicken (780) to pork (1000) band of co2_actions_database
     // v1.2 (P&N 2018 means, standardized 200g beans baseline);
-    // matches the pork case, farmed fish implies ~1.2kg. NOTE:
-    // wild fish (~750g) and small oily fish (~350g) now sit
-    // below 1000 -- whether "fish" here should split or lower
-    // is an owner points-economy call, not yet made.
+    // matches the pork case. Fish was split out to skip_fish
+    // (2026-07-23 owner call) because wild/oily fish sit below
+    // this band and were overstated here.
     co2Grams: 1000,
     effort: 2,
     frequency: 3,
     impact: 2,
     iconName: 'eco',
-    relatedSdgs: ['2', '12', '13', '14'],
+    relatedSdgs: ['2', '12', '13'],
     isActive: true,
     sortOrder: 2,
   },
@@ -812,6 +811,34 @@ const actions = [
     relatedSdgs: ['12', '13'],
     isActive: true,
     sortOrder: 8,
+  },
+  {
+    id: 'skip_fish',
+    nameEn: 'Skip a Fish Meal',
+    nameJa: '魚の食事をスキップ',
+    nameEs: 'Evitar una comida de pescado',
+    descriptionEn:
+      'Choose a plant-based meal instead '
+      + 'of fish today',
+    descriptionJa:
+      '今日は魚の代わりに'
+      + '植物性の食事を選択する',
+    descriptionEs:
+      'Elegir una comida vegetal en vez '
+      + 'de pescado hoy',
+    category: 'food',
+    // Split from skip_medium_impact_food (2026-07-23 owner call):
+    // average white/wild fish. fish_wild 9.5 kg/kg (food_items.json,
+    // PC-1) x 150g fillet = 1425g - 200g standardized beans baseline
+    // = 1225g, rounded down to two significant figures.
+    co2Grams: 1200,
+    effort: 2,
+    frequency: 3,
+    impact: 2,
+    iconName: 'eco',
+    relatedSdgs: ['2', '12', '13', '14'],
+    isActive: true,
+    sortOrder: 9,
   },
 
   // ---------------------------------------------------------

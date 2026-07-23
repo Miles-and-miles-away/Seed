@@ -13,6 +13,7 @@ abstract class AppConstants {
   // Firebase collections
   static const collectionUsers = 'users';
   static const collectionActionLog = 'actionLog';
+  static const collectionCustomActions = 'customActions';
   static const collectionActionLibrary = 'actionLibrary';
   // NOTE(planned): unreferenced until the Phase 7 shop lands --
   // cosmetic items are seeded to Firestore then (PLAN_PHASE_7.md);

@@ -658,8 +658,10 @@
   "ecoDexInfoBody": "The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.",
 
   "transportCalculatorTitle": "Transport Calculator",
-  "transportCalculatorCardTitle": "Compare transport options",
-  "transportCalculatorCardSubtitle": "Build a journey and see its CO2e footprint",
+  "calculatorsSheetTitle": "Calculators",
+  "calculatorsButtonTooltip": "Calculators",
+  "calculatorHomeEnergy": "Home energy",
+  "calculatorComingSoon": "Coming soon",
   "transportJourneyEmpty": "Add a leg to build your journey and see its CO2e footprint.",
   "transportAddLeg": "Add leg",
   "transportEditLeg": "Edit leg",
@@ -720,5 +722,149 @@
   "transportGroupRail": "Rail",
   "transportGroupWater": "Water",
   "transportGroupAir": "Air",
-  "transportGroupHighImpact": "High impact"
+  "transportGroupHighImpact": "High impact",
+  "transportModeScienceTooltip": "About this factor",
+  "transportBasisEvGrid": "Global-average grid; varies with your electricity",
+  "transportBasisJetRf": "Includes the same high-altitude (radiative forcing) uplift as flights",
+  "transportBasisZeroDirect": "0 direct emissions",
+  "transportBasisElectricityOnly": "Electricity only",
+  "transportScienceNotesHeading": "How it's calculated",
+  "transportScienceSourcesHeading": "Sources",
+  "transportScienceAccessed": "Accessed {date}",
+  "@transportScienceAccessed": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "transportComparisonTitle": "Compare journeys",
+  "transportAddToComparison": "Add to comparison",
+  "transportComparisonFull": "Comparison full ({max} options)",
+  "@transportComparisonFull": {
+    "placeholders": {
+      "max": {"type": "int"}
+    }
+  },
+  "transportCompareOptions": "Compare {count} options",
+  "@transportCompareOptions": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transportOptionStaged": "Added option {count}",
+  "@transportOptionStaged": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transportComparisonDelta": "{label} emits {amount} CO2e less than {worse} ({percent}% lower)",
+  "@transportComparisonDelta": {
+    "placeholders": {
+      "label": {"type": "String"},
+      "amount": {"type": "String"},
+      "worse": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "transportComparisonTreesEquiv": "That's about {count} trees absorbing CO2 for a year",
+  "@transportComparisonTreesEquiv": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "transportMethodologyTitle": "Methodology & sources",
+  "transportMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.",
+  "@transportMethodologyBody": {
+    "placeholders": {
+      "grid": {"type": "int"}
+    }
+  },
+  "transportLogChoiceTitle": "Take the greener option?",
+  "transportLogChoiceBody": "Log this as a transport action and bank the {amount} CO2e you avoid by choosing the lower-carbon option.",
+  "@transportLogChoiceBody": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transportLogChoiceCta": "I chose {label}",
+  "@transportLogChoiceCta": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "transportChoiceLoggedMessage": "Logged. You banked {amount} CO2e.",
+  "@transportChoiceLoggedMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transportCustomActionName": "Chose {greener} over {worse}",
+  "@transportCustomActionName": {
+    "placeholders": {
+      "greener": {"type": "String"},
+      "worse": {"type": "String"}
+    }
+  },
+  "transportChoseLabel": "I took",
+  "transportInsteadOfLabel": "instead of",
+  "transportChoiceDistinctHint": "Pick two different options to log the choice you made.",
+  "transportActionsEntryTitle": "Compare & log a transport choice",
+  "transportActionsEntrySubtitle": "See which option emits less, then bank the difference",
+  "actionReproduce": "Do this again",
+  "actionReproducedMessage": "Logged again",
+  "foodCalculatorTitle": "Food Calculator",
+  "foodMethodologyTitle": "Methodology & sources",
+  "foodTotalLabel": "Total",
+  "foodMealEmpty": "Add an ingredient to build your meal and see its CO2e footprint.",
+  "foodAddIngredient": "Add ingredient",
+  "foodEditIngredient": "Edit ingredient",
+  "foodSelectItem": "Choose a food",
+  "foodChangeItem": "Change",
+  "foodQuantityLabel": "Quantity (g)",
+  "foodQuantityInvalid": "Enter a quantity of 0 g or more",
+  "foodGramsValue": "{grams} g",
+  "@foodGramsValue": { "placeholders": { "grams": { "type": "String" } } },
+  "foodRemoveIngredient": "Remove ingredient",
+  "foodItemScienceTooltip": "About this factor",
+  "foodItemFactorPerKg": "{value} kg CO2e per kg",
+  "@foodItemFactorPerKg": { "placeholders": { "value": { "type": "String" } } },
+  "foodScienceNotesHeading": "How it's calculated",
+  "foodScienceSourcesHeading": "Sources",
+  "foodScienceAccessed": "Accessed {date}",
+  "@foodScienceAccessed": { "placeholders": { "date": { "type": "String" } } },
+  "foodGroupMeat": "Meat",
+  "foodGroupSeafood": "Seafood",
+  "foodGroupDairyEggs": "Dairy & eggs",
+  "foodGroupPlantProtein": "Plant protein",
+  "foodGroupStaples": "Staples",
+  "foodGroupVegetables": "Vegetables",
+  "foodGroupFruit": "Fruit",
+  "foodGroupDrinks": "Drinks",
+  "foodGroupTreats": "Treats",
+  "foodGroupOils": "Oils",
+  "foodAddToComparison": "Add to comparison",
+  "foodComparisonFull": "Comparison full ({max} options)",
+  "@foodComparisonFull": { "placeholders": { "max": { "type": "int" } } },
+  "foodCompareOptions": "Compare {count} options",
+  "@foodCompareOptions": { "placeholders": { "count": { "type": "int" } } },
+  "foodOptionStaged": "Added option {count}",
+  "@foodOptionStaged": { "placeholders": { "count": { "type": "int" } } },
+  "foodComparisonTitle": "Compare meals",
+  "foodComparisonDelta": "{label} emits {amount} CO2e less than {worse} ({percent}% lower)",
+  "@foodComparisonDelta": { "placeholders": { "label": { "type": "String" }, "amount": { "type": "String" }, "worse": { "type": "String" }, "percent": { "type": "int" } } },
+  "foodComparisonCarKmEquiv": "That's about {km} km not driven in a petrol car",
+  "@foodComparisonCarKmEquiv": { "placeholders": { "km": { "type": "int" } } },
+  "foodChoseLabel": "I ate",
+  "foodInsteadOfLabel": "instead of",
+  "foodLogChoiceBody": "Log this as a food action and bank the {amount} CO2e you avoid by choosing the lower-carbon meal.",
+  "@foodLogChoiceBody": { "placeholders": { "amount": { "type": "String" } } },
+  "foodChoiceDistinctHint": "Pick two different meals to log the choice you made.",
+  "foodLogChoiceCta": "I chose {label}",
+  "@foodLogChoiceCta": { "placeholders": { "label": { "type": "String" } } },
+  "foodChoiceLoggedMessage": "Logged. You banked {amount} CO2e.",
+  "@foodChoiceLoggedMessage": { "placeholders": { "amount": { "type": "String" } } },
+  "foodCustomActionName": "Chose {greener} over {worse}",
+  "@foodCustomActionName": { "placeholders": { "greener": { "type": "String" }, "worse": { "type": "String" } } },
+  "foodActionsEntryTitle": "Compare & log a food choice",
+  "foodActionsEntrySubtitle": "See which meal emits less, then bank the difference",
+  "foodMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nEach factor covers a food's full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek's 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator's operational-only scope, so never add figures from the two tools together.\n\n### You may have seen 'beef = 60'\nThis tool ships the study's production-weighted means, not its medians. The widely shared 'beef is 60 kg' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### 'Organic' and 'local'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food's footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed."
 }

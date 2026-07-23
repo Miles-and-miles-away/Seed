@@ -1400,11 +1400,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transportCalculatorTitle => 'Transport Calculator';
 
   @override
-  String get transportCalculatorCardTitle => 'Compare transport options';
+  String get calculatorsSheetTitle => 'Calculators';
 
   @override
-  String get transportCalculatorCardSubtitle =>
-      'Build a journey and see its CO2e footprint';
+  String get calculatorsButtonTooltip => 'Calculators';
+
+  @override
+  String get calculatorHomeEnergy => 'Home energy';
+
+  @override
+  String get calculatorComingSoon => 'Coming soon';
 
   @override
   String get transportJourneyEmpty =>
@@ -1519,4 +1524,287 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transportGroupHighImpact => 'High impact';
+
+  @override
+  String get transportModeScienceTooltip => 'About this factor';
+
+  @override
+  String get transportBasisEvGrid =>
+      'Global-average grid; varies with your electricity';
+
+  @override
+  String get transportBasisJetRf =>
+      'Includes the same high-altitude (radiative forcing) uplift as flights';
+
+  @override
+  String get transportBasisZeroDirect => '0 direct emissions';
+
+  @override
+  String get transportBasisElectricityOnly => 'Electricity only';
+
+  @override
+  String get transportScienceNotesHeading => 'How it\'s calculated';
+
+  @override
+  String get transportScienceSourcesHeading => 'Sources';
+
+  @override
+  String transportScienceAccessed(String date) {
+    return 'Accessed $date';
+  }
+
+  @override
+  String get transportComparisonTitle => 'Compare journeys';
+
+  @override
+  String get transportAddToComparison => 'Add to comparison';
+
+  @override
+  String transportComparisonFull(int max) {
+    return 'Comparison full ($max options)';
+  }
+
+  @override
+  String transportCompareOptions(int count) {
+    return 'Compare $count options';
+  }
+
+  @override
+  String transportOptionStaged(int count) {
+    return 'Added option $count';
+  }
+
+  @override
+  String transportComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label emits $amount CO2e less than $worse ($percent% lower)';
+  }
+
+  @override
+  String transportComparisonTreesEquiv(String count) {
+    return 'That\'s about $count trees absorbing CO2 for a year';
+  }
+
+  @override
+  String get transportMethodologyTitle => 'Methodology & sources';
+
+  @override
+  String transportMethodologyBody(int grid) {
+    return 'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of $grid g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.';
+  }
+
+  @override
+  String get transportLogChoiceTitle => 'Take the greener option?';
+
+  @override
+  String transportLogChoiceBody(String amount) {
+    return 'Log this as a transport action and bank the $amount CO2e you avoid by choosing the lower-carbon option.';
+  }
+
+  @override
+  String transportLogChoiceCta(String label) {
+    return 'I chose $label';
+  }
+
+  @override
+  String transportChoiceLoggedMessage(String amount) {
+    return 'Logged. You banked $amount CO2e.';
+  }
+
+  @override
+  String transportCustomActionName(String greener, String worse) {
+    return 'Chose $greener over $worse';
+  }
+
+  @override
+  String get transportChoseLabel => 'I took';
+
+  @override
+  String get transportInsteadOfLabel => 'instead of';
+
+  @override
+  String get transportChoiceDistinctHint =>
+      'Pick two different options to log the choice you made.';
+
+  @override
+  String get transportActionsEntryTitle => 'Compare & log a transport choice';
+
+  @override
+  String get transportActionsEntrySubtitle =>
+      'See which option emits less, then bank the difference';
+
+  @override
+  String get actionReproduce => 'Do this again';
+
+  @override
+  String get actionReproducedMessage => 'Logged again';
+
+  @override
+  String get foodCalculatorTitle => 'Food Calculator';
+
+  @override
+  String get foodMethodologyTitle => 'Methodology & sources';
+
+  @override
+  String get foodTotalLabel => 'Total';
+
+  @override
+  String get foodMealEmpty =>
+      'Add an ingredient to build your meal and see its CO2e footprint.';
+
+  @override
+  String get foodAddIngredient => 'Add ingredient';
+
+  @override
+  String get foodEditIngredient => 'Edit ingredient';
+
+  @override
+  String get foodSelectItem => 'Choose a food';
+
+  @override
+  String get foodChangeItem => 'Change';
+
+  @override
+  String get foodQuantityLabel => 'Quantity (g)';
+
+  @override
+  String get foodQuantityInvalid => 'Enter a quantity of 0 g or more';
+
+  @override
+  String foodGramsValue(String grams) {
+    return '$grams g';
+  }
+
+  @override
+  String get foodRemoveIngredient => 'Remove ingredient';
+
+  @override
+  String get foodItemScienceTooltip => 'About this factor';
+
+  @override
+  String foodItemFactorPerKg(String value) {
+    return '$value kg CO2e per kg';
+  }
+
+  @override
+  String get foodScienceNotesHeading => 'How it\'s calculated';
+
+  @override
+  String get foodScienceSourcesHeading => 'Sources';
+
+  @override
+  String foodScienceAccessed(String date) {
+    return 'Accessed $date';
+  }
+
+  @override
+  String get foodGroupMeat => 'Meat';
+
+  @override
+  String get foodGroupSeafood => 'Seafood';
+
+  @override
+  String get foodGroupDairyEggs => 'Dairy & eggs';
+
+  @override
+  String get foodGroupPlantProtein => 'Plant protein';
+
+  @override
+  String get foodGroupStaples => 'Staples';
+
+  @override
+  String get foodGroupVegetables => 'Vegetables';
+
+  @override
+  String get foodGroupFruit => 'Fruit';
+
+  @override
+  String get foodGroupDrinks => 'Drinks';
+
+  @override
+  String get foodGroupTreats => 'Treats';
+
+  @override
+  String get foodGroupOils => 'Oils';
+
+  @override
+  String get foodAddToComparison => 'Add to comparison';
+
+  @override
+  String foodComparisonFull(int max) {
+    return 'Comparison full ($max options)';
+  }
+
+  @override
+  String foodCompareOptions(int count) {
+    return 'Compare $count options';
+  }
+
+  @override
+  String foodOptionStaged(int count) {
+    return 'Added option $count';
+  }
+
+  @override
+  String get foodComparisonTitle => 'Compare meals';
+
+  @override
+  String foodComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label emits $amount CO2e less than $worse ($percent% lower)';
+  }
+
+  @override
+  String foodComparisonCarKmEquiv(int km) {
+    return 'That\'s about $km km not driven in a petrol car';
+  }
+
+  @override
+  String get foodChoseLabel => 'I ate';
+
+  @override
+  String get foodInsteadOfLabel => 'instead of';
+
+  @override
+  String foodLogChoiceBody(String amount) {
+    return 'Log this as a food action and bank the $amount CO2e you avoid by choosing the lower-carbon meal.';
+  }
+
+  @override
+  String get foodChoiceDistinctHint =>
+      'Pick two different meals to log the choice you made.';
+
+  @override
+  String foodLogChoiceCta(String label) {
+    return 'I chose $label';
+  }
+
+  @override
+  String foodChoiceLoggedMessage(String amount) {
+    return 'Logged. You banked $amount CO2e.';
+  }
+
+  @override
+  String foodCustomActionName(String greener, String worse) {
+    return 'Chose $greener over $worse';
+  }
+
+  @override
+  String get foodActionsEntryTitle => 'Compare & log a food choice';
+
+  @override
+  String get foodActionsEntrySubtitle =>
+      'See which meal emits less, then bank the difference';
+
+  @override
+  String get foodMethodologyBody =>
+      'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together.\n\n### You may have seen \'beef = 60\'\nThis tool ships the study\'s production-weighted means, not its medians. The widely shared \'beef is 60 kg\' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.';
 }

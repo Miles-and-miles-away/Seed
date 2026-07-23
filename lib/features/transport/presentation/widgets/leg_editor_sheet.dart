@@ -9,11 +9,14 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 import 'package:seed_app/features/transport/data/models/journey_leg_model.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
+import 'package:seed_app/features/transport/domain/services/flight_band.dart';
+import 'package:seed_app/features/transport/domain/services/journey_distance.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
 import 'package:seed_app/features/transport/presentation/widgets/city_pair_fields.dart';
 import 'package:seed_app/features/transport/presentation/widgets/occupancy_stepper.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_mode_picker.dart';
+import 'package:seed_app/features/transport/presentation/widgets/transport_science_sheet.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Keeps the distance input to digits with at most one decimal
@@ -171,13 +174,23 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
   Widget _buildModeStep(List<TransportMode> modes) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final from = _fromCity;
     final to = _toCity;
     Map<String, double>? suggestions;
+    String? flightBandId;
     if (from != null && to != null) {
       // citySuggestionsProvider threads the water-blocked pair set
       // (review requirement); never call suggestedDistancesKm directly here.
       suggestions = ref.watch(citySuggestionsProvider(from, to)).value;
+      // Auto-pick the honest flight band for this pair (8.3): the
+      // picker then offers only that band, never a dishonest
+      // long-haul factor for a short hop.
+      flightBandId = flightBandModeId(
+        straightLineKm: haversineKm(from.lat, from.lon, to.lat, to.lon),
+        fromCc: from.cc,
+        toCc: to.cc,
+      );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,7 +214,13 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
         TransportModePicker(
           modes: modes,
           suggestions: suggestions,
+          flightBandId: flightBandId,
           onSelected: _selectMode,
+          onInfo: (mode) => TransportScienceSheet.show(
+            context,
+            mode: mode,
+            languageCode: locale,
+          ),
         ),
       ],
     );

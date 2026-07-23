@@ -85,4 +85,39 @@ class JourneyBuilder extends _$JourneyBuilder {
     final legs = [...state]..removeAt(index);
     state = legs;
   }
+
+  /// Empties the journey (e.g. after staging it for comparison).
+  void clear() => state = const [];
+}
+
+/// Maximum journey options a comparison holds (Phase 8.3: 2-3).
+const comparisonMaxOptions = 3;
+
+/// Snapshotted journeys staged for side-by-side comparison (8.3).
+///
+/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
+/// screen state, never persisted (Phase 8 plan). Each entry is a
+/// full multi-leg journey snapshot, so a door-to-door flight option
+/// keeps its airport legs.
+@riverpod
+class JourneyComparison extends _$JourneyComparison {
+  @override
+  List<List<JourneyLeg>> build() => const [];
+
+  /// Snapshots [legs] as a new option, capped at [comparisonMaxOptions].
+  /// No-ops on an empty journey or when full (the UI hides the action
+  /// at the cap, this is the belt-and-braces guard).
+  void add(List<JourneyLeg> legs) {
+    if (legs.isEmpty || state.length >= comparisonMaxOptions) return;
+    state = [...state, List.unmodifiable(legs)];
+  }
+
+  /// Removes the option at [index].
+  void removeAt(int index) {
+    final options = [...state]..removeAt(index);
+    state = options;
+  }
+
+  /// Clears all staged options.
+  void clear() => state = const [];
 }

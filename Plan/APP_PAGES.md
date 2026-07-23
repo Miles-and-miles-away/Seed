@@ -115,8 +115,7 @@ Impact, and Eco-Dex.
 CO2 dashboard showing total saved across selectable time periods,
 real-world equivalencies (tree-years, car km, phone charges, beef
 burgers), and trend / category charts of the same window.
-- Links: `/transport-calculator` ("Compare transport options" card);
-  external source URLs from the equivalencies info sheet
+- Links: external source URLs from the equivalencies info sheet
   (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
   Time); headline kg total card with period-over-period comparison
@@ -124,8 +123,7 @@ burgers), and trend / category charts of the same window.
   per-equivalency explainer, formula, and tappable source citation;
   daily-trend scatter chart with dashed mean line; category donut
   (Top 5 + Other) with center kg total and color-dot legend. Charts
-  hide themselves when the window has insufficient data. A
-  "Compare transport options" entry card sits below the charts.
+  hide themselves when the window has insufficient data.
 
 ### Eco-Dex (embedded in Progress)
 Encyclopedia of planet facts organized by category, with a progress
@@ -155,29 +153,112 @@ navigate via the tabs. The implicit AppBar back arrow is suppressed
 (`automaticallyImplyLeading: false`) so the bottom nav is the single,
 unambiguous exit. Browse and log actions.
 - Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
-  inline confirmation dialog / science bottom sheet
+  `/transport-calculator` and `/food-calculator` — reached via the AppBar
+  calculator chooser (transport / food / home energy; home energy disabled
+  until it ships) and the "Compare & log a transport choice" / "Compare &
+  log a food choice" cards shown only in their category views; inline
+  confirmation dialog / science bottom sheet
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All").
-- Functionality: search, category tabs, sort dropdown, SDG filter chips,
-  action cards with log confirmation and science info.
+- Functionality: AppBar calculator-chooser icon opening the calculators
+  bottom sheet; search, category tabs, sort dropdown, SDG filter chips,
+  action cards with log confirmation and science info; a "Compare & log
+  a transport choice" card in the transport view and a "Compare & log a
+  food choice" card in the food view.
 
 ## Transport Calculator (`/transport-calculator`)
 
 Pushed full-screen route (Phase 8). Educational journey builder:
 add/edit/remove legs (mode + distance + occupancy for per-vehicle
-modes) and see per-leg and total CO2e. Awards nothing — no points,
-no logged CO2 (No Fake Points).
-- Reached from: "Compare transport options" card on the Progress
-  Impact segment.
-- Links: none yet (8.3 comparison view, 8.4 methodology sheet, and
-  the Action Log banner entry point are follow-up stages).
+modes) and see per-leg and total CO2e.
+- Reached from: the AppBar calculator chooser on the Log Action screen
+  (transport tile), and the "Compare & log a transport choice" card
+  shown in that screen's transport category view (kept off the bottom
+  nav to hold it at five buttons).
+- Links (internal Navigator pushes, not named routes): Journey
+  Comparison screen; Methodology & Sources screen (AppBar science
+  icon). Per-mode science sheets and external source URLs open from
+  info icons / tappable links.
 - Functionality: leg list with per-leg CO2e and delete; leg editor
-  bottom sheet with grouped mode picker (dataset groups), numeric
-  km field (rejects negative/NaN; always editable), occupancy
-  stepper only for per-vehicle modes (capped at the mode's max
-  occupants); optional city-pair picker prefilling editable
-  distance estimates per mode group (water-blocked pairs never
-  suggest ground/active modes); running journey total.
+  bottom sheet with grouped mode picker (info icon per mode opens its
+  science sheet), numeric km field (rejects negative/NaN; always
+  editable), occupancy stepper only for per-vehicle modes; optional
+  city-pair picker prefilling editable distance estimates
+  (water-blocked pairs never suggest ground/active; flights auto-pick
+  the honest DEFRA band from the pair's countries + distance);
+  running journey total; "Add to comparison" stages the journey (up
+  to 3) and "Compare" opens the comparison.
+
+### Journey Comparison (pushed within the feature)
+Side-by-side bars for 2–3 staged journeys (8.3), scaled to the worst
+option with the best highlighted. Delta line reads "emits X CO2e
+less (Y% lower)" — never "saves" (data-review copy rule) — with the
+Phase 6 tree-year equivalency of the difference. Electric-car rows
+show the grid caveat, the private jet the radiative-forcing footnote,
+active/micro modes their basis. With three options, "I took" and
+"instead of" pickers (defaults greenest/worst) let the user designate
+the choice they made; a "I chose {greener}" button then banks the
+avoided emissions (baseline − chosen) as a real transport action
+(Phase 8.6): it creates a user `customActions` template and logs it
+through the standard action transaction (points from `co2^0.4`,
+neutral multipliers). Banking is disabled unless the two picks differ.
+No caps — users are isolated (scoring design decision).
+
+### Methodology & Sources (pushed within the feature)
+Markdown page (8.4): scope, occupancy, radiative forcing (1.7×,
+DESNZ 2025), electric-grid context, why category averages, the
+coach/rail close-call caveat, and a source list derived from the
+dataset so it can never drift. Tappable citations.
+
+Banked transport choices appear in the Progress calendar like any
+logged action; opening one in the day-detail sheet offers "Do this
+again" (reproduce), which re-logs the same template.
+
+## Food Calculator (`/food-calculator`)
+
+Pushed full-screen route (Phase 8, Part 2). Educational meal builder:
+add/edit/remove ingredients (food item + quantity) and see per-
+ingredient and total CO2e. Mirrors the transport calculator; simpler
+(no occupancy). Never awards points inside the tool.
+- Reached from: the AppBar calculator chooser on the Log Action screen
+  (food tile), and the "Compare & log a food choice" card shown in that
+  screen's food category view (kept off the bottom nav to hold it at
+  five buttons).
+- Links (internal Navigator pushes, not named routes): Meal Comparison
+  screen; Methodology & Sources screen (AppBar science icon). Per-item
+  science sheets and external source URLs open from info icons /
+  tappable links.
+- Functionality: ingredient list with per-ingredient CO2e and delete;
+  ingredient editor bottom sheet with grouped item picker (info icon
+  per item opens its science sheet), serving-preset chips over an
+  editable grams field (rejects negative/NaN), numeric quantity;
+  running meal total; "Add to comparison" stages the meal (up to 3)
+  and "Compare" opens the comparison.
+
+### Meal Comparison (pushed within the feature)
+Side-by-side bars for 2–3 staged meals (8.9), scaled to the worst
+option with the best highlighted. Delta line reads "emits X CO2e less
+(Y% lower)" — never "saves" (data-review copy rule) — with the Phase 6
+driving (car-km) equivalency of the difference. With three options,
+"I ate" and "instead of" pickers (defaults greenest/worst) let the
+user designate the meal they had; a "I chose {greener}" button then
+banks the avoided emissions (baseline − chosen) as a real food action
+(Phase 8.12): it reuses the category-agnostic `customActions` template
++ rules the transport bridge established and logs through the standard
+action transaction (points from `co2^0.4`, neutral multipliers).
+Banking is disabled unless the two picks differ. No caps — users are
+isolated (scoring design decision).
+
+### Methodology & Sources (pushed within the feature)
+Markdown page (8.10): cradle-to-retail scope incl. land-use change
+(not summable with the transport calculator), the mean-vs-median
+explainer ("you may have seen beef = 60"), producer spread, the
+no organic/local modifier rationale, and a source list derived from
+the dataset so it can never drift. Tappable citations.
+
+Banked food choices appear in the Progress calendar like any logged
+action; the day-detail "Do this again" reproduce path applies to them
+too.
 
 ## Tab 2 — Mascot (`/mascot`)
 
@@ -270,6 +351,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `mascotSelection`         | `/mascot-selection`               |
 | `actionLog`               | `/log-action`                     |
 | `transportCalculator`     | `/transport-calculator`           |
+| `foodCalculator`          | `/food-calculator`                |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `mascot`                  | `/mascot`                         |

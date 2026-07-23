@@ -3,7 +3,7 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:seed_app/features/transport/data/models/emission_source_model.dart';
+import 'package:seed_app/shared/models/emission_source_model.dart';
 
 part 'transport_mode_model.freezed.dart';
 part 'transport_mode_model.g.dart';

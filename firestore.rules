@@ -323,6 +323,20 @@ service cloud.firestore {
               && log.co2Grams == libraryAction.get('co2Grams', 0);
         }
 
+        // Custom transport actions (Phase 8.6) are validated against
+        // the user's own template instead of the read-only library:
+        // the log's points and co2Grams must equal the template the
+        // user created. No numeric ceiling -- users are isolated (no
+        // leaderboards), so self-reported inflation only affects the
+        // user's own stats. The existing per-write totalCo2Grams cap
+        // on the user doc still bounds a single log.
+        function matchesCustomAction(log, customAction) {
+          return log.points == customAction.points
+              && log.co2Grams is int
+              && log.co2Grams >= 0
+              && log.co2Grams == customAction.get('co2Grams', 0);
+        }
+
         allow read: if isOwner(userId);
 
         allow create: if isOwner(userId)
@@ -333,13 +347,66 @@ service cloud.firestore {
                      /$(userId)).data,
                  getAfter(/databases/$(database)/documents/users
                      /$(userId)).data)
-            && matchesLibrary(
-                 request.resource.data,
-                 get(/databases/$(database)/documents/actionLibrary
-                     /$(request.resource.data.actionId)).data);
+            // A log must match EITHER a library action or one of the
+            // user's own custom actions. The exists() guards make the
+            // matching branch short-circuit, so the other branch never
+            // dereferences a null document.
+            && (
+                 (exists(/databases/$(database)/documents/actionLibrary
+                     /$(request.resource.data.actionId))
+                  && matchesLibrary(
+                       request.resource.data,
+                       get(/databases/$(database)/documents/actionLibrary
+                           /$(request.resource.data.actionId)).data))
+                 ||
+                 (exists(/databases/$(database)/documents/users/$(userId)
+                     /customActions/$(request.resource.data.actionId))
+                  && matchesCustomAction(
+                       request.resource.data,
+                       get(/databases/$(database)/documents/users/$(userId)
+                           /customActions
+                           /$(request.resource.data.actionId)).data))
+               );
 
         // Immutable from the client; admin SDK bypasses rules.
         allow update, delete: if false;
+      }
+
+      // Subcollection: user-created transport actions (Phase 8.6).
+      match /customActions/{actionId} {
+
+        function validCustomAction(a) {
+          return a.keys().hasAll(['name', 'co2Grams', 'points'])
+            && a.keys().hasOnly([
+                 'name', 'co2Grams', 'points', 'category',
+                 'relatedSdgs', 'createdAt'])
+            && a.name is string
+            && a.name.size() >= 1
+            && a.name.size() <= 500
+            && a.co2Grams is int
+            && a.co2Grams >= 0
+            // Matches the actionLog points ceiling so a template that
+            // could never be logged cannot be created.
+            && a.points is int
+            && a.points >= 0
+            && a.points <= 10000
+            && (!('category' in a)
+                || (a.category is string && a.category.size() <= 100))
+            && (!('relatedSdgs' in a)
+                || (a.relatedSdgs is list && a.relatedSdgs.size() <= 17))
+            && (!('createdAt' in a)
+                || a.createdAt == null
+                || a.createdAt is timestamp);
+        }
+
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId)
+            && isVerifiedUser()
+            && validCustomAction(request.resource.data);
+        // Templates are logging fingerprints; editing one would let a
+        // past log's fingerprint change. Recreate instead of edit.
+        allow update: if false;
+        allow delete: if isOwner(userId);
       }
 
       // Subcollection: daily summaries

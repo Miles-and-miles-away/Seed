@@ -218,6 +218,49 @@ class AnalyticsService {
   }
 
   // ============================================================
+  // Transport Calculator Events (Phase 8)
+  // ============================================================
+
+  /// Log when the transport carbon calculator is opened.
+  Future<void> logTransportCalculatorOpened() =>
+      _log('transport_calculator_opened');
+
+  /// Log when a user runs a journey comparison (Phase 8.3).
+  Future<void> logTransportComparisonRun({
+    required List<String> modeIds,
+    required List<int> legCounts,
+    required String winningModeId,
+  }) {
+    return _log('transport_comparison_run', {
+      'mode_ids': modeIds.take(10).join(','),
+      'option_count': legCounts.length,
+      'leg_counts': legCounts.join(','),
+      'winning_mode': winningModeId,
+    });
+  }
+
+  // ============================================================
+  // Food Calculator Events (Phase 8, Part 2)
+  // ============================================================
+
+  /// Log when the food carbon calculator is opened.
+  Future<void> logFoodCalculatorOpened() => _log('food_calculator_opened');
+
+  /// Log when a user runs a meal comparison (Phase 8.9).
+  Future<void> logFoodComparisonRun({
+    required List<String> itemIds,
+    required List<int> ingredientCounts,
+    required String winningItemId,
+  }) {
+    return _log('food_comparison_run', {
+      'item_ids': itemIds.take(10).join(','),
+      'option_count': ingredientCounts.length,
+      'ingredient_counts': ingredientCounts.join(','),
+      'winning_item': winningItemId,
+    });
+  }
+
+  // ============================================================
   // Settings Events
   // ============================================================
 

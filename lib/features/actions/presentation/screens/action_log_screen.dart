@@ -15,6 +15,7 @@ import '../utils/handle_action_tap.dart';
 import '../widgets/action_card.dart';
 import '../widgets/action_category_tabs.dart';
 import '../widgets/action_sort_dropdown.dart';
+import '../widgets/calculator_chooser_sheet.dart';
 import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
@@ -86,6 +87,15 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         // Action button; navigation is via the tabs, so suppress the
         // implicit back arrow to avoid a redundant second exit.
         automaticallyImplyLeading: false,
+        actions: [
+          // Carbon calculators hub (Phase 8): opens the transport / food
+          // / home-energy chooser without spending a bottom-nav slot.
+          IconButton(
+            icon: const Icon(Icons.calculate_outlined),
+            tooltip: l10n.calculatorsButtonTooltip,
+            onPressed: () => CalculatorChooserSheet.show(context),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
           child: Padding(
@@ -140,6 +150,66 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               ref.read(selectedCategoryProvider.notifier).select(category);
             },
           ),
+          // Custom transport-route entry (Phase 8.6), surfaced only in
+          // the transport view. Opens the calculator, where comparing
+          // and banking a chosen route lives.
+          if (selectedCategory == ActionCategory.transport)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                spacingLg,
+                spacingSm,
+                spacingLg,
+                0,
+              ),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                color: theme.colorScheme.primaryContainer,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.compare_arrows,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                  title: Text(l10n.transportActionsEntryTitle),
+                  subtitle: Text(l10n.transportActionsEntrySubtitle),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                  textColor: theme.colorScheme.onPrimaryContainer,
+                  onTap: () => context.push(appRoutes.transportCalculator),
+                ),
+              ),
+            ),
+          // Food-choice entry (Phase 8.12), surfaced only in the food
+          // view. Opens the calculator, where comparing and banking a
+          // chosen meal lives.
+          if (selectedCategory == ActionCategory.food)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                spacingLg,
+                spacingSm,
+                spacingLg,
+                0,
+              ),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                color: theme.colorScheme.primaryContainer,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.compare_arrows,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                  title: Text(l10n.foodActionsEntryTitle),
+                  subtitle: Text(l10n.foodActionsEntrySubtitle),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                  textColor: theme.colorScheme.onPrimaryContainer,
+                  onTap: () => context.push(appRoutes.foodCalculator),
+                ),
+              ),
+            ),
           // Sort dropdown row
           Padding(
             padding: const EdgeInsets.symmetric(

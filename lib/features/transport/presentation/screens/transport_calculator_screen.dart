@@ -8,27 +8,55 @@ import 'package:seed_app/features/transport/data/models/journey_leg_model.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 import 'package:seed_app/features/transport/domain/services/transport_calculator.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
+import 'package:seed_app/features/transport/presentation/screens/journey_comparison_screen.dart';
+import 'package:seed_app/features/transport/presentation/screens/transport_methodology_screen.dart';
 import 'package:seed_app/features/transport/presentation/widgets/journey_leg_card.dart';
 import 'package:seed_app/features/transport/presentation/widgets/leg_editor_sheet.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
-
-// TODO(phase8): follow-up stages on this screen -- 8.3 journey
-// comparison (2-3 options side by side), 8.4 methodology sheet link
-// and per-mode science sheets, 8.5 second entry point and analytics
-// (transport_calculator_opened / transport_comparison_run).
 
 /// Journey builder screen: build a multi-leg journey and see its
 /// CO2e footprint. Educational tool only -- it never awards points
 /// or credits CO2 savings (No Fake Points, Phase 8 plan).
-class TransportCalculatorScreen extends ConsumerWidget {
+///
+/// Build a journey, stage it as a comparison option, then compare
+/// 2-3 side by side (8.3). A methodology link (8.4) opens the
+/// sources page.
+class TransportCalculatorScreen extends ConsumerStatefulWidget {
   const TransportCalculatorScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TransportCalculatorScreen> createState() =>
+      _TransportCalculatorScreenState();
+}
+
+class _TransportCalculatorScreenState
+    extends ConsumerState<TransportCalculatorScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(analyticsServiceProvider).logTransportCalculatorOpened();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final modesAsync = ref.watch(transportModesByIdProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.transportCalculatorTitle)),
+      appBar: AppBar(
+        title: Text(l10n.transportCalculatorTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.science_outlined),
+            tooltip: l10n.transportMethodologyTitle,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const TransportMethodologyScreen(),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: modesAsync.when(
         data: (modesById) => _JourneyBuilderView(modesById: modesById),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -64,14 +92,49 @@ class _JourneyBuilderView extends ConsumerWidget {
     ref.read(journeyBuilderProvider.notifier).updateLeg(index, updated);
   }
 
+  /// Snapshots the current journey as a comparison option and clears
+  /// the builder so the next option starts fresh.
+  void _stageForComparison(BuildContext context, WidgetRef ref) {
+    final legs = ref.read(journeyBuilderProvider);
+    ref.read(journeyComparisonProvider.notifier).add(legs);
+    ref.read(journeyBuilderProvider.notifier).clear();
+    final count = ref.read(journeyComparisonProvider).length;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).transportOptionStaged(count),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _openComparison(BuildContext context, WidgetRef ref) {
+    final options = ref.read(journeyComparisonProvider);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            JourneyComparisonScreen(options: options, modesById: modesById),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final legs = ref.watch(journeyBuilderProvider);
+    final comparisonCount = ref.watch(journeyComparisonProvider).length;
     if (legs.isEmpty) {
-      return _EmptyJourney(onAddLeg: () => _addLeg(context, ref));
+      return _EmptyJourney(
+        onAddLeg: () => _addLeg(context, ref),
+        comparisonCount: comparisonCount,
+        onCompare: comparisonCount >= 2
+            ? () => _openComparison(context, ref)
+            : null,
+      );
     }
     final total = TransportCalculator.journeyCo2eGrams(modesById, legs);
+    final atCap = comparisonCount >= comparisonMaxOptions;
     return Column(
       children: [
         Expanded(
@@ -92,6 +155,26 @@ class _JourneyBuilderView extends ConsumerWidget {
                 icon: const Icon(Icons.add),
                 label: Text(l10n.transportAddLeg),
               ),
+              const SizedBox(height: spacingSm),
+              FilledButton.tonalIcon(
+                onPressed: atCap
+                    ? null
+                    : () => _stageForComparison(context, ref),
+                icon: const Icon(Icons.playlist_add),
+                label: Text(
+                  atCap
+                      ? l10n.transportComparisonFull(comparisonMaxOptions)
+                      : l10n.transportAddToComparison,
+                ),
+              ),
+              if (comparisonCount >= 2) ...[
+                const SizedBox(height: spacingSm),
+                FilledButton.icon(
+                  onPressed: () => _openComparison(context, ref),
+                  icon: const Icon(Icons.bar_chart),
+                  label: Text(l10n.transportCompareOptions(comparisonCount)),
+                ),
+              ],
             ],
           ),
         ),
@@ -102,7 +185,7 @@ class _JourneyBuilderView extends ConsumerWidget {
 }
 
 /// Persistent journey total. Emissions of the built journey, not a
-/// saving -- comparison deltas (8.3) will use "emits X less" copy.
+/// saving -- comparison deltas (8.3) use "emits X less" copy.
 class _TotalBar extends StatelessWidget {
   const _TotalBar({required this.totalGrams});
 
@@ -149,9 +232,15 @@ class _TotalBar extends StatelessWidget {
 }
 
 class _EmptyJourney extends StatelessWidget {
-  const _EmptyJourney({required this.onAddLeg});
+  const _EmptyJourney({
+    required this.onAddLeg,
+    required this.comparisonCount,
+    this.onCompare,
+  });
 
   final VoidCallback onAddLeg;
+  final int comparisonCount;
+  final VoidCallback? onCompare;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +273,16 @@ class _EmptyJourney extends StatelessWidget {
               icon: const Icon(Icons.add),
               label: Text(l10n.transportAddLeg),
             ),
+            // Staged options survive an emptied builder, so keep the
+            // compare action reachable from the empty state too.
+            if (onCompare != null) ...[
+              const SizedBox(height: spacingSm),
+              FilledButton.tonalIcon(
+                onPressed: onCompare,
+                icon: const Icon(Icons.bar_chart),
+                label: Text(l10n.transportCompareOptions(comparisonCount)),
+              ),
+            ],
           ],
         ),
       ),

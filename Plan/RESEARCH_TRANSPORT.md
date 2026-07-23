@@ -1,10 +1,12 @@
 # Transport Emission Factor Research
 
-**Version:** 1.1
+**Version:** 1.2
 **Created:** 2026-07-17
 **Status:** Initial research pass complete (27 shipped modes
 decided; open items tracked in section 7). Section 9 adds the
-distance-estimation conventions for the city prefill.
+distance-estimation conventions for the city prefill. Seven
+adversarial review rounds (2026-07-17..21) are complete; the
+durable rules they produced are consolidated in Appendix A.
 **Feeds:** `data/app/transport_modes.json` (Phase 8.1, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md))
 
@@ -1003,12 +1005,99 @@ Open items added by this section:
       once Catania is force-included
 - [ ] JA/ES localization of city names (ship EN-only v1)
 - [ ] Rail-specific circuity factor if a citable source lands
-- [ ] UI MUST thread `loadWaterBlockedPairs()` into
-      `suggestedDistancesKm` (the param defaults to empty with
-      no compile-time signal -- forgetting it silently revives
-      Helsinki-Tallinn cycling; R4-10) -- belongs in the UI PR
-- [ ] Per-mode `maxSuggestKm` (high-impact modes currently have
-      no suggestion caps) -- belongs in the UI PR
-- [ ] Leg-length -> flight-band mapping (a 400 km leg priced at
-      the long-haul rate halves the honest figure) -- belongs in
-      the UI PR
+- [x] UI threads `loadWaterBlockedPairs()` into
+      `suggestedDistancesKm` -- DONE, pinned by a non-vacuous test
+      (R4-10); binding on all future callers
+- [x] Per-mode `maxSuggestKm` -- CLOSED: satisfied by the
+      kind-to-group mapping (micro/taxi/high-impact are never
+      suggested; the distance caps gate the rest)
+- [x] Leg-length -> flight-band mapping -- DONE: the comparison
+      view auto-picks the honest band from leg distance
+      (Appendix A.4)
+
+---
+
+## Appendix A: Review-Derived Design Principles (Rounds 1-7)
+
+Seven adversarial review rounds (bug hunt, maths recomputation,
+design red-team with full-pair sweeps, deception audits with live
+source fetches) ran over the dataset and the distance-estimation
+engine, 2026-07-17..21. The durable rules they produced are
+consolidated here so this document stays self-sufficient. Most are
+already applied in sections 2-9 -- this appendix names them as
+principles and records the few that live nowhere else.
+
+### A.1 Honesty ethic (the rule every data decision serves)
+
+- **Honest, not generous.** Where a factor, ordering, or
+  suggestion could flatter the eco-choice, ship the conservative
+  reading and disclose the caveat; never present an unearned
+  saving.
+- **Zero fiction beats convenience.** A suggestion that cannot be
+  scoped to a real corridor is removed, not approximated
+  (Malta-Sicily link deleted; Gibraltar fiction killed; Gaza
+  cities removed). When sources conflict or a corridor cannot be
+  confirmed open to ordinary travelers, **doubt resolves to
+  removal** -- aid/trade/pilgrim-only crossings count as closed
+  (owner rules, section 9).
+- **Never ship a self-derived number that contradicts the cited
+  set.** A derivation is a cross-check, not a license to invent
+  (PHEV: DEFRA's optimistic 91.67 vs real-world ~135, ship neither
+  silently -- section 3.1; taxi: no self-derived deadheading
+  factor though deadheading is real and DEFRA excludes it --
+  section 3.1).
+
+### A.2 Vintage discipline
+
+- Every factor records its DEFRA/DESNZ release vintage; aggregator
+  pages routinely mix vintages (section 1).
+- The sanity invariants (section 6) are **pins for the shipped
+  2025-vintage values, not truth claims** -- the flagged 2026
+  revisions break several (noted inline), so re-derive every pin
+  at the next data pass rather than assuming it survives.
+
+### A.3 Copy rules (binding on the comparison view / science sheets)
+
+- "emits X kg less", **never "saves"** -- the delta is
+  hypothetical until the trip is actually swapped.
+- Comparative superlatives only at a meaningful delta; **never**
+  generate copy claiming walking beats cycling, or coach beats
+  rail -- both orderings are vintage-fragile (section 6
+  non-invariants).
+- Binding in-UI disclosures: the private-jet bar carries an
+  in-chart RF footnote (its bar includes the same high-altitude
+  uplift as the airline bars, section 8.1); the EV row carries a
+  global-average-grid sublabel (section 2); active/micro rows
+  carry their electricity-only / lifecycle-excluded basis labels
+  (section 3.3).
+
+### A.4 Flight-band auto-pick (binding methodology, shipped)
+
+The comparison view picks the honest flight band from leg distance
+rather than letting a short leg be overstated at the long-haul
+rate: **> 3,700 km = long-haul**; otherwise **same country =
+domestic**, **different countries = short-haul** (the DEFRA
+<= 3,700 km boundary, section 4). No invented medium-haul cutoff --
+DEFRA publishes no medium-haul factor, so the three bands stand
+(owner Q&A, 2026-07-22). The picker offers only the band a city
+pair resolves to.
+
+### A.5 Border-status watchlist (re-verify at the next data pass)
+
+Border verdicts (section 9 CLOSED_BORDERS / walls) carry expiry
+risk; re-verify live before regenerating cities.json:
+
+- **BJ-NE** -- the 2026-06 reopening accord was prospective;
+  likely to genuinely reopen (currently blocked).
+- **DZ-LY** -- conflicting sources; blocked under the in-doubt rule.
+- **AM-TR** -- reopening conditional on an unsigned AM-AZ treaty.
+- **ER-ET** -- owner "fragile-ok" watchlist (kept open).
+- **Rafah / Gaza** -- the strip ships no cities; revisit only if
+  crossings genuinely reopen to travelers.
+- **Sudan front line** (Kordofan; El Obeid the current flashpoint)
+  -- a manual wall; recheck as the front shifts.
+- **Backfill note** -- cities.json was edited in place (the
+  GeoNames inputs are off-disk), so the next full regeneration
+  backfills the freed top-5 slots with new cities; the gate's
+  political screen (R7, section 9) fails any new grounded cc-pair
+  until it is border-screened and added via `--update-reviewed`.

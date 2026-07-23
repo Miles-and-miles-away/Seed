@@ -124,4 +124,17 @@ void main() {
     // economy change.
     expect(shippedGrams('plant_milk_vs_dairy'), 460);
   });
+
+  test('skip_fish derivation stays consistent with the dataset', () {
+    // skip_fish is a seeder-only library action (not in this DB), so
+    // this pins the arithmetic its co2Grams is derived from: average
+    // white/wild fish, fish_wild x 150 g fillet minus the 200 g beans
+    // baseline (2026-07-23 owner call). The seeder ships 1200 g
+    // (1225 rounded down to two significant figures); if fish_wild
+    // drifts out of the [1200, 1300) band the seeder value must move
+    // too, and this test flags it.
+    final derived = 0.15 * factorById['fish_wild']! * 1000 - plantAltBaselineG;
+    expect(derived, greaterThanOrEqualTo(1200));
+    expect(derived, lessThan(1300));
+  });
 }

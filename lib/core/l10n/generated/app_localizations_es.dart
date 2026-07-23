@@ -1416,11 +1416,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportCalculatorTitle => 'Calculadora de transporte';
 
   @override
-  String get transportCalculatorCardTitle => 'Compara opciones de transporte';
+  String get calculatorsSheetTitle => 'Calculadoras';
 
   @override
-  String get transportCalculatorCardSubtitle =>
-      'Crea un trayecto y mira su huella de CO2e';
+  String get calculatorsButtonTooltip => 'Calculadoras';
+
+  @override
+  String get calculatorHomeEnergy => 'Energía del hogar';
+
+  @override
+  String get calculatorComingSoon => 'Próximamente';
 
   @override
   String get transportJourneyEmpty =>
@@ -1536,4 +1541,289 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportGroupHighImpact => 'Alto impacto';
+
+  @override
+  String get transportModeScienceTooltip => 'Sobre este factor';
+
+  @override
+  String get transportBasisEvGrid =>
+      'Red eléctrica media mundial; varía según tu electricidad';
+
+  @override
+  String get transportBasisJetRf =>
+      'Incluye el mismo incremento de gran altitud (forzamiento radiativo) que los vuelos';
+
+  @override
+  String get transportBasisZeroDirect => '0 emisiones directas';
+
+  @override
+  String get transportBasisElectricityOnly => 'Solo electricidad';
+
+  @override
+  String get transportScienceNotesHeading => 'Cómo se calcula';
+
+  @override
+  String get transportScienceSourcesHeading => 'Fuentes';
+
+  @override
+  String transportScienceAccessed(String date) {
+    return 'Consultado el $date';
+  }
+
+  @override
+  String get transportComparisonTitle => 'Comparar trayectos';
+
+  @override
+  String get transportAddToComparison => 'Añadir a la comparación';
+
+  @override
+  String transportComparisonFull(int max) {
+    return 'Comparación completa ($max opciones)';
+  }
+
+  @override
+  String transportCompareOptions(int count) {
+    return 'Comparar $count opciones';
+  }
+
+  @override
+  String transportOptionStaged(int count) {
+    return 'Opción $count añadida';
+  }
+
+  @override
+  String transportComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label emite $amount de CO2e menos que $worse ($percent% menos)';
+  }
+
+  @override
+  String transportComparisonTreesEquiv(String count) {
+    return 'Equivale a unos $count árboles absorbiendo CO2 durante un año';
+  }
+
+  @override
+  String get transportMethodologyTitle => 'Metodología y fuentes';
+
+  @override
+  String transportMethodologyBody(int grid) {
+    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los modos eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que pueden no sumarse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya son por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Siguiendo a DESNZ 2025, los factores de vuelos y jets privados incluyen un incremento del 1,7x (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo incremento, así que la comparación es equivalente.\n\n### Modos eléctricos y la red\nLos coches eléctricos, las bicis y patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Promedios, no tu trayecto exacto\nLos factores son promedios por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos modos están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
+  }
+
+  @override
+  String get transportLogChoiceTitle => '¿Tomar la opción más ecológica?';
+
+  @override
+  String transportLogChoiceBody(String amount) {
+    return 'Registra esto como una acción de transporte y acumula los $amount de CO2e que evitas al elegir la opción de menor huella.';
+  }
+
+  @override
+  String transportLogChoiceCta(String label) {
+    return 'Elegí $label';
+  }
+
+  @override
+  String transportChoiceLoggedMessage(String amount) {
+    return 'Registrado. Acumulaste $amount de CO2e.';
+  }
+
+  @override
+  String transportCustomActionName(String greener, String worse) {
+    return 'Elegí $greener en vez de $worse';
+  }
+
+  @override
+  String get transportChoseLabel => 'Elegí';
+
+  @override
+  String get transportInsteadOfLabel => 'en lugar de';
+
+  @override
+  String get transportChoiceDistinctHint =>
+      'Elige dos opciones distintas para registrar tu elección.';
+
+  @override
+  String get transportActionsEntryTitle =>
+      'Compara y registra una elección de transporte';
+
+  @override
+  String get transportActionsEntrySubtitle =>
+      'Mira qué opción emite menos y acumula la diferencia';
+
+  @override
+  String get actionReproduce => 'Hacerlo de nuevo';
+
+  @override
+  String get actionReproducedMessage => 'Registrado de nuevo';
+
+  @override
+  String get foodCalculatorTitle => 'Calculadora de alimentación';
+
+  @override
+  String get foodMethodologyTitle => 'Metodología y fuentes';
+
+  @override
+  String get foodTotalLabel => 'Total';
+
+  @override
+  String get foodMealEmpty =>
+      'Añade un ingrediente para construir tu comida y ver su huella de CO2e.';
+
+  @override
+  String get foodAddIngredient => 'Añadir ingrediente';
+
+  @override
+  String get foodEditIngredient => 'Editar ingrediente';
+
+  @override
+  String get foodSelectItem => 'Elige un alimento';
+
+  @override
+  String get foodChangeItem => 'Cambiar';
+
+  @override
+  String get foodQuantityLabel => 'Cantidad (g)';
+
+  @override
+  String get foodQuantityInvalid => 'Introduce una cantidad de 0 g o más';
+
+  @override
+  String foodGramsValue(String grams) {
+    return '$grams g';
+  }
+
+  @override
+  String get foodRemoveIngredient => 'Eliminar ingrediente';
+
+  @override
+  String get foodItemScienceTooltip => 'Sobre este factor';
+
+  @override
+  String foodItemFactorPerKg(String value) {
+    return '$value kg de CO2e por kg';
+  }
+
+  @override
+  String get foodScienceNotesHeading => 'Cómo se calcula';
+
+  @override
+  String get foodScienceSourcesHeading => 'Fuentes';
+
+  @override
+  String foodScienceAccessed(String date) {
+    return 'Consultado el $date';
+  }
+
+  @override
+  String get foodGroupMeat => 'Carne';
+
+  @override
+  String get foodGroupSeafood => 'Pescado y marisco';
+
+  @override
+  String get foodGroupDairyEggs => 'Lácteos y huevos';
+
+  @override
+  String get foodGroupPlantProtein => 'Proteína vegetal';
+
+  @override
+  String get foodGroupStaples => 'Alimentos básicos';
+
+  @override
+  String get foodGroupVegetables => 'Verduras';
+
+  @override
+  String get foodGroupFruit => 'Fruta';
+
+  @override
+  String get foodGroupDrinks => 'Bebidas';
+
+  @override
+  String get foodGroupTreats => 'Caprichos';
+
+  @override
+  String get foodGroupOils => 'Aceites';
+
+  @override
+  String get foodAddToComparison => 'Añadir a la comparación';
+
+  @override
+  String foodComparisonFull(int max) {
+    return 'Comparación completa ($max opciones)';
+  }
+
+  @override
+  String foodCompareOptions(int count) {
+    return 'Comparar $count opciones';
+  }
+
+  @override
+  String foodOptionStaged(int count) {
+    return 'Opción $count añadida';
+  }
+
+  @override
+  String get foodComparisonTitle => 'Comparar comidas';
+
+  @override
+  String foodComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label emite $amount de CO2e menos que $worse ($percent% menos)';
+  }
+
+  @override
+  String foodComparisonCarKmEquiv(int km) {
+    return 'Equivale a unos $km km no recorridos en un coche de gasolina';
+  }
+
+  @override
+  String get foodChoseLabel => 'Comí';
+
+  @override
+  String get foodInsteadOfLabel => 'en lugar de';
+
+  @override
+  String foodLogChoiceBody(String amount) {
+    return 'Registra esto como una acción de alimentación y acumula los $amount de CO2e que evitas al elegir la comida de menor huella.';
+  }
+
+  @override
+  String get foodChoiceDistinctHint =>
+      'Elige dos comidas distintas para registrar tu elección.';
+
+  @override
+  String foodLogChoiceCta(String label) {
+    return 'Elegí $label';
+  }
+
+  @override
+  String foodChoiceLoggedMessage(String amount) {
+    return 'Registrado. Acumulaste $amount de CO2e.';
+  }
+
+  @override
+  String foodCustomActionName(String greener, String worse) {
+    return 'Elegí $greener en vez de $worse';
+  }
+
+  @override
+  String get foodActionsEntryTitle =>
+      'Compara y registra una elección de alimentación';
+
+  @override
+  String get foodActionsEntrySubtitle =>
+      'Mira qué comida emite menos y acumula la diferencia';
+
+  @override
+  String get foodMethodologyBody =>
+      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas.\n\n### Puede que hayas visto \'ternera = 60\'\nEsta herramienta usa las medias ponderadas por producción del estudio, no sus medianas. La difundida cifra de \'60 kg para la ternera\' es la mediana sin pérdidas de la cadena de suministro; la media que las incluye es mayor. Las medias representan mejor el impacto global total, así que es lo que usamos.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' no le gana a los \'frijoles importados\' en ninguna medida, y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
 }
