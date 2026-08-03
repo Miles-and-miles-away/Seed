@@ -133,3 +133,15 @@ abstract class AppConstants {
   static const fieldIsEnabled = 'isEnabled';
   static const fieldLabel = 'label';
 }
+
+/// The two comparison options a Phase 8 calculator holds: A and B.
+///
+/// Fixed at two by the side-by-side layout -- both columns are on
+/// screen at once, so there is no third to page to.
+const optionCount = 2;
+
+/// Index of the A option column.
+const optionA = 0;
+
+/// Index of the B option column.
+const optionB = 1;

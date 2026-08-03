@@ -191,15 +191,27 @@
       "action_id": "meatless_meal_beef",
       "action_name": "Meatless meal (beef avoided)",
       "category": "food",
-      "co2_grams": 9700,
+      "co2_grams": 6800,
       "unit": "per_100g_serving",
-      "calculation_notes": "Beef (beef herd) 99.48 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher. The widely quoted 60 kg/kg is the MEDIAN (without losses) of the same study. Per 100 g serving = 9948 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 9748 g. Rounded down to 9700 g (conservative).",
+      "calculation_notes": "Beef 70.3608 kg CO2e/kg: production-weighted global mean of the two Poore & Nemecek 2018 beef categories (0.56 x 99.48 beef herd + 0.44 x 33.30 dairy herd), means with supply-chain losses, cradle-to-retail, via the OWID grapher. The weights are OWID's own published global production split; no label tells a shopper which herd their beef came from, so the app ships one blended beef item (decision D6, 2026-08-01). The widely quoted 60 kg/kg is the beef-herd MEDIAN (without losses) of the same study. Per 100 g serving = 7036 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 6836 g. Rounded down to 6800 g (conservative).",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Beef (beef herd),2010,99.48",
           "accessed": "2026-07-18"
+        },
+        {
+          "name": "Our World in Data / Poore & Nemecek grapher CSV (dairy herd row)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Beef (dairy herd),2010,33.3",
+          "accessed": "2026-08-01"
+        },
+        {
+          "name": "Our World in Data, Less meat is nearly always better than sustainable meat",
+          "url": "https://ourworldindata.org/less-meat-or-sustainable-meat",
+          "quote": "Around 56% of global beef production comes from dedicated beef herds; and 44% from dairy herds.",
+          "accessed": "2026-08-01"
         },
         {
           "name": "MyCarbon Food Emissions Database",

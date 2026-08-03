@@ -1438,6 +1438,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Estimate derived from city locations. Edit it to match your route.';
 
   @override
+  String get transportDistanceUnknown => 'Unknown';
+
+  @override
+  String transportFlightBandNote(String band) {
+    return 'This distance uses the $band factor, so a short hop is never priced as a long-haul flight.';
+  }
+
+  @override
   String get transportOccupantsLabel => 'People in the vehicle';
 
   @override
@@ -1557,7 +1565,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transportComparisonTitle => 'Compare journeys';
 
   @override
-  String get transportAddToComparison => 'Add to comparison';
+  String get transportAddToComparison => 'Add as option';
+
+  @override
+  String get calculatorStagedOptions => 'Options to compare';
+
+  @override
+  String get calculatorRemoveOption => 'Remove this option';
+
+  @override
+  String calculatorEntryPreview(String amount) {
+    return 'This adds $amount CO2e';
+  }
+
+  @override
+  String get co2eDefinitionTitle => 'What is CO2e?';
+
+  @override
+  String get co2eDefinitionBody =>
+      'CO2e counts methane and other greenhouse gases as their CO2 equivalent, so a burger and a flight compare fairly.';
+
+  @override
+  String get calculatorOptionA => 'Option A';
+
+  @override
+  String get calculatorOptionB => 'Option B';
+
+  @override
+  String get calculatorDropHint => 'Drag or tap an item below to add it here';
+
+  @override
+  String get calculatorAddToA => 'Add to A';
+
+  @override
+  String get calculatorAddToB => 'Add to B';
+
+  @override
+  String get calculatorBrowseAll => 'Browse all';
+
+  @override
+  String get transportColumnEmptyHint => 'Tap Add leg to start this journey';
+
+  @override
+  String get calculatorNeedBothOptions => 'Build both options to compare them';
+
+  @override
+  String get calculatorRemoveEntry => 'Remove';
 
   @override
   String transportComparisonFull(int max) {
@@ -1631,11 +1684,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pick two different options to log the choice you made.';
 
   @override
-  String get transportActionsEntryTitle => 'Compare & log a transport choice';
+  String get transportActionsEntryTitle => 'Log a Custom Transport action';
 
   @override
-  String get transportActionsEntrySubtitle =>
-      'See which option emits less, then bank the difference';
+  String get customActionBadge => 'Custom';
 
   @override
   String get actionReproduce => 'Do this again';
@@ -1686,6 +1738,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get foodItemScienceTooltip => 'About this factor';
 
   @override
+  String get foodColumnEmptyHint => 'Tap Add ingredient to start this meal';
+
+  @override
+  String get foodSearchHint => 'Search foods...';
+
+  @override
+  String get foodSearchNoResults => 'No foods match that search.';
+
+  @override
   String foodItemFactorPerKg(String value) {
     return '$value kg CO2e per kg';
   }
@@ -1732,7 +1793,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get foodGroupOils => 'Oils';
 
   @override
-  String get foodAddToComparison => 'Add to comparison';
+  String get foodAddToComparison => 'Add as option';
 
   @override
   String foodComparisonFull(int max) {
@@ -1798,13 +1859,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get foodActionsEntryTitle => 'Compare & log a food choice';
-
-  @override
-  String get foodActionsEntrySubtitle =>
-      'See which meal emits less, then bank the difference';
+  String get foodActionsEntryTitle => 'Log a Custom Food action';
 
   @override
   String get foodMethodologyBody =>
-      'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together.\n\n### You may have seen \'beef = 60\'\nThis tool ships the study\'s production-weighted means, not its medians. The widely shared \'beef is 60 kg\' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.';
+      'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.';
 }

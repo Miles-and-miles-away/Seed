@@ -32,6 +32,38 @@ three" of personal footprints: move, eat, power.
 
 ---
 
+## Layout Revision (2026-07-31)
+
+The builder-then-stage flow described below shipped, then was
+replaced after use. Both calculators are now a **side-by-side
+comparison of exactly two options**, A and B, built at once:
+
+- Two option columns down the middle of the screen, each holding as
+  many legs/ingredients as needed, each totalled live with a
+  magnitude bar scaled to the worse column.
+- A pool of draggable item chips along the bottom, plus a
+  "Browse all" button opening the existing grouped picker. Drag a
+  chip onto a column, or tap it and pick "Add to A" / "Add to B" --
+  tap is the primary, accessible path, drag is the shortcut.
+- The separate comparison screens are **deleted**. The delta, its
+  equivalency, the data-honesty basis notes and the "I chose X"
+  banking action are folded in under the columns.
+- Transport legs carry their own optional From/To city pair,
+  defaulting to the previous leg's destination, so a staged journey
+  (Tokyo -> Osaka shinkansen, Osaka -> Kobe local) is entered one leg
+  at a time. Splitting a single journey distance across modes by hand
+  works equally well.
+- **Two options, not 2-3.** Two columns fit a phone; the "I took" /
+  "instead of" pickers existed only to disambiguate a third option
+  and are gone. `optionCount` in `app_constants.dart` is the single
+  source of truth.
+
+Sections 8.2/8.3 and 8.8/8.9 below describe the superseded flow;
+they are kept for the dataset, engine and copy rules, which are
+unchanged. See [APP_PAGES.md](./APP_PAGES.md) for the current UI.
+
+---
+
 ## Phase Overview
 
 Phase 8 adds a **transport carbon calculator**: users build a journey
@@ -93,23 +125,23 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 8.1 Transport mode dataset | P0 | Medium (research-heavy) | Planned |
-| 8.2 Journey builder + engine | P0 | Medium | Planned |
+| 8.1 Transport mode dataset | P0 | Medium (research-heavy) | Done (2026-07-22) |
+| 8.2 Journey builder + engine | P0 | Medium | Done (2026-07-22) |
 | 8.3 Journey comparison | P0 | Medium | Done (2026-07-22) |
 | 8.4 Methodology & sources UI | P0 | Low | Done (2026-07-22) |
 | 8.5 Entry points & analytics | P1 | Low | Done (2026-07-22) |
-| 8.6 Logging bridge | P2 | Medium | In v1 (2026-07-22, owner) |
-| 8.7 Food item dataset (Part 2) | P0 | Medium (research-heavy) | Planned |
+| 8.6 Logging bridge | P2 | Medium | Done, in v1 (2026-07-22) |
+| 8.7 Food item dataset (Part 2) | P0 | Medium (research-heavy) | Done (2026-07-23) |
 | 8.8 Meal builder + engine (Part 2) | P0 | Medium | Done (2026-07-23) |
 | 8.9 Meal comparison (Part 2) | P0 | Medium | Done (2026-07-23) |
 | 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Done (2026-07-23) |
 | 8.11 Food entry points & analytics (Part 2) | P1 | Low | Done (2026-07-23) |
-| 8.12 Food logging bridge (Part 2) | P2 | In v1 (2026-07-23, owner) | Done |
-| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Planned |
-| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Planned |
-| 8.15 Routine comparison (Part 3) | P0 | Low | Planned |
-| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Planned |
-| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | Planned |
+| 8.12 Food logging bridge (Part 2) | P2 | Medium | Done, in v1 (2026-07-23) |
+| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | On hold |
+| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | On hold |
+| 8.15 Routine comparison (Part 3) | P0 | Low | On hold |
+| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | On hold |
+| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | On hold |
 | 8.18 Energy logging bridge (Part 3) | P2 | Medium | Deferred |
 
 ---
@@ -563,19 +595,19 @@ dataset is updated to a new DEFRA release.
 
 ## Acceptance Criteria
 
-- [ ] ~20 modes shipped with fully cited factors (quote + URL +
+- [x] 27 modes shipped with fully cited factors (quote + URL +
       access date per source), passing dataset validation tests
-- [ ] User can build a multi-leg journey and see total CO2e
-- [ ] Car modes expose an occupancy selector that divides
+- [x] User can build a multi-leg journey and see total CO2e
+- [x] Car modes expose an occupancy selector that divides
       per-vehicle emissions
-- [ ] User can compare 2-3 journey options side by side with delta
+- [x] User can compare 2-3 journey options side by side with delta
       and at least one equivalency
-- [ ] Every factor is inspectable in-app down to its sources
-- [ ] Methodology screen explains scope, occupancy, and radiative
+- [x] Every factor is inspectable in-app down to its sources
+- [x] Methodology screen explains scope, occupancy, and radiative
       forcing in plain language, localized EN/JA/ES
-- [ ] No points or CO2 credited anywhere in the feature (v1)
-- [ ] APP_PAGES.md updated with the new route(s)
-- [ ] `flutter analyze` clean; all new logic unit-tested
+- [x] No points or CO2 credited anywhere in the feature (v1)
+- [x] APP_PAGES.md updated with the new route(s)
+- [x] `flutter analyze` clean; all new logic unit-tested
 
 ---
 
@@ -670,8 +702,7 @@ means are higher).
 
 | Group | Item | Illustrative kgCO2e/kg |
 |-------|------|------------------------|
-| Meat | Beef (beef herd) | ~60 |
-| Meat | Beef (dairy herd) | ~21 |
+| Meat | Beef | ~60 |
 | Meat | Lamb | ~24 |
 | Meat | Pork | ~7 |
 | Meat | Chicken | ~6 |
@@ -737,9 +768,11 @@ Notes locked in now (they shape the schema):
   ("1 cup, ~10 g grounds", SCA-based) is the only sane entry
   path. Same pattern for any item where per-kg invites a 100x
   user error.
-- **Beef is split beef-herd vs dairy-herd** (~3x apart); picker
-  defaults to beef herd with dairy herd one tap away. Collapsing
-  them would hide the single most interesting fact in the dataset.
+- **Beef ships as one item** (owner call 2026-08-01, D5 in
+  RESEARCH_FOOD.md): the beef-herd/dairy-herd split asked users
+  which herd their mince came from -- unanswerable at the fridge,
+  and a 3x fork on the dataset maximum. The comparison lives in
+  the science sheet as context, not as a pickable item.
 - **JA/ES coverage:** item names must be everyday grocery words,
   not LCA category names ("Brassicas" -> "Cabbage & broccoli").
 
@@ -765,6 +798,9 @@ Notes locked in now (they shape the schema):
         { "id": "breast", "name_en": "1 breast", "name_ja": "...", "name_es": "...", "grams": 170 }
       ],
       "calculation_notes": "Global mean, Poore & Nemecek 2018 ...",
+      "search_terms_en": ["poultry", "turkey", "chicken breast"],
+      "search_terms_ja": ["鶏肉", "チキン"],
+      "search_terms_es": ["pollo", "pavo"],
       "sources": [
         {
           "name": "Our World in Data",
@@ -778,8 +814,18 @@ Notes locked in now (they shape the schema):
 }
 ```
 
-`servings` may be empty; the grams field always works. Source
-objects reuse the existing `EmissionSource` model from Part 1
+`servings` may be empty; the grams field always works.
+
+`search_terms_*` (added 2026-08-02) list the concrete foods an
+item covers, so the picker finds an umbrella category from its
+members -- "carrots" finds Root vegetables, "bacon" finds Pork.
+All three locales are searched regardless of the active one, and
+matches rank below name matches. Only foods the factor genuinely
+covers may be listed: an alias pointing at the wrong factor is
+worse than no alias, which is why "yoghurt" is absent rather than
+aliased to milk. Required on every item (invariant 16).
+
+Source objects reuse the existing `EmissionSource` model from Part 1
 (promote it from `lib/features/transport/` to `lib/shared/` --
 one-file move, both features import it).
 
@@ -1029,20 +1075,20 @@ abstract class MealIngredient with _$MealIngredient {
 
 ### Part 2 Acceptance Criteria
 
-- [ ] 42 items shipped with fully cited factors (quote + URL +
+- [x] 42 items shipped with fully cited factors (quote + URL +
       access date per source), passing dataset validation tests
-- [ ] User can build a multi-ingredient meal and see total CO2e
-- [ ] Quantities enterable via serving presets or raw grams/ml
-- [ ] User can compare 2-3 meals side by side with delta and at
+- [x] User can build a multi-ingredient meal and see total CO2e
+- [x] Quantities enterable via serving presets or raw grams/ml
+- [x] User can compare 2-3 meals side by side with delta and at
       least one equivalency
-- [ ] Every factor inspectable in-app down to its sources
-- [ ] Methodology screen covers scope, spread, and organic/local
+- [x] Every factor inspectable in-app down to its sources
+- [x] Methodology screen covers scope, spread, and organic/local
       honesty in plain language, localized EN/JA/ES
-- [ ] Dataset deltas consistent with existing `meatless_meal_*`
+- [x] Dataset deltas consistent with existing `meatless_meal_*`
       actions
-- [ ] No points or CO2 credited anywhere in the feature (v1)
-- [ ] APP_PAGES.md updated with the new route(s)
-- [ ] `flutter analyze` clean; all new logic unit-tested
+- [x] No points or CO2 credited anywhere in the feature (v1)
+- [x] APP_PAGES.md updated with the new route(s)
+- [x] `flutter analyze` clean; all new logic unit-tested
 
 ### Part 2 Open Questions
 
@@ -1058,6 +1104,13 @@ abstract class MealIngredient with _$MealIngredient {
 ---
 
 ## Part 3: Home Energy Calculator
+
+> **On hold (2026-07-31).** Parts 1 and 2 are shipped; the next work
+> is UI polish on the transport and food calculators, not a third
+> dataset. Part 3 stays fully specified below and picks up unchanged
+> when the two shipped calculators feel right. The calculator chooser
+> already renders a disabled home-energy tile, so nothing needs
+> stubbing in the meantime.
 
 Part 3 adds a **home energy calculator**: users build a routine
 from energy behaviors (behavior + quantity), see its CO2e, and
@@ -1275,11 +1328,33 @@ Same two layers as 8.4/8.10. Methodology page covers:
 
 ### 8.18 Energy Logging Bridge (Deferred)
 
-Same deferral and reasoning as 8.6/8.12. Energy is the
-lowest-stakes of the three (deltas are grams-to-~2 kg), so if the
-bridge design lands anywhere first, it lands here. Interim
-cross-links: `air_dry_clothes`, `cold_water_laundry`,
-`shorter_shower`, `unplug_standby`, `led_vs_incandescent`.
+**SUPERSEDED (owner decision, 2026-08-02): energy ships NO
+logging bridge, permanently -- not deferred.** The earlier lean
+("if the bridge design lands anywhere first, it lands here") is
+withdrawn. Two reasons, both found during the Part 3 research:
+
+1. **No verifiable counterfactual.** "I took the train instead of
+   flying" names a rejected alternative. "I took a shorter
+   shower" needs a personal baseline the app cannot obtain.
+2. **Near-total overlap with existing actions.** Five actions
+   (`air_dry_clothes`, `cold_water_laundry`, `shorter_shower`,
+   `unplug_standby`, `led_vs_incandescent`) already model exactly
+   the behaviors the calculator computes, so a bridge would let
+   the same laundry load be logged twice. Transport had one or
+   two overlaps; energy has five.
+
+Instead: transport (8.6) and food (8.12) comparison views carry a
+"Log greener choice" button; **the energy comparison view has no
+log affordance at all.** The Tier-1 energy choices ship as
+pre-programmed action-library entries -- see
+[RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 7.1 for the
+four new actions, their values, points and two open caveats.
+
+This also settles what the energy calculator is *for*: transport
+and food are decision tools that teach; energy is a teaching tool
+that occasionally informs a decision. Entry-point weighting in
+8.17 should follow -- the Impact-segment card matters more than
+the Action Log banner.
 
 ### Part 3 Data Models
 

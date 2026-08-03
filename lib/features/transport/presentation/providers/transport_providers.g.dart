@@ -401,117 +401,47 @@ final class CitySuggestionsFamily extends $Family
   String toString() => r'citySuggestionsProvider';
 }
 
-/// Ephemeral journey legs for the builder screen.
+/// The legs of both journey options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: journeys are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the journey.
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back (checking the methodology, popping to Actions), which
+/// autoDispose silently wiped. Still memory-only -- nothing is
+/// persisted (Phase 8 plan), so it resets when the app restarts.
 
-@ProviderFor(JourneyBuilder)
-final journeyBuilderProvider = JourneyBuilderProvider._();
+@ProviderFor(JourneyOptions)
+final journeyOptionsProvider = JourneyOptionsProvider._();
 
-/// Ephemeral journey legs for the builder screen.
+/// The legs of both journey options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: journeys are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the journey.
-final class JourneyBuilderProvider
-    extends $NotifierProvider<JourneyBuilder, List<JourneyLeg>> {
-  /// Ephemeral journey legs for the builder screen.
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back (checking the methodology, popping to Actions), which
+/// autoDispose silently wiped. Still memory-only -- nothing is
+/// persisted (Phase 8 plan), so it resets when the app restarts.
+final class JourneyOptionsProvider
+    extends $NotifierProvider<JourneyOptions, List<List<JourneyLeg>>> {
+  /// The legs of both journey options, indexed [optionA] / [optionB].
   ///
-  /// autoDispose by design: journeys are screen state, never persisted
-  /// (Phase 8 plan), so leaving the calculator resets the journey.
-  JourneyBuilderProvider._()
+  /// keepAlive: an in-progress comparison must survive navigating away
+  /// and back (checking the methodology, popping to Actions), which
+  /// autoDispose silently wiped. Still memory-only -- nothing is
+  /// persisted (Phase 8 plan), so it resets when the app restarts.
+  JourneyOptionsProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'journeyBuilderProvider',
-        isAutoDispose: true,
+        name: r'journeyOptionsProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$journeyBuilderHash();
+  String debugGetCreateSourceHash() => _$journeyOptionsHash();
 
   @$internal
   @override
-  JourneyBuilder create() => JourneyBuilder();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<JourneyLeg> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<JourneyLeg>>(value),
-    );
-  }
-}
-
-String _$journeyBuilderHash() => r'ea8947c9987ed04abfa81d1702efe4033c1672bb';
-
-/// Ephemeral journey legs for the builder screen.
-///
-/// autoDispose by design: journeys are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the journey.
-
-abstract class _$JourneyBuilder extends $Notifier<List<JourneyLeg>> {
-  List<JourneyLeg> build();
-  @$mustCallSuper
-  @override
-  WhenComplete runBuild() {
-    final ref = this.ref as $Ref<List<JourneyLeg>, List<JourneyLeg>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<JourneyLeg>, List<JourneyLeg>>,
-              List<JourneyLeg>,
-              Object?,
-              Object?
-            >;
-    return element.handleCreate(ref, build);
-  }
-}
-
-/// Snapshotted journeys staged for side-by-side comparison (8.3).
-///
-/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
-/// screen state, never persisted (Phase 8 plan). Each entry is a
-/// full multi-leg journey snapshot, so a door-to-door flight option
-/// keeps its airport legs.
-
-@ProviderFor(JourneyComparison)
-final journeyComparisonProvider = JourneyComparisonProvider._();
-
-/// Snapshotted journeys staged for side-by-side comparison (8.3).
-///
-/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
-/// screen state, never persisted (Phase 8 plan). Each entry is a
-/// full multi-leg journey snapshot, so a door-to-door flight option
-/// keeps its airport legs.
-final class JourneyComparisonProvider
-    extends $NotifierProvider<JourneyComparison, List<List<JourneyLeg>>> {
-  /// Snapshotted journeys staged for side-by-side comparison (8.3).
-  ///
-  /// autoDispose like [JourneyBuilder]: comparisons are ephemeral
-  /// screen state, never persisted (Phase 8 plan). Each entry is a
-  /// full multi-leg journey snapshot, so a door-to-door flight option
-  /// keeps its airport legs.
-  JourneyComparisonProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'journeyComparisonProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$journeyComparisonHash();
-
-  @$internal
-  @override
-  JourneyComparison create() => JourneyComparison();
+  JourneyOptions create() => JourneyOptions();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<List<JourneyLeg>> value) {
@@ -522,16 +452,16 @@ final class JourneyComparisonProvider
   }
 }
 
-String _$journeyComparisonHash() => r'd18eca737c52b0ff29a6a56e0024605876e676fc';
+String _$journeyOptionsHash() => r'ebf0bc4e4e427f7b9c5a017a651f85b07e8cc017';
 
-/// Snapshotted journeys staged for side-by-side comparison (8.3).
+/// The legs of both journey options, indexed [optionA] / [optionB].
 ///
-/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
-/// screen state, never persisted (Phase 8 plan). Each entry is a
-/// full multi-leg journey snapshot, so a door-to-door flight option
-/// keeps its airport legs.
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back (checking the methodology, popping to Actions), which
+/// autoDispose silently wiped. Still memory-only -- nothing is
+/// persisted (Phase 8 plan), so it resets when the app restarts.
 
-abstract class _$JourneyComparison extends $Notifier<List<List<JourneyLeg>>> {
+abstract class _$JourneyOptions extends $Notifier<List<List<JourneyLeg>>> {
   List<List<JourneyLeg>> build();
   @$mustCallSuper
   @override

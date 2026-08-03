@@ -11,7 +11,6 @@ export 'domain/services/journey_distance.dart';
 export 'domain/services/transport_calculator.dart';
 export 'presentation/providers/transport_choice_providers.dart';
 export 'presentation/providers/transport_providers.dart';
-export 'presentation/screens/journey_comparison_screen.dart';
 export 'presentation/screens/transport_calculator_screen.dart';
 export 'presentation/screens/transport_methodology_screen.dart';
 export 'presentation/widgets/city_pair_fields.dart';

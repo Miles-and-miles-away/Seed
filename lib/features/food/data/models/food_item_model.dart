@@ -25,6 +25,9 @@ abstract class FoodItem with _$FoodItem {
     required String nameEs,
     required double kgCo2ePerKg,
     @Default([]) List<ServingPreset> servings,
+    @Default([]) List<String> searchTermsEn,
+    @Default([]) List<String> searchTermsJa,
+    @Default([]) List<String> searchTermsEs,
     @Default('') String calculationNotes,
     @Default([]) List<EmissionSource> sources,
   }) = _FoodItem;
@@ -33,6 +36,19 @@ abstract class FoodItem with _$FoodItem {
 
   factory FoodItem.fromJson(Map<String, dynamic> json) =>
       _$FoodItemFromJson(json);
+
+  /// Search aliases: the concrete foods an umbrella item covers, so
+  /// "carrots" finds "Root vegetables".
+  ///
+  /// All three languages always, matching how the names are searched.
+  /// Locale is a poor proxy for what someone types -- an English
+  /// device gets "zanahoria" from a Spanish speaker, and loanwords
+  /// and product names get typed in English everywhere.
+  List<String> get searchTerms => [
+    ...searchTermsEn,
+    ...searchTermsJa,
+    ...searchTermsEs,
+  ];
 
   /// Localized display name with English fallback.
   String name(String locale) => switch (locale) {

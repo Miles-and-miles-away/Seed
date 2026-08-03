@@ -31,14 +31,10 @@ void main() {
       expect(prefillKmForMode(mode('ebike', 'active'), suggestions), 130.0);
     });
 
-    test('walking is only suggested up to the walk cap', () {
-      // 130 km estimate = 100 km straight-line, above the 40 km cap.
-      expect(prefillKmForMode(mode('walk', 'active'), suggestions), isNull);
-      final short = {kindActive: walkModeMaxKm * groundCircuityFactor};
-      expect(
-        prefillKmForMode(mode('walk', 'active'), short),
-        walkModeMaxKm * groundCircuityFactor,
-      );
+    test('walking is suggested at any grounded distance', () {
+      // No walk-specific cap: an implausible distance is the user's
+      // call, not a reason to hide the estimate the other modes show.
+      expect(prefillKmForMode(mode('walk', 'active'), suggestions), 130.0);
     });
 
     test('ferry and air kinds map to water and air groups', () {

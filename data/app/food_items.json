@@ -8,18 +8,18 @@
   },
   "items": [
     {
-      "id": "beef_beef_herd",
+      "id": "beef",
       "group": "meat",
-      "name_en": "Beef (beef herd)",
-      "name_ja": "牛肉（肉牛）",
-      "name_es": "Carne de res (ganado de carne)",
-      "kg_co2e_per_kg": 99.48,
+      "name_en": "Beef",
+      "name_ja": "牛肉",
+      "name_es": "Carne de res",
+      "kg_co2e_per_kg": 70.3608,
       "servings": [
         {
           "id": "quarter_pound_patty",
-          "name_en": "1 quarter-pound patty",
-          "name_ja": "パティ1枚",
-          "name_es": "1 hamburguesa",
+          "name_en": "1 patty (113 g)",
+          "name_ja": "パティ1枚（113g）",
+          "name_es": "1 hamburguesa (113 g)",
           "grams": 113
         },
         {
@@ -30,7 +30,7 @@
           "grams": 225
         }
       ],
-      "calculation_notes": "Global mean from Poore & Nemecek 2018, cradle-to-retail including land-use change and supply-chain losses. Per-kg chart value 99.48; the eight supply-chain stages sum to 99.4774 at full precision, confirming it (the two-decimal stage figures alone total 99.47, a rounding artifact). The widely quoted 60 kg per kg is the same study's median without losses, not a rounding of this mean; the methodology sheet explains the difference.",
+      "calculation_notes": "Production-weighted global mean of the two Poore & Nemecek 2018 beef categories. OWID publishes them as separate rows, but no label tells a shopper which herd their beef came from, so the app ships one item. Weights are OWID's own: \"Around 56% of global beef production comes from dedicated beef herds; and 44% from dairy herds\" (https://ourworldindata.org/less-meat-or-sustainable-meat, accessed 2026-08-01), corroborated by FAO/GLEAM (Opio et al. 2013, p.21): 56% specialized beef sector, 44% dairy herd of 61.4 Mt global beef in 2005. Arithmetic: 0.56 x 99.48 + 0.44 x 33.30 = 55.7088 + 14.6520 = 70.3608. Components are the OWID/P&N means with supply-chain losses (rows \"Beef (beef herd),2010,99.48\" and \"Beef (dairy herd),2010,33.3\"). This is the same weighting operator OWID applies to its per-100g-protein means (0.56 x 50 + 0.44 x 17 = 35). Weights are 2005 global PRODUCTION shares on a carcass-weight basis, not consumption shares: European beef is majority dairy-herd (nearer 53) while US, Australian and most imported beef is majority beef-herd (nearer 86). Statistic: mean, with losses (D1). You may see beef quoted at about 60 kg CO2e per kg elsewhere: that is Poore & Nemecek's median without supply-chain losses. This dataset uses production-weighted means including losses, which run higher and better represent total global impact.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -49,46 +49,68 @@
           "url": "https://www.mycarbon.co.uk/knowledge-hub/food-emissions-database/food-emissions-database-beef-beef-herd-global-average-2018-reducing-foods-environmental-impacts-through-producers-and-consumers-poore-nemecek-science-2018/",
           "quote": "The greenhouse gas emissions of Beef (beef herd) (Global Average) are 99.477404614 kg CO2e per kilogram of food product.",
           "accessed": "2026-07-18"
-        }
-      ]
-    },
-    {
-      "id": "beef_dairy_herd",
-      "group": "meat",
-      "name_en": "Beef (dairy herd)",
-      "name_ja": "牛肉（乳牛）",
-      "name_es": "Carne de res (ganado lechero)",
-      "kg_co2e_per_kg": 33.3,
-      "servings": [
-        {
-          "id": "quarter_pound_patty",
-          "name_en": "1 quarter-pound patty",
-          "name_ja": "パティ1枚",
-          "name_es": "1 hamburguesa",
-          "grams": 113
         },
         {
-          "id": "steak_medium",
-          "name_en": "1 steak (medium)",
-          "name_ja": "ステーキ1枚",
-          "name_es": "1 filete (mediano)",
-          "grams": 225
+          "name": "Our World in Data, Less meat is nearly always better than sustainable meat (production split)",
+          "url": "https://ourworldindata.org/less-meat-or-sustainable-meat",
+          "quote": "Around 56% of global beef production comes from dedicated beef herds; and 44% from dairy herds.",
+          "accessed": "2026-08-01"
+        },
+        {
+          "name": "FAO, Opio et al. 2013, Greenhouse gas emissions from ruminant supply chains",
+          "url": "https://www.fao.org/4/i3461e/i3461e.pdf",
+          "quote": "In 2005, the global cattle sector produced approximately 508.6 million tonnes of milk and 61.4 million tonnes of beef, of which 56 percent of beef was produced by the specialized beef sector and 44 percent by the dairy herd.",
+          "accessed": "2026-08-01"
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Per-kg chart value 33.3; supply-chain stage sum 33.3014. Beef from dedicated beef herds emits about 2.99 times as much as this dairy-herd beef -- close to, but not exactly, 3x (2.86 under the study's medians).",
-      "sources": [
-        {
-          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
-          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Beef (dairy herd),2010,33.3",
-          "accessed": "2026-07-18"
-        },
-        {
-          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
-          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
-          "quote": "Beef (dairy herd),2018,1.2660223,21.91553,3.5036733,1.5476644,0.5924098,0.2540323,0.3745491,3.8475146",
-          "accessed": "2026-07-18"
-        }
+      "search_terms_en": [
+        "steak",
+        "mince",
+        "ground beef",
+        "minced beef",
+        "burger",
+        "hamburger",
+        "beefburger",
+        "brisket",
+        "ribeye",
+        "rib eye",
+        "sirloin",
+        "rump",
+        "roast beef",
+        "veal",
+        "cow",
+        "beef mince",
+        "meatball",
+        "meatballs",
+        "corned beef",
+        "beef jerky",
+        "stewing beef",
+        "oxtail",
+        "shin of beef"
+      ],
+      "search_terms_ja": [
+        "牛肉",
+        "ビーフ",
+        "ステーキ",
+        "ひき肉",
+        "牛ひき肉",
+        "ハンバーグ",
+        "ハンバーガー",
+        "和牛",
+        "すき焼き",
+        "牛"
+      ],
+      "search_terms_es": [
+        "ternera",
+        "vacuno",
+        "bistec",
+        "filete",
+        "carne picada",
+        "hamburguesa",
+        "solomillo",
+        "entrecot",
+        "res",
+        "buey"
       ]
     },
     {
@@ -128,6 +150,36 @@
           "quote": "Lamb & Mutton,2018,0.648247,27.02575,3.2831702,1.5395962,0.6788543,0.30081406,0.34760362,5.8982344",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "mutton",
+        "sheep",
+        "lamb chop",
+        "lamb chops",
+        "leg of lamb",
+        "lamb shank",
+        "rack of lamb",
+        "minced lamb",
+        "lamb mince",
+        "goat",
+        "hogget",
+        "kebab meat"
+      ],
+      "search_terms_ja": [
+        "ラム",
+        "羊肉",
+        "マトン",
+        "仔羊",
+        "ジンギスカン",
+        "ヤギ"
+      ],
+      "search_terms_es": [
+        "cordero",
+        "oveja",
+        "chuleta de cordero",
+        "pierna de cordero",
+        "cabra",
+        "carnero"
       ]
     },
     {
@@ -160,6 +212,56 @@
           "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "bacon",
+        "ham",
+        "sausage",
+        "sausages",
+        "gammon",
+        "pancetta",
+        "prosciutto",
+        "salami",
+        "chorizo",
+        "pig",
+        "pork chop",
+        "pork chops",
+        "ribs",
+        "pulled pork",
+        "lardons",
+        "hot dog",
+        "frankfurter",
+        "pepperoni",
+        "pork belly",
+        "pork loin",
+        "minced pork",
+        "pork mince",
+        "black pudding",
+        "parma ham"
+      ],
+      "search_terms_ja": [
+        "豚肉",
+        "ポーク",
+        "ベーコン",
+        "ハム",
+        "ソーセージ",
+        "豚",
+        "豚バラ",
+        "ロース",
+        "ウインナー",
+        "生ハム"
+      ],
+      "search_terms_es": [
+        "cerdo",
+        "panceta",
+        "jamon",
+        "jamón",
+        "salchicha",
+        "chorizo",
+        "tocino",
+        "lomo",
+        "costillas",
+        "carne picada de cerdo"
       ]
     },
     {
@@ -179,7 +281,7 @@
         },
         {
           "id": "serving_3oz",
-          "name_en": "3 oz serving",
+          "name_en": "1 serving (85 g)",
           "name_ja": "1人前（85g）",
           "name_es": "1 ración (85 g)",
           "grams": 85
@@ -193,6 +295,46 @@
           "quote": "Poultry Meat,2010,9.87",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "poultry",
+        "turkey",
+        "duck",
+        "goose",
+        "chicken breast",
+        "chicken thigh",
+        "drumstick",
+        "wings",
+        "chicken wings",
+        "nugget",
+        "nuggets",
+        "hen",
+        "fowl",
+        "roast chicken",
+        "fried chicken",
+        "chicken mince"
+      ],
+      "search_terms_ja": [
+        "鶏肉",
+        "チキン",
+        "とり肉",
+        "鶏むね肉",
+        "鶏もも肉",
+        "手羽先",
+        "唐揚げ",
+        "七面鳥",
+        "鴨",
+        "鶏"
+      ],
+      "search_terms_es": [
+        "pollo",
+        "pavo",
+        "pato",
+        "pechuga",
+        "muslo",
+        "alitas",
+        "ave",
+        "gallina"
       ]
     },
     {
@@ -218,7 +360,7 @@
           "grams": 85
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. The per-kg chart row 'Prawns (farmed)' is 26.87; the supply-chain chart names the same product 'Shrimps (farmed)', and its stage sum verifies at 26.8659. This is a single coarse global farmed-prawn category with a large spread. The Gephart 2021 figure (9.43) uses a narrower on-farm and off-farm boundary and is context on the spread only, never mixed into this factor.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. The per-kg chart row 'Prawns (farmed)' is 26.87; the supply-chain chart names the same product 'Shrimps (farmed)', and its stage sum verifies at 26.8659. This is a single coarse global farmed-prawn category with a large spread. The Gephart 2021 figure (9.43) uses a narrower on-farm and off-farm boundary and is context on the spread only, never mixed into this factor. Wild-caught prawns are a separate item (prawns_wild, 34.08) and are higher, not lower: Gephart 2021 puts wild above farmed at a like-for-like boundary.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -238,6 +380,123 @@
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "prawn",
+        "prawns",
+        "shrimp",
+        "shrimps",
+        "king prawn",
+        "tiger prawn",
+        "crevette",
+        "shellfish"
+      ],
+      "search_terms_ja": [
+        "エビ",
+        "えび",
+        "海老",
+        "ブラックタイガー",
+        "車海老",
+        "小エビ"
+      ],
+      "search_terms_es": [
+        "gamba",
+        "gambas",
+        "langostino",
+        "langostinos",
+        "camaron",
+        "camarón",
+        "camarones",
+        "marisco"
+      ]
+    },
+    {
+      "id": "prawns_wild",
+      "group": "seafood",
+      "name_en": "Prawns (wild-caught)",
+      "name_ja": "エビ（天然）",
+      "name_es": "Gambas (salvajes)",
+      "kg_co2e_per_kg": 34.08,
+      "servings": [
+        {
+          "id": "portion",
+          "name_en": "1 portion",
+          "name_ja": "1人前",
+          "name_es": "1 ración",
+          "grams": 110
+        },
+        {
+          "id": "small_portion",
+          "name_en": "Small portion",
+          "name_ja": "少なめ1人前",
+          "name_es": "Ración pequeña",
+          "grams": 85
+        }
+      ],
+      "calculation_notes": "Wild-capture prawns, added 2026-08-02. Not in Poore & Nemecek, which publishes only a farmed prawn category. Gephart et al. 2021 publishes both at one boundary and puts WILD ABOVE FARMED: 11.956739 vs 9.428016 kg CO2e per kg edible weight, i.e. wild is 1.2682x farmed, because trawling for prawns is among the most fuel-intensive fishing there is. That ratio is applied to this dataset's P&N farmed anchor: 26.8659 x 1.2682 = 34.0717, rounded up to 34.08. Completing Gephart's wild value with P&N post-farmgate stages instead -- the recipe used for fish (wild-caught) -- was rejected here: it fails its own control, returning 15.03 for FARMED prawns where P&N gives 26.87, and would have shipped 18.60, telling users wild prawns are 31% better than farmed when the only like-for-like evidence says they are 27% worse. Ratio-scaling keeps that ordering honest on this dataset's scale. Caveat: it implicitly scales land-use-change and feed stages a wild fishery does not have, so treat the absolute value as bracketed by 18.60 (Gephart scale) and 34.08 (P&N scale); the ordering wild > farmed is the robust part. Gephart's basis is edible weight.",
+      "sources": [
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (like-for-like wild vs farmed)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Shrimp (wild),2021,11.956739",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (farmed comparator)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "Shrimp (farmed),2021,9.428016",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (boundary and unit)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018) -- the P&N anchor this is scaled onto",
+          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
+          "quote": "Shrimps (farmed),2018,0.33056307,13.453979,4.0299387,0,0.33085158,0.3523611,0.5361473,7.832022",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Parker et al. 2018, Nature Climate Change (magnitude corroboration only)",
+          "url": "https://www.nature.com/articles/s41558-018-0117-x",
+          "quote": "fisheries consumed 40 billion litres of fuel in 2011 and generated a total of 179 million tonnes of CO2-equivalent GHGs (4% of global food production)",
+          "accessed": "2026-08-02"
+        }
+      ],
+      "search_terms_en": [
+        "wild prawn",
+        "wild prawns",
+        "wild shrimp",
+        "wild caught prawns",
+        "wild-caught shrimp",
+        "trawled prawns",
+        "cold water prawns",
+        "brown shrimp",
+        "north atlantic prawns",
+        "tiger prawn wild",
+        "langoustine",
+        "scampi",
+        "crayfish"
+      ],
+      "search_terms_ja": [
+        "天然エビ",
+        "天然えび",
+        "甘エビ",
+        "車エビ",
+        "ボタンエビ",
+        "エビ 天然"
+      ],
+      "search_terms_es": [
+        "gamba salvaje",
+        "gambas salvajes",
+        "langostino salvaje",
+        "camaron salvaje",
+        "camarón salvaje",
+        "gamba roja",
+        "cigala"
       ]
     },
     {
@@ -283,6 +542,45 @@
           "quote": "Salmon (farmed),2021,5.100986",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "salmon",
+        "farmed salmon",
+        "trout",
+        "rainbow trout",
+        "sea bass",
+        "seabass",
+        "sea bream",
+        "bream",
+        "tilapia",
+        "pangasius",
+        "basa",
+        "catfish",
+        "barramundi",
+        "farmed fish",
+        "smoked salmon"
+      ],
+      "search_terms_ja": [
+        "サーモン",
+        "鮭",
+        "養殖魚",
+        "ニジマス",
+        "スズキ",
+        "タイ",
+        "ティラピア",
+        "ブリ",
+        "養殖"
+      ],
+      "search_terms_es": [
+        "salmon",
+        "salmón",
+        "trucha",
+        "lubina",
+        "dorada",
+        "tilapia",
+        "panga",
+        "pescado de piscifactoria",
+        "pescado de piscifactoría"
       ]
     },
     {
@@ -340,6 +638,48 @@
           "quote": "Benchmark Canned tuna, Sweden | 9.36 | live value as of 2026-07-19",
           "accessed": "2026-07-19"
         }
+      ],
+      "search_terms_en": [
+        "cod",
+        "haddock",
+        "pollock",
+        "hake",
+        "halibut",
+        "plaice",
+        "sole",
+        "tuna",
+        "snapper",
+        "whiting",
+        "wild fish",
+        "white fish",
+        "whitefish",
+        "sea fish",
+        "monkfish",
+        "skate",
+        "fish fingers"
+      ],
+      "search_terms_ja": [
+        "タラ",
+        "たら",
+        "マグロ",
+        "まぐろ",
+        "ツナ",
+        "ヒラメ",
+        "カレイ",
+        "天然魚",
+        "白身魚",
+        "スケトウダラ"
+      ],
+      "search_terms_es": [
+        "bacalao",
+        "merluza",
+        "atun",
+        "atún",
+        "abadejo",
+        "lenguado",
+        "rape",
+        "pescado salvaje",
+        "pescado blanco"
       ]
     },
     {
@@ -404,6 +744,42 @@
           "quote": "Catches like the Peruvian Anchovy, Atlantic Mackerel, and Australian Sardine are some of the most efficient fisheries",
           "accessed": "2026-07-20"
         }
+      ],
+      "search_terms_en": [
+        "sardine",
+        "sardines",
+        "mackerel",
+        "anchovy",
+        "anchovies",
+        "herring",
+        "sprat",
+        "pilchard",
+        "kipper",
+        "oily fish",
+        "whitebait"
+      ],
+      "search_terms_ja": [
+        "イワシ",
+        "いわし",
+        "サバ",
+        "さば",
+        "アジ",
+        "あじ",
+        "ニシン",
+        "しらす",
+        "青魚",
+        "煮干し"
+      ],
+      "search_terms_es": [
+        "sardina",
+        "sardinas",
+        "caballa",
+        "anchoa",
+        "anchoas",
+        "boqueron",
+        "boquerón",
+        "arenque",
+        "pescado azul"
       ]
     },
     {
@@ -423,7 +799,7 @@
         },
         {
           "id": "portion_1oz",
-          "name_en": "1 portion (1 oz)",
+          "name_en": "1 portion (30 g)",
           "name_ja": "1人前（30g）",
           "name_es": "1 porción (30 g)",
           "grams": 30
@@ -437,6 +813,52 @@
           "quote": "Cheese,2010,23.88",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "cheddar",
+        "mozzarella",
+        "parmesan",
+        "parmigiano",
+        "brie",
+        "feta",
+        "gouda",
+        "halloumi",
+        "cream cheese",
+        "blue cheese",
+        "stilton",
+        "goat cheese",
+        "goats cheese",
+        "camembert",
+        "manchego",
+        "ricotta",
+        "edam",
+        "emmental",
+        "gruyere",
+        "mascarpone",
+        "paneer",
+        "grated cheese",
+        "cheese slice"
+      ],
+      "search_terms_ja": [
+        "チーズ",
+        "モッツァレラ",
+        "パルメザン",
+        "チェダー",
+        "クリームチーズ",
+        "ブルーチーズ",
+        "カマンベール",
+        "とろけるチーズ"
+      ],
+      "search_terms_es": [
+        "queso",
+        "manchego",
+        "mozzarella",
+        "parmesano",
+        "cheddar",
+        "queso crema",
+        "queso azul",
+        "requeson",
+        "requesón"
       ]
     },
     {
@@ -462,7 +884,7 @@
           "grams": 5
         }
       ],
-      "calculation_notes": "Not in Poore & Nemecek; mean of three independent dairy LCAs: foodfootprint.nl/RIVM 12.2 (61 g CO2eq per 5 g portion), LiveLCA 10.18 (analysis of 12 studies) and CarbonCloud 11.89 (live value as of 2026-07-18). (12.2 + 10.18 + 11.89) / 3 = 11.42, rounded up to 12.0 so the estimate errs against understating. Sits between milk (3.15) and cheese (23.88). The tablespoon preset is the direct USDA portion weight (FoodData Central 173410, Butter, salted: 1 tbsp = 14.2 g).",
+      "calculation_notes": "Not in Poore & Nemecek; mean of three independent dairy LCAs: foodfootprint.nl/RIVM 12.2 (61 g CO2eq per 5 g portion), LiveLCA 10.18 (analysis of 12 studies) and CarbonCloud 11.89 (live value as of 2026-07-18). (12.2 + 10.18 + 11.89) / 3 = 11.42, rounded up to 12.0 so the estimate errs against understating. Sits between milk (3.15) and cheese (23.88). The 14.2 g preset is the direct USDA portion weight (FoodData Central 173410, Butter, salted: 1 tbsp = 14.2 g).",
       "sources": [
         {
           "name": "foodfootprint.nl (RIVM, average Dutch market)",
@@ -482,6 +904,24 @@
           "quote": "Butter, 80% fat, unsalted | 11.89 | live value as of 2026-07-18",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "ghee",
+        "clarified butter",
+        "salted butter",
+        "unsalted butter",
+        "dairy spread"
+      ],
+      "search_terms_ja": [
+        "バター",
+        "ギー",
+        "有塩バター",
+        "無塩バター"
+      ],
+      "search_terms_es": [
+        "mantequilla",
+        "manteca",
+        "ghee"
       ]
     },
     {
@@ -508,6 +948,38 @@
           "quote": "Eggs,2010,4.67",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "egg",
+        "omelette",
+        "omelet",
+        "scrambled egg",
+        "scrambled eggs",
+        "boiled egg",
+        "fried egg",
+        "poached egg",
+        "hen egg",
+        "free range eggs",
+        "egg white",
+        "egg yolk"
+      ],
+      "search_terms_ja": [
+        "卵",
+        "たまご",
+        "玉子",
+        "鶏卵",
+        "オムレツ",
+        "ゆで卵",
+        "目玉焼き"
+      ],
+      "search_terms_es": [
+        "huevo",
+        "huevos",
+        "tortilla francesa",
+        "huevo frito",
+        "huevo cocido",
+        "clara",
+        "yema"
       ]
     },
     {
@@ -527,9 +999,9 @@
         },
         {
           "id": "cup",
-          "name_en": "1 cup",
-          "name_ja": "1カップ（240ml）",
-          "name_es": "1 taza",
+          "name_en": "1 glass (240 ml)",
+          "name_ja": "コップ1杯（240ml）",
+          "name_es": "1 vaso (240 ml)",
           "grams": 240
         }
       ],
@@ -547,6 +1019,33 @@
           "quote": "Dairy milk,2013,8.95,3.15,628.2,10.65",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "milk",
+        "whole milk",
+        "semi skimmed",
+        "semi-skimmed",
+        "skimmed milk",
+        "skim milk",
+        "cow milk",
+        "cows milk",
+        "dairy milk",
+        "full fat milk",
+        "fresh milk"
+      ],
+      "search_terms_ja": [
+        "牛乳",
+        "ミルク",
+        "低脂肪乳",
+        "無脂肪乳",
+        "成分無調整"
+      ],
+      "search_terms_es": [
+        "leche",
+        "leche entera",
+        "leche desnatada",
+        "leche semidesnatada",
+        "leche de vaca"
       ]
     },
     {
@@ -559,7 +1058,7 @@
       "servings": [
         {
           "id": "serving_3oz",
-          "name_en": "1 serving (3 oz)",
+          "name_en": "1 serving (85 g)",
           "name_ja": "1人前（85g）",
           "name_es": "1 ración (85 g)",
           "grams": 85
@@ -580,6 +1079,26 @@
           "quote": "Tofu,2010,3.16",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "bean curd",
+        "beancurd",
+        "soybean curd",
+        "silken tofu",
+        "firm tofu",
+        "soya curd"
+      ],
+      "search_terms_ja": [
+        "豆腐",
+        "とうふ",
+        "木綿豆腐",
+        "絹ごし豆腐",
+        "厚揚げ"
+      ],
+      "search_terms_es": [
+        "tofu",
+        "cuajada de soja",
+        "queso de soja"
       ]
     },
     {
@@ -606,6 +1125,66 @@
           "quote": "Other Pulses,2010,1.79",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "lentil",
+        "lentils",
+        "chickpea",
+        "chickpeas",
+        "chick pea",
+        "garbanzo",
+        "black beans",
+        "kidney beans",
+        "pinto beans",
+        "cannellini",
+        "butter beans",
+        "haricot",
+        "borlotti",
+        "split peas",
+        "dal",
+        "dahl",
+        "daal",
+        "pulses",
+        "legumes",
+        "broad beans",
+        "fava beans",
+        "mung beans",
+        "adzuki",
+        "soybeans",
+        "soya beans",
+        "black eyed peas",
+        "navy beans",
+        "hummus"
+      ],
+      "search_terms_ja": [
+        "豆",
+        "レンズ豆",
+        "ひよこ豆",
+        "大豆",
+        "黒豆",
+        "枝豆",
+        "あずき",
+        "小豆",
+        "納豆",
+        "豆類",
+        "うずら豆"
+      ],
+      "search_terms_es": [
+        "lenteja",
+        "lentejas",
+        "garbanzo",
+        "garbanzos",
+        "alubia",
+        "alubias",
+        "judias",
+        "judías",
+        "frijol",
+        "frijoles",
+        "habas",
+        "soja",
+        "legumbre",
+        "legumbres",
+        "hummus"
       ]
     },
     {
@@ -638,7 +1217,7 @@
           "grams": 300
         }
       ],
-      "calculation_notes": "Per kg of DRAINED canned beans -- unlike the dry-basis Beans / lentils item, this factor is multiplied by the drained weight you eat. Not in Poore & Nemecek; assembled as the mean of two constructions: (a) the CarbonCloud US canned-bean model 1.10 kg CO2e/kg as-sold divided by the USDA Food Buying Guide drained fraction (10.5 oz drained per 15.5 oz can = 0.677) = 1.62; and (b) a bottom-up build from the Poore & Nemecek dry-pulse factor (1.79 / 2.5 hydration = 0.72 content) plus the canning and can share of the same model (0.99) = 1.71. Mean 1.665, rounded up to 1.7. Canning energy is small but the steel can is not: packaging is the largest single share of a canned bean's footprint. Tidaker et al. 2021 (0.8 kg CO2e/kg, carton-packed, Sweden) is the peer-reviewed lower bound. Beans cooked from dry are roughly half this per drained kg -- use the Beans / lentils item with dry weight.",
+      "calculation_notes": "Per kg of DRAINED canned beans -- unlike the dry-basis Beans / lentils item, this factor is multiplied by the drained weight you eat. Not in Poore & Nemecek; assembled as the mean of two constructions: (a) the CarbonCloud US canned-bean model 1.10 kg CO2e/kg as-sold divided by the USDA Food Buying Guide drained fraction (10.5 oz drained per 15.5 oz can, i.e. 298 g per 439 g = 0.677) = 1.62; and (b) a bottom-up build from the Poore & Nemecek dry-pulse factor (1.79 / 2.5 hydration = 0.72 content) plus the canning and can share of the same model (0.99) = 1.71. Mean 1.665, rounded up to 1.7. Canning energy is small but the steel can is not: packaging is the largest single share of a canned bean's footprint. Tidaker et al. 2021 (0.8 kg CO2e/kg, carton-packed, Sweden) is the peer-reviewed lower bound. Beans cooked from dry are roughly half this per drained kg -- use the Beans / lentils item with dry weight.",
       "sources": [
         {
           "name": "CarbonCloud ClimateHub (autogenerated US canned-bean model)",
@@ -664,15 +1243,41 @@
           "quote": "Emissions of greenhouse gases per kg cooked product ranged from 0.1 kg CO2e for Swedish pulses purchased dry to 0.8 kg CO2e for canned beans.",
           "accessed": "2026-07-20"
         }
+      ],
+      "search_terms_en": [
+        "canned beans",
+        "tinned beans",
+        "baked beans",
+        "canned chickpeas",
+        "tinned chickpeas",
+        "canned lentils",
+        "tinned lentils",
+        "can of beans",
+        "tin of beans",
+        "canned pulses"
+      ],
+      "search_terms_ja": [
+        "缶詰の豆",
+        "豆の缶詰",
+        "ベイクドビーンズ",
+        "ひよこ豆缶"
+      ],
+      "search_terms_es": [
+        "alubias de bote",
+        "garbanzos de bote",
+        "judias en conserva",
+        "judías en conserva",
+        "legumbre en conserva",
+        "frijoles enlatados"
       ]
     },
     {
       "id": "peas",
-      "group": "plant_protein",
+      "group": "vegetables",
       "name_en": "Peas",
       "name_ja": "グリーンピース",
       "name_es": "Guisantes",
-      "kg_co2e_per_kg": 0.98,
+      "kg_co2e_per_kg": 0.53,
       "servings": [
         {
           "id": "serving",
@@ -682,20 +1287,54 @@
           "grams": 85
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 0.98; supply-chain stage sum 0.9751. The well-known 'peas emit just 1 kilogram' sentence quoted below uses the study's medians; this dataset ships the mean, 0.98 -- nearly identical for peas. The 60 for beef in the same sentence is also the median: the beef mean is 99.48, explained on the beef entry and the methodology sheet.",
+      "calculation_notes": "ANCHOR CORRECTION 2026-08-02. This item is garden peas as bought fresh or frozen, but it was shipped on P&N's \"Peas\" row (0.98), whose functional unit Table S1 states verbatim as \"1 kg of dry pea without pod\" -- split peas and dry pulses, not the frozen bag. P&N's own figure caption files green peas under Vegetables: \"(H) Vegetables (tomatoes, lettuce, cucumber, green beans, and green peas).\" Re-anchored to the \"Other Vegetables\" category mean (\"Other Vegetables,2010,0.53\"), which is where P&N puts this food. The previous 0.98 overstated frozen peas by 85% and put them above the green beans sitting next to them in the freezer. This is a CATEGORY AVERAGE, not a measurement of peas: P&N's residual vegetable row spans a wide producer range and does not resolve one vegetable from another. Dry split peas remain a different food on the 0.98 row and are not covered by this item.",
       "sources": [
         {
-          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
+          "name": "Our World in Data / Poore & Nemecek grapher CSV",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Peas,2010,0.98",
-          "accessed": "2026-07-18"
+          "quote": "Other Vegetables,2010,0.53",
+          "accessed": "2026-08-02"
         },
         {
           "name": "Our World in Data, food-choice-vs-eating-local",
           "url": "https://ourworldindata.org/food-choice-vs-eating-local",
           "quote": "Producing a kilogram of beef emits 60 kilograms of greenhouse gases; peas emit just 1 kilogram",
           "accessed": "2026-07-18"
+        },
+        {
+          "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "quote": "Peas                1 kg of dry pea without pod",
+          "accessed": "2026-08-01"
         }
+      ],
+      "search_terms_en": [
+        "pea",
+        "garden peas",
+        "green peas",
+        "petit pois",
+        "frozen peas",
+        "snap peas",
+        "sugar snap",
+        "mangetout",
+        "snow peas",
+        "marrowfat"
+      ],
+      "search_terms_ja": [
+        "エンドウ",
+        "えんどう豆",
+        "グリーンピース",
+        "さやえんどう",
+        "スナップエンドウ",
+        "冷凍グリンピース"
+      ],
+      "search_terms_es": [
+        "guisante",
+        "guisantes",
+        "arveja",
+        "arvejas",
+        "tirabeque",
+        "guisantes congelados"
       ]
     },
     {
@@ -708,9 +1347,9 @@
       "servings": [
         {
           "id": "handful_1oz",
-          "name_en": "1 handful (1 oz)",
-          "name_ja": "ひとつかみ",
-          "name_es": "1 puñado",
+          "name_en": "1 handful (30 g)",
+          "name_ja": "ひとつかみ（30g）",
+          "name_es": "1 puñado (30 g)",
           "grams": 30
         }
       ],
@@ -728,6 +1367,56 @@
           "quote": "Nuts,2018,-3.257812,3.3744068,0,0.051419526,0.10673449,0.04263857,0.12374754,-0.007999532",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "almond",
+        "almonds",
+        "walnut",
+        "walnuts",
+        "cashew",
+        "cashews",
+        "peanut",
+        "peanuts",
+        "hazelnut",
+        "hazelnuts",
+        "pistachio",
+        "pistachios",
+        "pecan",
+        "macadamia",
+        "brazil nut",
+        "pine nuts",
+        "nut butter",
+        "peanut butter",
+        "almond butter",
+        "mixed nuts",
+        "chestnut"
+      ],
+      "search_terms_ja": [
+        "ナッツ",
+        "アーモンド",
+        "くるみ",
+        "クルミ",
+        "カシューナッツ",
+        "ピーナッツ",
+        "落花生",
+        "ヘーゼルナッツ",
+        "ピスタチオ",
+        "ミックスナッツ"
+      ],
+      "search_terms_es": [
+        "nuez",
+        "nueces",
+        "almendra",
+        "almendras",
+        "anacardo",
+        "anacardos",
+        "cacahuete",
+        "cacahuetes",
+        "avellana",
+        "avellanas",
+        "pistacho",
+        "frutos secos",
+        "crema de cacahuete"
       ]
     },
     {
@@ -740,9 +1429,9 @@
       "servings": [
         {
           "id": "quarter_pound_patty",
-          "name_en": "1 quarter-pound patty",
-          "name_ja": "パティ1枚",
-          "name_es": "1 hamburguesa",
+          "name_en": "1 patty (113 g)",
+          "name_ja": "パティ1枚（113g）",
+          "name_es": "1 hamburguesa (113 g)",
           "grams": 113
         }
       ],
@@ -778,6 +1467,42 @@
           "quote": "Comparisons that were conducted on a mass basis show values of 235 g CO2 equivalents and 240 g CO2 equivalents for VMA extrudates from lupin protein combined with amaranth or buckwheat flour, respectively.",
           "accessed": "2026-07-20"
         }
+      ],
+      "search_terms_en": [
+        "vegan burger",
+        "veggie burger",
+        "meat substitute",
+        "meat alternative",
+        "meat free",
+        "quorn",
+        "beyond meat",
+        "impossible burger",
+        "seitan",
+        "soy mince",
+        "soya mince",
+        "vegan sausage",
+        "mycoprotein",
+        "plant based burger",
+        "fake meat",
+        "mock meat",
+        "tvp"
+      ],
+      "search_terms_ja": [
+        "代替肉",
+        "大豆ミート",
+        "植物性肉",
+        "ソイミート",
+        "ベジバーガー",
+        "プラントベース"
+      ],
+      "search_terms_es": [
+        "carne vegetal",
+        "hamburguesa vegana",
+        "sustituto de carne",
+        "proteina vegetal",
+        "proteína vegetal",
+        "seitan",
+        "soja texturizada"
       ]
     },
     {
@@ -790,9 +1515,9 @@
       "servings": [
         {
           "id": "rice_cooker_cup",
-          "name_en": "1 rice-cooker cup (dry)",
+          "name_en": "1 rice-cooker measure (150 g, dry)",
           "name_ja": "米1合（150g）",
-          "name_es": "1 vaso de arrocera (en seco)",
+          "name_es": "1 medida de arrocera (150 g, en seco)",
           "grams": 150
         },
         {
@@ -803,7 +1528,7 @@
           "grams": 45
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 4.45; supply-chain stage sum 4.4516. Methane from flooded paddies dominates (farm stage 3.55 of 4.45). The factor and presets use raw dry weight: a 150 g rice-cooker cup becomes about 330 g cooked (~2.2x by weight), so enter the raw amount.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 4.45; supply-chain stage sum 4.4516. Methane from flooded paddies dominates (farm stage 3.55 of 4.45). The factor and presets use raw dry weight: a 150 g rice-cooker measure becomes about 330 g cooked (~2.2x by weight), so enter the raw amount.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -817,6 +1542,43 @@
           "quote": "This is not the case for plant-based foods, with the exception of rice. Paddy rice is typically grown in flooded fields: the microbes in these waterlogged soils produce methane.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "white rice",
+        "brown rice",
+        "basmati",
+        "jasmine rice",
+        "risotto rice",
+        "arborio",
+        "sushi rice",
+        "long grain",
+        "short grain",
+        "paella rice",
+        "wild rice",
+        "rice grain",
+        "pilau",
+        "pilaf"
+      ],
+      "search_terms_ja": [
+        "米",
+        "ごはん",
+        "ご飯",
+        "白米",
+        "玄米",
+        "お米",
+        "ライス",
+        "おにぎり",
+        "寿司飯",
+        "炊飯"
+      ],
+      "search_terms_es": [
+        "arroz",
+        "arroz blanco",
+        "arroz integral",
+        "arroz basmati",
+        "arroz redondo",
+        "paella",
+        "risotto"
       ]
     },
     {
@@ -850,6 +1612,57 @@
           "quote": "Wheat & Rye,2010,1.57",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "bread",
+        "loaf",
+        "toast",
+        "baguette",
+        "bread roll",
+        "bap",
+        "pitta",
+        "pita",
+        "naan",
+        "wrap",
+        "tortilla",
+        "sourdough",
+        "wholemeal",
+        "white bread",
+        "brown bread",
+        "ciabatta",
+        "focaccia",
+        "bagel",
+        "crumpet",
+        "flatbread",
+        "sliced bread",
+        "sandwich bread",
+        "rye bread",
+        "flour",
+        "wheat"
+      ],
+      "search_terms_ja": [
+        "パン",
+        "食パン",
+        "トースト",
+        "バゲット",
+        "フランスパン",
+        "ロールパン",
+        "ナン",
+        "ピタパン",
+        "小麦粉",
+        "全粒粉"
+      ],
+      "search_terms_es": [
+        "pan",
+        "barra de pan",
+        "tostada",
+        "baguette",
+        "pan integral",
+        "pan blanco",
+        "pita",
+        "chapata",
+        "harina",
+        "trigo"
       ]
     },
     {
@@ -858,7 +1671,7 @@
       "name_en": "Pasta",
       "name_ja": "パスタ",
       "name_es": "Pasta",
-      "kg_co2e_per_kg": 1.57,
+      "kg_co2e_per_kg": 2.290444,
       "servings": [
         {
           "id": "portion_dry",
@@ -875,14 +1688,72 @@
           "grams": 100
         }
       ],
-      "calculation_notes": "Derived: mapped to the Poore & Nemecek 'Wheat & Rye' grain mean, including land-use change and supply-chain losses (1.57), the same basis as bread; milling and drying energy are not added (dried durum product, no leavening). Dry-weight basis: 55 g dry is about 140 g cooked.",
+      "calculation_notes": "MASS-BASIS CORRECTION 2026-08-02. P&N's functional unit for the \"Wheat & Rye\" row is not grain -- Supplementary Materials Table S1 states it verbatim as \"1 kg of bread (variable protein wheat)\". Bread is ~39% water and dry pasta ~11%, so applying 1.57 directly to dry pasta understated it by 46%. Corrected by re-expressing the anchor per kg of dry matter and re-diluting to pasta's moisture, using MEXT Standard Tables of Food Composition in Japan (八訂増補2023): 01026 角形食パン 食パン water 39.2 g/100 g; 01063 マカロニ・スパゲッティ 乾 water 11.3 g/100 g. Arithmetic: 1.57 / (1 - 0.392) = 2.582236842 per kg dry matter; 2.582236842 x (1 - 0.113) = 2.290444 kg CO2e per kg dry pasta. This is a moisture correction only: it assumes bread and pasta carry the same emissions per kg of dry matter, so baking and drying energy are still not counted (they differ, and neither is in the P&N stage set). Dry basis -- weigh pasta uncooked; it takes up water at roughly 2.2x by MEXT mass balance ((100-11.3)/(100-60.0)), so 100 g dry is ~220 g cooked.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Wheat & Rye,2010,1.57",
           "accessed": "2026-07-18"
+        },
+        {
+          "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "quote": "Wheat & Rye         1 kg of bread (variable protein wheat)",
+          "accessed": "2026-08-01"
+        },
+        {
+          "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
+          "url": "https://www.mext.go.jp/a_menu/syokuhinseibun/mext_00001.html",
+          "quote": "01063 こむぎ ［マカロニ・スパゲッティ類］ マカロニ・スパゲッティ 乾 ... 11.3",
+          "accessed": "2026-08-01"
         }
+      ],
+      "search_terms_en": [
+        "spaghetti",
+        "penne",
+        "fusilli",
+        "macaroni",
+        "tagliatelle",
+        "linguine",
+        "lasagne",
+        "lasagna",
+        "noodles",
+        "ravioli",
+        "farfalle",
+        "rigatoni",
+        "orzo",
+        "vermicelli",
+        "udon",
+        "ramen noodles",
+        "egg noodles",
+        "conchiglie",
+        "gnocchi",
+        "couscous"
+      ],
+      "search_terms_ja": [
+        "パスタ",
+        "スパゲッティ",
+        "マカロニ",
+        "ペンネ",
+        "ラザニア",
+        "うどん",
+        "そば",
+        "麺",
+        "ラーメン",
+        "ヌードル"
+      ],
+      "search_terms_es": [
+        "pasta",
+        "espagueti",
+        "espaguetis",
+        "macarrones",
+        "fideos",
+        "lasana",
+        "lasaña",
+        "penne",
+        "tallarines",
+        "noodles"
       ]
     },
     {
@@ -915,6 +1786,35 @@
           "quote": "Rolled oats | 1.20 | live value as of 2026-07-18 (1.25 at the research fetch)",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "oat",
+        "porridge",
+        "oatmeal",
+        "rolled oats",
+        "jumbo oats",
+        "muesli",
+        "granola",
+        "overnight oats",
+        "oat flakes",
+        "flapjack"
+      ],
+      "search_terms_ja": [
+        "オートミール",
+        "オーツ",
+        "えん麦",
+        "燕麦",
+        "グラノーラ",
+        "ミューズリー",
+        "おかゆ"
+      ],
+      "search_terms_es": [
+        "avena",
+        "copos de avena",
+        "gachas",
+        "porridge",
+        "muesli",
+        "granola"
       ]
     },
     {
@@ -948,6 +1848,44 @@
           "quote": "Potatoes,2010,0.46",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "potato",
+        "chips",
+        "fries",
+        "french fries",
+        "mashed potato",
+        "mash",
+        "roast potatoes",
+        "jacket potato",
+        "baked potato",
+        "new potatoes",
+        "hash brown",
+        "hash browns",
+        "wedges",
+        "maris piper",
+        "king edward",
+        "spuds",
+        "tatties"
+      ],
+      "search_terms_ja": [
+        "じゃがいも",
+        "ジャガイモ",
+        "馬鈴薯",
+        "ポテト",
+        "フライドポテト",
+        "マッシュポテト",
+        "新じゃが"
+      ],
+      "search_terms_es": [
+        "patata",
+        "patatas",
+        "papa",
+        "papas",
+        "patatas fritas",
+        "pure de patata",
+        "puré de patata",
+        "patata asada"
       ]
     },
     {
@@ -987,6 +1925,38 @@
           "quote": "[I]mported tomatoes from Spain and Italy have two times lower greenhouse gas emissions than those produced in Austria in capital-intensive heated systems.",
           "accessed": "2026-07-19"
         }
+      ],
+      "search_terms_en": [
+        "tomato",
+        "cherry tomato",
+        "cherry tomatoes",
+        "plum tomato",
+        "passata",
+        "tinned tomatoes",
+        "canned tomatoes",
+        "chopped tomatoes",
+        "tomato puree",
+        "tomato paste",
+        "sun dried tomato",
+        "beef tomato",
+        "vine tomatoes"
+      ],
+      "search_terms_ja": [
+        "トマト",
+        "ミニトマト",
+        "プチトマト",
+        "トマト缶",
+        "トマトピューレ",
+        "ホールトマト"
+      ],
+      "search_terms_es": [
+        "tomate",
+        "tomates",
+        "tomate cherry",
+        "tomate frito",
+        "tomate triturado",
+        "passata",
+        "concentrado de tomate"
       ]
     },
     {
@@ -1006,9 +1976,9 @@
         },
         {
           "id": "cup_chopped",
-          "name_en": "1 cup chopped",
-          "name_ja": "1カップ（刻み）",
-          "name_es": "1 taza troceada",
+          "name_en": "1 portion, chopped (128 g)",
+          "name_ja": "1人前（刻み・128g）",
+          "name_es": "1 porción troceada (128 g)",
           "grams": 128
         }
       ],
@@ -1020,6 +1990,70 @@
           "quote": "Root Vegetables,2010,0.43",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "carrot",
+        "carrots",
+        "parsnip",
+        "parsnips",
+        "beetroot",
+        "beet",
+        "beets",
+        "turnip",
+        "turnips",
+        "swede",
+        "rutabaga",
+        "radish",
+        "radishes",
+        "celeriac",
+        "celery root",
+        "daikon",
+        "mooli",
+        "sweet potato",
+        "sweet potatoes",
+        "yam",
+        "horseradish",
+        "jerusalem artichoke",
+        "kohlrabi root",
+        "salsify",
+        "root veg",
+        "root vegetable"
+      ],
+      "search_terms_ja": [
+        "にんじん",
+        "ニンジン",
+        "人参",
+        "大根",
+        "だいこん",
+        "かぶ",
+        "カブ",
+        "ごぼう",
+        "ゴボウ",
+        "ビーツ",
+        "さつまいも",
+        "サツマイモ",
+        "山芋",
+        "根菜"
+      ],
+      "search_terms_es": [
+        "zanahoria",
+        "zanahorias",
+        "chirivia",
+        "chirivía",
+        "remolacha",
+        "nabo",
+        "nabos",
+        "rabano",
+        "rábano",
+        "apionabo",
+        "boniato",
+        "batata",
+        "name",
+        "ñame",
+        "tuberculo",
+        "tubérculo",
+        "raiz",
+        "raíz"
       ]
     },
     {
@@ -1032,9 +2066,9 @@
       "servings": [
         {
           "id": "cup_broccoli_chopped",
-          "name_en": "1 cup broccoli (chopped)",
-          "name_ja": "ブロッコリー1カップ（刻み）",
-          "name_es": "1 taza de brócoli troceado",
+          "name_en": "1 portion broccoli, chopped (91 g)",
+          "name_ja": "ブロッコリー1人前（刻み・91g）",
+          "name_es": "1 porción de brócoli troceado (91 g)",
           "grams": 91
         },
         {
@@ -1053,6 +2087,55 @@
           "quote": "Brassicas,2010,0.51",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "broccoli",
+        "cauliflower",
+        "kale",
+        "brussels sprouts",
+        "sprouts",
+        "cabbage",
+        "savoy cabbage",
+        "red cabbage",
+        "white cabbage",
+        "pak choi",
+        "bok choy",
+        "pointed cabbage",
+        "collard greens",
+        "kohlrabi",
+        "romanesco",
+        "spring greens",
+        "sauerkraut",
+        "tenderstem",
+        "cavolo nero",
+        "brassica"
+      ],
+      "search_terms_ja": [
+        "キャベツ",
+        "ブロッコリー",
+        "カリフラワー",
+        "ケール",
+        "芽キャベツ",
+        "白菜",
+        "はくさい",
+        "チンゲン菜",
+        "小松菜",
+        "紫キャベツ",
+        "アブラナ科"
+      ],
+      "search_terms_es": [
+        "brocoli",
+        "brócoli",
+        "coliflor",
+        "col",
+        "repollo",
+        "kale",
+        "col rizada",
+        "coles de bruselas",
+        "lombarda",
+        "pak choi",
+        "berza",
+        "chucrut"
       ]
     },
     {
@@ -1086,6 +2169,49 @@
           "quote": "Onions & Leeks,2010,0.5",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "onion",
+        "onions",
+        "leek",
+        "leeks",
+        "shallot",
+        "shallots",
+        "spring onion",
+        "spring onions",
+        "scallion",
+        "scallions",
+        "garlic",
+        "red onion",
+        "white onion",
+        "brown onion",
+        "chives",
+        "fried onions",
+        "allium"
+      ],
+      "search_terms_ja": [
+        "玉ねぎ",
+        "たまねぎ",
+        "タマネギ",
+        "長ねぎ",
+        "ネギ",
+        "ねぎ",
+        "リーク",
+        "エシャロット",
+        "にんにく",
+        "ニンニク",
+        "青ねぎ"
+      ],
+      "search_terms_es": [
+        "cebolla",
+        "cebollas",
+        "puerro",
+        "puerros",
+        "chalota",
+        "cebolleta",
+        "cebollino",
+        "ajo",
+        "cebolla roja"
       ]
     },
     {
@@ -1131,6 +2257,25 @@
           "quote": "The results vary widely based on the methodology and data used: from 324g to 1124g CO2e/kg of bananas.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "banana",
+        "plantain",
+        "plantains",
+        "banana bread"
+      ],
+      "search_terms_ja": [
+        "バナナ",
+        "ばなな",
+        "プランテン"
+      ],
+      "search_terms_es": [
+        "platano",
+        "plátano",
+        "platanos",
+        "plátanos",
+        "banana",
+        "banano"
       ]
     },
     {
@@ -1170,6 +2315,36 @@
           "quote": "In 2021, the average CEY for apple orchards in China was 0.23 kg CO2 eq kg-1",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "apple",
+        "pear",
+        "pears",
+        "cooking apple",
+        "bramley",
+        "granny smith",
+        "gala",
+        "braeburn",
+        "pink lady",
+        "apple sauce",
+        "stewed apple"
+      ],
+      "search_terms_ja": [
+        "りんご",
+        "リンゴ",
+        "林檎",
+        "洋なし",
+        "梨",
+        "なし",
+        "アップル"
+      ],
+      "search_terms_es": [
+        "manzana",
+        "manzanas",
+        "pera",
+        "peras",
+        "manzana golden",
+        "compota de manzana"
       ]
     },
     {
@@ -1203,6 +2378,49 @@
           "quote": "Citrus Fruit,2010,0.39",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "orange",
+        "oranges",
+        "lemon",
+        "lemons",
+        "lime",
+        "limes",
+        "grapefruit",
+        "mandarin",
+        "satsuma",
+        "clementine",
+        "tangerine",
+        "pomelo",
+        "citrus fruit",
+        "orange juice",
+        "lemon juice",
+        "zest"
+      ],
+      "search_terms_ja": [
+        "みかん",
+        "ミカン",
+        "オレンジ",
+        "レモン",
+        "ライム",
+        "柑橘",
+        "グレープフルーツ",
+        "ゆず",
+        "柚子",
+        "はっさく"
+      ],
+      "search_terms_es": [
+        "naranja",
+        "naranjas",
+        "limon",
+        "limón",
+        "lima",
+        "pomelo",
+        "mandarina",
+        "clementina",
+        "citrico",
+        "cítrico",
+        "zumo de naranja"
       ]
     },
     {
@@ -1215,9 +2433,9 @@
       "servings": [
         {
           "id": "cup_strawberries",
-          "name_en": "1 cup strawberries",
-          "name_ja": "いちご1カップ",
-          "name_es": "1 taza de fresas",
+          "name_en": "1 portion strawberries (144 g)",
+          "name_ja": "いちご1人前（144g）",
+          "name_es": "1 porción de fresas (144 g)",
           "grams": 144
         },
         {
@@ -1242,6 +2460,50 @@
           "quote": "the carbon footprint of 1 kg strawberry ranged from 0.21 to 3.80 kg CO2 eq/kg strawberry with an average of 0.58.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "strawberry",
+        "strawberries",
+        "raspberry",
+        "raspberries",
+        "blueberry",
+        "blueberries",
+        "blackberry",
+        "blackberries",
+        "blackcurrant",
+        "redcurrant",
+        "cranberry",
+        "cranberries",
+        "gooseberry",
+        "currants",
+        "mixed berries",
+        "frozen berries",
+        "soft fruit"
+      ],
+      "search_terms_ja": [
+        "いちご",
+        "イチゴ",
+        "苺",
+        "ブルーベリー",
+        "ラズベリー",
+        "ブラックベリー",
+        "クランベリー",
+        "ベリー"
+      ],
+      "search_terms_es": [
+        "fresa",
+        "fresas",
+        "frambuesa",
+        "frambuesas",
+        "arandano",
+        "arándano",
+        "arandanos",
+        "arándanos",
+        "mora",
+        "moras",
+        "grosella",
+        "frutos rojos",
+        "fresón"
       ]
     },
     {
@@ -1254,7 +2516,7 @@
       "servings": [
         {
           "id": "cup_10g_grounds",
-          "name_en": "1 cup (10 g grounds)",
+          "name_en": "1 mug (10 g grounds)",
           "name_ja": "1杯（粉10g）",
           "name_es": "1 taza (10 g de café)",
           "grams": 10
@@ -1280,6 +2542,45 @@
           "quote": "One cup of Coffee (15g) is equivalent to 0.4kg CO2e",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "espresso",
+        "latte",
+        "cappuccino",
+        "americano",
+        "filter coffee",
+        "instant coffee",
+        "coffee beans",
+        "ground coffee",
+        "flat white",
+        "mocha",
+        "macchiato",
+        "cafetiere",
+        "french press",
+        "decaf",
+        "arabica",
+        "robusta"
+      ],
+      "search_terms_ja": [
+        "コーヒー",
+        "珈琲",
+        "エスプレッソ",
+        "カフェラテ",
+        "カプチーノ",
+        "ドリップコーヒー",
+        "インスタントコーヒー",
+        "豆"
+      ],
+      "search_terms_es": [
+        "cafe",
+        "café",
+        "expreso",
+        "espresso",
+        "cafe con leche",
+        "café con leche",
+        "capuchino",
+        "cafe soluble",
+        "cortado"
       ]
     },
     {
@@ -1299,9 +2600,9 @@
         },
         {
           "id": "cup_loose_leaf",
-          "name_en": "1 cup, loose leaf",
-          "name_ja": "茶葉1杯分",
-          "name_es": "1 taza (hojas sueltas)",
+          "name_en": "1 mug, loose leaf (3 g)",
+          "name_ja": "茶葉1杯分（3g）",
+          "name_es": "1 taza, hojas sueltas (3 g)",
           "grams": 3
         }
       ],
@@ -1337,6 +2638,47 @@
           "quote": "荒茶収量 1kg 当たり温室効果ガス排出量は，平坦地体系 6.28kgCO2eq/kg，山間地体系 8.51kgCO2eq/kg であり，平坦地体系の方が少なかった。",
           "accessed": "2026-07-20"
         }
+      ],
+      "search_terms_en": [
+        "green tea",
+        "black tea",
+        "tea bag",
+        "teabag",
+        "earl grey",
+        "matcha",
+        "oolong",
+        "breakfast tea",
+        "builders tea",
+        "loose leaf",
+        "darjeeling",
+        "assam",
+        "white tea",
+        "brew",
+        "cuppa"
+      ],
+      "search_terms_ja": [
+        "お茶",
+        "茶",
+        "紅茶",
+        "緑茶",
+        "抹茶",
+        "ほうじ茶",
+        "煎茶",
+        "ウーロン茶",
+        "ティーバッグ",
+        "麦茶"
+      ],
+      "search_terms_es": [
+        "te",
+        "té",
+        "te verde",
+        "té verde",
+        "te negro",
+        "té negro",
+        "infusion",
+        "infusión",
+        "matcha",
+        "bolsita de te"
       ]
     },
     {
@@ -1363,9 +2705,9 @@
         },
         {
           "id": "us_pint",
-          "name_en": "1 US pint",
-          "name_ja": "1パイント（473ml）",
-          "name_es": "1 pinta (473 ml)",
+          "name_en": "1 large glass (473 ml)",
+          "name_ja": "大グラス1杯（473ml）",
+          "name_es": "1 vaso grande (473 ml)",
           "grams": 473
         }
       ],
@@ -1389,6 +2731,40 @@
           "quote": "One bottle of Beer (355ml) is equivalent to 0.25kg CO2e",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "lager",
+        "ale",
+        "ipa",
+        "stout",
+        "pilsner",
+        "bitter",
+        "pale ale",
+        "craft beer",
+        "pint of beer",
+        "guinness",
+        "wheat beer",
+        "session ipa",
+        "beer can",
+        "draught"
+      ],
+      "search_terms_ja": [
+        "ビール",
+        "生ビール",
+        "発泡酒",
+        "エール",
+        "ラガー",
+        "地ビール",
+        "クラフトビール"
+      ],
+      "search_terms_es": [
+        "cerveza",
+        "cana",
+        "caña",
+        "birra",
+        "lager",
+        "cerveza artesanal",
+        "tercio"
       ]
     },
     {
@@ -1434,6 +2810,42 @@
           "quote": "the conventional farming exhibits higher values of 0.06-3.0 kg CO [2-eq] bottle [-1] of 750 mL wine as compared to mixed and organic farming.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "red wine",
+        "white wine",
+        "rose wine",
+        "rose",
+        "prosecco",
+        "champagne",
+        "sparkling wine",
+        "sauvignon",
+        "merlot",
+        "chardonnay",
+        "rioja",
+        "pinot",
+        "cava",
+        "glass of wine",
+        "vino"
+      ],
+      "search_terms_ja": [
+        "ワイン",
+        "赤ワイン",
+        "白ワイン",
+        "ロゼ",
+        "スパークリングワイン",
+        "シャンパン"
+      ],
+      "search_terms_es": [
+        "vino",
+        "vino tinto",
+        "vino blanco",
+        "rosado",
+        "cava",
+        "champan",
+        "champán",
+        "espumoso",
+        "rioja"
       ]
     },
     {
@@ -1466,6 +2878,26 @@
           "quote": "Soy milk,2013,0.66,0.98,27.8,1.06",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "soya milk",
+        "soymilk",
+        "soy drink",
+        "soya drink",
+        "plant milk",
+        "non dairy milk",
+        "soy latte"
+      ],
+      "search_terms_ja": [
+        "豆乳",
+        "ソイミルク",
+        "無調整豆乳",
+        "調製豆乳"
+      ],
+      "search_terms_es": [
+        "bebida de soja",
+        "leche de soja",
+        "soja"
       ]
     },
     {
@@ -1504,6 +2936,24 @@
           "quote": "soy milk emits 0.98kg, oat milk amounts to 0.9kg, and almond milk 0.7kg per litre.",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "oat drink",
+        "oatly",
+        "barista oat",
+        "plant milk",
+        "non dairy milk",
+        "oat latte"
+      ],
+      "search_terms_ja": [
+        "オーツミルク",
+        "オーツ麦飲料",
+        "えん麦ミルク"
+      ],
+      "search_terms_es": [
+        "bebida de avena",
+        "leche de avena",
+        "avena"
       ]
     },
     {
@@ -1516,8 +2966,8 @@
       "servings": [
         {
           "id": "small_bar_1oz",
-          "name_en": "1 small bar (1 oz)",
-          "name_ja": "小さい板チョコ1枚",
+          "name_en": "1 small bar (28 g)",
+          "name_ja": "小さい板チョコ1枚（28g）",
           "name_es": "1 barrita (28 g)",
           "grams": 28
         },
@@ -1549,15 +2999,43 @@
           "quote": "Globally, cocoa beans account for an average of 46 kilograms of CO2-eq emissions per kilogram - about half from deforestation. Poore notes that the distribution of emissions associated with this crop is hugely different depending on where it is sourced. \"If cacao trees are planted on former cropland, cacao can even sequester carbon.\"",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "chocolate",
+        "cocoa",
+        "cacao",
+        "chocolate bar",
+        "choc",
+        "cooking chocolate",
+        "chocolate chips",
+        "hot chocolate",
+        "truffle",
+        "praline"
+      ],
+      "search_terms_ja": [
+        "チョコレート",
+        "チョコ",
+        "ココア",
+        "カカオ",
+        "板チョコ",
+        "ビターチョコ"
+      ],
+      "search_terms_es": [
+        "chocolate",
+        "cacao",
+        "chocolate negro",
+        "onza",
+        "tableta de chocolate",
+        "chocolate amargo"
       ]
     },
     {
-      "id": "cane_sugar",
+      "id": "sugar",
       "group": "treats",
-      "name_en": "Cane sugar",
+      "name_en": "Sugar",
       "name_ja": "砂糖（さとうきび）",
       "name_es": "Azúcar de caña",
-      "kg_co2e_per_kg": 3.2,
+      "kg_co2e_per_kg": 2.922,
       "servings": [
         {
           "id": "teaspoon",
@@ -1574,7 +3052,7 @@
           "grams": 2.3
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Chart value 3.2; supply-chain stage sum 3.1989, with land-use change 39% of the total. Factory-gate studies (0.474-1.036, Belize) sit below because they exclude transport, retail and losses -- and show how sensitive the total is to land-use change.",
+      "calculation_notes": "Production-weighted global mean of the two Poore & Nemecek 2018 sugar rows. OWID publishes them separately (\"Cane Sugar,2010,3.2\" and \"Beet Sugar,2010,1.81\", a 77% difference), but a bag of white sugar does not say which crop it came from -- European sugar is mostly beet, tropical sugar mostly cane. Shipping the cane row under the name \"Sugar\" repeated the defect fixed in beef (D5/D6): a sub-population value under a category label. Weights from the European Commission (DG AGRI): \"beet sugar represents only 20% of the world's sugar production, with the other 80% produced from sugar cane\" (accessed 2026-08-02). Arithmetic: 0.80 x 3.20 + 0.20 x 1.81 = 2.56 + 0.362 = 2.922. Statistic: mean, with losses (D1). Do NOT use OECD-FAO's \"around 87% of sugar crops\" figure -- that is crop tonnage on a different denominator (cane is ~13% sucrose vs beet ~16%, and a large share of cane goes to ethanol). Demerara, muscovado and other raw cane sugars self-identify on the label and sit at the 3.20 cane end.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -1593,7 +3071,51 @@
           "url": "https://marianne-martinez.squarespace.com/s/The-Carbon-Footprint-of-Raw-Cane-Sugar-Final.pdf",
           "quote": "The raw cane sugar PCF from cradle to factory gate amounts to 0.474 kg CO2e per kg raw sugar when using remote sensing data, 0.760 kg CO2e per kg when using national average LUC rates and 1.036 kg CO2...",
           "accessed": "2026-07-18"
+        },
+        {
+          "name": "European Commission, Directorate-General for Agriculture and Rural Development -- Sugar",
+          "url": "https://agriculture.ec.europa.eu/farming/crop-productions-and-plant-based-products/sugar_en",
+          "quote": "beet sugar represents only 20% of the world's sugar production, with the other 80% produced from sugar cane.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Our World in Data / Poore & Nemecek grapher CSV (beet sugar row)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Beet Sugar,2010,1.81",
+          "accessed": "2026-08-02"
         }
+      ],
+      "search_terms_en": [
+        "granulated sugar",
+        "caster sugar",
+        "brown sugar",
+        "icing sugar",
+        "sucrose",
+        "white sugar",
+        "demerara",
+        "muscovado",
+        "cane sugar",
+        "beet sugar",
+        "sugar cube"
+      ],
+      "search_terms_ja": [
+        "砂糖",
+        "さとう",
+        "グラニュー糖",
+        "上白糖",
+        "三温糖",
+        "きび砂糖",
+        "角砂糖"
+      ],
+      "search_terms_es": [
+        "azucar",
+        "azúcar",
+        "azucar moreno",
+        "azúcar moreno",
+        "azucar glas",
+        "sacarosa",
+        "terron",
+        "terrón"
       ]
     },
     {
@@ -1602,7 +3124,7 @@
       "name_en": "Olive oil",
       "name_ja": "オリーブオイル",
       "name_es": "Aceite de oliva",
-      "kg_co2e_per_kg": 5.42,
+      "kg_co2e_per_kg": 5.941953,
       "servings": [
         {
           "id": "tablespoon",
@@ -1619,14 +3141,41 @@
           "grams": 4.5
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum -0.3236843 + 3.672172 + 0 + 0.5671888 + 0.41411418 + 0.039322365 + 0.7401167 + 0.31564602 = 5.4249 -> 5.42. Land-use change is net negative (groves sequester carbon). The palm-vs-olive ordering depends on the boundary: on a production-only basis the two are close and can reverse. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the spoon presets are already in grams.",
+      "calculation_notes": "UNIT CORRECTION 2026-08-01. Poore & Nemecek's functional unit for oils is ONE LITRE, not one kilogram -- Supplementary Materials Table S1: \"Oil crops 1 liter of refined/filtered oil\". OWID publishes the per-FU value unconverted, so the previously shipped 5.42 was a per-litre figure stored in a per-kg field. Supply-chain stage sum = 5.424876 per litre. Converted with the density implied by this item's own USDA FDC serving portion (FDC 171413, 1 tablespoon = 13.5 g; 1 US tbsp = 14.78676478125 mL, so 13.5/14.78676478125 = 0.912979 kg/L): 5.424876 / 0.912979 = 5.941953 kg CO2e per kg. The FDC portion is used rather than an external density table so that the factor and the serving preset in this row cannot disagree -- the previous state used ~0.91 g/mL for the preset and 1.00 g/mL for the factor. Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum -0.3236843 + 3.672172 + 0 + 0.5671888 + 0.41411418 + 0.039322365 + 0.7401167 + 0.31564602 = 5.4249 -> 5.42. Land-use change is net negative (groves sequester carbon). The palm-vs-olive ordering depends on the boundary: on a production-only basis the two are close and can reverse. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the spoon presets are already in grams.",
       "sources": [
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Olive Oil,2018,-0.3236843,3.672172,0,0.5671888,0.41411418,0.039322365,0.7401167,0.31564602",
           "accessed": "2026-07-18"
+        },
+        {
+          "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "quote": "Oil crops        1 liter of refined/filtered oil",
+          "accessed": "2026-08-01"
         }
+      ],
+      "search_terms_en": [
+        "extra virgin",
+        "evoo",
+        "olive",
+        "virgin olive oil",
+        "cooking oil",
+        "frying oil",
+        "salad oil"
+      ],
+      "search_terms_ja": [
+        "オリーブオイル",
+        "オリーブ油",
+        "エキストラバージン"
+      ],
+      "search_terms_es": [
+        "aceite de oliva",
+        "oliva",
+        "aceite virgen extra",
+        "aove",
+        "aceite"
       ]
     },
     {
@@ -1635,7 +3184,7 @@
       "name_en": "Palm oil",
       "name_ja": "パーム油",
       "name_es": "Aceite de palma",
-      "kg_co2e_per_kg": 7.32,
+      "kg_co2e_per_kg": 7.955247,
       "servings": [
         {
           "id": "tablespoon",
@@ -1645,7 +3194,7 @@
           "grams": 13.6
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum 2.7555852 + 1.875132 + 0 + 1.1253257 + 0.18511687 + 0.038737673 + 0.78810805 + 0.5487651 = 7.3168 -> 7.32. Land-use change is about 38% of the total. On a production-only basis (~2.2) palm and olive are close and can reverse -- the ordering depends on the boundary. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the tablespoon preset is already in grams.",
+      "calculation_notes": "UNIT CORRECTION 2026-08-01. Poore & Nemecek's functional unit for oils is ONE LITRE, not one kilogram -- Supplementary Materials Table S1: \"Oil crops 1 liter of refined/filtered oil\". OWID publishes the per-FU value unconverted, so the previously shipped 7.32 was a per-litre figure stored in a per-kg field. Supply-chain stage sum = 7.316771 per litre. Converted with the density implied by this item's own USDA FDC serving portion (FDC 171015, 1 tablespoon = 13.6 g; 1 US tbsp = 14.78676478125 mL, so 13.6/14.78676478125 = 0.919741 kg/L): 7.316771 / 0.919741 = 7.955247 kg CO2e per kg. The FDC portion is used rather than an external density table so that the factor and the serving preset in this row cannot disagree -- the previous state used ~0.91 g/mL for the preset and 1.00 g/mL for the factor. Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Not in the per-kg chart; the factor is the eight-stage supply-chain sum 2.7555852 + 1.875132 + 0 + 1.1253257 + 0.18511687 + 0.038737673 + 0.78810805 + 0.5487651 = 7.3168 -> 7.32. Land-use change is about 38% of the total. On a production-only basis (~2.2) palm and olive are close and can reverse -- the ordering depends on the boundary. Oil density is about 0.91 g/ml, so entering millilitres as grams slightly overstates; the tablespoon preset is already in grams.",
       "sources": [
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
@@ -1654,11 +3203,33 @@
           "accessed": "2026-07-18"
         },
         {
+          "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
+          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "quote": "Oil crops        1 liter of refined/filtered oil",
+          "accessed": "2026-08-01"
+        },
+        {
           "name": "oaepublish (Carbon Footprints 2025)",
           "url": "https://www.oaepublish.com/articles/cf.2025.90",
           "quote": "investigated refined palm oil, defined kernel as by-product and used mass allocation in order to allocate GHG emissions, they calculated a CF for refined palm oil of 2.2 t CO2eq t",
           "accessed": "2026-07-18"
         }
+      ],
+      "search_terms_en": [
+        "palm",
+        "palm fat",
+        "palm kernel",
+        "shortening"
+      ],
+      "search_terms_ja": [
+        "パーム油",
+        "パームオイル",
+        "植物油脂"
+      ],
+      "search_terms_es": [
+        "aceite de palma",
+        "palma",
+        "grasa de palma"
       ]
     }
   ]

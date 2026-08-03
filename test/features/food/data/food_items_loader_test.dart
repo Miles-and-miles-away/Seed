@@ -19,9 +19,9 @@ void main() {
   });
 
   test('parses factors, servings and sources into typed fields', () {
-    final beef = items.firstWhere((i) => i.id == 'beef_beef_herd');
+    final beef = items.firstWhere((i) => i.id == 'beef');
     expect(beef.group, 'meat');
-    expect(beef.kgCo2ePerKg, 99.48);
+    expect(beef.kgCo2ePerKg, 70.3608);
     expect(beef.nameEn, isNotEmpty);
     expect(beef.servings, isNotEmpty);
     expect(beef.servings.first.grams, greaterThan(0));

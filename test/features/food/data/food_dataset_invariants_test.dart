@@ -42,11 +42,12 @@ void main() {
       .map((i) => i['id'] as String)
       .toList();
 
-  test('1. beef (beef herd) is the dataset maximum', () {
-    // 99.48; margin vs #2 chocolate 46.65 = +113%.
+  test('1. beef is the dataset maximum', () {
+    // 70.3608 (D6, production-weighted); margin vs #2
+    // chocolate 46.65 = +51%.
     for (final id in byId.keys) {
-      if (id == 'beef_beef_herd') continue;
-      expect(factor('beef_beef_herd'), greaterThan(factor(id)), reason: id);
+      if (id == 'beef') continue;
+      expect(factor('beef'), greaterThan(factor(id)), reason: id);
     }
   });
 
@@ -54,14 +55,7 @@ void main() {
     // Thinnest link is pork > chicken at +24.7% -- it thins to
     // +18% (fragile) under a median revintage, so re-derive this
     // pin at the next data pass instead of assuming it survives.
-    const chain = [
-      'beef_beef_herd',
-      'lamb',
-      'pork',
-      'chicken',
-      'tofu',
-      'potatoes',
-    ];
+    const chain = ['beef', 'lamb', 'pork', 'chicken', 'tofu', 'potatoes'];
     for (var i = 0; i < chain.length - 1; i++) {
       expect(
         factor(chain[i]),
@@ -69,16 +63,6 @@ void main() {
         reason: '${chain[i]} > ${chain[i + 1]}',
       );
     }
-  });
-
-  test('3. herd ratio stays inside the 2.5-3.5 band', () {
-    // Actual 2.99. Never pin a strict "> 3x": the plan's original
-    // claim is false under both statistics (2.99 mean, 2.86
-    // median) -- a knife-edge failure by 0.4% if pinned as
-    // written.
-    final ratio = factor('beef_beef_herd') / factor('beef_dairy_herd');
-    expect(ratio, greaterThan(2.5));
-    expect(ratio, lessThan(3.5));
   });
 
   test('4. cheese > chicken', () {
@@ -193,5 +177,72 @@ void main() {
     expect(factor('tea'), 9.0);
     expect(factor('small_fish'), 5.5); // 2026-07-20 addition
     expect(factor('beans_canned'), 1.7); // 2026-07-20, drained basis
+  });
+  test('16. every item carries English search aliases', () {
+    // Umbrella items are unfindable without them: nobody searches
+    // "Root vegetables", they search "carrots". A new item shipping
+    // with an empty list is silently unreachable from the picker.
+    for (final item in byId.values) {
+      final terms = item['search_terms_en'] as List<dynamic>? ?? const [];
+      expect(terms, isNotEmpty, reason: '${item['id']} has no search_terms_en');
+      // An alias repeating the item's own name buys nothing -- the
+      // name is already matched, and ahead of aliases.
+      expect(
+        terms.map((t) => (t as String).toLowerCase()),
+        isNot(contains((item['name_en'] as String).toLowerCase())),
+        reason: '${item['id']} aliases its own name',
+      );
+    }
+  });
+
+  test('17. no imperial units in user-facing serving names', () {
+    // Display copy is metric everywhere (grams and millilitres). The
+    // imperial that remains in calculation_notes is load-bearing
+    // provenance: the USDA and CarbonCloud sources define their
+    // portions in oz and tbsp, and dropping those makes the
+    // derivations impossible to check against the source.
+    final imperial = RegExp(
+      r'\b(oz|ounces?|lbs?|pounds?|pints?|cups?|tbsp|tsp)\b',
+      caseSensitive: false,
+    );
+    for (final item in byId.values) {
+      for (final serving in (item['servings'] as List<dynamic>? ?? const [])) {
+        final preset = serving as Map<String, dynamic>;
+        for (final field in ['name_en', 'name_ja', 'name_es']) {
+          final name = preset[field] as String? ?? '';
+          expect(
+            imperial.hasMatch(name),
+            isFalse,
+            reason: '${item['id']}/${preset['id']} $field = "$name"',
+          );
+        }
+      }
+    }
+  });
+  test('18. wild prawns sit above farmed, never below', () {
+    // The counterintuitive part of the 2026-08-02 research pass, and
+    // the whole reason the value is ratio-scaled rather than assembled
+    // additively like fish_wild: Gephart 2021 measures both at one
+    // boundary and puts wild ABOVE farmed (11.96 vs 9.43), because
+    // trawling for prawns is exceptionally fuel-intensive. The
+    // additive recipe would have shipped 18.60 and inverted this.
+    expect(factor('prawns_wild'), greaterThan(factor('prawns_farmed')));
+    expect(
+      factor('prawns_wild') / factor('prawns_farmed'),
+      closeTo(11.956739 / 9.428016, 0.01),
+      reason: 'wild/farmed must track the Gephart like-for-like ratio',
+    );
+    expect(factor('prawns_wild'), 34.08); // assembled-value pin
+  });
+
+  test('19. beef stays the dataset maximum after the prawn addition', () {
+    // 34.08 lands 4th, above coffee; only beef, dark chocolate and
+    // lamb sit higher. A silent jump past beef would mean the ratio
+    // was applied to the wrong anchor.
+    final maxFactor = byId.values
+        .map((i) => (i['kg_co2e_per_kg'] as num).toDouble())
+        .reduce((a, b) => a > b ? a : b);
+    expect(maxFactor, factor('beef'));
+    expect(factor('prawns_wild'), lessThan(factor('lamb')));
   });
 }

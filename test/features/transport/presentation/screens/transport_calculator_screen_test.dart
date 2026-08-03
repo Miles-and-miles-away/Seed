@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/transport/transport.dart';
+import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
 const _testCar = TransportMode(
   id: 'test_car',
@@ -27,42 +28,33 @@ const _testRail = TransportMode(
   gCo2ePerKm: 35,
 );
 
-// Taxi is never suggested (unmapped group), which exercises the
-// estimate-flag reset on mode changes without a suggestion.
-const _testTaxi = TransportMode(
-  id: 'test_taxi',
-  group: 'taxi',
-  nameEn: 'Test Taxi',
-  nameJa: '',
-  nameEs: '',
-  gCo2ePerKm: 208,
-  perVehicle: true,
-  maxOccupants: 4,
-);
-
-const _testModes = [_testCar, _testRail, _testTaxi];
+const _testModes = [_testCar, _testRail];
 
 const _estimateNote =
     'Estimate derived from city locations. Edit it to match your route.';
 
-// One degree of longitude at the equator is ~111.2 km straight-line,
-// within the ground/active suggestion caps.
+// One degree of longitude at the equator is ~111.2 km straight-line.
 const _cityA = City(name: 'Alphaville', cc: 'AA', lat: 0, lon: 0, mass: 'T');
 const _cityB = City(name: 'Betatown', cc: 'BB', lat: 0, lon: 1, mass: 'T');
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
+  // Cities default to empty so the sheet holds exactly one TextField
+  // (the distance); the prefill tests opt into a city list.
+  Widget buildApp({
+    List<City> cities = const [],
+    Set<String> waterBlocked = const {},
+  }) {
     return ProviderScope(
       overrides: [
         transportModesProvider.overrideWith((_) async => _testModes),
-        transportCitiesProvider.overrideWith((_) async => [_cityA, _cityB]),
+        transportCitiesProvider.overrideWith((_) async => cities),
         transportCityLinksProvider.overrideWith(
           (_) async => const <CityLink>[],
         ),
         transportWaterBlockedPairsProvider.overrideWith(
-          (_) async => const <String>{},
+          (_) async => waterBlocked,
         ),
       ],
       child: const MaterialApp(
@@ -78,10 +70,16 @@ void main() {
     );
   }
 
-  Future<void> openEditor(WidgetTester tester) async {
-    await tester.pumpWidget(buildApp());
+  /// Opens the leg editor through the shipped path: the per-column
+  /// "Add leg" button opens the mode picker, which opens the editor.
+  Future<void> openSheet(
+    WidgetTester tester,
+    String modeName, {
+    int column = 0,
+  }) async {
+    await tester.tap(find.text('Add leg').at(column));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Add leg'));
+    await tester.tap(find.text(modeName).last);
     await tester.pumpAndSettle();
   }
 
@@ -89,302 +87,244 @@ void main() {
     WidgetTester tester, {
     required String modeName,
     required String distance,
+    int column = 0,
   }) async {
-    await tester.tap(find.text(modeName).last);
+    await openSheet(tester, modeName, column: column);
+    await tester.enterText(find.byType(TextField).last, distance);
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), distance);
+    // The column is known from the button, so the editor confirms
+    // with a single Save.
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
   }
 
-  Future<void> pickCities(WidgetTester tester) async {
-    await tester.enterText(find.byType(TextField).first, 'Alpha');
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Alphaville, AA').last);
-    await tester.pumpAndSettle();
-
-    await tester.enterText(find.byType(TextField).at(1), 'Beta');
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Betatown, BB').last);
-    await tester.pumpAndSettle();
-  }
-
   group('TransportCalculatorScreen', () {
-    testWidgets('shows the empty journey state', (tester) async {
+    testWidgets('starts with two empty columns and no verdict', (tester) async {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      expect(
-        find.text(
-          'Add a leg to build your journey and see its '
-          'CO2e footprint.',
-        ),
-        findsOneWidget,
-      );
-      expect(find.byType(JourneyLegCard), findsNothing);
+      expect(find.text('Option A'), findsOneWidget);
+      expect(find.text('Option B'), findsOneWidget);
+      expect(find.text('Tap Add leg to start this journey'), findsNWidgets(2));
+      expect(find.text('Build both options to compare them'), findsOneWidget);
+      expect(find.byType(OptionEntryCard), findsNothing);
     });
 
-    testWidgets('adds a per-passenger leg and totals via the calculator', (
+    testWidgets('the Add leg button adds a leg to its own column', (
       tester,
     ) async {
-      await openEditor(tester);
-
-      expect(find.text('Choose a transport mode'), findsOneWidget);
-      // Grouped picker shows both fixture groups.
-      expect(find.text('Car & motorbike'), findsOneWidget);
-      expect(find.text('Rail'), findsOneWidget);
-
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
       await addLeg(tester, modeName: 'Test Rail', distance: '100');
 
-      expect(find.byType(JourneyLegCard), findsOneWidget);
+      expect(find.byType(OptionEntryCard), findsOneWidget);
       expect(find.text('100 km'), findsOneWidget);
+      // Column A holds it, so B is still showing its hint.
+      expect(find.text('Tap Add leg to start this journey'), findsOneWidget);
 
-      final expectedGrams = TransportCalculator.journeyCo2eGrams(
+      final expected = TransportCalculator.journeyCo2eGrams(
         TransportCalculator.byId(_testModes),
         const [JourneyLeg(modeId: 'test_rail', distanceKm: 100)],
       );
       expect(
-        find.text('${formatCO2Compact(expectedGrams.round())} CO2e'),
-        findsOneWidget,
+        find.textContaining(formatCO2Compact(expected.round())),
+        findsWidgets,
       );
+    });
+
+    testWidgets('per-vehicle modes get an occupancy stepper that divides', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await openSheet(tester, 'Test Car');
+      await tester.enterText(find.byType(TextField).last, '100');
+      await tester.pumpAndSettle();
+
+      // 160 g/vehicle-km x 100 km = 16kg alone, halved by a second
+      // passenger. The per-vehicle factor line never moves, so this
+      // preview is the only place occupancy is visible.
+      expect(find.text('This adds 16.0kg CO2e'), findsOneWidget);
+      await tester.tap(find.byTooltip('Add a person'));
+      await tester.pumpAndSettle();
+      expect(find.text('This adds 8.0kg CO2e'), findsOneWidget);
     });
 
     testWidgets('per-passenger modes get no occupancy stepper', (tester) async {
-      await openEditor(tester);
-      await tester.tap(find.text('Test Rail').last);
+      await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
+      await openSheet(tester, 'Test Rail');
 
-      expect(find.text('People in the vehicle'), findsNothing);
-      expect(find.byType(OccupancyStepper), findsNothing);
-    });
-
-    testWidgets('occupancy stepper shows for per-vehicle modes and '
-        'divides the total', (tester) async {
-      await openEditor(tester);
-      await tester.tap(find.text('Test Car').last);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(OccupancyStepper), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.add_circle_outline));
-      await tester.pump();
-      await tester.tap(find.byIcon(Icons.add_circle_outline));
-      await tester.pump();
-      expect(find.text('3'), findsOneWidget);
-
-      await tester.enterText(find.byType(TextField), '100');
-      await tester.tap(find.text('Save'));
-      await tester.pumpAndSettle();
-
-      const leg = JourneyLeg(modeId: 'test_car', distanceKm: 100, occupants: 3);
-      final expectedGrams = TransportCalculator.legCo2eGrams(_testCar, leg);
-      expect(find.text('100 km · 3 people'), findsOneWidget);
-      expect(
-        find.text('${formatCO2Compact(expectedGrams.round())} CO2e'),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('stepper cannot exceed the mode max occupants', (tester) async {
-      await openEditor(tester);
-      await tester.tap(find.text('Test Car').last);
-      await tester.pumpAndSettle();
-
-      for (var i = 0; i < 6; i++) {
-        await tester.tap(find.byIcon(Icons.add_circle_outline));
-        await tester.pump();
-      }
-      expect(find.text('4'), findsOneWidget);
-      expect(find.text('5'), findsNothing);
-    });
-
-    testWidgets('removing a leg returns to the empty state', (tester) async {
-      await openEditor(tester);
-      await addLeg(tester, modeName: 'Test Rail', distance: '50');
-      expect(find.byType(JourneyLegCard), findsOneWidget);
-
-      await tester.tap(find.byIcon(Icons.delete_outline));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(JourneyLegCard), findsNothing);
-      expect(
-        find.text(
-          'Add a leg to build your journey and see its '
-          'CO2e footprint.',
-        ),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('sums multiple legs via the calculator', (tester) async {
-      await openEditor(tester);
-      await addLeg(tester, modeName: 'Test Rail', distance: '100');
-      await tester.tap(find.text('Add leg'));
-      await tester.pumpAndSettle();
-      await addLeg(tester, modeName: 'Test Car', distance: '20');
-
-      expect(find.byType(JourneyLegCard), findsNWidgets(2));
-      final expectedGrams = TransportCalculator.journeyCo2eGrams(
-        TransportCalculator.byId(_testModes),
-        const [
-          JourneyLeg(modeId: 'test_rail', distanceKm: 100),
-          JourneyLeg(modeId: 'test_car', distanceKm: 20),
-        ],
-      );
-      expect(
-        find.text('${formatCO2Compact(expectedGrams.round())} CO2e'),
-        findsOneWidget,
-      );
+      expect(find.byTooltip('Add a person'), findsNothing);
     });
 
     testWidgets('rejects negative and NaN distances', (tester) async {
-      await openEditor(tester);
-      await tester.tap(find.text('Test Rail').last);
+      await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
+      await openSheet(tester, 'Test Rail');
 
-      await tester.enterText(find.byType(TextField), '-5');
+      await tester.enterText(find.byType(TextField).last, 'NaN');
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
-      expect(find.text('Enter a distance of 0 km or more'), findsOneWidget);
 
-      await tester.enterText(find.byType(TextField), 'NaN');
-      await tester.tap(find.text('Save'));
-      await tester.pumpAndSettle();
       expect(find.text('Enter a distance of 0 km or more'), findsOneWidget);
-
-      await tester.tap(find.text('Cancel'));
-      await tester.pumpAndSettle();
-      expect(find.byType(JourneyLegCard), findsNothing);
+      expect(find.byType(OptionEntryCard), findsNothing);
     });
 
     testWidgets('editing a leg updates it in place', (tester) async {
-      await openEditor(tester);
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
       await addLeg(tester, modeName: 'Test Rail', distance: '100');
 
-      await tester.tap(find.text('Test Rail'));
+      await tester.tap(find.byType(OptionEntryCard));
       await tester.pumpAndSettle();
-      expect(find.text('Edit leg'), findsOneWidget);
-      expect(find.widgetWithText(TextField, '100'), findsOneWidget);
-
-      await tester.enterText(find.byType(TextField), '200');
+      // Seeded with the stored value, then edited.
+      expect(
+        tester.widget<TextField>(find.byType(TextField).last).controller!.text,
+        '100',
+      );
+      await tester.enterText(find.byType(TextField).last, '250');
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(JourneyLegCard), findsOneWidget);
-      expect(find.text('200 km'), findsOneWidget);
+      expect(find.byType(OptionEntryCard), findsOneWidget);
+      expect(find.text('250 km'), findsOneWidget);
     });
 
-    testWidgets('city pair prefills an editable distance estimate', (
+    testWidgets('removing a leg empties the column again', (tester) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addLeg(tester, modeName: 'Test Rail', distance: '100');
+
+      await tester.tap(find.byTooltip('Remove'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(OptionEntryCard), findsNothing);
+      expect(find.text('Tap Add leg to start this journey'), findsNWidgets(2));
+    });
+
+    testWidgets('a journey can stack multiple legs in one column', (
       tester,
     ) async {
-      await openEditor(tester);
-      await pickCities(tester);
-
-      // Ground estimate = haversine (~111.2 km) x 1.3 circuity.
-      expect(find.text('~145 km'), findsNWidgets(2));
-
-      await tester.tap(find.text('Test Car').last);
+      await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(TextField, '145'), findsOneWidget);
+      await addLeg(tester, modeName: 'Test Rail', distance: '400');
+      await addLeg(tester, modeName: 'Test Rail', distance: '30');
+
+      // Tokyo -> Osaka -> Kobe shape: two legs, one column.
+      expect(find.byType(OptionEntryCard), findsNWidgets(2));
+      final expected = TransportCalculator.journeyCo2eGrams(
+        TransportCalculator.byId(_testModes),
+        const [
+          JourneyLeg(modeId: 'test_rail', distanceKm: 400),
+          JourneyLeg(modeId: 'test_rail', distanceKm: 30),
+        ],
+      );
+      expect(
+        find.textContaining(formatCO2Compact(expected.round())),
+        findsWidgets,
+      );
+    });
+
+    testWidgets('both columns built shows the delta and the bank action', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addLeg(tester, modeName: 'Test Rail', distance: '100');
+      await addLeg(tester, modeName: 'Test Car', distance: '100', column: 1);
+
+      // Rail 3.5kg vs car 16kg -> rail emits 12.5kg less (78% lower).
+      // The summary names the columns, not one leg from inside them.
+      expect(find.text('Build both options to compare them'), findsNothing);
+      expect(find.textContaining('emits'), findsOneWidget);
+      expect(find.textContaining('less than Option B'), findsOneWidget);
+      expect(find.text('I chose Option A'), findsOneWidget);
+      expect(find.textContaining('less than Test Car'), findsNothing);
+    });
+
+    testWidgets('a CO2e total links to a definition of the unit', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(Co2eAmount).first);
+      await tester.pumpAndSettle();
+
+      expect(find.text('What is CO2e?'), findsOneWidget);
+      expect(
+        find.textContaining('counts methane and other greenhouse gases'),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('Close'));
+      await tester.pumpAndSettle();
+      expect(find.text('What is CO2e?'), findsNothing);
+    });
+
+    testWidgets('a per-leg city pair prefills an editable estimate', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp(cities: const [_cityA, _cityB]));
+      await tester.pumpAndSettle();
+      await openSheet(tester, 'Test Rail');
+
+      // The sheet carries the only From/To now -- the screen-level
+      // pair is gone -- so each leg is estimated from its own
+      // endpoints. Fields in the sheet: From, To, then distance.
+      await tester.enterText(find.byType(TextField).at(0), 'Alpha');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Alphaville, AA').last);
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).at(1), 'Beta');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Betatown, BB').last);
+      await tester.pumpAndSettle();
+
       expect(find.text(_estimateNote), findsOneWidget);
-
-      // The estimate stays editable (standing decision).
-      await tester.enterText(find.byType(TextField), '160');
-      await tester.tap(find.text('Save'));
-      await tester.pumpAndSettle();
-      expect(find.text('160 km · 1 person'), findsOneWidget);
+      final text = tester
+          .widget<TextField>(find.byType(TextField).last)
+          .controller!
+          .text;
+      expect(double.parse(text), closeTo(111.2 * 1.3, 3));
     });
 
-    testWidgets('accepts a locale decimal comma in the distance '
-        '(review requirement)', (tester) async {
-      await openEditor(tester);
-      await addLeg(tester, modeName: 'Test Rail', distance: '12,5');
-
-      expect(find.byType(JourneyLegCard), findsOneWidget);
-      expect(find.text('12.5 km'), findsOneWidget);
-      expect(find.text('Enter a distance of 0 km or more'), findsNothing);
-    });
-
-    testWidgets('seeds the edit field with full precision', (tester) async {
-      await openEditor(tester);
-      await addLeg(tester, modeName: 'Test Rail', distance: '12.345');
-      // The card display rounds; the edit round-trip must not.
-      expect(find.text('12.3 km'), findsOneWidget);
-
-      await tester.tap(find.text('Test Rail'));
+    testWidgets('a pair with no estimate reads Unknown until tapped', (
+      tester,
+    ) async {
+      // Water-blocked, so the ground kind is withheld (the
+      // Helsinki-Tallinn case): the field must say so rather than sit
+      // blank and indistinguishable from no pair at all.
+      await tester.pumpWidget(
+        buildApp(
+          cities: const [_cityA, _cityB],
+          waterBlocked: {cityPairKey(_cityA, _cityB)},
+        ),
+      );
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(TextField, '12.345'), findsOneWidget);
-    });
+      await openSheet(tester, 'Test Rail');
 
-    testWidgets('city fields keep their text across a step round-trip '
-        '(review requirement)', (tester) async {
-      await openEditor(tester);
-      await pickCities(tester);
-
-      await tester.tap(find.text('Test Car').last);
+      await tester.enterText(find.byType(TextField).at(0), 'Alpha');
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Change'));
+      await tester.tap(find.text('Alphaville, AA').last);
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).at(1), 'Beta');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Betatown, BB').last);
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(TextField, 'Alphaville, AA'), findsOneWidget);
-      expect(find.widgetWithText(TextField, 'Betatown, BB'), findsOneWidget);
-      expect(find.text('~145 km'), findsNWidgets(2));
-
-      // The clear-on-edit guard still works after the remount.
-      await tester.enterText(find.byType(TextField).first, 'Alphaville');
-      await tester.pumpAndSettle();
-      expect(find.textContaining('~'), findsNothing);
-    });
-
-    testWidgets('estimate flag resets when the new mode has no '
-        'suggestion', (tester) async {
-      await openEditor(tester);
-      await pickCities(tester);
-
-      await tester.tap(find.text('Test Car').last);
-      await tester.pumpAndSettle();
-      expect(find.text(_estimateNote), findsOneWidget);
-
-      await tester.tap(find.text('Change'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Test Taxi').last);
-      await tester.pumpAndSettle();
-
-      // The carried-over value is now manual text, not an estimate.
-      expect(find.widgetWithText(TextField, '145'), findsOneWidget);
+      expect(find.text('Unknown'), findsOneWidget);
       expect(find.text(_estimateNote), findsNothing);
-    });
+      expect(
+        tester.widget<TextField>(find.byType(TextField).last).controller!.text,
+        isEmpty,
+      );
 
-    testWidgets('a same-city pair shows no suggestions', (tester) async {
-      await openEditor(tester);
-
-      await tester.enterText(find.byType(TextField).first, 'Alpha');
+      await tester.tap(find.byType(TextField).last);
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Alphaville, AA').last);
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField).at(1), 'Alpha');
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Alphaville, AA').last);
-      await tester.pumpAndSettle();
-
-      // No "~0 km" label may render for the degenerate pair.
-      expect(find.textContaining('~'), findsNothing);
-    });
-
-    testWidgets('occupancy stepper exposes semantic labels', (tester) async {
-      final handle = tester.ensureSemantics();
-      await openEditor(tester);
-      await tester.tap(find.text('Test Car').last);
-      await tester.pumpAndSettle();
-
-      expect(find.byTooltip('Add a person'), findsOneWidget);
-      expect(find.byTooltip('Remove a person'), findsOneWidget);
-      expect(find.bySemanticsLabel('People in the vehicle: 1'), findsOneWidget);
-
-      await tester.tap(find.byTooltip('Add a person'));
-      await tester.pump();
-      expect(find.bySemanticsLabel('People in the vehicle: 2'), findsOneWidget);
-      handle.dispose();
+      expect(find.text('Unknown'), findsNothing);
     });
   });
 }

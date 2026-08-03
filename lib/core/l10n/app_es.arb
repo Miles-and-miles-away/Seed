@@ -553,7 +553,6 @@
   "dayDetailActions": "Acciones",
   "dayDetailNoActions": "No hay acciones registradas este día",
   "dayDetailFactLocked": "No se desbloqueó ningún eco-dato este día",
-
   "ecoFactTitle": "Eco-dato del día",
   "ecoFactDidYouKnow": "Sabías que...?",
   "ecoFactSource": "Fuente",
@@ -613,7 +612,6 @@
   },
   "challengeAnyCategory": "Cualquier categoría",
   "challengeLocked": "Bloqueado",
-
   "progressCalendarTab": "Calendario",
   "ecoDexTab": "Eco-Dex",
   "impactTab": "Impacto",
@@ -650,15 +648,21 @@
   "equivFormulaTemplate": "g de CO2 / {factor}",
   "@equivFormulaTemplate": {
     "placeholders": {
-      "factor": { "type": "String" }
+      "factor": {
+        "type": "String"
+      }
     }
   },
   "ecoDexTitle": "Eco-Dex",
   "ecoDexProgress": "{discovered} / {total} descubiertos",
   "@ecoDexProgress": {
     "placeholders": {
-      "discovered": {"type": "int"},
-      "total": {"type": "int"}
+      "discovered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "ecoDexLocked": "No descubierto",
@@ -671,27 +675,30 @@
   "ecoDexDiscoveryMoreQueued": "+{count} más en cola",
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ecoDexEmptyHint": "Registra tu primera acción para hacer tu primer descubrimiento.",
   "ecoDexInfoTooltip": "Acerca del Eco-Dex",
   "ecoDexInfoTitle": "Acerca del Eco-Dex",
   "ecoDexInfoBody": "El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no otorgan puntos: cada uno te recompensa con conocimiento.",
-
   "transportCalculatorTitle": "Calculadora de transporte",
   "calculatorsSheetTitle": "Calculadoras",
   "calculatorsButtonTooltip": "Calculadoras",
   "calculatorHomeEnergy": "Energía del hogar",
   "calculatorComingSoon": "Próximamente",
   "transportJourneyEmpty": "Añade un tramo para crear tu trayecto y ver su huella de CO2e.",
-  "transportAddLeg": "Añadir tramo",
+  "transportAddLeg": "Añadir trayecto",
   "transportEditLeg": "Editar tramo",
   "transportSelectMode": "Elige un modo de transporte",
   "transportChangeMode": "Cambiar",
   "transportDistanceLabel": "Distancia (km)",
   "transportDistanceInvalid": "Introduce una distancia de 0 km o más",
   "transportDistanceEstimateNote": "Estimación derivada de la ubicación de las ciudades. Edítala según tu ruta.",
+  "transportDistanceUnknown": "Desconocida",
+  "transportFlightBandNote": "Esta distancia usa el factor de {band}, para que un trayecto corto nunca se calcule como un vuelo de larga distancia.",
   "transportOccupantsLabel": "Personas en el vehículo",
   "transportOccupantsAdd": "Añadir una persona",
   "transportOccupantsRemove": "Quitar una persona",
@@ -724,7 +731,21 @@
   "transportScienceSourcesHeading": "Fuentes",
   "transportScienceAccessed": "Consultado el {date}",
   "transportComparisonTitle": "Comparar trayectos",
-  "transportAddToComparison": "Añadir a la comparación",
+  "transportAddToComparison": "Añadir como opción",
+  "calculatorStagedOptions": "Opciones a comparar",
+  "calculatorRemoveOption": "Quitar esta opción",
+  "calculatorEntryPreview": "Esto añade {amount} CO2e",
+  "co2eDefinitionTitle": "¿Qué es el CO2e?",
+  "co2eDefinitionBody": "El CO2e cuenta el metano y otros gases de efecto invernadero como su equivalente en CO2, para que una hamburguesa y un vuelo se comparen de forma justa.",
+  "calculatorOptionA": "Opción A",
+  "calculatorOptionB": "Opción B",
+  "calculatorDropHint": "Arrastra o toca un elemento de abajo para añadirlo",
+  "calculatorAddToA": "Añadir a A",
+  "calculatorAddToB": "Añadir a B",
+  "calculatorBrowseAll": "Ver todo",
+  "transportColumnEmptyHint": "Toca Añadir trayecto para empezar este viaje",
+  "calculatorNeedBothOptions": "Crea ambas opciones para compararlas",
+  "calculatorRemoveEntry": "Quitar",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
   "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
@@ -740,30 +761,51 @@
   "transportChoseLabel": "Elegí",
   "transportInsteadOfLabel": "en lugar de",
   "transportChoiceDistinctHint": "Elige dos opciones distintas para registrar tu elección.",
-  "transportActionsEntryTitle": "Compara y registra una elección de transporte",
-  "transportActionsEntrySubtitle": "Mira qué opción emite menos y acumula la diferencia",
+  "transportActionsEntryTitle": "Registrar una acción de transporte personalizada",
+  "customActionBadge": "Personalizada",
   "actionReproduce": "Hacerlo de nuevo",
   "actionReproducedMessage": "Registrado de nuevo",
   "foodCalculatorTitle": "Calculadora de alimentación",
   "foodMethodologyTitle": "Metodología y fuentes",
   "foodTotalLabel": "Total",
   "foodMealEmpty": "Añade un ingrediente para construir tu comida y ver su huella de CO2e.",
-  "foodAddIngredient": "Añadir ingrediente",
+  "foodAddIngredient": "Añadir alimento",
   "foodEditIngredient": "Editar ingrediente",
   "foodSelectItem": "Elige un alimento",
   "foodChangeItem": "Cambiar",
   "foodQuantityLabel": "Cantidad (g)",
   "foodQuantityInvalid": "Introduce una cantidad de 0 g o más",
   "foodGramsValue": "{grams} g",
-  "@foodGramsValue": { "placeholders": { "grams": { "type": "String" } } },
+  "@foodGramsValue": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "foodRemoveIngredient": "Eliminar ingrediente",
   "foodItemScienceTooltip": "Sobre este factor",
+  "foodColumnEmptyHint": "Toca Añadir alimento para empezar esta comida",
+  "foodSearchHint": "Buscar alimentos...",
+  "foodSearchNoResults": "Ningún alimento coincide con la búsqueda.",
   "foodItemFactorPerKg": "{value} kg de CO2e por kg",
-  "@foodItemFactorPerKg": { "placeholders": { "value": { "type": "String" } } },
+  "@foodItemFactorPerKg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "foodScienceNotesHeading": "Cómo se calcula",
   "foodScienceSourcesHeading": "Fuentes",
   "foodScienceAccessed": "Consultado el {date}",
-  "@foodScienceAccessed": { "placeholders": { "date": { "type": "String" } } },
+  "@foodScienceAccessed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "foodGroupMeat": "Carne",
   "foodGroupSeafood": "Pescado y marisco",
   "foodGroupDairyEggs": "Lácteos y huevos",
@@ -774,30 +816,95 @@
   "foodGroupDrinks": "Bebidas",
   "foodGroupTreats": "Caprichos",
   "foodGroupOils": "Aceites",
-  "foodAddToComparison": "Añadir a la comparación",
+  "foodAddToComparison": "Añadir como opción",
   "foodComparisonFull": "Comparación completa ({max} opciones)",
-  "@foodComparisonFull": { "placeholders": { "max": { "type": "int" } } },
+  "@foodComparisonFull": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "foodCompareOptions": "Comparar {count} opciones",
-  "@foodCompareOptions": { "placeholders": { "count": { "type": "int" } } },
+  "@foodCompareOptions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodOptionStaged": "Opción {count} añadida",
-  "@foodOptionStaged": { "placeholders": { "count": { "type": "int" } } },
+  "@foodOptionStaged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTitle": "Comparar comidas",
   "foodComparisonDelta": "{label} emite {amount} de CO2e menos que {worse} ({percent}% menos)",
-  "@foodComparisonDelta": { "placeholders": { "label": { "type": "String" }, "amount": { "type": "String" }, "worse": { "type": "String" }, "percent": { "type": "int" } } },
+  "@foodComparisonDelta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonCarKmEquiv": "Equivale a unos {km} km no recorridos en un coche de gasolina",
-  "@foodComparisonCarKmEquiv": { "placeholders": { "km": { "type": "int" } } },
+  "@foodComparisonCarKmEquiv": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "foodChoseLabel": "Comí",
   "foodInsteadOfLabel": "en lugar de",
   "foodLogChoiceBody": "Registra esto como una acción de alimentación y acumula los {amount} de CO2e que evitas al elegir la comida de menor huella.",
-  "@foodLogChoiceBody": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodLogChoiceBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceDistinctHint": "Elige dos comidas distintas para registrar tu elección.",
   "foodLogChoiceCta": "Elegí {label}",
-  "@foodLogChoiceCta": { "placeholders": { "label": { "type": "String" } } },
+  "@foodLogChoiceCta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceLoggedMessage": "Registrado. Acumulaste {amount} de CO2e.",
-  "@foodChoiceLoggedMessage": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodChoiceLoggedMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodCustomActionName": "Elegí {greener} en vez de {worse}",
-  "@foodCustomActionName": { "placeholders": { "greener": { "type": "String" }, "worse": { "type": "String" } } },
-  "foodActionsEntryTitle": "Compara y registra una elección de alimentación",
-  "foodActionsEntrySubtitle": "Mira qué comida emite menos y acumula la diferencia",
-  "foodMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas.\n\n### Puede que hayas visto 'ternera = 60'\nEsta herramienta usa las medias ponderadas por producción del estudio, no sus medianas. La difundida cifra de '60 kg para la ternera' es la mediana sin pérdidas de la cadena de suministro; la media que las incluye es mayor. Las medias representan mejor el impacto global total, así que es lo que usamos.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### 'Ecológico' y 'local'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la 'ternera local' no le gana a los 'frijoles importados' en ninguna medida, y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó."
+  "@foodCustomActionName": {
+    "placeholders": {
+      "greener": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      }
+    }
+  },
+  "foodActionsEntryTitle": "Registrar una acción de comida personalizada",
+  "foodMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### 'Ecológico' y 'local'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la 'ternera local' sigue teniendo una huella mucho mayor que los 'frijoles importados', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó."
 }

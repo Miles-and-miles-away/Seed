@@ -43,10 +43,9 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        // initialItem set so the sheet opens straight on the quantity form.
-        home: const Scaffold(
-          body: IngredientEditorSheet(initialItem: _chicken),
-        ),
+        // The item is picked from the pool before the sheet opens, so
+        // the sheet is only ever the quantity form.
+        home: const Scaffold(body: IngredientEditorSheet(item: _chicken)),
       ),
     );
   }
@@ -58,7 +57,10 @@ void main() {
     await tester.pumpAndSettle();
 
     // Field starts empty; the preset chip fills it with the preset grams.
-    expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, '');
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).controller!.text,
+      '',
+    );
     await tester.tap(find.text('1 breast'));
     await tester.pumpAndSettle();
 

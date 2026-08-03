@@ -150,66 +150,6 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               ref.read(selectedCategoryProvider.notifier).select(category);
             },
           ),
-          // Custom transport-route entry (Phase 8.6), surfaced only in
-          // the transport view. Opens the calculator, where comparing
-          // and banking a chosen route lives.
-          if (selectedCategory == ActionCategory.transport)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                spacingLg,
-                spacingSm,
-                spacingLg,
-                0,
-              ),
-              child: Card(
-                clipBehavior: Clip.antiAlias,
-                color: theme.colorScheme.primaryContainer,
-                child: ListTile(
-                  leading: Icon(
-                    Icons.compare_arrows,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                  title: Text(l10n.transportActionsEntryTitle),
-                  subtitle: Text(l10n.transportActionsEntrySubtitle),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                  textColor: theme.colorScheme.onPrimaryContainer,
-                  onTap: () => context.push(appRoutes.transportCalculator),
-                ),
-              ),
-            ),
-          // Food-choice entry (Phase 8.12), surfaced only in the food
-          // view. Opens the calculator, where comparing and banking a
-          // chosen meal lives.
-          if (selectedCategory == ActionCategory.food)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                spacingLg,
-                spacingSm,
-                spacingLg,
-                0,
-              ),
-              child: Card(
-                clipBehavior: Clip.antiAlias,
-                color: theme.colorScheme.primaryContainer,
-                child: ListTile(
-                  leading: Icon(
-                    Icons.compare_arrows,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                  title: Text(l10n.foodActionsEntryTitle),
-                  subtitle: Text(l10n.foodActionsEntrySubtitle),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                  textColor: theme.colorScheme.onPrimaryContainer,
-                  onTap: () => context.push(appRoutes.foodCalculator),
-                ),
-              ),
-            ),
           // Sort dropdown row
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -281,6 +221,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     String languageCode,
   ) {
     final l10n = AppLocalizations.of(context);
+    final calculatorEntry = _buildCalculatorEntry(l10n);
 
     if (filteredActions.isEmpty) {
       return Center(
@@ -310,9 +251,11 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         mainAxisSpacing: spacingMd,
         childAspectRatio: 0.9,
       ),
-      itemCount: filteredActions.length,
+      itemCount: filteredActions.length + (calculatorEntry == null ? 0 : 1),
       itemBuilder: (context, index) {
-        final action = filteredActions[index];
+        if (calculatorEntry != null && index == 0) return calculatorEntry;
+        final action =
+            filteredActions[calculatorEntry == null ? index : index - 1];
         return ActionCard(
           action: action,
           languageCode: languageCode,
@@ -324,6 +267,34 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           ),
         );
       },
+    );
+  }
+
+  /// Custom-logging entry for the transport (Phase 8.6) and food
+  /// (Phase 8.12) calculators, shown as the first tile of their own
+  /// category so it reads as just another action rather than a banner.
+  Widget? _buildCalculatorEntry(AppLocalizations l10n) {
+    final category = ref.watch(selectedCategoryProvider);
+    final (String title, String route) = switch (category) {
+      ActionCategory.transport => (
+        l10n.transportActionsEntryTitle,
+        appRoutes.transportCalculator,
+      ),
+      ActionCategory.food => (
+        l10n.foodActionsEntryTitle,
+        appRoutes.foodCalculator,
+      ),
+      _ => ('', ''),
+    };
+    if (title.isEmpty) return null;
+
+    return ActionTile(
+      accentColor: category!.color,
+      contentColor: category.color,
+      icon: Icons.compare_arrows,
+      title: title,
+      badgeLabel: l10n.customActionBadge,
+      onTap: () => context.push(route),
     );
   }
 }

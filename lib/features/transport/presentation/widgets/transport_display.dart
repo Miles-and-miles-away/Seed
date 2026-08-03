@@ -62,14 +62,43 @@ String? transportModeBasisNote(AppLocalizations l10n, TransportMode mode) {
   return null;
 }
 
-/// Short label for a comparison option: the group of its dominant
-/// (longest) leg, so "Fly" vs "Rail" reads at a glance. Empty legs
-/// yield an empty string (guarded by the caller, which never stages
-/// an empty journey).
+/// Every distinct mode in a journey, in order, joined for the banked
+/// action name ("Train + Bus"). Occupancy is appended to a shared
+/// vehicle so drive-alone and carpool stay distinguishable.
+///
+/// Used only where the journey has to describe itself outside the
+/// two-column screen -- chiefly the logged custom action, which lands
+/// in the action history with no columns around it. On screen the
+/// options are named "Option A" / "Option B"; naming a single
+/// dominant leg there read as an arbitrary pick from the list.
+String journeySummaryLabel(
+  AppLocalizations l10n,
+  List<JourneyLeg> legs,
+  Map<String, TransportMode> modesById,
+  String locale,
+) {
+  final parts = <String>[];
+  for (final leg in legs) {
+    final mode = modesById[leg.modeId];
+    if (mode == null) continue;
+    final name = (mode.perVehicle && leg.occupants > 1)
+        ? '${mode.name(locale)} · ${l10n.transportOccupantsValue(leg.occupants)}'
+        : mode.name(locale);
+    if (!parts.contains(name)) parts.add(name);
+  }
+  return parts.join(' + ');
+}
+
+/// Short label for a comparison option: the mode of its dominant
+/// (longest) leg, plus occupancy when the vehicle is shared.
+///
+/// Retained for the per-mode ordering it gives the analytics event;
+/// user-facing copy uses [journeySummaryLabel] or the column names.
 String journeyOptionLabel(
   AppLocalizations l10n,
   List<JourneyLeg> legs,
   Map<String, TransportMode> modesById,
+  String locale,
 ) {
   if (legs.isEmpty) return '';
   var dominant = legs.first;
@@ -77,7 +106,11 @@ String journeyOptionLabel(
     if (leg.distanceKm > dominant.distanceKm) dominant = leg;
   }
   final mode = modesById[dominant.modeId];
-  return mode == null ? '' : transportGroupLabel(l10n, mode.group);
+  if (mode == null) return '';
+  final name = mode.name(locale);
+  return (mode.perVehicle && dominant.occupants > 1)
+      ? '$name · ${l10n.transportOccupantsValue(dominant.occupants)}'
+      : name;
 }
 
 /// Compact km display: whole values drop the decimal. Locale-aware
