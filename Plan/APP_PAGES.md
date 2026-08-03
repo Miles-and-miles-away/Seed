@@ -155,54 +155,75 @@ unambiguous exit. Browse and log actions.
 - Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
   `/transport-calculator` and `/food-calculator` — reached via the AppBar
   calculator chooser (transport / food / home energy; home energy disabled
-  until it ships) and the "Compare & log a transport choice" / "Compare &
-  log a food choice" cards shown only in their category views; inline
+  until it ships) and the "Log a Custom Transport action" / "Log a Custom
+  Food action" cards shown only in their category views; inline
   confirmation dialog / science bottom sheet
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All").
 - Functionality: AppBar calculator-chooser icon opening the calculators
   bottom sheet; search, category tabs, sort dropdown, SDG filter chips,
-  action cards with log confirmation and science info; a "Compare & log
-  a transport choice" card in the transport view and a "Compare & log a
-  food choice" card in the food view.
+  action cards with log confirmation and science info; a "Log a Custom
+  Transport action" card in the transport view and a "Log a Custom
+  Food action" card in the food view.
 
 ## Transport Calculator (`/transport-calculator`)
 
-Pushed full-screen route (Phase 8). Educational journey builder:
-add/edit/remove legs (mode + distance + occupancy for per-vehicle
-modes) and see per-leg and total CO2e.
+Pushed full-screen route (Phase 8). Educational side-by-side journey
+comparison: two option columns (A and B) are built at once and
+totalled live. There is no separate comparison screen — the delta,
+its equivalency, the data-honesty basis notes and the banking action
+are folded in under the columns.
 - Reached from: the AppBar calculator chooser on the Log Action screen
-  (transport tile), and the "Compare & log a transport choice" card
+  (transport tile), and the "Log a Custom Transport action" card
   shown in that screen's transport category view (kept off the bottom
   nav to hold it at five buttons).
-- Links (internal Navigator pushes, not named routes): Journey
-  Comparison screen; Methodology & Sources screen (AppBar science
-  icon). Per-mode science sheets and external source URLs open from
-  info icons / tappable links.
-- Functionality: leg list with per-leg CO2e and delete; leg editor
-  bottom sheet with grouped mode picker (info icon per mode opens its
-  science sheet), numeric km field (rejects negative/NaN; always
-  editable), occupancy stepper only for per-vehicle modes; optional
-  city-pair picker prefilling editable distance estimates
-  (water-blocked pairs never suggest ground/active; flights auto-pick
-  the honest DEFRA band from the pair's countries + distance);
-  running journey total; "Add to comparison" stages the journey (up
-  to 3) and "Compare" opens the comparison.
-
-### Journey Comparison (pushed within the feature)
-Side-by-side bars for 2–3 staged journeys (8.3), scaled to the worst
-option with the best highlighted. Delta line reads "emits X CO2e
-less (Y% lower)" — never "saves" (data-review copy rule) — with the
-Phase 6 tree-year equivalency of the difference. Electric-car rows
-show the grid caveat, the private jet the radiative-forcing footnote,
-active/micro modes their basis. With three options, "I took" and
-"instead of" pickers (defaults greenest/worst) let the user designate
-the choice they made; a "I chose {greener}" button then banks the
-avoided emissions (baseline − chosen) as a real transport action
-(Phase 8.6): it creates a user `customActions` template and logs it
-through the standard action transaction (points from `co2^0.4`,
-neutral multipliers). Banking is disabled unless the two picks differ.
-No caps — users are isolated (scoring design decision).
+- Links (internal Navigator pushes, not named routes): Methodology &
+  Sources screen (AppBar science icon). Per-mode science sheets and
+  external source URLs open from info icons / tappable links.
+- Layout: an optional journey-level From/To city pair at the top (the
+  trip being compared), the two option columns down the middle, the
+  result panel, and an "Add leg" button under each column.
+- Adding a leg: tap "Add leg" under the column you are filling. That
+  opens the grouped mode picker (groups, per-mode science info), then
+  the leg editor, which confirms with a single "Save" because the
+  column is already known. The city-pair estimate still prefills the
+  editor's distance field; it is confirmed rather than applied
+  silently.
+- No drag-and-drop (owner call 2026-08-02). It was removed from both
+  calculators when their item lists outgrew a reachable chip strip:
+  27 transport modes ran to roughly eight screen-widths of horizontal
+  scrolling and the food dataset far more. Tap was always the
+  primary, accessible path anyway — drag had no VoiceOver or
+  switch-control equivalent.
+- Leg editor: its own From/To pair (defaulting to the previous leg's
+  destination, so Tokyo -> Osaka -> Kobe chains without retyping), a
+  numeric km field (rejects negative/NaN, always editable, prefill
+  labelled as an estimate), an occupancy stepper for per-vehicle modes,
+  and a live CO2e preview so adding a passenger visibly divides the
+  leg. Both entry styles work: leg-by-leg with stops, or one journey
+  distance split manually across modes. Flight bands are honest per
+  leg: if the leg's cities imply a different DEFRA band than the air
+  mode picked, the correct band is used and a note says so, so a short
+  hop can never be priced as long-haul.
+- Each column shows its total as a tappable CO2e amount (opens a
+  plain-language definition of the unit) and a magnitude bar scaled to
+  the worse column, with the lower one highlighted.
+- Result panel: "Option A emits N CO2e less than Option B (P% lower)"
+  — never "saves" (data-review copy rule). The options are named by
+  column, not by an item inside them, which read as an arbitrary pick
+  from the list; the banked action still carries a full description
+  ("Train + Bus"). Plus the Phase 6 tree-year equivalency,
+  the electric-car grid / private-jet radiative-forcing / active-mode
+  basis notes, and an "I chose {greener}" button that banks the
+  avoided emissions (worse minus chosen) as a real transport action
+  (Phase 8.6): it creates a user `customActions` template and logs it
+  through the standard action transaction (points from `co2^0.4`,
+  neutral multipliers). No caps — users are isolated (scoring design
+  decision). Until both columns hold something, the panel reads "Build
+  both options to compare them".
+- Both columns survive navigating away and back (keepAlive providers);
+  they reset on app restart or after banking a choice, and nothing is
+  persisted to Firestore.
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.4): scope, occupancy, radiative forcing (1.7×,
@@ -216,38 +237,59 @@ again" (reproduce), which re-logs the same template.
 
 ## Food Calculator (`/food-calculator`)
 
-Pushed full-screen route (Phase 8, Part 2). Educational meal builder:
-add/edit/remove ingredients (food item + quantity) and see per-
-ingredient and total CO2e. Mirrors the transport calculator; simpler
-(no occupancy). Never awards points inside the tool.
+Pushed full-screen route (Phase 8, Part 2). Educational side-by-side
+meal comparison. Mirrors the transport calculator exactly (shared
+`OptionColumn`, `OptionEntryCard`, `ComparisonDeltaCard`,
+`Co2eAmount`), minus occupancy and cities.
+Never awards points inside the tool.
 - Reached from: the AppBar calculator chooser on the Log Action screen
-  (food tile), and the "Compare & log a food choice" card shown in that
+  (food tile), and the "Log a Custom Food action" card shown in that
   screen's food category view (kept off the bottom nav to hold it at
   five buttons).
-- Links (internal Navigator pushes, not named routes): Meal Comparison
-  screen; Methodology & Sources screen (AppBar science icon). Per-item
-  science sheets and external source URLs open from info icons /
-  tappable links.
-- Functionality: ingredient list with per-ingredient CO2e and delete;
-  ingredient editor bottom sheet with grouped item picker (info icon
-  per item opens its science sheet), serving-preset chips over an
-  editable grams field (rejects negative/NaN), numeric quantity;
-  running meal total; "Add to comparison" stages the meal (up to 3)
-  and "Compare" opens the comparison.
-
-### Meal Comparison (pushed within the feature)
-Side-by-side bars for 2–3 staged meals (8.9), scaled to the worst
-option with the best highlighted. Delta line reads "emits X CO2e less
-(Y% lower)" — never "saves" (data-review copy rule) — with the Phase 6
-driving (car-km) equivalency of the difference. With three options,
-"I ate" and "instead of" pickers (defaults greenest/worst) let the
-user designate the meal they had; a "I chose {greener}" button then
-banks the avoided emissions (baseline − chosen) as a real food action
-(Phase 8.12): it reuses the category-agnostic `customActions` template
-+ rules the transport bridge established and logs through the standard
-action transaction (points from `co2^0.4`, neutral multipliers).
-Banking is disabled unless the two picks differ. No caps — users are
-isolated (scoring design decision).
+- Links (internal Navigator pushes, not named routes): Methodology &
+  Sources screen (AppBar science icon). Per-item science sheets and
+  external source URLs open from info icons / tappable links.
+- Layout: two option columns down the middle, each with its own
+  "Add ingredient" button underneath, and the result panel below.
+  There is no item-chip pool and no drag-and-drop: the food dataset
+  is far too large for a horizontal strip of every item to be
+  reachable, so the searchable picker is the only entry point
+  (owner call 2026-08-02). The transport calculator matches.
+- Adding an ingredient: tap "Add ingredient" under the column you are
+  filling. That opens the picker -- a search field over a lazily-built
+  list, grouped by food group while the query is empty and flattened
+  to ranked results while searching, with per-item science info.
+  Search matches EN/JA/ES names regardless of the active locale and
+  ignores accents ("platano" finds Plátano). It also matches per-item
+  aliases, so the concrete food finds its umbrella category:
+  "carrots", "zanahoria" and "にんじん" all find Root vegetables,
+  "kale" finds Cabbage & broccoli, "bacon" finds Pork. Aliases rank
+  below name matches, and whole-term hits above substrings ("chips"
+  finds Potatoes). Only foods a factor genuinely covers are aliased --
+  "yoghurt" deliberately matches nothing rather than pointing at milk.
+  A dataset invariant test fails if a new item ships without aliases. Because the column is
+  known from the button, the quantity editor confirms with a single
+  "Save" rather than asking "Add to A" / "Add to B". The
+  editor carries serving-preset chips over an editable grams field
+  (rejects negative/NaN) and a live CO2e preview of the quantity
+  entered. A meal can hold as many ingredients as needed.
+- Result panel: "Option A emits N CO2e less than Option B (P% lower)"
+  with the Phase 6 driving (car-km) equivalency, and an "I chose
+  {column}" button banking the avoided emissions as a real food action
+  (Phase 8.12) through the same template + transaction path as
+  transport. The options are named by column, not by an ingredient
+  inside them, which read as an arbitrary pick from the list; the
+  banked action still carries a full description ("Beans + Rice").
+- All quantities are metric: serving presets state grams (or
+  millilitres for drinks) and no display string uses oz, cups or
+  pints. The imperial that remains in a few calculation notes is
+  load-bearing provenance -- USDA and CarbonCloud define those
+  portions in oz and tbsp, and dropping them would make the
+  derivations impossible to check against the source.
+  Until both columns hold something it reads "Build both options to
+  compare them".
+- Both columns survive navigating away and back (keepAlive providers);
+  they reset on app restart or after banking a choice.
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.10): cradle-to-retail scope incl. land-use change

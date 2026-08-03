@@ -88,14 +88,17 @@ void main() {
   group('suggestedDistancesKm', () {
     test('same landmass mid-range: ground and air, no ferry', () {
       final s = suggestedDistancesKm(_tokyo, _osaka, _links);
-      expect(s.keys, unorderedEquals([kindGround, kindAir]));
+      expect(s.keys, unorderedEquals([kindGround, kindActive, kindAir]));
       expect(s[kindGround], closeTo(397 * groundCircuityFactor, 6));
       expect(s[kindAir], closeTo(397 + flightDetourKm, 5));
     });
 
     test('rail tunnel link enables ground across masses', () {
       final s = suggestedDistancesKm(_london, _paris, _links);
-      expect(s.keys, unorderedEquals([kindGround, kindAir, kindFerry]));
+      expect(
+        s.keys,
+        unorderedEquals([kindGround, kindActive, kindAir, kindFerry]),
+      );
       expect(s[kindGround], closeTo(343 * groundCircuityFactor, 6));
       expect(s[kindFerry], closeTo(343, 4));
     });

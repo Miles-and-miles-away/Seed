@@ -39,18 +39,6 @@ const ferryModeMaxKm = 500.0;
 /// back to manual distance entry.
 const fallbackAirMinKm = 100.0;
 
-/// Active modes (walk/cycle groups) are only suggested for short
-/// hops; users can still add active legs manually at any length.
-/// [kindActive] uses the cycle-family cap; when mapping the kind
-/// to concrete modes, exclude walking beyond [walkModeMaxKm].
-const activeModeMaxKm = 150.0;
-
-/// Walking is only a sensible suggestion far below the cycle cap.
-/// Applied at kind-to-mode mapping time, not in the suggestion
-/// map: [kindActive] up to [activeModeMaxKm] means cycle-family;
-/// walking is offered only up to this straight-line distance.
-const walkModeMaxKm = 40.0;
-
 /// Suggestion keys returned by [suggestedDistancesKm].
 const kindGround = 'ground';
 const kindAir = 'air';
@@ -127,7 +115,7 @@ String cityPairKey(City a, City b) {
 ///   catchments admit both cities, within the link's
 ///   [CityLink.maxKm] (default [ferryModeMaxKm]);
 ///   estimate = haversine (no detour factor)
-/// - [kindActive]: ground rules and within [activeModeMaxKm]
+/// - [kindActive]: same rules as [kindGround]
 ///
 /// [waterBlocked] (from `loadWaterBlockedPairs`) lists same-mass
 /// pairs whose straight line crosses open water the x1.3 circuity
@@ -154,9 +142,11 @@ Map<String, double> suggestedDistancesKm(
       straight <= groundModeMaxKm &&
       !waterBlocked.contains(cityPairKey(a, b))) {
     result[kindGround] = straight * groundCircuityFactor;
-    if (straight <= activeModeMaxKm) {
-      result[kindActive] = straight * groundCircuityFactor;
-    }
+    // Active modes follow the ground rules with no extra cap. A
+    // 600 km cycle is unlikely, but withholding the estimate only
+    // made active modes silently differ from every other mode in
+    // the picker; the user decides what is plausible.
+    result[kindActive] = straight * groundCircuityFactor;
   }
   if (straight >= minFlightKm) {
     result[kindAir] = straight + flightDetourKm;
@@ -177,23 +167,17 @@ Map<String, double> suggestedDistancesKm(
 /// map, or null when the pair has no suggestion for that mode.
 ///
 /// Kind-to-group mapping (Phase 8 plan): ground covers the car, bus,
-/// and rail groups; active covers the cycle family, with walking only
-/// up to [walkModeMaxKm] straight-line; ferry covers water; air
-/// covers air. Groups outside the map (micro, taxi, high impact) are
-/// never suggested. A null return only withholds the estimate -- the
-/// mode stays manually addable at any distance.
+/// and rail groups; active covers walking and the cycle family;
+/// ferry covers water; air covers air. Groups outside the map
+/// (micro, taxi, high impact) are never suggested. A null return only
+/// withholds the estimate -- the mode stays manually addable at any
+/// distance.
 double? prefillKmForMode(TransportMode mode, Map<String, double> suggestions) {
   switch (mode.group) {
     case 'car' || 'bus' || 'rail':
       return suggestions[kindGround];
     case 'active':
-      final estimate = suggestions[kindActive];
-      if (estimate == null) return null;
-      // The walk cap is on straight-line km but the estimate carries
-      // the circuity factor, so compare against the scaled cap.
-      final walksTooFar =
-          mode.id == 'walk' && estimate > walkModeMaxKm * groundCircuityFactor;
-      return walksTooFar ? null : estimate;
+      return suggestions[kindActive];
     case 'water':
       return suggestions[kindFerry];
     case 'air':

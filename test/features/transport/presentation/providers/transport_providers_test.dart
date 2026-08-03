@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+
 import 'package:seed_app/features/transport/transport.dart';
 
 void main() {
@@ -84,44 +86,76 @@ void main() {
     });
   });
 
-  group('JourneyBuilder', () {
+  group('JourneyOptions', () {
     const legA = JourneyLeg(modeId: 'a', distanceKm: 10);
     const legB = JourneyLeg(modeId: 'b', distanceKm: 20, occupants: 2);
 
-    // The provider is autoDispose by design (ephemeral screen
-    // state); a listener stands in for the screen watching it.
-    ProviderContainer createListenedContainer() =>
-        createContainer()..listen(journeyBuilderProvider, (_, _) {});
-
-    test('starts empty and adds legs in order', () {
-      final container = createListenedContainer();
-      final notifier = container.read(journeyBuilderProvider.notifier);
-      expect(container.read(journeyBuilderProvider), isEmpty);
-      notifier
-        ..addLeg(legA)
-        ..addLeg(legB);
-      expect(container.read(journeyBuilderProvider), [legA, legB]);
-    });
-
-    test('updates the leg at an index', () {
-      final container = createListenedContainer();
-      container.read(journeyBuilderProvider.notifier)
-        ..addLeg(legA)
-        ..addLeg(legB)
-        ..updateLeg(0, const JourneyLeg(modeId: 'a', distanceKm: 99));
-      expect(container.read(journeyBuilderProvider), [
-        const JourneyLeg(modeId: 'a', distanceKm: 99),
-        legB,
+    test('starts as two empty options', () {
+      final container = createContainer();
+      expect(container.read(journeyOptionsProvider), [
+        <JourneyLeg>[],
+        <JourneyLeg>[],
       ]);
     });
 
-    test('removes the leg at an index', () {
-      final container = createListenedContainer();
-      container.read(journeyBuilderProvider.notifier)
-        ..addLeg(legA)
-        ..addLeg(legB)
-        ..removeLeg(0);
-      expect(container.read(journeyBuilderProvider), [legB]);
+    test('adds legs to the named option only', () {
+      final container = createContainer();
+      container.read(journeyOptionsProvider.notifier)
+        ..addLeg(optionA, legA)
+        ..addLeg(optionB, legB)
+        ..addLeg(optionA, legB);
+      expect(container.read(journeyOptionsProvider), [
+        [legA, legB],
+        [legB],
+      ]);
+    });
+
+    test('updates and removes within one option', () {
+      final container = createContainer();
+      final notifier = container.read(journeyOptionsProvider.notifier)
+        ..addLeg(optionA, legA)
+        ..addLeg(optionA, legB)
+        ..addLeg(optionB, legA)
+        ..updateLeg(optionA, 0, const JourneyLeg(modeId: 'a', distanceKm: 99));
+      expect(container.read(journeyOptionsProvider)[optionA], [
+        const JourneyLeg(modeId: 'a', distanceKm: 99),
+        legB,
+      ]);
+
+      notifier.removeLeg(optionA, 0);
+      expect(container.read(journeyOptionsProvider), [
+        [legB],
+        [legA],
+      ]);
+    });
+
+    // Out-of-range indices are reachable from a stale rebuild, so
+    // they must no-op rather than throw and blank the screen.
+    test('ignores out-of-range options and indices', () {
+      final container = createContainer();
+      container.read(journeyOptionsProvider.notifier)
+        ..addLeg(optionA, legA)
+        ..addLeg(optionCount, legB)
+        ..addLeg(-1, legB)
+        ..removeLeg(optionA, 5)
+        ..updateLeg(optionA, -1, legB)
+        ..removeLeg(optionCount, 0);
+      expect(container.read(journeyOptionsProvider), [
+        [legA],
+        <JourneyLeg>[],
+      ]);
+    });
+
+    test('clear empties both options', () {
+      final container = createContainer();
+      container.read(journeyOptionsProvider.notifier)
+        ..addLeg(optionA, legA)
+        ..addLeg(optionB, legB)
+        ..clear();
+      expect(container.read(journeyOptionsProvider), [
+        <JourneyLeg>[],
+        <JourneyLeg>[],
+      ]);
     });
   });
 }

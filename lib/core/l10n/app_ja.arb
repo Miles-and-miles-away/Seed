@@ -1,17 +1,14 @@
 {
   "@@locale": "ja",
   "@@last_modified": "2026-06-12",
-
   "appTitle": "Seed",
   "appTagline": "サステナブルな習慣を育てよう",
-
   "navHome": "ホーム",
   "navProgress": "進捗",
   "navLogAction": "アクション",
   "navMascot": "マスコット",
   "navProfile": "プロフ",
   "navSettings": "設定",
-
   "authLogin": "ログイン",
   "authRegister": "新規登録",
   "authLogout": "ログアウト",
@@ -22,23 +19,25 @@
   "authContinueWithGoogle": "Googleで続ける",
   "authContinueWithApple": "Appleで続ける",
   "authOrDivider": "または",
-
   "homeWelcome": "おかえりなさい、{name}さん！",
   "@homeWelcome": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "homeLogAction": "アクションを記録",
   "homeRecentActions": "最近のアクション",
   "homeNoActions": "まだアクションがありません。始めましょう！",
-
   "actionLogTitle": "アクションを記録",
   "actionSearchHint": "アクションを検索...",
   "actionLogged": "記録しました！ {points}ポイント獲得",
   "@actionLogged": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "noActionsFound": "アクションが見つかりません",
@@ -47,43 +46,53 @@
   "yesterday": "昨日",
   "addNoteOptional": "メモを追加（任意）",
   "noteHint": "例：お店でマイバッグを使った",
-
   "pointsLabel": "{count, plural, other{{count}ポイント}}",
   "@pointsLabel": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "levelLabel": "レベル{level}",
   "@levelLabel": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "streakLabel": "{days}日連続",
   "@streakLabel": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "co2Saved": "{amount} CO₂削減",
   "@co2Saved": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "mascotName": "{name}",
   "@mascotName": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "mascotRename": "名前を変更",
   "mascotEvolution": "進化段階 {stage}",
   "@mascotEvolution": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
   "mascotSelectionTitle": "あなたの相棒を選ぼう",
@@ -93,11 +102,9 @@
   "mascotNameRequired": "名前を入力してください",
   "mascotNameTooLong": "名前は20文字以内にしてください",
   "mascotSelectionConfirm": "一緒に成長しよう！",
-
   "evolutionTitle": "進化！",
   "evolutionSubtitle": "あなたの相棒がもっと強くなりました！",
   "evolutionContinue": "すごい！",
-
   "profileTitle": "プロフィール",
   "profileStats": "統計",
   "profileTotalActions": "合計アクション",
@@ -108,22 +115,27 @@
   "profileNextLevel": "次のレベルまで{points}ポイント",
   "@profileNextLevel": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "profileDaysActive": "{days, plural, other{{days}日}}",
   "@profileDaysActive": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "profileEvolutionStage": "進化段階{stage}",
   "@profileEvolutionStage": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
-
   "settingsTitle": "設定",
   "settingsNotifications": "通知",
   "settingsReminderTime": "毎日のリマインダー",
@@ -137,11 +149,9 @@
   "settingsAbout": "このアプリについて",
   "settingsPrivacy": "プライバシーポリシー",
   "settingsTerms": "利用規約",
-
   "subscriptionFree": "無料",
   "subscriptionPremium": "プレミアム",
   "subscriptionUpgrade": "プレミアムにアップグレード",
-
   "categoryRecycling": "リサイクル",
   "categoryTransport": "移動",
   "categoryFood": "食事",
@@ -151,7 +161,6 @@
   "categoryCommunity": "コミュニティ",
   "categoryAdvocacy": "アドボカシー",
   "categoryLearning": "学習",
-
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
   "errorNetwork": "インターネット接続がありません。",
   "errorAuth": "認証に失敗しました。もう一度お試しください。",
@@ -170,14 +179,12 @@
   "errorAuthAccountExistsWithDifferentCredential": "このメールアドレスは別のサインイン方法で既に登録されています。",
   "errorAuthLinkExpired": "このリンクは有効期限が切れています。新しいリンクをリクエストしてください。",
   "errorAuthLinkInvalid": "このリンクは無効です。新しいリンクをリクエストしてください。",
-
   "buttonSave": "保存",
   "buttonCancel": "キャンセル",
   "buttonConfirm": "確認",
   "buttonClose": "閉じる",
   "buttonRetry": "再試行",
   "buttonContinue": "続ける",
-
   "progressTitle": "進捗",
   "progressGoalsToday": "今日の目標",
   "progressGoalReached": "日目標達成！",
@@ -188,27 +195,28 @@
   "progressTargetDescriptionModerate": "バランスの取れたチャレンジ — ほとんどのユーザーにおすすめ。",
   "progressTargetDescriptionChallenge": "野心的！環境への影響を与えることに真剣です。",
   "progressTargetDescriptionExpert": "エキスパートレベル — あなたはサステナビリティチャンピオンです！",
-
   "languageSettingsTitle": "言語",
   "languageSettingsDescription": "希望の言語を選択してください。アプリはすぐに更新されます。",
   "languageSettingsNote": "アクションライブラリの一部のコンテンツは元の言語のままになる場合があります。",
-
   "settingsNotificationsSubtitle": "{count}件のリマインダーが有効",
   "@settingsNotificationsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsNotificationsOff": "通知はオフです",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
-      "language": {"type": "String"}
+      "language": {
+        "type": "String"
+      }
     }
   },
   "settingsAccountSubtitle": "メール、パスワード、アカウント削除",
   "settingsAboutSubtitle": "バージョン、ライセンス、お問い合わせ",
-
   "accountSettingsTitle": "アカウント",
   "accountSettingsEmail": "メールアドレス",
   "accountSettingsChangeEmail": "メールアドレスを変更",
@@ -232,39 +240,41 @@
   "accountSettingsNotSet": "未設定",
   "accountSettingsDisplayNameUpdated": "表示名が更新されました",
   "accountSettingsDisplayNameRequired": "名前を入力してください",
-
   "aboutSettingsTitle": "このアプリについて",
   "aboutSettingsVersion": "バージョン",
   "aboutSettingsLicenses": "オープンソースライセンス",
   "aboutSettingsPrivacy": "プライバシーポリシー",
   "aboutSettingsTerms": "利用規約",
-
   "streakMilestoneTitle": "すごい！",
   "streakMilestoneWeeks": "{count}週間連続達成！",
   "@streakMilestoneWeeks": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneDays": "{count}日連続でアクションを記録しました！",
   "@streakMilestoneDays": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneKeepGoing": "この調子で続けましょう！",
   "streakMilestoneContinue": "続ける",
-
   "streakBrokenTitle": "連続記録が途切れました",
   "streakBrokenMessage": "大丈夫！今日から新しい記録を始めましょう。",
   "streakBrokenPrevious": "前回の記録: {count}日",
   "@streakBrokenPrevious": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakBrokenStartNew": "新しい記録を始める",
-
   "sortLabel": "並べ替え",
   "sortAlphabeticalAZ": "名前 (あ→わ)",
   "sortAlphabeticalZA": "名前 (わ→あ)",
@@ -272,22 +282,24 @@
   "sortCo2LowToHigh": "CO₂ (少ない順)",
   "sortPointsHighToLow": "ポイント (多い順)",
   "sortPointsLowToHigh": "ポイント (少ない順)",
-
   "filterBySDG": "SDGでフィルター",
   "allCategories": "すべて",
   "co2PerAction": "{amount}g CO₂",
-
   "sdgYourImpact": "あなたの影響",
   "sdgActionsLogged": "{count, plural, other{{count}件のアクションを記録}}",
   "@sdgActionsLogged": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "sdgCo2SavedForGoal": "この目標への{amount} CO₂削減",
   "@sdgCo2SavedForGoal": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "sdgRelatedActions": "関連アクション",
@@ -296,62 +308,59 @@
   "sdgLearnOnlyExplanation": "この目標は集団的な行動を必要とする体系的な問題に取り組んでいます。直接的な日々のアクションは記録できませんが、学ぶことで全体像を理解し、貢献する方法を見つけることができます。",
   "sdgWaysToContribute": "貢献する方法",
   "sdgNoActionsYet": "この目標に関連するアクションはまだ記録されていません",
-
   "learnOnlyBadge": "学ぶ",
   "learnOnlyTitle": "このアクションについて学ぶ",
   "learnOnlyDescription": "このアクションはより広いサステナビリティ目標を支援します。直接記録はできませんが、学ぶことで全体像を理解できます。",
   "learnOnlyRelatedSdgs": "関連する目標",
   "learnOnlyDismiss": "了解",
-
   "settingsAnalytics": "プライバシー",
   "settingsAnalyticsSubtitle": "匿名の使用データを共有してSeedの改善にご協力ください",
-
   "privacyPolicyTitle": "プライバシーポリシー",
   "termsOfServiceTitle": "利用規約",
   "legalLastUpdated": "最終更新日: {date}",
   "@legalLastUpdated": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "eggDiscoveryTitle": "不思議なタマゴ！",
   "eggDiscoveryMessage": "一晩で、{mascotName}のそばに不思議なタマゴが現れました！",
   "@eggDiscoveryMessage": {
     "placeholders": {
-      "mascotName": {"type": "String"}
+      "mascotName": {
+        "type": "String"
+      }
     }
   },
   "eggDiscoverySubtitle": "30日間毎日アクションを記録して孵化させよう。",
   "eggDiscoveryDismiss": "わくわくする！",
-
   "eggHatchingTitle": "孵化中！",
   "eggHatchingNamePrompt": "新しい相棒に名前をつけよう",
   "eggHatchingConfirm": "ようこそ！",
-
   "eggProgressLabel": "{current}日目/{total}日",
   "@eggProgressLabel": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-
   "mascotCollectionTitle": "マイマスコット",
   "mascotSwitchConfirm": "マスコットを切り替える？",
   "switchToMascot": "切り替え先:",
   "switchMascotButton": "切り替え",
-
   "actionLearnMore": "タップして科学を学ぶ",
-
   "maxEvolutionTitle": "最大進化！",
   "maxEvolutionSubtitle": "あなたの相棒は最高の姿に到達しました！",
   "maxEvolutionEggHint": "タマゴを育てて新しい相棒を見つけよう！",
-
   "sdgAboutGoal": "この目標について",
   "sdgViewTargets": "ターゲットを見る",
   "sdgTargetsTitle": "国連ターゲット",
-
   "notifSettingsTitle": "通知設定",
   "notifSectionNotifications": "通知",
   "notifEnableTitle": "通知を有効にする",
@@ -374,23 +383,28 @@
   "notifDeleteMessage": "{time}のリマインダーを削除しますか？",
   "@notifDeleteMessage": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "notifAdd": "追加",
-
   "settingsPreferences": "設定",
   "settingsVersionFormat": "バージョン {version}",
   "@settingsVersionFormat": {
     "placeholders": {
-      "version": {"type": "String"}
+      "version": {
+        "type": "String"
+      }
     }
   },
   "settingsNoReminders": "リマインダーが設定されていません",
   "settingsRemindersCount": "{count}件のリマインダー設定済み",
   "@settingsRemindersCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsOneReminder": "1件のリマインダー設定済み",
@@ -399,20 +413,22 @@
   "settingsRemindersPlusMore": "{time} + 他{count}件",
   "@settingsRemindersPlusMore": {
     "placeholders": {
-      "time": {"type": "String"},
-      "count": {"type": "int"}
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsErrorLoading": "設定の読み込みエラー",
   "settingsSupport": "サポート",
   "settingsFeedback": "フィードバックを送る",
   "settingsFeedbackSubtitle": "バグ報告や感想をお寄せください",
-
   "aboutLegal": "法的情報",
   "aboutFooterSdg": "Seedは国連の持続可能な開発目標に沿ったサステナブルなアクションを記録するアプリです。",
   "aboutFooterMade": "地球への思いを込めて。",
   "aboutSubtitleTracker": "サステナビリティ習慣トラッカー",
-
   "feedbackTitle": "フィードバックを送る",
   "feedbackCategoryLabel": "カテゴリー",
   "feedbackCategoryBug": "バグ報告",
@@ -424,7 +440,6 @@
   "feedbackSubmit": "送信する",
   "feedbackThanks": "フィードバックありがとうございます！",
   "feedbackMailFailed": "メールアプリを開けませんでした。もう一度お試しください。",
-
   "mascotEvolutionTimeline": "進化タイムライン",
   "mascotNextEvolution": "次の進化",
   "mascotStatsTitle": "ふたりの歩み",
@@ -434,28 +449,34 @@
   "mascotLevelShort": "Lv {level}",
   "@mascotLevelShort": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelsToGo": "{count, plural, other{あと{count}レベル}}",
   "@mascotLevelsToGo": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelProgress": "レベル {current} / {max}",
   "@mascotLevelProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "max": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
     }
   },
-
   "homeExploreGoals": "SDGsの目標を探る",
   "homeExploreGoalsSubtitle": "国連の持続可能な開発目標について学ぶ",
   "homeLearnMore": "UN.orgで詳しく見る",
   "homePoints": "ポイント",
-
   "myGoalTitle": "マイゴール",
   "myGoalEmptyPrompt": "タップしてあなたの目標を設定しましょう",
   "myGoalUpdated": "目標が更新されました",
@@ -470,18 +491,17 @@
   "personalGoalBuyLess": "買う量を減らして再利用する",
   "personalGoalInspireOthers": "友人や家族に行動を促す",
   "personalGoalSaveWorld": "世界を救う",
-
   "sdgGoalNumber": "目標 {number}",
   "@sdgGoalNumber": {
     "placeholders": {
-      "number": {"type": "int"}
+      "number": {
+        "type": "int"
+      }
     }
   },
   "sdgBadge": "国連SDG",
-
   "buttonDelete": "削除",
   "buttonSkip": "スキップ",
-
   "authWelcomeBack": "おかえりなさい",
   "authSignInSubtitle": "サステナビリティの旅を続けましょう",
   "authSignIn": "サインイン",
@@ -514,24 +534,25 @@
   "authValidationPasswordRequired": "パスワードを入力してください",
   "authValidationPasswordShort": "パスワードは6文字以上にしてください",
   "authValidationConfirmRequired": "パスワードを確認してください",
-
   "pointsAbbreviated": "{count} pts",
   "@pointsAbbreviated": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stageFallback": "ステージ {stage}",
   "@stageFallback": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
-
   "dayDetailActions": "アクション",
   "dayDetailNoActions": "この日のアクション記録はありません",
   "dayDetailFactLocked": "この日のエコファクトは解除されていません",
-
   "ecoFactTitle": "今日のエコファクト",
   "ecoFactDidYouKnow": "知っていましたか？",
   "ecoFactSource": "出典",
@@ -544,7 +565,6 @@
   "ecoFactCategoryMythBuster": "誤解を解く",
   "ecoFactCategoryNatureWonder": "自然の驚異",
   "ecoFactCategoryPositiveNews": "ポジティブニュース",
-
   "challengeDialogTitle": "今日のチャレンジ",
   "challengeDialogLater": "あとで",
   "challengeDialogLogAction": "アクションを記録",
@@ -556,14 +576,20 @@
   "challengeStreakDays": "チャレンジ{days}日連続",
   "@challengeStreakDays": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "challengeMultiDayProgress": "{target}日中{current}日目",
   "@challengeMultiDayProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "target": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
     }
   },
   "challengeCompletedSnackbar": "チャレンジ完了！エコファクトが解除されました！",
@@ -579,12 +605,13 @@
   "challengeDays": "{days, plural, other{{days}日間}}",
   "@challengeDays": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "challengeAnyCategory": "全カテゴリ",
   "challengeLocked": "ロック中",
-
   "progressCalendarTab": "カレンダー",
   "ecoDexTab": "エコ図鑑",
   "impactTab": "インパクト",
@@ -621,15 +648,21 @@
   "equivFormulaTemplate": "CO2 のグラム数 ÷ {factor}",
   "@equivFormulaTemplate": {
     "placeholders": {
-      "factor": { "type": "String" }
+      "factor": {
+        "type": "String"
+      }
     }
   },
   "ecoDexTitle": "エコ図鑑",
   "ecoDexProgress": "{discovered} / {total} 発見済み",
   "@ecoDexProgress": {
     "placeholders": {
-      "discovered": {"type": "int"},
-      "total": {"type": "int"}
+      "discovered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "ecoDexLocked": "未発見",
@@ -642,14 +675,15 @@
   "ecoDexDiscoveryMoreQueued": "他に{count}件",
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ecoDexEmptyHint": "最初のアクションを記録して最初の発見をしましょう。",
   "ecoDexInfoTooltip": "エコ図鑑について",
   "ecoDexInfoTitle": "エコ図鑑について",
   "ecoDexInfoBody": "エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。",
-
   "transportCalculatorTitle": "移動のCO2計算",
   "calculatorsSheetTitle": "計算ツール",
   "calculatorsButtonTooltip": "計算ツール",
@@ -663,6 +697,8 @@
   "transportDistanceLabel": "距離（km）",
   "transportDistanceInvalid": "0km以上の距離を入力してください",
   "transportDistanceEstimateNote": "直線距離からの概算です。実際の経路に合わせて編集できます。",
+  "transportDistanceUnknown": "不明",
+  "transportFlightBandNote": "この距離では「{band}」の係数を使用します。短距離を長距離便の係数で計算することはありません。",
   "transportOccupantsLabel": "乗車人数",
   "transportOccupantsAdd": "1人増やす",
   "transportOccupantsRemove": "1人減らす",
@@ -695,7 +731,21 @@
   "transportScienceSourcesHeading": "出典",
   "transportScienceAccessed": "{date}に取得",
   "transportComparisonTitle": "移動手段を比較",
-  "transportAddToComparison": "比較に追加",
+  "transportAddToComparison": "選択肢として追加",
+  "calculatorStagedOptions": "比較する選択肢",
+  "calculatorRemoveOption": "この選択肢を削除",
+  "calculatorEntryPreview": "これで {amount} CO2e 追加",
+  "co2eDefinitionTitle": "CO2e とは",
+  "co2eDefinitionBody": "CO2e は、メタンなど他の温室効果ガスを CO2 に換算して合計した値です。ハンバーガーと飛行機を同じ基準で比較できます。",
+  "calculatorOptionA": "選択肢 A",
+  "calculatorOptionB": "選択肢 B",
+  "calculatorDropHint": "下の項目をドラッグまたはタップして追加",
+  "calculatorAddToA": "A に追加",
+  "calculatorAddToB": "B に追加",
+  "calculatorBrowseAll": "すべて見る",
+  "transportColumnEmptyHint": "「区間を追加」をタップして経路を作りましょう",
+  "calculatorNeedBothOptions": "比較するには両方の選択肢を作成してください",
+  "calculatorRemoveEntry": "削除",
   "transportComparisonFull": "比較は満杯です（{max}件）",
   "transportCompareOptions": "{count}件を比較",
   "transportOptionStaged": "オプション{count}を追加しました",
@@ -711,8 +761,8 @@
   "transportChoseLabel": "選んだ手段",
   "transportInsteadOfLabel": "避けた手段",
   "transportChoiceDistinctHint": "記録するには異なる2つの選択肢を選んでください。",
-  "transportActionsEntryTitle": "移動手段を比較して記録",
-  "transportActionsEntrySubtitle": "排出の少ない手段を確認し、その差を貯めましょう",
+  "transportActionsEntryTitle": "カスタム移動アクションを記録",
+  "customActionBadge": "カスタム",
   "actionReproduce": "もう一度行う",
   "actionReproducedMessage": "再度記録しました",
   "foodCalculatorTitle": "食事の計算機",
@@ -726,15 +776,36 @@
   "foodQuantityLabel": "分量 (g)",
   "foodQuantityInvalid": "0 g以上の分量を入力してください",
   "foodGramsValue": "{grams} g",
-  "@foodGramsValue": { "placeholders": { "grams": { "type": "String" } } },
+  "@foodGramsValue": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "foodRemoveIngredient": "食材を削除",
   "foodItemScienceTooltip": "この係数について",
+  "foodColumnEmptyHint": "「食材を追加」をタップして献立を作りましょう",
+  "foodSearchHint": "食材を検索...",
+  "foodSearchNoResults": "一致する食材がありません。",
   "foodItemFactorPerKg": "1kgあたり{value} kg CO2e",
-  "@foodItemFactorPerKg": { "placeholders": { "value": { "type": "String" } } },
+  "@foodItemFactorPerKg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "foodScienceNotesHeading": "計算方法",
   "foodScienceSourcesHeading": "出典",
   "foodScienceAccessed": "{date}に取得",
-  "@foodScienceAccessed": { "placeholders": { "date": { "type": "String" } } },
+  "@foodScienceAccessed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "foodGroupMeat": "肉",
   "foodGroupSeafood": "魚介類",
   "foodGroupDairyEggs": "乳製品・卵",
@@ -745,30 +816,95 @@
   "foodGroupDrinks": "飲み物",
   "foodGroupTreats": "嗜好品",
   "foodGroupOils": "油",
-  "foodAddToComparison": "比較に追加",
+  "foodAddToComparison": "選択肢として追加",
   "foodComparisonFull": "比較は満杯です（{max}件）",
-  "@foodComparisonFull": { "placeholders": { "max": { "type": "int" } } },
+  "@foodComparisonFull": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "foodCompareOptions": "{count}件を比較",
-  "@foodCompareOptions": { "placeholders": { "count": { "type": "int" } } },
+  "@foodCompareOptions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodOptionStaged": "オプション{count}を追加しました",
-  "@foodOptionStaged": { "placeholders": { "count": { "type": "int" } } },
+  "@foodOptionStaged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTitle": "食事を比較",
   "foodComparisonDelta": "{label}は{worse}よりCO2eを{amount}少なく排出します（{percent}%減）",
-  "@foodComparisonDelta": { "placeholders": { "label": { "type": "String" }, "amount": { "type": "String" }, "worse": { "type": "String" }, "percent": { "type": "int" } } },
+  "@foodComparisonDelta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonCarKmEquiv": "これはガソリン車で約{km}km走らないのと同じです",
-  "@foodComparisonCarKmEquiv": { "placeholders": { "km": { "type": "int" } } },
+  "@foodComparisonCarKmEquiv": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "foodChoseLabel": "食べたもの",
   "foodInsteadOfLabel": "避けたもの",
   "foodLogChoiceBody": "これを食事のアクションとして記録し、低炭素な食事を選んで避けられた{amount}のCO2eを貯めましょう。",
-  "@foodLogChoiceBody": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodLogChoiceBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceDistinctHint": "記録するには異なる2つの食事を選んでください。",
   "foodLogChoiceCta": "{label}を選んだ",
-  "@foodLogChoiceCta": { "placeholders": { "label": { "type": "String" } } },
+  "@foodLogChoiceCta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceLoggedMessage": "記録しました。{amount}のCO2eを貯めました。",
-  "@foodChoiceLoggedMessage": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodChoiceLoggedMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodCustomActionName": "{worse}ではなく{greener}を選択",
-  "@foodCustomActionName": { "placeholders": { "greener": { "type": "String" }, "worse": { "type": "String" } } },
-  "foodActionsEntryTitle": "食事を比較して記録",
-  "foodActionsEntrySubtitle": "排出の少ない食事を確認し、その差を貯めましょう",
-  "foodMethodologyBody": "このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。\n\n### 「牛肉＝60」を見たことがあるかもしれません\nこのツールは中央値ではなく、生産量で重み付けした平均値を採用しています。よく引用される「牛肉は60 kg」はサプライチェーン損失を含まない中央値で、損失を含む平均値はより高くなります。平均値のほうが世界全体の影響をよく表すため、こちらを使用します。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」がどの指標でも「輸入した豆」に勝つことはなく、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。"
+  "@foodCustomActionName": {
+    "placeholders": {
+      "greener": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      }
+    }
+  },
+  "foodActionsEntryTitle": "カスタム食事アクションを記録",
+  "foodMethodologyBody": "このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。"
 }

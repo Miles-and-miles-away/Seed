@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+
 import 'package:seed_app/features/transport/data/cities_data.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 import 'package:seed_app/features/transport/data/models/journey_leg_model.dart';
@@ -61,63 +63,48 @@ Future<Map<String, double>> citySuggestions(Ref ref, City from, City to) async {
   return suggestedDistancesKm(from, to, links, waterBlocked: blocked);
 }
 
-/// Ephemeral journey legs for the builder screen.
+/// The legs of both journey options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: journeys are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the journey.
-@riverpod
-class JourneyBuilder extends _$JourneyBuilder {
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back (checking the methodology, popping to Actions), which
+/// autoDispose silently wiped. Still memory-only -- nothing is
+/// persisted (Phase 8 plan), so it resets when the app restarts.
+@Riverpod(keepAlive: true)
+class JourneyOptions extends _$JourneyOptions {
   @override
-  List<JourneyLeg> build() => const [];
+  List<List<JourneyLeg>> build() => List.unmodifiable([
+    for (var i = 0; i < optionCount; i++) const <JourneyLeg>[],
+  ]);
 
-  /// Appends a leg to the journey.
-  void addLeg(JourneyLeg leg) => state = [...state, leg];
+  bool _valid(int option) => option >= 0 && option < optionCount;
 
-  /// Replaces the leg at [index].
-  void updateLeg(int index, JourneyLeg leg) {
-    final legs = [...state];
+  List<List<JourneyLeg>> _withOption(int option, List<JourneyLeg> legs) =>
+      List.unmodifiable([
+        for (var i = 0; i < optionCount; i++)
+          if (i == option) List<JourneyLeg>.unmodifiable(legs) else state[i],
+      ]);
+
+  /// Appends a leg to [option].
+  void addLeg(int option, JourneyLeg leg) {
+    if (!_valid(option)) return;
+    state = _withOption(option, [...state[option], leg]);
+  }
+
+  /// Replaces the leg at [index] within [option].
+  void updateLeg(int option, int index, JourneyLeg leg) {
+    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    final legs = [...state[option]];
     legs[index] = leg;
-    state = legs;
+    state = _withOption(option, legs);
   }
 
-  /// Removes the leg at [index].
-  void removeLeg(int index) {
-    final legs = [...state]..removeAt(index);
-    state = legs;
+  /// Removes the leg at [index] within [option].
+  void removeLeg(int option, int index) {
+    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    final legs = [...state[option]]..removeAt(index);
+    state = _withOption(option, legs);
   }
 
-  /// Empties the journey (e.g. after staging it for comparison).
-  void clear() => state = const [];
-}
-
-/// Maximum journey options a comparison holds (Phase 8.3: 2-3).
-const comparisonMaxOptions = 3;
-
-/// Snapshotted journeys staged for side-by-side comparison (8.3).
-///
-/// autoDispose like [JourneyBuilder]: comparisons are ephemeral
-/// screen state, never persisted (Phase 8 plan). Each entry is a
-/// full multi-leg journey snapshot, so a door-to-door flight option
-/// keeps its airport legs.
-@riverpod
-class JourneyComparison extends _$JourneyComparison {
-  @override
-  List<List<JourneyLeg>> build() => const [];
-
-  /// Snapshots [legs] as a new option, capped at [comparisonMaxOptions].
-  /// No-ops on an empty journey or when full (the UI hides the action
-  /// at the cap, this is the belt-and-braces guard).
-  void add(List<JourneyLeg> legs) {
-    if (legs.isEmpty || state.length >= comparisonMaxOptions) return;
-    state = [...state, List.unmodifiable(legs)];
-  }
-
-  /// Removes the option at [index].
-  void removeAt(int index) {
-    final options = [...state]..removeAt(index);
-    state = options;
-  }
-
-  /// Clears all staged options.
-  void clear() => state = const [];
+  /// Empties both options (after banking a choice).
+  void clear() => state = build();
 }

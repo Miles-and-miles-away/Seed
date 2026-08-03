@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+
 import 'package:seed_app/features/food/data/food_items_data.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
@@ -27,63 +29,52 @@ Future<Map<String, FoodItem>> foodItemsById(Ref ref) async {
   return FoodCalculator.byId(items);
 }
 
-/// Maximum meal options a comparison holds (Phase 8.9: 2-3).
-// ponytail: mirrors the transport cap; a plan-level product constant.
-const comparisonMaxOptions = 3;
-
-/// Ephemeral meal ingredients for the builder screen.
+/// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: meals are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the meal.
-@riverpod
-class MealBuilder extends _$MealBuilder {
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back, which autoDispose silently wiped. Still memory-only --
+/// nothing is persisted (Phase 8 plan).
+@Riverpod(keepAlive: true)
+class MealOptions extends _$MealOptions {
   @override
-  List<MealIngredient> build() => const [];
+  List<List<MealIngredient>> build() => List.unmodifiable([
+    for (var i = 0; i < optionCount; i++) const <MealIngredient>[],
+  ]);
 
-  /// Appends an ingredient to the meal.
-  void addIngredient(MealIngredient ingredient) =>
-      state = [...state, ingredient];
+  bool _valid(int option) => option >= 0 && option < optionCount;
 
-  /// Replaces the ingredient at [index].
-  void updateIngredient(int index, MealIngredient ingredient) {
-    final ingredients = [...state];
+  List<List<MealIngredient>> _withOption(
+    int option,
+    List<MealIngredient> ingredients,
+  ) => List.unmodifiable([
+    for (var i = 0; i < optionCount; i++)
+      if (i == option)
+        List<MealIngredient>.unmodifiable(ingredients)
+      else
+        state[i],
+  ]);
+
+  /// Appends an ingredient to [option].
+  void addIngredient(int option, MealIngredient ingredient) {
+    if (!_valid(option)) return;
+    state = _withOption(option, [...state[option], ingredient]);
+  }
+
+  /// Replaces the ingredient at [index] within [option].
+  void updateIngredient(int option, int index, MealIngredient ingredient) {
+    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    final ingredients = [...state[option]];
     ingredients[index] = ingredient;
-    state = ingredients;
+    state = _withOption(option, ingredients);
   }
 
-  /// Removes the ingredient at [index].
-  void removeIngredient(int index) {
-    final ingredients = [...state]..removeAt(index);
-    state = ingredients;
+  /// Removes the ingredient at [index] within [option].
+  void removeIngredient(int option, int index) {
+    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    final ingredients = [...state[option]]..removeAt(index);
+    state = _withOption(option, ingredients);
   }
 
-  /// Empties the meal (e.g. after staging it for comparison).
-  void clear() => state = const [];
-}
-
-/// Snapshotted meals staged for side-by-side comparison (8.9).
-///
-/// autoDispose like [MealBuilder]: comparisons are ephemeral screen
-/// state, never persisted (Phase 8 plan).
-@riverpod
-class MealComparison extends _$MealComparison {
-  @override
-  List<List<MealIngredient>> build() => const [];
-
-  /// Snapshots [ingredients] as a new option, capped at
-  /// [comparisonMaxOptions]. No-ops on an empty meal or when full (the
-  /// UI hides the action at the cap; this is the belt-and-braces guard).
-  void add(List<MealIngredient> ingredients) {
-    if (ingredients.isEmpty || state.length >= comparisonMaxOptions) return;
-    state = [...state, List.unmodifiable(ingredients)];
-  }
-
-  /// Removes the option at [index].
-  void removeAt(int index) {
-    final options = [...state]..removeAt(index);
-    state = options;
-  }
-
-  /// Clears all staged options.
-  void clear() => state = const [];
+  /// Empties both options (after banking a choice).
+  void clear() => state = build();
 }

@@ -9,6 +9,103 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
+/// The shared grid-tile look for anything logged from the Action log:
+/// accent bar, icon, title and a small badge. Kept generic so entries
+/// that are not library actions (the carbon calculators) match exactly.
+class ActionTile extends StatelessWidget {
+  const ActionTile({
+    required this.accentColor,
+    required this.contentColor,
+    required this.icon,
+    required this.title,
+    required this.badgeLabel,
+    required this.onTap,
+    this.badgeIcon,
+    this.footer,
+    super.key,
+  });
+
+  final Color accentColor;
+  final Color contentColor;
+  final IconData icon;
+  final String title;
+  final String badgeLabel;
+  final IconData? badgeIcon;
+  final Widget? footer;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(height: 4, color: accentColor),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(spacingLg),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, size: 36, color: contentColor),
+                    const SizedBox(height: spacingSm),
+                    Text(
+                      title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: spacingXs),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingSm,
+                        vertical: spacingXs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: contentColor.withValues(alpha: opacityFaint),
+                        borderRadius: borderRadiusMd,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (badgeIcon != null) ...[
+                            Icon(badgeIcon, size: 12, color: contentColor),
+                            const SizedBox(width: spacingXs),
+                          ],
+                          Flexible(
+                            child: Text(
+                              badgeLabel,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: contentColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (footer != null) ...[const SizedBox(height: 6), footer!],
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// A card widget displaying an action that can be logged.
 class ActionCard extends ConsumerWidget {
   const ActionCard({
@@ -30,103 +127,21 @@ class ActionCard extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final goalMap = ref.watch(sdgGoalsDataProvider).value?.goalMap ?? {};
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Category color accent bar
-            Container(height: 4, color: categoryColor),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(spacingLg),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Icon
-                    Icon(
-                      getActionIcon(action.iconName),
-                      size: 36,
-                      color: action.isLearnOnly
-                          ? theme.colorScheme.outline
-                          : categoryColor,
-                    ),
-                    const SizedBox(height: spacingSm),
-                    // Action name
-                    Text(
-                      action.name(languageCode),
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: spacingXs),
-                    // Points badge or Learn Only badge
-                    if (action.isLearnOnly)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacingSm,
-                          vertical: spacingXs,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.outline.withValues(
-                            alpha: 0.12,
-                          ),
-                          borderRadius: borderRadiusMd,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.menu_book,
-                              size: 12,
-                              color: theme.colorScheme.outline,
-                            ),
-                            const SizedBox(width: spacingXs),
-                            Text(
-                              l10n.learnOnlyBadge,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: theme.colorScheme.outline,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    else
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacingSm,
-                          vertical: spacingXs,
-                        ),
-                        decoration: BoxDecoration(
-                          color: categoryColor.withValues(alpha: opacityFaint),
-                          borderRadius: borderRadiusMd,
-                        ),
-                        child: Text(
-                          l10n.pointsLabel(action.points),
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: categoryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    // SDG badges
-                    if (action.relatedSdgs.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      _buildSdgBadges(action.relatedSdgs, goalMap),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    final isLearnOnly = action.isLearnOnly;
+
+    return ActionTile(
+      accentColor: categoryColor,
+      contentColor: isLearnOnly ? theme.colorScheme.outline : categoryColor,
+      icon: getActionIcon(action.iconName),
+      title: action.name(languageCode),
+      badgeLabel: isLearnOnly
+          ? l10n.learnOnlyBadge
+          : l10n.pointsLabel(action.points),
+      badgeIcon: isLearnOnly ? Icons.menu_book : null,
+      footer: action.relatedSdgs.isEmpty
+          ? null
+          : _buildSdgBadges(action.relatedSdgs, goalMap),
+      onTap: onTap,
     );
   }
 

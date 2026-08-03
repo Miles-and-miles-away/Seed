@@ -1398,6 +1398,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportDistanceEstimateNote => '直線距離からの概算です。実際の経路に合わせて編集できます。';
 
   @override
+  String get transportDistanceUnknown => '不明';
+
+  @override
+  String transportFlightBandNote(String band) {
+    return 'この距離では「$band」の係数を使用します。短距離を長距離便の係数で計算することはありません。';
+  }
+
+  @override
   String get transportOccupantsLabel => '乗車人数';
 
   @override
@@ -1513,7 +1521,52 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportComparisonTitle => '移動手段を比較';
 
   @override
-  String get transportAddToComparison => '比較に追加';
+  String get transportAddToComparison => '選択肢として追加';
+
+  @override
+  String get calculatorStagedOptions => '比較する選択肢';
+
+  @override
+  String get calculatorRemoveOption => 'この選択肢を削除';
+
+  @override
+  String calculatorEntryPreview(String amount) {
+    return 'これで $amount CO2e 追加';
+  }
+
+  @override
+  String get co2eDefinitionTitle => 'CO2e とは';
+
+  @override
+  String get co2eDefinitionBody =>
+      'CO2e は、メタンなど他の温室効果ガスを CO2 に換算して合計した値です。ハンバーガーと飛行機を同じ基準で比較できます。';
+
+  @override
+  String get calculatorOptionA => '選択肢 A';
+
+  @override
+  String get calculatorOptionB => '選択肢 B';
+
+  @override
+  String get calculatorDropHint => '下の項目をドラッグまたはタップして追加';
+
+  @override
+  String get calculatorAddToA => 'A に追加';
+
+  @override
+  String get calculatorAddToB => 'B に追加';
+
+  @override
+  String get calculatorBrowseAll => 'すべて見る';
+
+  @override
+  String get transportColumnEmptyHint => '「区間を追加」をタップして経路を作りましょう';
+
+  @override
+  String get calculatorNeedBothOptions => '比較するには両方の選択肢を作成してください';
+
+  @override
+  String get calculatorRemoveEntry => '削除';
 
   @override
   String transportComparisonFull(int max) {
@@ -1586,10 +1639,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportChoiceDistinctHint => '記録するには異なる2つの選択肢を選んでください。';
 
   @override
-  String get transportActionsEntryTitle => '移動手段を比較して記録';
+  String get transportActionsEntryTitle => 'カスタム移動アクションを記録';
 
   @override
-  String get transportActionsEntrySubtitle => '排出の少ない手段を確認し、その差を貯めましょう';
+  String get customActionBadge => 'カスタム';
 
   @override
   String get actionReproduce => 'もう一度行う';
@@ -1639,6 +1692,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodItemScienceTooltip => 'この係数について';
 
   @override
+  String get foodColumnEmptyHint => '「食材を追加」をタップして献立を作りましょう';
+
+  @override
+  String get foodSearchHint => '食材を検索...';
+
+  @override
+  String get foodSearchNoResults => '一致する食材がありません。';
+
+  @override
   String foodItemFactorPerKg(String value) {
     return '1kgあたり$value kg CO2e';
   }
@@ -1685,7 +1747,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodGroupOils => '油';
 
   @override
-  String get foodAddToComparison => '比較に追加';
+  String get foodAddToComparison => '選択肢として追加';
 
   @override
   String foodComparisonFull(int max) {
@@ -1750,12 +1812,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get foodActionsEntryTitle => '食事を比較して記録';
-
-  @override
-  String get foodActionsEntrySubtitle => '排出の少ない食事を確認し、その差を貯めましょう';
+  String get foodActionsEntryTitle => 'カスタム食事アクションを記録';
 
   @override
   String get foodMethodologyBody =>
-      'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。\n\n### 「牛肉＝60」を見たことがあるかもしれません\nこのツールは中央値ではなく、生産量で重み付けした平均値を採用しています。よく引用される「牛肉は60 kg」はサプライチェーン損失を含まない中央値で、損失を含む平均値はより高くなります。平均値のほうが世界全体の影響をよく表すため、こちらを使用します。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」がどの指標でも「輸入した豆」に勝つことはなく、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
+      'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
 }

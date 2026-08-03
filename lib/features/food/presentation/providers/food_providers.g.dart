@@ -147,111 +147,44 @@ final class FoodItemsByIdProvider
 
 String _$foodItemsByIdHash() => r'6d144f46b7a96a67e2a98a689731b9d5f380c804';
 
-/// Ephemeral meal ingredients for the builder screen.
+/// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: meals are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the meal.
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back, which autoDispose silently wiped. Still memory-only --
+/// nothing is persisted (Phase 8 plan).
 
-@ProviderFor(MealBuilder)
-final mealBuilderProvider = MealBuilderProvider._();
+@ProviderFor(MealOptions)
+final mealOptionsProvider = MealOptionsProvider._();
 
-/// Ephemeral meal ingredients for the builder screen.
+/// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
-/// autoDispose by design: meals are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the meal.
-final class MealBuilderProvider
-    extends $NotifierProvider<MealBuilder, List<MealIngredient>> {
-  /// Ephemeral meal ingredients for the builder screen.
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back, which autoDispose silently wiped. Still memory-only --
+/// nothing is persisted (Phase 8 plan).
+final class MealOptionsProvider
+    extends $NotifierProvider<MealOptions, List<List<MealIngredient>>> {
+  /// The ingredients of both meal options, indexed [optionA] / [optionB].
   ///
-  /// autoDispose by design: meals are screen state, never persisted
-  /// (Phase 8 plan), so leaving the calculator resets the meal.
-  MealBuilderProvider._()
+  /// keepAlive: an in-progress comparison must survive navigating away
+  /// and back, which autoDispose silently wiped. Still memory-only --
+  /// nothing is persisted (Phase 8 plan).
+  MealOptionsProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'mealBuilderProvider',
-        isAutoDispose: true,
+        name: r'mealOptionsProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$mealBuilderHash();
+  String debugGetCreateSourceHash() => _$mealOptionsHash();
 
   @$internal
   @override
-  MealBuilder create() => MealBuilder();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<MealIngredient> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<MealIngredient>>(value),
-    );
-  }
-}
-
-String _$mealBuilderHash() => r'336099ab617ff4cff09671724ff516d0c451f3b6';
-
-/// Ephemeral meal ingredients for the builder screen.
-///
-/// autoDispose by design: meals are screen state, never persisted
-/// (Phase 8 plan), so leaving the calculator resets the meal.
-
-abstract class _$MealBuilder extends $Notifier<List<MealIngredient>> {
-  List<MealIngredient> build();
-  @$mustCallSuper
-  @override
-  WhenComplete runBuild() {
-    final ref = this.ref as $Ref<List<MealIngredient>, List<MealIngredient>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<MealIngredient>, List<MealIngredient>>,
-              List<MealIngredient>,
-              Object?,
-              Object?
-            >;
-    return element.handleCreate(ref, build);
-  }
-}
-
-/// Snapshotted meals staged for side-by-side comparison (8.9).
-///
-/// autoDispose like [MealBuilder]: comparisons are ephemeral screen
-/// state, never persisted (Phase 8 plan).
-
-@ProviderFor(MealComparison)
-final mealComparisonProvider = MealComparisonProvider._();
-
-/// Snapshotted meals staged for side-by-side comparison (8.9).
-///
-/// autoDispose like [MealBuilder]: comparisons are ephemeral screen
-/// state, never persisted (Phase 8 plan).
-final class MealComparisonProvider
-    extends $NotifierProvider<MealComparison, List<List<MealIngredient>>> {
-  /// Snapshotted meals staged for side-by-side comparison (8.9).
-  ///
-  /// autoDispose like [MealBuilder]: comparisons are ephemeral screen
-  /// state, never persisted (Phase 8 plan).
-  MealComparisonProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'mealComparisonProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$mealComparisonHash();
-
-  @$internal
-  @override
-  MealComparison create() => MealComparison();
+  MealOptions create() => MealOptions();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<List<MealIngredient>> value) {
@@ -262,14 +195,15 @@ final class MealComparisonProvider
   }
 }
 
-String _$mealComparisonHash() => r'22ee41284b983152a2dbed690726490fe249e3eb';
+String _$mealOptionsHash() => r'3fc9d54337bcecbe9f233c726504eae144d72c5c';
 
-/// Snapshotted meals staged for side-by-side comparison (8.9).
+/// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
-/// autoDispose like [MealBuilder]: comparisons are ephemeral screen
-/// state, never persisted (Phase 8 plan).
+/// keepAlive: an in-progress comparison must survive navigating away
+/// and back, which autoDispose silently wiped. Still memory-only --
+/// nothing is persisted (Phase 8 plan).
 
-abstract class _$MealComparison extends $Notifier<List<List<MealIngredient>>> {
+abstract class _$MealOptions extends $Notifier<List<List<MealIngredient>>> {
   List<List<MealIngredient>> build();
   @$mustCallSuper
   @override

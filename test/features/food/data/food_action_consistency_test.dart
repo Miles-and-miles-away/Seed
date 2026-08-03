@@ -71,11 +71,12 @@ void main() {
   }
 
   test('meatless_meal_beef matches the dataset within 10%', () {
-    // 9948 - 200 = 9748 -> ships 9700 (savings always round
-    // DOWN). The legacy 6000 g encoded the median 60 kg/kg.
+    // 7036 - 200 = 6836 -> ships 6800 (savings always round
+    // DOWN). Tracks the production-weighted beef value 70.3608
+    // (D6); the legacy 9700 encoded the beef-herd-only 99.48.
     expectWithinTolerance(
       'meatless_meal_beef',
-      impliedGrams('beef_beef_herd', plantAltBaselineG),
+      impliedGrams('beef', plantAltBaselineG),
     );
   });
 

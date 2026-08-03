@@ -2590,7 +2590,7 @@ abstract class AppLocalizations {
   /// **'Add a leg to build your journey and see its CO2e footprint.'**
   String get transportJourneyEmpty;
 
-  /// No description provided for @transportAddLeg.
+  /// Button under each journey column that opens the mode picker for that column
   ///
   /// In en, this message translates to:
   /// **'Add leg'**
@@ -2631,6 +2631,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimate derived from city locations. Edit it to match your route.'**
   String get transportDistanceEstimateNote;
+
+  /// Placeholder in the leg editor's distance field when the chosen city pair has no estimate for this mode (water-blocked or out of range); clears on focus so the user can type
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get transportDistanceUnknown;
+
+  /// Shown in the leg editor when the leg's cities imply a different flight band than the air mode picked
+  ///
+  /// In en, this message translates to:
+  /// **'This distance uses the {band} factor, so a short hop is never priced as a long-haul flight.'**
+  String transportFlightBandNote(String band);
 
   /// No description provided for @transportOccupantsLabel.
   ///
@@ -2827,8 +2839,92 @@ abstract class AppLocalizations {
   /// No description provided for @transportAddToComparison.
   ///
   /// In en, this message translates to:
-  /// **'Add to comparison'**
+  /// **'Add as option'**
   String get transportAddToComparison;
+
+  /// Heading above the staged comparison option chips in the transport and food calculator builders
+  ///
+  /// In en, this message translates to:
+  /// **'Options to compare'**
+  String get calculatorStagedOptions;
+
+  /// Tooltip on the delete button of a staged comparison option chip
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this option'**
+  String get calculatorRemoveOption;
+
+  /// Live CO2e preview in the leg/ingredient editor, recomputed as distance, quantity or occupancy changes
+  ///
+  /// In en, this message translates to:
+  /// **'This adds {amount} CO2e'**
+  String calculatorEntryPreview(String amount);
+
+  /// Title of the dialog explaining the CO2e unit, opened from the tappable CO2e amount
+  ///
+  /// In en, this message translates to:
+  /// **'What is CO2e?'**
+  String get co2eDefinitionTitle;
+
+  /// Plain-language definition of CO2e shown in that dialog
+  ///
+  /// In en, this message translates to:
+  /// **'CO2e counts methane and other greenhouse gases as their CO2 equivalent, so a burger and a flight compare fairly.'**
+  String get co2eDefinitionBody;
+
+  /// Header of the first comparison column
+  ///
+  /// In en, this message translates to:
+  /// **'Option A'**
+  String get calculatorOptionA;
+
+  /// Header of the second comparison column
+  ///
+  /// In en, this message translates to:
+  /// **'Option B'**
+  String get calculatorOptionB;
+
+  /// Empty-state hint inside a comparison column
+  ///
+  /// In en, this message translates to:
+  /// **'Drag or tap an item below to add it here'**
+  String get calculatorDropHint;
+
+  /// Button adding the selected item to column A
+  ///
+  /// In en, this message translates to:
+  /// **'Add to A'**
+  String get calculatorAddToA;
+
+  /// Button adding the selected item to column B
+  ///
+  /// In en, this message translates to:
+  /// **'Add to B'**
+  String get calculatorAddToB;
+
+  /// Opens the full grouped picker from the item pool
+  ///
+  /// In en, this message translates to:
+  /// **'Browse all'**
+  String get calculatorBrowseAll;
+
+  /// Placeholder shown in an empty journey column
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Add leg to start this journey'**
+  String get transportColumnEmptyHint;
+
+  /// Shown in place of the result when one column is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Build both options to compare them'**
+  String get calculatorNeedBothOptions;
+
+  /// Tooltip on the remove button of a card inside a comparison column
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get calculatorRemoveEntry;
 
   /// No description provided for @transportComparisonFull.
   ///
@@ -2928,14 +3024,14 @@ abstract class AppLocalizations {
   /// No description provided for @transportActionsEntryTitle.
   ///
   /// In en, this message translates to:
-  /// **'Compare & log a transport choice'**
+  /// **'Log a Custom Transport action'**
   String get transportActionsEntryTitle;
 
-  /// No description provided for @transportActionsEntrySubtitle.
+  /// No description provided for @customActionBadge.
   ///
   /// In en, this message translates to:
-  /// **'See which option emits less, then bank the difference'**
-  String get transportActionsEntrySubtitle;
+  /// **'Custom'**
+  String get customActionBadge;
 
   /// No description provided for @actionReproduce.
   ///
@@ -2973,7 +3069,7 @@ abstract class AppLocalizations {
   /// **'Add an ingredient to build your meal and see its CO2e footprint.'**
   String get foodMealEmpty;
 
-  /// No description provided for @foodAddIngredient.
+  /// Button under each meal column that opens the food picker for that column
   ///
   /// In en, this message translates to:
   /// **'Add ingredient'**
@@ -3026,6 +3122,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About this factor'**
   String get foodItemScienceTooltip;
+
+  /// Placeholder shown in an empty meal column
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Add ingredient to start this meal'**
+  String get foodColumnEmptyHint;
+
+  /// Hint text in the food picker search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search foods...'**
+  String get foodSearchHint;
+
+  /// Shown when a food picker search returns nothing
+  ///
+  /// In en, this message translates to:
+  /// **'No foods match that search.'**
+  String get foodSearchNoResults;
 
   /// No description provided for @foodItemFactorPerKg.
   ///
@@ -3114,7 +3228,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodAddToComparison.
   ///
   /// In en, this message translates to:
-  /// **'Add to comparison'**
+  /// **'Add as option'**
   String get foodAddToComparison;
 
   /// No description provided for @foodComparisonFull.
@@ -3203,19 +3317,13 @@ abstract class AppLocalizations {
   /// No description provided for @foodActionsEntryTitle.
   ///
   /// In en, this message translates to:
-  /// **'Compare & log a food choice'**
+  /// **'Log a Custom Food action'**
   String get foodActionsEntryTitle;
-
-  /// No description provided for @foodActionsEntrySubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'See which meal emits less, then bank the difference'**
-  String get foodActionsEntrySubtitle;
 
   /// No description provided for @foodMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together.\n\n### You may have seen \'beef = 60\'\nThis tool ships the study\'s production-weighted means, not its medians. The widely shared \'beef is 60 kg\' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
   String get foodMethodologyBody;
 }
 

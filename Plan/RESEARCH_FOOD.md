@@ -5,11 +5,13 @@
 **Status:** Assembled from the five research tracks and three
 adversarial check reports (math, quotes, coherence). All corrections
 from the 2026-07-18 adversarial data review applied;
-owner decisions D1-D3 (2026-07-18) applied. 42 items decided (37 at
-the first pass; fish (wild-caught), plant-based meat and tea added
-2026-07-19 closing the review product calls; small oily fish and
-canned beans added 2026-07-20 closing the follow-up open items);
-open items tracked in section 9.
+owner decisions D1-D3 (2026-07-18) applied. 43 items decided,
+**42 shipped** (37 at the first pass; fish (wild-caught),
+plant-based meat and tea added 2026-07-19 closing the review
+product calls; small oily fish and canned beans added 2026-07-20
+closing the follow-up open items; beef dairy-herd retired into a
+single beef item 2026-08-01 by D5; prawns (wild-caught) added
+2026-08-02 by research pass); open items tracked in section 9.
 **Feeds:** `data/app/food_items.json` (Phase 8.7, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 2)
 
@@ -182,7 +184,7 @@ Conventions:
   unavailable or retired; any fallback item must disclose its
   statistic in `calculation_notes` and the science sheet.
 - **Per item, record statistic AND losses basis** (data-review rule).
-  All 42 items below are mean-with-losses except where the
+  All 42 shipped items below are mean-with-losses except where the
   chosen-values table says otherwise (butter, oats, beer,
   bread/pasta, and the 2026-07 additions fish (wild-caught),
   plant-based meat, tea, small oily fish and canned beans -- each
@@ -191,7 +193,22 @@ Conventions:
   (rice 150 g raw -> ~330 g cooked, ~2.2x by weight); presets
   encode raw portions and the quantity editor must say so.
 - **Liquids at density 1.0**: per-litre = per-kg (real densities
-  0.99-1.04; error < 1.5%, disclosed).
+  0.99-1.04; error < 1.5%, disclosed). **EXCEPTION -- OILS (D7,
+  2026-08-01):** P&N's functional unit for oils is ONE LITRE
+  (Supplementary Materials Table S1, verbatim: "Oil crops
+  1 liter of refined/filtered oil"), and OWID publishes the value
+  unconverted. Oils are ~0.90-0.92 kg/L, so the density-1.0
+  convention understates every oil by 9-11%. Each oil is now
+  divided by the density implied by its own USDA FDC serving
+  portion, so the factor and the preset in a row cannot disagree.
+  Table S1 also declares Milk, soy milk, beer and wine per litre
+  (these are near 1.0 and stay as-is, but the fat/alcohol specs
+  matter for derivations) -- and it declares MEAT as "1 kg of fat
+  and bone-free meat and edible offal", FISH as "1 kg of edible
+  fish" and CRUSTACEANS as "1 kg of head-free meat (shell-free
+  for large shrimp)", which the dataset-wide "as-purchased"
+  wording contradicts. See Plan/FOOD_ITEMS_V2_LIST.md section 9
+  for the full verified table.
 - **Excluded everywhere:** retail-to-home transport, home cooking
   and refrigeration energy, household waste. Home energy belongs
   to Part 3.
@@ -226,8 +243,7 @@ Conventions:
 
 | Item | kg CO2e/kg | Statistic | Confidence |
 |------|-----------:|-----------|------------|
-| Beef (beef herd) | 99.48 | mean w/ losses | High |
-| Beef (dairy herd) | 33.30 | mean w/ losses | High |
+| Beef | 70.3608 | production-weighted mean of the two P&N beef rows (D6) | High |
 | Lamb | 39.72 | mean w/ losses | High |
 | Pork | 12.31 | mean w/ losses | High |
 | Chicken | 9.87 | mean w/ losses | High |
@@ -387,6 +403,57 @@ abstract, magnitude corroboration only), verbatim: "fisheries
 consumed 40 billion litres of fuel in 2011 and generated a total
 of 179 million tonnes of CO2-equivalent GHGs (4% of global food
 production)".
+
+**Prawns (wild-caught) -- added 2026-08-02 (owner research pass),
+not in P&N.** The per-kg P&N grapher has only a farmed prawn row, so
+wild-prawn eaters had no item and the farmed factor was the nearest
+(wrong-direction) proxy.
+
+Unlike fish (wild-caught), Gephart et al. 2021 publishes **both**
+prawn variants at one boundary, which makes the like-for-like
+comparison directly observable. Verbatim from
+`ghg-emissions-seafood.csv` (accessed 2026-08-02):
+
+> "Shrimp (wild),2021,11.956739"
+> "Shrimp (farmed),2021,9.428016"
+
+**Wild is 1.2682x farmed** -- wild prawns are worse, not better.
+Trawling for prawns is among the most fuel-intensive fishing there
+is (Parker et al. 2018: crustacean fisheries top the fuel-use
+table). This is the counterintuitive finding of the pass and the
+thing the item exists to communicate.
+
+Candidate table:
+
+| Value | Construction / boundary | Verdict |
+|------:|-------------------------|---------|
+| 18.60 | fish_wild recipe: Gephart wild 11.9567 + P&N prawn post-farmgate excl. losses (1.21936) x prawn loss uplift (41.1%) | **rejected** |
+| **34.08** | ratio-scaled onto the dataset's P&N anchor: 26.8659 x (11.956739 / 9.428016) = 34.0717, rounded up | **chosen** |
+
+The additive recipe is the one fish_wild uses, and it was still
+rejected, because here we can test it. Run it on Gephart's *farmed*
+shrimp and it returns **15.03** where P&N gives **26.87** -- the two
+sources disagree about prawns by ~1.8x, so the additive route lands
+on Gephart's scale, not this dataset's. Shipping 18.60 next to the
+farmed 26.87 would have told users wild prawns are 31% BETTER than
+farmed when the only like-for-like evidence says 27% worse. An
+inverted ordering is a wrong answer, not an imprecise one.
+
+Ratio-scaling keeps the ordering honest on the P&N scale. Its own
+weakness, stated plainly: it implicitly scales land-use-change and
+feed stages that a wild fishery does not have. Treat the absolute
+value as bracketed by 18.60 (Gephart scale) and 34.08 (P&N scale);
+**the ordering wild > farmed is the robust part, the absolute value
+is Medium confidence.** P&N stage row used for the anchor, verbatim
+from `food-emissions-supply-chain.csv` (accessed 2026-08-02):
+
+> "Shrimps (farmed),2018,0.33056307,13.453979,4.0299387,0,0.33085158,0.3523611,0.5361473,7.832022"
+
+(sum 26.8659, matching the shipped 26.87.)
+
+Pinned by invariants 18 and 19: wild > farmed, the ratio tracks
+Gephart within 1%, the value is 34.08, and beef stays the dataset
+maximum (34.08 lands 4th, above coffee, below lamb).
 
 Caveats for the science sheet: assembled value with mixed
 boundaries; the edible-weight basis coincides with as-purchased
@@ -1284,12 +1351,12 @@ carries per-item `sources[]` built from those.
 
 | id | Item | kg CO2e/kg | Statistic / basis | Confidence |
 |----|------|-----------:|-------------------|------------|
-| beef_herd | Beef (beef herd) | 99.48 | P&N mean w/ losses | High |
-| beef_dairy | Beef (dairy herd) | 33.30 | P&N mean w/ losses | High |
+| beef | Beef | 70.3608 | 0.56 x 99.48 + 0.44 x 33.30, OWID production weights (D6) | High |
 | lamb | Lamb | 39.72 | P&N mean w/ losses ("Lamb & Mutton") | High |
 | pork | Pork | 12.31 | P&N mean w/ losses ("Pig Meat") | High |
 | chicken | Chicken | 9.87 | P&N mean w/ losses ("Poultry Meat") | High |
 | prawns_farmed | Prawns (farmed) | 26.87 | P&N mean w/ losses (supply CSV row "Shrimps (farmed)") | Medium-High |
+| prawns_wild | Prawns (wild-caught) | 34.08 | non-P&N; Gephart 2021 wild/farmed ratio (1.2682) scaled onto the P&N farmed anchor; wild is WORSE than farmed (added 2026-08-02) | Medium |
 | fish_farmed | Fish (farmed) | 13.63 | P&N mean w/ losses | High -> Medium-High (coarse category) |
 | fish_wild | Fish (wild-caught) | 9.50 | non-P&N; Gephart 2021 wild fisheries completed with P&N post-farmgate stages; mean of wild-mix 9.05 and canned-tuna 9.53, rounded up (added 2026-07-19) | Medium |
 | small_fish | Small oily fish (sardines, mackerel) | 5.5 | non-P&N; Gephart herring/sardines row completed as fish_wild; mean of fresh 5.17 and canned 5.78, rounded up (added 2026-07-20) | Medium-High |
@@ -1318,8 +1385,8 @@ carries per-item `sources[]` built from those.
 | berries | Berries | 1.53 | P&N mean w/ losses ("Berries & Grapes" blend) | Medium |
 | dark_chocolate | Dark chocolate | 46.65 | P&N mean w/ losses (D1; median 18.7 = fallback provenance only) | Medium |
 | cane_sugar | Cane sugar | 3.20 | P&N mean w/ losses | Medium-High |
-| olive_oil | Olive oil | 5.42 | P&N mean w/ losses (supply-chain sum; net-negative LUC) | Medium |
-| palm_oil | Palm oil | 7.32 | P&N mean w/ losses (supply-chain sum; LUC 38%) | Medium |
+| olive_oil | Olive oil | 5.941953 | P&N supply-chain sum 5.424876 per LITRE / 0.912979 kg/L (D7) | Medium |
+| palm_oil | Palm oil | 7.955247 | P&N supply-chain sum 7.316771 per LITRE / 0.919741 kg/L (D7) | Medium |
 | coffee | Coffee (dry grounds) | 28.53 | P&N mean w/ losses, per kg roasted; per-cup preset is the entry path | High (anchor) / Medium (per cup) |
 | tea | Tea (green or black) | 9.0 | non-P&N; mean of 4 boiling-stripped tea LCAs (8.70 / 8.90 / 12.42 / 6.13), per kg dry leaves (added 2026-07-19; JP sencha LCA verified 2026-07-20 at 6.28-8.51, consistent) | Medium |
 | beer | Beer | 1.2 | D2: P&N mean, per-alcohol-unit derived to per L | Medium |
@@ -1337,10 +1404,75 @@ Notes bound to owner decisions (all 2026-07-18):
 - **D3 (oats):** 1.84 = (2.48 + 1.20)/2, both inputs access-dated
   2026-07-18; arithmetic in calculation_notes; re-read the live
   input at the next data pass.
+- **D8 (sugar, 2026-08-02):** `cane_sugar` 3.20 -> `sugar`
+  2.922. Same defect as D5: OWID ships "Cane Sugar" 3.20 and
+  "Beet Sugar" 1.81 as separate rows (77% apart), and the bag
+  does not say which. Weighted by the European Commission's
+  published split -- "beet sugar represents only 20% of the
+  world's sugar production, with the other 80% produced from
+  sugar cane" -- 0.80 x 3.20 + 0.20 x 1.81 = 2.922. The id
+  changed, so stored logs need a migration.
+- **D9 (pasta, 2026-08-02):** 1.57 -> 2.290444. P&N's
+  "Wheat & Rye" functional unit is "1 kg of bread (variable
+  protein wheat)" (Table S1), not grain. Bread is 39.2% water and
+  dry pasta 11.3% (MEXT 01026, 01063), so the shipped value
+  understated dry pasta by 46%. 1.57 / 0.608 x 0.887 = 2.290444.
+  Moisture correction only -- baking and drying energy remain
+  uncounted. `bread` 1.57 is unchanged and correct: it IS the
+  functional unit, so its notes calling it a derived grain mean
+  were wrong and have been fixed.
+- **D10 (peas, 2026-08-02):** 0.98 -> 0.53, and the item moved
+  from `plant_protein` to `vegetables`. P&N's "Peas" row is
+  "1 kg of dry pea without pod" -- split peas, not the frozen
+  bag the item's own preset describes. P&N files green peas under
+  Vegetables in its own figure caption, so the item is now on the
+  "Other Vegetables" category anchor with that disclosed. The old
+  value overstated frozen peas by 85%.
+- **D7 (oil units, 2026-08-01):** oils were shipped as per-litre
+  values in a per-kg field. Corrected: olive 5.42 -> 5.941953,
+  palm 7.32 -> 7.955247. The row's own FDC tablespoon portion
+  supplies the density, because the previous state used ~0.91
+  g/mL for the preset and 1.00 g/mL for the factor -- two
+  densities for one substance in one row.
+- **D6 (beef value, 2026-08-01):** the single beef item ships at
+  **70.3608**, the production-weighted mean of the two P&N rows.
+  The weights are OWID's own, published with their arithmetic:
+  "Around 56% of global beef production comes from dedicated beef
+  herds; and 44% from dairy herds"
+  (https://ourworldindata.org/less-meat-or-sustainable-meat,
+  verified live 2026-08-01), corroborated by FAO/GLEAM (Opio et
+  al. 2013 p.21, 56%/44% of 61.4 Mt in 2005). OWID applies the
+  same operator to its per-100g-protein means (0.56 x 50 + 0.44 x
+  17 = 35). Keeping 99.48 for a merged item would have shipped a
+  sub-population value under a category label -- the only such
+  case in the dataset -- and overstated the global product by 41%.
+  Known residual: production shares are not consumption shares.
+  EU/UK beef is majority dairy-herd (~53); Japanese *consumed*
+  beef is ~80% beef-herd via US/AU imports (~86). 70.36 is the
+  least-wrong single global value and the science sheet says so.
+  `meatless_meal_beef` moves 9700 -> 6800 g with it.
+- **D5 (beef item, owner call 2026-08-01):** the dairy-herd item is
+  **dropped**; a single `Beef` ships at the beef-herd 99.48. No
+  label, menu or receipt tells a shopper which herd their beef
+  came from, so the split asked users a question they cannot
+  answer and put a 3x fork on the dataset's largest value. The
+  dairy-herd row stays in section 3.1's provenance and in the
+  science-sheet copy as *context*, never as a pickable item.
+  Retires safe pin 3.
 
 ---
 
 ## 5. Serving Presets (sourced raw as-purchased weights)
+
+**Display names are metric only** (2026-08-02): grams, or
+millilitres for drinks. No preset name uses oz, cups, pints or
+quarter-pounds; pinned by invariant 17. The Derivation column
+below still cites oz and tbsp where the SOURCE defines the portion
+that way (USDA RACC/FDC, USDA Food Buying Guide) -- that is
+provenance and must stay, or the weights cannot be checked against
+the source. "Cup" was also dropped from the coffee and tea presets
+in favour of "mug": a cup of coffee is a vessel, but the word
+collides with the US cup measure.
 
 Grams from FDA RACC (21 CFR 101.12 Table 2) or USDA FoodData
 Central portion data unless noted; all accessed 2026-07-18. All
@@ -1350,13 +1482,13 @@ agent.
 
 | Item | Preset | Grams | Source basis |
 |------|--------|------:|--------------|
-| Beef (both) | 1 quarter-pound patty | 113 | definitional 4 oz = 113.4 g |
-| Beef (both) | 1 steak (medium) | 225 | ~8 oz culinary standard (226.8 g) |
+| Beef | 1 patty (113 g) | 113 | definitional 4 oz = 113.4 g |
+| Beef | 1 steak (medium) | 225 | ~8 oz culinary standard (226.8 g) |
 | Lamb | 1 loin chop | 85 | ~3 oz raw chop (RACC neighbourhood) |
 | Lamb | 1 serving | 110 | FDA RACC uncooked entree, quote below |
 | Pork | 1 pork chop (boneless) | 140 | USDA FDC 167907 "200 calorie serving (139g)" |
 | Chicken | 1 breast fillet | 170 | between USDA FDC 171077 half-piece (272/2 = 136 g) and a typical large retail fillet (~200 g); plan's 120/150 g undershoot |
-| Chicken | 3 oz serving | 85 | USDA FDC 171077 "3 oz (85g)" |
+| Chicken | 1 serving (85 g) | 85 | USDA FDC 171077 "3 oz (85g)" |
 | Prawns (farmed) | 1 portion | 110 | FDA RACC uncooked fish/shellfish |
 | Prawns (farmed) | small portion | 85 | USDA/FDA 3 oz serving equivalent |
 | Fish (farmed) | 1 fillet | 110 | FDA RACC uncooked |
@@ -1367,22 +1499,22 @@ agent.
 | Small oily fish | 1 sardine can (drained) | 92 | USDA FDC 175139 "1 can (3.75 oz) = 92 g" drained solids; FDA canned-fish RACC 85 g is the US-serving alternate |
 | Small oily fish | 1 sardine (edible portion) | 32 | Slism "マイワシ 1尾 80gの可食部 32g"; MEXT food composition DB まいわし/生 refuse rate 60% corroborates (closed 2026-07-20) |
 | Cheese | 1 slice | 22 | typical pre-sliced cheddar slice |
-| Cheese | 1 portion (1 oz) | 30 | FDA RACC "Cheese, all others" 30 g |
+| Cheese | 1 portion (30 g) | 30 | FDA RACC "Cheese, all others" 30 g |
 | Butter | 1 tbsp | 14.2 | USDA FDC 173410 direct portion, quote below (closed 2026-07-19; replaces the earlier density derivation) |
 | Butter | 1 pat | 5 | standard restaurant pat (USDA ~5 g) |
 | Eggs | 1 large egg | 50 | FDA RACC "Eggs (all sizes) 50 g", label "1 large" |
 | Milk | 1 glass | 200 | common 200 ml glass |
-| Milk | 1 cup | 240 | FDA RACC "Milk ... 240 mL" |
-| Tofu | 1 serving (3 oz) | 85 | FDA RACC "Tofu, tempeh 85 g" |
+| Milk | 1 glass (240 ml) | 240 | FDA RACC "Milk ... 240 mL" |
+| Tofu | 1 serving (85 g) | 85 | FDA RACC "Tofu, tempeh 85 g" |
 | Tofu | 1/2 block | 175 | half a typical ~350 g retail block |
 | Beans/lentils | 1 serving (dry) | 35 | FDA RACC "35 g dry" -- physically consistent with the dry-basis factor |
 | Beans (canned) | 1 serving (drained) | 130 | FDA RACC "130 g ... canned in liquid" (drained-basis item added 2026-07-20; the old half-can preset on the dry item is retired) |
 | Beans (canned) | 1/2 can (drained) | 150 | USDA Food Buying Guide "1 No. 300 can = about 10.5 oz (1-3/8 cups) heated, drained beans" -> 298 g/can, half rounded up |
 | Beans (canned) | 1 can (drained) | 300 | same USDA FBG yield, 298 g rounded up |
 | Peas | 1 serving | 85 | FDA RACC vegetables "85 g fresh or frozen" |
-| Nuts | 1 handful (1 oz) | 30 | FDA RACC "Nuts, seeds ... 30 g" |
-| Plant-based meat | 1 quarter-pound patty | 113 | definitional 4 oz = 113.4 g; matches the beef patty preset so the burger swap is like for like; the flagship LCAs use the same functional unit ("¼ pound Beyond Burger") |
-| Rice | 1 rice-cooker cup (dry) | 150 | Just One Cookbook, quote below (JP primary market) |
+| Nuts | 1 handful (30 g) | 30 | FDA RACC "Nuts, seeds ... 30 g" |
+| Plant-based meat | 1 patty (113 g) | 113 | definitional 4 oz = 113.4 g; matches the beef patty preset so the burger swap is like for like; the flagship LCAs use the same functional unit ("¼ pound Beyond Burger") |
+| Rice | 1 rice-cooker measure (150 g, dry) | 150 | Just One Cookbook, quote below (JP primary market) |
 | Rice | 1 serving (dry) | 45 | FDA RACC "Grains ... 140 g prepared; 45 g dry" |
 | Bread (wheat) | 1 slice | 50 | FDA RACC row quoted below (QA-5 exact name) |
 | Bread (wheat) | 2 slices / sandwich | 100 | 2 x RACC slice |
@@ -1394,7 +1526,7 @@ agent.
 | Tomatoes | 1 medium tomato | 123 | USDA "1 medium whole (2-3/5 inch dia) (123g)" |
 | Tomatoes | 1 cherry tomato | 17 | USDA "1 cherry (17g)" |
 | Root vegetables | 1 medium carrot | 61 | USDA carrot "1 medium (61g)" |
-| Root vegetables | 1 cup chopped | 128 | USDA carrot "1 cup chopped (128g)" |
+| Root vegetables | 1 portion, chopped (128 g) | 128 | USDA carrot "1 cup chopped (128g)" |
 | Cabbage & broccoli | 1 cup broccoli, chopped | 91 | USDA broccoli "1 cup chopped (91g)" |
 | Cabbage & broccoli | 1 broccoli stalk | 151 | USDA broccoli "1 stalk (151g)" |
 | Onions & leeks | 1 medium onion | 110 | USDA onion "1 medium (2-1/2 inch dia) (110g)" |
@@ -1405,21 +1537,21 @@ agent.
 | Apples | 1 small apple | 149 | USDA FDC 171688 "1 small = 149.0 g" |
 | Citrus | 1 orange | 131 | USDA FDC 169097 "1 fruit (2-5/8" dia) = 131.0 g" |
 | Citrus | 1 large orange | 184 | USDA FDC 169097 "1 large = 184.0 g" |
-| Berries | 1 cup strawberries | 144 | USDA FDC 167762 "1 cup, whole = 144.0 g" |
+| Berries | 1 portion strawberries (144 g) | 144 | USDA FDC 167762 "1 cup, whole = 144.0 g" |
 | Berries | 1 medium strawberry | 12 | USDA FDC 167762 "1 medium = 12.0 g" |
-| Dark chocolate | 1 oz / small bar | 28 | USDA FDC 170273 "1 oz = 28.35 g" |
+| Dark chocolate | 1 small bar (28 g) | 28 | USDA FDC 170273 "1 oz = 28.35 g" |
 | Dark chocolate | 1 square | 12.6 | derived: FDC 170273 "1 bar = 101.0 g" / 8 = 12.625 g (FR-16: earlier draft wrote 12 g, flattering -5%) |
 | Cane sugar | 1 tsp | 4.2 | USDA FDC 169655 "1 tsp = 4.2 g" |
 | Cane sugar | 1 cube | 2.3 | USDA FDC 169655 "1 serving 1 cube = 2.3 g" |
 | Olive oil | 1 tbsp | 13.5 | USDA FDC 171413 "1 tablespoon = 13.5 g" |
 | Olive oil | 1 tsp | 4.5 | USDA FDC 171413 "1 tsp = 4.5 g" |
 | Palm oil | 1 tbsp | 13.6 | USDA FDC 171015 "1 tbsp = 13.6 g" -- direct FDC portion (QA-8; replaces the earlier density derivation) |
-| Coffee | 1 cup (grounds) | 10 | SCA Golden Cup ratio, quote below; standard-mug midpoint (filter ~7-11 g, espresso ~18 g, P&N unit 15 g) |
+| Coffee | 1 mug (10 g grounds) | 10 | SCA Golden Cup ratio, quote below; standard-mug midpoint (filter ~7-11 g, espresso ~18 g, P&N unit 15 g) |
 | Tea | 1 tea bag | 2 | most common bag weight + ISO 3103's 2 g per 100 ml, quotes below |
-| Tea | 1 cup, loose leaf | 3 | ITO EN sencha/gyokuro guidance (2-3 g per serving), quote below; conservative upper of the JP range |
+| Tea | 1 mug, loose leaf (3 g) | 3 | ITO EN sencha/gyokuro guidance (2-3 g per serving), quote below; conservative upper of the JP range |
 | Beer | 1 can (EU) | 330 | Wikipedia Drink can, quotes below |
 | Beer | 1 can (JP / US) | 350 / 355 | JP most common 350 ml; US 12 oz = 355 ml |
-| Beer | 1 pint (US) | 473 | US pint (UK pint = 568 ml -- note if targeting UK) |
+| Beer | 1 large glass (473 ml) | 473 | US pint (UK pint = 568 ml -- note if targeting UK) |
 | Wine | 1 glass | 150 | NIAAA standard pour, quote below |
 | Wine | 1 bottle | 750 | standard wine bottle |
 | Soy milk | 1 glass | 250 | typical glass 200-250 ml |
@@ -1554,18 +1686,16 @@ it.
 
 ### Safe pins (margins for the shipped values)
 
-1. `beef_herd` is the dataset maximum (99.48; margin vs #2
-   chocolate 46.65 = +113%, vs lamb +150%).
-2. Meat chain: `beef_herd > lamb > pork > chicken > tofu >
-   potatoes` (99.48 > 39.72 > 12.31 > 9.87 > 3.16 > 0.46).
+1. `beef` is the dataset maximum (70.3608; margin vs #2
+   chocolate 46.65 = +51%, vs lamb 39.72 = +77%). The margin
+   halved with D6 -- still comfortable, but re-derive it before
+   adding any item above 40.
+2. Meat chain: `beef > lamb > pork > chicken > tofu >
+   potatoes` (70.36 > 39.72 > 12.31 > 9.87 > 3.16 > 0.46).
    Thinnest link pork > chicken at **+24.7%** -- annotate in the
    test that this link thins to +18% (fragile) under a median
    revintage.
-3. **Herd-ratio band, never a strict "> 3x":**
-   `2.5 < beef_herd / beef_dairy < 3.5` (actual 2.99). The plan's
-   original "beef-herd > 3x dairy-herd" is FALSE under both
-   statistics (2.99 mean / 2.86 median) -- a knife-edge failure
-   by 0.4% if pinned as written.
+3. *(retired 2026-08-01 with the dairy-herd item -- see D5.)*
 4. `cheese > chicken` (23.88 > 9.87, +142%).
 5. `max(soy_milk, oat_milk) * 2 < milk_dairy`
    (0.98 x 2 = 1.96 < 3.15, +61% margin) -- stronger than the
@@ -1597,6 +1727,21 @@ it.
     narrower-boundary source value (Gephart 7.63 or 3.88, Heller
     & Keoleian 3.4, Kenya tea 2.0, Tidaker 0.8) would otherwise
     pass the suite.
+15. **`prawns_wild > prawns_farmed`** (34.08 > 26.87) and the
+    ratio tracks Gephart's like-for-like wild/farmed (1.2682)
+    within 1%. This is the one ordering in the dataset that most
+    users will assume runs the other way, and the rejected
+    additive construction (18.60) would have inverted it -- pin
+    it, and pin the 34.08 assembled value with it. Beef stays the
+    dataset maximum; 34.08 lands 4th, above coffee, below lamb.
+16. **Every item ships English search aliases** and no alias
+    repeats its own item name (the name already matches, and
+    ahead of aliases). Umbrella items are unreachable in the
+    picker without them -- nobody searches "Root vegetables".
+17. **No imperial units in any serving-preset display name**
+    (oz, cups, pints, tbsp, quarter-pound), in any of the three
+    locales. Source-defined imperial survives only in
+    `calculation_notes` provenance, never in display copy.
 
 ### Never pin / never generate superlative copy
 
@@ -1610,6 +1755,12 @@ file; the copy engine must not emit "X beats Y" for any of them
   under medians (5.1 < 7.2).
 - **prawns vs cheese** (26.87 vs 23.88, +12.5%) -- FLIPS under
   medians (11.8 < 21.1).
+- **prawns_wild vs prawns_farmed** (34.08 vs 26.87, +27%) --
+  the DIRECTION is robust (Gephart measures both at one boundary
+  and puts wild above farmed) but the MAGNITUDE is not: the
+  absolute value is bracketed 18.60-34.08 depending on which
+  source's scale you anchor to. Copy may say wild prawns are not
+  the greener choice; it must not quote the percentage gap.
 - **coffee vs cheese / prawns** (28.53 vs 23.88 / 26.87) -- FLIPS
   under medians, and per-kg coffee copy is misleading anyway.
 - **dark chocolate vs lamb / cheese** (46.65 vs 39.72 / 23.88) --
@@ -1918,7 +2069,8 @@ total at full precision):
    two-decimal addends 23.24+56.23+2.68+1.81+0.49+0.23+0.35+14.44
    total 99.47, so always sum at full precision -- FR-16).
    MyCarbon literal "99.477404614". Three-way agreement. High.
-2. **Beef (dairy herd) = 33.30.** CSV literal "33.3"; sum
+2. *(retired 2026-08-01, D5 -- kept for provenance.)*
+   **Beef (dairy herd) = 33.30.** CSV literal "33.3"; sum
    33.3014. Ratio 99.48/33.30 = 2.99 -- inside the 2.5-3.5 band
    pin, NOT "> 3x". High.
 3. **Lamb = 39.72.** CSV "Lamb & Mutton"; sum 39.7223. High.
@@ -2120,3 +2272,33 @@ egg 234 g; cheese portion 716 g; rice cup 668 g; banana 101 g;
 chocolate 28 g 1.31 kg; coffee cup 285 g; beer can 396 g; wine
 glass 269 g. All recomputed and consistent with the factors
 above.
+
+43. **Prawns (wild-caught) = 34.08** (added 2026-08-02). Not a
+    P&N row; assembled by ratio, not by the additive fish_wild
+    recipe. Inputs, all CSV literals re-downloaded 2026-08-02:
+    Gephart `ghg-emissions-seafood.csv` "Shrimp (wild),2021,
+    11.956739" and "Shrimp (farmed),2021,9.428016"; P&N
+    `food-emissions-supply-chain.csv` "Shrimps (farmed),2018,
+    0.33056307,13.453979,4.0299387,0,0.33085158,0.3523611,
+    0.5361473,7.832022" (stage sum **26.8659**, matching the
+    shipped farmed 26.87 -- FR-16 full precision).
+    Arithmetic: 11.956739 / 9.428016 = **1.268215**; 26.8659 x
+    1.268215 = **34.0717** -> ships **34.08** (rounded up,
+    honest-not-generous).
+    **Control that rejected the additive route:** post-farmgate
+    excl. losses = 0 + 0.33085158 + 0.3523611 + 0.5361473 =
+    **1.219360**; loss uplift = 7.832022 / (26.8659 - 7.832022) =
+    **0.411479**. The recipe reproduces the documented fish
+    figures exactly (post 0.520, uplift 17.5%), so it was applied
+    correctly -- but run on Gephart's FARMED shrimp it returns
+    (9.428016 + 1.219360) x 1.411479 = **15.03** where P&N gives
+    26.87. The two sources disagree about prawns by ~1.8x, so the
+    additive route lands on Gephart's scale, not this dataset's;
+    it would have shipped 18.60 and told users wild prawns are
+    31% better than farmed when the like-for-like evidence says
+    27% worse. Medium confidence: the ordering is robust, the
+    absolute value is bracketed 18.60-34.08. Known weakness,
+    stated in `calculation_notes`: ratio-scaling implicitly
+    scales land-use-change and feed stages a wild fishery does
+    not have.
+

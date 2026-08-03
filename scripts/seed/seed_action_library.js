@@ -630,10 +630,11 @@ const actions = [
       + 'de carne de res o cordero hoy',
     category: 'food',
     // Beef case, matches meatless_meal_beef in
-    // co2_actions_database v1.2 (P&N 2018 mean incl. LUC:
-    // 9948g/100g serving - 200g standardized beans baseline,
-    // rounded down). Lamb case implies ~3.8kg.
-    co2Grams: 9700,
+    // co2_actions_database v1.3 (production-weighted P&N mean
+    // incl. LUC, 70.3608 kg/kg: 7036g/100g serving - 200g
+    // standardized beans baseline, rounded down). Lamb case
+    // implies ~3.8kg.
+    co2Grams: 6800,
     effort: 2,
     frequency: 3,
     impact: 4,

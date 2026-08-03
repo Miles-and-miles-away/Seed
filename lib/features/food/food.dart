@@ -10,7 +10,6 @@ export 'presentation/providers/food_choice_providers.dart';
 export 'presentation/providers/food_providers.dart';
 export 'presentation/screens/food_calculator_screen.dart';
 export 'presentation/screens/food_methodology_screen.dart';
-export 'presentation/screens/meal_comparison_screen.dart';
 export 'presentation/widgets/food_display.dart';
 export 'presentation/widgets/food_item_picker.dart';
 export 'presentation/widgets/food_science_sheet.dart';

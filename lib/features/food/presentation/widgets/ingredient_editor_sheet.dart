@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
-import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
+import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
-import 'package:seed_app/features/food/presentation/widgets/food_item_picker.dart';
-import 'package:seed_app/features/food/presentation/widgets/food_science_sheet.dart';
-import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Keeps the quantity input to digits with at most one decimal
 /// separator; ',' is allowed because locale keypads emit it.
@@ -26,30 +24,45 @@ String _gramsSeedText(double grams) {
   return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
 }
 
-/// Bottom sheet for adding or editing a meal ingredient (Phase 8.8).
+/// An ingredient together with the option column it belongs to.
+class IngredientPlacement {
+  const IngredientPlacement(this.ingredient, this.option);
+
+  final MealIngredient ingredient;
+  final int option;
+}
+
+/// Bottom sheet for entering an ingredient's quantity (Phase 8.8).
 ///
-/// Two steps in one sheet: a grouped item picker, then a quantity form
-/// with serving-preset chips over an editable grams field. Pops with
-/// the resulting [MealIngredient], or null when dismissed.
-class IngredientEditorSheet extends ConsumerStatefulWidget {
+/// The item is already chosen (dragged or tapped from the pool), so
+/// this sheet is only serving presets and the grams field. When
+/// [fixedOption] is null it ends in "Add to A" / "Add to B" buttons --
+/// the tap path's equivalent of choosing a drop target, and the route
+/// that works without dragging.
+class IngredientEditorSheet extends StatefulWidget {
   const IngredientEditorSheet({
+    required this.item,
     this.initialIngredient,
-    this.initialItem,
+    this.fixedOption,
     super.key,
   });
+
+  /// The item this ingredient uses.
+  final FoodItem item;
 
   /// Ingredient being edited, or null when adding a new one.
   final MealIngredient? initialIngredient;
 
-  /// Resolved item of [initialIngredient]; skips the picker step when set.
-  final FoodItem? initialItem;
+  /// The column this ingredient is bound to, or null to ask.
+  final int? fixedOption;
 
-  static Future<MealIngredient?> show(
+  static Future<IngredientPlacement?> show(
     BuildContext context, {
+    required FoodItem item,
     MealIngredient? initialIngredient,
-    FoodItem? initialItem,
+    int? fixedOption,
   }) {
-    return showModalBottomSheet<MealIngredient>(
+    return showModalBottomSheet<IngredientPlacement>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
@@ -57,27 +70,25 @@ class IngredientEditorSheet extends ConsumerStatefulWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
       ),
       builder: (_) => IngredientEditorSheet(
+        item: item,
         initialIngredient: initialIngredient,
-        initialItem: initialItem,
+        fixedOption: fixedOption,
       ),
     );
   }
 
   @override
-  ConsumerState<IngredientEditorSheet> createState() =>
-      _IngredientEditorSheetState();
+  State<IngredientEditorSheet> createState() => _IngredientEditorSheetState();
 }
 
-class _IngredientEditorSheetState extends ConsumerState<IngredientEditorSheet> {
+class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
   final _gramsController = TextEditingController();
-  FoodItem? _item;
   String? _selectedPresetId;
   bool _gramsInvalid = false;
 
   @override
   void initState() {
     super.initState();
-    _item = widget.initialItem;
     final ingredient = widget.initialIngredient;
     if (ingredient != null) {
       _gramsController.text = _gramsSeedText(ingredient.grams);
@@ -90,14 +101,6 @@ class _IngredientEditorSheetState extends ConsumerState<IngredientEditorSheet> {
     super.dispose();
   }
 
-  void _selectItem(FoodItem item) {
-    setState(() {
-      _item = item;
-      _gramsInvalid = false;
-      _selectedPresetId = null;
-    });
-  }
-
   void _applyPreset(ServingPreset preset) {
     setState(() {
       _gramsController.text = _gramsSeedText(preset.grams);
@@ -106,156 +109,159 @@ class _IngredientEditorSheetState extends ConsumerState<IngredientEditorSheet> {
     });
   }
 
-  void _save() {
-    final item = _item;
-    if (item == null) return;
-    // Locale keypads emit ',' as the decimal separator; normalize
-    // before parsing so "12,5" reads as 12.5.
-    final text = _gramsController.text.trim().replaceAll(',', '.');
-    final grams = double.tryParse(text);
-    // tryParse accepts "NaN" and "Infinity"; reject those too.
-    if (grams == null || grams.isNaN || grams.isInfinite || grams < 0) {
+  /// The typed quantity, or null when it is not a usable number.
+  ///
+  /// Locale keypads emit ',' as the decimal separator, so normalize
+  /// before parsing ("12,5" reads as 12.5). tryParse also accepts
+  /// "NaN" and "Infinity"; reject those and negatives too.
+  double? get _parsedGrams {
+    final grams = double.tryParse(
+      _gramsController.text.trim().replaceAll(',', '.'),
+    );
+    return (grams == null || grams.isNaN || grams.isInfinite || grams < 0)
+        ? null
+        : grams;
+  }
+
+  /// The ingredient as currently entered, for the preview and save.
+  MealIngredient? get _draftIngredient {
+    final grams = _parsedGrams;
+    return grams == null
+        ? null
+        : MealIngredient(itemId: widget.item.id, grams: grams);
+  }
+
+  void _save(int option) {
+    final ingredient = _draftIngredient;
+    if (ingredient == null) {
       setState(() => _gramsInvalid = true);
       return;
     }
-    Navigator.pop(context, MealIngredient(itemId: item.id, grams: grams));
+    Navigator.pop(context, IngredientPlacement(ingredient, option));
   }
 
   @override
   Widget build(BuildContext context) {
-    final itemsAsync = ref.watch(foodItemsProvider);
-    final item = _item;
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+    final item = widget.item;
+    final draft = _draftIngredient;
+    final fixed = widget.fixedOption;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.viewInsetsOf(context).bottom,
         ),
-        child: itemsAsync.when(
-          data: (items) => SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              spacingLg,
-              0,
-              spacingLg,
-              spacingLg,
-            ),
-            child: item == null ? _buildItemStep(items) : _buildFormStep(item),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(
+            spacingLg,
+            0,
+            spacingLg,
+            spacingLg,
           ),
-          loading: () => const Padding(
-            padding: EdgeInsets.all(spacingXxl),
-            child: Center(child: CircularProgressIndicator()),
-          ),
-          error: (_, _) => const Padding(
-            padding: EdgeInsets.all(spacingXxl),
-            child: Center(child: ErrorDisplay()),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildItemStep(List<FoodItem> items) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    final locale = Localizations.localeOf(context).languageCode;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          l10n.foodSelectItem,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: spacingMd),
-        FoodItemPicker(
-          items: items,
-          onSelected: _selectItem,
-          onInfo: (item) =>
-              FoodScienceSheet.show(context, item: item, languageCode: locale),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFormStep(FoodItem item) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    final locale = Localizations.localeOf(context).languageCode;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          widget.initialIngredient == null
-              ? l10n.foodAddIngredient
-              : l10n.foodEditIngredient,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: spacingMd),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: Icon(foodGroupIcon(item.group)),
-          title: Text(item.name(locale)),
-          subtitle: Text(foodItemFactorLabel(l10n, item)),
-          trailing: TextButton(
-            onPressed: () => setState(() {
-              _item = null;
-              _selectedPresetId = null;
-            }),
-            child: Text(l10n.foodChangeItem),
-          ),
-        ),
-        if (item.servings.isNotEmpty) ...[
-          const SizedBox(height: spacingSm),
-          Wrap(
-            spacing: spacingSm,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (final preset in item.servings)
-                ChoiceChip(
-                  label: Text(preset.name(locale)),
-                  selected: _selectedPresetId == preset.id,
-                  onSelected: (_) => _applyPreset(preset),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(foodGroupIcon(item.group)),
+                title: Text(
+                  item.name(locale),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(foodItemFactorLabel(l10n, item)),
+              ),
+              if (item.servings.isNotEmpty) ...[
+                Wrap(
+                  spacing: spacingSm,
+                  children: [
+                    for (final preset in item.servings)
+                      ChoiceChip(
+                        label: Text(preset.name(locale)),
+                        selected: _selectedPresetId == preset.id,
+                        onSelected: (_) => _applyPreset(preset),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: spacingSm),
+              ],
+              TextField(
+                controller: _gramsController,
+                autofocus: true,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                inputFormatters: [_gramsInputFormatter],
+                decoration: InputDecoration(
+                  labelText: l10n.foodQuantityLabel,
+                  border: const OutlineInputBorder(),
+                  errorText: _gramsInvalid ? l10n.foodQuantityInvalid : null,
+                ),
+                onChanged: (_) => setState(() {
+                  _gramsInvalid = false;
+                  _selectedPresetId = null;
+                }),
+              ),
+              // The factor line above is per kg; this is the footprint
+              // of the quantity actually entered.
+              if (draft != null) ...[
+                const SizedBox(height: spacingSm),
+                Text(
+                  l10n.calculatorEntryPreview(
+                    formatCO2Compact(
+                      FoodCalculator.ingredientCo2eGrams(item, draft).round(),
+                    ),
+                  ),
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+              const SizedBox(height: spacingLg),
+              if (fixed != null)
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(l10n.buttonCancel),
+                      ),
+                    ),
+                    const SizedBox(width: spacingMd),
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: () => _save(fixed),
+                        child: Text(l10n.buttonSave),
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.tonal(
+                        onPressed: () => _save(optionA),
+                        child: Text(l10n.calculatorAddToA),
+                      ),
+                    ),
+                    const SizedBox(width: spacingMd),
+                    Expanded(
+                      child: FilledButton.tonal(
+                        onPressed: () => _save(optionB),
+                        child: Text(l10n.calculatorAddToB),
+                      ),
+                    ),
+                  ],
                 ),
             ],
           ),
-        ],
-        const SizedBox(height: spacingSm),
-        TextField(
-          controller: _gramsController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [_gramsInputFormatter],
-          decoration: InputDecoration(
-            labelText: l10n.foodQuantityLabel,
-            border: const OutlineInputBorder(),
-            errorText: _gramsInvalid ? l10n.foodQuantityInvalid : null,
-          ),
-          onChanged: (_) => setState(() {
-            _gramsInvalid = false;
-            _selectedPresetId = null;
-          }),
         ),
-        const SizedBox(height: spacingLg),
-        Row(
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(l10n.buttonCancel),
-              ),
-            ),
-            const SizedBox(width: spacingMd),
-            Expanded(
-              child: FilledButton(
-                onPressed: _save,
-                child: Text(l10n.buttonSave),
-              ),
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

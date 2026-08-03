@@ -1432,7 +1432,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añade un tramo para crear tu trayecto y ver su huella de CO2e.';
 
   @override
-  String get transportAddLeg => 'Añadir tramo';
+  String get transportAddLeg => 'Añadir trayecto';
 
   @override
   String get transportEditLeg => 'Editar tramo';
@@ -1453,6 +1453,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get transportDistanceEstimateNote =>
       'Estimación derivada de la ubicación de las ciudades. Edítala según tu ruta.';
+
+  @override
+  String get transportDistanceUnknown => 'Desconocida';
+
+  @override
+  String transportFlightBandNote(String band) {
+    return 'Esta distancia usa el factor de $band, para que un trayecto corto nunca se calcule como un vuelo de larga distancia.';
+  }
 
   @override
   String get transportOccupantsLabel => 'Personas en el vehículo';
@@ -1574,7 +1582,55 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportComparisonTitle => 'Comparar trayectos';
 
   @override
-  String get transportAddToComparison => 'Añadir a la comparación';
+  String get transportAddToComparison => 'Añadir como opción';
+
+  @override
+  String get calculatorStagedOptions => 'Opciones a comparar';
+
+  @override
+  String get calculatorRemoveOption => 'Quitar esta opción';
+
+  @override
+  String calculatorEntryPreview(String amount) {
+    return 'Esto añade $amount CO2e';
+  }
+
+  @override
+  String get co2eDefinitionTitle => '¿Qué es el CO2e?';
+
+  @override
+  String get co2eDefinitionBody =>
+      'El CO2e cuenta el metano y otros gases de efecto invernadero como su equivalente en CO2, para que una hamburguesa y un vuelo se comparen de forma justa.';
+
+  @override
+  String get calculatorOptionA => 'Opción A';
+
+  @override
+  String get calculatorOptionB => 'Opción B';
+
+  @override
+  String get calculatorDropHint =>
+      'Arrastra o toca un elemento de abajo para añadirlo';
+
+  @override
+  String get calculatorAddToA => 'Añadir a A';
+
+  @override
+  String get calculatorAddToB => 'Añadir a B';
+
+  @override
+  String get calculatorBrowseAll => 'Ver todo';
+
+  @override
+  String get transportColumnEmptyHint =>
+      'Toca Añadir trayecto para empezar este viaje';
+
+  @override
+  String get calculatorNeedBothOptions =>
+      'Crea ambas opciones para compararlas';
+
+  @override
+  String get calculatorRemoveEntry => 'Quitar';
 
   @override
   String transportComparisonFull(int max) {
@@ -1649,11 +1705,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportActionsEntryTitle =>
-      'Compara y registra una elección de transporte';
+      'Registrar una acción de transporte personalizada';
 
   @override
-  String get transportActionsEntrySubtitle =>
-      'Mira qué opción emite menos y acumula la diferencia';
+  String get customActionBadge => 'Personalizada';
 
   @override
   String get actionReproduce => 'Hacerlo de nuevo';
@@ -1675,7 +1730,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añade un ingrediente para construir tu comida y ver su huella de CO2e.';
 
   @override
-  String get foodAddIngredient => 'Añadir ingrediente';
+  String get foodAddIngredient => 'Añadir alimento';
 
   @override
   String get foodEditIngredient => 'Editar ingrediente';
@@ -1702,6 +1757,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodItemScienceTooltip => 'Sobre este factor';
+
+  @override
+  String get foodColumnEmptyHint =>
+      'Toca Añadir alimento para empezar esta comida';
+
+  @override
+  String get foodSearchHint => 'Buscar alimentos...';
+
+  @override
+  String get foodSearchNoResults => 'Ningún alimento coincide con la búsqueda.';
 
   @override
   String foodItemFactorPerKg(String value) {
@@ -1750,7 +1815,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodGroupOils => 'Aceites';
 
   @override
-  String get foodAddToComparison => 'Añadir a la comparación';
+  String get foodAddToComparison => 'Añadir como opción';
 
   @override
   String foodComparisonFull(int max) {
@@ -1817,13 +1882,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodActionsEntryTitle =>
-      'Compara y registra una elección de alimentación';
-
-  @override
-  String get foodActionsEntrySubtitle =>
-      'Mira qué comida emite menos y acumula la diferencia';
+      'Registrar una acción de comida personalizada';
 
   @override
   String get foodMethodologyBody =>
-      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas.\n\n### Puede que hayas visto \'ternera = 60\'\nEsta herramienta usa las medias ponderadas por producción del estudio, no sus medianas. La difundida cifra de \'60 kg para la ternera\' es la mediana sin pérdidas de la cadena de suministro; la media que las incluye es mayor. Las medias representan mejor el impacto global total, así que es lo que usamos.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' no le gana a los \'frijoles importados\' en ninguna medida, y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
+      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' sigue teniendo una huella mucho mayor que los \'frijoles importados\', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
 }

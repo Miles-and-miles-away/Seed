@@ -1,17 +1,14 @@
 {
   "@@locale": "en",
   "@@last_modified": "2026-06-12",
-
   "appTitle": "Seed",
   "appTagline": "Grow your sustainability habits",
-
   "navHome": "Home",
   "navProgress": "Progress",
   "navLogAction": "Action",
   "navMascot": "Mascot",
   "navProfile": "Profile",
   "navSettings": "Settings",
-
   "authLogin": "Log In",
   "authRegister": "Sign Up",
   "authLogout": "Log Out",
@@ -22,23 +19,25 @@
   "authContinueWithGoogle": "Continue with Google",
   "authContinueWithApple": "Continue with Apple",
   "authOrDivider": "or",
-
   "homeWelcome": "Welcome back, {name}!",
   "@homeWelcome": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "homeLogAction": "Log Action",
   "homeRecentActions": "Recent Actions",
   "homeNoActions": "No actions logged yet. Start your journey!",
-
   "actionLogTitle": "Log an Action",
   "actionSearchHint": "Search actions...",
   "actionLogged": "Action logged! {points} points earned",
   "@actionLogged": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "noActionsFound": "No actions found",
@@ -47,43 +46,53 @@
   "yesterday": "Yesterday",
   "addNoteOptional": "Add a note (optional)",
   "noteHint": "e.g., Used my own bag at the store",
-
   "pointsLabel": "{count, plural, one{{count} point} other{{count} points}}",
   "@pointsLabel": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "levelLabel": "Level {level}",
   "@levelLabel": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "streakLabel": "{days} day streak",
   "@streakLabel": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "co2Saved": "{amount} CO₂ saved",
   "@co2Saved": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "mascotName": "{name}",
   "@mascotName": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "mascotRename": "Rename",
   "mascotEvolution": "Evolution Stage {stage}",
   "@mascotEvolution": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
   "mascotSelectionTitle": "Choose Your Companion",
@@ -93,11 +102,9 @@
   "mascotNameRequired": "Please enter a name",
   "mascotNameTooLong": "Name must be 20 characters or less",
   "mascotSelectionConfirm": "Let's Grow Together!",
-
   "evolutionTitle": "Evolution!",
   "evolutionSubtitle": "Your companion has grown stronger!",
   "evolutionContinue": "Amazing!",
-
   "profileTitle": "Profile",
   "profileStats": "Statistics",
   "profileTotalActions": "Total Actions",
@@ -108,22 +115,27 @@
   "profileNextLevel": "{points} pts to next level",
   "@profileNextLevel": {
     "placeholders": {
-      "points": {"type": "int"}
+      "points": {
+        "type": "int"
+      }
     }
   },
   "profileDaysActive": "{days, plural, one{{days} day} other{{days} days}}",
   "@profileDaysActive": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "profileEvolutionStage": "Evolution Stage {stage}",
   "@profileEvolutionStage": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
-
   "settingsTitle": "Settings",
   "settingsNotifications": "Notifications",
   "settingsReminderTime": "Daily Reminder",
@@ -137,11 +149,9 @@
   "settingsAbout": "About",
   "settingsPrivacy": "Privacy Policy",
   "settingsTerms": "Terms of Service",
-
   "subscriptionFree": "Free",
   "subscriptionPremium": "Premium",
   "subscriptionUpgrade": "Upgrade to Premium",
-
   "categoryRecycling": "Recycling",
   "categoryTransport": "Transport",
   "categoryFood": "Food",
@@ -151,7 +161,6 @@
   "categoryCommunity": "Community",
   "categoryAdvocacy": "Advocacy",
   "categoryLearning": "Learning",
-
   "errorGeneric": "Something went wrong. Please try again.",
   "errorNetwork": "No internet connection.",
   "errorAuth": "Authentication failed. Please try again.",
@@ -170,14 +179,12 @@
   "errorAuthAccountExistsWithDifferentCredential": "An account already exists with this email using a different sign-in method.",
   "errorAuthLinkExpired": "This link has expired. Please request a new one.",
   "errorAuthLinkInvalid": "This link is invalid. Please request a new one.",
-
   "buttonSave": "Save",
   "buttonCancel": "Cancel",
   "buttonConfirm": "Confirm",
   "buttonClose": "Close",
   "buttonRetry": "Retry",
   "buttonContinue": "Continue",
-
   "progressTitle": "Progress",
   "progressGoalsToday": "goals today",
   "progressGoalReached": "Daily goal reached!",
@@ -188,27 +195,28 @@
   "progressTargetDescriptionModerate": "A balanced challenge — recommended for most users.",
   "progressTargetDescriptionChallenge": "Ambitious! You're committed to making an impact.",
   "progressTargetDescriptionExpert": "Expert level — you're a sustainability champion!",
-
   "languageSettingsTitle": "Language",
   "languageSettingsDescription": "Choose your preferred language. The app will update immediately.",
   "languageSettingsNote": "Some content from the action library may remain in its original language.",
-
   "settingsNotificationsSubtitle": "{count} reminders enabled",
   "@settingsNotificationsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsNotificationsOff": "Notifications are off",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
-      "language": {"type": "String"}
+      "language": {
+        "type": "String"
+      }
     }
   },
   "settingsAccountSubtitle": "Email, password, delete account",
   "settingsAboutSubtitle": "Version, licenses, contact",
-
   "accountSettingsTitle": "Account",
   "accountSettingsEmail": "Email Address",
   "accountSettingsChangeEmail": "Change Email",
@@ -232,39 +240,41 @@
   "accountSettingsNotSet": "Not set",
   "accountSettingsDisplayNameUpdated": "Display name updated successfully",
   "accountSettingsDisplayNameRequired": "Please enter a name",
-
   "aboutSettingsTitle": "About",
   "aboutSettingsVersion": "Version",
   "aboutSettingsLicenses": "Open Source Licenses",
   "aboutSettingsPrivacy": "Privacy Policy",
   "aboutSettingsTerms": "Terms of Service",
-
   "streakMilestoneTitle": "Amazing!",
   "streakMilestoneWeeks": "{count} Week Streak!",
   "@streakMilestoneWeeks": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneDays": "You've logged actions for {count} days in a row!",
   "@streakMilestoneDays": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakMilestoneKeepGoing": "Keep up the amazing work!",
   "streakMilestoneContinue": "Continue",
-
   "streakBrokenTitle": "Streak Broken",
   "streakBrokenMessage": "Don't worry! Start a new streak today.",
   "streakBrokenPrevious": "Previous streak: {count} days",
   "@streakBrokenPrevious": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "streakBrokenStartNew": "Start New Streak",
-
   "sortLabel": "Sort",
   "sortAlphabeticalAZ": "Name (A-Z)",
   "sortAlphabeticalZA": "Name (Z-A)",
@@ -272,22 +282,24 @@
   "sortCo2LowToHigh": "CO₂ (Low to High)",
   "sortPointsHighToLow": "Points (High to Low)",
   "sortPointsLowToHigh": "Points (Low to High)",
-
   "filterBySDG": "Filter by SDG",
   "allCategories": "All",
   "co2PerAction": "{amount}g CO₂",
-
   "sdgYourImpact": "Your Impact",
   "sdgActionsLogged": "{count, plural, one{{count} action logged} other{{count} actions logged}}",
   "@sdgActionsLogged": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "sdgCo2SavedForGoal": "{amount} CO₂ saved for this goal",
   "@sdgCo2SavedForGoal": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "sdgRelatedActions": "Related Actions",
@@ -296,62 +308,59 @@
   "sdgLearnOnlyExplanation": "This goal addresses systemic issues that require collective action. While you can't log daily actions for it directly, learning about it helps you understand the bigger picture and find ways to contribute.",
   "sdgWaysToContribute": "Ways to Contribute",
   "sdgNoActionsYet": "No actions logged for this goal yet",
-
   "learnOnlyBadge": "Learn",
   "learnOnlyTitle": "Learn About This Action",
   "learnOnlyDescription": "This action supports broader sustainability goals. While it can't be logged directly, learning about it helps you understand the bigger picture.",
   "learnOnlyRelatedSdgs": "Related Goals",
   "learnOnlyDismiss": "Got It",
-
   "settingsAnalytics": "Privacy",
   "settingsAnalyticsSubtitle": "Help improve Seed by sharing anonymous usage data",
-
   "privacyPolicyTitle": "Privacy Policy",
   "termsOfServiceTitle": "Terms of Service",
   "legalLastUpdated": "Last updated: {date}",
   "@legalLastUpdated": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "eggDiscoveryTitle": "A Mysterious Egg!",
   "eggDiscoveryMessage": "Overnight, a mysterious egg appeared beside {mascotName}!",
   "@eggDiscoveryMessage": {
     "placeholders": {
-      "mascotName": {"type": "String"}
+      "mascotName": {
+        "type": "String"
+      }
     }
   },
   "eggDiscoverySubtitle": "Log actions every day for 30 days to hatch it.",
   "eggDiscoveryDismiss": "How exciting!",
-
   "eggHatchingTitle": "It's Hatching!",
   "eggHatchingNamePrompt": "Give your new companion a name",
   "eggHatchingConfirm": "Welcome!",
-
   "eggProgressLabel": "Day {current}/{total}",
   "@eggProgressLabel": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-
   "mascotCollectionTitle": "My Mascots",
   "mascotSwitchConfirm": "Switch Mascot?",
   "switchToMascot": "Switch to",
   "switchMascotButton": "Switch",
-
   "actionLearnMore": "Tap to learn the science",
-
   "maxEvolutionTitle": "Maximum Evolution!",
   "maxEvolutionSubtitle": "Your companion has reached their full potential!",
   "maxEvolutionEggHint": "Nurture your egg to discover a new companion!",
-
   "sdgAboutGoal": "About this Goal",
   "sdgViewTargets": "View targets",
   "sdgTargetsTitle": "UN Targets",
-
   "notifSettingsTitle": "Notification Settings",
   "notifSectionNotifications": "Notifications",
   "notifEnableTitle": "Enable Notifications",
@@ -374,23 +383,28 @@
   "notifDeleteMessage": "Remove the {time} reminder?",
   "@notifDeleteMessage": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "notifAdd": "Add",
-
   "settingsPreferences": "Preferences",
   "settingsVersionFormat": "Version {version}",
   "@settingsVersionFormat": {
     "placeholders": {
-      "version": {"type": "String"}
+      "version": {
+        "type": "String"
+      }
     }
   },
   "settingsNoReminders": "No reminders set",
   "settingsRemindersCount": "{count} reminders configured",
   "@settingsRemindersCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsOneReminder": "1 reminder configured",
@@ -399,20 +413,22 @@
   "settingsRemindersPlusMore": "{time} + {count} more",
   "@settingsRemindersPlusMore": {
     "placeholders": {
-      "time": {"type": "String"},
-      "count": {"type": "int"}
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsErrorLoading": "Error loading settings",
   "settingsSupport": "Support",
   "settingsFeedback": "Send Feedback",
   "settingsFeedbackSubtitle": "Report a bug or share your thoughts",
-
   "aboutLegal": "Legal",
   "aboutFooterSdg": "Seed helps track sustainable actions aligned with the UN Sustainable Development Goals.",
   "aboutFooterMade": "Made with care for our planet.",
   "aboutSubtitleTracker": "Sustainability Habit Tracker",
-
   "feedbackTitle": "Send Feedback",
   "feedbackCategoryLabel": "Category",
   "feedbackCategoryBug": "Bug Report",
@@ -424,7 +440,6 @@
   "feedbackSubmit": "Submit Feedback",
   "feedbackThanks": "Thanks for your feedback!",
   "feedbackMailFailed": "Couldn't open your mail app. Please try again.",
-
   "mascotEvolutionTimeline": "Evolution Timeline",
   "mascotNextEvolution": "Next Evolution",
   "mascotStatsTitle": "Our Journey",
@@ -434,28 +449,34 @@
   "mascotLevelShort": "Lv {level}",
   "@mascotLevelShort": {
     "placeholders": {
-      "level": {"type": "int"}
+      "level": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelsToGo": "{count, plural, one{{count} level to go} other{{count} levels to go}}",
   "@mascotLevelsToGo": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mascotLevelProgress": "Level {current} / {max}",
   "@mascotLevelProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "max": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
     }
   },
-
   "homeExploreGoals": "Explore the SDG Goals",
   "homeExploreGoalsSubtitle": "Tap to learn about the UN Sustainable Development Goals",
   "homeLearnMore": "Learn more at UN.org",
   "homePoints": "Points",
-
   "myGoalTitle": "My Goal",
   "myGoalEmptyPrompt": "Tap to set your sustainability goal",
   "myGoalUpdated": "Goal updated successfully",
@@ -470,18 +491,17 @@
   "personalGoalBuyLess": "Buy less, reuse more",
   "personalGoalInspireOthers": "Inspire friends and family to act",
   "personalGoalSaveWorld": "Save the world",
-
   "sdgGoalNumber": "Goal {number}",
   "@sdgGoalNumber": {
     "placeholders": {
-      "number": {"type": "int"}
+      "number": {
+        "type": "int"
+      }
     }
   },
   "sdgBadge": "UN SDG",
-
   "buttonDelete": "Delete",
   "buttonSkip": "Skip",
-
   "authWelcomeBack": "Welcome Back",
   "authSignInSubtitle": "Sign in to continue your sustainability journey",
   "authSignIn": "Sign In",
@@ -514,24 +534,25 @@
   "authValidationPasswordRequired": "Please enter your password",
   "authValidationPasswordShort": "Password must be at least 6 characters",
   "authValidationConfirmRequired": "Please confirm your password",
-
   "pointsAbbreviated": "{count} pts",
   "@pointsAbbreviated": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stageFallback": "Stage {stage}",
   "@stageFallback": {
     "placeholders": {
-      "stage": {"type": "int"}
+      "stage": {
+        "type": "int"
+      }
     }
   },
-
   "dayDetailActions": "Actions",
   "dayDetailNoActions": "No actions logged this day",
   "dayDetailFactLocked": "No eco-fact unlocked this day",
-
   "ecoFactTitle": "Today's Eco-Fact",
   "ecoFactDidYouKnow": "Did you know?",
   "ecoFactSource": "Source",
@@ -544,7 +565,6 @@
   "ecoFactCategoryMythBuster": "Myth Buster",
   "ecoFactCategoryNatureWonder": "Nature Wonder",
   "ecoFactCategoryPositiveNews": "Positive News",
-
   "challengeDialogTitle": "Today's Challenge",
   "challengeDialogLater": "Later",
   "challengeDialogLogAction": "Log Action",
@@ -556,14 +576,20 @@
   "challengeStreakDays": "{days} day challenge streak",
   "@challengeStreakDays": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "challengeMultiDayProgress": "Day {current} of {target}",
   "@challengeMultiDayProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "target": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
     }
   },
   "challengeCompletedSnackbar": "Challenge completed! Eco-fact unlocked!",
@@ -579,12 +605,13 @@
   "challengeDays": "{days, plural, one{{days} day} other{{days} days}}",
   "@challengeDays": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "challengeAnyCategory": "Any category",
   "challengeLocked": "Locked",
-
   "progressCalendarTab": "Calendar",
   "ecoDexTab": "Eco-Dex",
   "impactTab": "Impact",
@@ -621,15 +648,21 @@
   "equivFormulaTemplate": "g of CO2 / {factor}",
   "@equivFormulaTemplate": {
     "placeholders": {
-      "factor": { "type": "String" }
+      "factor": {
+        "type": "String"
+      }
     }
   },
   "ecoDexTitle": "Eco-Dex",
   "ecoDexProgress": "{discovered} / {total} discovered",
   "@ecoDexProgress": {
     "placeholders": {
-      "discovered": {"type": "int"},
-      "total": {"type": "int"}
+      "discovered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "ecoDexLocked": "Undiscovered",
@@ -649,14 +682,15 @@
   "ecoDexDiscoveryMoreQueued": "+{count} more queued",
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ecoDexEmptyHint": "Log your first action to make your first discovery.",
   "ecoDexInfoTooltip": "About the Eco-Dex",
   "ecoDexInfoTitle": "About the Eco-Dex",
   "ecoDexInfoBody": "The Eco-Dex is your encyclopedia of facts about our planet. Entries unlock automatically as you use Seed: logging actions, saving CO2, keeping up streaks, completing challenges, and reading eco facts. Tap a locked card for a hint on how to discover it, and tap a discovered entry to read its full fact. Discoveries do not award points: each one rewards you with knowledge.",
-
   "transportCalculatorTitle": "Transport Calculator",
   "calculatorsSheetTitle": "Calculators",
   "calculatorsButtonTooltip": "Calculators",
@@ -670,13 +704,28 @@
   "transportDistanceLabel": "Distance (km)",
   "transportDistanceInvalid": "Enter a distance of 0 km or more",
   "transportDistanceEstimateNote": "Estimate derived from city locations. Edit it to match your route.",
+  "transportDistanceUnknown": "Unknown",
+  "@transportDistanceUnknown": {
+    "description": "Placeholder in the leg editor's distance field when the chosen city pair has no estimate for this mode (water-blocked or out of range); clears on focus so the user can type"
+  },
+  "transportFlightBandNote": "This distance uses the {band} factor, so a short hop is never priced as a long-haul flight.",
+  "@transportFlightBandNote": {
+    "description": "Shown in the leg editor when the leg's cities imply a different flight band than the air mode picked",
+    "placeholders": {
+      "band": {
+        "type": "String"
+      }
+    }
+  },
   "transportOccupantsLabel": "People in the vehicle",
   "transportOccupantsAdd": "Add a person",
   "transportOccupantsRemove": "Remove a person",
   "transportOccupantsSemantic": "People in the vehicle: {count}",
   "@transportOccupantsSemantic": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "transportTotalLabel": "Total",
@@ -687,31 +736,41 @@
   "transportEstimatedKm": "~{km} km",
   "@transportEstimatedKm": {
     "placeholders": {
-      "km": {"type": "String"}
+      "km": {
+        "type": "String"
+      }
     }
   },
   "transportKmValue": "{km} km",
   "@transportKmValue": {
     "placeholders": {
-      "km": {"type": "String"}
+      "km": {
+        "type": "String"
+      }
     }
   },
   "transportOccupantsValue": "{count, plural, one{1 person} other{{count} people}}",
   "@transportOccupantsValue": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "transportModeFactorPerPassenger": "{grams} g CO2e per km",
   "@transportModeFactorPerPassenger": {
     "placeholders": {
-      "grams": {"type": "int"}
+      "grams": {
+        "type": "int"
+      }
     }
   },
   "transportModeFactorPerVehicle": "{grams} g CO2e per vehicle km",
   "@transportModeFactorPerVehicle": {
     "placeholders": {
-      "grams": {"type": "int"}
+      "grams": {
+        "type": "int"
+      }
     }
   },
   "transportGroupActive": "Walking & cycling",
@@ -733,82 +792,176 @@
   "transportScienceAccessed": "Accessed {date}",
   "@transportScienceAccessed": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "transportComparisonTitle": "Compare journeys",
-  "transportAddToComparison": "Add to comparison",
+  "transportAddToComparison": "Add as option",
+  "calculatorStagedOptions": "Options to compare",
+  "@calculatorStagedOptions": {
+    "description": "Heading above the staged comparison option chips in the transport and food calculator builders"
+  },
+  "calculatorRemoveOption": "Remove this option",
+  "@calculatorRemoveOption": {
+    "description": "Tooltip on the delete button of a staged comparison option chip"
+  },
+  "calculatorEntryPreview": "This adds {amount} CO2e",
+  "@calculatorEntryPreview": {
+    "description": "Live CO2e preview in the leg/ingredient editor, recomputed as distance, quantity or occupancy changes",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "co2eDefinitionTitle": "What is CO2e?",
+  "@co2eDefinitionTitle": {
+    "description": "Title of the dialog explaining the CO2e unit, opened from the tappable CO2e amount"
+  },
+  "co2eDefinitionBody": "CO2e counts methane and other greenhouse gases as their CO2 equivalent, so a burger and a flight compare fairly.",
+  "@co2eDefinitionBody": {
+    "description": "Plain-language definition of CO2e shown in that dialog"
+  },
+  "calculatorOptionA": "Option A",
+  "@calculatorOptionA": {
+    "description": "Header of the first comparison column"
+  },
+  "calculatorOptionB": "Option B",
+  "@calculatorOptionB": {
+    "description": "Header of the second comparison column"
+  },
+  "calculatorDropHint": "Drag or tap an item below to add it here",
+  "@calculatorDropHint": {
+    "description": "Empty-state hint inside a comparison column"
+  },
+  "calculatorAddToA": "Add to A",
+  "@calculatorAddToA": {
+    "description": "Button adding the selected item to column A"
+  },
+  "calculatorAddToB": "Add to B",
+  "@calculatorAddToB": {
+    "description": "Button adding the selected item to column B"
+  },
+  "calculatorBrowseAll": "Browse all",
+  "@transportAddLeg": {
+    "description": "Button under each journey column that opens the mode picker for that column"
+  },
+  "transportColumnEmptyHint": "Tap Add leg to start this journey",
+  "@transportColumnEmptyHint": {
+    "description": "Placeholder shown in an empty journey column"
+  },
+  "@calculatorBrowseAll": {
+    "description": "Opens the full grouped picker from the item pool"
+  },
+  "calculatorNeedBothOptions": "Build both options to compare them",
+  "@calculatorNeedBothOptions": {
+    "description": "Shown in place of the result when one column is empty"
+  },
+  "calculatorRemoveEntry": "Remove",
+  "@calculatorRemoveEntry": {
+    "description": "Tooltip on the remove button of a card inside a comparison column"
+  },
   "transportComparisonFull": "Comparison full ({max} options)",
   "@transportComparisonFull": {
     "placeholders": {
-      "max": {"type": "int"}
+      "max": {
+        "type": "int"
+      }
     }
   },
   "transportCompareOptions": "Compare {count} options",
   "@transportCompareOptions": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "transportOptionStaged": "Added option {count}",
   "@transportOptionStaged": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "transportComparisonDelta": "{label} emits {amount} CO2e less than {worse} ({percent}% lower)",
   "@transportComparisonDelta": {
     "placeholders": {
-      "label": {"type": "String"},
-      "amount": {"type": "String"},
-      "worse": {"type": "String"},
-      "percent": {"type": "int"}
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "transportComparisonTreesEquiv": "That's about {count} trees absorbing CO2 for a year",
   "@transportComparisonTreesEquiv": {
     "placeholders": {
-      "count": {"type": "String"}
+      "count": {
+        "type": "String"
+      }
     }
   },
   "transportMethodologyTitle": "Methodology & sources",
   "transportMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.",
   "@transportMethodologyBody": {
     "placeholders": {
-      "grid": {"type": "int"}
+      "grid": {
+        "type": "int"
+      }
     }
   },
   "transportLogChoiceTitle": "Take the greener option?",
   "transportLogChoiceBody": "Log this as a transport action and bank the {amount} CO2e you avoid by choosing the lower-carbon option.",
   "@transportLogChoiceBody": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "transportLogChoiceCta": "I chose {label}",
   "@transportLogChoiceCta": {
     "placeholders": {
-      "label": {"type": "String"}
+      "label": {
+        "type": "String"
+      }
     }
   },
   "transportChoiceLoggedMessage": "Logged. You banked {amount} CO2e.",
   "@transportChoiceLoggedMessage": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "transportCustomActionName": "Chose {greener} over {worse}",
   "@transportCustomActionName": {
     "placeholders": {
-      "greener": {"type": "String"},
-      "worse": {"type": "String"}
+      "greener": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      }
     }
   },
   "transportChoseLabel": "I took",
   "transportInsteadOfLabel": "instead of",
   "transportChoiceDistinctHint": "Pick two different options to log the choice you made.",
-  "transportActionsEntryTitle": "Compare & log a transport choice",
-  "transportActionsEntrySubtitle": "See which option emits less, then bank the difference",
+  "transportActionsEntryTitle": "Log a Custom Transport action",
+  "customActionBadge": "Custom",
   "actionReproduce": "Do this again",
   "actionReproducedMessage": "Logged again",
   "foodCalculatorTitle": "Food Calculator",
@@ -822,15 +975,48 @@
   "foodQuantityLabel": "Quantity (g)",
   "foodQuantityInvalid": "Enter a quantity of 0 g or more",
   "foodGramsValue": "{grams} g",
-  "@foodGramsValue": { "placeholders": { "grams": { "type": "String" } } },
+  "@foodGramsValue": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "foodRemoveIngredient": "Remove ingredient",
   "foodItemScienceTooltip": "About this factor",
+  "@foodAddIngredient": {
+    "description": "Button under each meal column that opens the food picker for that column"
+  },
+  "foodColumnEmptyHint": "Tap Add ingredient to start this meal",
+  "@foodColumnEmptyHint": {
+    "description": "Placeholder shown in an empty meal column"
+  },
+  "foodSearchHint": "Search foods...",
+  "@foodSearchHint": {
+    "description": "Hint text in the food picker search field"
+  },
+  "foodSearchNoResults": "No foods match that search.",
+  "@foodSearchNoResults": {
+    "description": "Shown when a food picker search returns nothing"
+  },
   "foodItemFactorPerKg": "{value} kg CO2e per kg",
-  "@foodItemFactorPerKg": { "placeholders": { "value": { "type": "String" } } },
+  "@foodItemFactorPerKg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "foodScienceNotesHeading": "How it's calculated",
   "foodScienceSourcesHeading": "Sources",
   "foodScienceAccessed": "Accessed {date}",
-  "@foodScienceAccessed": { "placeholders": { "date": { "type": "String" } } },
+  "@foodScienceAccessed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "foodGroupMeat": "Meat",
   "foodGroupSeafood": "Seafood",
   "foodGroupDairyEggs": "Dairy & eggs",
@@ -841,30 +1027,95 @@
   "foodGroupDrinks": "Drinks",
   "foodGroupTreats": "Treats",
   "foodGroupOils": "Oils",
-  "foodAddToComparison": "Add to comparison",
+  "foodAddToComparison": "Add as option",
   "foodComparisonFull": "Comparison full ({max} options)",
-  "@foodComparisonFull": { "placeholders": { "max": { "type": "int" } } },
+  "@foodComparisonFull": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "foodCompareOptions": "Compare {count} options",
-  "@foodCompareOptions": { "placeholders": { "count": { "type": "int" } } },
+  "@foodCompareOptions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodOptionStaged": "Added option {count}",
-  "@foodOptionStaged": { "placeholders": { "count": { "type": "int" } } },
+  "@foodOptionStaged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTitle": "Compare meals",
   "foodComparisonDelta": "{label} emits {amount} CO2e less than {worse} ({percent}% lower)",
-  "@foodComparisonDelta": { "placeholders": { "label": { "type": "String" }, "amount": { "type": "String" }, "worse": { "type": "String" }, "percent": { "type": "int" } } },
+  "@foodComparisonDelta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonCarKmEquiv": "That's about {km} km not driven in a petrol car",
-  "@foodComparisonCarKmEquiv": { "placeholders": { "km": { "type": "int" } } },
+  "@foodComparisonCarKmEquiv": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "foodChoseLabel": "I ate",
   "foodInsteadOfLabel": "instead of",
   "foodLogChoiceBody": "Log this as a food action and bank the {amount} CO2e you avoid by choosing the lower-carbon meal.",
-  "@foodLogChoiceBody": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodLogChoiceBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceDistinctHint": "Pick two different meals to log the choice you made.",
   "foodLogChoiceCta": "I chose {label}",
-  "@foodLogChoiceCta": { "placeholders": { "label": { "type": "String" } } },
+  "@foodLogChoiceCta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "foodChoiceLoggedMessage": "Logged. You banked {amount} CO2e.",
-  "@foodChoiceLoggedMessage": { "placeholders": { "amount": { "type": "String" } } },
+  "@foodChoiceLoggedMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "foodCustomActionName": "Chose {greener} over {worse}",
-  "@foodCustomActionName": { "placeholders": { "greener": { "type": "String" }, "worse": { "type": "String" } } },
-  "foodActionsEntryTitle": "Compare & log a food choice",
-  "foodActionsEntrySubtitle": "See which meal emits less, then bank the difference",
-  "foodMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nEach factor covers a food's full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek's 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator's operational-only scope, so never add figures from the two tools together.\n\n### You may have seen 'beef = 60'\nThis tool ships the study's production-weighted means, not its medians. The widely shared 'beef is 60 kg' figure is the median without supply-chain losses; the mean including losses is higher. Means better represent total global impact, so that is what we use.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### 'Organic' and 'local'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food's footprint, so local beef still beats imported beans on no measure, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed."
+  "@foodCustomActionName": {
+    "placeholders": {
+      "greener": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      }
+    }
+  },
+  "foodActionsEntryTitle": "Log a Custom Food action",
+  "foodMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nEach factor covers a food's full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek's 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator's operational-only scope, so never add figures from the two tools together. Figures are the study's production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### 'Organic' and 'local'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food's footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed."
 }

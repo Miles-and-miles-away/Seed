@@ -18,6 +18,21 @@ _FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => _FoodItem(
           ?.map((e) => ServingPreset.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  searchTermsEn:
+      (json['search_terms_en'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  searchTermsJa:
+      (json['search_terms_ja'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  searchTermsEs:
+      (json['search_terms_es'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
   calculationNotes: json['calculation_notes'] as String? ?? '',
   sources:
       (json['sources'] as List<dynamic>?)
@@ -34,6 +49,9 @@ Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
   'name_es': instance.nameEs,
   'kg_co2e_per_kg': instance.kgCo2ePerKg,
   'servings': instance.servings,
+  'search_terms_en': instance.searchTermsEn,
+  'search_terms_ja': instance.searchTermsJa,
+  'search_terms_es': instance.searchTermsEs,
   'calculation_notes': instance.calculationNotes,
   'sources': instance.sources,
 };

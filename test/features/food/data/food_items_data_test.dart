@@ -135,13 +135,16 @@ void main() {
     test('group sizes match the researched dataset', () {
       // Data pin: catches silent group reassignment, which no
       // other test observes (RESEARCH_FOOD.md section 4).
+      // `peas` moved plant_protein -> vegetables on 2026-08-02 with
+      // its anchor correction: P&N's Peas row is dry split peas,
+      // and P&N files green peas under Vegetables.
       const expected = {
-        'meat': 5,
-        'seafood': 4,
+        'meat': 4,
+        'seafood': 5,
         'dairy_eggs': 4,
-        'plant_protein': 6,
+        'plant_protein': 5,
         'staples': 5,
-        'vegetables': 4,
+        'vegetables': 5,
         'fruit': 4,
         'drinks': 6,
         'treats': 2,
