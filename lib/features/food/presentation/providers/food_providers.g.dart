@@ -147,6 +147,88 @@ final class FoodItemsByIdProvider
 
 String _$foodItemsByIdHash() => r'6d144f46b7a96a67e2a98a689731b9d5f380c804';
 
+/// Ids of items picked this session, most recent first.
+///
+/// keepAlive so the list survives closing the picker, but memory-only
+/// like everything else in the calculator -- persisting it would mean
+/// adding a local-storage dependency for a convenience, and the payoff
+/// is within a session anyway: building two comparable meals means
+/// reaching for the same handful of items twice.
+
+@ProviderFor(RecentFoodItemIds)
+final recentFoodItemIdsProvider = RecentFoodItemIdsProvider._();
+
+/// Ids of items picked this session, most recent first.
+///
+/// keepAlive so the list survives closing the picker, but memory-only
+/// like everything else in the calculator -- persisting it would mean
+/// adding a local-storage dependency for a convenience, and the payoff
+/// is within a session anyway: building two comparable meals means
+/// reaching for the same handful of items twice.
+final class RecentFoodItemIdsProvider
+    extends $NotifierProvider<RecentFoodItemIds, List<String>> {
+  /// Ids of items picked this session, most recent first.
+  ///
+  /// keepAlive so the list survives closing the picker, but memory-only
+  /// like everything else in the calculator -- persisting it would mean
+  /// adding a local-storage dependency for a convenience, and the payoff
+  /// is within a session anyway: building two comparable meals means
+  /// reaching for the same handful of items twice.
+  RecentFoodItemIdsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'recentFoodItemIdsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$recentFoodItemIdsHash();
+
+  @$internal
+  @override
+  RecentFoodItemIds create() => RecentFoodItemIds();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<String> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<String>>(value),
+    );
+  }
+}
+
+String _$recentFoodItemIdsHash() => r'680a2ddbf43fbb287249d62a2e44fc4f31f6d81a';
+
+/// Ids of items picked this session, most recent first.
+///
+/// keepAlive so the list survives closing the picker, but memory-only
+/// like everything else in the calculator -- persisting it would mean
+/// adding a local-storage dependency for a convenience, and the payoff
+/// is within a session anyway: building two comparable meals means
+/// reaching for the same handful of items twice.
+
+abstract class _$RecentFoodItemIds extends $Notifier<List<String>> {
+  List<String> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<List<String>, List<String>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<String>, List<String>>,
+              List<String>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 /// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
 /// keepAlive: an in-progress comparison must survive navigating away

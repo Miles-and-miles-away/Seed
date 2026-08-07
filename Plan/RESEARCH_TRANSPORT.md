@@ -2,11 +2,12 @@
 
 **Version:** 1.2
 **Created:** 2026-07-17
-**Status:** Initial research pass complete (27 shipped modes
-decided; open items tracked in section 7). Section 9 adds the
-distance-estimation conventions for the city prefill. Seven
-adversarial review rounds (2026-07-17..21) are complete; the
-durable rules they produced are consolidated in Appendix A.
+**Status:** Research complete -- 27 shipped modes decided; open
+items tracked in section 7. Section 9 holds the
+distance-estimation conventions for the city prefill; the durable
+rules from the seven review rounds are consolidated in Appendix A,
+and their per-round detail is in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md).
 **Feeds:** `data/app/transport_modes.json` (Phase 8.1, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md))
 
@@ -653,23 +654,8 @@ surprises the feature exists to surface):
 
 ## 7. Open Items
 
-Resolved this pass: four research tracks merged (3.1-3.3, 4);
-greencalculus vintage mixing confirmed and superseded by
-per-track verification; aviation figures confirmed with-RF;
-Shinkansen basis settled (20 g/pkm, per passenger-km; JR Central
-1/12-vs-plane ratio as the quotable fact); e-scooter scope
-settled (electricity-only + lifecycle caveat in methodology).
-
-Also resolved: high-impact modes researched and decided
-(section 8: private jet -- 1,000 base, shipped at 1,700 with-RF
-per decision D2 -- and helicopter 450 ship as a "high-impact"
-group; yacht rejected as a mode, kept as an eco-fact candidate).
-
-Resolved 2026-07-18: RF multiplier verified at 1.7 on the DESNZ
-2025 methodology paper (sec 4); private jet gains the same uplift
-(1,700, decision D2, sec 8.1); ferry_car shipped with the
-one-leg-covers-both calc note (decision D3); JSON build step done
-(`data/app/transport_modes.json`, 27 modes).
+Closures from the 2026-07-17/18 research passes are logged in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 10.
 
 Remaining:
 

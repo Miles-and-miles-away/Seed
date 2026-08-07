@@ -16,8 +16,10 @@ import 'package:flutter_test/flutter_test.dart';
 /// tomatoes, the ~1.8 cluster (oats/beans/wine), berries vs
 /// bread/pasta, eggs vs rice, butter vs pork, soy vs oat milk,
 /// soy milk vs peas (exact tie), the ~3.2 cluster
-/// (milk/tofu/sugar), the ~0.43 cluster (nuts/root veg/apples/
-/// potatoes), the ~0.5 brassica/onion cluster, and the 2026-07-19
+/// (milk/tofu/sugar/peanuts), the ~0.43 cluster (tree nuts/root
+/// veg/apples/potatoes), tree nuts vs peanuts (0.43 vs 3.23 --
+/// the 7.5x gap is P&N's orchard land-use-change credit, and the
+/// ordering inverts to peanuts-below once the credit is stripped), the ~0.5 brassica/onion cluster, and the 2026-07-19
 /// additions' ties: fish_wild vs chicken (9.50 vs 9.87, 3.9%),
 /// plant_based_meat vs eggs (4.5 vs 4.67, 3.8%) and vs rice
 /// (4.5 vs 4.45, 1.1%), tea vs chicken (9.0 vs 9.87) and vs
@@ -37,14 +39,19 @@ void main() {
 
   double factor(String id) => (byId[id]!['kg_co2e_per_kg'] as num).toDouble();
 
+  String basis(String id) =>
+      (byId[id]!['weight_basis'] as String?) ?? 'as_purchased';
+
   List<String> idsInGroups(Set<String> groups) => byId.values
       .where((i) => groups.contains(i['group'] as String))
       .map((i) => i['id'] as String)
       .toList();
 
   test('1. beef is the dataset maximum', () {
-    // 70.3608 (D6, production-weighted); margin vs #2
-    // chocolate 46.65 = +51%.
+    // 70.3608 (D6, production-weighted). The margin narrowed sharply
+    // in v2: #2 is now instant coffee at 62.33 (+12.9%), a per-kg
+    // figure for a powder used 1.8 g at a time. Re-derive before
+    // adding any item above 60.
     for (final id in byId.keys) {
       if (id == 'beef') continue;
       expect(factor('beef'), greaterThan(factor(id)), reason: id);
@@ -89,10 +96,15 @@ void main() {
     }
   });
 
-  test('7. chicken > every staple, vegetable, fruit, plant protein', () {
-    // Cheapest meat 9.87 vs the group maximum rice 4.45, +122%.
+  test('7. chicken > every as-purchased staple, veg, fruit, plant protein', () {
+    // Restricted to as-purchased weights in v2. Dried and concentrated
+    // plant products legitimately exceed chicken per kg because the
+    // water is gone -- dried shiitake 18.62 and tomato paste 11.14 both
+    // clear it -- so comparing them against a fresh-weight meat per kg
+    // is the canned-vs-dry-beans error, not a broken ordering.
     final groups = const {'staples', 'vegetables', 'fruit', 'plant_protein'};
     for (final id in idsInGroups(groups)) {
+      if (basis(id) != 'as_purchased') continue;
       expect(factor('chicken'), greaterThan(factor(id)), reason: id);
     }
   });
@@ -132,13 +144,32 @@ void main() {
     expect(factor('beer'), 1.2); // D2: P&N anchor
   });
 
-  test('12. farmed fish > wild fish > small oily fish', () {
-    // 13.63 > 9.50 (+43%) > 5.5 (+73%). Source-supported: wild
-    // fisheries burn fuel but carry no feed or land-use-change
-    // stages, and small pelagics are the most fuel-efficient
-    // fisheries (purse seine 71 L/tonne).
-    expect(factor('fish_farmed'), greaterThan(factor('fish_wild')));
-    expect(factor('fish_wild'), greaterThan(factor('small_fish')));
+  test('11b. the tree-nut / peanut split ships exactly', () {
+    // Both are P&N rows, and nothing in the ordering pins would
+    // catch a regression: peanuts shipped aliased onto the 0.43
+    // tree-nut row until 2026-08-04, 7.5x below their own
+    // Groundnuts row. Pin both values and the separation.
+    expect(factor('tree_nuts'), 0.43); // P&N "Nuts", credit incl.
+    expect(factor('peanuts'), 3.23); // P&N "Groundnuts"
+    expect(factor('peanuts'), greaterThan(factor('tree_nuts')));
+  });
+
+  test('12. the tier-2 seafood ordering holds within its own source', () {
+    // fish_wild 9.5 was retired in v2: it was assembled by a
+    // harmonisation recipe the seafood review found unsound, and it
+    // split into white_fish and tuna at Gephart's own boundary.
+    // These five are all tier-2 and outside each other's tie groups,
+    // so the ordering is a like-for-like claim. squid and salmon are
+    // deliberately excluded -- each ties a member below.
+    const order = ['crab_lobster', 'tuna', 'small_fish', 'bivalves', 'seaweed'];
+    for (var i = 0; i < order.length - 1; i++) {
+      expect(
+        factor(order[i]),
+        greaterThan(factor(order[i + 1])),
+        reason: '${order[i]} > ${order[i + 1]}',
+      );
+    }
+    expect(byId.containsKey('fish_wild'), isFalse);
   });
 
   test('13. plant-based meat sits between tofu and chicken', () {
@@ -172,11 +203,18 @@ void main() {
     // so a silent revert to a narrower-boundary source value
     // (e.g. Gephart 7.63, Heller & Keoleian 3.4, or the Kenya tea
     // 2.0) would otherwise pass the whole suite.
-    expect(factor('fish_wild'), 9.5);
     expect(factor('plant_based_meat'), 4.5);
     expect(factor('tea'), 9.0);
-    expect(factor('small_fish'), 5.5); // 2026-07-20 addition
-    expect(factor('beans_canned'), 1.7); // 2026-07-20, drained basis
+    expect(factor('beans_canned'), 1.7); // drained basis
+    // v2 seafood: Gephart rows ship at their published precision, and
+    // the two prawn values are the ones the source decision turned on.
+    // A silent revert to the retired recipe's 9.5 / 5.5, or to
+    // Gephart's bare farmed-shrimp 9.43, must fail here.
+    expect(factor('white_fish'), 5.1250386);
+    expect(factor('tuna'), 7.6290536);
+    expect(factor('small_fish'), 3.8779404);
+    expect(factor('prawns_farmed'), 26.87);
+    expect(factor('prawns_wild'), 34.08);
   });
   test('16. every item carries English search aliases', () {
     // Umbrella items are unfindable without them: nobody searches

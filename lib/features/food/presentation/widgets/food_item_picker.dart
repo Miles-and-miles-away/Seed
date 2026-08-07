@@ -19,11 +19,17 @@ class FoodItemPicker extends StatefulWidget {
     required this.items,
     required this.onSelected,
     required this.onInfo,
+    this.recentIds = const [],
     super.key,
   });
 
   /// All items, in dataset order.
   final List<FoodItem> items;
+
+  /// Ids picked recently, most recent first. Shown as a section above
+  /// the grouped list when the user has not typed anything -- passed in
+  /// rather than watched here so the picker stays a pure widget.
+  final List<String> recentIds;
 
   /// Called with the picked item.
   final void Function(FoodItem item) onSelected;
@@ -59,10 +65,23 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
 
   /// Flattened rows so the whole picker can be one lazy list: a group
   /// header is a `String`, an item row is a [FoodItem].
+  ///
+  /// Recents lead when there is no query. They are a shortcut, not a
+  /// filter: the full grouped list still follows, and an item in
+  /// recents also keeps its place in its own group.
   List<Object> _rows() {
     final matches = searchFoodItems(widget.items, _query);
     if (_query.trim().isNotEmpty) return matches;
     final rows = <Object>[];
+    if (widget.recentIds.isNotEmpty) {
+      final byId = {for (final item in widget.items) item.id: item};
+      final recents = [for (final id in widget.recentIds) ?byId[id]];
+      if (recents.isNotEmpty) {
+        rows
+          ..add(_kRecentsHeader)
+          ..addAll(recents);
+      }
+    }
     String? lastGroup;
     for (final item in matches) {
       if (item.group != lastGroup) {
@@ -141,7 +160,9 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
                       0,
                     ),
                     child: Text(
-                      foodGroupLabel(l10n, row),
+                      row == _kRecentsHeader
+                          ? l10n.foodPickerRecents
+                          : foodGroupLabel(l10n, row),
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -161,6 +182,10 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
   }
 }
 
+/// Sentinel header id; no dataset group can collide with it because
+/// group ids are snake_case.
+const _kRecentsHeader = '\u0000recents';
+
 class _ItemTile extends StatelessWidget {
   const _ItemTile({
     required this.item,
@@ -176,10 +201,20 @@ class _ItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
+    // A row that needs its basis or its boundary stated carries it here
+    // rather than only in the science sheet -- the picker is where the
+    // number is first read, and a narrower-boundary row shown bare next
+    // to the anchors invites a comparison it cannot support.
+    final caveats = [
+      foodWeightBasisLabel(l10n, item),
+      foodBoundaryNoteLabel(l10n, item),
+    ].nonNulls.join(' ');
+    final factor = foodItemFactorLabel(l10n, item);
     return ListTile(
+      isThreeLine: caveats.isNotEmpty,
       leading: Icon(foodGroupIcon(item.group)),
       title: Text(item.name(locale)),
-      subtitle: Text(foodItemFactorLabel(l10n, item)),
+      subtitle: Text(caveats.isEmpty ? factor : '$factor\n$caveats'),
       trailing: IconButton(
         icon: const Icon(Icons.info_outline),
         tooltip: l10n.foodItemScienceTooltip,

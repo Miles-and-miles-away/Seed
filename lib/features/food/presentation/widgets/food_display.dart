@@ -17,6 +17,9 @@ IconData foodGroupIcon(String group) => switch (group) {
   'drinks' => Icons.local_cafe,
   'treats' => Icons.cookie,
   'oils' => Icons.water_drop,
+  'nuts_seeds' => Icons.scatter_plot,
+  'condiments' => Icons.soup_kitchen,
+  'prepared' => Icons.takeout_dining,
   _ => Icons.restaurant,
 };
 
@@ -33,8 +36,36 @@ String foodGroupLabel(AppLocalizations l10n, String group) => switch (group) {
   'drinks' => l10n.foodGroupDrinks,
   'treats' => l10n.foodGroupTreats,
   'oils' => l10n.foodGroupOils,
+  'nuts_seeds' => l10n.foodGroupNutsSeeds,
+  'condiments' => l10n.foodGroupCondiments,
+  'prepared' => l10n.foodGroupPrepared,
   _ => group,
 };
+
+/// What to put on the scale, when the dataset measures something other
+/// than what a shopper weighs. Null for plain as-purchased items, which
+/// need no explanation.
+///
+/// This is not decoration: whole-fish grams typed against an
+/// edible-weight factor overstate by ~2.5x, and a dry-basis rice factor
+/// against cooked rice understates by ~2.2x.
+String? foodWeightBasisLabel(AppLocalizations l10n, FoodItem item) =>
+    switch (item.weightBasis) {
+      'dry' => l10n.foodBasisDry,
+      'drained' => l10n.foodBasisDrained,
+      'edible' => l10n.foodBasisEdible,
+      'concentrate' => l10n.foodBasisConcentrate,
+      _ => null,
+    };
+
+/// Caveat for rows measured to a narrower boundary than the dataset's
+/// primary source, so a user never reads one as like-for-like.
+///
+/// Required before any non-tier-1 row can be shown next to the tier-1
+/// anchors: a farm-gate figure sits 20-30% below this dataset's
+/// cradle-to-retail boundary through boundary alone.
+String? foodBoundaryNoteLabel(AppLocalizations l10n, FoodItem item) =>
+    item.sourceTier > 1 ? l10n.foodBoundaryNarrower : null;
 
 /// Emission-factor line for an item row: kg CO2e per kg as-purchased.
 String foodItemFactorLabel(AppLocalizations l10n, FoodItem item) =>

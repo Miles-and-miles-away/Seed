@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Seed Annual Research Update Ledger",
-    "version": "1.0",
+    "version": "1.1",
     "created": "2026-08-02",
     "last_reviewed": "2026-08-02",
     "description": "Every fact in the Seed app that has a vintage and can go stale, with where it lives, where it came from, how often the source republishes, and what to watch for. Reference document for the yearly data pass.",
@@ -11,10 +11,10 @@
       "Plan/RESEARCH_TRANSPORT.md",
       "Plan/RESEARCH_FOOD.md",
       "Plan/RESEARCH_ENERGY.md",
+      "Plan/PDR_ENERGY_CALCULATOR.md",
       "Plan/RESEARCH_FACTS.md"
     ]
   },
-
   "how_to_use": {
     "when": "Run a full pass once a year, after the June DEFRA/DESNZ release (the single biggest input). Ember publishes in April and the UN SDG Report in July, so a July-August pass catches all three.",
     "order": [
@@ -39,9 +39,20 @@
       "medium": "moves every few years; re-read annually, expect no change most passes",
       "low": "structurally stable; spot-check every 2-3 years",
       "fixed": "a dated study or a standard; does not move -- see stable_do_not_rechase"
+    },
+    "fetch_techniques": {
+      "why": "Several tier-1 sources block the standard fetch-and-summarise path. These worked on 2026-08-02 and should be tried before declaring a source unreachable.",
+      "techniques": [
+        "For a paywalled paper, check whether an open-access VERSION or a later review by the same authors exists before giving up: query https://api.openalex.org/works/doi:<DOI> and https://api.semanticscholar.org/graph/v1/paper/DOI:<DOI>?fields=openAccessPdf (neither needs a key or an email). This is how the Bonn/Stamminger dishwashing figures were finally obtained -- the 2010 primary is CLOSED, but the authors' own 2022 review is open access and tabulates the same measurements.",
+        "curl -A \"Mozilla/5.0 ...\" <url> -o f.pdf && pdftotext -layout f.pdf - : gets past energystar.gov and the eCFR -> unblock.federalregister.gov gateway that defeats WebFetch. This is how the ENERGY STAR fridge figures and the DOE 2015 oven NOPR baseline were obtained.",
+        "Download the PDF and run pdftotext yourself rather than relying on the fetch tool's own PDF handling -- BRE, CIBSE and SAP PDFs return raw binary to WebFetch but extract cleanly this way.",
+        "A real browser session (not headless) loads enecho.meti.go.jp, ember-energy.org, iea.org, epa.gov and standby.lbl.gov, all of which return HTTP 403 to headless fetchers.",
+        "EUR-Lex returns HTTP 202 with an empty body (genuine bot-gating, not a redirect) -- use the legislation.gov.uk mirror of retained EU regulations instead.",
+        "Still hard-blocked as of 2026-08-02: energysavingtrust.org.uk, nrdc.org, downloads.regulations.gov.",
+        "degruyter.com PDF endpoints return an empty file to curl; the /html view loads fine in a real browser session (note the domain is now degruyterbrill.com)."
+      ]
     }
   },
-
   "items": [
     {
       "id": "grid_factor",
@@ -73,16 +84,27 @@
       "watch_for": [
         "Scope: must stay CO2e to match the rest of the app.",
         "Ember revising prior years when it reprocesses.",
-        "A regionalisation decision superseding the single constant (see Plan/PDR_GRID_REGIONALISATION.md)."
+        "A regionalisation decision superseding the single constant (see Plan/PDR_GRID_REGIONALISATION.md).",
+        "The home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) prints this figure, its vintage, and a six-grid comparison table. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values."
       ],
-      "affects": ["transport_ev", "all_energy_electricity_entries", "energy_actions", "action_points"],
-      "notes": "Retired value was 386 g CO2/kWh, whose documented derivation ('midpoint of US 370 and UK 210') computed to 290 and did not reproduce it."
+      "affects": [
+        "transport_ev",
+        "all_energy_electricity_entries",
+        "energy_actions",
+        "action_points"
+      ],
+      "notes": "Retired value was 386 g CO2/kWh, whose documented derivation ('midpoint of US 370 and UK 210') computed to 290 and did not reproduce it.",
+      "user_visible_copy": [
+        "Plan/PDR_ENERGY_CALCULATOR.md section 6 -- home-energy methodology screen copy"
+      ]
     },
     {
       "id": "gas_factor",
       "title": "Natural gas combustion factor",
       "category": "carrier_factor",
-      "files": ["data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh, pending build)"],
+      "files": [
+        "data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh, pending build)"
+      ],
       "current_value": "182 g CO2e/kWh",
       "vintage": "DEFRA/DESNZ 2026 release (0.18231, Scope 1 combustion, Gross CV)",
       "decided": "E2, 2026-08-02",
@@ -102,16 +124,21 @@
       "trend": "flat: 0.18316 -> 0.18296 -> 0.18231 over three releases",
       "watch_for": [
         "Must stay Gross CV, combustion-only (no well-to-tank) for boundary parity with transport.",
-        "Gas composition barely changes; a large move means the wrong row was read."
+        "Gas composition barely changes; a large move means the wrong row was read.",
+        "CALORIFIC BASIS TRAP: the shipped DHW efficiency (0.756353) is on a GROSS-CV basis to pair with this gross-CV factor. Published boiler efficiencies are usually NET CV (BRE measures 83.8% net). Mixing them understates gas by 12.6%. If the factor ever moves to a net basis, the efficiency must move with it."
       ],
-      "affects": ["energy_gas_entries"],
+      "affects": [
+        "energy_gas_entries"
+      ],
       "notes": "Best-corroborated number in the energy dataset. Cheapest check on this list."
     },
     {
       "id": "transport_modes_defra",
       "title": "Transport mode emission factors (27 modes)",
       "category": "transport",
-      "files": ["data/app/transport_modes.json (modes[].g_co2e_per_km)"],
+      "files": [
+        "data/app/transport_modes.json (modes[].g_co2e_per_km)"
+      ],
       "current_value": "27 modes, DEFRA/DESNZ 2025 vintage unless a mode notes otherwise",
       "vintage": "2025 release",
       "source": {
@@ -126,14 +153,19 @@
         "Aggregator tables routinely mix vintages -- record the release year per figure.",
         "Re-derive ALL section 6 sanity pins after any change; several flip under the 2026 numbers (coach vs national rail is documented as a deliberate non-invariant)."
       ],
-      "affects": ["transport_calculator", "impact_equivalencies.carKm"],
+      "affects": [
+        "transport_calculator",
+        "impact_equivalencies.carKm"
+      ],
       "reference": "Plan/RESEARCH_TRANSPORT.md sections 3, 5, 6, 7"
     },
     {
       "id": "transport_ev",
       "title": "Battery electric vehicle factor",
       "category": "transport",
-      "files": ["data/app/transport_modes.json (car_bev)"],
+      "files": [
+        "data/app/transport_modes.json (car_bev)"
+      ],
       "current_value": "73 g/km (PENDING rebase to 86 g/km under E1)",
       "vintage": "0.188 kWh/km real-world consumption x house grid factor",
       "source": {
@@ -148,13 +180,17 @@
         "This is the app's most visible cross-carrier number and has no gating equivalent to the energy dataset's carrier rule.",
         "A UK user's true figure at DEFRA 2026 (131 g/kWh) is ~25 g/km -- the global factor overstates it ~3.4x. Flagged in Plan/PDR_GRID_REGIONALISATION.md section 1.2."
       ],
-      "depends_on": ["grid_factor"]
+      "depends_on": [
+        "grid_factor"
+      ]
     },
     {
       "id": "aviation_rf",
       "title": "Aviation radiative-forcing multiplier",
       "category": "transport",
-      "files": ["data/app/transport_modes.json (air modes, private jet)"],
+      "files": [
+        "data/app/transport_modes.json (air modes, private jet)"
+      ],
       "current_value": "1.7x central estimate",
       "vintage": "DESNZ 2025 methodology paper",
       "source": {
@@ -164,13 +200,18 @@
       "release_cadence": "annual, but the multiplier itself rarely moves",
       "next_check": "2027-06",
       "volatility": "low",
-      "watch_for": ["Any change in the published central estimate; helicopter is deliberately combustion-only (low-altitude) and must not inherit it."]
+      "watch_for": [
+        "Any change in the published central estimate; helicopter is deliberately combustion-only (low-altitude) and must not inherit it."
+      ]
     },
     {
       "id": "cities_borders",
       "title": "City-pair border and crossing status",
       "category": "transport",
-      "files": ["data/app/cities.json", "data/reference/reviewed_cc_ground_pairs.json"],
+      "files": [
+        "data/app/cities.json",
+        "data/reference/reviewed_cc_ground_pairs.json"
+      ],
       "current_value": "982 cities; CLOSED_BORDERS list and manual walls",
       "vintage": "generated 2026-07-18",
       "source": {
@@ -190,7 +231,9 @@
       "id": "food_owid_anchor",
       "title": "Food emission factors (Poore & Nemecek via OWID)",
       "category": "food",
-      "files": ["data/app/food_items.json (items[].kg_co2e_per_kg)"],
+      "files": [
+        "data/app/food_items.json (items[].kg_co2e_per_kg)"
+      ],
       "current_value": "42 items, production-weighted means with supply-chain losses",
       "vintage": "P&N 2018 study; OWID grapher last updated 2019-10-08",
       "source": {
@@ -210,7 +253,9 @@
       "id": "food_carboncloud_drift",
       "title": "CarbonCloud live values used in derived food factors",
       "category": "food",
-      "files": ["data/app/food_items.json (oats)"],
+      "files": [
+        "data/app/food_items.json (oats)"
+      ],
       "current_value": "oats 1.84 = (P&N 2.48 + CarbonCloud 1.20) / 2",
       "vintage": "CarbonCloud value as of 2026-07-20",
       "source": {
@@ -231,7 +276,9 @@
       "id": "food_production_splits",
       "title": "Production-share weights inside derived food factors",
       "category": "food",
-      "files": ["data/app/food_items.json (beef, sugar)"],
+      "files": [
+        "data/app/food_items.json (beef, sugar)"
+      ],
       "current_value": "beef 56% beef-herd / 44% dairy-herd (D6); sugar 80% cane / 20% beet (D8)",
       "vintage": "OWID (beef, verified 2026-08-01); European Commission (sugar, 2026-08-02)",
       "source": {
@@ -242,13 +289,17 @@
       "release_cadence": "slow structural change",
       "next_check": "2028-07",
       "volatility": "low",
-      "watch_for": ["Production shares are not consumption shares -- documented residual; JP consumed beef is ~80% beef-herd via imports."]
+      "watch_for": [
+        "Production shares are not consumption shares -- documented residual; JP consumed beef is ~80% beef-herd via imports."
+      ]
     },
     {
       "id": "food_serving_presets",
       "title": "Food serving preset weights",
       "category": "food",
-      "files": ["data/app/food_items.json (items[].servings)"],
+      "files": [
+        "data/app/food_items.json (items[].servings)"
+      ],
       "current_value": "FDA RACC (21 CFR 101.12) and USDA FoodData Central portions",
       "vintage": "accessed 2026-07-18 to 2026-07-20",
       "source": {
@@ -258,13 +309,17 @@
       "release_cadence": "regulatory, very infrequent",
       "next_check": "2029-07",
       "volatility": "low",
-      "watch_for": ["Japanese product presets (tuna can 70 g, saba can 140 g drained) are manufacturer pages and can 404 on product refresh."]
+      "watch_for": [
+        "Japanese product presets (tuna can 70 g, saba can 140 g drained) are manufacturer pages and can 404 on product refresh."
+      ]
     },
     {
       "id": "energy_appliance_averages",
       "title": "Appliance per-cycle energy figures",
       "category": "energy",
-      "files": ["data/app/energy_behaviors.json (pending build)"],
+      "files": [
+        "data/app/energy_behaviors.json (pending build)"
+      ],
       "current_value": "wash 0.350 / 1.300 / 1.700; dryer 4.5 vented, 2.05 heat pump; dishwasher 0.85 eco, 1.12 normal",
       "vintage": "Bosch EN50229 spec sheets; Which? July 2026",
       "source": {
@@ -277,15 +332,25 @@
       "watch_for": [
         "Manufacturer PDFs are the weak link -- archive them or re-source when a model is retired.",
         "The 'which 60 C?' trap: a label-optimised Eco 60 programme (0.900 kWh) does not reach 60 C, while the user-selected programme (1.700 kWh) does. Keep the same-machine, same-standard pairing.",
-        "Appliance efficiency improves steadily; expect downward drift."
+        "Appliance efficiency improves steadily; expect downward drift.",
+        "Oven ships per BAKE CYCLE (0.82 kWh), not per hour -- DOE has never adopted an active-mode oven standard and ENERGY STAR does not certify ovens, so no per-hour figure exists. Do not 'fix' this back to an hourly unit.",
+        "Hand-wash litres are the soft spot in the dishwasher comparison: Which? 2026 measures 63 L, peer-reviewed Berkholz 2010 (UK, n=150) measures 49.2 L, and at the lower figure a gas-heated sink BEATS the dishwasher by 37%. Shipped value is Which?; do not present the dishwasher's advantage as carrier-independent."
       ],
-      "reference": "Plan/RESEARCH_ENERGY.md section 3.2"
+      "reference": "Plan/RESEARCH_ENERGY.md section 3.2",
+      "cross_check_source": {
+        "name": "Schencking & Stamminger 2022, Tenside Surfactants Detergents 59(3), open access",
+        "url": "https://doi.org/10.1515/tsd-2022-2423",
+        "note": "Table 1 collects measured water/energy/time for manual vs machine dishwashing from Stamminger 2007, Berkholz 2010 and Berkholz 2013. Use this rather than any secondary retelling of 'the Bonn study'."
+      }
     },
     {
       "id": "energy_meti_measured",
       "title": "METI measured appliance figures (aircon, TV, heaters, rice cooker)",
       "category": "energy",
-      "files": ["data/app/energy_behaviors.json (pending build)"],
+      "files": [
+        "data/app/energy_behaviors.json (pending build)",
+        "methodology fridge context line (~0.7 kWh/day JP, JIS-measured)"
+      ],
       "current_value": "aircon cooling 0.167679 kWh/h, heating 0.241006; TV 0.079096; rice cooker 0.16 + 0.0165 keep-warm",
       "vintage": "省エネルギーセンター実測値 via 資源エネルギー庁; season lengths 暖房期間 169 days / 冷房期間 112 days",
       "source": {
@@ -298,7 +363,8 @@
       "watch_for": [
         "PROHIBITION: never 'correct' the aircon values to their JIS catalog ratings (0.435 / 0.455). Measured beats rated; a sanity pin guards this.",
         "If METI republishes with new season lengths, the per-hour derivation changes even if the annual savings do not.",
-        "METI's own grid coefficient on that page (0.488 general, 0.429 lighting/TV) is a separate JP figure -- do not confuse it with the house factor."
+        "METI's own grid coefficient on that page (0.488 general, 0.429 lighting/TV) is a separate JP figure -- do not confuse it with the house factor.",
+        "Kotatsu ships at 0.15 kWh/h = the 強 (strong) setting on the makers' own 標準（平均）消費電力量 basis, which is already thermostat-averaged. Never substitute the 300-600 W nameplate; a mixed-setting average (0.10-0.12) would push the headline ratio to 10-12x, which the research rejected as unsupported."
       ],
       "reference": "Plan/RESEARCH_ENERGY.md sections 3.3, 3.5"
     },
@@ -306,7 +372,9 @@
       "id": "energy_jp_grid_coefficient",
       "title": "Japan national grid coefficient (代替値)",
       "category": "energy",
-      "files": ["reference only -- not shipped; used for JP context copy"],
+      "files": [
+        "reference only -- not shipped; used for JP context copy"
+      ],
       "current_value": "429 g CO2/kWh (令和6年提出用代替値); 416 (61 utilities FY2024-25)",
       "vintage": "令和6年 submission year",
       "source": {
@@ -316,13 +384,18 @@
       "release_cadence": "annual",
       "next_check": "2027-03",
       "volatility": "medium",
-      "watch_for": ["Becomes a shipped value if regionalisation proceeds (Plan/PDR_GRID_REGIONALISATION.md)."]
+      "watch_for": [
+        "Becomes a shipped value if regionalisation proceeds (Plan/PDR_GRID_REGIONALISATION.md)."
+      ]
     },
     {
       "id": "energy_standby",
       "title": "Household standby power",
       "category": "energy",
-      "files": ["data/app/energy_behaviors.json (pending build)", "data/seed/co2_actions_database.json (unplug_standby)"],
+      "files": [
+        "data/app/energy_behaviors.json (pending build)",
+        "data/seed/co2_actions_database.json (unplug_standby)"
+      ],
       "current_value": "0.8 kWh/day household; 0.5 W per device",
       "vintage": "LBNL standby project, read live 2026-08-02",
       "source": {
@@ -333,13 +406,17 @@
       "release_cadence": "infrequent research updates",
       "next_check": "2028-08",
       "volatility": "low",
-      "watch_for": ["The mechanism matters as much as the number: per-device draw fell 10-30x while device counts rose faster, leaving the household total roughly flat. Copy must reflect that, not 'standby is trivial'."]
+      "watch_for": [
+        "The mechanism matters as much as the number: per-device draw fell 10-30x while device counts rose faster, leaving the household total roughly flat. Copy must reflect that, not 'standby is trivial'."
+      ]
     },
     {
       "id": "impact_equivalencies",
       "title": "Impact equivalency conversion factors",
       "category": "equivalencies",
-      "files": ["data/app/impact_equivalencies.json"],
+      "files": [
+        "data/app/impact_equivalencies.json"
+      ],
       "current_value": "trees 21000 g; carKm 162.72 g; phoneCharges 8 g; burgers 11000 g",
       "vintage": "EPA calculator; DEFRA 2025; food_items.json mirror",
       "source": {
@@ -361,7 +438,9 @@
       "id": "eco_facts",
       "title": "Daily eco facts (366 entries)",
       "category": "facts",
-      "files": ["data/app/eco_facts.json"],
+      "files": [
+        "data/app/eco_facts.json"
+      ],
       "current_value": "366 facts, EN/JA/ES, each with sourceUrl",
       "vintage": "mixed; ~130 facts cite statistics dated 2023-2026",
       "source": {
@@ -383,7 +462,9 @@
       "id": "sdg_world_state",
       "title": "Global SDG state assessment",
       "category": "sdg",
-      "files": ["data/seed/sdg_world_state_fully_sourced.json"],
+      "files": [
+        "data/seed/sdg_world_state_fully_sourced.json"
+      ],
       "current_value": "Global SDG State Assessment 2025",
       "vintage": "last_updated 2026-01-31",
       "source": {
@@ -402,7 +483,10 @@
       "id": "un_world_days",
       "title": "UN international observance days",
       "category": "sdg",
-      "files": ["data/reference/un_world_days.json", "data/app/eco_facts.json (unWorldDay)"],
+      "files": [
+        "data/reference/un_world_days.json",
+        "data/app/eco_facts.json (unWorldDay)"
+      ],
       "current_value": "54 days",
       "vintage": "last_updated 2026-03-14",
       "source": {
@@ -412,10 +496,11 @@
       "release_cadence": "the UN adds observances by resolution, irregularly",
       "next_check": "2027-03",
       "volatility": "low",
-      "watch_for": ["New observances relevant to sustainability; occasional date changes; official page URLs moving."]
+      "watch_for": [
+        "New observances relevant to sustainability; occasional date changes; official page URLs moving."
+      ]
     }
   ],
-
   "known_drift": [
     {
       "id": "eq_burgers",
@@ -424,7 +509,9 @@
       "what": "impact_equivalencies.json burgers = 11000 g, which encodes the retired beef-herd 99.48 kg CO2e/kg value.",
       "should_be": "food_items.json ships beef at 70.3608 (decision D6), so a 113 g patty is 7951 g. The file is 38% high.",
       "extra": "Its own sourceName still claims '113 g beef patty at the 99.48 kg CO2e/kg global mean, matches food_items.json' -- it no longer matches.",
-      "files": ["data/app/impact_equivalencies.json"],
+      "files": [
+        "data/app/impact_equivalencies.json"
+      ],
       "status": "open"
     },
     {
@@ -433,7 +520,9 @@
       "found": "2026-08-02",
       "what": "impact_equivalencies.json phoneCharges = 8 g.",
       "should_be": "The energy research derives 7.0 g at the E1 factor (12.98 Wh battery / 0.85 charge efficiency x 458 g/kWh).",
-      "files": ["data/app/impact_equivalencies.json"],
+      "files": [
+        "data/app/impact_equivalencies.json"
+      ],
       "status": "open"
     },
     {
@@ -442,7 +531,10 @@
       "found": "2026-08-02",
       "what": "AUDIT_ACTION_DATA.md section 8 derives the grid factor as 'midpoint of US 370g and UK 210g, biased toward global average'. That midpoint is 290, not the 386 it claimed.",
       "should_be": "Replace with the E1 derivation: Ember GER 2026, 458 g CO2e/kWh, 2025 data.",
-      "files": ["Plan/AUDIT_ACTION_DATA.md", "scripts/seed/seed_action_library.js"],
+      "files": [
+        "Plan/AUDIT_ACTION_DATA.md",
+        "scripts/seed/seed_action_library.js"
+      ],
       "status": "open"
     },
     {
@@ -451,11 +543,12 @@
       "found": "2026-08-02",
       "what": "co2_actions_database.json metadata still lists grid_factors us_average 0.37 / uk_average 0.21 from the January 2026 pass, alongside a note recommending per-region user input.",
       "should_be": "Reconcile with E1. The regionalisation note is not wrong -- it is now tracked in Plan/PDR_GRID_REGIONALISATION.md.",
-      "files": ["data/seed/co2_actions_database.json"],
+      "files": [
+        "data/seed/co2_actions_database.json"
+      ],
       "status": "open"
     }
   ],
-
   "pending_from_decisions": [
     {
       "decision": "E1 (2026-08-02): grid factor 386 -> 458 g CO2e/kWh",
@@ -472,11 +565,12 @@
     {
       "decision": "Food FR-22: actionLibrary re-seed for the corrected food values",
       "status": "seeder code synced, re-seed not yet run",
-      "changes": ["skip_high_impact_food 9700, skip_medium_impact_food 1000, plant_milk 460, skip_fish 1200"],
+      "changes": [
+        "skip_high_impact_food 9700, skip_medium_impact_food 1000, plant_milk 460, skip_fish 1200"
+      ],
       "note": "Bundle with the E1 re-seed -- one seeding operation, not two."
     }
   ],
-
   "stable_do_not_rechase": [
     {
       "what": "Poore & Nemecek 2018 (Science 360:987-992)",

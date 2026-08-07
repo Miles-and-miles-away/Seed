@@ -39,6 +39,13 @@ _FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => _FoodItem(
           ?.map((e) => EmissionSource.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  weightBasis: json['weight_basis'] as String? ?? 'as_purchased',
+  entryMode: json['entry_mode'] as String? ?? 'grams',
+  defaultServingId: json['default_serving_id'] as String? ?? '',
+  sourceTier: (json['source_tier'] as num?)?.toInt() ?? 1,
+  comparable: json['comparable'] as bool? ?? true,
+  tieGroup: json['tie_group'] as String?,
+  statisticSensitive: json['statistic_sensitive'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
@@ -54,4 +61,11 @@ Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
   'search_terms_es': instance.searchTermsEs,
   'calculation_notes': instance.calculationNotes,
   'sources': instance.sources,
+  'weight_basis': instance.weightBasis,
+  'entry_mode': instance.entryMode,
+  'default_serving_id': instance.defaultServingId,
+  'source_tier': instance.sourceTier,
+  'comparable': instance.comparable,
+  'tie_group': instance.tieGroup,
+  'statistic_sensitive': instance.statisticSensitive,
 };

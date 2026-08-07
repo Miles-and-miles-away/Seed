@@ -1,13 +1,25 @@
 # Food Items v2 -- Item Spec (post-review)
 
-Status: **FINAL LIST, ready for research.** Draft 1 (208 items)
-was reviewed by three adversarial agents -- shopper comprehension,
-LCA data integrity, product/UX -- on 2026-08-01. Their findings
-rewrote it. `RESEARCH_FOOD.md` remains the source of truth for
-values, quotes and invariants; this file decides which items exist
-and how each one gets its number.
+Status: **DELIVERED 2026-08-04 -- 166 items shipped.** This file was
+the build spec; it is now history. The dataset lives in
+`data/app/food_items.json`, the durable methodology in
+[RESEARCH_FOOD.md](./RESEARCH_FOOD.md) (selection rules in 2.2,
+functional units in 2.1), and the build record -- what shipped, what
+was cut, what nearly went wrong -- in
+[PDR_FOOD_ARCHIVE.md](./PDR_FOOD_ARCHIVE.md) section 6.
 
-Baseline: 41 shipped items, `beef_dairy_herd` retired (D5).
+**What shipped differs from the plan below**, and the archive is the
+authority where they disagree. The headline differences: 166 items
+against a planned 175, because roughly 30 candidates were correctly
+CUT for want of a citable ratio; the seafood group went P&N-anchored
+with Gephart filling gaps (D8), not Gephart-uniform as section 1's
+finding F9 proposed; and sections 4 and 8 below were already stale
+when the work resumed -- wave 9 had completed a full re-run, and the
+picker already had search, alias ranking, a lazy list and group
+icons.
+
+Baseline at the time of writing: 41 shipped items,
+`beef_dairy_herd` retired (D5).
 
 ---
 
@@ -107,42 +119,12 @@ items, so v2 encodes them as schema flags and tests instead.
 
 ---
 
-## 2. Selection rules (revised)
+## 2. Selection rules
 
-**R1 -- The fridge test.** Identifiable from the packet, plate or
-menu. No production-system forks in a user-facing name.
-
-**R2 -- A split needs >= 20% AND a source that resolves it.**
-Two items may only carry different numbers if a single source
-separates them by >= 20%. Same-anchor siblings are not splits --
-they are one number with several names (`category_anchor` +
-`aliases`).
-
-**R3 -- One weight basis per item, declared in the schema, shown
-in the picker label.** Not prose in `calculation_notes`.
-
-**R4 -- The number comes from the food, never the food from the
-number.** No item exists to re-home an orphaned value.
-
-**R5 -- Eaten often enough to matter in EN, JA or ES.**
-
-**R6 -- Never rank across sources.** Comparative copy requires
-both items to share `source_tier` and `tie_group == null`, at
->= 20% delta. Cross-tier comparison requires >= 2x.
-
-**R7 -- Physical floor.** A processed or derived item may never
-fall below the sum of its inputs' factors x mass fractions. Runs
-as a test over the whole dataset.
-
-### Factor routes
-
-| Route | Meaning |
-|-------|---------|
-| `P&N` | a Poore & Nemecek/OWID row, mean with losses, quoted verbatim |
-| `CAT` | a P&N category anchor applied to a member food, disclosed as a category average |
-| `T2` | a peer-reviewed or public-database value, used only within its own comparison group |
-| `T3` | derived from a parent by a **citable** ratio (standard, regulation or named product's declared composition) |
-| `G` | Gephart 2021 seafood, harmonised by the section-10 recipe, edible-weight basis declared |
+Moved to [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) section 2.2 (rules
+R1-R7 and the factor-route table) -- they outlive this spec, so
+they live in the research doc. Read them before adding, cutting or
+re-sourcing any item below.
 
 ---
 
@@ -555,59 +537,11 @@ next to butter, which was wrong on substance.
 
 ---
 
-## 9. P&N Table S1 functional units -- VERIFIED 2026-08-01
+## 9. P&N Table S1 functional units
 
-Extracted from the Supplementary Materials PDF
-(https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf)
-with `pdftotext -layout`. Table S1 "Functional units (FUs) used",
-verbatim rows:
-
-```
-Wheat & Rye      1 kg of bread (variable protein wheat)
-Maize            1 kg of meal (for polenta)
-Oats             1 kg of rolled oats
-Rice             1 kg of full grain white or brown rice
-Potatoes         1 kg of soil free tuber
-Cassava          1 kg of soil free tuber
-Peas             1 kg of dry pea without pod
-Other Pulses     1 kg of dry pulse without pod
-Nuts             1 kg of shell free, dry nut
-Groundnuts       1 kg of shell free, roasted nut
-Soybeans         1 kg of tofu (~16% protein)
-Cheese           1 kg of cheese
-Eggs             1 kg of eggs
-Poultry Meat / Pig Meat / Lamb & Mutton / Beef
-                 1 kg of fat and bone-free meat and edible offal
-Fish             1 kg of edible fish
-Crustaceans      1 kg of head-free meat (shell-free for large shrimp)
-Barley           1 liter of beer
-Wine grapes      1 liter of wine
-Milk             1 liter of pasteurized milk (4% fat, 3.3% protein)
-Soybeans         1 liter of soymilk (~3.3% protein)
-Root Vegetables  1 kg of soil free tuber
-Fruit & Veg.     1 kg of fresh fruit or vegetable
-Cocoa            1 kg of dark chocolate
-Coffee           1 kg of ground, roasted beans
-Oil crops        1 liter of refined/filtered oil
-Sugar crops      1 kg of raw/refined sugar
-```
-
-**This is now the authority on every item's `weight_basis`, and it
-contradicts the dataset's blanket "as-purchased raw" convention in
-five places.** Section 2 of RESEARCH_FOOD.md must be amended.
-
-| Finding | Consequence |
-|---|---|
-| Meat is **fat and bone-free** | "as-purchased" is wrong for meat. A bone-in chop weighed whole overstates. Wave 1's 9 CFR presets are already edible-portion, so they match -- the convention text does not |
-| Fish is **edible**, crustaceans **head-free/shell-free meat** | shipped `fish_farmed` and `prawns_farmed` are on an edible basis today, undeclared. Also removes basis as an explanation for the P&N-vs-Gephart prawn gap |
-| Oils are **per litre** | all five oil values need dividing by density (~0.91-0.92 kg/L) for a per-kg dataset -- roughly +9%. Affects shipped `olive_oil` and `palm_oil` |
-| Wheat & Rye is **bread**; Maize is **meal** | confirms wave 5. Shipped `pasta` 1.57 is on the wrong mass basis; `bread` 1.57 is correct but its notes are wrong |
-| Barley is **1 litre of beer** | not a grain row at all. Confirms it must not ship as a staple |
-| Groundnuts is **shell free, ROASTED** | wave 4's peanut-butter derivation applied a raw-to-roasted mass-loss uplift of 1.050161 on top of 3.23. The parent is already roasted, so that uplift **double counts** and must be removed: peanut_butter reverts to the 21 CFR 164.150 route alone |
-| Coffee is **ground, roasted beans** | confirms the basis wave 7's instant-coffee derivation assumed; 62.3344537815126 stands |
-| Peas / Other Pulses are **dry, without pod** | confirms shipped `peas` 0.98 is the dry row and is mismatched to its frozen-pea preset |
-| Fruit & Veg is **1 kg of fresh** | produce is genuinely as-purchased fresh; wave 6's CAT mappings are on the right basis |
-| Milk is **1 litre pasteurized, 4% fat** | the density-1.0 convention is fine here, but the fat spec matters for every dairy derivation |
+Moved to [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) section 2.1
+(verbatim Table S1 rows, verified 2026-08-01, plus the
+weight-basis consequences per row).
 
 ---
 

@@ -29,6 +29,31 @@ Future<Map<String, FoodItem>> foodItemsById(Ref ref) async {
   return FoodCalculator.byId(items);
 }
 
+/// Ids of items picked this session, most recent first.
+///
+/// keepAlive so the list survives closing the picker, but memory-only
+/// like everything else in the calculator -- persisting it would mean
+/// adding a local-storage dependency for a convenience, and the payoff
+/// is within a session anyway: building two comparable meals means
+/// reaching for the same handful of items twice.
+@Riverpod(keepAlive: true)
+class RecentFoodItemIds extends _$RecentFoodItemIds {
+  /// Enough to cover a two-meal comparison without pushing the grouped
+  /// list off screen.
+  static const maxRecents = 8;
+
+  @override
+  List<String> build() => const [];
+
+  /// Records a pick, moving a repeat to the front rather than
+  /// duplicating it.
+  void record(String itemId) {
+    state = List.unmodifiable(
+      [itemId, ...state.where((id) => id != itemId)].take(maxRecents),
+    );
+  }
+}
+
 /// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///
 /// keepAlive: an in-progress comparison must survive navigating away

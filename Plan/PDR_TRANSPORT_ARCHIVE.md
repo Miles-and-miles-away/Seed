@@ -348,3 +348,30 @@ Round 2 (executed 2026-07-18):
 > including the supersession notes on D1 and D3. Re-verify every
 > new or changed source quote live before pasting. Verify per
 > section 10. Do not commit. Finish with a summary.
+
+---
+
+## 10. Research-Pass Closures (from RESEARCH_TRANSPORT.md sec 7)
+
+Moved 2026-08-04 so the research doc tracks only what is still
+open. Everything here is closed; the resulting factors, decisions
+and rules are in RESEARCH_TRANSPORT.md sections 3-9 and Appendix A.
+
+Resolved 2026-07-17 (initial pass): four research tracks merged (3.1-3.3, 4);
+greencalculus vintage mixing confirmed and superseded by
+per-track verification; aviation figures confirmed with-RF;
+Shinkansen basis settled (20 g/pkm, per passenger-km; JR Central
+1/12-vs-plane ratio as the quotable fact); e-scooter scope
+settled (electricity-only + lifecycle caveat in methodology).
+
+Also resolved 2026-07-17: high-impact modes researched and decided
+(section 8: private jet -- 1,000 base, shipped at 1,700 with-RF
+per decision D2 -- and helicopter 450 ship as a "high-impact"
+group; yacht rejected as a mode, kept as an eco-fact candidate).
+
+Resolved 2026-07-18: RF multiplier verified at 1.7 on the DESNZ
+2025 methodology paper (sec 4); private jet gains the same uplift
+(1,700, decision D2, sec 8.1); ferry_car shipped with the
+one-leg-covers-both calc note (decision D3); JSON build step done
+(`data/app/transport_modes.json`, 27 modes).
+

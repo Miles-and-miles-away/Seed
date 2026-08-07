@@ -92,6 +92,17 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     final ingredient = widget.initialIngredient;
     if (ingredient != null) {
       _gramsController.text = _gramsSeedText(ingredient.grams);
+      return;
+    }
+    // Dose-dominated items open on their default serving rather than an
+    // empty grams field: coffee is ~10 g of grounds against a 28.53
+    // kg/kg factor, so "250" typed as if it were millilitres overstates
+    // the cup by around 25x. Seeding the realistic dose makes the
+    // preset the path of least resistance.
+    final preset = widget.item.defaultServing;
+    if (widget.item.isPresetOnly && preset != null) {
+      _gramsController.text = _gramsSeedText(preset.grams);
+      _selectedPresetId = preset.id;
     }
   }
 
@@ -174,6 +185,20 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                 ),
                 subtitle: Text(foodItemFactorLabel(l10n, item)),
               ),
+              // What to put on the scale. The factor's basis and the
+              // preset's basis have to agree, and where the dataset
+              // measures something other than what a shopper weighs
+              // (drained, shelled, dry) saying so is the difference
+              // between a right answer and a 2.5x one.
+              if (foodWeightBasisLabel(l10n, item) case final basis?) ...[
+                Text(
+                  basis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: spacingSm),
+              ],
               if (item.servings.isNotEmpty) ...[
                 Wrap(
                   spacing: spacingSm,
@@ -190,7 +215,10 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
               ],
               TextField(
                 controller: _gramsController,
-                autofocus: true,
+                // Preset-only items are seeded with their default dose;
+                // grabbing focus there invites overtyping the very
+                // number that protects the user.
+                autofocus: !item.isPresetOnly,
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
