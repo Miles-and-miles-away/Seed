@@ -2,15 +2,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
+import 'package:seed_app/shared/domain/carbon_comparison.dart';
 
-FoodItem item(String id, double kgPerKg) => FoodItem(
+FoodItem item(String id, double kgPerKg, {int sourceTier = 1}) => FoodItem(
   id: id,
   group: 'test',
   nameEn: id,
   nameJa: id,
   nameEs: id,
   kgCo2ePerKg: kgPerKg,
+  sourceTier: sourceTier,
 );
+
+/// One ingredient per option, so the gate's inputs read plainly.
+List<List<MealIngredient>> meals(String a, String b) => [
+  [MealIngredient(itemId: a, grams: 100)],
+  [MealIngredient(itemId: b, grams: 100)],
+];
 
 void main() {
   group('ingredientCo2eGrams', () {
@@ -72,6 +80,72 @@ void main() {
         ]),
         throwsArgumentError,
       );
+    });
+  });
+
+  group('mayStateVerdict', () {
+    // RESEARCH_FOOD.md section 8 rule 4: no "X emits less than Y"
+    // below a 20% delta, because whole clusters of the dataset are
+    // statistically tied by construction. Rule R6 additionally
+    // requires a doubling when the two sides are not on one source
+    // tier -- a tier-2 row is measured to a narrower boundary and
+    // reads systematically low against the tier-1 anchors.
+    final byId = FoodCalculator.byId([
+      item('beef', 70.3608),
+      item('chicken', 9.87),
+      item('eggs', 4.67),
+      item('rice', 4.45),
+      item('white_fish', 5.1250386, sourceTier: 2),
+    ]);
+
+    bool gate(String a, String b) {
+      final options = meals(a, b);
+      final totals = options
+          .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
+          .toList();
+      return FoodCalculator.mayStateVerdict(
+        compareTotals(totals)!,
+        byId,
+        options,
+      );
+    }
+
+    test('a wide, same-tier gap gets a verdict', () {
+      // chicken vs beef: 86% reduction.
+      expect(gate('chicken', 'beef'), isTrue);
+    });
+
+    test('the eggs-vs-rice tie gets none', () {
+      // 4.67 vs 4.45 = 4.7%. This pair is on the never-pin list
+      // precisely because it is inside the dataset's resolution.
+      expect(gate('rice', 'eggs'), isFalse);
+    });
+
+    test('20% exactly is enough', () {
+      final byId = FoodCalculator.byId([item('a', 10), item('b', 12.5)]);
+      final options = meals('a', 'b');
+      final totals = options
+          .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
+          .toList();
+      // 1250 -> 1000 is a 20.0% reduction.
+      expect(compareTotals(totals)!.deltaPercent, closeTo(20, 1e-9));
+      expect(
+        FoodCalculator.mayStateVerdict(compareTotals(totals)!, byId, options),
+        isTrue,
+      );
+    });
+
+    test('a cross-tier gap needs a doubling, not 20%', () {
+      // white_fish (tier 2) vs chicken (tier 1): 9.87 -> 5.125 is a
+      // 48.1% reduction, over the 20% bar but under the 2x one, and
+      // the tier-2 boundary offset could account for it.
+      expect(gate('white_fish', 'chicken'), isFalse);
+      // vs beef the gap is 92.7% -- far wider than the offset.
+      expect(gate('white_fish', 'beef'), isTrue);
+    });
+
+    test('an identical pair gets none', () {
+      expect(gate('beef', 'beef'), isFalse);
     });
   });
 }

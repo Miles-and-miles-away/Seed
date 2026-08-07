@@ -828,11 +828,13 @@ const actions = [
       'Elegir una comida vegetal en vez '
       + 'de pescado hoy',
     category: 'food',
-    // Split from skip_medium_impact_food (2026-07-23 owner call):
-    // average white/wild fish. fish_wild 9.5 kg/kg (food_items.json,
-    // PC-1) x 150g fillet = 1425g - 200g standardized beans baseline
-    // = 1225g, rounded down to two significant figures.
-    co2Grams: 1200,
+    // Split from skip_medium_impact_food (2026-07-23 owner call).
+    // Re-derived 2026-08-04 with the v2 dataset: fish_wild 9.5 was an
+    // assembled value the seafood review found unsound and retired.
+    // white_fish 5.1250386 kg/kg (food_items.json) x 150g fillet =
+    // 768.76g - 200g standardized beans baseline = 568.76g, rounded
+    // down to two significant figures.
+    co2Grams: 560,
     effort: 2,
     frequency: 3,
     impact: 2,

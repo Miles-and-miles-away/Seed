@@ -294,10 +294,10 @@ Round 3 (2026-07-19, all [x] except the accepted R3-10/11):
       (SB 1014 PDF verified verbatim), TRUE trimmed as
       unverifiable; metadata citation_note discloses the
       row-transcription convention
-- [ ] R3-10 Dart minors (NaN guard, modes double-decode, latent
+- [-] R3-10 Dart minors (NaN guard, modes double-decode, latent
       tunnel-active, fallback comment, near-duplicate metro
       cities) -- ACCEPTED, no fix (R3-D1)
-- [ ] R3-11 maths-doc minors (stale sec 6 preamble, unflagged
+- [-] R3-11 maths-doc minors (stale sec 6 preamble, unflagged
       tram assumption, illustrative 81 kg, vacuous 2026 skip)
       -- ACCEPTED, no fix (R3-D1)
 

@@ -2,7 +2,8 @@
 
 **Created:** 2026-08-02
 **Status:** NOT STARTED. Scoped out of decision E1
-(see [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4) so the
+(see [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+section 2) so the
 Part 3 energy dataset could ship against a single global constant.
 This document is the brief a future research agent works from.
 **Purpose:** Decide whether, and how, Seed should use
@@ -36,28 +37,32 @@ correctness failure, the other two are accuracy failures.**
 ### 1.1 The carrier crossover reverses a real-world answer
 
 Gas water heating emits less carbon than resistance-electric
-water heating **only above a grid factor of 214 g CO2/kWh**.
+water heating **only above a grid factor of 241 g CO2e/kWh**.
 Below that, electric wins. Applied to Seed's shipped shower entry
-(0.273652 kWh/min electric, 0.321944 kWh/min gas):
+(0.248111 kWh/min electric, 0.328036 kWh/min gas -- values as
+corrected 2026-08-02 for delta-T and calorific basis):
 
 | Grid | Electric | Gas | Winner |
 |------|---------:|----:|--------|
-| UK, DEFRA 2026 (131) | 35.8 g/min | 58.6 | **electric, 1.6x** |
-| Shipped global (458) | 125.3 | 58.6 | gas, 2.1x |
-| Japan (429) | 117.4 | 58.6 | gas, 2.0x |
-| India (695, IEA 2025) | 190.2 | 58.6 | gas, 3.2x |
+| UK, DEFRA 2026 (131) | 32.5 g/min | 59.7 | **electric, 1.8x** |
+| Shipped global (458) | 113.6 | 59.7 | gas, 1.9x |
+| IEA 2030 forecast (360) | 89.3 | 59.7 | gas, 1.5x |
+| Japan (429) | 106.4 | 59.7 | gas, 1.8x |
+| India (695, IEA 2025) | 172.4 | 59.7 | gas, 2.9x |
 
 **The UK has already crossed over.** A British user is told the
 opposite of the truth about their own home. France, Sweden,
 Norway and much of the Nordic/nuclear-hydro bloc are further past
-the crossover than the UK.
+the crossover than the UK -- and the global grid is forecast to
+reach 360 g by 2030, closing on the 241 threshold.
 
-Mitigation already in place: the section 2.2 comparison gating
+Mitigation already in place: the comparison gating
+([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) sec 3)
 (same `comparable_group` + same `carrier` + >=20% delta) blocks
 the app from *asserting* any cross-carrier verdict. So the app
 never prints the wrong sentence. **But it still displays both
 numbers**, and a user does not need the app's sentence to read
-58.6 < 125.3. Regionalisation is the only fix that makes the
+59.7 < 113.6. Regionalisation is the only fix that makes the
 displayed numbers right.
 
 ### 1.2 The EV factor is ungated and highly visible
@@ -113,7 +118,8 @@ not open for re-litigation in this brief.
 5. **Honest, not generous.** Where a country's sources disagree,
    pick conservatively and disclose the spread.
 6. **Comparison gating stays.** Regionalisation does not replace
-   the section 2.2 rule; the two are complementary. If anything,
+   the gating rule ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+   sec 3); the two are complementary. If anything,
    regional factors make *more* comparisons safe to assert, which
    is a benefit to quantify.
 7. **No new user obligation.** The app must remain fully usable
@@ -281,6 +287,29 @@ but was surfaced in the same review and should be settled once.
 5. A methodology paragraph on marginal-vs-average (4.5) and a
    ruling on T&D losses (4.6), regardless of the main
    recommendation.
+
+---
+
+## 5.1 What the app currently tells users
+
+The home-energy methodology screen already carries a full
+disclosure that regionalisation was considered and not shipped,
+with the regional spread shown in real numbers and the three
+mitigations named. Draft copy lives in
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 6.
+
+**If this work recommends shipping regional factors, that screen
+is the first thing that must change** -- it currently makes a
+positive claim ("we use one global figure, here is why") that
+would become false. Treat rewriting it as part of the deliverable,
+in all three locales.
+
+The strongest line in that copy is worth carrying into this
+research as a benchmark to beat: within-carrier comparisons are
+already grid-independent. A bath costs 2.29x a ten-minute shower
+on every grid from the UK's 131 to India's 695 g CO2e/kWh. Any
+regionalisation proposal has to justify itself against how much is
+*already* correct for every user without it.
 
 ---
 

@@ -221,4 +221,67 @@ void main() {
       expect(find.text('Food 299'), findsNothing);
     });
   });
+
+  group('FoodItemPicker rows', () {
+    Widget buildPickerWith(List<FoodItem> items, List<String> recentIds) =>
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: FoodItemPicker(
+              items: items,
+              recentIds: recentIds,
+              onSelected: (_) {},
+              onInfo: (_) {},
+            ),
+          ),
+        );
+
+    testWidgets('recents lead the list without leaving their own group', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildPickerWith(_items, const ['tofu']));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Recent'), findsOneWidget);
+      // Once under Recent, once under its own group heading.
+      expect(find.text('Tofu'), findsNWidgets(2));
+    });
+
+    testWidgets('an unknown recent id is skipped, not rendered blank', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildPickerWith(_items, const ['unicorn']));
+      await tester.pumpAndSettle();
+      expect(find.text('Recent'), findsNothing);
+    });
+
+    testWidgets('a narrower-boundary row says so on its own tile', (
+      tester,
+    ) async {
+      // Required before any non-tier-1 row can sit next to the tier-1
+      // anchors: a farm-gate figure reads 20-30% low against this
+      // dataset's cradle-to-retail boundary.
+      const squid = FoodItem(
+        id: 'squid',
+        group: 'seafood',
+        nameEn: 'Squid',
+        nameJa: '',
+        nameEs: '',
+        kgCo2ePerKg: 8.18,
+        sourceTier: 2,
+        weightBasis: 'edible',
+      );
+      await tester.pumpWidget(buildPickerWith(const [squid], const []));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('shorter supply chain'), findsOneWidget);
+      expect(find.textContaining('Edible weight'), findsOneWidget);
+    });
+  });
 }

@@ -1347,7 +1347,7 @@ Instead: transport (8.6) and food (8.12) comparison views carry a
 "Log greener choice" button; **the energy comparison view has no
 log affordance at all.** The Tier-1 energy choices ship as
 pre-programmed action-library entries -- see
-[RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 7.1 for the
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4 for the
 four new actions, their values, points and two open caveats.
 
 This also settles what the energy calculator is *for*: transport

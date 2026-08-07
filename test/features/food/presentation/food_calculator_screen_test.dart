@@ -103,6 +103,22 @@ void main() {
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
+    testWidgets('a sub-20% gap gets no verdict and no bank action', (
+      tester,
+    ) async {
+      // Same item both sides, 200 g vs 220 g: a real 9.1% delta that
+      // the gate must refuse to call (RESEARCH_FOOD.md section 8
+      // rule 4). Before the gate this shipped a verdict and a reward.
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '200');
+      await addIngredient(tester, itemName: 'Beans', grams: '220', column: 1);
+
+      expect(find.textContaining('too close to call'), findsOneWidget);
+      expect(find.textContaining('less than'), findsNothing);
+      expect(find.text('I chose Option A'), findsNothing);
+    });
+
     testWidgets('removing an ingredient empties the column again', (
       tester,
     ) async {

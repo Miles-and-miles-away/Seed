@@ -19,8 +19,8 @@
   },
   {
     "type": "burgers",
-    "gramsPerUnit": 11000,
-    "sourceName": "Our World in Data — Environmental Impacts of Food (after Poore & Nemecek 2018, Science; 113 g beef patty at the 99.48 kg CO2e/kg global mean, matches food_items.json)",
+    "gramsPerUnit": 7951,
+    "sourceName": "Our World in Data - Environmental Impacts of Food (after Poore & Nemecek 2018, Science; 113 g beef patty at the 70.3608 kg CO2e/kg production-weighted global mean, food decision D6; matches food_items.json beef)",
     "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food"
   }
 ]

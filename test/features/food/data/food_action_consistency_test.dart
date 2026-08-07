@@ -128,14 +128,16 @@ void main() {
 
   test('skip_fish derivation stays consistent with the dataset', () {
     // skip_fish is a seeder-only library action (not in this DB), so
-    // this pins the arithmetic its co2Grams is derived from: average
-    // white/wild fish, fish_wild x 150 g fillet minus the 200 g beans
-    // baseline (2026-07-23 owner call). The seeder ships 1200 g
-    // (1225 rounded down to two significant figures); if fish_wild
-    // drifts out of the [1200, 1300) band the seeder value must move
-    // too, and this test flags it.
-    final derived = 0.15 * factorById['fish_wild']! * 1000 - plantAltBaselineG;
-    expect(derived, greaterThanOrEqualTo(1200));
-    expect(derived, lessThan(1300));
+    // this pins the arithmetic its co2Grams is derived from: a white
+    // fish fillet minus the 200 g beans baseline (2026-07-23 owner
+    // call). Re-based on white_fish 2026-08-04 -- the seafood source
+    // decision retired the assembled fish_wild 9.5 this used to read,
+    // and the reward fell from 1200 g to 560 g with it. If white_fish
+    // drifts out of the [560, 660) band the seeder value must move too.
+    final derived = 0.15 * factorById['white_fish']! * 1000 - plantAltBaselineG;
+    expect(derived, greaterThanOrEqualTo(560));
+    expect(derived, lessThan(660));
+    // The retired value must not come back as a silent revert.
+    expect(factorById.containsKey('fish_wild'), isFalse);
   });
 }

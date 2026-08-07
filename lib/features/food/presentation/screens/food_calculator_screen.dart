@@ -102,6 +102,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
             ),
             child: FoodItemPicker(
               items: items,
+              recentIds: ref.read(recentFoodItemIdsProvider),
               onSelected: (item) => Navigator.pop(sheetContext, item),
               onInfo: (item) => FoodScienceSheet.show(
                 sheetContext,
@@ -114,6 +115,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       ),
     );
     if (item == null || !mounted) return;
+    ref.read(recentFoodItemIdsProvider.notifier).record(item.id);
     await _openEditor(item, option);
   }
 
@@ -157,6 +159,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     final summary = options.every((i) => i.isNotEmpty)
         ? compareTotals(totals)
         : null;
+    // Marking a column "best" is a verdict in its own right, so it
+    // answers to the same gate as the headline copy.
+    final showVerdict =
+        summary != null &&
+        FoodCalculator.mayStateVerdict(summary, itemsById, options);
 
     return Column(
       children: [
@@ -180,8 +187,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
                                 : l10n.calculatorOptionB,
                             totalGrams: totals[option],
                             fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest:
-                                summary != null && option == summary.bestIndex,
+                            isBest: showVerdict && option == summary.bestIndex,
                             isEmpty: options[option].isEmpty,
                             emptyHint: l10n.foodColumnEmptyHint,
                             children: [
@@ -279,6 +285,18 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           ).where((e) => e.type == EquivalencyType.carKm).firstOrNull?.value,
         );
     final busy = ref.watch(foodChoiceLoggerProvider).isLoading;
+    // Below the gate the two meals sit inside the dataset's own
+    // resolution, so there is no winner to name and nothing honest to
+    // bank -- the bars and totals above still tell the whole story.
+    if (!FoodCalculator.mayStateVerdict(summary, itemsById, options)) {
+      return Text(
+        l10n.foodComparisonTooClose,
+        textAlign: TextAlign.center,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

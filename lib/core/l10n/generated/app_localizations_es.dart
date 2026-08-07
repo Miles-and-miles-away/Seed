@@ -1836,6 +1836,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodComparisonTitle => 'Comparar comidas';
 
   @override
+  String get foodGroupNutsSeeds => 'Frutos secos y semillas';
+
+  @override
+  String get foodGroupCondiments => 'Condimentos';
+
+  @override
+  String get foodGroupPrepared => 'Platos preparados';
+
+  @override
+  String get foodBasisDry =>
+      'Peso en seco: pésalo antes de cocinarlo o ponerlo a remojo.';
+
+  @override
+  String get foodBasisDrained =>
+      'Peso escurrido: pésalo después de escurrir la lata.';
+
+  @override
+  String get foodBasisEdible =>
+      'Peso comestible: pésalo sin cáscara, hueso ni piel.';
+
+  @override
+  String get foodBasisConcentrate =>
+      'Peso sin diluir: pesa el concentrado, no la bebida.';
+
+  @override
+  String get foodBoundaryNarrower =>
+      'Se ha medido sobre una cadena de suministro más corta que la mayoría de los alimentos de aquí, así que parece más bajo.';
+
+  @override
+  String get foodPickerRecents => 'Recientes';
+
+  @override
+  String get foodComparisonTooClose =>
+      'Estas dos opciones están demasiado igualadas. Por debajo de una diferencia del 20%, la brecha queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.';
+
+  @override
   String foodComparisonDelta(
     String label,
     String amount,
@@ -1886,5 +1922,5 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodMethodologyBody =>
-      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' sigue teniendo una huella mucho mayor que los \'frijoles importados\', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
+      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### Por qué no siempre declaramos una ganadora\nCada cifra de aquí es un promedio de miles de granjas, y esas granjas no se reparten de forma uniforme alrededor de él. Una minoría de productores de impacto muy alto empuja el promedio por encima de lo que sería una granja típica, y por eso el estudio publica también un valor intermedio: la cifra que deja la mitad de la producción mundial a cada lado. En la mayoría de los alimentos ambos valores quedan cerca. En algunos no: el chocolate negro promedia 46,65 kg CO2e/kg frente a un valor intermedio de 18,7, y el pescado de piscifactoría 13,63 frente a 5,1.\n\nUsamos los promedios, porque representan el impacto mundial total y no la granja típica. La consecuencia es que dos alimentos con cifras próximas pueden intercambiar posiciones según cuál de los dos valores se mire. Por eso esta herramienta solo afirma que una comida es mejor que otra cuando la diferencia llega al 20%; por debajo de eso muestra ambos totales y te deja la comparación a ti.\n\nEse 20% está comprobado, no elegido por comodidad. En todas las parejas de alimentos de aquí para las que el estudio publica ambas cifras, una diferencia del 20% o más apunta en la misma dirección con cualquiera de las dos. Hay tres excepciones, porque su propio promedio y su valor intermedio difieren en más del doble: el chocolate negro, el pescado de piscifactoría y los frutos secos de árbol. En esos casos ninguna diferencia es fiable, así que nunca se usan para declarar una ganadora. Y cuando la comparación cruza dos estudios distintos -- algunos alimentos de aquí se miden con una segunda fuente que abarca una cadena de suministro más corta -- exigimos que una comida emita menos de la mitad que la otra, porque una diferencia menor podría ser solo el reflejo de lo que cada estudio contabilizó.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' sigue teniendo una huella mucho mayor que los \'frijoles importados\', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
 }

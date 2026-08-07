@@ -9,6 +9,29 @@ import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
 import 'package:seed_app/features/food/presentation/widgets/ingredient_editor_sheet.dart';
 
+/// A dose-dominated item: 10 g of grounds against a 28.53 kg/kg factor,
+/// so the grams field is a trap and the preset is the safe default.
+const _coffee = FoodItem(
+  id: 'coffee',
+  group: 'drinks',
+  nameEn: 'Coffee',
+  nameJa: '',
+  nameEs: '',
+  kgCo2ePerKg: 28.53,
+  entryMode: 'preset_only',
+  defaultServingId: 'cup_10g',
+  weightBasis: 'dry',
+  servings: [
+    ServingPreset(
+      id: 'cup_10g',
+      nameEn: '1 cup (10 g of grounds)',
+      nameJa: '',
+      nameEs: '',
+      grams: 10,
+    ),
+  ],
+);
+
 const _chicken = FoodItem(
   id: 'chicken',
   group: 'meat',
@@ -68,5 +91,43 @@ void main() {
       tester.widget<TextField>(find.byType(TextField)).controller!.text,
       '170',
     );
+  });
+
+  group('dose-dominated items', () {
+    Widget buildCoffee() => ProviderScope(
+      overrides: [
+        foodItemsProvider.overrideWith((_) async => const [_coffee]),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const Scaffold(body: IngredientEditorSheet(item: _coffee)),
+      ),
+    );
+
+    testWidgets('opens on the default preset instead of an empty field', (
+      tester,
+    ) async {
+      // The shipped behaviour was an autofocused empty grams field, so
+      // "250" (millilitres of drink) computed a 7.13 kg cup -- roughly
+      // 25x the real one (RESEARCH_FOOD.md section 8, rule 1).
+      await tester.pumpWidget(buildCoffee());
+      await tester.pumpAndSettle();
+
+      final field = tester.widget<TextField>(find.byType(TextField));
+      expect(field.controller?.text, '10');
+      expect(field.autofocus, isFalse);
+    });
+
+    testWidgets('states what to weigh', (tester) async {
+      await tester.pumpWidget(buildCoffee());
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Dry weight'), findsOneWidget);
+    });
   });
 }

@@ -30,6 +30,21 @@ abstract class FoodItem with _$FoodItem {
     @Default([]) List<String> searchTermsEs,
     @Default('') String calculationNotes,
     @Default([]) List<EmissionSource> sources,
+    // The dataset carries more metadata than this (statistic, parent,
+    // mass_ratio, spread bounds, category_anchor); those have no reader
+    // in the app and are asserted straight from the JSON by the
+    // dataset tests instead.
+    @Default('as_purchased') String weightBasis,
+    @Default('grams') String entryMode,
+    @Default('') String defaultServingId,
+    @Default(1) int sourceTier,
+    @Default(true) bool comparable,
+    String? tieGroup,
+
+    /// The item's own published mean and median differ by 2x or more,
+    /// so the source's choice of statistic dominates its value and no
+    /// gap between it and another food survives that choice.
+    @Default(false) bool statisticSensitive,
   }) = _FoodItem;
 
   const FoodItem._();
@@ -56,4 +71,21 @@ abstract class FoodItem with _$FoodItem {
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
   };
+
+  /// True when a raw grams entry is a trap for this item.
+  ///
+  /// Coffee, tea, matcha, cocoa and the spoonful items are consumed a
+  /// few grams at a time against a large per-kg factor, so "250" typed
+  /// into a grams field as if it were millilitres overstates by an
+  /// order of magnitude. Those items open on a preset instead.
+  bool get isPresetOnly => entryMode == 'preset_only';
+
+  /// The preset the editor selects on open, or null when the dataset
+  /// names none (or names one that no longer exists).
+  ServingPreset? get defaultServing {
+    for (final preset in servings) {
+      if (preset.id == defaultServingId) return preset;
+    }
+    return null;
+  }
 }
