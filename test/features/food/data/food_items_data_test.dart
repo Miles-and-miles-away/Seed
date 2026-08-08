@@ -141,10 +141,10 @@ void main() {
       // `peas` moved plant_protein -> vegetables on 2026-08-02 with
       // its anchor correction: P&N's Peas row is dry split peas,
       // and P&N files green peas under Vegetables.
-      // `nuts` split into tree_nuts + peanuts on 2026-08-04: peanuts
+      // `nuts` split into tree_nuts + peanuts on 2026-08-08: peanuts
       // were aliased onto the tree-nut row at 0.43, 7.5x below their
       // own P&N Groundnuts row.
-      // v2 (2026-08-04) widened the dataset to 166 items and retired
+      // v2 (2026-08-08) widened the dataset to 166 items and retired
       // five umbrella rows into species rows (root_vegetables,
       // cabbage_broccoli, onions_leeks, citrus, berries) plus
       // fish_wild, which the seafood source decision replaced with
@@ -213,7 +213,7 @@ void main() {
       // The tree-nut row is 0.43 only because of a land-use-change
       // credit for orchards; P&N put groundnuts on their own row at
       // 3.23. A peanut alias here routes peanuts 7.5x too low, which
-      // is what shipped until 2026-08-04 (RESEARCH_FOOD.md 3.3).
+      // is what shipped until 2026-08-08 (RESEARCH_FOOD.md 3.3).
       final tree = items.firstWhere((i) => i['id'] == 'tree_nuts');
       final aliases = [
         ...(tree['search_terms_en'] as List<dynamic>),

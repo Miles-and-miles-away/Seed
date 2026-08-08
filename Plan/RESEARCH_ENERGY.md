@@ -3,13 +3,18 @@
 **Version:** 2.0
 **Created:** 2026-08-02
 **Status:** Evidence base complete. 33 behaviors, every factor
-live-verified, all eight open items closed. Restructured 2026-08-02
+live-verified, no open items. Restructured 2026-08-02
 to match the transport pattern: this document is the **evidence
 base only**. Decisions, product rules, action-library additions,
 UI/copy requirements and the methodology screen copy moved to
 [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md).
 **Feeds:** `data/app/energy_behaviors.json` (Phase 8.13, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 3)
+**Archive:** executed detail -- closed items, superseded values,
+rejected alternatives, non-entries and the full recomputation --
+moved to
+[RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+2026-08-08 so this document stays a working reference.
 
 Every factor that ships must trace back to an entry here with
 source, verbatim quote, URL, access date and vintage. Follows the
@@ -23,6 +28,7 @@ Unit for every factor: **kWh per stated unit** (`use`, `minute`,
 source below: **2026-08-02**.
 
 ---
+
 ## 1. Source Landscape (verified 2026-08-02)
 
 ### Primary: UK DEFRA/DESNZ GHG Conversion Factors
@@ -70,68 +76,22 @@ UK grid electricity from the same files, for scale: 0.17700
 (2025) -> **0.13096** (2026) kg CO2e/kWh, a real ~26% drop in one
 release. That number matters far more than it looks -- see 2.1.
 
-### The grid factor problem (feeds decision E1)
+### Grid electricity: Ember 458 (decision E1)
 
-The app shipped a house global-average grid factor of **386 g
-CO2/kWh**, live in `data/app/transport_modes.json` and throughout
-`co2_actions_database.json`. **Decision E1 (2026-08-02) replaces
-it with Ember's 458 g CO2e/kWh.** All figures below were
-**read on the live page in a browser on 2026-08-02** (they
-previously refused automated fetch):
-
-| Source | Year | Value | Basis |
-|--------|------|------:|-------|
-| Ember, *Global Electricity Review 2026* | 2025 | **458** g CO2e/kWh | CO2e |
-| **IEA, *Electricity 2026*** | **2025** | **435 g CO2/kWh** | CO2 only |
-| IEA, same page, forecast | 2030 | 360 g CO2/kWh | CO2 only |
-| IEA, *Electricity 2025* (superseded) | 2024 | 445 g CO2/kWh | CO2 only |
-| 資源エネルギー庁 (JP, official 代替値) | 令和6年提出用 | 429 g CO2/kWh | JP grid |
-| 資源エネルギー庁 (JP, older 代替値) | 令和2年提出用 | 488 g CO2/kWh | JP grid |
-| Japan, 61 major utilities (via Argus) | FY2024-25 | 416 g CO2/kWh | utility self-report |
-
-Ember, verbatim: "The emissions intensity of electricity has
-dropped 14% over the last decade, from 533 grams of CO2
-equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025."
+The house factor of **386 g CO2/kWh** is replaced by **Ember
+*Global Electricity Review 2026*, 458 g CO2e/kWh (2025 data)**,
+shared with `transport_modes.json` and pinned by a cross-dataset
+test. Ember verbatim: "from 533 grams of CO2 equivalent per kWh
+(gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025."
 https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/
 
-IEA *Electricity 2026*, verbatim (read live 2026-08-02; this
-report supersedes *Electricity 2025*, which the first pass cited):
-
-> "We forecast CO2 intensity to fall even faster over our forecast
-> period, at an annual average rate of 3.7%, down from 435 g
-> CO2/kWh in 2025 to 360 g CO2/kWh in 2030."
-
-https://www.iea.org/reports/electricity-2026/emissions
-
-The same page gives a **free regional table for 2025** -- EU 170,
-China 530, India 695, Southeast Asia 640, world 435 g CO2/kWh --
-which materially lowers the cost of the regionalisation work
-spun out to
-[PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md).
-
-資源エネルギー庁 calculation-basis page, verbatim:
-"◎電気 0.488kgCO2/kWh [電気事業者別排出係数令和2年提出用「代替値」]
-　※照明・テレビのみ 0.429kgCO2/kWh
-[電気事業者別排出係数令和6年提出用「代替値」]"
-https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index.html#konkyo
-
-**Do not average IEA and Ember.** They are different statistics:
-IEA 435 is CO2-only, Ember 458 is CO2e (includes CH4 and N2O).
-Averaging them produces a figure that is neither -- the same
-defect D1 corrected in the food dataset. Because both now report
-**2025 data**, the 23 g gap between them is cleanly attributable
-to scope: **CO2e adds 5.3% over CO2-only.** Averaging is
-correct only for independent estimates of the *same quantity on
-the same basis* (the D3 oats / butter / tea precedent). **The
-app is denominated in CO2e throughout, so the scope-correct
-single anchor is Ember 458**, which is also the freshest vintage.
-
-**Separate finding, needs fixing either way:**
-[AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) §8 documents 386 as
-"midpoint of US 370g and UK 210g, biased toward global average".
-That midpoint is **290**. The house factor's stated derivation
-does not reproduce the house factor. Whatever E1 decides, that
-line is wrong and should be corrected or removed.
+**Do not average IEA and Ember.** IEA's 435 is CO2-only, Ember's
+458 is CO2e; averaging produces a figure that is neither. The app
+is denominated in CO2e throughout, so Ember is the scope-correct
+anchor and also the freshest vintage. The full candidate survey
+(IEA, JP 代替値, utility self-reports, regional 2025 table) and the
+386 provenance error are in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 2.
 
 ### Japan government sources (primary market)
 
@@ -153,7 +113,7 @@ https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index
 
 Those season lengths convert METI's annual savings into
 **measured per-hour appliance consumption** -- which is exactly
-what open item 9.7 said nobody published. Sections 3.3 and 3.5
+what the first pass said nobody published. Sections 3.3 and 3.5
 now use METI measurements instead of manufacturer rated values
 for the two entries where the two disagree most.
 
@@ -193,7 +153,7 @@ older EN60456) and 0.900 kWh ("Cottons colour 60 C", the EU-label
 programme). Bosch discloses why, verbatim: "The actual washing
 temperature may differ from the stated programme temperature for
 energy-saving reasons." A label-optimised "60 C" cycle does not
-reach 60 C. Section 10 confirms this by physics.
+reach 60 C.
 
 ### Aggregator discipline
 
@@ -203,9 +163,7 @@ URL. Values seen only in a search-engine summary are labelled
 **SEARCH-ONLY** and may not enter `sources[]` until re-fetched.
 The browser pass on 2026-08-02 cleared Ember, IEA, EPA
 WaterSense, LBNL standby and 資源エネルギー庁 off that list;
-section 9.1 tracks what remains.
-
----
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 tracks what remains.
 
 ---
 
@@ -249,8 +207,8 @@ Conventions:
   litre per kelvin**. Cold inlet **12.8 C** (UK SAP 10.1 Table J1
   mains-fed annual average), delivered hot water **40 C** (NHBC
   design standard), so **delta-T = 27.2 K** and **0.03162756
-  kWh/L** throughout 3.1. Both are now tier-1 sourced -- item 9.3
-  closed 2026-08-02; the earlier 10 C / 30 K pair was a
+  kWh/L** throughout 3.1. Both are now tier-1 sourced; the
+  earlier 10 C / 30 K pair was a
   winter-conservative guess and cut all seven hot-water entries
   by 9.33% when corrected.
 - **Average what changed with technology; keep regional variation
@@ -321,7 +279,7 @@ Three consequences, all binding:
 Constant: **0.03162756 kWh per litre** (1 kg x 4.186 kJ/kg-K x
 27.2 K / 3600).
 
-**Temperature basis (item 9.3, closed 2026-08-02).** Both ends of
+**Temperature basis.** Both ends of
 delta-T are now tier-1 sourced.
 
 *Delivered 40 C.* UK SAP 10.1 Appendix J, verbatim:
@@ -351,20 +309,10 @@ arithmetic, not a stated SAP figure). Ships that, as an **annual
 average** -- the app applies no seasonal adjustment anywhere else,
 so a single constant should be an annual mean, and the retired
 10 C was a winter figure that overstated every hot-water cost by
-9.33%.
-
-Regional spread, disclosed: Tokyo Waterworks reports "最高水温は
-7月の29.5℃で、最低水温は2月の8.3℃です。" (max 29.5 C in July, min
-8.3 C in February). A SHASE conference paper fitting 2013-2019
-treatment-plant records across 42 Japanese cities finds
-river/snowmelt-fed Fukushima at "7℃～11℃程度" dropping to ~4 C in
-February-March, while groundwater-fed Kumamoto holds "年間を通して
-20℃前後" (~20 C year-round)
-(https://www.jstage.jst.go.jp/article/shasetaikai/2021.1/0/2021.1_33/_pdf).
-No JP national annual average was obtainable; 12.8 C sits inside
-the JP city range and is the only tier-1 published annual mean
-available. Open follow-up: average Tokyo's own monthly series if
-a JP-weighted figure is ever wanted.
+9.33%. JP city cold-water temperatures span ~4-20 C by source
+(river vs groundwater); 12.8 C sits inside that range and is the
+only tier-1 published annual mean available -- spread in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 3.1.
 
 | Item | kWh/unit | Unit | Carrier | Confidence |
 |------|---------:|------|---------|------------|
@@ -422,18 +370,13 @@ Center of Japan, verbatim: "COP = 3.5 of the initial model" and
 model"; shipped COP is the mean, **4.3**.
 https://www.hptcj.or.jp/e/learning/tabid/370/Default.aspx
 
-Same carrier, same group, 4.3x delta -- so the E2 rule *permits*
-the heat-pump verdict, which is the largest single lever in the
-dataset. An averaged single entry would have said nothing.
+**Not shipped, documented:** the self-contained UK electric shower
+unit is a third hardware class (~0.15-0.17 kWh/min); the science
+sheet names it. Detail in [archive](./RESEARCH_ENERGY_ARCHIVE.md)
+3.2.
 
-**Not shipped, documented:** the self-contained electric shower
-unit (UK-common) is power-capped at 7.5-10.5 kW, which physically
-restricts flow to ~4-4.5 L/min at delta-T 30, giving ~0.15-0.17
-kWh/min. It is a third hardware class; the science sheet names
-it.
-
-**Gas hot-water efficiency: 0.756353 on a gross-CV basis (item
-9.2, closed 2026-08-02).** The earlier 0.85 was an unsourced
+**Gas hot-water efficiency: 0.756353 on a gross-CV basis.** The
+earlier 0.85 was an unsourced
 assumption AND was on the wrong calorific basis. Both are now
 fixed.
 
@@ -517,76 +460,13 @@ https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dis
 63 x 0.03162756 = **1.992536 kWh** electric; / 0.756353 =
 **2.634399 kWh** gas.
 
-**Peer-reviewed cross-check and spread (item 9.10, closed
-2026-08-02).** The Bonn lineage is now sourced properly. The
-secondary retellings that disagreed with each other were all
-garbled versions of three real studies, which a Schencking &
-Stamminger review collects into one table:
-
-Schencking, L. T. F. & Stamminger, R. (2022), "What science knows
-about our daily dishwashing routine", *Tenside Surfactants
-Detergents* 59(3), open access,
-https://doi.org/10.1515/tsd-2022-2423 -- Table 1, verbatim
-transcription (a data-table row transcription, not a page
-sentence):
-
-| Study | Consumer | Dishwasher |
-|-------|---------|-----------|
-| Stamminger et al. 2007 (113 participants, 7 countries) | 103 L / 2.5 kWh / 79 min | 15 L / 1.0 kWh / 100-150 min |
-| Berkholz et al. 2010 (150 UK residents, representative) | 49.2 / 44.1 L, 1.7 / 1.4 kWh (mean/median) | 13.2 / 12.4 L, 1.3 kWh (ECO 50) |
-| Berkholz et al. 2013 (29 countries) | 34.7-160.1 L, 0.9-4.6 kWh (median range) | 12.0-17.7 L, 0.7-1.6 kWh |
-
-Method, verbatim: "The participants were asked to wash a full load
-of 140 individual items in a laboratory environment. The dishes
-were soiled according to EN 50242:2003 [23] and air-dried for 2 h
-beforehand. A dishwasher was run in a programme recommended for
-normally soiled dishes in parallel to the experiment."
-
-Verdict, verbatim: "The participants required different amounts of
-the resources time, energy and water, but on average performed
-poorer than the dishwasher in all points".
-
-Spread, verbatim (this **replaces** the previously cited 33-440 L
-figure, which was a secondary retelling): "the individual water
-consumption ranged from 18.3 L to 472.8 L for the same number of
-soiled dishes". A **26x spread across real households** --
-technique (bowl vs running tap) dominates everything else in this
-entry.
-
-Primary citations: Berkholz, P., Stamminger, R., Wnuk, G., Owens,
-J., Bernarde, S., "Manual dishwashing habits. An empirical
-analysis of UK consumers", *Int. J. Consum. Stud.* 2010, 34,
-235-242, https://doi.org/10.1111/j.1470-6431.2009.00840.x
-(paywalled, HTTP 402, no OA copy exists -- confirmed via OpenAlex
-and Semantic Scholar); Berkholz, P., Kobersky, V., Stamminger, R.,
-*Int. J. Consum. Stud.* 2013, 37, 46-58,
-https://doi.org/10.1111/j.1470-6431.2011.01051.x; Stamminger, R.,
-Elschenbroich, A., Rummler, B., Broil, G., "Dishwashing Under
-Various Consumer-Relevant Conditions", *Hauswirtschaft und
-Wissenschaft*, 2007, pp. 81-88.
-
-**Litre-basis sensitivity -- shipped value UNCHANGED, but the
-comparison is more carrier-dependent than it looked.** Berkholz
-2010's UK laboratory measurement (49.2 L mean, 44.1 L median for a
-140-item load) is *lower* than Which?'s 63 L, while the two agree
-almost exactly on the dishwasher side (13.2 L vs ~13 L), so the
-loads are comparable and the difference is real:
-
-| Hand-wash basis | Electric | Gas | vs `dishwasher_normal` (513 g) |
-|-----------------|---------:|----:|-------------------------------:|
-| **Which? 63 L (shipped)** | 913 g | 479 g | gas sink loses by 7% |
-| Berkholz 49.2 L | 713 g | 374 g | **gas sink WINS by 37%** |
-| Berkholz 44.1 L | 639 g | 336 g | gas sink wins by 53% |
-| Stamminger 103 L | 1492 g | 784 g | gas sink loses by 35% |
-
-Which? 2026 stays shipped: it measures both sides on one current
-14-place-setting basis, and 63 L is the conservative choice for
-the entry's own footprint. But under the peer-reviewed UK figure a
-gas-heated sink beats the dishwasher by 37%, which is far above
-the 20% verdict threshold. **This is the strongest evidence yet
-for the same-carrier rule in 2.2** -- the dishwasher's advantage
-is not a fact about dishwashers, it is a fact about how the sink
-water is heated and whose measurement you use.
+**Spread, peer-reviewed:** hand-washing the same load ranges
+**18.3-472.8 L** across real households (Schencking & Stamminger
+2022, *Tenside Surfactants Detergents* 59(3), Table 1, open
+access). A 26x spread -- technique dominates this entry. The
+lineage, the litre-basis sensitivity table and what it implies for
+the same-carrier rule are in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 3.3.
 
 ### 3.2 Laundry and dishes (verified 2026-08-02)
 
@@ -613,15 +493,9 @@ verbatim table rows:
 > version of EN50229 and Directive 96/60/EC for washing with max.
 > load, cold water (15°C)"
 
-The plan's "30 C" entry is retired: no current manufacturer
-publishes a full-load 30 C cottons figure (30 C appears only on
-2 kg delicates programmes), and the 0.40 kWh figure circulating
-for it traces to a 2006 Öko-Institut 5 kg study reached only via
-a secondary citation. A "20-30 C" range label was rejected as
-well -- it would be a 20 C measurement wearing a 30 C name, and
-20 -> 40 is too non-linear to interpolate (the 20 C programme
-barely heats). Shipping the three verbatim temperatures preserves
-the low/warm/high framing with nothing invented.
+The plan's "30 C" entry is retired -- no current manufacturer
+publishes a full-load 30 C cottons figure
+([archive](./RESEARCH_ENERGY_ARCHIVE.md) 4).
 
 Spread for the science sheet: the same drum on the older EN60456
 standard gives 0.370 / 1.450; its EU-label "Cottons colour 60 C"
@@ -673,8 +547,8 @@ behavior choice, so both ship.
 | Kotatsu | 0.15 | hour | electricity | Medium-High |
 | Electric blanket | 0.025 | hour | electricity | Medium |
 
-**Air conditioner: measured, not rated (this replaces the
-first-pass values and closes open item 9.7).** 資源エネルギー庁
+**Air conditioner: measured, not rated** (this replaces the
+first-pass rated values). 資源エネルギー庁
 publishes annual savings from shortening runtime by one hour a
 day, sourced to 省エネルギーセンター実測値, together with the
 season lengths needed to convert them. Verbatim:
@@ -745,19 +619,10 @@ JP ceramic fan heaters run 600-1,200 W in three steps. Ships at
 nameplate on high, with thermostatic cycling reducing the true
 average once the room is warm.
 
-**Kotatsu -- the weakest number in the dataset.**
-
-| Value | Basis | Source |
-|-------|-------|--------|
-| 300-600 W | "主なこたつの消費電力" (typical rating) | SoftBank でんき, https://www.softbank.jp/energy/saving/kotatsu/ |
-| quartz 80-145 W, halogen 70-180 W, flat carbon 50-110 W | low-to-high setting, by heater type | https://enechange.jp/articles/kotatsu-cost |
-| "実際の平均消費電力は表示より2〜3割低い" | average vs rating | unlabelled aggregator, **not re-verifiable** |
-
-SoftBank でんき verbatim: "主なこたつの消費電力は300W～600W程度です。"
-
-**Ships at 0.15 kWh/h, now MEDIUM-HIGH confidence (item 9.12
-closed 2026-08-02).** The deadlock broke on a terminology
-discovery: kotatsu makers publish 標準（平均）消費電力量 in **Wh**,
+**Kotatsu ships at 0.15 kWh/h, MEDIUM-HIGH confidence.** The
+deadlock (nameplate 300-600 W against an unlabelled "2-3割 lower"
+aggregator claim -- [archive](./RESEARCH_ENERGY_ARCHIVE.md) 5.1)
+broke on a terminology discovery: kotatsu makers publish 標準（平均）消費電力量 in **Wh**,
 which is an already-thermostat-averaged per-hour figure, entirely
 separate from the 消費電力 nameplate in W.
 
@@ -828,28 +693,14 @@ must always show all four.
 資源エネルギー庁 gives 2.489 kgCO2/L. The data is now strong
 enough to ship whenever wanted.
 
-**Refrigerator -- context line only, never a picker item** (item
-9.6 closed 2026-08-02). You cannot fridge less. The previous
-"roughly 1 kWh a day" was too high; three tier-1 JIS-measured
-manufacturer specs put a modern JP fridge lower:
-
-| Model | Capacity | kWh/year | kWh/day |
-|-------|---------:|---------:|--------:|
-| Panasonic NR-F454HPX | 450 L | 249 | 0.68 |
-| Hitachi R-XG48K | 475 L | 258 | 0.71 |
-| Hitachi R-XG43K | 430 L | 287 | 0.79 |
-
-Panasonic verbatim: "年間消費電力量★1　50Hz　249kWh/年" measured
-"新JIS測定・計算方式　（JIS C 9801-3: 2015）　に基づく表示"
-(https://panasonic.jp/reizo/products/NR-F454HPX/spec.html).
-
-**Ships as ~0.7 kWh/day** for the JP/modern case. Western
-comparison, ENERGY STAR ProductFinder (tier-1, verbatim "Annual
-Energy Use (kWh/yr) ... 452" for an 18.0 ft3 unit): modern
-efficient US units run **1.1-1.25 kWh/day**, and the US installed
-average is higher again (~1.8 kWh/day, derived from an EIA cost
-figure -- SEARCH-ONLY, label it if used). Copy should give the
-modern figure, not the installed average.
+**Two researched non-entries.** Whole-home gas central heating
+(1,530 kWh/yr per 1 C, DECC/CAR) is ~11.5x the aircon entry and
+has no per-hour measurement, so it ships as methodology context
+only. A refrigerator is **~0.7 kWh/day** (three JIS-measured JP
+specs) but you cannot fridge less, so it is a context line, never
+a picker item. Both, plus the resolved 3%-vs-10%-per-degree puzzle
+and the gas-boiler-vs-heat-pump grid argument, are in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 5.2-5.3.
 
 ### 3.4 Cooking (verified 2026-08-02)
 
@@ -866,12 +717,8 @@ modern figure, not the installed average.
 **Physics floor, boiling 1 L from 15 C:** 1.000 kg x 4.186
 kJ/(kg-K) x 85 K = 355.81 kJ / 3600 = **0.09883611 kWh**. Every
 boil entry is this floor divided by a sourced efficiency.
-
-Specific heat cross-checked against NIST-JANAF Shomate
-coefficients for liquid water (A = -203.6060, B = 1523.290,
-C = -3196.413, D = 2474.455, E = 3.855326, valid "298. to 500."
-K), https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Type=JANAFL --
-extrapolated to 288 K gives 4.194 kJ/(kg-K), within 0.2%.
+(Specific heat cross-checked against NIST-JANAF, within 0.2% --
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 6.1.)
 
 **Kettle, efficiency 0.85.** Murray, Liao, Stankovic &
 Stankovic (Strathclyde), EEDAL 2015, verbatim:
@@ -908,22 +755,13 @@ Breakfast page independently corroborates the whole group: kettle
 "approximately 86% efficient", microwave "approximately 65%
 efficient".
 
-**Oven: 0.82 kWh per bake cycle, unit changed from `hour` to
-`use` (item 9.8, closed 2026-08-02).** The research established
-that no per-hour figure exists *anywhere*, and that this is
-structural rather than a gap to fill: DOE's cooking-products test
-procedure (10 CFR 430 Subpart B Appendix I1) covers only cooking
-**tops** -- verbatim, "Perform the following test methods for
-conventional cooking tops and the conventional cooking top
-component of a combined cooking product" -- and 10 CFR 430.32
-contains no active-mode oven consumption limit at all. DOE
-proposed one in 2015 (80 FR 33030) and never finalised it, and in
-May 2025 (90 FR 20885) proposed rescinding even the narrow design
-requirements. ENERGY STAR does not certify residential ovens
-either, for the same stated reason: use-pattern variability.
-
-**Nobody publishes an oven duty cycle because ovens are not
-operated by the hour.** So the entry ships per bake cycle on the
+**Oven: 0.82 kWh per bake cycle, unit `use` not `hour`.** No
+per-hour oven figure exists anywhere, and that is structural, not
+a gap to fill: DOE never adopted an active-mode oven standard and
+ENERGY STAR does not certify ovens
+([archive](./RESEARCH_ENERGY_ARCHIVE.md) 6.2). **Nobody publishes
+an oven duty cycle because ovens are not operated by the hour.**
+So the entry ships per bake cycle on the
 tier-1 EU anchor: Commission Delegated Regulation (EU) No
 65/2014, Annex II, verbatim:
 
@@ -941,12 +779,6 @@ plausible 200-350 cycles/year implies ~0.8-1.85 kWh/cycle --
 consistent with the EU figure, especially given larger US
 cavities. Confidence Medium, not High: it is a cross-jurisdiction
 EU-to-US proxy, and `calculation_notes` must say so.
-
-For a single ~50-minute bake the two framings converge (0.82 kWh
-/ 1.0 kWh/h = 49 min), so the point estimate barely moves. The
-gain is structural: the app stops asking users to estimate
-oven-hours, which nobody tracks, and counts uses, which they
-know.
 
 **Microwave, 0.019 kWh/minute.** The advertised wattage is
 OUTPUT. Wikipedia "Microwave oven": "microwave ovens can be as
@@ -986,7 +818,7 @@ is why they ship.
 | Incandescent bulb (60 W) | 0.06 | hour | electricity | High |
 | Household standby | 0.8 | day | electricity | Low |
 
-**Television -- now tier-1 (closes open item 9.6 for TV).**
+**Television -- now tier-1.**
 資源エネルギー庁, sourced to 省エネルギーセンター実測値, verbatim:
 
 > "1日1時間テレビ（50V型）を見る時間を減らした場合 年間で電気
@@ -1026,8 +858,9 @@ Watts'" / "Lumen Output: '800 Lumens'". The 60 W incandescent at
 phase-out context: "LED lamps represent a significant majority of
 the current light bulb market and will represent the vast
 majority (98%) by the compliance year", under the "Energy
-Independence and Security Act of 2007 (EISA)". (That page carries
-two different dates -- open item 9.9.)
+Independence and Security Act of 2007 (EISA)". **Japan never
+legally banned incandescents** -- a blanket "phased out" claim is
+false for a JP reader (archive 1).
 
 **Household standby -- now tier-1 for the claim, still Low for
 the number.** Lawrence Berkeley National Laboratory, read live
@@ -1047,10 +880,8 @@ the number.** Lawrence Berkeley National Laboratory, read live
 
 https://standby.lbl.gov/
 
-This is the authoritative statement of both the magnitude and the
-mechanism, and it confirms the framing the first pass inferred
-from Meier & Siderius 2017: **per-device draw collapsed, device
-counts exploded, household total held roughly steady.**
+Per-device draw collapsed, device counts exploded, household total
+held roughly steady.
 
 **Ships at 0.8 kWh/day** (25-40 always-on devices at ~1 W).
 Against a US home's ~29 kWh/day that is ~2.8%, i.e. **below**
@@ -1061,8 +892,6 @@ alarms, thermostats, security) because a user cannot unplug it.
 
 **Not shipped:** Wi-Fi router (0.24 kWh/day at 10 W) and game
 consoles -- aggregator-only sourcing.
-
----
 
 ---
 
@@ -1183,8 +1012,6 @@ across a wider span.
 
 ---
 
----
-
 ## 6. Sanity Invariants (for the test suite)
 
 **DATA PINS for the values in section 4, not truth claims** --
@@ -1282,69 +1109,59 @@ the list records why.
 
 ---
 
+## 7. Action-Data Consistency
+
+The action library and this dataset must never quote different
+numbers for the same behaviour. As of 2026-08-02 they do not:
+`data/seed/co2_actions_database.json` is the single source of
+truth for actions, the seeder reads it, and every energy action is
+derived from an entry in section 3.
+
+The reconciliation table, the citation error it uncovered, and the
+four duplicate proposals it killed are recorded in
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4 --
+that is product record, not evidence, so it lives there.
+
+What belongs here is the derivation of each shipped action value
+from a dataset entry:
+
+| Action | g CO2e | Derived from |
+|--------|-------:|--------------|
+| `air_dry_clothes` | 2000 | `dryer_vented` 4.5 kWh x 458 = 2061, down |
+| `cold_wash` | 430 | `wash_warm` 1.300 - `wash_cold` 0.350 = 0.950 x 458 = 435, down |
+| `shorter_shower` | 110 | 2 min x 59 g/min (gas carrier floor) = 118, down |
+| `shorter_bath` | 770 | `bath_gas` 7.526854 - 10-min `shower_gas` 3.28036 = 4.2465 x 182 = 773, down |
+| `unplug_devices` | 25 | 5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, down |
+| `install_led_bulb` | 25000 | (`incandescent_bulb` 0.06 - `led_bulb` 0.0085) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, down |
+| `lower_thermostat` | 140 | METI 53.08 kWh/yr / 169 d = 0.3141 kWh/day x 458 = 144, down |
+| `raise_ac_thermostat` | 120 | METI 30.24 kWh/yr / 112 d = 0.2700 kWh/day x 458 = 124, down |
+| `eco_mode_appliance` | 120 | `dishwasher_normal` 1.12 - `dishwasher_eco` 0.85 = 0.27 x 458 = 124, down |
+| `microwave_vs_oven` | 280 | `oven` 0.82 - `microwave` 0.19 = 0.63 x 458 = 289, down |
+| `heat_person_not_room` | 1900 | (`portable_electric_heater` 1.2 - `kotatsu` 0.15) x 4 h = 4.2 kWh x 458 = 1924, down |
+
+Every value rounds **down** to two significant figures --
+honest-not-generous, since each is a claimed saving.
+
+### Carrier floor convention
+
+`shorter_shower` and `shorter_bath` cover hot water whose carrier
+the app cannot know. Three configurations exist -- resistance
+electric, gas, heat pump -- spanning ~4x. Both ship the **gas**
+figure, not the absolute heat-pump floor: gas and resistance
+electric are the two dominant configurations globally, gas is the
+lower of that pair at the current grid factor, and heat-pump
+owners are a documented minority the methodology names. Using the
+heat-pump floor would make every hot-water action look trivial for
+the majority who do not have one.
+
 ---
 
-## 7. Action-Data Consistency (`co2_actions_database.json`)
+## 8. Standing Rules
 
-Five existing actions must be reproducible from this dataset or
-get corrected in the SAME PR. All arithmetic at the E1 factors,
-**458 / 182 g/kWh**.
-
-| Action | Shipped | Dataset-implied | Verdict |
-|--------|--------:|-----------------|---------|
-| `air_dry_clothes` (per load) | 1700 g | `dryer_vented` 4.5 x 458 = 2061 -> **2000 g** | **CORRECT 1700 -> 2000.** Notes must say vented/condenser: a heat-pump dryer is 939 g, less than half |
-| `cold_water_laundry` (per load) | 600 g | (`wash_warm` 1.300 - `wash_cold` 0.350) x 458 = 435 -> **430 g** | **CORRECT 600 -> 430.** See note below |
-| `shorter_shower` (per minute) | 115 g | electric 113.6 / gas 59.7 / heat pump 26.4 | **CORRECT 115 -> 59.** After the delta-T and calorific-basis corrections, 115 sits ABOVE even the resistance-electric figure, so it overstates the saving for every configuration. Ships the gas floor (59.7 -> 59), matching the `skip_bath` convention. Notes must state the 7.844784 L/min basis, delta-T 27.2 K, and the 26-114 g carrier range |
-| `unplug_standby` (per device/day) | 9 g | LBNL "less than 0.5 watts" -> 0.5 W x 24 h x 458 = 5.50 -> **5 g** | **CORRECT 9 -> 5.** The shipped 1 W is 2x LBNL's tier-1 typical |
-| `led_vs_incandescent` (per hour) | 19 g | (0.06 - 0.0085) x 458 = 23.59 -> **23 g** | **CORRECT 19 -> 23.** Notes: correct 0.37 kg/kWh -> 458 g/kWh, disclose the 8.5 W sourced LED |
-
-Two notes on the corrections:
-
-**`cold_water_laundry` baseline.** The first pass proposed 500 g
-off a 60 -> 20 C swap. With 40 C now in the dataset, the honest
-baseline is **40 C** -- most households' default is warm, not
-hot -- giving 0.950 kWh x 458 = 435 -> 430 g. Honest-not-generous takes
-the smaller saving. If the action is meant to read "instead of a
-hot wash" rather than "instead of your usual", (1.700 - 0.350) x
-458 = 618 -> 610 g is the alternative. Owner call, flagged in the action's notes either way.
-
-**Carrier floor convention (applies to `shorter_shower` and
-`skip_bath`).** Both actions cover hot water whose carrier the app
-cannot know. Three real configurations exist -- resistance
-electric, gas, and heat pump -- spanning ~4x. The shipped value is
-the **gas** figure, not the absolute heat-pump floor: gas and
-resistance electric are the two dominant configurations globally,
-gas is the lower of that pair at the current grid factor, and
-heat-pump owners are a documented minority the methodology names
-explicitly. Using the heat-pump floor would make every hot-water
-action look trivial for the majority who do not have one.
-
-**`unplug_standby`.** LBNL states typical modern standby is
-"less than 0.5 watts"; the action assumes 1 W. Halving it halves
-the saving (9 -> 5.50, rounded down to 5 g). This is a 55% cut to
-a live user-visible number, so it should ship with the
-methodology explainer, not ahead of it.
-
----
-
-## 8. Open Items
-
-**All eight items opened by the first research pass are closed.**
-One-line record; the arithmetic and citations are in the sections
-named.
-
-| Item | Outcome | Where |
-|------|---------|-------|
-| 9.1 Fetch-blocked sources | Worked around. `curl -A "Mozilla/5.0..." \| pdftotext` defeats energystar.gov and the Federal Register gateway; a real browser session loads enecho.meti.go.jp, ember-energy.org, iea.org, epa.gov, standby.lbl.gov. Techniques recorded in the ledger. Still hard-blocked: energysavingtrust.org.uk, nrdc.org, downloads.regulations.gov, EUR-Lex (use the legislation.gov.uk mirror). No shipped value rests on a SEARCH-ONLY figure. | [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json) |
-| 9.2 Gas DHW efficiency | CLOSED. BRE STP09/B07 GASTEC lab tests: 81.7-85.9% net for an instantaneous condensing combi. Also fixed a calorific-basis mismatch -- shipped efficiency is **0.756353 gross**, gas entries rose 12.6%, crossover moved 214 -> 241 g/kWh. | sec 3.1 |
-| 9.3 Water temperatures | CLOSED. Delivered **40 C** (NHBC design standard via CIBSE; JP Rinnai survey agrees). Cold inlet **10 -> 12.8 C**, the twelve-month mean of SAP 10.1 Table J1. delta-T 30 -> 27.2 K, all seven hot-water entries -9.33%. | sec 3.1 |
-| 9.6 Fridge context | CLOSED. Three JIS-measured manufacturer specs put a modern JP fridge at **~0.7 kWh/day**, not the "roughly 1 kWh" previously stated. | sec 3.3 |
-| 9.8 Oven | CLOSED structurally -- no per-hour figure exists anywhere because DOE never adopted an active-mode oven standard and ENERGY STAR does not certify ovens. Unit changed `hour` -> `use` at **0.82 kWh per bake cycle**. | sec 3.4 |
-| 9.9 Incandescent phase-out | CLOSED, and it changes the copy rule: **Japan never legally banned them**. US 45 lm/W since 2022-07-25; EU halogen exemptions closed 2023-09-01. A blanket "phased out" claim is false for a JP reader. | sec 3.5, PDR sec 5 |
-| 9.10 Bonn dishwashing | CLOSED via the authors' own open-access 2022 review, whose Table 1 collects the measured figures from all three underlying studies. Resolves the contradictory secondary retellings and replaces the second-hand 33-440 L spread with **18.3-472.8 L**. | sec 3.1 |
-| 9.12 Kotatsu | CLOSED. Makers publish 標準（平均）消費電力量 in Wh -- already thermostat-averaged. Shipped 0.15 sits inside the 強 cluster (145-180 Wh/h); confidence LOW -> **MEDIUM-HIGH**, 8.0x ratio holds. | sec 3.3 |
-
-### Standing rules -- permanent by design, never "done"
+Nothing is open. Every item raised by either research pass is
+closed and recorded in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1. What remains here is
+permanent by design, never "done".
 
 - **Yearly DEFRA refresh:** re-read the natural-gas Gross CV
   combustion row at each release, alongside Part 1's transport
@@ -1359,160 +1176,13 @@ named.
 - **Physics entries never need refreshing.** Only the assumptions
   around them (flow rate, delta-T, efficiency) can age.
 
-### Known follow-ups (not blockers)
-
-- **電気カーペット (heated carpet)** looks like it deserves its own
-  entry at ~320-455 Wh/h, roughly 3x kotatsu; currently folded
-  into the `heat_person_not_room` action. Needs one manufacturer
-  fetch.
-- **UK-style gas central heating is absent from the dataset.** It
-  is ~60% of a British home's energy. Arguably out of scope (a
-  thermostat setting and a duration, not a discrete behavior --
-  the aircon setpoint presets are the nearest analogue), but a UK
-  user will notice a "home energy" calculator that covers kettles
-  and omits their boiler.
-- **`impact_equivalencies.json` `phoneCharges`** ships 8 g (EPA
-  basis) against this dataset's 7 g. Low severity, tracked in the
-  ledger.
-- **Berkholz et al. 2010 primary** (*Int. J. Consum. Stud.* 34,
-  235-242) remains paywalled with no OA copy; the 2022 review
-  carries its figures, so this is closed for practical purposes.
-
 ---
 
-## 9. ENERGY_LOGIC_CHECK
+## 9. The Headline Number
 
-Water constant: 4.186 / 3600 = 0.001162777 kWh/(L-K); x 30 K =
-0.03162756 kWh/L (delta-T 27.2 K). CO2 at **458** (electricity) /
-**182** (gas)
-g/kWh, per decision E1.
-
-1. **Shower (electric) = 0.248111/min.** Flow 7.844784 L/min
-   (mean of 6.5 / 7.570824 / 9.463529) x 0.03162756 / 1.0. Per
-   minute **113.6 g**; per 10-min shower 2.481 kWh = **1.14 kg**.
-   Medium-High.
-2. **Shower (heat pump) = 0.057700/min.** / COP 4.3. **26.4
-   g/min**; a 10-minute shower is **0.26 kg** -- a quarter of the
-   resistance case and the largest single lever in the dataset.
-   Medium.
-3. **Shower (gas) = 0.328036/min.** / 0.756353 (gross-CV DHW
-   efficiency, 3.1). **59.7 g/min.** Uses **32% more energy** than
-   resistance electric, emits **47% less carbon** -- at 458.
-   Reverses below a 241 g/kWh grid (2.1). Medium-High.
-4. **Bath (electric) = 5.692960/use.** 180 L x 0.03162756.
-   **2.61 kg** -- the dataset's largest single use, and 373 phone
-   charges. High.
-5. **Bath (gas) = 7.526854/use.** **1.37 kg.** Medium-High.
-6. **Bath vs shower.** 5.693 vs 2.481 for 10 minutes = the bath
-   costs **2.29x a 10-minute shower**, breaking even at a
-   23-minute shower. Both scale with delta-T, so this ratio is
-   unchanged by the 9.3 correction -- and unchanged by any grid
-   factor (PDR sec 6). Safe to state (same group, same carrier,
-   >20%). The popular "a bath equals a 5-minute shower" claim is
-   wrong at these flow rates.
-7. **Washing up (electric) = 1.992536/use.** 63 L x 0.03162756.
-   **913 g.** Medium.
-8. **Washing up (gas) = 2.634399/use.** **480 g -- 7% below
-   `dishwasher_normal` (513 g)**, so a gas-heated sink narrowly
-   beats the dishwasher while an electric one loses badly (913 g).
-   Blocked from copy by the same-carrier rule. Medium.
-9. **Wash, cold 20 C = 0.350.** Bosch EN50229 verbatim, 9 kg.
-   160 g. High.
-10. **Wash, warm 40 C = 1.300.** Same document. 595 g. High.
-11. **Wash, hot 60 C = 1.700.** Same document. 656 g. 779 g. Spread
-    0.90-1.70 kWh depending on which 60 C. High provenance.
-12. **Dryer, vented = 4.5.** Bosch condenser verified 4.63 /
-    2.61 half load; ships 4.5. **2.06 kg.** High.
-13. **Dryer, heat pump = 2.05.** Bosch verbatim, 9 kg full load.
-    **939 g.** High.
-14. **Line dry = 0.** Carrier `none`, the only zero. High.
-15. **Laundry day** (the plan's illustration, real numbers):
-    60 C + vented = 6.2 kWh = **2.39 kg**; 40 C + vented = 5.8
-    kWh = 2.24 kg; cold + vented = 4.85 kWh = 1.87 kg; cold +
-    line = 0.350 kWh = **135 g**. Line drying saves **2.26 kg**
-    vs hot-wash-plus-dryer = **383 phone charges.** The plan's
-    illustrative 1.3 / 1.1 / 0.15 kg were roughly half these.
-16. **Dishwasher, eco = 0.85.** Bosch verbatim. 389 g. High.
-17. **Dishwasher, normal = 1.12.** Which? 2026 verbatim. 513 g.
-    Eco is 24% lower. High.
-18. **Aircon cooling = 0.167679/h.** METI 18.78 kWh/yr / 112 days
-    (冷房期間). **76.8 g/h** at a 28 C setpoint. Presets add
-    METI's own 0.030 kWh/h per 1 C: 27 C = 90.5 g, 26 C = 104.2 g.
-    High.
-19. **Aircon heating = 0.241006/h.** METI 40.73 kWh/yr / 169 days
-    (暖房期間). **110.4 g/h** at 20 C. Presets add 0.034898 kWh/h
-    per 1 C: 21 C = 126.4 g, 22 C = 142.4 g. High.
-20. **Rated-vs-measured gap.** Panasonic JIS rated 0.435 / 0.455
-    are **2.6x / 1.9x** the METI measured values. Both are
-    correct for their own question; the app asks "an hour of
-    use", which is METI's. Pin 15 protects this.
-21. **Space heater = 1.2/h.** JP ceramic high setting. **549.6 g/h**
-    -- **5.0x an hour of heat-pump heating.** Medium.
-22. **Kotatsu = 0.15/h.** Mid setting across enechange's ranges,
-    rounded up. **68.7 g/h.** Ratio to the portable electric
-    heater **8.0x**, not
-    10x. Nameplate 300-600 W would be 3-5x wrong. Low.
-23. **Electric blanket = 0.025/h.** Yamazen 適温 22 Wh/h rounded
-    up. **11.5 g/h**; an evening (4 h) is 46 g -- less than half
-    an hour of TV, and 1/48th of the same evening on a space
-    heater. Medium.
-24. **Heating hierarchy cross-check.** Kerosene 0.094142 L/h x
-    2489 g/L + 0.023018 kWh x 458 = **245 g/h** vs METI's own
-    246. Gas 0.075030 m3/h x 12.5 kWh/m3 x 182 + 0.022012 kWh x
-    458 = **181 g/h** vs METI's own 179. Both reproduce METI to
-    within 1%, which independently validates the DEFRA gas factor
-    (182 vs METI's implied 179.5, 1.4% apart).
-25. **Boil floor = 0.09883611 kWh/L.** 1.000 kg x 4.186 x 85 /
-    3600. Not shipped; the anchor every boil entry divides into.
-26. **Kettle = 0.116278/L.** Floor / 0.85. Metered cross-check
-    0.113 kWh/L at an 18 C start. **53.3 g.** Medium-High.
-27. **IH hob = 0.116598/L.** Floor / 0.847667 (Frontier: 85.20 /
-    86.10 / 83.00%). **53.4 g. 0.3% from the kettle -- an exact
-    tie, the dataset's flagship "this does not matter" pair.**
-    Medium-High.
-28. **Gas hob = 0.282389/L.** Floor / 0.35. 2.43x the kettle's
-    kWh but **51.4 g -- and at E1's 458 the kettle (53.3 g) is now
-    3.6% ABOVE the gas hob, a flip from the 386 ordering.**
-    Blocked from copy by the same-carrier rule, which is exactly
-    why that rule exists.
-    Medium.
-29. **Oven = 0.82 per bake cycle** (unit changed from `hour`,
-    item 9.8). EU Reg 65/2014 formula 0.0042 x V + 0.55 gives
-    0.802 / 0.823 / 0.844 kWh for 60 / 65 / 70 L; ships the
-    midpoint. **376 g per bake.** Cross-check: DOE's 2009 TSD
-    baseline 274.9-370.0 kWh/year at 200-350 cycles/year implies
-    0.8-1.85 kWh/cycle -- consistent. Medium (EU-to-US proxy).
-30. **Microwave = 0.019/min.** 700 W output / 0.60 = 1167 W
-    input x (1/60) h. **8.7 g/min**; 10 minutes = 87 g, **1/5 of
-    an hour of oven.** Medium.
-31. **Rice cooker = 0.16/use.** 家電製品協会 158 Wh/回, Tiger
-    163 Wh; ships 0.16 rounded up. **73.3 g.** High.
-32. **Rice cooker keep warm = 0.0165/h.** 16.5 Wh/h verbatim.
-    **7.6 g/h.** The 4-hour rule checks out: 4 h keep-warm =
-    0.066 kWh vs a 2-minute microwave reheat at 0.038 kWh --
-    keep-warm loses at 4 hours, exactly as the source says. 10 h
-    (0.165 kWh) exceeds the cook cycle. High.
-33. **Phone charge = 0.015271/use.** iFixit 12.98 Wh / 0.85.
-    **7.0 g** -- 1/18th of a single minute in the shower,
-    1/410th of a bath. A charger left plugged in with no phone
-    (0.05-0.1 W) costs **0.4-0.8 g CO2 per year.** Medium.
-34. **Laptop charge = 0.063294/use.** Apple 53.8 Wh / 0.85.
-    **29.0 g.** Medium.
-35. **TV = 0.079096/h.** METI 28.87 kWh/yr / 365 days.
-    **36.2 g/h**; an evening (3 h) = 109 g. METI's own CO2 check:
-    12.4 kg / 28.87 kWh = 429.5 g/kWh, matching their stated
-    0.429 exactly. High.
-36. **LED bulb = 0.0085/h.** Philips verbatim 8.5 W / 800 lm.
-    **3.9 g/h.** High.
-37. **Incandescent = 0.06/h.** The definitional 60 W / ~800 lm
-    comparator. **27.5 g/h.** Ratio **7.06x**. One bulb swapped
-    for 5 hours a night saves 0.258 kWh/day = **118 g/day**, about
-    43 kg/year -- roughly 15 baths. High.
-38. **Household standby = 0.8/day.** 25-40 devices x ~1 W x 24 h.
-    **366 g/day**, ~134 kg/year. Against a US home's ~29 kWh/day
-    this is 2.8%, below LBNL's 5-10% band -- deliberately
-    conservative, and excluding the 650 kWh/year of
-    builder-installed load a user cannot unplug. Low.
+The full 38-item recomputation of every shipped value, with its
+CO2 and its confidence, is in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 8. Its conclusion:
 
 **Heat-vs-light hierarchy, the number that justifies Part 3:**
 
@@ -1541,3 +1211,4 @@ makes light or computation.** The plan predicted 10-100x. A bath
 is 373 phone charges -- and a heat pump moves the same heat for a
 quarter of the carbon, which is the second lesson the dataset now
 teaches by itself.
+

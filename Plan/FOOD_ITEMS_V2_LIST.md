@@ -1,6 +1,6 @@
 # Food Items v2 -- Item Spec (post-review)
 
-Status: **DELIVERED 2026-08-04 -- 166 items shipped.** This file was
+Status: **DELIVERED 2026-08-08 -- 166 items shipped.** This file was
 the build spec; it is now history. The dataset lives in
 `data/app/food_items.json`, the durable methodology in
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) (selection rules in 2.2,

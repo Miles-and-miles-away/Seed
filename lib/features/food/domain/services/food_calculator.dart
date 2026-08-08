@@ -68,9 +68,56 @@ class FoodCalculator {
   /// wider than that offset survives the mismatch.
   static const crossTierMinPercent = 50.0;
 
-  /// Whether the comparison may state a verdict and offer to bank the
-  /// difference, or must show the bars without calling a winner.
+  /// Whether the comparison may state a verdict, and if not, why.
   ///
+  /// The reason is part of the answer: a user who is told "not enough
+  /// difference" deserves to know whether that is because the meals are
+  /// genuinely close, or because one ingredient's own evidence is too
+  /// wide to rank on.
+  static VerdictCheck checkVerdict(
+    ComparisonSummary summary,
+    Map<String, FoodItem> itemsById,
+    List<List<MealIngredient>> options,
+  ) {
+    if (summary.deltaGrams <= 0) {
+      return const VerdictCheck(VerdictBlock.tooClose, verdictMinPercent);
+    }
+    final tiers = <int>{};
+    FoodItem? widest;
+    var widestRatio = 0.0;
+    for (final option in options) {
+      for (final ingredient in option) {
+        final item = itemsById[ingredient.itemId];
+        if (item == null) continue;
+        tiers.add(item.sourceTier);
+        final ratio = item.statisticRatio;
+        if (ratio != null && ratio > widestRatio) {
+          widest = item;
+          widestRatio = ratio;
+        }
+      }
+    }
+    // An item whose own two published figures differ by `ratio` can only
+    // be ranked once the gap outruns that spread: the better meal has to
+    // emit less than 1/ratio of the other. Blanket-blocking these was
+    // too blunt -- a beef portion beats a chocolate serving 6x over,
+    // which no statistic choice reverses.
+    if (widest != null) {
+      final required = (1 - 1 / widestRatio) * 100;
+      if (summary.deltaPercent < required) {
+        return VerdictCheck(VerdictBlock.uncertainItem, required, widest);
+      }
+    }
+    final floor = tiers.length > 1 ? crossTierMinPercent : verdictMinPercent;
+    if (summary.deltaPercent < floor) {
+      return VerdictCheck(
+        tiers.length > 1 ? VerdictBlock.crossSource : VerdictBlock.tooClose,
+        floor,
+      );
+    }
+    return const VerdictCheck(VerdictBlock.none, 0);
+  }
+
   /// Ties are not a failure to compute -- they are the honest answer,
   /// and the feature exists to surface real differences rather than
   /// manufacture them.
@@ -78,25 +125,34 @@ class FoodCalculator {
     ComparisonSummary summary,
     Map<String, FoodItem> itemsById,
     List<List<MealIngredient>> options,
-  ) {
-    if (summary.deltaGrams <= 0) return false;
-    final tiers = <int>{};
-    for (final option in options) {
-      for (final ingredient in option) {
-        final item = itemsById[ingredient.itemId];
-        if (item == null) continue;
-        // A food whose own mean and median differ by 2x or more carries
-        // that ambiguity into any total it joins, and no threshold
-        // clears it: cheese and dark chocolate are 48.8% apart on means
-        // and still swap places on medians.
-        if (item.statisticSensitive) return false;
-        tiers.add(item.sourceTier);
-      }
-    }
-    // More than one tier anywhere in the comparison -- across the two
-    // meals or inside one of them -- means the totals are not on one
-    // measurement basis.
-    final floor = tiers.length > 1 ? crossTierMinPercent : verdictMinPercent;
-    return summary.deltaPercent >= floor;
-  }
+  ) => checkVerdict(summary, itemsById, options).block == VerdictBlock.none;
+}
+
+/// Why a comparison may not name a winner.
+enum VerdictBlock {
+  /// It may.
+  none,
+
+  /// The two meals are inside the dataset's own resolution.
+  tooClose,
+
+  /// The meals draw on sources with different boundaries.
+  crossSource,
+
+  /// One ingredient's own published figures are too far apart.
+  uncertainItem,
+}
+
+/// The verdict decision, with enough detail to explain itself.
+class VerdictCheck {
+  const VerdictCheck(this.block, this.requiredPercent, [this.item]);
+
+  final VerdictBlock block;
+
+  /// The reduction this comparison would have needed, in percent.
+  final double requiredPercent;
+
+  /// The ingredient responsible, when [block] is
+  /// [VerdictBlock.uncertainItem].
+  final FoodItem? item;
 }

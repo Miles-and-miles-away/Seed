@@ -1769,6 +1769,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodSearchNoResults => 'Ningún alimento coincide con la búsqueda.';
 
   @override
+  String foodItemFactorWithServing(
+    String perKg,
+    String perServing,
+    String serving,
+  ) {
+    return '$perKg kg CO2e por kg  ·  $perServing por $serving';
+  }
+
+  @override
   String foodItemFactorPerKg(String value) {
     return '$value kg de CO2e por kg';
   }
@@ -1866,6 +1875,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodPickerRecents => 'Recientes';
+
+  @override
+  String get foodVerdictWhyCta => '¿Por qué no hay resultado?';
+
+  @override
+  String get foodVerdictBlockedTitle =>
+      'La diferencia no basta para registrarla';
+
+  @override
+  String foodVerdictTooClose(int percent) {
+    return 'Estas dos comidas están a menos del $percent% una de otra. La mayoría de los alimentos de aquí comparten un promedio con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.';
+  }
+
+  @override
+  String foodVerdictCrossSource(int percent) {
+    return 'Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra -- en torno al $percent% -- antes de decir cuál es mejor.';
+  }
+
+  @override
+  String foodVerdictUncertainItem(String item, String ratio, int percent) {
+    return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percent% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.';
+  }
 
   @override
   String get foodComparisonTooClose =>

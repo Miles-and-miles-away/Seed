@@ -3141,6 +3141,16 @@ abstract class AppLocalizations {
   /// **'No foods match that search.'**
   String get foodSearchNoResults;
 
+  /// Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities
+  ///
+  /// In en, this message translates to:
+  /// **'{perKg} kg CO2e per kg  ·  {perServing} per {serving}'**
+  String foodItemFactorWithServing(
+    String perKg,
+    String perServing,
+    String serving,
+  );
+
   /// No description provided for @foodItemFactorPerKg.
   ///
   /// In en, this message translates to:
@@ -3308,6 +3318,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent'**
   String get foodPickerRecents;
+
+  /// Button opening the explanation of why no winner is named
+  ///
+  /// In en, this message translates to:
+  /// **'Why is there no result?'**
+  String get foodVerdictWhyCta;
+
+  /// Title of the dialog explaining the logging minimum
+  ///
+  /// In en, this message translates to:
+  /// **'Not a big enough difference to log'**
+  String get foodVerdictBlockedTitle;
+
+  /// Body: the two meals are inside the data resolution
+  ///
+  /// In en, this message translates to:
+  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
+  String foodVerdictTooClose(int percent);
+
+  /// Body: the meals come from different studies
+  ///
+  /// In en, this message translates to:
+  /// **'These meals are measured by different studies, one of which covers a shorter supply chain. Part of any gap between them could be that difference rather than a real one, so we\'d need one meal to emit less than half the other -- around {percent}% -- before saying which is better.'**
+  String foodVerdictCrossSource(int percent);
+
+  /// Body: one ingredient has a wide mean/median spread
+  ///
+  /// In en, this message translates to:
+  /// **'{item} is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to {ratio} times its midpoint, so where it lands depends heavily on which farms you count. A gap of about {percent}% would outrun that uncertainty; this one doesn\'t. You can still log the meal as a normal action.'**
+  String foodVerdictUncertainItem(String item, String ratio, int percent);
 
   /// Shown instead of a verdict when two meals are within the comparison gate
   ///

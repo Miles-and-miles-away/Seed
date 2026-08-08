@@ -1,12 +1,75 @@
 # PDR Food Dataset -- Archive (executed detail)
 
-**Archived:** 2026-08-04. Long-form content moved out of
+**Archived:** 2026-08-08. Long-form content moved out of
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) so that document stays a
 concise methodology-and-evidence reference. Everything here is
 EXECUTED or CLOSED; nothing below is a live instruction. Live
 rules, open items and the binding copy rules stay in
 RESEARCH_FOOD.md (sections 6-9). The forward item spec for the v2
 dataset is [FOOD_ITEMS_V2_LIST.md](./FOOD_ITEMS_V2_LIST.md).
+
+---
+
+## 0. State at handover (2026-08-08, end of day)
+
+**Shipped today:** `data/app/food_items.json` went 43 -> 166 items
+(v2), plus the tree-nut/peanut split, the seafood source decision D8,
+the comparison gate, and a four-part verification pass (section 9).
+Everything is in the working tree; commit 5c6da46 landed part of it
+bundled with the concurrent energy session's work.
+
+**The suite is RED, and not from the food work.** 81 food tests pass;
+6 fail, all caused by the other session:
+
+- 5 in `food_action_consistency_test.dart` -- the action ids
+  `meatless_meal_beef`/`_chicken`/`_pork` and `plant_milk_vs_dairy`
+  were removed when `co2_actions_database.json` was rewritten at
+  ~15:05. If they were renamed, re-point the test; if deliberately
+  removed, RESEARCH_FOOD section 7 needs rewriting.
+- 1 in `transport_modes_data_test.dart` -- the grid factor moved
+  386 -> 458 (energy decision E1) without the test or the transport
+  invariant pins being re-derived.
+
+**Needs a re-seed before the new values are live:**
+`node scripts/seed/seed_action_library.js` (needs the Firebase service
+account). `skip_fish` 1200 -> 560 g is the user-visible change.
+
+**Open decisions for the owner** (none blocking, all recorded):
+
+1. `plant_based_meat` 4.5 may be ~3x low on its own cited peer-reviewed
+   source -- re-research or keep with the disclosure now in place.
+2. Wire `comparable`/`tie_group` into the verdict gate or delete the
+   fields; today they are read by no code, so the app ranks tree nuts
+   87% better than peanuts against an explicit never-rank rule.
+3. `shellfish`/`marisco` route to farmed prawns at 19.2x -- a one-line
+   alias cut, but it is the third defect of that class.
+4. `milk_chocolate` sits below the floor its own recipe implies.
+5. Cream still has no row, by decision.
+
+**Not verified at all:** the app has never been run. All confidence is
+unit and widget tests -- the 166-item picker, the cooked-weight preset
+labels, the no-verdict dialog and the methodology page have not been
+looked at on a device.
+
+**Dates:** everything stamped 2026-08-04 during the day came from a
+misread clock; the real date was 2026-08-08. 223 stamps corrected,
+including 194 source access dates.
+
+That correction needed a second pass, worth recording because the
+same trap will recur. Moving all 194 to "today" would have asserted a
+freshness nothing supports: 91 of those quotes appear verbatim in the
+2026-08-01 wave research, so they were copied at assembly, not
+re-fetched. Those were set to 2026-08-01, their true provenance. Of
+them, 80 were the OWID nut rows and the four FAO Wayback captures,
+which WERE fetched and machine-verified in this session (79 of 81 FAO
+quotes matched), so those are legitimately dated today and were
+restored. Net effect: 11 sources stopped claiming a check that never
+happened.
+
+The rule this encodes: an access date is a claim that someone saw the
+page on that date. When a quote is inherited from earlier research,
+inherit its date too -- do not stamp it with the date of the
+assembly run.
 
 ---
 
@@ -391,7 +454,7 @@ above.
 
 ---
 
-## 5. Tree-nut / peanut split (executed 2026-08-04)
+## 5. Tree-nut / peanut split (executed 2026-08-08)
 
 A live defect, not a v2 addition: the shipped `nuts` item carried
 peanut aliases on P&N's orchard-nut row, so every peanut query
@@ -422,7 +485,7 @@ No action or seeder value moves: none of them reference nuts.
 
 ---
 
-## 6. v2 build record (executed 2026-08-04)
+## 6. v2 build record (executed 2026-08-08)
 
 The dataset went from 43 to **166 items**. Ten research waves had
 already run in an earlier session; their per-item output (about
@@ -491,7 +554,7 @@ not truth claims:
 
 ---
 
-## 7. D8: the seafood source decision (2026-08-04)
+## 7. D8: the seafood source decision (2026-08-08)
 
 **Question:** the seafood group needs species resolution Poore &
 Nemecek does not have (one global farmed-fish row), but the only
@@ -534,7 +597,7 @@ have broken under Gephart-uniform.
 
 ---
 
-## 8. Shipped-value corrections (verified 2026-08-04)
+## 8. Shipped-value corrections (verified 2026-08-08)
 
 Five of six findings against the shipped dataset were **already
 applied to the JSON** -- it was RESEARCH_FOOD.md section 4's value
@@ -547,3 +610,163 @@ vegetable anchor with the dry-pea quote removed, `sugar` 2.922 on
 the 80/20 cane/beet split, and both oils on the D7 FDC densities.
 
 The sixth was a live defect and is fixed separately: see section 5.
+
+---
+
+## 9. v2 verification pass (run 2026-08-08)
+
+**Why it was needed.** The v2 build shipped 166 items without the
+verification its own agents were meant to provide: both the gap-fill
+and notes agents died on a session limit after writing their patches
+but before writing their reports, so their flagged-contradiction
+lists were lost. The dataset went out validated mechanically but not
+reviewed. This pass closed that gap.
+
+**Method.** Three parallel audits, report-only, with all fixes applied
+centrally so the dataset had one writer:
+
+| Audit | Coverage |
+|---|---|
+| Alias misrouting | ~2,000 search terms across 166 items, run through a reimplementation of the shipped ranking so each finding states what a term *actually* resolves to |
+| Citation verification | 750 of 903 sources (83%), including all 574 non-P&N citations |
+| Internal coherence | all 166 items: notes vs data, basis vs presets, physical floors, plausibility, flag coherence |
+
+**The pass worked -- it found defects that mechanical validation could
+not.** Headline findings:
+
+- **A FABRICATED QUOTE.** `melon` and `watermelon` each carried, in
+  quotation marks, a sentence that appears nowhere on the cited FAO
+  page and nowhere in the wave research: "Although melons and
+  watermelons are generally considered to be fruits, FAO groups them
+  with vegetables because they are temporary crops." It is a
+  paraphrase of the genuine sentence, invented at assembly time.
+  **Removed from both** (each already carried the real sentence, so
+  nothing was lost). This is the most serious category possible for
+  this dataset, whose entire credibility rests on every quote being
+  checkable, and no automated check would ever have caught it.
+- **A mis-linked standard.** `tomatoes` cited "Codex CXS 13-1981,
+  Preserved Tomatoes" but linked `CXS_057e.pdf`, which is CXS 57
+  (Processed Tomato Concentrates); the quote is provably absent from
+  the linked document, verified by retrieving and searching it. CXS 13
+  could not be retrieved from that session, so the citation was
+  removed and the claim it supported -- that tinned tomatoes log at
+  the fresh factor -- was downgraded in the user-facing notes from a
+  regulatory citation to a stated working assumption.
+- **The app asserts things the research forbids.** `comparable` and
+  `tie_group` are written on all 166 rows and read by **zero lines of
+  app code**. The consequence: the comparison gate ranks tree nuts as
+  87% better than peanuts, a pair section 6 says must never be ranked
+  in either direction because the gap is entirely an accounting
+  artefact. Still open.
+- **`shellfish` and `marisco`** sit on `prawns_farmed` (26.87) ahead
+  of `bivalves` (1.399), so the ordinary umbrella word for shellfish
+  in two languages logs mussels and clams **19.2x too high**. The same
+  class as the peanut and cream defects, and the third instance found.
+  Still open.
+
+**Also fixed in this pass:** dry-basis staples gained cooked-weight
+presets (rice, pasta, beans/lentils), each converting a 100 g cooked
+portion to its dry equivalent from that item's own documented
+hydration ratio, with the conversion shown in the label rather than
+hidden. This closes the alias finding that cooked-rice searches
+(`ご飯`, `ライス`) landed on a dry-basis row with a grams field, a 2.2x
+error path. FDA RACC's "140 g prepared; 45 g dry" was explicitly NOT
+used as a yield -- those are independent serving conventions and give
+3.11x against the MEXT mass balance's 2.13x.
+
+**A fourth audit closed the 64 unverified sources** (the citation
+agent delegated them rather than leave them at an HTTP-status check).
+All 64 were reached: 62 quotes confirmed, 1 absent, 1 augmented. It
+found the same *class* of defect as the fabrication, plus one finding
+that is not a citation problem at all:
+
+- **A selectively elided quote.** `plant_based_meat` cited Saget et al.
+  2021 as "... including a 77% smaller climate change burden ...
+  compared with Brazilian beef patties." The ellipsis removes exactly
+  the clause that runs against the item: the real sentence continues
+  "**but incur 8% more energy use**". Quote restored in full.
+- **That same source contradicts the number it was cited to support.**
+  Saget's Table 3 gives 1.5 kg CO2e for a 113 g plant patty, about
+  13 kg/kg, against the shipped 4.5 -- roughly **3x**, on a scale
+  where the study's beef patties (4.5-6.6 kg/patty) sit close to ours
+  (7.95). The shipped figure averages two company-commissioned
+  assessments and uplifts them by 1.3. The disagreement is now stated
+  in the item's own user-facing notes, and **the value itself is an
+  open owner question**: 4.5 may be too generous to plant-based meat.
+- **Three headline numbers rest on live aggregator pages, not the
+  study class their notes claim.** `butter`'s "three independent dairy
+  LCAs" are a national-database portion figure, a meta-aggregator and
+  a modelled benchmark -- one of which moved 15% (13.70 -> 11.89)
+  between archive captures. Note corrected. `oats` takes half its
+  value from a live CarbonCloud page; `beans_canned` and
+  `chickpeas_canned` (1.7) have *both* legs of their mean depending on
+  the same autogenerated aggregator value, so the triangulation is
+  illusory, and the only peer-reviewed anchor cited (Tidaker, 0.8) is
+  less than half the shipped figure.
+- **A cited source that halves the shipped number, unmentioned in the
+  notes.** `beer` carries a co2everything page implying 0.704 kg/L
+  against the shipped 1.20. A user who taps it lands on 41% less.
+- **Quotes swapped between hosts** on `cured_meat` (the wording
+  belongs to the navarra.es PDF, not the mapa.gob.es page), and that
+  navarra.es URL has been returning 502 since well before its claimed
+  access date.
+- **Synthesised quote text**: `baked_beans` quotes "Per 1/2 Can
+  (207.5g)" as label text Heinz does not print (the derivation is
+  right, the presentation is not); four Open Food Facts citations
+  concatenate two JSON fields into a single quoted string; and
+  `frozen_pizza`'s 170 g half-pizza preset is unsourced by the page
+  cited for it.
+- **A note contradicted by its own citation**: `asparagus` says the
+  12.2 figure "is not theirs" of Stoessel et al., while the cited
+  Schwarz paper explicitly attributes 12.2 to Stoessel.
+
+Verified clean and worth recording: every EUR-Lex, NTA, Codex-reachable,
+Shimadaya, Nissin, Lawson, McCain, One Stop and Crossref citation
+checked reproduced verbatim with its arithmetic, as did all 176 OWID
+rows re-fetched as a spot-check. Access dates are all plausible and in
+the past. No dead URLs beyond the navarra.es case above.
+
+**Open after the pass** -- recorded so the next reader is not misled
+into thinking the dataset is clean:
+
+- Wire `comparable`/`tie_group` into the verdict gate, or remove the
+  fields. Read by nothing today, they mislead anyone who assumes the
+  never-pin rules are enforced.
+- `milk_chocolate` 14.9 sits below the floor its own published recipe
+  implies (~23 priced on sibling rows) and the app ranks it 68%
+  better than dark chocolate.
+- `crisps`, `popcorn`, `instant_noodles` sit 3-4% below their own
+  floors: their oil leg never received the density correction that
+  `margarine` and `mayonnaise` did.
+- `peanut_butter` still carries the double-counted roast uplift.
+- Six items default to a prepared weight on an as-purchased factor
+  (`sweetcorn` ~2.8x, `takenoko` 2-3.5x, `melon`/`pineapple` ~2x).
+- `edamame` on a dry-pea anchor (~3x); `soy_tvp` declared dry on a
+  wet-tofu factor with its rehydration ratio never applied.
+- Duplicate user-visible rows: `bread`/`bread_wheat`,
+  `palm_oil`/`palm_soy_oil`.
+- **`plant_based_meat` 4.5 may be ~3x too low** on its own cited
+  peer-reviewed source. Owner call: re-research, or keep and disclose
+  (disclosure is in place today).
+- `beer` carries a cited page implying 0.704 kg/L against the shipped
+  1.20, unmentioned in the notes -- remove the source or address it.
+- `beans_canned` / `chickpeas_canned` 1.7: both legs of the mean trace
+  to one autogenerated aggregator value; the triangulation is not real.
+- `oats` 1.84 takes half its value from a live aggregator page.
+- `cured_meat`: two quotes attributed to the wrong host, and a cited
+  "live" government URL that has been 502ing since before its access
+  date.
+- Synthesised quote text on `baked_beans` and four Open Food Facts
+  citations; `frozen_pizza`'s 170 g preset unsourced by its citation.
+- `asparagus` notes contradict the paper they cite about Stoessel.
+- 153 josephpoore.com PDF/XLS citations were never reached. That is now
+  the weakest remaining evidence class; the 64 retail/aggregator/EU-law
+  sources have since been fully checked.
+
+**Caveat on the pass itself.** It ran against a dataset being
+concurrently modified by another session, which during the same window
+changed the electricity grid factor in `transport_modes.json` and
+rewrote `co2_actions_database.json`, deleting the four food action ids
+that `food_action_consistency_test.dart` asserts on. Those five test
+failures are not defects in this dataset. Any finding above should be
+re-checked against the tree once both sessions have landed.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
@@ -70,6 +71,28 @@ String? foodBoundaryNoteLabel(AppLocalizations l10n, FoodItem item) =>
 /// Emission-factor line for an item row: kg CO2e per kg as-purchased.
 String foodItemFactorLabel(AppLocalizations l10n, FoodItem item) =>
     l10n.foodItemFactorPerKg(_factorText(item.kgCo2ePerKg));
+
+/// The same factor with the item's realistic serving alongside it.
+///
+/// Per kg alone misleads badly across foods eaten in very different
+/// quantities: beef is only 1.5x dark chocolate per kilogram, but a
+/// beef portion is 6x a chocolate serving, and the picker row is where
+/// people actually compare. Falls back to the per-kg line when the item
+/// names no default serving.
+String foodItemFactorWithServingLabel(
+  AppLocalizations l10n,
+  FoodItem item,
+  String locale,
+) {
+  final serving = item.defaultServing;
+  if (serving == null) return foodItemFactorLabel(l10n, item);
+  final grams = item.kgCo2ePerKg * serving.grams;
+  return l10n.foodItemFactorWithServing(
+    _factorText(item.kgCo2ePerKg),
+    formatCO2Compact(grams.round()),
+    serving.name(locale),
+  );
+}
 
 /// One decimal below 10 (e.g. "9.9"), whole numbers above (e.g. "99")
 /// -- enough precision for a row subtitle without false exactness.

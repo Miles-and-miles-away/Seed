@@ -788,6 +788,8 @@
   "foodColumnEmptyHint": "「食材を追加」をタップして献立を作りましょう",
   "foodSearchHint": "食材を検索...",
   "foodSearchNoResults": "一致する食材がありません。",
+  "foodItemFactorWithServing": "{perKg} kg CO2e／kg  ·  {serving}で{perServing}",
+  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
   "foodItemFactorPerKg": "1kgあたり{value} kg CO2e",
   "@foodItemFactorPerKg": {
     "placeholders": {
@@ -878,6 +880,16 @@
   "@foodPickerRecents": {
     "description": "Header above recently picked items in the food picker"
   },
+  "foodVerdictWhyCta": "結果が出ないのはなぜ？",
+  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "foodVerdictBlockedTitle": "記録するには差が小さすぎます",
+  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "foodVerdictTooClose": "この2つの食事の差は{percent}%以内です。ここに掲載する食品の多くはカテゴリ全体の平均値を共有しており、統計的に同等の値も少なくありません。これほど小さな差は、元になる研究が実際に区別できる範囲の内側にあります。合計値は上に表示していますが、どちらが優れているかの判定は行いません。",
+  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictCrossSource": "この2つの食事は異なる研究で測定されており、片方はサプライチェーンの範囲がより短いものです。両者の差の一部は実際の差ではなく、その測定範囲の違いによる可能性があります。そのため、片方が他方の半分未満（約{percent}%減）にならない限り、どちらが良いかは判定しません。",
+  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictUncertainItem": "原因はあなたの食事ではなく「{item}」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の{ratio}倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約{percent}%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。",
+  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
   "foodComparisonTooClose": "この2つは差が小さすぎて判定できません。差が20%未満の場合、その差は元になる研究で区別できる範囲に収まるため、どちらが良いかは示さず、両方の合計のみを表示します。",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"

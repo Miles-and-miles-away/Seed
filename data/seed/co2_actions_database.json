@@ -1,14 +1,16 @@
 {
   "metadata": {
-    "version": "1.2",
+    "version": "2.0",
     "created": "2026-01-31",
-    "last_verified": "2026-07-20",
-    "description": "Fact-checked CO2 savings database for Seed sustainability app",
+    "last_verified": "2026-08-02",
+    "description": "SINGLE SOURCE OF TRUTH for the Seed action library. scripts/seed/seed_action_library.js reads this file and computes points from effort/frequency/impact at seed time -- it no longer carries an inline action array. Every shipping action lives here.",
     "methodology": "Values cross-referenced from 2-3 tier-1 sources minimum. Conservative estimates used when sources disagree.",
     "grid_factors": {
-      "us_average_kg_per_kwh": 0.37,
-      "uk_average_kg_per_kwh": 0.21,
-      "note": "Energy savings vary significantly by region. Allow user input for local grid factor."
+      "global_average_g_co2e_per_kwh": 458,
+      "source": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+      "natural_gas_g_co2e_per_kwh": 182,
+      "gas_source": "DEFRA/DESNZ 2026, Scope 1 combustion, Gross CV",
+      "note": "Superseded the retired 386 g CO2/kWh on 2026-08-02 (decision E1). Regional factors are a separate open question -- see Plan/PDR_GRID_REGIONALISATION.md."
     },
     "primary_sources": [
       "UK DEFRA Greenhouse Gas Conversion Factors 2024/2025",
@@ -16,136 +18,476 @@
       "Poore & Nemecek (2018) Science meta-analysis",
       "Our World in Data",
       "International Aluminium Institute"
-    ]
+    ],
+    "points_formula": "max(1, round(co2_grams^0.4 * effortMult * rarityMult * impactMult)); constants in scripts/seed/seed_action_library.js"
   },
   "actions": [
     {
-      "action_id": "bike_instead_of_car",
-      "action_name": "Biking instead of driving",
+      "action_id": "recycle_aluminum_can",
+      "category": "recycling",
+      "name_en": "Recycle Aluminum Can",
+      "name_ja": "アルミ缶をリサイクル",
+      "name_es": "Reciclar lata de aluminio",
+      "description_en": "Recycle an aluminum can instead of throwing it away",
+      "description_ja": "アルミ缶をゴミ箱に捨てずにリサイクル",
+      "description_es": "Reciclar una lata de aluminio en vez de tirarla a la basura",
+      "co2_grams": 100,
+      "calculation_notes": "~99g/can (Aluminum Assoc LCA)",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "recycling",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "Aluminum Association",
+          "url": "https://www.aluminum.org/carbon-footprint-us-aluminum-can-production-down-40-1990s",
+          "quote": "Recycling a single can saves 1.56 megajoules (MJ) of energy or 98.7 grams of CO2 equivalent.",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "International Aluminium Institute",
+          "url": "https://international-aluminium.org/landing/aluminium-recycling-saves-95-of-the-energy-needed-for-primary-aluminium-production/",
+          "quote": "The primary energy demand for recycled aluminium was 8.3 gigajoules per tonne, resulting in a significant energy saving (95.5%).",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "Aluminum Association",
+          "url": "https://www.aluminum.org/Recycling",
+          "quote": "Making recycled aluminum only takes around 5% of the energy needed to make new aluminum — reducing carbon emissions and saving money.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "recycle_plastic_bottle",
+      "category": "recycling",
+      "name_en": "Recycle Plastic Bottle",
+      "name_ja": "ペットボトルをリサイクル",
+      "name_es": "Reciclar botella de plastico",
+      "description_en": "Recycle a PET plastic bottle properly",
+      "description_ja": "ペットボトルを正しくリサイクル",
+      "description_es": "Reciclar correctamente una botella de plastico PET",
+      "co2_grams": 50,
+      "calculation_notes": "~35-50g PET bottle (rPET LCA)",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "recycling",
+      "related_sdgs": [
+        "12",
+        "13",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "EPA WARM Model",
+          "url": "https://www.epa.gov/warm",
+          "quote": "Recycling PET saves significant energy compared to virgin production.",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "Association of Plastic Recyclers",
+          "url": "https://plasticsrecycling.org/how-recycling-works/why-recycling-is-important/",
+          "quote": "According to the Environmental Protection Agency (EPA), recycling aluminum saves about 95%, recycling paper saves about 60%, and recycling glass saves about 30% of the energy.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "recycle_cardboard",
+      "category": "recycling",
+      "name_en": "Recycle Cardboard",
+      "name_ja": "段ボールをリサイクル",
+      "name_es": "Reciclar carton",
+      "description_en": "Flatten and recycle cardboard boxes",
+      "description_ja": "段ボール箱を潰してリサイクル",
+      "description_es": "Aplanar y reciclar cajas de carton",
+      "co2_grams": 500,
+      "calculation_notes": "typical ~230g box; EPA WARM 2160g/kg = ~500g",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "inventory_2",
+      "related_sdgs": [
+        "12",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "composting",
+      "category": "recycling",
+      "name_en": "Compost Food Scraps",
+      "name_ja": "生ゴミをコンポスト",
+      "name_es": "Compostar restos de comida",
+      "description_en": "Compost food scraps instead of sending to landfill",
+      "description_ja": "生ゴミをゴミ箱ではなくコンポストへ",
+      "description_es": "Compostar restos de comida en vez de enviarlos al vertedero",
+      "co2_grams": 200,
+      "calculation_notes": "daily scraps; avoids landfill CH4",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 3,
+      "icon_name": "compost",
+      "related_sdgs": [
+        "12",
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "BioCycle Climate Calculations",
+          "url": "https://www.biocycle.net/connection-climate-calculations/",
+          "quote": "1 kg CH4 per dry ton materials * 23 kg CO2 per kg CH4 = 23 kg CO2 (well-managed compost) vs 207 kg CO2 (poorly managed).",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "ReFED",
+          "url": "https://refed.org/food-waste/climate-and-resources/",
+          "quote": "EPA research indicates that diverting food waste from landfill reduces the methane generation potential by 33%.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "recycle_glass",
+      "category": "recycling",
+      "name_en": "Recycle Glass",
+      "name_ja": "ガラス瓶をリサイクル",
+      "name_es": "Reciclar vidrio",
+      "description_en": "Recycle glass jars and bottles instead of trashing",
+      "description_ja": "ガラス瓶をゴミ箱ではなくリサイクルへ",
+      "description_es": "Reciclar frascos y botellas de vidrio en vez de tirarlos",
+      "co2_grams": 167,
+      "calculation_notes": "avg 250g jar; EPA WARM 667g/kg (~300g per 450g bottle) = ~167g",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "recycling",
+      "related_sdgs": [
+        "12"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "recycle_paper",
+      "category": "recycling",
+      "name_en": "Recycle Paper",
+      "name_ja": "紙をリサイクル",
+      "name_es": "Reciclar papel",
+      "description_en": "Recycle paper instead of throwing it in the trash",
+      "description_ja": "紙をゴミ箱ではなくリサイクルへ",
+      "description_es": "Reciclar papel en vez de tirarlo a la basura",
+      "co2_grams": 50,
+      "calculation_notes": "~100g paper; 0.5kg CO2/kg saved",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "recycling",
+      "related_sdgs": [
+        "12",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "recycle_ewaste",
+      "category": "recycling",
+      "name_en": "Recycle E-Waste",
+      "name_ja": "電子機器をリサイクル",
+      "name_es": "Reciclar residuos electronicos",
+      "description_en": "Take old electronics to an e-waste recycling center",
+      "description_ja": "古い電子機器をリサイクルセンターへ持参",
+      "description_es": "Llevar electronica vieja a un centro de reciclaje",
+      "co2_grams": 2000,
+      "calculation_notes": "per-phone: one device",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "smartphone",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "recycle_textiles",
+      "category": "recycling",
+      "name_en": "Recycle Textiles",
+      "name_ja": "衣類をリサイクル",
+      "name_es": "Reciclar textiles",
+      "description_en": "Donate or recycle old clothing and textiles",
+      "description_ja": "古い衣類を寄付またはリサイクル",
+      "description_es": "Donar o reciclar ropa y textiles viejos",
+      "co2_grams": 40000,
+      "calculation_notes": "per-bag: ~3kg x 13kg/kg",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "dry_cleaning",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "recycle_batteries",
+      "category": "recycling",
+      "name_en": "Recycle Batteries",
+      "name_ja": "電池をリサイクル",
+      "name_es": "Reciclar pilas",
+      "description_en": "Take used batteries to a proper recycling drop-off",
+      "description_ja": "使用済み電池をリサイクル回収場所へ",
+      "description_es": "Llevar pilas usadas a un punto de reciclaje adecuado",
+      "co2_grams": 95,
+      "calculation_notes": "batch ~4 AA; 1-2kg CO2/kg",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 2,
+      "icon_name": "electric_bolt",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "recycle_cooking_oil",
+      "category": "recycling",
+      "name_en": "Recycle Cooking Oil",
+      "name_ja": "廃油をリサイクル",
+      "name_es": "Reciclar aceite de cocina",
+      "description_en": "Take used cooking oil to a recycling collection point",
+      "description_ja": "使用済み食用油をリサイクル回収場所へ",
+      "description_es": "Llevar aceite usado a un punto de recogida para reciclaje",
+      "co2_grams": 1500,
+      "calculation_notes": "per ~0.6L drop-off; waste-oil biodiesel saves ~2,460g/L vs fossil diesel (EPA 86% lifecycle reduction)",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "kitchen",
+      "related_sdgs": [
+        "6",
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "walk_instead_drive",
       "category": "transport",
-      "co2_grams": 149,
-      "unit": "per_km",
-      "calculation_notes": "Average petrol car 164g/km minus cycling 16g/km (metabolic emissions). DEFRA 2024 petrol car = 164g CO2e/km, diesel = 170g/km.",
+      "name_en": "Walk Instead of Drive",
+      "name_ja": "車の代わりに徒歩",
+      "name_es": "Caminar en vez de conducir",
+      "description_en": "Walk to your destination (~1.5 km) instead of driving",
+      "description_ja": "車を使わずに目的地まで歩く",
+      "description_es": "Caminar hasta tu destino en vez de conducir",
+      "co2_grams": 250,
+      "calculation_notes": "1.5km x 164g/km (DEFRA 2024)",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "directions_walk",
+      "related_sdgs": [
+        "3",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "bike_short_trip",
+      "category": "transport",
+      "name_en": "Short Bike Trip",
+      "name_ja": "近距離を自転車で移動",
+      "name_es": "Bicicleta para viaje corto",
+      "description_en": "Bike instead of drive for a short trip (under 3km)",
+      "description_ja": "短距離（3km未満）の移動に車の代わりに自転車を使用",
+      "description_es": "Usar bicicleta en vez de auto para un viaje corto (menos de 3km)",
+      "co2_grams": 490,
+      "calculation_notes": "3km x 164g/km (DEFRA 2024)",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "pedal_bike",
+      "related_sdgs": [
+        "3",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "bike_medium_trip",
+      "category": "transport",
+      "name_en": "Medium Bike Trip",
+      "name_ja": "中距離を自転車で移動",
+      "name_es": "Bicicleta para viaje medio",
+      "description_en": "Bike instead of drive for a medium trip (3-10km)",
+      "description_ja": "中距離（3-10km）の移動に車の代わりに自転車を使用",
+      "description_es": "Usar bicicleta en vez de auto para un viaje medio (3-10km)",
+      "co2_grams": 1000,
+      "calculation_notes": "~6km x 164g/km (DEFRA 2024)",
+      "effort": 3,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "pedal_bike",
+      "related_sdgs": [
+        "3",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "public_transport",
+      "category": "transport",
+      "name_en": "Take Public Transport",
+      "name_ja": "公共交通機関を利用",
+      "name_es": "Usar transporte publico",
+      "description_en": "Take bus or train instead of driving (~10 km trip)",
+      "description_ja": "車の代わりにバスや電車を利用",
+      "description_es": "Tomar autobus o tren en vez de conducir",
+      "co2_grams": 1000,
+      "calculation_notes": "10km; car-bus net ~1040g saved",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 3,
+      "icon_name": "train",
+      "related_sdgs": [
+        "9",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "carpool",
+      "category": "transport",
+      "name_en": "Carpool",
+      "name_ja": "相乗りで移動",
+      "name_es": "Compartir auto",
+      "description_en": "Share a ride instead of driving alone (~10 km trip)",
+      "description_ja": "一人で運転する代わりに相乗りする",
+      "description_es": "Compartir viaje en vez de conducir solo",
+      "co2_grams": 800,
+      "calculation_notes": "~10km; halve per-person emissions",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "people",
+      "related_sdgs": [
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "electric_car_purchase",
+      "category": "transport",
+      "name_en": "Purchase Electric Vehicle",
+      "name_ja": "電気自動車を購入",
+      "name_es": "Comprar vehiculo electrico",
+      "description_en": "Purchase an electric vehicle instead of a gasoline car",
+      "description_ja": "ガソリン車の代わりに電気自動車を購入する",
+      "description_es": "Comprar un vehiculo electrico en vez de uno de gasolina",
+      "co2_grams": 3400000,
+      "calculation_notes": "one-time milestone",
+      "effort": 5,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "electric_car",
+      "related_sdgs": [
+        "7",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 6,
+      "provenance_research_id": "electric_vs_gasoline_car",
+      "confidence": "medium",
       "sources": [
         {
           "name": "UK DEFRA 2024",
           "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "The UK's average petrol car produces 164 grams of CO2 per kilometre equivalent (g CO2e), while a diesel car produces 170 grams of CO2/km.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/travel-carbon-footprint",
-          "quote": "The carbon footprint of travel is measured in grams of carbon dioxide-equivalents per passenger kilometer. This includes the impact of increased warming from aviation emissions at altitude.",
+          "quote": "Battery Electric Cars: Emissions for battery electric cars have decreased by 13.56%, driven by the penetration of newer, more efficient electric vehicles.",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [3, 11, 13]
+      ]
     },
     {
-      "action_id": "walk_instead_of_car",
-      "action_name": "Walking instead of driving",
+      "action_id": "train_vs_flight",
       "category": "transport",
-      "co2_grams": 164,
-      "unit": "per_km",
-      "calculation_notes": "Walking has near-zero direct emissions. Full car savings of 164g/km.",
-      "sources": [
-        {
-          "name": "GreenMatch UK",
-          "url": "https://www.greenmatch.co.uk/blog/uk-transport-co2",
-          "quote": "The UK's average petrol car produces 164 grams of CO2 per kilometre, equivalent (g CO2e), while a diesel car produces 170 grams of CO2/km.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Average car CO2 conversion factors published annually for UK company reporting.",
-          "accessed": "2026-01-31"
-        }
-      ],
-      "confidence": "high",
-      "related_sdgs": [3, 11, 13]
-    },
-    {
-      "action_id": "bus_instead_of_car",
-      "action_name": "Public bus instead of driving",
-      "category": "transport",
-      "co2_grams": 60,
-      "unit": "per_km",
-      "calculation_notes": "Average car 164g/km minus bus 104g/km = 60g saved. Bus emissions vary by occupancy.",
-      "sources": [
-        {
-          "name": "Robeco/DEFRA",
-          "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
-          "quote": "An urban bus emits 104 g/km and a coach 27 g/km due to its greater weight efficiency.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Bus emission factors vary by type - local bus approximately 100g CO2e/pkm.",
-          "accessed": "2026-01-31"
-        }
-      ],
-      "confidence": "high",
-      "related_sdgs": [9, 11, 13]
-    },
-    {
-      "action_id": "train_instead_of_car",
-      "action_name": "Train instead of driving",
-      "category": "transport",
-      "co2_grams": 133,
-      "unit": "per_km",
-      "calculation_notes": "Average car 164g/km minus national rail 31g/km = 133g saved per km.",
-      "sources": [
-        {
-          "name": "UK Office of Rail and Road",
-          "url": "https://dataportal.orr.gov.uk/statistics/infrastructure-and-environment/rail-environment/",
-          "quote": "Passenger train emissions per passenger kilometre was 31 grams of CO2e. This was down 2% on the previous year.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "MyCarbon/DEFRA",
-          "url": "https://www.mycarbon.co.uk/2024/09/06/defra-ghg-emission-conversion-factors-update-2024/",
-          "quote": "DEFRA has an emission factor for an average National Rail journey of 0.03546 kgCO₂e per passenger km.",
-          "accessed": "2026-01-31"
-        }
-      ],
-      "confidence": "high",
-      "related_sdgs": [9, 11, 13]
-    },
-    {
-      "action_id": "eurostar_instead_of_car",
-      "action_name": "Eurostar instead of driving",
-      "category": "transport",
-      "co2_grams": 158,
-      "unit": "per_km",
-      "calculation_notes": "Eurostar emits only 6g/km due to electric power and high occupancy. Car 164g - 6g = 158g saved.",
-      "sources": [
-        {
-          "name": "Seat61/DEFRA",
-          "url": "https://www.seat61.com/CO2flights.htm",
-          "quote": "Eurostar, emitting only 6 g/km per passenger on trips through the Channel Tunnel.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "UK ORR Rail Emissions",
-          "url": "https://dataportal.orr.gov.uk/media/1843/rail-emissions-2019-20.pdf",
-          "quote": "The 2019 estimates were 6.0 g CO2e per passenger km for international rail (Eurostar).",
-          "accessed": "2026-01-31"
-        }
-      ],
-      "confidence": "high",
-      "related_sdgs": [9, 11, 13]
-    },
-    {
-      "action_id": "train_vs_flight_500km",
-      "action_name": "Train instead of short-haul flight (500km)",
-      "category": "transport",
+      "name_en": "Train Instead of Flight",
+      "name_ja": "飛行機の代わりに電車",
+      "name_es": "Tren en vez de avion",
+      "description_en": "Take a train instead of a short-haul flight",
+      "description_ja": "短距離フライトの代わりに電車を利用",
+      "description_es": "Tomar un tren en vez de un vuelo de corta distancia",
       "co2_grams": 110000,
-      "unit": "per_trip",
-      "calculation_notes": "Short-haul flight 251g/km vs train 35g/km = 216g/km saved. At 500km = 108,000g. Rounded to 110kg including RF multiplier.",
+      "calculation_notes": "500km; ~200g/km flight vs 40g rail",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "train",
+      "related_sdgs": [
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "provenance_research_id": "train_vs_flight_500km",
+      "confidence": "high",
       "sources": [
         {
           "name": "Robeco/BEIS DEFRA",
@@ -159,41 +501,131 @@
           "quote": "Each scenario is represented by an illustrative distance which represents the typical flight distance for the associated distance categorization, as well as the following per passenger emissions factors (expressed in terms of kg CO2e per km).",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [13]
+      ]
     },
     {
-      "action_id": "train_vs_flight_1000km",
-      "action_name": "Train instead of flight (1000km)",
+      "action_id": "take_bus",
       "category": "transport",
-      "co2_grams": 160000,
-      "unit": "per_trip",
-      "calculation_notes": "Short-haul flight ~195g/km vs train 35g/km = 160g/km saved. At 1000km = 160kg.",
-      "sources": [
-        {
-          "name": "Robeco/BEIS DEFRA",
-          "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
-          "quote": "251 grams per km for short haul compared to 195 g/km for long haul. Electrified domestic rail, including shorter suburban services, emits 41 g/km.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Solartechonline/UK Gov",
-          "url": "https://solartechonline.com/blog/train-carbon-emissions-guide/",
-          "quote": "UK domestic flight emissions of 273g CO2e per passenger km confirmed by UK Government statistics, 2024.",
-          "accessed": "2026-01-31"
-        }
+      "name_en": "Take the Bus",
+      "name_ja": "バスを利用",
+      "name_es": "Tomar el autobus",
+      "description_en": "Take a bus instead of driving (~7 km trip)",
+      "description_ja": "通勤に車の代わりにバスを利用",
+      "description_es": "Tomar el autobus en vez de conducir para ir al trabajo",
+      "co2_grams": 500,
+      "calculation_notes": "~7km; bus 89g/pkm vs car 164g/km",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "bus",
+      "related_sdgs": [
+        "9",
+        "11",
+        "13"
       ],
-      "confidence": "high",
-      "related_sdgs": [13]
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "meatless_meal_beef",
-      "action_name": "Meatless meal (beef avoided)",
+      "action_id": "escooter_trip",
+      "category": "transport",
+      "name_en": "E-Scooter Instead of Driving",
+      "name_ja": "電動キックボードで移動",
+      "name_es": "Patinete electrico en vez de auto",
+      "description_en": "Use an e-scooter instead of driving for a short trip",
+      "description_ja": "短距離移動に車の代わりに電動キックボードを使用",
+      "description_es": "Usar un patinete electrico en vez de conducir para un viaje corto",
+      "co2_grams": 375,
+      "calculation_notes": "~2.5km; car-scooter net ~322g",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "electric_bolt",
+      "related_sdgs": [
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "ev_charging_green",
+      "category": "transport",
+      "name_en": "Charge EV with Green Energy",
+      "name_ja": "グリーン電力でEV充電",
+      "name_es": "Cargar auto electrico con energia verde",
+      "description_en": "Charge your EV using renewable energy sources",
+      "description_ja": "再生可能エネルギーで電気自動車を充電",
+      "description_es": "Cargar tu auto electrico con fuentes de energia renovable",
+      "co2_grams": 4500,
+      "calculation_notes": "~10 kWh charge x 458 g/kWh = 4580, rounded down to 4500.",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "ev_station",
+      "related_sdgs": [
+        "7",
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "combine_errands",
+      "category": "transport",
+      "name_en": "Combine Errands",
+      "name_ja": "用事をまとめる",
+      "name_es": "Combinar diligencias",
+      "description_en": "Combine multiple errands into one trip to reduce driving",
+      "description_ja": "複数の用事を1回の外出にまとめて車の使用を減らす",
+      "description_es": "Combinar varias diligencias en un solo viaje para conducir menos",
+      "co2_grams": 600,
+      "calculation_notes": "save ~4km + cold-start penalty",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "local_shipping",
+      "related_sdgs": [
+        "11",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 11,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "skip_high_impact_food",
       "category": "food",
+      "name_en": "Skip High-Impact Meal",
+      "name_ja": "高インパクトの食事をスキップ",
+      "name_es": "Evitar comida de alto impacto",
+      "description_en": "Choose a plant-based meal instead of beef or lamb today",
+      "description_ja": "今日は牛肉やラム肉の代わりに植物性の食事を選択する",
+      "description_es": "Elegir una comida vegetal en vez de carne de res o cordero hoy",
       "co2_grams": 6800,
-      "unit": "per_100g_serving",
-      "calculation_notes": "Beef 70.3608 kg CO2e/kg: production-weighted global mean of the two Poore & Nemecek 2018 beef categories (0.56 x 99.48 beef herd + 0.44 x 33.30 dairy herd), means with supply-chain losses, cradle-to-retail, via the OWID grapher. The weights are OWID's own published global production split; no label tells a shopper which herd their beef came from, so the app ships one blended beef item (decision D6, 2026-08-01). The widely quoted 60 kg/kg is the beef-herd MEDIAN (without losses) of the same study. Per 100 g serving = 7036 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 6836 g. Rounded down to 6800 g (conservative).",
+      "calculation_notes": "",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "eco",
+      "related_sdgs": [
+        "2",
+        "12",
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "provenance_research_id": "meatless_meal_beef",
+      "confidence": "high",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
@@ -225,17 +657,32 @@
           "quote": "On one chart you previously showed a value of 99.5 kilograms CO2eq per kilogram of beef from beef herds. On another, it was shown as 60 kgCO2eq per kilogram. Why were these values different? ... The former showed the mean, and the latter the median. This is how the data is made available in the underlying study from Poore and Nemecek (2018). ... We updated the data on the breakdown of emissions on 15th June 2022 based on supplementary data provided by the author, with supply chain losses included, and given as the mean. This means these two charts are now consistent.",
           "accessed": "2026-07-18"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [2, 12, 13, 15]
+      ]
     },
     {
-      "action_id": "meatless_meal_chicken",
-      "action_name": "Meatless meal (chicken avoided)",
+      "action_id": "skip_medium_impact_food",
       "category": "food",
-      "co2_grams": 780,
-      "unit": "per_100g_serving",
-      "calculation_notes": "Chicken 9.87 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Poultry Meat'). Per 100 g serving = 987 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 787 g. Rounded down to 780 g (conservative; baseline standardized 2026-07-20, previously 880 g against a 100 g peas baseline).",
+      "name_en": "Skip Medium-Impact Meal",
+      "name_ja": "中程度インパクトの食事をスキップ",
+      "name_es": "Evitar comida de impacto medio",
+      "description_en": "Choose a plant-based meal instead of chicken or pork today",
+      "description_ja": "今日は鶏肉や豚肉の代わりに植物性の食事を選択する",
+      "description_es": "Elegir una comida vegetal en vez de pollo o cerdo hoy",
+      "co2_grams": 1000,
+      "calculation_notes": "avoidable daily waste ~150g x 3/kg",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "eco",
+      "related_sdgs": [
+        "2",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "provenance_research_id": "meatless_meal_chicken",
+      "confidence": "high",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
@@ -243,149 +690,292 @@
           "quote": "Poultry Meat,2010,9.87",
           "accessed": "2026-07-18"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [2, 12, 13]
+      ]
     },
     {
-      "action_id": "meatless_meal_pork",
-      "action_name": "Meatless meal (pork avoided)",
+      "action_id": "no_food_waste",
       "category": "food",
-      "co2_grams": 1000,
-      "unit": "per_100g_serving",
-      "calculation_notes": "Pork 12.31 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Pig Meat'). Per 100 g serving = 1231 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 1031 g. Rounded down to 1000 g (conservative; baseline standardized 2026-07-20, previously 1100 g against a 100 g peas baseline). Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
+      "name_en": "Zero Food Waste",
+      "name_ja": "食品ロスゼロ",
+      "name_es": "Cero desperdicio de comida",
+      "description_en": "Finish all food today with no waste",
+      "description_ja": "今日は食べ残しゼロを達成",
+      "description_es": "Terminar toda la comida hoy sin desperdiciar nada",
+      "co2_grams": 500,
+      "calculation_notes": "avoidable daily waste ~150g x 3/kg",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 3,
+      "icon_name": "food_bank",
+      "related_sdgs": [
+        "2",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "plant_milk",
+      "category": "food",
+      "name_en": "Choose Plant Milk",
+      "name_ja": "植物性ミルクを選択",
+      "name_es": "Elegir leche vegetal",
+      "description_en": "Choose plant-based milk instead of dairy",
+      "description_ja": "乳製品の代わりに植物性ミルクを選択",
+      "description_es": "Elegir leche vegetal en vez de leche de vaca",
+      "co2_grams": 460,
+      "calculation_notes": "avoids heated greenhouse produce",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 3,
+      "icon_name": "local_cafe",
+      "related_sdgs": [
+        "12",
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 4,
+      "provenance_research_id": "plant_milk_vs_dairy",
+      "confidence": "high",
       "sources": [
         {
           "name": "Our World in Data / Poore & Nemecek grapher CSV",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Pig Meat,2010,12.31",
+          "quote": "Milk,2010,3.15",
           "accessed": "2026-07-18"
         },
         {
-          "name": "PMC/Multiple Studies",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
-          "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+          "name": "Our World in Data milks comparison CSV",
+          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
+          "quote": "Oat milk,2013,0.76,0.9031262,48.24,1.622563",
           "accessed": "2026-07-18"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [2, 12, 13]
+      ]
     },
     {
-      "action_id": "food_waste_avoided",
-      "action_name": "Food waste avoided (diverted from landfill)",
+      "action_id": "seasonal_produce",
       "category": "food",
-      "co2_grams": 860,
-      "unit": "per_kg",
-      "calculation_notes": "EPA 2023 report: 0.86 tonnes CO2e per metric ton of food waste landfilled = 860g per kg.",
-      "sources": [
-        {
-          "name": "EPA 2023 Landfill Report",
-          "url": "https://www.epa.gov/system/files/documents/2023-10/food-waste-landfill-methane-10-8-23-final_508-compliant.pdf",
-          "quote": "For every 1,000 tons of food waste landfilled, an estimated 34 metric tons of fugitive methane emissions are released.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "BioCycle Analysis",
-          "url": "https://www.biocycle.net/connections-food-waste-and-landfill-methane-report-a-giant-step-on-a-long-road/",
-          "quote": "For each metric ton of food waste that goes into a landfill you get about 0.86 tons of CO2 equivalent (CO2e) released to the atmosphere as methane — effectively a 1:1 equivalent.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "EPA Quantifying Methane",
-          "url": "https://www.epa.gov/land-research/quantifying-methane-emissions-landfilled-food-waste",
-          "quote": "An estimated 58 percent of the fugitive methane emissions (i.e., those released to the atmosphere) from municipal solid waste landfills are from landfilled food waste.",
-          "accessed": "2026-01-31"
-        }
+      "name_en": "Buy Seasonal Produce",
+      "name_ja": "旬の農産物を購入",
+      "name_es": "Comprar productos de temporada",
+      "description_en": "Buy fruits and vegetables that are in season locally",
+      "description_ja": "地元で旬の野菜や果物を購入",
+      "description_es": "Comprar frutas y verduras de temporada local",
+      "co2_grams": 500,
+      "calculation_notes": "avoids heated greenhouse produce",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "grass",
+      "related_sdgs": [
+        "12",
+        "13"
       ],
-      "confidence": "high",
-      "related_sdgs": [2, 12, 13]
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "composting",
-      "action_name": "Composting food scraps instead of landfill",
+      "action_id": "skip_food_delivery",
       "category": "food",
-      "co2_grams": 700,
-      "unit": "per_kg",
-      "calculation_notes": "Composting emits ~10-20% of landfill methane. Net savings ~700-800g per kg vs landfill.",
-      "sources": [
-        {
-          "name": "BioCycle Climate Calculations",
-          "url": "https://www.biocycle.net/connection-climate-calculations/",
-          "quote": "1 kg CH4 per dry ton materials * 23 kg CO2 per kg CH4 = 23 kg CO2 (well-managed compost) vs 207 kg CO2 (poorly managed).",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "ReFED",
-          "url": "https://refed.org/food-waste/climate-and-resources/",
-          "quote": "EPA research indicates that diverting food waste from landfill reduces the methane generation potential by 33%.",
-          "accessed": "2026-01-31"
-        }
+      "name_en": "Skip Food Delivery",
+      "name_ja": "フードデリバリーをスキップ",
+      "name_es": "Evitar delivery de comida",
+      "description_en": "Cook at home instead of ordering food delivery today",
+      "description_ja": "今日はフードデリバリーの代わりに自炊する",
+      "description_es": "Cocinar en casa en vez de pedir delivery de comida hoy",
+      "co2_grams": 600,
+      "calculation_notes": "omnivore ~5.6 vs vegan ~2.9kg/day",
+      "effort": 3,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "kitchen",
+      "related_sdgs": [
+        "12",
+        "13"
       ],
-      "confidence": "medium",
-      "related_sdgs": [12, 13, 15]
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "recycle_aluminum_can",
-      "action_name": "Recycling aluminum can",
-      "category": "recycling",
-      "co2_grams": 99,
-      "unit": "per_can",
-      "calculation_notes": "Recycling saves 95% energy vs virgin aluminum. Per can (15g) saves ~99g CO2e.",
-      "sources": [
-        {
-          "name": "Aluminum Association",
-          "url": "https://www.aluminum.org/carbon-footprint-us-aluminum-can-production-down-40-1990s",
-          "quote": "Recycling a single can saves 1.56 megajoules (MJ) of energy or 98.7 grams of CO2 equivalent.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "International Aluminium Institute",
-          "url": "https://international-aluminium.org/landing/aluminium-recycling-saves-95-of-the-energy-needed-for-primary-aluminium-production/",
-          "quote": "The primary energy demand for recycled aluminium was 8.3 gigajoules per tonne, resulting in a significant energy saving (95.5%).",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Aluminum Association",
-          "url": "https://www.aluminum.org/Recycling",
-          "quote": "Making recycled aluminum only takes around 5% of the energy needed to make new aluminum — reducing carbon emissions and saving money.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "vegan_day",
+      "category": "food",
+      "name_en": "Full Vegan Day",
+      "name_ja": "完全菜食の一日",
+      "name_es": "Dia completamente vegano",
+      "description_en": "Eat only plant-based foods for an entire day",
+      "description_ja": "一日中植物性食品だけを食べる",
+      "description_es": "Comer solo alimentos vegetales durante todo el dia",
+      "co2_grams": 3000,
+      "calculation_notes": "omnivore ~5.6 vs vegan ~2.9kg/day",
+      "effort": 3,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "restaurant",
+      "related_sdgs": [
+        "2",
+        "12",
+        "13",
+        "15"
       ],
-      "confidence": "high",
-      "related_sdgs": [12, 13]
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "recycle_plastic_bottle",
-      "action_name": "Recycling PET plastic bottle",
-      "category": "recycling",
-      "co2_grams": 47,
-      "unit": "per_bottle",
-      "calculation_notes": "Average 500ml PET bottle weighs 28g. Recycling saves ~1.7kg CO2 per kg plastic.",
-      "sources": [
-        {
-          "name": "EPA WARM Model",
-          "url": "https://www.epa.gov/warm",
-          "quote": "Recycling PET saves significant energy compared to virgin production.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Association of Plastic Recyclers",
-          "url": "https://plasticsrecycling.org/how-recycling-works/why-recycling-is-important/",
-          "quote": "According to the Environmental Protection Agency (EPA), recycling aluminum saves about 95%, recycling paper saves about 60%, and recycling glass saves about 30% of the energy.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "bring_lunch",
+      "category": "food",
+      "name_en": "Bring Lunch to Work",
+      "name_ja": "お弁当を持参",
+      "name_es": "Llevar almuerzo al trabajo",
+      "description_en": "Bring a homemade lunch instead of buying packaged food",
+      "description_ja": "市販の弁当の代わりに手作り弁当を持参",
+      "description_es": "Llevar almuerzo casero en vez de comprar comida empaquetada",
+      "co2_grams": 300,
+      "calculation_notes": "saves packaging + transport CO2",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "takeout",
+      "related_sdgs": [
+        "12",
+        "13"
       ],
-      "confidence": "medium",
-      "related_sdgs": [12, 13, 14]
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "led_vs_incandescent",
-      "action_name": "Using LED instead of incandescent bulb",
+      "action_id": "skip_fish",
+      "category": "food",
+      "name_en": "Skip a Fish Meal",
+      "name_ja": "魚の食事をスキップ",
+      "name_es": "Evitar una comida de pescado",
+      "description_en": "Choose a plant-based meal instead of fish today",
+      "description_ja": "今日は魚の代わりに植物性の食事を選択する",
+      "description_es": "Elegir una comida vegetal en vez de pescado hoy",
+      "co2_grams": 560,
+      "calculation_notes": "4.5kWh dryer x 386g/kWh (US)",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "eco",
+      "related_sdgs": [
+        "2",
+        "12",
+        "13",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "air_dry_clothes",
       "category": "energy",
-      "co2_grams": 19,
-      "unit": "per_hour",
-      "calculation_notes": "60W incandescent vs 10W LED = 50W saved. At US grid 0.37kg/kWh = 18.5g/hour. UK grid = 10.5g/hour. Using US average.",
+      "name_en": "Air Dry Clothes",
+      "name_ja": "洗濯物を自然乾燥",
+      "name_es": "Secar ropa al aire",
+      "description_en": "Air dry clothes instead of using a tumble dryer",
+      "description_ja": "乾燥機を使わずに洗濯物を自然乾燥",
+      "description_es": "Secar la ropa al aire en vez de usar la secadora",
+      "co2_grams": 2000,
+      "calculation_notes": "dryer_vented 4.5 kWh x 458 g/kWh = 2061, rounded down to 2000. Vented/condenser dryer; a heat-pump dryer is 2.05 kWh = 939 g.",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "dry_cleaning",
+      "related_sdgs": [
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "Energy Saving Trust UK",
+          "url": "https://energysavingtrust.org.uk/",
+          "quote": "Tumble dryers are energy-intensive appliances using 4-5 kWh per cycle.",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "Carbon Trust",
+          "url": "https://www.carbontrust.com/",
+          "quote": "Heating and drying processes are among the most energy-intensive household activities.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "cold_wash",
+      "category": "energy",
+      "name_en": "Cold Water Laundry",
+      "name_ja": "冷水で洗濯",
+      "name_es": "Lavar ropa con agua fria",
+      "description_en": "Wash clothes in cold water instead of hot",
+      "description_ja": "お湯ではなく冷水で洗濯",
+      "description_es": "Lavar la ropa con agua fria en vez de caliente",
+      "co2_grams": 430,
+      "calculation_notes": "wash_warm 1.300 - wash_cold 0.350 = 0.950 kWh x 458 = 435, rounded down to 430. Bosch EN50229 same-machine 40 C vs 20 C.",
+      "effort": 1,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "local_laundry_service",
+      "related_sdgs": [
+        "6",
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "provenance_research_id": "cold_water_laundry",
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Energy Saving Trust",
+          "url": "https://energysavingtrust.org.uk/",
+          "quote": "Washing at 30°C instead of 40°C can save around 40% of the energy per wash cycle.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "install_led_bulb",
+      "category": "energy",
+      "name_en": "Install LED Bulb",
+      "name_ja": "LED電球を設置",
+      "name_es": "Instalar bombilla LED",
+      "description_en": "Replace an incandescent or halogen bulb with an LED",
+      "description_ja": "白熱電球やハロゲン電球をLEDに交換",
+      "description_es": "Reemplazar una bombilla incandescente o halogena por LED",
+      "co2_grams": 25000,
+      "calculation_notes": "(60 W incandescent - 8.5 W LED) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, rounded down to 25000 first-year. Philips 8.5 W / 800 lm.",
+      "effort": 1,
+      "frequency": 1,
+      "impact": 3,
+      "icon_name": "lightbulb",
+      "related_sdgs": [
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "provenance_research_id": "led_vs_incandescent",
+      "confidence": "high",
       "sources": [
         {
           "name": "US DOE Energy Saver",
@@ -405,59 +995,621 @@
           "quote": "A typical cheap (60 watt equivalent to incandescent) LED light bulb is advertised as providing 800 lumens, lasting up to 10,000 hours at 10 watts.",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [7, 12, 13]
+      ]
     },
     {
-      "action_id": "air_dry_clothes",
-      "action_name": "Air drying clothes instead of tumble dryer",
+      "action_id": "unplug_devices",
       "category": "energy",
-      "co2_grams": 1700,
-      "unit": "per_load",
-      "calculation_notes": "Tumble dryer uses ~4.5 kWh per load. At US grid 0.37kg/kWh = 1.67kg CO2. Rounded to 1700g.",
+      "name_en": "Unplug Unused Devices",
+      "name_ja": "未使用機器のプラグを抜く",
+      "name_es": "Desenchufar dispositivos sin uso",
+      "description_en": "Unplug electronic devices when not in use",
+      "description_ja": "使用していない電子機器のコンセントを抜く",
+      "description_es": "Desenchufar dispositivos electronicos cuando no se usen",
+      "co2_grams": 25,
+      "calculation_notes": "5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, rounded down to 25. LBNL: modern standby is 'less than 0.5 watts' per device.",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "power",
+      "related_sdgs": [
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 4,
+      "provenance_research_id": "unplug_standby",
+      "confidence": "medium",
       "sources": [
         {
-          "name": "Energy Saving Trust UK",
-          "url": "https://energysavingtrust.org.uk/",
-          "quote": "Tumble dryers are energy-intensive appliances using 4-5 kWh per cycle.",
+          "name": "Lawrence Berkeley National Lab",
+          "url": "https://standby.lbl.gov/",
+          "quote": "Modern regulations limit standby to ≤1W, down from 5-15W in older devices.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "turn_off_lights",
+      "category": "energy",
+      "name_en": "Turn Off Lights",
+      "name_ja": "電気を消す",
+      "name_es": "Apagar las luces",
+      "description_en": "Turn off lights when leaving a room",
+      "description_ja": "部屋を出る時に電気を消す",
+      "description_es": "Apagar las luces al salir de una habitacion",
+      "co2_grams": 70,
+      "calculation_notes": "4 h x 40 W = 0.16 kWh x 458 g/kWh = 73, rounded down to 70.",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "lightbulb",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "lower_thermostat",
+      "category": "energy",
+      "name_en": "Lower Thermostat 1 Degree",
+      "name_ja": "暖房を1度下げる",
+      "name_es": "Bajar el termostato 1 grado",
+      "description_en": "Lower your heating thermostat by 1 degree today",
+      "description_ja": "今日は暖房の設定温度を1度下げる",
+      "description_es": "Bajar el termostato de calefaccion 1 grado hoy",
+      "co2_grams": 140,
+      "calculation_notes": "METI measured: 53.08 kWh/yr saved per 1 C at 9 h/day over a 169-day heating season = 0.3141 kWh/day x 458 = 144, rounded down to 140. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "thermostat",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "raise_ac_thermostat",
+      "category": "energy",
+      "name_en": "Raise AC 1 Degree",
+      "name_ja": "冷房を1度上げる",
+      "name_es": "Subir el aire acondicionado 1 grado",
+      "description_en": "Raise your AC thermostat by 1 degree today",
+      "description_ja": "今日は冷房の設定温度を1度上げる",
+      "description_es": "Subir la temperatura del aire acondicionado 1 grado hoy",
+      "co2_grams": 120,
+      "calculation_notes": "METI measured: 30.24 kWh/yr saved per 1 C at 9 h/day over a 112-day cooling season = 0.2700 kWh/day x 458 = 124, rounded down to 120. Room aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "thermostat",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "use_natural_light",
+      "category": "energy",
+      "name_en": "Use Natural Light",
+      "name_ja": "自然光を活用",
+      "name_es": "Usar luz natural",
+      "description_en": "Open curtains and use natural light instead of electric",
+      "description_ja": "カーテンを開けて電気の代わりに自然光を活用",
+      "description_es": "Abrir cortinas y usar luz natural en vez de electrica",
+      "co2_grams": 100,
+      "calculation_notes": "6 h x 40 W = 0.24 kWh x 458 g/kWh = 110, rounded down to 100.",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "wb_sunny",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "full_laundry_load",
+      "category": "energy",
+      "name_en": "Run Full Laundry Load",
+      "name_ja": "洗濯機を満杯で回す",
+      "name_es": "Lavar con carga completa",
+      "description_en": "Wait until you have a full load before running laundry",
+      "description_ja": "洗濯物が満杯になってから洗濯機を回す",
+      "description_es": "Esperar hasta tener carga completa antes de lavar",
+      "co2_grams": 300,
+      "calculation_notes": "avoids ~35% wasted energy/load",
+      "effort": 1,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "local_laundry_service",
+      "related_sdgs": [
+        "6",
+        "7",
+        "12"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "eco_mode_appliance",
+      "category": "energy",
+      "name_en": "Use Eco Mode",
+      "name_ja": "エコモードを使用",
+      "name_es": "Usar modo ecologico",
+      "description_en": "Use eco mode on dishwasher or washing machine",
+      "description_ja": "食洗機や洗濯機のエコモードを使用",
+      "description_es": "Usar modo ecologico en el lavavajillas o lavadora",
+      "co2_grams": 120,
+      "calculation_notes": "dishwasher_normal 1.12 - dishwasher_eco 0.85 = 0.27 kWh x 458 = 124, rounded down to 120. Bosch SMS67MW00G / Which? 2026, 14 place settings.",
+      "effort": 1,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "dishwasher",
+      "related_sdgs": [
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "microwave_vs_oven",
+      "category": "energy",
+      "name_en": "Microwave Instead of Oven",
+      "name_ja": "オーブンの代わりに電子レンジ",
+      "name_es": "Microondas en vez de horno",
+      "description_en": "Use a microwave instead of a full-size oven to reheat food",
+      "description_ja": "温め直しにオーブンの代わりに電子レンジを使用",
+      "description_es": "Usar el microondas en vez del horno para recalentar comida",
+      "co2_grams": 280,
+      "calculation_notes": "oven 0.82 kWh per bake cycle - microwave 0.19 kWh per 10 min = 0.63 kWh x 458 = 289, rounded down to 280.",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 1,
+      "icon_name": "microwave",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 11,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "use_fan_instead_of_ac",
+      "category": "energy",
+      "name_en": "Use Fan Instead of AC",
+      "name_ja": "エアコンの代わりに扇風機を使用",
+      "name_es": "Usar ventilador en vez de aire acondicionado",
+      "description_en": "Use a fan instead of air conditioning today",
+      "description_ja": "今日はエアコンの代わりに扇風機を使用する",
+      "description_es": "Usar un ventilador en vez del aire acondicionado hoy",
+      "co2_grams": 1200,
+      "calculation_notes": "one plastic bag ~10g CO2",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "air",
+      "related_sdgs": [
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 12,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "reusable_bag",
+      "category": "consumption",
+      "name_en": "Use Reusable Bag",
+      "name_ja": "エコバッグを使用",
+      "name_es": "Usar bolsa reutilizable",
+      "description_en": "Use a reusable shopping bag instead of plastic",
+      "description_ja": "レジ袋の代わりにエコバッグを使用",
+      "description_es": "Usar una bolsa reutilizable en vez de plastica",
+      "co2_grams": 10,
+      "calculation_notes": "one plastic bag ~10g CO2",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "shopping_bag",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "Danish EPA LCA 2018",
+          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
+          "quote": "Cotton bags need 7,100-20,000 uses to break even on all environmental indicators. Polypropylene bags break even in 10-45 uses.",
           "accessed": "2026-01-31"
         },
         {
-          "name": "Carbon Trust",
-          "url": "https://www.carbontrust.com/",
-          "quote": "Heating and drying processes are among the most energy-intensive household activities.",
+          "name": "Danish EPA LCA 2018",
+          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
+          "quote": "HDPE carrier bags have the lowest environmental impact in all categories when used once.",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "high",
-      "related_sdgs": [7, 12, 13]
+      ]
     },
     {
-      "action_id": "cold_water_laundry",
-      "action_name": "Cold water laundry instead of hot",
-      "category": "energy",
-      "co2_grams": 600,
-      "unit": "per_load",
-      "calculation_notes": "Hot wash uses ~1.6 kWh more than cold. At US grid = 592g. Rounded to 600g.",
+      "action_id": "reusable_cup",
+      "category": "consumption",
+      "name_en": "Use Reusable Cup",
+      "name_ja": "マイカップを使用",
+      "name_es": "Usar vaso reutilizable",
+      "description_en": "Bring your own reusable cup for drinks",
+      "description_ja": "飲み物にマイカップを持参",
+      "description_es": "Llevar tu propio vaso reutilizable para bebidas",
+      "co2_grams": 60,
+      "calculation_notes": "disposable cup ~60g CO2",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "coffee",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "reusable_water_bottle",
+      "category": "consumption",
+      "name_en": "Use Reusable Water Bottle",
+      "name_ja": "マイボトルを使用",
+      "name_es": "Botella de agua reutilizable",
+      "description_en": "Use a reusable bottle instead of single-use plastic",
+      "description_ja": "使い捨てペットボトルの代わりにマイボトルを使用",
+      "description_es": "Usar una botella reutilizable en vez de plastico desechable",
+      "co2_grams": 160,
+      "calculation_notes": "per-day: ~2 bottles avoided",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 3,
+      "icon_name": "water_drop",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": "medium",
       "sources": [
         {
-          "name": "Energy Saving Trust",
-          "url": "https://energysavingtrust.org.uk/",
-          "quote": "Washing at 30°C instead of 40°C can save around 40% of the energy per wash cycle.",
+          "name": "Carbon Trust",
+          "url": "https://www.carbontrust.com/",
+          "quote": "Single-use plastic bottles have significant lifecycle emissions from production, filling, and transport.",
           "accessed": "2026-01-31"
         }
+      ]
+    },
+    {
+      "action_id": "bring_own_container",
+      "category": "consumption",
+      "name_en": "Bring Own Container",
+      "name_ja": "マイ容器を持参",
+      "name_es": "Llevar tu propio recipiente",
+      "description_en": "Use your own container for takeout food",
+      "description_ja": "テイクアウト用にマイ容器を持参",
+      "description_es": "Usar tu propio recipiente para comida para llevar",
+      "co2_grams": 100,
+      "calculation_notes": "takeout container ~100g CO2",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "takeout",
+      "related_sdgs": [
+        "12",
+        "14"
       ],
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "refuse_disposables",
+      "category": "consumption",
+      "name_en": "Refuse Disposables",
+      "name_ja": "使い捨てを断る",
+      "name_es": "Rechazar desechables",
+      "description_en": "Refuse disposable straws, cutlery, napkins, or other single-use items today",
+      "description_ja": "今日はストロー、カトラリー、ナプキンなどの使い捨て品を断る",
+      "description_es": "Rechazar pajitas, cubiertos, servilletas u otros articulos desechables hoy",
+      "co2_grams": 15,
+      "calculation_notes": "scenario review",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "no_drinks",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "secondhand_clothing",
+      "category": "consumption",
+      "name_en": "Buy Secondhand",
+      "name_ja": "中古の衣類を購入",
+      "name_es": "Comprar ropa de segunda mano",
+      "description_en": "Buy secondhand clothing instead of new",
+      "description_ja": "新品ではなく中古の衣類を購入",
+      "description_es": "Comprar ropa de segunda mano en vez de nueva",
+      "co2_grams": 15000,
+      "calculation_notes": "scenario review",
+      "effort": 3,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "autorenew",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 6,
       "confidence": "medium",
-      "related_sdgs": [6, 7, 12, 13]
+      "sources": [
+        {
+          "name": "WRAP UK",
+          "url": "https://wrap.org.uk/",
+          "quote": "Extending the life of clothes by just nine months reduces carbon, water and waste footprints by around 20-30% each.",
+          "accessed": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "action_id": "repair_item",
+      "category": "consumption",
+      "name_en": "Repair Instead of Replace",
+      "name_ja": "買い替えずに修理",
+      "name_es": "Reparar en vez de reemplazar",
+      "description_en": "Repair a broken item instead of buying a new one",
+      "description_ja": "壊れた物を新品を買う代わりに修理する",
+      "description_es": "Reparar un objeto roto en vez de comprar uno nuevo",
+      "co2_grams": 7500,
+      "calculation_notes": "weighted avg across item types",
+      "effort": 3,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "build",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "borrow_instead_buy",
+      "category": "consumption",
+      "name_en": "Borrow Instead of Buy",
+      "name_ja": "買わずに借りる",
+      "name_es": "Pedir prestado en vez de comprar",
+      "description_en": "Borrow a tool or item instead of buying new",
+      "description_ja": "新品を買う代わりに道具を借りる",
+      "description_es": "Pedir prestada una herramienta en vez de comprar una nueva",
+      "co2_grams": 8000,
+      "calculation_notes": "excl. books",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "handshake",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "plastic_free_hygiene",
+      "category": "consumption",
+      "name_en": "Plastic-Free Hygiene",
+      "name_ja": "プラスチックフリーの衛生用品",
+      "name_es": "Higiene sin plastico",
+      "description_en": "Use bar soap, shampoo bars, or other plastic-free hygiene products today",
+      "description_ja": "今日は固形石鹸やシャンプーバーなどプラスチックフリーの衛生用品を使用",
+      "description_es": "Usar jabon en barra, champu solido u otros productos de higiene sin plastico hoy",
+      "co2_grams": 15,
+      "calculation_notes": "per-trip: multiple items reframe",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "soap",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "buy_bulk",
+      "category": "consumption",
+      "name_en": "Buy in Bulk",
+      "name_ja": "まとめ買いする",
+      "name_es": "Comprar a granel",
+      "description_en": "Buy items in bulk to reduce packaging waste",
+      "description_ja": "包装ゴミを減らすためにまとめ買いする",
+      "description_es": "Comprar a granel para reducir residuos de embalaje",
+      "co2_grams": 200,
+      "calculation_notes": "per-trip: multiple items reframe",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 2,
+      "icon_name": "shopping",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "donate_items",
+      "category": "consumption",
+      "name_en": "Donate Unused Items",
+      "name_ja": "不要品を寄付",
+      "name_es": "Donar articulos sin uso",
+      "description_en": "Donate items you no longer need instead of trashing them",
+      "description_ja": "不要品をゴミに捨てずに寄付する",
+      "description_es": "Donar cosas que ya no necesitas en vez de tirarlas",
+      "co2_grams": 12000,
+      "calculation_notes": "per-donation-run: multiple items",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "volunteer_activism",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 11,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "no_impulse_buy",
+      "category": "consumption",
+      "name_en": "Skip Impulse Purchase",
+      "name_ja": "衝動買いをしない",
+      "name_es": "Evitar compra impulsiva",
+      "description_en": "Avoid an unnecessary impulse purchase today",
+      "description_ja": "今日は不要な衝動買いを避ける",
+      "description_es": "Evitar una compra impulsiva innecesaria hoy",
+      "co2_grams": 200,
+      "calculation_notes": "avg product ~200g embedded CO2",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "shopping",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 12,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "choose_minimal_packaging",
+      "category": "consumption",
+      "name_en": "Choose Less Packaging",
+      "name_ja": "包装の少ない商品を選択",
+      "name_es": "Elegir menos embalaje",
+      "description_en": "Choose products with minimal or no packaging",
+      "description_ja": "包装が少ないまたは無い商品を選択",
+      "description_es": "Elegir productos con poco o ningun embalaje",
+      "co2_grams": 50,
+      "calculation_notes": "~50g packaging CO2 avoided",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "inventory_2",
+      "related_sdgs": [
+        "12",
+        "14"
+      ],
+      "is_active": true,
+      "sort_order": 13,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "used_car_purchase",
+      "category": "consumption",
+      "name_en": "Purchase Used Car",
+      "name_ja": "中古車を購入",
+      "name_es": "Comprar auto usado",
+      "description_en": "Buy a used car instead of a new one to avoid manufacturing emissions",
+      "description_ja": "製造時の排出を避けるため新車ではなく中古車を購入する",
+      "description_es": "Comprar un auto usado en vez de nuevo para evitar emisiones de fabricacion",
+      "co2_grams": 3000000,
+      "calculation_notes": "2min x 115g/min (co2data.org)",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "directions_car",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 14,
+      "confidence": null,
+      "sources": []
     },
     {
       "action_id": "shorter_shower",
-      "action_name": "Shorter shower (per minute saved)",
       "category": "water",
-      "co2_grams": 115,
-      "unit": "per_minute",
-      "calculation_notes": "7L/min flow, heating water from 13°C to 55°C. Energy calculation gives ~115g CO2 per minute.",
+      "name_en": "Take Shorter Shower",
+      "name_ja": "シャワーを短く",
+      "name_es": "Tomar ducha mas corta",
+      "description_en": "Reduce shower time by 2+ minutes",
+      "description_ja": "シャワーの時間を2分以上短縮",
+      "description_es": "Reducir el tiempo de ducha en mas de 2 minutos",
+      "co2_grams": 110,
+      "calculation_notes": "2 min x 59 g/min = 118, rounded down to 110. 59 g/min is the gas carrier floor (7.844784 L/min, delta-T 27.2 K); electric resistance is 114 g/min and a heat pump 26 g/min.",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "shower",
+      "related_sdgs": [
+        "6",
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": "medium",
       "sources": [
         {
           "name": "co2data.org",
@@ -477,77 +1629,241 @@
           "quote": "Heating 1 gallon of water produces, on average, 0.18 lbs of CO2. A five-minute shower creates 2.25lbs of CO2.",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "medium",
-      "related_sdgs": [6, 7, 13]
+      ]
     },
     {
-      "action_id": "reusable_bag",
-      "action_name": "Reusable shopping bag instead of plastic",
-      "category": "consumption",
-      "co2_grams": 10,
-      "unit": "per_use_after_breakeven",
-      "calculation_notes": "Single-use plastic bag ~10-33g CO2. After breakeven uses (10-45 for PP bag), each use saves the full plastic bag emission.",
-      "sources": [
-        {
-          "name": "Danish EPA LCA 2018",
-          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "Cotton bags need 7,100-20,000 uses to break even on all environmental indicators. Polypropylene bags break even in 10-45 uses.",
-          "accessed": "2026-01-31"
-        },
-        {
-          "name": "Danish EPA LCA 2018",
-          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "HDPE carrier bags have the lowest environmental impact in all categories when used once.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "turn_off_tap",
+      "category": "water",
+      "name_en": "Turn Off Tap While Brushing",
+      "name_ja": "歯磨き中に水を止める",
+      "name_es": "Cerrar el grifo al cepillarse",
+      "description_en": "Turn off the tap while brushing teeth",
+      "description_ja": "歯を磨いている間は水を止める",
+      "description_es": "Cerrar el grifo mientras te cepillas los dientes",
+      "co2_grams": 20,
+      "calculation_notes": "mostly cold; pump/treat CO2 only",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "water_drop",
+      "related_sdgs": [
+        "6"
       ],
-      "confidence": "high",
-      "related_sdgs": [12, 14]
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "reusable_water_bottle",
-      "action_name": "Reusable water bottle instead of single-use plastic",
-      "category": "consumption",
-      "co2_grams": 83,
-      "unit": "per_use_after_breakeven",
-      "calculation_notes": "Single-use 500ml PET bottle ~83g CO2e (production + transport). Reusable bottle breaks even in ~10-30 uses.",
-      "sources": [
-        {
-          "name": "Carbon Trust",
-          "url": "https://www.carbontrust.com/",
-          "quote": "Single-use plastic bottles have significant lifecycle emissions from production, filling, and transport.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "full_dishwasher",
+      "category": "water",
+      "name_en": "Run Full Dishwasher",
+      "name_ja": "食洗機を満杯で回す",
+      "name_es": "Usar lavavajillas lleno",
+      "description_en": "Only run the dishwasher when full",
+      "description_ja": "食洗機は満杯になってから回す",
+      "description_es": "Usar el lavavajillas solo cuando este lleno",
+      "co2_grams": 80,
+      "calculation_notes": "avoids partial load waste",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "dishwasher",
+      "related_sdgs": [
+        "6",
+        "7"
       ],
-      "confidence": "medium",
-      "related_sdgs": [12, 14]
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "secondhand_clothing",
-      "action_name": "Buying secondhand clothing instead of new",
-      "category": "consumption",
-      "co2_grams": 13000,
-      "unit": "per_item",
-      "calculation_notes": "Average new garment ~13kg CO2e. Secondhand extends life, avoiding new production.",
-      "sources": [
-        {
-          "name": "WRAP UK",
-          "url": "https://wrap.org.uk/",
-          "quote": "Extending the life of clothes by just nine months reduces carbon, water and waste footprints by around 20-30% each.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "fix_leak",
+      "category": "water",
+      "name_en": "Fix a Water Leak",
+      "name_ja": "水漏れを修理",
+      "name_es": "Reparar una fuga de agua",
+      "description_en": "Fix a dripping tap or water leak",
+      "description_ja": "水漏れや蛇口のポタポタを修理",
+      "description_es": "Reparar un grifo que gotea o una fuga de agua",
+      "co2_grams": 100000,
+      "calculation_notes": "lifetime water + energy return",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "plumbing",
+      "related_sdgs": [
+        "6"
       ],
-      "confidence": "medium",
-      "related_sdgs": [12, 13]
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "cold_water_rinse",
+      "category": "water",
+      "name_en": "Rinse with Cold Water",
+      "name_ja": "冷水ですすぐ",
+      "name_es": "Enjuagar con agua fria",
+      "description_en": "Rinse dishes with cold water instead of hot",
+      "description_ja": "食器を温水ではなく冷水ですすぐ",
+      "description_es": "Enjuagar los platos con agua fria en vez de caliente",
+      "co2_grams": 30,
+      "calculation_notes": "avoids heating 6-18L rinse water",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "water_drop",
+      "related_sdgs": [
+        "6",
+        "7"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "install_rain_collector",
+      "category": "water",
+      "name_en": "Install Rain Collector",
+      "name_ja": "雨水タンクを設置",
+      "name_es": "Instalar recolector de lluvia",
+      "description_en": "Set up a rain barrel or collection system for garden watering",
+      "description_ja": "庭の水やり用に雨水タンクや集水システムを設置する",
+      "description_es": "Instalar un barril de lluvia o sistema de recoleccion para regar el jardin",
+      "co2_grams": 750,
+      "calculation_notes": "one-time install",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 3,
+      "icon_name": "water_drop",
+      "related_sdgs": [
+        "6"
+      ],
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "water_plants_morning",
+      "category": "water",
+      "name_en": "Water Plants in the Morning",
+      "name_ja": "朝に植物に水やり",
+      "name_es": "Regar plantas por la manana",
+      "description_en": "Water garden in the morning to reduce evaporation",
+      "description_ja": "蒸発を減らすため朝に水やりをする",
+      "description_es": "Regar el jardin por la manana para reducir la evaporacion",
+      "co2_grams": 5,
+      "calculation_notes": "reduces evaporation loss ~25%",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 1,
+      "icon_name": "yard",
+      "related_sdgs": [
+        "6"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "reuse_cooking_water",
+      "category": "water",
+      "name_en": "Reuse Cooking Water",
+      "name_ja": "料理の水を再利用",
+      "name_es": "Reutilizar agua de cocina",
+      "description_en": "Reuse pasta or vegetable cooking water for plants",
+      "description_ja": "パスタや野菜の茹で汁を植物に再利用",
+      "description_es": "Reutilizar agua de coccion de pasta o verduras para regar",
+      "co2_grams": 5,
+      "calculation_notes": "displaces ~3L mains for plants",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "kitchen",
+      "related_sdgs": [
+        "6"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "turn_off_tap_dishes",
+      "category": "water",
+      "name_en": "Turn Off Tap While Scrubbing",
+      "name_ja": "食器洗い中に水を止める",
+      "name_es": "Cerrar el grifo al fregar",
+      "description_en": "Turn off the tap while scrubbing dishes",
+      "description_ja": "食器をこすっている間は水を止める",
+      "description_es": "Cerrar el grifo mientras frotas los platos",
+      "co2_grams": 25,
+      "calculation_notes": "~12L hot water, partial heating share; EPA WaterSense ~25g per wash",
+      "effort": 1,
+      "frequency": 5,
+      "impact": 1,
+      "icon_name": "water_drop",
+      "related_sdgs": [
+        "6"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "shorter_bath",
+      "category": "water",
+      "name_en": "Shower Instead of Bath",
+      "name_ja": "お風呂の代わりにシャワー",
+      "name_es": "Ducha en vez de bano",
+      "description_en": "Take a short shower instead of a full bath",
+      "description_ja": "満杯のお風呂の代わりに短いシャワーを浴びる",
+      "description_es": "Tomar una ducha corta en vez de un bano completo",
+      "co2_grams": 770,
+      "calculation_notes": "bath_gas 7.526854 kWh - 10-min shower_gas 3.28036 kWh = 4.2465 kWh x 182 = 773, rounded down to 770. Gas floor across carriers; the shower happens either way in JP practice, so a shared bath skipped saves the whole fill.",
+      "effort": 2,
+      "frequency": 5,
+      "impact": 2,
+      "icon_name": "shower",
+      "related_sdgs": [
+        "6",
+        "7",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
     },
     {
       "action_id": "tree_planting",
-      "action_name": "Tree planting",
       "category": "community",
+      "name_en": "Plant a Tree",
+      "name_ja": "木を植える",
+      "name_es": "Plantar un arbol",
+      "description_en": "Plant a tree to absorb CO2 for years to come",
+      "description_ja": "CO2を吸収する木を植える",
+      "description_es": "Plantar un arbol para absorber CO2 en los anos venideros",
       "co2_grams": 15000,
-      "unit": "per_tree_per_year",
-      "calculation_notes": "Trees absorb 10-40kg CO2/year depending on species and climate. Conservative estimate: 15kg/year.",
+      "calculation_notes": "~15kg first-year absorption",
+      "effort": 4,
+      "frequency": 1,
+      "impact": 5,
+      "icon_name": "forest",
+      "related_sdgs": [
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": "medium",
       "sources": [
         {
           "name": "EPA",
@@ -555,143 +1871,786 @@
           "quote": "Urban trees sequester 85-140 lbs CO2 over first 10 years.",
           "accessed": "2026-01-31"
         }
-      ],
-      "confidence": "medium",
-      "related_sdgs": [13, 15]
+      ]
     },
     {
-      "action_id": "unplug_standby",
-      "action_name": "Unplugging device from standby power",
-      "category": "energy",
-      "co2_grams": 9,
-      "unit": "per_device_per_day",
-      "calculation_notes": "Modern devices use ~1W standby (older up to 15W). At 1W × 24h = 24Wh × 0.37kg/kWh = 8.9g/day.",
-      "sources": [
-        {
-          "name": "Lawrence Berkeley National Lab",
-          "url": "https://standby.lbl.gov/",
-          "quote": "Modern regulations limit standby to ≤1W, down from 5-15W in older devices.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "beach_cleanup",
+      "category": "community",
+      "name_en": "Beach or Park Cleanup",
+      "name_ja": "ビーチや公園の清掃",
+      "name_es": "Limpieza de playa o parque",
+      "description_en": "Participate in a beach or park cleanup event",
+      "description_ja": "ビーチや公園の清掃活動に参加",
+      "description_es": "Participar en una jornada de limpieza de playa o parque",
+      "co2_grams": 0,
+      "calculation_notes": "ecological; not CO2-measurable",
+      "effort": 3,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "park",
+      "related_sdgs": [
+        "14",
+        "15"
       ],
-      "confidence": "medium",
-      "related_sdgs": [7, 12, 13]
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "local_produce",
-      "action_name": "Local produce instead of imported",
-      "category": "food",
-      "co2_grams": 100,
-      "unit": "per_kg",
-      "calculation_notes": "Transport accounts for only 5-6% of food emissions. Conservative transport-only savings.",
-      "sources": [
-        {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/food-choice-vs-eating-local",
-          "quote": "Transport accounts for only 5-6% of food emissions globally. What you eat matters far more than where it comes from.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "buy_local_produce",
+      "category": "community",
+      "name_en": "Buy Local Produce",
+      "name_ja": "地元の農産物を購入",
+      "name_es": "Comprar productos locales",
+      "description_en": "Buy locally grown food from a farmers market, farm stand, or local supplier",
+      "description_ja": "ファーマーズマーケット、直売所、地元の業者から地産食材を購入する",
+      "description_es": "Comprar alimentos cultivados localmente en un mercado de agricultores o proveedor local",
+      "co2_grams": 300,
+      "calculation_notes": "indirect: knowledge cascades",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "storefront",
+      "related_sdgs": [
+        "2",
+        "11",
+        "12"
       ],
-      "confidence": "low",
-      "related_sdgs": [12, 13]
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "plant_milk_vs_dairy",
-      "action_name": "Plant-based milk instead of dairy",
-      "category": "food",
-      "co2_grams": 460,
-      "unit": "per_250ml_serving",
-      "calculation_notes": "Dairy milk 3.15 kg CO2e/L (Poore & Nemecek 2018 global MEAN with supply-chain losses via the OWID grapher), oat milk 0.903 kg CO2e/L (OWID milks chart, mean, 0.9031262). Per 250 ml serving: 787.5 g vs 225.8 g = 561.7 g delta (oat); the soy variant implies 543 g. Shipped value stays 460 g, deliberately conservative below both mean-basis deltas.",
-      "sources": [
-        {
-          "name": "Our World in Data / Poore & Nemecek grapher CSV",
-          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Milk,2010,3.15",
-          "accessed": "2026-07-18"
-        },
-        {
-          "name": "Our World in Data milks comparison CSV",
-          "url": "https://ourworldindata.org/grapher/environmental-footprint-milks.csv",
-          "quote": "Oat milk,2013,0.76,0.9031262,48.24,1.622563",
-          "accessed": "2026-07-18"
-        }
+      "action_id": "share_sustainability_tip",
+      "category": "community",
+      "name_en": "Share a Sustainability Tip",
+      "name_ja": "サステナビリティの知識を共有",
+      "name_es": "Compartir consejo de sostenibilidad",
+      "description_en": "Share an eco-friendly tip with a friend or family member",
+      "description_ja": "エコのコツを友人や家族と共有",
+      "description_es": "Compartir un consejo ecologico con un amigo o familiar",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: knowledge cascades",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 3,
+      "icon_name": "share",
+      "related_sdgs": [
+        "13"
       ],
-      "confidence": "high",
-      "related_sdgs": [12, 13, 15]
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "electric_vs_gasoline_car",
-      "action_name": "Electric car instead of gasoline",
-      "category": "transport",
-      "co2_grams": 100,
-      "unit": "per_km",
-      "calculation_notes": "Petrol car 164g/km vs EV ~50-70g/km (depending on grid). Savings ~100g/km on average grid.",
-      "sources": [
-        {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Battery Electric Cars: Emissions for battery electric cars have decreased by 13.56%, driven by the penetration of newer, more efficient electric vehicles.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "community_garden",
+      "category": "community",
+      "name_en": "Community Garden Session",
+      "name_ja": "コミュニティ農園に参加",
+      "name_es": "Sesion en huerto comunitario",
+      "description_en": "Participate in a community garden session",
+      "description_ja": "コミュニティ農園の活動に参加",
+      "description_es": "Participar en una sesion de huerto comunitario",
+      "co2_grams": 200,
+      "calculation_notes": "sequestration + local food miles",
+      "effort": 3,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "grass",
+      "related_sdgs": [
+        "2",
+        "11",
+        "15"
       ],
-      "confidence": "medium",
-      "related_sdgs": [7, 11, 13]
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "carpool_passenger",
-      "action_name": "Carpooling (per additional passenger)",
-      "category": "transport",
-      "co2_grams": 82,
-      "unit": "per_km",
-      "calculation_notes": "Two people sharing: 164g/2 = 82g each. Each additional passenger saves 82g/km vs solo driving.",
-      "sources": [
-        {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Average car CO2 emissions divided by occupancy gives per-passenger rates.",
-          "accessed": "2026-01-31"
-        }
+      "action_id": "volunteer_environment",
+      "category": "community",
+      "name_en": "Volunteer for the Environment",
+      "name_ja": "環境ボランティアに参加",
+      "name_es": "Voluntariado ambiental",
+      "description_en": "Volunteer for an environmental organization or event",
+      "description_ja": "環境団体やイベントでボランティア活動",
+      "description_es": "Hacer voluntariado para una organizacion o evento ambiental",
+      "co2_grams": 0,
+      "calculation_notes": "systemic; not CO2-measurable",
+      "effort": 4,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "volunteer_activism",
+      "related_sdgs": [
+        "13",
+        "15"
       ],
-      "confidence": "high",
-      "related_sdgs": [11, 13]
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
     },
     {
-      "action_id": "refuse_plastic_straw",
-      "action_name": "Refusing single-use plastic straw",
+      "action_id": "teach_child_eco",
+      "category": "community",
+      "name_en": "Teach a Child About Ecology",
+      "name_ja": "子供にエコロジーを教える",
+      "name_es": "Ensenar ecologia a un nino",
+      "description_en": "Spend time teaching a child about the environment",
+      "description_ja": "子供に環境について教える時間を取る",
+      "description_es": "Dedicar tiempo a ensenar a un nino sobre el medio ambiente",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: generational change",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 5,
+      "icon_name": "school",
+      "related_sdgs": [
+        "4",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "support_eco_business",
+      "category": "community",
+      "name_en": "Support Eco-Friendly Business",
+      "name_ja": "エコ企業を支援",
+      "name_es": "Apoyar negocio ecologico",
+      "description_en": "Buy from a business with strong sustainability practices",
+      "description_ja": "持続可能な取り組みをする企業から購入",
+      "description_es": "Comprar en un negocio con buenas practicas de sostenibilidad",
+      "co2_grams": 200,
+      "calculation_notes": "eco biz ~20-50% lower footprint",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "storefront",
+      "related_sdgs": [
+        "8",
+        "12"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "organize_swap",
+      "category": "community",
+      "name_en": "Organize a Swap Event",
+      "name_ja": "交換イベントを企画",
+      "name_es": "Organizar evento de intercambio",
+      "description_en": "Organize or join a clothing or item swap event",
+      "description_ja": "衣類や物品の交換イベントを企画・参加",
+      "description_es": "Organizar o asistir a un evento de intercambio de ropa o articulos",
+      "co2_grams": 1000,
+      "calculation_notes": "multiple items reused; conserv.",
+      "effort": 4,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "groups",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "pick_up_litter",
+      "category": "community",
+      "name_en": "Pick Up Litter",
+      "name_ja": "ゴミ拾い",
+      "name_es": "Recoger basura",
+      "description_en": "Pick up litter in your neighborhood or on a walk",
+      "description_ja": "近所や散歩中にゴミを拾う",
+      "description_es": "Recoger basura en tu vecindario o durante un paseo",
+      "co2_grams": 0,
+      "calculation_notes": "ecological; not CO2-measurable",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 3,
+      "icon_name": "cleaning_services",
+      "related_sdgs": [
+        "11",
+        "14",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 10,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "take_on_household_task",
+      "category": "community",
+      "name_en": "Take On a Household Task",
+      "name_ja": "家事を一つ引き受ける",
+      "name_es": "Asumir una tarea del hogar",
+      "description_en": "Take on a household chore to support a fair division of domestic labor today",
+      "description_ja": "今日は家事を一つ引き受けて家庭内の公平な分担を実践する",
+      "description_es": "Asumir una tarea del hogar para apoyar una division justa del trabajo domestico hoy",
+      "co2_grams": 0,
+      "calculation_notes": "economic equity action",
+      "effort": 3,
+      "frequency": 5,
+      "impact": 4,
+      "icon_name": "home",
+      "related_sdgs": [
+        "5",
+        "3",
+        "8",
+        "10"
+      ],
+      "is_active": true,
+      "sort_order": 11,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "use_library",
+      "category": "community",
+      "name_en": "Use the Library",
+      "name_ja": "図書館を利用する",
+      "name_es": "Usar la biblioteca",
+      "description_en": "Borrow books, media, or resources from the library instead of buying new",
+      "description_ja": "新品を買う代わりに図書館で本やメディアを借りる",
+      "description_es": "Tomar prestados libros, medios o recursos de la biblioteca en vez de comprar nuevos",
+      "co2_grams": 1000,
+      "calculation_notes": "economic equity action",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "local_library",
+      "related_sdgs": [
+        "4",
+        "12"
+      ],
+      "is_active": true,
+      "sort_order": 12,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "support_community_business",
+      "category": "community",
+      "name_en": "Support a Community Business",
+      "name_ja": "コミュニティのお店を利用",
+      "name_es": "Apoyar negocio comunitario",
+      "description_en": "Buy from a local minority-owned or underrepresented community business",
+      "description_ja": "地域のマイノリティ経営や地元密着のビジネスを利用する",
+      "description_es": "Comprar en un negocio local de minorias o comunidades subrepresentadas",
+      "co2_grams": 0,
+      "calculation_notes": "economic equity action",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "diversity_3",
+      "related_sdgs": [
+        "10",
+        "1",
+        "8",
+        "11"
+      ],
+      "is_active": true,
+      "sort_order": 13,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "sign_petition",
+      "category": "advocacy",
+      "name_en": "Sign an Environmental Petition",
+      "name_ja": "環境に関する署名をする",
+      "name_es": "Firmar una peticion ambiental",
+      "description_en": "Sign a petition supporting environmental policy",
+      "description_ja": "環境政策を支持する署名に参加",
+      "description_es": "Firmar una peticion que apoye politicas ambientales",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: collective policy push",
+      "effort": 1,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "edit_note",
+      "related_sdgs": [
+        "13",
+        "16"
+      ],
+      "is_active": true,
+      "sort_order": 1,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "contact_representative",
+      "category": "advocacy",
+      "name_en": "Contact Your Representative",
+      "name_ja": "議員に連絡する",
+      "name_es": "Contactar a tu representante",
+      "description_en": "Contact your elected official about climate policy",
+      "description_ja": "気候政策について議員に連絡する",
+      "description_es": "Contactar a tu representante electo sobre politica climatica",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: highest leverage action",
+      "effort": 3,
+      "frequency": 2,
+      "impact": 5,
+      "icon_name": "campaign",
+      "related_sdgs": [
+        "13",
+        "16"
+      ],
+      "is_active": true,
+      "sort_order": 2,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "share_eco_content",
+      "category": "advocacy",
+      "name_en": "Share Eco Content Online",
+      "name_ja": "エコ情報をSNSでシェア",
+      "name_es": "Compartir contenido ecologico en linea",
+      "description_en": "Share environmental content on social media",
+      "description_ja": "環境に関する情報をSNSでシェア",
+      "description_es": "Compartir contenido ambiental en redes sociales",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: awareness multiplier",
+      "effort": 1,
+      "frequency": 4,
+      "impact": 3,
+      "icon_name": "share",
+      "related_sdgs": [
+        "13",
+        "17"
+      ],
+      "is_active": true,
+      "sort_order": 3,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "attend_climate_event",
+      "category": "advocacy",
+      "name_en": "Attend a Climate Event",
+      "name_ja": "気候変動イベントに参加",
+      "name_es": "Asistir a un evento climatico",
+      "description_en": "Attend a climate rally, march, or awareness event",
+      "description_ja": "気候変動に関する集会やイベントに参加",
+      "description_es": "Asistir a una marcha, evento o reunion sobre el clima",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: media + policy pressure",
+      "effort": 4,
+      "frequency": 1,
+      "impact": 5,
+      "icon_name": "campaign",
+      "related_sdgs": [
+        "13",
+        "16"
+      ],
+      "is_active": true,
+      "sort_order": 4,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "support_green_policy",
+      "category": "advocacy",
+      "name_en": "Support Green Policy",
+      "name_ja": "環境政策を支持",
+      "name_es": "Apoyar politica verde",
+      "description_en": "Vote for or advocate for green energy and climate policies",
+      "description_ja": "グリーンエネルギーや気候政策を支持・投票",
+      "description_es": "Votar o abogar por politicas de energia verde y clima",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: systemic policy change",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 5,
+      "icon_name": "balance",
+      "related_sdgs": [
+        "7",
+        "13",
+        "16"
+      ],
+      "is_active": true,
+      "sort_order": 5,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "write_eco_review",
+      "category": "advocacy",
+      "name_en": "Write an Eco-Friendly Review",
+      "name_ja": "エコ商品のレビューを書く",
+      "name_es": "Escribir resena ecologica",
+      "description_en": "Write a positive review for a sustainable product or business",
+      "description_ja": "サステナブルな商品や企業にレビューを書く",
+      "description_es": "Escribir una resena positiva para un producto o negocio sostenible",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: influences purchases",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "edit_note",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 6,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "attend_eco_meeting",
+      "category": "advocacy",
+      "name_en": "Attend Eco Group Meeting",
+      "name_ja": "環境グループの会合に参加",
+      "name_es": "Asistir a reunion de grupo ecologico",
+      "description_en": "Attend a meeting or event with your environmental group",
+      "description_ja": "環境グループの会合やイベントに参加",
+      "description_es": "Asistir a una reunion o evento con tu grupo ambiental",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: demand signal",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 4,
+      "icon_name": "groups",
+      "related_sdgs": [
+        "13",
+        "17"
+      ],
+      "is_active": true,
+      "sort_order": 7,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "request_green_option",
+      "category": "advocacy",
+      "name_en": "Request a Green Option",
+      "name_ja": "エコな選択肢をリクエスト",
+      "name_es": "Solicitar una opcion verde",
+      "description_en": "Ask a business or restaurant to offer a greener option",
+      "description_ja": "店舗や飲食店にエコな選択肢を提案する",
+      "description_es": "Pedir a un negocio o restaurante que ofrezca una opcion mas verde",
+      "co2_grams": 0,
+      "calculation_notes": "indirect: demand signal",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 3,
+      "icon_name": "campaign",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 8,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "donate_women_climate_org",
+      "category": "advocacy",
+      "name_en": "Donate to a Women-Led Climate Organization",
+      "name_ja": "女性主導の気候団体に寄付",
+      "name_es": "Donar a organizacion climatica liderada por mujeres",
+      "description_en": "Donate to an organization led by women working on climate justice",
+      "description_ja": "気候正義に取り組む女性主導の団体に寄付する",
+      "description_es": "Donar a una organizacion liderada por mujeres que trabaja en justicia climatica",
+      "co2_grams": 0,
+      "calculation_notes": "social equity + env co-benefits",
+      "effort": 2,
+      "frequency": 1,
+      "impact": 5,
+      "icon_name": "volunteer_activism",
+      "related_sdgs": [
+        "5",
+        "10",
+        "13",
+        "17"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "buy_fair_trade",
       "category": "consumption",
-      "co2_grams": 1,
-      "unit": "per_straw",
-      "calculation_notes": "Plastic straw weighs ~0.4g. Production emissions ~1-2g CO2e per straw.",
-      "sources": [
-        {
-          "name": "UNEP Single-Use Plastics Report",
-          "url": "https://www.unep.org/resources/report/single-use-plastics-roadmap-sustainability",
-          "quote": "Single-use plastic items have small individual footprints but significant cumulative impact.",
-          "accessed": "2026-01-31"
-        }
+      "name_en": "Buy Fair Trade Product",
+      "name_ja": "フェアトレード商品を購入",
+      "name_es": "Comprar producto de comercio justo",
+      "description_en": "Choose a Fair Trade certified product to support fair wages for producers",
+      "description_ja": "フェアトレード認証商品を選んで生産者の公正な賃金を支援する",
+      "description_es": "Elegir un producto certificado de comercio justo para apoyar salarios justos",
+      "co2_grams": 0,
+      "calculation_notes": "social equity + env co-benefits",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "handshake",
+      "related_sdgs": [
+        "1",
+        "2",
+        "8",
+        "10",
+        "12"
       ],
-      "confidence": "high",
-      "related_sdgs": [12, 14]
+      "is_active": true,
+      "sort_order": 15,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "fund_micro_loan",
+      "category": "community",
+      "name_en": "Fund a Micro-Loan",
+      "name_ja": "マイクロローンに出資",
+      "name_es": "Financiar un microprestamo",
+      "description_en": "Lend to an entrepreneur in a developing country through a micro-lending platform",
+      "description_ja": "マイクロレンディングを通じて途上国の起業家に融資する",
+      "description_es": "Prestar a un emprendedor en un pais en desarrollo a traves de una plataforma de microprestamos",
+      "co2_grams": 0,
+      "calculation_notes": "economic dev + env co-benefits",
+      "effort": 3,
+      "frequency": 2,
+      "impact": 5,
+      "icon_name": "currency_exchange",
+      "related_sdgs": [
+        "1",
+        "8",
+        "10",
+        "17"
+      ],
+      "is_active": true,
+      "sort_order": 14,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "support_women_owned_business",
+      "category": "consumption",
+      "name_en": "Support a Women-Owned Business",
+      "name_ja": "女性経営の店舗を利用",
+      "name_es": "Apoyar negocio de mujeres",
+      "description_en": "Purchase from a women-owned or women-led business",
+      "description_ja": "女性が経営するビジネスの商品やサービスを利用する",
+      "description_es": "Comprar en un negocio propiedad de mujeres o liderado por mujeres",
+      "co2_grams": 0,
+      "calculation_notes": "gender equity action",
+      "effort": 2,
+      "frequency": 3,
+      "impact": 4,
+      "icon_name": "storefront",
+      "related_sdgs": [
+        "5",
+        "8",
+        "10",
+        "12"
+      ],
+      "is_active": true,
+      "sort_order": 16,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "citizen_science_project",
+      "category": "community",
+      "name_en": "Participate in a Citizen Science Project",
+      "name_ja": "市民科学プロジェクトに参加",
+      "name_es": "Participar en un proyecto de ciencia ciudadana",
+      "description_en": "Join a community biodiversity survey or citizen science project like iNaturalist",
+      "description_ja": "iNaturalistなどの市民科学プロジェクトや生物多様性調査に参加する",
+      "description_es": "Participar en un proyecto de ciencia ciudadana o estudio de biodiversidad como iNaturalist",
+      "co2_grams": 0,
+      "calculation_notes": "",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 4,
+      "icon_name": "biotech",
+      "related_sdgs": [
+        "4",
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 15,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "volunteer_nature_walk",
+      "category": "community",
+      "name_en": "Volunteer for a Nature Walk",
+      "name_ja": "自然散策ボランティアに参加",
+      "name_es": "Voluntariado en caminata por la naturaleza",
+      "description_en": "Volunteer to help with a guided nature walk for your community",
+      "description_ja": "地域のガイド付き自然散策のボランティアに参加する",
+      "description_es": "Ser voluntario en una caminata guiada por la naturaleza para tu comunidad",
+      "co2_grams": 0,
+      "calculation_notes": "",
+      "effort": 3,
+      "frequency": 1,
+      "impact": 5,
+      "icon_name": "forest",
+      "related_sdgs": [
+        "4",
+        "11",
+        "13",
+        "15"
+      ],
+      "is_active": true,
+      "sort_order": 16,
+      "confidence": null,
+      "sources": []
+    },
+    {
+      "action_id": "heat_person_not_room",
+      "category": "energy",
+      "name_en": "Heat Yourself, Not the Room",
+      "name_ja": "部屋ではなく自分を暖める",
+      "name_es": "Calienta tu cuerpo, no la habitacion",
+      "description_en": "Use a kotatsu, heated blanket or heated carpet for an evening instead of switching on a portable electric heater",
+      "description_ja": "電気ストーブをつけず、こたつ・電気毛布・電気カーペットで一晩過ごす",
+      "description_es": "Usa un kotatsu, manta electrica o alfombra electrica una noche en lugar de encender un calefactor portatil",
+      "co2_grams": 1900,
+      "calculation_notes": "",
+      "effort": 2,
+      "frequency": 4,
+      "impact": 2,
+      "icon_name": "chair",
+      "related_sdgs": [
+        "7",
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 13,
+      "confidence": null,
+      "sources": []
     }
   ],
   "sdg_coverage": {
-    "1": {"type": "learn_only", "description": "No Poverty - systemic issue, indirect actions"},
-    "2": {"type": "direct", "actions": ["food_waste_avoided", "composting", "meatless_meal_beef", "local_produce"]},
-    "3": {"type": "direct", "actions": ["bike_instead_of_car", "walk_instead_of_car"]},
-    "4": {"type": "learn_only", "description": "Quality Education - systemic issue"},
-    "5": {"type": "learn_only", "description": "Gender Equality - systemic issue"},
-    "6": {"type": "direct", "actions": ["shorter_shower", "cold_water_laundry"]},
-    "7": {"type": "direct", "actions": ["led_vs_incandescent", "air_dry_clothes", "unplug_standby", "cold_water_laundry"]},
-    "8": {"type": "learn_only", "description": "Decent Work - systemic issue"},
-    "9": {"type": "direct", "actions": ["bus_instead_of_car", "train_instead_of_car"]},
-    "10": {"type": "learn_only", "description": "Reduced Inequalities - systemic issue"},
-    "11": {"type": "direct", "actions": ["bike_instead_of_car", "bus_instead_of_car", "train_instead_of_car", "carpool_passenger"]},
-    "12": {"type": "direct", "actions": ["recycle_aluminum_can", "recycle_plastic_bottle", "reusable_bag", "secondhand_clothing", "food_waste_avoided"]},
-    "13": {"type": "direct", "actions": ["ALL transport, food, energy, recycling actions"]},
-    "14": {"type": "direct", "actions": ["recycle_plastic_bottle", "refuse_plastic_straw", "reusable_bag"]},
-    "15": {"type": "direct", "actions": ["tree_planting", "meatless_meal_beef", "composting"]},
-    "16": {"type": "learn_only", "description": "Peace & Justice - systemic issue"},
-    "17": {"type": "learn_only", "description": "Partnerships - systemic issue"}
+    "1": {
+      "type": "learn_only",
+      "description": "No Poverty - systemic issue, indirect actions"
+    },
+    "2": {
+      "type": "direct",
+      "actions": [
+        "food_waste_avoided",
+        "composting",
+        "meatless_meal_beef",
+        "local_produce"
+      ]
+    },
+    "3": {
+      "type": "direct",
+      "actions": [
+        "bike_instead_of_car",
+        "walk_instead_of_car"
+      ]
+    },
+    "4": {
+      "type": "learn_only",
+      "description": "Quality Education - systemic issue"
+    },
+    "5": {
+      "type": "learn_only",
+      "description": "Gender Equality - systemic issue"
+    },
+    "6": {
+      "type": "direct",
+      "actions": [
+        "shorter_shower",
+        "cold_water_laundry"
+      ]
+    },
+    "7": {
+      "type": "direct",
+      "actions": [
+        "led_vs_incandescent",
+        "air_dry_clothes",
+        "unplug_standby",
+        "cold_water_laundry"
+      ]
+    },
+    "8": {
+      "type": "learn_only",
+      "description": "Decent Work - systemic issue"
+    },
+    "9": {
+      "type": "direct",
+      "actions": [
+        "bus_instead_of_car",
+        "train_instead_of_car"
+      ]
+    },
+    "10": {
+      "type": "learn_only",
+      "description": "Reduced Inequalities - systemic issue"
+    },
+    "11": {
+      "type": "direct",
+      "actions": [
+        "bike_instead_of_car",
+        "bus_instead_of_car",
+        "train_instead_of_car",
+        "carpool_passenger"
+      ]
+    },
+    "12": {
+      "type": "direct",
+      "actions": [
+        "recycle_aluminum_can",
+        "recycle_plastic_bottle",
+        "reusable_bag",
+        "secondhand_clothing",
+        "food_waste_avoided"
+      ]
+    },
+    "13": {
+      "type": "direct",
+      "actions": [
+        "ALL transport, food, energy, recycling actions"
+      ]
+    },
+    "14": {
+      "type": "direct",
+      "actions": [
+        "recycle_plastic_bottle",
+        "refuse_plastic_straw",
+        "reusable_bag"
+      ]
+    },
+    "15": {
+      "type": "direct",
+      "actions": [
+        "tree_planting",
+        "meatless_meal_beef",
+        "composting"
+      ]
+    },
+    "16": {
+      "type": "learn_only",
+      "description": "Peace & Justice - systemic issue"
+    },
+    "17": {
+      "type": "learn_only",
+      "description": "Partnerships - systemic issue"
+    }
   },
   "notes": {
     "regional_variation": "Energy-related actions vary significantly by grid carbon intensity. US average 0.37 kg/kWh, UK 0.21 kg/kWh, France 0.05 kg/kWh. Consider allowing user input.",
@@ -699,5 +2658,301 @@
     "reusable_items_caveat": "Cotton bags require 7,100+ uses to break even. Recommend polypropylene bags (10-45 uses breakeven).",
     "growing_vegetables_caveat": "University of Michigan 2024 found urban agriculture has 6× higher emissions than conventional farming due to infrastructure. Exception: tomatoes grown outdoors vs greenhouse.",
     "flight_radiative_forcing": "DEFRA uses 1.9× multiplier for non-CO2 aviation effects. Some scientists argue 2.7-3× is more accurate."
+  },
+  "research_only_records": {
+    "why": "Research records from the pre-2.0 database that have no shipping action. Kept for provenance: the transport-mode swaps are now handled by the transport calculator's logging bridge rather than by discrete actions, and the rest were researched but never shipped. Do NOT seed these -- seed_action_library.js reads `actions` only.",
+    "records": [
+      {
+        "action_id": "bike_instead_of_car",
+        "action_name": "Biking instead of driving",
+        "category": "transport",
+        "co2_grams": 149,
+        "unit": "per_km",
+        "calculation_notes": "Average petrol car 164g/km minus cycling 16g/km (metabolic emissions). DEFRA 2024 petrol car = 164g CO2e/km, diesel = 170g/km.",
+        "sources": [
+          {
+            "name": "UK DEFRA 2024",
+            "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
+            "quote": "The UK's average petrol car produces 164 grams of CO2 per kilometre equivalent (g CO2e), while a diesel car produces 170 grams of CO2/km.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "Our World in Data",
+            "url": "https://ourworldindata.org/travel-carbon-footprint",
+            "quote": "The carbon footprint of travel is measured in grams of carbon dioxide-equivalents per passenger kilometer. This includes the impact of increased warming from aviation emissions at altitude.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          3,
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "walk_instead_of_car",
+        "action_name": "Walking instead of driving",
+        "category": "transport",
+        "co2_grams": 164,
+        "unit": "per_km",
+        "calculation_notes": "Walking has near-zero direct emissions. Full car savings of 164g/km.",
+        "sources": [
+          {
+            "name": "GreenMatch UK",
+            "url": "https://www.greenmatch.co.uk/blog/uk-transport-co2",
+            "quote": "The UK's average petrol car produces 164 grams of CO2 per kilometre, equivalent (g CO2e), while a diesel car produces 170 grams of CO2/km.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "UK DEFRA 2024",
+            "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
+            "quote": "Average car CO2 conversion factors published annually for UK company reporting.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          3,
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "bus_instead_of_car",
+        "action_name": "Public bus instead of driving",
+        "category": "transport",
+        "co2_grams": 60,
+        "unit": "per_km",
+        "calculation_notes": "Average car 164g/km minus bus 104g/km = 60g saved. Bus emissions vary by occupancy.",
+        "sources": [
+          {
+            "name": "Robeco/DEFRA",
+            "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
+            "quote": "An urban bus emits 104 g/km and a coach 27 g/km due to its greater weight efficiency.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "UK DEFRA 2024",
+            "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
+            "quote": "Bus emission factors vary by type - local bus approximately 100g CO2e/pkm.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          9,
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "train_instead_of_car",
+        "action_name": "Train instead of driving",
+        "category": "transport",
+        "co2_grams": 133,
+        "unit": "per_km",
+        "calculation_notes": "Average car 164g/km minus national rail 31g/km = 133g saved per km.",
+        "sources": [
+          {
+            "name": "UK Office of Rail and Road",
+            "url": "https://dataportal.orr.gov.uk/statistics/infrastructure-and-environment/rail-environment/",
+            "quote": "Passenger train emissions per passenger kilometre was 31 grams of CO2e. This was down 2% on the previous year.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "MyCarbon/DEFRA",
+            "url": "https://www.mycarbon.co.uk/2024/09/06/defra-ghg-emission-conversion-factors-update-2024/",
+            "quote": "DEFRA has an emission factor for an average National Rail journey of 0.03546 kgCO₂e per passenger km.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          9,
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "eurostar_instead_of_car",
+        "action_name": "Eurostar instead of driving",
+        "category": "transport",
+        "co2_grams": 158,
+        "unit": "per_km",
+        "calculation_notes": "Eurostar emits only 6g/km due to electric power and high occupancy. Car 164g - 6g = 158g saved.",
+        "sources": [
+          {
+            "name": "Seat61/DEFRA",
+            "url": "https://www.seat61.com/CO2flights.htm",
+            "quote": "Eurostar, emitting only 6 g/km per passenger on trips through the Channel Tunnel.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "UK ORR Rail Emissions",
+            "url": "https://dataportal.orr.gov.uk/media/1843/rail-emissions-2019-20.pdf",
+            "quote": "The 2019 estimates were 6.0 g CO2e per passenger km for international rail (Eurostar).",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          9,
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "train_vs_flight_1000km",
+        "action_name": "Train instead of flight (1000km)",
+        "category": "transport",
+        "co2_grams": 160000,
+        "unit": "per_trip",
+        "calculation_notes": "Short-haul flight ~195g/km vs train 35g/km = 160g/km saved. At 1000km = 160kg.",
+        "sources": [
+          {
+            "name": "Robeco/BEIS DEFRA",
+            "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
+            "quote": "251 grams per km for short haul compared to 195 g/km for long haul. Electrified domestic rail, including shorter suburban services, emits 41 g/km.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "Solartechonline/UK Gov",
+            "url": "https://solartechonline.com/blog/train-carbon-emissions-guide/",
+            "quote": "UK domestic flight emissions of 273g CO2e per passenger km confirmed by UK Government statistics, 2024.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          13
+        ]
+      },
+      {
+        "action_id": "meatless_meal_pork",
+        "action_name": "Meatless meal (pork avoided)",
+        "category": "food",
+        "co2_grams": 1000,
+        "unit": "per_100g_serving",
+        "calculation_notes": "Pork 12.31 kg CO2e/kg: Poore & Nemecek 2018 global MEAN with supply-chain losses, cradle-to-retail, via the OWID grapher ('Pig Meat'). Per 100 g serving = 1231 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline is used by every meatless action) = 1031 g. Rounded down to 1000 g (conservative; baseline standardized 2026-07-20, previously 1100 g against a 100 g peas baseline). Independent PMC ranges exclude land-use change, which is why they sit below the P&N means.",
+        "sources": [
+          {
+            "name": "Our World in Data / Poore & Nemecek grapher CSV",
+            "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+            "quote": "Pig Meat,2010,12.31",
+            "accessed": "2026-07-18"
+          },
+          {
+            "name": "PMC/Multiple Studies",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11743834/",
+            "quote": "16-68 kg CO2-eq/kg for beef, 6.08-12.3 kg CO2-eq/kg for pork, and 2.6-3.3 kg CO2-eq/kg for chicken",
+            "accessed": "2026-07-18"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          2,
+          12,
+          13
+        ]
+      },
+      {
+        "action_id": "food_waste_avoided",
+        "action_name": "Food waste avoided (diverted from landfill)",
+        "category": "food",
+        "co2_grams": 860,
+        "unit": "per_kg",
+        "calculation_notes": "EPA 2023 report: 0.86 tonnes CO2e per metric ton of food waste landfilled = 860g per kg.",
+        "sources": [
+          {
+            "name": "EPA 2023 Landfill Report",
+            "url": "https://www.epa.gov/system/files/documents/2023-10/food-waste-landfill-methane-10-8-23-final_508-compliant.pdf",
+            "quote": "For every 1,000 tons of food waste landfilled, an estimated 34 metric tons of fugitive methane emissions are released.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "BioCycle Analysis",
+            "url": "https://www.biocycle.net/connections-food-waste-and-landfill-methane-report-a-giant-step-on-a-long-road/",
+            "quote": "For each metric ton of food waste that goes into a landfill you get about 0.86 tons of CO2 equivalent (CO2e) released to the atmosphere as methane — effectively a 1:1 equivalent.",
+            "accessed": "2026-01-31"
+          },
+          {
+            "name": "EPA Quantifying Methane",
+            "url": "https://www.epa.gov/land-research/quantifying-methane-emissions-landfilled-food-waste",
+            "quote": "An estimated 58 percent of the fugitive methane emissions (i.e., those released to the atmosphere) from municipal solid waste landfills are from landfilled food waste.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          2,
+          12,
+          13
+        ]
+      },
+      {
+        "action_id": "local_produce",
+        "action_name": "Local produce instead of imported",
+        "category": "food",
+        "co2_grams": 100,
+        "unit": "per_kg",
+        "calculation_notes": "Transport accounts for only 5-6% of food emissions. Conservative transport-only savings.",
+        "sources": [
+          {
+            "name": "Our World in Data",
+            "url": "https://ourworldindata.org/food-choice-vs-eating-local",
+            "quote": "Transport accounts for only 5-6% of food emissions globally. What you eat matters far more than where it comes from.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "low",
+        "related_sdgs": [
+          12,
+          13
+        ]
+      },
+      {
+        "action_id": "carpool_passenger",
+        "action_name": "Carpooling (per additional passenger)",
+        "category": "transport",
+        "co2_grams": 82,
+        "unit": "per_km",
+        "calculation_notes": "Two people sharing: 164g/2 = 82g each. Each additional passenger saves 82g/km vs solo driving.",
+        "sources": [
+          {
+            "name": "UK DEFRA 2024",
+            "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
+            "quote": "Average car CO2 emissions divided by occupancy gives per-passenger rates.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          11,
+          13
+        ]
+      },
+      {
+        "action_id": "refuse_plastic_straw",
+        "action_name": "Refusing single-use plastic straw",
+        "category": "consumption",
+        "co2_grams": 1,
+        "unit": "per_straw",
+        "calculation_notes": "Plastic straw weighs ~0.4g. Production emissions ~1-2g CO2e per straw.",
+        "sources": [
+          {
+            "name": "UNEP Single-Use Plastics Report",
+            "url": "https://www.unep.org/resources/report/single-use-plastics-roadmap-sustainability",
+            "quote": "Single-use plastic items have small individual footprints but significant cumulative impact.",
+            "accessed": "2026-01-31"
+          }
+        ],
+        "confidence": "high",
+        "related_sdgs": [
+          12,
+          14
+        ]
+      }
+    ]
   }
 }

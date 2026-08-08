@@ -41,10 +41,14 @@ abstract class FoodItem with _$FoodItem {
     @Default(true) bool comparable,
     String? tieGroup,
 
-    /// The item's own published mean and median differ by 2x or more,
-    /// so the source's choice of statistic dominates its value and no
-    /// gap between it and another food survives that choice.
-    @Default(false) bool statisticSensitive,
+    /// How far this item's own published mean and median diverge, as a
+    /// ratio, when the source publishes both and they differ enough to
+    /// matter. Null for everything else.
+    ///
+    /// A minority of very high-impact producers dominates these
+    /// averages, so a comparison involving the item is only safe once
+    /// the gap exceeds the ratio itself.
+    double? statisticRatio,
   }) = _FoodItem;
 
   const FoodItem._();

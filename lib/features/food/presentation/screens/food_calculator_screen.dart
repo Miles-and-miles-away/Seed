@@ -161,9 +161,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
         : null;
     // Marking a column "best" is a verdict in its own right, so it
     // answers to the same gate as the headline copy.
-    final showVerdict =
-        summary != null &&
-        FoodCalculator.mayStateVerdict(summary, itemsById, options);
+    final verdict = summary == null
+        ? null
+        : FoodCalculator.checkVerdict(summary, itemsById, options);
+    final showVerdict = verdict?.block == VerdictBlock.none;
 
     return Column(
       children: [
@@ -187,7 +188,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
                                 : l10n.calculatorOptionB,
                             totalGrams: totals[option],
                             fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest: showVerdict && option == summary.bestIndex,
+                            isBest:
+                                summary != null &&
+                                showVerdict &&
+                                option == summary.bestIndex,
                             isEmpty: options[option].isEmpty,
                             emptyHint: l10n.foodColumnEmptyHint,
                             children: [
@@ -285,16 +289,27 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           ).where((e) => e.type == EquivalencyType.carKm).firstOrNull?.value,
         );
     final busy = ref.watch(foodChoiceLoggerProvider).isLoading;
-    // Below the gate the two meals sit inside the dataset's own
-    // resolution, so there is no winner to name and nothing honest to
-    // bank -- the bars and totals above still tell the whole story.
-    if (!FoodCalculator.mayStateVerdict(summary, itemsById, options)) {
-      return Text(
-        l10n.foodComparisonTooClose,
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
+    // Below the bar there is no winner to name and nothing honest to
+    // bank -- but the user is owed the reason, not just a refusal, so
+    // the explanation is one tap away rather than buried in the
+    // methodology page.
+    final check = FoodCalculator.checkVerdict(summary, itemsById, options);
+    if (check.block != VerdictBlock.none) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            l10n.foodComparisonTooClose,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          TextButton(
+            onPressed: () => _explainNoVerdict(l10n, locale, check),
+            child: Text(l10n.foodVerdictWhyCta),
+          ),
+        ],
       );
     }
     return Column(
@@ -334,6 +349,41 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           label: Text(l10n.foodLogChoiceCta(bestLabel)),
         ),
       ],
+    );
+  }
+
+  /// Explains why the comparison declined to name a winner.
+  ///
+  /// Three different reasons, and they are not interchangeable: two
+  /// close meals, two incompatible sources, or one ingredient whose own
+  /// evidence is too wide to rank on.
+  void _explainNoVerdict(
+    AppLocalizations l10n,
+    String locale,
+    VerdictCheck check,
+  ) {
+    final percent = check.requiredPercent.round();
+    final body = switch (check.block) {
+      VerdictBlock.crossSource => l10n.foodVerdictCrossSource(percent),
+      VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
+        check.item?.name(locale) ?? '',
+        check.item?.statisticRatio?.toStringAsFixed(1) ?? '',
+        percent,
+      ),
+      _ => l10n.foodVerdictTooClose(percent),
+    };
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.foodVerdictBlockedTitle),
+        content: Text(body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.buttonClose),
+          ),
+        ],
+      ),
     );
   }
 

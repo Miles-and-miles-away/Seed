@@ -3,7 +3,7 @@
     "version": 1,
     "scope": "Operational energy emissions only: direct combustion (CO2, CH4, N2O) for engine modes and electricity-generation emissions for the traction/charging energy of electric modes. Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ 2025 methodology, 1.7x central estimate); helicopter is combustion-only (low-altitude flight), per entry. Primary vintage: UK DEFRA/DESNZ 2025 unless a mode notes otherwise.",
     "primary_source": "UK DEFRA/DESNZ 2025 GHG Conversion Factors",
-    "grid_factor_g_per_kwh": 386,
+    "grid_factor_g_per_kwh": 458,
     "citation_note": "Table-row citations (SustainMetrics, SCIF, Greencalculus, EV Database) are transcribed as pipe-delimited row cells with ASCII substitutions ('>' for '›', '-' for em dash); they are row transcriptions, not page sentences."
   },
   "modes": [
@@ -51,7 +51,7 @@
       "name_es": "Bicicleta eléctrica",
       "g_co2e_per_km": 2,
       "per_vehicle": false,
-      "calculation_notes": "Derived, electricity only: 5.3 Wh/km (BikeRadar real-world measurement) x house global grid factor 386 g/kWh = 2.05, rounded to 2. Excluded per the operational scope: metabolic food energy (~6.3 g/km) and manufacturing (~7 g/km); the widely cited ECF lifecycle total is 14.8 g/km.",
+      "calculation_notes": "Derived, electricity only: 5.3 Wh/km (BikeRadar real-world measurement) x house global grid factor 458 g CO2e/kWh = 2.43, rounded to 2. Excluded per the operational scope: metabolic food energy (~6.3 g/km) and manufacturing (~7 g/km); the widely cited ECF lifecycle total is 14.8 g/km.",
       "sources": [
         {
           "name": "BikeRadar",
@@ -73,9 +73,9 @@
       "name_en": "E-scooter (private)",
       "name_ja": "電動キックスクーター（個人所有）",
       "name_es": "Patinete eléctrico (privado)",
-      "g_co2e_per_km": 6,
+      "g_co2e_per_km": 7,
       "per_vehicle": false,
-      "calculation_notes": "Derived: electricity-only. The Springer 2024 LCA measures 1.4 kWh/100 km (plastic frame) to 1.576 kWh/100 km (aluminium frame) = 14-15.8 Wh/km; at the house grid factor 386 g/kWh that is 5.4-6.1 g/km. Ships 6, the upper end of the band (honest direction). Excludes full lifecycle manufacturing (~32 g/km lifecycle figure for the same private-scooter case is noted in the methodology sheet).",
+      "calculation_notes": "Derived: electricity-only. The Springer 2024 LCA measures 1.4 kWh/100 km (plastic frame) to 1.576 kWh/100 km (aluminium frame) = 14-15.8 Wh/km; at the house grid factor 458 g CO2e/kWh that is 6.4-7.2 g/km. Ships 7, the upper end of the band (honest direction). Excludes full lifecycle manufacturing (~32 g/km lifecycle figure for the same private-scooter case is noted in the methodology sheet).",
       "sources": [
         {
           "name": "Springer Environmental Sciences Europe 2024",
@@ -223,10 +223,10 @@
       "name_en": "Electric car",
       "name_ja": "電気自動車",
       "name_es": "Coche eléctrico",
-      "g_co2e_per_km": 73,
+      "g_co2e_per_km": 86,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "Derived: real-world EV consumption 0.188 kWh/km x house global grid factor 386 g CO2/kWh = 72.6, rounded to 73. Deliberately deviates from DEFRA's UK-grid BEV figure (40.47 g/km, 2025; ~30 g/km in the 2026 release) because the app's audience is global with Japan as the primary market, and Japan's grid is more carbon-intensive than the UK's. Methodology sheet documents both anchor points. The EV Database cheatsheet is live-updating; the 188 Wh/km average was read 2026-07-19 and can drift between data passes.",
+      "calculation_notes": "Derived: real-world EV consumption 0.188 kWh/km x house global grid factor 458 g CO2e/kWh = 86.1, rounded to 86. Deliberately deviates from DEFRA's UK-grid BEV figure (40.47 g/km, 2025; ~30 g/km in the 2026 release) because the app's audience is global with Japan as the primary market, and Japan's grid is more carbon-intensive than the UK's. Methodology sheet documents both anchor points. The EV Database cheatsheet is live-updating; the 188 Wh/km average was read 2026-07-19 and can drift between data passes.",
       "sources": [
         {
           "name": "EV Database",

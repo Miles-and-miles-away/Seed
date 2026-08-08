@@ -1701,6 +1701,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodSearchNoResults => '一致する食材がありません。';
 
   @override
+  String foodItemFactorWithServing(
+    String perKg,
+    String perServing,
+    String serving,
+  ) {
+    return '$perKg kg CO2e／kg  ·  $servingで$perServing';
+  }
+
+  @override
   String foodItemFactorPerKg(String value) {
     return '1kgあたり$value kg CO2e';
   }
@@ -1794,6 +1803,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get foodPickerRecents => '最近使った食品';
+
+  @override
+  String get foodVerdictWhyCta => '結果が出ないのはなぜ？';
+
+  @override
+  String get foodVerdictBlockedTitle => '記録するには差が小さすぎます';
+
+  @override
+  String foodVerdictTooClose(int percent) {
+    return 'この2つの食事の差は$percent%以内です。ここに掲載する食品の多くはカテゴリ全体の平均値を共有しており、統計的に同等の値も少なくありません。これほど小さな差は、元になる研究が実際に区別できる範囲の内側にあります。合計値は上に表示していますが、どちらが優れているかの判定は行いません。';
+  }
+
+  @override
+  String foodVerdictCrossSource(int percent) {
+    return 'この2つの食事は異なる研究で測定されており、片方はサプライチェーンの範囲がより短いものです。両者の差の一部は実際の差ではなく、その測定範囲の違いによる可能性があります。そのため、片方が他方の半分未満（約$percent%減）にならない限り、どちらが良いかは判定しません。';
+  }
+
+  @override
+  String foodVerdictUncertainItem(String item, String ratio, int percent) {
+    return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percent%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
+  }
 
   @override
   String get foodComparisonTooClose =>

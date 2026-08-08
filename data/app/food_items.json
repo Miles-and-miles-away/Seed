@@ -5,7 +5,7 @@
     "primary_source": "Poore & Nemecek 2018 (Science 360:987-992) via Our World in Data, means with supply-chain losses",
     "basis": "kg CO2e per kg of food as-purchased (raw/dry weight); serving presets are raw/dry grams; liquids per litre = per kg at density 1.0",
     "citation_note": "CSV-row citations (OWID grapher downloads) and Poore & Nemecek accepted-manuscript figure rows are verbatim data-row transcriptions (manuscript rows with single spaces), not page sentences. CarbonCloud citations are 'product | value | value-as-of date' transcriptions: CarbonCloud live values drift over time and are corroboration-with-access-date only. The LiveLCA butter citation is a products-table row transcription (product, CO2e per kg, number of studies, single spaces), not a page sentence.",
-    "statistic_note": "Three items carry statistic_sensitive: their own published mean and median differ by 2x or more (dark chocolate 2.49x, farmed fish 2.67x, tree nuts 2.15x), so which statistic the source chose dominates their value and no gap between them and another food is safe to rank. The comparison view declines to name a winner whenever one is involved. Every other pair in this dataset for which the study publishes both statistics keeps the same ordering under either one once the gap reaches 20%, which is why 20% is the threshold."
+    "statistic_note": "Three items carry statistic_ratio: their own published mean and median differ by that factor (dark chocolate 2.49x, farmed fish 2.67x, tree nuts 2.15x), because a minority of very high-impact producers dominates their average. A gap involving one of them is only safe to call once it exceeds the item's own ratio -- i.e. the better meal must emit less than 1/ratio of the other -- since anything smaller could be an artefact of which statistic the source published. Every other pair for which both statistics exist keeps its ordering under either one once the gap reaches 20%."
   },
   "items": [
     {
@@ -519,7 +519,7 @@
           "name": "Poore & Nemecek 2018 accepted-manuscript reference list (local copy pn_ms.txt, from josephpoore.com)",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
           "quote": "Leinonen, I., Williams, A. G., & Kyriazakis, I. (2016). Comparing the environmental impacts of UK turkey production systems using analytical error propagation in uncertainty analysis. Journal of Cleaner Production, 112, 141-148.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Agribalyse 3.1 via ADEME open-data API (R2 test only, not shippable against P&N)",
@@ -950,7 +950,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Milk, milk-substitute beverages, milk-based drinks, e.g., instant breakfast, meal replacement, cocoa, soy beverage | 240 mL | 1 cup (240 mL); 8 fl oz (240 mL)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Frijj Chocolate Flavour Milkshake (Muller) 330 ml, barcode 4025500287443, Open Food Facts",
@@ -1055,7 +1055,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Yogurt | 170 g | __ cup (__ g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -1148,19 +1148,19 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Yogurt | 170 g | __ cup (__ g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central 170903, Low Fat Greek Yogurt, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/170903?api_key=DEMO_KEY",
           "quote": "1 container (7 oz) (200g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Carrefour Yaourt à la GRECQUE NATURE, Open Food Facts retail pack (barcode 3245412511561)",
           "url": "https://world.openfoodfacts.org/api/v2/product/3245412511561.json",
           "quote": "Yaourt à la GRECQUE NATURE 600 g (4 x 150 g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -1242,19 +1242,19 @@
           "name": "Poore & Nemecek 2018 accepted manuscript, panel row (local copy pn_ms.txt)",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
           "quote": "Cheese 1.9k",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Cheese, all others | 30 g | __ piece(s) (__ g) for distinct pieces; __ tbsp(s) (__ g) for cream cheese and cheese spread; 1 oz (28 g/visual unit of measure) for bulk",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Cheese, grated hard | 5 g | __ tbsp (__ g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -1367,19 +1367,19 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Cheese, cottage | 110 g | __ cup (__ g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central 172179, Cheese, cottage, creamed, large or small curd, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/172179?api_key=DEMO_KEY",
           "quote": "1 cup, small curd (not packed) (225g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central 172179, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/172179?api_key=DEMO_KEY",
           "quote": "4 oz (113g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -1438,7 +1438,7 @@
           "grams": 5
         }
       ],
-      "calculation_notes": "Butter is not in Poore & Nemecek, so this is the mean of three independent dairy LCAs (10.18 to 12.2 kg CO2e per kg), rounded up rather than down. Weigh the butter itself: 14.2 g is a tablespoon and 5 g is a pat. Cream is deliberately not covered by this item. The two ways of pricing it disagree by roughly 40x -- a measured dairy-LCA figure puts cream near 0.82 kg CO2e per kg, while allocating butter's footprint by milkfat puts it above 30 -- so until that is resolved, logging cream here would be a guess wearing a number. Use milk as a rough stand-in if you need one, and expect it to understate.",
+      "calculation_notes": "Butter is not in Poore & Nemecek, so this is the mean of three independent published figures (10.18 to 12.2 kg CO2e per kg). None is a primary dairy study: one is a national-database portion figure, one a meta-aggregator over 12 studies, one a modelled benchmark, and all three are live pages whose values drift -- one moved 15% between checks, rounded up rather than down. Weigh the butter itself: 14.2 g is a tablespoon and 5 g is a pat. Cream is deliberately not covered by this item. The two ways of pricing it disagree by roughly 40x -- a measured dairy-LCA figure puts cream near 0.82 kg CO2e per kg, while allocating butter's footprint by milkfat puts it above 30 -- so until that is resolved, logging cream here would be a guess wearing a number. Use milk as a rough stand-in if you need one, and expect it to understate.",
       "sources": [
         {
           "name": "foodfootprint.nl (RIVM, average Dutch market)",
@@ -1524,7 +1524,7 @@
           "name": "USDA ERS Agricultural Handbook 697, Table 16 (local ah697.txt)",
           "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
           "quote": "    Whole                       3.25                  —                  8.25                      3.30",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- parent (milk)",
@@ -1542,13 +1542,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Ice cream, frozen yogurt, sherbet, frozen flavored and sweetened ice and pops, frozen fruit juices: all types bulk and novelties (e.g., bars, sandwiches, cones, cups) | 2/3 cup--includes the volume for coatings and wafers",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central 167575, Ice creams, vanilla, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/167575?api_key=DEMO_KEY",
           "quote": "1 serving 1/2 cup (66g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -1618,25 +1618,25 @@
           "name": "USDA ERS Agricultural Handbook 697, Table 16 (local ah697.txt)",
           "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
           "quote": "Dry whole milk                        26.0                 5.0                 26.50         71.00",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA ERS Agricultural Handbook 697, Table 16 (whole milk row)",
           "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
           "quote": "    Whole                       3.25                  —                  8.25                      3.30",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA ERS Agricultural Handbook 697, Table 18",
           "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
           "quote": "Dry whole milk                                              7.36                                   8.26",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA ERS Agricultural Handbook 697, Table 18 footnote",
           "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
           "quote": "Used to convert weight of manufactured dairy products to equivalent weight of farm milk. Subject to change as technical parameters become available.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- parent",
@@ -1648,13 +1648,13 @@
           "name": "USDA FoodData Central 173454, Milk, dry, whole, without added vitamin D, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/173454?api_key=DEMO_KEY",
           "quote": "1/4 cup (32g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central 173454, portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/173454?api_key=DEMO_KEY",
           "quote": "1 cup (128g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -1726,7 +1726,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2 (eggs, 50 g)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "1 large, medium, etc.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -1801,13 +1801,13 @@
           "name": "21 CFR 166.110(a), margarine standard of identity, via govinfo (CFR-2023-title21-vol2-sec166-110.xml)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2023-title21-vol2/xml/CFR-2023-title21-vol2-sec166-110.xml",
           "quote": "Margarine (or oleomargarine) is the food in plastic form or liquid emulsion, containing not less than 80 percent fat determined by the method prescribed in \"Official Methods of Analysis of the Association of Official Analytical Chemists,\" 13th Ed. (1980), section 16.206, \"Indirect Method,\" under the heading \"Fat (47)-Official Final Action,\" which is incorporated by reference.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "21 CFR 166.110(a)(1), permitted fat sources, via govinfo (CFR-2023-title21-vol2-sec166-110.xml)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2023-title21-vol2/xml/CFR-2023-title21-vol2-sec166-110.xml",
           "quote": "Edible fats and/or oils, or mixtures of these, whose origin is vegetable or rendered animal carcass fats, or any form of oil from a marine species that has been affirmed as GRAS ...",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
@@ -1843,25 +1843,25 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Butter, margarine, oil, shortening",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA SR28 (FoodData Central SR-Legacy) WEIGHT.txt / NUT_DATA.txt",
           "url": "https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR-LEGACY/SR-Leg_ASC.zip",
           "quote": "~04611~^~1~^1^~tbsp~^14.20^^",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA SR28 (FoodData Central SR-Legacy) WEIGHT.txt / NUT_DATA.txt",
           "url": "https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR-LEGACY/SR-Leg_ASC.zip",
           "quote": "~04610~^~4~^1^~pat (1\" sq, 1/3\" high)~^5^^",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA SR28 (FoodData Central SR-Legacy) WEIGHT.txt / NUT_DATA.txt",
           "url": "https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR-LEGACY/SR-Leg_ASC.zip",
           "quote": "Margarine, regular, 80% fat, composite, stick, with salt",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -2456,37 +2456,37 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Nuts,2010,0.43",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Nuts,2018,-3.257812,3.3744068,0,0.051419526,0.10673449,0.04263857,0.12374754,-0.007999532",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Nuts                1 kg of shell free, dry nut                              160 g kg–1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Groundnuts,2010,3.23",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "Nuts, seeds and mixtures, all types: Sliced, chopped, slivered, and whole   30 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 170567 \"Nuts, almonds\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/170567?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"cup, whole\", \"gramWeight\": 143.0, \"sequenceNumber\": 1}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -2555,7 +2555,7 @@
       "spread_high": 3.690947394,
       "parent": null,
       "mass_ratio": null,
-      "statistic_sensitive": true
+      "statistic_ratio": 2.15
     },
     {
       "id": "peanuts",
@@ -2586,49 +2586,49 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Groundnuts,2010,3.23",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Groundnuts,2018,0.4851524,1.5759542,0,0.41091752,0.13259722,0.046872605,0.109439865,0.46907976",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Groundnuts          1 kg of shell free, roasted nut                              260 g kg–1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "eCFR, 21 CFR 164.150 Peanut butter (standard of identity)",
           "url": "https://www.ecfr.gov/api/renderer/v1/content/enhanced/current/title-21?chapter=I&subchapter=B&part=164&subpart=B&section=164.150",
           "quote": "Peanut butter is the food prepared by grinding one of the shelled and roasted peanut ingredients provided for by paragraph (b) of this section, to which may be added safe and suitable seasoning and stabilizing ingredients provided for by paragraph (c) of this section, but such seasoning and stabilizing ingredients do not in the aggregate exceed 10 percent of the weight of the finished food.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 172430 \"Peanuts, all types, raw\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/172430?api_key=DEMO_KEY",
           "quote": "Water 6.5 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 173806 \"Peanuts, all types, dry-roasted, without salt\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/173806?api_key=DEMO_KEY",
           "quote": "Water 1.81 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 173806 \"Peanuts, all types, dry-roasted, without salt\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/173806?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"cup\", \"gramWeight\": 146.0, \"sequenceNumber\": 1}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "Nuts, seeds and mixtures, all types: Sliced, chopped, slivered, and whole   30 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -2728,7 +2728,7 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Groundnuts,2010,3.23",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central 174266 Peanut butter, smooth style, with salt (field transcription)",
@@ -2883,9 +2883,16 @@
           "name_ja": "1人前（乾燥45g）",
           "name_es": "1 ración (45 g, en seco)",
           "grams": 45
+        },
+        {
+          "id": "cooked_100g",
+          "name_en": "1 portion cooked (100 g) - 47 g dry",
+          "name_ja": "炊飯後1食分（100 g）- 生米47 g",
+          "name_es": "1 ración cocida (100 g) - 47 g en crudo",
+          "grams": 47
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Methane from flooded paddies dominates: the farming stage alone is 3.55 of the 4.45. Poore & Nemecek measure 1 kg of full grain white or brown rice, so white and brown rice share this one number -- log brown rice here too, and read any difference between them as unmeasured rather than absent. The factor and the presets use raw dry weight: a 150 g rice-cooker measure becomes about 330 g cooked (a little over 2x by weight), so enter the raw amount.",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Methane from flooded paddies dominates: the farming stage alone is 3.55 of the 4.45. Poore & Nemecek measure 1 kg of full grain white or brown rice, so white and brown rice share this one number -- log brown rice here too, and read any difference between them as unmeasured rather than absent. The factor and the presets use raw dry weight: a 150 g rice-cooker measure becomes about 330 g cooked (a little over 2x by weight), so enter the raw amount -- or pick the cooked preset, which converts a 100 g cooked portion to the 47 g of dry rice it started as.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -3257,51 +3264,58 @@
           "name_ja": "大盛り1人前（乾麺）",
           "name_es": "1 ración grande (en seco)",
           "grams": 100
+        },
+        {
+          "id": "cooked_100g",
+          "name_en": "1 portion cooked (100 g) - 45 g dry",
+          "name_ja": "ゆで上がり1食分（100 g）- 乾麺45 g",
+          "name_es": "1 ración cocida (100 g) - 45 g en seco",
+          "grams": 45
         }
       ],
-      "calculation_notes": "Derived, not measured: Poore & Nemecek publish no pasta row. Their 'Wheat & Rye' figure of 1.57 is per kilogram of bread, which is around 39% water, while dry pasta is only about 11% water -- a kilogram of dry pasta therefore holds roughly 46% more wheat dry matter than a kilogram of bread, and taking the bread number directly would undercount it by that much. Re-basing the anchor gives about 2.58 kg CO2e per kilogram of wheat dry matter, and dry pasta is 89% dry matter, which is 2.29. This is a water correction only, so the difference between baking a loaf and drying pasta is not counted, and neither is boiling it in your kitchen. A second, equally citable route exists: Poore & Nemecek also publish a calorie basis for the same row, and bridging on calories instead of water gives 2.02, about 12% lower, because their bread is more energy-dense than the sliced bread the moisture figure comes from and may simply be drier. The two routes bracket the answer between 2.02 and 2.29, and the figure shown is the higher, less flattering end. Weigh pasta dry: 55 g uncooked becomes about 120 g cooked, a little over 2x, so enter the dry weight. Pasta sitting above bread is not evidence that pasta is worse -- bread is the measured product, pasta is worked back from it, and what separates them is water.",
+      "calculation_notes": "Derived, not measured: Poore & Nemecek publish no pasta row. Their 'Wheat & Rye' figure of 1.57 is per kilogram of bread, which is around 39% water, while dry pasta is only about 11% water -- a kilogram of dry pasta therefore holds roughly 46% more wheat dry matter than a kilogram of bread, and taking the bread number directly would undercount it by that much. Re-basing the anchor gives about 2.58 kg CO2e per kilogram of wheat dry matter, and dry pasta is 89% dry matter, which is 2.29. This is a water correction only, so the difference between baking a loaf and drying pasta is not counted, and neither is boiling it in your kitchen. A second, equally citable route exists: Poore & Nemecek also publish a calorie basis for the same row, and bridging on calories instead of water gives 2.02, about 12% lower, because their bread is more energy-dense than the sliced bread the moisture figure comes from and may simply be drier. The two routes bracket the answer between 2.02 and 2.29, and the figure shown is the higher, less flattering end. Weigh pasta dry: the cooked preset converts a 100 g cooked portion to the 45 g of dry pasta it started as. 55 g uncooked becomes about 120 g cooked, a little over 2x, so enter the dry weight. Pasta sitting above bread is not evidence that pasta is worse -- bread is the measured product, pasta is worked back from it, and what separates them is water.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Wheat & Rye,2010,1.57",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Wheat & Rye,2018,0.09713003,0.82030016,0,0.21012877,0.12544097,0.05604907,0.086838976,0.1779351",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Wheat & Rye         1 kg of bread (variable protein wheat)                   2695 kcal kg–1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 1穀類",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "Transcribed data row, columns 食品番号 | 食品名 | WATER (水分, g/100 g): 01026 | こむぎ　［パン類］　角形食パン　食パン | 39.2",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 1穀類",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "Transcribed data row, columns 食品番号 | 食品名 | WATER (水分, g/100 g): 01063 | こむぎ　［マカロニ・スパゲッティ類］　マカロニ・スパゲッティ　乾 | 11.3",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 1穀類",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "Transcribed data row, columns 食品番号 | 食品名 | WATER (水分, g/100 g): 01064 | こむぎ　［マカロニ・スパゲッティ類］　マカロニ・スパゲッティ　ゆで | 60.0",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "Pastas, plain   140 g prepared; 55 g dry",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -3563,16 +3577,16 @@
         },
         {
           "id": "boiled_pack",
-          "name_en": "1 pre-boiled udon pack (210 g as sold)",
-          "name_ja": "ゆでうどん1袋（販売重量210g）",
-          "name_es": "1 paquete de udon precocido (210 g tal como se vende)",
+          "name_en": "1 pre-boiled udon pack (210 g as sold) - 79 g fresh",
+          "name_ja": "ゆでうどん1袋（210 g）- 生麺79 g",
+          "name_es": "1 paquete de udon precocido (210 g) - 79 g en fresco",
           "grams": 79
         },
         {
           "id": "soba_pack",
-          "name_en": "1 pre-boiled soba pack (180 g as sold)",
-          "name_ja": "ゆでそば1袋（販売重量180g）",
-          "name_es": "1 paquete de soba precocido (180 g tal como se vende)",
+          "name_en": "1 pre-boiled soba pack (180 g as sold) - 86 g fresh",
+          "name_ja": "ゆでそば1袋（180 g）- 生麺86 g",
+          "name_es": "1 paquete de soba precocido (180 g) - 86 g en fresco",
           "grams": 86
         }
       ],
@@ -4175,7 +4189,7 @@
           "grams": 400
         }
       ],
-      "calculation_notes": "Global mean for tomatoes, Poore & Nemecek 2018, farm to retail and including land-use change and supply-chain losses. This is a real single-crop figure rather than a group average, but the mean hides one of the widest spreads in the dataset: 90% of the study's tomatoes fall between 0.37 and 12.62 kg CO2e per kg, the raw observations run from about 0.2 to 29, the median tomato is only 0.65, and roughly 80% of the total impact comes from a quarter of the producers. That is the heated greenhouse at work -- a Dutch winter tomato and a Spanish field tomato are the same crop two orders of magnitude apart. Since the median tomato at 0.65 is barely above Poore & Nemecek's general vegetable average of 0.53, 2.09 is the honest mean but a poor basis for saying tomatoes are worse than other vegetables; how and where they were grown is what actually moves the number. Basis is as-purchased fresh weight, not edible weight. Tinned, chopped and sieved tomatoes log here too: weight for weight an as-sold peeled or chopped pack is about the same as fresh, because the Codex standard for preserved tomatoes allows only tomato-derived packing liquid, and passata is included as well since no citable concentration ratio places it between 1.0x and about 1.56x fresh. A medium tomato is 123 g and the standard US serving 85 g; the 400 g tin is a retail pack size rather than a measured one.",
+      "calculation_notes": "Global mean for tomatoes, Poore & Nemecek 2018, farm to retail and including land-use change and supply-chain losses. This is a real single-crop figure rather than a group average, but the mean hides one of the widest spreads in the dataset: 90% of the study's tomatoes fall between 0.37 and 12.62 kg CO2e per kg, the raw observations run from about 0.2 to 29, the median tomato is only 0.65, and roughly 80% of the total impact comes from a quarter of the producers. That is the heated greenhouse at work -- a Dutch winter tomato and a Spanish field tomato are the same crop two orders of magnitude apart. Since the median tomato at 0.65 is barely above Poore & Nemecek's general vegetable average of 0.53, 2.09 is the honest mean but a poor basis for saying tomatoes are worse than other vegetables; how and where they were grown is what actually moves the number. Basis is as-purchased fresh weight, not edible weight. Tinned, chopped and sieved tomatoes log here too: weight for weight an as-sold peeled or chopped pack is about the same as fresh, because such packs are conventionally filled with tomato juice or puree rather than water (we have not been able to re-verify the food standard that sets this, so treat it as a working assumption), and passata is included as well since no citable concentration ratio places it between 1.0x and about 1.56x fresh. A medium tomato is 123 g and the standard US serving 85 g; the 400 g tin is a retail pack size rather than a measured one.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -4193,12 +4207,6 @@
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
           "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Codex Standard for Preserved Tomatoes, CXS 13-1981",
-          "url": "https://www.fao.org/input/download/standards/237/CXS_057e.pdf",
-          "quote": "(a) Juice: the liquid obtained from ripened tomatoes, from the residue resulting from preparing tomatoes for canning or by diluting tomato concentrates; (b) Tomato puree or Tomato concentrate: as described in the Standard for Processed Tomato Concentrates; (c) Pulp: skinless ground tomatoes; (d) Water: only in unpeeled preserved tomatoes.",
           "accessed": "2026-08-01"
         },
         {
@@ -4385,13 +4393,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0393 CAULIFLOWER -- Brassica oleracea var. botrytis, subvariety cauliflora and cymosa. Includes headed broccoli.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -4481,13 +4489,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0393 CAULIFLOWER -- Brassica oleracea var. botrytis, subvariety cauliflora and cymosa. Includes headed broccoli.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -4572,13 +4580,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0393 CAULIFLOWER -- Brassica oleracea var. botrytis, subvariety cauliflora and cymosa. Includes headed broccoli.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -4659,13 +4667,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0393 CAULIFLOWER -- Brassica oleracea var. botrytis, subvariety cauliflora and cymosa. Includes headed broccoli.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -4753,7 +4761,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -4852,7 +4860,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -4957,7 +4965,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0358 CABBAGES -- Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -5052,13 +5060,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0426 CARROTS -- Daucus carota. Trade data may include turnips (Brassica rapa var. rapifera).",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -5149,13 +5157,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0426 CARROTS -- Daucus carota. Trade data may include turnips (Brassica rapa var. rapifera).",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -5243,13 +5251,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0426 CARROTS -- Daucus carota. Trade data may include turnips (Brassica rapa var. rapifera).",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -5345,7 +5353,7 @@
           "name": "FAO, Definition and Classification of Commodities (Draft), Ch. 2 Roots, Tubers and Derived Products",
           "url": "https://web.archive.org/web/20190106222848/http://www.fao.org/ES/faodef/fdef02e.htm",
           "quote": "Production data of root crops should be reported in terms of clean weight, i.e. free of earth and mud.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -5436,7 +5444,7 @@
           "name": "FAO, Definition and Classification of Commodities (Draft), Ch. 2 Roots, Tubers and Derived Products",
           "url": "https://web.archive.org/web/20190106222848/http://www.fao.org/ES/faodef/fdef02e.htm",
           "quote": "0136 TARO (COCOYAM) -- Dasheen, eddoe, taro, old cocoyam (Colocasia esculenta). Aroids cultivated for their edible starchy corms or underground stems. Taro is grown throughout the tropics for food.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -5546,7 +5554,7 @@
           "name": "FAO, Definition and Classification of Commodities (Draft), Ch. 2 Roots, Tubers and Derived Products",
           "url": "https://web.archive.org/web/20190106222848/http://www.fao.org/ES/faodef/fdef02e.htm",
           "quote": "0137 YAMS -- Dioscorea spp. The principal edible yams are widely grown throughout the tropics. A starchy staple foodstuff, normally eaten as a vegetable, boiled, baked or fried.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -5656,13 +5664,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0403 ONIONS, DRY -- Allium cepa. Includes onions at a mature stage, but not dehydrated onions.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0407 LEEKS AND OTHER ALLIACEOUS VEGETAB -- leeks (Allium porrum); chives (A. schoenoprasum); other alliac. (Allium varieties except those of 0402, 0403 and 0406)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -5743,13 +5751,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0403 ONIONS, DRY -- Allium cepa. Includes onions at a mature stage, but not dehydrated onions.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0407 LEEKS AND OTHER ALLIACEOUS VEGETAB -- leeks (Allium porrum); chives (A. schoenoprasum); other alliac. (Allium varieties except those of 0402, 0403 and 0406)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -5848,7 +5856,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0406 GARLIC -- Allium sativum",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -5939,7 +5947,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0402 ONIONS, SHALLOTS (GREEN) -- shallots (Allium ascalonicum); onions (A. cepa); welsh onions (A. fistulosum). Young onions pulled before the bulb has enlarged; used especially in salads. Includes onion sets.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6062,7 +6070,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0397 CUCUMBERS, GHERKINS -- Cucumis sativus",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6158,13 +6166,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0372 LETTUCE -- Lactuca sativa; witloof chicory (Cichorium intybus var. foliosum); endive (C. endivia var. crispa); escarole chicory (C. endivia var. latifolia)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -6288,13 +6296,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0373 SPINACH -- Spinacia oleracea",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -6404,7 +6412,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0401 CHILLIES, PEPPERS (GREEN) -- Capsicum annuum; C. fructescens; Pimenta officinalis. Production data exclude crops cultivated explicitly as spices. In contrast, trade data include these crops, provided they are fresh, uncrushed and unground.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6493,7 +6501,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0401 CHILLIES, PEPPERS (GREEN) -- Capsicum annuum; C. fructescens; Pimenta officinalis. Production data exclude crops cultivated explicitly as spices. In contrast, trade data include these crops, provided they are fresh, uncrushed and unground.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6607,7 +6615,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0394 PUMPKINS, SQUASH, GOURDS -- Cucurbita spp. Includes marrows.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6697,7 +6705,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0399 EGGPLANTS -- Solanum melongena. Also called aubergines.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6786,19 +6794,19 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0414 BEANS, GREEN -- Phaseolus and Vigna spp. For shelling.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0423 STRING BEANS -- Phaseolus vulgaris; Vigna spp. Not for shelling",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "FAO production data for green peas and green beand refer to the total weight including pods, although some countries report on a shelled weight basis. The weight of the pods ranges from 40 to 50 percent for peas to up to 70 percent for broad beans.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6887,7 +6895,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -6969,7 +6977,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0394 PUMPKINS, SQUASH, GOURDS -- Cucurbita spp. Includes marrows.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -7066,7 +7074,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0446 GREEN CORN (MAIZE) -- Zea mays, particularly var. saccharata. Maize harvested green for food. Saccharata variety is commonly known as sweet corn.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -7167,7 +7175,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -7240,55 +7248,55 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Other Vegetables,2010,0.53",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Other Vegetables,2018,0.001180576,0.17617308,0,0.06040515,0.16554974,0.015135273,0.041747507,0.071981326",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Peas                1 kg of dry pea without pod                              215 g kg–1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Fruit & Veg.     1 kg of fresh fruit or vegetable            -               -",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Fig. S7 caption",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "(H) Vegetables (tomatoes, lettuce, cucumber, green beans, and green peas).",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0417 PEAS, GREEN Pisum sativum Mostly for shelling, but including edible- podded peas or sugar peas.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "FAO production data for green peas and green beand refer to the total weight including pods, although some countries report on a shelled weight basis. The weight of the pods ranges from 40 to 50 percent for peas to up to 70 percent for broad beans.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "All other vegetables without sauce: Fresh, canned, or frozen   85 g for fresh or frozen; 95 g for vacuum packed; 130 g for canned in liquid, cream-style corn, canned or stewed tomatoes, pumpkin, or winter squash",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 170016 \"Peas, green, frozen, unprepared\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/170016?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"cup\", \"gramWeight\": 134.0, \"sequenceNumber\": 1}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -7394,13 +7402,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "VEGETABLES, as classified in this group, are mainly annual plants cultivated as field and garden crops in the open and under glass, and used almost exclusively for food.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -7505,7 +7513,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0430 OKRA -- Abelmoschus esculentus; Hibiscus esculentus. Also called gombo.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -7612,7 +7620,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0366 ARTICHOKES -- Cynara scolymus",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -7713,7 +7721,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0463 VEGETABLES, FRESH NES -- Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare); horseradish (Cochlearia armoracia); marjoram, sweet (Majorana hortensis); oyster plant (Tragopogon porrifolius); parsley (Petroselinum crispum); parsnips (Pastinaca sativa); radish (Raphanus sativus); rhubarb (Rheum spp.); rutabagas, swedes (Brassica napus); savory (Satureja hortensis); scorzonera (Scorzonera hispanica); sorrel (Rumex acetosa); soybean sprouts tarragon (Artemisia dracunculus); watercress (Nasturtium officinale)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -7808,7 +7816,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "Other vegetables that are not identified separately because of their minor relevance at the international level. Because of their limited local importance, some countries report vegetables under this heading that are classified individually by FAO.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -7910,7 +7918,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "Other vegetables that are not identified separately because of their minor relevance at the international level. Because of their limited local importance, some countries report vegetables under this heading that are classified individually by FAO.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -8008,7 +8016,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "Other vegetables that are not identified separately because of their minor relevance at the international level. Because of their limited local importance, some countries report vegetables under this heading that are classified individually by FAO.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -8109,7 +8117,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "Other vegetables that are not identified separately because of their minor relevance at the international level. Because of their limited local importance, some countries report vegetables under this heading that are classified individually by FAO.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -8508,7 +8516,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -8676,7 +8684,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0489 PLANTAINS -- Musa paradisiaca. Generally known as a cooking banana. Data should be reported excluding the weight of the central stalk",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -8755,13 +8763,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0490 ORANGES -- common, sweet orange (Citrus sinensis); bitter orange (C. aurantium)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0507 GRAPEFRUIT AND POMELO -- Citrus maxima; C. grandis; C. paradisi",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -8854,7 +8862,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0497 LEMONS AND LIMES -- lemon (Citrus limon); sour lime (C. aurantifolia); sweet lime (C. limetta)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -8958,7 +8966,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0495 TANGERINES, MANDARINS, CLEMENTINES, SATSUMAS -- mandarin, tangerine (Citrus reticulata); clementine, satsuma (C. unshiu)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -9060,7 +9068,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0560 GRAPES -- Vitis vinifera. Includes both table and wine grapes.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9151,13 +9159,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0544 STRAWBERRIES -- Fragaria spp.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9243,7 +9251,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0552 BLUEBERRIES -- European blueberry, wild bilberry, whortleberry (Vaccinium myrtillus); American blueberry (V. corymbosum)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9341,19 +9349,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "This grouping differs from international trade classifications for vegetables in that it includes melons and watermelons, which are normally considered to be fruit crops. But, whereas fruit crops are virtually all permanent crops, melons and watermelons are similar to vegetables in that they are temporary crops.",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
-          "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
-          "quote": "Although melons and watermelons are generally considered to be fruits, FAO groups them with vegetables because they are temporary crops.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0568 MELONS, CANTALOUPES -- Cucumis melo",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -9448,19 +9450,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "This grouping differs from international trade classifications for vegetables in that it includes melons and watermelons, which are normally considered to be fruit crops. But, whereas fruit crops are virtually all permanent crops, melons and watermelons are similar to vegetables in that they are temporary crops.",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
-          "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
-          "quote": "Although melons and watermelons are generally considered to be fruits, FAO groups them with vegetables because they are temporary crops.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 7 Vegetables and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef07e.htm",
           "quote": "0567 WATERMELONS -- Citrullus vulgaris",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -9542,13 +9538,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0574 PINEAPPLES -- Ananas comosus; A. sativ. Trade figures may include dried pineapples.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -9630,7 +9626,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0592 KIWI FRUIT -- Actinidia chinensis",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 bulk release (sr28asc.zip), FOOD_DES.txt / WEIGHT.txt",
@@ -9712,13 +9708,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0534 PEACHES AND NECTARINES -- Prunus persica; Amygdalus persica; Persica laevis",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9802,13 +9798,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0521 PEARS -- Pyrus communis",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9891,13 +9887,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0536 PLUMS -- greengage, mirabelle, damson (Prunus domestica); sloe (P. spinosa)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "Some fruits have a high fibre content and other inedible components, so that wastage is high, e.g. 60 percent for passion fruit and 35-45 percent for pineapples. The waste in temperate zone fruit is lower, generally of the order of 10-15 percent, while berries contain very little waste.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -9978,7 +9974,7 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0587 PERSIMONS -- Diospyros kaki: D. virginiana",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "文部科学省 日本食品標準成分表（八訂）増補2023年 第2章",
@@ -10066,13 +10062,13 @@
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0531 CHERRIES -- mazzard, sweet cherry (Prunus avium; Cerasus avium); hard-fleshed cherry (var. duracina); heart cherry (var. juliana)",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FAO, Definition and Classification of Commodities (1994), Ch. 8 Fruits and Derived Products",
           "url": "https://web.archive.org/web/2018/http://www.fao.org/es/faodef/fdef08e.htm",
           "quote": "0541 STONE FRUIT, FRESH NES -- Other stone fruit not separately identified. In some countries, apricots, cherries, peaches, nectarines and plums are reported under this general category.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
@@ -12116,7 +12112,7 @@
       "confidence": "high",
       "spread_low": null,
       "spread_high": null,
-      "statistic_sensitive": true
+      "statistic_ratio": 2.4947
     },
     {
       "id": "milk_chocolate",
@@ -12269,61 +12265,61 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Cane Sugar,2010,3.2",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Beet Sugar,2010,1.81",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Cane Sugar,2018,1.2630405,0.49126986,0,0.037380975,0.7945103,0.036723007,0.08427718,0.4917223",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Beet Sugar,2018,0.0000519,0.5357213,0,0.24188545,0.6285439,0.039322365,0.09028904,0.27626252",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Sugar crops      1 kg of raw/refined sugar                   -               -",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "European Commission, Directorate-General for Agriculture and Rural Development -- Sugar",
           "url": "https://agriculture.ec.europa.eu/farming/crop-productions-and-plant-based-products/sugar_en",
           "quote": "However, beet sugar represents only 20% of the world’s sugar production, with the other 80% produced from sugar cane.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "World Sugar Research Organisation, Cultivation and harvesting of sugar",
           "url": "https://wsro.org/about-sugar/farm-table/cultivation-and-harvesting-sugar",
           "quote": "Sugar cane accounts for approximately 80% of global sugar production, whilst sugar beet accounts for around 20% of production.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "Sugar   8 g   __ tsp (__ g); __ piece(s) (__ g) for discrete pieces (e.g., sugar cubes, individually packaged products)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 169655 \"Sugars, granulated\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/169655?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"tsp\", \"gramWeight\": 4.2, \"sequenceNumber\": 2}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 169655 \"Sugars, granulated\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/169655?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"serving 1 cube\", \"gramWeight\": 2.3, \"sequenceNumber\": 4}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -12737,7 +12733,7 @@
           "name": "USDA FoodData Central 169640, Honey (SR Legacy, NDB 19296), portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/169640?api_key=DEMO_KEY",
           "quote": "1 tbsp (21g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -12830,7 +12826,7 @@
           "name": "USDA FoodData Central 169641, Jams and preserves (SR Legacy, NDB 19297), portion data",
           "url": "https://api.nal.usda.gov/fdc/v1/food/169641?api_key=DEMO_KEY",
           "quote": "1 tbsp (20g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -12934,25 +12930,25 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Butter, margarine, oil, shortening",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "1 tbsp (__ g); 1 tbsp (15 mL)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA SR28 (FoodData Central SR-Legacy) WEIGHT.txt / NUT_DATA.txt",
           "url": "https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR-LEGACY/SR-Leg_ASC.zip",
           "quote": "~04582~^~1~^1^~tbsp~^14^^",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA SR28 (FoodData Central SR-Legacy) WEIGHT.txt / NUT_DATA.txt",
           "url": "https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR-LEGACY/SR-Leg_ASC.zip",
           "quote": "~04582~^~3~^1^~tsp~^4.50^^",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13033,31 +13029,31 @@
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Olive Oil,2018,-0.3236843,3.672172,0,0.5671888,0.41411418,0.039322365,0.7401167,0.31564602",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Oil crops        1 liter of refined/filtered oil             -               -",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 171413 \"Oil, olive, salad or cooking\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/171413?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"tablespoon\", \"gramWeight\": 13.5, \"sequenceNumber\": 1}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 171413 \"Oil, olive, salad or cooking\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/171413?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"tsp\", \"gramWeight\": 4.5, \"sequenceNumber\": 3}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 14油脂類, 備考 field for 14001",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "試料： エキストラバージンオイル\n(100 g：109.9mL、100 mL：91.0g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -13147,13 +13143,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Butter, margarine, oil, shortening",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "1 tbsp (__ g); 1 tbsp (15 mL)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13223,19 +13219,19 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A0006",
           "quote": "Virgin coconut oil",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A16060",
           "quote": "Coconut oil (coprah)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Seasoning oils and seasoning sauces (e.g., coconut concentrate, sesame oil, almond oil, chili oil, coconut oil, walnut oil)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13316,7 +13312,7 @@
           "name": "21 CFR 169.140(a), mayonnaise standard of identity, via govinfo (CFR-2023-title21-vol2-sec169-140.xml)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2023-title21-vol2/xml/CFR-2023-title21-vol2-sec169-140.xml",
           "quote": "Mayonnaise is the emulsified semisolid food prepared from vegetable oil(s), one or both of the acidifying ingredients specified in paragraph (b) of this section, and one or more of the egg yolk-containing ingredients specified in paragraph (c) of this section. ... Mayonnaise contains not less than 65 percent by weight of vegetable oil.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -13358,7 +13354,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Mayonnaise, sandwich spreads, mayonnaise-type dressings",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13432,7 +13428,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A11104",
           "quote": "Soy sauce, prepacked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13444,13 +13440,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Major condiments, e.g., catsup, steak sauce, soy sauce, vinegar, teriyaki sauce, marinades",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "1 tbsp (__ g); 1 tbsp (15 mL)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -13511,7 +13507,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A20916",
           "quote": "Miso",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13523,7 +13519,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Seasoning pastes (e.g., garlic paste, ginger paste, curry paste, chili paste, miso paste), fresh or frozen",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -13585,7 +13581,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A11017",
           "quote": "Salt, white, for human consumption (sea, igneous or rock), no enrichment",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13597,7 +13593,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Salt, salt substitutes, seasoning salts (e.g., garlic salt)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -13665,7 +13661,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A11018",
           "quote": "Vinegar",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13677,13 +13673,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Major condiments, e.g., catsup, steak sauce, soy sauce, vinegar, teriyaki sauce, marinades",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Dressings for salads",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -13772,7 +13768,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Major condiments, e.g., catsup, steak sauce, soy sauce, vinegar, teriyaki sauce, marinades",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
@@ -13859,19 +13855,19 @@
           "name": "Codex Alimentarius CXS 57-1981, Standard for Processed Tomato Concentrates, s.2.2.2 (local copy CXS_057e.pdf)",
           "url": "https://www.fao.org/input/download/standards/237/CXS_057e.pdf",
           "quote": "'Tomato Paste' - Tomato concentrate that contains at least 24% of natural total soluble solids.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 (17035 トマトペースト and 06182 赤色トマト water contents)",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "Transcribed data rows, columns 食品番号 | 食品名 | WATER (水分, g/100 g): 17035 | ＜調味料類＞　（トマト加工品類）　トマトペースト | 71.3; 06182 | （トマト類）　赤色トマト　果実　生 | 94.0",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Major main entree sauces, e.g., spaghetti sauce",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -13969,7 +13965,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Barbecue sauce ... all dips (e.g., bean dips, dairy-based dips, salsa)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14052,13 +14048,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "If packed or canned in liquid, the reference amount is for the drained solids, except for products in which both the solids and liquids are customarily consumed",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Olives ",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -14144,7 +14140,7 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Not measurable with cup, e.g., burritos, enchiladas, pizza, pizza rolls, quiche, all types of sandwiches",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14218,7 +14214,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A4046",
           "quote": "French fries or chips, frozen, raw, intended to be deep-fried",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "McCain Foods GB, \"Home Chips Lighter Straight Cut\"",
@@ -14236,13 +14232,13 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "French fries, hash browns, skins, or pancakes",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g for frozen unprepared French fries",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14332,7 +14328,7 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A11017",
           "quote": "Salt, white, for human consumption (sea, igneous or rock), no enrichment",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14404,13 +14400,13 @@
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A25903",
           "quote": "Soup, mixed vegetables, prepacked, to be reheated",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "AGRIBALYSE 3.2, \"Détail par étape\" (ADEME, Etalab Open Licence), row 25914 (the tomato variant used for the R2 test)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-detail-par-etape/lines?qs=Code_AGB%3A25914",
           "quote": "Soup, tomatoes, prepacked, to be reheated",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -14422,19 +14418,19 @@
           "name": "FDA reference amounts customarily consumed, 21 CFR 101.12 Table 2 (soups)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Soups: | All varieties | 245 g | __ cup (__ g); __ cup (__ mL)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Open Food Facts retail pack size, Liebig Mouliné de 12 légumes carton (barcode 3036815431156, en:small-brick)",
           "url": "https://world.openfoodfacts.org/api/v2/product/3036815431156.json",
           "quote": "Mouliné de 12 légumes 2 x 30 cl",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Open Food Facts retail pack size, Heinz Cream of Tomato Soup tin (barcode 5000157062673, en:can)",
           "url": "https://world.openfoodfacts.org/api/v2/product/5000157062673.json",
           "quote": "Cream of Tomato Soup 400g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -14499,37 +14495,37 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Fish (farmed),2010,13.63",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (stage sum 13.632445)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Fish (farmed),2018,1.1947172,8.056115,1.8344203,0.04459863,0.24795863,0.08997562,0.13753739,2.0271227",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018 Supplementary Materials, Table S1 'Functional units (FUs) used'",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Fish             1 kg of edible fish",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (matched-boundary corroboration for farmed marine finfish)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Other marine fish (farmed),2021,11.595179",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (pond species this item covers)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Tilapia (farmed),2021,10.6759815",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14582,7 +14578,7 @@
       "confidence": "medium_high",
       "spread_low": 5.1,
       "spread_high": 13.632445,
-      "statistic_sensitive": true
+      "statistic_ratio": 2.6725
     },
     {
       "id": "prawns_farmed",
@@ -14613,55 +14609,55 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Prawns (farmed),2010,26.87",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (same product, stage sum 26.865863)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Shrimps (farmed),2018,0.33056307,13.453979,4.0299387,0,0.33085158,0.3523611,0.5361473,7.832022",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018 Supplementary Materials, Table S1 'Functional units (FUs) used'",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Crustaceans      1 kg of head-free meat (shell-free for",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018 accepted manuscript (pond methane is inside this boundary)",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
           "quote": "We find that freshwater aquaculture ponds create 0-450g of methane per kg of liveweight (for context, enteric fermentation in dairy cows creates ~30-400g per kg of liveweight).",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Poore & Nemecek 2018 Supplementary Materials, figure caption (aquaculture manure management)",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Aquaculture (fish and crustaceans), where manure management includes emissions from ponds.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (the rejected farm-gate alternative)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Shrimp (farmed),2021,9.428016",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021, Supplementary Information (why it is rejected for this item)",
           "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03889-2/MediaObjects/41586_2021_3889_MOESM1_ESM.pdf",
           "quote": "We subsequently do not integrate methane emissions from ponds or nitrous oxide volatilisation in our models.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 aquaculture inventory (all 79 shrimp records are pond systems)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/LCI_compiled_for_SI.csv",
           "quote": "\"Whiteleg shrimp\",\"Litopenaeus vannamei\",\"Litopenaeus vannamei\",\"Ponds\",\"Semi-intensive\"",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14737,31 +14733,31 @@
           "name": "Gephart et al. 2021 via Our World in Data (like-for-like wild vs farmed)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Shrimp (wild),2021,11.956739",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (farmed comparator)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Shrimp (farmed),2021,9.428016",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (the Poore & Nemecek anchor this is scaled onto)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Shrimps (farmed),2018,0.33056307,13.453979,4.0299387,0,0.33085158,0.3523611,0.5361473,7.832022",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018 Supplementary Materials, Table S1 'Functional units (FUs) used'",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Crustaceans      1 kg of head-free meat (shell-free for",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14836,43 +14832,43 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Salmon (farmed),2021,5.100986",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021, Supplementary Information (edible-portion definition)",
           "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03889-2/MediaObjects/41586_2021_3889_MOESM1_ESM.pdf",
           "quote": "To standardize the definition of edible at the global level, we use the muscle fraction to represent the edible portion.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (wild salmon/trout, disclosed spread)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "\"Salmon, trout (wild)\",2021,6.8813386",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 aquaculture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/aquaculture_edible_CFs.csv",
           "quote": "salmon,58.5",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -14944,37 +14940,37 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "\"Cod, haddock (wild)\",2021,5.1250386",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 capture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/capture_edible_CFs.csv",
           "quote": "\"Gadiformes\",49.6190476190476",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021, Supplementary Information (edible-portion definition)",
           "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03889-2/MediaObjects/41586_2021_3889_MOESM1_ESM.pdf",
           "quote": "To standardize the definition of edible at the global level, we use the muscle fraction to represent the edible portion.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15052,37 +15048,37 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Tuna (wild),2021,7.6290536",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 capture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/capture_edible_CFs.csv",
           "quote": "\"Large pelagic fishes\",61.7368421052632",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA RACC 21 CFR 101.12 Table 2, 'Fish, shellfish, or game meat, canned' + footnote 10 (drained solids)",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "If packed or canned in liquid, the reference amount is for the drained solids, except for products in which both the solids and liquids are customarily consumed",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -15166,43 +15162,43 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "\"Herring, sardines (wild)\",2021,3.8779404",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 fishery fuel-use input data (group composition; ISSCAAP group of all 176 records)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/fisheries_fuel_use.csv",
           "quote": "Small pelagic fishes,\"Herrings, sardines, anchovies\",Anchoveta(=Peruvian anchovy),Surrounding Nets,10,41.46666667,0.961642849,0.293556281,0.05",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 capture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/capture_edible_CFs.csv",
           "quote": "\"Small pelagic fishes\",60.1904761904762",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Parker et al. 2015 fuel-use summary (Univ. of Miami Shark Research; fuel-efficiency corroboration)",
           "url": "https://sharkresearch.earth.miami.edu/fuel-consumption-of-global-fishing-fleets/",
           "quote": "Catches like the Peruvian Anchovy, Atlantic Mackerel, and Australian Sardine are some of the most efficient fisheries",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15283,37 +15279,37 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Squid (wild),2021,8.18495",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 fishery fuel-use input data (all 8 cephalopod records, one ISSCAAP group)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/fisheries_fuel_use.csv",
           "quote": "Cephalopods,\"Squids, cuttlefishes, octopuses\",Arrow squids,Bottom Trawls,533,2210.173333,0.497061689,0.00697305,1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 capture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/capture_edible_CFs.csv",
           "quote": "\"Cephalopods\",66.6666666666667",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15385,43 +15381,43 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Bivalves (farmed),2021,1.3991262",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (wild bivalves, the 8.15x fork)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Bivalves (wild),2021,11.400049",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 aquaculture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/aquaculture_edible_CFs.csv",
           "quote": "bivalves,20.33333333",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021, peer-review file (credible interval vs MacLeod et al. 2020)",
           "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03889-2/MediaObjects/41586_2021_3889_MOESM2_ESM.pdf",
           "quote": "They estimate bivalve emissions of 3-4 compared to our 1.4 [0-4 95% credible interval]",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15490,37 +15486,37 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Lobster (wild),2021,19.444952",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 fishery fuel-use input data (the row's two ISSCAAP groups, 82 + 28 records)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/fisheries_fuel_use.csv",
           "quote": "Lobsters,\"Sea-spiders, crabs\",Blue swimming crab,Traps and Lift Nets,846,3508.08,0.107624659,0.148542219,1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 capture edible conversion factors (FishPrint input data)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/capture_edible_CFs.csv",
           "quote": "\"Lobsters\",30",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA Reference Amounts Customarily Consumed, 21 CFR 101.12 Table 2",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "85 g cooked; 110 g uncooked",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15596,43 +15592,43 @@
           "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
           "quote": "Seaweed (farmed),2021,1.0867226",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 via Our World in Data (functional unit)",
           "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
           "quote": "Based on a meta-analysis of data from 1690 fish farms and 1000 unique fishery records. Impacts are given in kilograms of carbon dioxide-equivalents per kilogram of edible weight.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021 aquaculture edible conversion factors (plants at 100%, i.e. dry weight)",
           "url": "https://raw.githubusercontent.com/jagephart/FishPrint/master/All%20Input%20Data/aquaculture_edible_CFs.csv",
           "quote": "plants,100",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Gephart et al. 2021, Supplementary Information (dry-weight basis for plants)",
           "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03889-2/MediaObjects/41586_2021_3889_MOESM1_ESM.pdf",
           "quote": "Note that in both cases plants are expressed in terms of dry weight due to the fact that water loss varies substantially after harvest up to the farm gate, even pre-processing.",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "FDA RACC 21 CFR 101.12 Table 2, 'Dried seaweed sheets'",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "3 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC 21 CFR 101.12 Table 2, dried vegetables / dried seaweed",
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "5 g, add 5 g for products packaged in oil",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15709,25 +15705,25 @@
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
           "quote": "Wheat & Rye,2010,1.57",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Wheat & Rye,2018,0.09713003,0.82030016,0,0.21012877,0.12544097,0.05604907,0.086838976,0.1779351",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Wheat & Rye         1 kg of bread (variable protein wheat)                   2695 kcal kg–1",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
           "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
           "quote": "Breads (excluding sweet quick type), rolls   50 g",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
@@ -15815,31 +15811,31 @@
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Palm Oil,2018,2.7555852,1.875132,0,1.1253257,0.18511687,0.038737673,0.78810805,0.5487651",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1",
           "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "Oil crops        1 liter of refined/filtered oil             -               -",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-01"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 171015 \"Oil, palm\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/171015?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"tbsp\", \"gramWeight\": 13.6, \"sequenceNumber\": 1}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "USDA FoodData Central, SR Legacy 171015 \"Oil, palm\"",
           "url": "https://api.nal.usda.gov/fdc/v1/food/171015?api_key=DEMO_KEY",
           "quote": "{\"amount\": 1.0, \"modifier\": \"tsp\", \"gramWeight\": 4.5, \"sequenceNumber\": 3}",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         },
         {
           "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章 本表 14油脂類, 備考 field for 14009",
           "url": "https://www.mext.go.jp/content/20260327-mxt_kagsei-mext-000029402_02.xlsx",
           "quote": "試料： 精製油\n(100 g：111mL、100 mL：90g)",
-          "accessed": "2026-08-04"
+          "accessed": "2026-08-08"
         }
       ],
       "search_terms_en": [
@@ -15950,9 +15946,16 @@
           "name_ja": "1人前（乾燥豆）",
           "name_es": "1 ración (en seco)",
           "grams": 35
+        },
+        {
+          "id": "cooked_100g",
+          "name_en": "1 portion cooked (100 g) - 40 g dry",
+          "name_ja": "ゆで上がり1食分（100 g）- 乾燥豆40 g",
+          "name_es": "1 ración cocida (100 g) - 40 g en seco",
+          "grams": 40
         }
       ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Other Pulses' covers beans, lentils and chickpeas -- not peas, which are a separate item. Chart value 1.79; supply-chain stage sum 1.7864. The factor is per kg of dry pulses, so weigh canned or cooked beans as their dry equivalent (a drained 130 g half-can is roughly 55 g dry).",
+      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses; Our World in Data category 'Other Pulses' covers beans, lentils and chickpeas -- not peas, which are a separate item. Chart value 1.79; supply-chain stage sum 1.7864. The factor is per kg of dry pulses, so weigh canned or cooked beans as their dry equivalent (a drained 130 g half-can is roughly 52 g dry). Cooked and canned beans hold about 2.5 times their dry weight, so the cooked preset converts a 100 g cooked portion to 40 g dry.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -16143,7 +16146,7 @@
           "grams": 113
         }
       ],
-      "calculation_notes": "Not in Poore & Nemecek, which predates the category; assembled from the two flagship burger LCAs: Beyond Burger 3.4 (Heller & Keoleian 2018, cradle-to-distribution) and Impossible Burger 3.5 (Quantis 2019, cradle-to-gate), mean 3.45. Both are company-commissioned and use boundaries narrower than the rest of this dataset (no retail or supply-chain losses), so a conservative 1.3x uplift is applied: 3.45 x 1.3 = 4.49, rounded up to 4.5. Independently corroborated by Detzel et al. 2021 (ifeu institute, EU-funded): real meat substitutes span 2.4-3.9 kg CO2e/kg cradle-to-gate, and the independent mean (3.26) with the same boundary uplift reproduces ~4.5. The commissioned anchors sit mid-range of the independent values, so the uplift compensates the boundary, not a commissioner bias. A category average spanning simple soy mince to formulated patties; recipes and factory energy genuinely differ. The 113 g patty preset matches the beef patty preset so the burger comparison is like for like.",
+      "calculation_notes": "Not in Poore & Nemecek, which predates the category; assembled from the two flagship burger LCAs: Beyond Burger 3.4 (Heller & Keoleian 2018, cradle-to-distribution) and Impossible Burger 3.5 (Quantis 2019, cradle-to-gate), mean 3.45. Both are company-commissioned and use boundaries narrower than the rest of this dataset (no retail or supply-chain losses), so a conservative 1.3x uplift is applied: 3.45 x 1.3 = 4.49, rounded up to 4.5. Independently corroborated by Detzel et al. 2021 (ifeu institute, EU-funded): real meat substitutes span 2.4-3.9 kg CO2e/kg cradle-to-gate, and the independent mean (3.26) with the same boundary uplift reproduces ~4.5. The commissioned anchors sit mid-range of the independent values, so the uplift compensates the boundary, not a commissioner bias. A category average spanning simple soy mince to formulated patties; recipes and factory energy genuinely differ. The 113 g patty preset matches the beef patty preset so the burger comparison is like for like. Known disagreement, stated rather than buried: the independent peer-reviewed study cited here reports 1.5 kg CO2e for a 113 g plant patty, which is about 13 kg per kg -- roughly three times this figure -- on a scale where its beef patties sit close to ours. Our number comes from averaging two company-commissioned assessments and uplifting them; that may well be too generous to plant-based meat, and this item is due a re-look.",
       "sources": [
         {
           "name": "Heller & Keoleian 2018, Beyond Burger LCA (Univ. of Michigan CSS report CSS18-10; commissioned by Beyond Meat)",
@@ -16158,9 +16161,9 @@
           "accessed": "2026-07-19"
         },
         {
-          "name": "Saget et al. 2021, Sustainable Production and Consumption 28:936-952 (independent, peer-reviewed; per-patty corroboration)",
+          "name": "Saget et al. 2021, Sustainable Production and Consumption 28:936-952 (independent, peer-reviewed; DISAGREES with the shipped figure -- see notes)",
           "url": "https://researchrepository.ul.ie/bitstreams/7edd3652-290b-4944-b878-cb3b2074a91d/download",
-          "quote": "Plant-based patties have a smaller environmental footprint across most categories, including a 77% smaller climate change burden ... compared with Brazilian beef patties.",
+          "quote": "Plant-based patties have a smaller environmental footprint across most categories, including a 77% smaller climate change burden, but incur 8% more energy use compared with Brazilian beef patties.",
           "accessed": "2026-07-19"
         },
         {
