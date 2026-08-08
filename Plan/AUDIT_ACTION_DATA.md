@@ -60,7 +60,7 @@ Every `co2Grams` value MUST have an inline comment in the
 JSON that shows the calculation chain. Format:
 
 ```javascript
-co2Grams: 90, // daily: 3hrs x 2 rooms x 40W x 386g/kWh
+co2Grams: 90, // daily: 3hrs x 2 rooms x 40W x 458g/kWh
 ```
 
 The comment should contain:
@@ -71,9 +71,10 @@ The comment should contain:
 
 ### Use a standard grid emission factor
 
-All energy calculations use **386 g CO2/kWh** as the
-global average baseline (midpoint of US 370 and UK 210,
-biased toward global average). Document any deviation.
+All energy calculations use **458 g CO2e/kWh** as the
+global average baseline (Ember, *Global Electricity Review
+2026*, 2025 world average, CO2e). Document any deviation.
+Full sourcing and the retired 386 figure: section 8.
 
 ### Handle variable-scope actions with a defined unit
 
@@ -102,6 +103,17 @@ The `impact` score should reflect this broader value.
 ---
 
 ## 3. The Action JSON Schema
+
+> **Single source of truth (2026-08-02):**
+> `data/seed/co2_actions_database.json` holds every shipping
+> action -- CO2 value, calculation notes, `sources[]`, confidence,
+> localised strings and the effort/frequency/impact scores.
+> `scripts/seed/seed_action_library.js` reads it and computes
+> points at seed time; it carries no action data. Never
+> reintroduce an inline action array: the two stores diverged once
+> and ended up sharing only 9 of 112 ids. Records researched but
+> not shipped live under `research_only_records` and are not
+> seeded.
 
 ```javascript
 {
@@ -209,24 +221,24 @@ points = round(100^0.4 * 0.85 * 0.8 * 1.0)
        = round(4.29) = 4 pts
 ```
 
-**Shorter Shower** (co2:275, eff:2, freq:5, imp:2)
+**Shorter Shower** (co2:110, eff:2, freq:5, imp:2)
 ```
 effortMult = 0.7 + (2 * 0.15) = 1.00
 rarityMult = 1.3 - (5 * 0.1) = 0.80
 impactMult = 0.85 + (2 * 0.075) = 1.00
-points = round(275^0.4 * 1.0 * 0.8 * 1.0)
-       = round(9.34 * 0.8)
-       = round(7.47) = 7 pts
+points = round(110^0.4 * 1.0 * 0.8 * 1.0)
+       = round(6.55 * 0.8)
+       = round(5.24) = 5 pts
 ```
 
-**Install LED Bulb** (co2:28000, eff:2, freq:1, imp:3)
+**Install LED Bulb** (co2:25000, eff:1, freq:1, imp:3)
 ```
-effortMult = 0.7 + (2 * 0.15) = 1.00
+effortMult = 0.7 + (1 * 0.15) = 0.85
 rarityMult = 1.3 - (1 * 0.1) = 1.20
 impactMult = 0.85 + (3 * 0.075) = 1.075
-points = round(28000^0.4 * 1.0 * 1.2 * 1.075)
-       = round(52.4 * 1.29)
-       = round(67.6) = 68 pts
+points = round(25000^0.4 * 0.85 * 1.2 * 1.075)
+       = round(56.98 * 1.0965)
+       = round(62.5) = 63 pts
 ```
 
 **Attend Eco Meeting** (co2:0, eff:2, freq:2, imp:4)
@@ -266,7 +278,7 @@ fall in a believable range relative to existing actions.
 | Skip high-impact food | 6000 | 2 | 3 | 4 | ~57 | instance |
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
-| Install LED | 28000 | 2 | 1 | 3 | ~68 | one-time |
+| Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
 | Fix water leak | 100000 | 3 | 1 | 4 | ~153 | one-time |
 | Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
 | Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |
@@ -373,8 +385,8 @@ day's savings. Conversely, do not give a daily action
 a lifetime CO2 value.
 
 Examples:
-- Install LED: 28,000g = first-year savings (50W diff
-  x 4hrs/day x 365 x 386g/kWh)
+- Install LED: 25,000g = first-year savings (51.5W diff
+  x 3hrs/day x 365 x 458g/kWh = 25,820, rounded down)
 - Fix leak: 100,000g = conservative 1-year savings
   (~300g/day x 365)
 - EV purchase: 3,400,000g = 2-year projected savings
@@ -451,10 +463,27 @@ New actions should cite from this list where possible.
 
 ### Grid Factor
 
-Global average baseline: **386 g CO2/kWh**
-(midpoint of US 370g and UK 210g, biased toward
-global average). Actions using a different factor
-must document the deviation.
+Global average baseline: **458 g CO2e/kWh**
+(Ember, *Global Electricity Review 2026*, 2025 world
+average, CO2e). Actions using a different factor must
+document the deviation.
+
+Note the unit is **CO2e**, not CO2, matching the rest
+of the app (food is CO2e; transport is CO2e including
+the 1.7x aviation RF uplift). IEA's *Electricity 2026*
+publishes 435 g CO2/kWh for the same year on a
+CO2-only basis -- the 5.3% gap is scope. Do not
+average the two.
+
+Superseded 2026-08-02 (decision E1): the previous
+baseline was 386 g CO2/kWh, documented here as the
+"midpoint of US 370g and UK 210g". That midpoint is
+290, so the stated derivation never reproduced the
+shipped number, and 386 was ~16% below every current
+tier-1 global figure. Rationale and blast radius:
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+section 2; annual refresh tracked in
+[ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
 
 ---
 

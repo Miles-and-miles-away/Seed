@@ -999,6 +999,8 @@
   "@foodSearchNoResults": {
     "description": "Shown when a food picker search returns nothing"
   },
+  "foodItemFactorWithServing": "{perKg} kg CO2e per kg  ·  {perServing} per {serving}",
+  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
   "foodItemFactorPerKg": "{value} kg CO2e per kg",
   "@foodItemFactorPerKg": {
     "placeholders": {
@@ -1089,6 +1091,16 @@
   "@foodPickerRecents": {
     "description": "Header above recently picked items in the food picker"
   },
+  "foodVerdictWhyCta": "Why is there no result?",
+  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "foodVerdictBlockedTitle": "Not a big enough difference to log",
+  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won't declare one the winner.",
+  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictCrossSource": "These meals are measured by different studies, one of which covers a shorter supply chain. Part of any gap between them could be that difference rather than a real one, so we'd need one meal to emit less than half the other -- around {percent}% -- before saying which is better.",
+  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictUncertainItem": "{item} is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to {ratio} times its midpoint, so where it lands depends heavily on which farms you count. A gap of about {percent}% would outrun that uncertainty; this one doesn't. You can still log the meal as a normal action.",
+  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
   "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"

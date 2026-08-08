@@ -353,7 +353,7 @@ Round 2 (executed 2026-07-18):
 
 ## 10. Research-Pass Closures (from RESEARCH_TRANSPORT.md sec 7)
 
-Moved 2026-08-04 so the research doc tracks only what is still
+Moved 2026-08-08 so the research doc tracks only what is still
 open. Everything here is closed; the resulting factors, decisions
 and rules are in RESEARCH_TRANSPORT.md sections 3-9 and Appendix A.
 

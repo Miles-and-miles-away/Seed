@@ -199,7 +199,7 @@ Notes locked in now (they shape the schema):
 - **Cars are stored per vehicle-km** and divided by an occupancy
   selector (1-4 people). This answers "large car, percentage full"
   more concretely than a percentage: occupants are what users know.
-  Electric car uses the house grid factor (386 g/kWh, audit doc
+  Electric car uses the house grid factor (458 g/kWh, audit doc
   section 2) times a cited kWh/km figure, with the deviation from
   DEFRA's UK-grid EV factor documented.
 - **Public transport factors are per passenger-km at average
@@ -237,7 +237,7 @@ Notes locked in now (they shape the schema):
     "version": 1,
     "scope": "operational energy only; excludes vehicle manufacture",
     "primary_source": "UK DEFRA GHG Conversion Factors",
-    "grid_factor_g_per_kwh": 386
+    "grid_factor_g_per_kwh": 458
   },
   "modes": [
     {
@@ -1105,12 +1105,23 @@ abstract class MealIngredient with _$MealIngredient {
 
 ## Part 3: Home Energy Calculator
 
-> **On hold (2026-07-31).** Parts 1 and 2 are shipped; the next work
-> is UI polish on the transport and food calculators, not a third
-> dataset. Part 3 stays fully specified below and picks up unchanged
-> when the two shipped calculators feel right. The calculator chooser
-> already renders a disabled home-energy tile, so nothing needs
-> stubbing in the meantime.
+> **Research complete, build not started (updated 2026-08-02).**
+> The 2026-07-31 hold is lifted for research: the evidence base is
+> done ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33
+> behaviors, every open item closed) and the decisions are settled
+> ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)). The E1
+> grid rebase and the action-library reconciliation are already
+> applied to the working tree. **No Flutter code exists yet** --
+> `energy_behaviors.json`, `lib/features/energy/` and
+> `test/features/energy/` are still to be built, and the calculator
+> chooser still renders a disabled home-energy tile.
+>
+> The specification below is superseded in places by the research:
+> the grid factor is 458 not 386, the behavior list grew to 33, the
+> oven is per bake cycle not per hour, "space heater" is renamed
+> `portable_electric_heater`, and 8.18's logging bridge is
+> permanently cancelled. **Read the PDR first; treat the section
+> below as the original design intent.**
 
 Part 3 adds a **home energy calculator**: users build a routine
 from energy behaviors (behavior + quantity), see its CO2e, and
@@ -1144,7 +1155,7 @@ not a feature.
   are derived, with the arithmetic reproducible from
   `calculation_notes`, and never need refreshing.
 - **Everything multiplies through two carrier factors** --
-  electricity (grid, 386 g/kWh) and gas (~184 g/kWh, DEFRA). The
+  electricity (grid, 458 g/kWh) and gas (182 g/kWh, DEFRA). The
   grid factor is already shipped and maintained for Part 1's EV
   entries; **promote it to a single shared constant** so the two
   datasets cannot drift (pinned by a cross-dataset test).
@@ -1441,7 +1452,7 @@ the preset UX already proven there.
 
 | Question | Current lean |
 |----------|--------------|
-| Regional grid factors (JP ~440 g/kWh vs global 386)? | Global factor v1 for cross-app consistency; revisit with Part 1's regional question as one decision |
+| Regional grid factors (JP ~429 g/kWh vs global 458)? | RESOLVED: global 458 for v1 (E1); regionalisation spun out to [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md) |
 | Heating fuel types beyond gas (kerosene, heat pump)? | Gas + electric v1; kerosene is JP-relevant, add in first refresh if requested |
 | Season-aware presets (aircon summer/winter)? | No; presets are named plainly, users pick what they do |
 | Whole-day "routine" templates? | P2, same as recipe presets in Part 2 |

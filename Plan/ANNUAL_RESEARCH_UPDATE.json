@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Seed Annual Research Update Ledger",
-    "version": "1.1",
+    "version": "1.2",
     "created": "2026-08-02",
     "last_reviewed": "2026-08-02",
     "description": "Every fact in the Seed app that has a vintage and can go stale, with where it lives, where it came from, how often the source republishes, and what to watch for. Reference document for the yearly data pass.",
@@ -20,6 +20,7 @@
     "order": [
       "1. Refresh carrier factors first (grid, gas) -- everything else multiplies through them.",
       "2. Refresh transport modes (DEFRA release) and re-derive the transport sanity pins.",
+      "2b. Energy/transport ACTION values live in data/seed/co2_actions_database.json (single source of truth since 2026-08-02); scripts/seed/seed_action_library.js reads it. Re-seed after any change.",
       "3. Refresh energy appliance averages and re-derive the energy sanity pins.",
       "4. Re-read the food drift inputs only (the P&N anchor itself is a fixed 2018 study).",
       "5. Reconcile impact_equivalencies.json against the datasets it mirrors -- this is where drift hides.",
@@ -61,8 +62,8 @@
       "files": [
         "data/app/transport_modes.json (metadata.grid_factor_g_per_kwh)",
         "data/app/energy_behaviors.json (metadata.grid_factor_g_per_kwh, pending build)",
-        "data/seed/co2_actions_database.json (calculation_notes, 5 actions)",
-        "Plan/AUDIT_ACTION_DATA.md section 8"
+        "Plan/AUDIT_ACTION_DATA.md section 8",
+        "data/seed/co2_actions_database.json (13 grid-derived actions; SINGLE SOURCE OF TRUTH for the action library)"
       ],
       "current_value": "458 g CO2e/kWh",
       "vintage": "2025 data, published 2026",
@@ -85,7 +86,8 @@
         "Scope: must stay CO2e to match the rest of the app.",
         "Ember revising prior years when it reprocesses.",
         "A regionalisation decision superseding the single constant (see Plan/PDR_GRID_REGIONALISATION.md).",
-        "The home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) prints this figure, its vintage, and a six-grid comparison table. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values."
+        "The home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) prints this figure, its vintage, and a six-grid comparison table. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values.",
+        "13 actions in co2_actions_database.json are grid-derived. The seeder no longer holds action data -- it reads the JSON. After changing the factor, re-run node scripts/seed/seed_action_library.js."
       ],
       "affects": [
         "transport_ev",
@@ -93,7 +95,7 @@
         "energy_actions",
         "action_points"
       ],
-      "notes": "Retired value was 386 g CO2/kWh, whose documented derivation ('midpoint of US 370 and UK 210') computed to 290 and did not reproduce it.",
+      "notes": "Retired value was 386 g CO2/kWh, whose documented derivation ('midpoint of US 370 and UK 210') computed to 290 and did not reproduce it. Applied to data/app/transport_modes.json 2026-08-02 (grid 386->458; car_bev 73->86; escooter_private 6->7; ebike unchanged at 2).",
       "user_visible_copy": [
         "Plan/PDR_ENERGY_CALCULATOR.md section 6 -- home-energy methodology screen copy"
       ]
@@ -166,7 +168,7 @@
       "files": [
         "data/app/transport_modes.json (car_bev)"
       ],
-      "current_value": "73 g/km (PENDING rebase to 86 g/km under E1)",
+      "current_value": "86 g/km (0.188 kWh/km x 458)",
       "vintage": "0.188 kWh/km real-world consumption x house grid factor",
       "source": {
         "name": "EV Database, average real-world consumption",
@@ -512,18 +514,20 @@
       "files": [
         "data/app/impact_equivalencies.json"
       ],
-      "status": "open"
+      "status": "fixed 2026-08-02",
+      "resolution": "Corrected 11000 -> 7951 g (beef 70.3608 kg/kg x 113 g patty) and the sourceName rewritten to cite decision D6 instead of the retired 99.48 beef-herd value."
     },
     {
       "id": "eq_phone",
-      "severity": "low",
+      "severity": "none",
       "found": "2026-08-02",
       "what": "impact_equivalencies.json phoneCharges = 8 g.",
       "should_be": "The energy research derives 7.0 g at the E1 factor (12.98 Wh battery / 0.85 charge efficiency x 458 g/kWh).",
       "files": [
         "data/app/impact_equivalencies.json"
       ],
-      "status": "open"
+      "status": "closed-no-change",
+      "resolution": "Owner decision 2026-08-02: 8 g STANDS. This is not drift -- it is EPA's own independently-sourced figure on a US-grid basis, which is a legitimate tier-1 source, not a stale mirror of another Seed dataset. The energy dataset's 7 g is a different derivation (iPhone 15 battery 12.98 Wh / 0.85 charge efficiency x 458 g/kWh). Both are defensible; they differ by 13%, well inside the spread of either. Unlike eq_burgers, this entry does not claim to match another dataset."
     },
     {
       "id": "audit_grid_derivation",
@@ -547,6 +551,29 @@
         "data/seed/co2_actions_database.json"
       ],
       "status": "open"
+    },
+    {
+      "id": "action_store_split",
+      "severity": "high",
+      "found": "2026-08-02",
+      "status": "fixed 2026-08-02",
+      "what": "Two action stores had diverged: co2_actions_database.json (28 research records) and an inline 93-action array in seed_action_library.js (what shipped). They shared only 9 ids.",
+      "resolution": "Merged into co2_actions_database.json as the single source of truth (94 shipping actions with sources[] attached via a provenance map); seeder rewritten to read it, 2471 -> 253 lines; 11 research-only records preserved under research_only_records and not seeded.",
+      "files": [
+        "data/seed/co2_actions_database.json",
+        "scripts/seed/seed_action_library.js"
+      ]
+    },
+    {
+      "id": "doe_3pct_citation",
+      "severity": "medium",
+      "found": "2026-08-02",
+      "status": "fixed 2026-08-02",
+      "what": "lower_thermostat and raise_ac_thermostat cited 'US DOE: 3% savings per degree'. DOE does not state that; its figure is 'as much as 10% a year ... turning your thermostat back 7-10 degF for 8 hours a day' -- a partial-day setback in Fahrenheit, a different behaviour.",
+      "resolution": "Both actions now use METI's measured per-degree values (140 / 120 g per day) with the derivation in calculation_notes.",
+      "files": [
+        "data/seed/co2_actions_database.json"
+      ]
     }
   ],
   "pending_from_decisions": [

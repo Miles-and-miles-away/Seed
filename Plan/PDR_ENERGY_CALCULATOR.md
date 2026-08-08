@@ -2,7 +2,7 @@
 
 **Created:** 2026-08-02
 **Status:** Research complete and cleared to build from
-([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v1.1, 33 behaviors,
+([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33 behaviors,
 every open item closed). No code written yet. Owner decisions
 E1-E6 are settled, as are two product decisions (no logging
 bridge; comparison gating). Nothing committed.
@@ -27,7 +27,28 @@ points rules).
 
 ## 1. Scope & Current State
 
-Nothing exists in `lib/` or `data/` yet. To be built:
+**Already applied to the working tree (uncommitted):**
+
+- `data/app/transport_modes.json` -- E1 rebase: grid factor
+  386 -> 458, `car_bev` 73 -> 86, `escooter_private` 6 -> 7
+  (`ebike` holds at 2). No `386` remains in the file.
+- `data/seed/co2_actions_database.json` -- rebuilt as the single
+  source of truth: 94 shipping actions, 13 energy/transport values
+  rebased, 1 new action, 11 research-only records preserved
+  (section 4).
+- `scripts/seed/seed_action_library.js` -- rewritten to read that
+  JSON; 2,471 -> 253 lines.
+- `data/app/impact_equivalencies.json` -- `burgers` 11000 -> 7951.
+- `Plan/AUDIT_ACTION_DATA.md` section 8 -- grid factor and the
+  retired derivation.
+
+**Not yet done -- re-seed.** `npm run seed` writes the 94 actions
+to Firestore and prunes orphans. The change adds one id
+(`heat_person_not_room`) and removes none, so nothing existing is
+deleted. Bundle with the outstanding food FR-22 re-seed; needs
+`scripts/serviceAccountKey.json`.
+
+**Still to be built (nothing exists in `lib/`):**
 
 - `data/app/energy_behaviors.json` -- 33 behaviors, cited factors,
   `comparable_group` field, EN/JA/ES
@@ -35,11 +56,6 @@ Nothing exists in `lib/` or `data/` yet. To be built:
   builder, comparison, methodology screens
 - `test/features/energy/` -- dataset validation, engine, sanity
   pins, cross-dataset grid-factor pin, widgets, l10n
-- Five new action-library entries plus four corrections to
-  existing ones (section 4), landing in the same PR as the E1
-  rebase
-- `data/app/impact_equivalencies.json` -- `phoneCharges` still
-  needs reconciling (8 g shipped vs 7 g dataset-implied)
 
 **What this feature is for**, settled, and it is not what Parts 1
 and 2 are for: transport and food are decision tools that teach.
@@ -128,6 +144,22 @@ Derived rules, equally binding:
 - **Never sum across the three calculators.** Part 2 counts a
   food's whole lifecycle, Part 3 counts the electricity to cook
   it, Part 1 counts tailpipe energy.
+- **One action store.** `data/seed/co2_actions_database.json` is
+  the single source of truth; the seeder reads it and holds no
+  action data. Never reintroduce an inline action array -- the two
+  stores silently diverged once and shared only 9 of 112 ids.
+- **Carrier floor convention.** For hot-water actions whose
+  carrier the app cannot know (`shorter_shower`, `shorter_bath`),
+  ship the **gas** figure, not the absolute heat-pump floor. Gas
+  and resistance electric are the two dominant configurations
+  globally, gas is the lower of that pair, and heat-pump owners
+  are a minority the methodology names.
+- **Whole-home gas central heating ships as methodology context,
+  never a picker item or an action** -- same treatment as the
+  fridge. It is ~11.5x the aircon entry per degree and has no
+  per-hour measurement; putting it in the picker would imply a
+  comparability that does not exist. Figure and sourcing in
+  RESEARCH sec 3.3.
 
 ---
 
@@ -180,222 +212,80 @@ may look at.
 
 ---
 
-## 4. Action Library Additions
+## 4. Action Library (single source of truth)
 
-Owner decision, 2026-08-02: **the energy calculator ships with NO
-logging bridge.** Transport and food comparison views get a "Log
-greener choice" button; the energy comparison view does not. The
-Tier-1 energy choices instead ship as **pre-programmed actions in
-the action library**, scored like every other action.
+**Restructured 2026-08-02.** There were two action stores that had
+silently diverged: `data/seed/co2_actions_database.json` (28
+research records) and an inline 93-action array inside
+`scripts/seed/seed_action_library.js` (what actually shipped).
+They shared only **9 ids**. The energy spec drafted from the
+research file would have double-counted four behaviours that
+already shipped under different names.
 
-This resolves the double-counting problem that made an energy
-bridge unattractive (five existing actions already model the same
-behaviors) and matches what the feature actually is: energy is a
-teaching tool that occasionally informs a decision, not a
-decision tool that teaches.
+Now:
 
-Values at the E1 factors (458 / 182 g/kWh). Points recomputed with
-the shipped formula `max(1, round(co2^0.4 x effortMult x
-rarityMult x impactMult))`, verified against `air_dry_clothes`
-(1700 g, 2/3/2 -> 20 points, matching the seeder).
+- **`data/seed/co2_actions_database.json` is the single source of
+  truth** -- 94 shipping actions, each with its CO2 value,
+  calculation notes, research `sources[]`, confidence, localised
+  strings and effort/frequency/impact scores.
+- **`seed_action_library.js` reads it** and computes points at
+  seed time via `computePoints()`. It no longer carries action
+  data; the file went from 2,471 lines to 253.
+- Research-only records with no shipping action (the
+  transport-mode swaps now handled by the transport calculator's
+  logging bridge, plus three never-shipped items) are preserved
+  under `research_only_records` and are explicitly **not seeded**.
+- A `provenance_research_id` field links a shipping action back to
+  its research record where the ids differ (`cold_water_laundry`
+  -> `cold_wash`, `led_vs_incandescent` -> `install_led_bulb`,
+  `unplug_standby` -> `unplug_devices`, `meatless_meal_*` ->
+  `skip_*_impact_food`).
 
-| Action | Status | co2_grams | Unit | e/f/i | Points |
-|--------|--------|----------:|------|-------|-------:|
-| `air_dry_clothes` | EXISTS, rebase | 2000 | per_load | 2/3/2 | 21 |
-| `cold_water_laundry` | EXISTS, rebase | 430 | per_load | 1/3/2 | 10 |
-| `skip_bath` | **NEW** | 770 | per_bath_skipped | 2/4/2 | 13 |
-| `dishwasher_eco_cycle` | **NEW** | 120 | per_cycle | 1/4/1 | 5 |
-| `aircon_setpoint_summer` | **NEW** | 120 | per_day (in season) | 2/5/2 | 5 |
-| `aircon_setpoint_winter` | **NEW** | 140 | per_day (in season) | 2/5/2 | 6 |
-| `heat_person_not_room` | **NEW** | 1900 | per_evening | 2/4/2 | 18 |
+### Energy actions rebased to the research values
 
-Derivations (each needs the inline calculation comment required
-by [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) section 2):
+Owner decision: replace the US-basis values rather than merely
+rescaling them, so the action library and the calculator cannot
+quote different numbers for the same behaviour. All at 458 / 182
+g CO2e/kWh.
 
-- `skip_bath`: the counterfactual differs by market, and the JP
-  case is the LARGER saving:
+| Action | Was | Now | Points | Basis |
+|--------|----:|----:|-------:|-------|
+| `air_dry_clothes` | 1700 | **2000** | 21 | `dryer_vented` 4.5 kWh |
+| `cold_wash` | 600 | **430** | 10 | Bosch 40 C - 20 C = 0.950 kWh |
+| `shorter_shower` | 230 | **110** | 5 | 2 min x 59 g/min gas floor |
+| `shorter_bath` | 450 | **770** | 11 | bath_gas - 10-min shower_gas |
+| `unplug_devices` | 45 | **25** | 2 | 5 devices x 0.5 W (LBNL) |
+| `install_led_bulb` | 28000 | **25000** | 63 | 51.5 W x 3 h/day x 365 |
+| `lower_thermostat` | 450 | **140** | 6 | METI 53.08 kWh/yr per 1 C |
+| `raise_ac_thermostat` | 350 | **120** | 6 | METI 30.24 kWh/yr per 1 C |
+| `turn_off_lights` | 60 | **70** | 3 | grid rebase only |
+| `use_natural_light` | 90 | **100** | 4 | grid rebase only |
+| `eco_mode_appliance` | 200 | **120** | 6 | dishwasher normal - eco |
+| `microwave_vs_oven` | 300 | **280** | 7 | oven 0.82 - microwave 0.19 |
+| `ev_charging_green` | 3500 | **4500** | 31 | grid rebase only |
+| `heat_person_not_room` | -- | **1900** | 18 | **NEW**; heater 1.2 - kotatsu 0.15, 4 h |
 
-  | Case | Arithmetic | Saving |
-  |------|------------|-------:|
-  | Western, gas | bath 1370 - 10-min shower 597 | 773 g |
-  | Western, electric | bath 2607 - shower 1136 | 1471 g |
-  | JP, gas | full bath (shower happens anyway) | 1370 g |
-  | JP, electric | full bath | 2607 g |
+**A citation error was corrected in passing.** `lower_thermostat`
+and `raise_ac_thermostat` both cited "US DOE: 3% savings per
+degree". DOE does not state that. Its actual figure is *"as much
+as 10% a year ... by turning your thermostat back 7°-10°F for 8
+hours a day"* -- a large, partial-day setback in Fahrenheit, not a
+1 C continuous change. Both actions now use METI's measured
+per-degree values, and the notes say so.
 
-  **Ships at 770 g** -- the Western gas figure rounded down,
-  which is the floor across all four cases, so it is honestly
-  conservative for every user rather than a compromise for one
-  market.
+**Four proposed actions were dropped as duplicates** of behaviours
+already shipping: `skip_bath` (= `shorter_bath`),
+`aircon_setpoint_summer` (= `raise_ac_thermostat`),
+`aircon_setpoint_winter` (= `lower_thermostat`), and
+`dishwasher_eco_cycle` (= `eco_mode_appliance`). Their researched
+values were folded into the existing actions instead. The
+setpoint-state framing (クールビズ / ウォームビズ) and the seasonal
+window remain the right copy treatment for the two thermostat
+actions and should be applied to their descriptions.
 
-  Why the two markets differ: **in Japan the bath is additive,
-  not substitutive.** Washing and rinsing happen outside the tub
-  (shower, hair, soap, rinse), and only then does the bather soak
-  in clean water -- which is why one fill can be shared by the
-  household. So the shower occurs on both sides of the
-  comparison and cancels, and skipping the soak avoids the entire
-  bath. An earlier draft of this section had the sequence
-  backwards and wrongly concluded the action was inverted for a
-  JP family; it is not, and the correction raises the JP saving
-  from a supposed 959 g/person to the full 1370-2607 g per bath
-  avoided.
-
-  Unit is **one bath not drawn, logged once per household** --
-  not per person. A shared fill that never happens is a single
-  avoided bath; logging it per bather would multiply-count. The
-  action name reflects that the shower is not the lever: EN
-  "Showered only, skipped the bath", JA 湯船につからず
-  シャワーだけにした, ES "Solo me duche, sin bano".
-
-  Secondary and unquantified: 残り湯 (leftover bathwater) reused
-  for laundry recovers some of a drawn bath's energy in the
-  subsequent wash, which makes 770 g conservative by a further
-  unmeasured margin in JP households that do it.
-- `dishwasher_eco_cycle`: normal 1.12 - eco 0.85 = 0.27 kWh x
-  458 = 124 -> 120 g.
-- `aircon_setpoint_summer` / `aircon_setpoint_winter`: METI's
-  own figures, 1 C at 9 h/day. Summer 30.24 kWh/yr over 112
-  cooling days = 0.270 kWh/day = 124 -> **120 g**. Winter 53.08
-  kWh/yr over 169 heating days = 0.314 kWh/day = 144 ->
-  **140 g**.
-
-  **These ship as TWO actions, not one** (corrected 2026-08-02;
-  an earlier draft merged them at the summer figure and was
-  wrong on both the rule and the physics):
-
-  - The merge cited
-    [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) section 6
-    "do not split what should be merged", which applies only
-    when "two actions are both <15g CO2 and occur in the same
-    context". At 124 and 144 g in different seasons, neither
-    condition holds. The rule that does apply is the next one,
-    "do not keep what should be split" -- the same reasoning
-    that separated high- from medium-impact meat.
-  - A degree is not one behavior. Envelope heat flow scales with
-    the inside-outside gap, so METI's summer step (31 C out,
-    27->28) cuts the load ~25% while its winter step (6 C out,
-    21->20) cuts it ~7%. The absolute savings only look similar
-    because winter's total load is much larger.
-  - Japan already treats them as two named national campaigns
-    with two different targets -- クールビズ (28 C summer) and
-    ウォームビズ (20 C winter) -- and 環境省 publishes separate
-    rules of thumb for each (約13% vs 約10% per 1 C). Merging
-    them would be less legible than the primary market's own
-    framing.
-
-  Splitting costs nothing in points: the `co2^0.4` curve turns a
-  +17% CO2 difference into 6 points either way.
-
-  **Framing (decided 2026-08-02): both actions describe the
-  SETPOINT STATE, not a per-degree delta.**
-
-  | id | EN | JA | ES |
-  |----|----|----|----|
-  | `aircon_setpoint_summer` | Kept cooling at 28 C | 冷房を28℃に設定した | Mantuve la refrigeracion a 28 C |
-  | `aircon_setpoint_winter` | Kept heating at 20 C | 暖房を20℃に設定した | Mantuve la calefaccion a 20 C |
-
-  Why the state and not the delta: METI's figures are tied to
-  specific stated conditions -- outdoor 31 C with a 27->28 step,
-  outdoor 6 C with 21->20. A user setting 24->25 on a 30 C day is
-  a -17% load change, not -25%, so a per-degree action would
-  carry the same unverifiable-baseline defect that ruled out the
-  logging bridge ("a degree from what?"). A setpoint is a state
-  the user can read off the remote, and METI's 1 C step remains
-  the documented counterfactual behind the number: the action
-  credits keeping the recommended setpoint instead of the one
-  degree more comfortable that METI assumes as the baseline.
-
-  This also aligns the actions with the two national campaigns
-  the primary market already knows: **クールビズ** (28 C cooling)
-  and **ウォームビズ** (20 C heating). Per the house rule on
-  source and publication names, the campaign names stay
-  untranslated -- they appear as-is in the JA copy and are
-  referenced, not translated, in the EN and ES descriptions.
-
-  **Seasonal eligibility (recommended, needs a schema field).**
-  METI publishes the exact windows its own arithmetic uses:
-  冷房期間 6月2日-9月21日 (112 days) and 暖房期間
-  10月28日-4月14日 (169 days). Gating each action to its window
-  blocks the nonsense path (logging "kept heating at 20 C" in
-  July), caps the annual total at what METI's derivation assumes
-  (13.4 kg cooling, 23.7 kg heating), and is physically honest --
-  the saving does not exist out of season. Cost is one date-range
-  field on the action schema. Low urgency given there are no
-  leaderboards and users are isolated, so nonsense logging only
-  degrades the logger's own history.
-- `heat_person_not_room`: portable electric heater 1.2 - kotatsu 0.15 =
-  1.05 kWh/h x 458 = 481 g/h; an evening of 4 hours = 1924 ->
-  1900 g. Covers kotatsu, electric blanket or heated carpet used
-  **instead of** turning on a portable electric heater.
-
-#### Not shipping: dishwasher vs hand washing
-
-Proposed and rejected. The saving inverts with the sink's
-carrier:
-
-| | vs electric sink (1007 g) | vs gas sink (471 g) |
-|---|---:|---:|
-| Dishwasher, eco (389 g) | +617 g | +81 g |
-| Dishwasher, normal (513 g) | +494 g | **-42 g** |
-
-A fixed `co2_grams` cannot express that, and one of the four
-cases is negative -- the app would award points for an action
-that increased emissions. The honest floor across all carriers
-is +81 g, which is so far below what users believe about
-dishwashers that shipping it would read as a bug. **Stays a
-calculator comparison only**; it is the feature's best
-counterintuitive teaching moment and does not need to be an
-action to do that job.
-
-#### Caveats: two accepted residuals
-
-1. **Rewarding existing lifestyle -- sharpened by the setpoint
-   framing.** A state-based action ("kept cooling at 28 C") is
-   loggable every day by someone who has never moved their
-   thermostat, which is more exposed than a delta-based one would
-   have been. Three mitigations, in order of preference:
-   (a) the seasonal window above, which caps it at 112/169 days;
-   (b) frequency scored at 5 (daily) rather than 4, which is both
-   more accurate and trims the summer action to 5 points;
-   (c) description copy that frames it as a choice held rather
-   than a state owned. All three are applied in the spec above.
-   Precedent for accepting the residual: `air_dry_clothes` is
-   already loggable daily by a household with no dryer.
-2. **`heat_person_not_room` existing lifestyle.** Same issue,
-   milder -- most kotatsu households do own a portable heater, so
-   the "instead of" counterfactual is usually real. Which
-   [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) section 6
-   warns against. The same is already true of `air_dry_clothes`
-   for a household with no dryer, so there is precedent for
-   accepting it -- but both new actions are framed as "instead
-   of" for exactly this reason, and the descriptions must carry
-   that framing.
-
-Consequences to land in the same PR:
-
-- [ ] `cold_water_laundry` 600 -> 430 g, notes rewritten to the
-      Bosch EN50229 same-machine derivation.
-- [ ] `unplug_standby` 9 -> 5 g, notes citing LBNL verbatim.
-- [ ] `air_dry_clothes` 1700 -> 2000 g.
-- [ ] `led_vs_incandescent` 19 -> 23 g.
-- [ ] Five new actions added per section 7.1
-      (`skip_bath`, `dishwasher_eco_cycle`,
-      `aircon_setpoint_summer`, `aircon_setpoint_winter`,
-      `heat_person_not_room`) with EN/JA/ES copy and full
-      `sources[]`.
-- [ ] Energy comparison view ships WITHOUT a log button; transport
-      and food keep theirs. Update
-      [APP_PAGES.md](./APP_PAGES.md).
-- [ ] `electric_vs_gasoline_car` and `transport_modes.json`
-      `car_bev`: 73 -> 86 g/km (E1).
-- [ ] `air_dry_clothes` notes: the 4.5 kWh figure is a
-      vented/condenser full load, not a generic "tumble dryer".
-- [ ] Three actions' notes move from "0.37 kg/kWh" to 458 g/kWh.
-- [ ] `shorter_shower` notes gain flow rate, delta-T and the
-      carrier range.
-- [ ] Re-seed (`node scripts/seed/seed_action_library.js`) --
-      bundles with the food pass's outstanding FR-22 re-seed.
-
----
+**Still to do:** re-seed
+(`node scripts/seed/seed_action_library.js`, needs the Firebase
+service account), bundled with the outstanding food FR-22 re-seed.
 
 ---
 
@@ -602,6 +492,92 @@ Two copy cautions:
 
 ---
 
+## 8. Session Handover -- 2026-08-08
+
+Documentation-only session. No code, no dataset values, no
+committed changes. Working tree left dirty for owner review.
+
+### What landed
+
+| Change | File |
+|--------|------|
+| 電気カーペット closed as a deliberate non-entry. Panasonic's comparison table publishes per-setting 消費電力量 in Wh (3畳 DC-3NK 470/335, DC-3HA 460/320; 2畳 335/230; 1畳 165/120), cross-checked against the DC-3NK spec page's 14.6/10.4 yen at 31 yen/kWh. 中 = ~0.33 kWh/h. Stays folded into `heat_person_not_room`; its arithmetic is unchanged. METI's 強->中 delta (0.2201) is ~60% above Panasonic's 0.135, so METI models higher-draw carpets: upper bound only. | RESEARCH archive 1 |
+| Every closed item rewritten to one table row and moved out of the live doc. The last open follow-up is now closed, so section 8 is standing rules only. | RESEARCH sec 8, archive 1 |
+| RESEARCH_ENERGY.md split 1604 -> 1214 lines; 525 lines of executed detail moved to [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md) (new, untracked). Blocks were moved by script, not retyped, and every source line was verified present in one file or the other. | both |
+| Stale `v1.1` reference to the research doc corrected to `v2.0`. | sec 1 here |
+
+Nothing in the split changed a shipped number. The archive holds
+closed items, the E1 grid survey, superseded values, rejected
+alternatives, the two researched non-entries (UK gas central
+heating, refrigerator) and the full 38-item recomputation.
+
+### Needs work: two red tests from the E1 grid change
+
+Both predate this session -- they came from the earlier energy
+pass that applied decision E1 (386 -> 458 g CO2e/kWh) and rewrote
+the action database; both files were already modified in the
+working tree when this session opened. Confirmed red by running
+them, not inferred:
+
+**1. Transport metadata pin -- one line, ready to apply.**
+`transport_modes_data_test.dart:139` still expects 386; the
+dataset now carries 458. The re-derivation the fix appears to
+need is **already done**: `car_bev` is 86 (0.188 kWh/km x 458),
+e-bike 2 and e-scooter 7 both cite 458, and RESEARCH_TRANSPORT
+records the change at "raised 386 -> 458 ... car_bev 73 -> 86".
+So the remaining work is the assertion itself, plus three
+cosmetic stragglers that do not fail anything:
+
+- `transport_mode_model_test.dart:16` fixture string
+  `'0.188 kWh/km x 386 g/kWh'`
+- `transport_methodology_screen.dart:69` fallback default `386`
+- RESEARCH_TRANSPORT sec 6 pin 5 still reads `(73 < 128.25+)`;
+  the invariant holds at 86, only the quoted number is stale
+
+**2. Food action ids -- renamed, not removed.** Five tests in
+`food_action_consistency_test.dart` throw on null lookups. The
+actions were restructured, and each kept a
+`provenance_research_id` back to its old id:
+
+| Old id | New id | g CO2e |
+|--------|--------|-------:|
+| `meatless_meal_beef` | `skip_high_impact_food` | 6800 |
+| `meatless_meal_chicken` | `skip_medium_impact_food` | 1000 |
+| `plant_milk_vs_dairy` | `plant_milk` | 460 |
+| `meatless_meal_pork` | none -- moved to `research_only_records` | -- |
+
+Three can be re-pointed by id. The fourth is a deliberate
+demotion: pork is no longer a shipped action, which contradicts
+RESEARCH_FOOD.md section 7's shipped food-action set. That doc
+needs updating either way, and the pork assertion needs deleting
+rather than re-pointing. **Owner call, not made:** whether the
+beef/chicken merge into high/medium impact tiers is the intended
+final shape.
+
+Not fixed here on purpose: food is mid-flight in a parallel
+session, and the ask tonight was a written handover.
+
+**Also spotted, food-side:** `skip_fish` carries
+`co2_grams` 560 with `calculation_notes` reading
+`"4.5kWh dryer x 386g/kWh (US)"` -- a copy-paste from the dryer
+action. Wrong note, wrong grid factor, unrelated behaviour.
+
+### Open decisions
+
+None owned by energy. E1-E6 are settled and Appendix A records
+them. The two items above are the food session's calls, not
+this workstream's.
+
+### Resuming
+
+The energy dataset itself is untouched and consistent: all 11
+energy actions carry the values RESEARCH_ENERGY section 7
+derives. Nothing in Phase 8.13 is half-built, because no code
+exists yet -- the research and the PDR are complete and the
+feature is still cleared to build.
+
+---
+
 ## Appendix A: Decision History
 
 | Date | Decision | Detail |
@@ -615,6 +591,11 @@ Two copy cautions:
 | 2026-08-02 | No energy logging bridge, permanently -- not deferred | sec 4 here; [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) 8.18 |
 | 2026-08-02 | Setpoint actions are state-based (クールビズ / ウォームビズ) and split summer/winter | sec 4 here |
 | 2026-08-02 | Hot-water delta-T 30 -> 27.2 K; gas efficiency restated on a Gross-CV basis | RESEARCH sec 3.1, 8 |
+| 2026-08-02 | Action stores merged into one source of truth; seeder reads the JSON | sec 4 here |
+| 2026-08-02 | Energy actions rebased to research values rather than rescaled (owner call) | sec 4 here |
+| 2026-08-02 | 'US DOE 3% per degree' citation corrected -- DOE does not state it | sec 4 here |
+| 2026-08-02 | UK gas central heating researched; ships as methodology context, not an entry | RESEARCH sec 3.3 |
+| 2026-08-02 | `phoneCharges` 8 g stands (EPA basis, not drift) | ledger `known_drift` |
 
 ## Appendix B: Where the Detail Went
 

@@ -4,7 +4,12 @@ import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 
-FoodItem item(String id, double kgPerKg, {int sourceTier = 1}) => FoodItem(
+FoodItem item(
+  String id,
+  double kgPerKg, {
+  int sourceTier = 1,
+  double? statisticRatio,
+}) => FoodItem(
   id: id,
   group: 'test',
   nameEn: id,
@@ -12,6 +17,7 @@ FoodItem item(String id, double kgPerKg, {int sourceTier = 1}) => FoodItem(
   nameEs: id,
   kgCo2ePerKg: kgPerKg,
   sourceTier: sourceTier,
+  statisticRatio: statisticRatio,
 );
 
 /// One ingredient per option, so the gate's inputs read plainly.
@@ -146,6 +152,59 @@ void main() {
 
     test('an identical pair gets none', () {
       expect(gate('beef', 'beef'), isFalse);
+    });
+  });
+
+  group('statistic-sensitive items', () {
+    // Dark chocolate's own mean and median are 46.65 and 18.7, a 2.49x
+    // divergence: a minority of deforestation-linked producers sets its
+    // average. A gap involving it is only safe once it outruns that
+    // spread, i.e. the better meal emits under 1/2.49 of the other,
+    // about a 60% reduction.
+    final byId = FoodCalculator.byId([
+      item('dark_chocolate', 46.65, statisticRatio: 2.4947),
+      item('cheese', 23.88),
+      item('beef', 70.3608),
+    ]);
+
+    VerdictCheck check(List<MealIngredient> a, List<MealIngredient> b) {
+      final options = [a, b];
+      final totals = options
+          .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
+          .toList();
+      return FoodCalculator.checkVerdict(compareTotals(totals)!, byId, options);
+    }
+
+    test('per kg, cheese vs chocolate is refused despite a 48% gap', () {
+      // The pair that disproved a flat threshold: 48.8% apart on means
+      // and still swaps under medians.
+      final result = check(
+        const [MealIngredient(itemId: 'cheese', grams: 100)],
+        const [MealIngredient(itemId: 'dark_chocolate', grams: 100)],
+      );
+      expect(result.block, VerdictBlock.uncertainItem);
+      expect(result.item?.id, 'dark_chocolate');
+      expect(result.requiredPercent, closeTo(59.9, 0.1));
+    });
+
+    test('per serving, a beef portion still beats a chocolate serving', () {
+      // The blanket block got this wrong. A 114 g beef portion is
+      // 8.02 kg against 1.40 kg for a 30 g chocolate serving -- an 83%
+      // reduction, far past anything the statistic choice could undo.
+      final result = check(
+        const [MealIngredient(itemId: 'dark_chocolate', grams: 30)],
+        const [MealIngredient(itemId: 'beef', grams: 114)],
+      );
+      expect(result.block, VerdictBlock.none);
+    });
+
+    test('the required gap comes from the ratio, not a constant', () {
+      final result = check(
+        const [MealIngredient(itemId: 'cheese', grams: 100)],
+        const [MealIngredient(itemId: 'dark_chocolate', grams: 100)],
+      );
+      // (1 - 1/2.4947) x 100
+      expect(result.requiredPercent, closeTo((1 - 1 / 2.4947) * 100, 1e-6));
     });
   });
 }

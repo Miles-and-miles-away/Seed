@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// are excluded -- for those, no gap is safe. Cheese and dark chocolate
 /// are 48.8% apart on means and still swap.
 ///
-/// Means: live per-kg grapher, verified 2026-08-04. Medians: the
+/// Means: live per-kg grapher, verified 2026-08-08. Medians: the
 /// archived pre-June-2022 grapher variables endpoint documented in
 /// RESEARCH_FOOD.md section 1, summed over its seven stages (losses
 /// excluded). Beef (dairy herd) is omitted -- retired by D5.
@@ -99,9 +99,11 @@ void main() {
     }
   });
 
-  test('every sensitive product is flagged in the shipped dataset', () {
-    // The exclusion is only honest if the app actually refuses to rank
-    // them, which it does off this flag.
+  test('every sensitive product ships its ratio, and only those do', () {
+    // The exclusion is only honest if the app actually applies it, and
+    // it reads the ratio straight off these rows: the required gap is
+    // (1 - 1/ratio), so a wrong or missing ratio silently changes what
+    // the app is willing to claim.
     const ids = {
       'Dark Chocolate': 'dark_chocolate',
       'Fish (farmed)': 'fish_farmed',
@@ -112,15 +114,19 @@ void main() {
     final items = (root['items'] as List<dynamic>).cast<Map<String, dynamic>>();
     final byId = {for (final i in items) i['id'] as String: i};
     for (final product in sensitive) {
+      final (mean, median) = stats[product]!;
+      final shipped = byId[ids[product]!]?['statistic_ratio'] as num?;
+      expect(shipped, isNotNull, reason: '${ids[product]} needs a ratio');
+      // The shipped ratio must be the one the published figures imply.
       expect(
-        byId[ids[product]!]?['statistic_sensitive'],
-        isTrue,
-        reason: '${ids[product]} must be flagged ($product ratio >= 2x)',
+        shipped!.toDouble(),
+        closeTo(mean / median, 0.0001),
+        reason: '${ids[product]} ratio must equal $mean / $median',
       );
     }
-    // Nothing else may claim the flag without a documented ratio.
+    // Nothing else may carry a ratio without a documented divergence.
     final flagged = items
-        .where((i) => i['statistic_sensitive'] == true)
+        .where((i) => i['statistic_ratio'] != null)
         .map((i) => i['id'] as String)
         .toSet();
     expect(flagged, ids.values.toSet());

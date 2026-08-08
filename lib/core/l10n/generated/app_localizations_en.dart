@@ -1747,6 +1747,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get foodSearchNoResults => 'No foods match that search.';
 
   @override
+  String foodItemFactorWithServing(
+    String perKg,
+    String perServing,
+    String serving,
+  ) {
+    return '$perKg kg CO2e per kg  ·  $perServing per $serving';
+  }
+
+  @override
   String foodItemFactorPerKg(String value) {
     return '$value kg CO2e per kg';
   }
@@ -1844,6 +1853,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get foodPickerRecents => 'Recent';
+
+  @override
+  String get foodVerdictWhyCta => 'Why is there no result?';
+
+  @override
+  String get foodVerdictBlockedTitle => 'Not a big enough difference to log';
+
+  @override
+  String foodVerdictTooClose(int percent) {
+    return 'These two meals are within $percent% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.';
+  }
+
+  @override
+  String foodVerdictCrossSource(int percent) {
+    return 'These meals are measured by different studies, one of which covers a shorter supply chain. Part of any gap between them could be that difference rather than a real one, so we\'d need one meal to emit less than half the other -- around $percent% -- before saying which is better.';
+  }
+
+  @override
+  String foodVerdictUncertainItem(String item, String ratio, int percent) {
+    return '$item is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to $ratio times its midpoint, so where it lands depends heavily on which farms you count. A gap of about $percent% would outrun that uncertainty; this one doesn\'t. You can still log the meal as a normal action.';
+  }
 
   @override
   String get foodComparisonTooClose =>

@@ -130,7 +130,7 @@ void main() {
     // skip_fish is a seeder-only library action (not in this DB), so
     // this pins the arithmetic its co2Grams is derived from: a white
     // fish fillet minus the 200 g beans baseline (2026-07-23 owner
-    // call). Re-based on white_fish 2026-08-04 -- the seafood source
+    // call). Re-based on white_fish 2026-08-08 -- the seafood source
     // decision retired the assembled fish_wild 9.5 this used to read,
     // and the reward fell from 1200 g to 560 g with it. If white_fish
     // drifts out of the [560, 660) band the seeder value must move too.

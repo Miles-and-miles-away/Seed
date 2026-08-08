@@ -45,7 +45,7 @@ _FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => _FoodItem(
   sourceTier: (json['source_tier'] as num?)?.toInt() ?? 1,
   comparable: json['comparable'] as bool? ?? true,
   tieGroup: json['tie_group'] as String?,
-  statisticSensitive: json['statistic_sensitive'] as bool? ?? false,
+  statisticRatio: (json['statistic_ratio'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
@@ -67,5 +67,5 @@ Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
   'source_tier': instance.sourceTier,
   'comparable': instance.comparable,
   'tie_group': instance.tieGroup,
-  'statistic_sensitive': instance.statisticSensitive,
+  'statistic_ratio': instance.statisticRatio,
 };

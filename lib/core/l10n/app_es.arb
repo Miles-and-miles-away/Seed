@@ -788,6 +788,8 @@
   "foodColumnEmptyHint": "Toca Añadir alimento para empezar esta comida",
   "foodSearchHint": "Buscar alimentos...",
   "foodSearchNoResults": "Ningún alimento coincide con la búsqueda.",
+  "foodItemFactorWithServing": "{perKg} kg CO2e por kg  ·  {perServing} por {serving}",
+  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
   "foodItemFactorPerKg": "{value} kg de CO2e por kg",
   "@foodItemFactorPerKg": {
     "placeholders": {
@@ -878,6 +880,16 @@
   "@foodPickerRecents": {
     "description": "Header above recently picked items in the food picker"
   },
+  "foodVerdictWhyCta": "¿Por qué no hay resultado?",
+  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "foodVerdictBlockedTitle": "La diferencia no basta para registrarla",
+  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten un promedio con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
+  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictCrossSource": "Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra -- en torno al {percent}% -- antes de decir cuál es mejor.",
+  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "foodVerdictUncertainItem": "El problema es {item}, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta {ratio} veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al {percent}% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.",
+  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
   "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de una diferencia del 20%, la brecha queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"

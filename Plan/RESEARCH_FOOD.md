@@ -2,7 +2,7 @@
 
 **Version:** 2.0
 **Created:** 2026-07-18
-**Status:** **166 items shipped** (v2, 2026-08-04); owner decisions
+**Status:** **166 items shipped** (v2, 2026-08-08); owner decisions
 D1-D8 applied; open items tracked in section 9. v2 widened the
 dataset from 43 items via ten research waves, retired five umbrella
 rows into species rows, and settled the seafood source question
@@ -177,7 +177,7 @@ OWID FAQ, verbatim (accessed 2026-07-18):
 Conventions:
 
 - **Statistic = MEAN, dataset-wide** (owner decision D1,
-  2026-07-18; **reaffirmed 2026-08-04** after the question was
+  2026-07-18; **reaffirmed 2026-08-08** after the question was
   reopened -- the median is the better summary of a skewed
   distribution, but the wrong statistic for attributing impact to a
   purchase: total emissions = mean intensity x total production, an
@@ -237,7 +237,7 @@ Conventions:
 - Transport-is-small context (OWID FAQ, verbatim): "No, transport
   accounts for just 5% of greenhouse gas emissions from food."
 - **Mixed sources are allowed, ranking across them is not (D8,
-  2026-08-04).** The seafood group needed species resolution that
+  2026-08-08).** The seafood group needed species resolution that
   Poore & Nemecek does not have, so eight seafood rows ship from
   Gephart et al. 2021 at that source's own farm-gate, edible-weight
   boundary, tagged `source_tier: 2`. They sit 20-30% below this
@@ -738,7 +738,7 @@ Anchor rows, verbatim: `Tofu,2010,3.16`,
   basis (2.1): "1 kg of shell free, dry nut" -- kernels, not
   in-shell weight.
 - **Peanuts are a SEPARATE P&N row and must never ride the
-  tree-nut number** (split 2026-08-04). `Groundnuts,2010,3.23`;
+  tree-nut number** (split 2026-08-08). `Groundnuts,2010,3.23`;
   stage sum 0.4851524 + 1.5759542 + 0 + 0.41091752 + 0.13259722 +
   0.046872605 + 0.109439865 + 0.46907976 = 3.23001357. Peanuts are
   a legume; P&N measure them apart from orchard nuts, and the row
@@ -1538,7 +1538,7 @@ carries per-item `sources[]` built from those.
 | beans_lentils | Beans / lentils | 1.79 | P&N mean w/ losses ("Other Pulses"); dry basis | Medium |
 | peas | Peas | 0.98 | P&N mean w/ losses | High |
 | tree_nuts | Tree nuts (shelled) | 0.43 | P&N mean w/ losses (incl. orchard LUC credit -3.257812); shelled dry kernels | Medium-High |
-| peanuts | Peanuts (roasted, shelled) | 3.23 | P&N "Groundnuts" mean w/ losses; roasted shelled basis (split off tree_nuts 2026-08-04) | Medium-High |
+| peanuts | Peanuts (roasted, shelled) | 3.23 | P&N "Groundnuts" mean w/ losses; roasted shelled basis (split off tree_nuts 2026-08-08) | Medium-High |
 | plant_based_meat | Plant-based meat | 4.5 | non-P&N; mean of Beyond 3.4 and Impossible 3.5 LCAs x ~1.3 boundary uplift, rounded up (added 2026-07-19; independent ifeu corroboration 2026-07-20 reproduces ~4.5) | Medium-High (raised 2026-07-20) |
 | beans_canned | Beans (canned) | 1.7 | non-P&N; DRAINED basis; mean of CarbonCloud/USDA-FBG 1.62 and P&N bottom-up 1.71, rounded up | Medium |
 | rice | Rice | 4.45 | P&N mean w/ losses; dry basis | High |
@@ -1930,7 +1930,7 @@ it.
 17. **Tree nuts 0.43 and peanuts 3.23 both ship exactly, and
     peanuts > tree nuts.** Two P&N rows, neither reachable by any
     ordering pin above: peanuts shipped aliased onto the tree-nut
-    row until 2026-08-04, 7.5x low. An alias guard in
+    row until 2026-08-08, 7.5x low. An alias guard in
     `food_items_data_test.dart` additionally asserts the tree-nut
     row answers to no peanut name in any of the three locales.
 18. **Every row carries the v2 metadata keys, and `weight_basis` is
@@ -1950,7 +1950,7 @@ it.
     locales. Source-defined imperial survives only in
     `calculation_notes` provenance, never in display copy.
 
-### The statistic-sensitivity rule (added 2026-08-04)
+### The statistic-sensitivity rule (added 2026-08-08)
 
 The never-pin list above is hand-maintained and cannot scale: at 166
 items the pairwise space is ~13,700 pairs. The reversals it exists to
@@ -1971,6 +1971,18 @@ per D5):
 | 2.49x | Dark Chocolate 46.65 / 18.7 | `statistic_sensitive` |
 | 2.15x | Nuts (tree) 0.43 / 0.2 | `statistic_sensitive` |
 | 1.73x | Coffee 28.53 / 16.5 | safe at >= 20% |
+
+**The rule is a threshold, not a ban (refined 2026-08-08).** A first
+pass blocked these items from verdicts outright; that was too blunt.
+A ratio of R means the statistic choice can move the value by at most
+R, so a gap that outruns R survives it: the better meal must emit less
+than 1/R of the other. Chocolate needs a 59.9% reduction, farmed fish
+62.6%, tree nuts 53.5%. This keeps the honest refusals and restores
+the honest verdicts -- **per kg** a beef portion is only 1.51x dark
+chocolate, but **per realistic serving** (114 g beef 8.02 kg vs 30 g
+chocolate 1.40 kg) it is 6x, an 83% reduction that no statistic choice
+reverses. Blocking that was wrong. Blocking cheese vs chocolate
+(48.8%, under the 59.9% bar) is right.
 
 **Verified claim, and it is the one the in-app methodology page
 makes:** with those three excluded, **every** pair separated by 20%
@@ -1999,7 +2011,7 @@ file; the copy engine must not emit "X beats Y" for any of them
 - **fish (farmed) vs pork** (13.63 vs 12.31, +10.7%) -- FLIPS
   under medians (5.1 < 7.2).
 - **prawns vs cheese** (26.87 vs 23.88, +12.5%) -- FLIPS under
-  medians (11.8 < **21.2**). Corrected 2026-08-04: this entry cited
+  medians (11.8 < **21.2**). Corrected 2026-08-08: this entry cited
   21.1, which is the Beef (dairy herd) median, not cheese's. Cheese's
   archived median is 21.2 (stage sum, re-derived from the endpoint in
   section 1). The conclusion is unaffected.
@@ -2038,7 +2050,7 @@ file; the copy engine must not emit "X beats Y" for any of them
 - **brassicas vs onions & leeks vs potatoes vs root veg** (0.51 /
   0.50 / 0.46 / 0.43) -- all display as ~0.5 after rounding.
 - **fish (farmed) vs chicken** (13.63 vs 9.87, 27.6%) -- **added
-  2026-08-04.** FLIPS under medians (5.1 < 6.1). This is the pair that
+  2026-08-08.** FLIPS under medians (5.1 < 6.1). This is the pair that
   disproved the assumption that a 20% gap is self-securing: it clears
   20% comfortably and still reverses, because farmed fish's own
   mean/median ratio is 2.67x. Handled structurally rather than by
@@ -2071,7 +2083,7 @@ for one swap in the app):
 
 | Action | Shipped | Means-implied | Verdict |
 |--------|--------:|---------------|---------|
-| `meatless_meal_beef` (per 100 g) | 6000 g | 9948 - 200 = 9748 -> **9700 g** | CORRECTED (the old value encoded the median 60) |
+| `meatless_meal_beef` (per 100 g) | 6800 g | 7036.08 - 200 = 6836.08 -> **6800 g** | CORRECTED twice: the original 6000 encoded the median 60; the D1 pass took it to 9700 off the beef-herd row 99.48; D6 then re-based it on the shipped blended `beef` 70.3608. Table corrected 2026-08-08 -- it still showed the superseded 9700 |
 | `meatless_meal_chicken` (per 100 g) | 600 g | 987 - 200 = 787 -> **780 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 880 g against a 100 g peas baseline) | CORRECTED |
 | `meatless_meal_pork` (per 100 g) | 700 g | 1231 - 200 = 1031 -> **1000 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 1100 g) | CORRECTED |
 | `plant_milk_vs_dairy` (per 250 ml) | 460 g | delta (3.15 - 0.903) x 0.25 = 562 g | NO co2_grams change -- 460 g stays honestly conservative; note aligned to 3.15 |
@@ -2089,9 +2101,14 @@ Standing rules the table encodes (D4, 2026-07-20):
 
 Seeder-only library actions (`scripts/seed/seed_action_library.js`,
 not in `co2_actions_database.json`), same baseline:
-`skip_high_impact_food` **9700 g**; `skip_medium_impact_food`
+`skip_high_impact_food` **6800 g** (corrected here 2026-08-08: this
+text said 9700, derived from the beef-herd row 99.48. The shipped
+`beef` item is the D6 production-weighted blend 70.3608, so the action
+was already re-derived in the seeder against it -- 70.3608 x 100 g =
+7036.08 g minus the 200 g baseline = 6836.08, rounded down to two
+significant figures. The seeder was right and this doc was stale); `skip_medium_impact_food`
 **1000 g** (chicken/pork only since the 2026-07-23 owner call);
-`skip_fish` **560 g** (re-derived 2026-08-04 with D8: `white_fish`
+`skip_fish` **560 g** (re-derived 2026-08-08 with D8: `white_fish`
 5.1250386 x 150 g fillet = 768.76 g minus the 200 g baseline =
 568.76 g, rounded down to two significant figures). **This is a
 -53% cut to a shipped reward** -- it previously read the assembled
@@ -2136,8 +2153,12 @@ the calculator UI and the science sheets, not a suggestion:
    told that a minority of high-impact producers pulls each average
    above the typical farm, that the study also publishes a midpoint,
    that close pairs can swap between the two, and that three foods
-   are excluded from verdicts entirely because their own two figures
-   differ by more than 2x.
+   need a much wider gap before they can be ranked, because their own
+   two figures differ by more than 2x. When the app declines, the
+   reason is one tap away: a "why is there no result?" action opens a
+   plain-language explanation naming which of the three cases applies
+   (meals genuinely close, sources incompatible, or one ingredient's
+   evidence too wide) and what gap would have been needed.
 5. **Beer vs wine copy names the serving, not the liquid**: per
    litre wine > beer, but per serving a 330 ml can (0.40 kg) > a
    150 ml glass (0.27 kg).
@@ -2223,7 +2244,7 @@ or enforced at every data pass (moved out of the open list
 
 Open:
 
-- [ ] **Cream has no row** (new 2026-08-04, blocking a common food).
+- [ ] **Cream has no row** (new 2026-08-08, blocking a common food).
       The v2 merge routed cream onto `butter` (12.0) as an alias plus
       a 15 g preset, sourced from an FDA row for *fluid cream*. That
       is wrong by an order of magnitude and it is now removed. The
@@ -2236,7 +2257,7 @@ Open:
       uncovered and `butter`'s notes say so, the same treatment
       chestnuts get. Next pass: find a cradle-to-retail cream LCA,
       or derive from milk on a defensible total-solids allocation.
-- [ ] **Two verification reports were lost** (2026-08-04): the
+- [ ] **Two verification reports were lost** (2026-08-08): the
       gap-fill and notes agents both died on a session limit after
       writing their patches but before writing their reports, so the
       dataset shipped without their flagged-contradiction lists. The

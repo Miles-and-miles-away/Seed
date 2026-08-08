@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
+import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_item_picker.dart';
 
@@ -259,6 +260,36 @@ void main() {
       await tester.pumpWidget(buildPickerWith(_items, const ['unicorn']));
       await tester.pumpAndSettle();
       expect(find.text('Recent'), findsNothing);
+    });
+
+    testWidgets('a row shows per kg and per realistic serving', (tester) async {
+      // Per kg alone misleads across foods eaten in very different
+      // amounts: dark chocolate is only 1.5x below beef per kilogram,
+      // but a serving of it is a sixth of a beef portion. The picker is
+      // where that comparison actually gets made.
+      const chocolate = FoodItem(
+        id: 'dark_chocolate',
+        group: 'treats',
+        nameEn: 'Dark chocolate',
+        nameJa: '',
+        nameEs: '',
+        kgCo2ePerKg: 46.65,
+        defaultServingId: 'serving_30g',
+        servings: [
+          ServingPreset(
+            id: 'serving_30g',
+            nameEn: '1 serving (30 g)',
+            nameJa: '',
+            nameEs: '',
+            grams: 30,
+          ),
+        ],
+      );
+      await tester.pumpWidget(buildPickerWith(const [chocolate], const []));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('47 kg CO2e per kg'), findsOneWidget);
+      expect(find.textContaining('1 serving (30 g)'), findsOneWidget);
     });
 
     testWidgets('a narrower-boundary row says so on its own tile', (

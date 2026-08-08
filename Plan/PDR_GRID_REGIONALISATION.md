@@ -30,9 +30,9 @@ is wrong for essentially every individual user -- the only
 question is by how much, and whether it ever changes an answer
 rather than just a magnitude.
 
-Three concrete harms were identified during the E1 review. They
-are ranked by severity, and the ranking matters: **the first is a
-correctness failure, the other two are accuracy failures.**
+Four concrete harms are on record. The ranking matters: **the
+first two are correctness failures -- the app states or implies
+something untrue for the user -- the rest are accuracy failures.**
 
 ### 1.1 The carrier crossover reverses a real-world answer
 
@@ -65,7 +65,28 @@ numbers**, and a user does not need the app's sentence to read
 59.7 < 113.6. Regionalisation is the only fix that makes the
 displayed numbers right.
 
-### 1.2 The EV factor is ungated and highly visible
+### 1.2 UK heat pumps: the global factor hides a 3.5x argument
+
+Added 2026-08-02 from the gas-central-heating research. A 1 C
+thermostat setback in a UK gas-heated home is 1,530 kWh/year
+(DECC/CAR) = **279 kg CO2e**. The same heat from an air-source
+heat pump, at the median measured SPFH4 of 2.78 from the
+Electrification of Heat project (n=428 real UK installs), is ~479
+kWh of electricity:
+
+| Grid used | ASHP | Gas boiler | Gas is worse by |
+|-----------|-----:|-----------:|----------------:|
+| UK, DEFRA 2026 (131) | 62.8 kg | 278.9 kg | **4.44x** |
+| App global default (458) | 219.5 kg | 278.9 kg | 1.27x |
+
+**Using the global factor understates the UK heat-pump case by
+3.5x.** The app's flagship heating lesson -- heat pumps crush
+resistance heating -- is real for UK gas-vs-heat-pump too, but
+only at the UK's own decarbonised grid. This is the clearest
+example so far of a single global factor not merely being
+imprecise but muting a true and important claim.
+
+### 1.3 The EV factor is ungated and highly visible
 
 `transport_modes.json` ships `car_bev` at 0.188 kWh/km x the
 house factor. At E1's 458 that is **86 g/km**. A UK user's real
@@ -79,7 +100,7 @@ dataset's carrier rule.
 and it is already shipped. Any regionalisation work must cover
 transport, not just Part 3.
 
-### 1.3 Absolute values are wrong for everyone
+### 1.4 Absolute values are wrong for everyone
 
 Points, cumulative "CO2 saved", and every per-action gram figure
 scale linearly with the factor. No comparison breaks, but the

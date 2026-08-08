@@ -164,9 +164,11 @@ g/km (2025) and ~30 g/km (2026, after the -26% electricity
 revision; unverified digits). The app's audience is global (Japan
 primary). Per [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md),
 energy calculations use the house global-average grid factor
-**386 g CO2/kWh**. EV factor = verified real-world consumption
-0.188 kWh/km (EV Database, "Average: 188 Wh/km") x 386 =
-**72.6 -> ship 73 g/km**. Anchor points to document in the
+**458 g CO2e/kWh** (raised from 386 by decision E1, 2026-08-02 --
+see [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) sec 2).
+EV factor = verified real-world consumption 0.188 kWh/km
+(EV Database, "Average: 188 Wh/km") x 458 =
+**86.1 -> ship 86 g/km**. Anchor points to document in the
 methodology sheet: UK 2025 40.5 / UK 2026 ~30 / house-global 73;
 Japan's more carbon-intensive grid sits above the house figure.
 Deviation from DEFRA documented here per the audit rule. Same
@@ -374,8 +376,8 @@ sheet.
 |------|------------------|-----------------------|------------|
 | Walking | 0 | operational (metabolic excluded) | High |
 | Cycling | 0 | operational (metabolic excluded) | High |
-| E-bike | 2 (derived) | electricity only: 5.3 Wh/km x 386 g/kWh house grid | Medium |
-| E-scooter (private) | 6 (derived) | electricity only: ~15 Wh/km x 386 g/kWh house grid | Medium |
+| E-bike | 2 (derived) | electricity only: 5.3 Wh/km x 458 g/kWh house grid = 2.43 | Medium |
+| E-scooter (private) | 7 (derived) | electricity only: 14-15.8 Wh/km x 458 g/kWh house grid = 6.4-7.2, ships the upper end | Medium |
 
 > **Owner decision 2026-07-18 (supersedes the 2026-07-17 draft
 > values cycle 16 / ebike 8):** active modes ship
@@ -424,7 +426,7 @@ Verified underlying figures and quotes (accessed 2026-07-17):
   electricity "1.4 kWh/100 km" (plastic) to "1.576 kWh/100 km"
   (aluminium) = 14-15.8 Wh/km; full lifecycle (private commuting,
   plastic) "0.0321 kg CO2eq/km" (~32 g/km). Shipped value =
-  electricity only at house grid: ~15 Wh/km x 386 g/kWh = ~6 g/km
+  electricity only at house grid: 14-15.8 Wh/km x 458 g/kWh = 6.4-7.2 g/km
   (derived). Lifecycle ~32 goes in the mode's science note.
 - **E-scooter (shared fleets) -- NOT shipped as a v1 mode:**
   Hollingsworth et al. 2019 (Environ. Res. Lett. 14 084031;
@@ -553,15 +555,15 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 |----|------|-----------|-------|------------------|------------|
 | walk | Walking | 0 | pkm | convention (sec 3.3) | High |
 | cycle | Cycling | 0 | pkm | convention (sec 3.3, owner decision 2026-07-18) | High |
-| ebike | E-bike | 2 | pkm | derived: electricity only, 5.3 Wh/km x 386 house grid (sec 3.3) | Medium |
-| escooter_private | E-scooter (private) | 6 | pkm | derived: 15 Wh/km x 386 (Springer 2024 consumption) | Medium |
+| ebike | E-bike | 2 | pkm | derived: electricity only, 5.3 Wh/km x 458 house grid = 2.43 (sec 3.3) | Medium |
+| escooter_private | E-scooter (private) | 7 | pkm | derived: 14-15.8 Wh/km x 458 (Springer 2024 consumption) = 6.4-7.2 | Medium |
 | car_petrol_small | Small petrol car | 143.08 | vkm | DEFRA 2025 | High |
 | car_petrol_medium | Medium petrol car | 174.74 | vkm | DEFRA 2025 | High |
 | car_petrol_large | Large petrol car / SUV | 268.28 | vkm | DEFRA 2025 | High |
 | car_petrol_avg | Petrol car (average) | 162.72 | vkm | DEFRA 2025 | High |
 | car_diesel_avg | Diesel car (average) | 173.04 | vkm | DEFRA 2025 | High |
 | car_hybrid | Hybrid car | 128.25 | vkm | DEFRA 2025 | High |
-| car_bev | Electric car | 73 | vkm | derived: 0.188 kWh/km x 386 house grid | Medium-high |
+| car_bev | Electric car | 86 | vkm | derived: 0.188 kWh/km x 458 house grid | Medium-high |
 | motorbike | Motorbike (average) | 113.67 | vkm | DEFRA 2025 | High |
 | bus_city | City bus | 103.85 | pkm | DEFRA 2025 (avg local bus) | High |
 | coach | Coach (long distance) | 27.76 | pkm | DEFRA 2025; 2026 raises ~42% -- re-verify at next pass | High (2025) |
@@ -964,19 +966,11 @@ Known limitations (documented, accepted for v1):
   keep Sevilla-Tangier (180 km). Ports resolve the conflict by
   construction: the link now yields Gibraltar-Tangier and
   Sevilla-Tangier only.
-- The house grid factor 386 g/kWh sits below current
-  global-average estimates (~470-480 g/kWh) and below Japan's
-  grid, so the EV/e-bike/e-scooter rows are correspondingly
-  generous (EV 73 would be ~86-90 at those factors). App-wide
-  house rule per AUDIT_ACTION_DATA.md, out of scope for this
-  feature; the planned EV sublabel and the methodology sheet
-  carry the context.
-
-Regeneration gate: after ANY change to cities.json or the Dart
-gates, run `scripts/generators/sweep_suggestions.py` (seed env).
-It replicates the suggestion logic over every unordered pair
-and fails on fictional ferries, cross-water ground/active,
-port/cap/floor violations, water_blocked leaks, dead links, or
+- [x] **House grid factor** -- RESOLVED 2026-08-02 (decision E1):
+  raised 386 -> 458 g CO2e/kWh (Ember GER 2026). car_bev 73 -> 86,
+  escooter_private 6 -> 7, ebike holds at 2. Regional factors are
+  now their own brief:
+  [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md).
 -- the political screen (R7) -- any grounded cross-country pair
 absent from data/reference/reviewed_cc_ground_pairs.json (new
 corridors must be border-screened, closed ones blocked in

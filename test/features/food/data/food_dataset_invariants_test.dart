@@ -147,7 +147,7 @@ void main() {
   test('11b. the tree-nut / peanut split ships exactly', () {
     // Both are P&N rows, and nothing in the ordering pins would
     // catch a regression: peanuts shipped aliased onto the 0.43
-    // tree-nut row until 2026-08-04, 7.5x below their own
+    // tree-nut row until 2026-08-08, 7.5x below their own
     // Groundnuts row. Pin both values and the separation.
     expect(factor('tree_nuts'), 0.43); // P&N "Nuts", credit incl.
     expect(factor('peanuts'), 3.23); // P&N "Groundnuts"

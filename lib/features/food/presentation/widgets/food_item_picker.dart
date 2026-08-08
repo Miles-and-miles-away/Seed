@@ -209,7 +209,7 @@ class _ItemTile extends StatelessWidget {
       foodWeightBasisLabel(l10n, item),
       foodBoundaryNoteLabel(l10n, item),
     ].nonNulls.join(' ');
-    final factor = foodItemFactorLabel(l10n, item);
+    final factor = foodItemFactorWithServingLabel(l10n, item, locale);
     return ListTile(
       isThreeLine: caveats.isNotEmpty,
       leading: Icon(foodGroupIcon(item.group)),
