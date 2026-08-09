@@ -1138,6 +1138,7 @@ from a dataset entry:
 | `eco_mode_appliance` | 120 | `dishwasher_normal` 1.12 - `dishwasher_eco` 0.85 = 0.27 x 458 = 124, down |
 | `microwave_vs_oven` | 280 | `oven` 0.82 - `microwave` 0.19 = 0.63 x 458 = 289, down |
 | `heat_person_not_room` | 1900 | (`portable_electric_heater` 1.2 - `kotatsu` 0.15) x 4 h = 4.2 kWh x 458 = 1924, down |
+| `use_fan_instead_of_ac` | 600 | (`aircon_cooling` 0.167679 - fan 0.022) x 9 h = 1.311111 kWh x 458 = 600.5, down. Fan is the Panasonic F-CV339 DC living fan at its highest notch (22 W, https://panasonic.jp/fan/products/F-CV339/spec.html); 9 h/day is METI's own basis on the aircon page (sec 3.3). Added 2026-08-09, replacing an unsourced 1200 |
 
 Every value rounds **down** to two significant figures --
 honest-not-generous, since each is a claimed saving.

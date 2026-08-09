@@ -318,8 +318,8 @@
       "description_en": "Walk to your destination (~1.5 km) instead of driving",
       "description_ja": "車を使わずに目的地まで歩く",
       "description_es": "Caminar hasta tu destino en vez de conducir",
-      "co2_grams": 250,
-      "calculation_notes": "1.5km x 164g/km (DEFRA 2024)",
+      "co2_grams": 240,
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 1.5 km x 162.72 = 244.08 g, rounded down to 240 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -331,8 +331,15 @@
       ],
       "is_active": true,
       "sort_order": 1,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "bike_short_trip",
@@ -343,8 +350,8 @@
       "description_en": "Bike instead of drive for a short trip (under 3km)",
       "description_ja": "短距離（3km未満）の移動に車の代わりに自転車を使用",
       "description_es": "Usar bicicleta en vez de auto para un viaje corto (menos de 3km)",
-      "co2_grams": 490,
-      "calculation_notes": "3km x 164g/km (DEFRA 2024)",
+      "co2_grams": 480,
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 3 km x 162.72 = 488.16 g, rounded down to 480 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -356,8 +363,15 @@
       ],
       "is_active": true,
       "sort_order": 2,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "bike_medium_trip",
@@ -368,8 +382,8 @@
       "description_en": "Bike instead of drive for a medium trip (3-10km)",
       "description_ja": "中距離（3-10km）の移動に車の代わりに自転車を使用",
       "description_es": "Usar bicicleta en vez de auto para un viaje medio (3-10km)",
-      "co2_grams": 1000,
-      "calculation_notes": "~6km x 164g/km (DEFRA 2024)",
+      "co2_grams": 970,
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 6 km x 162.72 = 976.32 g, rounded down to 970 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 3,
       "frequency": 3,
       "impact": 2,
@@ -381,8 +395,15 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "public_transport",
@@ -610,8 +631,8 @@
       "description_en": "Choose a plant-based meal instead of beef or lamb today",
       "description_ja": "今日は牛肉やラム肉の代わりに植物性の食事を選択する",
       "description_es": "Elegir una comida vegetal en vez de carne de res o cordero hoy",
-      "co2_grams": 6800,
-      "calculation_notes": "",
+      "co2_grams": 3700,
+      "calculation_notes": "Covers beef and lamb, so it binds to the SMALLER implied saving and the reward is honest whichever the user skipped. Lamb 39.72 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Lamb & Mutton,2010,39.72') per 100 g serving = 3972 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 3772 g. Rounded down to 3700 g (savings always round DOWN). Beef implies 6836 g on the same basis; crediting that for a lamb skip would overstate by 80%. Same minimum-of-covered-items rule as plant_milk.",
       "effort": 2,
       "frequency": 3,
       "impact": 4,
@@ -668,8 +689,8 @@
       "description_en": "Choose a plant-based meal instead of chicken or pork today",
       "description_ja": "今日は鶏肉や豚肉の代わりに植物性の食事を選択する",
       "description_es": "Elegir una comida vegetal en vez de pollo o cerdo hoy",
-      "co2_grams": 1000,
-      "calculation_notes": "avoidable daily waste ~150g x 3/kg",
+      "co2_grams": 780,
+      "calculation_notes": "Covers chicken and pork, so it binds to the SMALLER implied saving. Chicken 9.87 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Poultry Meat,2010,9.87') per 100 g serving = 987 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 787 g. Rounded down to 780 g (savings always round DOWN). Pork implies 1031 g on the same basis; the retired per-item pork action shipped 1000 g and is kept in research_only_records. Same minimum-of-covered-items rule as plant_milk.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -727,7 +748,7 @@
       "description_ja": "乳製品の代わりに植物性ミルクを選択",
       "description_es": "Elegir leche vegetal en vez de leche de vaca",
       "co2_grams": 460,
-      "calculation_notes": "avoids heated greenhouse produce",
+      "calculation_notes": "Dairy milk 3.15 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Milk,2010,3.15') vs soy milk 0.98, per 250 ml serving = (3.15 - 0.98) x 0.25 = 543 g. The action names plant milks generically, so it binds to the SMALLEST implied saving across the shipped plant milks -- soy 543 g, not oat 562 g. Ships 460 g, deliberately below that bound and unchanged through the 2026-07 correction pass; a silent change here is a points-economy change.",
       "effort": 2,
       "frequency": 5,
       "impact": 3,
@@ -789,8 +810,8 @@
       "description_en": "Cook at home instead of ordering food delivery today",
       "description_ja": "今日はフードデリバリーの代わりに自炊する",
       "description_es": "Cocinar en casa en vez de pedir delivery de comida hoy",
-      "co2_grams": 600,
-      "calculation_notes": "omnivore ~5.6 vs vegan ~2.9kg/day",
+      "co2_grams": 0,
+      "calculation_notes": "NOT CO2-CLAIMABLE, shipped at 0 g 2026-08-09. The peer-reviewed comparison runs the other way: delivered meal kits beat grocery-store meals by 2.0 kg CO2e/meal, and last-mile emissions are LOWER for delivery (-0.45 kg CO2e/meal) because a van route amortizes across many drops while a store trip is one car. Restaurant delivery is not the same system as a meal kit, but no primary supports a saving for cooking at home, so the previous 600 g had no basis. Ships as a habit prompt worth 0 g until a restaurant-delivery LCA exists.",
       "effort": 3,
       "frequency": 4,
       "impact": 2,
@@ -801,8 +822,15 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "Heard, Bandekar, Vassar & Miller, 'Comparison of Life Cycle Environmental Impacts from Meal Kits and Grocery Store Meals', Resources, Conservation and Recycling 147 (2019)",
+          "url": "https://par.nsf.gov/servlets/purl/10106237",
+          "quote": "grocery meal greenhouse gas emissions are 33% higher than meal kits (8.1 kg CO2e/meal compared with 6.1 kg CO2e/meal kit)",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "vegan_day",
@@ -864,7 +892,7 @@
       "description_ja": "今日は魚の代わりに植物性の食事を選択する",
       "description_es": "Elegir una comida vegetal en vez de pescado hoy",
       "co2_grams": 560,
-      "calculation_notes": "4.5kWh dryer x 386g/kWh (US)",
+      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1209,8 +1237,8 @@
       "description_en": "Use a fan instead of air conditioning today",
       "description_ja": "今日はエアコンの代わりに扇風機を使用する",
       "description_es": "Usar un ventilador en vez del aire acondicionado hoy",
-      "co2_grams": 1200,
-      "calculation_notes": "one plastic bag ~10g CO2",
+      "co2_grams": 600,
+      "calculation_notes": "(aircon_cooling 0.167679 kWh/h - Panasonic F-CV339 DC living fan 0.022 kWh/h) x 9 h = 1.311111 kWh x 458 g CO2e/kWh = 600.5 g, rounded down to 600 g. The aircon rate is METI's measured seasonal average (18.78 kWh/yr per daily hour over a 112-day cooling season), never the JIS nameplate; the 9 h/day basis is METI's own on the same page. Fan runs at its highest notch, the conservative direction for a saving.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1221,8 +1249,21 @@
       ],
       "is_active": true,
       "sort_order": 12,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (空調)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+          "quote": "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ",
+          "accessed": "2026-08-09"
+        },
+        {
+          "name": "Panasonic F-CV339 仕様",
+          "url": "https://panasonic.jp/fan/products/F-CV339/spec.html",
+          "quote": "ノッチ 8(強) 50/60Hz: 22W",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "reusable_bag",
@@ -1343,14 +1384,14 @@
     {
       "action_id": "refuse_disposables",
       "category": "consumption",
-      "name_en": "Refuse Disposables",
-      "name_ja": "使い捨てを断る",
-      "name_es": "Rechazar desechables",
-      "description_en": "Refuse disposable straws, cutlery, napkins, or other single-use items today",
-      "description_ja": "今日はストロー、カトラリー、ナプキンなどの使い捨て品を断る",
-      "description_es": "Rechazar pajitas, cubiertos, servilletas u otros articulos desechables hoy",
-      "co2_grams": 15,
-      "calculation_notes": "scenario review",
+      "name_en": "Refuse Disposable Cutlery",
+      "name_ja": "使い捨てカトラリーを断る",
+      "name_es": "Rechazar cubiertos desechables",
+      "description_en": "Refuse disposable cutlery with takeaway or delivery today",
+      "description_ja": "今日はテイクアウトやデリバリーで使い捨てカトラリーを断る",
+      "description_es": "Rechazar cubiertos desechables al pedir comida para llevar hoy",
+      "co2_grams": 51,
+      "calculation_notes": "Re-scoped 2026-08-09 from 'straws, cutlery, napkins' to cutlery alone. The old wording forced a bind to its smallest item -- a PP straw at 1.7 g -- which made the reward not worth shipping; the previous 15 g fitted neither item. Peer-reviewed LCA, functional unit '1-time use of cutlery fork/spoon', cradle-to-grave: PS cutlery 0.0514 kg CO2e at 100% incineration, rounded down to 51 g. END-OF-LIFE SENSITIVITY: the same paper gives 0.032 kg for landfill and 0.0119 kg for recycling, a 4.3x spread. Incineration ships because Japan, the primary market, incinerates most plastic waste; in a high-recycling market this action is worth ~12 g.",
       "effort": 1,
       "frequency": 5,
       "impact": 2,
@@ -1361,8 +1402,15 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Chaudhari et al., 'Life Cycle Assessment of Selected Single-Use Plastic Products', Sustainability 14(21):14170 (2022)",
+          "url": "https://www.iges.or.jp/system/files/publication_documents/pub/peer/12513/sustainability-14-14170.pdf",
+          "quote": "the total GWP impact of PS cutlery is 0.0514 kg CO2 (eq) for 100% incineration",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "secondhand_clothing",
@@ -1374,7 +1422,7 @@
       "description_ja": "新品ではなく中古の衣類を購入",
       "description_es": "Comprar ropa de segunda mano en vez de nueva",
       "co2_grams": 15000,
-      "calculation_notes": "scenario review",
+      "calculation_notes": "DENIM BASIS -- this value is a pair of jeans, not an average garment. Levi's own ISO 14040/14044 panel-reviewed LCA of the 501: 33.4 kg CO2e cradle-to-grave, of which consumer care is 37% and end of life 3%, both unavoidable whether the garment is new or secondhand. The production a buyer actually avoids is fiber 9% + fabric 27% + cut/sew/finish 8% + sundries and packaging 5% = 49% of 33.4 = 16.3 kg. Ships 15 kg, below that, on the same one-for-one displacement assumption as used_car_purchase (see notes.avoided_emissions_caveat). A cotton tee's production is several times lower, so this is generous for light garments. Next pass: source a light-garment LCA and bind to the minimum, as the food tier actions do.",
       "effort": 3,
       "frequency": 2,
       "impact": 4,
@@ -1388,10 +1436,10 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "WRAP UK",
-          "url": "https://wrap.org.uk/",
-          "quote": "Extending the life of clothes by just nine months reduces carbon, water and waste footprints by around 20-30% each.",
-          "accessed": "2026-01-31"
+          "name": "Levi Strauss & Co., 'The Life Cycle of a Jean' (full LCA results, 2015)",
+          "url": "https://www.levistrauss.com/wp-content/uploads/2015/03/Full-LCA-Results-Deck-FINAL.pdf",
+          "quote": "The entire lifecycle of one pair of Levi's 501 jeans equates to: Climate Change: 33.4 kg CO2-e",
+          "accessed": "2026-08-09"
         }
       ]
     },
@@ -1572,8 +1620,8 @@
       "description_en": "Buy a used car instead of a new one to avoid manufacturing emissions",
       "description_ja": "製造時の排出を避けるため新車ではなく中古車を購入する",
       "description_es": "Comprar un auto usado en vez de nuevo para evitar emisiones de fabricacion",
-      "co2_grams": 3000000,
-      "calculation_notes": "2min x 115g/min (co2data.org)",
+      "co2_grams": 7200000,
+      "calculation_notes": "ICCT 2025 Table 1: gasoline ICEV vehicle production and recycling emissions are 7.2 t CO2e (EU/UK, excludes battery, already net of the end-of-life recycling credit). Ships the full 7.2 t. This is an AVOIDED-EMISSIONS claim on a one-for-one displacement assumption -- buying used means one fewer new car demanded -- not an inventory share of the car you now own. Same treatment as secondhand_clothing, which also credits the full avoided production. Corrected 2026-08-09 from an arbitrary 3.0 t (~40%) haircut that had no source and contradicted secondhand_clothing. Known weakness: real displacement in a roughly fixed used-car stock is below unity, and nobody publishes the rate. See notes.avoided_emissions_caveat -- these values are not additive across owners.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -1584,8 +1632,15 @@
       ],
       "is_active": true,
       "sort_order": 14,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "ICCT, 'Life-cycle greenhouse gas emissions from passenger cars in the European Union: A 2025 update'",
+          "url": "https://theicct.org/publication/electric-cars-life-cycle-analysis-emissions-europe-jul25/",
+          "quote": "Vehicle production and recycling emissions (t CO2e) ... Gasoline ICEV 7.2",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "shorter_shower",
@@ -1906,8 +1961,8 @@
       "description_en": "Buy locally grown food from a farmers market, farm stand, or local supplier",
       "description_ja": "ファーマーズマーケット、直売所、地元の業者から地産食材を購入する",
       "description_es": "Comprar alimentos cultivados localmente en un mercado de agricultores o proveedor local",
-      "co2_grams": 300,
-      "calculation_notes": "indirect: knowledge cascades",
+      "co2_grams": 200,
+      "calculation_notes": "Buying local avoids only the transport leg, which is a small share of food's footprint. Our World in Data's worked example is 1 kg of avocados shipped Mexico -> UK = 0.21 kg CO2e of transport. Ships 200 g, rounded down from 210 and conservative because locally grown produce still has transport of its own. The honest framing this action must carry: what you eat matters far more than where it travelled from -- transport is under 10% of most foods' emissions and 0.5% for beef. Air-freighted produce is the exception and is a different action.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -1919,8 +1974,15 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Our World in Data, 'You want to reduce the carbon footprint of your food? Focus on what you eat, not whether your food is local'",
+          "url": "https://ourworldindata.org/food-choice-vs-eating-local",
+          "quote": "Transport is a small contributor to emissions. For most food products, it accounts for less than 10%",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "share_sustainability_tip",
@@ -2127,7 +2189,7 @@
       "description_ja": "新品を買う代わりに図書館で本やメディアを借りる",
       "description_es": "Tomar prestados libros, medios o recursos de la biblioteca en vez de comprar nuevos",
       "co2_grams": 1000,
-      "calculation_notes": "economic equity action",
+      "calculation_notes": "Book Industry Study Group / Green Press Initiative 2008 US book-industry study: 8.85 lb (4.01 kg) per average book; the same report's industry total implies 2.99 kg on a produced-books denominator. Ships 1.0 kg, roughly a third of the lower figure, and DELIBERATELY unlike used_car_purchase and secondhand_clothing, which credit full avoided production. The difference is displacement, not caution: acquiring a used car or garment is necessarily an acquisition that would otherwise have been made new, whereas most library borrowings would never have been purchases at all, and a library copy amortizes its own production across many borrowers. VINTAGE CAVEAT: 2008 data, predating the e-book shift, and the report's two figures disagree. Re-source before raising.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -2138,8 +2200,15 @@
       ],
       "is_active": true,
       "sort_order": 12,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Book Industry Study Group & Green Press Initiative, 'Environmental Trends and Climate Impacts: Findings from the U.S. Book Industry' (2008)",
+          "url": "https://stand.earth/resources/environmental-trends-and-climate-impacts-in-the-us-book-industry/",
+          "quote": "12.4 million metric tons of carbon emitted for the entire U.S. book industry each year",
+          "accessed": "2026-08-09"
+        }
+      ]
     },
     {
       "action_id": "support_community_business",
@@ -2475,7 +2544,7 @@
       "description_ja": "iNaturalistなどの市民科学プロジェクトや生物多様性調査に参加する",
       "description_es": "Participar en un proyecto de ciencia ciudadana o estudio de biodiversidad como iNaturalist",
       "co2_grams": 0,
-      "calculation_notes": "",
+      "calculation_notes": "indirect: biodiversity data; not CO2-measurable",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -2500,7 +2569,7 @@
       "description_ja": "地域のガイド付き自然散策のボランティアに参加する",
       "description_es": "Ser voluntario en una caminata guiada por la naturaleza para tu comunidad",
       "co2_grams": 0,
-      "calculation_notes": "",
+      "calculation_notes": "indirect: engagement; not CO2-measurable",
       "effort": 3,
       "frequency": 1,
       "impact": 5,
@@ -2526,7 +2595,7 @@
       "description_ja": "電気ストーブをつけず、こたつ・電気毛布・電気カーペットで一晩過ごす",
       "description_es": "Usa un kotatsu, manta electrica o alfombra electrica una noche en lugar de encender un calefactor portatil",
       "co2_grams": 1900,
-      "calculation_notes": "",
+      "calculation_notes": "(portable_electric_heater 1.2 kWh/h - kotatsu 0.15 kWh/h) x 4 h evening = 4.2 kWh x 458 g CO2e/kWh = 1924 g, rounded down to 1900 g. The kotatsu 0.15 is the makers' published 標準（平均）消費電力量 strong-setting average, never the 300-600 W nameplate. Heated carpets fall under the same action: a 3畳 carpet on 中 is ~0.33 kWh/h (Panasonic), which does not change this arithmetic.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -2657,7 +2726,8 @@
     "food_caveat": "Transport accounts for only 5-6% of food emissions. 'Eat local' has limited impact compared to 'eat less beef'.",
     "reusable_items_caveat": "Cotton bags require 7,100+ uses to break even. Recommend polypropylene bags (10-45 uses breakeven).",
     "growing_vegetables_caveat": "University of Michigan 2024 found urban agriculture has 6× higher emissions than conventional farming due to infrastructure. Exception: tomatoes grown outdoors vs greenhouse.",
-    "flight_radiative_forcing": "DEFRA uses 1.9× multiplier for non-CO2 aviation effects. Some scientists argue 2.7-3× is more accurate."
+    "flight_radiative_forcing": "DEFRA uses 1.9× multiplier for non-CO2 aviation effects. Some scientists argue 2.7-3× is more accurate.",
+    "avoided_emissions_caveat": "Actions that credit avoided manufacturing (used_car_purchase, secondhand_clothing, repair_item, borrow_instead_buy, donate_items) are COUNTERFACTUAL claims, not inventory accounting. Each scores one decision against what would otherwise have been produced; they are not a share of any physical object's embodied carbon. Two consequences. (1) They are not additive: if a car is built, sold, and resold, the manufacturing happened once, and crediting each buyer is only coherent because each buyer faced a separate buy-new decision -- never sum them and never present the total as a physical quantity of CO2 not emitted. (2) They assume one-for-one displacement, which is an upper bound: real markets displace less than one new unit per secondhand purchase, and no published rate exists to correct with. The methodology screen must say both."
   },
   "research_only_records": {
     "why": "Research records from the pre-2.0 database that have no shipping action. Kept for provenance: the transport-mode swaps are now handled by the transport calculator's logging bridge rather than by discrete actions, and the rest were researched but never shipped. Do NOT seed these -- seed_action_library.js reads `actions` only.",

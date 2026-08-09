@@ -1621,7 +1621,8 @@ Notes bound to owner decisions (all 2026-07-18):
   EU/UK beef is majority dairy-herd (~53); Japanese *consumed*
   beef is ~80% beef-herd via US/AU imports (~86). 70.36 is the
   least-wrong single global value and the science sheet says so.
-  `meatless_meal_beef` moves 9700 -> 6800 g with it.
+  The beef action moved 9700 -> 6800 g with it, and again to
+  3700 g when it merged into `skip_high_impact_food` (sec 7).
 - **D5 (beef item, owner call 2026-08-01):** the dairy-herd item is
   **dropped**; a single `Beef` ships at the beef-herd 99.48. No
   label, menu or receipt tells a shopper which herd their beef
@@ -2081,14 +2082,36 @@ Consequences of decision D1 (means) for the existing actions --
 corrections land in the SAME PR as the dataset (never two numbers
 for one swap in the app):
 
-| Action | Shipped | Means-implied | Verdict |
-|--------|--------:|---------------|---------|
-| `meatless_meal_beef` (per 100 g) | 6800 g | 7036.08 - 200 = 6836.08 -> **6800 g** | CORRECTED twice: the original 6000 encoded the median 60; the D1 pass took it to 9700 off the beef-herd row 99.48; D6 then re-based it on the shipped blended `beef` 70.3608. Table corrected 2026-08-08 -- it still showed the superseded 9700 |
-| `meatless_meal_chicken` (per 100 g) | 600 g | 987 - 200 = 787 -> **780 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 880 g against a 100 g peas baseline) | CORRECTED |
-| `meatless_meal_pork` (per 100 g) | 700 g | 1231 - 200 = 1031 -> **1000 g** (standardized beans baseline 2026-07-20; the D1 pass briefly shipped 1100 g) | CORRECTED |
-| `plant_milk_vs_dairy` (per 250 ml) | 460 g | delta (3.15 - 0.903) x 0.25 = 562 g | NO co2_grams change -- 460 g stays honestly conservative; note aligned to 3.15 |
+**Restructured 2026-08-08.** The four per-item swap actions are
+retired. `meatless_meal_beef` and `meatless_meal_chicken` merged
+into two tier actions, `plant_milk_vs_dairy` was renamed, and
+`meatless_meal_pork` moved to `research_only_records` (which the
+seeder does not read). Every retired id survives as
+`provenance_research_id` on its successor. All three shipped
+actions now live in `co2_actions_database.json` -- they used to be
+seeder-only.
+
+| Action | Covers | Shipped | Binding derivation |
+|--------|--------|--------:|--------------------|
+| `skip_high_impact_food` (per 100 g) | beef, lamb | **3700 g** | lamb 3972 - 200 = 3772 -> 3700. Beef implies 6836 on the same basis |
+| `skip_medium_impact_food` (per 100 g) | chicken, pork | **780 g** | chicken 987 - 200 = 787 -> 780. Pork implies 1031 |
+| `plant_milk` (per 250 ml) | oat, soy | **460 g** | soy (3.15 - 0.98) x 0.25 = 543 g binds, not oat 562. 460 stays deliberately below it |
+| `skip_fish` (per 150 g) | white fish | **560 g** | `white_fish` 5.1250386 x 150 g = 768.76 - 200 = 568.76 -> 560 |
+
+The two tier values fell on 2026-08-08 (6800 -> 3700, 1000 ->
+780). The merge had left each action crediting its tier's
+*highest* item, so a lamb skip paid 1.8x its real saving and a
+chicken skip 1.27x. That contradicts the conservative rule
+`plant_milk` already followed, so both were re-based on the
+tier minimum. **This is a points-economy change**: a -46% and a
+-22% cut to shipped rewards.
 
 Standing rules the table encodes (D4, 2026-07-20):
+
+- **A multi-item action binds to the SMALLEST implied saving
+  among the items it names**, never the largest and never a mean
+  -- the reward must be honest whichever item the user actually
+  skipped. Asserted by `food_action_consistency_test.dart`.
 
 - **One documented plant-alternative baseline**, 200 g CO2e per
   100 g serving (beans/lentils, OWID "Other Pulses" mean
@@ -2099,22 +2122,14 @@ Standing rules the table encodes (D4, 2026-07-20):
   notes ("global MEAN with supply-chain losses, cradle-to-retail")
   and cites the mean, never the legacy median.
 
-Seeder-only library actions (`scripts/seed/seed_action_library.js`,
-not in `co2_actions_database.json`), same baseline:
-`skip_high_impact_food` **6800 g** (corrected here 2026-08-08: this
-text said 9700, derived from the beef-herd row 99.48. The shipped
-`beef` item is the D6 production-weighted blend 70.3608, so the action
-was already re-derived in the seeder against it -- 70.3608 x 100 g =
-7036.08 g minus the 200 g baseline = 6836.08, rounded down to two
-significant figures. The seeder was right and this doc was stale); `skip_medium_impact_food`
-**1000 g** (chicken/pork only since the 2026-07-23 owner call);
-`skip_fish` **560 g** (re-derived 2026-08-08 with D8: `white_fish`
-5.1250386 x 150 g fillet = 768.76 g minus the 200 g baseline =
-568.76 g, rounded down to two significant figures). **This is a
--53% cut to a shipped reward** -- it previously read the assembled
-`fish_wild` 9.5 that D8 retired. The derivation is guarded by
-`food_action_consistency_test.dart`, which also asserts `fish_wild`
-is gone so the old value cannot silently return.
+`skip_fish` was also re-derived 2026-08-08 with D8, **a -53% cut**
+(1200 -> 560 g): it previously read the assembled `fish_wild` 9.5
+that D8 retired. The test asserts `fish_wild` is gone so the old
+value cannot silently return.
+
+The seeder (`scripts/seed/seed_action_library.js`) hardcodes none
+of these -- it reads `actions` from the JSON, so a value change
+here needs a re-seed, not a code edit.
 
 The closed fix log for these is in
 [PDR_FOOD_ARCHIVE.md](./PDR_FOOD_ARCHIVE.md) section 1.
@@ -2211,7 +2226,7 @@ the calculator UI and the science sheets, not a suggestion:
     "dry weight" on the dry item, and no per-kg comparison copy
     is generated between them.
 
-Also required by section 7: `meatless_meal_*` and the dataset must
+Also required by section 7: the food actions and the dataset must
 ship in the same PR (never two numbers for one swap in the app),
 and the beans/lentils item must never carry the OWID peas quote.
 
@@ -2266,9 +2281,9 @@ Open:
       internal vocabulary left in user-facing notes). A verification
       pass over the 123 v2 additions is still owed.
 - [ ] **actionLibrary re-seed (FR-22, operational)**: the seeder
-      code is synced to the corrected values
-      (`skip_high_impact_food` 9700, `skip_medium_impact_food`
-      1000, `plant_milk` 460; v1.2 comments). The remaining step
+      values are corrected in `co2_actions_database.json`
+      (`skip_high_impact_food` 3700, `skip_medium_impact_food`
+      780, `plant_milk` 460, all 2026-08-08). The remaining step
       is to actually re-seed: `node
       scripts/seed/seed_action_library.js` (needs the Firebase
       service account). Points for those actions change from the

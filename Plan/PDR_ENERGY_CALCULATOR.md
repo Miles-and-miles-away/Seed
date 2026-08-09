@@ -511,7 +511,133 @@ closed items, the E1 grid survey, superseded values, rejected
 alternatives, the two researched non-entries (UK gas central
 heating, refrigerator) and the full 38-item recomputation.
 
-### Needs work: two red tests from the E1 grid change
+### Resolved after the handover was written
+
+Both test failures below were fixed in this session, plus a
+points-economy correction they exposed. Full suite: 1731 passing,
+`flutter analyze` clean. Nothing committed.
+
+- Transport metadata pin re-based 386 -> 458, with the three
+  cosmetic stragglers (fixture string, UI fallback, sec 6 pin 5
+  quoting the retired `car_bev` 73).
+- Food actions re-pointed to their new ids. The merge had left
+  each tier action crediting its tier's *highest* item, so
+  `skip_high_impact_food` 6800 -> **3700** (binds to lamb 3772,
+  not beef 6836) and `skip_medium_impact_food` 1000 -> **780**
+  (binds to chicken 787, not pork 1031). Owner call 2026-08-08;
+  -46% and -22% to shipped rewards, so the actionLibrary re-seed
+  now carries these too.
+- `skip_fish` `calculation_notes` replaced -- it carried the
+  dryer action's `"4.5kWh dryer x 386g/kWh (US)"`.
+- RESEARCH_FOOD sec 7 rewritten around the new action set, with
+  the minimum-of-covered-items rule stated as a standing rule.
+
+**Still open, food-side:** `skip_fish` has `sources: []` and
+`confidence: null` while every sibling action carries both. Not
+filled in here -- the values need live re-verification and the
+food session owns that file.
+
+### `calculation_notes` sweep, all 94 actions (2026-08-08)
+
+The `skip_fish` note carrying the dryer's text was not isolated.
+Seven more records hold a note that describes a different action,
+found by matching notes shared across actions. These are
+research-only fields (`seed_action_library.js` does not seed
+them), so nothing user-facing was wrong -- but a false rationale
+sitting next to a value is how a wrong number gets "confirmed" at
+the next pass.
+
+Repaired from committed research:
+
+| Action | Was | Now |
+|--------|-----|-----|
+| `plant_milk` | `seasonal_produce`'s "avoids heated greenhouse produce" | full soy-binds-not-oat derivation (RESEARCH_FOOD sec 7) |
+| `heat_person_not_room` | empty | (heater 1.2 - kotatsu 0.15) x 4 h x 458 = 1924 -> 1900 (RESEARCH_ENERGY sec 7) |
+| `citizen_science_project`, `volunteer_nature_walk` | empty | sibling-style "indirect; not CO2-measurable" (both 0 g, no numeric claim) |
+
+Seven more were marked `UNVERIFIED` and then **all re-derived
+from live-fetched primaries on 2026-08-09**, each with source,
+verbatim quote and URL now in its `sources[]`. No `UNVERIFIED`
+marker remains. Deliberately shared notes were left alone: the
+0 g advocacy and community actions share rationale text
+legitimately ("ecological; not CO2-measurable").
+
+| Action | Was | Now | Anchor |
+|--------|----:|----:|--------|
+| `use_fan_instead_of_ac` | 1200 | **600** | (aircon 0.167679 - Panasonic F-CV339 fan 0.022) x METI's own 9 h/day x 458 |
+| `skip_food_delivery` | 600 | **0** | see below |
+| `buy_local_produce` | 300 | **200** | OWID: 1 kg avocados Mexico -> UK = 0.21 kg CO2e of transport |
+| `refuse_disposables` | 15 | **1** | binds to the smallest item it names: PP straw 0.0017 kg (Sustainability 14:14170) |
+| `used_car_purchase` | 3000000 | **3000000** | ICCT 2025 Table 1, gasoline ICEV production 7.2 t; ships ~40% of it |
+| `use_library` | 1000 | **1000** | BISG/Green Press 2008, 8.85 lb per average book |
+| `secondhand_clothing` | 15000 | **15000** | Levi's 501 LCA: the 49% of 33.4 kg a buyer actually avoids = 16.3 kg |
+| `walk_instead_drive` | 250 | **240** | 1.5 km x `car_petrol_avg` 162.72 = 244.08 |
+| `bike_short_trip` | 490 | **480** | 3 km x 162.72 = 488.16 |
+| `bike_medium_trip` | 1000 | **970** | 6 km x 162.72 = 976.32 |
+
+The three transport actions cited a stale "164 g/km (DEFRA 2024)"
+and all three rounded UP. They now use the 162.72 shipped in
+`transport_modes.json` and round down.
+
+**`skip_food_delivery` went to 0 g because the evidence runs the
+other way.** Heard et al. 2019 (*Resources, Conservation and
+Recycling*, peer-reviewed, fetched) finds delivered meal kits
+beat grocery-store meals by 2.0 kg CO2e/meal, with last-mile
+emissions **lower** for delivery (-0.45 kg CO2e/meal) -- a van
+route amortizes across many drops, a store trip is one car.
+Restaurant delivery is not the same system, but no primary
+supports a saving for cooking at home, so the 600 g had no basis.
+It ships as a 0 g habit prompt until a restaurant-delivery LCA
+exists. **Candidate for removal -- owner call.**
+
+### Avoided-manufacturing actions: the accounting rule
+
+Owner question 2026-08-09: if A buys new and counts the
+manufacturing, then sells to B and B counts it too, is that not
+double counting?
+
+**Not in this app's frame, but the question exposed a real bug.**
+These are counterfactual claims -- each scores one decision
+against what would otherwise have been produced -- not inventory
+shares of a physical object's embodied carbon. A and B faced
+separate buy-new decisions, so crediting both is coherent. What
+is *not* coherent is summing them: the manufacturing happened
+once, so the total is not a physical quantity of CO2 not emitted.
+Recorded as `notes.avoided_emissions_caveat` in the actions
+database, and the methodology screen must say it.
+
+The bug: `used_car_purchase` had an arbitrary ~40% haircut on the
+sourced 7.2 t while `secondhand_clothing` credited the full
+avoided production. Same logic, two treatments, and the 40% had
+no source. Both now credit the full figure on a stated
+one-for-one displacement assumption, which is an **upper bound**
+-- real markets displace less than one new unit per secondhand
+purchase and no published rate exists to correct with.
+
+| Action | Was | Now | Why |
+|--------|----:|----:|-----|
+| `used_car_purchase` | 3000000 | **7200000** | full ICCT 7.2 t; the 40% haircut is gone |
+| `refuse_disposables` | 1 | **51** | re-scoped to cutlery (owner call); PS fork/spoon 0.0514 kg at 100% incineration |
+| `secondhand_clothing` | 15000 | 15000 | unchanged; notes now lead with **DENIM BASIS** |
+| `use_library` | 1000 | 1000 | unchanged, see below |
+
+`refuse_disposables` also gets new user-facing copy in all three
+locales ("Refuse Disposable Cutlery"). End-of-life sensitivity is
+disclosed: incineration 51 g ships because Japan incinerates most
+plastic waste, but the same paper gives 12 g under recycling.
+
+**`use_library` stays at 1000 g** -- deliberately *not* full
+avoided production, unlike the two above. The difference is
+displacement, not caution: acquiring a used car or garment is
+necessarily an acquisition that would otherwise have been made
+new, whereas most library borrowings would never have been
+purchases at all, and a library copy amortizes its production
+across many borrowers. Its anchor is also weak -- 2008 vintage,
+and the report's own two figures imply 4.01 vs 2.99 kg per book
+(sold vs produced denominators). 1.0 kg sits below both.
+Re-source before raising.
+
+### Original handover: two red tests from the E1 grid change
 
 Both predate this session -- they came from the earlier energy
 pass that applied decision E1 (386 -> 458 g CO2e/kWh) and rewrote

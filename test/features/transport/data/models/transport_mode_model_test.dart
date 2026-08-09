@@ -13,7 +13,7 @@ void main() {
         'g_co2e_per_km': 73,
         'per_vehicle': true,
         'max_occupants': 4,
-        'calculation_notes': '0.188 kWh/km x 386 g/kWh',
+        'calculation_notes': '0.188 kWh/km x 458 g/kWh',
         'sources': [
           {
             'name': 'EV Database',

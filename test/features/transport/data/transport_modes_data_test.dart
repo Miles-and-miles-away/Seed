@@ -136,7 +136,7 @@ void main() {
     test('carries the scope contract for the methodology sheet', () async {
       final metadata = await loadTransportMetadata();
       expect(metadata['version'], 1);
-      expect(metadata['grid_factor_g_per_kwh'], 386);
+      expect(metadata['grid_factor_g_per_kwh'], 458);
       final scope = metadata['scope'] as String;
       expect(scope, contains('radiative'));
       expect(scope.toLowerCase(), contains('manufactur'));

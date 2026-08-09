@@ -66,7 +66,7 @@ class TransportMethodologyScreen extends ConsumerWidget {
     List<TransportMode> modes,
     Object? gridFactor,
   ) {
-    final grid = (gridFactor as num?)?.round() ?? 386;
+    final grid = (gridFactor as num?)?.round() ?? 458;
     final buffer = StringBuffer()
       ..writeln(l10n.transportMethodologyBody(grid))
       ..writeln()
