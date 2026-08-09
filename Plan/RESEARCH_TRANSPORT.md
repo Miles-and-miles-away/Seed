@@ -628,7 +628,7 @@ pass rather than assumed to survive it.
    (35.46 < 103.85 < 162.72)
 4. coach < solo average petrol car (27.76 < 162.72; still holds
    at the 2026 ~39.5)
-5. electric car < every combustion car variant (73 < 128.25+)
+5. electric car < every combustion car variant (86 < 128.25+)
 6. long-haul < short-haul < domestic flight per km
    (117.04 < 125.76 < 229.28)
 7. full car (4 occupants) < any commercial flight per

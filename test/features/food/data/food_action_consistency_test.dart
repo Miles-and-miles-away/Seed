@@ -20,7 +20,6 @@ void main() {
   // beef action used 200 g but chicken/pork used a 100 g peas
   // baseline.
   const plantAltBaselineG = 200.0;
-  const tolerance = 0.10;
 
   late Map<String, double> factorById;
   late Map<String, Map<String, dynamic>> actionById;
@@ -56,49 +55,54 @@ void main() {
   double impliedGrams(String itemId, double plantAltG) =>
       0.1 * factorById[itemId]! * 1000 - plantAltG;
 
-  void expectWithinTolerance(String actionId, double implied) {
+  /// A tier action covers several items, so the honest bound is
+  /// the SMALLEST implied delta among them -- crediting the
+  /// tier's worst item would overstate every other choice. Same
+  /// rule as plant_milk below.
+  void expectAtOrBelowTierMinimum(String actionId, List<String> itemIds) {
+    final implied = itemIds
+        .map((id) => impliedGrams(id, plantAltBaselineG))
+        .reduce((a, b) => a < b ? a : b);
     final shipped = shippedGrams(actionId);
-    // Guard: a non-positive implied delta would make the relative
-    // tolerance below unfalsifiable.
     expect(implied, greaterThan(0), reason: actionId);
     expect(
-      (shipped - implied).abs() / implied,
-      lessThanOrEqualTo(tolerance),
+      shipped,
+      lessThanOrEqualTo(implied),
       reason:
-          '$actionId shipped $shipped vs dataset-implied '
-          '${implied.toStringAsFixed(0)}',
+          '$actionId shipped $shipped vs binding (smallest) '
+          'dataset-implied ${implied.toStringAsFixed(0)} across $itemIds',
     );
+    // Not so conservative it stops meaning anything.
+    expect(shipped / implied, greaterThan(0.5), reason: actionId);
   }
 
-  test('meatless_meal_beef matches the dataset within 10%', () {
-    // 7036 - 200 = 6836 -> ships 6800 (savings always round
-    // DOWN). Tracks the production-weighted beef value 70.3608
-    // (D6); the legacy 9700 encoded the beef-herd-only 99.48.
-    expectWithinTolerance(
+  test('skip_high_impact_food binds to lamb, not beef', () {
+    // Covers beef and lamb. Lamb 3972 - 200 = 3772 -> ships 3700.
+    // Beef implies 6836; crediting that for a lamb skip would
+    // overstate by 80%.
+    expectAtOrBelowTierMinimum('skip_high_impact_food', ['beef', 'lamb']);
+  });
+
+  test('skip_medium_impact_food binds to chicken, not pork', () {
+    // Covers chicken and pork. Chicken 987 - 200 = 787 -> ships
+    // 780. Pork implies 1031.
+    expectAtOrBelowTierMinimum('skip_medium_impact_food', ['chicken', 'pork']);
+  });
+
+  test('the retired per-item meat actions stay unshipped', () {
+    // beef/chicken/pork merged into the two tier actions above;
+    // pork moved to research_only_records, which the seeder does
+    // not read. A silent revert would double-count the swap.
+    for (final retired in const [
       'meatless_meal_beef',
-      impliedGrams('beef', plantAltBaselineG),
-    );
-  });
-
-  test('meatless_meal_chicken matches the dataset within 10%', () {
-    // 987 - 200 = 787 -> ships 780 (was 880 against the old
-    // 100 g peas baseline).
-    expectWithinTolerance(
       'meatless_meal_chicken',
-      impliedGrams('chicken', plantAltBaselineG),
-    );
-  });
-
-  test('meatless_meal_pork matches the dataset within 10%', () {
-    // 1231 - 200 = 1031 -> ships 1000 (was 1100 against the old
-    // 100 g peas baseline).
-    expectWithinTolerance(
       'meatless_meal_pork',
-      impliedGrams('pork', plantAltBaselineG),
-    );
+    ]) {
+      expect(actionById.containsKey(retired), isFalse, reason: retired);
+    }
   });
 
-  test('plant_milk_vs_dairy stays honestly conservative', () {
+  test('plant_milk stays honestly conservative', () {
     // The action covers plant milks generically, so the binding
     // conservative bound is the SMALLEST implied delta across the
     // shipped plant milks: soy (543 g), not oat (562 g). Shipped
@@ -108,7 +112,7 @@ void main() {
     final impliedSoy =
         (factorById['milk_dairy']! - factorById['soy_milk']!) * 0.25 * 1000;
     final binding = impliedSoy < impliedOat ? impliedSoy : impliedOat;
-    final shipped = shippedGrams('plant_milk_vs_dairy');
+    final shipped = shippedGrams('plant_milk');
     expect(shipped, greaterThan(0));
     expect(
       shipped,
@@ -119,11 +123,11 @@ void main() {
     );
   });
 
-  test('decision pin: plant_milk_vs_dairy ships exactly 460 g', () {
+  test('decision pin: plant_milk ships exactly 460 g', () {
     // Deliberately conservative value, kept unchanged through the
     // 2026-07 correction pass; a silent change here is a points-
     // economy change.
-    expect(shippedGrams('plant_milk_vs_dairy'), 460);
+    expect(shippedGrams('plant_milk'), 460);
   });
 
   test('skip_fish derivation stays consistent with the dataset', () {
