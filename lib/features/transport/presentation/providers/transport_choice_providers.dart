@@ -45,6 +45,7 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
               relatedSdgs: kTransportChoiceSdgs,
             ),
           );
+      if (!ref.mounted) return;
       final logged = await ref
           .read(actionLogProvider.notifier)
           .logAction(

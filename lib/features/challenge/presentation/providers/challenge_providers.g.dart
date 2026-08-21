@@ -383,7 +383,7 @@ final class MultiDayChallengeNotifierProvider
         argument: null,
         retry: null,
         name: r'multiDayChallengeProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -405,7 +405,7 @@ final class MultiDayChallengeNotifierProvider
 }
 
 String _$multiDayChallengeNotifierHash() =>
-    r'f886fbe8d83c20ec78fe43596e12967af5f31817';
+    r'8d855c6acb951ef20b79f6ea72e68e0121747ae6';
 
 /// Notifier for multi-day challenge actions.
 

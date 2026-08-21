@@ -46,16 +46,17 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
 
   Future<void> _saveTarget() async {
     await ref.read(dailyTargetProvider.notifier).saveTarget(_selectedTarget);
+    if (!mounted) return;
 
     final state = ref.read(dailyTargetProvider);
-    if (state.hasError && mounted) {
+    if (state.hasError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context).errorGeneric),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
-    } else if (!state.hasError) {
+    } else {
       widget.onComplete();
     }
   }

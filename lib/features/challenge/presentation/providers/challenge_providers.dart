@@ -102,7 +102,10 @@ bool shouldShowChallengeDialog(Ref ref) {
 }
 
 /// Notifier for multi-day challenge actions.
-@riverpod
+///
+/// Kept alive: callers only `read` it, so as autoDispose it was disposed
+/// while awaiting the template load and the following `state` write threw.
+@Riverpod(keepAlive: true)
 class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);

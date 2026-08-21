@@ -166,6 +166,7 @@ class _EmailVerificationScreenState
 
     try {
       await ref.read(authProvider.notifier).reloadUser();
+      if (!mounted) return;
 
       // Read the freshly reloaded user directly; the auth stream may not have
       // propagated the updated emailVerified flag yet at this point.

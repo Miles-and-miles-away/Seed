@@ -61,6 +61,7 @@ class ActionHistoryScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               if (index == groupedLogs.length) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!context.mounted) return;
                   ref.read(actionHistoryPagesProvider.notifier).loadMore();
                 });
                 return const Padding(

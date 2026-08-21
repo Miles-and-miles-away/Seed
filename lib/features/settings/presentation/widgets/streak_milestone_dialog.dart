@@ -92,7 +92,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     await ref
         .read(settingsProvider.notifier)
         .markMilestoneSeen(widget.weekNumber);
-    widget.onDismiss();
+    if (mounted) widget.onDismiss();
   }
 
   @override

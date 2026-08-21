@@ -78,7 +78,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
   Future<void> _handleDismiss() async {
     // Mark evolution as seen before dismissing
     await ref.read(mascotProvider.notifier).markEvolutionSeen();
-    widget.onDismiss();
+    if (mounted) widget.onDismiss();
   }
 
   @override

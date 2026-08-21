@@ -169,6 +169,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     if (_factMarked) return;
     _factMarked = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       ref.read(factViewedProvider.notifier).markDateViewed(_dateKey);
     });
   }
