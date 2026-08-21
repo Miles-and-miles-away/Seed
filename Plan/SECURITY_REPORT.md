@@ -21,10 +21,11 @@ One finding (H3, mascot array) is accepted by design with a documented
 revisit trigger. Two (H2, M6) are not applicable to the current feature
 set. Everything else is fixed and verified.
 
-The one item that needs action is operational, not code: `firestore.rules`
-has changed since the last deploy and the changes are inert until pushed.
-Indexes were confirmed deployed and in sync on 2026-08-22; the rules half
-is still unconfirmed.
+Both Firestore deployment items are now closed. Indexes were confirmed
+deployed and in sync on 2026-08-22, and `firestore.rules` was deployed the
+same day, so the egg validation below is live rather than inert. The only
+item still open is Android release signing, which gates a store release
+and nothing else.
 
 ---
 
@@ -116,28 +117,25 @@ Covered by 8 tests in `test/firestore/firestore.rules.test.js` under
 
 ## Outstanding operational items
 
-None is a code defect. All carry over from the 2026-02-14 audit.
+None is a code defect. All carry over from the 2026-02-14 audit; the
+two Firestore items were closed on 2026-08-22.
 
 - [x] **Deploy Firestore indexes.** Verified deployed on 2026-08-22.
       `firebase firestore:indexes --project prod` returns exactly the
       two composite indexes in `firestore.indexes.json`, with no drift
       in either direction. `firestore.indexes.json` has not changed
       since 2026-02-15, so this half was never behind.
-- [ ] **Deploy `firestore.rules`.** Still unconfirmed. The local rules
-      are ahead of production as far as anyone can tell: the egg
-      validation above landed in `firestore.rules` on 2026-08-21 and no
-      rules deploy for this project is recorded since. Until deployed,
-      that hardening does nothing.
+- [x] **Deploy `firestore.rules`.** Deployed 2026-08-22 via
+      `firebase deploy --only firestore:rules --project prod`, which
+      reported `released rules firestore.rules to cloud.firestore`. The
+      egg validation above is therefore live in production, not just in
+      the repo.
 
-      The live ruleset still cannot be read from a shell session. The
-      Firebase CLI has no `firestore:rules get`, `deploy --dry-run`
-      only checks that the file compiles, and the Rules REST API needs
-      a minted access token. Confirm the deploy timestamp in the
-      Firebase Console, or simply redeploy, which is idempotent:
-
-      ```bash
-      firebase deploy --only firestore:rules --project prod
-      ```
+      Note for future passes: the live ruleset cannot be read back from
+      a shell session. The Firebase CLI has no `firestore:rules get`,
+      `deploy --dry-run` only checks that the file compiles, and the
+      Rules REST API needs a minted access token. Redeploying is
+      idempotent and is the cheapest way to guarantee parity.
 - [ ] **Configure Android release signing.** Keystore plus
       `key.properties`. Only blocking for a store release;
       `key.properties.example` is committed as the template.
