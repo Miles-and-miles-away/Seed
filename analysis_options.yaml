@@ -9,6 +9,7 @@ analyzer:
     - "**/*.freezed.dart"  # Freezed generated files
     - "lib/core/l10n/generated/**"  # Generated localizations
     - "build/**"           # Build artifacts (incl. iOS SourcePackages)
+    - "node_modules/**"    # firebase-tools ships Dart templates
   errors:
     # Treat these as errors (fail CI)
     missing_required_param: error

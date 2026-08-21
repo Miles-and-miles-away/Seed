@@ -4,3 +4,18 @@ updates:
     directory: /
     schedule:
       interval: monthly
+
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: npm
+    directory: /functions
+    schedule:
+      interval: monthly
