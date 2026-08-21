@@ -28,10 +28,19 @@ npm run test:rules
 The emulator uses the `demo-seed` project id (no real credentials) and
 the ports in `firebase.json` (Firestore on 8080).
 
+## CI
+
+The `rules` job in `.github/workflows/ci.yml` runs this suite on every
+push and PR. It needs `firebase.json` (emulator ports and the rules
+path) and `.firebaserc`, so both are committed. Neither holds secrets:
+the project and app ids are client identifiers already shipped in the
+app binary.
+
 ## Layout
 
 - `firestore.rules.test.js` — the cases (reads/writes, ownership, the
-  mascots cap, language enum, `displayName`/`personalGoal` bounds,
+  mascots cap, `egg` shape, language enum,
+  `displayName`/`personalGoal` bounds,
   `actionLog` create/immutability — including the points cap, `note`
   and `relatedSdgs` size limits, and the 5s rate limit — and read-only
   collections).
