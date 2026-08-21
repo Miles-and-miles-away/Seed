@@ -356,9 +356,11 @@ flutter run
 ```
 
 #### Firebase Issues
-`ios/Runner/GoogleService-Info.plist` is not in git. If it is
-missing, or the build reports a missing `firebase_options.dart`,
-re-run the Firebase configuration step under Project Setup.
+`ios/Runner/GoogleService-Info.plist` is not in git, but the Xcode
+project references it, so a fresh clone fails with `Build input file
+cannot be found` until it exists. If it is missing, or the build reports
+a missing `firebase_options.dart`, re-run the Firebase configuration
+step under Project Setup.
 
 If `flutterfire configure` fails with `Failed to get ANDROID app
 configuration`, the active Firebase account cannot see the project named in
