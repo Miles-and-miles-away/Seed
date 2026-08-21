@@ -464,7 +464,7 @@ Track research progress here as facts are written.
    URLs (un.org, epa.gov, ourworldindata.org) over news sites.
 5. **Greenwashing traps** -- avoid facts that oversimplify (e.g.,
    "paper bags are better than plastic" -- they're not always).
-   The ACTIONS_RESEARCH.md documents several counterintuitive
+   The RESEARCH_ACTIONS.md documents several counterintuitive
    findings; eco-facts should reflect the same intellectual honesty.
 
 ---

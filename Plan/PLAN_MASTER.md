@@ -1076,7 +1076,7 @@ lib/features/settings/
 ### Phase 4: Action Library Expansion & Core Features ✅ COMPLETE
 **Goal:** Expand action library to ~100 actions covering all 17 SDGs, complete core features
 
-See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for detailed implementation plan.
+See [PLAN_PHASE_4.md](./PLAN_PHASE_4.md) for detailed implementation plan.
 See [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md) for action research methodology.
 
 | Task | Description | Priority | Status |
@@ -1388,7 +1388,7 @@ This keeps small actions rewarding while making big actions feel appropriately i
 
 ### Phase 4 Complete ✅
 
-See [PHASE_4_PLAN.md](./PHASE_4_PLAN.md) for full details.
+See [PLAN_PHASE_4.md](./PLAN_PHASE_4.md) for full details.
 
 **Completed:**
 - ✅ Action Library expanded to 100 actions across 9 categories, all 17 SDGs covered

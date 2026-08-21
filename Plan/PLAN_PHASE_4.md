@@ -169,7 +169,7 @@ This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRAT
 #### Files Created/Modified
 
 - **Created:** `Plan/RESEARCH_STRATEGY.md` - research methodology
-- **Created:** `Plan/ACTIONS_RESEARCH.md` - detailed research notes
+- **Created:** `Plan/RESEARCH_ACTIONS.md` - detailed research notes
 - **Created:** `data/co2_actions_database.csv` / `.json` - CO2 data
 - **Created:** `data/sdg_world_state_fully_sourced.json` - SDG data
 - **Created:** `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart`
@@ -886,7 +886,7 @@ Based on estimated user activity levels:
 
 - Action library expansion is the largest effort; track progress by SDG completion
 - Use RESEARCH_STRATEGY.md to maintain consistency
-- ACTIONS_RESEARCH.md contains currently up-to-date researched data
+- RESEARCH_ACTIONS.md contains currently up-to-date researched data
 - `co2_actions_database.csv` and `co2_actions_database.json` contain data to be used in the app. These files should be moved to appropriate location as needed.
 - `sdg_world_state_fully_sourced.json` contains lots of infomation on the SDGs. This should also be incorporated into the SDG info carousel
 - `Plan/sdg_indicator_metadata/` contains 17 JSON files (`sdg_goal_01.json` through `sdg_goal_17.json`) with structured UN SDG indicator metadata extracted from official documents. Each file contains targets, indicators, definitions, concepts, classifications, rationale, and custodian agencies for one Goal. Extracted using `../SeedResources/extract_sdg_metadata.py` from the `.docx` files in `../SeedResources/SDG-indicator-metadata/`

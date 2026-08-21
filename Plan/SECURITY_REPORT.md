@@ -1,6 +1,7 @@
 # Security Report - Seed App
 
-**Date:** 2026-08-21 (re-verification pass)
+**Date:** 2026-08-21 (re-verification pass), operational items
+re-checked 2026-08-22
 **Scope:** Full codebase audit - security, performance, common mistakes
 **Branch:** development
 **Previous audits:** 2026-02-14, 2026-03-14
@@ -22,6 +23,8 @@ set. Everything else is fixed and verified.
 
 The one item that needs action is operational, not code: `firestore.rules`
 has changed since the last deploy and the changes are inert until pushed.
+Indexes were confirmed deployed and in sync on 2026-08-22; the rules half
+is still unconfirmed.
 
 ---
 
@@ -113,15 +116,28 @@ Covered by 8 tests in `test/firestore/firestore.rules.test.js` under
 
 ## Outstanding operational items
 
-Neither is a code defect. Both carry over from the 2026-02-14 audit.
+None is a code defect. All carry over from the 2026-02-14 audit.
 
-- [ ] **Deploy `firestore.rules` and indexes.** The local rules are
-      ahead of production as of this pass, because of the egg validation
-      above. Until deployed, that hardening does nothing. The live
-      ruleset could not be read from a shell session: the Firebase CLI
-      has no `firestore:rules get`, and reading it via the Rules REST
-      API needs a minted token. Confirm the deploy timestamp in the
-      Firebase Console.
+- [x] **Deploy Firestore indexes.** Verified deployed on 2026-08-22.
+      `firebase firestore:indexes --project prod` returns exactly the
+      two composite indexes in `firestore.indexes.json`, with no drift
+      in either direction. `firestore.indexes.json` has not changed
+      since 2026-02-15, so this half was never behind.
+- [ ] **Deploy `firestore.rules`.** Still unconfirmed. The local rules
+      are ahead of production as far as anyone can tell: the egg
+      validation above landed in `firestore.rules` on 2026-08-21 and no
+      rules deploy for this project is recorded since. Until deployed,
+      that hardening does nothing.
+
+      The live ruleset still cannot be read from a shell session. The
+      Firebase CLI has no `firestore:rules get`, `deploy --dry-run`
+      only checks that the file compiles, and the Rules REST API needs
+      a minted access token. Confirm the deploy timestamp in the
+      Firebase Console, or simply redeploy, which is idempotent:
+
+      ```bash
+      firebase deploy --only firestore:rules --project prod
+      ```
 - [ ] **Configure Android release signing.** Keystore plus
       `key.properties`. Only blocking for a store release;
       `key.properties.example` is committed as the template.

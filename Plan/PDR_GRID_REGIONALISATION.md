@@ -291,10 +291,10 @@ but was surfaced in the same review and should be settled once.
 
 ## 5. Deliverables
 
-1. `Plan/RESEARCH_GRID_REGIONS.md`, following the house research
-   format (source landscape, scope decision, verified values with
-   verbatim quotes + URLs + access dates, chosen values, sanity
-   invariants, open items, a `GRID_LOGIC_CHECK` arithmetic
+1. `Plan/RESEARCH_GRID_REGIONS.md` (not yet written), following the
+   house research format (source landscape, scope decision, verified
+   values with verbatim quotes + URLs + access dates, chosen values,
+   sanity invariants, open items, a `GRID_LOGIC_CHECK` arithmetic
    section).
 2. A ranked recommendation across the options in 4.2, with the
    4.1 benefit quantified, and an explicit owner decision to make.
