@@ -66,7 +66,7 @@ Open Xcode at least once to download iOS simulators:
 ### 1. Navigate to Project
 
 ```bash
-cd /Users/milesd/GitRepos/Seed
+cd path/to/Seed
 ```
 
 ### 2. Install Dependencies

@@ -1,8 +1,9 @@
 # Phase 7: Mascot Art & Shop
 
-**Version:** 1.2
+**Version:** 1.3
 **Created:** January 2026
-**Updated:** July 2026 (premium/monetization extracted to PLAN_PHASE_9.md)
+**Updated:** August 2026 (7.5 mascot storage migration recorded as
+deferred, from the security re-verification pass)
 **Status:** In Progress (7.1/7.2 underway -- Coral shipped as animated Rive)
 
 ---
@@ -15,10 +16,11 @@
 4. [Mascot Art](#mascot-art)
 5. [Cosmetic Shop](#cosmetic-shop)
 6. [Mascot Species Unlocking](#mascot-species-unlocking)
-7. [Implementation Order](#implementation-order)
-8. [Testing Strategy](#testing-strategy)
-9. [Acceptance Criteria](#acceptance-criteria)
-10. [Dependencies](#dependencies)
+7. [Mascot Storage Migration](#mascot-storage-migration)
+8. [Implementation Order](#implementation-order)
+9. [Testing Strategy](#testing-strategy)
+10. [Acceptance Criteria](#acceptance-criteria)
+11. [Dependencies](#dependencies)
 
 ---
 
@@ -63,6 +65,7 @@ unlock systems built in this phase.
 | 7.2 Mascot Art Integration | P0 | Low | In Progress (Coral done) |
 | 7.3 Cosmetic Shop | P0 | Medium | Pending |
 | 7.4 Mascot Species Unlocking | P0 | Low | Pending |
+| 7.5 Mascot Storage Migration | Deferred | High | Accepted by design |
 
 ---
 
@@ -373,6 +376,116 @@ Phase 9 (§9.9).
 - `lib/features/mascot/presentation/screens/mascot_selection_screen.dart`
 - `lib/features/mascot/presentation/providers/mascot_providers.dart`
 - `scripts/seed_mascot_species.js` (create)
+
+---
+
+## Mascot Storage Migration
+
+### 7.5 Mascot Storage Migration (Deferred)
+
+**Status:** Not started. Accepted by design, with a revisit trigger.
+Raised as H3 in the 2026-03-14 security audit and re-verified
+2026-08-21; see [SECURITY_REPORT.md](./SECURITY_REPORT.md).
+
+#### Why this exists
+
+`mascots` is a list of maps on the user document. Firestore rules
+can bound its length but cannot validate its contents, because the
+rules language has no iteration: no loop, no map, no filter, no
+recursion. List support stops at `size()`, `hasAll()`, `hasAny()`,
+`hasOnly()`, and positional indexing. Validating each element of a
+variable-length list of maps is only reachable by hand-unrolling 20
+guarded index blocks, which is worse than the problem it solves.
+
+So a tampered client can currently write arbitrary `mascotLevel`,
+`mascotPoints`, or `co2SavedGrams` into any mascot entry. The rules
+cap the array at 20 entries and nothing else.
+
+The real fix is structural: move mascots off the user document into
+a subcollection, where per-document rules validate each mascot the
+same way `actionLog`, `customActions`, and `dailySummaries` already
+are. Those three are the working precedent to copy.
+
+#### What the migration touches
+
+| Area | Detail |
+|------|--------|
+| `mascot_repository.dart` | 8 sites across 5 methods: `addMascot` (arrayUnion), `updateMascotInArray`, `updateLastSeenStage`, `updateMascotName` (all read-modify-write in a transaction), `selectMascot` (whole-array overwrite) |
+| `action_log_repository.dart` | 6 sites, all inside `logAction` |
+| `AppUserModel` | `mascots` is a field on the user model; removing it changes the user doc shape |
+| Firestore rules | New subcollection match block plus per-field validation; drop the array clause from `userFieldsOk` |
+| Data migration | Backfill every existing user's array into subcollection documents |
+| Tests | 6 test files reference the array |
+
+The blocker is `logAction`. It currently writes mascot progression
+in the same single-document update as points, level, and streak, so
+the whole thing is atomic for free. A subcollection splits that into
+a multi-document transaction. That is the highest-risk path in the
+app and the reason this is deferred rather than scheduled.
+
+#### Why deferred
+
+- Users are isolated today. Leaderboards ship nowhere and are
+  listed only as optional post-launch work in
+  [PLAN_MASTER.md](./PLAN_MASTER.md).
+- This deferral is consistent with a standing decision, not an
+  ad-hoc excuse. PLAN_MASTER already defers server-authoritative
+  scoring on the same condition: it "stays deferred until
+  leaderboards or any cross-user feature is planned". Mascot
+  validation is the same trade under the same trigger.
+- A tampered mascot level is visible only to the user who tampered
+  with it. There is no other player to gain an advantage over.
+- Cosmetics in 7.3 are bought with points, but user-level points
+  *are* validated in rules: deltas are checked against the action
+  library, logs are immutable, and submissions are rate limited.
+  Inflating a mascot does not buy anything.
+- The cost is rewriting the atomic scoring transaction plus a
+  backfill, against an exposure of self-cheating in a
+  single-player game.
+
+#### Revisit trigger
+
+Leaderboards or any cross-user feature, matching the trigger
+PLAN_MASTER already sets for server-authoritative scoring. In
+practice: anything that makes one user's mascot state visible or
+comparable to another's, including friend lists, sharing, public
+profiles, or challenges scored between users. At that point do this
+migration rather than trying to patch the rules, because the rules
+cannot express the check. Expect to do it alongside the
+server-authoritative scoring work, since both unlock on the same
+condition and both touch `logAction`.
+
+#### Tasks (only if triggered)
+
+| Task | Detail | Status |
+|------|--------|--------|
+| Add subcollection rules | Per-field validation, copy the `customActions` block | Not started |
+| Move writes off the array | 14 sites across 2 repositories | Not started |
+| Rework `logAction` atomicity | Multi-document transaction, user doc plus mascot docs | Not started |
+| Remove `mascots` from `AppUserModel` | Changes user doc shape | Not started |
+| Backfill script | Array to subcollection docs for every existing user | Not started |
+| Update tests | 6 Dart test files plus rules tests | Not started |
+
+#### Files to Modify
+
+- `firestore.rules`
+- `lib/features/mascot/data/repositories/mascot_repository.dart`
+- `lib/features/actions/data/repositories/action_log_repository.dart`
+- `lib/features/auth/data/models/app_user_model.dart`
+- `lib/features/mascot/presentation/providers/mascot_providers.dart`
+- `test/firestore/firestore.rules.test.js`
+- `scripts/migrate_mascots_to_subcollection.js` (create)
+
+#### Verification
+
+- Rules tests assert a client cannot write an arbitrary
+  `mascotLevel`, `mascotPoints`, or `co2SavedGrams`.
+- A test asserts `logAction` still applies points and mascot
+  progression atomically, and that a failure part-way leaves
+  neither applied.
+- Backfill is idempotent and has a dry-run mode.
+- `flutter analyze` clean; `flutter test` and `npm run test:rules`
+  green.
 
 ---
 
