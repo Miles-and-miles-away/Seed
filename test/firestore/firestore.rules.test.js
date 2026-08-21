@@ -203,6 +203,52 @@ describe('users/{userId} write — mascots limit', () => {
   });
 });
 
+describe('users/{userId} write — egg shape', () => {
+  const validEgg = {
+    receivedAt: Timestamp.fromMillis(1740000000000),
+    hatchingStreakDays: 5,
+    lastHatchingActivityDate: Timestamp.fromMillis(1740086400000),
+  };
+
+  function writeEgg(egg) {
+    return setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, egg});
+  }
+
+  test('allows a valid egg', async () => {
+    await assertSucceeds(writeEgg(validEgg));
+  });
+
+  test('allows a null lastHatchingActivityDate', async () => {
+    await assertSucceeds(
+      writeEgg({...validEgg, lastHatchingActivityDate: null}),
+    );
+  });
+
+  test('rejects a streak beyond the hatching requirement', async () => {
+    await assertFails(writeEgg({...validEgg, hatchingStreakDays: 31}));
+  });
+
+  test('rejects a negative streak', async () => {
+    await assertFails(writeEgg({...validEgg, hatchingStreakDays: -1}));
+  });
+
+  test('rejects a non-int streak', async () => {
+    await assertFails(writeEgg({...validEgg, hatchingStreakDays: '5'}));
+  });
+
+  test('rejects a non-timestamp receivedAt', async () => {
+    await assertFails(writeEgg({...validEgg, receivedAt: 1740000000000}));
+  });
+
+  test('rejects a missing receivedAt', async () => {
+    await assertFails(writeEgg({hatchingStreakDays: 5}));
+  });
+
+  test('rejects an unknown egg field', async () => {
+    await assertFails(writeEgg({...validEgg, hatchesInstantly: true}));
+  });
+});
+
 describe('users/{userId} write — language enum', () => {
   for (const language of ['en', 'es', 'ja']) {
     test(`allows supported language "${language}"`, async () => {

@@ -65,7 +65,7 @@ Press `y` to accept all licenses.
 ### 1. Clone and Navigate to Project
 
 ```bash
-cd /Users/milesd/GitRepos/Seed
+cd path/to/Seed
 ```
 
 ### 2. Install Dependencies

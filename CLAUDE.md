@@ -177,7 +177,6 @@ Always activate the `seed` conda env before running Python scripts:
 ```bash
 conda activate seed
 ```
-Path: `/Users/milesd/miniconda3/envs/seed` (Python 3.14)
 
 ### Available Python Packages
 

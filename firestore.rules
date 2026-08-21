@@ -101,7 +101,17 @@ service cloud.firestore {
         && (!('activeMascotId' in keys) || d.activeMascotId == null
             || (d.activeMascotId is string
                 && d.activeMascotId.size() <= 100))
-        && (!('egg' in keys) || d.egg == null || d.egg is map)
+        && (!('egg' in keys) || d.egg == null
+            || (d.egg is map
+                && d.egg.keys().hasOnly(['receivedAt',
+                    'hatchingStreakDays', 'lastHatchingActivityDate'])
+                && 'receivedAt' in d.egg
+                && d.egg.receivedAt is timestamp
+                && d.egg.get('hatchingStreakDays', 0) is int
+                && d.egg.get('hatchingStreakDays', 0) >= 0
+                && d.egg.get('hatchingStreakDays', 0) <= 30
+                && (d.egg.get('lastHatchingActivityDate', null) == null
+                    || d.egg.lastHatchingActivityDate is timestamp)))
         && (!('eggPendingDiscovery' in keys)
             || d.eggPendingDiscovery is bool)
         && (!('eggPendingDiscoverySince' in keys)
