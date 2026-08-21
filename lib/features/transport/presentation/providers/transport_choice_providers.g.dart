@@ -60,7 +60,7 @@ final class TransportChoiceLoggerProvider
 }
 
 String _$transportChoiceLoggerHash() =>
-    r'9a9a94beab1216affb2292d2dc3873fac5261d57';
+    r'8448512a8259595ef0cce05648ed8c663a11f2f9';
 
 /// Banks a chosen transport option as a real action (Phase 8.6):
 /// creates the custom-action template, then logs it through the

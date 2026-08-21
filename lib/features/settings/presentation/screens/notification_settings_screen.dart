@@ -285,7 +285,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
       ),
     );
 
-    if (confirmed ?? false) {
+    if ((confirmed ?? false) && context.mounted) {
       await ref.read(settingsProvider.notifier).removeReminder(scheduleId);
     }
   }

@@ -73,6 +73,7 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
     if (_marked || isLocked) return;
     _marked = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       ref.read(factViewedProvider.notifier).markDateViewed(widget.dateKey);
     });
   }

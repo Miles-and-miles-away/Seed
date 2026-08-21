@@ -71,7 +71,7 @@ class _EggDiscoveryCelebrationState
 
   Future<void> _handleDismiss() async {
     await ref.read(mascotProvider.notifier).acknowledgeEggDiscovery();
-    widget.onDismiss();
+    if (mounted) widget.onDismiss();
   }
 
   @override

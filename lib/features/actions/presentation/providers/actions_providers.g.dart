@@ -126,7 +126,7 @@ final class ActionLogRepositoryProvider
         argument: null,
         retry: null,
         name: r'actionLogRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -147,7 +147,7 @@ final class ActionLogRepositoryProvider
 }
 
 String _$actionLogRepositoryHash() =>
-    r'e5c036818672f0c11a16a7920163b031ee7b42c0';
+    r'1af8616b77804603c57f7705bd4d98aba44b3db9';
 
 /// Loads the active actions from the action library.
 ///
@@ -846,7 +846,7 @@ final class ActionLogNotifierProvider
         argument: null,
         retry: null,
         name: r'actionLogProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -867,7 +867,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'ab6fd47e7454f307f7ae2f2fbf2091a59db4fdae';
+String _$actionLogNotifierHash() => r'feb302d61620deb0913f70a1e47299e0a5f091f0';
 
 /// Notifier that handles logging actions.
 

@@ -42,7 +42,9 @@ ActionLogRemoteDataSource actionLogDataSource(Ref ref) {
 // Repository Providers
 // =============================================================================
 
-@riverpod
+/// Kept alive: every caller only `read`s it, so as autoDispose it was
+/// disposed mid-build and the `ref.watch` after its awaits threw.
+@Riverpod(keepAlive: true)
 Future<ActionLogRepository> actionLogRepository(Ref ref) async {
   final challengeData = await ref.watch(challengeTemplateDataProvider.future);
   final speciesData = await ref.watch(mascotSpeciesDataProvider.future);
@@ -294,7 +296,10 @@ List<ActionModel> _sortActions(
 // =============================================================================
 
 /// Notifier that handles logging actions.
-@riverpod
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
+@Riverpod(keepAlive: true)
 class ActionLogNotifier extends _$ActionLogNotifier {
   @override
   AsyncValue<ActionLogResult?> build() => const AsyncValue.data(null);

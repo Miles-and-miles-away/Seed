@@ -314,10 +314,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await ref
-          .read(authProvider.notifier)
-          .reauthenticateWithEmailPassword(currentEmail, password);
-      await ref.read(authProvider.notifier).updateEmail(newEmail);
+      final auth = ref.read(authProvider.notifier);
+      await auth.reauthenticateWithEmailPassword(currentEmail, password);
+      await auth.updateEmail(newEmail);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -431,10 +430,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await ref
-          .read(authProvider.notifier)
-          .reauthenticateWithEmailPassword(email, currentPassword);
-      await ref.read(authProvider.notifier).updatePassword(newPassword);
+      final auth = ref.read(authProvider.notifier);
+      await auth.reauthenticateWithEmailPassword(email, currentPassword);
+      await auth.updatePassword(newPassword);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -624,13 +622,12 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     setState(() => _isLoading = true);
 
     try {
+      final auth = ref.read(authProvider.notifier);
       if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
-        await ref
-            .read(authProvider.notifier)
-            .reauthenticateWithEmailPassword(email, password);
+        await auth.reauthenticateWithEmailPassword(email, password);
       }
 
-      await ref.read(authProvider.notifier).deleteAccount();
+      await auth.deleteAccount();
 
       if (mounted) {
         context.go(appRoutes.login);
