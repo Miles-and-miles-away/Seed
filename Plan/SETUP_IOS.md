@@ -75,13 +75,53 @@ cd path/to/Seed
 flutter pub get
 ```
 
-### 3. Install iOS Pods
+### 3. Configure Firebase
+
+The Firebase config files are not in git, so each developer points the app
+at their own Firebase project. Skipping this step fails the build with
+`Target of URI doesn't exist: 'firebase_options.dart'`.
+
+Run these from the repo root: the `firebase` script is defined in the root
+`package.json`, so it is not visible from `functions/`.
+
+```bash
+npm run firebase -- login
+dart pub global activate flutterfire_cli
+flutterfire configure
+```
+
+Choose or create a Firebase project when prompted, and select the
+platforms you build for. This generates `lib/firebase_options.dart`,
+`android/app/google-services.json` and
+`ios/Runner/GoogleService-Info.plist`.
+
+`firebase.json` is committed, so `flutterfire` offers to reuse the project
+recorded in it. Answer yes only if your Google account has access to that
+project. Otherwise answer no and select your own, or skip the prompts:
+
+```bash
+flutterfire configure --account=you@example.com --project=your-project-id
+```
+
+`flutterfire` rewrites the tracked `firebase.json` minified, on one line.
+Re-format it to 2-space indent before committing, otherwise every later
+change to that file shows up as a whole-file diff and a changed project or
+app id is invisible in review.
+
+`flutterfire` adds a `FlutterFire: "flutterfire upload-crashlytics-symbols"`
+build phase to the Runner target. It uploads dSYMs so Crashlytics reports
+are symbolicated, and it fails the build if `flutterfire` is not installed,
+so keep the `dart pub global activate flutterfire_cli` step above. An iOS
+CI job has to activate `flutterfire_cli` too; only Android is built in CI
+today.
+
+### 4. Install iOS Pods
 
 ```bash
 cd ios && pod install && cd ..
 ```
 
-### 4. Run Code Generation
+### 5. Run Code Generation
 
 Required for Riverpod and Freezed classes:
 
@@ -89,7 +129,7 @@ Required for Riverpod and Freezed classes:
 dart run build_runner build
 ```
 
-### 5. Generate Localization Files
+### 6. Generate Localization Files
 
 ```bash
 flutter gen-l10n
@@ -316,7 +356,15 @@ flutter run
 ```
 
 #### Firebase Issues
-Ensure `ios/Runner/GoogleService-Info.plist` exists (it should already be configured).
+`ios/Runner/GoogleService-Info.plist` is not in git. If it is
+missing, or the build reports a missing `firebase_options.dart`,
+re-run the Firebase configuration step under Project Setup.
+
+If `flutterfire configure` fails with `Failed to get ANDROID app
+configuration`, the active Firebase account cannot see the project named in
+`firebase.json`. Check with `npm run firebase -- login:list` and
+`npm run firebase -- projects:list`, then pass the account that owns the
+project via `--account`.
 
 ### Performance Tips
 
