@@ -1000,6 +1000,12 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get sdgProgressChart => 'Progreso mundial';
+
+  @override
+  String get sdgProgressChartHint => 'Toca para ampliar';
+
+  @override
   String get sdgBadge => 'ODS ONU';
 
   @override

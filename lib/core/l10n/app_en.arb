@@ -499,6 +499,8 @@
       }
     }
   },
+  "sdgProgressChart": "Global progress",
+  "sdgProgressChartHint": "Tap to enlarge",
   "sdgBadge": "UN SDG",
   "buttonDelete": "Delete",
   "buttonSkip": "Skip",

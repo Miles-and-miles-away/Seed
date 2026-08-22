@@ -77,12 +77,14 @@ Main hub with mascot summary, challenges, and SDG carousel.
   "Learn more at UN.org" external link.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
-Individual SDG goal with targets, resources, actions, and impact cards.
+Individual SDG goal with targets, resources, actions, impact cards, and a
+global progress chart.
 - Links:
   - `/home/sdg/{prev}` and `/home/sdg/{next}` (goal nav buttons)
   - External: SDG resource URLs
 - Functionality: prev/next goal navigation, resource link tiles, action
-  and impact cards.
+  and impact cards, progress chart that opens a full-screen zoomable view
+  (pushed route, no path of its own).
 
 ### Eco Fact Inbox (`/home/daily-fact`)
 Inbox-style list of daily eco facts; tapping marks as read.

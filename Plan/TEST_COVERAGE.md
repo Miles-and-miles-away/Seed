@@ -247,7 +247,7 @@ Mascot:
 
 SDG:
 - [ ] `sdg_actions_grid.dart`
-- [ ] `sdg_infographic_viewer.dart`
+- [ ] `sdg_progress_chart_viewer.dart`
 
 ### Tier 6 — App wiring and integration
 

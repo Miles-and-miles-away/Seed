@@ -1816,6 +1816,18 @@ abstract class AppLocalizations {
   /// **'Goal {number}'**
   String sdgGoalNumber(int number);
 
+  /// No description provided for @sdgProgressChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Global progress'**
+  String get sdgProgressChart;
+
+  /// No description provided for @sdgProgressChartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to enlarge'**
+  String get sdgProgressChartHint;
+
   /// No description provided for @sdgBadge.
   ///
   /// In en, this message translates to:

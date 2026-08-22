@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart' hide Durations;
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
-/// Tappable SDG infographic thumbnail that expands
-/// to a full-screen zoomable view with Hero animation.
-class SdgInfographicViewer extends StatelessWidget {
-  const SdgInfographicViewer({
+/// Every progress card is exported at one canvas size, so reserving the
+/// space keeps the detail page from reflowing as the image decodes.
+const _chartAspectRatio = 984 / 1296;
+
+/// Tappable SDG progress chart that expands to a full-screen
+/// zoomable view with Hero animation.
+class SdgProgressChartViewer extends StatelessWidget {
+  const SdgProgressChartViewer({
     required this.goal,
     this.locale = 'en',
     super.key,
@@ -18,6 +23,7 @@ class SdgInfographicViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +33,7 @@ class SdgInfographicViewer extends StatelessWidget {
             Icon(Icons.insert_chart_outlined, color: goal.color, size: 20),
             const SizedBox(width: spacingSm),
             Text(
-              'UN Infographic',
+              l10n.sdgProgressChart,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -35,19 +41,25 @@ class SdgInfographicViewer extends StatelessWidget {
           ],
         ),
         const SizedBox(height: spacingMd),
-        GestureDetector(
-          onTap: () => _showFullScreen(context),
-          child: Hero(
-            tag: 'sdg_infographic_${goal.number}',
-            child: ClipRRect(
-              borderRadius: borderRadiusLg,
-              child: Image.asset(
-                goal.infographicAsset,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                height: 280,
-                cacheWidth: 800,
-                cacheHeight: 560,
+        Semantics(
+          label: '${goal.shortTitle(locale)}. ${l10n.sdgProgressChartHint}',
+          button: true,
+          image: true,
+          child: GestureDetector(
+            onTap: () => _showFullScreen(context),
+            child: Hero(
+              tag: 'sdg_progress_${goal.number}',
+              child: ClipRRect(
+                borderRadius: borderRadiusLg,
+                child: AspectRatio(
+                  aspectRatio: _chartAspectRatio,
+                  // The card is a self-contained graphic whose header, axis
+                  // and source line all carry meaning, so it is never cropped.
+                  child: Image.asset(
+                    goal.progressChartAsset,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
             ),
           ),
@@ -64,24 +76,20 @@ class SdgInfographicViewer extends StatelessWidget {
         transitionDuration: durationSlower,
         reverseTransitionDuration: durationEmphasis,
         pageBuilder: (_, _, _) =>
-            _FullScreenInfographic(goal: goal, locale: locale),
+            _FullScreenProgressChart(goal: goal, locale: locale),
       ),
     );
   }
 }
 
-class _FullScreenInfographic extends StatelessWidget {
-  const _FullScreenInfographic({required this.goal, required this.locale});
+class _FullScreenProgressChart extends StatelessWidget {
+  const _FullScreenProgressChart({required this.goal, required this.locale});
 
   final SdgGoal goal;
   final String locale;
 
   @override
   Widget build(BuildContext context) {
-    final animation = ModalRoute.of(context)!.animation!;
-
-    final bounceScale = ConstantTween<double>(1).animate(animation);
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -97,16 +105,9 @@ class _FullScreenInfographic extends StatelessWidget {
         minScale: 0.5,
         maxScale: 4,
         child: Center(
-          child: AnimatedBuilder(
-            animation: bounceScale,
-            builder: (context, child) =>
-                Transform.scale(scale: bounceScale.value, child: child),
-            child: Hero(
-              tag:
-                  'sdg_infographic_'
-                  '${goal.number}',
-              child: Image.asset(goal.infographicAsset, fit: BoxFit.contain),
-            ),
+          child: Hero(
+            tag: 'sdg_progress_${goal.number}',
+            child: Image.asset(goal.progressChartAsset, fit: BoxFit.contain),
           ),
         ),
       ),

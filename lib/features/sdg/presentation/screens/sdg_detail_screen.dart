@@ -13,7 +13,7 @@ import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart'
 import 'package:seed_app/shared/services/analytics_service.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
-import '../widgets/sdg_infographic_viewer.dart';
+import '../widgets/sdg_progress_chart_viewer.dart';
 import '../widgets/sdg_resources_list.dart';
 import '../widgets/sdg_targets_section.dart';
 
@@ -69,7 +69,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 else
                   ..._buildDirectContent(context, goal, languageCode),
                 const SizedBox(height: spacingXxl),
-                SdgInfographicViewer(goal: goal),
+                SdgProgressChartViewer(goal: goal, locale: languageCode),
                 const SizedBox(height: spacingXxxl),
                 _buildGoalNavigation(context, goal),
                 const SizedBox(height: spacingHuge),

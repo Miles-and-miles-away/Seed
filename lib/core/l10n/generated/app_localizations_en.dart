@@ -986,6 +986,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get sdgProgressChart => 'Global progress';
+
+  @override
+  String get sdgProgressChartHint => 'Tap to enlarge';
+
+  @override
   String get sdgBadge => 'UN SDG';
 
   @override

@@ -499,6 +499,8 @@
       }
     }
   },
+  "sdgProgressChart": "Progreso mundial",
+  "sdgProgressChartHint": "Toca para ampliar",
   "sdgBadge": "ODS ONU",
   "buttonDelete": "Eliminar",
   "buttonSkip": "Omitir",

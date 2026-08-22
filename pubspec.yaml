@@ -62,7 +62,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mascot/
-    - assets/images/sdg_infographics/
+    - assets/images/sdg_progress/
     - assets/icons/
     - assets/animations/
     - assets/eco_dex/

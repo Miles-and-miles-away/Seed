@@ -499,6 +499,8 @@
       }
     }
   },
+  "sdgProgressChart": "世界の進捗",
+  "sdgProgressChartHint": "タップで拡大",
   "sdgBadge": "国連SDG",
   "buttonDelete": "削除",
   "buttonSkip": "スキップ",
