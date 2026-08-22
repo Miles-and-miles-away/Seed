@@ -69,7 +69,7 @@ class SdgGoal {
     _ => descriptionEn,
   };
 
-  String get infographicAsset =>
-      'assets/images/sdg_infographics/'
-      'sdg_infographic_$number.jpg';
+  String get progressChartAsset =>
+      'assets/images/sdg_progress/'
+      'sdg_progress_${number.toString().padLeft(2, '0')}.png';
 }

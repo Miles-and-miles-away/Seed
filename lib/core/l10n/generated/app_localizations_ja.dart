@@ -958,6 +958,12 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get sdgProgressChart => '世界の進捗';
+
+  @override
+  String get sdgProgressChartHint => 'タップで拡大';
+
+  @override
   String get sdgBadge => '国連SDG';
 
   @override

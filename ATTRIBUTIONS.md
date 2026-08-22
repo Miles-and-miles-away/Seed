@@ -68,16 +68,37 @@ Last verified: 2026-08-21.
 - **Where:** `data/reference/un_world_days.json`.
 - **Source:** United Nations, `https://www.un.org/en/observances`.
 
-### SDG Report 2022 infographics
+### SDG indicator data in the progress charts
 
-- **What:** 17 per-goal infographic pages.
-- **Where:** `assets/images/sdg_infographics/sdg_infographic_NN.jpg`.
-- **Source:** *The Sustainable Development Goals Report 2022*, UN Department
-  of Economic and Social Affairs / UN Statistics Division.
-  `https://unstats.un.org/sdgs/report/2022/`
-- **Status: unresolved. See "Open item" below.** These are pages of a UN
-  publication, not part of the SDG icon set, so the icon guidelines above do
-  not apply to them.
+- **What:** the World-aggregate values plotted on the 17 per-goal progress
+  charts.
+- **Where:** `assets/images/sdg_progress/sdg_progress_NN.png`. The artwork is
+  original to this project; only the underlying values come from the UN.
+- **Source:** UN SDG Global Database, pulled 2026-08-22 from
+  `https://unstats.un.org/SDGAPI/v1/sdg/Series/Data` at `areaCode=1` (World).
+- **Terms:** UNdata terms permit redistribution with citation. Each chart
+  names its custodian agency and reference year on its face, so the citation
+  travels with the image rather than living only here.
+- **Custodian agencies**, one per chart, as printed on each card: World Bank;
+  FAO; UN IGME; UNESCO Institute for Statistics and GEM Report;
+  Inter-Parliamentary Union; WHO/UNICEF Joint Monitoring Programme;
+  UN DESA Statistics Division; ITU; UNHCR with UN World Population Prospects;
+  UN-Habitat; UNEP WESR / Global Material Flows Database; BirdLife
+  International, IUCN and UNEP-WCMC; FAO Global Forest Resources Assessment;
+  UNODC.
+
+Two charts are not sourced from the SDG database and say so on their face:
+
+- **Goal 13** uses atmospheric CO2 concentration from the
+  [NOAA Global Monitoring Laboratory](https://gml.noaa.gov/ccgg/trends/)
+  (global annual mean). Atmospheric concentration is not an SDG indicator and
+  no Goal 13 series has a World aggregate, so the card header reads
+  `NOT AN SDG SERIES`. NOAA data is in the public domain.
+- **Goal 17** uses OECD DAC ODA as a percentage of donor GNI on the
+  grant-equivalent basis, because `DC_ODA_TOTG` is published per donor with no
+  DAC aggregate in the SDG database. Source: OECD,
+  `https://sdmx.oecd.org` (dataflow `DSD_DAC1@DF_DAC1`) and OECD published
+  statistics for 2023 and 2024.
 
 ### Required UN disclaimer
 
@@ -119,36 +140,17 @@ never translated.
 
 ---
 
-## Open item: SDG Report 2022 infographics
+## Resolved: SDG Report 2022 infographics
 
-The 17 files in `assets/images/sdg_infographics/` are bundled into the app and
-committed to this repository. That is redistribution of a UN publication.
+Previous versions of this project bundled 17 pages of *The Sustainable
+Development Goals Report 2022* as `assets/images/sdg_infographics/`. That was
+redistribution of a UN publication, which the
+[UN Terms of Use](https://www.un.org/en/about-us/terms-of-use) do not permit:
+they grant personal, non-commercial download but withhold any right "to resell
+or redistribute them or to compile or create derivative works therefrom".
 
-The [UN Terms of Use](https://www.un.org/en/about-us/terms-of-use) grant
-permission to "download and copy the information, documents and materials
-... for the User's personal, non-commercial use", while withholding any right
-"to resell or redistribute them or to compile or create derivative works
-therefrom." The [UN copyright notice](https://www.un.org/en/about-us/copyright)
-adds that materials may not be reproduced "without permission in writing from
-the publisher."
-
-Attribution does not substitute for permission. Options, in increasing cost:
-
-1. **Remove the bundled files and link out** to the official infographics PDF
-   per goal. Removes the exposure entirely, drops about 2.2 MB from the app,
-   and the linked version stays current as the UN republishes.
-2. **Build original progress visuals** from openly licensed indicator data,
-   drawing on the UN indicator metadata already held in
-   `data/reference/sdg_indicator_metadata/`. Removes the exposure and
-   replaces static 2022 pages with themed, trilingual, interactive charts.
-   Note that UNdata's terms permit redistribution with citation, in direct
-   contrast to the report-PDF terms above.
-3. **Request written permission** from UN Publications rights and permissions.
-   Slow and uncertain, to license something replaceable in an afternoon.
-4. **Keep them and accept the risk.** Not advisable for a public repository or
-   a store release.
-
-Option 1 clears the problem immediately; option 2 is the better end state.
-Doing 1 now does not preclude 2 later. Until it is resolved, treat these 17
-files as the one piece of content in this project without a clear right to
-redistribute.
+Those files were removed on 2026-08-22 and replaced with original progress
+charts built from openly licensed indicator data, documented above. This was
+option 2 of the four recorded here previously, and it clears the exposure
+entirely rather than deferring it. No UN publication content is redistributed
+by this project any more.
