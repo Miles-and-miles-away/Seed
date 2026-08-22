@@ -23,7 +23,7 @@ void main() {
         expect(
           _goal(n).progressChartAsset,
           'assets/images/sdg_progress/sdg_progress_'
-              '${n.toString().padLeft(2, '0')}.png',
+          '${n.toString().padLeft(2, '0')}.png',
         );
       }
     });

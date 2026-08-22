@@ -7,13 +7,15 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 /// Unknown codes and non-auth errors fall back to the localized generic
 /// message; raw Firebase exception text is never shown to users.
 String mapAuthErrorToMessage(Object error, AppLocalizations l10n) {
-  if (error is FirebaseAuthException) {
-    return _mapFirebaseAuthCode(error.code, l10n);
-  }
-  return l10n.errorGeneric;
+  final code = switch (error) {
+    FirebaseAuthException(:final code) => code,
+    AuthException(:final code) => code,
+    _ => null,
+  };
+  return code == null ? l10n.errorGeneric : _mapAuthCode(code, l10n);
 }
 
-String _mapFirebaseAuthCode(String code, AppLocalizations l10n) {
+String _mapAuthCode(String code, AppLocalizations l10n) {
   switch (code) {
     // Sign up errors
     case 'email-already-in-use':
@@ -58,4 +60,15 @@ String _mapFirebaseAuthCode(String code, AppLocalizations l10n) {
     default:
       return l10n.errorGeneric;
   }
+}
+
+/// Custom exception for auth errors to provide consistent error handling.
+class AuthException implements Exception {
+  AuthException({required this.code, this.message});
+
+  final String code;
+  final String? message;
+
+  @override
+  String toString() => 'AuthException: [$code] $message';
 }

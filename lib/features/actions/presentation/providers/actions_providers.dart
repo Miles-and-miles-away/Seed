@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -364,30 +366,36 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           ..invalidate(monthCalendarDataProvider);
       }
 
-      try {
-        await AnalyticsService.instance.logActionLogged(
-          actionId: action.id,
-          category: action.category,
-          points: action.points,
-          co2Grams: action.co2Grams,
-          sdgs: action.relatedSdgs,
-        );
-
-        // Track streak milestone if applicable
-        final actionResult = result.asData?.value;
-        if (actionResult?.shouldShowMilestone ?? false) {
-          await AnalyticsService.instance.logStreakMilestone(
-            days: actionResult!.newStreakDays,
-          );
-        }
-      } on Exception catch (e) {
-        appLogger.error('ActionLog: analytics failed', error: e);
-      }
+      // Telemetry must never gate the points animation, which fires as
+      // soon as this method returns.
+      unawaited(_logAnalytics(action, result.asData?.value));
     }
 
     if (!ref.mounted) return result.asData?.value;
     state = result;
     return result.asData?.value;
+  }
+
+  Future<void> _logAnalytics(
+    ActionModel action,
+    ActionLogResult? result,
+  ) async {
+    try {
+      await AnalyticsService.instance.logActionLogged(
+        actionId: action.id,
+        category: action.category,
+        points: action.points,
+        co2Grams: action.co2Grams,
+        sdgs: action.relatedSdgs,
+      );
+      if (result?.shouldShowMilestone ?? false) {
+        await AnalyticsService.instance.logStreakMilestone(
+          days: result!.newStreakDays,
+        );
+      }
+    } on Exception catch (e) {
+      appLogger.error('ActionLog: analytics failed', error: e);
+    }
   }
 
   /// Resets the state after showing confirmation.
