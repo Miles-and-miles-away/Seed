@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/features/actions/actions.dart';
 
 import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
@@ -36,6 +37,9 @@ class _MainShellState extends ConsumerState<MainShell> {
       // Bootstrap day-change tracking (keepAlive, so one read suffices
       // to keep the midnight/resume refresh running for the app lifetime)
       ..read(dayChangeProvider)
+      // Warm the action library so the first Add-action tap does not
+      // pay a cold server-first fetch inside the transition
+      ..read(actionLibraryProvider)
       // React to evolution changes only when value flips
       ..listenManual(hasNewEvolutionProvider, (_, next) {
         if (next && !_hasShownEvolutionCelebration) {
@@ -78,7 +82,7 @@ class _MainShellState extends ConsumerState<MainShell> {
     // action log slides in.
     if (_mascotTabs.contains(widget.navigationShell.currentIndex)) {
       ref.read(mascotSmileTriggerProvider.notifier).triggerSmile();
-      Future.delayed(durationNormal, () {
+      Future.delayed(durationInstant, () {
         if (mounted) context.push(appRoutes.actionLog);
       });
     } else {

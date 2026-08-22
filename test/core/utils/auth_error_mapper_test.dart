@@ -186,5 +186,24 @@ void main() {
         expect(l10nEs.errorAuthWeakPassword, isNot(l10n.errorAuthWeakPassword));
       });
     });
+
+    group('AuthException', () {
+      test('maps a social sign-in cancellation to the cancelled message', () {
+        expect(
+          mapAuthErrorToMessage(AuthException(code: 'sign-in-cancelled'), l10n),
+          l10n.errorAuthSignInCancelled,
+        );
+      });
+
+      test('falls back to the generic message for unknown codes', () {
+        expect(
+          mapAuthErrorToMessage(
+            AuthException(code: 'google-sign-in-failed'),
+            l10n,
+          ),
+          l10n.errorGeneric,
+        );
+      });
+    });
   });
 }

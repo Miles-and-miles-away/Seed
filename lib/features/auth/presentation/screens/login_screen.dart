@@ -30,6 +30,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isCooldown = false;
+  SocialProvider? _pendingSocial;
   Timer? _cooldownTimer;
 
   @override
@@ -59,6 +60,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = authState.isLoading;
 
     ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
+      // The router tears this screen down on auth-state changes, so the
+      // callback can outlive it; touching context after that registers an
+      // inherited dependency from a deactivated element.
+      if (!context.mounted) return;
       next.whenOrNull(
         error: (error, _) {
           _startCooldown();
@@ -142,7 +147,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(spacingHuge),
                   ),
-                  child: isLoading
+                  child: isLoading && _pendingSocial == null
                       ? const SizedBox(
                           height: 20,
                           width: 20,
@@ -177,9 +182,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Expanded(
                       child: SocialSignInButton(
                         provider: SocialProvider.google,
-                        isLoading: isLoading || _isCooldown,
-                        onPressed: () =>
-                            ref.read(authProvider.notifier).signInWithGoogle(),
+                        isLoading:
+                            isLoading &&
+                            _pendingSocial == SocialProvider.google,
+                        onPressed: isLoading || _isCooldown
+                            ? null
+                            : () => _handleSocialSignIn(SocialProvider.google),
                       ),
                     ),
                     if (Platform.isIOS) ...[
@@ -187,9 +195,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Expanded(
                         child: SocialSignInButton(
                           provider: SocialProvider.apple,
-                          isLoading: isLoading || _isCooldown,
-                          onPressed: () =>
-                              ref.read(authProvider.notifier).signInWithApple(),
+                          isLoading:
+                              isLoading &&
+                              _pendingSocial == SocialProvider.apple,
+                          onPressed: isLoading || _isCooldown
+                              ? null
+                              : () => _handleSocialSignIn(SocialProvider.apple),
                         ),
                       ),
                     ],
@@ -234,7 +245,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return null;
   }
 
+  void _handleSocialSignIn(SocialProvider provider) {
+    setState(() => _pendingSocial = provider);
+    final notifier = ref.read(authProvider.notifier);
+    switch (provider) {
+      case SocialProvider.google:
+        notifier.signInWithGoogle();
+      case SocialProvider.apple:
+        notifier.signInWithApple();
+    }
+  }
+
   void _handleSignIn() {
+    setState(() => _pendingSocial = null);
     if (_formKey.currentState?.validate() ?? false) {
       ref
           .read(authProvider.notifier)

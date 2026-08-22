@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Web (server) OAuth client ID for the Firebase project. Passing it as
@@ -90,12 +91,22 @@ class AuthRemoteDataSource {
   }
 
   Future<UserCredential> signInWithApple() async {
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
+    final AuthorizationCredentialAppleID appleCredential;
+    try {
+      appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+    } on SignInWithAppleAuthorizationException catch (e) {
+      throw AuthException(
+        code: e.code == AuthorizationErrorCode.canceled
+            ? 'sign-in-cancelled'
+            : 'apple-sign-in-failed',
+        message: 'Apple sign-in failed: ${e.code.name} ${e.message}',
+      );
+    }
 
     final oauthCredential = OAuthProvider('apple.com').credential(
       idToken: appleCredential.identityToken,
@@ -159,15 +170,4 @@ class AuthRemoteDataSource {
 
     await user.updatePassword(newPassword);
   }
-}
-
-/// Custom exception for auth errors to provide consistent error handling.
-class AuthException implements Exception {
-  AuthException({required this.code, this.message});
-
-  final String code;
-  final String? message;
-
-  @override
-  String toString() => 'AuthException: [$code] $message';
 }

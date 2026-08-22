@@ -362,6 +362,19 @@ cannot be found` until it exists. If it is missing, or the build reports
 a missing `firebase_options.dart`, re-run the Firebase configuration
 step under Project Setup.
 
+Google sign-in needs `CFBundleURLSchemes` in `ios/Runner/Info.plist` to
+match `REVERSED_CLIENT_ID` in `GoogleService-Info.plist`. Re-downloading
+`GoogleService-Info.plist` can change that value, and a stale scheme makes
+Google sign-in fail on device and simulator while Android keeps working.
+Verify after any Firebase reconfigure:
+
+```bash
+/usr/libexec/PlistBuddy -c "Print :REVERSED_CLIENT_ID" \
+  ios/Runner/GoogleService-Info.plist
+/usr/libexec/PlistBuddy -c "Print :CFBundleURLTypes:0:CFBundleURLSchemes:0" \
+  ios/Runner/Info.plist
+```
+
 If `flutterfire configure` fails with `Failed to get ANDROID app
 configuration`, the active Firebase account cannot see the project named in
 `firebase.json`. Check with `npm run firebase -- login:list` and
