@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# Pre-commit hook: secrets guard, format, analyze, ARB validation.
+#
+# Shared with the repo rather than living in .git/hooks, which is not
+# tracked. Enable it once per clone:
+#
+#   git config core.hooksPath .githooks
+
+set -uo pipefail
+
+# -- Secrets guard --
+# Done in python rather than grep: the pattern uses ranges that some grep
+# implementations reject, and a rejected pattern used to fail open.
+python3 - <<'PY'
+import re
+import subprocess
+import sys
+
+PATTERNS = [
+    r"PRIVATE.KEY",
+    r"SECRET_KEY",
+    r"API_KEY",
+    r"password\s*=",
+    r"Bearer\s+[A-Za-z0-9._~+/-]+=*",
+    r"AIza[0-9A-Za-z_-]{35}",
+]
+SCAN = re.compile("|".join(PATTERNS))
+SKIP = (".lock", "analysis_options", "CLAUDE.md", "pre-commit")
+
+
+def staged_paths():
+    out = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "-z", "--diff-filter=ACM"],
+        capture_output=True, check=True,
+    ).stdout
+    return [p for p in out.decode().split("\0") if p]
+
+
+def staged_blob(path):
+    r = subprocess.run(["git", "show", f":{path}"], capture_output=True)
+    return r.stdout if r.returncode == 0 else b""
+
+
+hits = []
+for path in staged_paths():
+    if any(s in path for s in SKIP):
+        continue
+    blob = staged_blob(path)
+    # Binary files carry no reviewable secrets and blow up the scan.
+    if b"\0" in blob:
+        continue
+    for n, line in enumerate(blob.decode("utf-8", "replace").splitlines(), 1):
+        if SCAN.search(line):
+            hits.append(f"  {path}:{n}")
+
+if hits:
+    print("Possible secrets in staged content:")
+    print("\n".join(hits[:20]))
+    if len(hits) > 20:
+        print(f"  ... and {len(hits) - 20} more")
+    print("Review these before committing.")
+    sys.exit(1)
+PY
+
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+# -- Dart format check --
+staged_dart=$(git diff --cached --name-only --diff-filter=ACM \
+  | grep '\.dart$' \
+  | grep -v '\.g\.dart$' \
+  | grep -v '\.freezed\.dart$')
+
+if [ -z "$staged_dart" ]; then
+  exit 0
+fi
+
+if ! echo "$staged_dart" \
+  | xargs dart format --set-exit-if-changed --output=none 2>&1; then
+  echo "Unformatted Dart files detected. Run:"
+  echo "  dart format ."
+  exit 1
+fi
+
+# -- Flutter analyze --
+echo "Running flutter analyze..."
+if ! flutter analyze --fatal-infos 2>&1; then
+  echo "Flutter analyze found issues. Fix them before committing."
+  exit 1
+fi
+
+# -- ARB JSON validation --
+staged_arb=$(git diff --cached --name-only --diff-filter=ACM | grep '\.arb$')
+
+for arb in $staged_arb; do
+  if ! python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$arb"; then
+    echo "Invalid JSON in $arb"
+    exit 1
+  fi
+done
