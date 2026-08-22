@@ -28,16 +28,24 @@ grows as you keep it up.
 Flutter 3.44 on Dart 3.8. Riverpod 3 with code generation for state,
 go_router 17 for navigation, Freezed 3 for immutable models, fl_chart for
 charts, Rive for the mascot. Firebase for Auth, Firestore, Storage,
-Messaging, Analytics, Crashlytics, Performance and App Check. Cloud Functions in TypeScript.
+Messaging, Analytics, Crashlytics, Performance and App Check. Cloud
+Functions in TypeScript.
 
-Clean Architecture, one module per feature, three layers in each:
+Clean Architecture, one module per feature, three layers in each, with a
+barrel file as the module's public API:
 
-```
-lib/features/<feature>/
-  <feature>.dart     barrel file, the module's public API
-  data/              repositories, data sources, models
-  domain/            entities, use cases
-  presentation/      screens, widgets, providers
+```mermaid
+graph LR
+  subgraph feature["one feature module"]
+    direction TB
+    P["presentation<br/>screens, widgets,<br/>Riverpod providers"]
+    D["domain<br/>entities, use cases,<br/>pure calculators"]
+    A["data<br/>repositories,<br/>datasources, models"]
+    P --> D
+    D --> A
+  end
+  A --> FB[("Firebase<br/>Auth, Firestore,<br/>Storage, Messaging")]
+  FB -.-> CF["Cloud Functions<br/>TypeScript"]
 ```
 
 The full screen and navigation map is in [Plan/APP_PAGES.md](Plan/APP_PAGES.md);
@@ -67,8 +75,8 @@ Sources and terms for all third-party content are recorded in
 
 ## Testing and CI
 
-- Dart test files using `fake_cloud_firestore` and
-  `mocktail`.
+- Unit and widget tests run against `fake_cloud_firestore`, with `mocktail`
+  for mocks.
 - [firestore.rules](firestore.rules) validates every point delta against the
   action library, makes the action log immutable once written, and rate limits
   submissions. Rules are invisible to the Dart suite, so Jest tests
