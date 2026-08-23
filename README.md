@@ -4,7 +4,11 @@ A sustainability habit tracker for iOS and Android. Log the eco-friendly
 things you already do, see the CO2 you avoided, and raise a mascot that
 grows as you keep it up.
 
-<!-- media: hero GIF, the core loop (log an action, points land, mascot reacts) -->
+<p align="center">
+  <img src="docs/media/hero_log_action.gif" width="280"
+       alt="Logging an eco action: a confirmation sheet showing the points and
+            CO2 saved, then the points landing and a confirmation toast.">
+</p>
 
 ## What it does
 
@@ -21,7 +25,9 @@ grows as you keep it up.
   fill in, and a sourced sustainability fact for every day of the year.
 - **In multiple languages.** Currently English, Japanese and Spanish.
 
-<!-- media: 3 to 4 stills (home, SDG detail with chart, mascot, a calculator) -->
+| Home | SDG progress | Mascot | Impact |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/media/still_home.png" width="185" alt="Home screen with the mascot, current streak and points."> | <img src="docs/media/still_sdg_chart.png" width="185" alt="Goal 7 detail with an original progress chart, credited to the World Bank."> | <img src="docs/media/still_mascot_coral.png" width="185" alt="Mascot screen showing the coral at its first evolution stage."> | <img src="docs/media/still_impact.png" width="185" alt="Impact screen showing CO2 saved with real-world equivalents."> |
 
 ## How it is built
 
