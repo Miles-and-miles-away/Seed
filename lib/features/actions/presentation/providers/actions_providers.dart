@@ -12,7 +12,7 @@ import 'package:seed_app/features/actions/data/repositories/action_log_repositor
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';

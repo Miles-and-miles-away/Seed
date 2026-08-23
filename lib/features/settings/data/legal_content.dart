@@ -285,7 +285,7 @@ const _privacyEs = [
   LegalSection(
     title: 'Puntos clave',
     body:
-        '- Recopilamos su correo electronico, '
+        '- Recopilamos su correo electrónico, '
         'nombre de usuario e historial de acciones\n'
         '- Los datos se almacenan de forma segura '
         'en Firebase (Google Cloud)\n'
@@ -293,46 +293,46 @@ const _privacyEs = [
         'con terceros\n'
         '- Puede eliminar su cuenta y todos sus '
         'datos en cualquier momento\n'
-        '- Los analisis anonimos se pueden '
+        '- Los análisis anónimos se pueden '
         'desactivar en los ajustes',
   ),
   LegalSection(
-    title: 'Introduccion',
+    title: 'Introducción',
     body:
         'Seed ("nosotros" o "nuestro") opera la '
-        'aplicacion movil Seed. Esta Politica de '
-        'Privacidad explica como recopilamos, usamos y '
-        'protegemos su informacion personal cuando '
-        'utiliza nuestra aplicacion.',
+        'aplicación móvil Seed. Esta Política de '
+        'Privacidad explica cómo recopilamos, usamos y '
+        'protegemos su información personal cuando '
+        'utiliza nuestra aplicación.',
   ),
   LegalSection(
-    title: 'Informacion que recopilamos',
+    title: 'Información que recopilamos',
     body:
-        'Recopilamos la siguiente informacion:\n\n'
-        '- Direccion de correo electronico (para la '
-        'creacion de cuenta y autenticacion)\n'
+        'Recopilamos la siguiente información:\n\n'
+        '- Dirección de correo electrónico (para la '
+        'creación de cuenta y autenticación)\n'
         '- Nombre de usuario (opcional, mostrado en '
         'su perfil)\n'
         '- Historial de acciones (actividades de '
         'sostenibilidad registradas)\n'
         '- Token de notificaciones push del dispositivo '
         '(para enviar recordatorios)\n'
-        '- Datos anonimos de uso (uso de funciones '
-        'de la aplicacion, informes de errores)',
+        '- Datos anónimos de uso (uso de funciones '
+        'de la aplicación, informes de errores)',
   ),
   LegalSection(
-    title: 'Como usamos su informacion',
+    title: 'Cómo usamos su información',
     body:
-        'Su informacion se utiliza para:\n\n'
+        'Su información se utiliza para:\n\n'
         '- Autenticar su cuenta y proporcionar acceso '
-        'a la aplicacion\n'
+        'a la aplicación\n'
         '- Rastrear sus acciones de sostenibilidad y '
         'calcular su impacto ambiental\n'
         '- Enviar notificaciones push y recordatorios '
         'diarios (con su permiso)\n'
-        '- Mejorar el rendimiento de la aplicacion y '
-        'corregir errores mediante analisis anonimos\n'
-        '- Mostrar su progreso, rachas y evolucion '
+        '- Mejorar el rendimiento de la aplicación y '
+        'corregir errores mediante análisis anónimos\n'
+        '- Mostrar su progreso, rachas y evolución '
         'de mascota',
   ),
   LegalSection(
@@ -340,36 +340,36 @@ const _privacyEs = [
     body:
         'Sus datos se almacenan de forma segura en '
         'servidores de Firebase (Google Cloud). '
-        'Utilizamos medidas de seguridad estandar de la '
+        'Utilizamos medidas de seguridad estándar de la '
         'industria, incluyendo conexiones cifradas '
         '(TLS/SSL), reglas de seguridad de Firebase para '
         'restringir el acceso a los datos y tokens de '
-        'autenticacion para proteger su cuenta.',
+        'autenticación para proteger su cuenta.',
   ),
   LegalSection(
     title: 'Servicios de terceros',
     body:
         'Utilizamos los siguientes servicios de '
         'terceros:\n\n'
-        '- Firebase Authentication (gestion de cuentas)\n'
+        '- Firebase Authentication (gestión de cuentas)\n'
         '- Cloud Firestore (almacenamiento de datos)\n'
         '- Firebase Cloud Messaging '
         '(notificaciones push)\n'
-        '- Firebase Analytics (datos de uso anonimos)\n'
+        '- Firebase Analytics (datos de uso anónimos)\n'
         '- Firebase Crashlytics (informes de errores)\n'
-        '- RevenueCat (gestion de suscripciones)\n\n'
-        'Estos servicios tienen sus propias politicas de '
+        '- RevenueCat (gestión de suscripciones)\n\n'
+        'Estos servicios tienen sus propias políticas de '
         'privacidad. No vendemos ni compartimos sus datos '
         'personales con otros terceros.',
   ),
   LegalSection(
     title: 'Privacidad de los menores',
     body:
-        'Seed no esta dirigida a menores de 13 anos. '
-        'No recopilamos intencionalmente informacion '
-        'personal de menores de 13 anos. Si usted es '
+        'Seed no está dirigida a menores de 13 años. '
+        'No recopilamos intencionalmente información '
+        'personal de menores de 13 años. Si usted es '
         'padre o tutor y cree que su hijo nos ha '
-        'proporcionado informacion personal, contactenos '
+        'proporcionado información personal, contáctenos '
         'para que podamos eliminarla.',
   ),
   LegalSection(
@@ -377,33 +377,33 @@ const _privacyEs = [
     body:
         'Usted tiene derecho a:\n\n'
         '- Acceder a sus datos personales en cualquier '
-        'momento a traves de la aplicacion\n'
+        'momento a través de la aplicación\n'
         '- Eliminar su cuenta y todos los datos asociados '
         'desde Ajustes > Cuenta\n'
         '- Desactivar las notificaciones push desde la '
-        'configuracion de su dispositivo\n'
-        '- Desactivar la recopilacion de datos analiticos '
-        'desde los ajustes de la aplicacion\n\n'
+        'configuración de su dispositivo\n'
+        '- Desactivar la recopilación de datos analíticos '
+        'desde los ajustes de la aplicación\n\n'
         'Cuando elimina su cuenta, todos sus datos, '
         'incluyendo historial de acciones, progreso de '
-        'mascota e informacion de perfil, se eliminan '
+        'mascota e información de perfil, se eliminan '
         'permanentemente de nuestros servidores.',
   ),
   LegalSection(
-    title: 'Cambios en esta politica',
+    title: 'Cambios en esta política',
     body:
-        'Podemos actualizar esta Politica de Privacidad '
-        'periodicamente. Le notificaremos sobre cambios '
-        'significativos a traves de la aplicacion o por '
-        'correo electronico. El uso continuado de la '
-        'aplicacion despues de los cambios constituye la '
-        'aceptacion de la politica actualizada.',
+        'Podemos actualizar esta Política de Privacidad '
+        'periódicamente. Le notificaremos sobre cambios '
+        'significativos a través de la aplicación o por '
+        'correo electrónico. El uso continuado de la '
+        'aplicación después de los cambios constituye la '
+        'aceptación de la política actualizada.',
   ),
   LegalSection(
-    title: 'Contactenos',
+    title: 'Contáctenos',
     body:
-        'Si tiene preguntas sobre esta Politica de '
-        'Privacidad o sus datos personales, contactenos '
+        'Si tiene preguntas sobre esta Política de '
+        'Privacidad o sus datos personales, contáctenos '
         'en $_contactEmail.',
   ),
 ];
@@ -666,30 +666,30 @@ const _termsEs = [
     title: 'Puntos clave',
     body:
         '- Debe crear una cuenta para usar Seed\n'
-        '- Los puntos y articulos virtuales no '
+        '- Los puntos y artículos virtuales no '
         'tienen valor monetario real\n'
         '- Las estimaciones de CO2 son aproximadas, '
         'con fines educativos\n'
         '- Puede eliminar su cuenta en cualquier '
         'momento desde Ajustes\n'
-        '- La aplicacion se proporciona "tal cual" '
-        'sin garantias',
+        '- La aplicación se proporciona "tal cual" '
+        'sin garantías',
   ),
   LegalSection(
-    title: 'Aceptacion de los terminos',
+    title: 'Aceptación de los términos',
     body:
-        'Al crear una cuenta o utilizar la aplicacion '
-        'movil Seed, usted acepta estar sujeto a estos '
-        'Terminos de Servicio. Si no esta de acuerdo con '
-        'estos terminos, por favor no utilice la '
-        'aplicacion.',
+        'Al crear una cuenta o utilizar la aplicación '
+        'móvil Seed, usted acepta estar sujeto a estos '
+        'Términos de Servicio. Si no está de acuerdo con '
+        'estos términos, por favor no utilice la '
+        'aplicación.',
   ),
   LegalSection(
-    title: 'Descripcion del servicio',
+    title: 'Descripción del servicio',
     body:
-        'Seed es una aplicacion de seguimiento de '
-        'habitos de sostenibilidad que permite a los '
-        'usuarios registrar acciones ecologicas, ganar '
+        'Seed es una aplicación de seguimiento de '
+        'hábitos de sostenibilidad que permite a los '
+        'usuarios registrar acciones ecológicas, ganar '
         'puntos basados en el impacto estimado de CO2, '
         'criar una mascota virtual y aprender sobre los '
         'Objetivos de Desarrollo Sostenible (ODS) de las '
@@ -702,41 +702,41 @@ const _termsEs = [
         'es responsable de mantener la confidencialidad '
         'de las credenciales de su cuenta y de todas las '
         'actividades que ocurran bajo su cuenta. Acepta '
-        'proporcionar informacion precisa y completa al '
+        'proporcionar información precisa y completa al '
         'crear su cuenta.',
   ),
   LegalSection(
     title: 'Uso aceptable',
     body:
-        'Acepta usar Seed solo para su proposito '
+        'Acepta usar Seed solo para su propósito '
         'previsto. No debe:\n\n'
         '- Intentar obtener acceso no autorizado a la '
-        'aplicacion o sus sistemas\n'
-        '- Usar la aplicacion para transmitir contenido '
-        'danino o malicioso\n'
-        '- Crear multiples cuentas para manipular puntos '
+        'aplicación o sus sistemas\n'
+        '- Usar la aplicación para transmitir contenido '
+        'dañino o malicioso\n'
+        '- Crear múltiples cuentas para manipular puntos '
         'o clasificaciones\n'
-        '- Realizar ingenieria inversa o descompilar la '
-        'aplicacion\n'
+        '- Realizar ingeniería inversa o descompilar la '
+        'aplicación\n'
         '- Usar sistemas automatizados para interactuar '
-        'con la aplicacion',
+        'con la aplicación',
   ),
   LegalSection(
-    title: 'Puntos y articulos virtuales',
+    title: 'Puntos y artículos virtuales',
     body:
         'Los puntos ganados al registrar acciones y '
-        'los articulos virtuales comprados en la tienda '
-        'cosmetica no tienen valor monetario real. '
-        'Existen unicamente dentro de la aplicacion y '
+        'los artículos virtuales comprados en la tienda '
+        'cosmética no tienen valor monetario real. '
+        'Existen únicamente dentro de la aplicación y '
         'no pueden ser intercambiados, transferidos o '
-        'reembolsados fuera de la aplicacion.',
+        'reembolsados fuera de la aplicación.',
   ),
   LegalSection(
     title: 'Propiedad intelectual',
     body:
-        'Todo el contenido, disenos, graficos y '
+        'Todo el contenido, diseños, gráficos y '
         'software dentro de Seed son propiedad de o '
-        'estan licenciados a nosotros. No puede copiar, '
+        'están licenciados a nosotros. No puede copiar, '
         'modificar, distribuir o crear obras derivadas '
         'de nuestro contenido sin permiso previo por '
         'escrito.',
@@ -746,54 +746,54 @@ const _termsEs = [
     body:
         'Las estimaciones de ahorro de CO2 '
         'proporcionadas en Seed son valores aproximados '
-        'basados en investigaciones publicas y promedios. '
-        'Estan destinadas a fines educativos y '
+        'basados en investigaciones públicas y promedios. '
+        'Están destinadas a fines educativos y '
         'motivacionales y no deben considerarse '
-        'mediciones cientificas exactas. El impacto '
-        'ambiental real puede variar segun las '
+        'mediciones científicas exactas. El impacto '
+        'ambiental real puede variar según las '
         'circunstancias individuales.',
   ),
   LegalSection(
-    title: 'Exencion de garantias',
+    title: 'Exención de garantías',
     body:
-        'Seed se proporciona "tal cual" sin garantias '
-        'de ningun tipo, ya sean expresas o implicitas. '
-        'No garantizamos que la aplicacion sea '
+        'Seed se proporciona "tal cual" sin garantías '
+        'de ningún tipo, ya sean expresas o implícitas. '
+        'No garantizamos que la aplicación sea '
         'ininterrumpida, libre de errores o libre de '
-        'componentes daninos.',
+        'componentes dañinos.',
   ),
   LegalSection(
-    title: 'Limitacion de responsabilidad',
+    title: 'Limitación de responsabilidad',
     body:
-        'En la medida maxima permitida por la ley, '
-        'Seed y sus desarrolladores no seran '
-        'responsables de ningun dano indirecto, '
+        'En la medida máxima permitida por la ley, '
+        'Seed y sus desarrolladores no serán '
+        'responsables de ningún daño indirecto, '
         'incidental, especial o consecuente derivado '
-        'del uso de la aplicacion.',
+        'del uso de la aplicación.',
   ),
   LegalSection(
-    title: 'Terminacion de cuenta',
+    title: 'Terminación de cuenta',
     body:
         'Puede eliminar su cuenta en cualquier momento '
         'desde Ajustes > Cuenta. Nos reservamos el '
         'derecho de suspender o terminar cuentas que '
-        'violen estos terminos. Al terminar, todos los '
-        'datos asociados seran eliminados permanentemente.',
+        'violen estos términos. Al terminar, todos los '
+        'datos asociados serán eliminados permanentemente.',
   ),
   LegalSection(
-    title: 'Cambios en los terminos',
+    title: 'Cambios en los términos',
     body:
-        'Podemos actualizar estos Terminos de Servicio '
-        'periodicamente. Le notificaremos sobre cambios '
-        'significativos a traves de la aplicacion. '
-        'El uso continuado de la aplicacion despues de '
-        'los cambios constituye la aceptacion de los '
-        'terminos actualizados.',
+        'Podemos actualizar estos Términos de Servicio '
+        'periódicamente. Le notificaremos sobre cambios '
+        'significativos a través de la aplicación. '
+        'El uso continuado de la aplicación después de '
+        'los cambios constituye la aceptación de los '
+        'términos actualizados.',
   ),
   LegalSection(
-    title: 'Contactenos',
+    title: 'Contáctenos',
     body:
-        'Si tiene preguntas sobre estos Terminos de '
-        'Servicio, contactenos en $_contactEmail.',
+        'Si tiene preguntas sobre estos Términos de '
+        'Servicio, contáctenos en $_contactEmail.',
   ),
 ];

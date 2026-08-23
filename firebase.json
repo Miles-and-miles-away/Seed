@@ -28,7 +28,7 @@
           "projectId": "seed-3d48d",
           "configurations": {
             "android": "1:49522523534:android:f1503259d97a83b4adf8df",
-            "ios": "1:49522523534:ios:2c446ea0e3ffc350adf8df"
+            "ios": "1:49522523534:ios:74fd1f064405f5ffadf8df"
           }
         }
       },
@@ -42,7 +42,7 @@
       "ios": {
         "default": {
           "projectId": "seed-3d48d",
-          "appId": "1:49522523534:ios:2c446ea0e3ffc350adf8df",
+          "appId": "1:49522523534:ios:74fd1f064405f5ffadf8df",
           "uploadDebugSymbols": true,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }

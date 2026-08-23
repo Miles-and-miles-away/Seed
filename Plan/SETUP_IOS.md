@@ -6,7 +6,7 @@ This guide walks you through setting up and running the Seed app on iOS.
 
 ### 1. Install Flutter
 
-Download and install Flutter SDK (version 3.38.7 or later):
+Download and install Flutter SDK (version 3.44.1 or later):
 
 ```bash
 # macOS (Homebrew)
@@ -18,7 +18,7 @@ brew install flutter
 Verify installation:
 ```bash
 flutter --version
-# Expected: Flutter 3.38.7 or later
+# Expected: Flutter 3.44.1 or later
 ```
 
 ### 2. Install Xcode
@@ -222,7 +222,7 @@ xcrun simctl shutdown all
 xcrun simctl erase "iPhone 17 Pro"
 
 # Delete an app from simulator
-xcrun simctl uninstall booted com.seedapp.seed_app
+xcrun simctl uninstall booted com.seedapp
 ```
 
 ### Available Simulators (iOS 26.2)
@@ -394,7 +394,7 @@ project via `--account`.
 | Setting | Value |
 |---------|-------|
 | iOS Deployment Target | 14.0 |
-| Bundle Identifier | com.seedapp.seed_app |
+| Bundle Identifier | com.seedapp |
 | Swift Version | 5.0 |
 
 --------------------------------------------------------------------------

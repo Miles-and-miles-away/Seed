@@ -3,6 +3,8 @@
 **Version:** 1.0
 **Created:** January 2026
 **Status:** ✅ Complete
+**Note:** Historical planning document; file paths and names below
+are as-planned. The code is the as-built reference.
 
 ---
 

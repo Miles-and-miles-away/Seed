@@ -489,7 +489,7 @@ section 2; annual refresh tracked in
 
 ## 9. Reference: Full Formula in Code
 
-Located in `scripts/seed_action_library.js`:
+Located in `scripts/seed/seed_action_library.js`:
 
 ```javascript
 const EFFORT_BASE = 0.7;

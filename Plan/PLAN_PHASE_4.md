@@ -174,7 +174,7 @@ This is the largest task in Phase 4. See [RESEARCH_STRATEGY.md](./RESEARCH_STRAT
 - **Created:** `data/sdg_world_state_fully_sourced.json` - SDG data
 - **Created:** `lib/features/actions/presentation/widgets/learn_only_info_dialog.dart`
 - **Created:** `lib/features/actions/domain/constants/action_icons.dart` - centralized icon map
-- **Modified:** `scripts/seed_action_library.js` - expanded to 100 actions
+- **Modified:** `scripts/seed/seed_action_library.js` - expanded to 100 actions
 - **Modified:** `lib/core/l10n/app_en.arb`, `app_es.arb`, `app_ja.arb` - 9 categories + SDG strings
 - **Modified:** `lib/features/actions/domain/enums/action_category.dart` - added community, advocacy, learning
 - **Modified:** `lib/features/actions/data/models/action_model.dart` - added isLearnOnly, nameEs, descriptionEs

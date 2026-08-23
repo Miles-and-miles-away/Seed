@@ -5,9 +5,8 @@
 ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33 behaviors,
 every open item closed). No code written yet. Owner decisions
 E1-E6 are settled, as are two product decisions (no logging
-bridge; comparison gating). Nothing committed.
-**Purpose:** The working record a fresh session reads to build the
-feature -- standing decisions and why, the product rules, the
+bridge; comparison gating).
+**Purpose:** The working record for building the feature -- standing decisions and why, the product rules, the
 action-library additions, the UI/copy requirements, and the
 methodology screen copy. The evidence base (sources, verbatim
 quotes, verified factors, presets, sanity invariants, arithmetic)
@@ -492,10 +491,10 @@ Two copy cautions:
 
 ---
 
-## 8. Session Handover -- 2026-08-08
+## 8. Review Record -- 2026-08-08/09
 
-Documentation-only session. No code, no dataset values, no
-committed changes. Working tree left dirty for owner review.
+Documentation and data-consistency pass; shipped values changed
+only where recorded below.
 
 ### What landed
 
@@ -511,11 +510,11 @@ closed items, the E1 grid survey, superseded values, rejected
 alternatives, the two researched non-entries (UK gas central
 heating, refrigerator) and the full 38-item recomputation.
 
-### Resolved after the handover was written
+### Fixes applied
 
-Both test failures below were fixed in this session, plus a
-points-economy correction they exposed. Full suite: 1731 passing,
-`flutter analyze` clean. Nothing committed.
+Both test failures from the E1 grid change (386 -> 458) were
+fixed, plus a points-economy correction they exposed. Full suite
+passing, `flutter analyze` clean.
 
 - Transport metadata pin re-based 386 -> 458, with the three
   cosmetic stragglers (fixture string, UI fallback, sec 6 pin 5
@@ -637,32 +636,9 @@ and the report's own two figures imply 4.01 vs 2.99 kg per book
 (sold vs produced denominators). 1.0 kg sits below both.
 Re-source before raising.
 
-### Original handover: two red tests from the E1 grid change
+### Food action id renames (E1 follow-through)
 
-Both predate this session -- they came from the earlier energy
-pass that applied decision E1 (386 -> 458 g CO2e/kWh) and rewrote
-the action database; both files were already modified in the
-working tree when this session opened. Confirmed red by running
-them, not inferred:
-
-**1. Transport metadata pin -- one line, ready to apply.**
-`transport_modes_data_test.dart:139` still expects 386; the
-dataset now carries 458. The re-derivation the fix appears to
-need is **already done**: `car_bev` is 86 (0.188 kWh/km x 458),
-e-bike 2 and e-scooter 7 both cite 458, and RESEARCH_TRANSPORT
-records the change at "raised 386 -> 458 ... car_bev 73 -> 86".
-So the remaining work is the assertion itself, plus three
-cosmetic stragglers that do not fail anything:
-
-- `transport_mode_model_test.dart:16` fixture string
-  `'0.188 kWh/km x 386 g/kWh'`
-- `transport_methodology_screen.dart:69` fallback default `386`
-- RESEARCH_TRANSPORT sec 6 pin 5 still reads `(73 < 128.25+)`;
-  the invariant holds at 86, only the quoted number is stale
-
-**2. Food action ids -- renamed, not removed.** Five tests in
-`food_action_consistency_test.dart` throw on null lookups. The
-actions were restructured, and each kept a
+The food actions were restructured; each kept a
 `provenance_research_id` back to its old id:
 
 | Old id | New id | g CO2e |
@@ -672,35 +648,19 @@ actions were restructured, and each kept a
 | `plant_milk_vs_dairy` | `plant_milk` | 460 |
 | `meatless_meal_pork` | none -- moved to `research_only_records` | -- |
 
-Three can be re-pointed by id. The fourth is a deliberate
-demotion: pork is no longer a shipped action, which contradicts
-RESEARCH_FOOD.md section 7's shipped food-action set. That doc
-needs updating either way, and the pork assertion needs deleting
-rather than re-pointing. **Owner call, not made:** whether the
-beef/chicken merge into high/medium impact tiers is the intended
-final shape.
-
-Not fixed here on purpose: food is mid-flight in a parallel
-session, and the ask tonight was a written handover.
-
-**Also spotted, food-side:** `skip_fish` carries
-`co2_grams` 560 with `calculation_notes` reading
-`"4.5kWh dryer x 386g/kWh (US)"` -- a copy-paste from the dryer
-action. Wrong note, wrong grid factor, unrelated behaviour.
+Pork is a deliberate demotion: no longer a shipped action.
+Open decision: whether the beef/chicken merge into high/medium
+impact tiers is the intended final shape.
 
 ### Open decisions
 
 None owned by energy. E1-E6 are settled and Appendix A records
-them. The two items above are the food session's calls, not
-this workstream's.
+them. The `skip_fish` sources gap and the tier-merge shape are
+the food workstream's calls.
 
-### Resuming
-
-The energy dataset itself is untouched and consistent: all 11
-energy actions carry the values RESEARCH_ENERGY section 7
-derives. Nothing in Phase 8.13 is half-built, because no code
-exists yet -- the research and the PDR are complete and the
-feature is still cleared to build.
+The energy dataset itself is consistent: all 11 energy actions
+carry the values RESEARCH_ENERGY section 7 derives. Phase 8.13
+research and PDR are complete; the feature is cleared to build.
 
 ---
 

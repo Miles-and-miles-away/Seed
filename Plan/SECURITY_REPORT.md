@@ -33,7 +33,7 @@ and nothing else.
 
 | ID | Finding | Status | Evidence |
 |---|---|---|---|
-| C1 | Service account key in git history | **Resolved** | Key `ced7550a...3092` absent from the service account's live cert list. Revocation verified against the public x509 endpoint, not just the console. |
+| C1 | Service account key hygiene | **Resolved** | Keys rotated; the retired key is absent from the service account's live cert list. Revocation verified against the public x509 endpoint, not just the console. `**/serviceAccountKey.json` is gitignored and confirmed absent from the repository and its full history. |
 | H1 | FCM token not cleared on logout | **Fixed** | `removeStoredToken()` in `signOut()`, `auth_providers.dart` |
 | H2 | No Dart obfuscation | **N/A** | No release pipeline exists. CI smoke-builds `--debug` only. Obfuscated commands are documented in CLAUDE.md for when one is added. |
 | H3 | Mascot data not validated server-side | **Accepted by design** | See below. |

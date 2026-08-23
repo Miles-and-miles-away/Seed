@@ -6,7 +6,7 @@ This guide walks you through setting up and running the Seed app on Android.
 
 ### 1. Install Flutter
 
-Download and install Flutter SDK (version 3.38.7 or later):
+Download and install Flutter SDK (version 3.44.1 or later):
 
 ```bash
 # macOS (Homebrew)
@@ -18,7 +18,7 @@ brew install flutter
 Verify installation:
 ```bash
 flutter --version
-# Expected: Flutter 3.38.7 or later
+# Expected: Flutter 3.44.1 or later
 ```
 
 ### 2. Install Android Studio
@@ -349,7 +349,7 @@ project via `--account`.
 | Java Version | 17 |
 | Kotlin Version | 2.2.20 |
 | Gradle Plugin | 8.11.1 |
-| Package Name | com.seedapp.seed_app |
+| Package Name (applicationId) | com.seedapp |
 
 ## Next Steps
 

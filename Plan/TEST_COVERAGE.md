@@ -1,16 +1,18 @@
 # Test Coverage
 
-Last reviewed: 2026-06-08
+Last reviewed: 2026-08-23 (counts refreshed; the per-file
+reconciliation below dates from 2026-06-08 and predates the
+Phase 8 transport and food calculator suites)
 
 ## Summary
 
-- **Test files:** 144
-- **Source files (excluding generated, barrels, `main.dart`, `firebase_options.dart`):** ~127
-- **Rough file-level coverage:** ~86% (was ~80%; 17 checklist gaps closed and
-  reconciled into "Currently Covered" on 2026-06-08, plus the mascot screen,
-  mascot selection screen, and reactions/points-overlay tests added the same day)
+- **Test files:** 172 (1737 tests passing)
+- **Source files (excluding generated, barrels, `main.dart`, `firebase_options.dart`):** ~231
+- **Rough file-level coverage:** ~86% at the 2026-06-08 reconciliation;
+  the Phase 8 calculators landed with their own suites since
 - **CI:** `.github/workflows/ci.yml` runs `flutter analyze` + `flutter test` on push
-  to `development`/`main` and PRs to `main`.
+  to `development`/`main` and PRs to `development`/`main`, plus Cloud
+  Functions lint/build/test and Firestore rules tests against the emulator.
 - **Integration tests:** none.
 
 Recent pass: Tier 1 repositories (`ActionLogRepository` with ~34 tests),

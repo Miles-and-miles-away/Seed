@@ -126,7 +126,7 @@ git config core.hooksPath .githooks
 
 ## Licence and attribution
 
-Proprietary, all rights reserved. [LICENSE](LICENSE) grants viewing and
-evaluation only, for example when assessing a job application. This is not
-open source. Third-party content is not covered by that grant and is
-documented, with its own terms, in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+Proprietary, all rights reserved. [LICENSE](LICENSE) grants viewing,
+evaluation and personal study only. This is not open source, and pull requests are not accepted. Third-party content is
+not covered by that grant and is documented, with its own terms, in
+[ATTRIBUTIONS.md](ATTRIBUTIONS.md).
