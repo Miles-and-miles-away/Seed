@@ -6,8 +6,8 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
-import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
+import '../utils/listen_auth_result.dart';
 
 /// Screen shown after registration prompting user
 /// to verify their email.
@@ -33,18 +33,7 @@ class _EmailVerificationScreenState
 
     final userEmail = authChanges.asData?.value?.email ?? '';
 
-    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
-      next.whenOrNull(
-        error: (error, _) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(mapAuthErrorToMessage(error, l10n)),
-              backgroundColor: AppColors.error,
-            ),
-          );
-        },
-      );
-    });
+    listenAuthResult(context, ref);
 
     return Scaffold(
       appBar: AppBar(

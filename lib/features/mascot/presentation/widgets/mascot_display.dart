@@ -186,6 +186,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     // queue the smile and replay it on return; only the visible one
     // reacts.
     ref.listen(mascotSmileTriggerProvider, (_, shouldSmile) {
+      // A defunct element must not touch context or the disposed view model.
+      if (!context.mounted) return;
       if (shouldSmile && TickerMode.valuesOf(context).enabled) {
         _smile?.trigger();
         // Raise the hold so FaceRig pushes the next blink past the smile;
