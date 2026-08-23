@@ -88,7 +88,12 @@ export async function handleDeleteUserAccount(
  * Operates only on the authenticated caller's own account.
  */
 export const deleteUserAccount = onCall(
-  { memory: '256MiB' },
+  {
+    memory: '256MiB',
+    region: 'us-central1',
+    maxInstances: 10,
+    enforceAppCheck: true,
+  },
   async (request) =>
     handleDeleteUserAccount(
       getFirestore(),

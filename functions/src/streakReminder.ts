@@ -231,6 +231,8 @@ export const sendStreakReminders = onSchedule(
     timeZone: 'UTC',
     retryCount: 1,
     memory: '256MiB',
+    region: 'us-central1',
+    maxInstances: 1,
   },
   async () => {
     const db = getFirestore();

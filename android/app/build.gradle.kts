@@ -53,8 +53,18 @@ android {
 
     buildTypes {
         release {
+            // Fail loudly rather than shipping a debug-signed release.
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
+            } else if (gradle.startParameter.taskNames.any {
+                    it.contains("Release", ignoreCase = true)
+                }
+            ) {
+                throw GradleException(
+                    "android/key.properties is missing; release builds " +
+                        "must be signed with the release keystore. See " +
+                        "android/key.properties.example.",
+                )
             } else {
                 signingConfigs.getByName("debug")
             }

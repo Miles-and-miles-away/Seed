@@ -3,14 +3,12 @@
 **Created:** 2026-07-17 | **Restructured:** 2026-07-19
 **Status:** Rounds 1-3 of adversarial review complete; every
 finding through Round 3 fixed and re-verified (or explicitly
-accepted, see R3-D1). Fix Backlog 3 (section 3) IN PROGRESS:
-port-anchored links and the sweep gate are done; the
-water-crossing blocklist generator is executing. Nothing
-committed; owner reviews the working tree.
-**Purpose:** Record of the adversarial review of the uncommitted
-transport-calculator work, the owner decisions, and the fix
-ledger. A fresh session must be able to continue from sections
-2-4 alone. Companion docs: [PLAN_PHASE_8.md](./PLAN_PHASE_8.md)
+accepted, see R3-D1). Fix Backlog 3 (section 3) complete:
+port-anchored links, the sweep gate and the water-crossing
+blocklist all landed; the feature has since shipped.
+**Purpose:** Record of the adversarial review of the
+transport-calculator work, the design decisions, and the fix
+ledger. The review can be continued from sections 2-4 alone. Companion docs: [PLAN_PHASE_8.md](./PLAN_PHASE_8.md)
 (feature plan), [RESEARCH_TRANSPORT.md](./RESEARCH_TRANSPORT.md)
 (evidence base; sec 9 documents the distance-estimation design).
 
@@ -18,7 +16,7 @@ ledger. A fresh session must be able to continue from sections
 
 ## 1. Scope & Current State
 
-Uncommitted on `development` (do NOT commit; owner reviews):
+Delivered on `development`:
 
 - `data/app/transport_modes.json` -- 27 modes, live-verified
   cited factors
@@ -190,7 +188,6 @@ passes").
   scripts/generators/sweep_suggestions.py` -- must PASS.
 - Every new or changed source quote re-verified LIVE before
   pasting (WebFetch or seed-env requests/trafilatura).
-- Do NOT commit or push -- owner reviews the working tree.
 
 ---
 

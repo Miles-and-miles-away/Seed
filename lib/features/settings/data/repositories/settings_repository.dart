@@ -28,14 +28,21 @@ class SettingsRepository {
   UserSettingsModel _settingsFromData(Map<String, dynamic>? data) {
     if (data == null) return UserSettingsModel.defaultSettings();
 
-    final settingsData =
-        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
-    if (settingsData == null) {
-      final language = data[AppConstants.fieldLanguage] as String? ?? 'en';
-      return UserSettingsModel.defaultSettings(language: language);
+    // Firestore data is mutable remotely; a malformed document falls
+    // back to defaults instead of throwing into the stream.
+    final settingsData = data[AppConstants.fieldSettings];
+    if (settingsData is! Map<String, dynamic>) {
+      final language = data[AppConstants.fieldLanguage];
+      return UserSettingsModel.defaultSettings(
+        language: language is String ? language : 'en',
+      );
     }
 
-    return UserSettingsModel.fromJson(settingsData);
+    try {
+      return UserSettingsModel.fromJson(settingsData);
+    } on Object {
+      return UserSettingsModel.defaultSettings();
+    }
   }
 
   Future<UserSettingsModel> _getSettings(String uid) async {

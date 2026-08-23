@@ -72,22 +72,20 @@ staged_dart=$(git diff --cached --name-only --diff-filter=ACM \
   | grep -v '\.g\.dart$' \
   | grep -v '\.freezed\.dart$')
 
-if [ -z "$staged_dart" ]; then
-  exit 0
-fi
+if [ -n "$staged_dart" ]; then
+  if ! echo "$staged_dart" \
+    | xargs dart format --set-exit-if-changed --output=none 2>&1; then
+    echo "Unformatted Dart files detected. Run:"
+    echo "  dart format ."
+    exit 1
+  fi
 
-if ! echo "$staged_dart" \
-  | xargs dart format --set-exit-if-changed --output=none 2>&1; then
-  echo "Unformatted Dart files detected. Run:"
-  echo "  dart format ."
-  exit 1
-fi
-
-# -- Flutter analyze --
-echo "Running flutter analyze..."
-if ! flutter analyze --fatal-infos 2>&1; then
-  echo "Flutter analyze found issues. Fix them before committing."
-  exit 1
+  # -- Flutter analyze --
+  echo "Running flutter analyze..."
+  if ! flutter analyze --fatal-infos 2>&1; then
+    echo "Flutter analyze found issues. Fix them before committing."
+    exit 1
+  fi
 fi
 
 # -- ARB JSON validation --

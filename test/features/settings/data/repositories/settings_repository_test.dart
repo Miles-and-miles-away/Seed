@@ -128,6 +128,25 @@ void main() {
           ),
         );
       });
+
+      test('emits defaults when settings field is malformed', () async {
+        await userDoc(testUid).set({
+          'email': 'test@example.com',
+          'settings': 'not-a-map',
+          'language': 42,
+        });
+
+        final stream = repository.watchSettings(testUid);
+
+        await expectLater(
+          stream,
+          emits(
+            predicate<UserSettingsModel>(
+              (s) => s.notificationsEnabled && s.language == 'en',
+            ),
+          ),
+        );
+      });
     });
 
     group('addReminder', () {
