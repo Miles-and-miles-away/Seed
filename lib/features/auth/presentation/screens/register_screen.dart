@@ -11,9 +11,9 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
-import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import '../providers/auth_providers.dart';
+import '../utils/listen_auth_result.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_sign_in_button.dart';
 
@@ -64,29 +64,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = authState.isLoading;
 
-    ref.listen<AsyncValue<void>>(authProvider, (previous, next) {
-      // The router tears this screen down on auth-state changes, so the
-      // callback can outlive it; touching context after that registers an
-      // inherited dependency from a deactivated element.
-      if (!context.mounted) return;
-      next.when(
-        data: (_) {
-          if (previous?.isLoading ?? false) {
-            context.go(appRoutes.emailVerification);
-          }
-        },
-        loading: () {},
-        error: (error, _) {
-          _startCooldown();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(mapAuthErrorToMessage(error, l10n)),
-              backgroundColor: AppColors.error,
-            ),
-          );
-        },
-      );
-    });
+    listenAuthResult(
+      context,
+      ref,
+      onError: _startCooldown,
+      onCompleted: () => context.go(appRoutes.emailVerification),
+    );
 
     return Scaffold(
       body: SafeArea(
