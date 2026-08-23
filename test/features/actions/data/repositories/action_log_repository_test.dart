@@ -7,7 +7,7 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
-import 'package:seed_app/features/challenge/challenge.dart';
+import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 
 const _uid = 'user-1';
