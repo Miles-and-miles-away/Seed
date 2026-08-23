@@ -128,7 +128,6 @@ jobs:
             "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
-            <key>API_KEY</key><string>stub</string>
             <key>GCM_SENDER_ID</key><string>000000000000</string>
             <key>PLIST_VERSION</key><string>1</string>
             <key>BUNDLE_ID</key><string>com.seedapp.seedApp</string>
@@ -146,6 +145,17 @@ jobs:
           PLIST
 
       - run: flutter pub get
+
+      # The Xcode project runs a Crashlytics symbol upload phase on every
+      # build, which shells out to the flutterfire CLI. Uploading symbols for
+      # a throwaway simulator build is pointless and would need real Firebase
+      # credentials, so put a no-op on the PATH the phase searches. The
+      # compile and link still run; only the upload is skipped.
+      - name: Stub the flutterfire CLI
+        run: |
+          mkdir -p "$HOME/.pub-cache/bin"
+          printf '#!/bin/bash\nexit 0\n' > "$HOME/.pub-cache/bin/flutterfire"
+          chmod +x "$HOME/.pub-cache/bin/flutterfire"
 
       # Simulator, not device: --no-codesign still builds for device, which
       # needs a Development Team the project has no reason to configure in
