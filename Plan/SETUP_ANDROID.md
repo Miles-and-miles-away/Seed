@@ -349,7 +349,7 @@ project via `--account`.
 | Java Version | 17 |
 | Kotlin Version | 2.2.20 |
 | Gradle Plugin | 8.11.1 |
-| Package Name | com.seedapp.seed_app |
+| Package Name (applicationId) | com.seedapp |
 
 ## Next Steps
 
