@@ -147,7 +147,9 @@ jobs:
 
       - run: flutter pub get
 
-      # No signing certificates in CI, so this verifies that the Xcode
-      # project, plugin registration and bundled resources all still build.
-      - name: Build iOS without code signing
-        run: flutter build ios --debug --no-codesign
+      # Simulator, not device: --no-codesign still builds for device, which
+      # needs a Development Team the project has no reason to configure in
+      # CI. A simulator build compiles the same Dart and plugin code and
+      # needs no signing at all.
+      - name: Build iOS for the simulator
+        run: flutter build ios --simulator --debug
