@@ -17,6 +17,8 @@ pubspec_overrides.yaml
 # macOS
 .DS_Store
 *.pem
+*.p8
+*.p12
 
 # Android
 android/.gradle/
