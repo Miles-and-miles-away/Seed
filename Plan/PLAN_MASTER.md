@@ -68,7 +68,6 @@
 | Auth | Firebase Auth + Google + Apple | 6.x |
 | Database | Cloud Firestore | 6.x |
 | Push Notifications | FCM + flutter_local_notifications | 16.x / 19.x |
-| Subscriptions | RevenueCat | 9.x |
 | Code Generation | Freezed + Riverpod Generator | 3.x |
 
 ---

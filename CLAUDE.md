@@ -50,7 +50,6 @@ flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 - **State Management:** Riverpod 3.x with code generation
 - **Navigation:** go_router 17.x
 - **Backend:** Firebase (Auth, Firestore, FCM, Storage)
-- **Subscriptions:** RevenueCat
 - **Code Generation:** Freezed 3.x for immutable data classes
 
 ### Directory Structure
