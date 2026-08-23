@@ -57,6 +57,7 @@ data rules live here.
 
 ## Phase plans (historical)
 
-PLAN_PHASE_1 through PLAN_PHASE_9 are point-in-time planning
+[PLAN_PHASE_1.md](./PLAN_PHASE_1.md) through
+[PLAN_PHASE_9.md](./PLAN_PHASE_9.md) are point-in-time planning
 artifacts, kept for the decision history. File paths and names in
 them are as-planned; the code is the as-built reference.
