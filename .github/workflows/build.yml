@@ -146,17 +146,6 @@ jobs:
 
       - run: flutter pub get
 
-      # The Xcode project runs a Crashlytics symbol upload phase on every
-      # build, which shells out to the flutterfire CLI. Uploading symbols for
-      # a throwaway simulator build is pointless and would need real Firebase
-      # credentials, so put a no-op on the PATH the phase searches. The
-      # compile and link still run; only the upload is skipped.
-      - name: Stub the flutterfire CLI
-        run: |
-          mkdir -p "$HOME/.pub-cache/bin"
-          printf '#!/bin/bash\nexit 0\n' > "$HOME/.pub-cache/bin/flutterfire"
-          chmod +x "$HOME/.pub-cache/bin/flutterfire"
-
       # Simulator, not device: --no-codesign still builds for device, which
       # needs a Development Team the project has no reason to configure in
       # CI. A simulator build compiles the same Dart and plugin code and
