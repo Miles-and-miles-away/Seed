@@ -84,3 +84,71 @@ jobs:
 
       - name: Build debug APK
         run: flutter build apk --debug
+
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: "3.44.x"
+          cache: true
+
+      - name: Create Firebase options stub
+        run: |
+          cat > lib/firebase_options.dart << 'DART'
+          // ignore_for_file: type=lint
+          import 'package:firebase_core/firebase_core.dart'
+              show FirebaseOptions;
+
+          class DefaultFirebaseOptions {
+            static FirebaseOptions get currentPlatform {
+              return const FirebaseOptions(
+                apiKey: 'stub',
+                appId: 'stub',
+                messagingSenderId: 'stub',
+                projectId: 'stub',
+              );
+            }
+          }
+          DART
+
+      # GoogleService-Info.plist is gitignored but the Xcode project copies
+      # it in as a bundled resource, so the build needs the file to exist,
+      # not to hold real credentials.
+      - name: Create GoogleService-Info.plist stub
+        run: |
+          cat > ios/Runner/GoogleService-Info.plist << 'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+            "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>GCM_SENDER_ID</key><string>000000000000</string>
+            <key>PLIST_VERSION</key><string>1</string>
+            <key>BUNDLE_ID</key><string>com.seedapp.seedApp</string>
+            <key>PROJECT_ID</key><string>seed-stub</string>
+            <key>STORAGE_BUCKET</key><string>seed-stub.appspot.com</string>
+            <key>GOOGLE_APP_ID</key>
+            <string>1:000000000000:ios:0000000000000000</string>
+            <key>IS_ADS_ENABLED</key><false/>
+            <key>IS_ANALYTICS_ENABLED</key><false/>
+            <key>IS_APPINVITE_ENABLED</key><true/>
+            <key>IS_GCM_ENABLED</key><true/>
+            <key>IS_SIGNIN_ENABLED</key><true/>
+          </dict>
+          </plist>
+          PLIST
+
+      - run: flutter pub get
+
+      # Simulator, not device: --no-codesign still builds for device, which
+      # needs a Development Team the project has no reason to configure in
+      # CI. A simulator build compiles the same Dart and plugin code and
+      # needs no signing at all.
+      - name: Build iOS for the simulator
+        run: flutter build ios --simulator --debug
