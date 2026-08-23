@@ -110,7 +110,7 @@ expressible in rules. Now validated:
 - `lastHatchingActivityDate` a timestamp or null
 
 Covered by 8 tests in `test/firestore/firestore.rules.test.js` under
-`users/{userId} write - egg shape`. Suite is 107 tests, all passing via
+`users/{userId} write - egg shape`. Suite is 101 tests, all passing via
 `npm run test:rules`.
 
 ---

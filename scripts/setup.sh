@@ -4,10 +4,8 @@ set -e
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
-echo "Installing pre-commit hook..."
-cp "$REPO_ROOT/scripts/pre-commit" \
-  "$REPO_ROOT/.git/hooks/pre-commit"
-chmod +x "$REPO_ROOT/.git/hooks/pre-commit"
+echo "Enabling the tracked git hooks..."
+git -C "$REPO_ROOT" config core.hooksPath .githooks
 
 echo "Running flutter pub get..."
 flutter pub get
