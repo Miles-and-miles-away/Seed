@@ -294,7 +294,7 @@ Enhanced SDG detail screen with related actions, personal statistics, targets da
 
 #### SDG Goal Targets Section (Completed Feb 15, 2026)
 
-All 169 official UN targets displayed on the Goal detail page. Data extracted from `Plan/sdg_indicator_metadata/sdg_goal_*.json`.
+All 169 official UN targets displayed on the Goal detail page. Data extracted from `data/reference/sdg_indicator_metadata/sdg_goal_*.json`.
 
 - **SdgTargetsSection widget** - "About this Goal" section with animated expand/collapse
   - Shows goal description by default
@@ -889,7 +889,7 @@ Based on estimated user activity levels:
 - RESEARCH_ACTIONS.md contains currently up-to-date researched data
 - `co2_actions_database.csv` and `co2_actions_database.json` contain data to be used in the app. These files should be moved to appropriate location as needed.
 - `sdg_world_state_fully_sourced.json` contains lots of infomation on the SDGs. This should also be incorporated into the SDG info carousel
-- `Plan/sdg_indicator_metadata/` contains 17 JSON files (`sdg_goal_01.json` through `sdg_goal_17.json`) with structured UN SDG indicator metadata extracted from official documents. Each file contains targets, indicators, definitions, concepts, classifications, rationale, and custodian agencies for one Goal. Extracted using `../SeedResources/extract_sdg_metadata.py` from the `.docx` files in `../SeedResources/SDG-indicator-metadata/`
+- `data/reference/sdg_indicator_metadata/` contains 17 JSON files (`sdg_goal_01.json` through `sdg_goal_17.json`) with structured UN SDG indicator metadata extracted from official documents. Each file contains targets, indicators, definitions, concepts, classifications, rationale, and custodian agencies for one Goal. Extracted from the official UN indicator metadata `.docx` files with a one-off script kept outside this repo.
 - ~~`assets/images/sdg_infographics/` contains `sdg_infographic_1.jpg` through `sdg_infographic_17.jpg` -- one infographic per SDG from the UN SDG Report 2022. These should be displayed in the SDG detail screen or info carousel to give users a visual overview of each goal's global progress~~ Superseded 2026-08-22: the UN report pages were removed for licensing reasons and replaced by original charts in `assets/images/sdg_progress/`. See ATTRIBUTIONS.md.
 - Cosmetic items should be simple initially; can add more in Phase 7
 - Placeholder mascot art is acceptable for soft launch
