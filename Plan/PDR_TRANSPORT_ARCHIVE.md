@@ -325,33 +325,7 @@ suite green; full suite 1,563/1,563; sweep re-run clean.
 
 ---
 
-## 9. Original Round Kickoff Prompts (historical)
-
-Round 1 (executed 2026-07-18):
-
-> Read Plan/PDR_TRANSPORT_CALCULATOR.md and CLAUDE.md, then
-> execute the PDR's Fix Backlog (section 4) top to bottom on the
-> `development` branch. The uncommitted transport-calculator work
-> it refers to is already in the working tree. Honor the owner
-> decisions in section 3 exactly. Python runs need `conda
-> activate seed`; regenerating cities.json needs the GeoNames/ISO
-> inputs re-downloaded per the header of
-> scripts/generators/build_cities.py (ask before downloading).
-> Verify per section 5. Do not commit. Finish with a summary.
-
-Round 2 (executed 2026-07-18):
-
-> Read Plan/PDR_TRANSPORT_CALCULATOR.md and CLAUDE.md, then
-> execute Fix Backlog 2 (section 9) top to bottom on the
-> `development` branch. Round 1 (section 4) is done -- do not
-> redo it. Honor the decisions in sections 3 and 8 exactly,
-> including the supersession notes on D1 and D3. Re-verify every
-> new or changed source quote live before pasting. Verify per
-> section 10. Do not commit. Finish with a summary.
-
----
-
-## 10. Research-Pass Closures (from RESEARCH_TRANSPORT.md sec 7)
+## 9. Research-Pass Closures (from RESEARCH_TRANSPORT.md sec 7)
 
 Moved 2026-08-08 so the research doc tracks only what is still
 open. Everything here is closed; the resulting factors, decisions

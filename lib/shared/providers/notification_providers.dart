@@ -20,9 +20,8 @@ part 'notification_providers.g.dart';
 //   provider is disposed immediately and never rebuilds.
 // - Set tz.local in NotificationService.initialize: the timezone
 //   package defaults to UTC, so a 9:00 reminder would fire at 9:00 UTC.
-// - Handle the Android 14+ exact-alarm permission (zonedSchedule with
-//   exactAllowWhileIdle throws when not granted) or fall back to
-//   inexact scheduling.
+// - Scheduling is inexact (no SCHEDULE_EXACT_ALARM permission); keep it
+//   that way unless minute-precision reminders become a requirement.
 // - Localize the title/body below and the Android channel name.
 // - Cancel scheduled notifications on sign-out/account deletion.
 // - Consult shouldShowSmartReminder before firing.

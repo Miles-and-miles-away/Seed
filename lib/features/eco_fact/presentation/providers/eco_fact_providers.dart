@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 

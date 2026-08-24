@@ -28,14 +28,19 @@ class SettingsRepository {
   UserSettingsModel _settingsFromData(Map<String, dynamic>? data) {
     if (data == null) return UserSettingsModel.defaultSettings();
 
-    final settingsData =
-        data[AppConstants.fieldSettings] as Map<String, dynamic>?;
-    if (settingsData == null) {
-      final language = data[AppConstants.fieldLanguage] as String? ?? 'en';
-      return UserSettingsModel.defaultSettings(language: language);
-    }
+    // Malformed remote data falls back to defaults, keeping the language.
+    final language = data[AppConstants.fieldLanguage];
+    final fallback = UserSettingsModel.defaultSettings(
+      language: language is String ? language : 'en',
+    );
+    final settingsData = data[AppConstants.fieldSettings];
+    if (settingsData is! Map<String, dynamic>) return fallback;
 
-    return UserSettingsModel.fromJson(settingsData);
+    try {
+      return UserSettingsModel.fromJson(settingsData);
+    } on Object {
+      return fallback;
+    }
   }
 
   Future<UserSettingsModel> _getSettings(String uid) async {

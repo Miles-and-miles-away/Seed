@@ -10,13 +10,11 @@ dataset is [FOOD_ITEMS_V2_LIST.md](./FOOD_ITEMS_V2_LIST.md).
 
 ---
 
-## 0. State at handover (2026-08-08, end of day)
+## 0. State as of 2026-08-08
 
-**Shipped today:** `data/app/food_items.json` went 43 -> 166 items
+**Shipped:** `data/app/food_items.json` went 43 -> 166 items
 (v2), plus the tree-nut/peanut split, the seafood source decision D8,
 the comparison gate, and a four-part verification pass (section 9).
-Everything is in the working tree; commit 5c6da46 landed part of it
-bundled with the concurrent energy session's work.
 
 **The suite is RED, and not from the food work.** 81 food tests pass;
 6 fail, all caused by the other session:
@@ -61,8 +59,8 @@ freshness nothing supports: 91 of those quotes appear verbatim in the
 2026-08-01 wave research, so they were copied at assembly, not
 re-fetched. Those were set to 2026-08-01, their true provenance. Of
 them, 80 were the OWID nut rows and the four FAO Wayback captures,
-which WERE fetched and machine-verified in this session (79 of 81 FAO
-quotes matched), so those are legitimately dated today and were
+which WERE fetched and machine-verified in this pass (79 of 81 FAO
+quotes matched), so those are legitimately dated 2026-08-08 and were
 restored. Net effect: 11 sources stopped claiming a check that never
 happened.
 

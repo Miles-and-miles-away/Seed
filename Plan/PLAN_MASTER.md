@@ -1,15 +1,15 @@
 # Seed: Sustainability Habit Tracking App
 ## Architecture & Development Plan
 
-**Version:** 1.7
-**Last Updated:** July 2026
+**Version:** 1.8
+**Last Updated:** August 2026
 **Author:** Miles
 
 ### Current Status
-✅ Project initialized with Flutter 3.38.7 / Dart 3.10.7
+✅ Project initialized (currently Flutter 3.44.1 / Dart 3.12.1)
 ✅ Directory structure implemented
 ✅ Dependencies configured and resolved
-✅ Localization infrastructure set up (EN/ES/JP)
+✅ Localization infrastructure set up (EN/ES/JA)
 ✅ Firebase project configured (seed-3d48d)
 ✅ Mascot assets added (vector SVGs)
 ✅ **Phase 1 complete!** (Auth, Actions, Action Library, Progress, Profile)
@@ -17,7 +17,10 @@
 ✅ **Phase 3 complete!** (Settings, Notifications, Streak tracking)
 ✅ **Phase 4 complete!** (Action library expansion, UI enhancements, Cloud Functions, Analytics, Legal)
 ⏳ **Phase 5 in progress** (5.1-5.3 done; 5.4 Growing Ecosystem awaiting garden art)
-📊 **1339 tests passing** (up from 848)
+✅ **Phase 6 complete!** (CO₂ dashboard, impact comparisons, trends, feedback)
+⏳ **Phase 7 in progress** (Coral shipped as animated Rive; shop planned)
+⏳ **Phase 8 mostly complete** (transport + food calculators shipped; energy researched, cleared to build)
+📊 **1737 tests passing** across 172 test files
 
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
@@ -65,7 +68,6 @@
 | Auth | Firebase Auth + Google + Apple | 6.x |
 | Database | Cloud Firestore | 6.x |
 | Push Notifications | FCM + flutter_local_notifications | 16.x / 19.x |
-| Subscriptions | RevenueCat | 9.x |
 | Code Generation | Freezed + Riverpod Generator | 3.x |
 
 ---
@@ -987,7 +989,7 @@ await flutterLocalNotificationsPlugin.zonedSchedule(
   'Log a sustainable action today',
   _nextInstanceOfTime(userTime),
   notificationDetails,
-  androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+  androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
   matchDateTimeComponents: DateTimeComponents.time,  // Repeat daily
   uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
@@ -1141,7 +1143,7 @@ See [PLAN_PHASE_7.md](./PLAN_PHASE_7.md) for detailed implementation plan.
 **Deliverable:** Polished animated mascots plus the points-based shop
 and unlock economy. No payment required anywhere in this phase.
 
-### Phase 8: Carbon Calculators - Transport, Food & Home Energy (Future)
+### Phase 8: Carbon Calculators - Transport, Food & Home Energy (Mostly Complete)
 **Goal:** Explorable, evidence-backed emissions -- build a journey,
 a meal, or a daily energy routine, see its CO2e, compare
 alternatives side by side. Covers the "big three": move, eat, power
@@ -1150,20 +1152,20 @@ See [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) for detailed implementation plan.
 
 | Task | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Transport mode dataset | ~20 modes with cited gCO2e/km factors (DEFRA, OWID, IEA), EN/JA/ES | P0 | Planned |
-| Journey builder + engine | Multi-leg journeys (mode + distance + car occupancy), pure Dart math | P0 | Planned |
-| Journey comparison | 2-3 door-to-door options side by side, delta + equivalencies | P0 | Planned |
-| Methodology & sources UI | Per-mode science sheets + methodology screen | P0 | Planned |
-| Entry points & analytics | Impact-segment card, transport-tab banner, new route | P1 | Planned |
-| Food item dataset | ~45 foods with cited kgCO2e/kg factors (OWID / Poore & Nemecek), serving presets, EN/JA/ES | P0 | Planned |
-| Meal builder + engine | Multi-ingredient meals (item + grams/serving), pure Dart math | P0 | Planned |
-| Meal comparison | 2-3 meals side by side, delta + equivalencies | P0 | Planned |
-| Food methodology & entry points | Per-item science sheets, spread + organic/local honesty, new route | P0/P1 | Planned |
-| Energy behavior dataset | ~25 behaviors with cited kWh + carrier factors (DEFRA, IEA), physics-derived, EN/JA/ES | P0 | Planned |
+| Transport mode dataset | 27 modes with cited gCO2e/km factors (DEFRA, OWID, IEA), EN/JA/ES | P0 | Done |
+| Journey builder + engine | Multi-leg journeys (mode + distance + car occupancy), pure Dart math | P0 | Done |
+| Journey comparison | 2-3 door-to-door options side by side, delta + equivalencies | P0 | Done |
+| Methodology & sources UI | Per-mode science sheets + methodology screen | P0 | Done |
+| Entry points & analytics | Impact-segment card, transport-tab banner, new route | P1 | Done |
+| Food item dataset | 166 foods with cited kgCO2e/kg factors (OWID / Poore & Nemecek), serving presets, EN/JA/ES | P0 | Done |
+| Meal builder + engine | Multi-ingredient meals (item + grams/serving), pure Dart math | P0 | Done |
+| Meal comparison | 2-3 meals side by side, delta + equivalencies | P0 | Done |
+| Food methodology & entry points | Per-item science sheets, spread + organic/local honesty, new route | P0/P1 | Done |
+| Energy behavior dataset | 33 behaviors with cited kWh + carrier factors (DEFRA, IEA), physics-derived, EN/JA/ES | P0 | Research done (build pending) |
 | Routine builder + engine | Behavior + quantity usages, pure Dart math, shared grid factor | P0 | Planned |
 | Routine comparison | Bath vs shower, dryer vs line, heater vs kotatsu; delta + equivalencies | P0 | Planned |
 | Energy methodology & entry points | Heat-vs-light hierarchy, carrier factors, new route | P0/P1 | Planned |
-| Logging bridge | Log the chosen greener option as real CO2 saved | P2 | Deferred (anti-gaming design needed) |
+| Logging bridge | Log the chosen greener option as real CO2 saved | P2 | Shipped v1 (transport); food/energy deferred |
 
 **Deliverable:** Educational transport, food, and home-energy
 calculators with fully cited emission factors. Code + data only (no
@@ -1227,15 +1229,11 @@ Phase 7 shop and unlock systems.
 
 ### Art Assets Decision
 
-This is your biggest non-code challenge. Options:
-
-1. **Commission artist:** $500-2000+ for full mascot set with evolutions
-2. **Use asset packs:** Sites like itch.io have character packs ($10-50)
-3. **AI-generated + cleanup:** Midjourney/DALL-E for concepts, clean up yourself
-4. **Placeholder first:** Use simple shapes/emojis, replace later
-5. **Learn to draw:** Pixel art is approachable for beginners
-
-**Recommendation:** Start with simple placeholders or a small asset pack. Validate the app concept before investing in custom art.
+Resolved: mascots ship as custom Rive animations built from
+vectorized art (see [STYLE_GUIDE.md](./STYLE_GUIDE.md)). Coral is
+live; remaining species and the garden art follow the same
+pipeline. Options considered and rejected: commissioned art
+(cost), stock asset packs (generic), and pixel art (off-brand).
 
 ---
 
@@ -1401,7 +1399,7 @@ See [PLAN_PHASE_4.md](./PLAN_PHASE_4.md) for full details.
 - ✅ Polish items (points display, bottom sheets, sparkle animation)
 - ✅ 848 tests passing across 56 test files
 
-### Current Priority (Phase 5)
+### Phase 5 Remainder
 
 See [PLAN_PHASE_5.md](./PLAN_PHASE_5.md) for full details.
 
@@ -1432,7 +1430,7 @@ flutter test
 npm run firebase -- deploy --only firestore
 
 # Update actions
-node scripts/seed_action_library.js 
+node scripts/seed/seed_action_library.js
 
 ```
 
@@ -1457,5 +1455,3 @@ node scripts/seed_action_library.js
 - [Flutter Internationalization](https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization)
 
 ---
-
-*This document is a living plan. Update it as you make decisions and learn more.*

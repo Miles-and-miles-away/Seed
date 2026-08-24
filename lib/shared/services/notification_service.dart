@@ -197,7 +197,9 @@ class NotificationService {
       body: body,
       scheduledDate: scheduledTime,
       notificationDetails: _notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      // Inexact suffices for daily reminders and avoids the Play Store
+      // SCHEDULE_EXACT_ALARM declaration.
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
       payload: payload,
     );

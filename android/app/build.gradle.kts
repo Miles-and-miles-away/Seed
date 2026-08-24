@@ -17,6 +17,20 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+// Fail loudly rather than shipping a debug-signed release.
+gradle.taskGraph.whenReady {
+    val buildsRelease = allTasks.any {
+        it.name == "assembleRelease" || it.name == "bundleRelease"
+    }
+    if (buildsRelease && !keystorePropertiesFile.exists()) {
+        throw GradleException(
+            "android/key.properties is missing; release builds " +
+                "must be signed with the release keystore. See " +
+                "android/key.properties.example.",
+        )
+    }
+}
+
 android {
     namespace = "com.seedapp.seed_app"
     compileSdk = flutter.compileSdkVersion

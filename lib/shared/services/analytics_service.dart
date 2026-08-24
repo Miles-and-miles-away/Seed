@@ -192,6 +192,9 @@ class AnalyticsService {
   // ============================================================
 
   /// Log when a user views a shop item.
+  ///
+  /// NOTE(planned): uncalled until the Phase 7 shop ships -- keep,
+  /// do not flag as dead code.
   Future<void> logShopItemViewed({
     required String itemId,
     required String itemType,
@@ -205,6 +208,9 @@ class AnalyticsService {
   }
 
   /// Log when a user purchases a shop item.
+  ///
+  /// NOTE(planned): uncalled until the Phase 7 shop ships -- keep,
+  /// do not flag as dead code.
   Future<void> logShopItemPurchased({
     required String itemId,
     required String itemType,
@@ -226,6 +232,9 @@ class AnalyticsService {
       _log('transport_calculator_opened');
 
   /// Log when a user runs a journey comparison (Phase 8.3).
+  ///
+  /// NOTE(planned): defined with the 8.3 comparison feature but not
+  /// yet wired -- keep, do not flag as dead code.
   Future<void> logTransportComparisonRun({
     required List<String> modeIds,
     required List<int> legCounts,
@@ -247,6 +256,9 @@ class AnalyticsService {
   Future<void> logFoodCalculatorOpened() => _log('food_calculator_opened');
 
   /// Log when a user runs a meal comparison (Phase 8.9).
+  ///
+  /// NOTE(planned): defined with the 8.9 comparison feature but not
+  /// yet wired -- keep, do not flag as dead code.
   Future<void> logFoodComparisonRun({
     required List<String> itemIds,
     required List<int> ingredientCounts,

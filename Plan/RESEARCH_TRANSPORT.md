@@ -657,7 +657,7 @@ surprises the feature exists to surface):
 ## 7. Open Items
 
 Closures from the 2026-07-17/18 research passes are logged in
-[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 10.
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
 
 Remaining:
 

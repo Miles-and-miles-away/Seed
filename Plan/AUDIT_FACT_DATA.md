@@ -1,7 +1,7 @@
 # Data Check Guide
 
 Reference for verifying, adding, or modifying data files
-in `assets/data/`. Covers the structure, quality standards,
+in `data/app/`. Covers the structure, quality standards,
 and verification checklist for each data file so all facts
 and targets remain accurate, well-sourced, and consistent.
 

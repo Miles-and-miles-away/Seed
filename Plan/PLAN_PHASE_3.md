@@ -3,7 +3,9 @@
 **Version:** 1.2
 **Created:** January 2026
 **Last Updated:** January 2026
-**Status:** In Progress (~98% Complete)
+**Status:** ✅ Complete
+**Note:** Historical planning document; file paths and names below
+are as-planned. The code is the as-built reference.
 
 ---
 
@@ -590,7 +592,7 @@ class NotificationService {
       body,
       scheduledTime,
       _notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,  // Repeat daily
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -1424,8 +1426,6 @@ extension AppDelegate: MessagingDelegate {
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 
     <application ...>
 

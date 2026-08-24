@@ -50,7 +50,6 @@ flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 - **State Management:** Riverpod 3.x with code generation
 - **Navigation:** go_router 17.x
 - **Backend:** Firebase (Auth, Firestore, FCM, Storage)
-- **Subscriptions:** RevenueCat
 - **Code Generation:** Freezed 3.x for immutable data classes
 
 ### Directory Structure
@@ -64,16 +63,28 @@ lib/
 │   ├── constants/            # App-wide constants (points, levels, Firebase collections)
 │   ├── theme/                # Light/dark themes, color palette
 │   ├── utils/                # Helper functions
-│   └── l10n/                 # Localization (EN/JP) - ARB files
+│   └── l10n/                 # Localization (EN/JA/ES) - ARB files
 ├── features/                 # Feature modules (Clean Architecture)
-│   ├── auth/                 # Authentication
 │   ├── actions/              # Action logging
+│   ├── auth/                 # Authentication
+│   ├── challenge/            # Daily + multi-day challenges
+│   ├── eco_dex/              # Eco-Dex collectible entries
+│   ├── eco_fact/             # Daily sustainability facts
+│   ├── food/                 # Food CO2 calculator
+│   ├── home/                 # Home screen shell
 │   ├── mascot/               # Mascot display/evolution
 │   ├── profile/              # User profile
-│   └── settings/             # App settings
+│   ├── progress/             # Impact + progress charts
+│   ├── sdg/                  # UN SDG goals and progress
+│   ├── settings/             # App settings
+│   └── transport/            # Transport CO2 calculator
 └── shared/
-    ├── widgets/              # Reusable widgets
-    └── providers/            # Global Riverpod providers
+    ├── data/                 # Shared datasources
+    ├── domain/               # Shared domain services
+    ├── models/               # Shared models
+    ├── providers/            # Global Riverpod providers
+    ├── services/             # Platform services (FCM, analytics)
+    └── widgets/              # Reusable widgets
 ```
 
 ### Feature Module Structure
@@ -85,6 +96,8 @@ features/{feature}/
 ├── domain/                   # Entities, use cases
 └── presentation/             # Screens, widgets, providers
 ```
+Thin features (auth, eco_fact, home, mascot, profile, settings)
+omit `domain/` where they have no business logic beyond CRUD.
 
 ### Riverpod 3.x Patterns
 Use `Ref` (not generated `*Ref` types) in provider functions:
@@ -104,7 +117,7 @@ Stream<int> userPoints(Ref ref) {
 
 ### Localization
 - Config: `l10n.yaml`
-- ARB files: `lib/core/l10n/app_en.arb`, `app_ja.arb`
+- ARB files: `lib/core/l10n/app_en.arb`, `app_ja.arb`, `app_es.arb`
 - Generated output: `lib/core/l10n/generated/`
 
 ### Linting
@@ -127,24 +140,31 @@ alongside source changes:
 data/
 ├── app/          # Bundled with Flutter app (declared in pubspec.yaml)
 │   ├── challenge_templates.json  # Daily + multi-day challenges (EN/JA/ES)
+│   ├── cities.json               # Cities for the transport calculator
 │   ├── eco_dex_entries.json      # Eco-Dex categories + entries (EN/JA/ES)
 │   ├── eco_facts.json            # Daily sustainability facts (365 days)
+│   ├── food_items.json           # Food items + emission factors
+│   ├── impact_equivalencies.json # CO2 real-world equivalencies
 │   ├── mascot_species.json       # Mascot species + evolution stages (EN/JA/ES)
 │   ├── sdg_goals.json            # 17 SDG goals with colors + translations (EN/JA/ES)
 │   ├── sdg_resources.json        # SDG external resource links (EN/JA/ES)
-│   └── sdg_targets.json          # All 169 SDG targets (EN/JA/ES)
+│   ├── sdg_targets.json          # All 169 SDG targets (EN/JA/ES)
+│   └── transport_modes.json      # Transport modes + emission factors
 ├── seed/         # Used by scripts to populate Firestore
 │   ├── co2_actions_database.json
 │   ├── co2_actions_database.csv
 │   └── sdg_world_state_fully_sourced.json
 └── reference/    # Source-of-truth reference data
-    ├── un_world_days.json       # UN International Days with URLs
-    └── sdg_indicator_metadata/  # 17 SDG goal indicator JSONs
+    ├── natural_earth/            # Land polygons (water-crossing checks)
+    ├── reviewed_cc_ground_pairs.json
+    ├── un_world_days.json        # UN International Days with URLs
+    └── sdg_indicator_metadata/   # 17 SDG goal indicator JSONs
 ```
 
 ### Firebase Collections
 Defined in `lib/core/constants/app_constants.dart`:
-- `users` - User profiles with subcollection `actionLog`
+- `users` - User profiles with subcollections `actionLog`,
+  `customActions`, and `dailySummaries`
 - `actionLibrary` - Read-only action definitions
 - `mascotSpecies` - Read-only mascot data
 - `cosmeticItems` - Read-only shop items
