@@ -115,6 +115,19 @@ The `impact` score should reflect this broader value.
 > not shipped live under `research_only_records` and are not
 > seeded.
 
+> **Compliance state (2026-08-29):** the dataset does not yet meet
+> the rule above. **58 of the 92 shipping actions carry both an
+> empty `sources[]` and a null `confidence`**, 37 of them with a
+> nonzero `co2_grams` -- a stated saving with no recorded
+> provenance. The largest are `fix_leak` 100000 and
+> `recycle_textiles` 40000. Energy is clear: all 11
+> `category: "energy"` actions were backfilled on 2026-08-29 from
+> primaries already live-verified in
+> [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3.
+> Backfilling the rest needs each primary re-fetched and quoted
+> live per section 2, so it is its own pass per category. Update
+> this count when that happens.
+
 ```javascript
 {
   id: 'snake_case_id',        // unique, descriptive

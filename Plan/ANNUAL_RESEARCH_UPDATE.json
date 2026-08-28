@@ -86,8 +86,8 @@
         "Scope: must stay CO2e to match the rest of the app.",
         "Ember revising prior years when it reprocesses.",
         "A regionalisation decision superseding the single constant (see Plan/PDR_GRID_REGIONALISATION.md).",
-        "The home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) prints this figure, its vintage, and a six-grid comparison table. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values.",
-        "13 actions in co2_actions_database.json are grid-derived. The seeder no longer holds action data -- it reads the JSON. After changing the factor, re-run node scripts/seed/seed_action_library.js."
+        "The draft copy for the home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) will print this figure, its vintage, and a six-grid comparison table once the screen is built. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values.",
+        "12 actions in co2_actions_database.json are grid-derived (13 until use_natural_light was demoted 2026-08-29). The seeder no longer holds action data -- it reads the JSON. After changing the factor, re-run node scripts/seed/seed_action_library.js."
       ],
       "affects": [
         "transport_ev",
@@ -576,28 +576,7 @@
       ]
     }
   ],
-  "pending_from_decisions": [
-    {
-      "decision": "E1 (2026-08-02): grid factor 386 -> 458 g CO2e/kWh",
-      "status": "decided, not yet applied to data files",
-      "changes": [
-        "data/app/transport_modes.json: metadata.grid_factor_g_per_kwh 386 -> 458; car_bev 73 -> 86 g/km",
-        "data/seed/co2_actions_database.json: air_dry_clothes 1700 -> 2000; cold_water_laundry 600 -> 430; unplug_standby 9 -> 5; led_vs_incandescent 19 -> 23; electric_vs_gasoline_car recompute",
-        "three action calculation_notes: '0.37 kg/kWh' -> 458 g/kWh",
-        "re-seed actionLibrary (node scripts/seed/seed_action_library.js, needs the Firebase service account)",
-        "re-derive transport sanity pins involving car_bev"
-      ],
-      "points_impact": "+7.08% uniformly for affected actions, often 0 after integer rounding. The seeder uses co2Grams^0.4 (CO2_EXPONENT = 0.4), and (co2 x r)^0.4 = co2^0.4 x r^0.4, so the ratio is independent of action size."
-    },
-    {
-      "decision": "Food FR-22: actionLibrary re-seed for the corrected food values",
-      "status": "seeder code synced, re-seed not yet run",
-      "changes": [
-        "skip_high_impact_food 9700, skip_medium_impact_food 1000, plant_milk 460, skip_fish 1200"
-      ],
-      "note": "Bundle with the E1 re-seed -- one seeding operation, not two."
-    }
-  ],
+  "pending_from_decisions": [],
   "stable_do_not_rechase": [
     {
       "what": "Poore & Nemecek 2018 (Science 360:987-992)",

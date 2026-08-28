@@ -26,26 +26,27 @@ points rules).
 
 ## 1. Scope & Current State
 
-**Already applied to the working tree (uncommitted):**
+**Landed and committed:**
 
 - `data/app/transport_modes.json` -- E1 rebase: grid factor
   386 -> 458, `car_bev` 73 -> 86, `escooter_private` 6 -> 7
   (`ebike` holds at 2). No `386` remains in the file.
 - `data/seed/co2_actions_database.json` -- rebuilt as the single
-  source of truth: 94 shipping actions, 13 energy/transport values
-  rebased, 1 new action, 11 research-only records preserved
+  source of truth: 92 shipping actions, 13 energy/transport values
+  rebased, 1 new action, 13 research-only records preserved
   (section 4).
 - `scripts/seed/seed_action_library.js` -- rewritten to read that
-  JSON; 2,471 -> 253 lines.
+  JSON; 2,471 -> 252 lines.
 - `data/app/impact_equivalencies.json` -- `burgers` 11000 -> 7951.
 - `Plan/AUDIT_ACTION_DATA.md` section 8 -- grid factor and the
   retired derivation.
 
-**Not yet done -- re-seed.** `npm run seed` writes the 94 actions
-to Firestore and prunes orphans. The change adds one id
-(`heat_person_not_room`) and removes none, so nothing existing is
-deleted. Bundle with the outstanding food FR-22 re-seed; needs
-`scripts/serviceAccountKey.json`.
+**Re-seed: done** (`npm run seed`). Verified 2026-08-29 against
+the live `actionLibrary`: 92 docs matching the 92 local actions,
+nothing to prune or add. `heat_person_not_room` is live,
+`use_natural_light` and `full_laundry_load` are gone, and
+`turn_off_lights` reads 15 g / 2 points. The food FR-22 values
+went in on the same run.
 
 **Still to be built (nothing exists in `lib/`):**
 
@@ -71,31 +72,22 @@ Owner-approved. The warnings exist because earlier drafts said
 otherwise; do not "fix" values backwards from superseded text.
 
 - **E1 (grid factor) -- RESOLVED 2026-08-02: ship Ember 458 g
-  CO2e/kWh.** Rationale: the app is denominated in CO2e
-  throughout (food is CO2e, transport is CO2e-with-RF), so a
-  CO2-only anchor would be a scope mismatch -- the D1 defect.
-  IEA's 435 (Electricity 2026, 2025 data) and Ember's 458 are now
-  the *same vintage*, so the 5.3% gap between them is purely
-  CO2e-vs-CO2 scope, and 458 is the scope-correct half of the
-  pair. Do NOT average the two. Applies across
-  `transport_modes.json`, `co2_actions_database.json` and this
-  dataset in one PR; the old 386 was 16% low and its documented
-  derivation did not reproduce it. Blast radius: transport EV
-  0.188 kWh/km x 458 = **86 g/km** (was 73); five actions in
-  `co2_actions_database.json` (section 7); points move **+7.08%
-  uniformly** and often 0 after integer rounding, because the
-  seeder uses `co2Grams^0.4` (CO2_EXPONENT = 0.4), not a log --
-  and `(co2 x r)^0.4 = co2^0.4 x r^0.4`, so the ratio is
-  size-independent. Food is untouched. Re-seed required. Two
-  cross-carrier orderings flipped as predicted (kettle vs gas
-  hob; hand-wash-gas vs dishwasher); **both are blocked from copy
-  by the section 2.2 gating**, which is what that rule is for.
-  **Regionalisation is NOT part of E1** -- it is spun out as its
-  own scoped work item, see
+  CO2e/kWh.** The app is denominated in CO2e throughout, so a
+  CO2-only anchor is a scope mismatch: IEA's 435 and Ember's 458
+  are the same vintage, the 5.3% gap between them is purely
+  CO2e-vs-CO2, and 458 is the scope-correct half. **Do NOT average
+  the two**, and do not restore the retired 386 -- it was 16% low
+  and its own documented derivation did not reproduce it. Applied
+  to `transport_modes.json`, `co2_actions_database.json` and this
+  dataset together. **Regionalisation is NOT part of E1** -- it is
+  spun out, see
   [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md).
+  Candidate survey, blast radius and the points arithmetic:
+  [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+  sections 2 and 9.
 - **E2 (gas boundary + comparison gating) -- APPLIED.** Gas ships
   combustion-only Gross CV at 182 g/kWh. Comparison gating ships
-  as `comparable_group` + same-carrier + 20% delta (section 2.2).
+  as `comparable_group` + same-carrier + 20% delta (section 3).
 - **E3 (electric water heating) -- APPLIED.** Two entries,
   resistance and heat pump, rather than an unweighted average.
 - **E4 (shower flow) -- APPLIED.** 7.844784 L/min, the mean of
@@ -195,13 +187,10 @@ fails #3; wash load vs dishwasher fails #1; aircon cooling vs
 heating fails #1; laptop vs incandescent fails #1; oven vs
 portable electric heater fails #1. All covered.
 
-**This gating earned its keep at E1.** Both cross-carrier
-orderings did flip when the factor moved 386 -> 458 -- the kettle
-went from 12.6% below the gas hob to 3.6% above it, and the
-dishwasher went from 9% below a gas-heated sink to 8% above it.
-Rule #2 blocked both from generating copy, so the rebase changed
-no user-facing claim. This is the concrete case for keeping the
-gating even though it looks like belt-and-braces.
+**This gating earned its keep at E1:** two cross-carrier
+orderings flipped when the factor moved, and rule #2 blocked both
+from generating copy, so the rebase changed no user-facing claim.
+Figures in [archive](./RESEARCH_ENERGY_ARCHIVE.md) 9.
 
 Users may still build and compare any two routines they like --
 the gating governs what the **app asserts**, not what the user
@@ -213,27 +202,22 @@ may look at.
 
 ## 4. Action Library (single source of truth)
 
-**Restructured 2026-08-02.** There were two action stores that had
-silently diverged: `data/seed/co2_actions_database.json` (28
-research records) and an inline 93-action array inside
-`scripts/seed/seed_action_library.js` (what actually shipped).
-They shared only **9 ids**. The energy spec drafted from the
-research file would have double-counted four behaviours that
-already shipped under different names.
-
-Now:
+**Restructured 2026-08-02** to end a silent divergence between two
+action stores that shared only 9 ids (detail in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 9; the standing rule is in
+section 2).
 
 - **`data/seed/co2_actions_database.json` is the single source of
-  truth** -- 94 shipping actions, each with its CO2 value,
+  truth** -- 92 shipping actions, each with its CO2 value,
   calculation notes, research `sources[]`, confidence, localised
   strings and effort/frequency/impact scores.
 - **`seed_action_library.js` reads it** and computes points at
   seed time via `computePoints()`. It no longer carries action
-  data; the file went from 2,471 lines to 253.
-- Research-only records with no shipping action (the
-  transport-mode swaps now handled by the transport calculator's
-  logging bridge, plus three never-shipped items) are preserved
-  under `research_only_records` and are explicitly **not seeded**.
+  data; the file went from 2,471 lines to 252.
+- 13 records with no shipping action -- 6 transport-mode swaps now
+  handled by the transport calculator, 5 never shipped, and the 2
+  archived on 2026-08-29 -- are preserved under
+  `research_only_records` and are explicitly **not seeded**.
 - A `provenance_research_id` field links a shipping action back to
   its research record where the ids differ (`cold_water_laundry`
   -> `cold_wash`, `led_vs_incandescent` -> `install_led_bulb`,
@@ -257,8 +241,8 @@ g CO2e/kWh.
 | `install_led_bulb` | 28000 | **25000** | 63 | 51.5 W x 3 h/day x 365 |
 | `lower_thermostat` | 450 | **140** | 6 | METI 53.08 kWh/yr per 1 C |
 | `raise_ac_thermostat` | 350 | **120** | 6 | METI 30.24 kWh/yr per 1 C |
-| `turn_off_lights` | 60 | **70** | 3 | grid rebase only |
-| `use_natural_light` | 90 | **100** | 4 | grid rebase only |
+| `turn_off_lights` | 60 | **15** | 2 | 4 h x 8.5 W LED; re-based 2026-08-29 off an unsourced 40 W bulb |
+| `use_natural_light` | 90 | -- | -- | **DEMOTED 2026-08-29** to `research_only_records` |
 | `eco_mode_appliance` | 200 | **120** | 6 | dishwasher normal - eco |
 | `microwave_vs_oven` | 300 | **280** | 7 | oven 0.82 - microwave 0.19 |
 | `ev_charging_green` | 3500 | **4500** | 31 | grid rebase only |
@@ -282,9 +266,8 @@ setpoint-state framing (クールビズ / ウォームビズ) and the seasonal
 window remain the right copy treatment for the two thermostat
 actions and should be applied to their descriptions.
 
-**Still to do:** re-seed
-(`node scripts/seed/seed_action_library.js`, needs the Firebase
-service account), bundled with the outstanding food FR-22 re-seed.
+**Seeded.** The live library matches this file exactly as of
+2026-08-29; section 1 records the verification.
 
 ---
 
@@ -292,7 +275,7 @@ service account), bundled with the outstanding food FR-22 re-seed.
 
 Requirements, not suggestions.
 
-1. **Comparison gating (section 2.2) is implemented in code, not
+1. **Comparison gating (section 3) is implemented in code, not
    in copy discipline:** same `comparable_group`, same `carrier`,
    delta >= 20%. Everything below assumes it.
 2. **The kettle-vs-IH tie is a feature.** When a comparison
@@ -302,9 +285,9 @@ Requirements, not suggestions.
 3. **Every carrier is named in the UI.** Entry names carry
    "(electric water)" / "(gas water)" / "(heat-pump water)".
 4. **The electric-vs-gas crossover ships in the methodology**
-   (section 2.1), including the 241 g/kWh figure and the fact
-   that the UK has already crossed it. Never imply gas is
-   universally cleaner.
+   ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 2.1),
+   including the 241 g/kWh figure and the fact that the UK has
+   already crossed it. Never imply gas is universally cleaner.
 5. **Measured-vs-rated disclosure on the aircon entries:** "a
    measured average hour of use (Energy Conservation Center via
    METI); the catalog rating is about 2.5x higher because it is
@@ -349,19 +332,35 @@ Requirements, not suggestions.
     vintage on the methodology screen, so a user cross-checking
     against IEA or their own supplier finds the number explained
     rather than hidden. Superset of this requirement is rule 23 /
-    section 8.1.
+    section 6.
 20. **Gas boundary disclosure:** combustion only; DEFRA's WTT
     term (~+17%) excluded for parity with transport.
 21. **Oven carries a low-confidence sublabel** -- now the only
     shipped entry with no tier-1 primary figure.
 22. **Tie-cluster sort rule:** stable secondary sort
     (alphabetical) so tie-cluster items do not jitter.
-23. **Regionalisation disclosure -- full draft copy in 8.1.** The
-    methodology must state that per-country grid factors were
+23. **Regionalisation disclosure -- full draft copy in section 6.**
+    The methodology must state that per-country grid factors were
     considered and not shipped, show the size of the regional
     spread with real numbers, and name the three things done
     instead. Do not let this read as an apology; the
     within-carrier invariance is a genuinely strong answer.
+24. **Avoided-emissions caveat must appear on the methodology
+    screen.** The secondhand actions (`used_car_purchase`,
+    `secondhand_clothing`, `use_library`) score counterfactual
+    decisions, not inventory shares of a physical object, so two
+    people crediting the same avoided manufacture is coherent --
+    but **summing** those credits is not, because the
+    manufacturing happened once. The screen must say so. Stored as
+    `notes.avoided_emissions_caveat` in the actions database;
+    reasoning in
+    [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+    section 9.
+25. **Lighting copy must name the bulb.** `turn_off_lights` ships
+    on the 8.5 W LED (15 g for 4 h). A user still on incandescents
+    saves about **110 g** for the same four hours, and the
+    methodology sheet must say so rather than letting the LED
+    figure read as universal.
 
 ---
 
@@ -373,8 +372,11 @@ the JP version should reference クールビズ-era energy-saving
 framing and Japan's own 429 g/kWh figure directly, because a JP
 reader will already know their grid is dirtier than the EU's.
 
-All figures below are live-verified (section 1) and recomputed in
-section 10. If the
+All figures below are live-verified: the regional grid values come
+from the E1 survey in
+[RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+section 2, and the dataset arithmetic they scale is recomputed in
+that document's section 8 (`ENERGY_LOGIC_CHECK`). If the
 [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md) work
 later recommends shipping regional factors, this screen is the
 first thing that must change.
@@ -456,7 +458,10 @@ Two copy cautions:
 - **Do not quote time-of-day or marginal-intensity numbers.** The
   qualitative point (midday solar is cleaner than evening peak) is
   uncontroversial and safe; the specific figures found during
-  research were search-only and are not citable (open item 9.1).
+  research were search-only, never confirmed against a primary,
+  and so may not be printed. Recorded in
+  [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+  section 1.
 - **The EV example belongs to the transport dataset**, which does
   not currently gate cross-carrier comparisons the way this one
   does. Using it here is fine as an illustration of grid spread,
@@ -496,171 +501,50 @@ Two copy cautions:
 Documentation and data-consistency pass; shipped values changed
 only where recorded below.
 
-### What landed
+Two passes, both executed. Detail in
+[RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
+section 9; only the outcomes are recorded here.
 
-| Change | File |
-|--------|------|
-| 電気カーペット closed as a deliberate non-entry. Panasonic's comparison table publishes per-setting 消費電力量 in Wh (3畳 DC-3NK 470/335, DC-3HA 460/320; 2畳 335/230; 1畳 165/120), cross-checked against the DC-3NK spec page's 14.6/10.4 yen at 31 yen/kWh. 中 = ~0.33 kWh/h. Stays folded into `heat_person_not_room`; its arithmetic is unchanged. METI's 強->中 delta (0.2201) is ~60% above Panasonic's 0.135, so METI models higher-draw carpets: upper bound only. | RESEARCH archive 1 |
-| Every closed item rewritten to one table row and moved out of the live doc. The last open follow-up is now closed, so section 8 is standing rules only. | RESEARCH sec 8, archive 1 |
-| RESEARCH_ENERGY.md split 1604 -> 1214 lines; 525 lines of executed detail moved to [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md) (new, untracked). Blocks were moved by script, not retyped, and every source line was verified present in one file or the other. | both |
-| Stale `v1.1` reference to the research doc corrected to `v2.0`. | sec 1 here |
+**2026-08-08/09 -- documentation and data consistency.** Closed
+電気カーペット as a deliberate non-entry; split 525 lines of executed
+detail out of RESEARCH_ENERGY.md into the archive; fixed both test
+failures from the E1 grid rebase; corrected the food tier actions
+to bind to the *minimum* covered item (`skip_high_impact_food`
+6800 -> 3700, `skip_medium_impact_food` 1000 -> 780, owner call --
+**do not restore the higher figures**); and swept
+`calculation_notes` across all 94 actions then shipping, repairing
+eight notes that described a different action and re-deriving
+seven values from live-fetched primaries. Nothing in the split
+changed a shipped number.
 
-Nothing in the split changed a shipped number. The archive holds
-closed items, the E1 grid survey, superseded values, rejected
-alternatives, the two researched non-entries (UK gas central
-heating, refrigerator) and the full 38-item recomputation.
+**2026-08-29 -- sourcing and archivings.** Backfilled `sources[]`
+and `confidence` for seven rebased actions, transcribed from
+primaries already live-verified in
+[RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3; no
+value moved. Settled the unsourced 40 W bulb by archiving
+`use_natural_light` (it overlapped `turn_off_lights`, and its
+daylight basis is unknowable to the app) and re-basing
+`turn_off_lights` onto the researched 8.5 W LED, 70 -> 15 g,
+points 3 -> 2. Archived `full_laundry_load` for having no
+definitive answer. **Every energy action now carries sources and a
+confidence.**
 
-### Fixes applied
-
-Both test failures from the E1 grid change (386 -> 458) were
-fixed, plus a points-economy correction they exposed. Full suite
-passing, `flutter analyze` clean.
-
-- Transport metadata pin re-based 386 -> 458, with the three
-  cosmetic stragglers (fixture string, UI fallback, sec 6 pin 5
-  quoting the retired `car_bev` 73).
-- Food actions re-pointed to their new ids. The merge had left
-  each tier action crediting its tier's *highest* item, so
-  `skip_high_impact_food` 6800 -> **3700** (binds to lamb 3772,
-  not beef 6836) and `skip_medium_impact_food` 1000 -> **780**
-  (binds to chicken 787, not pork 1031). Owner call 2026-08-08;
-  -46% and -22% to shipped rewards, so the actionLibrary re-seed
-  now carries these too.
-- `skip_fish` `calculation_notes` replaced -- it carried the
-  dryer action's `"4.5kWh dryer x 386g/kWh (US)"`.
-- RESEARCH_FOOD sec 7 rewritten around the new action set, with
-  the minimum-of-covered-items rule stated as a standing rule.
-
-**Still open, food-side:** `skip_fish` has `sources: []` and
-`confidence: null` while every sibling action carries both. Not
-filled in here -- the values need live re-verification and the
-food session owns that file.
-
-### `calculation_notes` sweep, all 94 actions (2026-08-08)
-
-The `skip_fish` note carrying the dryer's text was not isolated.
-Seven more records hold a note that describes a different action,
-found by matching notes shared across actions. These are
-research-only fields (`seed_action_library.js` does not seed
-them), so nothing user-facing was wrong -- but a false rationale
-sitting next to a value is how a wrong number gets "confirmed" at
-the next pass.
-
-Repaired from committed research:
-
-| Action | Was | Now |
-|--------|-----|-----|
-| `plant_milk` | `seasonal_produce`'s "avoids heated greenhouse produce" | full soy-binds-not-oat derivation (RESEARCH_FOOD sec 7) |
-| `heat_person_not_room` | empty | (heater 1.2 - kotatsu 0.15) x 4 h x 458 = 1924 -> 1900 (RESEARCH_ENERGY sec 7) |
-| `citizen_science_project`, `volunteer_nature_walk` | empty | sibling-style "indirect; not CO2-measurable" (both 0 g, no numeric claim) |
-
-Seven more were marked `UNVERIFIED` and then **all re-derived
-from live-fetched primaries on 2026-08-09**, each with source,
-verbatim quote and URL now in its `sources[]`. No `UNVERIFIED`
-marker remains. Deliberately shared notes were left alone: the
-0 g advocacy and community actions share rationale text
-legitimately ("ecological; not CO2-measurable").
-
-| Action | Was | Now | Anchor |
-|--------|----:|----:|--------|
-| `use_fan_instead_of_ac` | 1200 | **600** | (aircon 0.167679 - Panasonic F-CV339 fan 0.022) x METI's own 9 h/day x 458 |
-| `skip_food_delivery` | 600 | **0** | see below |
-| `buy_local_produce` | 300 | **200** | OWID: 1 kg avocados Mexico -> UK = 0.21 kg CO2e of transport |
-| `refuse_disposables` | 15 | **1** | binds to the smallest item it names: PP straw 0.0017 kg (Sustainability 14:14170) |
-| `used_car_purchase` | 3000000 | **3000000** | ICCT 2025 Table 1, gasoline ICEV production 7.2 t; ships ~40% of it |
-| `use_library` | 1000 | **1000** | BISG/Green Press 2008, 8.85 lb per average book |
-| `secondhand_clothing` | 15000 | **15000** | Levi's 501 LCA: the 49% of 33.4 kg a buyer actually avoids = 16.3 kg |
-| `walk_instead_drive` | 250 | **240** | 1.5 km x `car_petrol_avg` 162.72 = 244.08 |
-| `bike_short_trip` | 490 | **480** | 3 km x 162.72 = 488.16 |
-| `bike_medium_trip` | 1000 | **970** | 6 km x 162.72 = 976.32 |
-
-The three transport actions cited a stale "164 g/km (DEFRA 2024)"
-and all three rounded UP. They now use the 162.72 shipped in
-`transport_modes.json` and round down.
-
-**`skip_food_delivery` went to 0 g because the evidence runs the
-other way.** Heard et al. 2019 (*Resources, Conservation and
-Recycling*, peer-reviewed, fetched) finds delivered meal kits
-beat grocery-store meals by 2.0 kg CO2e/meal, with last-mile
-emissions **lower** for delivery (-0.45 kg CO2e/meal) -- a van
-route amortizes across many drops, a store trip is one car.
-Restaurant delivery is not the same system, but no primary
-supports a saving for cooking at home, so the 600 g had no basis.
-It ships as a 0 g habit prompt until a restaurant-delivery LCA
-exists. **Candidate for removal -- owner call.**
-
-### Avoided-manufacturing actions: the accounting rule
-
-Owner question 2026-08-09: if A buys new and counts the
-manufacturing, then sells to B and B counts it too, is that not
-double counting?
-
-**Not in this app's frame, but the question exposed a real bug.**
-These are counterfactual claims -- each scores one decision
-against what would otherwise have been produced -- not inventory
-shares of a physical object's embodied carbon. A and B faced
-separate buy-new decisions, so crediting both is coherent. What
-is *not* coherent is summing them: the manufacturing happened
-once, so the total is not a physical quantity of CO2 not emitted.
-Recorded as `notes.avoided_emissions_caveat` in the actions
-database, and the methodology screen must say it.
-
-The bug: `used_car_purchase` had an arbitrary ~40% haircut on the
-sourced 7.2 t while `secondhand_clothing` credited the full
-avoided production. Same logic, two treatments, and the 40% had
-no source. Both now credit the full figure on a stated
-one-for-one displacement assumption, which is an **upper bound**
--- real markets displace less than one new unit per secondhand
-purchase and no published rate exists to correct with.
-
-| Action | Was | Now | Why |
-|--------|----:|----:|-----|
-| `used_car_purchase` | 3000000 | **7200000** | full ICCT 7.2 t; the 40% haircut is gone |
-| `refuse_disposables` | 1 | **51** | re-scoped to cutlery (owner call); PS fork/spoon 0.0514 kg at 100% incineration |
-| `secondhand_clothing` | 15000 | 15000 | unchanged; notes now lead with **DENIM BASIS** |
-| `use_library` | 1000 | 1000 | unchanged, see below |
-
-`refuse_disposables` also gets new user-facing copy in all three
-locales ("Refuse Disposable Cutlery"). End-of-life sensitivity is
-disclosed: incineration 51 g ships because Japan incinerates most
-plastic waste, but the same paper gives 12 g under recycling.
-
-**`use_library` stays at 1000 g** -- deliberately *not* full
-avoided production, unlike the two above. The difference is
-displacement, not caution: acquiring a used car or garment is
-necessarily an acquisition that would otherwise have been made
-new, whereas most library borrowings would never have been
-purchases at all, and a library copy amortizes its production
-across many borrowers. Its anchor is also weak -- 2008 vintage,
-and the report's own two figures imply 4.01 vs 2.99 kg per book
-(sold vs produced denominators). 1.0 kg sits below both.
-Re-source before raising.
-
-### Food action id renames (E1 follow-through)
-
-The food actions were restructured; each kept a
-`provenance_research_id` back to its old id:
-
-| Old id | New id | g CO2e |
-|--------|--------|-------:|
-| `meatless_meal_beef` | `skip_high_impact_food` | 6800 |
-| `meatless_meal_chicken` | `skip_medium_impact_food` | 1000 |
-| `plant_milk_vs_dairy` | `plant_milk` | 460 |
-| `meatless_meal_pork` | none -- moved to `research_only_records` | -- |
-
-Pork is a deliberate demotion: no longer a shipped action.
-Open decision: whether the beef/chicken merge into high/medium
-impact tiers is the intended final shape.
+Two food-side items remain food's call, not energy's: `skip_fish`
+has no sources, and `skip_food_delivery` ships at 0 g as a
+candidate for removal.
 
 ### Open decisions
 
-None owned by energy. E1-E6 are settled and Appendix A records
-them. The `skip_fish` sources gap and the tier-merge shape are
-the food workstream's calls.
+**None.** E1-E6 are settled (Appendix A), and the last two --
+the unsourced 40 W bulb and `full_laundry_load` -- were settled by
+owner call on 2026-08-29 as recorded above. `full_laundry_load`'s
+record and [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 carry the
+retired arithmetic and the condition for restoring it.
 
-The energy dataset itself is consistent: all 11 energy actions
-carry the values RESEARCH_ENERGY section 7 derives. Phase 8.13
-research and PDR are complete; the feature is cleared to build.
+**11 actions carry `category: "energy"`** after the two archivings
+and every one carries `sources[]` and a confidence. Phase 8.13
+research and the decisions here are complete; the feature is
+cleared to build.
 
 ---
 
@@ -682,13 +566,16 @@ research and PDR are complete; the feature is cleared to build.
 | 2026-08-02 | 'US DOE 3% per degree' citation corrected -- DOE does not state it | sec 4 here |
 | 2026-08-02 | UK gas central heating researched; ships as methodology context, not an entry | RESEARCH sec 3.3 |
 | 2026-08-02 | `phoneCharges` 8 g stands (EPA basis, not drift) | ledger `known_drift` |
+| 2026-08-29 | `sources[]` and `confidence` backfilled for seven rebased actions, transcribed from primaries already live-verified in RESEARCH sec 1 and 3; no value moved | sec 8 here |
+| 2026-08-29 | `use_natural_light` demoted to `research_only_records` -- overlapped `turn_off_lights` and its daylight basis is unknowable to the app (owner call) | sec 8 here |
+| 2026-08-29 | `turn_off_lights` re-based off the unsourced 40 W bulb onto the researched 8.5 W LED: 70 -> 15 g, points 3 -> 2 | sec 8 here |
+| 2026-08-29 | `full_laundry_load` archived to `research_only_records` -- no current definitive answer, and the evidence base cannot supply one (owner call) | archive sec 1 |
 
 ## Appendix B: Where the Detail Went
 
-This document was split out of
-[RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) on 2026-08-02, matching
-the transport pattern: the research doc is the evidence base, the
-PDR carries the decisions and the product rules. Nothing was
-discarded -- sections 3-6 here were sections 2.2, 7.1, 8 and 8.1
-of the research doc.
+Split out of [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) on
+2026-08-02: the research doc is the evidence base, this PDR carries
+the decisions and product rules, and
+[RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md) holds
+everything executed. Nothing was discarded.
 

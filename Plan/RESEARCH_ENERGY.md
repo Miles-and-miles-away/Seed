@@ -255,11 +255,15 @@ by grid.
 Three consequences, all binding:
 
 1. Cross-carrier comparisons must never auto-generate a verdict
-   (enforced structurally by 2.2), because the verdict is a fact
-   about the user's country, not their behavior.
-2. This is the strongest argument for regional grid factors (the
-   Part 3 plan's own open question) -- a single global factor
-   gets the UK answer backwards.
+   (enforced structurally by the comparison gating,
+   [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+   section 3), because the verdict is a fact about the user's
+   country, not their behavior.
+2. This is the strongest argument for regional grid factors,
+   which are no longer a Part 3 open question but their own
+   scoped brief
+   ([PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)),
+   because a single global factor gets the UK answer backwards.
 3. The methodology paragraph must NOT say "gas looks better today
    and will flip eventually". It must say **the flip has already
    happened in some markets**, and state the 241 g/kWh crossover
@@ -898,8 +902,9 @@ consoles -- aggregator-only sourcing.
 ## 4. Chosen Dataset Values
 
 Final proposed table for `energy_behaviors.json`. **Store exact
-values unrounded; the UI rounds for display.** Decisions E2-E6
-are applied. **E1 is open and scales every electricity row.**
+values unrounded; the UI rounds for display.** Decisions E1-E6
+are all applied: E1 resolved on 2026-08-02, so every electricity
+row below already sits on the 458 g CO2e/kWh basis.
 
 | id | Behavior | kWh/unit | Unit | Carrier | Group | Conf. |
 |----|----------|---------:|------|---------|-------|-------|
@@ -1116,6 +1121,23 @@ numbers for the same behaviour. As of 2026-08-02 they do not:
 `data/seed/co2_actions_database.json` is the single source of
 truth for actions, the seeder reads it, and every energy action is
 derived from an entry in section 3.
+
+Coverage note: the table below derives 12 actions across two
+categories (`energy` and `water`). Two energy actions sit outside
+it. `turn_off_lights` carries its derivation in its own
+`calculation_notes`, re-based 2026-08-29 onto this document's
+8.5 W / 800 lm LED after the 40 W bulb it previously used was
+found to appear nowhere here (section 3.5 ships that LED and a
+60 W incandescent comparator, nothing between); its former
+sibling `use_natural_light` was demoted over the same gap.
+`full_laundry_load` was **archived 2026-08-29** for having no
+derivation anywhere: no partial-load washing measurement exists in
+this document, and the Bosch WNA14400GR table that supplies all
+three wash temperatures is a max-load (9.0 kg) table only. Both
+archivings are recorded in
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 8
+and in [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1. Nothing on the
+energy side is open.
 
 The reconciliation table, the citation error it uncovered, and the
 four duplicate proposals it killed are recorded in
