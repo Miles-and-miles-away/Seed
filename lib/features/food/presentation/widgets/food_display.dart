@@ -153,27 +153,6 @@ String mealOptionLabel(
   return dominant?.name(locale) ?? '';
 }
 
-/// Accent-insensitive, case-insensitive key for search matching.
-///
-/// A Spanish user types "platano", not "plátano", and "jalapeno" for
-/// "jalapeño" -- without folding, the two most common ES queries miss.
-String foldForSearch(String value) {
-  final buffer = StringBuffer();
-  for (final rune in value.toLowerCase().runes) {
-    buffer.write(_diacritics[rune] ?? String.fromCharCode(rune));
-  }
-  return buffer.toString();
-}
-
-const _diacritics = <int, String>{
-  0xE1: 'a', 0xE0: 'a', 0xE2: 'a', 0xE4: 'a', 0xE3: 'a', // á à â ä ã
-  0xE9: 'e', 0xE8: 'e', 0xEA: 'e', 0xEB: 'e', // é è ê ë
-  0xED: 'i', 0xEC: 'i', 0xEE: 'i', 0xEF: 'i', // í ì î ï
-  0xF3: 'o', 0xF2: 'o', 0xF4: 'o', 0xF6: 'o', 0xF5: 'o', // ó ò ô ö õ
-  0xFA: 'u', 0xF9: 'u', 0xFB: 'u', 0xFC: 'u', // ú ù û ü
-  0xF1: 'n', 0xE7: 'c', // ñ ç
-};
-
 /// Items matching [query], ranked: name-prefix hits first, then any
 /// other hit, each preserving dataset order.
 ///

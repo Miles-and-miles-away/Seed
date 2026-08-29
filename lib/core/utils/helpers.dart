@@ -75,3 +75,39 @@ String formatPoints(int points) {
   }
   return points.toString();
 }
+
+/// Accent-insensitive, case-insensitive key for search matching.
+///
+/// A Spanish user types "platano", not "plátano", and "jalapeno" for
+/// "jalapeño" -- without folding, the two most common ES queries miss.
+/// The same holds for place names: nobody types "São Paulo" or
+/// "Zürich" on a phone keyboard, so [_diacritics] covers every mark
+/// carried by the food and city datasets.
+String foldForSearch(String value) {
+  final buffer = StringBuffer();
+  for (final rune in value.toLowerCase().runes) {
+    buffer.write(_diacritics[rune] ?? String.fromCharCode(rune));
+  }
+  return buffer.toString();
+}
+
+const _diacritics = <int, String>{
+  0xE1: 'a', 0xE0: 'a', 0xE2: 'a', 0xE4: 'a', 0xE3: 'a', // á à â ä ã
+  0xE5: 'a', 0x101: 'a', 0x103: 'a', 0x1EA7: 'a', // å ā ă ầ
+  0xE9: 'e', 0xE8: 'e', 0xEA: 'e', 0xEB: 'e', // é è ê ë
+  0x113: 'e', 0x117: 'e', 0x1EBF: 'e', // ē ė ế
+  0xED: 'i', 0xEC: 'i', 0xEE: 'i', 0xEF: 'i', 0x12B: 'i', // í ì î ï ī
+  0xF3: 'o', 0xF2: 'o', 0xF4: 'o', 0xF6: 'o', 0xF5: 'o', // ó ò ô ö õ
+  0x14F: 'o', 0x1A1: 'o', // ŏ ơ
+  0xFA: 'u', 0xF9: 'u', 0xFB: 'u', 0xFC: 'u', // ú ù û ü
+  0x16B: 'u', 0x16D: 'u', // ū ŭ
+  0xE7: 'c', 0x107: 'c', 0x10D: 'c', // ç ć č
+  0xF0: 'd', 0x142: 'l', 0xE6: 'ae', // ð ł æ
+  0x127: 'h', 0x1E29: 'h', 0x1E96: 'h', // ħ ḩ ẖ
+  0xF1: 'n', 0x144: 'n', // ñ ń
+  0x15F: 's', 0x161: 's', 0x163: 't', // ş š ţ
+  0x17A: 'z', 0x17E: 'z', // ź ž
+  // Dropped, not folded: Dart lowercases İ to "i" plus a combining
+  // dot, and "Nampo" has to reach "Namp’o".
+  0x307: '', 0x327: '', 0x2018: '', 0x2019: '',
+};

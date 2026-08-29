@@ -184,4 +184,27 @@ void main() {
       expect(formatPoints(1234567), '1.2M');
     });
   });
+
+  group('foldForSearch', () {
+    test('strips case and accents', () {
+      expect(foldForSearch('Plátano'), 'platano');
+      expect(foldForSearch('JALAPEÑO'), 'jalapeno');
+    });
+
+    test('folds the marks city names carry beyond Latin-1', () {
+      expect(foldForSearch('São Paulo'), 'sao paulo');
+      expect(foldForSearch('Herāt'), 'herat');
+      expect(foldForSearch('Kraków'), 'krakow');
+      expect(foldForSearch('Reykjanesbær'), 'reykjanesbaer');
+      expect(foldForSearch('Hafnarfjörður'), 'hafnarfjordur');
+    });
+
+    test('drops combining marks and curly quotes', () {
+      // Dart lowercases the Turkish dotted capital I to "i" plus a
+      // combining dot, which no keyboard produces.
+      expect(foldForSearch('İzmir'), 'izmir');
+      expect(foldForSearch('Az̧ Z̧a‘āyin'), 'az zaayin');
+      expect(foldForSearch('Namp’o'), 'nampo');
+    });
+  });
 }

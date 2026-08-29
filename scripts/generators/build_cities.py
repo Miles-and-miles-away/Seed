@@ -17,6 +17,13 @@ Inputs (open data, re-download to rerun; not committed):
 Usage:
   python3 build_cities.py <input_dir> <output_json>
 
+Regeneration order (this script writes a bare city list; the rest
+enrich it in place, so skipping one silently drops what it adds):
+  1. build_cities.py          the city list itself
+  2. enrich_city_names.py     name_ja / name_es from GeoNames
+  3. build_water_blocklist.py metadata.water_blocked index pairs
+  4. sweep_suggestions.py     gate; not done until it passes
+
 Landmass model (adapted from the original city_pairs prototype):
 road-connected continental masses with islands isolated. Countries
 spanning several islands (see ISLAND_ANCHORS) are split per island

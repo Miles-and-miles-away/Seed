@@ -11,8 +11,14 @@ part 'city_model.g.dart';
 /// [mass] tags the road-connected landmass (islands isolated);
 /// fixed crossings between masses are [CityLink]s, so geography
 /// stays pure and connectivity stays explicit.
+///
+/// [name] is the GeoNames endonym-or-English form and is always
+/// present; [nameJa] and [nameEs] are sourced GeoNames alternate
+/// names, null wherever GeoNames publishes none or publishes one
+/// identical to [name].
 @freezed
 abstract class City with _$City {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory City({
     required String name,
     required String cc,
@@ -20,9 +26,20 @@ abstract class City with _$City {
     required double lon,
     required String mass,
     @Default(0) int pop,
+    String? nameJa,
+    String? nameEs,
   }) = _City;
 
+  const City._();
+
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+
+  /// Localized display name with English fallback.
+  String localizedName(String locale) => switch (locale) {
+    'ja' => nameJa ?? name,
+    'es' => nameEs ?? name,
+    _ => name,
+  };
 }
 
 /// A fixed crossing between two landmasses.
