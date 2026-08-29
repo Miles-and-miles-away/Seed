@@ -4,6 +4,10 @@ Where to start, and what each document is.
 
 ## Start here
 
+- [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) -- what belongs in a
+  `PLAN_`, `RESEARCH_`, `PDR_`, `AUDIT_` or `*_ARCHIVE` document.
+  Read it before creating one, or before moving content between
+  two. This README says which document; that one says what goes in.
 - [PLAN_MASTER.md](./PLAN_MASTER.md) -- architecture, data models,
   security posture, and the phase-by-phase development history.
 - [APP_PAGES.md](./APP_PAGES.md) -- every screen and navigation
@@ -38,8 +42,10 @@ data rules live here.
 - [PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
   (+ [archive](./PDR_TRANSPORT_ARCHIVE.md))
 - [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
-- [PDR_FOOD_ARCHIVE.md](./PDR_FOOD_ARCHIVE.md),
-  [FOOD_ITEMS_V2_LIST.md](./FOOD_ITEMS_V2_LIST.md)
+- [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md)
+  (+ [archive](./RESEARCH_FOOD_ARCHIVE.md)) -- written
+  retrospectively in August 2026; the archive also absorbed the
+  delivered v2 item spec.
 - [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)
 
 ## Design and operations

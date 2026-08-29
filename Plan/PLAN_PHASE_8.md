@@ -2,7 +2,9 @@
 
 **Version:** 1.2
 **Created:** July 2026
-**Status:** Planning
+**Status:** Part 1 (transport, 8.1-8.6) and Part 2 (food,
+8.7-8.12) shipped; Part 3 (home energy, 8.13-8.18) is not built.
+See the deliverable table below for the per-item state.
 
 Part 1 (8.1-8.6) is the transport calculator; Part 2 (8.7-8.12) is
 its food sibling; Part 3 (8.13-8.18) covers home energy behaviors.
@@ -137,12 +139,12 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 | 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Done (2026-07-23) |
 | 8.11 Food entry points & analytics (Part 2) | P1 | Low | Done (2026-07-23) |
 | 8.12 Food logging bridge (Part 2) | P2 | Medium | Done, in v1 (2026-07-23) |
-| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | On hold |
-| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | On hold |
-| 8.15 Routine comparison (Part 3) | P0 | Low | On hold |
-| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | On hold |
-| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | On hold |
-| 8.18 Energy logging bridge (Part 3) | P2 | Medium | Deferred |
+| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Research done (2026-08-02), not built |
+| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Decisions done (2026-08-02), not built |
+| 8.15 Routine comparison (Part 3) | P0 | Low | Decisions done (2026-08-02), not built |
+| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Copy drafted (2026-08-02), not built |
+| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | Decisions done (2026-08-02), not built |
+| 8.18 Energy logging bridge (Part 3) | P2 | Medium | Cancelled (2026-08-02), not deferred |
 
 ---
 
@@ -658,8 +660,10 @@ its dataset; it can start once 8.2-8.4 have landed.
   producer-to-producer spread; the methodology sheet says so.
   "Organic" and "local" get an honest evidence-based treatment
   (see 8.10) rather than a feel-good discount.
-- **No Fake Points.** Logging bridge deferred (8.12), same
-  anti-gaming reasoning as 8.6.
+- **No Fake Points.** The calculator itself credits nothing. The
+  logging bridge was deferred with 8.6 and built with it
+  (8.12, 2026-07-23): banking is an explicit separate action on a
+  verdict the app was willing to state.
 - **Lookup, not barcode-scanning.** No product databases, no APIs,
   no photos. ~42 generic food categories with cited factors. Same
   trade as Part 1's "category comparisons, not route lookups".
@@ -841,13 +845,20 @@ losses are included, plus the OWID vintage used and why -- the
 mean/median distinction, not the vintage, turned out to be the
 real fork (food data-review finding, 2026-07-19).
 
-**Consistency check with existing data:** `meatless_meal_beef`,
-`meatless_meal_chicken`, `meatless_meal_pork`, and
-`plant_milk_vs_dairy` in `co2_actions_database.json` already encode
-per-meal deltas derived from these same per-kg factors. The
-research step must verify the new dataset reproduces those deltas
-(or flag the action data for correction) so the app never shows two
-numbers for the same swap.
+**Consistency check with existing data:** the food actions in
+`co2_actions_database.json` encode per-meal deltas derived from
+these same per-kg factors, so the dataset must reproduce them or
+the action data must be corrected in the same PR -- the app never
+shows two numbers for one swap. That rule is still live. The ids
+it was written against are not: the four per-item swap actions
+(`meatless_meal_beef`, `meatless_meal_chicken`,
+`meatless_meal_pork`, `plant_milk_vs_dairy`) were retired in the
+2026-08-08 restructure into tier actions, and
+`food_action_consistency_test.dart` now asserts they stay
+unshipped. **[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 4 is
+the authority on the current action ids, values and binding
+derivations**; they are not restated here, because they have
+already moved twice.
 
 **Resolved gotchas (research + owner decisions, 2026-07-18):**
 
@@ -859,11 +870,14 @@ numbers for the same swap.
   documented fallback if a mean becomes unavailable). Under
   means: beef (beef herd) 99.48, pork 12.31, chicken 9.87.
 - The action data's chicken (6.9 kg/kg) and pork (7.6 kg/kg) came
-  from a PMC study range and match neither statistic. Corrected
-  under means with a standardized 200 g beans/lentils baseline
-  (2026-07-20): `meatless_meal_beef` 9700 g,
-  `meatless_meal_chicken` 780 g, `meatless_meal_pork` 1000 g --
-  same PR as the dataset (never two numbers for one swap).
+  from a PMC study range and match neither statistic. They were
+  corrected under means with a standardized 200 g beans/lentils
+  baseline (2026-07-20) and shipped in the same PR as the dataset
+  -- "never two numbers for one swap", a rule that still binds
+  every future change. The per-item ids that correction landed on
+  have since been retired and their values re-derived twice, so
+  the current table is PDR_FOOD_CALCULATOR.md section 4 rather than any
+  figure restated here.
 - Serving presets ship researched sourced weights (e.g. chicken
   breast 170 g raw, USDA), replacing the schema example's 120 g
   and the old mock's 150 g; presets encode raw as-purchased
@@ -989,21 +1003,44 @@ Same two layers as 8.4:
   (params: item ids, ingredient counts, winning meal) in
   `AnalyticsService`, same shape as the 8.5 events.
 
-### 8.12 Food Logging Bridge (Deferred)
+### 8.12 Food Logging Bridge (BUILT in v1, 2026-07-23)
 
-"I ate the greener meal" -- P2, not in v1. Deferred for exactly
-the 8.6 reasons: variable-CO2 logs break the precomputed-points
-invariant and are the app's biggest self-report gaming surface.
-Food is lower-stakes than transport (a fabricated beef-vs-bean
-meal is ~3 kg, not ~500 kg), so this bridge may ship before 8.6 --
-but it still needs per-log CO2 ceilings and a daily cap first.
+"I ate the greener meal" -- built, on the reasoning that reversed
+8.6 rather than on any new argument: users are isolated and no
+leaderboards are planned (scoring design decision), so
+self-reported inflation only distorts the user's own stats. Food
+was always the lower-stakes half of that case -- a fabricated
+beef-vs-bean meal is ~3 kg, not ~500 kg -- which is why the
+original note allowed it might ship before 8.6.
 
-Interim: the comparison result cross-links the existing food
-actions in the LIVE action library (`skip_high_impact_food`,
-`skip_medium_impact_food`, `plant_milk`) so honest users have a
-logging path today. The `meatless_meal_*` ids exist only in the
-research database (`data/seed/`), not in the seeded library --
-do not cross-link them (design review DR-2, 2026-07-19).
+What shipped, in `food_calculator_screen.dart` and
+`food_choice_providers.dart`:
+
+- The comparison banks the **difference** (the worse meal minus
+  the one eaten), computed client-side, exactly as 8.6 does.
+  `FoodChoiceLogger.logChoice` writes a `users/{uid}/customActions`
+  template carrying that CO2 and its points, then logs it through
+  the standard action transaction, so points, streak, mascot and
+  daily summary stay in one place. Both columns clear on success.
+- **No caps**, for the 8.6 reason (isolation); the existing
+  per-write bound still applies. Category `food`, SDGs 2/12/13 --
+  the same set the live food actions carry.
+- It reuses the `customActions` collection and Firestore rules the
+  transport bridge established. No food-specific rule was added.
+- **Banking is gated on the verdict**: below the comparative bar
+  the button is not rendered at all, because banking is a verdict
+  too (PDR_FOOD_CALCULATOR.md section 5 rule 4). The "why is there no
+  result?" dialog names which bar was missed.
+- The food calculator has exactly two meal columns
+  (`optionCount = 2`), so 8.6's "I took / instead of" pickers are
+  unnecessary here: the pair is unambiguous.
+
+The pre-bridge interim -- cross-linking `skip_high_impact_food`,
+`skip_medium_impact_food` and `plant_milk` from the comparison
+result -- is superseded and no longer in the code. The
+`meatless_meal_*` ids that design review DR-2 warned against
+cross-linking are now retired outright (PDR_FOOD_CALCULATOR.md
+section 4).
 
 ### Part 2 Data Models
 
@@ -1068,8 +1105,8 @@ abstract class MealIngredient with _$MealIngredient {
 |------|-------|
 | Dataset validation | Every item has all three locales, a positive factor, at least one source with url+quote+accessed; serving presets have positive grams and all locales; ids unique (mirror `transport_dataset_invariants_test.dart`) |
 | Engine | Grams x factor math, multi-ingredient sums, zero-gram ingredients, display rounding (g -> kg -> t) |
-| Sanity checks | Cross-item invariants pinned as tests (data pins with margins; full safe-pin and never-pin lists in RESEARCH_FOOD.md): beef (beef herd) > lamb > pork > chicken > tofu > potatoes per kg; 2.5 < beef-herd/dairy-herd < 3.5 (band -- ratio is ~3.0, a strict >3x fails); cheese > chicken; max(plant milk) x 2 < dairy milk |
-| Consistency | Dataset-derived meal deltas match the cited deltas in `meatless_meal_*` action data within tolerance |
+| Sanity checks | Cross-item invariants pinned as tests (data pins with margins; the safe-pin and never-pin lists live in RESEARCH_FOOD.md section 6 and are the authority, since several have been re-derived since): beef > lamb > pork > chicken > tofu > potatoes per kg; cheese > chicken; max(plant milk) x 2 < dairy milk. The beef-herd/dairy-herd ratio band retired with the dairy-herd item (D5) |
+| Consistency | Dataset-derived meal deltas match the shipped food actions within tolerance, asserted by `food_action_consistency_test.dart` against the current ids (PDR_FOOD_CALCULATOR.md section 4); the `meatless_meal_*` ids this row was written for are retired, and the same test asserts they stay unshipped |
 | Widgets | Ingredient add/edit/remove, preset chip fills grams field, comparison bar ordering and delta copy |
 | Localization | Item and preset names resolve in EN/JA/ES |
 
@@ -1084,11 +1121,16 @@ abstract class MealIngredient with _$MealIngredient {
 - [x] Every factor inspectable in-app down to its sources
 - [x] Methodology screen covers scope, spread, and organic/local
       honesty in plain language, localized EN/JA/ES
-- [x] Dataset deltas consistent with existing `meatless_meal_*`
-      actions
+- [x] Dataset deltas consistent with the shipped food actions
 - [x] No points or CO2 credited anywhere in the feature (v1)
 - [x] APP_PAGES.md updated with the new route(s)
 - [x] `flutter analyze` clean; all new logic unit-tested
+
+Accepted against the v1 dataset. It has grown since: 42 items at
+acceptance, 43 with the tree-nut/peanut split, and 166 after the
+v2 expansion (2026-08-08). The item counts and the illustrative
+factor table above are the plan as written, not the shipped
+dataset -- `data/app/food_items.json` and RESEARCH_FOOD.md are.
 
 ### Part 2 Open Questions
 
@@ -1110,18 +1152,22 @@ abstract class MealIngredient with _$MealIngredient {
 > done ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33
 > behaviors, every open item closed) and the decisions are settled
 > ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)). The E1
-> grid rebase and the action-library reconciliation are already
-> applied to the working tree. **No Flutter code exists yet** --
-> `energy_behaviors.json`, `lib/features/energy/` and
-> `test/features/energy/` are still to be built, and the calculator
-> chooser still renders a disabled home-energy tile.
+> grid rebase and the action-library reconciliation are committed.
+> **No Flutter code exists yet** -- `energy_behaviors.json`,
+> `lib/features/energy/` and `test/features/energy/` are still to
+> be built, and the calculator chooser still renders a disabled
+> home-energy tile.
 >
 > The specification below is superseded in places by the research:
 > the grid factor is 458 not 386, the behavior list grew to 33, the
 > oven is per bake cycle not per hour, "space heater" is renamed
 > `portable_electric_heater`, and 8.18's logging bridge is
 > permanently cancelled. **Read the PDR first; treat the section
-> below as the original design intent.**
+> below as the original design intent.** The
+> `Behavior list (initial)` table in 8.13 is the clearest case:
+> it is a historical sketch, its magnitudes are superseded by
+> [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4, and the
+> dataset must be built from that section, never from the table.
 
 Part 3 adds a **home energy calculator**: users build a routine
 from energy behaviors (behavior + quantity), see its CO2e, and
@@ -1168,7 +1214,7 @@ not a feature.
 
 | Deliverable | Description |
 |-------------|-------------|
-| Energy behavior dataset | `data/app/energy_behaviors.json`: ~25 behaviors, kWh-per-unit + carrier, usage presets, EN/JA/ES, full source citations |
+| Energy behavior dataset | `data/app/energy_behaviors.json`: the 33 researched behaviors ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 is the authoritative list), kWh-per-unit + carrier, usage presets, EN/JA/ES, full source citations |
 | Calculator engine | Pure Dart: usages -> per-usage and total CO2e via carrier factors |
 | Routine builder UI | Add/edit/remove usages (behavior, quantity via presets or number) |
 | Comparison UI | 2-3 routines side by side with delta and equivalencies |
@@ -1201,7 +1247,7 @@ heating ships electric and gas variants as **separate entries**
 | Laundry | Tumble dryer cycle | use | ~2.4 | elec |
 | Laundry | Line dry | use | 0 | - |
 | Climate | Aircon cooling | hour | ~0.5 | elec |
-| Climate | Electric space heater | hour | ~1.8 | elec |
+| Climate | Portable electric heater | hour | ~1.8 | elec |
 | Climate | Kotatsu | hour | ~0.15 | elec |
 | Climate | Electric blanket | hour | ~0.05 | elec |
 | Cooking | Kettle, boil 1 L | use | ~0.11 | elec |
@@ -1222,8 +1268,8 @@ The "Small stuff" group is deliberate and load-bearing: those
 entries are the scale anchors that make the heat entries legible
 (the role beef and the private jet play in Parts 1-2), and they
 debunk the most common misallocated worries (standby, chargers).
-Kotatsu vs space heater (~10x) is the flagship JP-relevant
-comparison.
+Kotatsu vs portable electric heater (~8x) is the flagship
+JP-relevant comparison.
 
 Notes locked in now:
 
@@ -1255,11 +1301,15 @@ Metadata carries both carrier factors and the scope string
 lifecycle scope").
 
 **Consistency check with existing data:** the dataset must
-reproduce the cited deltas of `air_dry_clothes`,
-`cold_water_laundry`, `shorter_shower`, `unplug_standby`, and
-`led_vs_incandescent` in `co2_actions_database.json` (or flag the
-action data for correction) -- same rule as Part 2's
-`meatless_meal_*` check.
+reproduce the cited deltas of `air_dry_clothes`, `cold_wash`,
+`shorter_shower`, `unplug_devices`, and `install_led_bulb` in
+`co2_actions_database.json` (or flag the action data for
+correction) -- same rule as Part 2's, which is stated in
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 4: a dataset and the
+actions derived from it ship together, so the app never shows two
+numbers for one swap. (That rule outlived the ids it was written
+against: Part 2's `meatless_meal_*` actions were retired into tier
+actions, and section 7 carries the current table.)
 
 ### 8.14 Routine Builder & Calculator Engine
 
@@ -1285,8 +1335,8 @@ persisted in v1.
 
 Identical mechanics to 8.3/8.9, sharing the comparison widget and
 Phase 6 equivalencies. Educational presets (P2) are unusually
-strong here: "Bath vs shower", "Dryer vs line", "Space heater vs
-kotatsu evening".
+strong here: "Bath vs shower", "Dryer vs line", "Portable electric
+heater vs kotatsu evening".
 
 ```
 +------------------------------------------+
@@ -1348,8 +1398,8 @@ withdrawn. Two reasons, both found during the Part 3 research:
    flying" names a rejected alternative. "I took a shorter
    shower" needs a personal baseline the app cannot obtain.
 2. **Near-total overlap with existing actions.** Five actions
-   (`air_dry_clothes`, `cold_water_laundry`, `shorter_shower`,
-   `unplug_standby`, `led_vs_incandescent`) already model exactly
+   (`air_dry_clothes`, `cold_wash`, `shorter_shower`,
+   `unplug_devices`, `install_led_bulb`) already model exactly
    the behaviors the calculator computes, so a bridge would let
    the same laundry load be logged twice. Transport had one or
    two overlaps; energy has five.
@@ -1358,8 +1408,10 @@ Instead: transport (8.6) and food (8.12) comparison views carry a
 "Log greener choice" button; **the energy comparison view has no
 log affordance at all.** The Tier-1 energy choices ship as
 pre-programmed action-library entries -- see
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4 for the
-four new actions, their values, points and two open caveats.
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4
+for the rebased values and their points, and for the single new
+action (`heat_person_not_room`); the four other proposals were
+dropped as duplicates of behaviours that already ship.
 
 This also settles what the energy calculator is *for*: transport
 and food are decision tools that teach; energy is a teaching tool
@@ -1427,15 +1479,17 @@ the preset UX already proven there.
 | Dataset validation | Locales, positive kWh (zero allowed only for `none` carrier), valid unit/carrier enums, presets positive, ids unique, sources complete |
 | Cross-dataset | `grid_factor_g_per_kwh` identical in `transport_modes.json` and `energy_behaviors.json` |
 | Engine | kWh x units x carrier-factor math, gas vs electric factors, multi-usage sums, zero-unit usages, display rounding |
-| Sanity checks | Bath > 10-min shower > kettle > phone charge; dryer cycle > 30 C wash; 60 C wash > 2x 30 C wash; space heater hour > 5x kotatsu hour; incandescent > 4x LED per hour |
-| Consistency | Dataset-derived deltas match `air_dry_clothes`, `cold_water_laundry`, `shorter_shower`, `unplug_standby`, `led_vs_incandescent` within tolerance |
+| Sanity checks | Bath > 10-min shower > kettle > phone charge; dryer cycle > 30 C wash; 60 C wash > 2x 30 C wash; portable electric heater hour > 5x kotatsu hour; incandescent > 4x LED per hour |
+| Consistency | Dataset-derived deltas match `air_dry_clothes`, `cold_wash`, `shorter_shower`, `unplug_devices`, `install_led_bulb` within tolerance |
 | Widgets | Usage add/edit/remove, preset chip fills units, comparison ordering and delta copy |
 | Localization | Behavior, group, and preset names resolve in EN/JA/ES |
 
 ### Part 3 Acceptance Criteria
 
-- [ ] ~25 behaviors shipped with fully cited factors/assumptions,
-      passing dataset validation tests
+- [ ] All 33 behaviors from
+      [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 shipped
+      with fully cited factors/assumptions, passing dataset
+      validation tests
 - [ ] User can build a routine and see total CO2e
 - [ ] Quantities enterable via presets or raw units
 - [ ] User can compare 2-3 routines with delta and equivalency
@@ -1453,7 +1507,7 @@ the preset UX already proven there.
 | Question | Current lean |
 |----------|--------------|
 | Regional grid factors (JP ~429 g/kWh vs global 458)? | RESOLVED: global 458 for v1 (E1); regionalisation spun out to [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md) |
-| Heating fuel types beyond gas (kerosene, heat pump)? | Gas + electric v1; kerosene is JP-relevant, add in first refresh if requested |
+| Heating fuel types beyond gas (kerosene, heat pump)? | RESOLVED: heat pump ships (decision E3) -- `shower_heatpump`, `dryer_heatpump` and the aircon entries are all in the dataset; kerosene ships as one row of the methodology four-way heating hierarchy, not a picker item (decision E5), because showing it alone would read as an endorsement |
 | Season-aware presets (aircon summer/winter)? | No; presets are named plainly, users pick what they do |
 | Whole-day "routine" templates? | P2, same as recipe presets in Part 2 |
 | Cost display (yen/euro) alongside CO2e? | Tempting (money persuades more than grams) but new maintenance surface (tariffs); methodology mentions cost correlation instead, v1 |
