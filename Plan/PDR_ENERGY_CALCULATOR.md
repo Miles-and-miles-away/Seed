@@ -192,6 +192,16 @@ orderings flipped when the factor moved, and rule #2 blocked both
 from generating copy, so the rebase changed no user-facing claim.
 Figures in [archive](./RESEARCH_ENERGY_ARCHIVE.md) 9.
 
+**Cross-unit comparisons inside one group are allowed** (owner
+call, 2026-08-29). `cook` spans a bake cycle, a minute and an
+hour, and `device` spans an hour, a use and a day, so the gate
+permits "ten hours of keep-warm against one bake". Both sides are
+quantities the user chose deliberately and the arithmetic is
+true, so there is nothing to refuse; the retired unit-level rule
+in the old pin 14 was guarding this only by accident. The
+category errors that matter are cross-group, and those still
+fail condition 1.
+
 Users may still build and compare any two routines they like --
 the gating governs what the **app asserts**, not what the user
 may look at.
@@ -310,9 +320,13 @@ Requirements, not suggestions.
     resistance. Both are now pickable entries, so the app can
     show them rather than only describe them.
 12. **The four-way heating hierarchy ships in the methodology**
-    (aircon 93 / gas 179 / kerosene 243 / resistance 463 g per
+    (aircon 110 / gas 181 / kerosene 245 / resistance 550 g per
     hour), because showing kerosene alone would read as an
-    endorsement.
+    endorsement. Figures corrected 2026-08-29: the previous
+    93 / 463 pair for the two electric rows was on the retired
+    386 g/kWh basis, and mixing it with METI's own gas and
+    kerosene CO2 made the table internally inconsistent. The
+    458-basis table is RESEARCH_ENERGY section 3.3.
 13. **Rice-cooker keep-warm carries the 4-hour rule** verbatim
     from 家電製品協会.
 14. **Standby copy must debunk correctly**, quoting LBNL: per
@@ -320,7 +334,9 @@ Requirements, not suggestions.
     counts rose faster, leaving "approximately the same amount of
     standby energy but now dispersed over many more products".
     Not "standby is trivial", not "standby is 10% of your bill".
-15. **Small loads are never rounded up.** A phone charge is 5.9 g.
+15. **Small loads are never rounded up.** A phone charge is
+    **7.0 g** (0.015271 kWh x 458). Corrected 2026-08-29 from
+    5.9 g, which was the retired 386 basis.
 16. **The fridge is a context line, never an item.**
 17. **Setpoint presets state the linearity caveat** and are
     capped at +/-2 C. The science sheet may quote 環境省's
@@ -335,8 +351,15 @@ Requirements, not suggestions.
     section 6.
 20. **Gas boundary disclosure:** combustion only; DEFRA's WTT
     term (~+17%) excluded for parity with transport.
-21. **Oven carries a low-confidence sublabel** -- now the only
-    shipped entry with no tier-1 primary figure.
+21. **Confidence sublabels are for `low` entries only**, which
+    today means `standby` alone. **The oven does not carry one**
+    (owner call, 2026-08-29). The earlier version of this rule
+    called it "the only shipped entry with no tier-1 primary
+    figure", and that premise was wrong: the oven ships at
+    `medium` on Commission Regulation (EU) No 66/2014 Annex II,
+    which is tier-1. Its EU-to-US proxy caveat lives in its
+    `calculation_notes` and its science sheet, not in a sublabel
+    the data does not support.
 22. **Tie-cluster sort rule:** stable secondary sort
     (alphabetical) so tie-cluster items do not jitter.
 23. **Regionalisation disclosure -- full draft copy in section 6.**

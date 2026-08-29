@@ -688,7 +688,8 @@ resistance heater, 1.6x lower than gas and 2.2x lower than
 kerosene.** That is the flagship heating lesson and it is now
 fully sourced from one government page. It also resolves the
 kerosene framing worry: kerosene beats resistance electric
-(243 vs 463) but loses badly to the heat pump, so the comparison
+(245 vs 550, the table's own 458-basis figures) but loses badly
+to the heat pump, so the comparison
 must always show all four.
 
 **Kerosene is researched but NOT shipped (decision E5).**
@@ -766,8 +767,13 @@ ENERGY STAR does not certify ovens
 ([archive](./RESEARCH_ENERGY_ARCHIVE.md) 6.2). **Nobody publishes
 an oven duty cycle because ovens are not operated by the hour.**
 So the entry ships per bake cycle on the
-tier-1 EU anchor: Commission Delegated Regulation (EU) No
-65/2014, Annex II, verbatim:
+tier-1 EU anchor: **Commission Regulation (EU) No 66/2014**
+(ecodesign requirements for domestic ovens, hobs and range
+hoods), Annex II, verbatim -- number corrected 2026-08-29, when
+the linked PDF was re-fetched and read: it is OJ L 29/42-44 of
+31.1.2014, its Annex II is "Measurements and calculations", and
+it covers hobs, which 65/2014 (labelling) does not. The URL was
+right all along; only the name was wrong:
 
 > "SEC_electric cavity = 0,0042 × V + 0,55 (in kWh)"
 
@@ -1025,10 +1031,15 @@ re-derive at every data pass.
 
 ### Safe pins
 
-1. `bath_electric` is the dataset maximum per single use (5.693;
-   margin vs #2 `dryer_vented` 4.5 = +26%). Margin narrowed by the
-   9.3 delta-T correction -- re-derive before adding any entry
-   above 4.5.
+1. `bath_electric` is the maximum per single use **among the
+   electricity entries** (5.693; margin vs #2 `dryer_vented` 4.5 =
+   +26%). Margin narrowed by the 9.3 delta-T correction --
+   re-derive before adding any entry above 4.5. Scope clarified
+   2026-08-29: `bath_gas` carries a larger *kWh* (7.527) for the
+   same delivered hot water, because a gas figure is fuel input
+   divided by the 0.756353 efficiency. Never rank a gas kWh
+   against an electric one; the carbon comparison is what the two
+   carrier factors are for.
 2. Hot-water chain: `bath_electric > 10 x shower_electric >
    kettle > phone_charge` (5.693 > 2.481 > 0.116 > 0.0153).
    Thinnest link bath vs 10-min shower at **+129%** -- a ratio,
@@ -1059,14 +1070,24 @@ re-derive at every data pass.
 13. **Zero-carrier rule:** `line_dry` is the only entry with
     carrier `none` and the only entry allowed kWh = 0.
 14. **Group integrity:** every entry has a non-empty
-    `comparable_group`; every group has >= 1 member; no group
-    spans more than one `unit` type except `hot_water` (minute +
-    use) and `laundry_dry`.
+    `comparable_group`; every group has >= 1 member; the shipped
+    group distribution is hot_water 5, dishes 4, laundry_wash 3,
+    laundry_dry 3, space_heat 4, space_cool 1, boil 3, cook 4,
+    lighting 2, device 4. **Units are pinned per behavior, not per
+    group** -- corrected 2026-08-29, when the build found the
+    earlier "no group spans more than one unit" rule does not hold
+    and cannot: the unit follows each behavior's physics, so
+    `hot_water` mixes minute with use, `cook` mixes use, minute and
+    hour, and `device` mixes hour, use and day, while `laundry_dry`
+    (named as an exception in the old wording) does not mix at all.
+    The per-behavior pin is the stronger guard anyway, and it is
+    what catches the oven being "corrected" back to an hourly
+    unit.
 15. **Assembled-value pins** (RV-1 pattern -- judgment-call
     values unreachable by any ordering pin, so a silent revert
     would otherwise pass the suite): `kotatsu` 0.15 (not the
-    0.3-0.6 nameplate), `portable_electric_heater` 1.2 (not 1.5), `oven` 1.0
-    (not the 0.802 EU cycle or 2.0 nameplate), `standby` 0.8 (not
+    0.3-0.6 nameplate), `portable_electric_heater` 1.2 (not 1.5),
+    `standby` 0.8 (not
     1.78), `gas_hob` 0.282389 (efficiency 0.35, not 0.32 or
     0.42), `dryer_vented` 4.5 (not the model-specific 4.63),
     `oven` 0.82 (the EU 60-70 L midpoint, not 1.0/hour and not the

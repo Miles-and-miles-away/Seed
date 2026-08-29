@@ -1,0 +1,267 @@
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
+import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
+import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
+import 'package:seed_app/shared/domain/carbon_comparison.dart';
+
+/// Engine arithmetic and the decision-E2 comparison gating (Phase 8.14).
+///
+/// Uses hand-built behaviors, not the shipped dataset: this file tests
+/// the maths and the gating rules, and must not fail when a researched
+/// value legitimately moves.
+void main() {
+  const grid = 458.0;
+  const gas = 182.0;
+
+  EnergyBehavior b(
+    String id, {
+    required String group,
+    required double kwh,
+    EnergyCarrier carrier = EnergyCarrier.electricity,
+    EnergyUnit unit = EnergyUnit.use,
+  }) => EnergyBehavior(
+    id: id,
+    comparableGroup: group,
+    carrier: carrier,
+    unit: unit,
+    kwhPerUnit: kwh,
+    nameEn: id,
+    nameJa: id,
+    nameEs: id,
+  );
+
+  final electric = b('electric', group: 'g', kwh: 2);
+  final gasEntry = b('gas', group: 'g', carrier: EnergyCarrier.gas, kwh: 2);
+  final zero = b('zero', group: 'g', carrier: EnergyCarrier.none, kwh: 0);
+  final byId = EnergyCalculator.byId([electric, gasEntry, zero]);
+
+  double usage(EnergyBehavior behavior, double units) =>
+      EnergyCalculator.usageCo2eGrams(
+        behavior,
+        RoutineUsage(behaviorId: behavior.id, units: units),
+        gridFactor: grid,
+        gasFactor: gas,
+      );
+
+  group('usageCo2eGrams', () {
+    test('multiplies kWh by units by the electricity factor', () {
+      expect(usage(electric, 3), 2 * 3 * grid);
+    });
+
+    test('uses the gas factor for a gas carrier', () {
+      expect(usage(gasEntry, 3), 2 * 3 * gas);
+      // The whole point of two factors: same kWh, different carbon.
+      expect(usage(gasEntry, 3), lessThan(usage(electric, 3)));
+    });
+
+    test('a none carrier emits nothing however many units', () {
+      expect(usage(zero, 99), 0);
+    });
+
+    test('zero units emits nothing', () {
+      expect(usage(electric, 0), 0);
+    });
+
+    test('rejects negative units', () {
+      expect(() => usage(electric, -1), throwsArgumentError);
+    });
+  });
+
+  group('routineCo2eGrams', () {
+    test('sums across carriers', () {
+      final total = EnergyCalculator.routineCo2eGrams(
+        byId,
+        const [
+          RoutineUsage(behaviorId: 'electric', units: 1),
+          RoutineUsage(behaviorId: 'gas', units: 1),
+        ],
+        gridFactor: grid,
+        gasFactor: gas,
+      );
+      expect(total, 2 * grid + 2 * gas);
+    });
+
+    test('an empty routine is zero, not an error', () {
+      expect(
+        EnergyCalculator.routineCo2eGrams(
+          byId,
+          const [],
+          gridFactor: grid,
+          gasFactor: gas,
+        ),
+        0,
+      );
+    });
+
+    test('throws on an unknown behavior id', () {
+      expect(
+        () => EnergyCalculator.routineCo2eGrams(
+          byId,
+          const [RoutineUsage(behaviorId: 'nope', units: 1)],
+          gridFactor: grid,
+          gasFactor: gas,
+        ),
+        throwsArgumentError,
+      );
+    });
+
+    test('routineKwh totals energy independently of carrier', () {
+      expect(
+        EnergyCalculator.routineKwh(byId, const [
+          RoutineUsage(behaviorId: 'electric', units: 1),
+          RoutineUsage(behaviorId: 'gas', units: 2),
+        ]),
+        2 + 4,
+      );
+    });
+  });
+
+  group('comparison gating (decision E2)', () {
+    /// Builds the summary the way the screen does.
+    VerdictCheck check(
+      List<List<RoutineUsage>> options,
+      Map<String, EnergyBehavior> behaviors,
+    ) {
+      final totals = [
+        for (final o in options)
+          EnergyCalculator.routineCo2eGrams(
+            behaviors,
+            o,
+            gridFactor: grid,
+            gasFactor: gas,
+          ),
+      ];
+      return EnergyCalculator.checkVerdict(
+        compareTotals(totals)!,
+        behaviors,
+        options,
+      );
+    }
+
+    test('same group, same carrier, big delta: verdict allowed', () {
+      final small = b('small', group: 'hot_water', kwh: 1);
+      final big = b('big', group: 'hot_water', kwh: 5);
+      final map = EnergyCalculator.byId([small, big]);
+      final result = check([
+        const [RoutineUsage(behaviorId: 'small', units: 1)],
+        const [RoutineUsage(behaviorId: 'big', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.none);
+    });
+
+    test('condition 1: different comparable_group blocks the verdict', () {
+      // A wash load against a dishwasher load is a category error, and
+      // no percentage delta catches a category error.
+      final wash = b('wash', group: 'laundry_wash', kwh: 1.7);
+      final dish = b('dish', group: 'dishes', kwh: 0.85);
+      final map = EnergyCalculator.byId([wash, dish]);
+      final result = check([
+        const [RoutineUsage(behaviorId: 'wash', units: 1)],
+        const [RoutineUsage(behaviorId: 'dish', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.differentGroup);
+    });
+
+    test('condition 2: mixing gas and electricity blocks the verdict', () {
+      // The kettle-vs-gas-hob ordering flipped when the grid factor
+      // moved 386 -> 458. This rule is why that changed no user-facing
+      // claim.
+      final kettle = b('kettle', group: 'boil', kwh: 0.116278);
+      final hob = b(
+        'gas_hob',
+        group: 'boil',
+        carrier: EnergyCarrier.gas,
+        kwh: 0.282389,
+      );
+      final map = EnergyCalculator.byId([kettle, hob]);
+      final result = check([
+        const [RoutineUsage(behaviorId: 'kettle', units: 1)],
+        const [RoutineUsage(behaviorId: 'gas_hob', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.differentCarrier);
+    });
+
+    test('condition 3: a delta under 20% blocks the verdict', () {
+      // Kettle vs induction hob: 0.3% apart. The tie is the honest
+      // answer.
+      final kettle = b('kettle', group: 'boil', kwh: 0.116278);
+      final ih = b('ih_hob', group: 'boil', kwh: 0.116598);
+      final map = EnergyCalculator.byId([kettle, ih]);
+      final result = check([
+        const [RoutineUsage(behaviorId: 'kettle', units: 1)],
+        const [RoutineUsage(behaviorId: 'ih_hob', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.tooClose);
+      expect(result.requiredPercent, 20);
+    });
+
+    test('carrier none does not count as a second carrier', () {
+      // Line drying against a tumble dryer is the flagship comparison
+      // of the feature. A zero emits zero on every grid, so it cannot
+      // flip the way gas-vs-electric can, and must stay comparable.
+      final dryer = b('dryer', group: 'laundry_dry', kwh: 4.5);
+      final line = b(
+        'line_dry',
+        group: 'laundry_dry',
+        carrier: EnergyCarrier.none,
+        kwh: 0,
+      );
+      final map = EnergyCalculator.byId([dryer, line]);
+      final result = check([
+        const [RoutineUsage(behaviorId: 'line_dry', units: 1)],
+        const [RoutineUsage(behaviorId: 'dryer', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.none);
+    });
+
+    test('routines with different group composition block the verdict', () {
+      // Groups are compared per option, not pooled: two routines with
+      // the SAME composition are comparable (see the dataset gating
+      // test's heat-pump case). This one differs -- B has no laundry --
+      // so the two sides are about different things.
+      //
+      // Users may build any routine they like; the gating governs what
+      // the app asserts, not what the user may look at.
+      final shower = b('shower', group: 'hot_water', kwh: 2.5);
+      final wash = b('wash', group: 'laundry_wash', kwh: 1.7);
+      final map = EnergyCalculator.byId([shower, wash]);
+      final result = check([
+        const [
+          RoutineUsage(behaviorId: 'shower', units: 1),
+          RoutineUsage(behaviorId: 'wash', units: 1),
+        ],
+        const [RoutineUsage(behaviorId: 'shower', units: 1)],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.differentGroup);
+    });
+
+    test('mayStateVerdict agrees with checkVerdict', () {
+      final small = b('small', group: 'hot_water', kwh: 1);
+      final big = b('big', group: 'hot_water', kwh: 5);
+      final map = EnergyCalculator.byId([small, big]);
+      const options = [
+        [RoutineUsage(behaviorId: 'small', units: 1)],
+        [RoutineUsage(behaviorId: 'big', units: 1)],
+      ];
+      final totals = [
+        EnergyCalculator.routineCo2eGrams(
+          map,
+          options[0],
+          gridFactor: grid,
+          gasFactor: gas,
+        ),
+        EnergyCalculator.routineCo2eGrams(
+          map,
+          options[1],
+          gridFactor: grid,
+          gasFactor: gas,
+        ),
+      ];
+      expect(
+        EnergyCalculator.mayStateVerdict(compareTotals(totals)!, map, options),
+        isTrue,
+      );
+    });
+  });
+}

@@ -9,9 +9,8 @@ tables, dataset values, sanity invariants and standing rules stay
 in RESEARCH_ENERGY.md; the live decisions, product rules and
 UI/copy requirements stay in the PDR.
 
-Same split as
-[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) and
-[PDR_FOOD_ARCHIVE.md](./PDR_FOOD_ARCHIVE.md).
+The split itself is a repo-wide convention, defined once in
+[DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 6.
 
 Reading notes: "sec N" and bare section numbers refer to
 RESEARCH_ENERGY.md, not to this file. The `9.x` item numbers are
@@ -558,7 +557,7 @@ live `actionLibrary` collection, so the block was emptied.
 - **Food FR-22 (corrected food values)** -- `skip_high_impact_food`
   3700, `skip_medium_impact_food` 780, `plant_milk` 460,
   `skip_fish` 560, all four live and matching the local dataset.
-  [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) section 7 remains the
+  [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 4 remains the
   authority for those values; they are not restated here.
 
 Both went in on **one seeding run**, as the entries intended.
