@@ -107,8 +107,14 @@ final class ActionLogDataSourceProvider
 String _$actionLogDataSourceHash() =>
     r'a52a90701437ce2029e9acacc2fbad2b90ccd47c';
 
+/// Kept alive: every caller only `read`s it, so as autoDispose it was
+/// disposed mid-build and the `ref.watch` after its awaits threw.
+
 @ProviderFor(actionLogRepository)
 final actionLogRepositoryProvider = ActionLogRepositoryProvider._();
+
+/// Kept alive: every caller only `read`s it, so as autoDispose it was
+/// disposed mid-build and the `ref.watch` after its awaits threw.
 
 final class ActionLogRepositoryProvider
     extends
@@ -120,6 +126,8 @@ final class ActionLogRepositoryProvider
     with
         $FutureModifier<ActionLogRepository>,
         $FutureProvider<ActionLogRepository> {
+  /// Kept alive: every caller only `read`s it, so as autoDispose it was
+  /// disposed mid-build and the `ref.watch` after its awaits threw.
   ActionLogRepositoryProvider._()
     : super(
         from: null,
@@ -832,14 +840,23 @@ final class FilteredActionsProvider
 String _$filteredActionsHash() => r'd6e1da63de401f7dbc9d3f0be6bc4138a93e3174';
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 
 @ProviderFor(ActionLogNotifier)
 final actionLogProvider = ActionLogNotifierProvider._();
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 final class ActionLogNotifierProvider
     extends $NotifierProvider<ActionLogNotifier, AsyncValue<ActionLogResult?>> {
   /// Notifier that handles logging actions.
+  ///
+  /// Kept alive: nothing watches it, so as autoDispose it was disposed
+  /// mid-log, silently skipping the stats invalidation and the error state.
   ActionLogNotifierProvider._()
     : super(
         from: null,
@@ -867,9 +884,12 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'feb302d61620deb0913f70a1e47299e0a5f091f0';
+String _$actionLogNotifierHash() => r'5d74ed45e1d5b5d608500e73e1b272f35647bf80';
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 
 abstract class _$ActionLogNotifier
     extends $Notifier<AsyncValue<ActionLogResult?>> {
