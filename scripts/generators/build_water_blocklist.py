@@ -63,6 +63,7 @@ import json
 import math
 import sys
 import time
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -151,6 +152,13 @@ FIXED_CROSSINGS = [
 # snapped cells exceeds the edge weight by at least this margin.
 CROSSING_CHECK_SLACK_KM = 20.0
 CROSSING_CHECK_LIMIT_KM = 100.0
+
+# Border verdicts carry expiry risk: a closed border reopens and a
+# stale verdict silently blocks honest corridors. Re-verify live,
+# then move this date. Watchlist in RESEARCH_TRANSPORT.md A.5.
+BORDER_VERDICTS_VERIFIED = date(2026, 7, 21)
+BORDER_VERDICT_MAX_AGE_DAYS = 180
+
 
 # Country pairs whose shared border is closed to travel; every
 # candidate pair between the two countries is blocked regardless
@@ -737,8 +745,24 @@ def resolve_manual(cities, entries, label, allowed_masses):
     return resolved
 
 
+def check_border_verdicts():
+    """Abort when the border verdicts are too old to gate a build."""
+    age = (date.today() - BORDER_VERDICTS_VERIFIED).days
+    if age > BORDER_VERDICT_MAX_AGE_DAYS:
+        sys.exit(
+            f"BORDER_VERDICTS_VERIFIED is {age} days old (max "
+            f"{BORDER_VERDICT_MAX_AGE_DAYS}). CLOSED_BORDERS and "
+            "BORDER_WALLS gate this build, so re-verify them live "
+            "(watchlist: RESEARCH_TRANSPORT.md Appendix A.5), then "
+            "move the date."
+        )
+    print(f"border verdicts: {age} days old, within "
+          f"{BORDER_VERDICT_MAX_AGE_DAYS}")
+
+
 def main():
     start = time.time()
+    check_border_verdicts()
     with open(CITIES_PATH, encoding="utf-8") as f:
         payload = json.load(f)
     cities = payload["cities"]
