@@ -369,14 +369,23 @@ String _$shouldShowChallengeDialogHash() =>
     r'fd0664793fdce3abba7c7ae591dfc213bb098f89';
 
 /// Notifier for multi-day challenge actions.
+///
+/// Kept alive: callers only `read` it, so as autoDispose it was disposed
+/// while awaiting the template load and the following `state` write threw.
 
 @ProviderFor(MultiDayChallengeNotifier)
 final multiDayChallengeProvider = MultiDayChallengeNotifierProvider._();
 
 /// Notifier for multi-day challenge actions.
+///
+/// Kept alive: callers only `read` it, so as autoDispose it was disposed
+/// while awaiting the template load and the following `state` write threw.
 final class MultiDayChallengeNotifierProvider
     extends $NotifierProvider<MultiDayChallengeNotifier, AsyncValue<void>> {
   /// Notifier for multi-day challenge actions.
+  ///
+  /// Kept alive: callers only `read` it, so as autoDispose it was disposed
+  /// while awaiting the template load and the following `state` write threw.
   MultiDayChallengeNotifierProvider._()
     : super(
         from: null,
@@ -408,6 +417,9 @@ String _$multiDayChallengeNotifierHash() =>
     r'8d855c6acb951ef20b79f6ea72e68e0121747ae6';
 
 /// Notifier for multi-day challenge actions.
+///
+/// Kept alive: callers only `read` it, so as autoDispose it was disposed
+/// while awaiting the template load and the following `state` write threw.
 
 abstract class _$MultiDayChallengeNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();
