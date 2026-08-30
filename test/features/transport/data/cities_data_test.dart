@@ -44,18 +44,30 @@ void main() {
       expect(jp.map((c) => c.name), contains('Fukuoka'));
     });
 
-    test('every city name is typable on an ASCII keyboard', () async {
-      // 135 names carry diacritics; an unfolded one is unreachable by
-      // ordinary typing in every locale, English included.
-      final cities = await loadCities();
-      for (final city in cities) {
-        expect(
-          foldForSearch(city.name),
-          matches(RegExp(r'^[ -~]+$')),
-          reason: city.name,
-        );
-      }
-    });
+    test(
+      'every Latin-script city name is typable on an ASCII keyboard',
+      () async {
+        // 135 names carry diacritics; an unfolded one is unreachable by
+        // ordinary typing in every locale, English included. The picker
+        // searches name_es as well, and it carries marks the English
+        // spelling does not (Chisinau ships as "Chișinău").
+        //
+        // name_ja is exempt by script, not by oversight: folding cannot
+        // turn 東京都 into ASCII, and a JA query is typed on a JA
+        // keyboard. Its own pins are the emptiness and fallback checks
+        // below.
+        final cities = await loadCities();
+        for (final city in cities) {
+          for (final name in [city.name, city.nameEs].nonNulls) {
+            expect(
+              foldForSearch(name),
+              matches(RegExp(r'^[ -~]+$')),
+              reason: name,
+            );
+          }
+        }
+      },
+    );
 
     test('sourced localized names cover most of the list', () async {
       final cities = await loadCities();

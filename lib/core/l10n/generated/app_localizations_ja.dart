@@ -1832,6 +1832,10 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get foodVerdictTiedBasisFlips =>
+      'ここでどちらの食事が優れているかは、食材そのものではなく、元の研究における会計上の選択によって決まっています。両方の食事に含まれる一部の食材は、元をたどると同じ研究値を共有しており、その値を1つにそろえると結果が逆転します。このように入れ替わる勝敗は研究の都合を映したものなので、判定は行いません。合計値は上に表示しています。';
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percent%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
   }

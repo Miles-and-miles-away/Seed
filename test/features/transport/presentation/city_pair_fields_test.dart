@@ -85,6 +85,15 @@ void main() {
     expect(find.text('São Paulo, BR'), findsNothing);
   });
 
+  testWidgets('two dropped characters do not match every city', (tester) async {
+    // The length guard ran on the raw text while the fold ran after,
+    // and the fold drops curly quotes: two of them passed the guard,
+    // folded to '', and every city contains ''.
+    await search(tester, '’’');
+    expect(find.text('São Paulo, BR'), findsNothing);
+    expect(find.text('Tokyo, JP'), findsNothing);
+  });
+
   testWidgets('labels follow the UI locale', (tester) async {
     await tester.pumpWidget(
       buildFields(from: _tokyo, locale: const Locale('ja')),
@@ -105,5 +114,48 @@ void main() {
       tester.widget<TextField>(find.byType(TextField).first).controller!.text,
       'São Paulo, BR',
     );
+  });
+
+  testWidgets('an in-app language change relabels the field', (tester) async {
+    // Autocomplete seeds its controller once, at mount. Without a
+    // reseed the field still read "Tokyo, JP" after the switch while
+    // the selection's label had become "東京都, JP", so the next
+    // keystroke failed the equality check and dropped a valid pair.
+    final locale = ValueNotifier(const Locale('en'));
+    addTearDown(locale.dispose);
+    var cleared = false;
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [transportCitiesProvider.overrideWith((_) async => _cities)],
+        child: ValueListenableBuilder<Locale>(
+          valueListenable: locale,
+          builder: (context, value, _) => MaterialApp(
+            locale: value,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: CityPairFields(
+                from: _tokyo,
+                to: null,
+                onChanged: (from, _) => cleared |= from == null,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    locale.value = const Locale('ja');
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller!.text,
+      '東京都, JP',
+    );
+    expect(cleared, isFalse);
   });
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 
@@ -90,8 +90,8 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
   }
 
   void _submit() {
-    final units = double.tryParse(_controller.text.trim());
-    if (units == null || units <= 0 || !units.isFinite) {
+    final units = parseDecimalInput(_controller.text);
+    if (units == null || units <= 0) {
       setState(() => _invalid = true);
       return;
     }
@@ -152,9 +152,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
-              ],
+              inputFormatters: [decimalInputFormatter],
               decoration: InputDecoration(
                 labelText: l10n.energyQuantityLabel,
                 suffixText: energyUnitSuffix(l10n, widget.behavior.unit),
@@ -166,7 +164,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
               onChanged: (value) => setState(() {
                 _invalid = false;
                 _selectedPresetId = _presetIdFor(
-                  double.tryParse(value.trim()) ?? -1,
+                  parseDecimalInput(value) ?? -1,
                 );
               }),
               onSubmitted: (_) => _submit(),

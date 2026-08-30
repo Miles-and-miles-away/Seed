@@ -82,7 +82,8 @@ String formatPoints(int points) {
 /// "jalapeño" -- without folding, the two most common ES queries miss.
 /// The same holds for place names: nobody types "São Paulo" or
 /// "Zürich" on a phone keyboard, so [_diacritics] covers every mark
-/// carried by the food and city datasets.
+/// the Latin-script food and city names carry, English and Spanish
+/// alike. Japanese names carry no marks and are matched as typed.
 String foldForSearch(String value) {
   final buffer = StringBuffer();
   for (final rune in value.toLowerCase().runes) {
@@ -98,14 +99,16 @@ const _diacritics = <int, String>{
   0x113: 'e', 0x117: 'e', 0x1EBF: 'e', // ē ė ế
   0xED: 'i', 0xEC: 'i', 0xEE: 'i', 0xEF: 'i', 0x12B: 'i', // í ì î ï ī
   0xF3: 'o', 0xF2: 'o', 0xF4: 'o', 0xF6: 'o', 0xF5: 'o', // ó ò ô ö õ
-  0x14F: 'o', 0x1A1: 'o', // ŏ ơ
+  0x14D: 'o', 0x14F: 'o', 0x1A1: 'o', // ō ŏ ơ
   0xFA: 'u', 0xF9: 'u', 0xFB: 'u', 0xFC: 'u', // ú ù û ü
   0x16B: 'u', 0x16D: 'u', // ū ŭ
   0xE7: 'c', 0x107: 'c', 0x10D: 'c', // ç ć č
   0xF0: 'd', 0x142: 'l', 0xE6: 'ae', // ð ł æ
   0x127: 'h', 0x1E29: 'h', 0x1E96: 'h', // ħ ḩ ẖ
   0xF1: 'n', 0x144: 'n', // ñ ń
-  0x15F: 's', 0x161: 's', 0x163: 't', // ş š ţ
+  0x15F: 's', 0x161: 's', 0x219: 's', // ş š ș
+  0x163: 't', 0x21B: 't', // ţ ț
+  0xFD: 'y', // ý
   0x17A: 'z', 0x17E: 'z', // ź ž
   // Dropped, not folded: Dart lowercases İ to "i" plus a combining
   // dot, and "Nampo" has to reach "Namp’o".

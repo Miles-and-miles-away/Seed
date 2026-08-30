@@ -1905,6 +1905,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get foodVerdictTiedBasisFlips =>
+      'Cuál de estas comidas sale mejor parada depende de una decisión contable del estudio original y no de los alimentos. Algunos ingredientes de ambos lados comparten una misma cifra de investigación de origen, y al fijar esa cifra en un único valor el resultado se invierte. Una ganadora que cambia así es un dato sobre el estudio, así que no declaramos ninguna. Arriba tienes ambos totales.';
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percent% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.';
   }

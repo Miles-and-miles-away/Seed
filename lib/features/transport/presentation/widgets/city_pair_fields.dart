@@ -96,15 +96,22 @@ class _CityField extends StatelessWidget {
     final locale = Localizations.localeOf(context).languageCode;
     String cityLabel(City c) => '${c.localizedName(locale)}, ${c.cc}';
     return Autocomplete<City>(
+      // initialValue seeds the controller once, at mount. Keying on the
+      // locale remounts the field when the language changes, so the
+      // visible label cannot drift out of sync with the label the
+      // equality check below tests against.
+      key: ValueKey(locale),
       // The form step unmounts this field; seeding from the selected
       // city keeps the visible text in sync with the estimate-driving
       // state when the mode step remounts it.
       initialValue: TextEditingValue(text: city == null ? '' : cityLabel(city)),
       displayStringForOption: cityLabel,
       optionsBuilder: (textEditingValue) {
-        final text = textEditingValue.text.trim();
-        if (text.length < 2) return const Iterable<City>.empty();
-        final query = foldForSearch(text);
+        // Guard the folded needle, not the raw text: folding drops
+        // quotes and combining marks, so two of those alone left an
+        // empty query that every city contains.
+        final query = foldForSearch(textEditingValue.text.trim());
+        if (query.length < 2) return const Iterable<City>.empty();
         return cities.where((c) => _matches(c, query)).take(_maxOptions);
       },
       onSelected: onSelected,

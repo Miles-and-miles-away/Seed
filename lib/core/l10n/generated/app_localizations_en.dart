@@ -1882,6 +1882,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get foodVerdictTiedBasisFlips =>
+      'Which meal comes out ahead here depends on an accounting choice in the source study rather than on the food. Some ingredients on the two sides share one underlying research figure, and holding that figure to a single value reverses the result. A winner that swaps like that is a fact about the study, so we won\'t name one. Both totals are shown above.';
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return '$item is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to $ratio times its midpoint, so where it lands depends heavily on which farms you count. A gap of about $percent% would outrun that uncertainty; this one doesn\'t. You can still log the meal as a normal action.';
   }

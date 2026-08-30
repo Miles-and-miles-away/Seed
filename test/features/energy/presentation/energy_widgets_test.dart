@@ -198,16 +198,22 @@ void main() {
       defaultPresetId: 'typical_10min',
     );
 
-    /// Opens the sheet and hands back whatever it returned.
-    Future<double?> open(WidgetTester tester, {double? initialUnits}) async {
-      double? result;
+    /// What the sheet popped, readable once it has closed.
+    ///
+    /// Not [open]'s return value: that call comes back while the sheet
+    /// is still up, so awaiting it there always yielded null and the
+    /// assertion on it proved nothing.
+    double? returned;
+
+    Future<void> open(WidgetTester tester, {double? initialUnits}) async {
+      returned = null;
       await tester.pumpWidget(
         ProviderScope(
           child: _wrap(
             Builder(
               builder: (context) => TextButton(
                 onPressed: () async {
-                  result = await UsageEditorSheet.show(
+                  returned = await UsageEditorSheet.show(
                     context,
                     behavior: shower,
                     initialUnits: initialUnits,
@@ -221,7 +227,6 @@ void main() {
       );
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
-      return result;
     }
 
     testWidgets('opens on the default preset', (tester) async {
@@ -251,6 +256,22 @@ void main() {
       await tester.pumpAndSettle();
       // The sheet is closed and the caller has the value.
       expect(find.byType(TextField), findsNothing);
+      expect(returned, 3);
+    });
+
+    testWidgets('a comma decimal survives the field and parses', (
+      tester,
+    ) async {
+      // An ES/JA/FR keypad emits ',', which the old digits-and-dot
+      // formatter stripped: "1,5" hours became 15 hours, silently.
+      await open(tester);
+      await tester.enterText(find.byType(TextField), '1,5');
+      await tester.pump();
+      final field = tester.widget<TextField>(find.byType(TextField));
+      expect(field.controller?.text, '1,5');
+      await tester.tap(find.widgetWithText(FilledButton, 'Add'));
+      await tester.pumpAndSettle();
+      expect(returned, 1.5);
     });
 
     testWidgets('zero and blank are rejected rather than added', (

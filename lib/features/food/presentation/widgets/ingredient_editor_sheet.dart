@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
-
-/// Keeps the quantity input to digits with at most one decimal
-/// separator; ',' is allowed because locale keypads emit it.
-final _gramsInputFormatter = FilteringTextInputFormatter.allow(
-  RegExp(r'^\d*[.,]?\d*'),
-);
 
 /// Full-precision seed for the editable grams field; drops a trailing
 /// ".0" so whole values read cleanly.
@@ -120,23 +114,9 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     });
   }
 
-  /// The typed quantity, or null when it is not a usable number.
-  ///
-  /// Locale keypads emit ',' as the decimal separator, so normalize
-  /// before parsing ("12,5" reads as 12.5). tryParse also accepts
-  /// "NaN" and "Infinity"; reject those and negatives too.
-  double? get _parsedGrams {
-    final grams = double.tryParse(
-      _gramsController.text.trim().replaceAll(',', '.'),
-    );
-    return (grams == null || grams.isNaN || grams.isInfinite || grams < 0)
-        ? null
-        : grams;
-  }
-
   /// The ingredient as currently entered, for the preview and save.
   MealIngredient? get _draftIngredient {
-    final grams = _parsedGrams;
+    final grams = parseDecimalInput(_gramsController.text);
     return grams == null
         ? null
         : MealIngredient(itemId: widget.item.id, grams: grams);
@@ -222,7 +202,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                inputFormatters: [_gramsInputFormatter],
+                inputFormatters: [decimalInputFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.foodQuantityLabel,
                   border: const OutlineInputBorder(),

@@ -135,32 +135,40 @@ class EnergyCalculator {
     // the two sides being about different things, so that is what is
     // tested: a wash load against a dishwasher load still fails.
     final groupsPerOption = <Set<String>>[];
-    final carriers = <EnergyCarrier>{};
+    final carriersPerOption = <Set<EnergyCarrier>>[];
     for (final option in options) {
       final groups = <String>{};
+      final carriers = <EnergyCarrier>{};
       for (final usage in option) {
         final behavior = _require(behaviorsById, usage.behaviorId);
         groups.add(behavior.comparableGroup);
-        // Carrier `none` is deliberately not collected, and is pooled
-        // rather than per-option for the same reason. The same-carrier
-        // rule exists because the gas-versus-electric ordering flips
-        // with the grid factor, so a verdict would be a fact about the
-        // user's country. A zero emits zero on every grid and cannot
-        // flip, so line drying stays comparable with a tumble dryer --
-        // the flagship lesson of the feature. Per-option carrier sets
-        // would have broken exactly that, since line drying's option
-        // has no carrier at all.
+        // Carrier `none` is deliberately not collected. The
+        // same-carrier rule exists because the gas-versus-electric
+        // ordering flips with the grid factor, so a verdict would be a
+        // fact about the user's country. A zero emits zero on every
+        // grid and cannot flip, so line drying stays comparable with a
+        // tumble dryer -- the flagship lesson of the feature -- by
+        // contributing no carrier at all.
         if (behavior.carrier != EnergyCarrier.none) {
           carriers.add(behavior.carrier);
         }
       }
       groupsPerOption.add(groups);
+      carriersPerOption.add(carriers);
     }
     final first = groupsPerOption.first;
-    if (groupsPerOption.any((g) => !_sameGroups(g, first))) {
+    if (groupsPerOption.any((g) => !_sameSet(g, first))) {
       return const VerdictCheck(EnergyVerdictBlock.differentGroup);
     }
-    if (carriers.length > 1) {
+    // Carriers are compared per option too, for the same reason as the
+    // groups. Pooling asked "is more than one carrier present at all",
+    // which blocked a gas shower against a shorter gas shower the
+    // moment a kettle sat on both sides -- and then told the user one
+    // side runs on gas and the other on electricity, which was false.
+    // Options with no carrier are skipped rather than compared: that
+    // is the line-drying case above.
+    final carried = carriersPerOption.where((c) => c.isNotEmpty).toList();
+    if (carried.any((c) => !_sameSet(c, carried.first))) {
       return const VerdictCheck(EnergyVerdictBlock.differentCarrier);
     }
     if (summary.deltaPercent < verdictMinPercent) {
@@ -169,7 +177,7 @@ class EnergyCalculator {
     return const VerdictCheck(EnergyVerdictBlock.none);
   }
 
-  static bool _sameGroups(Set<String> a, Set<String> b) =>
+  static bool _sameSet<T>(Set<T> a, Set<T> b) =>
       a.length == b.length && a.containsAll(b);
 
   /// A tie is the honest answer, not a failure to compute: the kettle
@@ -193,8 +201,8 @@ enum EnergyVerdictBlock {
   /// is a category error rather than a close call.
   differentGroup,
 
-  /// The routines span both gas and electricity, where the ordering is
-  /// a fact about the user's grid rather than their behaviour.
+  /// The two routines draw on different carriers, where the ordering
+  /// is a fact about the user's grid rather than their behaviour.
   differentCarrier,
 
   /// Inside the dataset's own resolution.

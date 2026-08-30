@@ -27,6 +27,9 @@ import 'package:flutter_test/flutter_test.dart';
 /// RESEARCH_ENERGY.md sections 1 and 3 and update it in both places.
 /// If no citable primary exists, ship `sources: []` and say so in the
 /// entry's calculation_notes -- never borrow one from elsewhere.
+///
+/// The over-length lines below are verbatim quotes and URLs: wrapping
+/// or trimming one to fit 88 columns would break the pin it exists for.
 void main() {
   late List<(String, String, String, String)> actual;
 

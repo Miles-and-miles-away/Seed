@@ -922,6 +922,7 @@
     }
   },
   "foodVerdictTiedBasis": "Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se descuenta, estas comidas quedan a menos del {percent}% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.",
+  "foodVerdictTiedBasisFlips": "Cuál de estas comidas sale mejor parada depende de una decisión contable del estudio original y no de los alimentos. Algunos ingredientes de ambos lados comparten una misma cifra de investigación de origen, y al fijar esa cifra en un único valor el resultado se invierte. Una ganadora que cambia así es un dato sobre el estudio, así que no declaramos ninguna. Arriba tienes ambos totales.",
   "foodVerdictUncertainItem": "El problema es {item}, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta {ratio} veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al {percent}% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.",
   "@foodVerdictUncertainItem": {
     "description": "Body: one ingredient has a wide mean/median spread",

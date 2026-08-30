@@ -3361,6 +3361,12 @@ abstract class AppLocalizations {
   /// **'The gap here rests on ingredients that share one underlying research figure. Where two of those disagree, the disagreement is an accounting choice made in the original study rather than anything measured on a farm. Set that aside and these meals land within {percent}% of each other, so we won\'t name a winner. Both totals are shown above.'**
   String foodVerdictTiedBasis(int percent);
 
+  /// Body: flattening the shared derivation basis swaps the winner
+  ///
+  /// In en, this message translates to:
+  /// **'Which meal comes out ahead here depends on an accounting choice in the source study rather than on the food. Some ingredients on the two sides share one underlying research figure, and holding that figure to a single value reverses the result. A winner that swaps like that is a fact about the study, so we won\'t name one. Both totals are shown above.'**
+  String get foodVerdictTiedBasisFlips;
+
   /// Body: one ingredient has a wide mean/median spread
   ///
   /// In en, this message translates to:

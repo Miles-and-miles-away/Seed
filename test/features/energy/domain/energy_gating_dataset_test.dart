@@ -144,6 +144,20 @@ void main() {
       );
     });
 
+    test('a shorter gas shower inside a larger routine', () {
+      // Regression for the pooled-carrier bug, the carrier twin of the
+      // union-of-groups one above: identical carrier make-up on both
+      // sides ({gas, electricity}), one gas shower halved, 45.9% apart
+      // -- and it was refused as a gas-versus-electric comparison.
+      expect(
+        blockFor(
+          [('shower_gas', 10), ('kettle', 1)],
+          [('shower_gas', 5), ('kettle', 1)],
+        ),
+        EnergyVerdictBlock.none,
+      );
+    });
+
     test('bath vs a ten-minute shower on the same carrier', () {
       expect(
         blockFor([('bath_gas', 1)], [('shower_gas', 10)]),

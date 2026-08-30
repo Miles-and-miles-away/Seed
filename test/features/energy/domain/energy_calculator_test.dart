@@ -196,6 +196,64 @@ void main() {
       expect(result.requiredPercent, 20);
     });
 
+    test('identical carrier make-up on both sides is comparable', () {
+      // Pooling the carriers asked "is more than one present at all",
+      // so a gas shower against a shorter gas shower was blocked the
+      // moment a kettle sat on both sides -- and the copy then told
+      // the user one side runs on gas and the other on electricity.
+      final shower = b(
+        'shower_gas',
+        group: 'hot_water',
+        carrier: EnergyCarrier.gas,
+        kwh: 0.3,
+        unit: EnergyUnit.minute,
+      );
+      final kettle = b('kettle', group: 'boil', kwh: 0.116278);
+      final map = EnergyCalculator.byId([shower, kettle]);
+      final result = check([
+        const [
+          RoutineUsage(behaviorId: 'shower_gas', units: 10),
+          RoutineUsage(behaviorId: 'kettle', units: 1),
+        ],
+        const [
+          RoutineUsage(behaviorId: 'shower_gas', units: 5),
+          RoutineUsage(behaviorId: 'kettle', units: 1),
+        ],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.none);
+    });
+
+    test('a carrier swap inside a shared routine still blocks', () {
+      // The rule the pooling was standing in for: same groups, same
+      // kettle, but one shower is gas and the other electric.
+      final gasShower = b(
+        'shower_gas',
+        group: 'hot_water',
+        carrier: EnergyCarrier.gas,
+        kwh: 0.3,
+        unit: EnergyUnit.minute,
+      );
+      final electricShower = b(
+        'shower_electric',
+        group: 'hot_water',
+        kwh: 0.248111,
+        unit: EnergyUnit.minute,
+      );
+      final kettle = b('kettle', group: 'boil', kwh: 0.116278);
+      final map = EnergyCalculator.byId([gasShower, electricShower, kettle]);
+      final result = check([
+        const [
+          RoutineUsage(behaviorId: 'shower_gas', units: 10),
+          RoutineUsage(behaviorId: 'kettle', units: 1),
+        ],
+        const [
+          RoutineUsage(behaviorId: 'shower_electric', units: 10),
+          RoutineUsage(behaviorId: 'kettle', units: 1),
+        ],
+      ], map);
+      expect(result.block, EnergyVerdictBlock.differentCarrier);
+    });
+
     test('carrier none does not count as a second carrier', () {
       // Line drying against a tumble dryer is the flagship comparison
       // of the feature. A zero emits zero on every grid, so it cannot

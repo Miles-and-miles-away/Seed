@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 import 'package:seed_app/features/transport/data/models/journey_leg_model.dart';
@@ -18,13 +18,6 @@ import 'package:seed_app/features/transport/presentation/providers/transport_pro
 import 'package:seed_app/features/transport/presentation/widgets/city_pair_fields.dart';
 import 'package:seed_app/features/transport/presentation/widgets/occupancy_stepper.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
-
-/// Keeps the distance input to digits with at most one decimal
-/// separator; ',' is allowed because locale keypads emit it (the
-/// anchored pattern keeps the longest valid prefix).
-final _distanceInputFormatter = FilteringTextInputFormatter.allow(
-  RegExp(r'^\d*[.,]?\d*'),
-);
 
 /// Full-precision seed for the editable distance field. The display
 /// formatter (formatKmCompact) rounds to one decimal, which would
@@ -192,21 +185,9 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     _distanceIsEstimate = true;
   }
 
-  /// The typed distance, or null when it is not a usable number.
-  ///
-  /// Locale keypads emit ',' as the decimal separator, so normalize
-  /// before parsing ("12,5" reads as 12.5). tryParse also accepts
-  /// "NaN" and "Infinity"; reject those and negatives too.
-  double? get _parsedKm {
-    final km = double.tryParse(
-      _distanceController.text.trim().replaceAll(',', '.'),
-    );
-    return (km == null || km.isNaN || km.isInfinite || km < 0) ? null : km;
-  }
-
   /// The leg as currently entered, for the live preview and the save.
   JourneyLeg? get _draftLeg {
-    final km = _parsedKm;
+    final km = parseDecimalInput(_distanceController.text);
     final mode = _effectiveMode;
     return km == null
         ? null
@@ -301,7 +282,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                inputFormatters: [_distanceInputFormatter],
+                inputFormatters: [decimalInputFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.transportDistanceLabel,
                   border: const OutlineInputBorder(),

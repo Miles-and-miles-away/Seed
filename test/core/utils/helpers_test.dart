@@ -199,6 +199,17 @@ void main() {
       expect(foldForSearch('Hafnarfjörður'), 'hafnarfjordur');
     });
 
+    test('folds the marks the Spanish city names carry', () {
+      // Shipped name_es values. The comma-below pair sits beside the
+      // cedilla forms already in the table and was skipped, leaving
+      // these unreachable from an ES query.
+      expect(foldForSearch('Chișinău'), 'chisinau');
+      expect(foldForSearch('Iași'), 'iasi');
+      expect(foldForSearch('Rîbnița'), 'ribnita');
+      expect(foldForSearch('Almatý'), 'almaty');
+      expect(foldForSearch('Kōbe'), 'kobe');
+    });
+
     test('drops combining marks and curly quotes', () {
       // Dart lowercases the Turkish dotted capital I to "i" plus a
       // combining dot, which no keyboard produces.

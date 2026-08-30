@@ -295,7 +295,9 @@ void main() {
     test('a verdict the flattening reverses is refused', () {
       // A is 143 g CO2e against B's 323, so A wins on shipped values.
       // Flatten the nut pair and A is 143 against B's 43 -- B wins.
-      // A winner that swaps under its own tie group is not a winner.
+      // A winner that swaps under its own tie group is not a winner,
+      // and it gets its own block: the tiedBasis copy would promise
+      // the two sides land within the floor, which here they do not.
       final result = check(
         const [
           MealIngredient(itemId: 'tree_nuts', grams: 100),
@@ -303,7 +305,68 @@ void main() {
         ],
         const [MealIngredient(itemId: 'peanuts', grams: 100)],
       );
-      expect(result.block, VerdictBlock.tiedBasis);
+      expect(result.block, VerdictBlock.tiedBasisFlips);
+    });
+
+    test('a flip 80% wide is not reported as landing within the floor', () {
+      // Shipped mushroom pair: 1861.7 vs 1065.0 g, B ahead by 42.8%.
+      // Flattened to 2.13 it is 213 vs 1065 -- A ahead by 80%. Naming
+      // this tiedBasis told the user the meals land within 20% of each
+      // other, which is false in both directions.
+      final result = check(
+        const [MealIngredient(itemId: 'dried_shiitake', grams: 100)],
+        const [MealIngredient(itemId: 'mushrooms', grams: 500)],
+      );
+      expect(result.block, VerdictBlock.tiedBasisFlips);
+    });
+
+    test('a sub-floor gap is too close, not a tied basis', () {
+      // Two tie mates on one shared factor, 9.1% apart on quantity
+      // alone. Flattening is a no-op, so blaming the tie group told
+      // the user their ingredients disagree when they hold one value.
+      final byId = FoodCalculator.byId([
+        item('cabbage', 0.51, tieGroup: 'pn_brassicas'),
+        item('broccoli', 0.51, tieGroup: 'pn_brassicas'),
+      ]);
+      final options = [
+        const [MealIngredient(itemId: 'cabbage', grams: 100)],
+        const [MealIngredient(itemId: 'broccoli', grams: 110)],
+      ];
+      final summary = compareTotals([
+        for (final o in options) FoodCalculator.mealCo2eGrams(byId, o),
+      ])!;
+      expect(summary.deltaPercent, closeTo(9.09, 0.01));
+      expect(
+        FoodCalculator.checkVerdict(summary, byId, options).block,
+        VerdictBlock.tooClose,
+      );
+    });
+  });
+
+  group('unknown ids', () {
+    final byId = FoodCalculator.byId([item('beef', 70.3608)]);
+
+    test('checkVerdict throws rather than dropping the ingredient', () {
+      // Skipping made the gate more permissive than the totals it
+      // guards: the dropped item left the tier set, the statistic scan
+      // and the flattened totals alike.
+      const options = [
+        [MealIngredient(itemId: 'unicorn', grams: 100)],
+        [MealIngredient(itemId: 'beef', grams: 100)],
+      ];
+      expect(
+        () => FoodCalculator.checkVerdict(
+          const ComparisonSummary(
+            bestIndex: 0,
+            worstIndex: 1,
+            deltaGrams: 100,
+            deltaPercent: 90,
+          ),
+          byId,
+          options,
+        ),
+        throwsArgumentError,
+      );
     });
   });
 }
