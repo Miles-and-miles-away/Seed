@@ -51,7 +51,8 @@ class FoodCalculator {
   };
 
   /// Minimum reduction, in percent, before the comparison is allowed to
-  /// name a winner (RESEARCH_FOOD.md section 8, rule 4).
+  /// name a winner (the comparative-copy rule in
+  /// PDR_FOOD_CALCULATOR.md).
   ///
   /// Below this the two meals sit inside the dataset's own resolution:
   /// a great many items are statistically tied by construction (whole
@@ -109,6 +110,22 @@ class FoodCalculator {
       }
     }
     final floor = tiers.length > 1 ? crossTierMinPercent : verdictMinPercent;
+    // Items sharing a tie group carry one source row between them, so
+    // where two of them disagree the disagreement is an artefact of the
+    // derivation rather than a measured difference. Re-run the
+    // comparison with those flattened: a verdict that does not survive
+    // was reading the artefact. Tree nuts (0.43, and only that low
+    // because of an orchard land-use credit) against peanuts (3.23) is
+    // the case this exists for.
+    final flattened = _totalsWithTiesFlattened(itemsById, options);
+    if (flattened != null) {
+      final tied = compareTotals(flattened);
+      if (tied == null ||
+          tied.bestIndex != summary.bestIndex ||
+          tied.deltaPercent < floor) {
+        return VerdictCheck(VerdictBlock.tiedBasis, floor);
+      }
+    }
     if (summary.deltaPercent < floor) {
       return VerdictCheck(
         tiers.length > 1 ? VerdictBlock.crossSource : VerdictBlock.tooClose,
@@ -116,6 +133,51 @@ class FoodCalculator {
       );
     }
     return const VerdictCheck(VerdictBlock.none, 0);
+  }
+
+  /// Option totals with every tie group that spans the options flattened
+  /// to its lowest member factor, or null when no group spans them.
+  ///
+  /// A tie group confined to one option adds the same mass to that
+  /// option either way, so it cannot manufacture a delta; only groups
+  /// appearing on both sides can.
+  static List<double>? _totalsWithTiesFlattened(
+    Map<String, FoodItem> itemsById,
+    List<List<MealIngredient>> options,
+  ) {
+    final sides = <String, Set<int>>{};
+    for (var i = 0; i < options.length; i++) {
+      for (final ingredient in options[i]) {
+        final group = itemsById[ingredient.itemId]?.tieGroup;
+        if (group != null) (sides[group] ??= <int>{}).add(i);
+      }
+    }
+    final floors = <String, double>{};
+    for (final option in options) {
+      for (final ingredient in option) {
+        final item = itemsById[ingredient.itemId];
+        final group = item?.tieGroup;
+        if (item == null || group == null) continue;
+        if ((sides[group]?.length ?? 0) < 2) continue;
+        final current = floors[group];
+        if (current == null || item.kgCo2ePerKg < current) {
+          floors[group] = item.kgCo2ePerKg;
+        }
+      }
+    }
+    if (floors.isEmpty) return null;
+    return [
+      for (final option in options)
+        option.fold<double>(0, (sum, ingredient) {
+          final item = itemsById[ingredient.itemId];
+          if (item == null) return sum;
+          final group = item.tieGroup;
+          final factor = group == null
+              ? item.kgCo2ePerKg
+              : floors[group] ?? item.kgCo2ePerKg;
+          return sum + factor * ingredient.grams;
+        }),
+    ];
   }
 
   /// Ties are not a failure to compute -- they are the honest answer,
@@ -141,6 +203,9 @@ enum VerdictBlock {
 
   /// One ingredient's own published figures are too far apart.
   uncertainItem,
+
+  /// The gap rests on items that share one derivation basis.
+  tiedBasis,
 }
 
 /// The verdict decision, with enough detail to explain itself.

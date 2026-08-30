@@ -43,7 +43,6 @@ _FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => _FoodItem(
   entryMode: json['entry_mode'] as String? ?? 'grams',
   defaultServingId: json['default_serving_id'] as String? ?? '',
   sourceTier: (json['source_tier'] as num?)?.toInt() ?? 1,
-  comparable: json['comparable'] as bool? ?? true,
   tieGroup: json['tie_group'] as String?,
   statisticRatio: (json['statistic_ratio'] as num?)?.toDouble(),
 );
@@ -65,7 +64,6 @@ Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
   'entry_mode': instance.entryMode,
   'default_serving_id': instance.defaultServingId,
   'source_tier': instance.sourceTier,
-  'comparable': instance.comparable,
   'tie_group': instance.tieGroup,
   'statistic_ratio': instance.statisticRatio,
 };

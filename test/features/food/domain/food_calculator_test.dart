@@ -9,6 +9,7 @@ FoodItem item(
   double kgPerKg, {
   int sourceTier = 1,
   double? statisticRatio,
+  String? tieGroup,
 }) => FoodItem(
   id: id,
   group: 'test',
@@ -18,6 +19,7 @@ FoodItem item(
   kgCo2ePerKg: kgPerKg,
   sourceTier: sourceTier,
   statisticRatio: statisticRatio,
+  tieGroup: tieGroup,
 );
 
 /// One ingredient per option, so the gate's inputs read plainly.
@@ -90,7 +92,8 @@ void main() {
   });
 
   group('mayStateVerdict', () {
-    // RESEARCH_FOOD.md section 8 rule 4: no "X emits less than Y"
+    // The comparative-copy rule (PDR_FOOD_CALCULATOR.md):
+    // no "X emits less than Y"
     // below a 20% delta, because whole clusters of the dataset are
     // statistically tied by construction. Rule R6 additionally
     // requires a doubling when the two sides are not on one source
@@ -205,6 +208,102 @@ void main() {
       );
       // (1 - 1/2.4947) x 100
       expect(result.requiredPercent, closeTo((1 - 1 / 2.4947) * 100, 1e-6));
+    });
+  });
+
+  group('tie groups', () {
+    // Shipped values. Tree nuts sit at 0.43 only because of an orchard
+    // land-use credit; without it they are ~3.69, just above peanuts.
+    final tied = FoodCalculator.byId([
+      item('tree_nuts', 0.43, statisticRatio: 2.15, tieGroup: 'nuts_luc'),
+      item('peanuts', 3.23, tieGroup: 'nuts_luc'),
+      item('carrots', 0.43, tieGroup: 'root_veg'),
+      item('beetroot', 0.43, tieGroup: 'root_veg'),
+      item('mushrooms', 2.13, tieGroup: 'mushroom_lca'),
+      item('dried_shiitake', 18.61701923076923, tieGroup: 'mushroom_lca'),
+      item('beef', 70.3608),
+      item('tofu', 3.16),
+      item('olive_oil', 10),
+    ]);
+
+    VerdictCheck check(List<MealIngredient> a, List<MealIngredient> b) =>
+        FoodCalculator.checkVerdict(
+          compareTotals([
+            FoodCalculator.mealCo2eGrams(tied, a),
+            FoodCalculator.mealCo2eGrams(tied, b),
+          ])!,
+          tied,
+          [a, b],
+        );
+
+    test('tree nuts are not ranked against peanuts', () {
+      // 86.7% apart, which clears both the 20% floor and tree nuts'
+      // own 53.5% statistic bar -- so nothing else in the gate catches
+      // it. Flattened to one nut figure the meals are identical.
+      final result = check(
+        const [MealIngredient(itemId: 'tree_nuts', grams: 100)],
+        const [MealIngredient(itemId: 'peanuts', grams: 100)],
+      );
+      expect(result.block, VerdictBlock.tiedBasis);
+    });
+
+    test('a tie group inside one option cannot block it', () {
+      // Both nuts on one side add the same mass either way, so the
+      // beef comparison is untouched.
+      final result = check(
+        const [
+          MealIngredient(itemId: 'tree_nuts', grams: 100),
+          MealIngredient(itemId: 'peanuts', grams: 100),
+        ],
+        const [MealIngredient(itemId: 'beef', grams: 100)],
+      );
+      expect(result.block, VerdictBlock.none);
+    });
+
+    test('tie mates on one shared value do not block anything', () {
+      // carrots and beetroot are the same number, so flattening is a
+      // no-op and the beef-vs-tofu answer stands.
+      final result = check(
+        const [
+          MealIngredient(itemId: 'beef', grams: 100),
+          MealIngredient(itemId: 'carrots', grams: 100),
+        ],
+        const [
+          MealIngredient(itemId: 'tofu', grams: 100),
+          MealIngredient(itemId: 'beetroot', grams: 100),
+        ],
+      );
+      expect(result.block, VerdictBlock.none);
+    });
+
+    test('an incidental tie does not veto a real difference', () {
+      // The mushrooms differ 8.7x across the sides, but beef vs tofu
+      // dominates: flattened the gap widens rather than closing.
+      final result = check(
+        const [
+          MealIngredient(itemId: 'beef', grams: 100),
+          MealIngredient(itemId: 'mushrooms', grams: 100),
+        ],
+        const [
+          MealIngredient(itemId: 'tofu', grams: 100),
+          MealIngredient(itemId: 'dried_shiitake', grams: 100),
+        ],
+      );
+      expect(result.block, VerdictBlock.none);
+    });
+
+    test('a verdict the flattening reverses is refused', () {
+      // A is 143 g CO2e against B's 323, so A wins on shipped values.
+      // Flatten the nut pair and A is 143 against B's 43 -- B wins.
+      // A winner that swaps under its own tie group is not a winner.
+      final result = check(
+        const [
+          MealIngredient(itemId: 'tree_nuts', grams: 100),
+          MealIngredient(itemId: 'olive_oil', grams: 10),
+        ],
+        const [MealIngredient(itemId: 'peanuts', grams: 100)],
+      );
+      expect(result.block, VerdictBlock.tiedBasis);
     });
   });
 }

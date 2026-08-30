@@ -121,7 +121,13 @@ String mealSummaryLabel(
       FoodCalculator.ingredientCo2eGrams(item, ingredient),
     ));
   }
-  ranked.sort((a, b) => b.$2.compareTo(a.$2));
+  // Alphabetical tiebreak: whole clusters of the dataset share one
+  // category value (21 items at 0.53), and Dart's sort is not stable,
+  // so equal-CO2 ingredients would otherwise reorder between rebuilds.
+  ranked.sort((a, b) {
+    final byCo2 = b.$2.compareTo(a.$2);
+    return byCo2 != 0 ? byCo2 : a.$1.compareTo(b.$1);
+  });
   final parts = <String>[];
   for (final (name, _) in ranked) {
     if (!parts.contains(name)) parts.add(name);

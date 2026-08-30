@@ -274,13 +274,115 @@ void main() {
   });
 
   test('19. beef stays the dataset maximum after the prawn addition', () {
-    // 34.08 lands 4th, above coffee; only beef, dark chocolate and
-    // lamb sit higher. A silent jump past beef would mean the ratio
-    // was applied to the wrong anchor.
+    // 34.08 lands 6th: instant coffee, dark chocolate, lamb and goat
+    // all sit between it and beef. A silent jump past beef would mean
+    // the ratio was applied to the wrong anchor.
     final maxFactor = byId.values
         .map((i) => (i['kg_co2e_per_kg'] as num).toDouble())
         .reduce((a, b) => a > b ? a : b);
     expect(maxFactor, factor('beef'));
     expect(factor('prawns_wild'), lessThan(factor('lamb')));
+  });
+
+  test('20. exactly five tie-group pairs are refusable', () {
+    // The tie-group gate is only as good as the curation behind it.
+    // A group that re-acquires a "same source database" meaning
+    // starts silently refusing honest comparisons -- that is what the
+    // four retirements in section 6 were fixing, and this pin is what
+    // notices if one comes back.
+    final groups = <String, List<String>>{};
+    for (final item in byId.values) {
+      final group = item['tie_group'] as String?;
+      if (group != null) {
+        (groups[group] ??= <String>[]).add(item['id'] as String);
+      }
+    }
+    final refusable = <String>[];
+    for (final members in groups.values) {
+      for (var i = 0; i < members.length; i++) {
+        for (var j = i + 1; j < members.length; j++) {
+          final a = factor(members[i]);
+          final b = factor(members[j]);
+          final hi = a > b ? a : b;
+          if (hi <= 0 || (a - b).abs() < 1e-9) continue;
+          if ((hi - (a < b ? a : b)) / hi * 100 >= 20) {
+            final pair = [members[i], members[j]]..sort();
+            refusable.add(pair.join('/'));
+          }
+        }
+      }
+    }
+    expect(refusable..sort(), const [
+      'dried_shiitake/mushrooms',
+      'olive_oil/palm_oil',
+      'pasta_sauce_tomato/salsa',
+      'peanut_butter/tree_nuts',
+      'peanuts/tree_nuts',
+    ]);
+  });
+
+  test('21. every derived row reproduces from its parent', () {
+    // The concentration check the v2 spec promised and nobody wrote.
+    // Without it `peanut_butter` sat at 3.23 while its own parent and
+    // mass_ratio implied 3.39202 for three weeks, and `parent` drifted
+    // into carrying four different shapes: an item id, a two-element
+    // list, a Poore & Nemecek category name, and two names joined by a
+    // comma. A row is either an exact single-parent derivation or a
+    // recipe in `composite_of`; it cannot be half of each.
+    for (final item in byId.values) {
+      final id = item['id'] as String;
+      final parent = item['parent'];
+      final ratio = item['mass_ratio'];
+      if (parent == null && ratio == null) continue;
+      expect(parent, isA<String>(), reason: '$id: parent must be an item id');
+      expect(ratio, isA<num>(), reason: '$id: mass_ratio must be a number');
+      expect(
+        byId.containsKey(parent),
+        isTrue,
+        reason: '$id: parent "$parent" is not an item id',
+      );
+      expect(
+        factor(id),
+        closeTo(factor(parent! as String) * (ratio! as num).toDouble(), 0.005),
+        reason: '$id does not reproduce from $parent x $ratio',
+      );
+    }
+  });
+
+  test('22. every composite_of id resolves', () {
+    // `salsa` pointed at `onions_leeks` for three weeks after the v2
+    // work retired that umbrella row into species rows.
+    for (final item in byId.values) {
+      final parts = item['composite_of'] as List<dynamic>?;
+      if (parts == null) continue;
+      for (final part in parts.cast<String>()) {
+        expect(
+          byId.containsKey(part),
+          isTrue,
+          reason: '${item['id']}: composite_of "$part" is not an item id',
+        );
+      }
+    }
+  });
+
+  test('23. cream ships the total-solids figure and stays under butter', () {
+    // Added 2026-08-29 with the row. Invariant 21 only checks that the
+    // value agrees with its own mass_ratio, so reverting both together
+    // -- to a butter-derived ~5.4, or to the 0.82 cheese-plant
+    // by-product figure -- would pass the rest of the suite silently.
+    // The ordering is the sanity check the decision turned on: cream is
+    // 36% fat against butter's 80%, so it cannot sit above butter, and
+    // it concentrates milk, so it cannot sit at or below it.
+    expect(factor('cream'), 11.222704);
+    expect(factor('cream'), greaterThan(factor('milk_dairy')));
+    expect(factor('cream'), lessThan(factor('butter')));
+    // Butter's 12.0 comes from a different source family on a
+    // lower-emission milk supply, which is why the 6.5% gap to cream is
+    // an artefact and both rows share a tie group.
+    expect(
+      byId['cream']!['tie_group'],
+      byId['butter']!['tie_group'],
+      reason: 'cream must not be rankable against butter',
+    );
   });
 }

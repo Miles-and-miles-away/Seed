@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-/// Action-data consistency from Plan/RESEARCH_FOOD.md section 7.
+/// Action-data consistency from Plan/PDR_FOOD_CALCULATOR.md.
 ///
 /// Decision D1 (means dataset-wide) forces corrections to the
 /// food swap actions in data/seed/co2_actions_database.json;
