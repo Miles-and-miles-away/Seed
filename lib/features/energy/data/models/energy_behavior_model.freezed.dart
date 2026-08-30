@@ -24,9 +24,14 @@ mixin _$EnergyBehavior {
 /// someone deliberately groups it. A blocklist would rot the first
 /// time an entry was added.
  String get comparableGroup; EnergyCarrier get carrier; EnergyUnit get unit; double get kwhPerUnit; String get nameEn; String get nameJa; String get nameEs; List<UsagePreset> get presets; String get defaultPresetId; String get calculationNotes; List<EmissionSource> get sources;/// How well-sourced the factor is: `high`, `medium_high`, `medium`
-/// or `low`. Surfaced as a sublabel on the weaker entries rather
-/// than hidden, since the oven and the standby figures are the two
-/// a user is most entitled to doubt.
+/// or `low`, mirroring RESEARCH_ENERGY.md section 4.
+///
+/// Only `standby` is `low`, and it is the only entry that gets a
+/// sublabel. An earlier draft of PDR rule 21 also demanded one on
+/// the oven, on the premise that it had no tier-1 primary; the
+/// research rates it `medium` on a tier-1 EU regulation, so the
+/// rule was corrected rather than the data (owner call
+/// 2026-08-29).
  String get confidence;
 /// Create a copy of EnergyBehavior
 /// with the given fields replaced by the non-null parameter values.
@@ -269,9 +274,14 @@ class _EnergyBehavior extends EnergyBehavior {
 }
 
 /// How well-sourced the factor is: `high`, `medium_high`, `medium`
-/// or `low`. Surfaced as a sublabel on the weaker entries rather
-/// than hidden, since the oven and the standby figures are the two
-/// a user is most entitled to doubt.
+/// or `low`, mirroring RESEARCH_ENERGY.md section 4.
+///
+/// Only `standby` is `low`, and it is the only entry that gets a
+/// sublabel. An earlier draft of PDR rule 21 also demanded one on
+/// the oven, on the premise that it had no tier-1 primary; the
+/// research rates it `medium` on a tier-1 EU regulation, so the
+/// rule was corrected rather than the data (owner call
+/// 2026-08-29).
 @override@JsonKey() final  String confidence;
 
 /// Create a copy of EnergyBehavior
