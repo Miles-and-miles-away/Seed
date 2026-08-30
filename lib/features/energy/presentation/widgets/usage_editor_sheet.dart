@@ -58,7 +58,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
     super.initState();
     final initial =
         widget.initialUnits ?? widget.behavior.defaultPreset?.units ?? 1;
-    _controller = TextEditingController(text: _format(initial));
+    _controller = TextEditingController(text: decimalSeedText(initial));
     _selectedPresetId = _presetIdFor(initial);
   }
 
@@ -67,10 +67,6 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
     _controller.dispose();
     super.dispose();
   }
-
-  static String _format(double units) => units == units.roundToDouble()
-      ? units.round().toString()
-      : units.toString();
 
   /// The preset matching [units] exactly, so reopening the editor shows
   /// the chip the user originally chose still selected.
@@ -85,7 +81,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
     setState(() {
       _selectedPresetId = id;
       _invalid = false;
-      _controller.text = _format(units);
+      _controller.text = decimalSeedText(units);
     });
   }
 

@@ -729,9 +729,6 @@
   "transportBasisJetRf": "Incluye el mismo incremento de gran altitud (forzamiento radiativo) que los vuelos",
   "transportBasisZeroDirect": "0 emisiones directas",
   "transportBasisElectricityOnly": "Solo electricidad",
-  "transportScienceNotesHeading": "Cómo se calcula",
-  "transportScienceSourcesHeading": "Fuentes",
-  "transportScienceAccessed": "Consultado el {date}",
   "transportComparisonTitle": "Comparar trayectos",
   "transportAddToComparison": "Añadir como opción",
   "calculatorStagedOptions": "Opciones a comparar",
@@ -748,6 +745,9 @@
   "transportColumnEmptyHint": "Toca Añadir trayecto para empezar este viaje",
   "calculatorNeedBothOptions": "Crea ambas opciones para compararlas",
   "calculatorRemoveEntry": "Quitar",
+  "scienceNotesHeading": "Cómo se calcula",
+  "scienceSourcesHeading": "Fuentes",
+  "scienceAccessed": "Consultado el {date}",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
   "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
@@ -809,16 +809,6 @@
   "@foodItemFactorPerKg": {
     "placeholders": {
       "value": {
-        "type": "String"
-      }
-    }
-  },
-  "foodScienceNotesHeading": "Cómo se calcula",
-  "foodScienceSourcesHeading": "Fuentes",
-  "foodScienceAccessed": "Consultado el {date}",
-  "@foodScienceAccessed": {
-    "placeholders": {
-      "date": {
         "type": "String"
       }
     }
@@ -1028,16 +1018,11 @@
   "energyQuantityHours": "{units} horas",
   "energyQuantityUses": "{units} x",
   "energyQuantityDays": "{units} días",
-  "energyScienceNotesHeading": "Cómo se calcula",
-  "energyScienceSourcesHeading": "Fuentes",
-  "energyScienceAccessed": "Consultado el {date}",
   "energyScienceNoSources": "Esta cifra no lleva cita, a propósito. Las notas de arriba explican por qué.",
   "energyCalculatorTitle": "Energía del hogar",
   "energyAddUsage": "Añadir",
   "energyColumnEmptyHint": "Añade algo que hagas en casa para crear esta rutina",
-  "energyTotalKwh": "{kwh} kWh en total",
   "energyNoPointsNote": "Esta calculadora es para aprender. No otorga puntos ni registra nada.",
-  "energyEditorTitle": "¿Cuánto?",
   "energyPresetsLabel": "Cantidades habituales",
   "energyQuantityLabel": "Cantidad",
   "energyQuantityInvalid": "Introduce un número mayor que cero",

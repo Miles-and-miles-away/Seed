@@ -751,26 +751,27 @@ redundant test coverage. Section 8 carries the open *decisions*
       `energyVerdictWhyCta`, `energyNoPointsNote` and
       `energyColumnEmptyHint`, none of which appears anywhere in
       `test/`.
-- [ ] **`energy_science_sheet.dart` has no test** (127 lines),
-      including the `energyScienceNoSources` branch. That branch is
-      not hypothetical: five behaviours ship `sources: []` on
+- [ ] **`energy_science_sheet.dart`'s `_body` has no test**,
+      specifically the `energyScienceNoSources` branch. That branch
+      is not hypothetical: five behaviours ship `sources: []` on
       purpose -- `line_dry`, `microwave`, `led_bulb`,
       `incandescent_bulb` and `laptop_charge` -- so it is the path a
-      user reaches on 5 of 33 entries.
+      user reaches on 5 of 33 entries. Partly retired 2026-08-30:
+      the sheet chrome and the source list moved to
+      `ScienceSheet`/`sourcesMarkdown`, which
+      `test/shared/widgets/science_sheet_test.dart` covers. The
+      per-feature `_body` builders remain untested.
 - [ ] **The 20% verdict boundary is not pinned.**
       `energy_calculator_test.dart` exercises the gate at 0.3%
       (`tooClose`) and at a 1-vs-5 delta (`none`), so nothing
       catches the bar moving to 19 or 21. Food pins its equivalent
       exactly ("20% exactly is enough", asserting `deltaPercent`
       `closeTo(20, 1e-9)`); copy that shape.
-- [ ] **`EnergyCalculator.routineKwh` has no input guard.**
-      `usageCo2eGrams` rejects non-finite and negative units, and
-      `routineCo2eGrams` inherits that by going through it;
-      `routineKwh` multiplies `kwhPerUnit * usage.units` directly
-      and so accepts NaN, infinity and negatives. Its only tests
-      are one happy-path sum and the unknown-id throw in
-      `energy_gating_dataset_test.dart`. Either route it through
-      the same guard or pin the current behaviour deliberately.
+- [x] ~~**`EnergyCalculator.routineKwh` has no input guard.**~~
+      Resolved by deletion (2026-08-30): the method had no
+      production caller and nothing in the UI showed kWh, so it
+      went along with the `energyTotalKwh` strings rather than
+      gaining a guard for tests to exercise.
 - [ ] **The all-zero comparison is untested in the energy suite.**
       `line_dry` in both columns is reachable in the UI and lands
       on `compareTotals`' `worst <= 0 ? 0` branch, which then reads
@@ -789,14 +790,14 @@ redundant test coverage. Section 8 carries the open *decisions*
 `comparable_group`, `carrier`, preset quantities and `confidence`
 for all 33 rows:
 
-- [ ] `energy_dataset_invariants_test.dart` **pin 15** re-asserts
-      eight `kwh_per_unit` values already in that map, and **pin
-      13** re-asserts that `line_dry` is the only zero-kWh entry
-      and carries `carrier: none`, which the kwh and carrier maps
-      give between them.
-- [ ] `energy_behaviors_data_test.dart`'s "the researched group
-      distribution ships unchanged" is implied by "every
-      `comparable_group` ships exactly".
+- [x] ~~`energy_dataset_invariants_test.dart` **pin 15** and
+      **pin 13**~~. Deleted 2026-08-30. Pin 15's eight
+      "wrong value a future edit would reach for" annotations moved
+      onto the corresponding rows of the exact-values kwh map,
+      where they were the only record of that reasoning.
+- [x] ~~`energy_behaviors_data_test.dart`'s "the researched group
+      distribution ships unchanged"~~. Deleted 2026-08-30; implied
+      by "every `comparable_group` ships exactly".
 - [ ] `ENERGY_BEHAVIOR_COUNT` is asserted in three files
       (`energy_behaviors_data_test.dart`,
       `energy_exact_values_test.dart`,

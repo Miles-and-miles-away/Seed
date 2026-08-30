@@ -49,11 +49,11 @@ class EnergyCalculator {
   /// The behavior a usage names, or [ArgumentError] if the dataset does
   /// not have it.
   ///
-  /// Every path uses this. An earlier version threw here, skipped in
-  /// [routineKwh] and skipped in [checkVerdict], which meant an unknown
-  /// id quietly dropped a whole option's group and carrier from the
-  /// gate -- making the verdict check more permissive than the totals
-  /// it is supposed to guard.
+  /// Every path uses this. An earlier version threw here but skipped
+  /// in [checkVerdict], which meant an unknown id quietly dropped a
+  /// whole option's group and carrier from the gate -- making the
+  /// verdict check more permissive than the totals it is supposed to
+  /// guard.
   static EnergyBehavior _require(
     Map<String, EnergyBehavior> behaviorsById,
     String behaviorId,
@@ -88,24 +88,6 @@ class EnergyCalculator {
     return total;
   }
 
-  /// Total site kWh for a routine.
-  ///
-  /// Site energy, so a gas kWh and an electric kWh add up here even
-  /// though they are not the same thing carbon-wise. Never rank two
-  /// routines on this number -- that is what the carrier factors and
-  /// [routineCo2eGrams] are for (RESEARCH_ENERGY section 6 pin 1).
-  static double routineKwh(
-    Map<String, EnergyBehavior> behaviorsById,
-    List<RoutineUsage> usages,
-  ) {
-    var total = 0.0;
-    for (final usage in usages) {
-      total +=
-          _require(behaviorsById, usage.behaviorId).kwhPerUnit * usage.units;
-    }
-    return total;
-  }
-
   /// Index for routine lookups.
   static Map<String, EnergyBehavior> byId(List<EnergyBehavior> behaviors) => {
     for (final b in behaviors) b.id: b,
@@ -121,7 +103,7 @@ class EnergyCalculator {
   /// percentage-delta rule alone cannot catch a category error:
   /// comparing a wash load to a dishwasher load is not a close call,
   /// it is a different question.
-  static VerdictCheck checkVerdict(
+  static EnergyVerdictCheck checkVerdict(
     ComparisonSummary summary,
     Map<String, EnergyBehavior> behaviorsById,
     List<List<RoutineUsage>> options,
@@ -158,7 +140,7 @@ class EnergyCalculator {
     }
     final first = groupsPerOption.first;
     if (groupsPerOption.any((g) => !_sameSet(g, first))) {
-      return const VerdictCheck(EnergyVerdictBlock.differentGroup);
+      return const EnergyVerdictCheck(EnergyVerdictBlock.differentGroup);
     }
     // Carriers are compared per option too, for the same reason as the
     // groups. Pooling asked "is more than one carrier present at all",
@@ -169,27 +151,16 @@ class EnergyCalculator {
     // is the line-drying case above.
     final carried = carriersPerOption.where((c) => c.isNotEmpty).toList();
     if (carried.any((c) => !_sameSet(c, carried.first))) {
-      return const VerdictCheck(EnergyVerdictBlock.differentCarrier);
+      return const EnergyVerdictCheck(EnergyVerdictBlock.differentCarrier);
     }
     if (summary.deltaPercent < verdictMinPercent) {
-      return const VerdictCheck(EnergyVerdictBlock.tooClose);
+      return const EnergyVerdictCheck(EnergyVerdictBlock.tooClose);
     }
-    return const VerdictCheck(EnergyVerdictBlock.none);
+    return const EnergyVerdictCheck(EnergyVerdictBlock.none);
   }
 
   static bool _sameSet<T>(Set<T> a, Set<T> b) =>
       a.length == b.length && a.containsAll(b);
-
-  /// A tie is the honest answer, not a failure to compute: the kettle
-  /// and the induction hob really are within 0.3% of each other, and
-  /// saying so is more useful than manufacturing a winner.
-  static bool mayStateVerdict(
-    ComparisonSummary summary,
-    Map<String, EnergyBehavior> behaviorsById,
-    List<List<RoutineUsage>> options,
-  ) =>
-      checkVerdict(summary, behaviorsById, options).block ==
-      EnergyVerdictBlock.none;
 }
 
 /// Why an energy comparison may not name a winner (decision E2).
@@ -211,8 +182,8 @@ enum EnergyVerdictBlock {
 
 /// The verdict decision. Carries the required percentage so the UI can
 /// explain the bar it did not clear.
-class VerdictCheck {
-  const VerdictCheck(this.block);
+class EnergyVerdictCheck {
+  const EnergyVerdictCheck(this.block);
 
   final EnergyVerdictBlock block;
 

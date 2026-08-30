@@ -7,7 +7,10 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/usage_preset_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_behavior_picker.dart';
+import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
+import 'package:seed_app/shared/models/emission_source_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 EnergyBehavior _behavior(
   String id, {
@@ -19,6 +22,7 @@ EnergyBehavior _behavior(
   String confidence = 'high',
   List<UsagePreset> presets = const [],
   String defaultPresetId = '',
+  List<EmissionSource> sources = const [],
 }) => EnergyBehavior(
   id: id,
   comparableGroup: group,
@@ -31,6 +35,7 @@ EnergyBehavior _behavior(
   presets: presets,
   defaultPresetId: defaultPresetId,
   confidence: confidence,
+  sources: sources,
 );
 
 Widget _wrap(Widget child) => MaterialApp(
@@ -289,6 +294,65 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Add'));
       await tester.pump();
       expect(find.text('Enter a number greater than zero'), findsOneWidget);
+    });
+  });
+
+  group('showEnergyScienceSheet', () {
+    setUpAll(() {
+      // MarkdownWidget's VisibilityDetector re-arms a 500ms timer on
+      // every paint, which never drains under the pending-timer check.
+      VisibilityDetectorController.instance.updateInterval = Duration.zero;
+    });
+
+    Future<void> open(WidgetTester tester, EnergyBehavior behavior) async {
+      await tester.pumpWidget(
+        _wrap(
+          Builder(
+            builder: (context) => TextButton(
+              onPressed: () => showEnergyScienceSheet(
+                context,
+                behavior: behavior,
+                languageCode: 'en',
+              ),
+              child: const Text('info'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('info'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a cited behavior lists its source', (tester) async {
+      await open(
+        tester,
+        _behavior(
+          'kettle',
+          group: 'boil',
+          en: 'Kettle',
+          sources: const [
+            EmissionSource(name: 'METI', url: 'https://example.org/meti'),
+          ],
+        ),
+      );
+
+      expect(find.text('Kettle'), findsOneWidget);
+      expect(find.textContaining('METI'), findsOneWidget);
+    });
+
+    testWidgets('an uncited behavior says so rather than showing nothing', (
+      tester,
+    ) async {
+      // Five of the 33 shipped behaviors carry no citation on purpose
+      // (line_dry, microwave, led_bulb, incandescent_bulb,
+      // laptop_charge), so silence here would read as an oversight.
+      await open(
+        tester,
+        _behavior('line_dry', group: 'laundry_dry', en: 'Line dry'),
+      );
+
+      final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+      expect(find.textContaining(l10n.energyScienceNoSources), findsOneWidget);
     });
   });
 }

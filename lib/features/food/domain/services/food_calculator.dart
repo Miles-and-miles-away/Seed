@@ -192,15 +192,6 @@ class FoodCalculator {
         }),
     ];
   }
-
-  /// Ties are not a failure to compute -- they are the honest answer,
-  /// and the feature exists to surface real differences rather than
-  /// manufacture them.
-  static bool mayStateVerdict(
-    ComparisonSummary summary,
-    Map<String, FoodItem> itemsById,
-    List<List<MealIngredient>> options,
-  ) => checkVerdict(summary, itemsById, options).block == VerdictBlock.none;
 }
 
 /// Why a comparison may not name a winner.

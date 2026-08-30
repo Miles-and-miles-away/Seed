@@ -1557,17 +1557,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transportBasisElectricityOnly => 'Electricity only';
 
   @override
-  String get transportScienceNotesHeading => 'How it\'s calculated';
-
-  @override
-  String get transportScienceSourcesHeading => 'Sources';
-
-  @override
-  String transportScienceAccessed(String date) {
-    return 'Accessed $date';
-  }
-
-  @override
   String get transportComparisonTitle => 'Compare journeys';
 
   @override
@@ -1617,6 +1606,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calculatorRemoveEntry => 'Remove';
+
+  @override
+  String get scienceNotesHeading => 'How it\'s calculated';
+
+  @override
+  String get scienceSourcesHeading => 'Sources';
+
+  @override
+  String scienceAccessed(String date) {
+    return 'Accessed $date';
+  }
 
   @override
   String transportComparisonFull(int max) {
@@ -1764,17 +1764,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String foodItemFactorPerKg(String value) {
     return '$value kg CO2e per kg';
-  }
-
-  @override
-  String get foodScienceNotesHeading => 'How it\'s calculated';
-
-  @override
-  String get foodScienceSourcesHeading => 'Sources';
-
-  @override
-  String foodScienceAccessed(String date) {
-    return 'Accessed $date';
   }
 
   @override
@@ -2026,17 +2015,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get energyScienceNotesHeading => 'How this is worked out';
-
-  @override
-  String get energyScienceSourcesHeading => 'Sources';
-
-  @override
-  String energyScienceAccessed(String date) {
-    return 'Accessed $date';
-  }
-
-  @override
   String get energyScienceNoSources =>
       'This figure has no citation, on purpose. Its own notes above explain why.';
 
@@ -2051,16 +2029,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add something you do at home to build this routine';
 
   @override
-  String energyTotalKwh(String kwh) {
-    return '$kwh kWh in total';
-  }
-
-  @override
   String get energyNoPointsNote =>
       'This calculator is for learning. It awards no points and logs nothing.';
-
-  @override
-  String get energyEditorTitle => 'How much?';
 
   @override
   String get energyPresetsLabel => 'Common amounts';

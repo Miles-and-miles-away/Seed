@@ -16,3 +16,14 @@ double? parseDecimalInput(String text) {
   final value = double.tryParse(text.trim().replaceAll(',', '.'));
   return (value == null || !value.isFinite || value < 0) ? null : value;
 }
+
+/// [value] as text to seed an editable quantity field, dropping a
+/// trailing ".0" so whole numbers read cleanly.
+///
+/// Full precision on purpose: the field is reparsed on submit, so
+/// rounding here would silently store the rounded value. Display
+/// formatters round; this is not one.
+String decimalSeedText(double value) {
+  final text = value.toString();
+  return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
+}

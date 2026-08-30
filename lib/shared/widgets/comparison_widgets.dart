@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
@@ -69,6 +70,103 @@ class Co2eAmount extends StatelessWidget {
           style: base,
         ),
       ),
+    );
+  }
+}
+
+/// The comparison body all three calculators share: the option
+/// columns totalled live, an add button under each, and the result
+/// block underneath.
+///
+/// The feature screen keeps what is genuinely its own -- which cards
+/// an option holds, what "add" opens, and what the result says.
+class ComparisonScaffold extends StatelessWidget {
+  const ComparisonScaffold({
+    required this.totals,
+    required this.entries,
+    required this.emptyHint,
+    required this.addLabel,
+    required this.onAdd,
+    required this.bestIndex,
+    required this.result,
+    super.key,
+  });
+
+  /// Grams CO2e per option, in column order.
+  final List<double> totals;
+
+  /// Entry cards per option, already built by the feature screen.
+  final List<List<Widget>> entries;
+
+  /// Placeholder for a column with no entries yet.
+  final String emptyHint;
+
+  /// Label for each column's add button.
+  final String addLabel;
+
+  final void Function(int option) onAdd;
+
+  /// Column to crown, or null where the comparison declines to name
+  /// one. Transport passes the lowest column unconditionally; food and
+  /// energy gate it on their verdict, because crowning a column is a
+  /// verdict in its own right.
+  final int? bestIndex;
+
+  /// The delta card, gating explanation or hint shown underneath.
+  final Widget result;
+
+  @override
+  Widget build(BuildContext context) {
+    assert(
+      totals.length == optionCount && entries.length == optionCount,
+      'ComparisonScaffold needs one total and one entry list per option',
+    );
+    final l10n = AppLocalizations.of(context);
+    final worst = totals.reduce((a, b) => a > b ? a : b);
+    return Column(
+      children: [
+        const SizedBox(height: spacingSm),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: spacingMd),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var option = 0; option < optionCount; option++) ...[
+                  if (option > 0) const SizedBox(width: spacingSm),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: OptionColumn(
+                            title: option == optionA
+                                ? l10n.calculatorOptionA
+                                : l10n.calculatorOptionB,
+                            totalGrams: totals[option],
+                            fraction: worst <= 0 ? 0 : totals[option] / worst,
+                            isBest: option == bestIndex,
+                            isEmpty: entries[option].isEmpty,
+                            emptyHint: emptyHint,
+                            children: entries[option],
+                          ),
+                        ),
+                        const SizedBox(height: spacingSm),
+                        FilledButton.tonalIcon(
+                          onPressed: () => onAdd(option),
+                          icon: const Icon(Icons.add),
+                          label: Text(addLabel),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+        Padding(padding: const EdgeInsets.all(spacingMd), child: result),
+      ],
     );
   }
 }

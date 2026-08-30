@@ -103,53 +103,6 @@ final class EnergyMetadataProvider
 
 String _$energyMetadataHash() => r'6f8e76d74e414aca6a5d70251335357216d047c9';
 
-/// Behaviors indexed by id for routine lookups.
-
-@ProviderFor(energyBehaviorsById)
-final energyBehaviorsByIdProvider = EnergyBehaviorsByIdProvider._();
-
-/// Behaviors indexed by id for routine lookups.
-
-final class EnergyBehaviorsByIdProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<Map<String, EnergyBehavior>>,
-          Map<String, EnergyBehavior>,
-          FutureOr<Map<String, EnergyBehavior>>
-        >
-    with
-        $FutureModifier<Map<String, EnergyBehavior>>,
-        $FutureProvider<Map<String, EnergyBehavior>> {
-  /// Behaviors indexed by id for routine lookups.
-  EnergyBehaviorsByIdProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'energyBehaviorsByIdProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$energyBehaviorsByIdHash();
-
-  @$internal
-  @override
-  $FutureProviderElement<Map<String, EnergyBehavior>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<Map<String, EnergyBehavior>> create(Ref ref) {
-    return energyBehaviorsById(ref);
-  }
-}
-
-String _$energyBehaviorsByIdHash() =>
-    r'85596e62b1ee770153735c84cbf906d1df2901c0';
-
 /// The two carrier factors, read from the dataset rather than hardcoded
 /// so the metadata block stays the single source of truth.
 

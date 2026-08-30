@@ -11,13 +11,6 @@ import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 
-/// Full-precision seed for the editable grams field; drops a trailing
-/// ".0" so whole values read cleanly.
-String _gramsSeedText(double grams) {
-  final text = grams.toString();
-  return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
-}
-
 /// An ingredient together with the option column it belongs to.
 class IngredientPlacement {
   const IngredientPlacement(this.ingredient, this.option);
@@ -85,7 +78,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     super.initState();
     final ingredient = widget.initialIngredient;
     if (ingredient != null) {
-      _gramsController.text = _gramsSeedText(ingredient.grams);
+      _gramsController.text = decimalSeedText(ingredient.grams);
       return;
     }
     // Dose-dominated items open on their default serving rather than an
@@ -95,7 +88,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     // preset the path of least resistance.
     final preset = widget.item.defaultServing;
     if (widget.item.isPresetOnly && preset != null) {
-      _gramsController.text = _gramsSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams);
       _selectedPresetId = preset.id;
     }
   }
@@ -108,7 +101,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
 
   void _applyPreset(ServingPreset preset) {
     setState(() {
-      _gramsController.text = _gramsSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams);
       _selectedPresetId = preset.id;
       _gramsInvalid = false;
     });

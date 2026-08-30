@@ -4,7 +4,6 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
-import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 
 part 'energy_providers.g.dart';
 
@@ -20,13 +19,6 @@ Future<List<EnergyBehavior>> energyBehaviors(Ref ref) => loadEnergyBehaviors();
 /// screen and the engine's factors (Phase 8.16).
 @riverpod
 Future<Map<String, dynamic>> energyMetadata(Ref ref) => loadEnergyMetadata();
-
-/// Behaviors indexed by id for routine lookups.
-@riverpod
-Future<Map<String, EnergyBehavior>> energyBehaviorsById(Ref ref) async {
-  final behaviors = await ref.watch(energyBehaviorsProvider.future);
-  return EnergyCalculator.byId(behaviors);
-}
 
 /// The two carrier factors, read from the dataset rather than hardcoded
 /// so the metadata block stays the single source of truth.

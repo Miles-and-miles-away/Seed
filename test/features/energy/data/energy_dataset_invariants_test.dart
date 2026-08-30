@@ -117,30 +117,6 @@ void main() {
     expect(10 * kwh('rice_keepwarm'), greaterThan(kwh('rice_cooker')));
   });
 
-  test('pin 13: line_dry is the only zero-carrier, zero-kWh entry', () {
-    final zeros = byId.entries.where(
-      (e) => (e.value['kwh_per_unit'] as num) == 0,
-    );
-    expect(zeros.map((e) => e.key), ['line_dry']);
-    expect(byId['line_dry']!['carrier'], 'none');
-  });
-
-  test('pin 15: assembled judgment-call values ship exactly', () {
-    // These are unreachable by any ordering pin, so without this test a
-    // silent revert to a nameplate or a rated figure would pass the
-    // whole suite. Each parenthetical is the wrong value a well-meaning
-    // future edit would reach for.
-    expect(kwh('kotatsu'), 0.15); // not the 0.3-0.6 nameplate
-    expect(kwh('portable_electric_heater'), 1.2); // not 1.5
-    expect(kwh('standby'), 0.8); // not 1.78
-    expect(kwh('gas_hob'), 0.282389); // efficiency 0.35, not 0.32 or 0.42
-    expect(kwh('dryer_vented'), 4.5); // not the model-specific 4.63
-    expect(kwh('oven'), 0.82); // EU 60-70 L midpoint, not 1.0/hour or 2.0
-    // METI measured, NOT the Panasonic JIS rated 0.435 / 0.455.
-    expect(kwh('aircon_cooling'), 0.167679);
-    expect(kwh('aircon_heating'), 0.241006);
-  });
-
   test('the oven stays per bake cycle', () {
     // No per-hour oven figure exists anywhere: DOE never adopted an
     // active-mode standard and ENERGY STAR does not certify ovens. An

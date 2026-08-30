@@ -69,9 +69,7 @@ Rewrites data/app/cities.json in place, touching only the two name
 fields and the metadata provenance note. Run sweep_suggestions.py
 afterwards.
 """
-import csv
 import json
-import math
 import re
 import sys
 import time
@@ -79,6 +77,8 @@ import urllib.parse
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
+
+from geo import geonames_rows, haversine_km
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CITIES_PATH = REPO_ROOT / "data" / "app" / "cities.json"
@@ -136,7 +136,6 @@ COUNTRY_CHECK_MIN_KM = 5.0
 # Candidates are gathered from a wider ring than they can pass so
 # a reject is reported with the distance that sank it.
 NAME_SEARCH_RADIUS_KM = 300
-EARTH_RADIUS_KM = 6371.0088
 
 GEONAMEID_QUERY = (
     "SELECT ?gid ?ja WHERE { VALUES ?gid { %s } "
@@ -170,43 +169,31 @@ def is_ascii(value):
     return all(ord(c) < 128 for c in value)
 
 
-def haversine_km(lat1, lon1, lat2, lon2):
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    sdp = math.sin(math.radians(lat2 - lat1) / 2)
-    sdl = math.sin(math.radians(lon2 - lon1) / 2)
-    a = sdp * sdp + math.cos(p1) * math.cos(p2) * sdl * sdl
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
-
-
 def load_geonameids(path):
     """Map (cc, name, lat, lon) as cities.json stores it -> geonameid."""
     ids = {}
-    with open(path, encoding="utf-8") as f:
-        # GeoNames is raw tab-separated text; default quoting would
-        # corrupt rows containing quote characters.
-        for row in csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
-            try:
-                key = (row[8], row[1], round(float(row[4]), 4),
-                       round(float(row[5]), 4))
-                pop = int(row[14])
-            except (IndexError, ValueError):
-                continue
-            # Highest population wins, as in build_cities.py, which
-            # picked the record that shipped. Last-wins would hand a
-            # city the other record's localized names.
-            if key not in ids or ids[key][0] < pop:
-                ids[key] = (pop, row[0])
+    for row in geonames_rows(path):
+        try:
+            key = (row[8], row[1], round(float(row[4]), 4),
+                   round(float(row[5]), 4))
+            pop = int(row[14])
+        except (IndexError, ValueError):
+            continue
+        # Highest population wins, as in build_cities.py, which
+        # picked the record that shipped. Last-wins would hand a
+        # city the other record's localized names.
+        if key not in ids or ids[key][0] < pop:
+            ids[key] = (pop, row[0])
     return {key: gid for key, (_, gid) in ids.items()}
 
 
 def load_alternates(path, wanted):
     groups = defaultdict(list)
-    with open(path, encoding="utf-8") as f:
-        for row in csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
-            if len(row) <= COL_NAME:
-                continue
-            if row[COL_GEONAMEID] in wanted and row[COL_LANG] in LANGS:
-                groups[(row[COL_GEONAMEID], row[COL_LANG])].append(row)
+    for row in geonames_rows(path):
+        if len(row) <= COL_NAME:
+            continue
+        if row[COL_GEONAMEID] in wanted and row[COL_LANG] in LANGS:
+            groups[(row[COL_GEONAMEID], row[COL_LANG])].append(row)
     return groups
 
 

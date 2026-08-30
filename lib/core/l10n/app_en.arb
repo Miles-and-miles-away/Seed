@@ -789,16 +789,6 @@
   "transportBasisJetRf": "Includes the same high-altitude (radiative forcing) uplift as flights",
   "transportBasisZeroDirect": "0 direct emissions",
   "transportBasisElectricityOnly": "Electricity only",
-  "transportScienceNotesHeading": "How it's calculated",
-  "transportScienceSourcesHeading": "Sources",
-  "transportScienceAccessed": "Accessed {date}",
-  "@transportScienceAccessed": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "transportComparisonTitle": "Compare journeys",
   "transportAddToComparison": "Add as option",
   "calculatorStagedOptions": "Options to compare",
@@ -864,6 +854,22 @@
   "calculatorRemoveEntry": "Remove",
   "@calculatorRemoveEntry": {
     "description": "Tooltip on the remove button of a card inside a comparison column"
+  },
+  "scienceNotesHeading": "How it's calculated",
+  "@scienceNotesHeading": {
+    "description": "Heading above a dataset entry's calculation notes"
+  },
+  "scienceSourcesHeading": "Sources",
+  "@scienceSourcesHeading": {
+    "description": "Heading above a dataset entry's source list"
+  },
+  "scienceAccessed": "Accessed {date}",
+  "@scienceAccessed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "transportComparisonFull": "Comparison full ({max} options)",
   "@transportComparisonFull": {
@@ -1020,16 +1026,6 @@
   "@foodItemFactorPerKg": {
     "placeholders": {
       "value": {
-        "type": "String"
-      }
-    }
-  },
-  "foodScienceNotesHeading": "How it's calculated",
-  "foodScienceSourcesHeading": "Sources",
-  "foodScienceAccessed": "Accessed {date}",
-  "@foodScienceAccessed": {
-    "placeholders": {
-      "date": {
         "type": "String"
       }
     }
@@ -1306,30 +1302,11 @@
       }
     }
   },
-  "energyScienceNotesHeading": "How this is worked out",
-  "energyScienceSourcesHeading": "Sources",
-  "energyScienceAccessed": "Accessed {date}",
-  "@energyScienceAccessed": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "energyScienceNoSources": "This figure has no citation, on purpose. Its own notes above explain why.",
   "energyCalculatorTitle": "Home energy",
   "energyAddUsage": "Add",
   "energyColumnEmptyHint": "Add something you do at home to build this routine",
-  "energyTotalKwh": "{kwh} kWh in total",
-  "@energyTotalKwh": {
-    "placeholders": {
-      "kwh": {
-        "type": "String"
-      }
-    }
-  },
   "energyNoPointsNote": "This calculator is for learning. It awards no points and logs nothing.",
-  "energyEditorTitle": "How much?",
   "energyPresetsLabel": "Common amounts",
   "energyQuantityLabel": "Amount",
   "energyQuantityInvalid": "Enter a number greater than zero",

@@ -21,13 +21,7 @@ class FoodMethodologyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final itemsAsync = ref.watch(foodItemsProvider);
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
-    final linkColor = theme.colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.foodMethodologyTitle)),
@@ -35,18 +29,9 @@ class FoodMethodologyScreen extends ConsumerWidget {
         data: (items) => MarkdownWidget(
           data: appendExternalLinkArrow(_methodologyMarkdown(l10n, items)),
           padding: const EdgeInsets.all(spacingXxl),
-          config: mdConfig.copy(
-            configs: [
-              LinkConfig(
-                style: TextStyle(
-                  color: linkColor,
-                  decoration: TextDecoration.underline,
-                  decorationColor: linkColor,
-                ),
-                onTap: (url) => openExternalUrl(context, url),
-              ),
-            ],
-          ),
+          config: markdownConfigFor(
+            context,
+          ).copy(configs: [externalLinkConfig(context)]),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => const Center(child: ErrorDisplay()),
@@ -59,7 +44,7 @@ class FoodMethodologyScreen extends ConsumerWidget {
     final buffer = StringBuffer()
       ..writeln(l10n.foodMethodologyBody)
       ..writeln()
-      ..writeln('### ${l10n.foodScienceSourcesHeading}');
+      ..writeln('### ${l10n.scienceSourcesHeading}');
     // Union of every shipped source, first name seen per URL wins.
     final sources = <String, String>{};
     for (final item in items) {

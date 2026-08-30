@@ -50,18 +50,18 @@ void main() {
       'wash_cold': 0.35,
       'wash_warm': 1.3,
       'wash_hot': 1.7,
-      'dryer_vented': 4.5,
+      'dryer_vented': 4.5, // not the model-specific 4.63
       'dryer_heatpump': 2.05,
       'line_dry': 0,
-      'aircon_heating': 0.241006,
-      'portable_electric_heater': 1.2,
-      'kotatsu': 0.15,
+      'aircon_heating': 0.241006, // METI measured, not the JIS rated 0.455
+      'portable_electric_heater': 1.2, // not 1.5
+      'kotatsu': 0.15, // not the 0.3-0.6 nameplate
       'electric_blanket': 0.025,
-      'aircon_cooling': 0.167679,
+      'aircon_cooling': 0.167679, // METI measured, not the JIS rated 0.435
       'kettle': 0.116278,
       'ih_hob': 0.116598,
-      'gas_hob': 0.282389,
-      'oven': 0.82,
+      'gas_hob': 0.282389, // efficiency 0.35, not 0.32 or 0.42
+      'oven': 0.82, // EU 60-70 L midpoint, not 1.0/hour or 2.0
       'microwave': 0.019,
       'rice_cooker': 0.16,
       'rice_keepwarm': 0.0165,
@@ -70,7 +70,7 @@ void main() {
       'tv': 0.079096,
       'phone_charge': 0.015271,
       'laptop_charge': 0.063294,
-      'standby': 0.8,
+      'standby': 0.8, // not 1.78
     };
     expect(expected, hasLength(ENERGY_BEHAVIOR_COUNT));
     expect(byId.keys.toSet(), expected.keys.toSet());

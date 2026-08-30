@@ -73,13 +73,14 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import connected_components, dijkstra
 from shapely.geometry import shape
 
+from geo import EARTH_RADIUS_KM, haversine_km
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CITIES_PATH = REPO_ROOT / "data" / "app" / "cities.json"
 NE_DIR = REPO_ROOT / "data" / "reference" / "natural_earth"
 LAND_SHP = NE_DIR / "ne_50m_land.shp"
 RASTER_CACHE = NE_DIR / "land_raster_0p1.npz"
 
-EARTH_RADIUS_KM = 6371.0088
 # Mirrors groundModeMaxKm in the Dart journey_distance service.
 GROUND_MODE_MAX_KM = 2000.0
 SAMPLE_STEP_KM = 2.0
@@ -443,17 +444,6 @@ def load_land():
     land = shapely.union_all(polys)
     shapely.prepare(land)
     return land
-
-
-def haversine_km(lat1, lon1, lat2, lon2):
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dp = p2 - p1
-    dl = math.radians(lon2 - lon1)
-    a = (
-        math.sin(dp / 2) ** 2
-        + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    )
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
 
 
 def unit_vector(lat, lon):

@@ -230,7 +230,6 @@ void main() {
         ),
         throwsArgumentError,
       );
-      expect(() => EnergyCalculator.routineKwh(byId, bad), throwsArgumentError);
       // The gate silently skipped unknown ids, dropping a whole
       // option's group and carrier and so becoming more permissive
       // than the totals path it guards.

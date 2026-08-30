@@ -729,9 +729,6 @@
   "transportBasisJetRf": "飛行機と同じ高高度（放射強制力）の上乗せを含みます",
   "transportBasisZeroDirect": "直接排出ゼロ",
   "transportBasisElectricityOnly": "電力のみ",
-  "transportScienceNotesHeading": "計算方法",
-  "transportScienceSourcesHeading": "出典",
-  "transportScienceAccessed": "{date}に取得",
   "transportComparisonTitle": "移動手段を比較",
   "transportAddToComparison": "選択肢として追加",
   "calculatorStagedOptions": "比較する選択肢",
@@ -748,6 +745,9 @@
   "transportColumnEmptyHint": "「区間を追加」をタップして経路を作りましょう",
   "calculatorNeedBothOptions": "比較するには両方の選択肢を作成してください",
   "calculatorRemoveEntry": "削除",
+  "scienceNotesHeading": "計算方法",
+  "scienceSourcesHeading": "出典",
+  "scienceAccessed": "{date}に取得",
   "transportComparisonFull": "比較は満杯です（{max}件）",
   "transportCompareOptions": "{count}件を比較",
   "transportOptionStaged": "オプション{count}を追加しました",
@@ -809,16 +809,6 @@
   "@foodItemFactorPerKg": {
     "placeholders": {
       "value": {
-        "type": "String"
-      }
-    }
-  },
-  "foodScienceNotesHeading": "計算方法",
-  "foodScienceSourcesHeading": "出典",
-  "foodScienceAccessed": "{date}に取得",
-  "@foodScienceAccessed": {
-    "placeholders": {
-      "date": {
         "type": "String"
       }
     }
@@ -1028,16 +1018,11 @@
   "energyQuantityHours": "{units}時間",
   "energyQuantityUses": "{units}回",
   "energyQuantityDays": "{units}日",
-  "energyScienceNotesHeading": "計算の根拠",
-  "energyScienceSourcesHeading": "出典",
-  "energyScienceAccessed": "{date} 確認",
-  "energyScienceNoSources": "この数値には意図的に出典を付けていません。理由は上の計算の根拠に記載しています。",
+  "energyScienceNoSources": "この数値には意図的に出典を付けていません。理由は上の計算方法に記載しています。",
   "energyCalculatorTitle": "家庭のエネルギー",
   "energyAddUsage": "追加",
   "energyColumnEmptyHint": "家でしていることを追加してください",
-  "energyTotalKwh": "合計 {kwh} kWh",
   "energyNoPointsNote": "この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。",
-  "energyEditorTitle": "どれくらい？",
   "energyPresetsLabel": "よくある量",
   "energyQuantityLabel": "量",
   "energyQuantityInvalid": "0より大きい数を入力してください",

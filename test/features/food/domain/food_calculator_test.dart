@@ -91,7 +91,7 @@ void main() {
     });
   });
 
-  group('mayStateVerdict', () {
+  group('verdict gating', () {
     // The comparative-copy rule (PDR_FOOD_CALCULATOR.md):
     // no "X emits less than Y"
     // below a 20% delta, because whole clusters of the dataset are
@@ -107,27 +107,27 @@ void main() {
       item('white_fish', 5.1250386, sourceTier: 2),
     ]);
 
-    bool gate(String a, String b) {
+    VerdictBlock gate(String a, String b) {
       final options = meals(a, b);
       final totals = options
           .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
           .toList();
-      return FoodCalculator.mayStateVerdict(
+      return FoodCalculator.checkVerdict(
         compareTotals(totals)!,
         byId,
         options,
-      );
+      ).block;
     }
 
     test('a wide, same-tier gap gets a verdict', () {
       // chicken vs beef: 86% reduction.
-      expect(gate('chicken', 'beef'), isTrue);
+      expect(gate('chicken', 'beef'), VerdictBlock.none);
     });
 
     test('the eggs-vs-rice tie gets none', () {
       // 4.67 vs 4.45 = 4.7%. This pair is on the never-pin list
       // precisely because it is inside the dataset's resolution.
-      expect(gate('rice', 'eggs'), isFalse);
+      expect(gate('rice', 'eggs'), VerdictBlock.tooClose);
     });
 
     test('20% exactly is enough', () {
@@ -139,8 +139,12 @@ void main() {
       // 1250 -> 1000 is a 20.0% reduction.
       expect(compareTotals(totals)!.deltaPercent, closeTo(20, 1e-9));
       expect(
-        FoodCalculator.mayStateVerdict(compareTotals(totals)!, byId, options),
-        isTrue,
+        FoodCalculator.checkVerdict(
+          compareTotals(totals)!,
+          byId,
+          options,
+        ).block,
+        VerdictBlock.none,
       );
     });
 
@@ -148,13 +152,15 @@ void main() {
       // white_fish (tier 2) vs chicken (tier 1): 9.87 -> 5.125 is a
       // 48.1% reduction, over the 20% bar but under the 2x one, and
       // the tier-2 boundary offset could account for it.
-      expect(gate('white_fish', 'chicken'), isFalse);
+      // Refused as crossSource, not tooClose: it clears the 20% bar
+      // and is blocked by the tier mismatch alone.
+      expect(gate('white_fish', 'chicken'), VerdictBlock.crossSource);
       // vs beef the gap is 92.7% -- far wider than the offset.
-      expect(gate('white_fish', 'beef'), isTrue);
+      expect(gate('white_fish', 'beef'), VerdictBlock.none);
     });
 
     test('an identical pair gets none', () {
-      expect(gate('beef', 'beef'), isFalse);
+      expect(gate('beef', 'beef'), VerdictBlock.tooClose);
     });
   });
 

@@ -1574,17 +1574,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportBasisElectricityOnly => 'Solo electricidad';
 
   @override
-  String get transportScienceNotesHeading => 'Cómo se calcula';
-
-  @override
-  String get transportScienceSourcesHeading => 'Fuentes';
-
-  @override
-  String transportScienceAccessed(String date) {
-    return 'Consultado el $date';
-  }
-
-  @override
   String get transportComparisonTitle => 'Comparar trayectos';
 
   @override
@@ -1637,6 +1626,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get calculatorRemoveEntry => 'Quitar';
+
+  @override
+  String get scienceNotesHeading => 'Cómo se calcula';
+
+  @override
+  String get scienceSourcesHeading => 'Fuentes';
+
+  @override
+  String scienceAccessed(String date) {
+    return 'Consultado el $date';
+  }
 
   @override
   String transportComparisonFull(int max) {
@@ -1786,17 +1786,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String foodItemFactorPerKg(String value) {
     return '$value kg de CO2e por kg';
-  }
-
-  @override
-  String get foodScienceNotesHeading => 'Cómo se calcula';
-
-  @override
-  String get foodScienceSourcesHeading => 'Fuentes';
-
-  @override
-  String foodScienceAccessed(String date) {
-    return 'Consultado el $date';
   }
 
   @override
@@ -2050,17 +2039,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get energyScienceNotesHeading => 'Cómo se calcula';
-
-  @override
-  String get energyScienceSourcesHeading => 'Fuentes';
-
-  @override
-  String energyScienceAccessed(String date) {
-    return 'Consultado el $date';
-  }
-
-  @override
   String get energyScienceNoSources =>
       'Esta cifra no lleva cita, a propósito. Las notas de arriba explican por qué.';
 
@@ -2075,16 +2053,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añade algo que hagas en casa para crear esta rutina';
 
   @override
-  String energyTotalKwh(String kwh) {
-    return '$kwh kWh en total';
-  }
-
-  @override
   String get energyNoPointsNote =>
       'Esta calculadora es para aprender. No otorga puntos ni registra nada.';
-
-  @override
-  String get energyEditorTitle => '¿Cuánto?';
 
   @override
   String get energyPresetsLabel => 'Cantidades habituales';

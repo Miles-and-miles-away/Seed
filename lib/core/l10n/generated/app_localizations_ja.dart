@@ -1513,17 +1513,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportBasisElectricityOnly => '電力のみ';
 
   @override
-  String get transportScienceNotesHeading => '計算方法';
-
-  @override
-  String get transportScienceSourcesHeading => '出典';
-
-  @override
-  String transportScienceAccessed(String date) {
-    return '$dateに取得';
-  }
-
-  @override
   String get transportComparisonTitle => '移動手段を比較';
 
   @override
@@ -1573,6 +1562,17 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get calculatorRemoveEntry => '削除';
+
+  @override
+  String get scienceNotesHeading => '計算方法';
+
+  @override
+  String get scienceSourcesHeading => '出典';
+
+  @override
+  String scienceAccessed(String date) {
+    return '$dateに取得';
+  }
 
   @override
   String transportComparisonFull(int max) {
@@ -1718,17 +1718,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String foodItemFactorPerKg(String value) {
     return '1kgあたり$value kg CO2e';
-  }
-
-  @override
-  String get foodScienceNotesHeading => '計算方法';
-
-  @override
-  String get foodScienceSourcesHeading => '出典';
-
-  @override
-  String foodScienceAccessed(String date) {
-    return '$dateに取得';
   }
 
   @override
@@ -1975,19 +1964,8 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get energyScienceNotesHeading => '計算の根拠';
-
-  @override
-  String get energyScienceSourcesHeading => '出典';
-
-  @override
-  String energyScienceAccessed(String date) {
-    return '$date 確認';
-  }
-
-  @override
   String get energyScienceNoSources =>
-      'この数値には意図的に出典を付けていません。理由は上の計算の根拠に記載しています。';
+      'この数値には意図的に出典を付けていません。理由は上の計算方法に記載しています。';
 
   @override
   String get energyCalculatorTitle => '家庭のエネルギー';
@@ -1999,15 +1977,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get energyColumnEmptyHint => '家でしていることを追加してください';
 
   @override
-  String energyTotalKwh(String kwh) {
-    return '合計 $kwh kWh';
-  }
-
-  @override
   String get energyNoPointsNote => 'この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。';
-
-  @override
-  String get energyEditorTitle => 'どれくらい？';
 
   @override
   String get energyPresetsLabel => 'よくある量';

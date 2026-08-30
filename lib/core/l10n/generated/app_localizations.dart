@@ -2824,24 +2824,6 @@ abstract class AppLocalizations {
   /// **'Electricity only'**
   String get transportBasisElectricityOnly;
 
-  /// No description provided for @transportScienceNotesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'How it\'s calculated'**
-  String get transportScienceNotesHeading;
-
-  /// No description provided for @transportScienceSourcesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'Sources'**
-  String get transportScienceSourcesHeading;
-
-  /// No description provided for @transportScienceAccessed.
-  ///
-  /// In en, this message translates to:
-  /// **'Accessed {date}'**
-  String transportScienceAccessed(String date);
-
   /// No description provided for @transportComparisonTitle.
   ///
   /// In en, this message translates to:
@@ -2937,6 +2919,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove'**
   String get calculatorRemoveEntry;
+
+  /// Heading above a dataset entry's calculation notes
+  ///
+  /// In en, this message translates to:
+  /// **'How it\'s calculated'**
+  String get scienceNotesHeading;
+
+  /// Heading above a dataset entry's source list
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get scienceSourcesHeading;
+
+  /// No description provided for @scienceAccessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessed {date}'**
+  String scienceAccessed(String date);
 
   /// No description provided for @transportComparisonFull.
   ///
@@ -3168,24 +3168,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value} kg CO2e per kg'**
   String foodItemFactorPerKg(String value);
-
-  /// No description provided for @foodScienceNotesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'How it\'s calculated'**
-  String get foodScienceNotesHeading;
-
-  /// No description provided for @foodScienceSourcesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'Sources'**
-  String get foodScienceSourcesHeading;
-
-  /// No description provided for @foodScienceAccessed.
-  ///
-  /// In en, this message translates to:
-  /// **'Accessed {date}'**
-  String foodScienceAccessed(String date);
 
   /// No description provided for @foodGroupMeat.
   ///
@@ -3576,24 +3558,6 @@ abstract class AppLocalizations {
   /// **'{units} days'**
   String energyQuantityDays(String units);
 
-  /// No description provided for @energyScienceNotesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'How this is worked out'**
-  String get energyScienceNotesHeading;
-
-  /// No description provided for @energyScienceSourcesHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'Sources'**
-  String get energyScienceSourcesHeading;
-
-  /// No description provided for @energyScienceAccessed.
-  ///
-  /// In en, this message translates to:
-  /// **'Accessed {date}'**
-  String energyScienceAccessed(String date);
-
   /// No description provided for @energyScienceNoSources.
   ///
   /// In en, this message translates to:
@@ -3618,23 +3582,11 @@ abstract class AppLocalizations {
   /// **'Add something you do at home to build this routine'**
   String get energyColumnEmptyHint;
 
-  /// No description provided for @energyTotalKwh.
-  ///
-  /// In en, this message translates to:
-  /// **'{kwh} kWh in total'**
-  String energyTotalKwh(String kwh);
-
   /// No description provided for @energyNoPointsNote.
   ///
   /// In en, this message translates to:
   /// **'This calculator is for learning. It awards no points and logs nothing.'**
   String get energyNoPointsNote;
-
-  /// No description provided for @energyEditorTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'How much?'**
-  String get energyEditorTitle;
 
   /// No description provided for @energyPresetsLabel.
   ///

@@ -88,26 +88,6 @@ void main() {
     }
   });
 
-  test('the researched group distribution ships unchanged', () {
-    final counts = <String, int>{};
-    for (final b in behaviors) {
-      counts[b.comparableGroup] = (counts[b.comparableGroup] ?? 0) + 1;
-    }
-    // PDR_ENERGY_CALCULATOR.md section 3.
-    expect(counts, {
-      'hot_water': 5,
-      'dishes': 4,
-      'laundry_wash': 3,
-      'laundry_dry': 3,
-      'space_heat': 4,
-      'space_cool': 1,
-      'boil': 3,
-      'cook': 4,
-      'lighting': 2,
-      'device': 4,
-    });
-  });
-
   test('every behavior ships the unit its research assigned', () {
     // The unit follows the physics of the behavior, not its group, so
     // three groups legitimately mix units: hot_water (shower per

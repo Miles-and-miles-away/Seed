@@ -84,7 +84,7 @@ class _EnergyCalculatorScreenState
             behaviors: behaviors,
             recentIds: ref.read(recentEnergyBehaviorIdsProvider),
             onSelected: (behavior) => Navigator.pop(sheetContext, behavior),
-            onInfo: (behavior) => EnergyScienceSheet.show(
+            onInfo: (behavior) => showEnergyScienceSheet(
               sheetContext,
               behavior: behavior,
               languageCode: locale,
@@ -129,78 +129,38 @@ class _EnergyCalculatorScreenState
           gasFactor: factors.gas,
         ),
     ];
-    final worst = totals.reduce((a, b) => a > b ? a : b);
     final summary = options.every((u) => u.isNotEmpty)
         ? compareTotals(totals)
         : null;
     // Marking a column "best" is a verdict in its own right, so it
     // answers to the same gate as the headline copy.
-    final verdict = summary == null
+    final check = summary == null
         ? null
         : EnergyCalculator.checkVerdict(summary, byId, options);
-    final showVerdict = verdict?.block == EnergyVerdictBlock.none;
+    final showVerdict = check?.block == EnergyVerdictBlock.none;
 
-    return Column(
-      children: [
-        const SizedBox(height: spacingSm),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingMd),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var option = 0; option < optionCount; option++) ...[
-                  if (option > 0) const SizedBox(width: spacingSm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: OptionColumn(
-                            title: option == optionA
-                                ? l10n.calculatorOptionA
-                                : l10n.calculatorOptionB,
-                            totalGrams: totals[option],
-                            fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest:
-                                summary != null &&
-                                showVerdict &&
-                                option == summary.bestIndex,
-                            isEmpty: options[option].isEmpty,
-                            emptyHint: l10n.energyColumnEmptyHint,
-                            children: [
-                              for (var i = 0; i < options[option].length; i++)
-                                _usageCard(
-                                  l10n,
-                                  locale,
-                                  byId,
-                                  factors,
-                                  option,
-                                  i,
-                                  options[option][i],
-                                ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: spacingSm),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _browse(behaviors, option),
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.energyAddUsage),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(spacingMd),
-          child: _buildResult(l10n, byId, options, totals),
-        ),
+    return ComparisonScaffold(
+      totals: totals,
+      entries: [
+        for (var option = 0; option < optionCount; option++)
+          [
+            for (var i = 0; i < options[option].length; i++)
+              _usageCard(
+                l10n,
+                locale,
+                byId,
+                factors,
+                option,
+                i,
+                options[option][i],
+              ),
+          ],
       ],
+      emptyHint: l10n.energyColumnEmptyHint,
+      addLabel: l10n.energyAddUsage,
+      onAdd: (option) => _browse(behaviors, option),
+      bestIndex: showVerdict ? summary?.bestIndex : null,
+      result: _buildResult(l10n, summary, check),
     );
   }
 
@@ -237,9 +197,8 @@ class _EnergyCalculatorScreenState
   /// teaches and nothing else (decision 8.18).
   Widget _buildResult(
     AppLocalizations l10n,
-    Map<String, EnergyBehavior> byId,
-    List<List<RoutineUsage>> options,
-    List<double> totals,
+    ComparisonSummary? summary,
+    EnergyVerdictCheck? check,
   ) {
     final theme = Theme.of(context);
     final hint = Text(
@@ -249,12 +208,8 @@ class _EnergyCalculatorScreenState
         color: theme.colorScheme.onSurfaceVariant,
       ),
     );
-    final summary = options.every((u) => u.isNotEmpty)
-        ? compareTotals(totals)
-        : null;
-    if (summary == null) return hint;
+    if (summary == null || check == null) return hint;
 
-    final check = EnergyCalculator.checkVerdict(summary, byId, options);
     if (check.block != EnergyVerdictBlock.none) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -293,7 +248,7 @@ class _EnergyCalculatorScreenState
   /// Explains why the comparison declined to name a winner. The three
   /// reasons are not interchangeable, and the user is owed the real one
   /// rather than a generic refusal.
-  void _explainNoVerdict(AppLocalizations l10n, VerdictCheck check) {
+  void _explainNoVerdict(AppLocalizations l10n, EnergyVerdictCheck check) {
     final body = switch (check.block) {
       EnergyVerdictBlock.differentGroup => l10n.energyVerdictDifferentGroup,
       EnergyVerdictBlock.differentCarrier => l10n.energyVerdictDifferentCarrier,

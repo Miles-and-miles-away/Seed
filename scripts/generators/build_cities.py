@@ -32,10 +32,11 @@ ferry corridors) are declared separately in LINKS rather than
 merging landmasses, so geography stays pure and connectivity stays
 explicit. Any country code that cannot be mapped fails the build.
 """
-import csv
 import json
 import sys
 from datetime import date
+
+from geo import geonames_rows
 
 TOP_N = 5
 TOP_N_JP = 15  # primary market: denser coverage
@@ -245,21 +246,18 @@ LINKS = [
 
 def load_cities(path):
     cities = []
-    with open(path, encoding="utf-8") as f:
-        # GeoNames is raw tab-separated text; default quoting would
-        # corrupt rows containing quote characters.
-        for row in csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
-            try:
-                name, lat, lon, fcode, cc, pop = (
-                    row[1], float(row[4]), float(row[5]),
-                    row[7], row[8], int(row[14]),
-                )
-            except (IndexError, ValueError):
-                continue
-            # Capitals bypass the 15k-population floor in GeoNames
-            # and can carry pop 0 (Ngerulmud PW, Plymouth MS).
-            if fcode in KEEP_CODES and pop > 0:
-                cities.append((cc, name, lat, lon, pop))
+    for row in geonames_rows(path):
+        try:
+            name, lat, lon, fcode, cc, pop = (
+                row[1], float(row[4]), float(row[5]),
+                row[7], row[8], int(row[14]),
+            )
+        except (IndexError, ValueError):
+            continue
+        # Capitals bypass the 15k-population floor in GeoNames
+        # and can carry pop 0 (Ngerulmud PW, Plymouth MS).
+        if fcode in KEEP_CODES and pop > 0:
+            cities.append((cc, name, lat, lon, pop))
     # GeoNames occasionally carries two records for one place
     # (e.g. La Ceiba HN); keep the highest-population record.
     # Known upstream mislabel kept as-is: ER/Himora is actually

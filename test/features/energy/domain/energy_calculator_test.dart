@@ -105,21 +105,11 @@ void main() {
         throwsArgumentError,
       );
     });
-
-    test('routineKwh totals energy independently of carrier', () {
-      expect(
-        EnergyCalculator.routineKwh(byId, const [
-          RoutineUsage(behaviorId: 'electric', units: 1),
-          RoutineUsage(behaviorId: 'gas', units: 2),
-        ]),
-        2 + 4,
-      );
-    });
   });
 
   group('comparison gating (decision E2)', () {
     /// Builds the summary the way the screen does.
-    VerdictCheck check(
+    EnergyVerdictCheck check(
       List<List<RoutineUsage>> options,
       Map<String, EnergyBehavior> behaviors,
     ) {
@@ -292,34 +282,6 @@ void main() {
         const [RoutineUsage(behaviorId: 'shower', units: 1)],
       ], map);
       expect(result.block, EnergyVerdictBlock.differentGroup);
-    });
-
-    test('mayStateVerdict agrees with checkVerdict', () {
-      final small = b('small', group: 'hot_water', kwh: 1);
-      final big = b('big', group: 'hot_water', kwh: 5);
-      final map = EnergyCalculator.byId([small, big]);
-      const options = [
-        [RoutineUsage(behaviorId: 'small', units: 1)],
-        [RoutineUsage(behaviorId: 'big', units: 1)],
-      ];
-      final totals = [
-        EnergyCalculator.routineCo2eGrams(
-          map,
-          options[0],
-          gridFactor: grid,
-          gasFactor: gas,
-        ),
-        EnergyCalculator.routineCo2eGrams(
-          map,
-          options[1],
-          gridFactor: grid,
-          gasFactor: gas,
-        ),
-      ];
-      expect(
-        EnergyCalculator.mayStateVerdict(compareTotals(totals)!, map, options),
-        isTrue,
-      );
     });
   });
 }
