@@ -10,6 +10,7 @@
       "Plan/AUDIT_FACT_DATA.md",
       "Plan/RESEARCH_TRANSPORT.md",
       "Plan/RESEARCH_FOOD.md",
+      "Plan/PDR_FOOD_CALCULATOR.md",
       "Plan/RESEARCH_ENERGY.md",
       "Plan/PDR_ENERGY_CALCULATOR.md",
       "Plan/RESEARCH_FACTS.md"
@@ -249,7 +250,7 @@
         "OWID switching the default statistic again (it moved from medians-without-losses to means-with-losses on 2022-06-15).",
         "The archived median set remains the documented fallback; any item using it must disclose the statistic."
       ],
-      "reference": "Plan/RESEARCH_FOOD.md sections 1, 2, 4"
+      "reference": "Plan/RESEARCH_FOOD.md sections 1, 2, 4; the median-fallback disclosure rule is Plan/PDR_FOOD_CALCULATOR.md section 6"
     },
     {
       "id": "food_carboncloud_drift",
@@ -272,7 +273,7 @@
         "Standing rule: re-read the live oats input at every data pass and recompute the D3 average.",
         "Prohibition in force: rows dropped as unverifiable (assorted cheeses, chickpeas, potato products, NL tomato, red cabbage, dry onion, oats-UK) must not be resurrected without full product URLs and fresh values."
       ],
-      "reference": "Plan/RESEARCH_FOOD.md sections 1, 9"
+      "reference": "Plan/RESEARCH_FOOD.md section 1; Plan/PDR_FOOD_CALCULATOR.md section 6 (the standing rules and the live open list)"
     },
     {
       "id": "food_production_splits",

@@ -1,14 +1,15 @@
-# PDR Food Dataset -- Archive (executed detail)
+# Food Dataset -- Archive (executed detail)
 
 **Archived:** 2026-08-08. Long-form content moved out of
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) so that document stays a
 concise methodology-and-evidence reference. Everything here is
-EXECUTED or CLOSED; nothing below is a live instruction. Live
-rules, open items and the binding copy rules stay in
-RESEARCH_FOOD.md (sections 1-6); the live rules and the open list are in PDR_FOOD_CALCULATOR.md, whose section 6 there is the only
-live open list. The v2 item spec,
-[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 12, is delivered and
-closed too.
+EXECUTED or CLOSED; nothing below is a live instruction. The
+evidence base is [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) sections
+1-6. The standing decisions, the binding copy rules and the
+single live open list are in
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md), whose section
+6 is the only live open list for this workstream. The v2 item
+spec, section 12 below, is delivered and closed too.
 
 ---
 
@@ -917,12 +918,13 @@ this seed onward, so a user's historical logs keep the old values.
 
 ## 12. The v2 item spec (delivered 2026-08-08, folded in 2026-08-29)
 
-RESEARCH_FOOD_ARCHIVE.md section 12 was the build spec for the 43 -> 166
+`FOOD_ITEMS_V2_LIST.md` was the build spec for the 43 -> 166
 expansion. It was marked DELIVERED on 2026-08-08 and retired as a
 file on 2026-08-29: a delivered build spec is archive material, and
 no other workstream carried a document of that kind. What shipped is
 recorded in section 6 above; what follows is the part of the spec
-worth keeping.
+worth keeping. Its own sections 10 and 4 survive here as 12.3 and
+12.4.
 
 ### 12.1 F1: no second source can be ranked against a P&N value
 
@@ -1032,17 +1034,19 @@ carried them.
 - [x] **actionLibrary re-seed (FR-22, operational)** -- DONE
       2026-08-29, bundled with the E1 re-seed as one run. All four
       corrected values are live and match the local dataset.
-      Completion record and the sync caveat are in
-      [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md)
-      section 11; section 7 here stays the authority for the values.
+      Completion record and the sync caveat are in section 11
+      below; [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md)
+      section 4 stays the authority for the values.
 
 Open:
 - [x] **RESEARCH_FOOD.md carried two document types at once** --
-      CLOSED 2026-08-29. Sections 7-10 became this document; the
-      evidence base kept sections 1-6. Mapping in Appendix A.
+      CLOSED 2026-08-29. Sections 7-10 became
+      [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) sections
+      4-7; the evidence base kept sections 1-6. Mapping in that
+      document's Appendix A.
 - [x] **The v2 item spec was a document type nothing else had** --
       CLOSED 2026-08-29. `FOOD_ITEMS_V2_LIST.md` was folded into
-      RESEARCH_FOOD_ARCHIVE.md section 12 and the file retired.
+      section 12 below and the file retired.
 - [x] **Umbrella-word and homonym search forks** -- CLOSED
       2026-08-29. Two true homonyms are fixed, and the rest were
       never defects. `lamb` dropped the bare `ラム` (its own name

@@ -2,9 +2,12 @@
 
 **Version:** 1.3
 **Created:** 2026-07-17 | **Last research pass:** 2026-08-29
-**Status:** Research complete -- 27 shipped modes decided; open
-items tracked in section 7. The 2026-08-29 pass closed the MLIT
-re-verification (section 7; it found a live sourcing error in
+**Status:** Research complete -- 27 shipped modes decided. **This
+document is the evidence base only** (finished 2026-08-30): the
+open list and the binding copy and flight-band rules are in
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+sections 6, 2.2 and 2.3. The 2026-08-29 pass closed the MLIT
+re-verification (it found a live sourcing error in
 `rail_shinkansen`, since fixed in the dataset by re-sourcing to
 JR East at an unchanged 20 g/km) and the rail-circuity question
 (section 9, found but not adopted). Section 9 holds the
@@ -22,6 +25,77 @@ Every factor that ships in the app must trace back to an entry
 here with source, quote, URL, access date, and vintage. Follows
 the sourcing rules in [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md)
 (sections 2 and 8) and [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md).
+
+---
+
+## 0. Method in brief
+
+Required by [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3:
+how these numbers were arrived at, in rules rather than figures.
+It is numbered 0 so the existing section numbers, which other
+documents and the test suite cite, keep resolving. **No value
+appears in this section**, deliberately -- a summary that restates
+a figure becomes a second home for it and drifts.
+
+**Primary source, and why.** UK DEFRA/DESNZ GHG Conversion
+Factors. It is government-published, revised annually with a
+stated vintage, and covers almost the whole mode list on one
+consistent basis, which matters more than any individual figure:
+mixing per-mode sources produces orderings that are artefacts of
+the sources rather than of the modes. Our World in Data is the
+secondary anchor for magnitude and ordering. Operator and
+ministry disclosures fill the rows the primary does not publish,
+Japan first, because Japan is the primary market.
+
+**Statistic.** The primary's published average for the mode, not
+a best case and not a modelled ideal.
+
+**Boundary.** Operational energy only: direct tailpipe emissions
+for combustion modes, generation emissions for the traction
+energy of electric modes, and aviation with its radiative-forcing
+uplift. Vehicle manufacturing, infrastructure construction and
+well-to-tank refining are excluded everywhere unless a mode's own
+entry says otherwise. This matches the primary's
+passenger-transport convention and is what the in-app methodology
+sheet states.
+
+**Functional unit.** Grams CO2e per kilometre, on one of two
+bases: per passenger-km, used as-is, or per vehicle-km, divided
+by the occupancy selector. Which basis a mode uses is part of its
+record, not a display choice, and the two are not interchangeable.
+
+**Precision and rounding.** Published factors ship at the source's
+own precision. Derived factors carry their arithmetic, and where a
+defensible range exists they resolve on the side that does not
+flatter the eco-choice.
+
+**What "verified" means here.** The number was seen
+digit-for-digit on at least two independent live pages -- or one
+primary page for an operator-specific figure -- with quote, URL
+and access date recorded.
+
+**Three things a reader would otherwise trip over.**
+
+1. **The electricity legs deviate from the primary on purpose.**
+   The EV, e-bike and e-scooter electricity components use the
+   app's house global-average grid factor rather than the
+   primary's UK electricity factor, because the audience is
+   global. That is a documented deviation under
+   [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md), not an
+   oversight, and the UK anchors are named in the methodology
+   sheet so a UK reader can reconcile.
+2. **Several factors are deliberately one release behind.** The
+   newer release moves some modes by more than a third in both
+   directions, but its digits were not quotable at the research
+   pass. Each affected mode records its vintage and the flagged
+   delta, and the sanity pins in section 6 are pins for the
+   shipped vintage rather than truth claims -- re-derive them at
+   the next pass, never assume they survive it.
+3. **A few modes ship on derived factors** because no government
+   per-passenger-km row exists for them at all. Where a
+   derivation cannot be made honest, the mode is dropped rather
+   than approximated: a self-derived number that contradicts the
+   cited set never ships.
 
 ---
 
@@ -729,23 +803,15 @@ surprises the feature exists to surface):
 
 ---
 
-## 7. Open Items
+## 7. Open Items -- moved
 
-Closures from the 2026-07-17/18 research passes are logged in
+The live open list is
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 6 (moved there 2026-08-30; an open task list is not
+evidence). This section keeps its number so existing references
+resolve. Closures from the 2026-07-17/18 research passes are
+logged in
 [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
-
-Remaining:
-
-- [ ] Next DEFRA pass (when 2026 numbers become quotable):
-      coach (+42%), national rail (-13%), LU (-44%), BEV UK
-      anchor (~30), international rail (~2.5x to ~11);
-      re-derive all invariant pins (sec 6)
-- [ ] Ship the yacht fact when a calendar slot frees. The
-      draft is written, translated and pre-audited (sec 8.3);
-      what remains is an owner call on which of the 366 days
-      it displaces. Closure detail in
-      [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md)
-      section 9.
 
 ---
 
@@ -1100,10 +1166,18 @@ sweep_suggestions.py; not done until the gate passes.
 Seven adversarial review rounds (bug hunt, maths recomputation,
 design red-team with full-pair sweeps, deception audits with live
 source fetches) ran over the dataset and the distance-estimation
-engine, 2026-07-17..21. The durable rules they produced are
-consolidated here so this document stays self-sufficient. Most are
-already applied in sections 2-9 -- this appendix names them as
-principles and records the few that live nowhere else.
+engine, 2026-07-17..21. Most of what they produced is already
+applied in sections 2-9; this appendix names the durable
+principles.
+
+**Split 2026-08-30.** A.1 and A.2 are research method and stay.
+A.3 and A.4 were product rules and moved to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+sections 2.2 and 2.3; their letters are kept as redirects. A.5 is
+a product rule too, but `build_water_blocklist.py` names it by
+file and letter in three places, one of them a runtime abort
+message, so moving it is a docs-plus-code change tracked as an
+open item in PDR_TRANSPORT_CALCULATOR.md section 6.
 
 ### A.1 Honesty ethic (the rule every data decision serves)
 
@@ -1134,31 +1208,21 @@ principles and records the few that live nowhere else.
   revisions break several (noted inline), so re-derive every pin
   at the next data pass rather than assuming it survives.
 
-### A.3 Copy rules (binding on the comparison view / science sheets)
+### A.3 Copy rules -- moved
 
-- "emits X kg less", **never "saves"** -- the delta is
-  hypothetical until the trip is actually swapped.
-- Comparative superlatives only at a meaningful delta; **never**
-  generate copy claiming walking beats cycling, or coach beats
-  rail -- both orderings are vintage-fragile (section 6
-  non-invariants).
-- Binding in-UI disclosures: the private-jet bar carries an
-  in-chart RF footnote (its bar includes the same high-altitude
-  uplift as the airline bars, section 8.1); the EV row carries a
-  global-average-grid sublabel (section 2); active/micro rows
-  carry their electricity-only / lifecycle-excluded basis labels
-  (section 3.3).
+Binding on the comparison view and the science sheets, so they are
+product rules rather than evidence. Moved 2026-08-30 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.2. The letter is kept so existing references resolve.
 
-### A.4 Flight-band auto-pick (binding methodology, shipped)
+### A.4 Flight-band auto-pick -- moved
 
-The comparison view picks the honest flight band from leg distance
-rather than letting a short leg be overstated at the long-haul
-rate: **> 3,700 km = long-haul**; otherwise **same country =
-domestic**, **different countries = short-haul** (the DEFRA
-<= 3,700 km boundary, section 4). No invented medium-haul cutoff --
-DEFRA publishes no medium-haul factor, so the three bands stand
-(owner Q&A, 2026-07-22). The picker offers only the band a city
-pair resolves to.
+Binding shipped methodology, so it is a product rule. Moved
+2026-08-30 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.3. The letter is kept so existing references resolve.
+The DEFRA <= 3,700 km band boundary it applies is evidence and
+stays in section 4 above.
 
 ### A.5 Border-status watchlist (enforced by the build guard)
 

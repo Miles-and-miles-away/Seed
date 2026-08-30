@@ -576,7 +576,7 @@ edit to the dataset makes it stale again -- re-run `npm run seed`.
 
 | Change | File |
 |--------|------|
-| Every closed item rewritten to one table row and moved out of the live doc. The last open follow-up is now closed, so section 8 is standing rules only. | RESEARCH sec 8, archive 1 |
+| Every closed item rewritten to one table row and moved out of the live doc. The last open follow-up is now closed, so RESEARCH_ENERGY.md's standing-rule list held nothing open; it moved to PDR_ENERGY_CALCULATOR.md section 2 on 2026-08-30. | archive 1 |
 | RESEARCH_ENERGY.md split 1604 -> 1215 lines; 525 lines of executed detail moved to [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md). Blocks were moved by script, not retyped, and every source line was verified present in one file or the other. | both |
 | Stale `v1.1` reference to the research doc corrected to `v2.0`. | sec 1 here |
 
@@ -682,8 +682,8 @@ Repaired from committed research:
 
 | Action | Was | Now |
 |--------|-----|-----|
-| `plant_milk` | `seasonal_produce`'s "avoids heated greenhouse produce" | full soy-binds-not-oat derivation (RESEARCH_FOOD sec 7) |
-| `heat_person_not_room` | empty | (heater 1.2 - kotatsu 0.15) x 4 h x 458 = 1924 -> 1900 (RESEARCH_ENERGY sec 7) |
+| `plant_milk` | `seasonal_produce`'s "avoids heated greenhouse produce" | full soy-binds-not-oat derivation (PDR_FOOD_CALCULATOR sec 4) |
+| `heat_person_not_room` | empty | (heater 1.2 - kotatsu 0.15) x 4 h x 458 = 1924 -> 1900 (PDR_ENERGY_CALCULATOR sec 4) |
 | `citizen_science_project`, `volunteer_nature_walk` | empty | sibling-style "indirect; not CO2-measurable" (both 0 g, no numeric claim) |
 
 Seven more were marked `UNVERIFIED` and then **all re-derived

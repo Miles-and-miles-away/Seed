@@ -21,9 +21,12 @@ closed history and carries no live instructions.
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 2).
 
 Reference document for the food carbon calculator dataset: the
-methodology, the source landscape, the owner decisions, the
-invariants and the copy rules, plus the full derivations for the
-v1 core. Follows the sourcing rules in
+methodology, the source landscape, the verified factors, the
+chosen values, the serving presets and the sanity invariants,
+plus the full derivations for the v1 core. The owner decisions
+and the binding copy rules are **not** here; they are in
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md). Follows the
+sourcing rules in
 [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md) (sections 2 and 8).
 
 **Per-item provenance for the v2 additions lives in the JSON, not
@@ -42,6 +45,89 @@ what it is, and the two must not be assumed to overlap.
 
 Unit for every factor: **kg CO2e per kg of food as-purchased**
 (raw / dry weight; liquids at density 1.0 so per-litre = per-kg).
+
+**How section references read below.** "PDR section N" means
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md): its section 4
+is the action-data consistency rules, section 5 the binding copy
+and UI rules (cited here as "copy rule N"), section 6 the single
+live open list. "Archive section N" means
+[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md): its
+section 4 is the FOOD_LOGIC_CHECK recomputation record. A bare
+"section N" is a section of this document.
+
+---
+
+## 0. Method in brief
+
+Required by [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3:
+how these numbers were arrived at, in rules rather than figures.
+It is numbered 0 so the existing section numbers, which the
+dataset's `calculation_notes` and the PDR cite by number, keep
+resolving. **No value appears in this section**, deliberately --
+a summary that restates a figure becomes a second home for it and
+drifts.
+
+**Primary source, and why.** Poore & Nemecek 2018, read through
+Our World in Data's live graphers. It is chosen for one property
+above all: it covers the whole food list on **one boundary and
+one statistic**. Every alternative database sits on a different
+boundary, a different statistic, or different land-use
+accounting, and bolting one onto this anchor produces orderings
+that are artefacts of the sources -- cured meat beating its own
+raw parent, nut butter below its only input, yogurt below milk.
+Mixed sources are allowed where the anchor has no row; **ranking
+across them is not**.
+
+**Statistic.** The production-weighted mean including
+supply-chain losses, as the grapher publishes it today. Not the
+famous median set, which the publisher retired: the median is
+still an approved fallback, but any item using it must say so in
+its notes and on the science sheet. The methodology page tells
+users the mean-versus-median story unprompted, because they will
+cross-check against the well-known chart.
+
+**Boundary.** Cradle-to-retail, land-use change included. Home
+cooking, home refrigeration and the trip to the shop are outside
+it, and the science sheets say so rather than leaving a reader to
+assume the number covers a meal end to end.
+
+**Functional unit: per kg of food as purchased** -- raw or dry
+weight, with liquids taken at density 1.0. Serving presets exist
+to convert what a person eats into that as-purchased weight, and
+they are where the largest silent user errors live: a cooked
+weight typed as a raw one, a whole-fish weight typed as an edible
+one, a volume typed into a grams field.
+
+**Precision and rounding.** The dataset stores exact unrounded
+values and the UI rounds for display, so a rounded figure never
+becomes the stored one. Savings claimed by an action round down,
+and a baseline subtracted from a saving rounds up; both push the
+reward toward the smaller, honest end.
+
+**What "verified" means here.** The factor was seen
+digit-for-digit on the live grapher CSV, reproduced independently
+from its supply-chain stage sum, and corroborated by at least one
+independent source for magnitude and ordering -- never for exact
+digits, which do not match across meta-analyses and are not
+expected to.
+
+**Two things a reader would otherwise trip over.**
+
+1. **Many items deliberately share one number.** The anchor
+   resolves to a category, not a species, and there are far more
+   findable foods than researched values. A shared value is
+   recorded as a tie group so the app cannot rank inside it; that
+   is a statement about the resolution of the evidence, not an
+   oversight to be fixed by inventing precision.
+2. **The app refuses comparisons it cannot defend.** A gap has to
+   clear a floor, a wider bar when the two sides draw on
+   different source tiers, and a wider one still when an
+   ingredient's own two published statistics disagree by more
+   than a factor. The bars themselves are product rules and live
+   in PDR section 5; what belongs here is why they exist, which
+   is that a minority of high-impact producers pulls each average
+   above the typical farm and close pairs swap places between
+   statistics.
 
 ---
 
@@ -78,7 +164,7 @@ OWID surfaces carry the data:
   accessed 2026-07-18). Eight stages (land-use change, farm,
   animal feed, processing, transport, retail, packaging, losses)
   that sum digit-for-digit to the per-kg headline for every item
-  (verified across all 37 sums, section 10).
+  (verified across all 37 sums, archive section 4).
 - **Plant-milk comparison grapher** `environmental-footprint-milks`
   (https://ourworldindata.org/grapher/environmental-footprint-milks.csv,
   accessed 2026-07-18) -- per-litre figures; the only OWID source
@@ -382,7 +468,7 @@ for what each item cites.
 
 > "Verified" means: the factor is the OWID/P&N anchor value seen
 > digit-for-digit on the live grapher CSV AND reproduced from the
-> supply-chain stage sum (section 10), with at least one
+> supply-chain stage sum (archive section 4), with at least one
 > independent source corroborating magnitude/ordering. Exact
 > LCA digits cannot match across different meta-analyses, so
 > independent sources corroborate magnitude and ordering, never
@@ -496,7 +582,7 @@ Both chosen at the P&N mean for scope consistency (one boundary
 across all 37 first-pass items). The P&N farmed prawn/fish
 categories are single coarse global averages with large spread --
 Medium-High confidence, spread caveat required on the science
-sheet (sec 8).
+sheet (PDR section 5).
 
 **Fish (wild-caught) -- added 2026-07-19 (owner product call), not
 in P&N.** The per-kg grapher has no wild-fish row (re-verified
@@ -712,7 +798,7 @@ allocation-driven (CarbonCloud country pages span ~11.4-19.6;
 un-URLed, illustrative only). Sits sensibly between milk (3.15)
 and cheese (23.88); butter (12.0) > chicken (9.87). Confidence
 Medium -- no single authoritative global mean. Science sheet must
-carry the "not in Poore & Nemecek" note (section 8).
+carry the "not in Poore & Nemecek" note (PDR section 5).
 
 **Cream -- derived from milk on a total-solids allocation (added
 2026-08-29).** Cream was the last uncovered common food. The v2
@@ -890,7 +976,7 @@ Anchor rows, verbatim: `Tofu,2010,3.16`,
   0.433135394 + 3.257812 = 3.690947394 (~3.69). Ship 0.43
   (consistent incl-LUC boundary) but the `calculation_notes` MUST
   disclose the credit; never publish a negative value; never emit
-  "nuts are the lowest-impact protein" copy (section 8). Table S1
+  "nuts are the lowest-impact protein" copy (PDR section 5). Table S1
   basis (2.1): "1 kg of shell free, dry nut" -- kernels, not
   in-shell weight.
 - **Peanuts are a SEPARATE P&N row and must never ride the
@@ -934,7 +1020,7 @@ Anchor rows, verbatim: `Tofu,2010,3.16`,
   walnut, hazelnut and pistachio rank them in near-opposite order
   (Spearman rho -0.3) and fail the 20% bar internally, so all five
   ship as search names on one number (decision recorded in
-  [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 12 section 10).
+  [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 12.3).
 - Tofu corroboration (CarbonCloud, value-as-of 2026-07-18): 1.34
   (https://apps.carboncloud.com/climatehub/product-reports/id/224275434558)
   -- regional deforestation-free soy; corroborates the
@@ -1008,7 +1094,7 @@ over-flattering beans-proxy headline (56x). NEAR-TIES: 4.5 vs
 eggs 4.67 (3.8%) and vs rice 4.45 (1.1%) -- never-pin (section
 6). Science sheet must disclose category breadth (soy mince to
 formulated patties), the narrower source boundaries, and the
-uplift (section 8).
+uplift (PDR section 5).
 
 **Independent corroboration added 2026-07-20 (closes the
 independent-LCA open item; confidence raised Medium ->
@@ -1105,10 +1191,10 @@ literature incl. prototypes, uplifted) to 4.49 (commissioned mean,
 uplifted). 4.5 is the top of that band. For a number the app uses to
 praise a swap away from meat, the top of the band is the correct
 side to sit on, and moving it down would flatter the swap on
-evidence that does not support the move. **Kept, with the section 8
+evidence that does not support the move. **Kept, with the PDR section 5
 rule 15 disclosure, and the notes rewritten to state the resolution
 instead of the worry.** Invariants 12 and 14 are untouched.
-Residual, moved to section 9: the beef-to-plant RATIO the app shows
+Residual, moved to PDR section 6: the beef-to-plant RATIO the app shows
 (15.6x per kg) is far above the 3.0-4.4x Saget finds within one
 consistent accounting system, and that is a difference in the beef
 number as much as the plant one.
@@ -1200,7 +1286,7 @@ Anchor rows, verbatim: `Rice,2010,4.45`, `Wheat & Rye,2010,1.57`,
   both map to the "Wheat & Rye" grain (1.57). No baking or drying
   energy is added (outside the P&N farm-to-retail boundary of the
   grain product) -- `calculation_notes` must state this
-  (grain-factor note, section 8). Store the exact 1.57 for both
+  (grain-factor note, PDR section 5). Store the exact 1.57 for both
   (FR-18); UI rounding may show 1.6. Corroboration lower bounds
   (CarbonCloud, value-as-of 2026-07-18): Soft bread wheat 0.87
   (https://apps.carboncloud.com/climatehub/product-reports/id/99955091022),
@@ -1226,7 +1312,7 @@ Anchor rows, verbatim: `Rice,2010,4.45`, `Wheat & Rye,2010,1.57`,
   and joins the ~1.8 cluster with beans/lentils (1.79) and wine
   (1.79); the rice-top-staple pin margin improves to +142%
   (section 6). Re-read the live CarbonCloud value at the next
-  data pass (section 9).
+  data pass (PDR section 6).
 - Potatoes: lowest staple (farm 0.19, near-zero LUC).
 
 ### 3.5 Vegetables (verified 2026-07-18)
@@ -1355,7 +1441,7 @@ Key sources (accessed 2026-07-18):
 Caveats: the OWID "Berries & Grapes" category is a
 berries-plus-grapes BLEND -- pure soft berries air-freighted out
 of season sit well above 1.53, table grapes below; science sheet
-must say "includes grapes" (section 8). Citrus corroboration
+must say "includes grapes" (PDR section 5). Citrus corroboration
 CLOSED 2026-07-19 (was order-of-magnitude only) with two
 independent live-quotable sources; confidence raised to High:
 
@@ -1413,7 +1499,7 @@ alcohol)."
 
 - **Coffee.** Per-kg dry roasted product incl. losses. The #2
   tallest per-kg bar in the dataset for a food consumed ~10 g at
-  a time -- hard UI requirements in section 8. Independent LCA
+  a time -- hard UI requirements in PDR section 5. Independent LCA
   (Nab & Maslin 2020, Geo: Geography and Environment,
   https://rgs-ibg.onlinelibrary.wiley.com/doi/full/10.1002/geo2.96,
   verbatim):
@@ -1434,7 +1520,7 @@ alcohol)."
   > dioxide on average. That's raw, pre-roasted beans (otherwise
   > known as 'green coffee')".
 - **Beer -- owner decision D2 (2026-07-18): ships 1.2 kg/L**
-  (P&N anchor, per-alcohol-unit basis; derivation in section 10).
+  (P&N anchor, per-alcohol-unit basis; derivation in archive section 4).
   The dedicated packaged-beer LCA range is recorded as spread
   context in the science sheet, NOT as the factor. Amienyo &
   Azapagic 2016, Int. J. Life Cycle Assess. 21:492
@@ -1454,7 +1540,7 @@ alcohol)."
   (0.842 + 0.575 + 0.510)/3 = 0.642; averaged with the
   co2everything compilation 0.70 -> 0.671 (~0.67/L). (Corrected
   per FR-16; an earlier draft wrote "~0.68".)
-- **Wine.** Manuscript-derived 1.75/L (section 10) vs grapher
+- **Wine.** Manuscript-derived 1.75/L (archive section 4) vs grapher
   1.79 (losses included) -- adopt 1.79. Nature Comms Earth & Env
   2024 (https://www.nature.com/articles/s43247-024-01766-0),
   verbatim:
@@ -1574,7 +1660,7 @@ ranges overlap almost completely: black 6.4-11.9, green
 4.5-19.9); matcha is OUT of scope (whole-leaf powder, shaded
 cultivation -- research separately if demanded). Milk in tea is
 logged as dairy, not part of this factor. Tea inherits the coffee
-UI rule: preset-only entry, per-kg sublabel (section 8).
+UI rule: preset-only entry, per-kg sublabel (PDR section 5).
 NEAR-TIES: tea 9.0 vs chicken 9.87 and vs fish (wild-caught) 9.50
 -- never-pin (section 6).
 
@@ -1643,7 +1729,7 @@ reproduced digit-for-digit from the archived grapher endpoint
 provenance, not the shipped value.
 
 Chocolate is LUC-dominated (mean basis: 25.81/46.65 = 55%) and
-the #3 bar in the dataset -- the sublabel requirement in section 8
+the #3 bar in the dataset -- the sublabel requirement in PDR section 5
 is mandatory. Key sources (accessed 2026-07-18):
 
 - Project Drawdown,
@@ -1755,7 +1841,7 @@ pair with `VerdictBlock.uncertainItem` naming dark chocolate. That
 is the outcome the item's notes have described all along. **The
 margin is 1.4 percentage points and that is thin**: if either 19.35
 or dark chocolate's 2.4947 is ever re-derived, the block can flip.
-The durable protection is copy rule 18 (section 8) and the never-pin
+The durable protection is copy rule 18 (PDR section 5) and the never-pin
 entry (section 6), not the arithmetic.
 
 **Rejected alternatives.** (i) *Keep 14.9 plus a copy rule*: a copy
@@ -1973,7 +2059,7 @@ the seafood decision D8 means D11.
   beef is ~80% beef-herd via US/AU imports (~86). 70.36 is the
   least-wrong single global value and the science sheet says so.
   The beef action moved 9700 -> 6800 g with it, and again to
-  3700 g when it merged into `skip_high_impact_food` (sec 7).
+  3700 g when it merged into `skip_high_impact_food` (PDR section 4).
 - **D5 (beef item, owner call 2026-08-01):** the dairy-herd item is
   **dropped**; a single `Beef` ships at the beef-herd 99.48. No
   label, menu or receipt tells a shopper which herd their beef
@@ -2124,7 +2210,7 @@ Preset source quotes, verbatim (accessed 2026-07-18):
   > cooked rice."
   So 150 g raw -> ~330 g cooked (~2.2x by weight). The factor
   multiplies the RAW grams -- quantity-editor helper required
-  (section 8).
+  (PDR section 5).
 - SCA Golden Cup ratio
   (https://www.genuinebluemountaincoffee.com/blogs/news/what-is-the-golden-ratio-for-specialty-coffee):
   > "55 grams of coffee per liter of water"
@@ -2463,7 +2549,7 @@ what protects the comparison instead.
 Orderings that flip between statistics, sit inside rounding, or
 depend on boundary choices. Record these as comments in the test
 file; the copy engine must not emit "X beats Y" for any of them
-(>= 20%-delta rule, section 8):
+(>= 20%-delta rule, PDR section 5 rule 4):
 
 - **palm vs olive** (shipped 7.955247 vs 5.941953 after D7; 7.32
   vs 5.42 on the pre-D7 per-litre stage sums) -- flips when LUC is
@@ -2494,7 +2580,7 @@ file; the copy engine must not emit "X beats Y" for any of them
   comparison depends on an assumed dark recipe P&N never state. The
   gate now blocks the pair at 58.52% against dark chocolate's 59.92%
   bar, **by 1.4 percentage points**. That margin is too thin to be
-  the only protection: copy rule 18 (section 8) is the durable one,
+  the only protection: copy rule 18 (PDR section 5) is the durable one,
   and both numbers must be re-derived together if either moves.
 - **oats vs tomatoes** (1.84 vs 2.09 after D3; tomatoes now
   higher by ~14%) -- the ordering already flipped once when D3

@@ -57,9 +57,9 @@ that derives one value from another.
 
 `RESEARCH_ENERGY.md` states the rule best, after it was restructured
 to match transport: "this document is the **evidence base only**.
-Decisions, product rules, action-library additions, UI/copy
-requirements and the methodology screen copy moved to
-`PDR_ENERGY_CALCULATOR.md`."
+Decisions, product rules, action-library additions and their
+derivations, standing rules, UI/copy requirements and the
+methodology screen copy are in `PDR_ENERGY_CALCULATOR.md`."
 
 **An evidence base is allowed to be long.** `RESEARCH_TRANSPORT.md`
 is ~1,100 lines and `RESEARCH_ENERGY.md` ~1,240, because verbatim
@@ -79,6 +79,15 @@ summary restates a figure it becomes a second place for that figure
 to live, and it will drift (section 10). The method is safe to
 summarise precisely because it is not written down numerically
 anywhere else.
+
+**Number it 0 in an existing document, 1 in a new one.** The three
+calculator evidence bases got theirs on 2026-08-30 as a section 0,
+because their later section numbers are cited by
+`calculation_notes` in the shipped datasets, by the test suite and
+by the PDRs, and renumbering would have broken all of them.
+`RESEARCH_ACTIONS.md`, written after this rule existed, carries it
+as section 1. Either is correct; do not renumber a live document to
+tidy this up.
 
 **A methodology document is the other legitimate shape.**
 `RESEARCH_ACTIONS.md` is the model: it holds the method and the
@@ -200,17 +209,39 @@ steps, prerequisites, and the errors people actually hit.
 |---|---|---|---|
 | Transport | `RESEARCH_TRANSPORT.md` | `PDR_TRANSPORT_CALCULATOR.md` | `PDR_TRANSPORT_ARCHIVE.md` |
 | Energy | `RESEARCH_ENERGY.md` | `PDR_ENERGY_CALCULATOR.md` | `RESEARCH_ENERGY_ARCHIVE.md` |
-| Food | `RESEARCH_FOOD.md` | **missing** | `RESEARCH_FOOD_ARCHIVE.md` |
+| Food | `RESEARCH_FOOD.md` | `PDR_FOOD_CALCULATOR.md` | `RESEARCH_FOOD_ARCHIVE.md` |
+| Actions | `RESEARCH_ACTIONS.md` | -- | `RESEARCH_ACTIONS_ARCHIVE.md` |
 
-Food is the outlier: `RESEARCH_FOOD.md` carries both the evidence
-and the decisions, which is why it is roughly twice the size of its
-peers. Splitting out `PDR_FOOD_CALCULATOR.md` is the open structural
-task, tracked in PDR_FOOD_CALCULATOR.md section 6.
+Food was the outlier until 2026-08-30: `RESEARCH_FOOD.md` carried
+both the evidence and the decisions, which is why it is still
+roughly twice the size of its peers even after
+`PDR_FOOD_CALCULATOR.md` was split out of its sections 7-10. The
+mapping is in that document's Appendix A.
 
-The two archive prefixes disagree (`PDR_TRANSPORT_ARCHIVE` against
-`RESEARCH_ENERGY_ARCHIVE`) because each took the prefix of the
+**All three calculator workstreams finished the split on
+2026-08-30.** Energy's action-value derivations and standing rules
+left `RESEARCH_ENERGY.md` sections 7 and 8 for
+`PDR_ENERGY_CALCULATOR.md` sections 4 and 2, and its old section 9
+became section 7. Transport's open list and its Appendix A.3 and
+A.4 copy rules moved to `PDR_TRANSPORT_CALCULATOR.md` sections 6,
+2.2 and 2.3. One exception is deliberate and tracked as an open
+item there: `RESEARCH_TRANSPORT.md` Appendix A.5 is a product rule
+but `scripts/generators/build_water_blocklist.py` names it by file
+and letter in three places, one of them a runtime abort message,
+so moving it is a docs-plus-code change rather than a docs one.
+
+Actions has no `PDR_`, and does not need one: it is the
+methodology shape described in section 3, its values live in
+`data/seed/co2_actions_database.json`, and the product rules that
+would fill a PDR are the per-calculator ones already held by the
+three PDRs above. `AUDIT_ACTION_DATA.md` carries the sourcing and
+points bar.
+
+The archive prefixes disagree (`PDR_TRANSPORT_ARCHIVE` against
+`RESEARCH_ENERGY_ARCHIVE`, `RESEARCH_FOOD_ARCHIVE` and
+`RESEARCH_ACTIONS_ARCHIVE`) because each took the prefix of the
 document it was first split from. Under rule 6 an archive serves the
-whole workstream, so the prefix is not load-bearing; leave both
+whole workstream, so the prefix is not load-bearing; leave them
 alone rather than churning links for symmetry.
 
 ---

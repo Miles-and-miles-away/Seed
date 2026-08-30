@@ -156,16 +156,18 @@ does not know.
 
 ## 5. SDG coverage
 
-Nine goals carry directly trackable actions: 2, 3, 6, 7, 11, 12, 13,
-14 and 15. Goal 13 maps to everything, being the point of the
-exercise.
+Ten goals carry directly trackable actions: 2, 3, 6, 7, 9, 11, 12,
+13, 14 and 15. Goal 13 maps to everything, being the point of the
+exercise. Goal 9 (industry, innovation and infrastructure) is the
+least obvious of the ten and carries only the two public-transit
+swaps, `bus_instead_of_car` and `train_instead_of_car`.
 
-The other eight (1, 4, 5, 8, 9, 10, 16, 17) address systemic
+The other seven (1, 4, 5, 8, 10, 16, 17) address systemic
 questions -- poverty, education, gender equality, economic systems,
-infrastructure, inequality, institutions, partnerships -- that
-individual daily habits do not move. They ship as educational
-content explaining how personal action connects to them, rather than
-as actions with invented footprints.
+inequality, institutions, partnerships -- that individual daily
+habits do not move. They ship as educational content explaining how
+personal action connects to them, rather than as actions with
+invented footprints.
 
 The live mapping is `sdg_coverage` in
 `data/seed/co2_actions_database.json` and the per-action

@@ -215,7 +215,8 @@ Total: 169 targets across 17 goals.
 - [ ] Exactly 366 entries (`ECO_FACT_COUNT`)
 - [ ] `dayOfYear` values are 1-366 with no duplicates
       or gaps
-- [ ] Every entry has all 7 required fields
+- [ ] Every entry has all 14 required fields (the schema block
+      in section 2; `unWorldDay` is required but nullable)
 - [ ] `category` is one of the 5 valid values
 - [ ] `relatedSdgs` contains only integers 1-17
 - [ ] `relatedSdgs` has 1-4 entries per fact

@@ -1,11 +1,19 @@
 # PDR: Phase 8 Home Energy Calculator -- Post-Design Review
 
 **Created:** 2026-08-02
-**Status:** Research complete and cleared to build from
-([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33 behaviors,
-every open item closed). No code written yet. Owner decisions
-E1-E6 are settled, as are two product decisions (no logging
-bridge; comparison gating).
+**Status:** Built, not routed. The dataset, `lib/features/energy/`
+and `test/features/energy/` shipped in commit 823f984
+(2026-08-29), so deliverables 8.13-8.16 are done. The feature is
+still unreachable from the app: no `/energy-calculator` route,
+nothing imports `lib/features/energy/energy.dart`, and the
+calculator chooser still renders the home-energy tile disabled.
+8.17 (entry points and routing) is the remaining work and is
+blocked on open decision **E8** (section 8), because which surface
+8.17 routes to is the decision. The test debt in section 9 is open.
+Evidence base
+([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33 behaviors)
+is complete. Owner decisions E1-E6 are settled, as are two
+product decisions (no logging bridge; comparison gating).
 **Purpose:** The working record for building the feature -- standing decisions and why, the product rules, the
 action-library additions, the UI/copy requirements, and the
 methodology screen copy. The evidence base (sources, verbatim
@@ -48,14 +56,26 @@ nothing to prune or add. `heat_person_not_room` is live,
 `turn_off_lights` reads 15 g / 2 points. The food FR-22 values
 went in on the same run.
 
-**Still to be built (nothing exists in `lib/`):**
+**Built in commit 823f984 (2026-08-29):**
 
 - `data/app/energy_behaviors.json` -- 33 behaviors, cited factors,
   `comparable_group` field, EN/JA/ES
 - `lib/features/energy/` -- models, loader, calculator, routine
-  builder, comparison, methodology screens
+  builder, comparison, science sheet
 - `test/features/energy/` -- dataset validation, engine, sanity
-  pins, cross-dataset grid-factor pin, widgets, l10n
+  pins, cross-dataset grid-factor pin, widgets
+- `scripts/generators/build_energy_behaviors.py` -- the dataset
+  generator
+
+**Still to be built:**
+
+- **Entry points and routing (8.17).** There is no
+  `/energy-calculator` route in `lib/app/router.dart`, nothing
+  imports `lib/features/energy/energy.dart`, and
+  `calculator_chooser_sheet.dart` still passes
+  `comingSoonLabel` to the home-energy tile. Until that lands the
+  feature ships as dead code.
+- **The test debt in section 9**, which is open and tracked there.
 
 **What this feature is for**, settled, and it is not what Parts 1
 and 2 are for: transport and food are decision tools that teach.
@@ -99,6 +119,17 @@ otherwise; do not "fix" values backwards from superseded text.
 - **E6 (wash temperatures) -- APPLIED.** Three verbatim Bosch
   entries (20 / 40 / 60 C) instead of a 30 C entry or a
   "20-30 C" range label.
+- **E7 (headline unit) -- DECIDED 2026-08-30: the ratio leads,
+  grams are subordinate.** A ratio between two entries on the same
+  carrier is identical on every grid on Earth; a gram figure is
+  only true for a user on a 458 g/kWh grid and is 3.5x wrong for
+  the UK. The absolute figure still ships, because the app is
+  denominated in CO2e throughout, but it carries the vintage label
+  (rule 19) and never carries the comparison. This was the
+  original intent, not a new idea: PLAN_PHASE_8 8.15's own mockup
+  reads "= 190 phone charges". The built screen dropped it --
+  energy is the only one of the three calculators that passes no
+  `equivalencyText` to `ComparisonDeltaCard`.
 
 ---
 Derived rules, equally binding:
@@ -151,6 +182,32 @@ Derived rules, equally binding:
   per-hour measurement; putting it in the picker would imply a
   comparability that does not exist. Figure and sourcing in
   RESEARCH sec 3.3.
+- **Physics entries never need refreshing.** Only the assumptions
+  around them (flow rate, delta-T, efficiency) can age. Everything
+  that does age is on a cadence in
+  [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json)
+  (`grid_factor`, `gas_factor`, `energy_*`), which is the only
+  place that cadence is recorded.
+- **Never rank gas and electricity entries in one list.** The
+  carrier gate (E2) governs the comparator; the same constraint
+  binds any ranked view, because a gas row's position moves with
+  the grid factor while an electric row's does not. Ranked on the
+  UK's 131 g/kWh the gas bath is the **worst** row on the board;
+  at 458 it is fourth; at India's 695 it is sixth. The 28
+  electricity entries plus `line_dry` (carrier `none`, zero on
+  every grid) order identically everywhere and are the only rows
+  that may share a ranking. A gas entry attaches to the electric
+  row it substitutes for, as an alternative carrying no ordering
+  claim, with the 241 g/kWh crossover copy from section 6.
+- **Ratios are computed in kWh, never from the equivalency
+  helpers.** `phoneCharges` in `impact_equivalencies.json` is a
+  fixed 8 g/unit EPA constant, so `grams / 8` scales with the
+  grid: the electric bath reads 326x at 458 g/kWh but 93x on the
+  UK grid. Dividing `kwh_per_unit x units` by the dataset's own
+  `phone_charge` entry (0.015271 kWh) gives **373x on every
+  grid**. Same sentence on screen, opposite property. The Phase 6
+  helpers stay correct for transport and food, which have no
+  carrier factor to cancel.
 
 ---
 
@@ -206,6 +263,30 @@ Users may still build and compare any two routines they like --
 the gating governs what the **app asserts**, not what the user
 may look at.
 
+**What the gate actually passes, measured 2026-08-30.** Of the 528
+two-entry pairs the dataset admits, 44 share a `comparable_group`
+(8.3%), 33 of those also share a carrier (6.2%), and 31 clear the
+20% bar at default presets (**5.9%**). Every one of those refusals
+is correct. But a builder that lets the user assemble any pair
+will refuse roughly nineteen times in twenty, and the first
+question a curious user asks ("what costs more, my shower or my
+TV?") is one of them. That measurement is the evidence behind open
+decision **E8** (section 8): the gate is not the problem, the
+free-form builder in front of it is.
+
+**Two holes, both open:**
+
+- **Self-comparison is not gated.** The same behaviour in both
+  columns at different quantities passes all three conditions: a
+  5-minute shower against a 10-minute one returns "50% less".
+  True, and vacuous. The gate polices category errors, not
+  tautologies. It is also the easiest comparison to build.
+- **`space_cool` is a singleton.** One entry, `aircon_cooling`,
+  fixed at 28 C, so condition 1 makes every cooling comparison
+  impossible. PLAN_PHASE_8's headline example "aircon at 22 vs 26"
+  **is not buildable from the shipped dataset**, and that text
+  should stop advertising it until a second cooling entry exists.
+
 ---
 
 ---
@@ -241,22 +322,43 @@ rescaling them, so the action library and the calculator cannot
 quote different numbers for the same behaviour. All at 458 / 182
 g CO2e/kWh.
 
-| Action | Was | Now | Points | Basis |
-|--------|----:|----:|-------:|-------|
-| `air_dry_clothes` | 1700 | **2000** | 21 | `dryer_vented` 4.5 kWh |
-| `cold_wash` | 600 | **430** | 10 | Bosch 40 C - 20 C = 0.950 kWh |
-| `shorter_shower` | 230 | **110** | 5 | 2 min x 59 g/min gas floor |
-| `shorter_bath` | 450 | **770** | 11 | bath_gas - 10-min shower_gas |
-| `unplug_devices` | 45 | **25** | 2 | 5 devices x 0.5 W (LBNL) |
-| `install_led_bulb` | 28000 | **25000** | 63 | 51.5 W x 3 h/day x 365 |
-| `lower_thermostat` | 450 | **140** | 6 | METI 53.08 kWh/yr per 1 C |
-| `raise_ac_thermostat` | 350 | **120** | 6 | METI 30.24 kWh/yr per 1 C |
-| `turn_off_lights` | 60 | **15** | 2 | 4 h x 8.5 W LED; re-based 2026-08-29 off an unsourced 40 W bulb |
+**This table is the only home for these derivations** (moved here
+from RESEARCH_ENERGY.md section 7 on 2026-08-30, which had carried
+a second copy). Each `backtick`ed term is a behaviour id in
+`energy_behaviors.json`, whose kWh value and sourcing are in
+[RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 3. Every value
+rounds **down** to two significant figures -- honest-not-generous,
+since each is a claimed saving. Points are computed at seed time by
+`computePoints()`; they are recorded here so a value change shows
+its points consequence.
+
+| Action | Was | Now | Points | Derivation |
+|--------|----:|----:|-------:|------------|
+| `air_dry_clothes` | 1700 | **2000** | 21 | `dryer_vented` 4.5 kWh x 458 = 2061, down |
+| `cold_wash` | 600 | **430** | 10 | `wash_warm` 1.300 - `wash_cold` 0.350 = 0.950 x 458 = 435, down |
+| `shorter_shower` | 230 | **110** | 5 | 2 min x 59 g/min (gas carrier floor) = 118, down |
+| `shorter_bath` | 450 | **770** | 11 | `bath_gas` 7.526854 - 10-min `shower_gas` 3.28036 = 4.2465 x 182 = 773, down |
+| `unplug_devices` | 45 | **25** | 2 | 5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, down (LBNL) |
+| `install_led_bulb` | 28000 | **25000** | 63 | (`incandescent_bulb` 0.06 - `led_bulb` 0.0085) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, down |
+| `lower_thermostat` | 450 | **140** | 6 | METI 53.08 kWh/yr / 169 d = 0.3141 kWh/day x 458 = 144, down |
+| `raise_ac_thermostat` | 350 | **120** | 6 | METI 30.24 kWh/yr / 112 d = 0.2700 kWh/day x 458 = 124, down |
+| `turn_off_lights` | 60 | **15** | 2 | 4 h x 8.5 W LED = 0.034 kWh x 458 = 15.6, down; re-based 2026-08-29 off an unsourced 40 W bulb |
 | `use_natural_light` | 90 | -- | -- | **DEMOTED 2026-08-29** to `research_only_records` |
-| `eco_mode_appliance` | 200 | **120** | 6 | dishwasher normal - eco |
-| `microwave_vs_oven` | 300 | **280** | 7 | oven 0.82 - microwave 0.19 |
+| `eco_mode_appliance` | 200 | **120** | 6 | `dishwasher_normal` 1.12 - `dishwasher_eco` 0.85 = 0.27 x 458 = 124, down |
+| `microwave_vs_oven` | 300 | **280** | 7 | `oven` 0.82 kWh per bake cycle - `microwave` 0.19 kWh (0.019 kWh/min x 10 min) = 0.63 x 458 = 289, down. The microwave figure is PER MINUTE in the dataset; 0.19 is its ten-minute preset |
 | `ev_charging_green` | 3500 | **4500** | 31 | grid rebase only |
-| `heat_person_not_room` | -- | **1900** | 18 | **NEW**; heater 1.2 - kotatsu 0.15, 4 h |
+| `heat_person_not_room` | -- | **1900** | 18 | **NEW**; (`portable_electric_heater` 1.2 - `kotatsu` 0.15) x 4 h = 4.2 kWh x 458 = 1924, down |
+| `use_fan_instead_of_ac` | 1200 | **600** | 12 | (`aircon_cooling` 0.167679 - fan 0.022) x 9 h = 1.311111 kWh x 458 = 600.5, down. Fan is the Panasonic F-CV339 DC living fan at its highest notch (22 W, https://panasonic.jp/fan/products/F-CV339/spec.html); 9 h/day is METI's own basis on the aircon page. Added 2026-08-09, replacing an unsourced 1200 |
+
+**Coverage.** The table derives 13 actions across three categories
+(`energy`, `water`, `transport`). `turn_off_lights` also carries its
+derivation in its own `calculation_notes`. `full_laundry_load` was
+**archived 2026-08-29** for having no derivation anywhere: no
+partial-load washing measurement exists in the evidence base, and
+the Bosch WNA14400GR table that supplies all three wash
+temperatures is a max-load (9.0 kg) table only. Both archivings are
+recorded in section 8 and in
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1.
 
 **A citation error was corrected in passing.** `lower_thermostat`
 and `raise_ac_thermostat` both cited "US DOE: 3% savings per
@@ -384,6 +486,17 @@ Requirements, not suggestions.
     saves about **110 g** for the same four hours, and the
     methodology sheet must say so rather than letting the LED
     figure read as universal.
+26. **The ratio leads, the gram figure follows** (E7). Every
+    comparison headline and every ranked row states a multiple
+    first. The gram figure sits smaller on the row, with its basis
+    stated once at the foot of the screen: "world-average grid,
+    458 g CO2e/kWh, Ember 2025 data".
+27. **The ratio anchor is a dataset entry, never an equivalency
+    constant** -- see the kWh rule in section 2. If the anchor ever
+    moves off `phone_charge`, it moves to another row of
+    `energy_behaviors.json`, never to `impact_equivalencies.json`.
+28. **A ranked view is single-carrier** (section 2). Gas rows are
+    shown, but never given a rank.
 
 ---
 
@@ -519,12 +632,12 @@ Two copy cautions:
 
 ---
 
-## 8. Review Record -- 2026-08-08/09
+## 8. Review Record -- 2026-08-08 to 2026-08-30
 
-Documentation and data-consistency pass; shipped values changed
-only where recorded below.
+Documentation, data-consistency and product passes; shipped values
+changed only where recorded below.
 
-Two passes, both executed. Detail in
+Three passes, all executed. Detail for the first two in
 [RESEARCH_ENERGY_ARCHIVE.md](./RESEARCH_ENERGY_ARCHIVE.md)
 section 9; only the outcomes are recorded here.
 
@@ -552,22 +665,174 @@ points 3 -> 2. Archived `full_laundry_load` for having no
 definitive answer. **Every energy action now carries sources and a
 confidence.**
 
-Two food-side items remain food's call, not energy's: `skip_fish`
-has no sources, and `skip_food_delivery` ships at 0 g as a
-candidate for removal.
+Two food-side items surfaced by that sweep were **moved
+2026-08-30** to
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 6, the
+single live open list for the food dataset: `skip_fish` shipping
+without sources, and `skip_food_delivery` shipping at 0 g.
+
+**2026-08-30 -- product review of the built feature.** First
+review since the code landed; **no shipped value moved**.
+
+- **Maintenance cost was overstated and is withdrawn.** The
+  dataset carries no precomputed CO2 field -- only `kwh_per_unit`,
+  which is physics and does not move with the grid, and 0 of 33
+  behaviours mention 458 in their text. A grid refresh edits 2
+  metadata values, ~4 test assertions, and the 12 grid-derived
+  actions in `co2_actions_database.json` plus a re-seed. Every one
+  of those is already enumerated in
+  [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json)
+  `grid_factor`, which also names the re-seed command, the EN/JA/ES
+  methodology-copy refresh and `next_check: 2027-04`. Vintage is
+  stated in the ledger, in the dataset metadata
+  `grid_factor_source`, and on screen by rule 19. Priced work on a
+  dated pass, not a risk.
+- **E7 decided** (section 2), with two derived rules: single-carrier
+  ranking, and ratios computed in kWh rather than from the
+  equivalency helpers.
+- **The gate's real pass rate was measured at 5.9%** of admissible
+  pairs (section 3), which opens E8 below. Two dataset holes
+  recorded there.
+- **One ledger row is stale:** `grid_factor` and `gas_factor` both
+  still annotate `data/app/energy_behaviors.json` as
+  `(pending build)`, but it shipped in 823f984.
 
 ### Open decisions
 
-**None.** E1-E6 are settled (Appendix A), and the last two --
-the unsourced 40 W bulb and `full_laundry_load` -- were settled by
-owner call on 2026-08-29 as recorded above. `full_laundry_load`'s
-record and [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 carry the
-retired arithmetic and the condition for restoring it.
+**E8 (primary surface) -- OPEN, owner call.** The comparator is
+built and its gating is correct, and it refuses 94% of the pairs a
+user can assemble in it (section 3). The open question is whether
+the free-form two-column builder should be the primary surface at
+all, or whether **"Where your energy goes"** -- the ranked,
+single-carrier, ratio-led view already specified as a methodology
+section in PLAN_PHASE_8 8.16 ("Where the heat is") -- should lead,
+with the comparator demoted to a secondary view seeded from a
+tapped row. Seeding it from a row confines it to within-group by
+construction, which makes condition 1 unreachable and removes the
+modal refusal.
+
+Nothing is deleted either way: the dataset, the engine, the
+carrier gate and the 20% bar all survive both options. What
+changes is what 8.17 routes to, and how much of the picker and
+usage editor stays. **Do not build 8.17's entry points until this
+is settled**, because the entry point is the decision.
+
+E1-E7 are settled (Appendix A). `full_laundry_load`'s record and
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 carry the retired
+arithmetic and the condition for restoring it.
 
 **11 actions carry `category: "energy"`** after the two archivings
 and every one carries `sources[]` and a confidence. Phase 8.13
 research and the decisions here are complete; the feature is
-cleared to build.
+built, and what remains is E8 and the 8.17 work it blocks.
+
+---
+
+## 9. Open Items -- test debt
+
+**This is the live open list for the energy workstream**, opened
+2026-08-30 after a coverage pass over the suite that shipped in
+823f984. Nothing below changes a value; all of it is missing or
+redundant test coverage. Section 8 carries the open *decisions*
+(E8); this carries the open *work*.
+
+**Untested code.**
+
+- [ ] **`energy_calculator_screen.dart` has no widget test at
+      all** (316 lines). `energy_widgets_test.dart` imports only
+      `energy_behavior_picker.dart` and `usage_editor_sheet.dart`.
+      Food's `food_calculator_screen_test.dart` is the model to
+      copy. The specific gaps: `_explainNoVerdict`, whose switch
+      maps `EnergyVerdictBlock.differentGroup` and
+      `differentCarrier` to their own copy and everything else to
+      `energyVerdictTooClose` through a wildcard arm, so a
+      mis-mapped block would be invisible; and the strings
+      `energyComparisonDelta`, `energyComparisonNoVerdict`,
+      `energyVerdictWhyCta`, `energyNoPointsNote` and
+      `energyColumnEmptyHint`, none of which appears anywhere in
+      `test/`.
+- [ ] **`energy_science_sheet.dart` has no test** (127 lines),
+      including the `energyScienceNoSources` branch. That branch is
+      not hypothetical: five behaviours ship `sources: []` on
+      purpose -- `line_dry`, `microwave`, `led_bulb`,
+      `incandescent_bulb` and `laptop_charge` -- so it is the path a
+      user reaches on 5 of 33 entries.
+- [ ] **The 20% verdict boundary is not pinned.**
+      `energy_calculator_test.dart` exercises the gate at 0.3%
+      (`tooClose`) and at a 1-vs-5 delta (`none`), so nothing
+      catches the bar moving to 19 or 21. Food pins its equivalent
+      exactly ("20% exactly is enough", asserting `deltaPercent`
+      `closeTo(20, 1e-9)`); copy that shape.
+- [ ] **`EnergyCalculator.routineKwh` has no input guard.**
+      `usageCo2eGrams` rejects non-finite and negative units, and
+      `routineCo2eGrams` inherits that by going through it;
+      `routineKwh` multiplies `kwhPerUnit * usage.units` directly
+      and so accepts NaN, infinity and negatives. Its only tests
+      are one happy-path sum and the unknown-id throw in
+      `energy_gating_dataset_test.dart`. Either route it through
+      the same guard or pin the current behaviour deliberately.
+- [ ] **The all-zero comparison is untested in the energy suite.**
+      `line_dry` in both columns is reachable in the UI and lands
+      on `compareTotals`' `worst <= 0 ? 0` branch, which then reads
+      as `tooClose`. `compareTotals([0, 0])` is pinned in
+      `test/shared/domain/carbon_comparison_test.dart`, but nothing
+      asserts what the energy gate and the screen do with it.
+- [ ] **`energy_citations_test.dart` does not pin `accessed`.** It
+      pins the `(behavior, source name, url, quote)` tuple, while
+      its own header names "citations borrowed from
+      `co2_actions_database.json` with their access date rewritten"
+      as one of the two defects the file exists to catch. The
+      rewritten date is exactly the field it does not assert.
+
+**Redundant pins to consolidate.** All of these duplicate
+`energy_exact_values_test.dart`, which pins `kwh_per_unit`,
+`comparable_group`, `carrier`, preset quantities and `confidence`
+for all 33 rows:
+
+- [ ] `energy_dataset_invariants_test.dart` **pin 15** re-asserts
+      eight `kwh_per_unit` values already in that map, and **pin
+      13** re-asserts that `line_dry` is the only zero-kWh entry
+      and carries `carrier: none`, which the kwh and carrier maps
+      give between them.
+- [ ] `energy_behaviors_data_test.dart`'s "the researched group
+      distribution ships unchanged" is implied by "every
+      `comparable_group` ships exactly".
+- [ ] `ENERGY_BEHAVIOR_COUNT` is asserted in three files
+      (`energy_behaviors_data_test.dart`,
+      `energy_exact_values_test.dart`,
+      `energy_behaviors_loader_test.dart`). One is the loader's
+      job.
+- [ ] **Keep** `energy_dataset_invariants_test.dart`'s "the oven
+      stays per bake cycle". It is **not** redundant:
+      `energy_exact_values_test.dart` pins no `unit`, so that test
+      is the only guard on the oven's unit, which decision E2 in
+      section 2 calls out as the field a well-meaning edit reaches
+      for. Listed here so a consolidation pass does not delete it
+      with the rest.
+
+**Weak assertion.**
+
+- [ ] `energy_behaviors_data_test.dart`'s "an unknown carrier or
+      unit throws rather than becoming null" uses
+      `throwsA(anything)` twice. That passes on any exception,
+      including a `TypeError` from an unrelated refactor of
+      `EnergyBehavior.fromJson`. Narrow it to the exception the
+      enum decoder actually throws.
+
+**Cross-workstream.**
+
+- [ ] **Extract a shared dataset-assertion helper.** Seven
+      structural checks are hand-written three times, in
+      `energy_behaviors_data_test.dart`,
+      `food_items_data_test.dart` and
+      `transport_modes_data_test.dart`: exact record count, unique
+      ids, category drawn from a known set, all three locale names
+      present, factors positive with the documented zero
+      exception, every record carrying at least one complete
+      source, and every record documenting its arithmetic. A
+      fourth dataset would make it four. This item spans energy,
+      food and transport; it is tracked here so it has one home,
+      and the food and transport open lists point at it.
 
 ---
 
@@ -583,7 +848,7 @@ cleared to build.
 | 2026-08-02 | E6 three verbatim Bosch wash temperatures (20/40/60 C) instead of a 30 C entry | RESEARCH sec 3.2 |
 | 2026-08-02 | No energy logging bridge, permanently -- not deferred | sec 4 here; [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) 8.18 |
 | 2026-08-02 | Setpoint actions are state-based (クールビズ / ウォームビズ) and split summer/winter | sec 4 here |
-| 2026-08-02 | Hot-water delta-T 30 -> 27.2 K; gas efficiency restated on a Gross-CV basis | RESEARCH sec 3.1, 8 |
+| 2026-08-02 | Hot-water delta-T 30 -> 27.2 K; gas efficiency restated on a Gross-CV basis | RESEARCH sec 3.1; the calorific-basis rule is sec 2 here |
 | 2026-08-02 | Action stores merged into one source of truth; seeder reads the JSON | sec 4 here |
 | 2026-08-02 | Energy actions rebased to research values rather than rescaled (owner call) | sec 4 here |
 | 2026-08-02 | 'US DOE 3% per degree' citation corrected -- DOE does not state it | sec 4 here |
@@ -593,6 +858,11 @@ cleared to build.
 | 2026-08-29 | `use_natural_light` demoted to `research_only_records` -- overlapped `turn_off_lights` and its daylight basis is unknowable to the app (owner call) | sec 8 here |
 | 2026-08-29 | `turn_off_lights` re-based off the unsourced 40 W bulb onto the researched 8.5 W LED: 70 -> 15 g, points 3 -> 2 | sec 8 here |
 | 2026-08-29 | `full_laundry_load` archived to `research_only_records` -- no current definitive answer, and the evidence base cannot supply one (owner call) | archive sec 1 |
+| 2026-08-30 | E7 headline unit: the grid-invariant ratio leads, grams are subordinate and vintage-labelled | sec 2 here; sec 5 rules 26-28 |
+| 2026-08-30 | Ranked views are single-carrier -- a gas row's position moves with the grid, an electric row's does not | sec 2 here |
+| 2026-08-30 | Ratios computed in kWh against a dataset entry, never from `impact_equivalencies.json` | sec 2 here |
+| 2026-08-30 | Maintenance-cost critique withdrawn: the fan-out is fully enumerated in the ledger and the dataset stores no precomputed CO2 | sec 8 here |
+| 2026-08-30 | E8 OPENED: comparator vs ranked view as the primary surface; 8.17 blocked on it | sec 8 here |
 
 ## Appendix B: Where the Detail Went
 

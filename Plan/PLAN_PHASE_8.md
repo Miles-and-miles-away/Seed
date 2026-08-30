@@ -3,8 +3,14 @@
 **Version:** 1.2
 **Created:** July 2026
 **Status:** Part 1 (transport, 8.1-8.6) and Part 2 (food,
-8.7-8.12) shipped; Part 3 (home energy, 8.13-8.18) is not built.
-See the deliverable table below for the per-item state.
+8.7-8.12) shipped. Part 3 (home energy) is **built but not
+routed**: the dataset, `lib/features/energy/` and
+`test/features/energy/` landed in commit 823f984, but there is no
+`/energy-calculator` route, nothing imports
+`lib/features/energy/energy.dart`, and the calculator chooser
+still renders the home-energy tile disabled. 8.17 (entry points
+and routing) is the remaining work. See the deliverable table
+below for the per-item state.
 
 Part 1 (8.1-8.6) is the transport calculator; Part 2 (8.7-8.12) is
 its food sibling; Part 3 (8.13-8.18) covers home energy behaviors.
@@ -139,10 +145,10 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 | 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Done (2026-07-23) |
 | 8.11 Food entry points & analytics (Part 2) | P1 | Low | Done (2026-07-23) |
 | 8.12 Food logging bridge (Part 2) | P2 | Medium | Done, in v1 (2026-07-23) |
-| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Research done (2026-08-02), not built |
-| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Decisions done (2026-08-02), not built |
-| 8.15 Routine comparison (Part 3) | P0 | Low | Decisions done (2026-08-02), not built |
-| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Copy drafted (2026-08-02), not built |
+| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Built (2026-08-29), not routed |
+| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Built (2026-08-29), not routed |
+| 8.15 Routine comparison (Part 3) | P0 | Low | Built (2026-08-29), not routed |
+| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Built (2026-08-29), not routed |
 | 8.17 Energy entry points & analytics (Part 3) | P1 | Low | Decisions done (2026-08-02), not built |
 | 8.18 Energy logging bridge (Part 3) | P2 | Medium | Cancelled (2026-08-02), not deferred |
 
@@ -1147,16 +1153,18 @@ dataset -- `data/app/food_items.json` and RESEARCH_FOOD.md are.
 
 ## Part 3: Home Energy Calculator
 
-> **Research complete, build not started (updated 2026-08-02).**
-> The 2026-07-31 hold is lifted for research: the evidence base is
+> **Built, not routed (updated 2026-08-29).** The evidence base is
 > done ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33
 > behaviors, every open item closed) and the decisions are settled
 > ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)). The E1
 > grid rebase and the action-library reconciliation are committed.
-> **No Flutter code exists yet** -- `energy_behaviors.json`,
-> `lib/features/energy/` and `test/features/energy/` are still to
-> be built, and the calculator chooser still renders a disabled
-> home-energy tile.
+> `data/app/energy_behaviors.json` (33 behaviors),
+> `lib/features/energy/` and `test/features/energy/` shipped in
+> commit 823f984, so **8.13-8.16 are built**. The feature is still
+> unreachable: there is no `/energy-calculator` route, nothing
+> imports `lib/features/energy/energy.dart`, and the calculator
+> chooser still renders a disabled home-energy tile. **8.17 (entry
+> points and routing) is the remaining work.**
 >
 > The specification below is superseded in places by the research:
 > the grid factor is 458 not 386, the behavior list grew to 33, the

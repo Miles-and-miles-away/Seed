@@ -4,10 +4,14 @@
 **Created:** 2026-08-02
 **Status:** Evidence base complete. 33 behaviors, every factor
 live-verified, no open items. Restructured 2026-08-02
-to match the transport pattern: this document is the **evidence
-base only**. Decisions, product rules, action-library additions,
-UI/copy requirements and the methodology screen copy moved to
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md).
+to match the transport pattern, and finished 2026-08-30: this
+document is the **evidence base only**. Decisions, product rules,
+action-library additions and their derivations, standing rules,
+UI/copy requirements and the methodology screen copy are in
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) -- the
+action-value table and the standing-rule list that survived the
+2026-08-02 pass in sections 7 and 8 here moved there on
+2026-08-30, and the old section 9 is now section 7.
 **Feeds:** `data/app/energy_behaviors.json` (Phase 8.13, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 3)
 **Archive:** executed detail -- closed items, superseded values,
@@ -26,6 +30,76 @@ Unit for every factor: **kWh per stated unit** (`use`, `minute`,
 `hour`, `day`), multiplied at runtime by **458 g CO2e/kWh**
 (electricity) or **182 g CO2e/kWh** (gas). Access date for every
 source below: **2026-08-02**.
+
+---
+
+## 0. Method in brief
+
+Required by [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3:
+how these numbers were arrived at, in rules rather than figures.
+It is numbered 0 so the existing section numbers, which the
+dataset's `calculation_notes` cite by number, keep resolving.
+**No value appears in this section**, deliberately -- a summary
+that restates a figure becomes a second home for it and drifts.
+
+**Primary sources, and why.** Three, in a fixed order of
+authority. The same UK DEFRA/DESNZ conversion factors as
+transport supply the gas carrier, because one carrier factor set
+across two datasets is what keeps them commensurable. Japanese
+government measured figures (METI and its 省エネルギーセンター
+measurements) supply appliance consumption where they exist,
+because they are measured in service rather than rated on a test
+bench. Manufacturer product documentation is tier-1 for the
+remaining appliances, quoted from the maker's own spec page for a
+named model. Aggregators are corroboration with an access date and
+never an anchor; a figure seen only in a search-engine summary may
+not enter `sources[]` at all.
+
+**Statistic: measured beats rated, always.** Where a government
+measured figure and a manufacturer catalog rating disagree, the
+measured one ships. Cycling appliances -- inverter air
+conditioners, kotatsu, blankets, ovens -- draw far less than their
+nameplate on average, so a rating is not a conservative choice, it
+is simply the wrong number. Sanity pins guard the entries where
+the gap is largest.
+
+**Boundary.** Operational energy only: the kWh a behaviour
+consumes at the point of use, multiplied by a carrier factor.
+Excluded are appliance manufacturing, transmission and
+distribution losses, and the energy of water supply and
+treatment. Electricity is on a generation basis with no
+well-to-tank term and gas is combustion-only, matching the
+transport scope so the two datasets rest on the same convention.
+Matching scope is not permission to add them: food counts a
+lifecycle, transport counts tailpipe energy, and this counts the
+electricity or gas to run a home.
+
+**Functional unit: kWh per stated unit** -- a use, a minute, an
+hour or a day. **The unit is part of the entry, not a display
+choice.** Two entries on different units are not comparable, and
+several entries are per use because no per-hour figure exists in
+any source; those must never be "fixed" to an hourly basis. This
+is the single most common way to misread the dataset: a per-minute
+entry read as a per-use one is off by the length of the use.
+
+**Derivation discipline.** Every hot-water entry is built from one
+shared thermal load and then divided by the appliance's efficiency
+or coefficient of performance, so the family stays internally
+consistent and a change to the load moves all of them together.
+The calorific basis of a gas efficiency must match the calorific
+basis of the gas factor; pairing a net-basis efficiency with a
+gross-basis factor is a silent double-digit error, and it happened
+once.
+
+**Two more things a reader would otherwise trip over.**
+
+1. **The grid factor matters less here than it looks.** Nearly
+   every comparison the calculator offers is within one carrier,
+   where the factor cancels out entirely. It dominates the action
+   library, not the calculator.
+2. **Physics entries never age; their assumptions do.** Heating
+   water is heating water. What can go stale is the flow rate, the
+   temperature rise, or the efficiency wrapped around it.
 
 ---
 
@@ -1135,94 +1209,7 @@ the list records why.
 
 ---
 
-## 7. Action-Data Consistency
-
-The action library and this dataset must never quote different
-numbers for the same behaviour. As of 2026-08-02 they do not:
-`data/seed/co2_actions_database.json` is the single source of
-truth for actions, the seeder reads it, and every energy action is
-derived from an entry in section 3.
-
-Coverage note: the table below derives 12 actions across two
-categories (`energy` and `water`). Two energy actions sit outside
-it. `turn_off_lights` carries its derivation in its own
-`calculation_notes`, re-based 2026-08-29 onto this document's
-8.5 W / 800 lm LED after the 40 W bulb it previously used was
-found to appear nowhere here (section 3.5 ships that LED and a
-60 W incandescent comparator, nothing between); its former
-sibling `use_natural_light` was demoted over the same gap.
-`full_laundry_load` was **archived 2026-08-29** for having no
-derivation anywhere: no partial-load washing measurement exists in
-this document, and the Bosch WNA14400GR table that supplies all
-three wash temperatures is a max-load (9.0 kg) table only. Both
-archivings are recorded in
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 8
-and in [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1. Nothing on the
-energy side is open.
-
-The reconciliation table, the citation error it uncovered, and the
-four duplicate proposals it killed are recorded in
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4 --
-that is product record, not evidence, so it lives there.
-
-What belongs here is the derivation of each shipped action value
-from a dataset entry:
-
-| Action | g CO2e | Derived from |
-|--------|-------:|--------------|
-| `air_dry_clothes` | 2000 | `dryer_vented` 4.5 kWh x 458 = 2061, down |
-| `cold_wash` | 430 | `wash_warm` 1.300 - `wash_cold` 0.350 = 0.950 x 458 = 435, down |
-| `shorter_shower` | 110 | 2 min x 59 g/min (gas carrier floor) = 118, down |
-| `shorter_bath` | 770 | `bath_gas` 7.526854 - 10-min `shower_gas` 3.28036 = 4.2465 x 182 = 773, down |
-| `unplug_devices` | 25 | 5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, down |
-| `install_led_bulb` | 25000 | (`incandescent_bulb` 0.06 - `led_bulb` 0.0085) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, down |
-| `lower_thermostat` | 140 | METI 53.08 kWh/yr / 169 d = 0.3141 kWh/day x 458 = 144, down |
-| `raise_ac_thermostat` | 120 | METI 30.24 kWh/yr / 112 d = 0.2700 kWh/day x 458 = 124, down |
-| `eco_mode_appliance` | 120 | `dishwasher_normal` 1.12 - `dishwasher_eco` 0.85 = 0.27 x 458 = 124, down |
-| `microwave_vs_oven` | 280 | `oven` 0.82 - `microwave` 0.19 = 0.63 x 458 = 289, down |
-| `heat_person_not_room` | 1900 | (`portable_electric_heater` 1.2 - `kotatsu` 0.15) x 4 h = 4.2 kWh x 458 = 1924, down |
-| `use_fan_instead_of_ac` | 600 | (`aircon_cooling` 0.167679 - fan 0.022) x 9 h = 1.311111 kWh x 458 = 600.5, down. Fan is the Panasonic F-CV339 DC living fan at its highest notch (22 W, https://panasonic.jp/fan/products/F-CV339/spec.html); 9 h/day is METI's own basis on the aircon page (sec 3.3). Added 2026-08-09, replacing an unsourced 1200 |
-
-Every value rounds **down** to two significant figures --
-honest-not-generous, since each is a claimed saving.
-
-### Carrier floor convention
-
-`shorter_shower` and `shorter_bath` cover hot water whose carrier
-the app cannot know. Three configurations exist -- resistance
-electric, gas, heat pump -- spanning ~4x. Both ship the **gas**
-figure, not the absolute heat-pump floor: gas and resistance
-electric are the two dominant configurations globally, gas is the
-lower of that pair at the current grid factor, and heat-pump
-owners are a documented minority the methodology names. Using the
-heat-pump floor would make every hot-water action look trivial for
-the majority who do not have one.
-
----
-
-## 8. Standing Rules
-
-Nothing is open. Every item raised by either research pass is
-closed and recorded in
-[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1. What remains here is
-permanent by design, never "done".
-
-- **Yearly DEFRA refresh:** re-read the natural-gas Gross CV
-  combustion row at each release, alongside Part 1's transport
-  refresh.
-- **Measured-over-rated guard** (prohibition): the aircon entries
-  must never be "corrected" to their JIS catalog ratings, nor the
-  kotatsu to its nameplate. Sanity pins catch both.
-- **Calorific-basis guard:** the gas factor and the hot-water
-  efficiency must always be on the same CV basis.
-- **SEARCH-ONLY guard** (prohibition): a figure seen only in a
-  search-engine summary may not enter `sources[]`.
-- **Physics entries never need refreshing.** Only the assumptions
-  around them (flow rate, delta-T, efficiency) can age.
-
----
-
-## 9. The Headline Number
+## 7. The Headline Number
 
 The full 38-item recomputation of every shipped value, with its
 CO2 and its confidence, is in

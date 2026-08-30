@@ -13,8 +13,20 @@ decisions and why, the comparison gating, the action-library
 additions, the binding copy and UI rules, and the live open list.
 The evidence base (source landscape, scope, verified factors,
 chosen values, serving presets, sanity invariants) lives in
-[RESEARCH_FOOD.md](./RESEARCH_FOOD.md) and is **not repeated
-here**: no value is stated in both documents.
+[RESEARCH_FOOD.md](./RESEARCH_FOOD.md).
+
+**Where the two documents share a number** (audited 2026-08-30).
+The split was clean for prose but not for figures: at least
+fourteen appear in both files, among them the four gate bars, the
+palm-versus-olive gap, and the item factors behind the action
+derivations (`white_fish`, `cream`, `milk_chocolate`, peanut
+butter, milk, peas, chicken, and the high-impact tier value). That
+is a live rule-3 defect under
+[DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md), tracked in section 6.
+Until it is closed, **RESEARCH_FOOD.md is the authority for any
+item factor** and this document is the authority for any bar,
+copy rule or action value; where the two disagree, fix the copy
+here rather than editing the evidence to match.
 **Companion docs:**
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) (evidence base),
 [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) (executed
@@ -219,50 +231,22 @@ the calculator UI and the science sheets, not a suggestion:
    display negative values.
 4. **Comparative-copy rule**, as shipped in
    `FoodCalculator.checkVerdict`: "X emits less than Y" sentences
-   only when the reduction clears every applicable bar.
-   - `verdictMinPercent = 20.0` is the floor for a same-tier
-     comparison.
-   - `crossTierMinPercent = 50.0` replaces it the moment the two
-     meals draw on more than one `source_tier` -- the same 2x rule
-     R6 states, expressed as a reduction.
-   - A `statistic_ratio` on ANY ingredient of either meal raises
-     the bar to `(1 - 1 / ratio) * 100`, taking the widest ratio
-     present: dark chocolate 59.9%, farmed fish 62.6%, tree nuts
-     53.5%.
-   - A `tie_group` appearing on BOTH sides is flattened to its
-     lowest member factor and the comparison re-run; a verdict that
-     does not survive that is refused (`VerdictBlock.tiedBasis`).
-     Items sharing a tie group carry one source row between them,
-     so where two of them disagree the disagreement is an artefact
-     of the derivation rather than a measured difference.
-   The `statistic_ratio` bar is a threshold, **not the blanket
-   block a first pass shipped**: per the code comment, "a beef
-   portion beats a chocolate serving 6x over, which no statistic
-   choice reverses", so blocking that was wrong while blocking
-   cheese vs chocolate (48.8%, under 59.9%) is right.
+   only when the reduction clears every applicable bar. **The bars
+   and the reasoning behind each are section 3 of this document
+   and are not restated here.** What this rule adds is the copy
+   consequence: below the bar, present both totals without a
+   verdict, and without the "best" marker or the banking action,
+   since both are verdicts too.
 
-   The tie-group clause is what finally enforces rules 3 and 13.
-   Tree nuts vs peanuts clears both the 20% floor and tree nuts'
-   own 53.5% statistic bar at 86.7%, so nothing else in the gate
-   caught it and the app ranked them; palm vs olive at 25.3% was
-   likewise rankable against rule 13's explicit prohibition. A tie
-   group confined to one option is ignored -- it adds the same mass
-   either way, so it cannot manufacture a delta.
-   Below the bar, present both totals without a verdict --
-   and without the "best" marker or the banking action, since both
-   are verdicts too. The 20% figure is verified rather than assumed
-   (RESEARCH_FOOD.md section 6, statistic-sensitivity rule) and the reasoning is
-   stated in the in-app methodology page, not just here: users are
-   told that a minority of high-impact producers pulls each average
-   above the typical farm, that the study also publishes a midpoint,
-   that close pairs can swap between the two, and that three foods
-   need a much wider gap before they can be ranked, because their own
-   two figures differ by more than 2x. When the app declines, the
-   reason is one tap away: a "why is there no result?" action opens a
-   plain-language explanation naming which of the four cases applies
-   (meals genuinely close, sources incompatible, one ingredient's
-   evidence too wide, or the gap resting on a shared derivation) and
-   what gap would have been needed.
+   The reasoning is stated in the in-app methodology page, not
+   just in this document: users are told that a minority of
+   high-impact producers pulls each average above the typical
+   farm, that the study also publishes a midpoint, that close
+   pairs can swap between the two, and that a few foods need a
+   much wider gap before they can be ranked because their own two
+   published figures disagree by more than a factor of two. When
+   the app declines, the reason is one tap away -- see the "why is
+   there no result?" requirement in section 3.
 5. **Beer vs wine copy names the serving, not the liquid**: per
    litre wine > beer, but per serving a 330 ml can (0.40 kg) > a
    150 ml glass (0.27 kg).
@@ -397,17 +381,14 @@ or enforced at every data pass (moved out of the open list
 
 **This list is the single live record for the food dataset.** The
 entries marked "moved here" were previously kept in
-[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 0 or
-[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 12 section 4, both of
-which are closed and carry no live instructions.
+[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 0
+or section 12.4, both of which are closed and carry no live
+instructions.
 
-Closed on the 2026-08-29 decision pass. One line each; the worked
-evidence is in the sections named, the reasoning in
-[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 10.
-
-Closed on the 2026-08-29 pass. Full closure records are in
+Closed on the 2026-08-29 pass, one line each. The full closure
+records are in
 [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 13,
-with the longer write-ups in sections 10 to 12.
+with the longer write-ups in its sections 10 to 12.
 
 | Closed | Outcome |
 |---|---|
@@ -457,6 +438,52 @@ Live:
       `asparagus` notes contradicting the paper they cite; and 153
       josephpoore.com PDF/XLS citations never reached, now the
       weakest evidence class in the dataset.
+- [ ] **`skip_fish` ships with no sources** (moved here from
+      PDR_ENERGY_CALCULATOR.md section 8, 2026-08-30, where it was
+      recorded as food's call). Its `sources[]` is empty and it
+      carries no `confidence`, the only food action in that state:
+      every other one was backfilled on the 2026-08-29 sourcing
+      pass. The 560 g derivation in section 4 is sound and its
+      inputs (Gephart via OWID `white_fish` 5.1250386, the 200 g
+      plant baseline) are already live-verified in RESEARCH_FOOD.md
+      section 3.1, so this is a transcription job, not new
+      research: copy those source objects onto the action and set
+      the confidence.
+- [ ] **`skip_food_delivery` ships at 0 g** (moved here from
+      PDR_ENERGY_CALCULATOR.md section 8, 2026-08-30). Shipped at
+      zero on 2026-08-09 because the only peer-reviewed comparison
+      runs the other way (meal kits beat grocery-store meals,
+      last-mile emissions are lower for a van route than for a car
+      trip), so the previous 600 g had no basis. It survives as a
+      habit prompt worth 0 g. Decide whether an action that can
+      never claim a saving belongs in the library at all, or
+      retire it to `research_only_records` the way
+      `use_natural_light` was. Restoring a non-zero value needs a
+      restaurant-delivery LCA, which does not exist today.
+- [ ] **The 50% `crossTierMinPercent` boundary is not pinned**
+      (new 2026-08-30). `food_calculator_test.dart` pins the 20%
+      floor exactly ("20% exactly is enough") and exercises the
+      cross-tier bar at 48.1%, under it. Nothing asserts the
+      behaviour at exactly 50, so the bar could move to 45 or 55
+      and the suite would stay green. Add the boundary case the
+      20% floor already has.
+- [ ] **This document and RESEARCH_FOOD.md state at least
+      fourteen of the same numbers** (new 2026-08-30), which is a
+      rule-3 defect under
+      [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md): the four gate bars,
+      the palm-versus-olive gap, and the item factors behind the
+      action derivations all appear in both files, several as
+      near-verbatim sentence pairs. The header records the interim
+      authority split. Closing it means one home per value and a
+      pointer from the other, most likely by cutting the factors
+      out of this document's prose and citing the RESEARCH section
+      instead. Do it as its own pass, not folded into a value
+      change.
+- [ ] **Shared dataset-assertion helper** -- tracked in
+      [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+      section 9, because it spans all three calculators.
+      `food_items_data_test.dart` is one of the three files that
+      hand-writes the same seven structural checks.
 - [ ] **Never run on a device** (moved here 2026-08-08). All food
       confidence is unit and widget tests. The 167-item picker, the
       cooked-weight preset labels, the no-verdict dialog and the
@@ -603,12 +630,18 @@ UI/copy requirements.
 
 | Was | Is now |
 |---|---|
-| PDR_FOOD_CALCULATOR.md section 4 | Section 4 here |
-| PDR_FOOD_CALCULATOR.md section 5 | Section 5 here |
-| PDR_FOOD_CALCULATOR.md section 6 | Section 6 here |
-| PDR_FOOD_CALCULATOR.md section 7 | Section 7 here |
-| Decisions D1-D11, scattered in RESEARCH sections 2 and 4 | Indexed in section 2 here, evidence left in place |
-| The gate rules, inside RESEARCH sections 6 and 8 | Section 3 here; the pins stayed in RESEARCH section 6 |
+| RESEARCH_FOOD.md section 7, "Action-Data Consistency" | Section 4 here |
+| RESEARCH_FOOD.md section 8, "Copy & UI Rules (binding)" | Section 5 here |
+| RESEARCH_FOOD.md section 9, "Open Items" | Section 6 here |
+| RESEARCH_FOOD.md section 10, "FOOD_LOGIC_CHECK" | Section 7 here |
+| Decisions D1-D11, scattered in RESEARCH_FOOD.md sections 2 and 4 | Indexed in section 2 here, evidence left in place |
+| The gate rules, inside RESEARCH_FOOD.md sections 6 and 8 | Section 3 here; the pins stayed in RESEARCH_FOOD.md section 6 |
+| `FOOD_ITEMS_V2_LIST.md`, the delivered v2 build spec | Retired as a file; what survives is RESEARCH_FOOD_ARCHIVE.md section 12 |
+
+Section numbers in RESEARCH_FOOD.md were **not** renumbered by the
+split: its sections 1-6 kept their numbers and sections 7-10 moved
+here as 4-7. Old references of the form "RESEARCH_FOOD.md section
+8" therefore mean section 5 of this document.
 
 Cite the rules in this document **by name**, not by section
 number. Section numbers rot; "the comparative-copy rule" does not.

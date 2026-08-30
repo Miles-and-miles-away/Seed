@@ -17,10 +17,12 @@ and Appendix A the durable rules from all seven rounds).
 **Scope warning:** the body below section 2 froze at the Round 3
 restructure. Rounds 4-7 produced no per-round findings register in
 any file; their durable output is the rule set in
-RESEARCH_TRANSPORT.md section 9 and Appendix A, plus the constants
-in `scripts/generators/build_water_blocklist.py`. Section 2 has
-been brought forward from those sources; treat them, not this
-document, as the regeneration authority.
+RESEARCH_TRANSPORT.md section 9 and its Appendix A.1, A.2 and A.5,
+plus the constants in
+`scripts/generators/build_water_blocklist.py`. Section 2 has been
+brought forward from those sources; treat them, not this document,
+as the regeneration authority. Appendix A.3 and A.4 moved here on
+2026-08-30 as sections 2.2 and 2.3.
 
 ---
 
@@ -210,6 +212,37 @@ left no findings register, so those two are the record.
   each new corridor is screened (RESEARCH_TRANSPORT.md Appendix
   A.5, backfill note).
 
+### 2.2 Copy rules (binding on the comparison view and science sheets)
+
+Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.3;
+they are product rules, not evidence.
+
+- "emits X kg less", **never "saves"** -- the delta is
+  hypothetical until the trip is actually swapped.
+- Comparative superlatives only at a meaningful delta; **never**
+  generate copy claiming walking beats cycling, or coach beats
+  rail -- both orderings are vintage-fragile
+  (RESEARCH_TRANSPORT.md section 6 non-invariants).
+- Binding in-UI disclosures: the private-jet bar carries an
+  in-chart RF footnote (its bar includes the same high-altitude
+  uplift as the airline bars, RESEARCH_TRANSPORT.md section 8.1);
+  the EV row carries a global-average-grid sublabel (section 2
+  there); active/micro rows carry their electricity-only /
+  lifecycle-excluded basis labels (section 3.3 there).
+
+### 2.3 Flight-band auto-pick (binding methodology, shipped)
+
+Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.4.
+
+The comparison view picks the honest flight band from leg distance
+rather than letting a short leg be overstated at the long-haul
+rate: **> 3,700 km = long-haul**; otherwise **same country =
+domestic**, **different countries = short-haul** (the DEFRA
+<= 3,700 km boundary, RESEARCH_TRANSPORT.md section 4). No
+invented medium-haul cutoff -- DEFRA publishes no medium-haul
+factor, so the three bands stand (owner Q&A, 2026-07-22). The
+picker offers only the band a city pair resolves to.
+
 ---
 
 ## 3. Fix Backlog 3 -- Structural Robustness (COMPLETE)
@@ -254,6 +287,65 @@ executed backlogs and the full one-line ledger are in
 ledger also carries the only rounds 4-7 identifiers that exist
 anywhere (R4-9, R4-10, R5-11, R6-1, E1, and the round-level
 R5/R6/R7 entries). Appendix A says why no register exists.
+
+---
+
+## 6. Open Items
+
+**This is the single live open list for the transport
+workstream.** Moved here 2026-08-30 from RESEARCH_TRANSPORT.md
+section 7. Closures from the 2026-07-17/18 research passes are
+logged in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
+
+- [ ] **Next DEFRA pass** (when the 2026 numbers become
+      quotable): coach, national rail, London Underground, the UK
+      BEV anchor and international rail all move, several by more
+      than a third. Sizes and directions are recorded per mode in
+      RESEARCH_TRANSPORT.md section 5; every invariant pin in its
+      section 6 must be **re-derived**, never assumed to survive.
+      Cadence is tracked in
+      [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
+- [ ] **Ship the yacht eco-fact when a calendar slot frees.** The
+      draft is written, translated and pre-audited
+      (RESEARCH_TRANSPORT.md section 8.3); what remains is an owner
+      call on which of the 366 days it displaces. Closure detail in
+      [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md)
+      section 9.
+- [ ] **`enrich_city_names.py` pass 1 is untested, and no Python
+      runs in CI** (new 2026-08-30).
+      `scripts/generators/test_enrich_city_names.py` is 90 lines of
+      five checks -- label gates, distance bands, the country rule,
+      nearest-wins/empty, and haversine -- all of them pass-3
+      acceptance logic. `pick()`, which is pass 1, has no test at
+      all, and it is the only source of every one of the 275
+      `name_es` in `data/app/cities.json` and of the large majority
+      of the 925 `name_ja`: the script's own measurements put pass
+      3 at 33 names and pass 2's candidate pool at 107, so the two
+      network passes together cannot account for more than about a
+      seventh of them. `pick()` owns the colloquial and historic
+      exclusions, the preferred-over-full-over-short ordering, the
+      oldest-id stable tiebreak and the JA romaji demotion; a
+      regression in any of those silently ships a wrong name.
+      Second half of the same gap: `.github/workflows/ci.yml` has
+      no Python step, so even the five checks that do exist have
+      never run outside a developer's shell.
+- [ ] **Shared dataset-assertion helper** -- tracked in
+      [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+      section 9, because it spans all three calculators.
+      `transport_modes_data_test.dart` is one of the three files
+      that hand-writes the same seven structural checks.
+- [ ] **Finish the RESEARCH/PDR split for transport.**
+      RESEARCH_TRANSPORT.md Appendix A.5 (border-status watchlist)
+      is a product rule by
+      [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3 and
+      belongs here, but `scripts/generators/build_water_blocklist.py`
+      names it by file and letter in three places, one of them a
+      runtime abort message. Moving it is a docs-plus-code change
+      and was deliberately not done on 2026-08-30 with the rest of
+      the split. Move A.5 here and update the three pointers in the
+      same PR, or record a decision that the guard's pointer is
+      reason enough to leave it where it is.
 
 ---
 
