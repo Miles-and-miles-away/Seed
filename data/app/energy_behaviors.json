@@ -220,7 +220,7 @@
         }
       ],
       "default_preset_id": "full_180l",
-      "calculation_notes": "180 L x 0.03162756 kWh/L = 5.692960 kWh. The largest single-use figure in the dataset. RESEARCH_ENERGY section 3.1.",
+      "calculation_notes": "180 L x 0.03162756 kWh/L = 5.692960 kWh. The largest electric single-use figure in the dataset; bath_gas is larger still. RESEARCH_ENERGY section 3.1.",
       "sources": [
         {
           "name": "東京都水道局",

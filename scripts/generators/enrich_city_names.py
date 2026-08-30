@@ -37,10 +37,9 @@ Wikidata's P1566 routinely cites the other one: New Taipei City is
 small-territory cases, so the exact-id join misses them by
 construction and only the name-plus-coordinate pass recovers them.
 It currently supplies 33 of the 925 Japanese names, and
-WIKIDATA_NAME_JA_FLOOR is the guard that keeps it honest: the run
-aborts rather than writing a thinner file if the pass stops
-yielding, so deleting it fails loudly instead of quietly costing
-33 names.
+NAME_JA_FLOOR is the guard that keeps it honest: the run aborts
+rather than writing a thinner file, so deleting this pass fails
+loudly instead of quietly costing 33 names.
 
 Island labels are a reviewed keep, not a bug. Four accepted names
 carry the 島 suffix because Wikidata models the place as an
@@ -76,7 +75,6 @@ import math
 import re
 import sys
 import time
-import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
@@ -112,14 +110,18 @@ RETRY_BASE_S = 10
 RETRY_MAX_S = 300
 POLITE_PAUSE_S = 1.0
 
-# Measured 2026-08-29 across the 183 unlocalized ids: 107 carry a
-# Japanese Wikidata label. The endpoint 502s and throttles under
-# load, and a degraded run answers "no label" rather than failing,
-# so anything materially below this is a transport fault, not a
-# result, and must not be written out as a thinner file.
-WIKIDATA_P1566_JA_FLOOR = 100
-# Same guard for pass 3, measured at 33 accepts of 77 candidates.
-WIKIDATA_NAME_JA_FLOOR = 26
+# Floors on TOTAL shipped coverage, never on one pass's share of
+# it: the Wikidata passes exist to backfill what GeoNames misses,
+# so a pass that yields less because an earlier one yielded more is
+# a better run, not a regression. Adding these two fields is the
+# only reason this script exists, and the endpoint 502s and
+# throttles under load while a degraded run answers "no label"
+# rather than failing, so a result under these numbers is a
+# transport fault and must not overwrite the file. Shipped
+# 2026-08-29: 925 name_ja and 275 name_es of 969 cities; the margin
+# absorbs ordinary upstream churn and nothing more.
+NAME_JA_FLOOR = 900
+NAME_ES_FLOOR = 265
 
 LARGE_RESIDUAL_POP = 400_000
 # A name match is only trusted when the item sits on the city.
@@ -186,10 +188,15 @@ def load_geonameids(path):
             try:
                 key = (row[8], row[1], round(float(row[4]), 4),
                        round(float(row[5]), 4))
+                pop = int(row[14])
             except (IndexError, ValueError):
                 continue
-            ids[key] = row[0]
-    return ids
+            # Highest population wins, as in build_cities.py, which
+            # picked the record that shipped. Last-wins would hand a
+            # city the other record's localized names.
+            if key not in ids or ids[key][0] < pop:
+                ids[key] = (pop, row[0])
+    return {key: gid for key, (_, gid) in ids.items()}
 
 
 def load_alternates(path, wanted):
@@ -368,6 +375,19 @@ def check_unjoined(observed):
         )
 
 
+def check_coverage(names):
+    """Abort when total name coverage drops below the floor.
+
+    Guards the output, not any one pass: GeoNames localizing more
+    cities and Wikidata backfilling fewer is the same file.
+    """
+    for lang, floor in (("ja", NAME_JA_FLOOR), ("es", NAME_ES_FLOOR)):
+        got = sum(1 for n in names if lang in n)
+        if got < floor:
+            sys.exit(f"name_{lang}: {got} names, floor is {floor}: "
+                     f"refusing to write a thinner file")
+
+
 def core_signature(cities):
     return json.dumps([
         [c["name"], c["cc"], c["lat"], c["lon"], c["mass"], c["pop"]]
@@ -427,10 +447,6 @@ def main():
             continue
         names[i]["ja"] = name
         p1566_ja += 1
-    if p1566_ja < WIKIDATA_P1566_JA_FLOOR:
-        sys.exit(f"wikidata P1566 pass returned {p1566_ja} names, floor is "
-                 f"{WIKIDATA_P1566_JA_FLOOR}: refusing to write a thinner "
-                 f"file")
 
     residual = [i for i in range(len(cities)) if "ja" not in names[i]]
     print(f"wikidata name pass: {len(residual)} cities")
@@ -443,10 +459,22 @@ def main():
         if name:
             names[i]["ja"] = name
             name_ja += 1
-    if name_ja < WIKIDATA_NAME_JA_FLOOR:
-        sys.exit(f"wikidata name pass returned {name_ja} names, floor is "
-                 f"{WIKIDATA_NAME_JA_FLOOR}: refusing to write a thinner "
-                 f"file")
+
+    total = len(cities)
+    print(f"cities: {total}")
+    print(f"joined to GeoNames: {len(by_index)}")
+    if unjoined:
+        print("unjoined (left cities15000): " + ", ".join(
+            f"{name} ({cc})" for name, cc in sorted(unjoined)
+        ))
+    if rejects:
+        print(f"wikidata labels rejected: {'; '.join(rejects)}")
+    print(f"name_ja: {geonames_ja} GeoNames + {p1566_ja} Wikidata P1566 "
+          f"+ {name_ja} Wikidata name match")
+    for lang in LANGS:
+        got = sum(1 for n in names if lang in n)
+        print(f"name_{lang}: {got} ({total - got} fall back to English)")
+    check_coverage(names)
 
     for i, city in enumerate(cities):
         for lang in LANGS:
@@ -463,21 +491,6 @@ def main():
     with open(CITIES_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
-
-    total = len(cities)
-    print(f"cities: {total}")
-    print(f"joined to GeoNames: {len(by_index)}")
-    if unjoined:
-        print("unjoined (left cities15000): " + ", ".join(
-            f"{name} ({cc})" for name, cc in sorted(unjoined)
-        ))
-    if rejects:
-        print(f"wikidata labels rejected: {'; '.join(rejects)}")
-    print(f"name_ja: {geonames_ja} GeoNames + {p1566_ja} Wikidata P1566 "
-          f"+ {name_ja} Wikidata name match")
-    for lang in LANGS:
-        got = sum(1 for n in names if lang in n)
-        print(f"name_{lang}: {got} ({total - got} fall back to English)")
 
 
 if __name__ == "__main__":
