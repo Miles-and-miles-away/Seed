@@ -5,6 +5,9 @@ import 'package:rive/rive.dart' as rive;
 
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
+const _riveLoadTimeout = Duration(seconds: 30);
+const _rivePollInterval = Duration(milliseconds: 25);
+
 void main() {
   testWidgets('renders SVG assets with SvgPicture', (tester) async {
     await tester.pumpWidget(
@@ -34,11 +37,17 @@ void main() {
         ),
       );
 
-      // Let the async file load complete, then rebuild.
-      await Future<void>.delayed(const Duration(milliseconds: 100));
-      await tester.pump();
+      // Decoding the 6 MB mascot file takes ~40ms on an idle machine but
+      // over 100ms once a full-suite run saturates the CPU, so poll for the
+      // load rather than sleeping a fixed span.
+      final riveWidget = find.byType(rive.RiveWidget);
+      final deadline = DateTime.now().add(_riveLoadTimeout);
+      while (!tester.any(riveWidget) && DateTime.now().isBefore(deadline)) {
+        await Future<void>.delayed(_rivePollInterval);
+        await tester.pump();
+      }
 
-      expect(find.byType(rive.RiveWidget), findsOneWidget);
+      expect(riveWidget, findsOneWidget);
       expect(find.byType(SvgPicture), findsNothing);
     });
   });

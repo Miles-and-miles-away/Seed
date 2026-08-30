@@ -214,17 +214,21 @@ class ActionLogRepository {
             mascots[idx][AppConstants.fieldMascotLevel] = newMascotLevel;
             mascots[idx][AppConstants.fieldIsFullyEvolved] = nowFullyEvolved;
             updates[AppConstants.fieldMascots] = mascots;
-
-            // 4. Egg pending discovery
-            if (nowFullyEvolved &&
-                userData[AppConstants.fieldEgg] == null &&
-                !(userData[AppConstants.fieldEggPendingDiscovery] as bool? ??
-                    false)) {
-              updates[AppConstants.fieldEggPendingDiscovery] = true;
-              updates[AppConstants.fieldEggPendingDiscoverySince] =
-                  Timestamp.fromDate(now);
-            }
           }
+        }
+
+        // 4. Egg pending discovery: reaching the unlock stage earns the
+        // egg that carries the species the user did not start with.
+        if (userData[AppConstants.fieldEgg] == null &&
+            !(userData[AppConstants.fieldEggPendingDiscovery] as bool? ??
+                false) &&
+            eggHatchingService.hasUnlockedNextSpecies(
+              mascots.map(MascotModel.fromJson).toList(),
+              mascotSpecies,
+            )) {
+          updates[AppConstants.fieldEggPendingDiscovery] = true;
+          updates[AppConstants.fieldEggPendingDiscoverySince] =
+              Timestamp.fromDate(now);
         }
       }
 
