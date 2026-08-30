@@ -3355,6 +3355,12 @@ abstract class AppLocalizations {
   /// **'These meals are measured by different studies, one of which covers a shorter supply chain. Part of any gap between them could be that difference rather than a real one, so we\'d need one meal to emit less than half the other -- around {percent}% -- before saying which is better.'**
   String foodVerdictCrossSource(int percent);
 
+  /// Body: the delta rests on items sharing one derivation basis
+  ///
+  /// In en, this message translates to:
+  /// **'The gap here rests on ingredients that share one underlying research figure. Where two of those disagree, the disagreement is an accounting choice made in the original study rather than anything measured on a farm. Set that aside and these meals land within {percent}% of each other, so we won\'t name a winner. Both totals are shown above.'**
+  String foodVerdictTiedBasis(int percent);
+
   /// Body: one ingredient has a wide mean/median spread
   ///
   /// In en, this message translates to:
@@ -3437,6 +3443,275 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don\'t always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is tested rather than chosen for neatness. Across every pair of foods here for which the study publishes both figures, a gap of 20% or more points the same way under either one. Three foods are the exception, because their own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish and tree nuts. For those, no gap is dependable, so they are never used to declare a winner at all. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
   String get foodMethodologyBody;
+
+  /// No description provided for @energyGroupHotWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot water'**
+  String get energyGroupHotWater;
+
+  /// No description provided for @energyGroupDishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Dishes'**
+  String get energyGroupDishes;
+
+  /// No description provided for @energyGroupLaundryWash.
+  ///
+  /// In en, this message translates to:
+  /// **'Laundry: washing'**
+  String get energyGroupLaundryWash;
+
+  /// No description provided for @energyGroupLaundryDry.
+  ///
+  /// In en, this message translates to:
+  /// **'Laundry: drying'**
+  String get energyGroupLaundryDry;
+
+  /// No description provided for @energyGroupSpaceHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Heating'**
+  String get energyGroupSpaceHeat;
+
+  /// No description provided for @energyGroupSpaceCool.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooling'**
+  String get energyGroupSpaceCool;
+
+  /// No description provided for @energyGroupBoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Boiling water'**
+  String get energyGroupBoil;
+
+  /// No description provided for @energyGroupCook.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking'**
+  String get energyGroupCook;
+
+  /// No description provided for @energyGroupLighting.
+  ///
+  /// In en, this message translates to:
+  /// **'Lighting'**
+  String get energyGroupLighting;
+
+  /// No description provided for @energyGroupDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get energyGroupDevice;
+
+  /// No description provided for @energyPickerRecents.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently used'**
+  String get energyPickerRecents;
+
+  /// No description provided for @energyBehaviorScienceTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Where this number comes from'**
+  String get energyBehaviorScienceTooltip;
+
+  /// No description provided for @energyLowConfidenceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Least certain figure in this dataset'**
+  String get energyLowConfidenceNote;
+
+  /// No description provided for @energyFactorPerMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh per minute'**
+  String energyFactorPerMinute(String kwh);
+
+  /// No description provided for @energyFactorPerHour.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh per hour'**
+  String energyFactorPerHour(String kwh);
+
+  /// No description provided for @energyFactorPerUse.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh per use'**
+  String energyFactorPerUse(String kwh);
+
+  /// No description provided for @energyFactorPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh per day'**
+  String energyFactorPerDay(String kwh);
+
+  /// No description provided for @energyQuantityMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{units} minutes'**
+  String energyQuantityMinutes(String units);
+
+  /// No description provided for @energyQuantityHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{units} hours'**
+  String energyQuantityHours(String units);
+
+  /// No description provided for @energyQuantityUses.
+  ///
+  /// In en, this message translates to:
+  /// **'{units} x'**
+  String energyQuantityUses(String units);
+
+  /// No description provided for @energyQuantityDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{units} days'**
+  String energyQuantityDays(String units);
+
+  /// No description provided for @energyScienceNotesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'How this is worked out'**
+  String get energyScienceNotesHeading;
+
+  /// No description provided for @energyScienceSourcesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get energyScienceSourcesHeading;
+
+  /// No description provided for @energyScienceAccessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessed {date}'**
+  String energyScienceAccessed(String date);
+
+  /// No description provided for @energyScienceNoSources.
+  ///
+  /// In en, this message translates to:
+  /// **'This figure has no citation, on purpose. Its own notes above explain why.'**
+  String get energyScienceNoSources;
+
+  /// No description provided for @energyCalculatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home energy'**
+  String get energyCalculatorTitle;
+
+  /// No description provided for @energyAddUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get energyAddUsage;
+
+  /// No description provided for @energyColumnEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add something you do at home to build this routine'**
+  String get energyColumnEmptyHint;
+
+  /// No description provided for @energyTotalKwh.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh in total'**
+  String energyTotalKwh(String kwh);
+
+  /// No description provided for @energyNoPointsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This calculator is for learning. It awards no points and logs nothing.'**
+  String get energyNoPointsNote;
+
+  /// No description provided for @energyEditorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How much?'**
+  String get energyEditorTitle;
+
+  /// No description provided for @energyPresetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Common amounts'**
+  String get energyPresetsLabel;
+
+  /// No description provided for @energyQuantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get energyQuantityLabel;
+
+  /// No description provided for @energyQuantityInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number greater than zero'**
+  String get energyQuantityInvalid;
+
+  /// No description provided for @energyComparisonDelta.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} uses {amount} CO2e less than {worse} ({percent}% lower)'**
+  String energyComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  );
+
+  /// No description provided for @energyComparisonNoVerdict.
+  ///
+  /// In en, this message translates to:
+  /// **'No winner here'**
+  String get energyComparisonNoVerdict;
+
+  /// No description provided for @energyVerdictWhyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Why not?'**
+  String get energyVerdictWhyCta;
+
+  /// No description provided for @energyVerdictDifferentGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'These two are different kinds of thing, so saying one is better would be a category error rather than a close call. Compare like with like -- a bath against a shower, a tumble dryer against a washing line.'**
+  String get energyVerdictDifferentGroup;
+
+  /// No description provided for @energyVerdictDifferentCarrier.
+  ///
+  /// In en, this message translates to:
+  /// **'One of these runs on gas and the other on electricity, and which comes out cleaner depends on your local grid rather than on what you did. Below about 241 g CO2e per kWh electric heating wins; above it gas does. So both numbers are shown and no winner is declared.'**
+  String get energyVerdictDifferentCarrier;
+
+  /// No description provided for @energyVerdictTooClose.
+  ///
+  /// In en, this message translates to:
+  /// **'These are within {percent}% of each other, which is inside the accuracy of the underlying measurements. Calling a winner would be reading precision the sources do not have.'**
+  String energyVerdictTooClose(int percent);
+
+  /// No description provided for @energyUnitSuffixMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get energyUnitSuffixMinute;
+
+  /// No description provided for @energyUnitSuffixHour.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get energyUnitSuffixHour;
+
+  /// No description provided for @energyUnitSuffixUse.
+  ///
+  /// In en, this message translates to:
+  /// **'uses'**
+  String get energyUnitSuffixUse;
+
+  /// No description provided for @energyUnitSuffixDay.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get energyUnitSuffixDay;
 }
 
 class _AppLocalizationsDelegate

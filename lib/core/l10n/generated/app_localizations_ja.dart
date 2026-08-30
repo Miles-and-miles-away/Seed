@@ -1827,6 +1827,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String foodVerdictTiedBasis(int percent) {
+    return 'この差は、元をたどると同じ研究値を共有する食材によって生じています。そうした食材どうしの数値の違いは、農場で測定された差ではなく、元の研究における会計上の選択によるものです。その影響を取り除くと、2つの食事の差は$percent%以内に収まります。そのため、どちらが優れているかの判定は行いません。合計値は上に表示しています。';
+  }
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percent%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
   }
@@ -1885,4 +1890,168 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get foodMethodologyBody =>
       'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
+
+  @override
+  String get energyGroupHotWater => 'お湯';
+
+  @override
+  String get energyGroupDishes => '食器洗い';
+
+  @override
+  String get energyGroupLaundryWash => '洗濯';
+
+  @override
+  String get energyGroupLaundryDry => '乾燥';
+
+  @override
+  String get energyGroupSpaceHeat => '暖房';
+
+  @override
+  String get energyGroupSpaceCool => '冷房';
+
+  @override
+  String get energyGroupBoil => 'お湯を沸かす';
+
+  @override
+  String get energyGroupCook => '調理';
+
+  @override
+  String get energyGroupLighting => '照明';
+
+  @override
+  String get energyGroupDevice => '電化製品';
+
+  @override
+  String get energyPickerRecents => '最近使ったもの';
+
+  @override
+  String get energyBehaviorScienceTooltip => 'この数字の出典';
+
+  @override
+  String get energyLowConfidenceNote => 'このデータで最も不確実な数値';
+
+  @override
+  String energyFactorPerMinute(String kwh) {
+    return '1分あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerHour(String kwh) {
+    return '1時間あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerUse(String kwh) {
+    return '1回あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerDay(String kwh) {
+    return '1日あたり $kwh kWh';
+  }
+
+  @override
+  String energyQuantityMinutes(String units) {
+    return '$units分';
+  }
+
+  @override
+  String energyQuantityHours(String units) {
+    return '$units時間';
+  }
+
+  @override
+  String energyQuantityUses(String units) {
+    return '$units回';
+  }
+
+  @override
+  String energyQuantityDays(String units) {
+    return '$units日';
+  }
+
+  @override
+  String get energyScienceNotesHeading => '計算の根拠';
+
+  @override
+  String get energyScienceSourcesHeading => '出典';
+
+  @override
+  String energyScienceAccessed(String date) {
+    return '$date 確認';
+  }
+
+  @override
+  String get energyScienceNoSources =>
+      'この数値には意図的に出典を付けていません。理由は上の計算の根拠に記載しています。';
+
+  @override
+  String get energyCalculatorTitle => '家庭のエネルギー';
+
+  @override
+  String get energyAddUsage => '追加';
+
+  @override
+  String get energyColumnEmptyHint => '家でしていることを追加してください';
+
+  @override
+  String energyTotalKwh(String kwh) {
+    return '合計 $kwh kWh';
+  }
+
+  @override
+  String get energyNoPointsNote => 'この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。';
+
+  @override
+  String get energyEditorTitle => 'どれくらい？';
+
+  @override
+  String get energyPresetsLabel => 'よくある量';
+
+  @override
+  String get energyQuantityLabel => '量';
+
+  @override
+  String get energyQuantityInvalid => '0より大きい数を入力してください';
+
+  @override
+  String energyComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label は $worse より $amount CO2e 少ない（$percent%減）';
+  }
+
+  @override
+  String get energyComparisonNoVerdict => '優劣はつけられません';
+
+  @override
+  String get energyVerdictWhyCta => 'なぜ？';
+
+  @override
+  String get energyVerdictDifferentGroup =>
+      'この2つは種類が違うため、どちらが良いとは言えません。入浴とシャワー、乾燥機と自然乾燥のように、同じ種類のものを比べてください。';
+
+  @override
+  String get energyVerdictDifferentCarrier =>
+      '一方はガス、もう一方は電気を使っています。どちらが少ないかはあなたの地域の電源構成によって変わります。約241 g CO2e/kWhを下回れば電気、上回ればガスが有利です。そのため両方の数値を示し、優劣は判定しません。';
+
+  @override
+  String energyVerdictTooClose(int percent) {
+    return 'この2つの差は$percent%以内で、元の測定値の精度の範囲に収まっています。どちらが良いと判定するのは、出典にない精度を読み取ることになります。';
+  }
+
+  @override
+  String get energyUnitSuffixMinute => '分';
+
+  @override
+  String get energyUnitSuffixHour => '時間';
+
+  @override
+  String get energyUnitSuffixUse => '回';
+
+  @override
+  String get energyUnitSuffixDay => '日';
 }

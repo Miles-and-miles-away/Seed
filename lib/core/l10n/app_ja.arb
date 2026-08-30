@@ -791,7 +791,20 @@
   "foodSearchHint": "食材を検索...",
   "foodSearchNoResults": "一致する食材がありません。",
   "foodItemFactorWithServing": "{perKg} kg CO2e／kg  ·  {serving}で{perServing}",
-  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
+  "@foodItemFactorWithServing": {
+    "description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities",
+    "placeholders": {
+      "perKg": {
+        "type": "String"
+      },
+      "perServing": {
+        "type": "String"
+      },
+      "serving": {
+        "type": "String"
+      }
+    }
+  },
   "foodItemFactorPerKg": "1kgあたり{value} kg CO2e",
   "@foodItemFactorPerKg": {
     "placeholders": {
@@ -883,15 +896,47 @@
     "description": "Header above recently picked items in the food picker"
   },
   "foodVerdictWhyCta": "結果が出ないのはなぜ？",
-  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "@foodVerdictWhyCta": {
+    "description": "Button opening the explanation of why no winner is named"
+  },
   "foodVerdictBlockedTitle": "記録するには差が小さすぎます",
-  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "@foodVerdictBlockedTitle": {
+    "description": "Title of the dialog explaining the logging minimum"
+  },
   "foodVerdictTooClose": "この2つの食事の差は{percent}%以内です。ここに掲載する食品の多くはカテゴリ全体の平均値を共有しており、統計的に同等の値も少なくありません。これほど小さな差は、元になる研究が実際に区別できる範囲の内側にあります。合計値は上に表示していますが、どちらが優れているかの判定は行いません。",
-  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictTooClose": {
+    "description": "Body: the two meals are inside the data resolution",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodVerdictCrossSource": "この2つの食事は異なる研究で測定されており、片方はサプライチェーンの範囲がより短いものです。両者の差の一部は実際の差ではなく、その測定範囲の違いによる可能性があります。そのため、片方が他方の半分未満（約{percent}%減）にならない限り、どちらが良いかは判定しません。",
-  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictCrossSource": {
+    "description": "Body: the meals come from different studies",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "foodVerdictTiedBasis": "この差は、元をたどると同じ研究値を共有する食材によって生じています。そうした食材どうしの数値の違いは、農場で測定された差ではなく、元の研究における会計上の選択によるものです。その影響を取り除くと、2つの食事の差は{percent}%以内に収まります。そのため、どちらが優れているかの判定は行いません。合計値は上に表示しています。",
   "foodVerdictUncertainItem": "原因はあなたの食事ではなく「{item}」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の{ratio}倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約{percent}%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。",
-  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
+  "@foodVerdictUncertainItem": {
+    "description": "Body: one ingredient has a wide mean/median spread",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "ratio": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTooClose": "この2つは差が小さすぎて判定できません。差が20%未満の場合、その差は元になる研究で区別できる範囲に収まるため、どちらが良いかは示さず、両方の合計のみを表示します。",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
@@ -960,5 +1005,49 @@
     }
   },
   "foodActionsEntryTitle": "カスタム食事アクションを記録",
-  "foodMethodologyBody": "このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。"
+  "foodMethodologyBody": "このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。",
+  "energyGroupHotWater": "お湯",
+  "energyGroupDishes": "食器洗い",
+  "energyGroupLaundryWash": "洗濯",
+  "energyGroupLaundryDry": "乾燥",
+  "energyGroupSpaceHeat": "暖房",
+  "energyGroupSpaceCool": "冷房",
+  "energyGroupBoil": "お湯を沸かす",
+  "energyGroupCook": "調理",
+  "energyGroupLighting": "照明",
+  "energyGroupDevice": "電化製品",
+  "energyPickerRecents": "最近使ったもの",
+  "energyBehaviorScienceTooltip": "この数字の出典",
+  "energyLowConfidenceNote": "このデータで最も不確実な数値",
+  "energyFactorPerMinute": "1分あたり {kwh} kWh",
+  "energyFactorPerHour": "1時間あたり {kwh} kWh",
+  "energyFactorPerUse": "1回あたり {kwh} kWh",
+  "energyFactorPerDay": "1日あたり {kwh} kWh",
+  "energyQuantityMinutes": "{units}分",
+  "energyQuantityHours": "{units}時間",
+  "energyQuantityUses": "{units}回",
+  "energyQuantityDays": "{units}日",
+  "energyScienceNotesHeading": "計算の根拠",
+  "energyScienceSourcesHeading": "出典",
+  "energyScienceAccessed": "{date} 確認",
+  "energyScienceNoSources": "この数値には意図的に出典を付けていません。理由は上の計算の根拠に記載しています。",
+  "energyCalculatorTitle": "家庭のエネルギー",
+  "energyAddUsage": "追加",
+  "energyColumnEmptyHint": "家でしていることを追加してください",
+  "energyTotalKwh": "合計 {kwh} kWh",
+  "energyNoPointsNote": "この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。",
+  "energyEditorTitle": "どれくらい？",
+  "energyPresetsLabel": "よくある量",
+  "energyQuantityLabel": "量",
+  "energyQuantityInvalid": "0より大きい数を入力してください",
+  "energyComparisonDelta": "{label} は {worse} より {amount} CO2e 少ない（{percent}%減）",
+  "energyComparisonNoVerdict": "優劣はつけられません",
+  "energyVerdictWhyCta": "なぜ？",
+  "energyVerdictDifferentGroup": "この2つは種類が違うため、どちらが良いとは言えません。入浴とシャワー、乾燥機と自然乾燥のように、同じ種類のものを比べてください。",
+  "energyVerdictDifferentCarrier": "一方はガス、もう一方は電気を使っています。どちらが少ないかはあなたの地域の電源構成によって変わります。約241 g CO2e/kWhを下回れば電気、上回ればガスが有利です。そのため両方の数値を示し、優劣は判定しません。",
+  "energyVerdictTooClose": "この2つの差は{percent}%以内で、元の測定値の精度の範囲に収まっています。どちらが良いと判定するのは、出典にない精度を読み取ることになります。",
+  "energyUnitSuffixMinute": "分",
+  "energyUnitSuffixHour": "時間",
+  "energyUnitSuffixUse": "回",
+  "energyUnitSuffixDay": "日"
 }

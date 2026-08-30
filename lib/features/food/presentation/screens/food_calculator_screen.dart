@@ -354,9 +354,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
 
   /// Explains why the comparison declined to name a winner.
   ///
-  /// Three different reasons, and they are not interchangeable: two
-  /// close meals, two incompatible sources, or one ingredient whose own
-  /// evidence is too wide to rank on.
+  /// Four different reasons, and they are not interchangeable: two
+  /// close meals, two incompatible sources, one ingredient whose own
+  /// evidence is too wide to rank on, or a gap that rests on items
+  /// sharing a derivation.
   void _explainNoVerdict(
     AppLocalizations l10n,
     String locale,
@@ -365,6 +366,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     final percent = check.requiredPercent.round();
     final body = switch (check.block) {
       VerdictBlock.crossSource => l10n.foodVerdictCrossSource(percent),
+      VerdictBlock.tiedBasis => l10n.foodVerdictTiedBasis(percent),
       VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
         check.item?.name(locale) ?? '',
         check.item?.statisticRatio?.toStringAsFixed(1) ?? '',
