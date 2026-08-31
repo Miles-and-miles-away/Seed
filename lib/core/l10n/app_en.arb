@@ -697,7 +697,8 @@
   "calculatorsSheetTitle": "Calculators",
   "calculatorsButtonTooltip": "Calculators",
   "calculatorHomeEnergy": "Home energy",
-  "calculatorComingSoon": "Coming soon",
+  "calculatorBadge": "Calculator",
+  "energyActionsEntryTitle": "Compare home energy use",
   "transportJourneyEmpty": "Add a leg to build your journey and see its CO2e footprint.",
   "transportAddLeg": "Add leg",
   "transportEditLeg": "Edit leg",
@@ -789,16 +790,6 @@
   "transportBasisJetRf": "Includes the same high-altitude (radiative forcing) uplift as flights",
   "transportBasisZeroDirect": "0 direct emissions",
   "transportBasisElectricityOnly": "Electricity only",
-  "transportScienceNotesHeading": "How it's calculated",
-  "transportScienceSourcesHeading": "Sources",
-  "transportScienceAccessed": "Accessed {date}",
-  "@transportScienceAccessed": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "transportComparisonTitle": "Compare journeys",
   "transportAddToComparison": "Add as option",
   "calculatorStagedOptions": "Options to compare",
@@ -864,6 +855,22 @@
   "calculatorRemoveEntry": "Remove",
   "@calculatorRemoveEntry": {
     "description": "Tooltip on the remove button of a card inside a comparison column"
+  },
+  "scienceNotesHeading": "How it's calculated",
+  "@scienceNotesHeading": {
+    "description": "Heading above a dataset entry's calculation notes"
+  },
+  "scienceSourcesHeading": "Sources",
+  "@scienceSourcesHeading": {
+    "description": "Heading above a dataset entry's source list"
+  },
+  "scienceAccessed": "Accessed {date}",
+  "@scienceAccessed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "transportComparisonFull": "Comparison full ({max} options)",
   "@transportComparisonFull": {
@@ -1002,21 +1009,24 @@
     "description": "Shown when a food picker search returns nothing"
   },
   "foodItemFactorWithServing": "{perKg} kg CO2e per kg  ·  {perServing} per {serving}",
-  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
-  "foodItemFactorPerKg": "{value} kg CO2e per kg",
-  "@foodItemFactorPerKg": {
+  "@foodItemFactorWithServing": {
+    "description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities",
     "placeholders": {
-      "value": {
+      "perKg": {
+        "type": "String"
+      },
+      "perServing": {
+        "type": "String"
+      },
+      "serving": {
         "type": "String"
       }
     }
   },
-  "foodScienceNotesHeading": "How it's calculated",
-  "foodScienceSourcesHeading": "Sources",
-  "foodScienceAccessed": "Accessed {date}",
-  "@foodScienceAccessed": {
+  "foodItemFactorPerKg": "{value} kg CO2e per kg",
+  "@foodItemFactorPerKg": {
     "placeholders": {
-      "date": {
+      "value": {
         "type": "String"
       }
     }
@@ -1094,15 +1104,59 @@
     "description": "Header above recently picked items in the food picker"
   },
   "foodVerdictWhyCta": "Why is there no result?",
-  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "@foodVerdictWhyCta": {
+    "description": "Button opening the explanation of why no winner is named"
+  },
   "foodVerdictBlockedTitle": "Not a big enough difference to log",
-  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "@foodVerdictBlockedTitle": {
+    "description": "Title of the dialog explaining the logging minimum"
+  },
   "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won't declare one the winner.",
-  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictTooClose": {
+    "description": "Body: the two meals are inside the data resolution",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodVerdictCrossSource": "These meals are measured by different studies, one of which covers a shorter supply chain. Part of any gap between them could be that difference rather than a real one, so we'd need one meal to emit less than half the other -- around {percent}% -- before saying which is better.",
-  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictCrossSource": {
+    "description": "Body: the meals come from different studies",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "foodVerdictTiedBasis": "The gap here rests on ingredients that share one underlying research figure. Where two of those disagree, the disagreement is an accounting choice made in the original study rather than anything measured on a farm. Set that aside and these meals land within {percent}% of each other, so we won't name a winner. Both totals are shown above.",
+  "@foodVerdictTiedBasis": {
+    "description": "Body: the delta rests on items sharing one derivation basis",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "foodVerdictTiedBasisFlips": "Which meal comes out ahead here depends on an accounting choice in the source study rather than on the food. Some ingredients on the two sides share one underlying research figure, and holding that figure to a single value reverses the result. A winner that swaps like that is a fact about the study, so we won't name one. Both totals are shown above.",
+  "@foodVerdictTiedBasisFlips": {
+    "description": "Body: flattening the shared derivation basis swaps the winner"
+  },
   "foodVerdictUncertainItem": "{item} is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to {ratio} times its midpoint, so where it lands depends heavily on which farms you count. A gap of about {percent}% would outrun that uncertainty; this one doesn't. You can still log the meal as a normal action.",
-  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
+  "@foodVerdictUncertainItem": {
+    "description": "Body: one ingredient has a wide mean/median spread",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "ratio": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
@@ -1171,5 +1225,204 @@
     }
   },
   "foodActionsEntryTitle": "Log a Custom Food action",
-  "foodMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nEach factor covers a food's full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek's 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator's operational-only scope, so never add figures from the two tools together. Figures are the study's production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don't always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is tested rather than chosen for neatness. Across every pair of foods here for which the study publishes both figures, a gap of 20% or more points the same way under either one. Three foods are the exception, because their own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish and tree nuts. For those, no gap is dependable, so they are never used to declare a winner at all. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### 'Organic' and 'local'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food's footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed."
+  "foodMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nEach factor covers a food's full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek's 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator's operational-only scope, so never add figures from the two tools together. Figures are the study's production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don't always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is tested rather than chosen for neatness. Across every pair of foods here for which the study publishes both figures, a gap of 20% or more points the same way under either one. Three foods are the exception, because their own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish and tree nuts. For those, no gap is dependable, so they are never used to declare a winner at all. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### 'Organic' and 'local'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food's footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.",
+  "energyGroupHotWater": "Hot water",
+  "energyGroupDishes": "Dishes",
+  "energyGroupLaundryWash": "Laundry: washing",
+  "energyGroupLaundryDry": "Laundry: drying",
+  "energyGroupSpaceHeat": "Heating",
+  "energyGroupSpaceCool": "Cooling",
+  "energyGroupBoil": "Boiling water",
+  "energyGroupCook": "Cooking",
+  "energyGroupLighting": "Lighting",
+  "energyGroupDevice": "Devices",
+  "energyPickerRecents": "Recently used",
+  "energyBehaviorScienceTooltip": "Where this number comes from",
+  "energyLowConfidenceNote": "Least certain figure in this dataset",
+  "energyFactorPerMinute": "{kwh} kWh per minute",
+  "@energyFactorPerMinute": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "energyFactorPerHour": "{kwh} kWh per hour",
+  "@energyFactorPerHour": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "energyFactorPerUse": "{kwh} kWh per use",
+  "@energyFactorPerUse": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "energyFactorPerDay": "{kwh} kWh per day",
+  "@energyFactorPerDay": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "energyQuantityOneMinute": "1 minute",
+  "energyQuantityOneHour": "1 hour",
+  "energyQuantityOneDay": "1 day",
+  "energyQuantityMinutes": "{units} minutes",
+  "@energyQuantityMinutes": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "energyQuantityHours": "{units} hours",
+  "@energyQuantityHours": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "energyQuantityUses": "{units} x",
+  "@energyQuantityUses": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "energyQuantityDays": "{units} days",
+  "@energyQuantityDays": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "energyScienceNoSources": "This figure has no citation, on purpose. Its own notes above explain why.",
+  "energyCalculatorTitle": "Home energy",
+  "energyAddUsage": "Add",
+  "energyColumnEmptyHint": "Add something you do at home to build this routine",
+  "energyNoPointsNote": "This calculator is for learning. It awards no points and logs nothing.",
+  "energyPresetsLabel": "Common amounts",
+  "energyQuantityLabel": "Amount",
+  "energyQuantityInvalid": "Enter a number greater than zero",
+  "energyComparisonDelta": "{label} uses {amount} CO2e less than {worse} ({percent}% lower)",
+  "@energyComparisonDelta": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "worse": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "energyComparisonRatio": "{worse} costs {multiple}x as much CO2e as {label}",
+  "@energyComparisonRatio": {
+    "placeholders": {
+      "worse": {
+        "type": "String"
+      },
+      "multiple": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "energyComparisonSavesEquiv": "That's {amount} saved, about {charges, plural, one{{charges} phone charge} other{{charges} phone charges}} of electricity",
+  "@energyComparisonSavesEquiv": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "charges": {
+        "type": "int"
+      }
+    }
+  },
+  "energyComparisonSavesOnly": "That's {amount} saved",
+  "@energyComparisonSavesOnly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "energyPhoneChargesEquiv": "That's about {charges, plural, one{{charges} phone charge} other{{charges} phone charges}} of electricity",
+  "@energyPhoneChargesEquiv": {
+    "placeholders": {
+      "charges": {
+        "type": "int"
+      }
+    }
+  },
+  "energyGridBasisNote": "Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data)",
+  "@energyGridBasisNote": {
+    "placeholders": {
+      "grid": {
+        "type": "int"
+      }
+    }
+  },
+  "energyGridBasisNoteRatio": "Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid",
+  "@energyGridBasisNoteRatio": {
+    "placeholders": {
+      "grid": {
+        "type": "int"
+      }
+    }
+  },
+  "energyMethodologyTitle": "Methodology & sources",
+  "energyMethodologyBody": "Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What's counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator's convention and deliberately not the food calculator's, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK's official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use {grid} g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government's energy statistics publish with the {grid} above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner's hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalog rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI's own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.",
+  "@energyMethodologyBody": {
+    "placeholders": {
+      "grid": {
+        "type": "int"
+      }
+    }
+  },
+  "energyRankedTitle": "Where your energy goes",
+  "energyRankedIntro": "One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.",
+  "energyRankedGasHeading": "Gas appliances, unranked",
+  "energyRankedGasNote": "A gas row's rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.",
+  "energyRankedMultiple": "{multiple}x",
+  "@energyRankedMultiple": {
+    "placeholders": {
+      "multiple": {
+        "type": "String"
+      }
+    }
+  },
+  "energyComparisonNoVerdict": "No winner here",
+  "energyVerdictWhyCta": "Why not?",
+  "energyVerdictDifferentGroup": "These two are different kinds of thing, so saying one is better would be a category error rather than a close call. Compare like with like -- a bath against a shower, a tumble dryer against a washing line.",
+  "energyVerdictDifferentCarrier": "One of these runs on gas and the other on electricity, and which comes out cleaner depends on your local grid rather than on what you did. Below about 241 g CO2e per kWh electric heating wins; above it gas does. So both numbers are shown and no winner is declared.",
+  "energyVerdictTooClose": "These are within {percent}% of each other, which is inside the accuracy of the underlying measurements. Calling a winner would be reading precision the sources do not have.",
+  "@energyVerdictTooClose": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "energyUnitSuffixMinute": "min",
+  "energyUnitSuffixHour": "h",
+  "energyUnitSuffixUse": "uses",
+  "energyUnitSuffixDay": "days"
 }

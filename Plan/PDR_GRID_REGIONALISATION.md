@@ -56,14 +56,16 @@ Norway and much of the Nordic/nuclear-hydro bloc are further past
 the crossover than the UK -- and the global grid is forecast to
 reach 360 g by 2030, closing on the 241 threshold.
 
-Mitigation already in place: the comparison gating
+Mitigation specified but not yet shipped, since the feature is
+unbuilt: the comparison gating
 ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) sec 3)
-(same `comparable_group` + same `carrier` + >=20% delta) blocks
-the app from *asserting* any cross-carrier verdict. So the app
-never prints the wrong sentence. **But it still displays both
-numbers**, and a user does not need the app's sentence to read
-59.7 < 113.6. Regionalisation is the only fix that makes the
-displayed numbers right.
+(same `comparable_group` + same `carrier` + >=20% delta) is
+binding on the build, and it will stop the app *asserting* any
+cross-carrier verdict, so the app will never print the wrong
+sentence. **But it will still display both numbers**, and a user
+does not need the app's sentence to read 59.7 < 113.6.
+Regionalisation is the only fix that makes the displayed numbers
+right.
 
 ### 1.2 UK heat pumps: the global factor hides a 3.5x argument
 
@@ -311,19 +313,24 @@ but was surfaced in the same review and should be settled once.
 
 ---
 
-## 5.1 What the app currently tells users
+## 5.1 What the app is set to tell users
 
-The home-energy methodology screen already carries a full
-disclosure that regionalisation was considered and not shipped,
-with the regional spread shown in real numbers and the three
-mitigations named. Draft copy lives in
+Nothing is live yet: `lib/features/energy/` shipped in commit
+823f984 but is not routed, and the home-energy methodology screen
+that would carry this copy is not built (it is in the PDR's
+section 1 build list). What
+exists is the approved draft copy for it, in
 [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 6.
+That draft carries a full disclosure that regionalisation was
+considered and not shipped, with the regional spread in real
+numbers and the three mitigations named, and it ships with the
+screen when the screen is built.
 
-**If this work recommends shipping regional factors, that screen
-is the first thing that must change** -- it currently makes a
-positive claim ("we use one global figure, here is why") that
-would become false. Treat rewriting it as part of the deliverable,
-in all three locales.
+**If this work recommends shipping regional factors, that draft
+copy is the first thing that must change** -- it makes a positive
+claim ("we use one global figure, here is why") that would become
+false. Treat rewriting it as part of the deliverable, in all
+three locales.
 
 The strongest line in that copy is worth carrying into this
 research as a benchmark to beat: within-carrier comparisons are

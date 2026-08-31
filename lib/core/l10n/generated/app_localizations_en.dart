@@ -1415,7 +1415,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorHomeEnergy => 'Home energy';
 
   @override
-  String get calculatorComingSoon => 'Coming soon';
+  String get calculatorBadge => 'Calculator';
+
+  @override
+  String get energyActionsEntryTitle => 'Compare home energy use';
 
   @override
   String get transportJourneyEmpty =>
@@ -1557,17 +1560,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transportBasisElectricityOnly => 'Electricity only';
 
   @override
-  String get transportScienceNotesHeading => 'How it\'s calculated';
-
-  @override
-  String get transportScienceSourcesHeading => 'Sources';
-
-  @override
-  String transportScienceAccessed(String date) {
-    return 'Accessed $date';
-  }
-
-  @override
   String get transportComparisonTitle => 'Compare journeys';
 
   @override
@@ -1617,6 +1609,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calculatorRemoveEntry => 'Remove';
+
+  @override
+  String get scienceNotesHeading => 'How it\'s calculated';
+
+  @override
+  String get scienceSourcesHeading => 'Sources';
+
+  @override
+  String scienceAccessed(String date) {
+    return 'Accessed $date';
+  }
 
   @override
   String transportComparisonFull(int max) {
@@ -1767,17 +1770,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get foodScienceNotesHeading => 'How it\'s calculated';
-
-  @override
-  String get foodScienceSourcesHeading => 'Sources';
-
-  @override
-  String foodScienceAccessed(String date) {
-    return 'Accessed $date';
-  }
-
-  @override
   String get foodGroupMeat => 'Meat';
 
   @override
@@ -1877,6 +1869,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String foodVerdictTiedBasis(int percent) {
+    return 'The gap here rests on ingredients that share one underlying research figure. Where two of those disagree, the disagreement is an accounting choice made in the original study rather than anything measured on a farm. Set that aside and these meals land within $percent% of each other, so we won\'t name a winner. Both totals are shown above.';
+  }
+
+  @override
+  String get foodVerdictTiedBasisFlips =>
+      'Which meal comes out ahead here depends on an accounting choice in the source study rather than on the food. Some ingredients on the two sides share one underlying research figure, and holding that figure to a single value reverses the result. A winner that swaps like that is a fact about the study, so we won\'t name one. Both totals are shown above.';
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return '$item is the problem here, not your meals. The research behind it disagrees with itself: a minority of very high-impact producers pulls its average to $ratio times its midpoint, so where it lands depends heavily on which farms you count. A gap of about $percent% would outrun that uncertainty; this one doesn\'t. You can still log the meal as a normal action.';
   }
@@ -1936,4 +1937,229 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get foodMethodologyBody =>
       'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don\'t always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is tested rather than chosen for neatness. Across every pair of foods here for which the study publishes both figures, a gap of 20% or more points the same way under either one. Three foods are the exception, because their own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish and tree nuts. For those, no gap is dependable, so they are never used to declare a winner at all. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.';
+
+  @override
+  String get energyGroupHotWater => 'Hot water';
+
+  @override
+  String get energyGroupDishes => 'Dishes';
+
+  @override
+  String get energyGroupLaundryWash => 'Laundry: washing';
+
+  @override
+  String get energyGroupLaundryDry => 'Laundry: drying';
+
+  @override
+  String get energyGroupSpaceHeat => 'Heating';
+
+  @override
+  String get energyGroupSpaceCool => 'Cooling';
+
+  @override
+  String get energyGroupBoil => 'Boiling water';
+
+  @override
+  String get energyGroupCook => 'Cooking';
+
+  @override
+  String get energyGroupLighting => 'Lighting';
+
+  @override
+  String get energyGroupDevice => 'Devices';
+
+  @override
+  String get energyPickerRecents => 'Recently used';
+
+  @override
+  String get energyBehaviorScienceTooltip => 'Where this number comes from';
+
+  @override
+  String get energyLowConfidenceNote => 'Least certain figure in this dataset';
+
+  @override
+  String energyFactorPerMinute(String kwh) {
+    return '$kwh kWh per minute';
+  }
+
+  @override
+  String energyFactorPerHour(String kwh) {
+    return '$kwh kWh per hour';
+  }
+
+  @override
+  String energyFactorPerUse(String kwh) {
+    return '$kwh kWh per use';
+  }
+
+  @override
+  String energyFactorPerDay(String kwh) {
+    return '$kwh kWh per day';
+  }
+
+  @override
+  String get energyQuantityOneMinute => '1 minute';
+
+  @override
+  String get energyQuantityOneHour => '1 hour';
+
+  @override
+  String get energyQuantityOneDay => '1 day';
+
+  @override
+  String energyQuantityMinutes(String units) {
+    return '$units minutes';
+  }
+
+  @override
+  String energyQuantityHours(String units) {
+    return '$units hours';
+  }
+
+  @override
+  String energyQuantityUses(String units) {
+    return '$units x';
+  }
+
+  @override
+  String energyQuantityDays(String units) {
+    return '$units days';
+  }
+
+  @override
+  String get energyScienceNoSources =>
+      'This figure has no citation, on purpose. Its own notes above explain why.';
+
+  @override
+  String get energyCalculatorTitle => 'Home energy';
+
+  @override
+  String get energyAddUsage => 'Add';
+
+  @override
+  String get energyColumnEmptyHint =>
+      'Add something you do at home to build this routine';
+
+  @override
+  String get energyNoPointsNote =>
+      'This calculator is for learning. It awards no points and logs nothing.';
+
+  @override
+  String get energyPresetsLabel => 'Common amounts';
+
+  @override
+  String get energyQuantityLabel => 'Amount';
+
+  @override
+  String get energyQuantityInvalid => 'Enter a number greater than zero';
+
+  @override
+  String energyComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label uses $amount CO2e less than $worse ($percent% lower)';
+  }
+
+  @override
+  String energyComparisonRatio(String worse, String multiple, String label) {
+    return '$worse costs ${multiple}x as much CO2e as $label';
+  }
+
+  @override
+  String energyComparisonSavesEquiv(String amount, int charges) {
+    String _temp0 = intl.Intl.pluralLogic(
+      charges,
+      locale: localeName,
+      other: '$charges phone charges',
+      one: '$charges phone charge',
+    );
+    return 'That\'s $amount saved, about $_temp0 of electricity';
+  }
+
+  @override
+  String energyComparisonSavesOnly(String amount) {
+    return 'That\'s $amount saved';
+  }
+
+  @override
+  String energyPhoneChargesEquiv(int charges) {
+    String _temp0 = intl.Intl.pluralLogic(
+      charges,
+      locale: localeName,
+      other: '$charges phone charges',
+      one: '$charges phone charge',
+    );
+    return 'That\'s about $_temp0 of electricity';
+  }
+
+  @override
+  String energyGridBasisNote(int grid) {
+    return 'Gram figures assume the world-average grid, $grid g CO2e/kWh (Ember, 2025 data)';
+  }
+
+  @override
+  String energyGridBasisNoteRatio(int grid) {
+    return 'Gram figures assume the world-average grid, $grid g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid';
+  }
+
+  @override
+  String get energyMethodologyTitle => 'Methodology & sources';
+
+  @override
+  String energyMethodologyBody(int grid) {
+    return 'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator\'s convention and deliberately not the food calculator\'s, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use $grid g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the $grid above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner\'s hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalog rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI\'s own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.';
+  }
+
+  @override
+  String get energyRankedTitle => 'Where your energy goes';
+
+  @override
+  String get energyRankedIntro =>
+      'One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.';
+
+  @override
+  String get energyRankedGasHeading => 'Gas appliances, unranked';
+
+  @override
+  String get energyRankedGasNote =>
+      'A gas row\'s rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.';
+
+  @override
+  String energyRankedMultiple(String multiple) {
+    return '${multiple}x';
+  }
+
+  @override
+  String get energyComparisonNoVerdict => 'No winner here';
+
+  @override
+  String get energyVerdictWhyCta => 'Why not?';
+
+  @override
+  String get energyVerdictDifferentGroup =>
+      'These two are different kinds of thing, so saying one is better would be a category error rather than a close call. Compare like with like -- a bath against a shower, a tumble dryer against a washing line.';
+
+  @override
+  String get energyVerdictDifferentCarrier =>
+      'One of these runs on gas and the other on electricity, and which comes out cleaner depends on your local grid rather than on what you did. Below about 241 g CO2e per kWh electric heating wins; above it gas does. So both numbers are shown and no winner is declared.';
+
+  @override
+  String energyVerdictTooClose(int percent) {
+    return 'These are within $percent% of each other, which is inside the accuracy of the underlying measurements. Calling a winner would be reading precision the sources do not have.';
+  }
+
+  @override
+  String get energyUnitSuffixMinute => 'min';
+
+  @override
+  String get energyUnitSuffixHour => 'h';
+
+  @override
+  String get energyUnitSuffixUse => 'uses';
+
+  @override
+  String get energyUnitSuffixDay => 'days';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
@@ -73,6 +74,123 @@ class Co2eAmount extends StatelessWidget {
   }
 }
 
+/// The comparison body all three calculators share: the option
+/// columns totalled live, an add button under each, and the result
+/// block underneath.
+///
+/// The feature screen keeps what is genuinely its own -- which cards
+/// an option holds, what "add" opens, and what the result says.
+class ComparisonScaffold extends StatelessWidget {
+  const ComparisonScaffold({
+    required this.totals,
+    required this.entries,
+    required this.emptyHint,
+    required this.addLabel,
+    required this.onAdd,
+    required this.bestIndex,
+    required this.result,
+    super.key,
+  });
+
+  /// Grams CO2e per option, in column order.
+  final List<double> totals;
+
+  /// Entry cards per option, already built by the feature screen.
+  final List<List<Widget>> entries;
+
+  /// Placeholder for a column with no entries yet.
+  final String emptyHint;
+
+  /// Label for each column's add button.
+  final String addLabel;
+
+  final void Function(int option) onAdd;
+
+  /// Column to crown, or null where the comparison declines to name
+  /// one. Transport passes the lowest column unconditionally; food and
+  /// energy gate it on their verdict, because crowning a column is a
+  /// verdict in its own right.
+  final int? bestIndex;
+
+  /// The delta card, gating explanation or hint shown underneath.
+  final Widget result;
+
+  /// Share of the body the result may claim before it scrolls. Fits
+  /// the tallest card (energy, Spanish) at the default text scale and
+  /// still leaves the option columns the larger half.
+  static const _resultMaxHeightFraction = 0.55;
+
+  @override
+  Widget build(BuildContext context) {
+    assert(
+      totals.length == optionCount && entries.length == optionCount,
+      'ComparisonScaffold needs one total and one entry list per option',
+    );
+    final l10n = AppLocalizations.of(context);
+    final worst = totals.reduce((a, b) => a > b ? a : b);
+    return LayoutBuilder(
+      builder: (context, constraints) => Column(
+        children: [
+          const SizedBox(height: spacingSm),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: spacingMd),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var option = 0; option < optionCount; option++) ...[
+                    if (option > 0) const SizedBox(width: spacingSm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: OptionColumn(
+                              title: option == optionA
+                                  ? l10n.calculatorOptionA
+                                  : l10n.calculatorOptionB,
+                              totalGrams: totals[option],
+                              fraction: worst <= 0 ? 0 : totals[option] / worst,
+                              isBest: option == bestIndex,
+                              isEmpty: entries[option].isEmpty,
+                              emptyHint: emptyHint,
+                              children: entries[option],
+                            ),
+                          ),
+                          const SizedBox(height: spacingSm),
+                          FilledButton.tonalIcon(
+                            onPressed: () => onAdd(option),
+                            icon: const Icon(Icons.add),
+                            label: Text(addLabel),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          // The result slot is a fixed-height child of this Column, so an
+          // energy card at textScale 2 overflowed the bottom by 452px.
+          // Capped and scrollable: the columns keep the rest.
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: constraints.maxHeight * _resultMaxHeightFraction,
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(spacingMd),
+                child: result,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// One of the two side-by-side option columns.
 ///
 /// [fraction] scales the magnitude bar against the worse column, so
@@ -113,55 +231,76 @@ class OptionColumn extends StatelessWidget {
         border: Border.all(color: theme.colorScheme.outlineVariant),
       ),
       padding: const EdgeInsets.all(spacingSm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            title,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: spacingXs),
-          Co2eAmount(
-            grams: totalGrams,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isBest ? theme.colorScheme.primary : null,
-            ),
-          ),
-          const SizedBox(height: spacingXs),
-          ClipRRect(
-            borderRadius: borderRadiusSm,
-            child: LinearProgressIndicator(
-              value: fraction.clamp(0.0, 1.0),
-              minHeight: 8,
-              backgroundColor: theme.colorScheme.surfaceContainerHighest,
-              valueColor: AlwaysStoppedAnimation(
-                isBest
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.secondaryContainer,
+      child: LayoutBuilder(
+        builder: (context, constraints) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Title, total and bar are fixed-height, so at a large text
+            // scale they outgrew a squeezed column and overflowed it.
+            // Capped at what is left for the entry list and scrollable.
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: (constraints.maxHeight - spacingSm).clamp(
+                  0.0,
+                  double.infinity,
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: spacingSm),
-          Expanded(
-            child: isEmpty
-                ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(spacingSm),
-                      child: Text(
-                        emptyHint,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: spacingXs),
+                    Co2eAmount(
+                      grams: totalGrams,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: isBest ? theme.colorScheme.primary : null,
+                      ),
+                    ),
+                    const SizedBox(height: spacingXs),
+                    ClipRRect(
+                      borderRadius: borderRadiusSm,
+                      child: LinearProgressIndicator(
+                        value: fraction.clamp(0.0, 1.0),
+                        minHeight: 8,
+                        backgroundColor:
+                            theme.colorScheme.surfaceContainerHighest,
+                        valueColor: AlwaysStoppedAnimation(
+                          isBest
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.secondaryContainer,
                         ),
                       ),
                     ),
-                  )
-                : ListView(padding: EdgeInsets.zero, children: children),
-          ),
-        ],
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: spacingSm),
+            Expanded(
+              child: isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(spacingSm),
+                        child: Text(
+                          emptyHint,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                    )
+                  : ListView(padding: EdgeInsets.zero, children: children),
+            ),
+          ],
+        ),
       ),
     );
   }

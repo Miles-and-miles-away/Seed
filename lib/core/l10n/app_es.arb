@@ -690,7 +690,8 @@
   "calculatorsSheetTitle": "Calculadoras",
   "calculatorsButtonTooltip": "Calculadoras",
   "calculatorHomeEnergy": "Energía del hogar",
-  "calculatorComingSoon": "Próximamente",
+  "calculatorBadge": "Calculadora",
+  "energyActionsEntryTitle": "Comparar el consumo del hogar",
   "transportJourneyEmpty": "Añade un tramo para crear tu trayecto y ver su huella de CO2e.",
   "transportAddLeg": "Añadir trayecto",
   "transportEditLeg": "Editar tramo",
@@ -729,9 +730,6 @@
   "transportBasisJetRf": "Incluye el mismo incremento de gran altitud (forzamiento radiativo) que los vuelos",
   "transportBasisZeroDirect": "0 emisiones directas",
   "transportBasisElectricityOnly": "Solo electricidad",
-  "transportScienceNotesHeading": "Cómo se calcula",
-  "transportScienceSourcesHeading": "Fuentes",
-  "transportScienceAccessed": "Consultado el {date}",
   "transportComparisonTitle": "Comparar trayectos",
   "transportAddToComparison": "Añadir como opción",
   "calculatorStagedOptions": "Opciones a comparar",
@@ -748,6 +746,9 @@
   "transportColumnEmptyHint": "Toca Añadir trayecto para empezar este viaje",
   "calculatorNeedBothOptions": "Crea ambas opciones para compararlas",
   "calculatorRemoveEntry": "Quitar",
+  "scienceNotesHeading": "Cómo se calcula",
+  "scienceSourcesHeading": "Fuentes",
+  "scienceAccessed": "Consultado el {date}",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
   "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
@@ -791,21 +792,24 @@
   "foodSearchHint": "Buscar alimentos...",
   "foodSearchNoResults": "Ningún alimento coincide con la búsqueda.",
   "foodItemFactorWithServing": "{perKg} kg CO2e por kg  ·  {perServing} por {serving}",
-  "@foodItemFactorWithServing": {"description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities", "placeholders": {"perKg": {"type": "String"}, "perServing": {"type": "String"}, "serving": {"type": "String"}}},
-  "foodItemFactorPerKg": "{value} kg de CO2e por kg",
-  "@foodItemFactorPerKg": {
+  "@foodItemFactorWithServing": {
+    "description": "Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities",
     "placeholders": {
-      "value": {
+      "perKg": {
+        "type": "String"
+      },
+      "perServing": {
+        "type": "String"
+      },
+      "serving": {
         "type": "String"
       }
     }
   },
-  "foodScienceNotesHeading": "Cómo se calcula",
-  "foodScienceSourcesHeading": "Fuentes",
-  "foodScienceAccessed": "Consultado el {date}",
-  "@foodScienceAccessed": {
+  "foodItemFactorPerKg": "{value} kg de CO2e por kg",
+  "@foodItemFactorPerKg": {
     "placeholders": {
-      "date": {
+      "value": {
         "type": "String"
       }
     }
@@ -883,15 +887,48 @@
     "description": "Header above recently picked items in the food picker"
   },
   "foodVerdictWhyCta": "¿Por qué no hay resultado?",
-  "@foodVerdictWhyCta": {"description": "Button opening the explanation of why no winner is named"},
+  "@foodVerdictWhyCta": {
+    "description": "Button opening the explanation of why no winner is named"
+  },
   "foodVerdictBlockedTitle": "La diferencia no basta para registrarla",
-  "@foodVerdictBlockedTitle": {"description": "Title of the dialog explaining the logging minimum"},
+  "@foodVerdictBlockedTitle": {
+    "description": "Title of the dialog explaining the logging minimum"
+  },
   "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten un promedio con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
-  "@foodVerdictTooClose": {"description": "Body: the two meals are inside the data resolution", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictTooClose": {
+    "description": "Body: the two meals are inside the data resolution",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodVerdictCrossSource": "Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra -- en torno al {percent}% -- antes de decir cuál es mejor.",
-  "@foodVerdictCrossSource": {"description": "Body: the meals come from different studies", "placeholders": {"percent": {"type": "int"}}},
+  "@foodVerdictCrossSource": {
+    "description": "Body: the meals come from different studies",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "foodVerdictTiedBasis": "Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se descuenta, estas comidas quedan a menos del {percent}% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.",
+  "foodVerdictTiedBasisFlips": "Cuál de estas comidas sale mejor parada depende de una decisión contable del estudio original y no de los alimentos. Algunos ingredientes de ambos lados comparten una misma cifra de investigación de origen, y al fijar esa cifra en un único valor el resultado se invierte. Una ganadora que cambia así es un dato sobre el estudio, así que no declaramos ninguna. Arriba tienes ambos totales.",
   "foodVerdictUncertainItem": "El problema es {item}, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta {ratio} veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al {percent}% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.",
-  "@foodVerdictUncertainItem": {"description": "Body: one ingredient has a wide mean/median spread", "placeholders": {"item": {"type": "String"}, "ratio": {"type": "String"}, "percent": {"type": "int"}}},
+  "@foodVerdictUncertainItem": {
+    "description": "Body: one ingredient has a wide mean/median spread",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "ratio": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de una diferencia del 20%, la brecha queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
@@ -960,5 +997,60 @@
     }
   },
   "foodActionsEntryTitle": "Registrar una acción de comida personalizada",
-  "foodMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### Por qué no siempre declaramos una ganadora\nCada cifra de aquí es un promedio de miles de granjas, y esas granjas no se reparten de forma uniforme alrededor de él. Una minoría de productores de impacto muy alto empuja el promedio por encima de lo que sería una granja típica, y por eso el estudio publica también un valor intermedio: la cifra que deja la mitad de la producción mundial a cada lado. En la mayoría de los alimentos ambos valores quedan cerca. En algunos no: el chocolate negro promedia 46,65 kg CO2e/kg frente a un valor intermedio de 18,7, y el pescado de piscifactoría 13,63 frente a 5,1.\n\nUsamos los promedios, porque representan el impacto mundial total y no la granja típica. La consecuencia es que dos alimentos con cifras próximas pueden intercambiar posiciones según cuál de los dos valores se mire. Por eso esta herramienta solo afirma que una comida es mejor que otra cuando la diferencia llega al 20%; por debajo de eso muestra ambos totales y te deja la comparación a ti.\n\nEse 20% está comprobado, no elegido por comodidad. En todas las parejas de alimentos de aquí para las que el estudio publica ambas cifras, una diferencia del 20% o más apunta en la misma dirección con cualquiera de las dos. Hay tres excepciones, porque su propio promedio y su valor intermedio difieren en más del doble: el chocolate negro, el pescado de piscifactoría y los frutos secos de árbol. En esos casos ninguna diferencia es fiable, así que nunca se usan para declarar una ganadora. Y cuando la comparación cruza dos estudios distintos -- algunos alimentos de aquí se miden con una segunda fuente que abarca una cadena de suministro más corta -- exigimos que una comida emita menos de la mitad que la otra, porque una diferencia menor podría ser solo el reflejo de lo que cada estudio contabilizó.\n\n### 'Ecológico' y 'local'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la 'ternera local' sigue teniendo una huella mucho mayor que los 'frijoles importados', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó."
+  "foodMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg de CO2e por 100 g de proteína, y el tomate de 0,45 kg de CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### Por qué no siempre declaramos una ganadora\nCada cifra de aquí es un promedio de miles de granjas, y esas granjas no se reparten de forma uniforme alrededor de él. Una minoría de productores de impacto muy alto empuja el promedio por encima de lo que sería una granja típica, y por eso el estudio publica también un valor intermedio: la cifra que deja la mitad de la producción mundial a cada lado. En la mayoría de los alimentos ambos valores quedan cerca. En algunos no: el chocolate negro promedia 46,65 kg CO2e/kg frente a un valor intermedio de 18,7, y el pescado de piscifactoría 13,63 frente a 5,1.\n\nUsamos los promedios, porque representan el impacto mundial total y no la granja típica. La consecuencia es que dos alimentos con cifras próximas pueden intercambiar posiciones según cuál de los dos valores se mire. Por eso esta herramienta solo afirma que una comida es mejor que otra cuando la diferencia llega al 20%; por debajo de eso muestra ambos totales y te deja la comparación a ti.\n\nEse 20% está comprobado, no elegido por comodidad. En todas las parejas de alimentos de aquí para las que el estudio publica ambas cifras, una diferencia del 20% o más apunta en la misma dirección con cualquiera de las dos. Hay tres excepciones, porque su propio promedio y su valor intermedio difieren en más del doble: el chocolate negro, el pescado de piscifactoría y los frutos secos de árbol. En esos casos ninguna diferencia es fiable, así que nunca se usan para declarar una ganadora. Y cuando la comparación cruza dos estudios distintos -- algunos alimentos de aquí se miden con una segunda fuente que abarca una cadena de suministro más corta -- exigimos que una comida emita menos de la mitad que la otra, porque una diferencia menor podría ser solo el reflejo de lo que cada estudio contabilizó.\n\n### 'Ecológico' y 'local'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la 'ternera local' sigue teniendo una huella mucho mayor que los 'frijoles importados', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.",
+  "energyGroupHotWater": "Agua caliente",
+  "energyGroupDishes": "Lavar platos",
+  "energyGroupLaundryWash": "Lavado de ropa",
+  "energyGroupLaundryDry": "Secado de ropa",
+  "energyGroupSpaceHeat": "Calefacción",
+  "energyGroupSpaceCool": "Refrigeración",
+  "energyGroupBoil": "Hervir agua",
+  "energyGroupCook": "Cocinar",
+  "energyGroupLighting": "Iluminación",
+  "energyGroupDevice": "Dispositivos",
+  "energyPickerRecents": "Usados recientemente",
+  "energyBehaviorScienceTooltip": "De dónde viene este número",
+  "energyLowConfidenceNote": "La cifra menos precisa de estos datos",
+  "energyFactorPerMinute": "{kwh} kWh por minuto",
+  "energyFactorPerHour": "{kwh} kWh por hora",
+  "energyFactorPerUse": "{kwh} kWh por uso",
+  "energyFactorPerDay": "{kwh} kWh por día",
+  "energyQuantityOneMinute": "1 minuto",
+  "energyQuantityOneHour": "1 hora",
+  "energyQuantityOneDay": "1 día",
+  "energyQuantityMinutes": "{units} minutos",
+  "energyQuantityHours": "{units} horas",
+  "energyQuantityUses": "{units} x",
+  "energyQuantityDays": "{units} días",
+  "energyScienceNoSources": "Esta cifra no lleva cita, a propósito. Las notas de arriba explican por qué.",
+  "energyCalculatorTitle": "Energía del hogar",
+  "energyAddUsage": "Añadir",
+  "energyColumnEmptyHint": "Añade algo que hagas en casa para crear esta rutina",
+  "energyNoPointsNote": "Esta calculadora es para aprender. No otorga puntos ni registra nada.",
+  "energyPresetsLabel": "Cantidades habituales",
+  "energyQuantityLabel": "Cantidad",
+  "energyQuantityInvalid": "Introduce un número mayor que cero",
+  "energyComparisonDelta": "{label} usa {amount} CO2e menos que {worse} ({percent}% menos)",
+  "energyComparisonRatio": "{worse} emite {multiple} veces el CO2e de {label}",
+  "energyComparisonSavesEquiv": "Eso es {amount} menos, {charges, plural, one{una carga de móvil} other{unas {charges} cargas de móvil}} de electricidad",
+  "energyComparisonSavesOnly": "Eso es {amount} menos",
+  "energyPhoneChargesEquiv": "Eso equivale a {charges, plural, one{una carga de móvil} other{unas {charges} cargas de móvil}} de electricidad",
+  "energyGridBasisNote": "Las cifras en gramos asumen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025)",
+  "energyGridBasisNoteRatio": "Las cifras en gramos asumen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025); el múltiplo vale en cualquier red",
+  "energyMethodologyTitle": "Metodología y fuentes",
+  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se otorgan puntos: los hábitos de energía se registran en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma secadora cuesta unos 0,6 kg de CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces por una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nConsideramos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red funcionando con solar de mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid} g de CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g de CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hiciste.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición termostatada de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos segura de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz asumen un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
+  "energyRankedTitle": "A dónde va tu energía",
+  "energyRankedIntro": "Un uso típico de cada hábito eléctrico, de mayor a menor, como múltiplo de una hora de luz LED. Cada fila indica bajo el nombre su propia base (un uso, una hora o un día). Los múltiplos valen en cualquier red; los gramos asumen la media mundial de arriba.",
+  "energyRankedGasHeading": "Aparatos de gas, sin clasificar",
+  "energyRankedGasNote": "La posición de una fila de gas dependería de tu red, así que el gas se muestra sin puesto. Por debajo de unos 241 g de CO2e por kWh gana la electricidad; por encima, el gas.",
+  "energyRankedMultiple": "{multiple}x",
+  "energyComparisonNoVerdict": "Aquí no hay un ganador",
+  "energyVerdictWhyCta": "¿Por qué no?",
+  "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
+  "energyVerdictDifferentCarrier": "Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hiciste. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.",
+  "energyVerdictTooClose": "La diferencia entre ambas es de menos del {percent}%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.",
+  "energyUnitSuffixMinute": "min",
+  "energyUnitSuffixHour": "h",
+  "energyUnitSuffixUse": "usos",
+  "energyUnitSuffixDay": "días"
 }

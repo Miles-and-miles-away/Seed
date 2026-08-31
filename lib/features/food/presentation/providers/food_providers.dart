@@ -5,29 +5,17 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/food/data/food_items_data.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
-import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 
 part 'food_providers.g.dart';
 
-// Pure data loads stay autoDispose: the food asset is small, so
-// re-parsing on a screen revisit is cheaper than pinning it for the
-// app's lifetime (mirrors the transport providers).
+// Pure data loads stay autoDispose: rootBundle caches the source
+// string and drops it under memory pressure, which a decoded cache
+// here would not. The 838 KB parse runs in an isolate, so a revisit
+// costs no jank (json_asset_loader).
 
 /// All food items from the bundled dataset.
 @riverpod
 Future<List<FoodItem>> foodItems(Ref ref) => loadFoodItems();
-
-/// Dataset metadata (scope statement, primary source) for the
-/// methodology sheet (Phase 8.10).
-@riverpod
-Future<Map<String, dynamic>> foodMetadata(Ref ref) => loadFoodMetadata();
-
-/// Items indexed by id for calculator lookups.
-@riverpod
-Future<Map<String, FoodItem>> foodItemsById(Ref ref) async {
-  final items = await ref.watch(foodItemsProvider.future);
-  return FoodCalculator.byId(items);
-}
 
 /// Ids of items picked this session, most recent first.
 ///

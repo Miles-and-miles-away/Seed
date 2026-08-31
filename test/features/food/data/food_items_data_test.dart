@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// straight from disk (`flutter test` runs with the package root
 /// as cwd) instead of through a loader.
 void main() {
-  const itemCount = 166;
+  const itemCount = 167;
   const validGroups = {
     'meat',
     'seafood',
@@ -149,10 +149,13 @@ void main() {
       // cabbage_broccoli, onions_leeks, citrus, berries) plus
       // fish_wild, which the seafood source decision replaced with
       // white_fish and tuna.
+      // `cream` added 2026-08-29 (dairy_eggs 9 -> 10, total 166 -> 167):
+      // it was the last uncovered common food, derived from milk_dairy
+      // on a total-solids allocation.
       const expected = {
         'meat': 8,
         'seafood': 11,
-        'dairy_eggs': 9,
+        'dairy_eggs': 10,
         'plant_protein': 12,
         'nuts_seeds': 2,
         'staples': 15,
@@ -185,7 +188,6 @@ void main() {
         'weight_basis',
         'entry_mode',
         'default_serving_id',
-        'comparable',
         'confidence',
       };
       const bases = {'as_purchased', 'dry', 'drained', 'edible', 'concentrate'};
@@ -234,7 +236,8 @@ void main() {
     test('beans never carries the famous peas quote', () {
       // The OWID "peas emit just 1 kilogram" sentence belongs to
       // Peas (0.98); attached to Beans & lentils (1.79) it would
-      // overstate the item by ~80% (RESEARCH_FOOD.md section 8).
+      // overstate the item by ~80% (the copy rules in
+      // PDR_FOOD_CALCULATOR.md).
       final beans = items.firstWhere((i) => i['id'] == 'beans_lentils');
       final text = json.encode(beans).toLowerCase();
       expect(text.contains('peas emit just 1 kilogram'), isFalse);

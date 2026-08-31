@@ -10,6 +10,7 @@
       "Plan/AUDIT_FACT_DATA.md",
       "Plan/RESEARCH_TRANSPORT.md",
       "Plan/RESEARCH_FOOD.md",
+      "Plan/PDR_FOOD_CALCULATOR.md",
       "Plan/RESEARCH_ENERGY.md",
       "Plan/PDR_ENERGY_CALCULATOR.md",
       "Plan/RESEARCH_FACTS.md"
@@ -61,7 +62,7 @@
       "category": "carrier_factor",
       "files": [
         "data/app/transport_modes.json (metadata.grid_factor_g_per_kwh)",
-        "data/app/energy_behaviors.json (metadata.grid_factor_g_per_kwh, pending build)",
+        "data/app/energy_behaviors.json (metadata.grid_factor_g_per_kwh)",
         "Plan/AUDIT_ACTION_DATA.md section 8",
         "data/seed/co2_actions_database.json (13 grid-derived actions; SINGLE SOURCE OF TRUTH for the action library)"
       ],
@@ -86,8 +87,8 @@
         "Scope: must stay CO2e to match the rest of the app.",
         "Ember revising prior years when it reprocesses.",
         "A regionalisation decision superseding the single constant (see Plan/PDR_GRID_REGIONALISATION.md).",
-        "The home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) prints this figure, its vintage, and a six-grid comparison table. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values.",
-        "13 actions in co2_actions_database.json are grid-derived. The seeder no longer holds action data -- it reads the JSON. After changing the factor, re-run node scripts/seed/seed_action_library.js."
+        "The draft copy for the home-energy methodology screen (PDR_ENERGY_CALCULATOR.md section 6) will print this figure, its vintage, and a six-grid comparison table once the screen is built. Refreshing the factor means refreshing that copy in EN/JA/ES, plus the regional example values.",
+        "12 actions in co2_actions_database.json are grid-derived (13 until use_natural_light was demoted 2026-08-29). The seeder no longer holds action data -- it reads the JSON. After changing the factor, re-run node scripts/seed/seed_action_library.js."
       ],
       "affects": [
         "transport_ev",
@@ -105,7 +106,7 @@
       "title": "Natural gas combustion factor",
       "category": "carrier_factor",
       "files": [
-        "data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh, pending build)"
+        "data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh)"
       ],
       "current_value": "182 g CO2e/kWh",
       "vintage": "DEFRA/DESNZ 2026 release (0.18231, Scope 1 combustion, Gross CV)",
@@ -249,7 +250,7 @@
         "OWID switching the default statistic again (it moved from medians-without-losses to means-with-losses on 2022-06-15).",
         "The archived median set remains the documented fallback; any item using it must disclose the statistic."
       ],
-      "reference": "Plan/RESEARCH_FOOD.md sections 1, 2, 4"
+      "reference": "Plan/RESEARCH_FOOD.md sections 1, 2, 4; the median-fallback disclosure rule is Plan/PDR_FOOD_CALCULATOR.md section 6"
     },
     {
       "id": "food_carboncloud_drift",
@@ -272,7 +273,7 @@
         "Standing rule: re-read the live oats input at every data pass and recompute the D3 average.",
         "Prohibition in force: rows dropped as unverifiable (assorted cheeses, chickpeas, potato products, NL tomato, red cabbage, dry onion, oats-UK) must not be resurrected without full product URLs and fresh values."
       ],
-      "reference": "Plan/RESEARCH_FOOD.md sections 1, 9"
+      "reference": "Plan/RESEARCH_FOOD.md section 1; Plan/PDR_FOOD_CALCULATOR.md section 6 (the standing rules and the live open list)"
     },
     {
       "id": "food_production_splits",
@@ -320,7 +321,7 @@
       "title": "Appliance per-cycle energy figures",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)"
+        "data/app/energy_behaviors.json"
       ],
       "current_value": "wash 0.350 / 1.300 / 1.700; dryer 4.5 vented, 2.05 heat pump; dishwasher 0.85 eco, 1.12 normal",
       "vintage": "Bosch EN50229 spec sheets; Which? July 2026",
@@ -350,7 +351,7 @@
       "title": "METI measured appliance figures (aircon, TV, heaters, rice cooker)",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)",
+        "data/app/energy_behaviors.json",
         "methodology fridge context line (~0.7 kWh/day JP, JIS-measured)"
       ],
       "current_value": "aircon cooling 0.167679 kWh/h, heating 0.241006; TV 0.079096; rice cooker 0.16 + 0.0165 keep-warm",
@@ -395,7 +396,7 @@
       "title": "Household standby power",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)",
+        "data/app/energy_behaviors.json",
         "data/seed/co2_actions_database.json (unplug_standby)"
       ],
       "current_value": "0.8 kWh/day household; 0.5 W per device",
@@ -576,28 +577,7 @@
       ]
     }
   ],
-  "pending_from_decisions": [
-    {
-      "decision": "E1 (2026-08-02): grid factor 386 -> 458 g CO2e/kWh",
-      "status": "decided, not yet applied to data files",
-      "changes": [
-        "data/app/transport_modes.json: metadata.grid_factor_g_per_kwh 386 -> 458; car_bev 73 -> 86 g/km",
-        "data/seed/co2_actions_database.json: air_dry_clothes 1700 -> 2000; cold_water_laundry 600 -> 430; unplug_standby 9 -> 5; led_vs_incandescent 19 -> 23; electric_vs_gasoline_car recompute",
-        "three action calculation_notes: '0.37 kg/kWh' -> 458 g/kWh",
-        "re-seed actionLibrary (node scripts/seed/seed_action_library.js, needs the Firebase service account)",
-        "re-derive transport sanity pins involving car_bev"
-      ],
-      "points_impact": "+7.08% uniformly for affected actions, often 0 after integer rounding. The seeder uses co2Grams^0.4 (CO2_EXPONENT = 0.4), and (co2 x r)^0.4 = co2^0.4 x r^0.4, so the ratio is independent of action size."
-    },
-    {
-      "decision": "Food FR-22: actionLibrary re-seed for the corrected food values",
-      "status": "seeder code synced, re-seed not yet run",
-      "changes": [
-        "skip_high_impact_food 9700, skip_medium_impact_food 1000, plant_milk 460, skip_fish 1200"
-      ],
-      "note": "Bundle with the E1 re-seed -- one seeding operation, not two."
-    }
-  ],
+  "pending_from_decisions": [],
   "stable_do_not_rechase": [
     {
       "what": "Poore & Nemecek 2018 (Science 360:987-992)",

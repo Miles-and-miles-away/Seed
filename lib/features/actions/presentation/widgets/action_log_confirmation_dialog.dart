@@ -298,10 +298,6 @@ class _ActionLogConfirmationDialogState
   }
 
   Widget _buildScienceContent(ThemeData theme, Color categoryColor) {
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
     final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
     return Container(
       width: double.infinity,
@@ -310,7 +306,7 @@ class _ActionLogConfirmationDialogState
         data: appendExternalLinkArrow(
           widget.action.descriptionLong(widget.languageCode),
         ),
-        config: mdConfig.copy(
+        config: markdownConfigFor(context).copy(
           configs: [
             PConfig(
               textStyle: TextStyle(
@@ -319,14 +315,7 @@ class _ActionLogConfirmationDialogState
                 color: theme.colorScheme.onSurface,
               ),
             ),
-            LinkConfig(
-              style: TextStyle(
-                color: linkColor,
-                decoration: TextDecoration.underline,
-                decorationColor: linkColor,
-              ),
-              onTap: _onLinkTap,
-            ),
+            externalLinkConfig(context, color: linkColor, onTap: _onLinkTap),
           ],
         ),
       ),

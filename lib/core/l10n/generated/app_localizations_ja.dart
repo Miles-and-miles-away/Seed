@@ -1377,7 +1377,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calculatorHomeEnergy => '家庭のエネルギー';
 
   @override
-  String get calculatorComingSoon => '近日公開';
+  String get calculatorBadge => '計算ツール';
+
+  @override
+  String get energyActionsEntryTitle => '家庭のエネルギー使用を比べる';
 
   @override
   String get transportJourneyEmpty => '区間を追加して行程を作ると、CO2e排出量が表示されます。';
@@ -1513,17 +1516,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportBasisElectricityOnly => '電力のみ';
 
   @override
-  String get transportScienceNotesHeading => '計算方法';
-
-  @override
-  String get transportScienceSourcesHeading => '出典';
-
-  @override
-  String transportScienceAccessed(String date) {
-    return '$dateに取得';
-  }
-
-  @override
   String get transportComparisonTitle => '移動手段を比較';
 
   @override
@@ -1573,6 +1565,17 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get calculatorRemoveEntry => '削除';
+
+  @override
+  String get scienceNotesHeading => '計算方法';
+
+  @override
+  String get scienceSourcesHeading => '出典';
+
+  @override
+  String scienceAccessed(String date) {
+    return '$dateに取得';
+  }
 
   @override
   String transportComparisonFull(int max) {
@@ -1721,17 +1724,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get foodScienceNotesHeading => '計算方法';
-
-  @override
-  String get foodScienceSourcesHeading => '出典';
-
-  @override
-  String foodScienceAccessed(String date) {
-    return '$dateに取得';
-  }
-
-  @override
   String get foodGroupMeat => '肉';
 
   @override
@@ -1827,6 +1819,15 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String foodVerdictTiedBasis(int percent) {
+    return 'この差は、元をたどると同じ研究値を共有する食材によって生じています。そうした食材どうしの数値の違いは、農場で測定された差ではなく、元の研究における会計上の選択によるものです。その影響を取り除くと、2つの食事の差は$percent%以内に収まります。そのため、どちらが優れているかの判定は行いません。合計値は上に表示しています。';
+  }
+
+  @override
+  String get foodVerdictTiedBasisFlips =>
+      'ここでどちらの食事が優れているかは、食材そのものではなく、元の研究における会計上の選択によって決まっています。両方の食事に含まれる一部の食材は、元をたどると同じ研究値を共有しており、その値を1つにそろえると結果が逆転します。このように入れ替わる勝敗は研究の都合を映したものなので、判定は行いません。合計値は上に表示しています。';
+
+  @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
     return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percent%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
   }
@@ -1885,4 +1886,215 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get foodMethodologyBody =>
       'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
+
+  @override
+  String get energyGroupHotWater => 'お湯';
+
+  @override
+  String get energyGroupDishes => '食器洗い';
+
+  @override
+  String get energyGroupLaundryWash => '洗濯';
+
+  @override
+  String get energyGroupLaundryDry => '乾燥';
+
+  @override
+  String get energyGroupSpaceHeat => '暖房';
+
+  @override
+  String get energyGroupSpaceCool => '冷房';
+
+  @override
+  String get energyGroupBoil => 'お湯を沸かす';
+
+  @override
+  String get energyGroupCook => '調理';
+
+  @override
+  String get energyGroupLighting => '照明';
+
+  @override
+  String get energyGroupDevice => '電化製品';
+
+  @override
+  String get energyPickerRecents => '最近使ったもの';
+
+  @override
+  String get energyBehaviorScienceTooltip => 'この数字の出典';
+
+  @override
+  String get energyLowConfidenceNote => 'このデータで最も不確実な数値';
+
+  @override
+  String energyFactorPerMinute(String kwh) {
+    return '1分あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerHour(String kwh) {
+    return '1時間あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerUse(String kwh) {
+    return '1回あたり $kwh kWh';
+  }
+
+  @override
+  String energyFactorPerDay(String kwh) {
+    return '1日あたり $kwh kWh';
+  }
+
+  @override
+  String get energyQuantityOneMinute => '1分';
+
+  @override
+  String get energyQuantityOneHour => '1時間';
+
+  @override
+  String get energyQuantityOneDay => '1日';
+
+  @override
+  String energyQuantityMinutes(String units) {
+    return '$units分';
+  }
+
+  @override
+  String energyQuantityHours(String units) {
+    return '$units時間';
+  }
+
+  @override
+  String energyQuantityUses(String units) {
+    return '$units回';
+  }
+
+  @override
+  String energyQuantityDays(String units) {
+    return '$units日';
+  }
+
+  @override
+  String get energyScienceNoSources =>
+      'この数値には意図的に出典を付けていません。理由は上の計算方法に記載しています。';
+
+  @override
+  String get energyCalculatorTitle => '家庭のエネルギー';
+
+  @override
+  String get energyAddUsage => '追加';
+
+  @override
+  String get energyColumnEmptyHint => '家でしていることを追加してください';
+
+  @override
+  String get energyNoPointsNote => 'この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。';
+
+  @override
+  String get energyPresetsLabel => 'よくある量';
+
+  @override
+  String get energyQuantityLabel => '量';
+
+  @override
+  String get energyQuantityInvalid => '0より大きい数を入力してください';
+
+  @override
+  String energyComparisonDelta(
+    String label,
+    String amount,
+    String worse,
+    int percent,
+  ) {
+    return '$label は $worse より $amount CO2e 少ない（$percent%減）';
+  }
+
+  @override
+  String energyComparisonRatio(String worse, String multiple, String label) {
+    return '$worse のCO2eは $label の約$multiple倍です';
+  }
+
+  @override
+  String energyComparisonSavesEquiv(String amount, int charges) {
+    return '$amount の削減、スマホ充電 約$charges回分の電力です';
+  }
+
+  @override
+  String energyComparisonSavesOnly(String amount) {
+    return '$amount の削減です';
+  }
+
+  @override
+  String energyPhoneChargesEquiv(int charges) {
+    return 'スマホ充電 約$charges回分の電力です';
+  }
+
+  @override
+  String energyGridBasisNote(int grid) {
+    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます';
+  }
+
+  @override
+  String energyGridBasisNoteRatio(int grid) {
+    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます。倍率はどの電力網でも変わりません';
+  }
+
+  @override
+  String get energyMethodologyTitle => '算定方法と出典';
+
+  @override
+  String energyMethodologyBody(int grid) {
+    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください -- それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2e -- 同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です -- 湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1 -- ただしこのデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g -- そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
+  }
+
+  @override
+  String get energyRankedTitle => 'エネルギーの行き先';
+
+  @override
+  String get energyRankedIntro =>
+      '各行動の標準的な1回分を、LED電球1時間分を1とした倍率で大きい順に並べています。各行の名前の下に、その基準（1回・1時間・1日）を示しています。倍率はどの電力網でも同じです。グラム表示は上記の世界平均係数に基づきます。';
+
+  @override
+  String get energyRankedGasHeading => 'ガス機器（順位なし）';
+
+  @override
+  String get energyRankedGasNote =>
+      'ガスの順位は電力網の係数次第で変わるため、順位を付けていません。約241 g CO2e/kWhを下回る電力網では電気が、上回る場合はガスが有利です。';
+
+  @override
+  String energyRankedMultiple(String multiple) {
+    return '$multiple倍';
+  }
+
+  @override
+  String get energyComparisonNoVerdict => '優劣はつけられません';
+
+  @override
+  String get energyVerdictWhyCta => 'なぜ？';
+
+  @override
+  String get energyVerdictDifferentGroup =>
+      'この2つは種類が違うため、どちらが良いとは言えません。入浴とシャワー、乾燥機と自然乾燥のように、同じ種類のものを比べてください。';
+
+  @override
+  String get energyVerdictDifferentCarrier =>
+      '一方はガス、もう一方は電気を使っています。どちらが少ないかはあなたの地域の電源構成によって変わります。約241 g CO2e/kWhを下回れば電気、上回ればガスが有利です。そのため両方の数値を示し、優劣は判定しません。';
+
+  @override
+  String energyVerdictTooClose(int percent) {
+    return 'この2つの差は$percent%以内で、元の測定値の精度の範囲に収まっています。どちらが良いと判定するのは、出典にない精度を読み取ることになります。';
+  }
+
+  @override
+  String get energyUnitSuffixMinute => '分';
+
+  @override
+  String get energyUnitSuffixHour => '時間';
+
+  @override
+  String get energyUnitSuffixUse => '回';
+
+  @override
+  String get energyUnitSuffixDay => '日';
 }

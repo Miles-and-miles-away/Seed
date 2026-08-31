@@ -107,7 +107,8 @@ void main() {
       tester,
     ) async {
       // Same item both sides, 200 g vs 220 g: a real 9.1% delta that
-      // the gate must refuse to call (RESEARCH_FOOD.md section 8
+      // the gate must refuse to call (the comparative-copy rule,
+      // PDR_FOOD_CALCULATOR.md
       // rule 4). Before the gate this shipped a verdict and a reward.
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();

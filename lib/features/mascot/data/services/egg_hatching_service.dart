@@ -67,11 +67,32 @@ class EggHatchingService {
     }
   }
 
+  /// Whether the user has earned an egg for a species they don't own yet.
+  ///
+  /// A mascot reaching [AppConstants.speciesUnlockStage] unlocks the next
+  /// species; once every offered species is owned there is nothing left
+  /// to hatch.
+  bool hasUnlockedNextSpecies(
+    List<MascotModel> ownedMascots,
+    List<MascotSpeciesModel> allSpecies,
+  ) {
+    final ownedIds = ownedMascots.map((m) => m.speciesId).toSet();
+    if (selectableSpecies(allSpecies).every((s) => ownedIds.contains(s.id))) {
+      return false;
+    }
+    return ownedMascots.any((m) {
+      final species = getSpeciesById(m.speciesId, allSpecies);
+      return species != null &&
+          species.getStageIndexForLevel(m.mascotLevel) >=
+              AppConstants.speciesUnlockStage;
+    });
+  }
+
   /// Selects a random species for the hatching egg.
   ///
   /// Only currently-offered species (see [selectableSpecies]) can hatch.
-  /// Prefers species the user hasn't fully evolved yet.
-  /// If all are fully evolved, picks any random species.
+  /// Prefers species the user owns none of, then those not yet fully
+  /// evolved, then any.
   MascotSpeciesModel selectHatchingSpecies(
     List<MascotModel> ownedMascots,
     List<MascotSpeciesModel> allSpecies,
@@ -82,6 +103,13 @@ class EggHatchingService {
     // if data ever leaves us with none (never hatch nothing).
     final offered = selectableSpecies(allSpecies);
     final pool = offered.isNotEmpty ? offered : allSpecies;
+
+    // A species the user has none of is the one the egg is for.
+    final ownedSpeciesIds = ownedMascots.map((m) => m.speciesId).toSet();
+    final unowned = pool.where((s) => !ownedSpeciesIds.contains(s.id)).toList();
+    if (unowned.isNotEmpty) {
+      return unowned[rng.nextInt(unowned.length)];
+    }
 
     // Species IDs that have been fully evolved
     final fullyEvolvedSpeciesIds = ownedMascots

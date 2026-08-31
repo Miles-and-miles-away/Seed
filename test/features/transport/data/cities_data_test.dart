@@ -1,5 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/transport/transport.dart';
+
+String? _jaName(List<City> cities, String name, String cc) =>
+    cities.firstWhere((c) => c.name == name && c.cc == cc).nameJa;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +42,73 @@ void main() {
       expect(jp.length, greaterThanOrEqualTo(15));
       expect(jp.map((c) => c.name), contains('Tokyo'));
       expect(jp.map((c) => c.name), contains('Fukuoka'));
+    });
+
+    test(
+      'every Latin-script city name is typable on an ASCII keyboard',
+      () async {
+        // 135 names carry diacritics; an unfolded one is unreachable by
+        // ordinary typing in every locale, English included. The picker
+        // searches name_es as well, and it carries marks the English
+        // spelling does not (Chisinau ships as "Chișinău").
+        //
+        // name_ja is exempt by script, not by oversight: folding cannot
+        // turn 東京都 into ASCII, and a JA query is typed on a JA
+        // keyboard. Its own pins are the emptiness and fallback checks
+        // below.
+        final cities = await loadCities();
+        for (final city in cities) {
+          for (final name in [city.name, city.nameEs].nonNulls) {
+            expect(
+              foldForSearch(name),
+              matches(RegExp(r'^[ -~]+$')),
+              reason: name,
+            );
+          }
+        }
+      },
+    );
+
+    test('sourced localized names cover most of the list', () async {
+      final cities = await loadCities();
+      final ja = cities.where((c) => c.nameJa != null).toList();
+      final es = cities.where((c) => c.nameEs != null).toList();
+      expect(ja.length, greaterThan(700));
+      expect(es.length, greaterThan(250));
+      for (final city in cities) {
+        expect(city.nameJa, isNot(''), reason: city.name);
+        expect(city.nameEs, isNot(''), reason: city.name);
+        expect(city.localizedName('en'), city.name, reason: city.name);
+      }
+      // Partial coverage is the expected outcome: unlocalized cities
+      // fall back to the English name rather than a transliteration.
+      final plain = cities.firstWhere((c) => c.nameEs == null);
+      expect(plain.localizedName('es'), plain.name);
+    });
+
+    test('island-suffixed JA names are a reviewed keep', () async {
+      // Wikidata models these four places as islands and 島 is the
+      // ordinary Japanese rendering for them, so the entity is right
+      // and the suffix stays rather than being read as a bad match.
+      final cities = await loadCities();
+      expect(_jaName(cities, 'Taipa', 'MO'), 'タイパ島');
+      expect(_jaName(cities, 'Saipan', 'MP'), 'サイパン島');
+      expect(_jaName(cities, 'Providenciales', 'TC'), 'プロビデンシアレス島');
+      expect(_jaName(cities, 'West Island', 'CC'), 'ウェスト島');
+    });
+
+    test('alternate-label matches never reach the JA names', () async {
+      // Matching Wikidata skos:altLabel instead of the primary label
+      // resolves both of these to a nearer, different place that the
+      // coordinate gate cannot catch, so the enrichment matches the
+      // primary label only. Reinstating altLabel breaks these pins.
+      final cities = await loadCities();
+      // Cape Bojador, a headland 1.5 km offshore, answers to
+      // "Boujdour" and would ship カボ・ボハドール over the city.
+      expect(_jaName(cities, 'Boujdour', 'EH'), 'ブジュール');
+      // Sekondi-Takoradi, the twin city 6 km away, answers to
+      // "Sekondi"; neither source localizes Sekondi itself.
+      expect(_jaName(cities, 'Sekondi', 'GH'), isNull);
     });
 
     test('cities are sorted by population descending', () async {

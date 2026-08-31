@@ -51,7 +51,7 @@ Future<Set<String>> loadWaterBlockedPairs() async {
 
 Future<Map<String, dynamic>>? _rootFuture;
 
-// The asset is static, so decode the 87 KB JSON once and share it
+// The asset is static, so decode the 136 KB JSON once and share it
 // across loadCities/loadCityLinks and repeated screen opens.
 Future<Map<String, dynamic>> _loadRoot() => _rootFuture ??= rootBundle
     .loadString(_ASSET_PATH)

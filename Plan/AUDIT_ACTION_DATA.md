@@ -72,9 +72,8 @@ The comment should contain:
 ### Use a standard grid emission factor
 
 All energy calculations use **458 g CO2e/kWh** as the
-global average baseline (Ember, *Global Electricity Review
-2026*, 2025 world average, CO2e). Document any deviation.
-Full sourcing and the retired 386 figure: section 8.
+global average baseline. Document any deviation. The bar
+and where its sourcing lives: section 8.
 
 ### Handle variable-scope actions with a defined unit
 
@@ -114,6 +113,19 @@ The `impact` score should reflect this broader value.
 > and ended up sharing only 9 of 112 ids. Records researched but
 > not shipped live under `research_only_records` and are not
 > seeded.
+
+> **Compliance state (2026-08-29):** the dataset does not yet meet
+> the rule above. **58 of the 92 shipping actions carry both an
+> empty `sources[]` and a null `confidence`**, 37 of them with a
+> nonzero `co2_grams` -- a stated saving with no recorded
+> provenance. The largest are `fix_leak` 100000 and
+> `recycle_textiles` 40000. Energy is clear: all 11
+> `category: "energy"` actions were backfilled on 2026-08-29 from
+> primaries already live-verified in
+> [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3.
+> Backfilling the rest needs each primary re-fetched and quoted
+> live per section 2, so it is its own pass per category. Update
+> this count when that happens.
 
 ```javascript
 {
@@ -446,16 +458,20 @@ Always state the projection window in the comment.
 These are the tier-1 sources used for CO2 estimation.
 New actions should cite from this list where possible.
 
-- **DEFRA 2024** - UK Government Greenhouse Gas
-  Conversion Factors (transport, energy, waste)
+- **DEFRA/DESNZ GHG Conversion Factors** - UK Government
+  (transport, energy, waste). Two releases are live: transport
+  ships the **2025** factors with the 2026 deltas flagged for the
+  next pass, energy ships the **2026** natural-gas row. Record the
+  release vintage on every figure -- aggregators mix them.
 - **Poore & Nemecek 2018** - Science meta-analysis of
   38,700 farms (food lifecycle emissions)
 - **US EPA** - Greenhouse Gas Equivalencies Calculator,
   WARM Model (recycling, waste)
 - **Our World in Data** - Compiled visualizations of
   peer-reviewed data (transport, food, energy)
-- **IEA** - International Energy Agency (energy, grid
-  factors)
+- **IEA** - International Energy Agency (energy). Its
+  headline electricity figure is CO2-only, so it is not the
+  grid factor -- see the bar below
 - **Carbon Trust** - Product lifecycle assessments
   (reusables, packaging)
 - **Aluminum Association LCA 2021** - Recycling savings
@@ -463,27 +479,21 @@ New actions should cite from this list where possible.
 
 ### Grid Factor
 
-Global average baseline: **458 g CO2e/kWh**
-(Ember, *Global Electricity Review 2026*, 2025 world
-average, CO2e). Actions using a different factor must
-document the deviation.
+**The bar: every electricity-based action uses
+458 g CO2e/kWh**, on a CO2e basis, and an action using
+any other factor must document the deviation in its
+`calculation_notes`. Never substitute a CO2-only
+figure, and never restore the retired 386.
 
-Note the unit is **CO2e**, not CO2, matching the rest
-of the app (food is CO2e; transport is CO2e including
-the 1.7x aviation RF uplift). IEA's *Electricity 2026*
-publishes 435 g CO2/kWh for the same year on a
-CO2-only basis -- the 5.3% gap is scope. Do not
-average the two.
-
-Superseded 2026-08-02 (decision E1): the previous
-baseline was 386 g CO2/kWh, documented here as the
-"midpoint of US 370g and UK 210g". That midpoint is
-290, so the stated derivation never reproduced the
-shipped number, and 386 was ~16% below every current
-tier-1 global figure. Rationale and blast radius:
+Why that number, why CO2e rather than CO2, and why 386
+was retired are decision E1 in
 [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
-section 2; annual refresh tracked in
-[ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
+section 2 -- not repeated here. The value itself lives
+in the `metadata` of `data/app/energy_behaviors.json`
+and `data/app/transport_modes.json`, pinned equal by a
+cross-dataset test. Refresh cadence:
+[ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json)
+(`grid_factor`).
 
 ---
 

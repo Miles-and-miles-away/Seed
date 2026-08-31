@@ -63,6 +63,7 @@ import json
 import math
 import sys
 import time
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -72,13 +73,14 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import connected_components, dijkstra
 from shapely.geometry import shape
 
+from geo import EARTH_RADIUS_KM, haversine_km
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CITIES_PATH = REPO_ROOT / "data" / "app" / "cities.json"
 NE_DIR = REPO_ROOT / "data" / "reference" / "natural_earth"
 LAND_SHP = NE_DIR / "ne_50m_land.shp"
 RASTER_CACHE = NE_DIR / "land_raster_0p1.npz"
 
-EARTH_RADIUS_KM = 6371.0088
 # Mirrors groundModeMaxKm in the Dart journey_distance service.
 GROUND_MODE_MAX_KM = 2000.0
 SAMPLE_STEP_KM = 2.0
@@ -151,6 +153,13 @@ FIXED_CROSSINGS = [
 # snapped cells exceeds the edge weight by at least this margin.
 CROSSING_CHECK_SLACK_KM = 20.0
 CROSSING_CHECK_LIMIT_KM = 100.0
+
+# Border verdicts carry expiry risk: a closed border reopens and a
+# stale verdict silently blocks honest corridors. Re-verify live,
+# then move this date. Watchlist in RESEARCH_TRANSPORT.md A.5.
+BORDER_VERDICTS_VERIFIED = date(2026, 7, 21)
+BORDER_VERDICT_MAX_AGE_DAYS = 180
+
 
 # Country pairs whose shared border is closed to travel; every
 # candidate pair between the two countries is blocked regardless
@@ -435,17 +444,6 @@ def load_land():
     land = shapely.union_all(polys)
     shapely.prepare(land)
     return land
-
-
-def haversine_km(lat1, lon1, lat2, lon2):
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dp = p2 - p1
-    dl = math.radians(lon2 - lon1)
-    a = (
-        math.sin(dp / 2) ** 2
-        + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    )
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
 
 
 def unit_vector(lat, lon):
@@ -737,8 +735,24 @@ def resolve_manual(cities, entries, label, allowed_masses):
     return resolved
 
 
+def check_border_verdicts():
+    """Abort when the border verdicts are too old to gate a build."""
+    age = (date.today() - BORDER_VERDICTS_VERIFIED).days
+    if age > BORDER_VERDICT_MAX_AGE_DAYS:
+        sys.exit(
+            f"BORDER_VERDICTS_VERIFIED is {age} days old (max "
+            f"{BORDER_VERDICT_MAX_AGE_DAYS}). CLOSED_BORDERS and "
+            "BORDER_WALLS gate this build, so re-verify them live "
+            "(watchlist: RESEARCH_TRANSPORT.md Appendix A.5), then "
+            "move the date."
+        )
+    print(f"border verdicts: {age} days old, within "
+          f"{BORDER_VERDICT_MAX_AGE_DAYS}")
+
+
 def main():
     start = time.time()
+    check_border_verdicts()
     with open(CITIES_PATH, encoding="utf-8") as f:
         payload = json.load(f)
     cities = payload["cities"]

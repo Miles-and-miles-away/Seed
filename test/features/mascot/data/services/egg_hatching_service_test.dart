@@ -245,6 +245,88 @@ void main() {
         // Both species should be possible
         expect(results.length, greaterThanOrEqualTo(1));
       });
+
+      test('prefers a species the user owns none of', () {
+        final owned = [const MascotModel(id: 'm1', speciesId: 'a')];
+
+        for (var i = 0; i < 20; i++) {
+          expect(
+            service.selectHatchingSpecies(owned, [speciesA, speciesB]).id,
+            'b',
+          );
+        }
+      });
+    });
+
+    group('hasUnlockedNextSpecies', () {
+      // Stage 3 starts at level 25, matching the bundled species data.
+      MascotSpeciesModel staged(String id) => MascotSpeciesModel(
+        id: id,
+        nameEn: id,
+        nameJa: id,
+        descriptionEn: '',
+        descriptionJa: '',
+        evolutionStages: const [
+          EvolutionStageModel(level: 1, assetPath: '', nameEn: '1', nameJa: ''),
+          EvolutionStageModel(
+            level: 10,
+            assetPath: '',
+            nameEn: '2',
+            nameJa: '',
+          ),
+          EvolutionStageModel(
+            level: 25,
+            assetPath: '',
+            nameEn: '3',
+            nameJa: '',
+          ),
+          EvolutionStageModel(
+            level: 50,
+            assetPath: '',
+            nameEn: '4',
+            nameJa: '',
+          ),
+        ],
+      );
+
+      final all = [staged('a'), staged('b')];
+
+      test('locked below stage 3', () {
+        final owned = [
+          const MascotModel(id: 'm1', speciesId: 'a', mascotLevel: 24),
+        ];
+
+        expect(service.hasUnlockedNextSpecies(owned, all), isFalse);
+      });
+
+      test('unlocked at stage 3', () {
+        final owned = [
+          const MascotModel(id: 'm1', speciesId: 'a', mascotLevel: 25),
+        ];
+
+        expect(service.hasUnlockedNextSpecies(owned, all), isTrue);
+      });
+
+      test('stays unlocked past stage 3', () {
+        final owned = [
+          const MascotModel(id: 'm1', speciesId: 'a', mascotLevel: 50),
+        ];
+
+        expect(service.hasUnlockedNextSpecies(owned, all), isTrue);
+      });
+
+      test('locked once every offered species is owned', () {
+        final owned = [
+          const MascotModel(id: 'm1', speciesId: 'a', mascotLevel: 50),
+          const MascotModel(id: 'm2', speciesId: 'b'),
+        ];
+
+        expect(service.hasUnlockedNextSpecies(owned, all), isFalse);
+      });
+
+      test('locked with no mascots', () {
+        expect(service.hasUnlockedNextSpecies(const [], all), isFalse);
+      });
     });
   });
 }

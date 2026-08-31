@@ -38,7 +38,6 @@ abstract class FoodItem with _$FoodItem {
     @Default('grams') String entryMode,
     @Default('') String defaultServingId,
     @Default(1) int sourceTier,
-    @Default(true) bool comparable,
     String? tieGroup,
 
     /// How far this item's own published mean and median diverge, as a

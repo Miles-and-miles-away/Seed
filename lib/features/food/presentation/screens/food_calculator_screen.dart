@@ -104,7 +104,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
               items: items,
               recentIds: ref.read(recentFoodItemIdsProvider),
               onSelected: (item) => Navigator.pop(sheetContext, item),
-              onInfo: (item) => FoodScienceSheet.show(
+              onInfo: (item) => showFoodScienceSheet(
                 sheetContext,
                 item: item,
                 languageCode: locale,
@@ -155,77 +155,37 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       for (final ingredients in options)
         FoodCalculator.mealCo2eGrams(itemsById, ingredients),
     ];
-    final worst = totals.reduce((a, b) => a > b ? a : b);
     final summary = options.every((i) => i.isNotEmpty)
         ? compareTotals(totals)
         : null;
     // Marking a column "best" is a verdict in its own right, so it
     // answers to the same gate as the headline copy.
-    final verdict = summary == null
+    final check = summary == null
         ? null
         : FoodCalculator.checkVerdict(summary, itemsById, options);
-    final showVerdict = verdict?.block == VerdictBlock.none;
+    final showVerdict = check?.block == VerdictBlock.none;
 
-    return Column(
-      children: [
-        const SizedBox(height: spacingSm),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingMd),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var option = 0; option < optionCount; option++) ...[
-                  if (option > 0) const SizedBox(width: spacingSm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: OptionColumn(
-                            title: option == optionA
-                                ? l10n.calculatorOptionA
-                                : l10n.calculatorOptionB,
-                            totalGrams: totals[option],
-                            fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest:
-                                summary != null &&
-                                showVerdict &&
-                                option == summary.bestIndex,
-                            isEmpty: options[option].isEmpty,
-                            emptyHint: l10n.foodColumnEmptyHint,
-                            children: [
-                              for (var i = 0; i < options[option].length; i++)
-                                _ingredientCard(
-                                  l10n,
-                                  locale,
-                                  itemsById,
-                                  option,
-                                  i,
-                                  options[option][i],
-                                ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: spacingSm),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _browseAll(items, option),
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.foodAddIngredient),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(spacingMd),
-          child: _buildResult(l10n, locale, itemsById, options, totals),
-        ),
+    return ComparisonScaffold(
+      totals: totals,
+      entries: [
+        for (var option = 0; option < optionCount; option++)
+          [
+            for (var i = 0; i < options[option].length; i++)
+              _ingredientCard(
+                l10n,
+                locale,
+                itemsById,
+                option,
+                i,
+                options[option][i],
+              ),
+          ],
       ],
+      emptyHint: l10n.foodColumnEmptyHint,
+      addLabel: l10n.foodAddIngredient,
+      onAdd: (option) => _browseAll(items, option),
+      bestIndex: showVerdict ? summary?.bestIndex : null,
+      result: _buildResult(l10n, locale, itemsById, options, summary, check),
     );
   }
 
@@ -258,13 +218,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String locale,
     Map<String, FoodItem> itemsById,
     List<List<MealIngredient>> options,
-    List<double> totals,
+    ComparisonSummary? summary,
+    VerdictCheck? check,
   ) {
     final theme = Theme.of(context);
-    final summary = options.every((i) => i.isNotEmpty)
-        ? compareTotals(totals)
-        : null;
-    if (summary == null || summary.deltaGrams <= 0) {
+    if (summary == null || check == null || summary.deltaGrams <= 0) {
       return Text(
         l10n.calculatorNeedBothOptions,
         textAlign: TextAlign.center,
@@ -293,7 +251,6 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     // bank -- but the user is owed the reason, not just a refusal, so
     // the explanation is one tap away rather than buried in the
     // methodology page.
-    final check = FoodCalculator.checkVerdict(summary, itemsById, options);
     if (check.block != VerdictBlock.none) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -354,9 +311,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
 
   /// Explains why the comparison declined to name a winner.
   ///
-  /// Three different reasons, and they are not interchangeable: two
-  /// close meals, two incompatible sources, or one ingredient whose own
-  /// evidence is too wide to rank on.
+  /// Five different reasons, and they are not interchangeable: two
+  /// close meals, two incompatible sources, one ingredient whose own
+  /// evidence is too wide to rank on, a gap that rests on items sharing
+  /// a derivation, or a winner that swaps when that derivation is held
+  /// to one value.
   void _explainNoVerdict(
     AppLocalizations l10n,
     String locale,
@@ -365,6 +324,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     final percent = check.requiredPercent.round();
     final body = switch (check.block) {
       VerdictBlock.crossSource => l10n.foodVerdictCrossSource(percent),
+      VerdictBlock.tiedBasis => l10n.foodVerdictTiedBasis(percent),
+      VerdictBlock.tiedBasisFlips => l10n.foodVerdictTiedBasisFlips,
       VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
         check.item?.name(locale) ?? '',
         check.item?.statisticRatio?.toStringAsFixed(1) ?? '',

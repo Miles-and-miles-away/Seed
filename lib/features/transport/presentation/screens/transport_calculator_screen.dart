@@ -105,7 +105,7 @@ class _TransportCalculatorScreenState
           child: TransportModePicker(
             modes: modes,
             onSelected: (mode, _) => Navigator.pop(sheetContext, mode),
-            onInfo: (mode) => TransportScienceSheet.show(
+            onInfo: (mode) => showTransportScienceSheet(
               sheetContext,
               mode: mode,
               languageCode: locale,
@@ -154,69 +154,26 @@ class _TransportCalculatorScreenState
       for (final legs in options)
         TransportCalculator.journeyCo2eGrams(modesById, legs),
     ];
-    final worst = totals.reduce((a, b) => a > b ? a : b);
+    // Transport names the lowest column outright: it has no verdict
+    // gate, because a shorter drive is not a statistical tie.
     final summary = options.every((legs) => legs.isNotEmpty)
         ? compareTotals(totals)
         : null;
 
-    return Column(
-      children: [
-        const SizedBox(height: spacingSm),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingMd),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var option = 0; option < optionCount; option++) ...[
-                  if (option > 0) const SizedBox(width: spacingSm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: OptionColumn(
-                            title: option == optionA
-                                ? l10n.calculatorOptionA
-                                : l10n.calculatorOptionB,
-                            totalGrams: totals[option],
-                            fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest:
-                                summary != null && option == summary.bestIndex,
-                            isEmpty: options[option].isEmpty,
-                            emptyHint: l10n.transportColumnEmptyHint,
-                            children: [
-                              for (var i = 0; i < options[option].length; i++)
-                                _legCard(
-                                  l10n,
-                                  locale,
-                                  modesById,
-                                  option,
-                                  i,
-                                  options[option][i],
-                                ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: spacingSm),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _browseAll(modes, option),
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.transportAddLeg),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(spacingMd),
-          child: _buildResult(l10n, locale, modesById, options, totals),
-        ),
+    return ComparisonScaffold(
+      totals: totals,
+      entries: [
+        for (var option = 0; option < optionCount; option++)
+          [
+            for (var i = 0; i < options[option].length; i++)
+              _legCard(l10n, locale, modesById, option, i, options[option][i]),
+          ],
       ],
+      emptyHint: l10n.transportColumnEmptyHint,
+      addLabel: l10n.transportAddLeg,
+      onAdd: (option) => _browseAll(modes, option),
+      bestIndex: summary?.bestIndex,
+      result: _buildResult(l10n, locale, modesById, options, summary),
     );
   }
 
@@ -252,12 +209,9 @@ class _TransportCalculatorScreenState
     String locale,
     Map<String, TransportMode> modesById,
     List<List<JourneyLeg>> options,
-    List<double> totals,
+    ComparisonSummary? summary,
   ) {
     final theme = Theme.of(context);
-    final summary = options.every((legs) => legs.isNotEmpty)
-        ? compareTotals(totals)
-        : null;
     if (summary == null || summary.deltaGrams <= 0) {
       return Text(
         l10n.calculatorNeedBothOptions,

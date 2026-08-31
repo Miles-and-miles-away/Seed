@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
-
+import 'package:seed_app/core/utils/json_asset_loader.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -13,20 +10,11 @@ const _ASSET_PATH = 'data/app/transport_modes.json';
 /// The asset also carries a `metadata` block (scope statement,
 /// grid factor); load it via [loadTransportMetadata] when the
 /// methodology sheet needs it.
-Future<List<TransportMode>> loadTransportModes() async {
-  final root = await _loadRoot();
-  return (root['modes'] as List<dynamic>)
-      .map((e) => TransportMode.fromJson(e as Map<String, dynamic>))
-      .toList();
-}
+Future<List<TransportMode>> loadTransportModes() =>
+    loadJsonListUnder(_ASSET_PATH, 'modes', TransportMode.fromJson);
 
 /// Loads the dataset metadata block (version, scope, sources).
 Future<Map<String, dynamic>> loadTransportMetadata() async {
-  final root = await _loadRoot();
+  final root = await loadJsonRoot(_ASSET_PATH);
   return root['metadata'] as Map<String, dynamic>;
-}
-
-Future<Map<String, dynamic>> _loadRoot() async {
-  final jsonString = await rootBundle.loadString(_ASSET_PATH);
-  return json.decode(jsonString) as Map<String, dynamic>;
 }

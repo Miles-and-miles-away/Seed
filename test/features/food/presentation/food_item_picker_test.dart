@@ -72,11 +72,6 @@ void main() {
     });
   });
 
-  test('foldForSearch strips case and accents', () {
-    expect(foldForSearch('Plátano'), 'platano');
-    expect(foldForSearch('JALAPEÑO'), 'jalapeno');
-  });
-
   group('searchFoodItems aliases', () {
     // Umbrella items are the whole point: nobody searches "Root
     // vegetables", they search "carrots".

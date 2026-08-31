@@ -44,10 +44,6 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final theme = Theme.of(context);
     final category = ActionCategory.fromString(action.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
     final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
 
     return DraggableScrollableSheet(
@@ -90,7 +86,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   action.descriptionLong(languageCode),
                 ),
                 padding: const EdgeInsets.all(spacingXxl),
-                config: mdConfig.copy(
+                config: markdownConfigFor(context).copy(
                   configs: [
                     PConfig(
                       textStyle: TextStyle(
@@ -100,14 +96,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                         color: theme.colorScheme.onSurface,
                       ),
                     ),
-                    LinkConfig(
-                      style: TextStyle(
-                        color: linkColor,
-                        decoration: TextDecoration.underline,
-                        decorationColor: linkColor,
-                      ),
-                      onTap: (url) => openExternalUrl(context, url),
-                    ),
+                    externalLinkConfig(context, color: linkColor),
                   ],
                 ),
               ),

@@ -14,6 +14,7 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
+import '../features/energy/energy.dart';
 import '../features/food/food.dart';
 import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
@@ -61,6 +62,7 @@ class AppRoutes {
   String get actionLog => '/log-action';
   String get transportCalculator => '/transport-calculator';
   String get foodCalculator => '/food-calculator';
+  String get energyCalculator => '/energy-calculator';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -294,6 +296,13 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: appRoutes.foodCalculator,
         builder: (context, state) => const FoodCalculatorScreen(),
+      ),
+
+      // Home energy calculator: teaching tool pushed full-screen from
+      // contextual entry points (Phase 8, Part 3). Banks nothing.
+      GoRoute(
+        path: appRoutes.energyCalculator,
+        builder: (context, state) => const EnergyCalculatorScreen(),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so

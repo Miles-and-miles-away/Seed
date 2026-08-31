@@ -115,7 +115,8 @@ void main() {
     ) async {
       // The shipped behaviour was an autofocused empty grams field, so
       // "250" (millilitres of drink) computed a 7.13 kg cup -- roughly
-      // 25x the real one (RESEARCH_FOOD.md section 8, rule 1).
+      // 25x the real one (the coffee per-cup rule,
+      // PDR_FOOD_CALCULATOR.md).
       await tester.pumpWidget(buildCoffee());
       await tester.pumpAndSettle();
 

@@ -51,32 +51,36 @@
     "descriptionEn": "A tiny seed with big dreams! Watch it grow as you nurture the planet.",
     "descriptionJa": "大きな夢を持つ小さな種！地球を大切にすると一緒に成長します。",
     "descriptionEs": "¡Una pequeña semilla con grandes sueños! Mírala crecer mientras cuidas el planeta.",
-    "availability": "coming_soon",
+    "availability": "free",
     "evolutionStages": [
       {
         "level": 1,
-        "assetPath": "assets/images/mascot/seed_stage1.svg",
+        "assetPath": "assets/animations/sprout_mascot.riv",
+        "artboardName": "Sprout_stage1",
         "nameEn": "Seed",
         "nameJa": "たね",
         "nameEs": "Semilla"
       },
       {
         "level": 10,
-        "assetPath": "assets/images/mascot/seed_stage2.svg",
+        "assetPath": "assets/animations/sprout_mascot.riv",
+        "artboardName": "Sprout_stage2",
         "nameEn": "Sprout",
         "nameJa": "めばえ",
         "nameEs": "Brote"
       },
       {
         "level": 25,
-        "assetPath": "assets/images/mascot/seed_stage3.svg",
+        "assetPath": "assets/animations/sprout_mascot.riv",
+        "artboardName": "Sprout_stage3",
         "nameEn": "Sapling",
         "nameJa": "なえぎ",
         "nameEs": "Plantón"
       },
       {
         "level": 50,
-        "assetPath": "assets/images/mascot/seed_stage4.svg",
+        "assetPath": "assets/animations/sprout_mascot.riv",
+        "artboardName": "Sprout_stage4",
         "nameEn": "Tree",
         "nameJa": "たいぼく",
         "nameEs": "Árbol"

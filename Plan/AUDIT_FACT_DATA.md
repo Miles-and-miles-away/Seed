@@ -11,7 +11,7 @@ and targets remain accurate, well-sourced, and consistent.
 
 | File | Purpose | Records |
 |------|---------|---------|
-| `eco_facts.json` | Daily eco-facts shown to users (one per day of year) | 365 |
+| `eco_facts.json` | Daily eco-facts shown to users (one per day of year) | 366 |
 | `sdg_targets.json` | Official UN SDG targets for all 17 goals | 169 |
 
 ---
@@ -25,10 +25,17 @@ and targets remain accurate, well-sourced, and consistent.
   "dayOfYear": 1,
   "category": "comparison",
   "factEn": "English fact text",
+  "factJa": "Japanese fact text",
+  "factEs": "Spanish fact text",
   "sourceEn": "Source name / organization",
+  "sourceJa": "Source name / organization",
+  "sourceEs": "Source name / organization",
   "sourceUrl": "https://...",
   "relatedSdgs": [2, 12, 13],
-  "unWorldDay": "Veganuary"
+  "unWorldDay": "Veganuary",
+  "nameEn": "Short title",
+  "nameJa": "Short title",
+  "nameEs": "Short title"
 }
 ```
 
@@ -36,13 +43,16 @@ and targets remain accurate, well-sourced, and consistent.
 
 | Field | Type | Required | Constraints |
 |-------|------|----------|-------------|
-| `dayOfYear` | int | yes | 1-365, unique, no gaps |
+| `dayOfYear` | int | yes | 1-366, unique, no gaps (leap-safe) |
 | `category` | string | yes | One of 5 categories (see below) |
 | `factEn` | string | yes | 1-2 sentences, clear and concise |
+| `factJa` / `factEs` | string | yes | Translations of `factEn` |
 | `sourceEn` | string | yes | Organization or study name |
+| `sourceJa` / `sourceEs` | string | yes | Same name, never translated |
 | `sourceUrl` | string | yes | Valid URL to the source |
 | `relatedSdgs` | int[] | yes | 1-4 SDG numbers (1-17) |
 | `unWorldDay` | string/null | yes | UN observance name or null |
+| `nameEn` / `nameJa` / `nameEs` | string | yes | Short display title |
 
 ### Categories (5)
 
@@ -202,10 +212,11 @@ Total: 169 targets across 17 goals.
 
 ### Structural checks
 
-- [ ] Exactly 365 entries
-- [ ] `dayOfYear` values are 1-365 with no duplicates
+- [ ] Exactly 366 entries (`ECO_FACT_COUNT`)
+- [ ] `dayOfYear` values are 1-366 with no duplicates
       or gaps
-- [ ] Every entry has all 7 required fields
+- [ ] Every entry has all 14 required fields (the schema block
+      in section 2; `unWorldDay` is required but nullable)
 - [ ] `category` is one of the 5 valid values
 - [ ] `relatedSdgs` contains only integers 1-17
 - [ ] `relatedSdgs` has 1-4 entries per fact
@@ -245,7 +256,7 @@ Total: 169 targets across 17 goals.
 - [ ] Each fact maps to at least one relevant SDG
 - [ ] SDG assignments are accurate (the fact genuinely
       relates to that goal's focus area)
-- [ ] All 17 SDGs are represented across the 365 facts
+- [ ] All 17 SDGs are represented across the 366 facts
 
 ### UN World Day checks
 
