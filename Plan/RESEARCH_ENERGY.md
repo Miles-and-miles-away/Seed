@@ -2,8 +2,9 @@
 
 **Version:** 2.0
 **Created:** 2026-08-02
-**Status:** Evidence base complete. 33 behaviors, every factor
-live-verified, no open items. Restructured 2026-08-02
+**Status:** Evidence base complete. 34 behaviors (the `fan` was
+added 2026-08-30 to pair the `space_cool` singleton, PDR section
+3), every factor live-verified, no open items. Restructured 2026-08-02
 to match the transport pattern, and finished 2026-08-30: this
 document is the **evidence base only**. Decisions, product rules,
 action-library additions and their derivations, standing rules,
@@ -29,7 +30,9 @@ sourcing rules in [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md)
 Unit for every factor: **kWh per stated unit** (`use`, `minute`,
 `hour`, `day`), multiplied at runtime by **458 g CO2e/kWh**
 (electricity) or **182 g CO2e/kWh** (gas). Access date for every
-source below: **2026-08-02**.
+source below: **2026-08-02**, with two dated exceptions: the
+oven's EU regulation (re-fetched 2026-08-29) and the fan's
+Panasonic spec (live-verified 2026-08-30).
 
 ---
 
@@ -620,6 +623,7 @@ behavior choice, so both ship.
 | Item | kWh/unit | Unit | Carrier | Confidence |
 |------|---------:|------|---------|------------|
 | Air conditioner, cooling (28 C) | 0.167679 | hour | electricity | High |
+| Electric fan | 0.022 | hour | electricity | Medium |
 | Air conditioner, heating (20 C) | 0.241006 | hour | electricity | High |
 | Portable electric heater | 1.2 | hour | electricity | Medium |
 | Kotatsu | 0.15 | hour | electricity | Medium-High |
@@ -680,6 +684,20 @@ uses METI's absolute deltas so the presets are internally
 consistent with the shipped per-hour values; the science sheet
 quotes 環境省's 13%/10% as the public rule of thumb and notes it
 is a rounded approximation.
+
+**Electric fan (added 2026-08-30; decision in PDR section 3).**
+Ships at **0.022 kWh/h**: the Panasonic F-CV339 リビング扇 at its
+highest notch, verbatim from the spec page: "消費電力
+[ノッチ 8(強)] 50/60Hz:22W"
+(https://panasonic.jp/fan/products/F-CV339/spec.html, accessed
+2026-08-30). Same product and basis as the
+`use_fan_instead_of_ac` action, so the calculator and the action
+library cannot quote different numbers for the same swap. A fan
+at a fixed notch draws constant power, so the
+nameplate-vs-cycling rule does not bind; the highest notch is the
+conservative direction for the fan-vs-aircon lesson (7.62x per
+hour, pin 16). Pairs the `space_cool` singleton, making
+cross-entry cooling comparisons buildable.
 
 **Portable electric heater** (renamed 2026-08-02; "space heater"
 is US usage and reads in British English as the whole category of
@@ -1008,6 +1026,7 @@ row below already sits on the 458 g CO2e/kWh basis.
 | kotatsu | Kotatsu | 0.15 | hour | electricity | space_heat | Med-High |
 | electric_blanket | Electric blanket | 0.025 | hour | electricity | space_heat | Med |
 | aircon_cooling | Air conditioner, cooling | 0.167679 | hour | electricity | space_cool | High |
+| fan | Electric fan | 0.022 | hour | electricity | space_cool | Med |
 | kettle | Electric kettle, 1 L | 0.116278 | use | electricity | boil | Med-High |
 | ih_hob | IH hob, boil 1 L | 0.116598 | use | electricity | boil | Med-High |
 | gas_hob | Gas hob, boil 1 L | 0.282389 | use | gas | boil | Med |
@@ -1022,7 +1041,8 @@ row below already sits on the 458 g CO2e/kWh basis.
 | tv | Television (50 inch) | 0.079096 | hour | electricity | device | High |
 | standby | Household standby | 0.8 | day | electricity | device | Low |
 
-33 behaviors against the plan's "~25". The overshoot is the
+34 behaviors against the plan's "~25" (33 at the 823f984 build;
+`fan` added 2026-08-30). The overshoot is the
 water-heating carrier/hardware split (5 entries where the plan
 counted 2), plus three genuine behavior choices the research
 turned up: heat-pump vs vented dryer, eco vs normal dishwasher,
@@ -1070,6 +1090,8 @@ Presets fill the `units` field, exactly like Part 2 servings.
 | aircon_cooling | 1 hour at 27 C | 1.17891 | +0.030 kWh/h per 1 C, METI |
 | aircon_cooling | 1 hour at 26 C | 1.35783 | +2 C, capped |
 | aircon_cooling | An evening (4 h at 26 C) | 5.43132 | 4 x 1.35783 |
+| fan | 1 hour | 1.0 | -- |
+| fan | An evening (4 h) | 4.0 | mirrors the heater evening |
 | aircon_heating | 1 hour at 20 C | 1.0 | METI measured baseline |
 | aircon_heating | 1 hour at 21 C | 1.14480 | +0.034898 kWh/h per 1 C |
 | aircon_heating | 1 hour at 22 C | 1.28960 | +2 C, capped |
@@ -1146,7 +1168,8 @@ re-derive at every data pass.
 14. **Group integrity:** every entry has a non-empty
     `comparable_group`; every group has >= 1 member; the shipped
     group distribution is hot_water 5, dishes 4, laundry_wash 3,
-    laundry_dry 3, space_heat 4, space_cool 1, boil 3, cook 4,
+    laundry_dry 3, space_heat 4, space_cool 2 (`fan` paired the
+    singleton 2026-08-30), boil 3, cook 4,
     lighting 2, device 4. **Units are pinned per behavior, not per
     group** -- corrected 2026-08-29, when the build found the
     earlier "no group spans more than one unit" rule does not hold
@@ -1169,6 +1192,9 @@ re-derive at every data pass.
     **`aircon_cooling` 0.167679 and `aircon_heating` 0.241006
     (METI measured -- NOT the Panasonic JIS rated 0.435 / 0.455,
     which a well-meaning future edit would "correct" them to)**.
+16. `aircon_cooling > 5 x fan` (0.167679 > 0.11, +52%). Actual
+    ratio 7.62x -- the flagship cooling lesson, buildable in-app
+    since `fan` paired the `space_cool` singleton (2026-08-30).
 
 ### Never pin / never generate superlative copy
 
@@ -1234,11 +1260,15 @@ CO2 and its confidence, is in
 | Laptop charge | 0.063 | 29 | 7x |
 | Incandescent bulb, 1 h | 0.06 | 28 | 7x |
 | Electric blanket, 1 h | 0.025 | 11 | 3x |
+| Electric fan, 1 h | 0.022 | 10 | 2.6x |
 | Phone charge | 0.0153 | 7.0 | 1.8x |
 | LED bulb, 1 h | 0.0085 | 3.9 | 1x |
 
 **Anything that makes or moves heat costs 20-670x anything that
-makes light or computation.** The plan predicted 10-100x. A bath
+makes light or computation.** The plan predicted 10-100x. The fan
+is the one cooling-group row outside that band, at 2.6x: it moves
+air rather than heat, which is exactly the fan-vs-aircon lesson,
+so the methodology copy names it as the exception. A bath
 is 373 phone charges -- and a heat pump moves the same heat for a
 quarter of the carbon, which is the second lesson the dataset now
 teaches by itself.

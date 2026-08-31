@@ -145,11 +145,11 @@ and has no dependency on Phase 7 (mascot art/shop) or Phase 9
 | 8.10 Food methodology & sources UI (Part 2) | P0 | Low | Done (2026-07-23) |
 | 8.11 Food entry points & analytics (Part 2) | P1 | Low | Done (2026-07-23) |
 | 8.12 Food logging bridge (Part 2) | P2 | Medium | Done, in v1 (2026-07-23) |
-| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Built (2026-08-29), not routed |
-| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Built (2026-08-29), not routed |
-| 8.15 Routine comparison (Part 3) | P0 | Low | Built (2026-08-29), not routed |
-| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Built (2026-08-29), not routed |
-| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | Decisions done (2026-08-02), not built |
+| 8.13 Energy behavior dataset (Part 3) | P0 | Medium (research-heavy) | Done (2026-08-29; `fan` added 2026-08-30) |
+| 8.14 Routine builder + engine (Part 3) | P0 | Low-Medium | Done (2026-08-29) |
+| 8.15 Routine comparison (Part 3) | P0 | Low | Done (2026-08-30, ratio-led per E7) |
+| 8.16 Energy methodology & sources UI (Part 3) | P0 | Low | Done (2026-08-30, incl. the ranked table) |
+| 8.17 Energy entry points & analytics (Part 3) | P1 | Low | Done (2026-08-30) |
 | 8.18 Energy logging bridge (Part 3) | P2 | Medium | Cancelled (2026-08-02), not deferred |
 
 ---
@@ -1158,13 +1158,17 @@ dataset -- `data/app/food_items.json` and RESEARCH_FOOD.md are.
 > behaviors, every open item closed) and the decisions are settled
 > ([PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)). The E1
 > grid rebase and the action-library reconciliation are committed.
-> `data/app/energy_behaviors.json` (33 behaviors),
+> `data/app/energy_behaviors.json` (33 behaviors then; 34 since
+> the 2026-08-30 `fan` addition),
 > `lib/features/energy/` and `test/features/energy/` shipped in
-> commit 823f984, so **8.13-8.16 are built**. The feature is still
-> unreachable: there is no `/energy-calculator` route, nothing
-> imports `lib/features/energy/energy.dart`, and the calculator
-> chooser still renders a disabled home-energy tile. **8.17 (entry
-> points and routing) is the remaining work.**
+> commit 823f984, and the 2026-08-30 pass finished the rest:
+> the E7 ratio-led result rework, the methodology screen with the
+> ranked "Where your energy goes" table (8.16), the `fan` entry,
+> and 8.17's route and entry points (chooser tile enabled, energy
+> category card, `energy_calculator_opened`). **Part 3 is done**;
+> what remains is the E8 in-app surface comparison recorded in the
+> PDR's section 8 -- the PDR's section 1 carries the authoritative
+> state.
 >
 > The specification below is superseded in places by the research:
 > the grid factor is 458 not 386, the behavior list grew to 33, the
@@ -1180,11 +1184,16 @@ dataset -- `data/app/food_items.json` and RESEARCH_FOOD.md are.
 Part 3 adds a **home energy calculator**: users build a routine
 from energy behaviors (behavior + quantity), see its CO2e, and
 compare alternatives side by side (bath vs 10-min shower, tumble
-dry vs line dry, aircon at 22 vs 26).
+dry vs line dry, an hour of aircon at 26 vs 28 -- the original
+"22 vs 26" example was corrected 2026-08-30: 22 C is a heating
+preset and 26 C a cooling one, a cross-group pair the gate blocks
+by design).
 
 The insight this part teaches: **anything that makes or moves heat
-(showers, baths, drying, space heating/cooling) costs 10-100x
-anything that makes light or computation.** People agonize over
+(showers, baths, drying, space heating, air conditioning) costs
+20-670x anything that makes light or computation** (the fan is the
+deliberate exception at 2.6x: it moves air, not heat) (the plan predicted
+10-100x; RESEARCH_ENERGY section 7 measured the real spread). People agonize over
 kettle-vs-IH (~40 g either way) and phone chargers (~6 g) while
 the shower behind them costs ~500-900 g and the dryer ~1 kg. A
 calculator whose honest answer is sometimes "this choice barely
@@ -1222,7 +1231,7 @@ not a feature.
 
 | Deliverable | Description |
 |-------------|-------------|
-| Energy behavior dataset | `data/app/energy_behaviors.json`: the 33 researched behaviors ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 is the authoritative list), kWh-per-unit + carrier, usage presets, EN/JA/ES, full source citations |
+| Energy behavior dataset | `data/app/energy_behaviors.json`: the researched behaviors ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 is the authoritative list; 34 since 2026-08-30), kWh-per-unit + carrier, usage presets, EN/JA/ES, full source citations |
 | Calculator engine | Pure Dart: usages -> per-usage and total CO2e via carrier factors |
 | Routine builder UI | Add/edit/remove usages (behavior, quantity via presets or number) |
 | Comparison UI | 2-3 routines side by side with delta and equivalencies |
@@ -1287,14 +1296,18 @@ Notes locked in now:
 - **Carrier factors live in metadata once:**
   `grid_factor_g_per_kwh` (shared with Part 1 -- a test asserts
   the two dataset files match) and `gas_factor_g_per_kwh` (DEFRA
-  natural gas, incl. well-to-tank for scope consistency with
-  Part 1).
+  natural gas -- combustion-only Gross CV per decision E2, which
+  excludes the ~+17% WTT term for parity with transport; the
+  original "incl. well-to-tank" here was superseded).
 - **Climate entries are honest approximations:** aircon/heater
   per-hour figures are typical-unit averages with spread stated;
-  the setpoint lesson ("1 C ~= 5-10% of heating/cooling energy")
-  ships as presets on the aircon entries (e.g. "1 hour at 26 C"
-  vs "1 hour at 22 C") plus a methodology paragraph, not as a
-  thermal model.
+  the setpoint lesson ships as presets on the aircon entries
+  (e.g. "1 hour at 26 C" vs "1 hour at 28 C", capped at +/-2 C
+  from the METI baseline) plus a methodology paragraph, not as a
+  thermal model. The original "1 C ~= 5-10%" here was superseded:
+  METI's measured per-degree figures imply 15.2% (cooling) and
+  12.6% (heating); 環境省's rule of thumb says 13%/10% (PDR
+  rule 17).
 - **Physics-derived entries cite assumptions, not products:** flow
   rate (L/min), delta-T, appliance efficiency, each sourced
   (DEFRA, IEA, Energy Saving Trust tier-1 list).
@@ -1359,8 +1372,11 @@ heater vs kotatsu evening".
 +------------------------------------------+
 ```
 
-(Delta copy uses the Phase 6 equivalency helpers; numbers above
-illustrative.)
+(Numbers above illustrative. The delta's phone-charge line is
+computed in kWh against the dataset's own `phone_charge` row --
+PDR rules 26-27. The original caption pointed at the Phase 6
+equivalency helpers, which scale with the grid and are banned for
+energy ratios; they stay correct for transport and food.)
 
 ### 8.16 Energy Methodology & Sources UI
 
@@ -1370,30 +1386,44 @@ Same two layers as 8.4/8.10. Methodology page covers:
 
 - Scope: operational energy only, same convention as Part 1;
   carrier factors and their vintage; why gas heating shows lower
-  CO2e than electric today and how that flips as grids decarbonize
-  (the one paragraph that ages, flagged for the yearly refresh).
+  CO2e than electric on most grids and how that flips as grids
+  decarbonize -- the UK has already crossed the 241 g/kWh line
+  (RESEARCH_ENERGY 2.1), so the copy must say the flip has
+  happened, not that it is coming (the one paragraph that ages,
+  flagged for the yearly refresh).
 - Physics assumptions per entry (flow rates, temperatures,
   efficiencies) and the spread on appliance averages.
-- "Where the heat is": the heat-vs-light 10-100x hierarchy, with
+- "Where the heat is": the heat-vs-light 20-670x hierarchy
+  (measured; the plan's 10-100x prediction was superseded), with
   the fridge/always-on context line ("a fridge runs ~1 kWh/day --
   you can't shower-length your fridge, so it isn't in the picker;
-  efficiency class matters when you replace it").
+  efficiency class matters when you replace it"). Ships as the
+  ranked "Where your energy goes" table, a reusable widget --
+  decision E8 in the PDR, section 8.
 - Full source list.
 
 ### 8.17 Energy Entry Points & Navigation
 
 **Priority:** P1 | **Complexity:** Low
 
-- New route: `/energy-calculator`, same push pattern; internal
-  navigation for comparison and methodology.
-- Entry points mirror 8.5/8.11: Impact-segment card ("What does a
-  bath actually cost?") and Action Log banner on the energy
-  category tab. Cross-link all three calculators from each
-  methodology screen.
+Rewritten 2026-08-30 against as-built reality: the original text
+named the Progress Impact-segment card, which the 2026-07-23
+revision of 8.5 withdrew and which shipped for no calculator, and
+omitted the calculator chooser, the one entry point that exists.
+E8 (PDR section 8) routes the primary surface to the comparator.
+
+- New route: `/energy-calculator`, same push pattern; the
+  methodology screen is internal navigation within the feature.
+- Entry points mirror what transport and food actually shipped:
+  enable the disabled home-energy tile in the Action Log's
+  calculator chooser sheet, and add the category card in the
+  Action Log's energy category view. Cross-link all three
+  calculators from each methodology screen.
 - **Update [APP_PAGES.md](./APP_PAGES.md)** in the same PR
   (standing rule).
-- Analytics: `energy_calculator_opened`, `energy_comparison_run`
-  (params: behavior ids, usage counts, winning routine).
+- Analytics: `energy_calculator_opened`, mirroring the two
+  siblings. `energy_comparison_run` is not built unless the E8
+  in-app comparison asks for usage data.
 
 ### 8.18 Energy Logging Bridge (Deferred)
 

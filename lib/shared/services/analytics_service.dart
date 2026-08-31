@@ -255,6 +255,9 @@ class AnalyticsService {
   /// Log when the food carbon calculator is opened.
   Future<void> logFoodCalculatorOpened() => _log('food_calculator_opened');
 
+  /// Log when the home energy calculator is opened (Phase 8.17).
+  Future<void> logEnergyCalculatorOpened() => _log('energy_calculator_opened');
+
   /// Log when a user runs a meal comparison (Phase 8.9).
   ///
   /// NOTE(planned): defined with the 8.9 comparison feature but not

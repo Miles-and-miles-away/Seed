@@ -58,6 +58,7 @@ void main() {
       'kotatsu': 0.15, // not the 0.3-0.6 nameplate
       'electric_blanket': 0.025,
       'aircon_cooling': 0.167679, // METI measured, not the JIS rated 0.435
+      'fan': 0.022, // Panasonic F-CV339 highest notch, the action's basis
       'kettle': 0.116278,
       'ih_hob': 0.116598,
       'gas_hob': 0.282389, // efficiency 0.35, not 0.32 or 0.42
@@ -108,6 +109,7 @@ void main() {
       'kotatsu': 'space_heat',
       'electric_blanket': 'space_heat',
       'aircon_cooling': 'space_cool',
+      'fan': 'space_cool',
       'kettle': 'boil',
       'ih_hob': 'boil',
       'gas_hob': 'boil',
@@ -154,6 +156,7 @@ void main() {
       'kotatsu': 'electricity',
       'electric_blanket': 'electricity',
       'aircon_cooling': 'electricity',
+      'fan': 'electricity',
       'kettle': 'electricity',
       'ih_hob': 'electricity',
       'gas_hob': 'gas',
@@ -214,6 +217,8 @@ void main() {
       'aircon_cooling/hour_27c': 1.17891,
       'aircon_cooling/hour_26c': 1.35783,
       'aircon_cooling/evening_26c': 5.43132,
+      'fan/one_hour': 1.0,
+      'fan/evening_4h': 4.0,
       'kettle/one_litre': 1,
       'kettle/one_mug': 0.3,
       'ih_hob/one_litre': 1,
@@ -284,6 +289,7 @@ void main() {
       'kotatsu': 'medium_high',
       'electric_blanket': 'medium',
       'aircon_cooling': 'high',
+      'fan': 'medium',
       'kettle': 'medium_high',
       'ih_hob': 'medium_high',
       'gas_hob': 'medium',

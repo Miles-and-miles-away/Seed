@@ -1415,7 +1415,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorHomeEnergy => 'Home energy';
 
   @override
-  String get calculatorComingSoon => 'Coming soon';
+  String get calculatorBadge => 'Calculator';
+
+  @override
+  String get energyActionsEntryTitle => 'Compare home energy use';
 
   @override
   String get transportJourneyEmpty =>
@@ -1995,6 +1998,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get energyQuantityOneMinute => '1 minute';
+
+  @override
+  String get energyQuantityOneHour => '1 hour';
+
+  @override
+  String get energyQuantityOneDay => '1 day';
+
+  @override
   String energyQuantityMinutes(String units) {
     return '$units minutes';
   }
@@ -2049,6 +2061,75 @@ class AppLocalizationsEn extends AppLocalizations {
     int percent,
   ) {
     return '$label uses $amount CO2e less than $worse ($percent% lower)';
+  }
+
+  @override
+  String energyComparisonRatio(String worse, String multiple, String label) {
+    return '$worse costs ${multiple}x as much CO2e as $label';
+  }
+
+  @override
+  String energyComparisonSavesEquiv(String amount, int charges) {
+    String _temp0 = intl.Intl.pluralLogic(
+      charges,
+      locale: localeName,
+      other: '$charges phone charges',
+      one: '$charges phone charge',
+    );
+    return 'That\'s $amount saved, about $_temp0 of electricity';
+  }
+
+  @override
+  String energyComparisonSavesOnly(String amount) {
+    return 'That\'s $amount saved';
+  }
+
+  @override
+  String energyPhoneChargesEquiv(int charges) {
+    String _temp0 = intl.Intl.pluralLogic(
+      charges,
+      locale: localeName,
+      other: '$charges phone charges',
+      one: '$charges phone charge',
+    );
+    return 'That\'s about $_temp0 of electricity';
+  }
+
+  @override
+  String energyGridBasisNote(int grid) {
+    return 'Gram figures assume the world-average grid, $grid g CO2e/kWh (Ember, 2025 data)';
+  }
+
+  @override
+  String energyGridBasisNoteRatio(int grid) {
+    return 'Gram figures assume the world-average grid, $grid g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid';
+  }
+
+  @override
+  String get energyMethodologyTitle => 'Methodology & sources';
+
+  @override
+  String energyMethodologyBody(int grid) {
+    return 'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator\'s convention and deliberately not the food calculator\'s, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use $grid g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the $grid above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner\'s hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalog rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI\'s own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.';
+  }
+
+  @override
+  String get energyRankedTitle => 'Where your energy goes';
+
+  @override
+  String get energyRankedIntro =>
+      'One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.';
+
+  @override
+  String get energyRankedGasHeading => 'Gas appliances, unranked';
+
+  @override
+  String get energyRankedGasNote =>
+      'A gas row\'s rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.';
+
+  @override
+  String energyRankedMultiple(String multiple) {
+    return '${multiple}x';
   }
 
   @override

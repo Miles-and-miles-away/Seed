@@ -270,9 +270,12 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     );
   }
 
-  /// Custom-logging entry for the transport (Phase 8.6) and food
-  /// (Phase 8.12) calculators, shown as the first tile of their own
-  /// category so it reads as just another action rather than a banner.
+  /// Calculator entry for the transport (Phase 8.6), food (Phase 8.12)
+  /// and energy (Phase 8.17) calculators, shown as the first tile of
+  /// their own category so it reads as just another action rather than
+  /// a banner. Transport and food carry the custom-action badge because
+  /// their calculators bank choices; energy banks nothing (decision
+  /// 8.18), so its tile is badged as a plain calculator.
   Widget? _buildCalculatorEntry(AppLocalizations l10n) {
     final category = ref.watch(selectedCategoryProvider);
     final (String title, String route) = switch (category) {
@@ -284,6 +287,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         l10n.foodActionsEntryTitle,
         appRoutes.foodCalculator,
       ),
+      ActionCategory.energy => (
+        l10n.energyActionsEntryTitle,
+        appRoutes.energyCalculator,
+      ),
       _ => ('', ''),
     };
     if (title.isEmpty) return null;
@@ -293,7 +300,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       contentColor: category.color,
       icon: Icons.compare_arrows,
       title: title,
-      badgeLabel: l10n.customActionBadge,
+      badgeLabel: category == ActionCategory.energy
+          ? l10n.calculatorBadge
+          : l10n.customActionBadge,
       onTap: () => context.push(route),
     );
   }

@@ -306,12 +306,6 @@ logged in
       section 6 must be **re-derived**, never assumed to survive.
       Cadence is tracked in
       [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
-- [ ] **Ship the yacht eco-fact when a calendar slot frees.** The
-      draft is written, translated and pre-audited
-      (RESEARCH_TRANSPORT.md section 8.3); what remains is an owner
-      call on which of the 366 days it displaces. Closure detail in
-      [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md)
-      section 9.
 - [ ] **`enrich_city_names.py` pass 1 is untested, and no Python
       runs in CI** (new 2026-08-30).
       `scripts/generators/test_enrich_city_names.py` is 90 lines of
@@ -330,11 +324,12 @@ logged in
       Second half of the same gap: `.github/workflows/ci.yml` has
       no Python step, so even the five checks that do exist have
       never run outside a developer's shell.
-- [ ] **Shared dataset-assertion helper** -- tracked in
+- [x] ~~**Shared dataset-assertion helper**~~ -- rejected
+      2026-08-30 in
       [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
-      section 9, because it spans all three calculators.
-      `transport_modes_data_test.dart` is one of the three files
-      that hand-writes the same seven structural checks.
+      section 9: only food and transport are near-verbatim twins,
+      energy's source rule is the inverse of theirs, and the
+      abstraction degrades failure output.
 - [ ] **Finish the RESEARCH/PDR split for transport.**
       RESEARCH_TRANSPORT.md Appendix A.5 (border-status watchlist)
       is a product rule by
@@ -363,6 +358,8 @@ logged in
   section 2.1 above; the only identifiers that exist are the
   ones listed in the archived ledger. Do not reconstruct a
   round-by-round story from them.
+
+  - Unused eco-fact: yacht eco-fact draft is written, translated and pre-audited however used as currently all 366 days have facts. Closure detail in [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
 
 ## Appendix B: Where the Detail Went
 

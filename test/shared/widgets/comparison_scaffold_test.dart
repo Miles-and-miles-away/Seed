@@ -29,6 +29,7 @@ void main() {
     int? bestIndex,
     List<List<Widget>>? entries,
     void Function(int)? onAdd,
+    Widget result = const Text('result-block'),
   }) => ComparisonScaffold(
     totals: totals,
     entries:
@@ -41,11 +42,48 @@ void main() {
     addLabel: 'Add',
     onAdd: onAdd ?? (_) {},
     bestIndex: bestIndex,
-    result: const Text('result-block'),
+    result: result,
   );
 
   List<OptionColumn> columns(WidgetTester tester) =>
       tester.widgetList<OptionColumn>(find.byType(OptionColumn)).toList();
+
+  // Both slots used to be fixed-height children of a Column: the result
+  // overflowed the bottom the moment it outgrew what the columns left
+  // it (the energy card does at textScale 1.5), and squeezing the
+  // columns then overflowed their own fixed title/total/bar header.
+  for (final scale in [1.0, 2.0]) {
+    testWidgets('a tall result scrolls, never overflows, at scale $scale', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(360, 640);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        MediaQuery(
+          data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+          child: wrap(
+            scaffold(
+              result: const SizedBox(
+                key: Key('tall-result'),
+                height: 2000,
+                child: Text('tall'),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+      final slot = tester.getSize(
+        find.ancestor(
+          of: find.byKey(const Key('tall-result')),
+          matching: find.byType(SingleChildScrollView),
+        ),
+      );
+      expect(slot.height, lessThan(640 * 0.6));
+    });
+  }
 
   testWidgets('renders one column per option plus the result block', (
     tester,

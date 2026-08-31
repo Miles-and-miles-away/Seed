@@ -7,8 +7,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// Bottom-sheet chooser for the three carbon calculators (Phase 8).
 ///
-/// Transport and food are live; home energy (Part 3) is shown disabled
-/// until its calculator ships. Pops with the chosen route
+/// All three are live. Pops with the chosen route
 /// so the caller navigates with a still-mounted context rather than
 /// the sheet's disposed one.
 class CalculatorChooserSheet extends StatelessWidget {
@@ -60,7 +59,8 @@ class CalculatorChooserSheet extends StatelessWidget {
                 _CalculatorTile(
                   icon: Icons.bolt,
                   label: l10n.calculatorHomeEnergy,
-                  comingSoonLabel: l10n.calculatorComingSoon,
+                  onTap: () =>
+                      Navigator.pop(context, appRoutes.energyCalculator),
                 ),
               ],
             ),
@@ -71,58 +71,37 @@ class CalculatorChooserSheet extends StatelessWidget {
   }
 }
 
-/// One calculator option. Disabled (null [onTap]) tiles dim and show a
-/// "coming soon" caption instead of being tappable.
+/// One calculator option.
 class _CalculatorTile extends StatelessWidget {
   const _CalculatorTile({
     required this.icon,
     required this.label,
-    this.onTap,
-    this.comingSoonLabel,
+    required this.onTap,
   });
 
   final IconData icon;
   final String label;
-  final VoidCallback? onTap;
-  final String? comingSoonLabel;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final enabled = onTap != null;
-    return Opacity(
-      opacity: enabled ? 1 : 0.5,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: borderRadiusMd,
-        child: Padding(
-          padding: const EdgeInsets.all(spacingSm),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: enabled
-                    ? theme.colorScheme.primaryContainer
-                    : theme.colorScheme.surfaceContainerHighest,
-                child: Icon(
-                  icon,
-                  color: enabled
-                      ? theme.colorScheme.onPrimaryContainer
-                      : theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: spacingSm),
-              Text(label, style: theme.textTheme.labelLarge),
-              if (comingSoonLabel != null)
-                Text(
-                  comingSoonLabel!,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-            ],
-          ),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: borderRadiusMd,
+      child: Padding(
+        padding: const EdgeInsets.all(spacingSm),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircleAvatar(
+              radius: 28,
+              backgroundColor: theme.colorScheme.primaryContainer,
+              child: Icon(icon, color: theme.colorScheme.onPrimaryContainer),
+            ),
+            const SizedBox(height: spacingSm),
+            Text(label, style: theme.textTheme.labelLarge),
+          ],
         ),
       ),
     );

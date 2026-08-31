@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
@@ -55,11 +56,17 @@ String energyUsageDetailLabel(
   double units,
 ) {
   final text = _unitsText(units);
+  // The units text is pre-formatted, so ICU plurals cannot see the
+  // number; exactly-one gets its own key ("1 hour", not "1 hours").
+  final one = units == 1;
   return switch (behavior.unit) {
-    EnergyUnit.minute => l10n.energyQuantityMinutes(text),
-    EnergyUnit.hour => l10n.energyQuantityHours(text),
+    EnergyUnit.minute =>
+      one ? l10n.energyQuantityOneMinute : l10n.energyQuantityMinutes(text),
+    EnergyUnit.hour =>
+      one ? l10n.energyQuantityOneHour : l10n.energyQuantityHours(text),
     EnergyUnit.use => l10n.energyQuantityUses(text),
-    EnergyUnit.day => l10n.energyQuantityDays(text),
+    EnergyUnit.day =>
+      one ? l10n.energyQuantityOneDay : l10n.energyQuantityDays(text),
   };
 }
 
@@ -106,3 +113,12 @@ String _kwhText(double kwh) {
 String _unitsText(double units) => units == units.roundToDouble()
     ? units.round().toString()
     : units.toStringAsFixed(2);
+
+/// The E7 multiple, locale-aware: one decimal below 10x ("2.3"),
+/// whole numbers above ("373") where a decimal would be false
+/// precision.
+String formatEnergyMultiple(String locale, double ratio) =>
+    NumberFormat.decimalPatternDigits(
+      locale: locale,
+      decimalDigits: ratio >= 10 ? 0 : 1,
+    ).format(ratio);

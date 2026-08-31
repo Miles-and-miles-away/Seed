@@ -315,8 +315,10 @@ but was surfaced in the same review and should be settled once.
 
 ## 5.1 What the app is set to tell users
 
-Nothing is live yet: the home-energy methodology screen has not
-been built, and `lib/features/energy/` does not exist. What
+Nothing is live yet: `lib/features/energy/` shipped in commit
+823f984 but is not routed, and the home-energy methodology screen
+that would carry this copy is not built (it is in the PDR's
+section 1 build list). What
 exists is the approved draft copy for it, in
 [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 6.
 That draft carries a full disclosure that regionalisation was

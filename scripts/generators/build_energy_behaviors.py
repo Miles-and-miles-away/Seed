@@ -24,7 +24,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PATH = REPO_ROOT / 'data' / 'app' / 'energy_behaviors.json'
 
-EXPECTED_BEHAVIORS = 33
+EXPECTED_BEHAVIORS = 34
 
 ACC = '2026-08-02'
 
@@ -110,6 +110,11 @@ METI_AC_COOL = S(
 METI_AC_HEAT = S(
     _METI_AC_N, _METI_AC_U,
     '暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ')
+PANA_FAN = S(
+    'Panasonic F-CV339 仕様',
+    'https://panasonic.jp/fan/products/F-CV339/spec.html',
+    '消費電力 [ノッチ 8(強)] 50/60Hz:22W',
+    accessed='2026-08-30')
 OCWR = S(
     'Office of Congressional Workplace Rights (US)',
     'https://www.ocwr.gov/publications/fast-facts/portable-space-heaters/',
@@ -397,6 +402,19 @@ BEHAVIORS = [
             '冷房期間 that is 0.167679 kWh/h. MEASURED, not rated: the Panasonic JIS '
             'rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute '
             'deltas (+0.030 kWh/h per 1 C), capped at -2 C. '
+            'RESEARCH_ENERGY section 3.3.'),
+ dict(id='fan', group='space_cool', carrier='electricity', unit='hour',
+      kwh=0.022, en='Electric fan', ja='扇風機',
+      es='Ventilador', conf='medium',
+      presets=[P('one_hour', '1 hour', '1時間', '1 hora', 1.0),
+               P('evening_4h', 'An evening (4 h)', '夜に4時間',
+                 'Una tarde (4 h)', 4.0)],
+      sources=[PANA_FAN],
+      notes='Panasonic F-CV339 DC living fan at its highest notch (22 W), the same '
+            'basis as the use_fan_instead_of_ac action so the calculator and the '
+            'action library cannot disagree. A fan at a fixed notch draws constant '
+            'power, so the nameplate-vs-cycling rule does not bind; the highest '
+            'notch is the conservative direction for the fan-vs-aircon lesson. '
             'RESEARCH_ENERGY section 3.3.'),
  # ---- boil ----
  dict(id='kettle', group='boil', carrier='electricity', unit='use',

@@ -1,18 +1,22 @@
 # PDR: Phase 8 Home Energy Calculator -- Post-Design Review
 
 **Created:** 2026-08-02
-**Status:** Built, not routed. The dataset, `lib/features/energy/`
+**Status:** Built and routed. The dataset, `lib/features/energy/`
 and `test/features/energy/` shipped in commit 823f984
-(2026-08-29), so deliverables 8.13-8.16 are done. The feature is
-still unreachable from the app: no `/energy-calculator` route,
-nothing imports `lib/features/energy/energy.dart`, and the
-calculator chooser still renders the home-energy tile disabled.
-8.17 (entry points and routing) is the remaining work and is
-blocked on open decision **E8** (section 8), because which surface
-8.17 routes to is the decision. The test debt in section 9 is open.
+(2026-08-29); the 2026-08-30 pass finished the rest: the E7
+ratio-led result rework, the methodology screen with the ranked
+"Where your energy goes" table (8.16), the `fan` entry (section
+3), and 8.17's route and entry points (chooser tile enabled,
+energy category card, `energy_calculator_opened`), so
+**deliverables 8.13-8.17 are done**. **E8 was provisionally
+resolved 2026-08-30** (section 8): both surfaces are built,
+comparator primary, and the final surface call is made by an
+in-app comparison now that both have landed -- that comparison is
+the remaining open work, plus the residual test debt in
+section 9.
 Evidence base
-([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 33 behaviors)
-is complete. Owner decisions E1-E6 are settled, as are two
+([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 34 behaviors)
+is complete. Owner decisions E1-E7 are settled, as are two
 product decisions (no logging bridge; comparison gating).
 **Purpose:** The working record for building the feature -- standing decisions and why, the product rules, the
 action-library additions, the UI/copy requirements, and the
@@ -67,22 +71,48 @@ went in on the same run.
 - `scripts/generators/build_energy_behaviors.py` -- the dataset
   generator
 
-**Still to be built:**
+**Built in the 2026-08-30 pass (working tree):**
 
-- **Entry points and routing (8.17).** There is no
-  `/energy-calculator` route in `lib/app/router.dart`, nothing
-  imports `lib/features/energy/energy.dart`, and
-  `calculator_chooser_sheet.dart` still passes
-  `comingSoonLabel` to the home-energy tile. Until that lands the
-  feature ships as dead code.
-- **The test debt in section 9**, which is open and tracked there.
+- **The `fan` entry** (owner call, section 3): dataset regenerated
+  to 34 behaviors, count moved in its four homes, tests extended
+  (exact values, unit map, citation tuple + access date, gating
+  must-allow pair, sanity pin 16), RESEARCH_ENERGY updated.
+- **The E7 result rework.** The result card now leads with the
+  kWh-computed multiple (`energyComparisonRatio`), follows with
+  the gram saving and the phone-charge equivalency anchored on
+  the dataset's own `phone_charge` row, and closes with the
+  grid-vintage and no-points basis notes. `routineKwh` returned
+  as live code with the shared `_requireFiniteUnits` guard. Rule
+  26's two honest fallbacks and rule 27's electricity-only anchor
+  are implemented and widget-tested.
+- **The methodology screen (8.16 remainder):**
+  `energy_methodology_screen.dart`, the section 6 copy written
+  natively in EN/JA/ES, the four-way heating hierarchy, the
+  measured-vs-rated / standby / lighting / avoided-emissions
+  notes, a data-derived source list, and the ranked **"Where your
+  energy goes"** table as the standalone reusable
+  `energy_ranked_table.dart` (electricity rows as LED-hour
+  multiples, gas rows shown unranked per rule 28).
+- **Entry points and routing (8.17):** `/energy-calculator` in
+  `lib/app/router.dart`, the chooser tile enabled (the
+  coming-soon affordance deleted with its three `.arb` strings),
+  the "Compare home energy use" card on the Action Log's energy
+  tab (badged "Calculator", not "Custom" -- energy banks nothing),
+  `logEnergyCalculatorOpened()`, and APP_PAGES updated in the
+  same pass.
+
+**Still open:** the E8 in-app surface comparison (section 8) and
+the residual test debt in section 9.
 
 **What this feature is for**, settled, and it is not what Parts 1
 and 2 are for: transport and food are decision tools that teach.
 **Energy is a teaching tool that occasionally informs a
 decision.** Its unit is the behavior, never the product.
-Entry-point weighting follows -- the Impact-segment card matters
-more than the Action Log banner.
+Entry-point weighting follows, within the entry points that
+actually exist: the calculator chooser sheet and the Action Log
+category card. (8.17's original "Impact-segment card" was
+withdrawn from 8.5 on 2026-07-23 and shipped for no calculator;
+the weighting sentence that leaned on it is retired.)
 
 ---
 
@@ -127,9 +157,11 @@ otherwise; do not "fix" values backwards from superseded text.
   denominated in CO2e throughout, but it carries the vintage label
   (rule 19) and never carries the comparison. This was the
   original intent, not a new idea: PLAN_PHASE_8 8.15's own mockup
-  reads "= 190 phone charges". The built screen dropped it --
-  energy is the only one of the three calculators that passes no
-  `equivalencyText` to `ComparisonDeltaCard`.
+  reads "= 190 phone charges". The 823f984 screen dropped it --
+  energy was the only one of the three calculators that passed no
+  `equivalencyText` to `ComparisonDeltaCard`. **Implemented
+  2026-08-30** in the result card, with the two honest fallbacks
+  rule 26 records.
 
 ---
 Derived rules, equally binding:
@@ -233,10 +265,10 @@ Allowlist semantics: a new behavior compares with nothing until
 someone deliberately groups it. A blocklist would rot the first
 time an entry is added.
 
-Groups (33 entries): `hot_water` (5) · `dishes` (4) ·
+Groups (34 entries): `hot_water` (5) · `dishes` (4) ·
 `laundry_wash` (3) · `laundry_dry` (3) · `space_heat` (4) ·
-`space_cool` (1) · `boil` (3) · `cook` (4) · `lighting` (2) ·
-`device` (4).
+`space_cool` (2, `fan` added 2026-08-30) · `boil` (3) ·
+`cook` (4) · `lighting` (2) · `device` (4).
 
 Checked against the never-pin list in section 6: kettle vs gas
 hob fails #2; hand-wash-gas vs dishwasher fails #2; kettle vs IH
@@ -263,29 +295,44 @@ Users may still build and compare any two routines they like --
 the gating governs what the **app asserts**, not what the user
 may look at.
 
-**What the gate actually passes, measured 2026-08-30.** Of the 528
-two-entry pairs the dataset admits, 44 share a `comparable_group`
-(8.3%), 33 of those also share a carrier (6.2%), and 31 clear the
-20% bar at default presets (**5.9%**). Every one of those refusals
-is correct. But a builder that lets the user assemble any pair
+**What the gate actually passes, measured 2026-08-30** (re-run
+after the `fan` addition the same day). Of the 561 two-entry pairs
+the 34-entry dataset admits, 45 share a `comparable_group` (8.0%),
+34 of those also pass the carrier condition (6.1%, counting the
+`none`-carrier exemption the engine applies to `line_dry`), and 32
+clear the 20% bar at default presets (**5.7%**; on the 33-entry
+build the figures were 528 / 44 / 33 / 31, 5.9%). Every one of
+those refusals is correct. But a builder that lets the user
+assemble any pair
 will refuse roughly nineteen times in twenty, and the first
 question a curious user asks ("what costs more, my shower or my
-TV?") is one of them. That measurement is the evidence behind open
-decision **E8** (section 8): the gate is not the problem, the
-free-form builder in front of it is.
+TV?") is one of them. That measurement is the evidence behind decision
+**E8** (section 8, provisionally resolved 2026-08-30): the gate
+is not the problem, the free-form builder in front of it is.
 
-**Two holes, both open:**
+**Two former holes, both closed 2026-08-30 (owner calls):**
 
-- **Self-comparison is not gated.** The same behaviour in both
-  columns at different quantities passes all three conditions: a
-  5-minute shower against a 10-minute one returns "50% less".
-  True, and vacuous. The gate polices category errors, not
-  tautologies. It is also the easiest comparison to build.
-- **`space_cool` is a singleton.** One entry, `aircon_cooling`,
-  fixed at 28 C, so condition 1 makes every cooling comparison
-  impossible. PLAN_PHASE_8's headline example "aircon at 22 vs 26"
-  **is not buildable from the shipped dataset**, and that text
-  should stop advertising it until a second cooling entry exists.
+- **Self-comparison is intended, not a hole.** The same behaviour
+  in both columns at different quantities passes all three
+  conditions, and it must: the setpoint lesson only ships through
+  it. `aircon_cooling` is one entry whose presets encode
+  28/27/26 C as unit multipliers (1.0 / 1.17891 / 1.35783), so
+  "1 hour at 26 C" against "1 hour at 28 C" is a same-entry
+  comparison that clears the 20% bar at a 26% delta. Gating
+  self-comparison would have killed the only buildable cooling
+  comparison. The trivially proportional case (a 5-minute shower
+  against a 10-minute one) is the `shorter_shower` lesson with
+  real grams attached. The gate polices category errors, not
+  quantity choices the user made deliberately.
+- **`space_cool` gains a second entry: `fan`.** 0.022 kWh/h on
+  the electricity carrier, the Panasonic F-CV339 top-notch figure
+  already cited by `use_fan_instead_of_ac` (section 4). That makes
+  cross-entry cooling comparisons buildable (a fan hour vs an
+  aircon hour, 7.6x) and pairs the singleton. PLAN_PHASE_8's
+  "aircon at 22 vs 26" example is still not buildable and never
+  will be: 22 C is a heating preset and 26 C a cooling one, so it
+  is cross-group by design; the plan text is corrected rather
+  than the gate.
 
 ---
 
@@ -490,11 +537,23 @@ Requirements, not suggestions.
     comparison headline and every ranked row states a multiple
     first. The gram figure sits smaller on the row, with its basis
     stated once at the foot of the screen: "world-average grid,
-    458 g CO2e/kWh, Ember 2025 data".
+    458 g CO2e/kWh, Ember 2025 data". Two honest fallbacks keep
+    the gram-delta sentence instead (2026-08-30): a zero-kWh
+    winner (line drying has no multiple), and a mixed-carrier
+    routine pair (gas and electricity present on both sides) --
+    its kWh multiple is invariant but is not a CO2e multiple, and
+    its CO2e multiple moves with the grid, so there is no
+    invariant multiple to state. In both fallbacks the basis note
+    states the grid vintage alone: the "holds on any grid" clause
+    ships only where a multiple is on screen, and in the
+    mixed-carrier case it would be false.
 27. **The ratio anchor is a dataset entry, never an equivalency
     constant** -- see the kWh rule in section 2. If the anchor ever
     moves off `phone_charge`, it moves to another row of
     `energy_behaviors.json`, never to `impact_equivalencies.json`.
+    The anchor applies to electricity deltas only: a gas kWh is
+    fuel input (RESEARCH sec 6 pin 1), so a gas delta is never
+    converted to phone charges.
 28. **A ranked view is single-carrier** (section 2). Gas rows are
     shown, but never given a rank.
 
@@ -693,29 +752,58 @@ review since the code landed; **no shipped value moved**.
 - **The gate's real pass rate was measured at 5.9%** of admissible
   pairs (section 3), which opens E8 below. Two dataset holes
   recorded there.
-- **One ledger row is stale:** `grid_factor` and `gas_factor` both
-  still annotate `data/app/energy_behaviors.json` as
-  `(pending build)`, but it shipped in 823f984.
+- **Five ledger rows were stale, not one:** `grid_factor`,
+  `gas_factor`, `energy_appliance_averages`, `energy_meti_measured`
+  and `energy_standby` all still annotated
+  `data/app/energy_behaviors.json` as `(pending build)` after it
+  shipped in 823f984. All five annotations cleared 2026-08-30.
+
+**2026-08-30 -- build pass.** Executed the decisions above in one
+working-tree pass: the `fan` entry (dataset regenerated to 34),
+the E7 ratio-led result rework (with rule 26's two fallbacks and
+rule 27's electricity-only anchor), the 8.16 methodology screen
+with the reusable ranked table, 8.17's route and entry points,
+and the section 9 closures recorded there. Section 1 carries the
+item-by-item record; `flutter analyze` clean and the full suite
+green at the end of the pass. Manually verified on the iOS
+simulator 2026-08-31 (both screens driven against the shipped
+dataset via a throwaway entrypoint, no Firebase): the E7 ratio
+card, the fan-vs-aircon verdict (7.6x, 10 phone charges), the
+category-error and crossover refusal dialogs, the ranked table's
+ordering and unranked gas section, and the data-derived source
+list including the fan's Panasonic citation. One defect found and
+fixed in the same pass: hour/minute/day quantity labels read
+"1 hours" at exactly one unit -- singular keys added in all three
+locales, pinned by a test.
 
 ### Open decisions
 
-**E8 (primary surface) -- OPEN, owner call.** The comparator is
-built and its gating is correct, and it refuses 94% of the pairs a
-user can assemble in it (section 3). The open question is whether
-the free-form two-column builder should be the primary surface at
-all, or whether **"Where your energy goes"** -- the ranked,
-single-carrier, ratio-led view already specified as a methodology
-section in PLAN_PHASE_8 8.16 ("Where the heat is") -- should lead,
+**E8 (primary surface) -- PROVISIONALLY RESOLVED 2026-08-30:
+ship both surfaces, then compare them in the app.** The comparator
+is built and its gating is correct, and it refuses 94% of the
+pairs a user can assemble in it (section 3). The question was
+whether the free-form two-column builder should be the primary
+surface at all, or whether **"Where your energy goes"** -- the
+ranked, single-carrier, ratio-led view sketched as a methodology
+bullet in PLAN_PHASE_8 8.16 ("Where the heat is") -- should lead,
 with the comparator demoted to a secondary view seeded from a
-tapped row. Seeding it from a row confines it to within-group by
+tapped row. (Seeding from a row confines it to within-group by
 construction, which makes condition 1 unreachable and removes the
-modal refusal.
+modal refusal.)
 
-Nothing is deleted either way: the dataset, the engine, the
-carrier gate and the 20% bar all survive both options. What
-changes is what 8.17 routes to, and how much of the picker and
-usage editor stays. **Do not build 8.17's entry points until this
-is settled**, because the entry point is the decision.
+Owner call: build both now. The comparator is the routed primary;
+the ranked table ships inside the methodology screen, built as a
+standalone reusable widget so promoting it later is cheap. The
+final surface decision stays with E8 and is made by a thorough
+in-app comparison once both have landed, judged on: first-contact
+experience (how often realistic free-form pairs refuse a verdict,
+against how the ranked table reads on first open),
+discoverability of the teaching content two taps deep, whether
+row-seeding the comparator is worth building, and the cost of
+promotion if the ranked view wins. Nothing is deleted either way:
+the dataset, the engine, the carrier gate and the 20% bar all
+survive both outcomes. **8.17 is unblocked and routes to the
+comparator.**
 
 E1-E7 are settled (Appendix A). `full_laundry_load`'s record and
 [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 carry the retired
@@ -724,7 +812,9 @@ arithmetic and the condition for restoring it.
 **11 actions carry `category: "energy"`** after the two archivings
 and every one carries `sources[]` and a confidence. Phase 8.13
 research and the decisions here are complete; the feature is
-built, and what remains is E8 and the 8.17 work it blocks.
+built, and what remains is the section 1 build list (8.16
+remainder, the E7 rework, `fan`, 8.17) and the E8 in-app
+comparison after it lands.
 
 ---
 
@@ -738,52 +828,49 @@ redundant test coverage. Section 8 carries the open *decisions*
 
 **Untested code.**
 
-- [ ] **`energy_calculator_screen.dart` has no widget test at
-      all** (316 lines). `energy_widgets_test.dart` imports only
-      `energy_behavior_picker.dart` and `usage_editor_sheet.dart`.
-      Food's `food_calculator_screen_test.dart` is the model to
-      copy. The specific gaps: `_explainNoVerdict`, whose switch
-      maps `EnergyVerdictBlock.differentGroup` and
-      `differentCarrier` to their own copy and everything else to
-      `energyVerdictTooClose` through a wildcard arm, so a
-      mis-mapped block would be invisible; and the strings
-      `energyComparisonDelta`, `energyComparisonNoVerdict`,
-      `energyVerdictWhyCta`, `energyNoPointsNote` and
-      `energyColumnEmptyHint`, none of which appears anywhere in
-      `test/`.
-- [ ] **`energy_science_sheet.dart`'s `_body` has no test**,
-      specifically the `energyScienceNoSources` branch. That branch
-      is not hypothetical: five behaviours ship `sources: []` on
-      purpose -- `line_dry`, `microwave`, `led_bulb`,
-      `incandescent_bulb` and `laptop_charge` -- so it is the path a
-      user reaches on 5 of 33 entries. Partly retired 2026-08-30:
-      the sheet chrome and the source list moved to
-      `ScienceSheet`/`sourcesMarkdown`, which
-      `test/shared/widgets/science_sheet_test.dart` covers. The
-      per-feature `_body` builders remain untested.
-- [ ] **The 20% verdict boundary is not pinned.**
-      `energy_calculator_test.dart` exercises the gate at 0.3%
-      (`tooClose`) and at a 1-vs-5 delta (`none`), so nothing
-      catches the bar moving to 19 or 21. Food pins its equivalent
-      exactly ("20% exactly is enough", asserting `deltaPercent`
-      `closeTo(20, 1e-9)`); copy that shape.
+- [x] ~~**`energy_calculator_screen.dart` has no widget test at
+      all**~~. Closed 2026-08-30:
+      `energy_calculator_screen_test.dart` (modelled on food's)
+      covers the ratio headline, the gas and mixed-carrier and
+      zero-kWh fallbacks, all three refusal dialogs individually
+      (killing the `_explainNoVerdict` wildcard-arm blind spot),
+      and the previously untested strings. A methodology smoke
+      test (`energy_methodology_screen_test.dart`) covers the new
+      screen and the ranked table's ordering and gas handling.
+- [x] ~~**`energy_science_sheet.dart`'s `_body` has no test**~~.
+      Retired in two steps on 2026-08-30: the sheet chrome and the
+      source list moved to `ScienceSheet`/`sourcesMarkdown`
+      (covered by `test/shared/widgets/science_sheet_test.dart`),
+      and `energy_widgets_test.dart` now exercises energy's `_body`
+      on both branches, including `energyScienceNoSources` -- the
+      path five deliberately uncited behaviours reach. The food
+      and transport `_body` builders remain untested, tracked in
+      their own open lists.
+- [x] ~~**The 20% verdict boundary is not pinned.**~~ Closed
+      2026-08-30: `energy_calculator_test.dart` pins "20% exactly
+      is enough" (food's `closeTo(20, 1e-9)` shape) and "just
+      under 20% still blocks" (19.35%), bracketing the bar from
+      both sides.
 - [x] ~~**`EnergyCalculator.routineKwh` has no input guard.**~~
-      Resolved by deletion (2026-08-30): the method had no
-      production caller and nothing in the UI showed kWh, so it
-      went along with the `energyTotalKwh` strings rather than
-      gaining a guard for tests to exercise.
-- [ ] **The all-zero comparison is untested in the energy suite.**
-      `line_dry` in both columns is reachable in the UI and lands
-      on `compareTotals`' `worst <= 0 ? 0` branch, which then reads
-      as `tooClose`. `compareTotals([0, 0])` is pinned in
-      `test/shared/domain/carbon_comparison_test.dart`, but nothing
-      asserts what the energy gate and the screen do with it.
-- [ ] **`energy_citations_test.dart` does not pin `accessed`.** It
-      pins the `(behavior, source name, url, quote)` tuple, while
-      its own header names "citations borrowed from
-      `co2_actions_database.json` with their access date rewritten"
-      as one of the two defects the file exists to catch. The
-      rewritten date is exactly the field it does not assert.
+      Resolved twice on 2026-08-30: first by deletion (no
+      production caller; the `energyTotalKwh` strings went with
+      it), then reinstated the same day WITH the guard when the E7
+      rework made it live -- the ratio headline and phone-charge
+      equivalency are computed in kWh (rules 26-27), and
+      `usageCo2eGrams` shares the same `_requireFiniteUnits`
+      check.
+- [x] ~~**The all-zero comparison is untested in the energy
+      suite.**~~ Closed 2026-08-30: pinned in
+      `energy_calculator_test.dart` -- an all-zero pair lands on
+      `tooClose`, never a winner, so the safe-by-accident carrier
+      filter stays safe on purpose.
+- [x] ~~**`energy_citations_test.dart` does not pin `accessed`.**~~
+      Closed 2026-08-30 (after first narrowing the claim:
+      `energy_behaviors_data_test.dart` already bounded the date
+      set). The citations file now pins every off-baseline access
+      date by `(behavior, source name)` -- today the oven's
+      2026-08-29 and the fan's 2026-08-30 -- closing the
+      swap-within-the-allowlist gap where the tuple lives.
 
 **Redundant pins to consolidate.** All of these duplicate
 `energy_exact_values_test.dart`, which pins `kwh_per_unit`,
@@ -802,38 +889,40 @@ for all 33 rows:
       (`energy_behaviors_data_test.dart`,
       `energy_exact_values_test.dart`,
       `energy_behaviors_loader_test.dart`). One is the loader's
-      job.
-- [ ] **Keep** `energy_dataset_invariants_test.dart`'s "the oven
-      stays per bake cycle". It is **not** redundant:
-      `energy_exact_values_test.dart` pins no `unit`, so that test
-      is the only guard on the oven's unit, which decision E2 in
-      section 2 calls out as the field a well-meaning edit reaches
-      for. Listed here so a consolidation pass does not delete it
-      with the rest.
+      job. Related fourth copy: the generator's
+      `EXPECTED_BEHAVIORS` must move in lockstep (its own error
+      message says so), and no test ties the two constants
+      together.
+- [x] ~~`energy_dataset_invariants_test.dart`'s "the oven stays
+      per bake cycle"~~ deleted 2026-08-30: the earlier **Keep**
+      note here claimed it was the only unit guard, but
+      `energy_behaviors_data_test.dart`'s "every behavior ships the
+      unit its research assigned" pins every unit by id --
+      including `oven: use`, with the same no-per-hour-figure
+      rationale in its comment. (`energy_exact_values_test.dart`
+      pins no `unit`, which is where the Keep note went wrong: it
+      scoped "only guard" to one file instead of the suite.)
 
 **Weak assertion.**
 
-- [ ] `energy_behaviors_data_test.dart`'s "an unknown carrier or
-      unit throws rather than becoming null" uses
-      `throwsA(anything)` twice. That passes on any exception,
-      including a `TypeError` from an unrelated refactor of
-      `EnergyBehavior.fromJson`. Narrow it to the exception the
-      enum decoder actually throws.
+- [x] ~~`energy_behaviors_data_test.dart` uses `throwsA(anything)`
+      twice~~. Narrowed 2026-08-30 to `throwsArgumentError`, which
+      is what json_serializable's `$enumDecode` actually throws; the
+      old matcher also passed on unrelated `TypeError`s.
 
 **Cross-workstream.**
 
-- [ ] **Extract a shared dataset-assertion helper.** Seven
-      structural checks are hand-written three times, in
-      `energy_behaviors_data_test.dart`,
-      `food_items_data_test.dart` and
-      `transport_modes_data_test.dart`: exact record count, unique
-      ids, category drawn from a known set, all three locale names
-      present, factors positive with the documented zero
-      exception, every record carrying at least one complete
-      source, and every record documenting its arithmetic. A
-      fourth dataset would make it four. This item spans energy,
-      food and transport; it is tracked here so it has one home,
-      and the food and transport open lists point at it.
+- [x] ~~**Extract a shared dataset-assertion helper.**~~ Rejected
+      2026-08-30 (owner call) after measuring the claim: of the
+      seven structural checks, only five are true triplicates, and
+      only food and transport are near-verbatim twins. Energy's
+      source rule is the *inverse* of theirs -- it asserts that
+      exactly five rows ship without a citation -- and it has no
+      known-group-set check. Absorbing that needs per-assertion
+      closures at every call site and degrades failure output,
+      which is the one thing a dataset test exists for. The
+      redundant-pin deletions above took the real duplication.
+      The food and transport open lists record the same closure.
 
 ---
 
@@ -864,6 +953,10 @@ for all 33 rows:
 | 2026-08-30 | Ratios computed in kWh against a dataset entry, never from `impact_equivalencies.json` | sec 2 here |
 | 2026-08-30 | Maintenance-cost critique withdrawn: the fan-out is fully enumerated in the ledger and the dataset stores no precomputed CO2 | sec 8 here |
 | 2026-08-30 | E8 OPENED: comparator vs ranked view as the primary surface; 8.17 blocked on it | sec 8 here |
+| 2026-08-30 | E8 PROVISIONALLY RESOLVED: ship both surfaces -- comparator primary, ranked table in the methodology screen as a reusable widget; final surface decided by an in-app comparison once both land | sec 8 here |
+| 2026-08-30 | `fan` added to `space_cool` (0.022 kWh/h, Panasonic F-CV339, the `use_fan_instead_of_ac` source); pairs the singleton | sec 3 here |
+| 2026-08-30 | Self-comparison documented as intended -- preset-driven same-entry comparison carries the setpoint and shower-length lessons | sec 3 here |
+| 2026-08-30 | Shared dataset-assertion helper rejected -- only food and transport are twins; energy's source rule is the inverse of theirs | sec 9 here |
 
 ## Appendix B: Where the Detail Went
 

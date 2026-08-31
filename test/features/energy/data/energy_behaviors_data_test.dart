@@ -34,14 +34,16 @@ void main() {
     // The old version of this test asserted isNotEmpty on two sets
     // built from 33 rows, which cannot fail while the file has any
     // rows at all. This actually exercises the failure mode.
+    // ArgumentError is what json_serializable's $enumDecode throws;
+    // throwsA(anything) also passed on unrelated TypeErrors.
     final valid = raw.first;
     expect(
       () => EnergyBehavior.fromJson({...valid, 'carrier': 'kerosene'}),
-      throwsA(anything),
+      throwsArgumentError,
     );
     expect(
       () => EnergyBehavior.fromJson({...valid, 'unit': 'fortnight'}),
-      throwsA(anything),
+      throwsArgumentError,
     );
   });
 
@@ -118,6 +120,7 @@ void main() {
       'kotatsu': EnergyUnit.hour,
       'electric_blanket': EnergyUnit.hour,
       'aircon_cooling': EnergyUnit.hour,
+      'fan': EnergyUnit.hour,
       'kettle': EnergyUnit.use,
       'ih_hob': EnergyUnit.use,
       'gas_hob': EnergyUnit.use,
@@ -209,12 +212,12 @@ void main() {
 
   test('every citation carries an access date this project can support', () {
     // RESEARCH_ENERGY.md states 2026-08-02 for every source in its
-    // sections 1 and 3. The only other permitted date is 2026-08-29,
-    // when the oven citation was re-fetched to settle its regulation
-    // number. Any other value means a citation was imported from
-    // another dataset or invented -- which is how the two lighting
-    // entries went wrong.
-    const allowed = {'2026-08-02', '2026-08-29'};
+    // sections 1 and 3. 2026-08-29 is the oven citation, re-fetched to
+    // settle its regulation number; 2026-08-30 is the fan's Panasonic
+    // spec, live-verified when the entry was added. Any other value
+    // means a citation was imported from another dataset or invented --
+    // which is how the two lighting entries went wrong.
+    const allowed = {'2026-08-02', '2026-08-29', '2026-08-30'};
     for (final b in behaviors) {
       for (final s in b.sources) {
         expect(allowed, contains(s.accessed), reason: '${b.id}: ${s.name}');

@@ -107,6 +107,40 @@ void main() {
     });
   });
 
+  group('routineKwh', () {
+    test('sums kWh across carriers, factor-blind', () {
+      // The E7 basis: a kWh sum cancels the carrier factor, so the
+      // ratio and the phone-charge equivalency built on it hold on
+      // every grid.
+      final total = EnergyCalculator.routineKwh(byId, const [
+        RoutineUsage(behaviorId: 'electric', units: 1),
+        RoutineUsage(behaviorId: 'gas', units: 2),
+      ]);
+      expect(total, 2 * 1 + 2 * 2);
+    });
+
+    test('shares the usageCo2eGrams input contract', () {
+      // NaN, infinity, negatives and unknown ids all throw, exactly
+      // like the grams path -- an unguarded kWh sum would let NaN
+      // reach the ratio headline.
+      for (final units in [double.nan, double.infinity, -1.0]) {
+        expect(
+          () => EnergyCalculator.routineKwh(byId, [
+            RoutineUsage(behaviorId: 'electric', units: units),
+          ]),
+          throwsArgumentError,
+          reason: '$units',
+        );
+      }
+      expect(
+        () => EnergyCalculator.routineKwh(byId, const [
+          RoutineUsage(behaviorId: 'nope', units: 1),
+        ]),
+        throwsArgumentError,
+      );
+    });
+  });
+
   group('comparison gating (decision E2)', () {
     /// Builds the summary the way the screen does.
     EnergyVerdictCheck check(
@@ -184,6 +218,47 @@ void main() {
       ], map);
       expect(result.block, EnergyVerdictBlock.tooClose);
       expect(result.requiredPercent, 20);
+    });
+
+    test('20% exactly is enough', () {
+      // 1145 -> 916 is a 20.0% reduction; the bar is >=, not >.
+      final options = [
+        [const RoutineUsage(behaviorId: 'electric', units: 1)],
+        [const RoutineUsage(behaviorId: 'electric', units: 1.25)],
+      ];
+      final totals = [
+        for (final o in options)
+          EnergyCalculator.routineCo2eGrams(
+            byId,
+            o,
+            gridFactor: grid,
+            gasFactor: gas,
+          ),
+      ];
+      expect(compareTotals(totals)!.deltaPercent, closeTo(20, 1e-9));
+      expect(check(options, byId).block, EnergyVerdictBlock.none);
+    });
+
+    test('just under 20% still blocks', () {
+      // 0.24 / 1.24 = 19.35%: pins the bar from below, so moving it
+      // to 19 fails here and moving it to 21 fails the exact-20 pin.
+      final options = [
+        [const RoutineUsage(behaviorId: 'electric', units: 1)],
+        [const RoutineUsage(behaviorId: 'electric', units: 1.24)],
+      ];
+      expect(check(options, byId).block, EnergyVerdictBlock.tooClose);
+    });
+
+    test('an all-zero comparison reads too close, never a winner', () {
+      // line_dry in both columns is reachable in the UI. worst <= 0
+      // zeroes deltaPercent, both carrier sets are empty, and the
+      // gate lands on tooClose -- safe today by the shape of the
+      // carrier filter, pinned so it stays safe on purpose.
+      final options = [
+        [const RoutineUsage(behaviorId: 'zero', units: 1)],
+        [const RoutineUsage(behaviorId: 'zero', units: 2)],
+      ];
+      expect(check(options, byId).block, EnergyVerdictBlock.tooClose);
     });
 
     test('identical carrier make-up on both sides is comparable', () {

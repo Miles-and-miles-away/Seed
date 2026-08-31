@@ -9,11 +9,13 @@ import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart'
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/features/energy/presentation/providers/energy_providers.dart';
+import 'package:seed_app/features/energy/presentation/screens/energy_methodology_screen.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_behavior_picker.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Side-by-side routine comparison (Phase 8.14/8.15).
@@ -35,6 +37,12 @@ class EnergyCalculatorScreen extends ConsumerStatefulWidget {
 
 class _EnergyCalculatorScreenState
     extends ConsumerState<EnergyCalculatorScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(analyticsServiceProvider).logEnergyCalculatorOpened();
+  }
+
   Future<void> _addUsage(EnergyBehavior behavior, int option) async {
     final units = await UsageEditorSheet.show(context, behavior: behavior);
     if (units == null || !mounted) return;
@@ -104,7 +112,20 @@ class _EnergyCalculatorScreenState
     final behaviorsAsync = ref.watch(energyBehaviorsProvider);
     final factorsAsync = ref.watch(energyCarrierFactorsProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.energyCalculatorTitle)),
+      appBar: AppBar(
+        title: Text(l10n.energyCalculatorTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.science_outlined),
+            tooltip: l10n.energyMethodologyTitle,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const EnergyMethodologyScreen(),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: switch ((behaviorsAsync, factorsAsync)) {
         (AsyncData(value: final behaviors), AsyncData(value: final factors)) =>
           _buildBody(behaviors, factors),
@@ -160,7 +181,15 @@ class _EnergyCalculatorScreenState
       addLabel: l10n.energyAddUsage,
       onAdd: (option) => _browse(behaviors, option),
       bestIndex: showVerdict ? summary?.bestIndex : null,
-      result: _buildResult(l10n, summary, check),
+      result: _buildResult(
+        l10n,
+        locale,
+        byId,
+        options,
+        factors,
+        summary,
+        check,
+      ),
     );
   }
 
@@ -191,12 +220,26 @@ class _EnergyCalculatorScreenState
     );
   }
 
-  /// The delta and, where the gating blocks a verdict, the reason.
+  /// The verdict and, where the gating blocks one, the reason.
+  ///
+  /// The ratio leads and the gram figure follows (decision E7, PDR
+  /// rules 26-27): the multiple is computed in kWh so it holds on
+  /// every grid, and the phone-charge line divides by the dataset's
+  /// own phone_charge row rather than the Phase 6 equivalency
+  /// constant, which scales with the grid. Two honest fallbacks keep
+  /// the gram-delta sentence instead: a zero-kWh winner (line drying
+  /// has no multiple) and a mixed-carrier routine pair, whose CO2e
+  /// multiple moves with the grid. Gas kWh is fuel input, so gas
+  /// deltas are never converted to phone charges.
   ///
   /// No banking button and no equivalency-to-action here: this screen
   /// teaches and nothing else (decision 8.18).
   Widget _buildResult(
     AppLocalizations l10n,
+    String locale,
+    Map<String, EnergyBehavior> byId,
+    List<List<RoutineUsage>> options,
+    CarrierFactors factors,
     ComparisonSummary? summary,
     EnergyVerdictCheck? check,
   ) {
@@ -234,14 +277,61 @@ class _EnergyCalculatorScreenState
     final worstLabel = summary.worstIndex == optionA
         ? l10n.calculatorOptionA
         : l10n.calculatorOptionB;
+    final bestKwh = EnergyCalculator.routineKwh(
+      byId,
+      options[summary.bestIndex],
+    );
+    final worstKwh = EnergyCalculator.routineKwh(
+      byId,
+      options[summary.worstIndex],
+    );
+    final carriers = <EnergyCarrier>{
+      for (final option in options)
+        for (final usage in option)
+          if (byId[usage.behaviorId]!.carrier != EnergyCarrier.none)
+            byId[usage.behaviorId]!.carrier,
+    };
+    final singleCarrier = carriers.length <= 1;
+    final electricOnly = !carriers.contains(EnergyCarrier.gas);
+    // The exact-values test pins the anchor row's presence; a missing
+    // anchor degrades to no equivalency line rather than a crash.
+    final anchor = byId['phone_charge'];
+    final charges = anchor == null
+        ? 0
+        : ((worstKwh - bestKwh) / anchor.kwhPerUnit).round();
+    final showCharges = electricOnly && charges >= 1;
+    final amount = formatCO2Compact(summary.deltaGrams.round());
+    final ratioLeads = singleCarrier && bestKwh > 0;
+    final headline = ratioLeads
+        ? l10n.energyComparisonRatio(
+            worstLabel,
+            formatEnergyMultiple(locale, worstKwh / bestKwh),
+            bestLabel,
+          )
+        : l10n.energyComparisonDelta(
+            bestLabel,
+            amount,
+            worstLabel,
+            summary.deltaPercent.round(),
+          );
+    final equivalency = ratioLeads
+        ? (showCharges
+              ? l10n.energyComparisonSavesEquiv(amount, charges)
+              : l10n.energyComparisonSavesOnly(amount))
+        : (showCharges ? l10n.energyPhoneChargesEquiv(charges) : null);
     return ComparisonDeltaCard(
-      headline: l10n.energyComparisonDelta(
-        bestLabel,
-        formatCO2Compact(summary.deltaGrams.round()),
-        worstLabel,
-        summary.deltaPercent.round(),
-      ),
-      basisNotes: [l10n.energyNoPointsNote],
+      headline: headline,
+      equivalencyText: equivalency,
+      basisNotes: [
+        // "the multiple holds on any grid" only ships where a multiple
+        // is on screen. In the mixed-carrier fallback it is also false:
+        // that pair's CO2e multiple is exactly what moves with the grid.
+        if (ratioLeads)
+          l10n.energyGridBasisNoteRatio(factors.grid.round())
+        else
+          l10n.energyGridBasisNote(factors.grid.round()),
+        l10n.energyNoPointsNote,
+      ],
     );
   }
 

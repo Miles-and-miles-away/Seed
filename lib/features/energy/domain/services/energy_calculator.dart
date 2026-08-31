@@ -16,24 +16,14 @@ class EnergyCalculator {
   /// CO2e grams for a single usage, given the two carrier factors from
   /// the dataset metadata.
   ///
-  /// Throws [ArgumentError] on negative units.
+  /// Throws [ArgumentError] unless units are finite and >= 0.
   static double usageCo2eGrams(
     EnergyBehavior behavior,
     RoutineUsage usage, {
     required double gridFactor,
     required double gasFactor,
   }) {
-    // `< 0` alone is not enough: every comparison with NaN is false, so
-    // NaN sailed through, produced a NaN total, and then defeated the
-    // `deltaPercent < 20` gate the same way -- letting the app declare a
-    // winner on a NaN comparison. Infinity did the same.
-    if (!usage.units.isFinite || usage.units < 0) {
-      throw ArgumentError.value(
-        usage.units,
-        'units',
-        'must be finite and >= 0',
-      );
-    }
+    _requireFiniteUnits(usage);
     final factor = switch (behavior.carrier) {
       EnergyCarrier.electricity => gridFactor,
       EnergyCarrier.gas => gasFactor,
@@ -42,10 +32,20 @@ class EnergyCalculator {
     return behavior.kwhPerUnit * usage.units * factor;
   }
 
-  /// Total CO2e grams for a routine.
-  ///
-  /// Throws [ArgumentError] if a usage references an unknown behavior
-  /// id -- the dataset is static, so that is a programming error.
+  /// `< 0` alone is not enough: every comparison with NaN is false, so
+  /// NaN sailed through, produced a NaN total, and then defeated the
+  /// `deltaPercent < 20` gate the same way -- letting the app declare a
+  /// winner on a NaN comparison. Infinity did the same.
+  static void _requireFiniteUnits(RoutineUsage usage) {
+    if (!usage.units.isFinite || usage.units < 0) {
+      throw ArgumentError.value(
+        usage.units,
+        'units',
+        'must be finite and >= 0',
+      );
+    }
+  }
+
   /// The behavior a usage names, or [ArgumentError] if the dataset does
   /// not have it.
   ///
@@ -69,6 +69,10 @@ class EnergyCalculator {
     return behavior;
   }
 
+  /// Total CO2e grams for a routine.
+  ///
+  /// Throws [ArgumentError] if a usage references an unknown behavior
+  /// id -- the dataset is static, so that is a programming error.
   static double routineCo2eGrams(
     Map<String, EnergyBehavior> behaviorsById,
     List<RoutineUsage> usages, {
@@ -84,6 +88,25 @@ class EnergyCalculator {
         gridFactor: gridFactor,
         gasFactor: gasFactor,
       );
+    }
+    return total;
+  }
+
+  /// Total kWh for a routine, carrier-blind.
+  ///
+  /// The grid-invariant basis for the ratio headline and the
+  /// phone-charge equivalency (E7, PDR rules 26-27): a kWh ratio
+  /// cancels the carrier factor, where a gram ratio is only true on
+  /// one grid. Same input contract as [routineCo2eGrams].
+  static double routineKwh(
+    Map<String, EnergyBehavior> behaviorsById,
+    List<RoutineUsage> usages,
+  ) {
+    var total = 0.0;
+    for (final usage in usages) {
+      _requireFiniteUnits(usage);
+      total +=
+          _require(behaviorsById, usage.behaviorId).kwhPerUnit * usage.units;
     }
     return total;
   }

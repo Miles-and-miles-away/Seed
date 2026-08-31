@@ -479,11 +479,12 @@ Live:
       out of this document's prose and citing the RESEARCH section
       instead. Do it as its own pass, not folded into a value
       change.
-- [ ] **Shared dataset-assertion helper** -- tracked in
+- [x] ~~**Shared dataset-assertion helper**~~ -- rejected
+      2026-08-30 in
       [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
-      section 9, because it spans all three calculators.
-      `food_items_data_test.dart` is one of the three files that
-      hand-writes the same seven structural checks.
+      section 9: only food and transport are near-verbatim twins,
+      energy's source rule is the inverse of theirs, and the
+      abstraction degrades failure output.
 - [ ] **Never run on a device** (moved here 2026-08-08). All food
       confidence is unit and widget tests. The 167-item picker, the
       cooked-weight preset labels, the no-verdict dialog and the

@@ -252,6 +252,12 @@ void main() {
         '冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ',
       ),
       (
+        'fan',
+        'Panasonic F-CV339 仕様',
+        'https://panasonic.jp/fan/products/F-CV339/spec.html',
+        '消費電力 [ノッチ 8(強)] 50/60Hz:22W',
+      ),
+      (
         'kettle',
         'Murray, Liao, Stankovic & Stankovic (Strathclyde), EEDAL 2015',
         'https://strathprints.strath.ac.uk/55059/1/Murray_etal_EEDAL2015_How_make_efficient_use_kettles_understanding_usage_patterns.pdf',
@@ -309,5 +315,32 @@ void main() {
     // Compared as an ordered list, so a citation moving between
     // behaviors fails too -- that is precisely the wash-quote bug.
     expect(actual, expected);
+  });
+
+  test('every access date ships exactly as researched', () {
+    // The header names "borrowed citation with a rewritten access
+    // date" as a defect class this file exists to catch, and the date
+    // is the field the tuple pin above does not carry. The allowlist in
+    // energy_behaviors_data_test.dart bounds the date set; this pins
+    // which source carries which date, closing the swap-within-the-
+    // allowlist gap.
+    final root =
+        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
+            as Map<String, dynamic>;
+    final dates = {
+      for (final b
+          in (root['behaviors'] as List<dynamic>).cast<Map<String, dynamic>>())
+        for (final s
+            in (b['sources'] as List<dynamic>).cast<Map<String, dynamic>>())
+          '${b['id']}/${s['name']}': s['accessed'] as String,
+    };
+    final offBaseline = Map.of(dates)
+      ..removeWhere((_, accessed) => accessed == '2026-08-02');
+    expect(offBaseline, {
+      'oven/Commission Regulation (EU) No 66/2014, Annex II (ecodesign '
+              'requirements for domestic ovens, hobs and range hoods)':
+          '2026-08-29',
+      'fan/Panasonic F-CV339 仕様': '2026-08-30',
+    });
   });
 }

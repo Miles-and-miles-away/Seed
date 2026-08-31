@@ -155,18 +155,21 @@ navigate via the tabs. The implicit AppBar back arrow is suppressed
 (`automaticallyImplyLeading: false`) so the bottom nav is the single,
 unambiguous exit. Browse and log actions.
 - Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
-  `/transport-calculator` and `/food-calculator` — reached via the AppBar
-  calculator chooser (transport / food / home energy; home energy disabled
-  until it ships) and the "Log a Custom Transport action" / "Log a Custom
-  Food action" cards shown only in their category views; inline
+  `/transport-calculator`, `/food-calculator` and `/energy-calculator` —
+  reached via the AppBar calculator chooser (transport / food / home
+  energy, all live since 8.17) and the "Log a Custom Transport action" /
+  "Log a Custom Food action" / "Compare home energy use" cards shown only
+  in their category views; inline
   confirmation dialog / science bottom sheet
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All").
 - Functionality: AppBar calculator-chooser icon opening the calculators
   bottom sheet; search, category tabs, sort dropdown, SDG filter chips,
   action cards with log confirmation and science info; a "Log a Custom
-  Transport action" card in the transport view and a "Log a Custom
-  Food action" card in the food view.
+  Transport action" card in the transport view, a "Log a Custom
+  Food action" card in the food view, and a "Compare home energy use"
+  card in the energy view (badged "Calculator" rather than "Custom" --
+  the energy calculator banks nothing, decision 8.18).
 
 ## Transport Calculator (`/transport-calculator`)
 
@@ -304,6 +307,52 @@ Banked food choices appear in the Progress calendar like any logged
 action; the day-detail "Do this again" reproduce path applies to them
 too.
 
+## Home Energy Calculator (`/energy-calculator`)
+
+Pushed full-screen route (Phase 8, Part 3). Educational side-by-side
+routine comparison, same two-column shape as the other calculators
+(shared `ComparisonScaffold`, `OptionEntryCard`,
+`ComparisonDeltaCard`). A teaching tool, not a decision tool: it never
+awards points and has no "I chose X" banking button (decision 8.18 --
+a shorter shower has no verifiable counterfactual, and the action
+library already covers the same behaviours).
+- Reached from: the AppBar calculator chooser on the Log Action screen
+  (home energy tile), and the "Compare home energy use" card shown in
+  that screen's energy category view (kept off the bottom nav to hold
+  it at five buttons).
+- Links (internal Navigator pushes, not named routes): Methodology &
+  Sources screen (AppBar science icon). Per-behavior science sheets
+  open from the picker's info icons.
+- Layout: two option columns with an "Add usage" button under each and
+  the result panel below. Adding opens the grouped behavior picker
+  (recents on top), then a quantity editor with preset chips over an
+  editable amount field (rejects zero/negative/NaN).
+- Result panel: gated by decision E2 -- a verdict needs the same
+  comparable group, the same carrier and a delta of at least 20%,
+  otherwise it reads "No winner here" with a "Why not?" dialog giving
+  the real reason. When a verdict passes, the grid-invariant multiple
+  leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
+  computed in kWh; the gram delta and a phone-charge equivalency
+  (anchored on the dataset's own `phone_charge` row, electricity
+  deltas only) sit beneath, over basis notes naming the 458 g CO2e/kWh
+  world-average grid and the no-points rule. Zero-kWh winners (line
+  drying) and mixed-carrier routine pairs fall back to the gram-delta
+  sentence, which is the honest form for them.
+- Both columns survive navigating away and back (keepAlive providers);
+  they reset on app restart.
+
+### Methodology & Sources (pushed within the feature)
+Markdown page (8.16): operational-energy scope and the never-sum
+warning, the one-global-grid-figure disclosure (458, Ember 2025, with
+the regionalisation rationale), the 241 g/kWh gas-vs-electric
+crossover (the UK has already crossed it), the four-way heating
+hierarchy, measured-vs-rated and standby honesty notes, the lighting
+bulb basis, the avoided-emissions caveat, and the ranked "Where your
+energy goes" table (`EnergyRankedTable`, a standalone widget:
+electricity rows ranked as multiples of an LED-hour, gas rows shown
+unranked per PDR rule 28), then a source list derived from the
+dataset. JA and ES bodies are written natively, not translated.
+
 ## Tab 2 — Mascot (`/mascot`)
 
 Active mascot with evolution timeline and multi-mascot collection.
@@ -396,6 +445,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `actionLog`               | `/log-action`                     |
 | `transportCalculator`     | `/transport-calculator`           |
 | `foodCalculator`          | `/food-calculator`                |
+| `energyCalculator`        | `/energy-calculator`              |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `mascot`                  | `/mascot`                         |

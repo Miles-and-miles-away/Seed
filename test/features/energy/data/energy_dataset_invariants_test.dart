@@ -117,10 +117,9 @@ void main() {
     expect(10 * kwh('rice_keepwarm'), greaterThan(kwh('rice_cooker')));
   });
 
-  test('the oven stays per bake cycle', () {
-    // No per-hour oven figure exists anywhere: DOE never adopted an
-    // active-mode standard and ENERGY STAR does not certify ovens. An
-    // edit to `hour` would be inventing one.
-    expect(byId['oven']!['unit'], 'use');
+  test('pin 16: aircon cooling is over 5x the fan', () {
+    // The flagship cooling lesson, buildable in-app since the fan
+    // entry paired the space_cool singleton. Actual ratio 7.62x.
+    expect(kwh('aircon_cooling'), greaterThan(5 * kwh('fan')));
   });
 }

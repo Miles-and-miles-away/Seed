@@ -172,6 +172,25 @@ void main() {
       );
     });
 
+    test('fan vs an hour of aircon cooling', () {
+      // The flagship cooling lesson, buildable since `fan` paired the
+      // space_cool singleton (owner call, 2026-08-30). 7.6x apart.
+      expect(
+        blockFor([('fan', 1)], [('aircon_cooling', 1)]),
+        EnergyVerdictBlock.none,
+      );
+    });
+
+    test('the setpoint self-comparison is intended, not a hole', () {
+      // PDR section 3, 2026-08-30: the same entry at two preset
+      // quantities is how the setpoint lesson ships. 26 C is 1.35783
+      // hourly units against 1.0 at 28 C, a 26% delta.
+      expect(
+        blockFor([('aircon_cooling', 1.35783)], [('aircon_cooling', 1.0)]),
+        EnergyVerdictBlock.none,
+      );
+    });
+
     test('cross-unit comparisons inside one group are allowed', () {
       // Owner call, 2026-08-29. `cook` spans a bake cycle, a minute and
       // an hour, so the gate permits ten hours of keep-warm against one

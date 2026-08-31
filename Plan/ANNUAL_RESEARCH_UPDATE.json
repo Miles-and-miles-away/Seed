@@ -62,7 +62,7 @@
       "category": "carrier_factor",
       "files": [
         "data/app/transport_modes.json (metadata.grid_factor_g_per_kwh)",
-        "data/app/energy_behaviors.json (metadata.grid_factor_g_per_kwh, pending build)",
+        "data/app/energy_behaviors.json (metadata.grid_factor_g_per_kwh)",
         "Plan/AUDIT_ACTION_DATA.md section 8",
         "data/seed/co2_actions_database.json (13 grid-derived actions; SINGLE SOURCE OF TRUTH for the action library)"
       ],
@@ -106,7 +106,7 @@
       "title": "Natural gas combustion factor",
       "category": "carrier_factor",
       "files": [
-        "data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh, pending build)"
+        "data/app/energy_behaviors.json (metadata.gas_factor_g_per_kwh)"
       ],
       "current_value": "182 g CO2e/kWh",
       "vintage": "DEFRA/DESNZ 2026 release (0.18231, Scope 1 combustion, Gross CV)",
@@ -321,7 +321,7 @@
       "title": "Appliance per-cycle energy figures",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)"
+        "data/app/energy_behaviors.json"
       ],
       "current_value": "wash 0.350 / 1.300 / 1.700; dryer 4.5 vented, 2.05 heat pump; dishwasher 0.85 eco, 1.12 normal",
       "vintage": "Bosch EN50229 spec sheets; Which? July 2026",
@@ -351,7 +351,7 @@
       "title": "METI measured appliance figures (aircon, TV, heaters, rice cooker)",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)",
+        "data/app/energy_behaviors.json",
         "methodology fridge context line (~0.7 kWh/day JP, JIS-measured)"
       ],
       "current_value": "aircon cooling 0.167679 kWh/h, heating 0.241006; TV 0.079096; rice cooker 0.16 + 0.0165 keep-warm",
@@ -396,7 +396,7 @@
       "title": "Household standby power",
       "category": "energy",
       "files": [
-        "data/app/energy_behaviors.json (pending build)",
+        "data/app/energy_behaviors.json",
         "data/seed/co2_actions_database.json (unplug_standby)"
       ],
       "current_value": "0.8 kWh/day household; 0.5 W per device",

@@ -796,6 +796,43 @@
       ]
     },
     {
+      "id": "fan",
+      "comparable_group": "space_cool",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.022,
+      "name_en": "Electric fan",
+      "name_ja": "扇風機",
+      "name_es": "Ventilador",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1.0
+        },
+        {
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4.0
+        }
+      ],
+      "default_preset_id": "one_hour",
+      "calculation_notes": "Panasonic F-CV339 DC living fan at its highest notch (22 W), the same basis as the use_fan_instead_of_ac action so the calculator and the action library cannot disagree. A fan at a fixed notch draws constant power, so the nameplate-vs-cycling rule does not bind; the highest notch is the conservative direction for the fan-vs-aircon lesson. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "Panasonic F-CV339 仕様",
+          "url": "https://panasonic.jp/fan/products/F-CV339/spec.html",
+          "quote": "消費電力 [ノッチ 8(強)] 50/60Hz:22W",
+          "accessed": "2026-08-30"
+        }
+      ]
+    },
+    {
       "id": "kettle",
       "comparable_group": "boil",
       "carrier": "electricity",

@@ -7,6 +7,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/usage_preset_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_behavior_picker.dart';
+import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
@@ -353,6 +354,23 @@ void main() {
 
       final l10n = await AppLocalizations.delegate.load(const Locale('en'));
       expect(find.textContaining(l10n.energyScienceNoSources), findsOneWidget);
+    });
+  });
+
+  group('energyUsageDetailLabel', () {
+    test('exactly one reads singular, everything else plural', () async {
+      // The units text is pre-formatted, so ICU plurals cannot apply;
+      // caught on-device as "1 hours" on every hour-unit card.
+      final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+      final hourly = _behavior(
+        'fan',
+        group: 'g',
+        en: 'Fan',
+        unit: EnergyUnit.hour,
+      );
+      expect(energyUsageDetailLabel(l10n, hourly, 1), '1 hour');
+      expect(energyUsageDetailLabel(l10n, hourly, 2), '2 hours');
+      expect(energyUsageDetailLabel(l10n, hourly, 1.5), '1.50 hours');
     });
   });
 }
