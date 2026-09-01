@@ -100,6 +100,7 @@ void main() {
       );
       expect(sizeIn(SdgFilterChips).height, sizeIn(ActionCategoryTabs).height);
       expect(sdg.backgroundColor, category.backgroundColor);
+      expect(sdg.labelStyle?.color, category.labelStyle?.color);
       expect(sdg.labelStyle?.fontSize, category.labelStyle?.fontSize);
       // Both need a visible edge now that neither is filled grey.
       expect(sdg.side, isNotNull);
