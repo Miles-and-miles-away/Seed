@@ -3006,7 +3006,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportLogChoiceCta.
   ///
   /// In en, this message translates to:
-  /// **'I chose {label}'**
+  /// **'Log {label} as a choice I took today'**
   String transportLogChoiceCta(String label);
 
   /// No description provided for @transportChoiceLoggedMessage.
@@ -3411,7 +3411,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodLogChoiceCta.
   ///
   /// In en, this message translates to:
-  /// **'I chose {label}'**
+  /// **'Log {label} as a choice I took today'**
   String foodLogChoiceCta(String label);
 
   /// No description provided for @foodChoiceLoggedMessage.

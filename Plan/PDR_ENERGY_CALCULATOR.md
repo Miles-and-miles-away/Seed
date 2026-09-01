@@ -822,69 +822,12 @@ comparison after it lands.
 
 **This is the live open list for the energy workstream**, opened
 2026-08-30 after a coverage pass over the suite that shipped in
-823f984. Nothing below changes a value; all of it is missing or
-redundant test coverage. Section 8 carries the open *decisions*
-(E8); this carries the open *work*.
+823f984. Nothing below changes a value. Section 8 carries the open
+*decisions* (E8); this carries the open *work*. Eleven items were
+closed in the 2026-08-30/31 build pass and moved to
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) section 10 (standing
+rule: closed items move to the archive); one remains:
 
-**Untested code.**
-
-- [x] ~~**`energy_calculator_screen.dart` has no widget test at
-      all**~~. Closed 2026-08-30:
-      `energy_calculator_screen_test.dart` (modelled on food's)
-      covers the ratio headline, the gas and mixed-carrier and
-      zero-kWh fallbacks, all three refusal dialogs individually
-      (killing the `_explainNoVerdict` wildcard-arm blind spot),
-      and the previously untested strings. A methodology smoke
-      test (`energy_methodology_screen_test.dart`) covers the new
-      screen and the ranked table's ordering and gas handling.
-- [x] ~~**`energy_science_sheet.dart`'s `_body` has no test**~~.
-      Retired in two steps on 2026-08-30: the sheet chrome and the
-      source list moved to `ScienceSheet`/`sourcesMarkdown`
-      (covered by `test/shared/widgets/science_sheet_test.dart`),
-      and `energy_widgets_test.dart` now exercises energy's `_body`
-      on both branches, including `energyScienceNoSources` -- the
-      path five deliberately uncited behaviours reach. The food
-      and transport `_body` builders remain untested, tracked in
-      their own open lists.
-- [x] ~~**The 20% verdict boundary is not pinned.**~~ Closed
-      2026-08-30: `energy_calculator_test.dart` pins "20% exactly
-      is enough" (food's `closeTo(20, 1e-9)` shape) and "just
-      under 20% still blocks" (19.35%), bracketing the bar from
-      both sides.
-- [x] ~~**`EnergyCalculator.routineKwh` has no input guard.**~~
-      Resolved twice on 2026-08-30: first by deletion (no
-      production caller; the `energyTotalKwh` strings went with
-      it), then reinstated the same day WITH the guard when the E7
-      rework made it live -- the ratio headline and phone-charge
-      equivalency are computed in kWh (rules 26-27), and
-      `usageCo2eGrams` shares the same `_requireFiniteUnits`
-      check.
-- [x] ~~**The all-zero comparison is untested in the energy
-      suite.**~~ Closed 2026-08-30: pinned in
-      `energy_calculator_test.dart` -- an all-zero pair lands on
-      `tooClose`, never a winner, so the safe-by-accident carrier
-      filter stays safe on purpose.
-- [x] ~~**`energy_citations_test.dart` does not pin `accessed`.**~~
-      Closed 2026-08-30 (after first narrowing the claim:
-      `energy_behaviors_data_test.dart` already bounded the date
-      set). The citations file now pins every off-baseline access
-      date by `(behavior, source name)` -- today the oven's
-      2026-08-29 and the fan's 2026-08-30 -- closing the
-      swap-within-the-allowlist gap where the tuple lives.
-
-**Redundant pins to consolidate.** All of these duplicate
-`energy_exact_values_test.dart`, which pins `kwh_per_unit`,
-`comparable_group`, `carrier`, preset quantities and `confidence`
-for all 33 rows:
-
-- [x] ~~`energy_dataset_invariants_test.dart` **pin 15** and
-      **pin 13**~~. Deleted 2026-08-30. Pin 15's eight
-      "wrong value a future edit would reach for" annotations moved
-      onto the corresponding rows of the exact-values kwh map,
-      where they were the only record of that reasoning.
-- [x] ~~`energy_behaviors_data_test.dart`'s "the researched group
-      distribution ships unchanged"~~. Deleted 2026-08-30; implied
-      by "every `comparable_group` ships exactly".
 - [ ] `ENERGY_BEHAVIOR_COUNT` is asserted in three files
       (`energy_behaviors_data_test.dart`,
       `energy_exact_values_test.dart`,
@@ -893,36 +836,6 @@ for all 33 rows:
       `EXPECTED_BEHAVIORS` must move in lockstep (its own error
       message says so), and no test ties the two constants
       together.
-- [x] ~~`energy_dataset_invariants_test.dart`'s "the oven stays
-      per bake cycle"~~ deleted 2026-08-30: the earlier **Keep**
-      note here claimed it was the only unit guard, but
-      `energy_behaviors_data_test.dart`'s "every behavior ships the
-      unit its research assigned" pins every unit by id --
-      including `oven: use`, with the same no-per-hour-figure
-      rationale in its comment. (`energy_exact_values_test.dart`
-      pins no `unit`, which is where the Keep note went wrong: it
-      scoped "only guard" to one file instead of the suite.)
-
-**Weak assertion.**
-
-- [x] ~~`energy_behaviors_data_test.dart` uses `throwsA(anything)`
-      twice~~. Narrowed 2026-08-30 to `throwsArgumentError`, which
-      is what json_serializable's `$enumDecode` actually throws; the
-      old matcher also passed on unrelated `TypeError`s.
-
-**Cross-workstream.**
-
-- [x] ~~**Extract a shared dataset-assertion helper.**~~ Rejected
-      2026-08-30 (owner call) after measuring the claim: of the
-      seven structural checks, only five are true triplicates, and
-      only food and transport are near-verbatim twins. Energy's
-      source rule is the *inverse* of theirs -- it asserts that
-      exactly five rows ship without a citation -- and it has no
-      known-group-set check. Absorbing that needs per-assertion
-      closures at every call site and degrades failure output,
-      which is the one thing a dataset test exists for. The
-      redundant-pin deletions above took the real duplication.
-      The food and transport open lists record the same closure.
 
 ---
 

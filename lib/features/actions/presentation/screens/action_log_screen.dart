@@ -105,37 +105,45 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               spacingLg,
               spacingSm,
             ),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: _showClear,
-              builder: (context, show, _) => TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: l10n.actionSearchHint,
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: show
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            _debounceTimer?.cancel();
-                            ref
-                                .read(actionSearchQueryProvider.notifier)
-                                .clear();
-                          },
-                        )
-                      : null,
-                  filled: true,
-                  fillColor: theme.colorScheme.surfaceContainerHighest,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(28),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: spacingLg,
-                    vertical: spacingMd,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: _showClear,
+                    builder: (context, show, _) => TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: l10n.actionSearchHint,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: show
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  _debounceTimer?.cancel();
+                                  ref
+                                      .read(actionSearchQueryProvider.notifier)
+                                      .clear();
+                                },
+                              )
+                            : null,
+                        filled: true,
+                        fillColor: theme.colorScheme.surfaceContainerHighest,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: spacingLg,
+                          vertical: spacingMd,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: spacingSm),
+                const ActionSortDropdown(),
+              ],
             ),
           ),
         ),
@@ -150,17 +158,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
               ref.read(selectedCategoryProvider.notifier).select(category);
             },
           ),
-          // Sort dropdown row
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingLg,
-              vertical: spacingSm,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [const ActionSortDropdown()],
-            ),
-          ),
+          const SizedBox(height: spacingSm),
           // SDG filter chips
           const SdgFilterChips(),
           const SizedBox(height: spacingSm),

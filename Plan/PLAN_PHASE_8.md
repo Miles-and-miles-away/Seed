@@ -54,8 +54,9 @@ comparison of exactly two options**, A and B, built at once:
   chip onto a column, or tap it and pick "Add to A" / "Add to B" --
   tap is the primary, accessible path, drag is the shortcut.
 - The separate comparison screens are **deleted**. The delta, its
-  equivalency, the data-honesty basis notes and the "I chose X"
-  banking action are folded in under the columns.
+  equivalency, the data-honesty basis notes and the banking action
+  ("Log X as a choice I took today", relabelled 2026-09-01 from
+  "I chose X") are folded in under the columns.
 - Transport legs carry their own optional From/To city pair,
   defaulting to the previous leg's destination, so a staged journey
   (Tokyo -> Osaka shinkansen, Osaka -> Kobe local) is entered one leg
@@ -1524,7 +1525,7 @@ the preset UX already proven there.
 
 ### Part 3 Acceptance Criteria
 
-- [ ] All 33 behaviors from
+- [ ] All 34 behaviors from
       [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 shipped
       with fully cited factors/assumptions, passing dataset
       validation tests

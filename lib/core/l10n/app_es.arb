@@ -758,7 +758,7 @@
   "transportMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los modos eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que pueden no sumarse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya son por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Siguiendo a DESNZ 2025, los factores de vuelos y jets privados incluyen un incremento del 1,7x (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo incremento, así que la comparación es equivalente.\n\n### Modos eléctricos y la red\nLos coches eléctricos, las bicis y patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de {grid} g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Promedios, no tu trayecto exacto\nLos factores son promedios por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos modos están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.",
   "transportLogChoiceTitle": "¿Tomar la opción más ecológica?",
   "transportLogChoiceBody": "Registra esto como una acción de transporte y acumula los {amount} de CO2e que evitas al elegir la opción de menor huella.",
-  "transportLogChoiceCta": "Elegí {label}",
+  "transportLogChoiceCta": "Registrar {label} como mi elección de hoy",
   "transportChoiceLoggedMessage": "Registrado. Acumulaste {amount} de CO2e.",
   "transportCustomActionName": "Elegí {greener} en vez de {worse}",
   "transportChoseLabel": "Elegí",
@@ -969,7 +969,7 @@
     }
   },
   "foodChoiceDistinctHint": "Elige dos comidas distintas para registrar tu elección.",
-  "foodLogChoiceCta": "Elegí {label}",
+  "foodLogChoiceCta": "Registrar {label} como mi elección de hoy",
   "@foodLogChoiceCta": {
     "placeholders": {
       "label": {

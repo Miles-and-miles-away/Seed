@@ -75,14 +75,17 @@ class _ActionCategoryTabsState extends State<ActionCategoryTabs> {
           }
 
           final category = ActionCategory.values[i - 1];
+          final isSelected = widget.selectedCategory == category;
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: _CategoryChip(
               label: category.displayName(l10n),
               icon: category.icon,
               color: category.color,
-              isSelected: widget.selectedCategory == category,
-              onTap: () => widget.onCategorySelected(category),
+              isSelected: isSelected,
+              // Clears back to All on a second tap, like the SDG chips.
+              onTap: () =>
+                  widget.onCategorySelected(isSelected ? null : category),
             ),
           );
         },

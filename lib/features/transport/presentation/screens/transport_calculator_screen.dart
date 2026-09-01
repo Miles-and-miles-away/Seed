@@ -42,31 +42,95 @@ class TransportCalculatorScreen extends ConsumerStatefulWidget {
 
 class _TransportCalculatorScreenState
     extends ConsumerState<TransportCalculatorScreen> {
-  /// Where each column has reached so far: the destination of its last
-  /// entered leg. The next leg in that column starts from here, so a
-  /// staged journey (Tokyo -> Osaka -> Kobe) chains without retyping.
-  /// Screen-local by design -- losing it on a rebuild only costs a
-  /// default, never a stored leg.
-  final List<City?> _lastStop = List<City?>.filled(optionCount, null);
+  /// The cities each leg runs between, mirroring
+  /// [journeyOptionsProvider] index for index -- [JourneyLeg] carries
+  /// none, and separate origin/destination fields drifted apart on
+  /// remove and edit.
+  final List<List<({City? from, City? to})>> _legCities = [
+    for (var option = 0; option < optionCount; option++)
+      <({City? from, City? to})>[],
+  ];
+
+  /// Where a column has reached, so a staged journey (Tokyo -> Osaka
+  /// -> Kobe) chains without retyping.
+  City? _lastStop(int option) =>
+      _legCities[option].isEmpty ? null : _legCities[option].last.to;
+
+  /// Where a column's journey began, so the other column can be seeded
+  /// with the same trip.
+  City? _firstFrom(int option) =>
+      _legCities[option].isEmpty ? null : _legCities[option].first.from;
+
+  /// The column whose journey defines the trip being compared: the
+  /// first to receive a leg. Only the other column chases its end
+  /// (gated seeding, owner call 2026-09-01) -- the reference's own
+  /// next leg gets no destination seed, so a finished journey is
+  /// never pulled toward the other side's intermediate stop.
+  int? _referenceOption;
 
   @override
   void initState() {
     super.initState();
     ref.read(analyticsServiceProvider).logTransportCalculatorOpened();
+    _adoptSurvivingJourney();
+  }
+
+  /// Re-aligns [_legCities] with a journey that outlived this screen.
+  ///
+  /// The journey provider is keepAlive and this state is not, so
+  /// returning to the screen finds legs with no remembered cities.
+  /// They seed nothing rather than throwing on the index.
+  void _adoptSurvivingJourney() {
+    final options = ref.read(journeyOptionsProvider);
+    for (var option = 0; option < optionCount; option++) {
+      _legCities[option]
+        ..clear()
+        ..addAll(List.filled(options[option].length, (from: null, to: null)));
+    }
+    final filled = [
+      for (var option = 0; option < optionCount; option++)
+        if (options[option].isNotEmpty) option,
+    ];
+    // Only an unambiguous survivor defines the trip; with both filled
+    // the original order is gone, so nothing chases anything.
+    _referenceOption = filled.length == 1 ? filled.first : null;
   }
 
   /// Opens the leg editor for a new leg. A null [option] means the
   /// sheet asks which column to add to.
+  ///
+  /// New legs are seeded cross-column: an empty column starts where
+  /// the other journey started, and the column chasing the reference
+  /// journey aims at its end -- so after A enters Tokyo -> Osaka, B
+  /// opens on that same pair, and once B detours (Tokyo -> Nagoya) its
+  /// next leg opens on Nagoya -> Osaka. The reference column itself
+  /// gets no destination seed: its end IS the destination. Within a
+  /// column, the previous leg's destination still wins as the origin.
   Future<void> _openEditor(TransportMode mode, int? option) async {
+    final other = switch (option) {
+      null => null,
+      optionA => optionB,
+      _ => optionA,
+    };
+    final from =
+        (option == null ? null : _lastStop(option)) ??
+        (other == null ? null : _firstFrom(other));
+    final target = other != null && other == _referenceOption
+        ? _lastStop(other)
+        : null;
     final result = await LegEditorSheet.show(
       context,
       mode: mode,
-      defaultFrom: option == null ? null : _lastStop[option],
+      defaultFrom: from,
+      defaultTo: target == from ? null : target,
       fixedOption: option,
     );
     if (result == null || !mounted) return;
     ref.read(journeyOptionsProvider.notifier).addLeg(result.option, result.leg);
-    setState(() => _lastStop[result.option] = result.toCity);
+    setState(() {
+      _referenceOption ??= result.option;
+      _legCities[result.option].add((from: result.fromCity, to: result.toCity));
+    });
   }
 
   Future<void> _editLeg(
@@ -75,17 +139,37 @@ class _TransportCalculatorScreenState
     int index,
     JourneyLeg leg,
   ) async {
+    // The leg's own endpoints: seeding the column's last stop rewrote
+    // the origin of the very leg being edited.
+    final cities = _legCities[option][index];
     final result = await LegEditorSheet.show(
       context,
       mode: mode,
       initialLeg: leg,
-      defaultFrom: _lastStop[option],
+      defaultFrom: cities.from,
+      defaultTo: cities.to,
       fixedOption: option,
     );
     if (result == null || !mounted) return;
     ref
         .read(journeyOptionsProvider.notifier)
         .updateLeg(option, index, result.leg);
+    setState(() {
+      _legCities[option][index] = (from: result.fromCity, to: result.toCity);
+    });
+  }
+
+  /// Removes a leg and its cities together. Emptying a column hands
+  /// the reference on, so a deleted journey stops defining the trip.
+  void _removeLeg(int option, int index) {
+    ref.read(journeyOptionsProvider.notifier).removeLeg(option, index);
+    setState(() {
+      _legCities[option].removeAt(index);
+      if (_legCities[option].isEmpty && _referenceOption == option) {
+        final other = option == optionA ? optionB : optionA;
+        _referenceOption = _legCities[other].isEmpty ? null : other;
+      }
+    });
   }
 
   /// Opens the picker for [option]'s column. The column is known from
@@ -197,8 +281,7 @@ class _TransportCalculatorScreenState
       grams: TransportCalculator.legCo2eGrams(mode, leg),
       removeTooltip: l10n.calculatorRemoveEntry,
       onTap: () => _editLeg(mode, option, index, leg),
-      onRemove: () =>
-          ref.read(journeyOptionsProvider.notifier).removeLeg(option, index),
+      onRemove: () => _removeLeg(option, index),
     );
   }
 
@@ -317,7 +400,12 @@ class _TransportCalculatorScreenState
     final messenger = ScaffoldMessenger.of(context);
     if (ok) {
       ref.read(journeyOptionsProvider.notifier).clear();
-      setState(() => _lastStop.fillRange(0, optionCount, null));
+      setState(() {
+        for (final cities in _legCities) {
+          cities.clear();
+        }
+        _referenceOption = null;
+      });
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.transportChoiceLoggedMessage(amount))),
       );

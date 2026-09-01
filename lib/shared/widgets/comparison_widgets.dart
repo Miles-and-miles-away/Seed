@@ -120,6 +120,17 @@ class ComparisonScaffold extends StatelessWidget {
   /// still leaves the option columns the larger half.
   static const _resultMaxHeightFraction = 0.55;
 
+  /// The floor a column starts at, as a share of the region above the
+  /// result. Full-height empty columns read as a form to fill, so a
+  /// column starts compact -- the add buttons directly beneath -- and
+  /// grows with its entries, capping at the region and scrolling
+  /// internally. An empty column is pinned to the floor so its hint
+  /// stays centered.
+  ///
+  /// The buttons share one row: per-column, a filled column beside an
+  /// empty one put them 206px apart.
+  static const _minColumnFraction = 0.3;
+
   @override
   Widget build(BuildContext context) {
     assert(
@@ -128,64 +139,102 @@ class ComparisonScaffold extends StatelessWidget {
     );
     final l10n = AppLocalizations.of(context);
     final worst = totals.reduce((a, b) => a > b ? a : b);
-    return LayoutBuilder(
-      builder: (context, constraints) => Column(
-        children: [
-          const SizedBox(height: spacingSm),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: spacingMd),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (var option = 0; option < optionCount; option++) ...[
-                    if (option > 0) const SizedBox(width: spacingSm),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: OptionColumn(
-                              title: option == optionA
-                                  ? l10n.calculatorOptionA
-                                  : l10n.calculatorOptionB,
-                              totalGrams: totals[option],
-                              fraction: worst <= 0 ? 0 : totals[option] / worst,
-                              isBest: option == bestIndex,
-                              isEmpty: entries[option].isEmpty,
-                              emptyHint: emptyHint,
-                              children: entries[option],
-                            ),
-                          ),
-                          const SizedBox(height: spacingSm),
-                          FilledButton.tonalIcon(
-                            onPressed: () => onAdd(option),
-                            icon: const Icon(Icons.add),
-                            label: Text(addLabel),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          // The result slot is a fixed-height child of this Column, so an
-          // energy card at textScale 2 overflowed the bottom by 452px.
-          // Capped and scrollable: the columns keep the rest.
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: constraints.maxHeight * _resultMaxHeightFraction,
-            ),
-            child: SingleChildScrollView(
+    // Bottom only: the result panel is pinned to the bottom of the
+    // body and slid under the home indicator without it. The top is
+    // the AppBar's problem.
+    return SafeArea(
+      top: false,
+      child: LayoutBuilder(
+        builder: (context, constraints) => Column(
+          children: [
+            const SizedBox(height: spacingSm),
+            Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(spacingMd),
-                child: result,
+                padding: const EdgeInsets.symmetric(horizontal: spacingMd),
+                child: LayoutBuilder(
+                  builder: (context, region) {
+                    final floor = region.maxHeight * _minColumnFraction;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Flexible(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (
+                                var option = 0;
+                                option < optionCount;
+                                option++
+                              ) ...[
+                                if (option > 0)
+                                  const SizedBox(width: spacingSm),
+                                Expanded(
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      minHeight: floor,
+                                      maxHeight: entries[option].isEmpty
+                                          ? floor
+                                          : double.infinity,
+                                    ),
+                                    child: OptionColumn(
+                                      title: option == optionA
+                                          ? l10n.calculatorOptionA
+                                          : l10n.calculatorOptionB,
+                                      totalGrams: totals[option],
+                                      fraction: worst <= 0
+                                          ? 0
+                                          : totals[option] / worst,
+                                      isBest: option == bestIndex,
+                                      isEmpty: entries[option].isEmpty,
+                                      emptyHint: emptyHint,
+                                      children: entries[option],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: spacingSm),
+                        Row(
+                          children: [
+                            for (
+                              var option = 0;
+                              option < optionCount;
+                              option++
+                            ) ...[
+                              if (option > 0) const SizedBox(width: spacingSm),
+                              Expanded(
+                                child: FilledButton.tonalIcon(
+                                  onPressed: () => onAdd(option),
+                                  icon: const Icon(Icons.add),
+                                  label: Text(addLabel),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+            // Fixed-height child: the energy card overflowed it by
+            // 452px at textScale 2, so cap it and let it scroll.
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: constraints.maxHeight * _resultMaxHeightFraction,
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(spacingMd),
+                  child: result,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -232,75 +281,95 @@ class OptionColumn extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(spacingSm),
       child: LayoutBuilder(
-        builder: (context, constraints) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Title, total and bar are fixed-height, so at a large text
-            // scale they outgrew a squeezed column and overflowed it.
-            // Capped at what is left for the entry list and scrollable.
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: (constraints.maxHeight - spacingSm).clamp(
-                  0.0,
-                  double.infinity,
+        builder: (context, constraints) {
+          assert(
+            constraints.maxHeight.isFinite,
+            'OptionColumn needs a bounded height; ComparisonScaffold '
+            'gives it one.',
+          );
+          return Column(
+            // min, so the card wraps its entries: the scaffold's floor
+            // and cap constraints decide the rest.
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Fixed-height header: it overflowed a squeezed column at
+              // a large text scale, so cap it and let it scroll.
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: (constraints.maxHeight - spacingSm).clamp(
+                    0.0,
+                    double.infinity,
+                  ),
                 ),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      title,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: spacingXs),
-                    Co2eAmount(
-                      grams: totalGrams,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: isBest ? theme.colorScheme.primary : null,
-                      ),
-                    ),
-                    const SizedBox(height: spacingXs),
-                    ClipRRect(
-                      borderRadius: borderRadiusSm,
-                      child: LinearProgressIndicator(
-                        value: fraction.clamp(0.0, 1.0),
-                        minHeight: 8,
-                        backgroundColor:
-                            theme.colorScheme.surfaceContainerHighest,
-                        valueColor: AlwaysStoppedAnimation(
-                          isBest
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.secondaryContainer,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        title,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: spacingSm),
-            Expanded(
-              child: isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(spacingSm),
-                        child: Text(
-                          emptyHint,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                      const SizedBox(height: spacingXs),
+                      Co2eAmount(
+                        grams: totalGrams,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: isBest ? theme.colorScheme.primary : null,
+                        ),
+                      ),
+                      const SizedBox(height: spacingXs),
+                      ClipRRect(
+                        borderRadius: borderRadiusSm,
+                        child: LinearProgressIndicator(
+                          value: fraction.clamp(0.0, 1.0),
+                          minHeight: 8,
+                          backgroundColor:
+                              theme.colorScheme.surfaceContainerHighest,
+                          valueColor: AlwaysStoppedAnimation(
+                            isBest
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.secondaryContainer,
                           ),
                         ),
                       ),
-                    )
-                  : ListView(padding: EdgeInsets.zero, children: children),
-            ),
-          ],
-        ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: spacingSm),
+              // Empty columns arrive height-pinned (tight constraints), so
+              // Expanded centers the hint in exactly the floor height. With
+              // entries the list shrink-wraps, growing the card until the
+              // cap clamps it and the list scrolls.
+              if (isEmpty)
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(spacingSm),
+                      child: Text(
+                        emptyHint,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Flexible(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    children: children,
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

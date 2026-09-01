@@ -328,11 +328,23 @@ void main() {
       expect(find.byType(SdgFilterChips), findsOneWidget);
     });
 
-    testWidgets('sort dropdown shows Sort label', (tester) async {
+    testWidgets('the sort control shares the search row', (tester) async {
+      tester.view.physicalSize = const Size(360, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Name (A-Z)'), findsOneWidget);
+      // It used to sit on a row of its own, right-aligned, with dead
+      // space beside it. Same row now, and icon-only so the search
+      // field keeps its width.
+      expect(find.byIcon(Icons.sort), findsOneWidget);
+      final search = tester.getRect(find.byType(TextField).first);
+      final sort = tester.getRect(find.byType(ActionSortDropdown));
+      expect(sort.center.dy, closeTo(search.center.dy, 1));
+      expect(sort.left, greaterThan(search.right));
+      // The labelled chip left the field 107px wide on a 360pt phone.
+      expect(search.width, greaterThan(250));
     });
 
     testWidgets('SDG filter shows All chip', (tester) async {

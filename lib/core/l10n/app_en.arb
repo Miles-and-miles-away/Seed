@@ -939,7 +939,7 @@
       }
     }
   },
-  "transportLogChoiceCta": "I chose {label}",
+  "transportLogChoiceCta": "Log {label} as a choice I took today",
   "@transportLogChoiceCta": {
     "placeholders": {
       "label": {
@@ -1197,7 +1197,7 @@
     }
   },
   "foodChoiceDistinctHint": "Pick two different meals to log the choice you made.",
-  "foodLogChoiceCta": "I chose {label}",
+  "foodLogChoiceCta": "Log {label} as a choice I took today",
   "@foodLogChoiceCta": {
     "placeholders": {
       "label": {

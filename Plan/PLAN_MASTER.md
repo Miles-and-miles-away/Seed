@@ -1161,7 +1161,7 @@ See [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) for detailed implementation plan.
 | Meal builder + engine | Multi-ingredient meals (item + grams/serving), pure Dart math | P0 | Done |
 | Meal comparison | 2-3 meals side by side, delta + equivalencies | P0 | Done |
 | Food methodology & entry points | Per-item science sheets, spread + organic/local honesty, new route | P0/P1 | Done |
-| Energy behavior dataset | 33 behaviors with cited kWh + carrier factors (DEFRA, IEA), physics-derived, EN/JA/ES | P0 | Research done (build pending) |
+| Energy behavior dataset | 34 behaviors with cited kWh + carrier factors (DEFRA, IEA), physics-derived, EN/JA/ES | P0 | Shipped (Phase 8.13-8.17, PR #19) |
 | Routine builder + engine | Behavior + quantity usages, pure Dart math, shared grid factor | P0 | Planned |
 | Routine comparison | Bath vs shower, dryer vs line, heater vs kotatsu; delta + equivalencies | P0 | Planned |
 | Energy methodology & entry points | Heat-vs-light hierarchy, carrier factors, new route | P0/P1 | Planned |

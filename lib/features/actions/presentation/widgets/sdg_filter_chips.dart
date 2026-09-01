@@ -17,6 +17,53 @@ const _REPEAT_COUNT = 100;
 /// Estimated average chip width for initial offset.
 const _ESTIMATED_CHIP_WIDTH = 100.0;
 
+/// The numbered circle that distinguishes an SDG chip from a category
+/// chip. Square-ish rows above, circles here.
+Widget _numberBadge(int number, Color color) => CircleAvatar(
+  backgroundColor: color,
+  radius: 12,
+  child: Text(
+    '$number',
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 10,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+);
+
+/// Both chips in this row: white fill, outlined, accent when selected.
+Widget _chip(
+  ThemeData theme, {
+  required Widget label,
+  required bool isSelected,
+  required Color accent,
+  required Color onAccent,
+  required VoidCallback onTap,
+  Widget? avatar,
+}) => Padding(
+  padding: const EdgeInsets.only(right: spacingSm),
+  child: FilterChip(
+    avatar: avatar,
+    label: label,
+    selected: isSelected,
+    onSelected: (_) => onTap(),
+    labelStyle: theme.textTheme.labelMedium?.copyWith(
+      color: isSelected ? onAccent : theme.colorScheme.onSurfaceVariant,
+      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+    ),
+    backgroundColor: theme.colorScheme.surface,
+    selectedColor: accent,
+    checkmarkColor: onAccent,
+    shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
+    side: BorderSide(
+      color: isSelected
+          ? accent
+          : theme.colorScheme.outline.withValues(alpha: opacityMuted),
+    ),
+  ),
+);
+
 /// Horizontal scrollable chips for filtering by SDG.
 /// Scrolls infinitely in a loop in both directions.
 class SdgFilterChips extends ConsumerStatefulWidget {
@@ -52,13 +99,15 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
     final goals = ref.watch(sdgGoalsDataProvider).value?.goals;
 
     if (goals == null) {
-      return const SizedBox(height: 40);
+      return const SizedBox(height: spacingHuge);
     }
 
     final cycleLength = goals.length + 1;
 
+    // Height, fill and label size are shared with the category row
+    // above; the shape and avatar stay different on purpose.
     return SizedBox(
-      height: 40,
+      height: spacingHuge,
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
@@ -67,75 +116,31 @@ class _SdgFilterChipsState extends ConsumerState<SdgFilterChips> {
         itemBuilder: (context, index) {
           final i = index % cycleLength;
 
-          // "All" chip
           if (i == 0) {
             final isSelected = selectedSdg == null;
-            return Padding(
-              padding: const EdgeInsets.only(right: spacingSm),
-              child: FilterChip(
-                label: Text(l10n.allCategories),
-                selected: isSelected,
-                onSelected: (_) {
-                  ref.read(selectedSdgFilterProvider.notifier).clear();
-                },
-                labelStyle: TextStyle(
-                  color: isSelected
-                      ? theme.colorScheme.onPrimary
-                      : theme.colorScheme.onSurfaceVariant,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                ),
-                backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                selectedColor: theme.colorScheme.primary,
-                checkmarkColor: theme.colorScheme.onPrimary,
-                shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
-              ),
+            return _chip(
+              theme,
+              label: Text(l10n.allCategories),
+              isSelected: isSelected,
+              accent: theme.colorScheme.primary,
+              onAccent: theme.colorScheme.onPrimary,
+              onTap: () => ref.read(selectedSdgFilterProvider.notifier).clear(),
             );
           }
 
-          // SDG chips
           final sdg = goals[i - 1];
           final isSelected = selectedSdg == sdg.number;
-
-          return Padding(
-            padding: const EdgeInsets.only(right: spacingSm),
-            child: FilterChip(
-              avatar: isSelected
-                  ? null
-                  : CircleAvatar(
-                      backgroundColor: sdg.color,
-                      radius: 12,
-                      child: Text(
-                        '${sdg.number}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-              label: Text(sdg.shortTitle(locale)),
-              selected: isSelected,
-              onSelected: (_) {
-                if (isSelected) {
-                  ref.read(selectedSdgFilterProvider.notifier).clear();
-                } else {
-                  ref
-                      .read(selectedSdgFilterProvider.notifier)
-                      .select(sdg.number);
-                }
-              },
-              labelStyle: TextStyle(
-                color: isSelected
-                    ? Colors.white
-                    : theme.colorScheme.onSurfaceVariant,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                fontSize: 13,
-              ),
-              backgroundColor: theme.colorScheme.surfaceContainerHighest,
-              selectedColor: sdg.color,
-              checkmarkColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
-            ),
+          return _chip(
+            theme,
+            label: Text(sdg.shortTitle(locale)),
+            isSelected: isSelected,
+            accent: sdg.color,
+            onAccent: Colors.white,
+            avatar: isSelected ? null : _numberBadge(sdg.number, sdg.color),
+            onTap: () {
+              final notifier = ref.read(selectedSdgFilterProvider.notifier);
+              isSelected ? notifier.clear() : notifier.select(sdg.number);
+            },
           );
         },
       ),

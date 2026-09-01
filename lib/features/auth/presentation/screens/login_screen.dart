@@ -251,86 +251,103 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  Future<void> _showForgotPasswordDialog() async {
+  Future<void> _showForgotPasswordDialog() {
+    return showDialog<void>(
+      context: context,
+      builder: (_) =>
+          _ForgotPasswordDialog(initialEmail: _emailController.text),
+    );
+  }
+}
+
+/// The reset-email dialog owns its controller so Flutter disposes it
+/// when the dialog element unmounts -- after the exit animation.
+/// Disposing in a finally after `await showDialog` crashed: the pop
+/// dismisses the keyboard, the inset change rebuilds the departing
+/// dialog, and its TextField touched a disposed controller.
+class _ForgotPasswordDialog extends ConsumerStatefulWidget {
+  const _ForgotPasswordDialog({required this.initialEmail});
+
+  final String initialEmail;
+
+  @override
+  ConsumerState<_ForgotPasswordDialog> createState() =>
+      _ForgotPasswordDialogState();
+}
+
+class _ForgotPasswordDialogState extends ConsumerState<_ForgotPasswordDialog> {
+  late final _emailController = TextEditingController(
+    text: widget.initialEmail,
+  );
+  String? _errorText;
+  bool _isSending = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSend() async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
-    final emailController = TextEditingController(text: _emailController.text);
-
-    try {
-      await showDialog<void>(
-        context: context,
-        builder: (dialogContext) {
-          String? errorText;
-          var isSending = false;
-
-          return StatefulBuilder(
-            builder: (dialogContext, setDialogState) {
-              Future<void> handleSend() async {
-                final email = emailController.text.trim();
-                final validationError = validateEmail(
-                  email,
-                  emptyError: l10n.authValidationEmailRequired,
-                  invalidError: l10n.authValidationEmailInvalid,
-                );
-                if (validationError != null) {
-                  setDialogState(() => errorText = validationError);
-                  return;
-                }
-
-                setDialogState(() {
-                  errorText = null;
-                  isSending = true;
-                });
-                await ref
-                    .read(authProvider.notifier)
-                    .sendPasswordResetEmail(email);
-                if (!dialogContext.mounted) return;
-
-                // Failures surface through the authProvider listener in
-                // build (mapped, localized); keep the dialog open so the
-                // user can retry or cancel.
-                if (ref.read(authProvider).hasError) {
-                  setDialogState(() => isSending = false);
-                  return;
-                }
-
-                Navigator.pop(dialogContext);
-                messenger.showSnackBar(
-                  SnackBar(content: Text(l10n.authForgotPasswordSent)),
-                );
-              }
-
-              return AlertDialog(
-                title: Text(l10n.authForgotPasswordTitle),
-                content: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: l10n.authEmail,
-                    hintText: l10n.authForgotPasswordHint,
-                    errorText: errorText,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: isSending
-                        ? null
-                        : () => Navigator.pop(dialogContext),
-                    child: Text(l10n.buttonCancel),
-                  ),
-                  FilledButton(
-                    onPressed: isSending ? null : handleSend,
-                    child: Text(l10n.authForgotPasswordSend),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      );
-    } finally {
-      emailController.dispose();
+    final email = _emailController.text.trim();
+    final validationError = validateEmail(
+      email,
+      emptyError: l10n.authValidationEmailRequired,
+      invalidError: l10n.authValidationEmailInvalid,
+    );
+    if (validationError != null) {
+      setState(() => _errorText = validationError);
+      return;
     }
+
+    setState(() {
+      _errorText = null;
+      _isSending = true;
+    });
+    await ref.read(authProvider.notifier).sendPasswordResetEmail(email);
+    if (!mounted) return;
+
+    // Failures surface through the authProvider listener in the login
+    // screen's build (mapped, localized); keep the dialog open so the
+    // user can retry or cancel.
+    if (ref.read(authProvider).hasError) {
+      setState(() => _isSending = false);
+      return;
+    }
+
+    Navigator.pop(context);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.authForgotPasswordSent)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l10n.authForgotPasswordTitle),
+      content: TextField(
+        controller: _emailController,
+        decoration: InputDecoration(
+          labelText: l10n.authEmail,
+          hintText: l10n.authForgotPasswordHint,
+          errorText: _errorText,
+        ),
+        keyboardType: TextInputType.emailAddress,
+        autofocus: true,
+      ),
+      actions: [
+        TextButton(
+          onPressed: _isSending ? null : () => Navigator.pop(context),
+          child: Text(l10n.buttonCancel),
+        ),
+        FilledButton(
+          onPressed: _isSending ? null : _handleSend,
+          child: Text(l10n.authForgotPasswordSend),
+        ),
+      ],
+    );
   }
 }

@@ -1669,7 +1669,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String transportLogChoiceCta(String label) {
-    return 'I chose $label';
+    return 'Log $label as a choice I took today';
   }
 
   @override
@@ -1918,7 +1918,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String foodLogChoiceCta(String label) {
-    return 'I chose $label';
+    return 'Log $label as a choice I took today';
   }
 
   @override

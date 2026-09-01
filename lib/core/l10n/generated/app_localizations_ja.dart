@@ -1625,7 +1625,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportLogChoiceCta(String label) {
-    return '$labelを選んだ';
+    return '$labelを今日の選択として記録';
   }
 
   @override
@@ -1867,7 +1867,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodLogChoiceCta(String label) {
-    return '$labelを選んだ';
+    return '$labelを今日の選択として記録';
   }
 
   @override

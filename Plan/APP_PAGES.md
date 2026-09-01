@@ -187,7 +187,14 @@ are folded in under the columns.
   external source URLs open from info icons / tappable links.
 - Layout: an optional journey-level From/To city pair at the top (the
   trip being compared), the two option columns down the middle, the
-  result panel, and an "Add leg" button under each column.
+  result panel, and an "Add leg" button under each column. Columns
+  start compact -- a 30% floor of the region above the result -- and
+  grow independently with their entries, capping at the region and
+  scrolling internally; the result stays pinned to the bottom (shared
+  `ComparisonScaffold` behavior, 2026-09-01, so food and energy
+  match). The two add buttons share one row directly under the taller
+  column rather than riding each column, which left them up to 206px
+  apart when one side was empty.
 - Adding a leg: tap "Add leg" under the column you are filling. That
   opens the grouped mode picker (groups, per-mode science info), then
   the leg editor, which confirms with a single "Save" because the
@@ -200,8 +207,18 @@ are folded in under the columns.
   scrolling and the food dataset far more. Tap was always the
   primary, accessible path anyway — drag had no VoiceOver or
   switch-control equivalent.
-- Leg editor: its own From/To pair (defaulting to the previous leg's
-  destination, so Tokyo -> Osaka -> Kobe chains without retyping), a
+- Leg editor: its own From/To pair, seeded so comparable journeys
+  chain without retyping (2026-09-01): within a column the origin
+  defaults to the previous leg's destination (Tokyo -> Osaka -> Kobe);
+  across columns, an empty column opens on the other journey's whole
+  trip, and the column chasing the reference journey (the first to
+  get a leg) aims at its end -- so after A enters Tokyo -> Osaka, B
+  opens pre-filled Tokyo -> Osaka, and once B detours (Tokyo ->
+  Nagoya) its next leg opens on Nagoya -> Osaka. The reference
+  column itself gets no destination seed (gated, owner call
+  2026-09-01): its end is the destination, so a finished journey is
+  never pulled toward the other side's intermediate stop.
+  Suggestions only; every field stays editable. Then a
   numeric km field (rejects negative/NaN, always editable, prefill
   labelled as an estimate), an occupancy stepper for per-vehicle modes,
   and a live CO2e preview so adding a passenger visibly divides the
@@ -219,7 +236,8 @@ are folded in under the columns.
   from the list; the banked action still carries a full description
   ("Train + Bus"). Plus the Phase 6 tree-year equivalency,
   the electric-car grid / private-jet radiative-forcing / active-mode
-  basis notes, and an "I chose {greener}" button that banks the
+  basis notes, and a "Log {greener} as a choice I took today" button
+  (reworded 2026-09-01 from "I chose {greener}") that banks the
   avoided emissions (worse minus chosen) as a real transport action
   (Phase 8.6): it creates a user `customActions` template and logs it
   through the standard action transaction (points from `co2^0.4`,
@@ -279,8 +297,9 @@ Never awards points inside the tool.
   (rejects negative/NaN) and a live CO2e preview of the quantity
   entered. A meal can hold as many ingredients as needed.
 - Result panel: "Option A emits N CO2e less than Option B (P% lower)"
-  with the Phase 6 driving (car-km) equivalency, and an "I chose
-  {column}" button banking the avoided emissions as a real food action
+  with the Phase 6 driving (car-km) equivalency, and a "Log {column}
+  as a choice I took today" button (reworded 2026-09-01) banking the
+  avoided emissions as a real food action
   (Phase 8.12) through the same template + transaction path as
   transport. The options are named by column, not by an ingredient
   inside them, which read as an arbitrary pick from the list; the
@@ -313,7 +332,7 @@ Pushed full-screen route (Phase 8, Part 3). Educational side-by-side
 routine comparison, same two-column shape as the other calculators
 (shared `ComparisonScaffold`, `OptionEntryCard`,
 `ComparisonDeltaCard`). A teaching tool, not a decision tool: it never
-awards points and has no "I chose X" banking button (decision 8.18 --
+awards points and has no banking button (decision 8.18 --
 a shorter shower has no verifiable counterfactual, and the action
 library already covers the same behaviours).
 - Reached from: the AppBar calculator chooser on the Log Action screen
