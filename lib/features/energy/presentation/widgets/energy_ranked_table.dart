@@ -1,41 +1,66 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
+import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 
-/// "Where your energy goes": the ranked, single-carrier, ratio-led
-/// teaching table (decision E8; PDR rules 26-28).
+/// "Where your energy goes": the ranked, energy-led teaching table
+/// (decision E8; PDR rules 26-27).
 ///
-/// Electricity rows, plus `line_dry` whose zero holds on any grid, are
-/// ranked by the kWh of one default-preset use and stated as a
-/// multiple of an hour of LED light. The anchor is a dataset row, not
-/// an equivalency constant (rule 27), so the multiples hold on every
-/// grid; the gram figures do not, and carry the basis note on the
-/// screen that hosts this widget. Gas rows are shown beneath WITHOUT a
-/// rank (rule 28): a gas row's position moves with the user's grid.
+/// Every behavior is ranked by the kWh of one default-preset use and
+/// stated as a multiple of [anchorId]'s own default use. The anchor is
+/// a dataset row, not an equivalency constant (rule 27), so the
+/// multiples hold on every grid.
 ///
-/// Standalone on purpose: the E8 in-app comparison may promote this
-/// widget from the methodology screen to its own surface.
+/// Gas rows sit in the same ranking (owner call 2026-09-02, revising
+/// rule 28). What this ranks is ENERGY USED: the part a habit decides,
+/// and the part that barely moves over a decade. How clean a kWh is
+/// belongs to the grid, differs by country and improves every year.
+/// That leaves one thing a reader can misread -- a gas water heater
+/// uses more energy than an electric one for the same bath, yet emits
+/// less on today's world-average grid -- so [AppLocalizations
+/// .energyRankedGasNote] is rendered under every copy of this table,
+/// and each gas row repeats it when tapped.
+///
+/// Shared by the methodology screen (defaults: headed, no bars, no row
+/// taps) and the explore screen, which switches the anchor, draws bars
+/// and opens a what-if sheet per row.
 class EnergyRankedTable extends StatelessWidget {
   const EnergyRankedTable({
     required this.behaviors,
-    required this.gridFactor,
-    required this.gasFactor,
+    this.anchorId = defaultAnchorId,
+    this.showHeading = true,
+    this.showBars = false,
+    this.onRowTap,
     super.key,
   });
 
   final List<EnergyBehavior> behaviors;
-  final double gridFactor;
-  final double gasFactor;
 
-  /// The rank-1 row every multiple is stated against (rule 27).
-  static const _anchorId = 'led_bulb';
+  /// The row every multiple is stated against (rule 27).
+  final String anchorId;
 
-  static double _defaultKwh(EnergyBehavior behavior) =>
-      behavior.kwhPerUnit * (behavior.defaultPreset?.units ?? 1);
+  /// Renders the title and the LED-anchored intro. Off for callers that
+  /// write their own intro, which any non-default [anchorId] must.
+  final bool showHeading;
+
+  /// Draws a square-root-scaled bar under each ranked row. A caller
+  /// that turns these on owes the user the distortion footnote.
+  final bool showBars;
+
+  /// Makes ranked and gas rows tappable, e.g. to open a what-if sheet.
+  final ValueChanged<EnergyBehavior>? onRowTap;
+
+  /// The rank-1 row of the shipped dataset: an hour of LED light.
+  static const defaultAnchorId = 'led_bulb';
+
+  /// Bar height: a rank cue beside the numbers, never the headline.
+  static const _barHeight = 6.0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,65 +70,60 @@ class EnergyRankedTable extends StatelessWidget {
     // A list without the anchor degrades to grams-only rather than
     // throwing: the dataset pins the row, but this widget is exported
     // standalone and a caller may hand it a filtered list.
-    final anchors = behaviors.where((b) => b.id == _anchorId);
-    final anchorKwh = anchors.isEmpty ? 0.0 : _defaultKwh(anchors.first);
+    final anchors = behaviors.where((b) => b.id == anchorId);
+    final anchorKwh = anchors.isEmpty
+        ? 0.0
+        : EnergyCalculator.defaultPresetKwh(anchors.first);
     // Stable secondary sort (rule 22) so tie-cluster rows do not
     // jitter between dataset regenerations.
     int byKwhThenName(EnergyBehavior a, EnergyBehavior b) {
-      final byKwh = _defaultKwh(b).compareTo(_defaultKwh(a));
+      final byKwh = EnergyCalculator.defaultPresetKwh(
+        b,
+      ).compareTo(EnergyCalculator.defaultPresetKwh(a));
       return byKwh != 0 ? byKwh : a.name(locale).compareTo(b.name(locale));
     }
 
-    final ranked =
-        behaviors.where((b) => b.carrier != EnergyCarrier.gas).toList()
-          ..sort(byKwhThenName);
-    final gas = behaviors.where((b) => b.carrier == EnergyCarrier.gas).toList()
-      ..sort(byKwhThenName);
+    // One list, gas included: this ranks energy used (owner call
+    // 2026-09-02, revising rule 28).
+    final ranked = [...behaviors]..sort(byKwhThenName);
+    final maxRankedKwh = ranked.isEmpty
+        ? 0.0
+        : EnergyCalculator.defaultPresetKwh(ranked.first);
     final noteStyle = theme.textTheme.bodySmall?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.energyRankedTitle,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
+        if (showHeading) ...[
+          Text(
+            l10n.energyRankedTitle,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: spacingSm),
-        Text(l10n.energyRankedIntro, style: noteStyle),
-        const SizedBox(height: spacingMd),
+          const SizedBox(height: spacingSm),
+          Text(l10n.energyRankedIntro, style: noteStyle),
+          const SizedBox(height: spacingMd),
+        ],
         for (final behavior in ranked)
           _row(
             context,
             l10n,
             locale,
             behavior,
-            multiple: anchorKwh > 0 && _defaultKwh(behavior) > 0
-                ? _defaultKwh(behavior) / anchorKwh
+            multiple:
+                anchorKwh > 0 && EnergyCalculator.defaultPresetKwh(behavior) > 0
+                ? EnergyCalculator.defaultPresetKwh(behavior) / anchorKwh
                 : null,
-            grams: _defaultKwh(behavior) * gridFactor,
+            barFraction: showBars && maxRankedKwh > 0
+                ? sqrt(
+                    EnergyCalculator.defaultPresetKwh(behavior) / maxRankedKwh,
+                  )
+                : null,
           ),
         const SizedBox(height: spacingLg),
-        Text(
-          l10n.energyRankedGasHeading,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: spacingSm),
         Text(l10n.energyRankedGasNote, style: noteStyle),
-        const SizedBox(height: spacingMd),
-        for (final behavior in gas)
-          _row(
-            context,
-            l10n,
-            locale,
-            behavior,
-            multiple: null,
-            grams: _defaultKwh(behavior) * gasFactor,
-          ),
       ],
     );
   }
@@ -114,38 +134,41 @@ class EnergyRankedTable extends StatelessWidget {
     String locale,
     EnergyBehavior behavior, {
     required double? multiple,
-    required double grams,
+    required double? barFraction,
   }) {
     final theme = Theme.of(context);
-    return Padding(
+    final content = Padding(
       padding: const EdgeInsets.symmetric(vertical: spacingSm),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Icon(
-            energyGroupIcon(behavior.comparableGroup),
-            size: 20,
-            color: theme.colorScheme.primary,
-          ),
-          const SizedBox(width: spacingLg),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(behavior.name(locale), style: theme.textTheme.bodyMedium),
-                if (behavior.defaultPreset != null)
-                  Text(
-                    behavior.defaultPreset!.name(locale),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(width: spacingLg),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Row(
             children: [
+              Icon(
+                energyGroupIcon(behavior.comparableGroup),
+                size: 20,
+                color: ActionCategory.energy.color,
+              ),
+              const SizedBox(width: spacingLg),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      behavior.name(locale),
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                    if (behavior.defaultPreset != null)
+                      Text(
+                        behavior.defaultPreset!.name(locale),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: spacingLg),
               if (multiple != null)
                 Text(
                   l10n.energyRankedMultiple(
@@ -155,16 +178,27 @@ class EnergyRankedTable extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              Text(
-                formatCO2Compact(grams.round()),
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
             ],
           ),
+          if (barFraction != null) ...[
+            const SizedBox(height: spacingSm),
+            ClipRRect(
+              borderRadius: borderRadiusXs,
+              child: Container(
+                height: _barHeight,
+                color: theme.colorScheme.surfaceContainerHighest,
+                child: FractionallySizedBox(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: barFraction,
+                  child: ColoredBox(color: ActionCategory.energy.color),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
+    if (onRowTap == null) return content;
+    return InkWell(onTap: () => onRowTap!(behavior), child: content);
   }
 }

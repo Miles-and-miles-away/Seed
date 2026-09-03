@@ -156,20 +156,58 @@ navigate via the tabs. The implicit AppBar back arrow is suppressed
 unambiguous exit. Browse and log actions.
 - Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
   `/transport-calculator`, `/food-calculator` and `/energy-calculator` —
-  reached via the AppBar calculator chooser (transport / food / home
-  energy, all live since 8.17) and the "Log a Custom Transport action" /
-  "Log a Custom Food action" / "Compare home energy use" cards shown only
-  in their category views; inline
+  all three reached via the AppBar calculator chooser (transport / food /
+  home energy, live since 8.17), and transport and food additionally from
+  the "Log a Custom Transport action" / "Log a Custom Food action" cards
+  shown only in their category views; `/energy-explore` and
+  `/quiz` from two AppBar icons beside the calculator chooser,
+  shown in every category (decision E8); inline
   confirmation dialog / science bottom sheet
+- Tile height: the grid sizes a cell to the tile's content
+  (`ActionLogScreen.tileHeightFor`) rather than to a fraction of its
+  width. A 0.9 aspect ratio made a 179pt cell 199pt tall for a tile that
+  draws 180, which read as dead space above and below every card. Only
+  the text block scales with the user's text scale, so the chrome does
+  not inflate with it; tests pin that the tallest tile still fits at
+  scale 1.0, 1.3 and 2.0 (2026-09-02).
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All").
-- Functionality: AppBar calculator-chooser icon opening the calculators
-  bottom sheet; search, category tabs, sort dropdown, SDG filter chips,
-  action cards with log confirmation and science info; a "Log a Custom
-  Transport action" card in the transport view, a "Log a Custom
-  Food action" card in the food view, and a "Compare home energy use"
-  card in the energy view (badged "Calculator" rather than "Custom" --
-  the energy calculator banks nothing, decision 8.18).
+- Functionality: three AppBar icons -- the calculator chooser
+  (`calculate_outlined`, opens the calculators bottom sheet), "Where
+  your energy goes" (`bolt`, the app's own energy glyph) and "Higher or
+  lower?" (`quiz_outlined`). The latter two are not category-dependent:
+  they are teaching surfaces rather than actions to log, and the problem
+  decision E8 resolved was exactly that they were buried. The chooser
+  sheet's three tiles carry their own category colours. Then search, category
+  tabs, sort dropdown, SDG filter chips, action cards with log
+  confirmation and science info; and one custom-action tile in the
+  transport and food category views -- "Log a Custom Transport action"
+  and "Log a Custom Food action". The energy category has no such tile:
+  its calculator banks nothing (decision 8.18), and a tile in a grid of
+  loggable actions promises a log it cannot deliver, so the energy
+  calculator is reached from the AppBar chooser only (2026-09-02). An
+  empty filter result shows the "No actions found" state with no tile at
+  all.
+
+### Calculator colouring (all three)
+
+Every accent inside a calculator is its own action-category colour --
+transport blue, food orange, energy amber -- rather than the scheme's
+primary, which follows the mascot species and said nothing about which
+domain you were in. Fills (bars, tinted panels, token backgrounds, icons)
+use the colour as it is -- accent bars, category icons, ranked bars, the
+what-if wall and its headline, the slider, the Add buttons -- so a
+domain looks the same wherever it appears. Text on a tint of its own colour, and any
+label on a solid fill of it, uses `readableTextColor` or the theme's
+on-surface ink, which keeps the hue and pushes the lightness
+until it clears the contrast bar: the action-card badge, the option
+totals, the delta headline and the quiz figures. Two tones are
+available, body text at 4.5:1 and a more vivid one at 3:1 for large
+text. The judgement per element is the owner's, made against the
+rendered screens (2026-09-02); what a test pins is that no label sits
+on a fill it cannot be read against. The raw colours are fills, not ink: amber reads 1.6:1 on white and
+orange 2.2:1, so figures in the raw colour would be unreadable. A test
+pins the contrast for every category on both themes (2026-09-02).
 
 ## Transport Calculator (`/transport-calculator`)
 
@@ -336,9 +374,10 @@ awards points and has no banking button (decision 8.18 --
 a shorter shower has no verifiable counterfactual, and the action
 library already covers the same behaviours).
 - Reached from: the AppBar calculator chooser on the Log Action screen
-  (home energy tile), and the "Compare home energy use" card shown in
-  that screen's energy category view (kept off the bottom nav to hold
-  it at five buttons).
+  (home energy tile) -- and only there. It has no card in the energy
+  category view: that grid is for actions that can be logged, and this
+  calculator banks nothing (decision 8.18). Kept off the bottom nav to
+  hold it at five buttons.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-behavior science sheets
   open from the picker's info icons.
@@ -348,8 +387,11 @@ library already covers the same behaviours).
   editable amount field (rejects zero/negative/NaN).
 - Result panel: gated by decision E2 -- a verdict needs the same
   comparable group, the same carrier and a delta of at least 20%,
-  otherwise it reads "No winner here" with a "Why not?" dialog giving
-  the real reason. When a verdict passes, the grid-invariant multiple
+  otherwise it reads "No winner here" as a proper heading with the real
+  reason stated underneath, in a tinted panel. The reason used to sit
+  behind a "Why not?" dialog, which read as a dead end (2026-09-02).
+  The option bars and totals carry the category colour, as transport's
+  and food's do. When a verdict passes, the grid-invariant multiple
   leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
   computed in kWh; the gram delta and a phone-charge equivalency
   (anchored on the dataset's own `phone_charge` row, electricity
@@ -367,10 +409,111 @@ the regionalisation rationale), the 241 g/kWh gas-vs-electric
 crossover (the UK has already crossed it), the four-way heating
 hierarchy, measured-vs-rated and standby honesty notes, the lighting
 bulb basis, the avoided-emissions caveat, and the ranked "Where your
-energy goes" table (`EnergyRankedTable`, a standalone widget:
-electricity rows ranked as multiples of an LED-hour, gas rows shown
-unranked per PDR rule 28), then a source list derived from the
-dataset. JA and ES bodies are written natively, not translated.
+energy goes" table (`EnergyRankedTable`, a standalone widget: every
+row ranked by the energy of one typical use as a multiple of an
+LED-hour, gas included, with the gas note underneath per PDR rule 28),
+then a source list derived from the dataset. JA and ES bodies are
+written natively, not translated. The ranked table is shared with the
+Energy Explore screen below rather than forked, so PDR rules 26-28 stay
+enforced in one widget.
+
+## Energy Explore (`/energy-explore`)
+
+Pushed full-screen route (decision E8). "Where your energy goes"
+promoted out of the methodology page into its own surface: the ranked
+table is the screen.
+- Reached from: the `bar_chart` AppBar icon on the Log Action screen,
+  visible in every category.
+- Layout: a 2x2 grid of equally sized baseline buttons switching the
+  measuring baseline (LED hour / phone charge / kettle litre / fan hour
+  -- each one a dataset row with a one-unit default preset, never an
+  equivalency constant, PDR rule 27), the selected one filled with the
+  energy category's yellow; a baseline-aware intro; the ranked table
+  with square-root-scaled bars; then the mandatory footnote saying the
+  bars are distorted and the numbers are what to compare. Switching
+  baseline re-expresses every electricity row instantly. Button borders
+  are one width in every state, or the selected one sits 2pt taller than
+  its neighbours.
+- Per-row what-if sheet: tapping a row opens a bottom sheet with a
+  slider over the behavior's own unit (minutes 1-60, hours 1-12, uses
+  1-10, days 1-7), the resulting multiple leading over its gram figure
+  (rule 26), and an animated wall of baseline icons that fills as the
+  slider moves. One icon is exactly one baseline and the whole count is
+  drawn -- 3,728 phone charges for ten baths -- so the sheet grows and
+  scrolls. The icon size follows from how many fill a row rather than
+  the other way round: ten icons make one full-width row, a hundred
+  about eight rows, five hundred about twenty, interpolated in between
+  on a log scale so more icons never means bigger icons. The wall
+  therefore always spans the width and grows downward, and the size is
+  taken from the icons on screen, not from the slider's maximum -- doing
+  the latter drew every state of a row identically (a TV row topping out
+  at 112 icons looked the same at 9, 56 and 112).
+  Under one baseline the wall is a single icon drawn at that fraction of
+  its size (half a phone charge is half an icon), floored at 8pt so a
+  small fraction is still a mark. The sheet is capped at 90% of the
+  screen and carries a close button: a full-height sheet left no barrier
+  to tap and no way back (2026-09-02). The floor is set by
+  glyph legibility, not by wall height: a wall of unidentifiable specks
+  teaches nothing, so past a few thousand icons the wall runs to several
+  screens and scrolls. The wall is a single Text run in the icon font
+  rather than thousands of Icon widgets. A gas row carries the same
+  energy multiple as any other, its grams priced on the gas factor,
+  and the note explaining why those grams do not follow the ranking
+  (rule 28, revised 2026-09-02).
+- Degrades rather than throws: baselines absent from the loaded dataset
+  lose their chip, and a missing anchor drops to grams only.
+- Awards nothing, logs nothing, persists nothing (decision 8.18).
+
+## Higher or Lower (`/quiz`)
+
+Pushed full-screen route (decision E8). Two cards, names only: drag the
+one you think has the bigger footprint to the top.
+- Reached from: the `quiz_outlined` AppBar icon on the Log Action
+  screen, visible in every category.
+- Rounds rotate at random between home energy, food and transport, and
+  each round is drawn wholly from one domain. A PAIR never mixes
+  domains: a serving of beef against an hour of LED light would set a
+  cradle-to-retail lifecycle figure beside an operational one. The line
+  above the tokens names the round's dataset and what one card of it
+  measures (a use, a serving, a passenger-kilometre).
+- Layout: a streak / session-best row, the round's basis line, then the
+  two tokens side by side, tinted with their domain's category colour
+  and always the same size (stretched inside an `IntrinsicHeight`, or a
+  wrapped title leaves one token taller). HIGHER and LOWER label the
+  zones above and below. After the answer: the figures, correct/wrong
+  copy, a "Keep going" button, a "Ladder so far" list of the cards
+  revealed in the current run, and the basis plus no-points footnotes.
+- Interaction: the two tokens ride opposite ends of one wheel. Dragging
+  either turns it -- up on the right and down on the left are the same
+  motion -- so lifting one lowers the other and both swing inward along
+  the arc. The tokens never rotate: they hang upright like the cabins of
+  a wheel, so their text stays level. A quarter turn is the whole
+  travel, and it is where a committed answer settles: both tokens on the
+  centre line, one wholly above the other. The wheel is an ellipse, not
+  a circle -- its vertical radius is half a measured token plus a gap,
+  because a true circle of that width would end the turn with the two
+  tokens overlapping. The drag is damped below 1:1 so it feels weighted,
+  needs 0.3 rad to commit (a nudge is not an answer), and pops into
+  place on `elasticOut` with a medium-impact haptic.
+- No figures until the answer is in: showing one card's multiple up
+  front handed over most of the answer.
+- Deck rules: each deck drops the rows it cannot rank honestly -- gas
+  behaviors, whose ordering against electricity flips with the user's
+  grid (rule 28); the food dataset's tier-2 rows, measured to a
+  narrower boundary than the rest; and per-vehicle transport modes,
+  whose figure is per vehicle-km rather than per passenger-km.
+  Consecutive cards must differ by at least each calculator's own bar
+  (20%), so a pair that displays identically is never asked; line
+  drying's zero is dealable because it holds on any grid. Cards deal
+  without replacement and reshuffle when the pile empties. The deck
+  model (`lib/shared/domain/quiz_deck.dart`) is domain-generic.
+- A wrong answer ends the run: the streak and the ladder reset, and the
+  session best keeps the maximum. Only that best-streak int survives
+  leaving the screen (a keepAlive notifier); it does not survive an app
+  restart, and nothing is logged or awarded (decision 8.18).
+- Lives in `lib/features/quiz/` rather than under energy: it draws on
+  all three datasets equally, and only started in `energy` because
+  energy was the first deck it had.
 
 ## Tab 2 — Mascot (`/mascot`)
 
@@ -465,6 +608,8 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `transportCalculator`     | `/transport-calculator`           |
 | `foodCalculator`          | `/food-calculator`                |
 | `energyCalculator`        | `/energy-calculator`              |
+| `energyExplore`           | `/energy-explore`                 |
+| `quiz`                    | `/quiz`                           |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `mascot`                  | `/mascot`                         |

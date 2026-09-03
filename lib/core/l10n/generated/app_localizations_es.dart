@@ -1431,12 +1431,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get calculatorHomeEnergy => 'Energía del hogar';
 
   @override
-  String get calculatorBadge => 'Calculadora';
-
-  @override
-  String get energyActionsEntryTitle => 'Comparar el consumo del hogar';
-
-  @override
   String get transportJourneyEmpty =>
       'Añade un tramo para crear tu trayecto y ver su huella de CO2e.';
 
@@ -2142,14 +2136,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyRankedIntro =>
-      'Un uso típico de cada hábito eléctrico, de mayor a menor, como múltiplo de una hora de luz LED. Cada fila indica bajo el nombre su propia base (un uso, una hora o un día). Los múltiplos valen en cualquier red; los gramos asumen la media mundial de arriba.';
-
-  @override
-  String get energyRankedGasHeading => 'Aparatos de gas, sin clasificar';
+      'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica bajo el nombre su propia base (un uso, una hora o un día). Esto ordena la energía consumida, que es la parte que deciden tus hábitos.';
 
   @override
   String get energyRankedGasNote =>
-      'La posición de una fila de gas dependería de tu red, así que el gas se muestra sin puesto. Por debajo de unos 241 g de CO2e por kWh gana la electricidad; por encima, el gas.';
+      'Los aparatos de gas están en la misma lista, porque aquí se ordena la energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g de CO2e por kWh eléctrico se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.';
 
   @override
   String energyRankedMultiple(String multiple) {
@@ -2186,4 +2177,110 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyUnitSuffixDay => 'días';
+
+  @override
+  String energyExploreIntro(String anchorUnit) {
+    return 'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de $anchorUnit. Ordena la energía consumida, y los múltiplos valen en cualquier red.';
+  }
+
+  @override
+  String get energyExploreBarNote =>
+      'Las barras usan una escala de raíz cuadrada para que las filas más pequeñas sigan visibles. Compara los números, no las barras.';
+
+  @override
+  String get energyAnchorChipLedBulb => 'LED 1 h';
+
+  @override
+  String get energyAnchorChipPhoneCharge => 'Móvil 1 carga';
+
+  @override
+  String get energyAnchorChipKettle => 'Hervidor 1 L';
+
+  @override
+  String get energyAnchorChipFan => 'Ventilador 1 h';
+
+  @override
+  String get energyAnchorUnitLedBulb => 'una hora de luz LED';
+
+  @override
+  String get energyAnchorUnitPhoneCharge => 'una carga completa de móvil';
+
+  @override
+  String get energyAnchorUnitKettle => 'un litro hervido en el hervidor';
+
+  @override
+  String get energyAnchorUnitFan => 'una hora de ventilador';
+
+  @override
+  String energyExploreSheetMultiple(String multiple, String anchorUnit) {
+    return '${multiple}x $anchorUnit';
+  }
+
+  @override
+  String energyExploreWallCaptionOne(String anchorUnit) {
+    return 'Cada icono es $anchorUnit';
+  }
+
+  @override
+  String get quizTitle => '¿Más o menos?';
+
+  @override
+  String get quizQuestion => 'Arrastra arriba la de mayor huella';
+
+  @override
+  String get quizBasisEnergy => 'Energía del hogar: un uso típico';
+
+  @override
+  String get quizBasisFood => 'Comida: una ración';
+
+  @override
+  String get quizBasisTransport => 'Transporte: un pasajero-kilómetro';
+
+  @override
+  String get quizNoteFood =>
+      'Las cifras de comida son medias de ciclo de vida de la cuna al comercio (Poore y Nemecek, 2018) por ración.';
+
+  @override
+  String get quizNoteTransport =>
+      'Las cifras de transporte son por pasajero-kilómetro con ocupación media; caminar e ir en bici cuentan como cero.';
+
+  @override
+  String quizPerKm(String amount) {
+    return '$amount por km';
+  }
+
+  @override
+  String get quizHigher => 'Más';
+
+  @override
+  String get quizLower => 'Menos';
+
+  @override
+  String get quizCorrect => '¡Correcto!';
+
+  @override
+  String get quizWrong => 'Esta vez no';
+
+  @override
+  String quizStreakLabel(int count) {
+    return 'Racha: $count';
+  }
+
+  @override
+  String quizBestLabel(int count) {
+    return 'Mejor: $count';
+  }
+
+  @override
+  String get quizContinue => 'Seguir';
+
+  @override
+  String get quizNewRun => 'Empezar de nuevo';
+
+  @override
+  String get quizLadderHeading => 'Tarjetas reveladas';
+
+  @override
+  String get quizNoPointsNote =>
+      'Solo por diversión. No da puntos ni registra nada.';
 }

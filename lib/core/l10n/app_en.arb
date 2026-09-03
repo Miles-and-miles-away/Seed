@@ -697,8 +697,6 @@
   "calculatorsSheetTitle": "Calculators",
   "calculatorsButtonTooltip": "Calculators",
   "calculatorHomeEnergy": "Home energy",
-  "calculatorBadge": "Calculator",
-  "energyActionsEntryTitle": "Compare home energy use",
   "transportJourneyEmpty": "Add a leg to build your journey and see its CO2e footprint.",
   "transportAddLeg": "Add leg",
   "transportEditLeg": "Edit leg",
@@ -1398,9 +1396,8 @@
     }
   },
   "energyRankedTitle": "Where your energy goes",
-  "energyRankedIntro": "One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.",
-  "energyRankedGasHeading": "Gas appliances, unranked",
-  "energyRankedGasNote": "A gas row's rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.",
+  "energyRankedIntro": "One typical use of each behavior, largest first, as a multiple of the energy in an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. This ranks energy used, which is the part your habits decide.",
+  "energyRankedGasNote": "Gas appliances are in the same ranking, because this ranks energy. Watch for one thing: a gas water heater uses more energy than an electric one for the same bath, yet on today's world-average grid it emits less. Below about 241 g CO2e per kWh of electricity that flips and electric wins. Energy use is the part you choose; how clean the grid is depends on your country, and it improves every year.",
   "energyRankedMultiple": "{multiple}x",
   "@energyRankedMultiple": {
     "placeholders": {
@@ -1424,5 +1421,80 @@
   "energyUnitSuffixMinute": "min",
   "energyUnitSuffixHour": "h",
   "energyUnitSuffixUse": "uses",
-  "energyUnitSuffixDay": "days"
+  "energyUnitSuffixDay": "days",
+  "energyExploreIntro": "One typical use of each behavior, largest first, as a multiple of the energy in {anchorUnit}. This ranks energy used, and the multiples hold on every grid.",
+  "@energyExploreIntro": {
+    "placeholders": {
+      "anchorUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "energyExploreBarNote": "Bar lengths use a square-root scale so the smallest rows stay visible. Compare the numbers, not the bars.",
+  "energyAnchorChipLedBulb": "LED hour",
+  "energyAnchorChipPhoneCharge": "Phone charge",
+  "energyAnchorChipKettle": "Kettle litre",
+  "energyAnchorChipFan": "Fan hour",
+  "energyAnchorUnitLedBulb": "an hour of LED light",
+  "energyAnchorUnitPhoneCharge": "a full phone charge",
+  "energyAnchorUnitKettle": "a litre boiled in the kettle",
+  "energyAnchorUnitFan": "an hour of a fan",
+  "energyExploreSheetMultiple": "{multiple}x {anchorUnit}",
+  "@energyExploreSheetMultiple": {
+    "placeholders": {
+      "multiple": {
+        "type": "String"
+      },
+      "anchorUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "energyExploreWallCaptionOne": "Each icon is {anchorUnit}",
+  "@energyExploreWallCaptionOne": {
+    "placeholders": {
+      "anchorUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "quizTitle": "Higher or lower?",
+  "quizQuestion": "Drag the one with the bigger footprint to the top",
+  "quizBasisEnergy": "Home energy, one typical use",
+  "quizBasisFood": "Food, one serving",
+  "quizBasisTransport": "Transport, one passenger-kilometre",
+  "quizNoteFood": "Food figures are cradle-to-retail lifecycle averages (Poore & Nemecek, 2018) for one serving.",
+  "quizNoteTransport": "Transport figures are per passenger-kilometre at average occupancy; walking and cycling count as zero.",
+  "quizPerKm": "{amount} per km",
+  "@quizPerKm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "quizHigher": "Higher",
+  "quizLower": "Lower",
+  "quizCorrect": "Right!",
+  "quizWrong": "Not this time",
+  "quizStreakLabel": "Streak: {count}",
+  "@quizStreakLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizBestLabel": "Best: {count}",
+  "@quizBestLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizContinue": "Keep going",
+  "quizNewRun": "Start again",
+  "quizLadderHeading": "Ladder so far",
+  "quizNoPointsNote": "Just for fun. No points, and nothing is logged."
 }

@@ -1415,12 +1415,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorHomeEnergy => 'Home energy';
 
   @override
-  String get calculatorBadge => 'Calculator';
-
-  @override
-  String get energyActionsEntryTitle => 'Compare home energy use';
-
-  @override
   String get transportJourneyEmpty =>
       'Add a leg to build your journey and see its CO2e footprint.';
 
@@ -2118,14 +2112,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get energyRankedIntro =>
-      'One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.';
-
-  @override
-  String get energyRankedGasHeading => 'Gas appliances, unranked';
+      'One typical use of each behavior, largest first, as a multiple of the energy in an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. This ranks energy used, which is the part your habits decide.';
 
   @override
   String get energyRankedGasNote =>
-      'A gas row\'s rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.';
+      'Gas appliances are in the same ranking, because this ranks energy. Watch for one thing: a gas water heater uses more energy than an electric one for the same bath, yet on today\'s world-average grid it emits less. Below about 241 g CO2e per kWh of electricity that flips and electric wins. Energy use is the part you choose; how clean the grid is depends on your country, and it improves every year.';
 
   @override
   String energyRankedMultiple(String multiple) {
@@ -2162,4 +2153,111 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get energyUnitSuffixDay => 'days';
+
+  @override
+  String energyExploreIntro(String anchorUnit) {
+    return 'One typical use of each behavior, largest first, as a multiple of the energy in $anchorUnit. This ranks energy used, and the multiples hold on every grid.';
+  }
+
+  @override
+  String get energyExploreBarNote =>
+      'Bar lengths use a square-root scale so the smallest rows stay visible. Compare the numbers, not the bars.';
+
+  @override
+  String get energyAnchorChipLedBulb => 'LED hour';
+
+  @override
+  String get energyAnchorChipPhoneCharge => 'Phone charge';
+
+  @override
+  String get energyAnchorChipKettle => 'Kettle litre';
+
+  @override
+  String get energyAnchorChipFan => 'Fan hour';
+
+  @override
+  String get energyAnchorUnitLedBulb => 'an hour of LED light';
+
+  @override
+  String get energyAnchorUnitPhoneCharge => 'a full phone charge';
+
+  @override
+  String get energyAnchorUnitKettle => 'a litre boiled in the kettle';
+
+  @override
+  String get energyAnchorUnitFan => 'an hour of a fan';
+
+  @override
+  String energyExploreSheetMultiple(String multiple, String anchorUnit) {
+    return '${multiple}x $anchorUnit';
+  }
+
+  @override
+  String energyExploreWallCaptionOne(String anchorUnit) {
+    return 'Each icon is $anchorUnit';
+  }
+
+  @override
+  String get quizTitle => 'Higher or lower?';
+
+  @override
+  String get quizQuestion =>
+      'Drag the one with the bigger footprint to the top';
+
+  @override
+  String get quizBasisEnergy => 'Home energy, one typical use';
+
+  @override
+  String get quizBasisFood => 'Food, one serving';
+
+  @override
+  String get quizBasisTransport => 'Transport, one passenger-kilometre';
+
+  @override
+  String get quizNoteFood =>
+      'Food figures are cradle-to-retail lifecycle averages (Poore & Nemecek, 2018) for one serving.';
+
+  @override
+  String get quizNoteTransport =>
+      'Transport figures are per passenger-kilometre at average occupancy; walking and cycling count as zero.';
+
+  @override
+  String quizPerKm(String amount) {
+    return '$amount per km';
+  }
+
+  @override
+  String get quizHigher => 'Higher';
+
+  @override
+  String get quizLower => 'Lower';
+
+  @override
+  String get quizCorrect => 'Right!';
+
+  @override
+  String get quizWrong => 'Not this time';
+
+  @override
+  String quizStreakLabel(int count) {
+    return 'Streak: $count';
+  }
+
+  @override
+  String quizBestLabel(int count) {
+    return 'Best: $count';
+  }
+
+  @override
+  String get quizContinue => 'Keep going';
+
+  @override
+  String get quizNewRun => 'Start again';
+
+  @override
+  String get quizLadderHeading => 'Ladder so far';
+
+  @override
+  String get quizNoPointsNote =>
+      'Just for fun. No points, and nothing is logged.';
 }

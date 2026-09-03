@@ -26,6 +26,22 @@ class ActionLogScreen extends ConsumerStatefulWidget {
   /// card). Null or unrecognized values show all categories.
   final String? initialCategory;
 
+  /// Accent bar, padding, icon and gaps: the part of a tile that does
+  /// not move with the text scale.
+  ///
+  /// Split measured off the rendered grid, not guessed: the tallest
+  /// tile draws 180pt at scale 1.0 and 261pt at scale 2.0, which fixes
+  /// both halves. A test pins that nothing overflows at either.
+  static const _tileChromeHeight = 104.0;
+
+  /// Title, badge and SDG row at the default text scale.
+  static const _tileTextHeight = 82.0;
+
+  /// Height of one action tile at [scaler]. Public so a test can put a
+  /// tile in exactly the box the grid gives it.
+  static double tileHeightFor(TextScaler scaler) =>
+      _tileChromeHeight + scaler.scale(_tileTextHeight);
+
   @override
   ConsumerState<ActionLogScreen> createState() => _ActionLogScreenState();
 }
@@ -94,6 +110,24 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
             icon: const Icon(Icons.calculate_outlined),
             tooltip: l10n.calculatorsButtonTooltip,
             onPressed: () => CalculatorChooserSheet.show(context),
+          ),
+          // The two energy teaching surfaces (decision E8). They sit
+          // here rather than in the chooser sheet, whose three-tile row
+          // would overflow, and rather than as category tiles, because
+          // neither is an action to log.
+          IconButton(
+            // The app's own energy glyph rather than a generic chart:
+            // both of these icons are energy-only surfaces.
+            icon: const Icon(Icons.bolt),
+            tooltip: l10n.energyRankedTitle,
+            onPressed: () => context.push(appRoutes.energyExplore),
+          ),
+          IconButton(
+            icon: const Icon(Icons.quiz_outlined),
+            // Domain-neutral: the game rotates between energy, food and
+            // transport rounds.
+            tooltip: l10n.quizTitle,
+            onPressed: () => context.push(appRoutes.quiz),
           ),
         ],
         bottom: PreferredSize(
@@ -219,7 +253,6 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     String languageCode,
   ) {
     final l10n = AppLocalizations.of(context);
-    final calculatorEntry = _buildCalculatorEntry(l10n);
 
     if (filteredActions.isEmpty) {
       return Center(
@@ -241,19 +274,26 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       );
     }
 
+    final entry = _buildCalculatorEntry(l10n);
     return GridView.builder(
       padding: const EdgeInsets.all(spacingLg),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: spacingMd,
         mainAxisSpacing: spacingMd,
-        childAspectRatio: 0.9,
+        // Height from the content, not from a fraction of the cell
+        // width: at 0.9 the cell ran ~20pt taller than the tallest tile
+        // draws, which read as dead space above and below. Only the
+        // text block grows with the user's text scale, so only that
+        // part is scaled.
+        mainAxisExtent: ActionLogScreen.tileHeightFor(
+          MediaQuery.textScalerOf(context),
+        ),
       ),
-      itemCount: filteredActions.length + (calculatorEntry == null ? 0 : 1),
+      itemCount: filteredActions.length + (entry == null ? 0 : 1),
       itemBuilder: (context, index) {
-        if (calculatorEntry != null && index == 0) return calculatorEntry;
-        final action =
-            filteredActions[calculatorEntry == null ? index : index - 1];
+        if (entry != null && index == 0) return entry;
+        final action = filteredActions[entry == null ? index : index - 1];
         return ActionCard(
           action: action,
           languageCode: languageCode,
@@ -268,12 +308,15 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     );
   }
 
-  /// Calculator entry for the transport (Phase 8.6), food (Phase 8.12)
-  /// and energy (Phase 8.17) calculators, shown as the first tile of
-  /// their own category so it reads as just another action rather than
-  /// a banner. Transport and food carry the custom-action badge because
-  /// their calculators bank choices; energy banks nothing (decision
-  /// 8.18), so its tile is badged as a plain calculator.
+  /// Custom-action entry for the transport (Phase 8.6) and food (Phase
+  /// 8.12) calculators, shown as the first tile of their own category so
+  /// it reads as just another action rather than a banner. Both bank the
+  /// choice they produce, hence the custom-action badge.
+  ///
+  /// Energy has no tile here: its calculator banks nothing (decision
+  /// 8.18), and a tile in a grid of loggable actions promises a log it
+  /// cannot deliver. It stays in the AppBar calculator chooser, beside
+  /// the two energy teaching surfaces (decision E8).
   Widget? _buildCalculatorEntry(AppLocalizations l10n) {
     final category = ref.watch(selectedCategoryProvider);
     final (String title, String route) = switch (category) {
@@ -285,10 +328,6 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         l10n.foodActionsEntryTitle,
         appRoutes.foodCalculator,
       ),
-      ActionCategory.energy => (
-        l10n.energyActionsEntryTitle,
-        appRoutes.energyCalculator,
-      ),
       _ => ('', ''),
     };
     if (title.isEmpty) return null;
@@ -298,9 +337,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       contentColor: category.color,
       icon: Icons.compare_arrows,
       title: title,
-      badgeLabel: category == ActionCategory.energy
-          ? l10n.calculatorBadge
-          : l10n.customActionBadge,
+      badgeLabel: l10n.customActionBadge,
       onTap: () => context.push(route),
     );
   }

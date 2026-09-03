@@ -35,6 +35,26 @@ String energyGroupLabel(AppLocalizations l10n, String group) => switch (group) {
   _ => group,
 };
 
+/// Chip label for an explore baseline, e.g. "LED hour". Unknown ids
+/// fall back to the raw id, like [energyGroupLabel].
+String energyAnchorChipLabel(AppLocalizations l10n, String id) => switch (id) {
+  'led_bulb' => l10n.energyAnchorChipLedBulb,
+  'phone_charge' => l10n.energyAnchorChipPhoneCharge,
+  'kettle' => l10n.energyAnchorChipKettle,
+  'fan' => l10n.energyAnchorChipFan,
+  _ => id,
+};
+
+/// The same baseline as a phrase that reads inside a sentence, e.g.
+/// "an hour of LED light".
+String energyAnchorUnitPhrase(AppLocalizations l10n, String id) => switch (id) {
+  'led_bulb' => l10n.energyAnchorUnitLedBulb,
+  'phone_charge' => l10n.energyAnchorUnitPhoneCharge,
+  'kettle' => l10n.energyAnchorUnitKettle,
+  'fan' => l10n.energyAnchorUnitFan,
+  _ => id,
+};
+
 /// Bare unit noun for a text-field suffix, e.g. "min".
 String energyUnitSuffix(AppLocalizations l10n, EnergyUnit unit) =>
     switch (unit) {

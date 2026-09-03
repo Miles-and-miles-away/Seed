@@ -1377,12 +1377,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calculatorHomeEnergy => '家庭のエネルギー';
 
   @override
-  String get calculatorBadge => '計算ツール';
-
-  @override
-  String get energyActionsEntryTitle => '家庭のエネルギー使用を比べる';
-
-  @override
   String get transportJourneyEmpty => '区間を追加して行程を作ると、CO2e排出量が表示されます。';
 
   @override
@@ -2053,14 +2047,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get energyRankedIntro =>
-      '各行動の標準的な1回分を、LED電球1時間分を1とした倍率で大きい順に並べています。各行の名前の下に、その基準（1回・1時間・1日）を示しています。倍率はどの電力網でも同じです。グラム表示は上記の世界平均係数に基づきます。';
-
-  @override
-  String get energyRankedGasHeading => 'ガス機器（順位なし）';
+      '各行動の標準的な1回分を、LED電球1時間分のエネルギーを1とした倍率で大きい順に並べています。各行の名前の下に、その基準（1回・1時間・1日）を示しています。ここで並べているのは使うエネルギーの量、つまり習慣で決まる部分です。';
 
   @override
   String get energyRankedGasNote =>
-      'ガスの順位は電力網の係数次第で変わるため、順位を付けていません。約241 g CO2e/kWhを下回る電力網では電気が、上回る場合はガスが有利です。';
+      'ガス機器も同じ並びに入れています。ここで比べているのはエネルギーの量だからです。ひとつ注意点があります。同じ湯船でも、ガス給湯は電気給湯よりエネルギーを多く使いますが、現在の世界平均の電力係数では排出量はガスのほうが少なくなります。電力が約241 g CO2e/kWhを下回ると逆転し、電気が有利になります。エネルギーの量は自分で選べる部分、電力のクリーンさは国によって違い、年々改善していく部分です。';
 
   @override
   String energyRankedMultiple(String multiple) {
@@ -2097,4 +2088,108 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get energyUnitSuffixDay => '日';
+
+  @override
+  String energyExploreIntro(String anchorUnit) {
+    return '各行動の標準的な1回分を、$anchorUnitのエネルギーを1とした倍率で大きい順に並べています。並べているのは使うエネルギーの量で、倍率はどの電力網でも同じです。';
+  }
+
+  @override
+  String get energyExploreBarNote =>
+      'バーの長さは平方根スケールです。小さい行も見えるようにするためなので、比べるのは数値のほうです。';
+
+  @override
+  String get energyAnchorChipLedBulb => 'LED 1時間';
+
+  @override
+  String get energyAnchorChipPhoneCharge => 'スマホ充電1回';
+
+  @override
+  String get energyAnchorChipKettle => 'ケトル1L';
+
+  @override
+  String get energyAnchorChipFan => '扇風機1時間';
+
+  @override
+  String get energyAnchorUnitLedBulb => 'LED電球1時間分';
+
+  @override
+  String get energyAnchorUnitPhoneCharge => 'スマホ1回のフル充電';
+
+  @override
+  String get energyAnchorUnitKettle => 'ケトルで沸かす1L';
+
+  @override
+  String get energyAnchorUnitFan => '扇風機1時間分';
+
+  @override
+  String energyExploreSheetMultiple(String multiple, String anchorUnit) {
+    return '$anchorUnitの$multiple倍';
+  }
+
+  @override
+  String energyExploreWallCaptionOne(String anchorUnit) {
+    return 'アイコン1つが$anchorUnit';
+  }
+
+  @override
+  String get quizTitle => '多い？ 少ない？';
+
+  @override
+  String get quizQuestion => '排出量が多いほうを上にドラッグ';
+
+  @override
+  String get quizBasisEnergy => '家庭のエネルギー：標準的な1回分';
+
+  @override
+  String get quizBasisFood => '食べ物：1食分';
+
+  @override
+  String get quizBasisTransport => '移動：1人・1km';
+
+  @override
+  String get quizNoteFood =>
+      '食べ物の数値は生産から小売までのライフサイクル平均（Poore & Nemecek, 2018）の1食分です。';
+
+  @override
+  String get quizNoteTransport => '移動の数値は平均乗車率での1人・1kmあたりです。徒歩と自転車はゼロとして扱います。';
+
+  @override
+  String quizPerKm(String amount) {
+    return '1kmあたり$amount';
+  }
+
+  @override
+  String get quizHigher => '多い';
+
+  @override
+  String get quizLower => '少ない';
+
+  @override
+  String get quizCorrect => '正解！';
+
+  @override
+  String get quizWrong => '残念';
+
+  @override
+  String quizStreakLabel(int count) {
+    return '連続$count';
+  }
+
+  @override
+  String quizBestLabel(int count) {
+    return '最高$count';
+  }
+
+  @override
+  String get quizContinue => '次へ';
+
+  @override
+  String get quizNewRun => 'もう一度';
+
+  @override
+  String get quizLadderHeading => 'これまでのカード';
+
+  @override
+  String get quizNoPointsNote => '遊びのためのクイズです。ポイントは付かず、記録もされません。';
 }

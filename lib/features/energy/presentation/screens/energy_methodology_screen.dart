@@ -59,11 +59,7 @@ class EnergyMethodologyScreen extends ConsumerWidget {
           config: config,
         ),
         const SizedBox(height: spacingXxl),
-        EnergyRankedTable(
-          behaviors: behaviors,
-          gridFactor: factors.grid,
-          gasFactor: factors.gas,
-        ),
+        EnergyRankedTable(behaviors: behaviors),
         const SizedBox(height: spacingXxl),
         MarkdownBlock(
           data: appendExternalLinkArrow(_sourcesMarkdown(l10n, behaviors)),
