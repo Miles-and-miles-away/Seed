@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -245,6 +246,7 @@ class _TransportCalculatorScreenState
         : null;
 
     return ComparisonScaffold(
+      accentColor: ActionCategory.transport.color,
       totals: totals,
       entries: [
         for (var option = 0; option < optionCount; option++)
@@ -275,6 +277,7 @@ class _TransportCalculatorScreenState
       if (mode.perVehicle) l10n.transportOccupantsValue(leg.occupants),
     ].join(' · ');
     return OptionEntryCard(
+      accentColor: ActionCategory.transport.color,
       icon: transportGroupIcon(mode.group),
       name: mode.name(locale),
       detail: details,
@@ -325,6 +328,7 @@ class _TransportCalculatorScreenState
       mainAxisSize: MainAxisSize.min,
       children: [
         ComparisonDeltaCard(
+          accentColor: ActionCategory.transport.color,
           headline: l10n.transportComparisonDelta(
             bestLabel,
             formatCO2Compact(summary.deltaGrams.round()),

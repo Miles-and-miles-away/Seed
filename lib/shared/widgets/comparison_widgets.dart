@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 
 /// Shared presentation widgets for the Phase 8 calculator comparison
@@ -21,7 +22,15 @@ import 'package:seed_app/core/utils/helpers.dart';
 /// honest fix. The whole amount is the tap target, not just the four
 /// characters, so it clears the minimum touch size.
 class Co2eAmount extends StatelessWidget {
-  const Co2eAmount({required this.grams, this.style, super.key});
+  const Co2eAmount({
+    required this.grams,
+    this.style,
+    this.accentColor,
+    super.key,
+  });
+
+  /// The domain's colour. Null keeps the scheme's primary.
+  final Color? accentColor;
 
   final double grams;
   final TextStyle? style;
@@ -46,6 +55,9 @@ class Co2eAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // The category colour as it is, matching the bars and the tokens
+    // rather than a darkened version of it (owner call 2026-09-02).
+    final ink = accentColor ?? theme.colorScheme.primary;
     final l10n = AppLocalizations.of(context);
     final base = style ?? theme.textTheme.bodyMedium;
     return Semantics(
@@ -60,9 +72,9 @@ class Co2eAmount extends StatelessWidget {
               TextSpan(
                 text: 'CO2e',
                 style: base?.copyWith(
-                  color: theme.colorScheme.primary,
+                  color: ink,
                   decoration: TextDecoration.underline,
-                  decorationColor: theme.colorScheme.primary,
+                  decorationColor: ink,
                 ),
               ),
             ],
@@ -89,6 +101,7 @@ class ComparisonScaffold extends StatelessWidget {
     required this.onAdd,
     required this.bestIndex,
     required this.result,
+    this.accentColor,
     super.key,
   });
 
@@ -115,6 +128,10 @@ class ComparisonScaffold extends StatelessWidget {
   /// The delta card, gating explanation or hint shown underneath.
   final Widget result;
 
+  /// The domain's colour for the totals and bars. Null keeps the
+  /// scheme's primary, which is what a caller with no domain wants.
+  final Color? accentColor;
+
   /// Share of the body the result may claim before it scrolls. Fits
   /// the tallest card (energy, Spanish) at the default text scale and
   /// still leaves the option columns the larger half.
@@ -138,6 +155,13 @@ class ComparisonScaffold extends StatelessWidget {
       'ComparisonScaffold needs one total and one entry list per option',
     );
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final accent = accentColor ?? theme.colorScheme.primary;
+    // What reads on a solid fill of the accent, not on the surface.
+    final onAccent =
+        ThemeData.estimateBrightnessForColor(accent) == Brightness.light
+        ? theme.colorScheme.onSurface
+        : theme.colorScheme.onPrimary;
     final worst = totals.reduce((a, b) => a > b ? a : b);
     // Bottom only: the result panel is pinned to the bottom of the
     // body and slid under the home indicator without it. The top is
@@ -177,6 +201,7 @@ class ComparisonScaffold extends StatelessWidget {
                                           : double.infinity,
                                     ),
                                     child: OptionColumn(
+                                      accentColor: accentColor,
                                       title: option == optionA
                                           ? l10n.calculatorOptionA
                                           : l10n.calculatorOptionB,
@@ -206,6 +231,13 @@ class ComparisonScaffold extends StatelessWidget {
                               if (option > 0) const SizedBox(width: spacingSm),
                               Expanded(
                                 child: FilledButton.tonalIcon(
+                                  style: FilledButton.styleFrom(
+                                    // Solid category colour, with dark
+                                    // ink on it: white on amber is
+                                    // 1.9:1, near-black is 11:1.
+                                    backgroundColor: accent,
+                                    foregroundColor: onAccent,
+                                  ),
                                   onPressed: () => onAdd(option),
                                   icon: const Icon(Icons.add),
                                   label: Text(addLabel),
@@ -257,6 +289,7 @@ class OptionColumn extends StatelessWidget {
     required this.isEmpty,
     required this.emptyHint,
     required this.children,
+    this.accentColor,
     super.key,
   });
 
@@ -270,9 +303,14 @@ class OptionColumn extends StatelessWidget {
   /// The entry cards already built by the feature screen.
   final List<Widget> children;
 
+  /// The domain's colour for this column's total and bar.
+  final Color? accentColor;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final accent = accentColor ?? theme.colorScheme.primary;
+    final ink = readableTextColor(accent, theme.brightness);
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
@@ -314,10 +352,11 @@ class OptionColumn extends StatelessWidget {
                       ),
                       const SizedBox(height: spacingXs),
                       Co2eAmount(
+                        accentColor: accent,
                         grams: totalGrams,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: isBest ? theme.colorScheme.primary : null,
+                          color: isBest ? ink : null,
                         ),
                       ),
                       const SizedBox(height: spacingXs),
@@ -330,8 +369,8 @@ class OptionColumn extends StatelessWidget {
                               theme.colorScheme.surfaceContainerHighest,
                           valueColor: AlwaysStoppedAnimation(
                             isBest
-                                ? theme.colorScheme.primary
-                                : theme.colorScheme.secondaryContainer,
+                                ? accent
+                                : accent.withValues(alpha: opacityMuted),
                           ),
                         ),
                       ),
@@ -387,8 +426,12 @@ class OptionEntryCard extends StatelessWidget {
     required this.removeTooltip,
     required this.onTap,
     required this.onRemove,
+    this.accentColor,
     super.key,
   });
+
+  /// The domain's colour. Null keeps the scheme's primary.
+  final Color? accentColor;
 
   final IconData icon;
   final String name;
@@ -401,6 +444,7 @@ class OptionEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final accent = accentColor ?? theme.colorScheme.primary;
     return Card(
       margin: const EdgeInsets.only(bottom: spacingXs),
       child: InkWell(
@@ -413,7 +457,7 @@ class OptionEntryCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(icon, size: 16, color: theme.colorScheme.primary),
+                  Icon(icon, size: 16, color: accent),
                   const SizedBox(width: spacingXs),
                   Expanded(
                     child: Text(
@@ -467,6 +511,7 @@ class ComparisonDeltaCard extends StatelessWidget {
     required this.headline,
     this.equivalencyText,
     this.basisNotes = const [],
+    this.accentColor,
     super.key,
   });
 
@@ -474,11 +519,23 @@ class ComparisonDeltaCard extends StatelessWidget {
   final String? equivalencyText;
   final List<String> basisNotes;
 
+  /// The domain's colour. Null keeps the scheme's primary.
+  final Color? accentColor;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final accent = accentColor ?? theme.colorScheme.primary;
+    final ink = readableTextColor(accent, theme.brightness);
+    // The headline is 16pt bold, which clears at 3:1, so it keeps more
+    // of the domain's colour than the lines under it.
+    final headlineInk = readableTextColor(
+      accent,
+      theme.brightness,
+      large: true,
+    );
     return Card(
-      color: theme.colorScheme.primaryContainer,
+      color: accent.withValues(alpha: opacitySubtle),
       margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(spacingMd),
@@ -489,16 +546,14 @@ class ComparisonDeltaCard extends StatelessWidget {
               headline,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onPrimaryContainer,
+                color: headlineInk,
               ),
             ),
             if (equivalencyText != null) ...[
               const SizedBox(height: spacingXs),
               Text(
                 equivalencyText!,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onPrimaryContainer,
-                ),
+                style: theme.textTheme.bodySmall?.copyWith(color: ink),
               ),
             ],
             for (final note in basisNotes)
@@ -506,9 +561,7 @@ class ComparisonDeltaCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: spacingXs),
                 child: Text(
                   note,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
+                  style: theme.textTheme.bodySmall?.copyWith(color: ink),
                 ),
               ),
           ],

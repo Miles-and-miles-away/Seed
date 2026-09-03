@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 /// Bottom-sheet chooser for the three carbon calculators (Phase 8).
 ///
@@ -47,17 +48,20 @@ class CalculatorChooserSheet extends StatelessWidget {
               children: [
                 _CalculatorTile(
                   icon: Icons.commute,
+                  color: ActionCategory.transport.color,
                   label: l10n.categoryTransport,
                   onTap: () =>
                       Navigator.pop(context, appRoutes.transportCalculator),
                 ),
                 _CalculatorTile(
                   icon: Icons.restaurant,
+                  color: ActionCategory.food.color,
                   label: l10n.categoryFood,
                   onTap: () => Navigator.pop(context, appRoutes.foodCalculator),
                 ),
                 _CalculatorTile(
                   icon: Icons.bolt,
+                  color: ActionCategory.energy.color,
                   label: l10n.calculatorHomeEnergy,
                   onTap: () =>
                       Navigator.pop(context, appRoutes.energyCalculator),
@@ -75,11 +79,17 @@ class CalculatorChooserSheet extends StatelessWidget {
 class _CalculatorTile extends StatelessWidget {
   const _CalculatorTile({
     required this.icon,
+    required this.color,
     required this.label,
     required this.onTap,
   });
 
   final IconData icon;
+
+  /// The domain's own colour, so the three calculators read as the same
+  /// three categories the Action Log uses.
+  final Color color;
+
   final String label;
   final VoidCallback onTap;
 
@@ -96,8 +106,8 @@ class _CalculatorTile extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 28,
-              backgroundColor: theme.colorScheme.primaryContainer,
-              child: Icon(icon, color: theme.colorScheme.onPrimaryContainer),
+              backgroundColor: color.withValues(alpha: opacityLight),
+              child: Icon(icon, color: color),
             ),
             const SizedBox(height: spacingSm),
             Text(label, style: theme.textTheme.labelLarge),
