@@ -1,5 +1,5 @@
 {
- "reviewed": "2026-07-22",
+ "reviewed": "2026-09-02",
  "note": "cross-country pairs with a ground suggestion, each border screened open for ordinary travelers; refresh ONLY after screening via sweep_suggestions.py --update-reviewed",
  "pairs": [
   "AD-AL",
@@ -493,6 +493,7 @@
   "BZ-NI",
   "BZ-PA",
   "BZ-SV",
+  "BZ-US",
   "CA-US",
   "CD-CF",
   "CD-CG",
@@ -997,6 +998,7 @@
   "GT-NI",
   "GT-PA",
   "GT-SV",
+  "GT-US",
   "GW-LR",
   "GW-ML",
   "GW-MR",
@@ -1016,6 +1018,7 @@
   "HN-NI",
   "HN-PA",
   "HN-SV",
+  "HN-US",
   "HR-HU",
   "HR-IL",
   "HR-IT",
@@ -1598,6 +1601,7 @@
   "SS-TZ",
   "SS-UG",
   "SS-ZM",
+  "SV-US",
   "SY-TM",
   "SY-TR",
   "SY-UA",

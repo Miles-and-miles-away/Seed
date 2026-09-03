@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 
 // ignore_for_file: constant_identifier_names
-const CITY_COUNT = 969;
+const CITY_COUNT = 982;
 const _ASSET_PATH = 'data/app/cities.json';
 
 /// Loads the city list (sorted by population, descending).
