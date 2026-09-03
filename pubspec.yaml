@@ -92,7 +92,7 @@ flutter_launcher_icons:
 
   android: true
   min_sdk_android: 24
-  adaptive_icon_background: "#282828"
+  adaptive_icon_background: "#F3EADB"
   adaptive_icon_foreground: assets/icon/app_icon_foreground.png
   adaptive_icon_foreground_inset: 0
 
