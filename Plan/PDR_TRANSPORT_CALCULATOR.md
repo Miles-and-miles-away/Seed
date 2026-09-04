@@ -243,6 +243,58 @@ invented medium-haul cutoff -- DEFRA publishes no medium-haul
 factor, so the three bands stand (owner Q&A, 2026-07-22). The
 picker offers only the band a city pair resolves to.
 
+### 2.4 Border-status watchlist (enforced by the build guard)
+
+Moved here 2026-09-01 from RESEARCH_TRANSPORT.md Appendix A.5;
+`build_water_blocklist.py` points here (its guard's abort message
+and the comment on `BORDER_VERDICTS_VERIFIED`).
+
+Border verdicts (RESEARCH_TRANSPORT.md section 9 CLOSED_BORDERS /
+walls) carry expiry risk: a closed border reopens, and a stale
+verdict then blocks honest corridors silently. The reminder is no
+longer a matter of memory: `build_water_blocklist.py` calls
+`check_border_verdicts()` as the first statement of `main()`,
+and the build aborts when `BORDER_VERDICTS_VERIFIED` (currently
+2026-07-21) is older than `BORDER_VERDICT_MAX_AGE_DAYS` (180).
+A run inside the window prints the age and continues. The
+guard's abort message points at this section instead of
+restating the entries, so the list below stays the single
+authoritative statement of what re-verifying covers.
+
+Re-verifying means: check every entry below live, then move
+`BORDER_VERDICTS_VERIFIED` to the date you did it. Moving the
+date without doing the checks is the one failure mode the guard
+cannot see. The verdicts themselves live in the script
+(CLOSED_BORDERS, BORDER_WALLS, MANUAL_BLOCK); this is the
+rationale and the watch reason for each:
+
+- **BJ-NE** -- the 2026-06 reopening accord was prospective;
+  likely to genuinely reopen (currently blocked).
+- **DZ-LY** -- conflicting sources; blocked under the in-doubt rule.
+- **AM-TR** -- reopening conditional on an unsigned AM-AZ treaty.
+- **ER-ET** -- owner "fragile-ok" watchlist (kept open).
+- **Rafah / Gaza** -- the strip ships no cities; revisit only if
+  crossings genuinely reopen to travelers.
+- **Sudan front line** (Kordofan; El Obeid the current flashpoint)
+  -- a manual wall; recheck as the front shifts.
+- **Backfill note** -- cities.json was edited in place (the
+  GeoNames inputs are off-disk), so the next full regeneration
+  backfills the freed top-5 slots with new cities; the gate's
+  political screen (R7, RESEARCH_TRANSPORT.md section 9) fails
+  any new grounded cc-pair until it is border-screened and added
+  via `--update-reviewed`.
+- **Cities can leave the GeoNames input** -- a shipping city can
+  disappear from cities15000 upstream: Seria BN was in the export
+  at the 2026-07-18 build and gone by 2026-08-29. build_cities.py
+  re-selects from that export, so a full regeneration drops the
+  vanished city silently and a backfill city takes its top-N
+  slot, compounding the note above. enrich_city_names.py joins
+  every shipping city against cities15000 and is the only place
+  that sees it go: its `KNOWN_UNJOINED` constant pins the
+  known-absent set, and the run aborts when the observed set
+  differs in either direction (a new absence, or a listed city
+  that has returned and left the constant stale).
+
 ---
 
 ## 3. Fix Backlog 3 -- Structural Robustness (COMPLETE)
@@ -306,41 +358,30 @@ logged in
       section 6 must be **re-derived**, never assumed to survive.
       Cadence is tracked in
       [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
-- [ ] **`enrich_city_names.py` pass 1 is untested, and no Python
-      runs in CI** (new 2026-08-30).
-      `scripts/generators/test_enrich_city_names.py` is 90 lines of
-      five checks -- label gates, distance bands, the country rule,
-      nearest-wins/empty, and haversine -- all of them pass-3
-      acceptance logic. `pick()`, which is pass 1, has no test at
-      all, and it is the only source of every one of the 275
-      `name_es` in `data/app/cities.json` and of the large majority
-      of the 925 `name_ja`: the script's own measurements put pass
-      3 at 33 names and pass 2's candidate pool at 107, so the two
-      network passes together cannot account for more than about a
-      seventh of them. `pick()` owns the colloquial and historic
-      exclusions, the preferred-over-full-over-short ordering, the
-      oldest-id stable tiebreak and the JA romaji demotion; a
-      regression in any of those silently ships a wrong name.
-      Second half of the same gap: `.github/workflows/ci.yml` has
-      no Python step, so even the five checks that do exist have
-      never run outside a developer's shell.
+- [x] ~~**`enrich_city_names.py` pass 1 is untested, and no Python
+      runs in CI**~~ -- closed 2026-09-01: `check_pick()` added to
+      `scripts/generators/test_enrich_city_names.py` covering the
+      colloquial/historic exclusions, empty and whitespace names,
+      the preferred-over-full-over-short ordering, the oldest-id
+      stable tiebreak, and the JA romaji demotion (including that
+      it outranks a preferred flag, and that ES keeps Latin-script
+      names). CI gained a `generators` job running the file on the
+      runner's system python3 (the checks are pure stdlib).
 - [x] ~~**Shared dataset-assertion helper**~~ -- rejected
       2026-08-30 in
       [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
       section 9: only food and transport are near-verbatim twins,
       energy's source rule is the inverse of theirs, and the
       abstraction degrades failure output.
-- [ ] **Finish the RESEARCH/PDR split for transport.**
-      RESEARCH_TRANSPORT.md Appendix A.5 (border-status watchlist)
-      is a product rule by
-      [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3 and
-      belongs here, but `scripts/generators/build_water_blocklist.py`
-      names it by file and letter in three places, one of them a
-      runtime abort message. Moving it is a docs-plus-code change
-      and was deliberately not done on 2026-08-30 with the rest of
-      the split. Move A.5 here and update the three pointers in the
-      same PR, or record a decision that the guard's pointer is
-      reason enough to leave it where it is.
+- [x] ~~**Finish the RESEARCH/PDR split for transport.**~~ --
+      closed 2026-09-01: A.5 moved here as section 2.4 with a
+      redirect stub left at its letter, and both
+      `build_water_blocklist.py` pointers (the
+      `BORDER_VERDICTS_VERIFIED` comment and the guard's abort
+      message) updated to section 2.4. The open item counted a
+      third pointer; the script's only other RESEARCH_TRANSPORT
+      reference is the docstring's known-gaps note to section 9,
+      which is evidence, not the watchlist, and stays.
 
 ---
 

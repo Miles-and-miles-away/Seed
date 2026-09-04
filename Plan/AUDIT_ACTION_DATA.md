@@ -123,6 +123,17 @@ The `impact` score should reflect this broader value.
 > `category: "energy"` actions were backfilled on 2026-08-29 from
 > primaries already live-verified in
 > [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3.
+>
+> **Update (2026-09-01):** `skip_fish` backfilled (transcribed
+> from the white_fish item and the shared pulses baseline, both
+> live-verified in [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) section
+> 3.1) and `skip_food_delivery` demoted to
+> `research_only_records` (0 g with the evidence running the
+> other way; PDR_FOOD_CALCULATOR.md section 6 carries the
+> decision). Now **91 shipping actions, 57 with both an empty
+> `sources[]` and a null `confidence`, 36 of them nonzero**. A
+> re-seed is pending: the live `actionLibrary` still holds 92
+> docs until `npm run seed` prunes the demoted action.
 > Backfilling the rest needs each primary re-fetched and quoted
 > live per section 2, so it is its own pass per category. Update
 > this count when that happens.

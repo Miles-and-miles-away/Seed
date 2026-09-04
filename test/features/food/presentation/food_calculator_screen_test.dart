@@ -99,7 +99,10 @@ void main() {
       // them -- naming the dominant item read as an arbitrary pick.
       expect(find.text('Build both options to compare them'), findsNothing);
       expect(find.textContaining('less than Option B'), findsOneWidget);
-      expect(find.text('I chose Option A'), findsOneWidget);
+      expect(
+        find.text('Log Option A as a choice I took today'),
+        findsOneWidget,
+      );
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
@@ -117,7 +120,7 @@ void main() {
 
       expect(find.textContaining('too close to call'), findsOneWidget);
       expect(find.textContaining('less than'), findsNothing);
-      expect(find.text('I chose Option A'), findsNothing);
+      expect(find.text('Log Option A as a choice I took today'), findsNothing);
     });
 
     testWidgets('removing an ingredient empties the column again', (

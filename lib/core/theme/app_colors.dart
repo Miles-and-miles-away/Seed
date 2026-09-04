@@ -67,3 +67,47 @@ abstract class AppColors {
   static const neutral800 = Color(0xFF424242);
   static const neutral900 = Color(0xFF212121);
 }
+
+/// Lightness a palette colour is pushed to before it carries text.
+///
+/// The category colours are fills, not ink: amber reads 1.6:1 on white
+/// and orange 2.2:1, well under the 4.5:1 body-text bar. At these two
+/// lightnesses every category clears it on both themes (worst case
+/// 4.7:1 light, 6.9:1 dark) while keeping its hue.
+const _textLightnessLight = 0.28;
+const _textLightnessDark = 0.70;
+
+/// Lightness for large text and graphics, which need only 3:1.
+///
+/// Kept as vivid as that bar allows, so a headline reads as the
+/// domain's colour rather than a muddy version of it. The raw colour
+/// still will not do: amber is 1.6:1 on white, under even this.
+const _displayLightnessLight = 0.34;
+const _displayLightnessDark = 0.76;
+
+/// [color] adjusted to read on a [brightness] surface.
+///
+/// Set [large] for text at 18pt, or 14pt bold, and above, and for
+/// graphics: those clear at 3:1 where body text needs 4.5:1, so they
+/// keep more of the colour's punch.
+Color readableTextColor(
+  Color color,
+  Brightness brightness, {
+  bool large = false,
+}) {
+  final dark = brightness == Brightness.dark;
+  return HSLColor.fromColor(color)
+      .withLightness(
+        large
+            ? (dark ? _displayLightnessDark : _displayLightnessLight)
+            : (dark ? _textLightnessDark : _textLightnessLight),
+      )
+      .toColor();
+}
+
+/// Ink for a label on a solid [fill]: near-black on a light fill, white
+/// on a dark one. Theme-independent, because the fill is.
+Color inkOnFill(Color fill) =>
+    ThemeData.estimateBrightnessForColor(fill) == Brightness.light
+    ? Colors.black87
+    : Colors.white;

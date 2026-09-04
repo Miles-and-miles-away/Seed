@@ -2590,18 +2590,6 @@ abstract class AppLocalizations {
   /// **'Home energy'**
   String get calculatorHomeEnergy;
 
-  /// No description provided for @calculatorBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Calculator'**
-  String get calculatorBadge;
-
-  /// No description provided for @energyActionsEntryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare home energy use'**
-  String get energyActionsEntryTitle;
-
   /// No description provided for @transportJourneyEmpty.
   ///
   /// In en, this message translates to:
@@ -3006,7 +2994,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportLogChoiceCta.
   ///
   /// In en, this message translates to:
-  /// **'I chose {label}'**
+  /// **'Log {label} as a choice I took today'**
   String transportLogChoiceCta(String label);
 
   /// No description provided for @transportChoiceLoggedMessage.
@@ -3411,7 +3399,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodLogChoiceCta.
   ///
   /// In en, this message translates to:
-  /// **'I chose {label}'**
+  /// **'Log {label} as a choice I took today'**
   String foodLogChoiceCta(String label);
 
   /// No description provided for @foodChoiceLoggedMessage.
@@ -3698,19 +3686,13 @@ abstract class AppLocalizations {
   /// No description provided for @energyRankedIntro.
   ///
   /// In en, this message translates to:
-  /// **'One typical use of each electric behavior, largest first, as a multiple of an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. The multiples hold on every grid; the gram figures assume the world-average grid above.'**
+  /// **'One typical use of each behavior, largest first, as a multiple of the energy in an hour of LED light. Each row names its own basis (a use, an hour or a day) under the name. This ranks energy used, which is the part your habits decide.'**
   String get energyRankedIntro;
-
-  /// No description provided for @energyRankedGasHeading.
-  ///
-  /// In en, this message translates to:
-  /// **'Gas appliances, unranked'**
-  String get energyRankedGasHeading;
 
   /// No description provided for @energyRankedGasNote.
   ///
   /// In en, this message translates to:
-  /// **'A gas row\'s rank would depend on your grid, so gas entries are shown without one. Below about 241 g CO2e per kWh electricity wins; above it, gas does.'**
+  /// **'Gas appliances are in the same ranking, because this ranks energy. Watch for one thing: a gas water heater uses more energy than an electric one for the same bath, yet on today\'s world-average grid it emits less. Below about 241 g CO2e per kWh of electricity that flips and electric wins. Energy use is the part you choose; how clean the grid is depends on your country, and it improves every year.'**
   String get energyRankedGasNote;
 
   /// No description provided for @energyRankedMultiple.
@@ -3724,12 +3706,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No winner here'**
   String get energyComparisonNoVerdict;
-
-  /// No description provided for @energyVerdictWhyCta.
-  ///
-  /// In en, this message translates to:
-  /// **'Why not?'**
-  String get energyVerdictWhyCta;
 
   /// No description provided for @energyVerdictDifferentGroup.
   ///
@@ -3772,6 +3748,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'days'**
   String get energyUnitSuffixDay;
+
+  /// No description provided for @energyExploreIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'One typical use of each behavior, largest first, as a multiple of the energy in {anchorUnit}. This ranks energy used, and the multiples hold on every grid.'**
+  String energyExploreIntro(String anchorUnit);
+
+  /// No description provided for @energyExploreBarNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar lengths use a square-root scale so the smallest rows stay visible. Compare the numbers, not the bars.'**
+  String get energyExploreBarNote;
+
+  /// No description provided for @energyAnchorChipLedBulb.
+  ///
+  /// In en, this message translates to:
+  /// **'LED hour'**
+  String get energyAnchorChipLedBulb;
+
+  /// No description provided for @energyAnchorChipPhoneCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone charge'**
+  String get energyAnchorChipPhoneCharge;
+
+  /// No description provided for @energyAnchorChipKettle.
+  ///
+  /// In en, this message translates to:
+  /// **'Kettle litre'**
+  String get energyAnchorChipKettle;
+
+  /// No description provided for @energyAnchorChipFan.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan hour'**
+  String get energyAnchorChipFan;
+
+  /// No description provided for @energyAnchorUnitLedBulb.
+  ///
+  /// In en, this message translates to:
+  /// **'an hour of LED light'**
+  String get energyAnchorUnitLedBulb;
+
+  /// No description provided for @energyAnchorUnitPhoneCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'a full phone charge'**
+  String get energyAnchorUnitPhoneCharge;
+
+  /// No description provided for @energyAnchorUnitKettle.
+  ///
+  /// In en, this message translates to:
+  /// **'a litre boiled in the kettle'**
+  String get energyAnchorUnitKettle;
+
+  /// No description provided for @energyAnchorUnitFan.
+  ///
+  /// In en, this message translates to:
+  /// **'an hour of a fan'**
+  String get energyAnchorUnitFan;
+
+  /// No description provided for @energyExploreSheetMultiple.
+  ///
+  /// In en, this message translates to:
+  /// **'{multiple}x {anchorUnit}'**
+  String energyExploreSheetMultiple(String multiple, String anchorUnit);
+
+  /// No description provided for @energyExploreWallCaptionOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Each icon is {anchorUnit}'**
+  String energyExploreWallCaptionOne(String anchorUnit);
+
+  /// No description provided for @quizTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher or lower?'**
+  String get quizTitle;
+
+  /// No description provided for @quizQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the one with the bigger footprint to the top'**
+  String get quizQuestion;
+
+  /// No description provided for @quizBasisEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Home energy, one typical use'**
+  String get quizBasisEnergy;
+
+  /// No description provided for @quizBasisFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food, one serving'**
+  String get quizBasisFood;
+
+  /// No description provided for @quizBasisTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport, one passenger-kilometre'**
+  String get quizBasisTransport;
+
+  /// No description provided for @quizNoteFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food figures are cradle-to-retail lifecycle averages (Poore & Nemecek, 2018) for one serving.'**
+  String get quizNoteFood;
+
+  /// No description provided for @quizNoteTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport figures are per passenger-kilometre at average occupancy; walking and cycling count as zero.'**
+  String get quizNoteTransport;
+
+  /// No description provided for @quizPerKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} per km'**
+  String quizPerKm(String amount);
+
+  /// No description provided for @quizHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher'**
+  String get quizHigher;
+
+  /// No description provided for @quizLower.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower'**
+  String get quizLower;
+
+  /// No description provided for @quizCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Right!'**
+  String get quizCorrect;
+
+  /// No description provided for @quizWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this time'**
+  String get quizWrong;
+
+  /// No description provided for @quizStreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak: {count}'**
+  String quizStreakLabel(int count);
+
+  /// No description provided for @quizBestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Best: {count}'**
+  String quizBestLabel(int count);
+
+  /// No description provided for @quizContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get quizContinue;
+
+  /// No description provided for @quizNewRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Start again'**
+  String get quizNewRun;
+
+  /// No description provided for @quizLadderHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Ladder so far'**
+  String get quizLadderHeading;
+
+  /// No description provided for @quizNoPointsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Just for fun. No points, and nothing is logged.'**
+  String get quizNoPointsNote;
 }
 
 class _AppLocalizationsDelegate

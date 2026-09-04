@@ -3,9 +3,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 const _oneUse = UsagePreset(
   id: 'one',
@@ -242,17 +246,22 @@ void main() {
     });
 
     // Each refusal must explain its own reason, not a generic one: the
-    // dialog's switch routes everything unmatched to the too-close copy
-    // through a wildcard arm, so a mis-mapped block would otherwise be
-    // invisible.
+    // switch routes everything unmatched to the too-close copy through a
+    // wildcard arm, so a mis-mapped block would otherwise be invisible.
+    //
+    // The reason is on screen with the title, not behind a "Why not?"
+    // dialog (2026-09-02): a refusal you have to tap to understand
+    // reads as a dead end.
     Future<void> expectRefusal(WidgetTester tester, String bodyFragment) async {
       expect(find.text('No winner here'), findsOneWidget);
       expect(find.byType(ComparisonDeltaCard), findsNothing);
-      await tester.tap(find.text('Why not?'));
-      await tester.pumpAndSettle();
+      expect(find.text('Why not?'), findsNothing);
       expect(find.textContaining(bodyFragment), findsOneWidget);
-      await tester.tap(find.text('Close'));
-      await tester.pumpAndSettle();
+      // Stated loudly enough to be read: the title used to be
+      // body-small grey, smaller than the copy beneath it.
+      final title = tester.widget<Text>(find.text('No winner here'));
+      expect(title.style!.fontWeight, FontWeight.bold);
+      expect(title.style!.fontSize, greaterThan(14));
     }
 
     testWidgets('a cross-group pair refuses as a category error', (
@@ -281,6 +290,91 @@ void main() {
       await addUsage(tester, behaviorName: 'kettle');
       await addUsage(tester, behaviorName: 'kettle', column: 1, amount: '1.1');
       await expectRefusal(tester, 'within 20% of each other');
+    });
+
+    testWidgets('the delta card wears the energy colour, readably', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addUsage(tester, behaviorName: 'heater');
+      await addUsage(tester, behaviorName: 'kotatsu', column: 1);
+
+      final card = tester.widget<Card>(
+        find
+            .descendant(
+              of: find.byType(ComparisonDeltaCard),
+              matching: find.byType(Card),
+            )
+            .first,
+      );
+      // A tint of the category colour behind readable ink of the same
+      // hue -- not the scheme's primaryContainer.
+      expect(
+        card.color,
+        ActionCategory.energy.color.withValues(alpha: opacitySubtle),
+      );
+      expect(
+        tester
+            .widget<Text>(
+              find.text('Option A costs 8.0x as much CO2e as Option B'),
+            )
+            .style!
+            .color,
+        ActionCategory.energy.textColorOn(Brightness.light, large: true),
+      );
+    });
+
+    testWidgets('the add button wears the energy colour', (tester) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+
+      // It was the scheme's tonal blue on all three calculators.
+      final button = tester.widget<FilledButton>(
+        find
+            .ancestor(
+              of: find.text('Add').first,
+              matching: find.byType(FilledButton),
+            )
+            .first,
+      );
+      final style = button.style!;
+      const states = <WidgetState>{};
+      // Solid category colour with dark ink on it: white on amber is
+      // 1.9:1, near-black 11:1.
+      expect(
+        style.backgroundColor!.resolve(states),
+        ActionCategory.energy.color,
+      );
+      final label = style.foregroundColor!.resolve(states)!;
+      expect(
+        contrastRatio(label, ActionCategory.energy.color),
+        greaterThanOrEqualTo(4.5),
+        reason: 'the label has to read on the fill',
+      );
+    });
+
+    testWidgets('the column bars wear the energy category colour', (
+      tester,
+    ) async {
+      // The bars were the scheme's primary in all three calculators, so
+      // nothing on screen said which domain you were in.
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addUsage(tester, behaviorName: 'heater');
+      await addUsage(tester, behaviorName: 'kotatsu', column: 1);
+
+      final bars = tester
+          .widgetList<LinearProgressIndicator>(
+            find.byType(LinearProgressIndicator),
+          )
+          .toList();
+      expect(bars, hasLength(2));
+      final energy = ActionCategory.energy.color;
+      expect(bars.map((b) => b.valueColor!.value).toSet(), {
+        energy,
+        energy.withValues(alpha: opacityMuted),
+      });
     });
 
     testWidgets('removing a usage empties the column again', (tester) async {
