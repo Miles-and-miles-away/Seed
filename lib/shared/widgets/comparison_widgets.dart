@@ -55,8 +55,7 @@ class Co2eAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // The category colour as it is, matching the bars and the tokens
-    // rather than a darkened version of it (owner call 2026-09-02).
+    // The raw category colour, matching the bars and the tokens.
     final ink = accentColor ?? theme.colorScheme.primary;
     final l10n = AppLocalizations.of(context);
     final base = style ?? theme.textTheme.bodyMedium;
@@ -157,11 +156,7 @@ class ComparisonScaffold extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final accent = accentColor ?? theme.colorScheme.primary;
-    // What reads on a solid fill of the accent, not on the surface.
-    final onAccent =
-        ThemeData.estimateBrightnessForColor(accent) == Brightness.light
-        ? theme.colorScheme.onSurface
-        : theme.colorScheme.onPrimary;
+    final onAccent = inkOnFill(accent);
     final worst = totals.reduce((a, b) => a > b ? a : b);
     // Bottom only: the result panel is pinned to the bottom of the
     // body and slid under the home indicator without it. The top is

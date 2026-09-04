@@ -2151,9 +2151,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get energyComparisonNoVerdict => 'Aquí no hay un ganador';
 
   @override
-  String get energyVerdictWhyCta => '¿Por qué no?';
-
-  @override
   String get energyVerdictDifferentGroup =>
       'Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.';
 

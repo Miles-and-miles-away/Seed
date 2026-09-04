@@ -15,6 +15,7 @@ import 'package:seed_app/features/food/presentation/providers/food_providers.dar
 import 'package:seed_app/features/quiz/quiz.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 const _oneUse = UsagePreset(
   id: 'one',
@@ -244,7 +245,8 @@ void main() {
       await tester.pumpAndSettle();
       await answer(tester, correctly: true);
       expect(find.text('Streak: 2'), findsOneWidget);
-      expect(find.text('Best: 0'), findsOneWidget);
+      // Recorded as the streak grows, so leaving mid-run keeps it.
+      expect(find.text('Best: 2'), findsOneWidget);
 
       await tester.ensureVisible(find.text('Keep going'));
       await tester.pumpAndSettle();
@@ -255,6 +257,27 @@ void main() {
       expect(find.text('Not this time'), findsOneWidget);
       expect(find.text('Streak: 0'), findsOneWidget);
       expect(find.text('Best: 2'), findsOneWidget);
+    });
+
+    testWidgets('an exhausted deck offers a restart, not an error', (
+      tester,
+    ) async {
+      // Two cards inside the 20% bar: nothing can be dealt against the
+      // first, so the run has nowhere to go.
+      final nearTies = [
+        _ledBulb,
+        _behavior('led_twin', 'lighting', EnergyCarrier.electricity, 0.0086),
+      ];
+      await tester.pumpWidget(buildApp(behaviors: nearTies));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorDisplay), findsNothing);
+      expect(find.text('Start again'), findsOneWidget);
+
+      await tester.tap(find.text('Start again'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Start again'), findsOneWidget);
     });
 
     testWidgets('the ladder collects the cards revealed so far', (

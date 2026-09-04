@@ -6,6 +6,8 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
+import '../../helpers/test_helpers.dart';
+
 /// The comparison body shared by the three calculators.
 ///
 /// [ComparisonScaffold.bestIndex] is the reason this file exists: the
@@ -13,7 +15,8 @@ import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 /// crowns unconditionally while food and energy gate it on a verdict.
 /// Nothing in the suite pinned either contract before.
 void main() {
-  Widget wrap(Widget child) => MaterialApp(
+  Widget wrap(Widget child, {ThemeData? theme}) => MaterialApp(
+    theme: theme,
     localizationsDelegates: const [
       AppLocalizations.delegate,
       GlobalMaterialLocalizations.delegate,
@@ -30,7 +33,9 @@ void main() {
     List<List<Widget>>? entries,
     void Function(int)? onAdd,
     Widget result = const Text('result-block'),
+    Color? accentColor,
   }) => ComparisonScaffold(
+    accentColor: accentColor,
     totals: totals,
     entries:
         entries ??
@@ -84,6 +89,33 @@ void main() {
       expect(slot.height, lessThan(640 * 0.6));
     });
   }
+
+  testWidgets('the add buttons keep dark ink on a light accent in the dark '
+      'theme', (tester) async {
+    // onSurface is light in the dark theme, so choosing it as the ink on
+    // an amber fill gave light on light.
+    await tester.pumpWidget(
+      wrap(
+        scaffold(accentColor: const Color(0xFFFFC107)),
+        theme: ThemeData.dark(),
+      ),
+    );
+    final button = tester.widget<FilledButton>(
+      find
+          .ancestor(
+            of: find.text('Add').first,
+            matching: find.byType(FilledButton),
+          )
+          .first,
+    );
+    const states = <WidgetState>{};
+    final fill = button.style!.backgroundColor!.resolve(states)!;
+    final ink = button.style!.foregroundColor!.resolve(states)!;
+    expect(
+      contrastRatio(Color.alphaBlend(ink, fill), fill),
+      greaterThanOrEqualTo(4.5),
+    );
+  });
 
   testWidgets('renders one column per option plus the result block', (
     tester,

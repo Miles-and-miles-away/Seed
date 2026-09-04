@@ -1042,7 +1042,6 @@
   "energyRankedGasNote": "Los aparatos de gas están en la misma lista, porque aquí se ordena la energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g de CO2e por kWh eléctrico se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.",
   "energyRankedMultiple": "{multiple}x",
   "energyComparisonNoVerdict": "Aquí no hay un ganador",
-  "energyVerdictWhyCta": "¿Por qué no?",
   "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
   "energyVerdictDifferentCarrier": "Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hiciste. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.",
   "energyVerdictTooClose": "La diferencia entre ambas es de menos del {percent}%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.",

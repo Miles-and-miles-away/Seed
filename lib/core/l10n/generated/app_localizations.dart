@@ -3707,12 +3707,6 @@ abstract class AppLocalizations {
   /// **'No winner here'**
   String get energyComparisonNoVerdict;
 
-  /// No description provided for @energyVerdictWhyCta.
-  ///
-  /// In en, this message translates to:
-  /// **'Why not?'**
-  String get energyVerdictWhyCta;
-
   /// No description provided for @energyVerdictDifferentGroup.
   ///
   /// In en, this message translates to:

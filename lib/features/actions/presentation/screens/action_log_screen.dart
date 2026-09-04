@@ -29,9 +29,10 @@ class ActionLogScreen extends ConsumerStatefulWidget {
   /// Accent bar, padding, icon and gaps: the part of a tile that does
   /// not move with the text scale.
   ///
-  /// Split measured off the rendered grid, not guessed: the tallest
-  /// tile draws 180pt at scale 1.0 and 261pt at scale 2.0, which fixes
-  /// both halves. A test pins that nothing overflows at either.
+  /// Split measured off the rendered grid: the tallest tile draws about
+  /// 180pt at scale 1.0 and 261pt at scale 2.0, and the constants carry
+  /// a few points of slack over both. A test pins that nothing
+  /// overflows at either.
   static const _tileChromeHeight = 104.0;
 
   /// Title, badge and SDG row at the default text scale.

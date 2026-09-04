@@ -266,13 +266,13 @@ Allowlist semantics: a new behavior compares with nothing until
 someone deliberately groups it. A blocklist would rot the first
 time an entry is added.
 
-Groups (34 entries): `hot_water` (5) · `dishes` (4) ·
+Groups (32 entries): `hot_water` (5) · `dishes` (2) ·
 `laundry_wash` (3) · `laundry_dry` (3) · `space_heat` (4) ·
 `space_cool` (2, `fan` added 2026-08-30) · `boil` (3) ·
 `cook` (4) · `lighting` (2) · `device` (4).
 
 Checked against the never-pin list in section 6: kettle vs gas
-hob fails #2; hand-wash-gas vs dishwasher fails #2; kettle vs IH
+hob fails #2; kettle vs IH
 fails #3; wash load vs dishwasher fails #1; aircon cooling vs
 heating fails #1; laptop vs incandescent fails #1; oven vs
 portable electric heater fails #1. All covered.

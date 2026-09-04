@@ -4,21 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
+import '../../helpers/test_helpers.dart';
+
 /// WCAG AA for body text.
 const _minContrast = 4.5;
 
 /// The darkest surface the dark theme paints text on.
 const _darkSurface = Color(0xFF121212);
-
-double _contrast(Color a, Color b) {
-  final high = a.computeLuminance() > b.computeLuminance()
-      ? a.computeLuminance()
-      : b.computeLuminance();
-  final low = a.computeLuminance() > b.computeLuminance()
-      ? b.computeLuminance()
-      : a.computeLuminance();
-  return (high + 0.05) / (low + 0.05);
-}
 
 void main() {
   group('readableTextColor', () {
@@ -28,12 +20,12 @@ void main() {
       // calculators use today.
       for (final category in ActionCategory.values) {
         expect(
-          _contrast(category.textColorOn(Brightness.light), Colors.white),
+          contrastRatio(category.textColorOn(Brightness.light), Colors.white),
           greaterThanOrEqualTo(_minContrast),
           reason: '${category.name} on the light theme',
         );
         expect(
-          _contrast(category.textColorOn(Brightness.dark), _darkSurface),
+          contrastRatio(category.textColorOn(Brightness.dark), _darkSurface),
           greaterThanOrEqualTo(_minContrast),
           reason: '${category.name} on the dark theme',
         );
@@ -45,7 +37,7 @@ void main() {
       // large tone keeps more of the colour than body text can.
       for (final category in ActionCategory.values) {
         expect(
-          _contrast(
+          contrastRatio(
             category.textColorOn(Brightness.light, large: true),
             Colors.white,
           ),
@@ -53,7 +45,7 @@ void main() {
           reason: '${category.name} as large text on the light theme',
         );
         expect(
-          _contrast(
+          contrastRatio(
             category.textColorOn(Brightness.dark, large: true),
             _darkSurface,
           ),
@@ -79,16 +71,19 @@ void main() {
       // Amber as ink on white is 1.6:1. If this ever passes on its own,
       // the palette changed and the helper may no longer be needed.
       expect(
-        _contrast(ActionCategory.energy.color, Colors.white),
+        contrastRatio(ActionCategory.energy.color, Colors.white),
         lessThan(_minContrast),
       );
       expect(
-        _contrast(ActionCategory.food.color, Colors.white),
+        contrastRatio(ActionCategory.food.color, Colors.white),
         lessThan(_minContrast),
       );
       // Under even the relaxed bar, which is why a headline cannot use
       // the raw colour either.
-      expect(_contrast(ActionCategory.energy.color, Colors.white), lessThan(3));
+      expect(
+        contrastRatio(ActionCategory.energy.color, Colors.white),
+        lessThan(3),
+      );
     });
 
     test('keeps the hue it was given', () {

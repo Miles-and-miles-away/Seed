@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-import 'filter_chip_row.dart';
+import 'package:seed_app/features/actions/presentation/widgets/filter_chip_row.dart';
 
 /// Category filter row: stadium chips with a leading icon, over the
 /// SDG row's rounded-rect chips with a numbered circle.

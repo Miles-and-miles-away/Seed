@@ -104,3 +104,10 @@ Color readableTextColor(
       )
       .toColor();
 }
+
+/// Ink for a label on a solid [fill]: near-black on a light fill, white
+/// on a dark one. Theme-independent, because the fill is.
+Color inkOnFill(Color fill) =>
+    ThemeData.estimateBrightnessForColor(fill) == Brightness.light
+    ? Colors.black87
+    : Colors.white;

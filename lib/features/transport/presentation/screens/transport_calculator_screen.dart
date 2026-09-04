@@ -64,7 +64,7 @@ class _TransportCalculatorScreenState
 
   /// The column whose journey defines the trip being compared: the
   /// first to receive a leg. Only the other column chases its end
-  /// (gated seeding, owner call 2026-09-01) -- the reference's own
+  /// (gated seeding) -- the reference's own
   /// next leg gets no destination seed, so a finished journey is
   /// never pulled toward the other side's intermediate stop.
   int? _referenceOption;

@@ -1407,7 +1407,6 @@
     }
   },
   "energyComparisonNoVerdict": "No winner here",
-  "energyVerdictWhyCta": "Why not?",
   "energyVerdictDifferentGroup": "These two are different kinds of thing, so saying one is better would be a category error rather than a close call. Compare like with like -- a bath against a shower, a tumble dryer against a washing line.",
   "energyVerdictDifferentCarrier": "One of these runs on gas and the other on electricity, and which comes out cleaner depends on your local grid rather than on what you did. Below about 241 g CO2e per kWh electric heating wins; above it gas does. So both numbers are shown and no winner is declared.",
   "energyVerdictTooClose": "These are within {percent}% of each other, which is inside the accuracy of the underlying measurements. Calling a winner would be reading precision the sources do not have.",

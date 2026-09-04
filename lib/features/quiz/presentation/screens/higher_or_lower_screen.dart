@@ -41,7 +41,7 @@ const _tokenHeightFallback = 140.0;
 
 /// The transport calculator states no verdict bar of its own, so the
 /// transport deck uses the one energy and food share.
-const _transportMinGapPercent = 20.0;
+const _transportMinGapPercent = EnergyCalculator.verdictMinPercent;
 
 /// A domain a round can be drawn from.
 ///
@@ -116,6 +116,9 @@ class HigherOrLowerScreen extends ConsumerStatefulWidget {
 
 class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   final _decks = <QuizDomain, QuizDeck>{};
+
+  /// Locale the decks' strings were resolved in; a change rebuilds them.
+  String? _decksLocale;
   QuizDomain? _domain;
   final _pair = <QuizCard?>[null, null];
   int _streak = 0;
@@ -334,7 +337,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     });
   }
 
-  void _onDragEnd(int index) {
+  void _onDragEnd() {
     if (_revealed) return;
     if (_dragTurn.abs() < _wheelCommitThreshold) {
       setState(() {
@@ -353,9 +356,10 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     if (first == null || second == null) return;
     final actual = first.magnitude > second.magnitude ? 0 : 1;
     final correct = higherIndex == actual;
-    if (!correct) {
+    if (correct) {
+      ref.read(quizBestStreakProvider.notifier).record(_streak + 1);
+    } else {
       ref.read(analyticsServiceProvider).logQuizStreakEnded(streak: _streak);
-      ref.read(quizBestStreakProvider.notifier).record(_streak);
     }
     HapticFeedback.mediumImpact();
     setState(() {
@@ -407,9 +411,12 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     List<TransportMode> modes,
   ) {
     final locale = Localizations.localeOf(context).languageCode;
-    if (_decks.isEmpty) {
+    if (_decks.isEmpty || _decksLocale != locale) {
+      _decksLocale = locale;
       _buildDecks(l10n, locale, behaviors, factors, items, modes);
       _deal();
+      _revealed = false;
+      _higherIndex = null;
     }
     final theme = Theme.of(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -422,7 +429,6 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     final noteStyle = theme.textTheme.bodySmall?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
-    if (first == null) return const Center(child: ErrorDisplay());
     final zoneStyle = theme.textTheme.labelLarge?.copyWith(
       color: theme.colorScheme.outline,
       letterSpacing: 1.2,
@@ -443,7 +449,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
             Text(l10n.quizBestLabel(best), style: noteStyle),
           ],
         ),
-        if (second == null)
+        if (first == null || second == null)
           Padding(
             padding: const EdgeInsets.only(top: spacingXxl),
             child: FilledButton(
@@ -580,7 +586,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     final turn = _turn;
     return GestureDetector(
       onVerticalDragUpdate: (details) => _onDragUpdate(index, details),
-      onVerticalDragEnd: (_) => _onDragEnd(index),
+      onVerticalDragEnd: (_) => _onDragEnd(),
       child: AnimatedContainer(
         duration: dragging ? Duration.zero : durationEmphasis,
         curve: Curves.elasticOut,

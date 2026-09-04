@@ -132,8 +132,8 @@ class _EnergyExploreScreenState extends ConsumerState<EnergyExploreScreen> {
   ) {
     final theme = Theme.of(context);
     // Only offer baselines the loaded list actually has, and never
-    // measure against one it does not: the table degrades to
-    // grams-only, so a missing anchor must not throw either.
+    // measure against one it does not: the table then shows no
+    // multiples, and a missing anchor must not throw either.
     final present = _baselines
         .where((b) => behaviors.any((behavior) => behavior.id == b.$1))
         .toList();

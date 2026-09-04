@@ -17,8 +17,8 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_display.dar
 /// a dataset row, not an equivalency constant (rule 27), so the
 /// multiples hold on every grid.
 ///
-/// Gas rows sit in the same ranking (owner call 2026-09-02, revising
-/// rule 28). What this ranks is ENERGY USED: the part a habit decides,
+/// Gas rows sit in the same ranking (rule 28). What this ranks is
+/// ENERGY USED: the part a habit decides,
 /// and the part that barely moves over a decade. How clean a kWh is
 /// belongs to the grid, differs by country and improves every year.
 /// That leaves one thing a reader can misread -- a gas water heater
@@ -67,9 +67,9 @@ class EnergyRankedTable extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).languageCode;
-    // A list without the anchor degrades to grams-only rather than
-    // throwing: the dataset pins the row, but this widget is exported
-    // standalone and a caller may hand it a filtered list.
+    // A list without the anchor shows names without multiples rather
+    // than throwing: the dataset pins the row, but this widget is
+    // exported standalone and a caller may hand it a filtered list.
     final anchors = behaviors.where((b) => b.id == anchorId);
     final anchorKwh = anchors.isEmpty
         ? 0.0
@@ -83,8 +83,7 @@ class EnergyRankedTable extends StatelessWidget {
       return byKwh != 0 ? byKwh : a.name(locale).compareTo(b.name(locale));
     }
 
-    // One list, gas included: this ranks energy used (owner call
-    // 2026-09-02, revising rule 28).
+    // One list, gas included: this ranks energy used (rule 28).
     final ranked = [...behaviors]..sort(byKwhThenName);
     final maxRankedKwh = ranked.isEmpty
         ? 0.0

@@ -8,6 +8,8 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 
+import '../../../helpers/test_helpers.dart';
+
 const _oneUse = UsagePreset(
   id: 'one',
   nameEn: '1 use',
@@ -44,16 +46,6 @@ final _behaviors = [
   _behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
   _behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
 ];
-
-double _contrast(Color a, Color b) {
-  final high = a.computeLuminance() > b.computeLuminance()
-      ? a.computeLuminance()
-      : b.computeLuminance();
-  final low = a.computeLuminance() > b.computeLuminance()
-      ? b.computeLuminance()
-      : a.computeLuminance();
-  return (high + 0.05) / (low + 0.05);
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -442,7 +434,7 @@ void main() {
       expect(slider.data.valueIndicatorColor, raw.color);
       // ...and the bubble's own label has to read on that fill.
       expect(
-        _contrast(slider.data.valueIndicatorTextStyle!.color!, raw.color),
+        contrastRatio(slider.data.valueIndicatorTextStyle!.color!, raw.color),
         greaterThanOrEqualTo(4.5),
       );
       expect(

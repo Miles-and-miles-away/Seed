@@ -968,7 +968,7 @@
         }
       ],
       "default_preset_id": "cycle_plus_four",
-      "calculation_notes": "158 Wh for the cycle plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, both from the same measured basis. Ships as one figure because keeping warm never happens without a cycle first (owner call 2026-09-02): held alone it ranked below the cycle and read as though holding rice were the cheaper option, which is not a choice anyone has. The 4 hours is the guideline the source states -- past about 4 hours reheating in a microwave uses less than holding, and past 7-8 hours cooking twice does. RESEARCH_ENERGY section 3.4.",
+      "calculation_notes": "0.16 kWh for the cycle (the rice_cooker row: 158 Wh measured, 163 Wh corroborated) plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, all on the same measured basis. Ships as one figure because keeping warm never happens without a cycle first (owner call 2026-09-02): held alone it ranked below the cycle and read as though holding rice were the cheaper option, which is not a choice anyone has. The 4 hours is the guideline the source states -- past about 4 hours reheating in a microwave uses less than holding, and past 7-8 hours cooking twice does. RESEARCH_ENERGY section 3.4.",
       "sources": [
         {
           "name": "一般財団法人 家電製品協会 (省エネルギーセンター実測値)",

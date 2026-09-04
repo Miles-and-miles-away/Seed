@@ -11,15 +11,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_card.dart'
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
-double _contrast(Color a, Color b) {
-  final high = a.computeLuminance() > b.computeLuminance()
-      ? a.computeLuminance()
-      : b.computeLuminance();
-  final low = a.computeLuminance() > b.computeLuminance()
-      ? b.computeLuminance()
-      : a.computeLuminance();
-  return (high + 0.05) / (low + 0.05);
-}
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   late SdgGoalsData sdgData;
@@ -332,7 +324,7 @@ void main() {
       final tint = category.color.withValues(alpha: opacityFaint);
       final onWhite = Color.alphaBlend(tint, Colors.white);
       expect(
-        _contrast(label.style!.color!, onWhite),
+        contrastRatio(label.style!.color!, onWhite),
         greaterThanOrEqualTo(4.5),
         reason: 'the badge label sits on a tint of its own colour',
       );

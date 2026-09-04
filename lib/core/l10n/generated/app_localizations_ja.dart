@@ -2062,9 +2062,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get energyComparisonNoVerdict => '優劣はつけられません';
 
   @override
-  String get energyVerdictWhyCta => 'なぜ？';
-
-  @override
   String get energyVerdictDifferentGroup =>
       'この2つは種類が違うため、どちらが良いとは言えません。入浴とシャワー、乾燥機と自然乾燥のように、同じ種類のものを比べてください。';
 

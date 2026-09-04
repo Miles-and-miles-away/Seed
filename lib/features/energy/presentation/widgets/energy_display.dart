@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 
@@ -142,3 +143,32 @@ String formatEnergyMultiple(String locale, double ratio) =>
       locale: locale,
       decimalDigits: ratio >= 10 ? 0 : 1,
     ).format(ratio);
+
+/// Title block the behavior sheets share: the name over its factor.
+Widget energyBehaviorSheetHeader(
+  BuildContext context,
+  AppLocalizations l10n,
+  EnergyBehavior behavior,
+) {
+  final theme = Theme.of(context);
+  final locale = Localizations.localeOf(context).languageCode;
+  return Column(
+    children: [
+      Text(
+        behavior.name(locale),
+        textAlign: TextAlign.center,
+        style: theme.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: spacingXs),
+      Text(
+        energyBehaviorFactorLabel(l10n, behavior),
+        textAlign: TextAlign.center,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+    ],
+  );
+}

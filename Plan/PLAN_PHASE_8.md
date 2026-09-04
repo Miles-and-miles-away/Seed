@@ -1525,7 +1525,7 @@ the preset UX already proven there.
 
 ### Part 3 Acceptance Criteria
 
-- [ ] All 34 behaviors from
+- [ ] All 32 behaviors from
       [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) section 4 shipped
       with fully cited factors/assumptions, passing dataset
       validation tests

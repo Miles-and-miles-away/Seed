@@ -28,7 +28,7 @@ class FilterChipRow extends StatefulWidget {
 }
 
 class _FilterChipRowState extends State<FilterChipRow> {
-  late final _cycleLength = widget.optionCount + 1;
+  int get _cycleLength => widget.optionCount + 1;
   late final ScrollController _controller = ScrollController(
     initialScrollOffset:
         (_repeatCount ~/ 2) * _cycleLength * _estimatedChipWidth,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
@@ -20,7 +21,7 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_display.dar
 ///
 /// Gas rows carry the same energy multiple as everything else, plus
 /// the note explaining why their grams do not follow the ranking
-/// (owner call 2026-09-02).
+/// (rule 28).
 class EnergyExploreSheet extends StatefulWidget {
   const EnergyExploreSheet({
     required this.behavior,
@@ -33,8 +34,7 @@ class EnergyExploreSheet extends StatefulWidget {
 
   final EnergyBehavior behavior;
 
-  /// The baseline row. Null drops to grams-only, the same degrade the
-  /// ranked table makes when the anchor is not in its list.
+  /// The baseline row. Null drops the multiple and leads with grams.
   final EnergyBehavior? anchorBehavior;
 
   final IconData anchorIcon;
@@ -126,7 +126,7 @@ const wallKey = Key('energyExploreWall');
 class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
   late double _units;
 
-  (int, int) get _range => _sliderRanges[widget.behavior.unit] ?? (1, 10);
+  (int, int) get _range => _sliderRanges[widget.behavior.unit]!;
 
   @override
   void initState() {
@@ -159,18 +159,11 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
     final noteStyle = theme.textTheme.bodySmall?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
-    // The category colour as it is, matching the ranked bars and the
-    // wall: the headline, the slider and the icons are one colour
-    // (owner call 2026-09-02). It reads 1.6:1 on this surface, which is
-    // under the text bar -- the kWh line above and the gram line below
-    // carry the same figure in ordinary ink.
+    // The raw category colour, matching the ranked bars and the wall. It
+    // reads 1.6:1 on this surface, under the text bar, so the kWh and
+    // gram lines carry the same figure in ordinary ink.
     final accent = ActionCategory.energy.color;
-    // What reads on a solid fill of that colour, for the slider's
-    // value bubble.
-    final onAccent =
-        ThemeData.estimateBrightnessForColor(accent) == Brightness.light
-        ? theme.colorScheme.onSurface
-        : theme.colorScheme.onPrimary;
+    final onAccent = inkOnFill(accent);
 
     return SafeArea(
       child: Column(
@@ -198,19 +191,7 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    widget.behavior.name(locale),
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: spacingXs),
-                  Text(
-                    energyBehaviorFactorLabel(l10n, widget.behavior),
-                    textAlign: TextAlign.center,
-                    style: noteStyle,
-                  ),
+                  energyBehaviorSheetHeader(context, l10n, widget.behavior),
                   const SizedBox(height: spacingLg),
                   Text(
                     energyUsageDetailLabel(l10n, widget.behavior, _units),
@@ -298,8 +279,7 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
   /// Thousands of glyphs, so it is one Text in the icon font rather than
   /// thousands of Icon widgets -- the text engine shapes and wraps a
   /// 6,700-glyph run in one layout, where 6,700 widgets would not hold a
-  /// frame. The size is set by the fullest wall this slider can reach,
-  /// so icons do not resize under the user's thumb mid-drag.
+  /// frame.
   Widget _wall(
     BuildContext context,
     AppLocalizations l10n,
@@ -331,11 +311,8 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
                   // the gap the row width was solved for.
                   letterSpacing: size * (_wallGapFactor - 1),
                   height: 1.3,
-                  // The same raw colour the ranked bars use. These
-                  // are the one graphic on the sheet that repeats a
-                  // figure already stated in words above it, so they
-                  // can carry the category colour as it is rather than
-                  // a darkened version of it (owner call 2026-09-02).
+                  // Raw category colour: a graphic repeating a figure
+                  // already stated in words above it.
                   color: ActionCategory.energy.color,
                 ),
               );
@@ -368,25 +345,26 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
       1,
       (width / (_wallIconMinSize * _wallGapFactor)).floor(),
     );
-    final perRow = _perRowFor(icons).clamp(1, mostPerRow);
+    final perRow = icons >= _wallRowWidths.last.$1
+        ? mostPerRow
+        : _perRowFor(icons).clamp(1, mostPerRow);
     // A hair under the exact fit: at exactly width/perRow the last icon
     // of a row wraps on a rounding error and the row looks short.
     final size = width / (perRow * _wallGapFactor) * _wallFitSafety;
     return size.clamp(_wallIconMinSize, _wallIconMaxSize);
   }
 
-  /// Icons per row for [icons], interpolated between the anchors on a
-  /// log scale so the size eases down instead of jumping at a step.
+  /// Icons per row for [icons] inside the anchors, interpolated on a log
+  /// scale so the size eases down instead of jumping at a step.
   int _perRowFor(int icons) {
-    final last = _wallRowWidths.last;
-    if (icons >= last.$1) return last.$2 * 2;
-    for (var i = 0; i < _wallRowWidths.length - 1; i++) {
-      final (fromCount, fromPerRow) = _wallRowWidths[i];
-      final (toCount, toPerRow) = _wallRowWidths[i + 1];
-      if (icons > toCount) continue;
-      final t = (log(icons) - log(fromCount)) / (log(toCount) - log(fromCount));
-      return (fromPerRow + t * (toPerRow - fromPerRow)).round();
+    if (icons <= _wallRowWidths.first.$1) return _wallRowWidths.first.$2;
+    var i = _wallRowWidths.length - 2;
+    while (i > 0 && icons <= _wallRowWidths[i].$1) {
+      i--;
     }
-    return _wallRowWidths.first.$2;
+    final (fromCount, fromPerRow) = _wallRowWidths[i];
+    final (toCount, toPerRow) = _wallRowWidths[i + 1];
+    final t = (log(icons) - log(fromCount)) / (log(toCount) - log(fromCount));
+    return (fromPerRow + t * (toPerRow - fromPerRow)).round();
   }
 }

@@ -9,6 +9,8 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
+import '../../../helpers/test_helpers.dart';
+
 const _oneUse = UsagePreset(
   id: 'one',
   nameEn: '1 use',
@@ -47,16 +49,6 @@ final _behaviors = [
   _behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
   _behavior('phone_charge', 'device', EnergyCarrier.electricity, 0.015271),
 ];
-
-double _contrast(Color a, Color b) {
-  final high = a.computeLuminance() > b.computeLuminance()
-      ? a.computeLuminance()
-      : b.computeLuminance();
-  final low = a.computeLuminance() > b.computeLuminance()
-      ? b.computeLuminance()
-      : a.computeLuminance();
-  return (high + 0.05) / (low + 0.05);
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -356,7 +348,7 @@ void main() {
       );
       final label = style.foregroundColor!.resolve(states)!;
       expect(
-        _contrast(label, ActionCategory.energy.color),
+        contrastRatio(label, ActionCategory.energy.color),
         greaterThanOrEqualTo(4.5),
         reason: 'the label has to read on the fill',
       );
