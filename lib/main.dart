@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'core/constants/app_constants.dart';
 import 'core/utils/app_logger.dart';
 import 'firebase_options.dart';
 import 'shared/services/services.dart';
@@ -73,7 +74,9 @@ void main() async {
         FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
         await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
         await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
-        FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
+        FirebaseFunctions.instanceFor(
+          region: AppConstants.functionsRegion,
+        ).useFunctionsEmulator(emulatorHost, 5001);
         appLogger.debug('Connected to Firebase Emulator Suite');
       }
 
