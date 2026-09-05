@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
@@ -44,7 +43,7 @@ class EcoDexCelebrationScreen extends StatelessWidget {
 
     return CelebrationOverlay(
       children: [
-        const RepaintBoundary(child: _ConfettiLayer()),
+        const _ConfettiLayer(),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
@@ -155,9 +154,6 @@ Future<void> showEcoDexCelebrations(
   }
 }
 
-// Painter kept separate from ConfettiPainter so a tweak to one celebration
-// cannot regress the other.
-
 // Confetti runs for the visual peak, then fades out and stops. The screen
 // waits indefinitely for the acknowledge button, so the painter must not
 // keep rebuilding every frame once the moment has passed.
@@ -173,9 +169,7 @@ class _ConfettiLayer extends StatefulWidget {
 }
 
 class _ConfettiLayerState extends State<_ConfettiLayer> {
-  static final _rng = Random();
-
-  late final List<_Particle> _particles;
+  late final List<ConfettiParticle> _particles;
   Timer? _fadeTimer;
   bool _visible = true;
   bool _animating = true;
@@ -183,7 +177,10 @@ class _ConfettiLayerState extends State<_ConfettiLayer> {
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(_particleCount, (_) => _Particle.random(_rng));
+    _particles = List.generate(
+      _particleCount,
+      (_) => ConfettiParticle.random(colorCount: _colors.length),
+    );
     _fadeTimer = Timer(_confettiRunDuration, () {
       if (mounted) setState(() => _visible = false);
     });
@@ -207,85 +204,19 @@ class _ConfettiLayerState extends State<_ConfettiLayer> {
       },
       child: ConfettiLayer(
         animating: _animating,
-        painter: (progress) =>
-            _ConfettiPainter(particles: _particles, progress: progress),
+        painter: (progress) => ConfettiPainter(
+          particles: _particles,
+          colors: _colors,
+          progress: progress,
+        ),
       ),
     );
   }
 }
 
-@immutable
-class _Particle {
-  const _Particle({
-    required this.x,
-    required this.phase,
-    required this.cyclesPerLoop,
-    required this.size,
-    required this.colorIndex,
-    required this.initialRotation,
-    required this.rotationsPerLoop,
-  });
-
-  factory _Particle.random(Random rng) {
-    return _Particle(
-      x: rng.nextDouble(),
-      phase: rng.nextDouble(),
-      // Vary fall rate so particles don't move in lockstep.
-      cyclesPerLoop: rng.nextDouble() * 0.6 + 0.5,
-      size: rng.nextDouble() * 8 + 4,
-      colorIndex: rng.nextInt(4),
-      initialRotation: rng.nextDouble() * pi * 2,
-      rotationsPerLoop: (rng.nextDouble() - 0.5) * 2,
-    );
-  }
-
-  final double x;
-  final double phase;
-  final double cyclesPerLoop;
-  final double size;
-  final int colorIndex;
-  final double initialRotation;
-  final double rotationsPerLoop;
-}
-
-class _ConfettiPainter extends CustomPainter {
-  _ConfettiPainter({required this.particles, required this.progress});
-
-  final List<_Particle> particles;
-  final double progress;
-
-  static const _yStart = -0.1;
-  static const _yEnd = 1.2;
-  static const _yRange = _yEnd - _yStart;
-
-  static const _colors = [
-    AppColors.gold,
-    AppColors.success,
-    AppColors.glowBlue,
-    AppColors.celebrationPink,
-  ];
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final p in particles) {
-      final t = (progress * p.cyclesPerLoop + p.phase) % 1.0;
-      final y = _yStart + t * _yRange;
-      final rotation =
-          p.initialRotation + progress * p.rotationsPerLoop * 2 * pi;
-
-      final paint = Paint()
-        ..color = _colors[p.colorIndex].withValues(alpha: opacityStrong);
-
-      canvas
-        ..save()
-        ..translate(p.x * size.width, y * size.height)
-        ..rotate(rotation)
-        ..drawCircle(Offset.zero, p.size * 0.5, paint)
-        ..restore();
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ConfettiPainter old) =>
-      old.progress != progress;
-}
+const _colors = [
+  AppColors.gold,
+  AppColors.success,
+  AppColors.glowBlue,
+  AppColors.celebrationPink,
+];

@@ -43,7 +43,10 @@ const durationSlower = Duration(milliseconds: 600);
 const durationReveal = Duration(milliseconds: 800);
 const durationCelebration = Duration(milliseconds: 1200);
 const durationShowcase = Duration(milliseconds: 1500);
-const durationParticleLoop = Duration(seconds: 3);
+// Confetti quantises to whole cycles per loop to keep the seam
+// invisible, so a longer loop buys finer speed resolution:
+// 3s gives 2 distinct fall speeds, 12s gives 7.
+const durationParticleLoop = Duration(seconds: 12);
 const durationGlowLoop = Duration(seconds: 2);
 
 // Opacity values for visual hierarchy.
