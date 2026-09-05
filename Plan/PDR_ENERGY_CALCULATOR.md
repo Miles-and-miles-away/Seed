@@ -8,12 +8,13 @@ ratio-led result rework, the methodology screen with the ranked
 "Where your energy goes" table (8.16), the `fan` entry (section
 3), and 8.17's route and entry points (chooser tile enabled,
 energy category card, `energy_calculator_opened`), so
-**deliverables 8.13-8.17 are done**. **E8 was provisionally
-resolved 2026-08-30** (section 8): both surfaces are built,
-comparator primary, and the final surface call is made by an
-in-app comparison now that both have landed -- that comparison is
-the remaining open work, plus the residual test debt in
-section 9.
+**deliverables 8.13-8.17 are done**. **E8 is RESOLVED
+2026-09-01** (section 8): the ranked view was promoted out of the
+methodology screen to its own route `/energy-explore`, with
+baseline switching and a per-row what-if sheet; a higher-or-lower
+quiz was added at `/quiz` as a second teaching surface;
+and the comparator stays the routed primary. The residual test
+debt in section 9 is the remaining open work.
 Evidence base
 ([RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) v2.0, 34 behaviors)
 is complete. Owner decisions E1-E7 are settled, as are two
@@ -92,7 +93,7 @@ went in on the same run.
   notes, a data-derived source list, and the ranked **"Where your
   energy goes"** table as the standalone reusable
   `energy_ranked_table.dart` (electricity rows as LED-hour
-  multiples, gas rows shown unranked per rule 28).
+  multiples, every carrier in one energy ranking per rule 28).
 - **Entry points and routing (8.17):** `/energy-calculator` in
   `lib/app/router.dart`, the chooser tile enabled (the
   coming-soon affordance deleted with its three `.arb` strings),
@@ -101,8 +102,8 @@ went in on the same run.
   `logEnergyCalculatorOpened()`, and APP_PAGES updated in the
   same pass.
 
-**Still open:** the E8 in-app surface comparison (section 8) and
-the residual test debt in section 9.
+**Still open:** the residual test debt in section 9. E8 is
+resolved (section 8).
 
 **What this feature is for**, settled, and it is not what Parts 1
 and 2 are for: transport and food are decision tools that teach.
@@ -265,13 +266,13 @@ Allowlist semantics: a new behavior compares with nothing until
 someone deliberately groups it. A blocklist would rot the first
 time an entry is added.
 
-Groups (34 entries): `hot_water` (5) · `dishes` (4) ·
+Groups (32 entries): `hot_water` (5) · `dishes` (2) ·
 `laundry_wash` (3) · `laundry_dry` (3) · `space_heat` (4) ·
 `space_cool` (2, `fan` added 2026-08-30) · `boil` (3) ·
 `cook` (4) · `lighting` (2) · `device` (4).
 
 Checked against the never-pin list in section 6: kettle vs gas
-hob fails #2; hand-wash-gas vs dishwasher fails #2; kettle vs IH
+hob fails #2; kettle vs IH
 fails #3; wash load vs dishwasher fails #1; aircon cooling vs
 heating fails #1; laptop vs incandescent fails #1; oven vs
 portable electric heater fails #1. All covered.
@@ -554,8 +555,25 @@ Requirements, not suggestions.
     The anchor applies to electricity deltas only: a gas kWh is
     fuel input (RESEARCH sec 6 pin 1), so a gas delta is never
     converted to phone charges.
-28. **A ranked view is single-carrier** (section 2). Gas rows are
-    shown, but never given a rank.
+28. **A ranked view ranks ENERGY, and every carrier is in it**
+    (revised 2026-09-02; was "single-carrier, gas never ranked").
+    What a ranked list orders is the kWh one typical use costs,
+    because that is the part a habit decides and the part that
+    barely moves over a decade; how clean a kWh is belongs to the
+    grid, differs by country and improves every year. Two things
+    follow, and both are mandatory. The list carries **no gram
+    figures at all** -- a grid-dependent number beside an
+    energy-ranked row contradicts the order it sits in, so grams
+    live in the row's own sheet, priced on that row's carrier.
+    And the gas note ships under every copy of the list, and again
+    in each gas row's sheet, because a gas water heater uses more
+    energy than an electric one for the same bath yet emits less
+    on today's world-average grid -- below about 241 g CO2e/kWh
+    that flips. Rule 27's anchor is unchanged: the multiple is an
+    energy ratio against a dataset row, so it holds for gas rows
+    too. The **quiz** keeps gas out (section 8): it asks which has
+    the bigger footprint, which is the emissions question this
+    rule declines to rank on.
 
 ---
 
@@ -778,8 +796,11 @@ locales, pinned by a test.
 
 ### Open decisions
 
-**E8 (primary surface) -- PROVISIONALLY RESOLVED 2026-08-30:
-ship both surfaces, then compare them in the app.** The comparator
+**E8 (primary surface) -- RESOLVED 2026-09-01. History first,
+then the call.**
+
+**Provisionally resolved 2026-08-30: ship both surfaces, then
+compare them in the app.** The comparator
 is built and its gating is correct, and it refuses 94% of the
 pairs a user can assemble in it (section 3). The question was
 whether the free-form two-column builder should be the primary
@@ -805,6 +826,65 @@ the dataset, the engine, the carrier gate and the 20% bar all
 survive both outcomes. **8.17 is unblocked and routes to the
 comparator.**
 
+**RESOLVED 2026-09-01: promote the ranked view to its own
+surface, and add a quiz beside it.** The in-app comparison was
+run. The ranked table won on first contact and lost badly on
+discoverability: two taps deep behind the methodology screen's
+science icon and then a scroll, it was hard to find, and as 34
+flat unadorned rows spanning an 885x range it was hard to read.
+Neither finding argues for demoting the comparator, which teaches
+a different thing (substitution) and refuses honestly when it
+cannot. So the ranked table is promoted to `/energy-explore`,
+with `anchorId` / `showBars` / `showHeading` / `onRowTap` added to
+the same widget rather than a fork, so rules 26-28 stay enforced
+in one place and the methodology screen keeps its defaults. It
+gains the two things a static table could not do: switching the
+measuring baseline between four dataset rows (LED hour, phone
+charge, kettle litre, fan hour -- all rule 27 anchors), and a
+per-row slider whose live figures fill an animated wall of
+baseline icons. A second surface, `/quiz`, plays
+higher-or-lower over the same rows on the comparator's own 20%
+bar (`verdictMinPercent`), with gas never dealt (rule 28) and
+line drying's zero dealable because it holds on any grid.
+Row-seeding the comparator was not built: the explore sheet
+answers the what-if question in place. Both surfaces are entered from
+AppBar icons on the Log Action screen beside the calculator chooser,
+visible in every category rather than as energy-category tiles: neither
+is an action to log, and burying them was the problem being fixed
+(owner call 2026-09-02, after a first pass shipped them as three
+category tiles). The same reasoning then took the comparator's own
+"Compare home energy use" card out of that grid: the Action Log grid is
+for actions that can be logged, and nothing in this feature can be
+(8.18), so all three energy surfaces are now AppBar-only -- the
+calculator inside the chooser sheet, the two teaching surfaces beside
+it (owner call 2026-09-02). The what-if wall draws one icon per baseline and the
+whole count, letting the sheet scroll, with the icons shrinking by
+order of magnitude; a first pass scaled icons-per-glyph to the current
+slider value, which held the icon count near constant so the wall never
+appeared to move (owner call 2026-09-02). Bars use a square-root
+scale, which is a deliberate distortion and so carries a
+mandatory footnote. Both new surfaces award nothing, log nothing
+and persist nothing beyond the session best streak (decision
+8.18).
+
+**Cross-domain multiples are ruled out, permanently.** A food or
+transport figure is never stated as a multiple of an electricity
+row (never "a burger in phone charges"), and quiz decks are never
+mixed across domains. Two reasons, in order of weight. Food
+counts a lifecycle where this dataset counts operational use, so
+mixing them is a one-way scope bias rather than symmetric noise,
+and both datasets' metadata already says figures from different
+calculators must never be summed. And a food-to-electricity ratio
+inherits grid variance linearly (about a 16x swing between a
+low-carbon and a coal-heavy grid) where a within-electricity
+ratio is exactly grid-invariant. A multiple is shown only where
+it holds. Cross-domain contact stays at the grams level, where
+`data/app/impact_equivalencies.json` already lives with a
+surfaced caveat. The quiz deck model
+(`lib/shared/domain/quiz_deck.dart`) is domain-generic so food
+and transport decks can be added later, each self-consistent
+within itself.
+
 E1-E7 are settled (Appendix A). `full_laundry_load`'s record and
 [archive](./RESEARCH_ENERGY_ARCHIVE.md) 1 carry the retired
 arithmetic and the condition for restoring it.
@@ -822,69 +902,12 @@ comparison after it lands.
 
 **This is the live open list for the energy workstream**, opened
 2026-08-30 after a coverage pass over the suite that shipped in
-823f984. Nothing below changes a value; all of it is missing or
-redundant test coverage. Section 8 carries the open *decisions*
-(E8); this carries the open *work*.
+823f984. Nothing below changes a value. Section 8 carries the open
+*decisions* (E8); this carries the open *work*. Eleven items were
+closed in the 2026-08-30/31 build pass and moved to
+[archive](./RESEARCH_ENERGY_ARCHIVE.md) section 10 (standing
+rule: closed items move to the archive); one remains:
 
-**Untested code.**
-
-- [x] ~~**`energy_calculator_screen.dart` has no widget test at
-      all**~~. Closed 2026-08-30:
-      `energy_calculator_screen_test.dart` (modelled on food's)
-      covers the ratio headline, the gas and mixed-carrier and
-      zero-kWh fallbacks, all three refusal dialogs individually
-      (killing the `_explainNoVerdict` wildcard-arm blind spot),
-      and the previously untested strings. A methodology smoke
-      test (`energy_methodology_screen_test.dart`) covers the new
-      screen and the ranked table's ordering and gas handling.
-- [x] ~~**`energy_science_sheet.dart`'s `_body` has no test**~~.
-      Retired in two steps on 2026-08-30: the sheet chrome and the
-      source list moved to `ScienceSheet`/`sourcesMarkdown`
-      (covered by `test/shared/widgets/science_sheet_test.dart`),
-      and `energy_widgets_test.dart` now exercises energy's `_body`
-      on both branches, including `energyScienceNoSources` -- the
-      path five deliberately uncited behaviours reach. The food
-      and transport `_body` builders remain untested, tracked in
-      their own open lists.
-- [x] ~~**The 20% verdict boundary is not pinned.**~~ Closed
-      2026-08-30: `energy_calculator_test.dart` pins "20% exactly
-      is enough" (food's `closeTo(20, 1e-9)` shape) and "just
-      under 20% still blocks" (19.35%), bracketing the bar from
-      both sides.
-- [x] ~~**`EnergyCalculator.routineKwh` has no input guard.**~~
-      Resolved twice on 2026-08-30: first by deletion (no
-      production caller; the `energyTotalKwh` strings went with
-      it), then reinstated the same day WITH the guard when the E7
-      rework made it live -- the ratio headline and phone-charge
-      equivalency are computed in kWh (rules 26-27), and
-      `usageCo2eGrams` shares the same `_requireFiniteUnits`
-      check.
-- [x] ~~**The all-zero comparison is untested in the energy
-      suite.**~~ Closed 2026-08-30: pinned in
-      `energy_calculator_test.dart` -- an all-zero pair lands on
-      `tooClose`, never a winner, so the safe-by-accident carrier
-      filter stays safe on purpose.
-- [x] ~~**`energy_citations_test.dart` does not pin `accessed`.**~~
-      Closed 2026-08-30 (after first narrowing the claim:
-      `energy_behaviors_data_test.dart` already bounded the date
-      set). The citations file now pins every off-baseline access
-      date by `(behavior, source name)` -- today the oven's
-      2026-08-29 and the fan's 2026-08-30 -- closing the
-      swap-within-the-allowlist gap where the tuple lives.
-
-**Redundant pins to consolidate.** All of these duplicate
-`energy_exact_values_test.dart`, which pins `kwh_per_unit`,
-`comparable_group`, `carrier`, preset quantities and `confidence`
-for all 33 rows:
-
-- [x] ~~`energy_dataset_invariants_test.dart` **pin 15** and
-      **pin 13**~~. Deleted 2026-08-30. Pin 15's eight
-      "wrong value a future edit would reach for" annotations moved
-      onto the corresponding rows of the exact-values kwh map,
-      where they were the only record of that reasoning.
-- [x] ~~`energy_behaviors_data_test.dart`'s "the researched group
-      distribution ships unchanged"~~. Deleted 2026-08-30; implied
-      by "every `comparable_group` ships exactly".
 - [ ] `ENERGY_BEHAVIOR_COUNT` is asserted in three files
       (`energy_behaviors_data_test.dart`,
       `energy_exact_values_test.dart`,
@@ -893,36 +916,6 @@ for all 33 rows:
       `EXPECTED_BEHAVIORS` must move in lockstep (its own error
       message says so), and no test ties the two constants
       together.
-- [x] ~~`energy_dataset_invariants_test.dart`'s "the oven stays
-      per bake cycle"~~ deleted 2026-08-30: the earlier **Keep**
-      note here claimed it was the only unit guard, but
-      `energy_behaviors_data_test.dart`'s "every behavior ships the
-      unit its research assigned" pins every unit by id --
-      including `oven: use`, with the same no-per-hour-figure
-      rationale in its comment. (`energy_exact_values_test.dart`
-      pins no `unit`, which is where the Keep note went wrong: it
-      scoped "only guard" to one file instead of the suite.)
-
-**Weak assertion.**
-
-- [x] ~~`energy_behaviors_data_test.dart` uses `throwsA(anything)`
-      twice~~. Narrowed 2026-08-30 to `throwsArgumentError`, which
-      is what json_serializable's `$enumDecode` actually throws; the
-      old matcher also passed on unrelated `TypeError`s.
-
-**Cross-workstream.**
-
-- [x] ~~**Extract a shared dataset-assertion helper.**~~ Rejected
-      2026-08-30 (owner call) after measuring the claim: of the
-      seven structural checks, only five are true triplicates, and
-      only food and transport are near-verbatim twins. Energy's
-      source rule is the *inverse* of theirs -- it asserts that
-      exactly five rows ship without a citation -- and it has no
-      known-group-set check. Absorbing that needs per-assertion
-      closures at every call site and degrades failure output,
-      which is the one thing a dataset test exists for. The
-      redundant-pin deletions above took the real duplication.
-      The food and transport open lists record the same closure.
 
 ---
 
@@ -957,6 +950,23 @@ for all 33 rows:
 | 2026-08-30 | `fan` added to `space_cool` (0.022 kWh/h, Panasonic F-CV339, the `use_fan_instead_of_ac` source); pairs the singleton | sec 3 here |
 | 2026-08-30 | Self-comparison documented as intended -- preset-driven same-entry comparison carries the setpoint and shower-length lessons | sec 3 here |
 | 2026-08-30 | Shared dataset-assertion helper rejected -- only food and transport are twins; energy's source rule is the inverse of theirs | sec 9 here |
+| 2026-09-01 | E8 RESOLVED: ranked view promoted to `/energy-explore` (baseline switching, sqrt bars, per-row what-if sheet), higher-or-lower quiz added at `/quiz`, comparator stays the routed primary | sec 8 here |
+| 2026-09-01 | Cross-domain multiples and mixed quiz decks ruled out permanently -- lifecycle-vs-operational scope bias plus linear grid dependence; cross-domain contact stays at the grams level | sec 8 here |
+| 2026-09-02 | E8 entry points: AppBar icons beside the calculator chooser, visible in every category, not energy-category tiles -- neither surface is an action to log | sec 8 here |
+| 2026-09-02 | What-if wall draws one icon per baseline and the full count (sheet scrolls, icons shrink by order of magnitude); per-value step scaling rejected -- it held the icon count constant so the wall never moved | sec 8 here |
+| 2026-09-02 | "Compare home energy use" card removed from the Action Log grid -- that grid is for loggable actions and this calculator banks nothing (8.18); reached from the AppBar chooser only | sec 8 here |
+| 2026-09-02 | Quiz rounds rotate between energy, food and transport; a PAIR is still never cross-domain, so the E8 rule stands unchanged. Each deck drops what it cannot rank: gas rows, food tier-2 rows, per-vehicle transport modes | sec 8 here |
+| 2026-09-02 | Quiz shows no figures until the answer is in, and is answered by dragging one of two tokens on a shared wheel rather than Higher/Lower buttons | sec 8 here |
+| 2026-09-02 | Verdict refusal states its reason inline under a heading-sized title; the "Why not?" dialog is gone | sec 5 rule 26 here |
+| 2026-09-02 | Category colours carry through the calculator chooser tiles, the comparison bars and the quiz tokens | sec 5 here |
+| 2026-09-02 | Quiz moved out of the energy feature to `lib/features/quiz/` and routed at `/quiz` -- it draws on all three datasets, not just energy | sec 8 here |
+| 2026-09-02 | Every calculator accent is its own category colour, not the mascot-seeded primary; fills use it raw, body text a 4.5:1 tone of the same hue, and large text plus graphics a more vivid 3:1 tone (all pinned by tests) | sec 5 here |
+| 2026-09-02 | Rule 28 REVISED: the ranked list orders energy and includes gas; habits decide kWh, grids decide gram-per-kWh and are cleaning up fast, so the list ranks what the user controls | sec 5 rule 28 here |
+| 2026-09-02 | Gram figures removed from ranked rows entirely -- a grid-dependent number beside an energy-ranked row contradicts its own order; grams stay in the row's sheet on that row's carrier | sec 5 rule 28 here |
+| 2026-09-02 | `washup_electric` and `washup_gas` withdrawn: one figure cannot stand for technique that ranges from a cold bucket to a running hot tap (owner call). The dishwasher pair keeps its own eco-vs-normal comparison | sec 3 here |
+| 2026-09-02 | `rice_keepwarm` rebased as `rice_cook_keepwarm`, one cycle + 4 h holding = 0.226 kWh: holding never happens without a cycle, and alone it ranked below the cycle and read as the cheaper option | sec 3 here |
+| 2026-09-02 | Dryer entries renamed to name the same axis (conventional vs heat pump); both are electric, so "(electric)" would have been the wrong contrast. Water entries read "(electric/gas/heat-pump hot water)" | sec 3 here |
+| 2026-09-02 | Quiz tokens stay upright and settle as a non-overlapping vertical stack: the wheel is an ellipse whose vertical radius is a measured token height, and a quarter turn is the whole travel | sec 8 here |
 
 ## Appendix B: Where the Detail Went
 

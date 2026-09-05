@@ -1170,14 +1170,13 @@ engine, 2026-07-17..21. Most of what they produced is already
 applied in sections 2-9; this appendix names the durable
 principles.
 
-**Split 2026-08-30.** A.1 and A.2 are research method and stay.
-A.3 and A.4 were product rules and moved to
+**Split 2026-08-30, completed 2026-09-01.** A.1 and A.2 are
+research method and stay. A.3, A.4 and A.5 were product rules and
+moved to
 [PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
-sections 2.2 and 2.3; their letters are kept as redirects. A.5 is
-a product rule too, but `build_water_blocklist.py` names it by
-file and letter in three places, one of them a runtime abort
-message, so moving it is a docs-plus-code change tracked as an
-open item in PDR_TRANSPORT_CALCULATOR.md section 6.
+sections 2.2, 2.3 and 2.4; their letters are kept as redirects
+(`build_water_blocklist.py`'s pointers were updated to 2.4 in the
+same pass).
 
 ### A.1 Honesty ethic (the rule every data decision serves)
 
@@ -1224,49 +1223,12 @@ section 2.3. The letter is kept so existing references resolve.
 The DEFRA <= 3,700 km band boundary it applies is evidence and
 stays in section 4 above.
 
-### A.5 Border-status watchlist (enforced by the build guard)
+### A.5 Border-status watchlist -- moved
 
-Border verdicts (section 9 CLOSED_BORDERS / walls) carry expiry
-risk: a closed border reopens, and a stale verdict then blocks
-honest corridors silently. The reminder is no longer a matter
-of memory: `build_water_blocklist.py` calls
-`check_border_verdicts()` as the first statement of `main()`,
-and the build aborts when `BORDER_VERDICTS_VERIFIED` (currently
-2026-07-21) is older than `BORDER_VERDICT_MAX_AGE_DAYS` (180).
-A run inside the window prints the age and continues. The
-guard's abort message points at this section instead of
-restating the entries, so the list below stays the single
-authoritative statement of what re-verifying covers.
-
-Re-verifying means: check every entry below live, then move
-`BORDER_VERDICTS_VERIFIED` to the date you did it. Moving the
-date without doing the checks is the one failure mode the guard
-cannot see. The verdicts themselves live in the script
-(CLOSED_BORDERS, BORDER_WALLS, MANUAL_BLOCK); this is the
-rationale and the watch reason for each:
-
-- **BJ-NE** -- the 2026-06 reopening accord was prospective;
-  likely to genuinely reopen (currently blocked).
-- **DZ-LY** -- conflicting sources; blocked under the in-doubt rule.
-- **AM-TR** -- reopening conditional on an unsigned AM-AZ treaty.
-- **ER-ET** -- owner "fragile-ok" watchlist (kept open).
-- **Rafah / Gaza** -- the strip ships no cities; revisit only if
-  crossings genuinely reopen to travelers.
-- **Sudan front line** (Kordofan; El Obeid the current flashpoint)
-  -- a manual wall; recheck as the front shifts.
-- **Backfill note** -- cities.json was edited in place (the
-  GeoNames inputs are off-disk), so the next full regeneration
-  backfills the freed top-5 slots with new cities; the gate's
-  political screen (R7, section 9) fails any new grounded cc-pair
-  until it is border-screened and added via `--update-reviewed`.
-- **Cities can leave the GeoNames input** -- a shipping city can
-  disappear from cities15000 upstream: Seria BN was in the export
-  at the 2026-07-18 build and gone by 2026-08-29. build_cities.py
-  re-selects from that export, so a full regeneration drops the
-  vanished city silently and a backfill city takes its top-N
-  slot, compounding the note above. enrich_city_names.py joins
-  every shipping city against cities15000 and is the only place
-  that sees it go: its `KNOWN_UNJOINED` constant pins the
-  known-absent set, and the run aborts when the observed set
-  differs in either direction (a new absence, or a listed city
-  that has returned and left the constant stale).
+Enforced by `build_water_blocklist.py`'s `check_border_verdicts()`
+guard, so it is a product rule. Moved 2026-09-01 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.4, which is now the single authoritative watchlist the
+guard's abort message points at. The letter is kept so existing
+references resolve. The border verdicts themselves live in the
+script (CLOSED_BORDERS, BORDER_WALLS, MANUAL_BLOCK).

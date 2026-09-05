@@ -24,7 +24,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PATH = REPO_ROOT / 'data' / 'app' / 'energy_behaviors.json'
 
-EXPECTED_BEHAVIORS = 34
+EXPECTED_BEHAVIORS = 32
 
 ACC = '2026-08-02'
 
@@ -65,11 +65,6 @@ _WHICH_U = (
     'https://www.which.co.uk/news/article/which-research-reveals-how-little-'
     'water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E'
 )
-WHICH = S(
-    'Which? UK (dishwasher vs hand washing, 03 Jul 2026)',
-    _WHICH_U,
-    'using a dishwasher for 14 place settings consumes just under 13 litres '
-    'compared to approximately 63 litres when washing by hand')
 WHICH_DW = S(
     'Which? UK (dishwasher main wash, 03 Jul 2026)',
     _WHICH_U,
@@ -204,11 +199,6 @@ BATH_PRESETS = [
     P('shallow_150l', 'A shallow bath (~150 L)', '浅めの湯量（約150L）',
       'Baño poco profundo (~150 L)', 0.83),
 ]
-WASHUP_PRESETS = [
-    P('full_load', 'A full load (14 place settings)', '食器14人分をまとめて',
-      'Carga completa (14 servicios)', 1.0),
-    P('few_dishes', 'A few dishes', '少しの食器', 'Unos pocos platos', 0.25),
-]
 ONE_LOAD = [P('one_load', '1 load', '1回', '1 carga', 1)]
 ONE_CYCLE_DW = [P('one_cycle', '1 cycle (14 place settings)', '1回（食器14人分）',
                   '1 ciclo (14 servicios)', 1)]
@@ -224,8 +214,8 @@ EVENING_5H = P('evening_5h', 'An evening (5 h)', '夜に5時間', 'Una tarde (5 
 BEHAVIORS = [
  # ---- hot_water ----
  dict(id='shower_electric', group='hot_water', carrier='electricity', unit='minute',
-      kwh=0.248111, en='Shower (electric water)', ja='シャワー（電気給湯）',
-      es='Ducha (agua eléctrica)', conf='medium_high', presets=SHOWER_PRESETS,
+      kwh=0.248111, en='Shower (electric hot water)', ja='シャワー（電気給湯）',
+      es='Ducha (agua caliente eléctrica)', conf='medium_high', presets=SHOWER_PRESETS,
       sources=[EPA, TOTO, SAP],
       notes='7.844784 L/min (mean of three current showerheads, decision E4) x '
             '0.03162756 kWh/L (heating 1 L by 27.2 K: delivered 40 C from a 12.8 C '
@@ -233,8 +223,8 @@ BEHAVIORS = [
             'directly because resistance electric water heating is ~100% efficient. '
             'RESEARCH_ENERGY section 3.1.'),
  dict(id='shower_heatpump', group='hot_water', carrier='electricity', unit='minute',
-      kwh=0.057700, en='Shower (heat-pump water)', ja='シャワー（ヒートポンプ給湯）',
-      es='Ducha (agua con bomba de calor)', conf='medium', presets=SHOWER_PRESETS,
+      kwh=0.057700, en='Shower (heat-pump hot water)', ja='シャワー（ヒートポンプ給湯）',
+      es='Ducha (agua caliente con bomba de calor)', conf='medium', presets=SHOWER_PRESETS,
       sources=[EPA, TOTO, SAP, HPTCJ],
       notes='The 0.248111 kWh/min thermal load divided by a heat-pump COP of 4.3, the '
             'mean of the 3.5 initial and 5.1 recent Eco Cute models. Ships as its own '
@@ -242,8 +232,8 @@ BEHAVIORS = [
             'appliances, and an Eco Cute owner knows they own one. '
             'RESEARCH_ENERGY section 3.1.'),
  dict(id='shower_gas', group='hot_water', carrier='gas', unit='minute',
-      kwh=0.328036, en='Shower (gas water)', ja='シャワー（ガス給湯）',
-      es='Ducha (agua calentada con gas)', conf='medium_high', presets=SHOWER_PRESETS,
+      kwh=0.328036, en='Shower (gas hot water)', ja='シャワー（ガス給湯）',
+      es='Ducha (agua caliente de gas)', conf='medium_high', presets=SHOWER_PRESETS,
       sources=[EPA, TOTO, SAP, BRE],
       notes='The 0.248111 kWh/min thermal load divided by a gas hot-water efficiency '
             'of 0.756353. That efficiency is BRE STP09/B07 test A (instantaneous '
@@ -252,34 +242,19 @@ BEHAVIORS = [
             'efficiency with a gross-CV factor understated gas by 12.6%. '
             'RESEARCH_ENERGY section 3.1.'),
  dict(id='bath_electric', group='hot_water', carrier='electricity', unit='use',
-      kwh=5.692960, en='Bath (electric water)', ja='入浴（電気給湯）',
-      es='Baño (agua eléctrica)', conf='high', presets=BATH_PRESETS,
+      kwh=5.692960, en='Bath (electric hot water)', ja='入浴（電気給湯）',
+      es='Baño (agua caliente eléctrica)', conf='high', presets=BATH_PRESETS,
       sources=[SUIDO, SAP],
       notes='180 L x 0.03162756 kWh/L = 5.692960 kWh. The largest electric '
             'single-use figure in the dataset; bath_gas is larger still. '
             'RESEARCH_ENERGY section 3.1.'),
  dict(id='bath_gas', group='hot_water', carrier='gas', unit='use',
-      kwh=7.526854, en='Bath (gas water)', ja='入浴（ガス給湯）',
-      es='Baño (agua calentada con gas)', conf='medium_high', presets=BATH_PRESETS,
+      kwh=7.526854, en='Bath (gas hot water)', ja='入浴（ガス給湯）',
+      es='Baño (agua caliente de gas)', conf='medium_high', presets=BATH_PRESETS,
       sources=[SUIDO, SAP, BRE],
       notes='5.692960 kWh thermal / 0.756353 gross-CV gas hot-water efficiency. '
             'RESEARCH_ENERGY section 3.1.'),
  # ---- dishes ----
- dict(id='washup_electric', group='dishes', carrier='electricity', unit='use',
-      kwh=1.992536, en='Washing up by hand (electric water)', ja='食器の手洗い（電気給湯）',
-      es='Lavar a mano (agua eléctrica)', conf='medium', presets=WASHUP_PRESETS,
-      sources=[WHICH, SAP],
-      notes='63 L x 0.03162756 kWh/L. The 63 L is Which? 2026 measuring a 14-place-'
-            'setting load, the same load it measures the dishwasher on, which is what '
-            'makes the two entries like-for-like. Technique dominates this entry: the '
-            'peer-reviewed spread across real households is 18.3-472.8 L. '
-            'RESEARCH_ENERGY section 3.1.'),
- dict(id='washup_gas', group='dishes', carrier='gas', unit='use',
-      kwh=2.634399, en='Washing up by hand (gas water)', ja='食器の手洗い（ガス給湯）',
-      es='Lavar a mano (agua calentada con gas)', conf='medium', presets=WASHUP_PRESETS,
-      sources=[WHICH, SAP, BRE],
-      notes='1.992536 kWh thermal / 0.756353 gross-CV gas hot-water efficiency. '
-            'RESEARCH_ENERGY section 3.1.'),
  dict(id='dishwasher_eco', group='dishes', carrier='electricity', unit='use',
       kwh=0.85, en='Dishwasher, eco programme', ja='食洗機（エコ）',
       es='Lavavajillas, programa eco', conf='high', presets=ONE_CYCLE_DW,
@@ -321,8 +296,8 @@ BEHAVIORS = [
             'representativeness half. RESEARCH_ENERGY section 3.2.'),
  # ---- laundry_dry ----
  dict(id='dryer_vented', group='laundry_dry', carrier='electricity', unit='use',
-      kwh=4.5, en='Tumble dryer (vented or condenser)', ja='乾燥機（排気・除湿式）',
-      es='Secadora (ventilada o de condensación)', conf='high', presets=ONE_LOAD,
+      kwh=4.5, en='Tumble dryer (conventional)', ja='乾燥機（ヒーター式）',
+      es='Secadora (por resistencia)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_DRY_C],
       notes='Rounded down from the verified 4.63 kWh full load, because that is one '
             'energy-class-B model and independent figures on a stated 7 kg basis give '
@@ -475,18 +450,21 @@ BEHAVIORS = [
       notes='158 Wh per cook cycle for an IH 5.5-8合 machine, sourced to '
             '省エネルギーセンター実測値 and corroborated by Tiger at 163 Wh, two '
             'independent JP sources within 3%. RESEARCH_ENERGY section 3.4.'),
- dict(id='rice_keepwarm', group='cook', carrier='electricity', unit='hour',
-      kwh=0.0165, en='Rice cooker, keep warm', ja='炊飯器（保温）',
-      es='Arrocera, mantener caliente', conf='high',
-      presets=[P('four_hours', '4 hours (the guideline)', '4時間（目安）',
-                 '4 horas (la guía)', 4),
-               P('overnight_10h', 'Overnight (10 h)', '一晩（10時間）',
-                 'Toda la noche (10 h)', 10)],
+ dict(id='rice_cook_keepwarm', group='cook', carrier='electricity', unit='use',
+      kwh=0.226, en='Rice cooker, cycle + 4 h keeping warm',
+      ja='炊飯器（1回炊飯＋4時間保温）',
+      es='Arrocera, ciclo + 4 h manteniendo caliente', conf='high',
+      presets=[P('cycle_plus_four', '1 cycle + 4 h keeping warm',
+                 '1回炊飯＋4時間保温', '1 ciclo + 4 h manteniendo caliente', 1)],
       sources=[RICE],
-      notes='16.5 Wh/h on the same measured basis. Ships with the 4-hour rule the '
-            'source states: keeping rice warm is sensible up to about 4 hours, after '
-            'which reheating in a microwave uses less energy than continuing to hold '
-            'it, and beyond 7-8 hours cooking twice is better. '
+      notes='0.16 kWh for the cycle (the rice_cooker row: 158 Wh measured, 163 Wh '
+            'corroborated) plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, all on the '
+            'same measured basis. Ships as one figure because keeping warm never '
+            'happens without a cycle first (owner call 2026-09-02): held alone it '
+            'ranked below the cycle and read as though holding rice were the cheaper '
+            'option, which is not a choice anyone has. The 4 hours is the guideline '
+            'the source states -- past about 4 hours reheating in a microwave uses '
+            'less than holding, and past 7-8 hours cooking twice does. '
             'RESEARCH_ENERGY section 3.4.'),
  # ---- lighting ----
  dict(id='led_bulb', group='lighting', carrier='electricity', unit='hour',

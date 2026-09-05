@@ -100,10 +100,11 @@ void main() {
     expect(kwh('incandescent_bulb'), greaterThan(4 * kwh('led_bulb')));
   });
 
-  test('pin 9: a dishwasher cycle beats washing up by hand', () {
-    // True for ELECTRIC water only -- the gas hand-wash comparison is
-    // on the never-pin list because it is cross-carrier.
-    expect(kwh('dishwasher_normal'), lessThan(kwh('washup_electric')));
+  test('pin 9: the eco programme really is the cheaper dishwasher cycle', () {
+    // Replaced the dishwasher-vs-hand-washing pin when the hand-washing
+    // rows were withdrawn (2026-09-02): a single hand-wash figure
+    // implied a precision that technique does not allow.
+    expect(kwh('dishwasher_eco'), lessThan(kwh('dishwasher_normal')));
   });
 
   test('pin 10: heat beats light and computation by an order of magnitude', () {
@@ -114,7 +115,7 @@ void main() {
 
   test('pin 11: ten hours of keep-warm exceeds one cook cycle', () {
     // The foundation of the 4-hour rule the rice-cooker copy ships.
-    expect(10 * kwh('rice_keepwarm'), greaterThan(kwh('rice_cooker')));
+    expect(kwh('rice_cook_keepwarm'), greaterThan(kwh('rice_cooker')));
   });
 
   test('pin 16: aircon cooling is over 5x the fan', () {

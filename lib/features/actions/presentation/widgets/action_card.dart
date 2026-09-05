@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/constants/action_icons.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -84,7 +85,14 @@ class ActionTile extends StatelessWidget {
                             child: Text(
                               badgeLabel,
                               style: theme.textTheme.labelSmall?.copyWith(
-                                color: contentColor,
+                                // Darkened: the raw category colour on
+                                // a tint of itself is about 1.5:1, so
+                                // the label washed out. The accent bar
+                                // and the icon keep the colour as it is.
+                                color: readableTextColor(
+                                  contentColor,
+                                  theme.brightness,
+                                ),
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLines: 1,

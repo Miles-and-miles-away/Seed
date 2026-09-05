@@ -156,7 +156,7 @@ CROSSING_CHECK_LIMIT_KM = 100.0
 
 # Border verdicts carry expiry risk: a closed border reopens and a
 # stale verdict silently blocks honest corridors. Re-verify live,
-# then move this date. Watchlist in RESEARCH_TRANSPORT.md A.5.
+# then move this date. Watchlist in PDR_TRANSPORT_CALCULATOR.md 2.4.
 BORDER_VERDICTS_VERIFIED = date(2026, 7, 21)
 BORDER_VERDICT_MAX_AGE_DAYS = 180
 
@@ -743,7 +743,7 @@ def check_border_verdicts():
             f"BORDER_VERDICTS_VERIFIED is {age} days old (max "
             f"{BORDER_VERDICT_MAX_AGE_DAYS}). CLOSED_BORDERS and "
             "BORDER_WALLS gate this build, so re-verify them live "
-            "(watchlist: RESEARCH_TRANSPORT.md Appendix A.5), then "
+            "(watchlist: PDR_TRANSPORT_CALCULATOR.md section 2.4), then "
             "move the date."
         )
     print(f"border verdicts: {age} days old, within "

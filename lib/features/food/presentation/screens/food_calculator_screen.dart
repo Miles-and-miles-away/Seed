@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
@@ -166,6 +167,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     final showVerdict = check?.block == VerdictBlock.none;
 
     return ComparisonScaffold(
+      accentColor: ActionCategory.food.color,
       totals: totals,
       entries: [
         for (var option = 0; option < optionCount; option++)
@@ -199,6 +201,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
   ) {
     final item = itemsById[ingredient.itemId]!;
     return OptionEntryCard(
+      accentColor: ActionCategory.food.color,
       icon: foodGroupIcon(item.group),
       name: item.name(locale),
       detail: l10n.foodGramsValue(ingredient.grams.round().toString()),
@@ -274,6 +277,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ComparisonDeltaCard(
+          accentColor: ActionCategory.food.color,
           headline: l10n.foodComparisonDelta(
             bestLabel,
             formatCO2Compact(summary.deltaGrams.round()),

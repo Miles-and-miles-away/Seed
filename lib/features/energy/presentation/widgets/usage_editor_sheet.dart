@@ -110,21 +110,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              widget.behavior.name(locale),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: spacingXs),
-            Text(
-              energyBehaviorFactorLabel(l10n, widget.behavior),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+            energyBehaviorSheetHeader(context, l10n, widget.behavior),
             const SizedBox(height: spacingLg),
             if (widget.behavior.presets.isNotEmpty) ...[
               Text(l10n.energyPresetsLabel, style: theme.textTheme.titleSmall),

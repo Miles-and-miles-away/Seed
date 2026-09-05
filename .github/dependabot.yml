@@ -4,18 +4,38 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: pub
     directory: /
     schedule:
       interval: monthly
+    groups:
+      firebase:
+        patterns:
+          - "firebase*"
+          - "cloud_functions"
+    ignore:
+      # flutter_localizations pins intl to an exact version
+      - dependency-name: intl
 
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: monthly
+    groups:
+      firebase-testing:
+        patterns:
+          - "firebase"
+          - "@firebase/rules-unit-testing"
 
   - package-ecosystem: npm
     directory: /functions
     schedule:
       interval: monthly
+    groups:
+      dev-tooling:
+        dependency-type: development

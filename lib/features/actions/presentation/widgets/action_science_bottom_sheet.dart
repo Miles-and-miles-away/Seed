@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/external_link.dart';
-import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
@@ -44,7 +44,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final theme = Theme.of(context);
     final category = ActionCategory.fromString(action.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
-    final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
+    final linkColor = readableTextColor(categoryColor, theme.brightness);
 
     return DraggableScrollableSheet(
       maxChildSize: _kMaxChildSize,

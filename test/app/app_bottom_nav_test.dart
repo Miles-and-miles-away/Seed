@@ -13,6 +13,7 @@ void main() {
     ValueChanged<int>? onTabSelected,
     VoidCallback? onActionPressed,
     ValueChanged<bool>? onActionHover,
+    double textScale = 1.0,
   }) {
     return MaterialApp(
       localizationsDelegates: const [
@@ -22,6 +23,12 @@ void main() {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(
+          context,
+        ).copyWith(textScaler: TextScaler.linear(textScale)),
+        child: child!,
+      ),
       home: Scaffold(
         bottomNavigationBar: AppBottomNav(
           currentIndex: currentIndex,
@@ -116,6 +123,75 @@ void main() {
 
       expect(find.byIcon(Icons.add_circle_outline), findsOneWidget);
       expect(find.byIcon(Icons.add_circle), findsNothing);
+    });
+  });
+
+  group('at large text scales', () {
+    // The bar is a fixed row of five destinations, so it overflowed by
+    // 4.7pt once the user's text setting passed about 1.8 -- on every
+    // screen, since every primary screen shows this bar.
+    for (final scale in [1.0, 1.3, 2.0, 3.0]) {
+      testWidgets('nothing overflows at text scale $scale', (tester) async {
+        tester.view.physicalSize = const Size(402, 900);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(tester.view.reset);
+        await tester.pumpWidget(wrap(currentIndex: 0, textScale: scale));
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
+        expect(find.text('Home'), findsOneWidget);
+      });
+    }
+
+    testWidgets('labels stop growing, so the bar stays a bar', (tester) async {
+      // Material clamps its own NavigationBar labels at 1.3 for the
+      // same reason. Past that the bar must not keep growing.
+      tester.view.physicalSize = const Size(402, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(wrap(currentIndex: 0));
+      await tester.pumpAndSettle();
+      final atDefault = tester.getSize(find.byType(BottomAppBar)).height;
+
+      await tester.pumpWidget(wrap(currentIndex: 0, textScale: 1.3));
+      await tester.pumpAndSettle();
+      final atClamp = tester.getSize(find.byType(BottomAppBar)).height;
+
+      await tester.pumpWidget(wrap(currentIndex: 0, textScale: 3));
+      await tester.pumpAndSettle();
+      final atTriple = tester.getSize(find.byType(BottomAppBar)).height;
+
+      expect(atDefault, 65, reason: 'the default height is unchanged');
+      expect(atClamp, greaterThan(atDefault));
+      expect(atTriple, atClamp);
+    });
+
+    testWidgets('a label still renders at its normal size by default', (
+      tester,
+    ) async {
+      await tester.pumpWidget(wrap(currentIndex: 0));
+      await tester.pumpAndSettle();
+
+      // Read as a value per pump: the render object is reused across
+      // pumps, so holding a reference compares the new size with
+      // itself and passes whatever the code does.
+      final atDefault = tester.getSize(find.text('Home')).height;
+
+      await tester.pumpWidget(wrap(currentIndex: 0, textScale: 1.3));
+      await tester.pumpAndSettle();
+      final atClamp = tester.getSize(find.text('Home')).height;
+
+      await tester.pumpWidget(wrap(currentIndex: 0, textScale: 3));
+      await tester.pumpAndSettle();
+      final atTriple = tester.getSize(find.text('Home')).height;
+
+      expect(
+        atClamp,
+        greaterThan(atDefault),
+        reason: 'clamping must not freeze labels at the default size',
+      );
+      expect(atTriple, atClamp, reason: 'and must stop at the clamp');
     });
   });
 }
