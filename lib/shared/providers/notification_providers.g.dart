@@ -245,7 +245,7 @@ final class FCMTokenManagerProvider
   FCMTokenManager create() => FCMTokenManager();
 }
 
-String _$fCMTokenManagerHash() => r'343f4f2c8343193aabc8ab4945fe0b9dacb74bf7';
+String _$fCMTokenManagerHash() => r'd6e5fb6e2d1f087bccdee75ba6f8928f09d775ca';
 
 /// Provider that handles FCM token registration.
 ///

@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/shared/widgets/explainer_dialog.dart';
 
 /// Shared presentation widgets for the Phase 8 calculator comparison
 /// views (transport 8.3, food 8.9, energy 8.15).
@@ -12,6 +13,41 @@ import 'package:seed_app/core/utils/helpers.dart';
 /// Feature-agnostic: the screens own labels, totals and the "emits X
 /// less" copy; these render the two option columns, the draggable
 /// item pool, and the result panel.
+
+/// The column name for [option]: "Option A" or "Option B".
+String optionLabel(AppLocalizations l10n, int option) =>
+    option == optionA ? l10n.calculatorOptionA : l10n.calculatorOptionB;
+
+/// The AppBar action opening a calculator's methodology screen.
+IconButton methodologyAction(
+  BuildContext context, {
+  required String tooltip,
+  required WidgetBuilder builder,
+}) => IconButton(
+  icon: const Icon(Icons.science_outlined),
+  tooltip: tooltip,
+  onPressed: () =>
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: builder)),
+);
+
+/// Centered, muted guidance in a calculator's result panel.
+class CalculatorHint extends StatelessWidget {
+  const CalculatorHint(this.text, {super.key});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: theme.textTheme.bodySmall?.copyWith(
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
+    );
+  }
+}
 
 /// A CO2e figure whose unit is a link to a plain-language definition
 /// of the term.
@@ -37,18 +73,10 @@ class Co2eAmount extends StatelessWidget {
 
   static Future<void> showDefinition(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.co2eDefinitionTitle),
-        content: Text(l10n.co2eDefinitionBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.buttonClose),
-          ),
-        ],
-      ),
+    return showExplainerDialog(
+      context,
+      title: l10n.co2eDefinitionTitle,
+      body: l10n.co2eDefinitionBody,
     );
   }
 
@@ -197,9 +225,7 @@ class ComparisonScaffold extends StatelessWidget {
                                     ),
                                     child: OptionColumn(
                                       accentColor: accentColor,
-                                      title: option == optionA
-                                          ? l10n.calculatorOptionA
-                                          : l10n.calculatorOptionB,
+                                      title: optionLabel(l10n, option),
                                       totalGrams: totals[option],
                                       fraction: worst <= 0
                                           ? 0

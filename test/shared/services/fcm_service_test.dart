@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,11 +9,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/shared/services/fcm_service.dart';
 
+import '../../helpers/test_helpers.dart';
+
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
-
-class MockFirebaseAuth extends Mock implements FirebaseAuth {}
-
-class MockUser extends Mock implements User {}
 
 void main() {
   const userId = 'user-1';
