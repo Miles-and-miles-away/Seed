@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/home/presentation/providers/home_providers.dart';
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 /// Stubs the router-backed visit signal so the home screen can be pumped in
 /// isolation without initializing Firebase (the real provider reads the
@@ -17,24 +17,9 @@ class _StubHomeVisitSignal extends HomeVisitSignal {
 }
 
 void main() {
-  // Set up mock platform channels for path_provider (used by CachedNetworkImage)
   setUpAll(() {
     TestWidgetsFlutterBinding.ensureInitialized();
-
-    const channel = MethodChannel('plugins.flutter.io/path_provider');
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (methodCall) async {
-          if (methodCall.method == 'getTemporaryDirectory') {
-            return '/tmp';
-          }
-          if (methodCall.method == 'getApplicationSupportDirectory') {
-            return '/tmp';
-          }
-          if (methodCall.method == 'getApplicationDocumentsDirectory') {
-            return '/tmp';
-          }
-          return null;
-        });
+    stubPathProvider();
   });
 
   group('HomeScreen', () {
@@ -50,12 +35,7 @@ void main() {
             homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
           ],
           child: const MaterialApp(
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             home: HomeScreen(),
           ),

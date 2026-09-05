@@ -15,6 +15,7 @@ import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/stage_badge.dart';
 
 /// The main home screen of the Seed app
 class HomeScreen extends ConsumerWidget {
@@ -149,29 +150,10 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: spacingXs),
 
           // Evolution stage badge
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingMd,
-              vertical: 6,
-            ),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: opacitySubtle),
-              borderRadius: borderRadiusXl,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.star, size: 16, color: colorScheme.primary),
-                const SizedBox(width: spacingSm),
-                Text(
-                  '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
+          StageBadge(
+            label: '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
+            background: colorScheme.primary.withValues(alpha: opacitySubtle),
+            foreground: colorScheme.primary,
           ),
 
           const SizedBox(height: spacingLg),
@@ -250,6 +232,12 @@ class HomeScreen extends ConsumerWidget {
   ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final firstStage = ref
+        .watch(mascotSpeciesDataProvider)
+        .value
+        ?.first
+        .evolutionStages
+        .first;
 
     return Container(
       padding: const EdgeInsets.all(spacingXxl),
@@ -269,21 +257,8 @@ class HomeScreen extends ConsumerWidget {
           // Preview mascot
           MascotAvatar(
             assetPath:
-                ref
-                    .watch(mascotSpeciesDataProvider)
-                    .value
-                    ?.first
-                    .evolutionStages
-                    .first
-                    .assetPath ??
-                'assets/images/mascot/seed_stage1.svg',
-            artboardName: ref
-                .watch(mascotSpeciesDataProvider)
-                .value
-                ?.first
-                .evolutionStages
-                .first
-                .artboardName,
+                firstStage?.assetPath ?? 'assets/images/mascot/seed_stage1.svg',
+            artboardName: firstStage?.artboardName,
           ),
 
           const SizedBox(height: spacingLg),

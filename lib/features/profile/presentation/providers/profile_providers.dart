@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
@@ -53,5 +54,5 @@ int totalActionsCount(Ref ref) {
 int daysSinceJoined(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
   if (user == null || user.createdAt == null) return 0;
-  return DateTime.now().difference(user.createdAt!).inDays;
+  return calendarDaysBetween(user.createdAt!, DateTime.now());
 }

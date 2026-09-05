@@ -286,4 +286,4 @@ final class DaysSinceJoinedProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$daysSinceJoinedHash() => r'b1ad070d990cba30297fe8e28bdeb11db2bd6836';
+String _$daysSinceJoinedHash() => r'522b09d5405873174c2eee99166a42e68ac69e7c';
