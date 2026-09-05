@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_screen.dart';
 
-const _localizationDelegates = <LocalizationsDelegate<dynamic>>[
-  AppLocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
-];
+import '../../../../helpers/test_helpers.dart';
 
 final _testMascot = MascotModel(
   id: 'm1',
@@ -36,22 +27,10 @@ void main() {
   // The real mascotSpeciesDataProvider loads bundled assets so the species
   // ("seed") resolves and the screen renders past its loading spinner.
   final overrides = [
-    currentUserProvider.overrideWith((_) => Stream.value(_testUser)),
+    userOverride(_testUser),
     activeMascotProvider.overrideWith((_) => Stream.value(_testMascot)),
     allMascotsProvider.overrideWith((_) => Stream.value([_testMascot])),
   ];
-
-  // Give the test a tall viewport so the whole scrolling screen (stats
-  // section, rename icon) is laid out and findable without scrolling, and so
-  // the layout does not overflow the default 800x600 surface.
-  Future<void> sizeViewport(WidgetTester tester) async {
-    tester.view.physicalSize = const Size(1200, 2400);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
-  }
 
   // Warm the bundled species asset on the real event loop. rootBundle IO does
   // not run under the fake test clock, so without this the species future
@@ -62,32 +41,11 @@ void main() {
     await tester.runAsync(loadMascotSpecies);
   }
 
-  // Pump until [finder] resolves or the budget runs out. Used instead of
-  // pumpAndSettle because the mascot has infinite idle animations that never
-  // settle. Each step yields to the real event loop via runAsync so the
-  // (cache-warmed) species future and the overridden mascot streams can emit
-  // and the screen rebuild past its loading spinner.
-  Future<void> pumpUntilFound(WidgetTester tester, Finder finder) async {
-    for (var i = 0; i < 30 && finder.evaluate().isEmpty; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 20)),
-      );
-      await tester.pump();
-    }
-  }
-
   Future<void> pumpMascotScreen(WidgetTester tester) async {
-    await sizeViewport(tester);
+    sizeViewport(tester);
     await warmSpeciesBundle(tester);
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: overrides,
-        child: const MaterialApp(
-          localizationsDelegates: _localizationDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: MascotScreen(),
-        ),
-      ),
+      createTestWidget(overrides: overrides, child: const MascotScreen()),
     );
     // The "Our Journey" title only appears once the active mascot + species
     // have resolved.

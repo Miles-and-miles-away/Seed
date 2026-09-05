@@ -62,18 +62,8 @@ extension MascotSpeciesModelX on MascotSpeciesModel {
   };
 
   /// Gets the evolution stage for a given level.
-  EvolutionStageModel getStageForLevel(int level) {
-    // Find the highest stage the user has reached
-    var currentStage = evolutionStages.first;
-    for (final stage in evolutionStages) {
-      if (level >= stage.level) {
-        currentStage = stage;
-      } else {
-        break;
-      }
-    }
-    return currentStage;
-  }
+  EvolutionStageModel getStageForLevel(int level) =>
+      evolutionStages[getStageIndexForLevel(level) - 1];
 
   /// Gets the stage index (1-based) for a given level.
   int getStageIndexForLevel(int level) {
@@ -97,4 +87,14 @@ extension MascotSpeciesModelX on MascotSpeciesModel {
     }
     return null;
   }
+}
+
+/// Extension to provide convenience methods on [EvolutionStageModel].
+extension EvolutionStageModelX on EvolutionStageModel {
+  /// Gets the localized stage name based on the given locale.
+  String name(String locale) => switch (locale) {
+    'ja' => nameJa,
+    'es' when nameEs.isNotEmpty => nameEs,
+    _ => nameEn,
+  };
 }

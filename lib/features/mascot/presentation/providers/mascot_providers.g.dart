@@ -98,7 +98,7 @@ final class MascotRepositoryProvider
   }
 }
 
-String _$mascotRepositoryHash() => r'07f81837435cff1826af88d6440e0fddf751c32f';
+String _$mascotRepositoryHash() => r'16023de0e8a2ebc97e4ba784213f7b3181c4a0d6';
 
 /// All mascots for the current user.
 ///
@@ -200,7 +200,7 @@ final class ActiveMascotProvider
   }
 }
 
-String _$activeMascotHash() => r'cc4ca666e43720f6a60c273957d597dfd745cf5e';
+String _$activeMascotHash() => r'd857a04e27f32eda2a13a28d708eceee2c52d930';
 
 /// Whether the current user has at least one mascot.
 
@@ -245,7 +245,7 @@ final class HasMascotProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$hasMascotHash() => r'59e971edd48a72af94921ed2ac092b50ed60bb3b';
+String _$hasMascotHash() => r'9eb4e7ea75e0d09e570e4047381f679a8341f7e2';
 
 /// Species data for the active mascot.
 
@@ -497,7 +497,7 @@ final class ActiveMascotAssetPathProvider
 }
 
 String _$activeMascotAssetPathHash() =>
-    r'5291fa758fa5fb5885057a4e78f8711bfbb15be0';
+    r'e29b607208175becf39eaeab8a9172405c4ec77b';
 
 /// Next evolution stage for the active mascot, or null.
 
@@ -642,7 +642,7 @@ final class CurrentEggProvider
   }
 }
 
-String _$currentEggHash() => r'6571260ce35c4f62d01db31926c7926be73665ca';
+String _$currentEggHash() => r'6e6cd7c8522d524ccd679c20be1119630c95eee1';
 
 /// Whether the user has an egg.
 
@@ -687,7 +687,7 @@ final class HasEggProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$hasEggHash() => r'9f6cb87366812b22b5e55797e01c61ac8d8d4e24';
+String _$hasEggHash() => r'001d7c8b459b39dc8ed56e683a3fb21ae8804383';
 
 /// Egg hatching progress (0.0 to 1.0).
 
@@ -784,7 +784,7 @@ final class ShouldShowEggDiscoveryProvider
 }
 
 String _$shouldShowEggDiscoveryHash() =>
-    r'750a0523a1e65054f11ea7e3dcfe56708ed1a161';
+    r'712e57b5753ed0e258dc43ec3bef0daaad4ee59a';
 
 /// Localized name for the active mascot's stage.
 
@@ -849,7 +849,7 @@ final class StageLocalizedNameProvider
 }
 
 String _$stageLocalizedNameHash() =>
-    r'a2cedfa1046d4c8e209f53fb4b3a31c22be8079d';
+    r'50cc488cbfd5f20a70c3d1b9fdae6f2c61c2a20b';
 
 /// Localized name for the active mascot's stage.
 
@@ -884,7 +884,7 @@ final class MascotNotifierProvider
         argument: null,
         retry: null,
         name: r'mascotProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -905,7 +905,7 @@ final class MascotNotifierProvider
   }
 }
 
-String _$mascotNotifierHash() => r'e4c107aff3104e983939835243bc27ce9338de82';
+String _$mascotNotifierHash() => r'e695fd2b5661c7df8d8519908617ec251aa109be';
 
 abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

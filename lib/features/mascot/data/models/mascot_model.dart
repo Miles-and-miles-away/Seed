@@ -48,7 +48,3 @@ abstract class MascotModel with _$MascotModel {
   factory MascotModel.fromJson(Map<String, dynamic> json) =>
       _$MascotModelFromJson(json);
 }
-
-// MascotTimestampConverter replaced by centralized
-// TimestampConverter in core/utils/firestore_converters.dart
-typedef MascotTimestampConverter = TimestampConverter;

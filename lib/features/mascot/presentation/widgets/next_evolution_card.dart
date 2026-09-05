@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
 /// Preview card for the next evolution stage: darkened art, levels to go,
@@ -23,11 +24,7 @@ class NextEvolutionCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
-    final stageName = switch (locale) {
-      'ja' => nextStage.nameJa,
-      'es' when nextStage.nameEs.isNotEmpty => nextStage.nameEs,
-      _ => nextStage.nameEn,
-    };
+    final stageName = nextStage.name(locale);
     final levelsNeeded = nextStage.level - mascotLevel;
     final progress = mascotLevel / nextStage.level;
 
@@ -55,29 +52,8 @@ class NextEvolutionCard extends StatelessWidget {
               color: colorScheme.surface,
               borderRadius: borderRadiusMd,
             ),
-            child: ColorFiltered(
-              colorFilter: const ColorFilter.matrix(<double>[
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0.6,
-                0,
-              ]),
+            child: Opacity(
+              opacity: opacityModerate,
               child: MascotImage(
                 assetPath: nextStage.assetPath,
                 artboardName: nextStage.artboardName,

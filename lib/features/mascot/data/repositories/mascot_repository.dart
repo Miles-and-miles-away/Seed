@@ -23,21 +23,18 @@ class MascotRepository {
   // the user document already streamed by currentUserProvider;
   // dedicated watchers here would duplicate that listener.
 
-  /// Adds a mascot to the user's array.
-  Future<void> addMascot(String userId, MascotModel mascot) async {
-    await _userDoc(userId).update({
-      AppConstants.fieldMascots: FieldValue.arrayUnion([mascot.toJson()]),
-      AppConstants.fieldActiveMascotId: mascot.id,
-    });
-  }
-
   /// Sets the active mascot by ID.
   Future<void> setActiveMascot(String userId, String mascotId) async {
     await _userDoc(userId).update({AppConstants.fieldActiveMascotId: mascotId});
   }
 
-  /// Updates a single mascot in the array via transaction.
-  Future<void> updateMascotInArray(String userId, MascotModel updated) async {
+  /// Applies [apply] to [mascotId]'s entry in the mascots array inside a
+  /// transaction; a no-op when the mascot is missing.
+  Future<void> _mutateMascot(
+    String userId,
+    String mascotId,
+    void Function(Map<String, dynamic> mascot) apply,
+  ) async {
     final ref = _userDoc(userId);
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(ref);
@@ -46,72 +43,29 @@ class MascotRepository {
           .map((e) => Map<String, dynamic>.from(e as Map))
           .toList();
 
-      final idx = list.indexWhere((m) => m[AppConstants.fieldId] == updated.id);
+      final idx = list.indexWhere((m) => m[AppConstants.fieldId] == mascotId);
       if (idx == -1) return;
-      list[idx] = updated.toJson();
+      apply(list[idx]);
       tx.update(ref, {AppConstants.fieldMascots: list});
     });
   }
 
   /// Updates the last seen stage for a mascot in the array.
-  Future<void> updateLastSeenStage(
-    String userId,
-    String mascotId,
-    int stage,
-  ) async {
-    final ref = _userDoc(userId);
-    await _firestore.runTransaction((tx) async {
-      final doc = await tx.get(ref);
-      final data = doc.data() ?? {};
-      final list = (data[AppConstants.fieldMascots] as List<dynamic>? ?? [])
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .toList();
-
-      final idx = list.indexWhere((m) => m[AppConstants.fieldId] == mascotId);
-      if (idx == -1) return;
-      list[idx][AppConstants.fieldLastSeenStage] = stage;
-      tx.update(ref, {AppConstants.fieldMascots: list});
-    });
-  }
+  Future<void> updateLastSeenStage(String userId, String mascotId, int stage) =>
+      _mutateMascot(
+        userId,
+        mascotId,
+        (m) => m[AppConstants.fieldLastSeenStage] = stage,
+      );
 
   /// Renames a mascot in the array.
-  Future<void> updateMascotName(
-    String userId,
-    String mascotId,
-    String name,
-  ) async {
-    final ref = _userDoc(userId);
-    await _firestore.runTransaction((tx) async {
-      final doc = await tx.get(ref);
-      final data = doc.data() ?? {};
-      final list = (data[AppConstants.fieldMascots] as List<dynamic>? ?? [])
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .toList();
-
-      final idx = list.indexWhere((m) => m[AppConstants.fieldId] == mascotId);
-      if (idx == -1) return;
-      list[idx][AppConstants.fieldName] = name;
-      tx.update(ref, {AppConstants.fieldMascots: list});
-    });
-  }
+  Future<void> updateMascotName(String userId, String mascotId, String name) =>
+      _mutateMascot(userId, mascotId, (m) => m[AppConstants.fieldName] = name);
 
   /// Creates an egg for the user.
   Future<void> createEgg(String userId, EggModel egg) async {
     await _userDoc(userId).update({
       AppConstants.fieldEgg: egg.toJson(),
-      AppConstants.fieldEggPendingDiscovery: false,
-      AppConstants.fieldEggPendingDiscoverySince: FieldValue.delete(),
-    });
-  }
-
-  /// Removes the egg from the user.
-  Future<void> removeEgg(String userId) async {
-    await _userDoc(userId).update({AppConstants.fieldEgg: FieldValue.delete()});
-  }
-
-  /// Clears the egg pending discovery flag.
-  Future<void> clearEggPendingDiscovery(String userId) async {
-    await _userDoc(userId).update({
       AppConstants.fieldEggPendingDiscovery: false,
       AppConstants.fieldEggPendingDiscoverySince: FieldValue.delete(),
     });

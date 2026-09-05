@@ -9,6 +9,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.
@@ -27,8 +28,7 @@ class EggDiscoveryCelebration extends ConsumerStatefulWidget {
 
 class _EggDiscoveryCelebrationState
     extends ConsumerState<EggDiscoveryCelebration>
-    with TickerProviderStateMixin {
-  late AnimationController _particleController;
+    with SingleTickerProviderStateMixin {
   late AnimationController _glowController;
   late List<_Sparkle> _sparkles;
   bool _showContent = false;
@@ -37,10 +37,6 @@ class _EggDiscoveryCelebrationState
   @override
   void initState() {
     super.initState();
-    _particleController = AnimationController(
-      vsync: this,
-      duration: durationParticleLoop,
-    );
     _glowController = AnimationController(
       vsync: this,
       duration: durationGlowLoop,
@@ -52,7 +48,6 @@ class _EggDiscoveryCelebrationState
   }
 
   Future<void> _startAnimationSequence() async {
-    unawaited(_particleController.repeat());
     unawaited(_glowController.repeat(reverse: true));
 
     await Future<void>.delayed(durationNormal);
@@ -64,7 +59,6 @@ class _EggDiscoveryCelebrationState
 
   @override
   void dispose() {
-    _particleController.dispose();
     _glowController.dispose();
     super.dispose();
   }
@@ -82,20 +76,9 @@ class _EggDiscoveryCelebrationState
 
     return CelebrationOverlay(
       children: [
-        // Sparkle particles
-        RepaintBoundary(
-          child: AnimatedBuilder(
-            animation: _particleController,
-            builder: (context, _) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: _SparklePainter(
-                  sparkles: _sparkles,
-                  progress: _particleController.value,
-                ),
-              );
-            },
-          ),
+        ConfettiLayer(
+          painter: (progress) =>
+              _SparklePainter(sparkles: _sparkles, progress: progress),
         ),
 
         // Content
@@ -105,18 +88,7 @@ class _EggDiscoveryCelebrationState
               children: [
                 const Spacer(),
 
-                // Title
-                Text(
-                      l10n.eggDiscoveryTitle,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                    .animate()
-                    .fadeIn(delay: 100.ms, duration: 400.ms)
-                    .slideY(begin: -0.2, end: 0),
+                CelebrationTitle(l10n.eggDiscoveryTitle, delay: 100.ms),
 
                 const Spacer(),
 
@@ -196,23 +168,10 @@ class _EggDiscoveryCelebrationState
                     padding: const EdgeInsets.symmetric(
                       horizontal: spacingHuge,
                     ),
-                    child:
-                        FilledButton(
-                              onPressed: _handleDismiss,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: spacingHuge,
-                                  vertical: spacingLg,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: borderRadiusLg,
-                                ),
-                              ),
-                              child: Text(l10n.eggDiscoveryDismiss),
-                            )
-                            .animate()
-                            .fadeIn(duration: 400.ms)
-                            .slideY(begin: 0.3, end: 0),
+                    child: CelebrationButton(
+                      label: l10n.eggDiscoveryDismiss,
+                      onPressed: _handleDismiss,
+                    ),
                   ),
 
                 const SizedBox(height: spacingHuge),
@@ -234,16 +193,15 @@ class _Sparkle {
     required this.phase,
   });
 
-  factory _Sparkle.random() {
-    final rng = Random();
-    return _Sparkle(
-      x: rng.nextDouble(),
-      y: rng.nextDouble(),
-      size: rng.nextDouble() * 4 + 2,
-      speed: rng.nextDouble() * 0.5 + 0.5,
-      phase: rng.nextDouble() * pi * 2,
-    );
-  }
+  factory _Sparkle.random() => _Sparkle(
+    x: _rng.nextDouble(),
+    y: _rng.nextDouble(),
+    size: _rng.nextDouble() * 4 + 2,
+    speed: _rng.nextDouble() * 0.5 + 0.5,
+    phase: _rng.nextDouble() * pi * 2,
+  );
+
+  static final _rng = Random();
 
   final double x;
   final double y;

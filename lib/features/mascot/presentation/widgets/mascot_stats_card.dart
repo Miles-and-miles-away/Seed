@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 
@@ -103,11 +104,7 @@ class MascotStatsCard extends StatelessWidget {
   }
 
   /// Days the user and mascot have been together, counting the birthday
-  /// as day 1. Uses date-only values so partial days do not skew the count.
-  int _daysTogether(DateTime birthday) {
-    final now = DateTime.now();
-    final start = DateTime(birthday.year, birthday.month, birthday.day);
-    final today = DateTime(now.year, now.month, now.day);
-    return today.difference(start).inDays + 1;
-  }
+  /// as day 1.
+  int _daysTogether(DateTime birthday) =>
+      calendarDaysBetween(birthday, DateTime.now()) + 1;
 }
