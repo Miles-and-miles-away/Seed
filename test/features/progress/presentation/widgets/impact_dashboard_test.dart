@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
@@ -14,6 +10,8 @@ import 'package:seed_app/features/progress/presentation/providers/co2_stats_prov
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/impact_dashboard.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 /// Empty chart data so the charts section stays hidden by default
 /// in dashboard tests -- existing assertions don't care about chart
@@ -95,31 +93,25 @@ Co2Stats _statsFor(TimePeriod period) {
   };
 }
 
-Widget _wrap(Widget child) => ProviderScope(
-  overrides: [
-    co2StatsProvider.overrideWith((ref, period) async => _statsFor(period)),
-    impactEquivalenciesDataProvider.overrideWith(
-      (_) async => _equivalencyFixture,
-    ),
-    co2TrendDataProvider.overrideWith(
-      (ref, period) async => _emptyTrend(period),
-    ),
-    co2CategoryDataProvider.overrideWith((ref, period) async => _emptyCategory),
-  ],
-  child: MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: child),
-  ),
-);
-
 Future<void> _pumpDashboard(WidgetTester tester) async {
-  await tester.pumpWidget(_wrap(const ImpactDashboard()));
+  await tester.pumpWidget(
+    createTestWidget(
+      scaffold: true,
+      overrides: [
+        co2StatsProvider.overrideWith((ref, period) async => _statsFor(period)),
+        impactEquivalenciesDataProvider.overrideWith(
+          (_) async => _equivalencyFixture,
+        ),
+        co2TrendDataProvider.overrideWith(
+          (ref, period) async => _emptyTrend(period),
+        ),
+        co2CategoryDataProvider.overrideWith(
+          (ref, period) async => _emptyCategory,
+        ),
+      ],
+      child: const ImpactDashboard(),
+    ),
+  );
   await tester.pumpAndSettle();
 }
 
@@ -178,7 +170,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        ProviderScope(
+        createTestWidget(
+          scaffold: true,
           overrides: [
             co2StatsProvider.overrideWith(
               (ref, period) async => const Co2Stats(
@@ -198,16 +191,7 @@ void main() {
               (ref, period) async => _emptyCategory,
             ),
           ],
-          child: MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: const Scaffold(body: ImpactDashboard()),
-          ),
+          child: const ImpactDashboard(),
         ),
       );
       await tester.pumpAndSettle();

@@ -1,44 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 
-ProviderContainer _containerWithUser(AppUserModel? user) {
-  return ProviderContainer(
-    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
-  );
-}
-
-Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, _) {});
-  await Future<void>.delayed(Duration.zero);
-}
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('dailyGoalTargetProvider', () {
     test('returns null when user is null', () async {
-      final c = _containerWithUser(null);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([userOverride(null)]);
 
       expect(c.read(dailyGoalTargetProvider), isNull);
     });
 
     test('returns null when user has no target set', () async {
-      final c = _containerWithUser(const AppUserModel(uid: 'u', email: 'e'));
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([
+        userOverride(const AppUserModel(uid: 'u', email: 'e')),
+      ]);
 
       expect(c.read(dailyGoalTargetProvider), isNull);
     });
 
     test('returns the target when user has one', () async {
-      final c = _containerWithUser(
-        const AppUserModel(uid: 'u', email: 'e', dailyGoalTarget: 5),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(uid: 'u', email: 'e', dailyGoalTarget: 5),
+        ),
+      ]);
 
       expect(c.read(dailyGoalTargetProvider), 5);
     });
@@ -46,27 +34,25 @@ void main() {
 
   group('needsDailyTargetSetupProvider', () {
     test('returns false when no user', () async {
-      final c = _containerWithUser(null);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([userOverride(null)]);
 
       expect(c.read(needsDailyTargetSetupProvider), isFalse);
     });
 
     test('returns true when user has no target', () async {
-      final c = _containerWithUser(const AppUserModel(uid: 'u', email: 'e'));
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([
+        userOverride(const AppUserModel(uid: 'u', email: 'e')),
+      ]);
 
       expect(c.read(needsDailyTargetSetupProvider), isTrue);
     });
 
     test('returns false when user has a target', () async {
-      final c = _containerWithUser(
-        const AppUserModel(uid: 'u', email: 'e', dailyGoalTarget: 3),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(uid: 'u', email: 'e', dailyGoalTarget: 3),
+        ),
+      ]);
 
       expect(c.read(needsDailyTargetSetupProvider), isFalse);
     });

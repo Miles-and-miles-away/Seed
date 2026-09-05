@@ -65,7 +65,9 @@ class Co2TrendChart extends StatelessWidget {
       ),
     );
 
-    final avgColor = theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
+    final avgColor = theme.colorScheme.onSurfaceVariant.withValues(
+      alpha: opacityModerate,
+    );
     final avgSeries = LineChartBarData(
       spots: [FlSpot(0, avgKg), FlSpot(maxX, avgKg)],
       color: avgColor,
@@ -130,7 +132,7 @@ class Co2TrendChart extends StatelessWidget {
                 gridData: FlGridData(
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: theme.dividerColor.withValues(alpha: 0.4),
+                    color: theme.dividerColor.withValues(alpha: opacityMedium),
                     strokeWidth: 0.5,
                   ),
                 ),
@@ -195,7 +197,7 @@ class Co2TrendChart extends StatelessWidget {
                       );
                       return LineTooltipItem(
                         '${dateFormat.format(date)}\n'
-                        '${spot.y.toStringAsFixed(1)} kg',
+                        '${spot.y.toStringAsFixed(1)} ${l10n.kgUnit}',
                         theme.textTheme.bodySmall ?? const TextStyle(),
                       );
                     }).toList(),

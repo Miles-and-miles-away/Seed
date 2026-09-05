@@ -2,12 +2,8 @@ import 'dart:async';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -45,7 +41,7 @@ void main() {
   });
 
   group('ProgressScreen', () {
-    Widget createTestWidget({
+    Widget buildTestWidget({
       AppUserModel? user,
       DailySummaryModel? todaySummary,
       bool needsSetup = false,
@@ -76,11 +72,11 @@ void main() {
         );
       });
 
-      return ProviderScope(
+      return createTestWidget(
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
         overrides: [
-          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-          firestoreProvider.overrideWithValue(fakeFirestore),
-          currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
+          userOverride(testUser),
           needsDailyTargetSetupProvider.overrideWithValue(needsSetup),
           dailyGoalTargetProvider.overrideWithValue(testUser.dailyGoalTarget),
           todaySummaryProvider.overrideWith(
@@ -92,21 +88,12 @@ void main() {
           monthCalendarDataProvider.overrideWith((ref) async => calendarData),
           sdgGoalsDataProvider.overrideWith((ref) async => sdgData),
         ],
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: ProgressScreen(),
-        ),
+        child: const ProgressScreen(),
       );
     }
 
     testWidgets('shows DailyTargetPicker for first-time users', (tester) async {
-      await tester.pumpWidget(createTestWidget(needsSetup: true));
+      await tester.pumpWidget(buildTestWidget(needsSetup: true));
       await tester.pumpAndSettle();
 
       expect(find.byType(DailyTargetPicker), findsOneWidget);
@@ -116,7 +103,7 @@ void main() {
       tester,
     ) async {
       // ignore: avoid_redundant_argument_values
-      await tester.pumpWidget(createTestWidget(needsSetup: false));
+      await tester.pumpWidget(buildTestWidget(needsSetup: false));
       await tester.pumpAndSettle();
 
       // Should show the AppBar with title
@@ -126,7 +113,7 @@ void main() {
     });
 
     testWidgets('displays AppBar with Progress title', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
@@ -136,7 +123,7 @@ void main() {
       tester,
     ) async {
       // ignore: avoid_redundant_argument_values
-      await tester.pumpWidget(createTestWidget(todaySummary: null));
+      await tester.pumpWidget(buildTestWidget(todaySummary: null));
       await tester.pumpAndSettle();
 
       expect(find.byType(EmptyRainbowSun), findsOneWidget);
@@ -153,7 +140,7 @@ void main() {
         totalCo2Grams: 500,
       );
 
-      await tester.pumpWidget(createTestWidget(todaySummary: summary));
+      await tester.pumpWidget(buildTestWidget(todaySummary: summary));
       await tester.pumpAndSettle();
 
       expect(find.byType(RainbowSunWidget), findsOneWidget);
@@ -169,7 +156,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        createTestWidget(todaySummary: summary, dailyGoalTarget: 5),
+        buildTestWidget(todaySummary: summary, dailyGoalTarget: 5),
       );
       await tester.pumpAndSettle();
 
@@ -188,7 +175,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        createTestWidget(todaySummary: summary, dailyGoalTarget: 5),
+        buildTestWidget(todaySummary: summary, dailyGoalTarget: 5),
       );
       await tester.pumpAndSettle();
 
@@ -208,7 +195,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        createTestWidget(todaySummary: summary, dailyGoalTarget: 5),
+        buildTestWidget(todaySummary: summary, dailyGoalTarget: 5),
       );
       await tester.pumpAndSettle();
 
@@ -217,14 +204,14 @@ void main() {
     });
 
     testWidgets('displays ProgressCalendar', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(find.byType(ProgressCalendar), findsOneWidget);
     });
 
     testWidgets('content is scrollable', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       expect(find.byType(SingleChildScrollView), findsOneWidget);
@@ -237,17 +224,15 @@ void main() {
       // Use a StreamController to simulate a loading state without timers
       final summaryController = StreamController<DailySummaryModel?>();
 
-      final widget = ProviderScope(
+      final widget = createTestWidget(
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
         overrides: [
-          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-          firestoreProvider.overrideWithValue(fakeFirestore),
-          currentUserProvider.overrideWith(
-            (ref) => Stream.value(
-              const AppUserModel(
-                uid: 'test-uid',
-                email: 'test@example.com',
-                dailyGoalTarget: 5,
-              ),
+          userOverride(
+            const AppUserModel(
+              uid: 'test-uid',
+              email: 'test@example.com',
+              dailyGoalTarget: 5,
             ),
           ),
           // ignore: avoid_redundant_argument_values
@@ -262,16 +247,7 @@ void main() {
             (ref) async => <CalendarDayData>[],
           ),
         ],
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: ProgressScreen(),
-        ),
+        child: const ProgressScreen(),
       );
 
       await tester.pumpWidget(widget);
@@ -285,7 +261,7 @@ void main() {
     });
 
     testWidgets('sun section has correct height constraint', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Find SizedBox with height 280
@@ -295,7 +271,7 @@ void main() {
     });
 
     testWidgets('calendar section has rounded container', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Find Container with decoration
@@ -311,11 +287,11 @@ void main() {
       );
 
       final now = DateTime.now();
-      final widget = ProviderScope(
+      final widget = createTestWidget(
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
         overrides: [
-          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-          firestoreProvider.overrideWithValue(fakeFirestore),
-          currentUserProvider.overrideWith((ref) => Stream.value(testUser)),
+          userOverride(testUser),
           needsDailyTargetSetupProvider.overrideWithValue(false),
           dailyGoalTargetProvider.overrideWithValue(null),
           todaySummaryProvider.overrideWith(
@@ -336,16 +312,7 @@ void main() {
             (ref) async => <CalendarDayData>[],
           ),
         ],
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: ProgressScreen(),
-        ),
+        child: const ProgressScreen(),
       );
 
       await tester.pumpWidget(widget);

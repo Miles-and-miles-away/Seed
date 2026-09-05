@@ -76,7 +76,7 @@ class ProgressRepository {
     DateTime end,
   ) async {
     if (!end.isAfter(start)) return const [];
-    final inclusiveEnd = end.subtract(const Duration(days: 1));
+    final inclusiveEnd = previousCalendarDay(end);
     return _getSummariesInRange(userId, start, inclusiveEnd);
   }
 
@@ -98,10 +98,7 @@ class ProgressRepository {
       final date = DateTime(year, month, day);
       final summary = summaryMap[formatDateKey(date)];
 
-      final isToday =
-          date.year == today.year &&
-          date.month == today.month &&
-          date.day == today.day;
+      final isToday = isSameCalendarDay(date, today);
       final isFuture = date.isAfter(today);
 
       calendarData.add(

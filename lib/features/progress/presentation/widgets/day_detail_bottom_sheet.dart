@@ -33,9 +33,7 @@ class DayDetailBottomSheet extends ConsumerStatefulWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => DayDetailBottomSheet(date: date),
     );
   }
@@ -50,12 +48,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
 
   String get _dateKey => formatDateKey(widget.date);
 
-  bool get _isToday {
-    final now = DateTime.now();
-    return widget.date.year == now.year &&
-        widget.date.month == now.month &&
-        widget.date.day == now.day;
-  }
+  bool get _isToday => isSameCalendarDay(widget.date, DateTime.now());
 
   @override
   Widget build(BuildContext context) {
