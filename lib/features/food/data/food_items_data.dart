@@ -2,7 +2,7 @@ import 'package:seed_app/core/utils/json_asset_loader.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 
 // ignore_for_file: constant_identifier_names
-const FOOD_ITEM_COUNT = 167;
+const FOOD_ITEM_COUNT = 166;
 const _ASSET_PATH = 'data/app/food_items.json';
 
 /// Loads all food items from the bundled JSON asset.

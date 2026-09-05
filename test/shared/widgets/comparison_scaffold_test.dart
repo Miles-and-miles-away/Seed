@@ -6,6 +6,8 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
+import '../../helpers/test_helpers.dart';
+
 /// The comparison body shared by the three calculators.
 ///
 /// [ComparisonScaffold.bestIndex] is the reason this file exists: the
@@ -13,7 +15,8 @@ import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 /// crowns unconditionally while food and energy gate it on a verdict.
 /// Nothing in the suite pinned either contract before.
 void main() {
-  Widget wrap(Widget child) => MaterialApp(
+  Widget wrap(Widget child, {ThemeData? theme}) => MaterialApp(
+    theme: theme,
     localizationsDelegates: const [
       AppLocalizations.delegate,
       GlobalMaterialLocalizations.delegate,
@@ -30,7 +33,9 @@ void main() {
     List<List<Widget>>? entries,
     void Function(int)? onAdd,
     Widget result = const Text('result-block'),
+    Color? accentColor,
   }) => ComparisonScaffold(
+    accentColor: accentColor,
     totals: totals,
     entries:
         entries ??
@@ -84,6 +89,33 @@ void main() {
       expect(slot.height, lessThan(640 * 0.6));
     });
   }
+
+  testWidgets('the add buttons keep dark ink on a light accent in the dark '
+      'theme', (tester) async {
+    // onSurface is light in the dark theme, so choosing it as the ink on
+    // an amber fill gave light on light.
+    await tester.pumpWidget(
+      wrap(
+        scaffold(accentColor: const Color(0xFFFFC107)),
+        theme: ThemeData.dark(),
+      ),
+    );
+    final button = tester.widget<FilledButton>(
+      find
+          .ancestor(
+            of: find.text('Add').first,
+            matching: find.byType(FilledButton),
+          )
+          .first,
+    );
+    const states = <WidgetState>{};
+    final fill = button.style!.backgroundColor!.resolve(states)!;
+    final ink = button.style!.foregroundColor!.resolve(states)!;
+    expect(
+      contrastRatio(Color.alphaBlend(ink, fill), fill),
+      greaterThanOrEqualTo(4.5),
+    );
+  });
 
   testWidgets('renders one column per option plus the result block', (
     tester,
@@ -149,6 +181,98 @@ void main() {
 
     expect(columns(tester).map((c) => c.isEmpty), [true, false]);
     expect(find.text('nothing here yet'), findsOneWidget);
+  });
+
+  testWidgets('columns start at the floor and grow with their entries', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      wrap(
+        scaffold(
+          entries: [
+            [
+              for (var i = 0; i < 5; i++)
+                const SizedBox(height: 60, child: Text('a-entry')),
+            ],
+            const [],
+          ],
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+
+    final a = tester.getSize(find.byType(OptionColumn).at(0));
+    final b = tester.getSize(find.byType(OptionColumn).at(1));
+    // The region above the result runs from the columns' top edge to
+    // the top of the result slot; an empty column is pinned to 30% of
+    // it, a filled one grows past that with its entries.
+    final regionTop = tester.getTopLeft(find.byType(OptionColumn).at(1)).dy;
+    final resultTop = tester
+        .getTopLeft(
+          find.ancestor(
+            of: find.text('result-block'),
+            matching: find.byType(SingleChildScrollView),
+          ),
+        )
+        .dy;
+    expect(b.height, closeTo((resultTop - regionTop) * 0.3, 1));
+    expect(a.height, greaterThan(b.height));
+
+    // Both add buttons ride at the same height, directly under the
+    // taller column: one button per column left them 206px apart
+    // with a filled column beside an empty one.
+    final buttons = find.widgetWithText(FilledButton, 'Add');
+    expect(
+      tester.getTopLeft(buttons.at(0)).dy,
+      tester.getTopLeft(buttons.at(1)).dy,
+    );
+    expect(
+      tester.getTopLeft(buttons.at(0)).dy -
+          tester.getBottomLeft(find.byType(OptionColumn).at(0)).dy,
+      closeTo(8, 1),
+    );
+
+    // The result stays pinned to the bottom of the body.
+    expect(
+      tester.getBottomLeft(find.text('result-block')).dy,
+      closeTo(640 - 12, 1),
+    );
+  });
+
+  testWidgets('an overfull column caps at the region and scrolls inside', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      wrap(
+        scaffold(
+          entries: [
+            [
+              for (var i = 0; i < 30; i++)
+                SizedBox(height: 60, child: Text('a-$i')),
+            ],
+            const [],
+          ],
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+
+    // The column plus its button never push the result off the body.
+    final buttons = find.widgetWithText(FilledButton, 'Add');
+    final resultTop = tester.getTopLeft(find.text('result-block')).dy;
+    expect(tester.getBottomLeft(buttons.at(0)).dy, lessThan(resultTop));
+    // 1800px of entries in a bounded card only works if the list
+    // scrolls internally.
+    expect(find.text('a-29'), findsNothing);
+    await tester.drag(find.byType(ListView), const Offset(0, -2000));
+    await tester.pump();
+    expect(find.text('a-29'), findsOneWidget);
   });
 
   testWidgets('each add button reports its own column', (tester) async {

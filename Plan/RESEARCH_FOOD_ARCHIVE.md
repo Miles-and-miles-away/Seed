@@ -1081,3 +1081,126 @@ Open:
       between the two rows is an artefact of two source families
       and no verdict may cross it. Second, that is a defect in
       `butter`, not in cream -- see the new open item below.
+
+---
+
+## 14. Closures (2026-09-01)
+
+Every item closed on the 2026-09-01 pass, moved out of
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 6 so
+that list holds only live work. The PDR keeps a one-line record of
+each.
+
+- [x] **The v2 verification pass's open defect list** -- every
+      entry actioned:
+      - `crisps` 3.0711 -> 3.179748, `popcorn` 2.1919 -> 2.247755,
+        `instant_noodles` 3.324706521 -> 3.437716962: the oil legs
+        received the D7 density correction (per-kg oil figures in
+        place of the per-litre stage sums), reconstructed from each
+        item's own documented decomposition and recorded in the
+        notes. `instant_noodles` is now the staples runner-up
+        (RESEARCH sec 6 pin 6 re-derived, margin +29.4%).
+      - The four prepared-weight presets: `sweetcorn` (kernels /
+        0.36, USDA 64% refuse), `melon` and `pineapple` (flesh /
+        0.51, USDA 49% refuse) and `takenoko` (slices / 0.50, MEXT
+        standard-shoot waste) now enter as-purchased equivalents
+        with the conversion in the label, the rice cooked-preset
+        pattern. Drained-tin presets stay on their own disclosed
+        bases.
+      - `edamame` 0.98 -> 0.53: re-based from the dry-pea row onto
+        the Other Vegetables anchor, the D10 peas precedent
+        applied to its soy sibling; basis now as_purchased, the
+        pods preset enters pod weight.
+      - `soy_tvp` 3.16 -> 4.1396: the P&N tofu anchor scaled by
+        Agribalyse's own dry-TVP-to-tofu ratio (1.31 / 1.00,
+        re-fetched live; the swapped-labels caveat re-confirmed).
+        natto/soy_tvp and soy_tvp/tempeh became refusable tie
+        pairs, which is the gate working.
+      - Duplicate rows: `bread` folded into `bread_wheat` (renamed
+        plain "Bread", terms merged, `parent`/`composite_of`
+        references repointed; 167 -> 166 items, staples 15 -> 14).
+        `palm_soy_oil` became `soybean_oil` at its own soy leg
+        6.871862 (tie pn_oils); the palm-facing search terms moved
+        to `palm_oil`.
+      - `beer`: the co2everything citation (implying 0.70/L against
+        the shipped 1.2) removed; P&N derivation plus Agribalyse
+        corroboration stand alone.
+      - `beans_canned` / `chickpeas_canned` 1.7 unchanged, but the
+        Tidaker et al. 2021 full text (finally obtained) now bounds
+        it from below: Tetra Recart canned beans 0.7-0.8/kg cooked
+        incl. intercontinental transport, packaging 0.14 +
+        processing 0.02, steel tins stated to be worse. The
+        CarbonCloud proxy dependence of both constructed legs stays
+        disclosed.
+      - `oats` D3 re-read: CarbonCloud live 1.20 unchanged
+        (2026-09-01), average holds at 1.84.
+      - `cured_meat`: the mis-attributed short quote (Navarra PDF
+        wording on the MAPA citation) and the 502ing navarra.es
+        source both removed; the MAPA page re-verified live and
+        carries the full curing-phase sentence.
+      - Synthesised quotes repaired as field transcriptions with
+        live re-fetches: the Heinz per-half-can basis (now the
+        page's verbatim "1 of your 5 a day in 1/2 a can" sentence
+        plus our stated arithmetic), the `baked_beans` OFF
+        ingredients (full string, no ellipsis), the `greek_yogurt`
+        and two `canned_soup` OFF product_name+quantity
+        concatenations.
+      - `frozen_pizza`'s 170 g preset sourced: half the declared
+        345 g net weight (OFF barcode 5011003046389), consistent
+        with the brand page's own per-serving energy ratio.
+      - `asparagus`: the note claiming the 12.2 attribution to
+        Stoessel "is not theirs" corrected -- the cited Schwarz
+        paper explicitly attributes 12.2 to Stoessel's calculation
+        (quote added); the note now says the figure reaches us
+        through Schwarz.
+      - The 153 josephpoore.com citations: all four cited resources
+        fetched 2026-09-01 (both SI URLs serve one identical PDF;
+        Data S2.xls is Poore's own workbook). All 36 unique quotes
+        verified: 26 verbatim, 9 verbatim modulo PDF text-extraction
+        whitespace, the XLS header verbatim in Results - Retail
+        Weight. Two Table S1 transcriptions (Peas, Wheat & Rye) skip
+        the middle nutrition-FU column without an ellipsis --
+        recorded, not repaired. The /data/science2018/ URLs 301 to
+        /data/science-2018/; all 91 were canonicalized. This class
+        is no longer the weakest evidence in the dataset.
+- [x] **`skip_fish` shipped with no sources** -- transcribed
+      2026-09-01 from the white_fish item and the shared pulses
+      baseline (both live-verified in RESEARCH_FOOD.md section
+      3.1); confidence set to medium for the mixed Gephart/P&N
+      boundary, which reads conservative for a saving.
+- [x] **`skip_food_delivery` shipped at 0 g** -- retired to
+      `research_only_records` 2026-09-01, the `use_natural_light`
+      precedent: a 0 g action still pays points at seed time, the
+      only peer-reviewed comparison runs the other way, and its
+      long description still claimed the retired 600 g. Restore
+      only with a restaurant-delivery LCA showing a genuine saving.
+      Live actionLibrary still holds it until the next re-seed.
+- [x] **The 50% `crossTierMinPercent` boundary is not pinned** --
+      pinned 2026-09-01: `food_calculator_test.dart` now asserts
+      50.0% exactly passes and a hair under refuses as crossSource,
+      the twin of the existing 20% boundary case.
+- [x] **Fourteen numbers stated in both documents** -- the rule-3
+      dedup pass ran 2026-09-01: the PDR's action-derivation table
+      and copy rules 18-20 now point at RESEARCH sections instead
+      of restating item factors, and RESEARCH_FOOD's R6 and tier-2
+      boundary note point at PDR section 3 instead of restating the
+      gate bars. The PDR header records the standing authority
+      split.
+- [x] **Tidaker et al. 2021 full text unreadable** -- obtained
+      2026-09-01 (journal pre-proof PDF). The per-stage
+      packaging/processing split verified verbatim; the "0.97 steel
+      tin chickpeas" search snippet is NOT in the paper (steel tins
+      appear only qualitatively, citing Del Borghi et al. 2018).
+      Outcome folded into the beans_canned entry above.
+- [x] **`butter` 12.0 cannot be reconciled with `milk_dairy`
+      3.15** -- the dairy pass ran 2026-09-01: butter re-derived
+      from milk on the total-solids rule cream and milk powder use,
+      12.0 -> 21.574980 (AH697 Table 16 commercial butter, 80.30%
+      milkfat + 1.00% MSNF = 81.30% milk solids / 11.87% whole
+      milk, the exact derivation RESEARCH_FOOD.md recorded when the
+      cream work exposed the defect; Table 16 row now quoted
+      verbatim from the fetched PDF). The three European-supply
+      aggregator figures stay as spread_low context. butter/cream
+      and butter/greek_yogurt became refusable tie pairs; copy rule
+      20's rationale was rewritten; the butter-vs-pork never-pin
+      retired.

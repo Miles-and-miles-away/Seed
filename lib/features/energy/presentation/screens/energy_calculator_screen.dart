@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
@@ -161,6 +162,7 @@ class _EnergyCalculatorScreenState
     final showVerdict = check?.block == EnergyVerdictBlock.none;
 
     return ComparisonScaffold(
+      accentColor: ActionCategory.energy.color,
       totals: totals,
       entries: [
         for (var option = 0; option < optionCount; option++)
@@ -204,6 +206,7 @@ class _EnergyCalculatorScreenState
   ) {
     final behavior = byId[usage.behaviorId]!;
     return OptionEntryCard(
+      accentColor: ActionCategory.energy.color,
       icon: energyGroupIcon(behavior.comparableGroup),
       name: behavior.name(locale),
       detail: energyUsageDetailLabel(l10n, behavior, usage.units),
@@ -254,21 +257,41 @@ class _EnergyCalculatorScreenState
     if (summary == null || check == null) return hint;
 
     if (check.block != EnergyVerdictBlock.none) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.energyComparisonNoVerdict,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+      // The reason is stated here rather than behind a "Why not?"
+      // dialog. A refusal the user has to tap to understand reads as a
+      // dead end, and the three reasons are not interchangeable.
+      return Container(
+        padding: const EdgeInsets.all(spacingLg),
+        decoration: BoxDecoration(
+          color: ActionCategory.energy.color.withValues(
+            alpha: opacityVeryFaint,
+          ),
+          borderRadius: borderRadiusLg,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.energyComparisonNoVerdict,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: ActionCategory.energy.textColorOn(
+                  theme.brightness,
+                  large: true,
+                ),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () => _explainNoVerdict(l10n, check),
-            child: Text(l10n.energyVerdictWhyCta),
-          ),
-        ],
+            const SizedBox(height: spacingSm),
+            Text(
+              _noVerdictReason(l10n, check),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
       );
     }
     final bestLabel = summary.bestIndex == optionA
@@ -320,6 +343,7 @@ class _EnergyCalculatorScreenState
               : l10n.energyComparisonSavesOnly(amount))
         : (showCharges ? l10n.energyPhoneChargesEquiv(charges) : null);
     return ComparisonDeltaCard(
+      accentColor: ActionCategory.energy.color,
       headline: headline,
       equivalencyText: equivalency,
       basisNotes: [
@@ -335,27 +359,14 @@ class _EnergyCalculatorScreenState
     );
   }
 
-  /// Explains why the comparison declined to name a winner. The three
-  /// reasons are not interchangeable, and the user is owed the real one
-  /// rather than a generic refusal.
-  void _explainNoVerdict(AppLocalizations l10n, EnergyVerdictCheck check) {
-    final body = switch (check.block) {
-      EnergyVerdictBlock.differentGroup => l10n.energyVerdictDifferentGroup,
-      EnergyVerdictBlock.differentCarrier => l10n.energyVerdictDifferentCarrier,
-      _ => l10n.energyVerdictTooClose(check.requiredPercent.round()),
-    };
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.energyComparisonNoVerdict),
-        content: Text(body),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonClose),
-          ),
-        ],
-      ),
-    );
-  }
+  /// Why the comparison declined to name a winner. The three reasons
+  /// are not interchangeable, and the user is owed the real one rather
+  /// than a generic refusal.
+  String _noVerdictReason(AppLocalizations l10n, EnergyVerdictCheck check) =>
+      switch (check.block) {
+        EnergyVerdictBlock.differentGroup => l10n.energyVerdictDifferentGroup,
+        EnergyVerdictBlock.differentCarrier =>
+          l10n.energyVerdictDifferentCarrier,
+        _ => l10n.energyVerdictTooClose(check.requiredPercent.round()),
+      };
 }

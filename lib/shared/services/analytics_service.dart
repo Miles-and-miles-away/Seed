@@ -258,6 +258,18 @@ class AnalyticsService {
   /// Log when the home energy calculator is opened (Phase 8.17).
   Future<void> logEnergyCalculatorOpened() => _log('energy_calculator_opened');
 
+  /// Log when the "Where your energy goes" explore screen is opened
+  /// (decision E8).
+  Future<void> logEnergyExploreOpened() => _log('energy_explore_opened');
+
+  /// Log when the higher-or-lower quiz is opened (decision E8).
+  Future<void> logQuizOpened() => _log('quiz_opened');
+
+  /// Log a finished quiz run, so the streak length says whether the
+  /// deck's difficulty lands.
+  Future<void> logQuizStreakEnded({required int streak}) =>
+      _log('quiz_streak_ended', {'streak': streak});
+
   /// Log when a user runs a meal comparison (Phase 8.9).
   ///
   /// NOTE(planned): defined with the 8.9 comparison feature but not

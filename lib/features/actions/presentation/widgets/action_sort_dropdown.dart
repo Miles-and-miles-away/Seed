@@ -5,9 +5,16 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/actions_providers.dart';
 
-/// A dropdown button for selecting the sort order of actions.
+/// A compact sort control for the action list.
+///
+/// Icon-only because it shares the search row: labels run to "Puntos
+/// (Mayor a menor)", which squeezed the field to 107px on a 360pt
+/// phone. The tooltip and the menu's check name the active option.
 class ActionSortDropdown extends ConsumerWidget {
   const ActionSortDropdown({super.key});
+
+  /// Matches the search field's collapsed height beside it.
+  static const _buttonSize = 48.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,6 +24,7 @@ class ActionSortDropdown extends ConsumerWidget {
 
     return PopupMenuButton<ActionSortOption>(
       initialValue: selectedOption,
+      tooltip: selectedOption.displayName(l10n),
       onSelected: (option) {
         ref.read(selectedSortOptionProvider.notifier).select(option);
       },
@@ -53,37 +61,14 @@ class ActionSortDropdown extends ConsumerWidget {
         );
       }).toList(),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: spacingMd,
-          vertical: spacingSm,
-        ),
+        width: _buttonSize,
+        height: _buttonSize,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: borderRadiusXl,
+          shape: BoxShape.circle,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              _getIconForOption(selectedOption),
-              size: 18,
-              color: theme.colorScheme.primary,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              selectedOption.displayName(l10n),
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            const SizedBox(width: spacingXs),
-            Icon(
-              Icons.arrow_drop_down,
-              size: 18,
-              color: theme.colorScheme.primary,
-            ),
-          ],
-        ),
+        child: Icon(Icons.sort, size: 22, color: theme.colorScheme.primary),
       ),
     );
   }

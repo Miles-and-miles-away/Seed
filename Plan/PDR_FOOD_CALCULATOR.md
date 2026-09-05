@@ -4,7 +4,7 @@
 July 2026 without a PDR; food was the only calculator workstream
 without one, which is why its decisions and product rules had
 accumulated inside the evidence base.
-**Status:** Feature shipped (Phase 8.7-8.12, 167 items). Decisions
+**Status:** Feature shipped (Phase 8.7-8.12; 166 items since the 2026-09-01 dedup of two duplicate rows). Decisions
 D1-D11 settled. The comparison gate enforces the never-rank rules
 as of 2026-08-29. `cream` shipped 2026-08-29 and nothing in
 section 6 now blocks the feature.
@@ -15,18 +15,19 @@ The evidence base (source landscape, scope, verified factors,
 chosen values, serving presets, sanity invariants) lives in
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md).
 
-**Where the two documents share a number** (audited 2026-08-30).
-The split was clean for prose but not for figures: at least
-fourteen appear in both files, among them the four gate bars, the
-palm-versus-olive gap, and the item factors behind the action
-derivations (`white_fish`, `cream`, `milk_chocolate`, peanut
-butter, milk, peas, chicken, and the high-impact tier value). That
-is a live rule-3 defect under
-[DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md), tracked in section 6.
-Until it is closed, **RESEARCH_FOOD.md is the authority for any
-item factor** and this document is the authority for any bar,
-copy rule or action value; where the two disagree, fix the copy
-here rather than editing the evidence to match.
+**Authority split** (audited 2026-08-30; the rule-3 dedup pass
+ran 2026-09-01). **RESEARCH_FOOD.md is the authority for any item
+factor** and this document is the authority for any bar, copy
+rule or action value; where the two disagree, fix the copy here
+rather than editing the evidence to match. The 2026-09-01 pass
+removed the duplicated figures the 2026-08-30 audit found: the
+section 4 action-derivation table and copy rules 18-20 now point
+at the RESEARCH sections instead of restating item factors, and
+RESEARCH_FOOD's R6 and its tier-2 boundary note point here
+instead of restating the gate bars. Values still present in both
+files are either this document's own (bars, action values) or
+dated closure records, which record what happened rather than
+stating a live figure.
 **Companion docs:**
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) (evidence base),
 [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) (executed
@@ -165,10 +166,10 @@ four.
 
 | Action | Covers | Shipped | Binding derivation |
 |--------|--------|--------:|--------------------|
-| `skip_high_impact_food` (per 100 g) | beef, lamb | **3700 g** | lamb 3972 - 200 = 3772 -> 3700. Beef implies 6836 on the same basis |
-| `skip_medium_impact_food` (per 100 g) | chicken, pork | **780 g** | chicken 987 - 200 = 787 -> 780. Pork implies 1031 |
-| `plant_milk` (per 250 ml) | oat, soy | **460 g** | soy (3.15 - 0.98) x 0.25 = 543 g binds, not oat 562. 460 stays deliberately below it |
-| `skip_fish` (per 150 g) | white fish | **560 g** | `white_fish` 5.1250386 x 150 g = 768.76 - 200 = 568.76 -> 560 |
+| `skip_high_impact_food` (per 100 g) | beef, lamb | **3700 g** | binds to lamb, the smaller implied saving; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.1 |
+| `skip_medium_impact_food` (per 100 g) | chicken, pork | **780 g** | binds to chicken, the smaller implied saving; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.1 |
+| `plant_milk` (per 250 ml) | oat, soy | **460 g** | binds to soy milk, the smaller saving, and deliberately sits below it; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.2/3.7 |
+| `skip_fish` (per 150 g) | white fish | **560 g** | binds to the white-fish fillet minus the plant baseline; arithmetic in the action's calculation_notes, factor in RESEARCH sec 3.1 |
 
 The two tier values fell on 2026-08-08 (6800 -> 3700, 1000 ->
 780). The merge had left each action crediting its tier's
@@ -322,31 +323,33 @@ the calculator UI and the science sheets, not a suggestion:
     may be stated in prose; the SIZE of the gap may not, because it
     is set by a 2-3x disagreement between the two sources about
     cocoa rather than by anything measured about the two bars. The
-    2026-08-29 re-derivation (14.9 -> 19.35) puts the pair below
-    dark chocolate's statistic bar by 1.4 percentage points, so the
+    2026-08-29 re-derivation (RESEARCH sec 3.8 carries the values)
+    puts the pair just below dark chocolate's statistic bar, so the
     gate refuses it today; this rule is what keeps the refusal when
     either number next moves. Same shape as rule 13 (palm vs olive):
     direction sayable, magnitude not.
 19. **`peanut_butter` and `peanuts` are one number** (added
-    2026-08-29). Both ship 3.23 -- peanut butter is ground peanuts
+    2026-08-29). Both ship the identical groundnut value (RESEARCH
+    sec 3.3) -- peanut butter is ground peanuts
     and the dataset now says so. An exact tie is the honest answer:
     no verdict, no "best" marker, no banking action between them.
     Any future divergence needs new evidence for grinding energy or
     packaging, not a re-imported roast-yield uplift, which is a
     double count against the P&N groundnut basis (section 2.1).
 20. **No cream-vs-butter verdict, and no lighter cream aliased
-    onto the `cream` row** (added 2026-08-29 with the row). The two
-    rows sit 6.5% apart while the physics says butter is about
-    twice cream, because butter's number is measured on a European
-    milk supply and cream's is built from Poore & Nemecek's global
-    milk. They share `derived_strained_dairy`, so the gate already
-    refuses it; this rule keeps the refusal if either number moves.
-    Separately, `cream` is heavy cream at 36% milkfat: single
-    cream, table cream and half-and-half work out near 5 to 7 on
-    the same arithmetic, so aliasing them here would repeat the
-    tree-nut/peanut error at about 2x. The science sheet states
-    the fat basis and that the number is the total-solids end of a
-    range whose fat-weighted end is 19.16.
+    onto the `cream` row** (added 2026-08-29 with the row;
+    rationale updated 2026-09-01 when butter was re-derived from
+    milk). Butter and cream are now both total-solids derivations
+    from the one P&N milk row (RESEARCH sec 3.2), so their roughly
+    2x gap is the shared derivation, not a measurement; they share
+    `derived_strained_dairy` and the gate refuses the pair. This
+    rule keeps the refusal if either number moves. Separately,
+    `cream` is heavy cream at 36% milkfat: lighter creams work out
+    materially lower on the same arithmetic, so aliasing them here
+    would repeat the tree-nut/peanut error. The science sheet
+    states the fat basis and that the number is the total-solids
+    end of a range whose fat-weighted end is higher (RESEARCH sec
+    3.2 carries both ends).
 
 Also required by section 4 of this document: the food actions and the dataset must
 ship in the same PR (never two numbers for one swap in the app),
@@ -365,7 +368,7 @@ or enforced at every data pass (moved out of the open list
 
 - **Oats live input re-read** (recurring): D3's CarbonCloud input
   drifts (1.25 -> 1.20); re-read at each data pass and recompute
-  the average. Last re-read 2026-07-20: 1.20 unchanged, average
+  the average. Last re-read 2026-09-01: 1.20 unchanged, average
   holds at 1.84.
 - **Median fallback provenance** (conditional rule, currently
   unused): if any item ever falls back to the median set, cite
@@ -415,103 +418,28 @@ below, and the 2026-08-29 retrospective re-swept the dataset and found
 the derived-row class. What remains owed is that open defect list, not
 a report.
 
+Closed on the 2026-09-01 pass, one line each. The full closure
+records are in
+[RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 14.
+
+| Closed | Outcome |
+|---|---|
+| The v2 verification pass's open defect list | Every entry actioned: D7 oil correction on crisps/popcorn/instant_noodles; the four prepared-weight presets converted to as-purchased with labeled ratios; edamame re-based to the vegetable anchor (D10 precedent); soy_tvp scaled by the Agribalyse dry/tofu ratio; `bread` folded into `bread_wheat` and `palm_soy_oil` became `soybean_oil` (167 -> 166 items); beer's contradicting aggregator source removed; cured_meat's swapped quote and dead URL removed; the synthesised quotes re-transcribed from live fetches; frozen_pizza's 170 g preset sourced; asparagus's Stoessel note corrected; all 153 josephpoore.com citations reached and verified, URLs canonicalized |
+| `skip_fish` no sources | Transcribed from white_fish + pulses baseline; confidence medium |
+| `skip_food_delivery` at 0 g | Retired to `research_only_records` (use_natural_light precedent); re-seed pending |
+| 50% `crossTierMinPercent` boundary unpinned | Pinned: 50.0% exactly passes, a hair under refuses |
+| Fourteen numbers in both documents | Rule-3 dedup pass ran; header records the standing authority split |
+| Tidaker et al. 2021 full text | Obtained and verified; the steel-tin snippet is not in the paper; beans_canned bounded from below, value unchanged |
+| `butter` irreconcilable with `milk_dairy` | Re-derived from milk on total solids, 12.0 -> 21.574980 (AH697 81.30% solids); copy rule 20 rewritten |
+
 Live:
 
-- [ ] **Dataset defects the v2 verification pass left open**, as
-      that pass recorded them (detail in RESEARCH_FOOD_ARCHIVE.md
-      section 9; not re-verified in this doc pass beyond confirming
-      each id still ships): `crisps`, `popcorn` and
-      `instant_noodles` 3-4% below their own floors because their
-      oil leg never got the D7 density correction; six items
-      defaulting to a prepared weight on an as-purchased factor
-      (`sweetcorn`, `takenoko`, `melon`, `pineapple`); `edamame` on
-      a dry-pea anchor and `soy_tvp` declared dry on a wet-tofu
-      factor; duplicate user-visible rows `bread` / `bread_wheat`
-      and `palm_oil` / `palm_soy_oil`; `beer` citing a page that
-      implies 0.704 kg/L against the shipped 1.20; `beans_canned` /
-      `chickpeas_canned` 1.7 with both legs of the mean tracing to
-      one autogenerated aggregator value; `oats` 1.84 taking half
-      its value from a live aggregator page; `cured_meat`'s two
-      mis-attributed quotes and its 502ing government URL;
-      synthesised quote text on `baked_beans` and four Open Food
-      Facts citations; `frozen_pizza`'s unsourced 170 g preset;
-      `asparagus` notes contradicting the paper they cite; and 153
-      josephpoore.com PDF/XLS citations never reached, now the
-      weakest evidence class in the dataset.
-- [ ] **`skip_fish` ships with no sources** (moved here from
-      PDR_ENERGY_CALCULATOR.md section 8, 2026-08-30, where it was
-      recorded as food's call). Its `sources[]` is empty and it
-      carries no `confidence`, the only food action in that state:
-      every other one was backfilled on the 2026-08-29 sourcing
-      pass. The 560 g derivation in section 4 is sound and its
-      inputs (Gephart via OWID `white_fish` 5.1250386, the 200 g
-      plant baseline) are already live-verified in RESEARCH_FOOD.md
-      section 3.1, so this is a transcription job, not new
-      research: copy those source objects onto the action and set
-      the confidence.
-- [ ] **`skip_food_delivery` ships at 0 g** (moved here from
-      PDR_ENERGY_CALCULATOR.md section 8, 2026-08-30). Shipped at
-      zero on 2026-08-09 because the only peer-reviewed comparison
-      runs the other way (meal kits beat grocery-store meals,
-      last-mile emissions are lower for a van route than for a car
-      trip), so the previous 600 g had no basis. It survives as a
-      habit prompt worth 0 g. Decide whether an action that can
-      never claim a saving belongs in the library at all, or
-      retire it to `research_only_records` the way
-      `use_natural_light` was. Restoring a non-zero value needs a
-      restaurant-delivery LCA, which does not exist today.
-- [ ] **The 50% `crossTierMinPercent` boundary is not pinned**
-      (new 2026-08-30). `food_calculator_test.dart` pins the 20%
-      floor exactly ("20% exactly is enough") and exercises the
-      cross-tier bar at 48.1%, under it. Nothing asserts the
-      behaviour at exactly 50, so the bar could move to 45 or 55
-      and the suite would stay green. Add the boundary case the
-      20% floor already has.
-- [ ] **This document and RESEARCH_FOOD.md state at least
-      fourteen of the same numbers** (new 2026-08-30), which is a
-      rule-3 defect under
-      [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md): the four gate bars,
-      the palm-versus-olive gap, and the item factors behind the
-      action derivations all appear in both files, several as
-      near-verbatim sentence pairs. The header records the interim
-      authority split. Closing it means one home per value and a
-      pointer from the other, most likely by cutting the factors
-      out of this document's prose and citing the RESEARCH section
-      instead. Do it as its own pass, not folded into a value
-      change.
 - [x] ~~**Shared dataset-assertion helper**~~ -- rejected
       2026-08-30 in
       [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
       section 9: only food and transport are near-verbatim twins,
       energy's source rule is the inverse of theirs, and the
       abstraction degrades failure output.
-- [ ] **Never run on a device** (moved here 2026-08-08). All food
-      confidence is unit and widget tests. The 167-item picker, the
-      cooked-weight preset labels, the no-verdict dialog and the
-      methodology page have not been looked at on hardware.
-- [ ] **Tidaker et al. 2021 full text** (new 2026-07-20):
-      ScienceDirect blocks automated fetch (re-attempted
-      2026-07-20 via Unpaywall, CORE and the SLU research portal
-      -- all blocked or missing); the per-stage
-      packaging/processing split and the steel-tin chickpea
-      figure exist only as unverified snippets. If the full text
-      becomes readable, consider refining beans_canned's
-      candidate table with it.
-- [ ] **`butter` 12.0 cannot be reconciled with `milk_dairy` 3.15**
-      (new 2026-08-29, surfaced by the cream work). Butter's three
-      source pages measure a European milk supply at roughly a
-      third of Poore & Nemecek's global mean with land-use change,
-      so no allocation rule bridges them: total solids puts butter
-      at 21.58 and a fat-and-protein split higher still. The
-      dataset therefore carries a dairy row that is internally
-      inconsistent with its own milk anchor by about 1.8x, which
-      is why `cream` had to be tie-grouped with it rather than
-      ranked against it. Not urgent and not a regression -- butter
-      has been tier 2 with this provenance since v1 -- but the
-      next dairy pass should either find a butter figure on the
-      P&N boundary or derive butter from milk the way cream and
-      milk powder now are, and re-derive the tie group afterwards.
-
 Implementation-PR dependencies recorded at research close are in
 [RESEARCH_FOOD_ARCHIVE.md](./RESEARCH_FOOD_ARCHIVE.md) section 3.
 

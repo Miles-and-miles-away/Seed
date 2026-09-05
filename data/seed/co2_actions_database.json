@@ -809,37 +809,6 @@
       "sources": []
     },
     {
-      "action_id": "skip_food_delivery",
-      "category": "food",
-      "name_en": "Skip Food Delivery",
-      "name_ja": "フードデリバリーをスキップ",
-      "name_es": "Evitar delivery de comida",
-      "description_en": "Cook at home instead of ordering food delivery today",
-      "description_ja": "今日はフードデリバリーの代わりに自炊する",
-      "description_es": "Cocinar en casa en vez de pedir delivery de comida hoy",
-      "co2_grams": 0,
-      "calculation_notes": "NOT CO2-CLAIMABLE, shipped at 0 g 2026-08-09. The peer-reviewed comparison runs the other way: delivered meal kits beat grocery-store meals by 2.0 kg CO2e/meal, and last-mile emissions are LOWER for delivery (-0.45 kg CO2e/meal) because a van route amortizes across many drops while a store trip is one car. Restaurant delivery is not the same system as a meal kit, but no primary supports a saving for cooking at home, so the previous 600 g had no basis. Ships as a habit prompt worth 0 g until a restaurant-delivery LCA exists.",
-      "effort": 3,
-      "frequency": 4,
-      "impact": 2,
-      "icon_name": "kitchen",
-      "related_sdgs": [
-        "12",
-        "13"
-      ],
-      "is_active": true,
-      "sort_order": 6,
-      "confidence": "low",
-      "sources": [
-        {
-          "name": "Heard, Bandekar, Vassar & Miller, 'Comparison of Life Cycle Environmental Impacts from Meal Kits and Grocery Store Meals', Resources, Conservation and Recycling 147 (2019)",
-          "url": "https://par.nsf.gov/servlets/purl/10106237",
-          "quote": "grocery meal greenhouse gas emissions are 33% higher than meal kits (8.1 kg CO2e/meal compared with 6.1 kg CO2e/meal kit)",
-          "accessed": "2026-08-09"
-        }
-      ]
-    },
-    {
       "action_id": "vegan_day",
       "category": "food",
       "name_en": "Full Vegan Day",
@@ -899,7 +868,7 @@
       "description_ja": "今日は魚の代わりに植物性の食事を選択する",
       "description_es": "Elegir una comida vegetal en vez de pescado hoy",
       "co2_grams": 560,
-      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it.",
+      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it. Sources transcribed 2026-09-01 from the white_fish item and the shared pulses baseline, both live-verified in RESEARCH_FOOD.md section 3.1; confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -912,8 +881,27 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "\"Cod, haddock (wild)\",2021,5.1250386",
+          "accessed": "2026-08-01"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-08-08"
+        },
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018; plant-alternative baseline)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Other Pulses,2010,1.79",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "air_dry_clothes",
@@ -3129,6 +3117,27 @@
           "6",
           "7",
           "12"
+        ]
+      },
+      {
+        "action_id": "skip_food_delivery",
+        "action_name": "Skip Food Delivery",
+        "category": "food",
+        "co2_grams": 0,
+        "unit": "per_meal",
+        "calculation_notes": "DEMOTED 2026-09-01 (recorded in PDR_FOOD_CALCULATOR.md section 6): shipped at 0 g since 2026-08-09 because the only peer-reviewed comparison runs the other way (Heard et al. 2019: delivered meal kits beat grocery-store meals, and last-mile emissions are lower for a van route than a car trip), so no primary supports a saving for cooking at home. A 0 g action still pays points at seed time (computed from effort/frequency/impact), so keeping it rewarded a habit the evidence cannot back -- the same honesty rule that retired use_natural_light. Its long description also still claimed the retired 600 g. Restore only with a restaurant-delivery LCA showing a genuine saving, which does not exist today.",
+        "sources": [
+          {
+            "name": "Heard, Bandekar, Vassar & Miller, 'Comparison of Life Cycle Environmental Impacts from Meal Kits and Grocery Store Meals', Resources, Conservation and Recycling 147 (2019)",
+            "url": "https://par.nsf.gov/servlets/purl/10106237",
+            "quote": "grocery meal greenhouse gas emissions are 33% higher than meal kits (8.1 kg CO2e/meal compared with 6.1 kg CO2e/meal kit)",
+            "accessed": "2026-08-09"
+          }
+        ],
+        "confidence": "low",
+        "related_sdgs": [
+          "12",
+          "13"
         ]
       }
     ]

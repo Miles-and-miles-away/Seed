@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -97,4 +99,11 @@ MockUser createMockUser({
   when(() => mockUser.providerData).thenReturn(resolvedProviderData);
 
   return mockUser;
+}
+
+/// WCAG contrast ratio between two opaque colours.
+double contrastRatio(Color a, Color b) {
+  final la = a.computeLuminance();
+  final lb = b.computeLuminance();
+  return (max(la, lb) + 0.05) / (min(la, lb) + 0.05);
 }

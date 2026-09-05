@@ -111,6 +111,11 @@ class EnergyCalculator {
     return total;
   }
 
+  /// kWh of one default-preset use of [behavior]: the basis the ranked
+  /// view, the explore baselines and the quiz deck all rank on.
+  static double defaultPresetKwh(EnergyBehavior behavior) =>
+      behavior.kwhPerUnit * (behavior.defaultPreset?.units ?? 1);
+
   /// Index for routine lookups.
   static Map<String, EnergyBehavior> byId(List<EnergyBehavior> behaviors) => {
     for (final b in behaviors) b.id: b,

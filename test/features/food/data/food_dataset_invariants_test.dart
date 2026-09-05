@@ -14,7 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// fish vs pork, prawns vs cheese, coffee vs cheese/prawns and
 /// chocolate vs lamb/cheese (all flip under medians), oats vs
 /// tomatoes, the ~1.8 cluster (oats/beans/wine), berries vs
-/// bread/pasta, eggs vs rice, butter vs pork, soy vs oat milk,
+/// bread/pasta, eggs vs rice, soy vs oat milk,
 /// soy milk vs peas (exact tie), the ~3.2 cluster
 /// (milk/tofu/sugar/peanuts), the ~0.43 cluster (tree nuts/root
 /// veg/apples/potatoes), tree nuts vs peanuts (0.43 vs 3.23 --
@@ -284,7 +284,7 @@ void main() {
     expect(factor('prawns_wild'), lessThan(factor('lamb')));
   });
 
-  test('20. exactly five tie-group pairs are refusable', () {
+  test('20. exactly nine tie-group pairs are refusable', () {
     // The tie-group gate is only as good as the curation behind it.
     // A group that re-acquires a "same source database" meaning
     // starts silently refusing honest comparisons -- that is what the
@@ -312,12 +312,22 @@ void main() {
         }
       }
     }
+    // natto/soy_tvp and soy_tvp/tempeh joined 2026-09-01 when soy_tvp
+    // was scaled off the shared tofu anchor by the Agribalyse
+    // dry-TVP-to-tofu ratio, and butter/cream plus butter/greek_yogurt
+    // when butter was re-derived from milk on total solids: those gaps
+    // are derivation, not measurement, so refusing them is the gate
+    // working.
     expect(refusable..sort(), const [
+      'butter/cream',
+      'butter/greek_yogurt',
       'dried_shiitake/mushrooms',
+      'natto/soy_tvp',
       'olive_oil/palm_oil',
       'pasta_sauce_tomato/salsa',
       'peanut_butter/tree_nuts',
       'peanuts/tree_nuts',
+      'soy_tvp/tempeh',
     ]);
   });
 
