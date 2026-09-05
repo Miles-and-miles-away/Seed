@@ -7,6 +7,7 @@ import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/domain/services/time_period_range.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'co2_chart_data_provider.g.dart';
 
@@ -29,7 +30,10 @@ Future<List<DailySummaryModel>> trendWindowSummaries(
   final userId = ref.watch(userIdProvider);
   if (userId == null) return const [];
 
-  final range = TimePeriodRange.trendWindow(period);
+  final range = TimePeriodRange.trendWindow(
+    period,
+    now: ref.watch(clockProvider)(),
+  );
   return ref
       .watch(progressRepositoryProvider)
       .getSummariesForDateRange(userId, range.start, range.end);
@@ -37,7 +41,10 @@ Future<List<DailySummaryModel>> trendWindowSummaries(
 
 @riverpod
 Future<Co2TrendData> co2TrendData(Ref ref, TimePeriod period) async {
-  final range = TimePeriodRange.trendWindow(period);
+  final range = TimePeriodRange.trendWindow(
+    period,
+    now: ref.watch(clockProvider)(),
+  );
   final summaries = await ref.watch(
     trendWindowSummariesProvider(period).future,
   );

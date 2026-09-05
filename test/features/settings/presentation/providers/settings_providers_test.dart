@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
@@ -69,6 +71,22 @@ void main() {
       final c = await _container(const UserSettingsModel());
 
       expect(c.read(canAddReminderProvider), isTrue);
+    });
+  });
+
+  group('fallbacks while settings are loading', () {
+    test('selectors report their defaults until the stream emits', () async {
+      final c = await pumpedContainer([
+        userSettingsProvider.overrideWith(
+          (_) => StreamController<UserSettingsModel>().stream,
+        ),
+      ], warm: userSettingsProvider);
+
+      expect(c.read(currentLanguageProvider), 'en');
+      expect(c.read(notificationsEnabledProvider), isFalse);
+      expect(c.read(smartRemindersEnabledProvider), isTrue);
+      expect(c.read(analyticsEnabledProvider), isTrue);
+      expect(c.read(canAddReminderProvider), isFalse);
     });
   });
 }

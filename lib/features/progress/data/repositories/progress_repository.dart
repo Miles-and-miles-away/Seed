@@ -12,9 +12,10 @@ import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dar
 /// ActionLogRepository.logAction's transaction so they can never
 /// diverge from the action log; this repository only reads summaries.
 class ProgressRepository {
-  ProgressRepository(this._firestore);
+  ProgressRepository(this._firestore, {this.clock = DateTime.now});
 
   final FirebaseFirestore _firestore;
+  final DateTime Function() clock;
 
   CollectionReference<Map<String, dynamic>> _summariesCollection(
     String userId,
@@ -25,7 +26,7 @@ class ProgressRepository {
 
   /// Stream today's summary.
   Stream<DailySummaryModel?> watchTodaySummary(String userId) {
-    final todayId = formatDateKey(DateTime.now());
+    final todayId = formatDateKey(clock());
     return _summariesCollection(userId).doc(todayId).snapshots().map((doc) {
       final data = doc.data();
       return data == null ? null : DailySummaryModel.fromJson(data);
@@ -90,7 +91,7 @@ class ProgressRepository {
     final summaries = await getMonthSummaries(userId, year, month);
     final summaryMap = {for (final s in summaries) s.date: s};
 
-    final today = DateTime.now();
+    final today = clock();
     final daysInMonth = DateTime(year, month + 1, 0).day;
     final calendarData = <CalendarDayData>[];
 

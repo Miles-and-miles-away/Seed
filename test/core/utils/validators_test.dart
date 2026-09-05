@@ -59,4 +59,19 @@ void main() {
       expect(run('日本@example.com'), 'invalid');
     });
   });
+
+  group('validatePassword', () {
+    String? runPassword(String? input) =>
+        validatePassword(input, emptyError: 'empty', shortError: 'short');
+
+    test('returns empty error for null or empty', () {
+      expect(runPassword(null), 'empty');
+      expect(runPassword(''), 'empty');
+    });
+
+    test('rejects five characters and accepts six', () {
+      expect(runPassword('abcde'), 'short');
+      expect(runPassword('abcdef'), isNull);
+    });
+  });
 }

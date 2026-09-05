@@ -31,28 +31,27 @@ void main() {
       expect(find.text('3'), findsAtLeast(1));
     });
 
-    testWidgets('displays confirm button', (tester) async {
+    testWidgets('scrolling changes the selected target and its description', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
+      expect(
+        find.text('A balanced challenge — recommended for most users.'),
+        findsOneWidget,
+      );
 
-      // Should have a FilledButton
-      expect(find.byType(FilledButton), findsOneWidget);
-    });
-
-    testWidgets('scrolling changes selected value', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
+      // Two item extents down: 3 -> 5.
+      await tester.drag(
+        find.byType(ListWheelScrollView),
+        const Offset(0, -120),
+      );
       await tester.pumpAndSettle();
 
-      // Find the ListWheelScrollView
-      final scrollView = find.byType(ListWheelScrollView);
-      expect(scrollView, findsOneWidget);
-
-      // Scroll down to change selection
-      await tester.drag(scrollView, const Offset(0, -60));
-      await tester.pumpAndSettle();
-
-      // Value should have changed
-      expect(find.byType(ListWheelScrollView), findsOneWidget);
+      expect(
+        find.text("Ambitious! You're committed to making an impact."),
+        findsOneWidget,
+      );
     });
 
     testWidgets('shows loading indicator when saving', (tester) async {
@@ -88,25 +87,10 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Default is 3, which should show "moderate" description
-      // Find some descriptive text (partial match)
-      expect(find.byType(AnimatedSwitcher), findsOneWidget);
-    });
-
-    testWidgets('uses Spacer for vertical layout', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      // Should have Spacer widgets for vertical spacing
-      expect(find.byType(Spacer), findsAtLeast(1));
-    });
-
-    testWidgets('has correct padding', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      // Should have Padding widget
-      expect(find.byType(Padding), findsAtLeast(1));
+      expect(
+        find.text('A balanced challenge — recommended for most users.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('picker has correct configuration', (tester) async {

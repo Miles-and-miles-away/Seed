@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/widgets/error_display.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_item.dart';
@@ -71,7 +72,11 @@ class ActionHistoryScreen extends ConsumerWidget {
                 );
               }
               final group = groupedLogs[index];
-              return _DateGroup(date: group.date, logs: group.logs);
+              return _DateGroup(
+                date: group.date,
+                logs: group.logs,
+                now: ref.watch(clockProvider)(),
+              );
             },
           );
         },
@@ -112,17 +117,18 @@ class _DateLogGroup {
 }
 
 class _DateGroup extends StatelessWidget {
-  const _DateGroup({required this.date, required this.logs});
+  const _DateGroup({required this.date, required this.logs, required this.now});
 
   final DateTime date;
   final List<ActionLogModel> logs;
+  final DateTime now;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final dateLabel = formatDateLabel(date, l10n, locale);
+    final dateLabel = formatDateLabel(date, l10n, locale, now: now);
     final totalPoints = logs.fold<int>(0, (sum, log) => sum + log.points);
 
     return Column(

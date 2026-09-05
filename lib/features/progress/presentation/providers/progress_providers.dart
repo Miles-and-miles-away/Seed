@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,12 +7,16 @@ import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'progress_providers.g.dart';
 
 @riverpod
 ProgressRepository progressRepository(Ref ref) {
-  return ProgressRepository(FirebaseFirestore.instance);
+  return ProgressRepository(
+    ref.watch(firestoreProvider),
+    clock: ref.watch(clockProvider),
+  );
 }
 
 /// Loads and caches impact equivalency metadata (conversion factors
@@ -59,7 +62,7 @@ bool needsDailyTargetSetup(Ref ref) {
 class SelectedMonth extends _$SelectedMonth {
   @override
   DateTime build() {
-    final now = DateTime.now();
+    final now = ref.watch(clockProvider)();
     return DateTime(now.year, now.month);
   }
 
@@ -68,7 +71,7 @@ class SelectedMonth extends _$SelectedMonth {
   }
 
   void goToNextMonth() {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     final nextMonth = DateTime(state.year, state.month + 1);
     // Don't allow navigating to future months
     if (nextMonth.year < now.year ||
@@ -78,7 +81,7 @@ class SelectedMonth extends _$SelectedMonth {
   }
 
   bool get canGoToNextMonth {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     return state.year < now.year ||
         (state.year == now.year && state.month < now.month);
   }

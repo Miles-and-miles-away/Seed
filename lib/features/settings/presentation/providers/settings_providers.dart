@@ -1,4 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -7,8 +6,8 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
-import 'package:seed_app/shared/services/analytics_service.dart';
-import 'package:seed_app/shared/services/fcm_service.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/providers/notification_providers.dart';
 
 part 'settings_providers.g.dart';
 
@@ -57,7 +56,7 @@ String currentLanguage(Ref ref) => _setting(ref, (s) => s.language, 'en');
 /// Returns whether notifications are enabled.
 @riverpod
 bool notificationsEnabled(Ref ref) =>
-    _setting(ref, (s) => s.notificationsEnabled, true);
+    _setting(ref, (s) => s.notificationsEnabled, false);
 
 /// Returns whether smart reminders are enabled.
 @riverpod
@@ -118,7 +117,7 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> toggleNotifications({required bool enabled}) {
     return _write((uid, repo) async {
       if (enabled) {
-        final status = await FCMService.instance.requestPermissions();
+        final status = await ref.read(fcmServiceProvider).requestPermissions();
         if (status != AuthorizationStatus.authorized &&
             status != AuthorizationStatus.provisional) {
           return;
@@ -126,11 +125,11 @@ class SettingsNotifier extends _$SettingsNotifier {
       }
       await repo.setNotificationsEnabled(uid, enabled: enabled);
 
-      // Track analytics
+      final analytics = ref.read(analyticsServiceProvider);
       if (enabled) {
-        await AnalyticsService.instance.logNotificationEnabled();
+        await analytics.logNotificationEnabled();
       } else {
-        await AnalyticsService.instance.logNotificationDisabled();
+        await analytics.logNotificationDisabled();
       }
     });
   }
@@ -139,11 +138,12 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> toggleAnalytics({required bool enabled}) {
     return _write((uid, repo) async {
       await repo.setAnalyticsEnabled(uid, enabled: enabled);
-      await AnalyticsService.instance.setCollectionEnabled(enabled: enabled);
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-        enabled,
-      );
-      AnalyticsService.instance.setEnabled(enabled: enabled);
+      final analytics = ref.read(analyticsServiceProvider);
+      await analytics.setCollectionEnabled(enabled: enabled);
+      await ref
+          .read(crashlyticsProvider)
+          .setCrashlyticsCollectionEnabled(enabled);
+      analytics.setEnabled(enabled: enabled);
     });
   }
 
@@ -156,7 +156,9 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> updateLanguage(String language) {
     return _write((uid, repo) async {
       await repo.setLanguage(uid, language);
-      await AnalyticsService.instance.logLanguageChanged(language: language);
+      await ref
+          .read(analyticsServiceProvider)
+          .logLanguageChanged(language: language);
     });
   }
 

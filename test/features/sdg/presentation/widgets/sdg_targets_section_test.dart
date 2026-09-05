@@ -167,20 +167,24 @@ void main() {
       expect(text.style?.color, testGoal.color);
     });
 
-    testWidgets('renders AnimatedCrossFade for expand animation', (
+    testWidgets('expanding flips the cross-fade and turns the chevron', (
       tester,
     ) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pump();
 
-      expect(find.byType(AnimatedCrossFade), findsOneWidget);
-    });
+      AnimatedCrossFade fade() =>
+          tester.widget<AnimatedCrossFade>(find.byType(AnimatedCrossFade));
+      AnimatedRotation chevron() =>
+          tester.widget<AnimatedRotation>(find.byType(AnimatedRotation));
+      expect(fade().crossFadeState, CrossFadeState.showFirst);
+      expect(chevron().turns, 0);
 
-    testWidgets('renders AnimatedRotation for chevron', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pump();
+      await tester.tap(find.text('About this Goal'));
+      await tester.pumpAndSettle();
 
-      expect(find.byType(AnimatedRotation), findsOneWidget);
+      expect(fade().crossFadeState, CrossFadeState.showSecond);
+      expect(chevron().turns, 0.5);
     });
 
     testWidgets('handles goal with many targets (goal 17)', (tester) async {

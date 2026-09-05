@@ -53,17 +53,54 @@ void main() {
       expect(find.text('Level 6'), findsNothing);
     });
 
-    testWidgets('renders progress bar container', (tester) async {
+    double fillOf(WidgetTester tester) => tester
+        .widget<FractionallySizedBox>(find.byType(FractionallySizedBox))
+        .widthFactor!;
+
+    testWidgets('fills the track in proportion to progress', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(const LevelProgressBar(progress: 0.5, currentLevel: 1)),
+        wrapProgressBar(
+          const LevelProgressBar(progress: 0.25, currentLevel: 1),
+        ),
       );
       await tester.pumpAndSettle();
 
-      // Should find ClipRRect for rounded corners
-      expect(find.byType(ClipRRect), findsOneWidget);
+      expect(fillOf(tester), closeTo(0.25, 0.001));
     });
 
-    testWidgets('uses custom height', (tester) async {
+    testWidgets('an empty bar has no fill and a full bar is filled', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        wrapProgressBar(const LevelProgressBar(progress: 0, currentLevel: 1)),
+      );
+      await tester.pumpAndSettle();
+      expect(fillOf(tester), 0);
+
+      await tester.pumpWidget(
+        wrapProgressBar(const LevelProgressBar(progress: 1, currentLevel: 1)),
+      );
+      await tester.pumpAndSettle();
+      expect(fillOf(tester), 1);
+    });
+
+    testWidgets('clamps progress outside the unit range', (tester) async {
+      await tester.pumpWidget(
+        wrapProgressBar(const LevelProgressBar(progress: 1.5, currentLevel: 1)),
+      );
+      await tester.pumpAndSettle();
+      expect(fillOf(tester), 1);
+
+      await tester.pumpWidget(
+        wrapProgressBar(
+          const LevelProgressBar(progress: -0.5, currentLevel: 1),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(fillOf(tester), 0);
+    });
+
+    testWidgets('uses the given height for the track', (tester) async {
       await tester.pumpWidget(
         wrapProgressBar(
           const LevelProgressBar(progress: 0.5, currentLevel: 1, height: 20),
@@ -71,26 +108,20 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Widget should render without errors
-      expect(find.byType(LevelProgressBar), findsOneWidget);
+      expect(tester.getSize(find.byType(ClipRRect)).height, 20);
+      expect(
+        tester.widget<ClipRRect>(find.byType(ClipRRect)).borderRadius,
+        BorderRadius.circular(10),
+      );
     });
 
-    testWidgets('handles zero progress', (tester) async {
+    testWidgets('defaults to a 12 pixel track', (tester) async {
       await tester.pumpWidget(
-        wrapProgressBar(const LevelProgressBar(progress: 0, currentLevel: 1)),
+        wrapProgressBar(const LevelProgressBar(progress: 0.5, currentLevel: 1)),
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(LevelProgressBar), findsOneWidget);
-    });
-
-    testWidgets('handles full progress', (tester) async {
-      await tester.pumpWidget(
-        wrapProgressBar(const LevelProgressBar(progress: 1, currentLevel: 1)),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(LevelProgressBar), findsOneWidget);
+      expect(tester.getSize(find.byType(ClipRRect)).height, 12);
     });
   });
 }

@@ -11,6 +11,7 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -280,7 +281,7 @@ class ProfileScreen extends ConsumerWidget {
                 // broken the streak (the stored value is only corrected
                 // at the next log).
                 value:
-                    '${displayedStreak(storedStreak: user.currentStreak, lastActionDate: user.lastActionDate, now: DateTime.now())}',
+                    '${displayedStreak(storedStreak: user.currentStreak, lastActionDate: user.lastActionDate, now: ref.watch(clockProvider)())}',
                 label: l10n.profileCurrentStreak,
                 iconColor: Colors.orange,
               ),

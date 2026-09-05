@@ -137,4 +137,32 @@ void main() {
       expect(a!.lastCompletionDate, '');
     });
   });
+
+  group('localized fallbacks', () {
+    test('an empty translation falls back to English', () {
+      const daily = DailyChallengeTemplate(
+        id: 'd',
+        category: 'water',
+        titleEn: 'Save water',
+        titleEs: '',
+        titleJa: '',
+      );
+      const multi = MultiDayChallengeTemplate(
+        id: 'm',
+        category: null,
+        targetDays: 3,
+        titleEn: 'Three days',
+        titleEs: '',
+        titleJa: '',
+        descriptionEn: 'Keep going',
+        descriptionEs: '',
+        descriptionJa: '',
+      );
+
+      expect(daily.title('ja'), 'Save water');
+      expect(daily.title('es'), 'Save water');
+      expect(multi.title('ja'), 'Three days');
+      expect(multi.description('es'), 'Keep going');
+    });
+  });
 }

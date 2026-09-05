@@ -113,4 +113,37 @@ void main() {
       expect(range.end.day - range.start.day, 1);
     });
   });
+
+  group('TimePeriodRange.trendWindow', () {
+    final now = DateTime(2026, 5, 3, 14, 30);
+
+    test('today and thisWeek plot the last 7 days ending tomorrow', () {
+      for (final period in [TimePeriod.today, TimePeriod.thisWeek]) {
+        final range = TimePeriodRange.trendWindow(period, now: now);
+        expect(range.start, DateTime(2026, 4, 27), reason: period.name);
+        expect(range.end, DateTime(2026, 5, 4), reason: period.name);
+      }
+    });
+
+    test('thisMonth plots the last 30 days', () {
+      final range = TimePeriodRange.trendWindow(TimePeriod.thisMonth, now: now);
+
+      expect(range.start, DateTime(2026, 4, 4));
+      expect(range.end, DateTime(2026, 5, 4));
+    });
+
+    test('allTime plots the last 90 days', () {
+      final range = TimePeriodRange.trendWindow(TimePeriod.allTime, now: now);
+
+      expect(range.start, DateTime(2026, 2, 3));
+      expect(range.end, DateTime(2026, 5, 4));
+    });
+
+    test('trendWindowDays matches the window lengths', () {
+      expect(TimePeriodRange.trendWindowDays(TimePeriod.today), 7);
+      expect(TimePeriodRange.trendWindowDays(TimePeriod.thisWeek), 7);
+      expect(TimePeriodRange.trendWindowDays(TimePeriod.thisMonth), 30);
+      expect(TimePeriodRange.trendWindowDays(TimePeriod.allTime), 90);
+    });
+  });
 }

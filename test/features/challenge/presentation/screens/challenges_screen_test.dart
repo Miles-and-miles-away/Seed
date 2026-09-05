@@ -87,7 +87,10 @@ void main() {
       await tester.pumpWidget(buildScreen(user: user));
       await tester.pumpAndSettle();
 
-      expect(find.byType(LinearProgressIndicator), findsOneWidget);
+      final bar = tester.widget<LinearProgressIndicator>(
+        find.byType(LinearProgressIndicator),
+      );
+      expect(bar.value, closeTo(3 / 7, 0.001));
     });
 
     testWidgets('shows start button for available', (tester) async {

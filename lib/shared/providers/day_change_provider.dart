@@ -10,6 +10,7 @@ import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_provi
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'day_change_provider.g.dart';
 
@@ -24,17 +25,19 @@ class DayChangeNotifier extends _$DayChangeNotifier {
   Timer? _midnightTimer;
   AppLifecycleListener? _lifecycleListener;
 
+  DateTime get _now => ref.read(clockProvider)();
+
   @override
   String build() {
     _scheduleMidnightRefresh();
     _listenToAppResume();
     ref.onDispose(_cleanup);
-    return formatDateKey(DateTime.now());
+    return formatDateKey(_now);
   }
 
   void _scheduleMidnightRefresh() {
     _midnightTimer?.cancel();
-    final now = DateTime.now();
+    final now = _now;
     final midnight = DateTime(now.year, now.month, now.day + 1);
     // 1s buffer to ensure we're past midnight
     final duration = midnight.difference(now) + const Duration(seconds: 1);
@@ -48,7 +51,7 @@ class DayChangeNotifier extends _$DayChangeNotifier {
   /// Checks if the day has changed and invalidates providers
   /// if so. Public for testing.
   void checkDayChanged() {
-    final currentKey = formatDateKey(DateTime.now());
+    final currentKey = formatDateKey(_now);
     if (state != currentKey) {
       _onDayChanged();
     }
@@ -74,7 +77,7 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(co2CategoryDataProvider);
 
     // Update state and reschedule
-    state = formatDateKey(DateTime.now());
+    state = formatDateKey(_now);
     _scheduleMidnightRefresh();
   }
 

@@ -16,6 +16,7 @@ import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 const double _kSheetMaxChildSize = 0.9;
 const double _kSheetInitialChildSize = 0.7;
@@ -48,7 +49,8 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
 
   String get _dateKey => formatDateKey(widget.date);
 
-  bool get _isToday => isSameCalendarDay(widget.date, DateTime.now());
+  bool get _isToday =>
+      isSameCalendarDay(widget.date, ref.read(clockProvider)());
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,12 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
           ),
           children: [
             Text(
-              formatDateLabel(widget.date, l10n, locale),
+              formatDateLabel(
+                widget.date,
+                l10n,
+                locale,
+                now: ref.watch(clockProvider)(),
+              ),
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
