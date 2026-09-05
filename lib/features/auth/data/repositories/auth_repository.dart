@@ -81,13 +81,6 @@ class AuthRepository {
     await _authDataSource.signOut();
   }
 
-  /// Gets the current app user from Firestore.
-  Future<AppUserModel?> getCurrentUser() async {
-    final firebaseUser = _authDataSource.currentUser;
-    if (firebaseUser == null) return null;
-    return _userDataSource.getUser(firebaseUser.uid);
-  }
-
   /// Watches the current user document for real-time updates.
   Stream<AppUserModel?> watchCurrentUser() {
     final firebaseUser = _authDataSource.currentUser;
@@ -98,13 +91,6 @@ class AuthRepository {
   /// Reloads the current user to check for email verification status.
   Future<void> reloadCurrentUser() async {
     await _authDataSource.reloadCurrentUser();
-  }
-
-  /// Updates the email verified status in Firestore.
-  Future<void> updateEmailVerified(String uid, {required bool verified}) async {
-    await _userDataSource.updateUser(uid, {
-      AppConstants.fieldEmailVerified: verified,
-    });
   }
 
   /// Gets an existing user or creates a new one.
