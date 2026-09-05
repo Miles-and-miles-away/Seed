@@ -26,6 +26,13 @@ final BorderRadius borderRadiusLg = BorderRadius.circular(radiusLg);
 final BorderRadius borderRadiusXl = BorderRadius.circular(radiusXl);
 final BorderRadius borderRadiusXxl = BorderRadius.circular(radiusXxl);
 
+// Bottom-sheet chrome shared by every modal sheet in the app.
+const sheetShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
+);
+const double sheetMaxChildSize = 0.85;
+const double sheetMinChildSize = 0.3;
+
 // Animation durations for transitions and celebrations.
 const durationInstant = Duration(milliseconds: 100);
 const durationFast = Duration(milliseconds: 200);

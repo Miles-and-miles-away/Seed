@@ -2189,4 +2189,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get quizNoPointsNote => '遊びのためのクイズです。ポイントは付かず、記録もされません。';
+
+  @override
+  String get routeNotFound => 'このページは見つかりませんでした。';
 }

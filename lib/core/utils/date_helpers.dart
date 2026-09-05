@@ -24,6 +24,10 @@ DateTime dateOnlyUtc(DateTime date) =>
 int calendarDaysBetween(DateTime from, DateTime to) =>
     dateOnlyUtc(to).difference(dateOnlyUtc(from)).inDays;
 
+/// Whether [a] and [b] fall on the same local calendar day.
+bool isSameCalendarDay(DateTime a, DateTime b) =>
+    a.year == b.year && a.month == b.month && a.day == b.day;
+
 /// The calendar day before [date].
 DateTime previousCalendarDay(DateTime date) =>
     DateTime(date.year, date.month, date.day - 1);

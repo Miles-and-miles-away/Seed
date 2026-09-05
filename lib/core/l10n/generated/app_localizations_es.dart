@@ -2280,4 +2280,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get quizNoPointsNote =>
       'Solo por diversión. No da puntos ni registra nada.';
+
+  @override
+  String get routeNotFound => 'No se ha encontrado esta página.';
 }

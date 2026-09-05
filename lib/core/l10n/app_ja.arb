@@ -1078,5 +1078,6 @@
   "quizContinue": "次へ",
   "quizNewRun": "もう一度",
   "quizLadderHeading": "これまでのカード",
-  "quizNoPointsNote": "遊びのためのクイズです。ポイントは付かず、記録もされません。"
+  "quizNoPointsNote": "遊びのためのクイズです。ポイントは付かず、記録もされません。",
+  "routeNotFound": "このページは見つかりませんでした。"
 }

@@ -12,3 +12,15 @@ String? validateEmail(
   if (!emailRegex.hasMatch(value.trim())) return invalidError;
   return null;
 }
+
+/// Validates a password: present and at least six characters.
+/// Returns null if valid, error message if invalid.
+String? validatePassword(
+  String? value, {
+  required String emptyError,
+  required String shortError,
+}) {
+  if (value == null || value.isEmpty) return emptyError;
+  if (value.length < 6) return shortError;
+  return null;
+}
