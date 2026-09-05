@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/constants/app_constants.dart';
+import '../core/l10n/generated/app_localizations.dart';
+import '../core/utils/app_logger.dart';
 import '../features/actions/presentation/screens/action_history_screen.dart';
 import '../features/actions/presentation/screens/action_log_screen.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
@@ -40,6 +42,13 @@ int _parseSdgGoalNumber(String? value) {
   final parsed = int.tryParse(value ?? '') ?? AppConstants.sdgMinGoal;
   return parsed.clamp(AppConstants.sdgMinGoal, AppConstants.sdgMaxGoal);
 }
+
+/// A route whose screen needs nothing from the router state.
+GoRoute _route(
+  String path,
+  Widget child, {
+  List<RouteBase> routes = const [],
+}) => GoRoute(path: path, builder: (_, _) => child, routes: routes);
 
 /// Full-path routes for use at navigation call sites via [appRoutes].
 ///
@@ -129,48 +138,33 @@ GoRouter router(Ref ref) {
 
     routes: [
       // Splash / Loading screen
-      GoRoute(
-        path: appRoutes.splash,
-        builder: (context, state) => const _SplashScreen(),
-      ),
+      _route(appRoutes.splash, const _SplashScreen()),
 
       // Auth routes
-      GoRoute(
-        path: appRoutes.login,
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: appRoutes.register,
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(
-        path: appRoutes.emailVerification,
-        builder: (context, state) => const EmailVerificationScreen(),
-      ),
+      _route(appRoutes.login, const LoginScreen()),
+      _route(appRoutes.register, const RegisterScreen()),
+      _route(appRoutes.emailVerification, const EmailVerificationScreen()),
 
       // Mascot selection (shown after signup if user has no mascot)
-      GoRoute(
-        path: appRoutes.mascotSelection,
-        builder: (context, state) => const MascotSelectionScreen(),
-      ),
+      _route(appRoutes.mascotSelection, const MascotSelectionScreen()),
 
       // Main app routes with bottom navigation
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
+        builder: (_, _, navigationShell) {
           return MainShell(navigationShell: navigationShell);
         },
         branches: [
           // Home tab (index 0)
           StatefulShellBranch(
             routes: [
-              GoRoute(
-                path: appRoutes.home,
-                builder: (context, state) => const HomeScreen(),
+              _route(
+                appRoutes.home,
+                const HomeScreen(),
                 routes: [
                   // SDG detail is nested under home
                   GoRoute(
                     path: 'sdg/:goalNumber',
-                    builder: (context, state) {
+                    builder: (_, state) {
                       final goalNumber = _parseSdgGoalNumber(
                         state.pathParameters['goalNumber'],
                       );
@@ -178,13 +172,13 @@ GoRouter router(Ref ref) {
                     },
                   ),
                   // Daily eco-fact inbox nested under home
-                  GoRoute(
-                    path: 'daily-fact',
-                    builder: (context, state) => const EcoFactScreen(),
+                  _route(
+                    'daily-fact',
+                    const EcoFactScreen(),
                     routes: [
                       GoRoute(
                         path: ':dateKey',
-                        builder: (context, state) {
+                        builder: (_, state) {
                           final dateKey = state.pathParameters['dateKey'] ?? '';
                           return EcoFactDetailScreen(dateKey: dateKey);
                         },
@@ -192,10 +186,7 @@ GoRouter router(Ref ref) {
                     ],
                   ),
                   // Multi-day challenges screen
-                  GoRoute(
-                    path: 'challenges',
-                    builder: (context, state) => const ChallengesScreen(),
-                  ),
+                  _route('challenges', const ChallengesScreen()),
                 ],
               ),
             ],
@@ -206,15 +197,12 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: appRoutes.progress,
-                builder: (context, state) => ProgressScreen(
+                builder: (_, state) => ProgressScreen(
                   initialTab: state.uri.queryParameters['tab'],
                 ),
                 routes: [
                   // Action history nested under progress
-                  GoRoute(
-                    path: 'history',
-                    builder: (context, state) => const ActionHistoryScreen(),
-                  ),
+                  _route('history', const ActionHistoryScreen()),
                 ],
               ),
             ],
@@ -222,48 +210,28 @@ GoRouter router(Ref ref) {
 
           // Mascot tab (index 2)
           StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: appRoutes.mascot,
-                builder: (context, state) => const MascotScreen(),
-              ),
-            ],
+            routes: [_route(appRoutes.mascot, const MascotScreen())],
           ),
 
           // Profile tab (index 3)
           StatefulShellBranch(
             routes: [
-              GoRoute(
-                path: appRoutes.profile,
-                builder: (context, state) => const ProfileScreen(),
+              _route(
+                appRoutes.profile,
+                const ProfileScreen(),
                 routes: [
-                  GoRoute(
-                    path: 'settings',
-                    builder: (context, state) => const SettingsScreen(),
+                  _route(
+                    'settings',
+                    const SettingsScreen(),
                     routes: [
-                      GoRoute(
-                        path: 'notifications',
-                        builder: (context, state) =>
-                            const NotificationSettingsScreen(),
+                      _route(
+                        'notifications',
+                        const NotificationSettingsScreen(),
                       ),
-                      GoRoute(
-                        path: 'language',
-                        builder: (context, state) =>
-                            const LanguageSettingsScreen(),
-                      ),
-                      GoRoute(
-                        path: 'account',
-                        builder: (context, state) =>
-                            const AccountSettingsScreen(),
-                      ),
-                      GoRoute(
-                        path: 'about',
-                        builder: (context, state) => const AboutScreen(),
-                      ),
-                      GoRoute(
-                        path: 'feedback',
-                        builder: (context, state) => const FeedbackScreen(),
-                      ),
+                      _route('language', const LanguageSettingsScreen()),
+                      _route('account', const AccountSettingsScreen()),
+                      _route('about', const AboutScreen()),
+                      _route('feedback', const FeedbackScreen()),
                     ],
                   ),
                 ],
@@ -279,7 +247,7 @@ GoRouter router(Ref ref) {
       // of sliding in as a pushed page and out to the edge on exit.
       GoRoute(
         path: appRoutes.actionLog,
-        pageBuilder: (context, state) => NoTransitionPage(
+        pageBuilder: (_, state) => NoTransitionPage(
           key: state.pageKey,
           child: ActionLogScreen(
             initialCategory: state.uri.queryParameters['category'],
@@ -289,51 +257,30 @@ GoRouter router(Ref ref) {
 
       // Transport carbon calculator: educational tool pushed
       // full-screen from contextual entry points (Phase 8).
-      GoRoute(
-        path: appRoutes.transportCalculator,
-        builder: (context, state) => const TransportCalculatorScreen(),
-      ),
+      _route(appRoutes.transportCalculator, const TransportCalculatorScreen()),
 
       // Food carbon calculator: educational tool pushed full-screen
       // from contextual entry points (Phase 8, Part 2).
-      GoRoute(
-        path: appRoutes.foodCalculator,
-        builder: (context, state) => const FoodCalculatorScreen(),
-      ),
+      _route(appRoutes.foodCalculator, const FoodCalculatorScreen()),
 
       // Home energy calculator: teaching tool pushed full-screen from
       // contextual entry points (Phase 8, Part 3). Banks nothing.
-      GoRoute(
-        path: appRoutes.energyCalculator,
-        builder: (context, state) => const EnergyCalculatorScreen(),
-      ),
+      _route(appRoutes.energyCalculator, const EnergyCalculatorScreen()),
 
       // The two energy teaching surfaces promoted out of the
       // methodology page (decision E8): the ranked list of where energy
       // goes, and the higher-or-lower quiz over the same rows.
-      GoRoute(
-        path: appRoutes.energyExplore,
-        builder: (context, state) => const EnergyExploreScreen(),
-      ),
-      GoRoute(
-        path: appRoutes.quiz,
-        builder: (context, state) => const HigherOrLowerScreen(),
-      ),
+      _route(appRoutes.energyExplore, const EnergyExploreScreen()),
+      _route(appRoutes.quiz, const HigherOrLowerScreen()),
 
       // Legal documents - canonical paths, accessible unauthenticated so
       // the register screen can link to them before sign-up.
-      GoRoute(
-        path: appRoutes.privacy,
-        builder: (context, state) => const PrivacyPolicyScreen(),
-      ),
-      GoRoute(
-        path: appRoutes.terms,
-        builder: (context, state) => const TermsOfServiceScreen(),
-      ),
+      _route(appRoutes.privacy, const PrivacyPolicyScreen()),
+      _route(appRoutes.terms, const TermsOfServiceScreen()),
     ],
 
     // Redirect logic based on auth state
-    redirect: (context, state) {
+    redirect: (_, state) {
       final authState = ref.read(authStateChangesProvider);
       return authState.when(
         data: (user) {
@@ -384,8 +331,12 @@ GoRouter router(Ref ref) {
     },
 
     // Error handling
-    errorBuilder: (context, state) =>
-        Scaffold(body: Center(child: Text('Page not found: ${state.uri}'))),
+    errorBuilder: (context, state) {
+      appLogger.warning('No route for ${state.uri}');
+      return Scaffold(
+        body: Center(child: Text(AppLocalizations.of(context).routeNotFound)),
+      );
+    },
   );
 
   // Router first: GoRouter detaches from refreshStream in its dispose,

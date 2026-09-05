@@ -148,12 +148,15 @@ class _NavBarItem extends StatelessWidget {
       onHover: onHover,
       borderRadius: borderRadiusMd,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: spacingXs,
+          vertical: spacingSm,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(isSelected ? selectedIcon : icon, color: color, size: 24),
-            const SizedBox(height: 4),
+            const SizedBox(height: spacingXs),
             // Labels render at natural size; FittedBox.scaleDown only
             // shrinks them when a translation (e.g. JP katakana) would
             // overflow the Expanded cell.

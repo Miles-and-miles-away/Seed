@@ -4,8 +4,6 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -54,12 +52,7 @@ class _RouterApp extends StatelessWidget {
     return Consumer(
       builder: (context, ref, _) => MaterialApp.router(
         routerConfig: ref.watch(routerProvider),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
       ),
     );
@@ -69,20 +62,7 @@ class _RouterApp extends StatelessWidget {
 void main() {
   setUpAll(() {
     TestWidgetsFlutterBinding.ensureInitialized();
-
-    // CachedNetworkImage (home screen) resolves its cache directory via
-    // path_provider, which has no platform implementation under test.
-    const channel = MethodChannel('plugins.flutter.io/path_provider');
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (methodCall) async {
-          switch (methodCall.method) {
-            case 'getTemporaryDirectory':
-            case 'getApplicationSupportDirectory':
-            case 'getApplicationDocumentsDirectory':
-              return '/tmp';
-          }
-          return null;
-        });
+    stubPathProvider();
   });
 
   // Each call must return a fresh stream: the router listens twice (the
