@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_category_tabs.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('SdgFilterChips', () {
@@ -18,21 +17,11 @@ void main() {
       testData = await loadSdgGoals();
     });
 
-    Widget createTestWidget() {
-      return ProviderScope(
-        overrides: [sdgGoalsDataProvider.overrideWith((ref) async => testData)],
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(body: SdgFilterChips()),
-        ),
-      );
-    }
+    Widget buildChips() => createTestWidget(
+      overrides: [sdgGoalsDataProvider.overrideWith((ref) async => testData)],
+      scaffold: true,
+      child: const SdgFilterChips(),
+    );
 
     /// Scrolls the infinite list until [finder] is built
     /// and then ensures it is centered in the viewport.
@@ -52,29 +41,19 @@ void main() {
       // Shape and avatar stay different on purpose: rounded-rect with a
       // numbered circle here, stadium with an icon above.
       await tester.pumpWidget(
-        ProviderScope(
+        createTestWidget(
           overrides: [
             sdgGoalsDataProvider.overrideWith((ref) async => testData),
           ],
-          child: MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: Scaffold(
-              body: Column(
-                children: [
-                  ActionCategoryTabs(
-                    selectedCategory: null,
-                    onCategorySelected: (_) {},
-                  ),
-                  const SdgFilterChips(),
-                ],
+          scaffold: true,
+          child: Column(
+            children: [
+              ActionCategoryTabs(
+                selectedCategory: null,
+                onCategorySelected: (_) {},
               ),
-            ),
+              const SdgFilterChips(),
+            ],
           ),
         ),
       );
@@ -113,14 +92,14 @@ void main() {
     });
 
     testWidgets('renders as horizontal ListView', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('displays All chip', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       await scrollToVisible(tester, find.text('All'));
@@ -129,7 +108,7 @@ void main() {
     });
 
     testWidgets('displays visible chips in horizontal list', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       // ListView renders visible chips; expect at
@@ -138,7 +117,7 @@ void main() {
     });
 
     testWidgets('All chip is selected by default', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       await scrollToVisible(tester, find.text('All'));
@@ -154,7 +133,7 @@ void main() {
     });
 
     testWidgets('SDG chip shows number in avatar', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       // Scroll to SDG 1
@@ -164,7 +143,7 @@ void main() {
     });
 
     testWidgets('SDG chips show short titles', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       await scrollToVisible(tester, find.text('No Poverty'));
@@ -175,7 +154,7 @@ void main() {
     });
 
     testWidgets('selecting SDG chip deselects All chip', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       // Scroll to and tap No Poverty
@@ -204,14 +183,14 @@ void main() {
     });
 
     testWidgets('SDG chips have colored avatars', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       expect(find.byType(CircleAvatar), findsAtLeast(3));
     });
 
     testWidgets('has the shared filter-row height', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       final sizedBox = tester.widget<SizedBox>(
@@ -225,7 +204,7 @@ void main() {
     });
 
     testWidgets('chips are scrollable horizontally', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       final listView = tester.widget<ListView>(find.byType(ListView));
@@ -233,7 +212,7 @@ void main() {
     });
 
     testWidgets('tapping selected SDG chip clears selection', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       // Select No Poverty
@@ -257,7 +236,7 @@ void main() {
     });
 
     testWidgets('tapping All chip when SDG selected clears it', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       // Select an SDG first
@@ -280,7 +259,7 @@ void main() {
     });
 
     testWidgets('SDG colors match official SDG colors', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
       final sdg1 = testData.goals.firstWhere((g) => g.number == 1);

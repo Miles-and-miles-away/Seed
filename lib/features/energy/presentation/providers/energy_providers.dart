@@ -4,6 +4,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
+import 'package:seed_app/shared/domain/option_lists.dart';
 
 part 'energy_providers.g.dart';
 
@@ -74,36 +75,29 @@ class RoutineOptions extends _$RoutineOptions {
     for (var i = 0; i < optionCount; i++) const <RoutineUsage>[],
   ]);
 
-  bool _valid(int option) => option >= 0 && option < optionCount;
-
-  List<List<RoutineUsage>> _withOption(int option, List<RoutineUsage> usages) =>
-      List.unmodifiable([
-        for (var i = 0; i < optionCount; i++)
-          if (i == option)
-            List<RoutineUsage>.unmodifiable(usages)
-          else
-            state[i],
-      ]);
-
   /// Appends a usage to [option].
   void addUsage(int option, RoutineUsage usage) {
-    if (!_valid(option)) return;
-    state = _withOption(option, [...state[option], usage]);
+    if (!isValidOption(option)) return;
+    state = withOption(state, option, [...state[option], usage]);
   }
 
   /// Replaces the usage at [index] within [option].
   void updateUsage(int option, int index, RoutineUsage usage) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final usages = [...state[option]];
     usages[index] = usage;
-    state = _withOption(option, usages);
+    state = withOption(state, option, usages);
   }
 
   /// Removes the usage at [index] within [option].
   void removeUsage(int option, int index) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final usages = [...state[option]]..removeAt(index);
-    state = _withOption(option, usages);
+    state = withOption(state, option, usages);
   }
 
   /// Empties both options.

@@ -838,9 +838,9 @@ the defence against scripted/off-device abuse.
 
 Sequence to complete (blocked on the release keystore):
 
-1. Create the Android upload keystore (`keytool -genkey`), wire it into
-   `android/key.properties`, and back it up (losing the upload key is
-   unrecoverable).
+1. ~~Create the Android upload keystore~~ Done 2026-08-23
+   (`android/seed-release.keystore` + `key.properties`, gitignored).
+   Back it up off-machine (losing the upload key is unrecoverable).
 2. Register the Android app in App Check with **Play Integrity**, using
    the keystore's SHA-256. Token TTL 1h. Leave the advanced toggles
    (PLAY_RECOGNISED, LICENSED, device-integrity) **off** until

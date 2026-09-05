@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 const _testFact = EcoFact(
   dayOfYear: 1,
@@ -34,54 +33,35 @@ void main() {
     sdgData = await loadSdgGoals();
   });
 
-  Widget createTestWidget({required Widget child}) {
-    return ProviderScope(
-      overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: child,
-      ),
-    );
-  }
+  Widget wrap(Widget child) => createTestWidget(
+    overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
+    child: child,
+  );
 
   group('EcoFactCard', () {
     testWidgets('shows fact text', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.text('Test fact content'), findsOneWidget);
     });
 
     testWidgets('shows source', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.textContaining('Test source'), findsOneWidget);
     });
 
     testWidgets('shows category chip', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.text('Myth Buster'), findsOneWidget);
     });
 
     testWidgets('shows related SDG badges', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.text('7'), findsOneWidget);
@@ -89,18 +69,14 @@ void main() {
     });
 
     testWidgets('shows UN World Day badge', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.text('Earth Day'), findsOneWidget);
     });
 
     testWidgets('hides UN World Day when null', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _minimalFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _minimalFact)));
       await tester.pumpAndSettle();
 
       expect(find.text('Earth Day'), findsNothing);
@@ -108,9 +84,7 @@ void main() {
 
     testWidgets('shows lock icon when locked', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: const EcoFactCard(fact: _testFact, isLocked: true),
-        ),
+        wrap(const EcoFactCard(fact: _testFact, isLocked: true)),
       );
       await tester.pumpAndSettle();
 
@@ -119,9 +93,7 @@ void main() {
     });
 
     testWidgets('does not show lock icon when unlocked', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const EcoFactCard(fact: _testFact)),
-      );
+      await tester.pumpWidget(wrap(const EcoFactCard(fact: _testFact)));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.lock_outline), findsNothing);

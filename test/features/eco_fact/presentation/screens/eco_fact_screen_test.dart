@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/screens/eco_fact_screen.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_list_tile.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,21 +36,10 @@ void main() {
     );
   }
 
-  Widget buildScreen(List<EcoFactInboxItem> items) {
-    return ProviderScope(
-      overrides: [ecoFactInboxProvider.overrideWith((_) async => items)],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: EcoFactScreen(),
-      ),
-    );
-  }
+  Widget buildScreen(List<EcoFactInboxItem> items) => createTestWidget(
+    overrides: [ecoFactInboxProvider.overrideWith((_) async => items)],
+    child: const EcoFactScreen(),
+  );
 
   group('EcoFactScreen (inbox)', () {
     testWidgets('renders Inbox app bar title', (tester) async {

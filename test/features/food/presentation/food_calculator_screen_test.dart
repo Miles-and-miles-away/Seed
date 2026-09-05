@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/food.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 const _beef = FoodItem(
   id: 'beef',
@@ -28,23 +27,12 @@ const _beans = FoodItem(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
-    return ProviderScope(
-      overrides: [
-        foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
-      ],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: FoodCalculatorScreen(),
-      ),
-    );
-  }
+  Widget buildApp() => createTestWidget(
+    overrides: [
+      foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
+    ],
+    child: const FoodCalculatorScreen(),
+  );
 
   /// Adds an ingredient through the shipped path: the per-column
   /// "Add ingredient" button opens the picker, and because the column

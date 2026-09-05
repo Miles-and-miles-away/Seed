@@ -7,6 +7,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 
@@ -58,9 +59,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
         ? ActionCategory.fromString(categoryStr)
         : null;
 
-    final progress = targetDays > 0
-        ? (currentDay / targetDays).clamp(0.0, 1.0)
-        : 0.0;
+    final progress = ActiveMultiDayChallenge.progress(currentDay, targetDays);
 
     return Card(
       clipBehavior: Clip.antiAlias,

@@ -4,8 +4,73 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 
-/// A single confetti particle. Position is normalized 0..1 and mutated as
-/// the particle falls, so reuse the same list across repaints.
+/// Repaints [painter] every frame of a looping [durationParticleLoop]
+/// controller, passing the loop progress (0..1). Isolated in its own
+/// [RepaintBoundary] so the continuous repaint does not invalidate the
+/// rest of the celebration (Impeller).
+class ConfettiLayer extends StatefulWidget {
+  const ConfettiLayer({
+    required this.painter,
+    this.animating = true,
+    super.key,
+  });
+
+  final CustomPainter Function(double progress) painter;
+
+  /// False once the layer has faded out, so it stops repainting.
+  final bool animating;
+
+  @override
+  State<ConfettiLayer> createState() => _ConfettiLayerState();
+}
+
+class _ConfettiLayerState extends State<ConfettiLayer>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: durationParticleLoop,
+    );
+    if (widget.animating) _controller.repeat();
+  }
+
+  @override
+  void didUpdateWidget(ConfettiLayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.animating == oldWidget.animating) return;
+    if (widget.animating) {
+      _controller.repeat();
+    } else {
+      _controller.stop();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) => CustomPaint(
+          size: Size.infinite,
+          painter: widget.painter(_controller.value),
+        ),
+      ),
+    );
+  }
+}
+
+/// A single confetti particle. Every field is a fixed seed; the painter
+/// derives position from loop progress, so reuse the list across repaints.
 class ConfettiParticle {
   ConfettiParticle({
     required this.x,
@@ -18,59 +83,78 @@ class ConfettiParticle {
     required this.shape,
   });
 
-  /// A random particle starting just above the top edge.
+  /// A random particle at a random point in its fall.
   ///
   /// [colorCount] must match the palette length passed to
   /// [ConfettiPainter.colors] for an even color distribution.
   factory ConfettiParticle.random({int colorCount = 5}) {
-    final random = Random();
     return ConfettiParticle(
-      x: random.nextDouble(),
-      y: -random.nextDouble() * 0.5, // Start above screen
-      size: random.nextDouble() * 10 + 5,
-      speed: random.nextDouble() * 0.5 + 0.3,
-      colorIndex: random.nextInt(colorCount),
-      rotation: random.nextDouble() * pi * 2,
-      rotationSpeed: (random.nextDouble() - 0.5) * 0.2,
-      shape: random.nextInt(3), // 0: rect, 1: circle, 2: star
+      x: _rng.nextDouble(),
+      y: _yStart + _rng.nextDouble() * _ySpan,
+      size: _rng.nextDouble() * 10 + 5,
+      speed: _rng.nextDouble() * 0.5 + 0.3,
+      colorIndex: _rng.nextInt(colorCount),
+      rotation: _rng.nextDouble() * pi * 2,
+      rotationSpeed: (_rng.nextDouble() - 0.5) * 0.2,
+      shape: _rng.nextInt(3), // 0: rect, 1: circle, 2: star
     );
   }
 
+  static final _rng = Random();
+
   final double x;
-  double y;
+  final double y;
   final double size;
   final double speed;
   final int colorIndex;
-  double rotation;
+  final double rotation;
   final double rotationSpeed;
   final int shape;
+
+  /// Whole fall cycles per loop, so a particle lands back on its own
+  /// start at progress 1 and the loop seam stays invisible.
+  int get fallCycles =>
+      max(1, (speed * _fallPerSecond * _loopSeconds / _ySpan).round());
+
+  /// Whole turns per loop, for the same reason.
+  int get spinTurns =>
+      (rotationSpeed * _spinPerSecond * _loopSeconds / (pi * 2)).round();
 }
+
+// The legacy per-frame step assumed 60Hz: y += speed * 0.02 and
+// rotation += rotationSpeed each frame.
+const double _fallPerSecond = 0.02 * 60;
+const double _spinPerSecond = 60;
+const double _yStart = -0.1;
+const double _ySpan = 1.3;
+final double _loopSeconds = durationParticleLoop.inMilliseconds / 1000;
 
 /// Paints falling, rotating confetti as rectangles, circles, and stars.
 ///
-/// Advances each particle on every paint, so drive it from an animation that
-/// repaints continuously (it always reports [shouldRepaint] true).
+/// Every position derives from [progress] (0..1 over one loop) rather
+/// than from a per-paint mutation, so the fall speed is the same on a
+/// 60Hz and a 120Hz display and an extra repaint cannot advance it.
 class ConfettiPainter extends CustomPainter {
-  ConfettiPainter({required this.particles, required this.colors});
+  ConfettiPainter({
+    required this.particles,
+    required this.colors,
+    required this.progress,
+  });
 
   final List<ConfettiParticle> particles;
   final List<Color> colors;
+  final double progress;
 
   @override
   void paint(Canvas canvas, Size size) {
     for (final particle in particles) {
-      // Update particle position and rotation
-      particle
-        ..y += particle.speed * 0.02
-        ..rotation += particle.rotationSpeed;
-
-      // Reset if past bottom
-      if (particle.y > 1.2) {
-        particle.y = -0.1;
-      }
+      final fallen =
+          particle.y + progress * particle.fallCycles * _ySpan - _yStart;
+      final rotation =
+          particle.rotation + progress * particle.spinTurns * pi * 2;
 
       final x = particle.x * size.width;
-      final y = particle.y * size.height;
+      final y = (_yStart + fallen % _ySpan) * size.height;
 
       // Modulo so palettes shorter than the random colorIndex range
       // (nextInt(5) above) cannot index out of bounds.
@@ -82,7 +166,7 @@ class ConfettiPainter extends CustomPainter {
       canvas
         ..save()
         ..translate(x, y)
-        ..rotate(particle.rotation);
+        ..rotate(rotation);
 
       switch (particle.shape) {
         case 0: // Rectangle
@@ -126,5 +210,8 @@ class ConfettiPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant ConfettiPainter oldDelegate) => true;
+  bool shouldRepaint(covariant ConfettiPainter oldDelegate) =>
+      oldDelegate.progress != progress ||
+      oldDelegate.particles != particles ||
+      oldDelegate.colors != colors;
 }

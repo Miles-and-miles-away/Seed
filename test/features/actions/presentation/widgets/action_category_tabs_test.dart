@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_category_tabs.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
   group('ActionCategoryTabs', () {
-    Widget createTestWidget({
+    Widget buildTabs({
       ActionCategory? selectedCategory,
       ValueChanged<ActionCategory?>? onCategorySelected,
     }) {
-      return MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: ActionCategoryTabs(
-            selectedCategory: selectedCategory,
-            onCategorySelected: onCategorySelected ?? (_) {},
-          ),
+      return createTestWidget(
+        scaffold: true,
+        child: ActionCategoryTabs(
+          selectedCategory: selectedCategory,
+          onCategorySelected: onCategorySelected ?? (_) {},
         ),
       );
     }
@@ -38,7 +30,7 @@ void main() {
     }
 
     testWidgets('displays All tab', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
       await scrollToVisible(tester, find.text('All'));
@@ -46,7 +38,7 @@ void main() {
     });
 
     testWidgets('displays all category tabs', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
       expect(find.byType(FilterChip), findsAtLeast(4));
@@ -57,7 +49,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         // ignore: avoid_redundant_argument_values
-        createTestWidget(selectedCategory: null),
+        buildTabs(selectedCategory: null),
       );
       await tester.pumpAndSettle();
 
@@ -73,7 +65,7 @@ void main() {
 
     testWidgets('category tab is selected when matching', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(selectedCategory: ActionCategory.recycling),
+        buildTabs(selectedCategory: ActionCategory.recycling),
       );
       await tester.pumpAndSettle();
 
@@ -93,7 +85,7 @@ void main() {
       ActionCategory? selectedValue = ActionCategory.recycling;
 
       await tester.pumpWidget(
-        createTestWidget(
+        buildTabs(
           selectedCategory: ActionCategory.recycling,
           onCategorySelected: (category) => selectedValue = category,
         ),
@@ -111,7 +103,7 @@ void main() {
       ActionCategory? selectedValue;
 
       await tester.pumpWidget(
-        createTestWidget(
+        buildTabs(
           // ignore: avoid_redundant_argument_values
           selectedCategory: null,
           onCategorySelected: (category) => selectedValue = category,
@@ -134,7 +126,7 @@ void main() {
       ActionCategory? selectedValue = ActionCategory.recycling;
 
       await tester.pumpWidget(
-        createTestWidget(
+        buildTabs(
           selectedCategory: ActionCategory.recycling,
           onCategorySelected: (category) {
             called = true;
@@ -155,7 +147,7 @@ void main() {
     });
 
     testWidgets('is horizontally scrollable', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
       expect(find.byType(ListView), findsOneWidget);
@@ -165,7 +157,7 @@ void main() {
     });
 
     testWidgets('has correct height', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
       final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox).first);
@@ -173,7 +165,7 @@ void main() {
     });
 
     testWidgets('displays category icons', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
       // Scroll to All tab - grid_view icon

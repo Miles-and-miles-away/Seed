@@ -20,16 +20,10 @@ from datetime import datetime
 from pathlib import Path
 import yaml
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
-CONFIG_PATH = SCRIPT_DIR / "config.yaml"
+from _common import PROJECT_ROOT, SCRIPT_DIR, load_config
+
 DATA_DIR = PROJECT_ROOT / "data" / "app"
 VALID_CATEGORIES = ("eco_dex", "garden", "mascots")
-
-
-def load_config():
-    with open(CONFIG_PATH) as f:
-        return yaml.safe_load(f)
 
 
 def infer_category(json_path, config):

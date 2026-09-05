@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
 import 'package:seed_app/shared/widgets/science_sheet.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../helpers/test_helpers.dart';
 
 /// The chrome and the source list the three calculator science sheets
 /// share (Phase 8.4 / 8.10 / 8.16). Each feature's own `_body` builder
@@ -14,16 +15,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 void main() {
   late AppLocalizations l10n;
 
-  Widget wrap(Widget child) => MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: child),
-  );
+  Widget wrap(Widget child) => createTestWidget(scaffold: true, child: child);
 
   setUpAll(() async {
     l10n = await AppLocalizations.delegate.load(const Locale('en'));

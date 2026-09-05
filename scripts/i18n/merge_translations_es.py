@@ -103,7 +103,6 @@ DIACRITICS = [
     (r'\bnumero\b', 'número'),
     (r'\bautobus\b', 'autobús'),
     (r'\bjardin\b', 'jardín'),
-    (r'\bjardines\b', 'jardines'),
     (r'\bfosiles\b', 'fósiles'),
     (r'\beolica\b', 'eólica'),
     (r'\baun\b', 'aún'),

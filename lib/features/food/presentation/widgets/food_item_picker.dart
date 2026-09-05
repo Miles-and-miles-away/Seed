@@ -4,6 +4,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
+import 'package:seed_app/shared/widgets/group_heading.dart';
 
 /// Grouped, searchable food-item list for the ingredient editor.
 ///
@@ -73,14 +74,12 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
     final matches = searchFoodItems(widget.items, _query);
     if (_query.trim().isNotEmpty) return matches;
     final rows = <Object>[];
-    if (widget.recentIds.isNotEmpty) {
-      final byId = {for (final item in widget.items) item.id: item};
-      final recents = [for (final id in widget.recentIds) ?byId[id]];
-      if (recents.isNotEmpty) {
-        rows
-          ..add(_kRecentsHeader)
-          ..addAll(recents);
-      }
+    final byId = {for (final item in widget.items) item.id: item};
+    final recents = [for (final id in widget.recentIds) ?byId[id]];
+    if (recents.isNotEmpty) {
+      rows
+        ..add(_kRecentsHeader)
+        ..addAll(recents);
     }
     String? lastGroup;
     for (final item in matches) {
@@ -152,21 +151,10 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
               itemBuilder: (context, index) {
                 final row = rows[index];
                 if (row is String) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      spacingLg,
-                      spacingMd,
-                      spacingLg,
-                      0,
-                    ),
-                    child: Text(
-                      row == _kRecentsHeader
-                          ? l10n.foodPickerRecents
-                          : foodGroupLabel(l10n, row),
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
+                  return GroupHeading(
+                    row == _kRecentsHeader
+                        ? l10n.foodPickerRecents
+                        : foodGroupLabel(l10n, row),
                   );
                 }
                 return _ItemTile(

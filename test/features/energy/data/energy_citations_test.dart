@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Exact pins for every citation in the dataset (Phase 8.13).
 ///
@@ -34,14 +33,12 @@ void main() {
   late List<(String, String, String, String)> actual;
 
   setUpAll(() {
-    final root =
-        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
-            as Map<String, dynamic>;
     actual = [
-      for (final b
-          in (root['behaviors'] as List<dynamic>).cast<Map<String, dynamic>>())
-        for (final s
-            in (b['sources'] as List<dynamic>).cast<Map<String, dynamic>>())
+      for (final b in rawDatasetList(
+        'data/app/energy_behaviors.json',
+        'behaviors',
+      ))
+        for (final s in datasetEntries(b, 'sources'))
           (
             b['id'] as String,
             s['name'] as String,
@@ -294,14 +291,12 @@ void main() {
     // energy_behaviors_data_test.dart bounds the date set; this pins
     // which source carries which date, closing the swap-within-the-
     // allowlist gap.
-    final root =
-        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
-            as Map<String, dynamic>;
     final dates = {
-      for (final b
-          in (root['behaviors'] as List<dynamic>).cast<Map<String, dynamic>>())
-        for (final s
-            in (b['sources'] as List<dynamic>).cast<Map<String, dynamic>>())
+      for (final b in rawDatasetList(
+        'data/app/energy_behaviors.json',
+        'behaviors',
+      ))
+        for (final s in datasetEntries(b, 'sources'))
           '${b['id']}/${s['name']}': s['accessed'] as String,
     };
     final offBaseline = Map.of(dates)

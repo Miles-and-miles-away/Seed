@@ -109,11 +109,8 @@ class FCMTokenManager extends _$FCMTokenManager {
 
     final fcmService = ref.read(fcmServiceProvider);
 
-    // Get and store the current token
-    final token = await fcmService.getToken();
-    if (token != null) {
-      // Token is automatically stored by FCMService._storeToken
-    }
+    // FCMService persists the token itself; only the fetch is needed here.
+    await fcmService.getToken();
   }
 }
 

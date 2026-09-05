@@ -452,7 +452,7 @@ final class JourneyOptionsProvider
   }
 }
 
-String _$journeyOptionsHash() => r'ebf0bc4e4e427f7b9c5a017a651f85b07e8cc017';
+String _$journeyOptionsHash() => r'051123b8e769505fec742e98930bc69f9f5ae35a';
 
 /// The legs of both journey options, indexed [optionA] / [optionB].
 ///

@@ -152,10 +152,7 @@ def main():
     for i, (url, path) in enumerate(unique_entries, 1):
         status_code, error = check_url(url, args.timeout)
         category = classify_status(status_code)
-        if error:
-            detail = error
-        else:
-            detail = str(status_code)
+        detail = error or str(status_code)
 
         results[category].append((url, path, detail))
 
@@ -193,9 +190,7 @@ def main():
     print(f"  Broken:   {len(results['BROKEN'])}")
     print(f"  Error:    {len(results['ERROR'])}")
 
-    has_broken = (
-        len(results["BROKEN"]) > 0 or len(results["ERROR"]) > 0
-    )
+    has_broken = bool(results["BROKEN"] or results["ERROR"])
     sys.exit(1 if has_broken else 0)
 
 

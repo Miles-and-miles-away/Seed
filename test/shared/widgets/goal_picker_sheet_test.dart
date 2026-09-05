@@ -4,28 +4,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/widgets/goal_picker_sheet.dart';
 
+import '../../helpers/test_helpers.dart';
+
 void main() {
-  Widget createTestWidget({String? initialGoal}) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+  Widget wrap({String? initialGoal}) {
+    return createTestWidget(
       locale: const Locale('en'),
-      home: Scaffold(
-        body: Builder(
-          builder: (context) => TextButton(
-            onPressed: () async {
-              final goal = await GoalPickerSheet.show(
+      scaffold: true,
+      child: Builder(
+        builder: (context) => TextButton(
+          onPressed: () async {
+            final goal = await GoalPickerSheet.show(
+              context,
+              initialGoal: initialGoal,
+            );
+            if (goal != null && context.mounted) {
+              ScaffoldMessenger.of(
                 context,
-                initialGoal: initialGoal,
-              );
-              if (goal != null && context.mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text('result:$goal')));
-              }
-            },
-            child: const Text('open'),
-          ),
+              ).showSnackBar(SnackBar(content: Text('result:$goal')));
+            }
+          },
+          child: const Text('open'),
         ),
       ),
     );
@@ -51,7 +50,7 @@ void main() {
     testWidgets('resolves preset IDs and passes through custom text', (
       tester,
     ) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       final context = tester.element(find.text('open'));
       final l10n = AppLocalizations.of(context);
 
@@ -76,7 +75,7 @@ void main() {
 
   group('GoalPickerSheet', () {
     testWidgets('renders all presets and custom option', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       expect(find.text('Choose your goal'), findsOneWidget);
@@ -86,7 +85,7 @@ void main() {
     });
 
     testWidgets('save is disabled until an option is selected', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       final saveButton = tester.widget<FilledButton>(
@@ -96,7 +95,7 @@ void main() {
     });
 
     testWidgets('selecting a preset and saving returns its ID', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       await tester.tap(find.text('Save the world'));
@@ -111,7 +110,7 @@ void main() {
     testWidgets('custom option shows text field and returns trimmed text', (
       tester,
     ) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       await scrollSheetTo(tester, find.text('Write your own'));
@@ -132,7 +131,7 @@ void main() {
     });
 
     testWidgets('empty custom text keeps save disabled', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       await tester.tap(find.text('Write your own'));
@@ -145,7 +144,7 @@ void main() {
     });
 
     testWidgets('preselects stored preset goal', (tester) async {
-      await tester.pumpWidget(createTestWidget(initialGoal: 'plant_based'));
+      await tester.pumpWidget(wrap(initialGoal: 'plant_based'));
       await openSheet(tester);
 
       final tile = tester.widget<ListTile>(
@@ -157,7 +156,7 @@ void main() {
     testWidgets('preselects custom option for stored free text', (
       tester,
     ) async {
-      await tester.pumpWidget(createTestWidget(initialGoal: 'Plant 100 trees'));
+      await tester.pumpWidget(wrap(initialGoal: 'Plant 100 trees'));
       await openSheet(tester);
 
       expect(find.text('Plant 100 trees'), findsOneWidget);
@@ -171,9 +170,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        createTestWidget(
-          initialGoal: '${personalGoalCustomPrefix}Plant 100 trees',
-        ),
+        wrap(initialGoal: '${personalGoalCustomPrefix}Plant 100 trees'),
       );
       await openSheet(tester);
 
@@ -188,7 +185,7 @@ void main() {
     testWidgets('custom goal equal to a preset ID round-trips as custom text', (
       tester,
     ) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(wrap());
       await openSheet(tester);
 
       await scrollSheetTo(tester, find.text('Write your own'));

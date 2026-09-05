@@ -1,10 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Dataset validation for data/app/energy_behaviors.json (Phase 8.13).
 ///
@@ -16,9 +15,8 @@ void main() {
   late List<EnergyBehavior> behaviors;
 
   setUpAll(() {
-    final text = File('data/app/energy_behaviors.json').readAsStringSync();
-    root = json.decode(text) as Map<String, dynamic>;
-    raw = (root['behaviors'] as List<dynamic>).cast<Map<String, dynamic>>();
+    root = rawDatasetRoot('data/app/energy_behaviors.json');
+    raw = datasetEntries(root, 'behaviors');
     behaviors = raw.map(EnergyBehavior.fromJson).toList();
   });
 
@@ -248,9 +246,7 @@ void main() {
   test('CROSS-DATASET: the grid factor matches transport_modes.json', () {
     // RESEARCH_ENERGY.md section 6 pin 12. One factor, one meaning:
     // the two datasets must never disagree about the same user's grid.
-    final transport =
-        json.decode(File('data/app/transport_modes.json').readAsStringSync())
-            as Map<String, dynamic>;
+    final transport = rawDatasetRoot('data/app/transport_modes.json');
     final transportMetadata = transport['metadata'] as Map<String, dynamic>;
     final energyMetadata = root['metadata'] as Map<String, dynamic>;
     expect(

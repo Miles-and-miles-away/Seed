@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget createTestWidget({AppUserModel? currentUser}) {
-    return ProviderScope(
-      overrides: [
-        currentUserProvider.overrideWith((ref) => Stream.value(currentUser)),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+  Future<void> pumpCard(
+    WidgetTester tester, {
+    AppUserModel? currentUser,
+  }) async {
+    await tester.pumpWidget(
+      createTestWidget(
+        child: const MyGoalCard(),
+        overrides: [userOverride(currentUser)],
+        scaffold: true,
         locale: const Locale('en'),
-        home: const Scaffold(body: MyGoalCard()),
       ),
     );
+    await tester.pumpAndSettle();
   }
 
   const baseUser = AppUserModel(uid: 'u1', email: 'user@example.com');
 
   group('MyGoalCard', () {
     testWidgets('shows set-goal prompt when no goal', (tester) async {
-      await tester.pumpWidget(createTestWidget(currentUser: baseUser));
-      await tester.pumpAndSettle();
+      await pumpCard(tester, currentUser: baseUser);
 
       expect(find.text('My Goal'), findsOneWidget);
       expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
@@ -38,12 +37,10 @@ void main() {
     testWidgets('shows localized preset and edit icon when goal set', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          currentUser: baseUser.copyWith(personalGoal: 'save_world'),
-        ),
+      await pumpCard(
+        tester,
+        currentUser: baseUser.copyWith(personalGoal: 'save_world'),
       );
-      await tester.pumpAndSettle();
 
       expect(find.text('Save the world'), findsOneWidget);
       expect(find.byIcon(Icons.edit_outlined), findsOneWidget);
@@ -51,32 +48,27 @@ void main() {
     });
 
     testWidgets('shows legacy custom goal text verbatim', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          currentUser: baseUser.copyWith(personalGoal: 'Plant 100 trees'),
-        ),
+      await pumpCard(
+        tester,
+        currentUser: baseUser.copyWith(personalGoal: 'Plant 100 trees'),
       );
-      await tester.pumpAndSettle();
 
       expect(find.text('Plant 100 trees'), findsOneWidget);
     });
 
     testWidgets('shows prefixed custom goal text verbatim', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          currentUser: baseUser.copyWith(
-            personalGoal: '${personalGoalCustomPrefix}Plant 100 trees',
-          ),
+      await pumpCard(
+        tester,
+        currentUser: baseUser.copyWith(
+          personalGoal: '${personalGoalCustomPrefix}Plant 100 trees',
         ),
       );
-      await tester.pumpAndSettle();
 
       expect(find.text('Plant 100 trees'), findsOneWidget);
     });
 
     testWidgets('tapping the card opens the goal picker sheet', (tester) async {
-      await tester.pumpWidget(createTestWidget(currentUser: baseUser));
-      await tester.pumpAndSettle();
+      await pumpCard(tester, currentUser: baseUser);
 
       await tester.tap(find.byType(MyGoalCard));
       await tester.pumpAndSettle();

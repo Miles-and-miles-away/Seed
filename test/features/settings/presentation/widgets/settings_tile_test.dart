@@ -3,18 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
 
 void main() {
-  Widget createTestWidget({required Widget child}) {
-    return MaterialApp(home: Scaffold(body: child));
-  }
+  Future<void> pumpTile(WidgetTester tester, Widget tile) =>
+      tester.pumpWidget(MaterialApp(home: Scaffold(body: tile)));
 
   group('SettingsTile', () {
     testWidgets('renders leading icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsTile(
-            leading: Icon(Icons.notifications),
-            title: 'Notifications',
-          ),
+      await pumpTile(
+        tester,
+        const SettingsTile(
+          leading: Icon(Icons.notifications),
+          title: 'Notifications',
         ),
       );
 
@@ -22,28 +20,24 @@ void main() {
     });
 
     testWidgets('renders title', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(child: const SettingsTile(title: 'Test Title')),
-      );
+      await pumpTile(tester, const SettingsTile(title: 'Test Title'));
 
       expect(find.text('Test Title'), findsOneWidget);
     });
 
     testWidgets('renders subtitle when provided', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsTile(title: 'Title', subtitle: 'Subtitle text'),
-        ),
+      await pumpTile(
+        tester,
+        const SettingsTile(title: 'Title', subtitle: 'Subtitle text'),
       );
 
       expect(find.text('Subtitle text'), findsOneWidget);
     });
 
     testWidgets('does not render subtitle when not provided', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsTile(title: 'Title', showChevron: false),
-        ),
+      await pumpTile(
+        tester,
+        const SettingsTile(title: 'Title', showChevron: false),
       );
 
       // Should only find the title
@@ -54,11 +48,7 @@ void main() {
     testWidgets('shows chevron when onTap provided and showChevron true', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(title: 'Title', onTap: () {}),
-        ),
-      );
+      await pumpTile(tester, SettingsTile(title: 'Title', onTap: () {}));
 
       expect(find.byIcon(Icons.chevron_right), findsOneWidget);
     });
@@ -66,10 +56,9 @@ void main() {
     testWidgets('does not show chevron when showChevron is false', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(title: 'Title', showChevron: false, onTap: () {}),
-        ),
+      await pumpTile(
+        tester,
+        SettingsTile(title: 'Title', showChevron: false, onTap: () {}),
       );
 
       expect(find.byIcon(Icons.chevron_right), findsNothing);
@@ -78,10 +67,9 @@ void main() {
     testWidgets('triggers onTap callback when tapped', (tester) async {
       var tapped = false;
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(title: 'Title', onTap: () => tapped = true),
-        ),
+      await pumpTile(
+        tester,
+        SettingsTile(title: 'Title', onTap: () => tapped = true),
       );
 
       await tester.tap(find.byType(SettingsTile));
@@ -91,23 +79,21 @@ void main() {
     });
 
     testWidgets('renders trailing widget when provided', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsTile(title: 'Title', trailing: Icon(Icons.star)),
-        ),
+      await pumpTile(
+        tester,
+        const SettingsTile(title: 'Title', trailing: Icon(Icons.star)),
       );
 
       expect(find.byIcon(Icons.star), findsOneWidget);
     });
 
     testWidgets('trailing takes precedence over showChevron', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(
-            title: 'Title',
-            trailing: const Icon(Icons.star),
-            onTap: () {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsTile(
+          title: 'Title',
+          trailing: const Icon(Icons.star),
+          onTap: () {},
         ),
       );
 
@@ -119,13 +105,12 @@ void main() {
     testWidgets('disabled tile does not respond to tap', (tester) async {
       var tapped = false;
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(
-            title: 'Title',
-            enabled: false,
-            onTap: () => tapped = true,
-          ),
+      await pumpTile(
+        tester,
+        SettingsTile(
+          title: 'Title',
+          enabled: false,
+          onTap: () => tapped = true,
         ),
       );
 
@@ -136,14 +121,13 @@ void main() {
     });
 
     testWidgets('dangerous tile applies error color', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsTile(
-            title: 'Delete Account',
-            leading: const Icon(Icons.delete),
-            dangerous: true,
-            onTap: () {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsTile(
+          title: 'Delete Account',
+          leading: const Icon(Icons.delete),
+          dangerous: true,
+          onTap: () {},
         ),
       );
 
@@ -154,13 +138,12 @@ void main() {
 
   group('SettingsSwitchTile', () {
     testWidgets('renders switch', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: false,
-            onChanged: (_) {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: false,
+          onChanged: (_) {},
         ),
       );
 
@@ -168,13 +151,12 @@ void main() {
     });
 
     testWidgets('shows current value as on', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: true,
-            onChanged: (_) {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: true,
+          onChanged: (_) {},
         ),
       );
 
@@ -183,13 +165,12 @@ void main() {
     });
 
     testWidgets('shows current value as off', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: false,
-            onChanged: (_) {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: false,
+          onChanged: (_) {},
         ),
       );
 
@@ -202,13 +183,12 @@ void main() {
     ) async {
       bool? receivedValue;
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: false,
-            onChanged: (value) => receivedValue = value,
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: false,
+          onChanged: (value) => receivedValue = value,
         ),
       );
 
@@ -223,13 +203,12 @@ void main() {
     ) async {
       bool? receivedValue;
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: false,
-            onChanged: (value) => receivedValue = value,
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: false,
+          onChanged: (value) => receivedValue = value,
         ),
       );
 
@@ -241,14 +220,13 @@ void main() {
     });
 
     testWidgets('renders subtitle when provided', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            subtitle: 'Enable push notifications',
-            value: true,
-            onChanged: (_) {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          subtitle: 'Enable push notifications',
+          value: true,
+          onChanged: (_) {},
         ),
       );
 
@@ -256,14 +234,13 @@ void main() {
     });
 
     testWidgets('renders leading icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            leading: const Icon(Icons.dark_mode),
-            title: 'Dark Mode',
-            value: false,
-            onChanged: (_) {},
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          leading: const Icon(Icons.dark_mode),
+          title: 'Dark Mode',
+          value: false,
+          onChanged: (_) {},
         ),
       );
 
@@ -273,14 +250,13 @@ void main() {
     testWidgets('disabled switch does not respond to toggle', (tester) async {
       bool? receivedValue;
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: SettingsSwitchTile(
-            title: 'Notifications',
-            value: false,
-            enabled: false,
-            onChanged: (value) => receivedValue = value,
-          ),
+      await pumpTile(
+        tester,
+        SettingsSwitchTile(
+          title: 'Notifications',
+          value: false,
+          enabled: false,
+          onChanged: (value) => receivedValue = value,
         ),
       );
 

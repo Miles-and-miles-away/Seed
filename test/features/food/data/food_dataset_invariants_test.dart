@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Sanity invariants from Plan/RESEARCH_FOOD.md section 6.
 ///
@@ -31,10 +30,7 @@ void main() {
   late Map<String, Map<String, dynamic>> byId;
 
   setUpAll(() {
-    final raw = File('data/app/food_items.json').readAsStringSync();
-    final root = json.decode(raw) as Map<String, dynamic>;
-    final items = (root['items'] as List<dynamic>).cast<Map<String, dynamic>>();
-    byId = {for (final item in items) item['id'] as String: item};
+    byId = rawDatasetById('data/app/food_items.json', 'items');
   });
 
   double factor(String id) => (byId[id]!['kg_co2e_per_kg'] as num).toDouble();
@@ -126,8 +122,7 @@ void main() {
     // Pins the 100x-error protection, not an ordering: the cup
     // preset (10 g dry grounds) x 28.53/kg = 0.2853 kg CO2e. A
     // 250 "ml" typo in the grams field would compute 7.13 kg.
-    final servings = (byId['coffee']!['servings'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
+    final servings = datasetEntries(byId['coffee']!, 'servings');
     final cup = servings.firstWhere((s) => s['id'] == 'cup_10g_grounds');
     final grams = (cup['grams'] as num).toDouble();
     expect(grams * factor('coffee') / 1000, lessThan(0.5));
@@ -184,8 +179,7 @@ void main() {
     // the 2 g / 3 g dry-leaf presets give 18 / 27 g CO2e; a user
     // typing 250 "ml" into the grams field would compute 2.25 kg.
     expect(factor('tea'), lessThan(factor('coffee')));
-    final servings = (byId['tea']!['servings'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
+    final servings = datasetEntries(byId['tea']!, 'servings');
     expect(servings, isNotEmpty);
     for (final preset in servings) {
       final grams = (preset['grams'] as num).toDouble();

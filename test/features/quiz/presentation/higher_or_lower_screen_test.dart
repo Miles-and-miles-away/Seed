@@ -1,12 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
@@ -17,44 +14,16 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
-const _oneUse = UsagePreset(
-  id: 'one',
-  nameEn: '1 use',
-  nameJa: '',
-  nameEs: '',
-  units: 1,
-);
+import '../../../helpers/test_helpers.dart';
+import '../../energy/energy_fixtures.dart';
 
-EnergyBehavior _behavior(
-  String id,
-  String group,
-  EnergyCarrier carrier,
-  double kwh,
-) => EnergyBehavior(
-  id: id,
-  comparableGroup: group,
-  carrier: carrier,
-  unit: EnergyUnit.use,
-  kwhPerUnit: kwh,
-  nameEn: id,
-  nameJa: '',
-  nameEs: '',
-  presets: const [_oneUse],
-  defaultPresetId: 'one',
-);
-
-final _ledBulb = _behavior(
+final _ledBulb = behavior(
   'led_bulb',
   'lighting',
   EnergyCarrier.electricity,
   0.0085,
 );
-final _dryer = _behavior(
-  'dryer',
-  'laundry_dry',
-  EnergyCarrier.electricity,
-  4.5,
-);
+final _dryer = behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5);
 
 /// Two cards 529x apart: the hidden card is always the other one, so a
 /// test knows the right answer without depending on the shuffle.
@@ -63,18 +32,18 @@ final _pair = [_ledBulb, _dryer];
 final _mixed = [
   _ledBulb,
   _dryer,
-  _behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
-  _behavior('oven', 'cook', EnergyCarrier.electricity, 0.82),
-  _behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
-  _behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
-  _behavior('shower_gas', 'hot_water', EnergyCarrier.gas, 1.64018),
+  behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
+  behavior('oven', 'cook', EnergyCarrier.electricity, 0.82),
+  behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
+  behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
+  behavior('shower_gas', 'hot_water', EnergyCarrier.gas, 1.64018),
 ];
 
 /// One long name against one short one: without stretched tokens the
 /// wrapped title made its card visibly taller than the other.
 final _unevenPair = [
   _ledBulb,
-  _behavior(
+  behavior(
     'Tumble dryer, vented or condenser',
     'laundry_dry',
     EnergyCarrier.electricity,
@@ -125,7 +94,7 @@ void main() {
     List<FoodItem> items = const [],
     List<TransportMode> modes = const [],
     int seed = 1,
-  }) => ProviderScope(
+  }) => createTestWidget(
     overrides: [
       energyBehaviorsProvider.overrideWith((_) async => behaviors ?? _pair),
       energyCarrierFactorsProvider.overrideWith(
@@ -134,16 +103,7 @@ void main() {
       foodItemsProvider.overrideWith((_) async => items),
       transportModesProvider.overrideWith((_) async => modes),
     ],
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: HigherOrLowerScreen(random: Random(seed)),
-    ),
+    child: HigherOrLowerScreen(random: Random(seed)),
   );
 
   /// The left card's name. Read off the first Card rather than searched
@@ -266,7 +226,7 @@ void main() {
       // first, so the run has nowhere to go.
       final nearTies = [
         _ledBulb,
-        _behavior('led_twin', 'lighting', EnergyCarrier.electricity, 0.0086),
+        behavior('led_twin', 'lighting', EnergyCarrier.electricity, 0.0086),
       ];
       await tester.pumpWidget(buildApp(behaviors: nearTies));
       await tester.pumpAndSettle();
@@ -505,7 +465,7 @@ void main() {
         buildApp(
           behaviors: [
             _dryer,
-            _behavior('oven', 'cook', EnergyCarrier.electricity, 0.82),
+            behavior('oven', 'cook', EnergyCarrier.electricity, 0.82),
           ],
         ),
       );

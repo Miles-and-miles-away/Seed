@@ -8,6 +8,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
 import '../providers/sdg_stats_provider.dart';
 
 const _maxVisibleActions = 6;
@@ -27,7 +28,6 @@ class SdgActionsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final actions = ref.watch(sdgRelatedActionsProvider(goalNumber));
 
@@ -43,17 +43,10 @@ class SdgActionsGrid extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(Icons.eco, color: goalColor, size: 20),
-                const SizedBox(width: spacingSm),
-                Text(
-                  l10n.sdgRelatedActions,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            SdgSectionHeader(
+              icon: Icons.eco,
+              title: l10n.sdgRelatedActions,
+              color: goalColor,
             ),
             TextButton(
               onPressed: () {

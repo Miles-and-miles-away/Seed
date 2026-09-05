@@ -16,11 +16,11 @@ import re
 import subprocess
 import sys
 
+# Names alone are not secrets: Plan/ is full of code samples that
+# reference a key by name. Require an assigned value-like token.
 PATTERNS = [
-    r"PRIVATE.KEY",
-    r"SECRET_KEY",
-    r"API_KEY",
-    r"password\s*=",
+    r"(PRIVATE.KEY|SECRET_KEY|API_KEY)\s*[:=]\s*['\"]?[A-Za-z0-9._~+/-]{12,}",
+    r"password\s*=\s*['\"]?\S+",
     r"Bearer\s+[A-Za-z0-9._~+/-]+=*",
     r"AIza[0-9A-Za-z_-]{35}",
 ]

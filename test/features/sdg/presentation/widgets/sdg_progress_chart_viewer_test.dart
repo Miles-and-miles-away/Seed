@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_progress_chart_viewer.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 SdgGoal _goal(int number) => SdgGoal(
   number: number,
@@ -57,13 +58,10 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: SingleChildScrollView(
-            child: SdgProgressChartViewer(goal: _goal(1)),
-          ),
+      createTestWidget(
+        scaffold: true,
+        child: SingleChildScrollView(
+          child: SdgProgressChartViewer(goal: _goal(1)),
         ),
       ),
     );

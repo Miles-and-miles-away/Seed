@@ -44,6 +44,15 @@ class AccountSettingsScreen extends ConsumerStatefulWidget {
 class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
   bool _isLoading = false;
 
+  /// Whether the signed-in Firebase user authenticates with email/password.
+  bool get _isEmailPasswordUser =>
+      ref
+          .read(firebaseAuthProvider)
+          .currentUser
+          ?.providerData
+          .any((p) => p.providerId == 'password') ??
+      false;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -54,11 +63,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     // don't briefly flash "Not set" for an existing display name / goal.
     final isUserLoading = !currentUserAsync.hasValue;
     final firebaseUser = ref.watch(firebaseAuthProvider).currentUser;
-
-    // Check if user signed in with email/password
-    final isEmailPasswordUser =
-        firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-        false;
+    final isEmailPasswordUser = _isEmailPasswordUser;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.accountSettingsTitle)),
@@ -245,29 +250,33 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
-  /// Re-authenticates then updates the email. Returns true on success so the
-  /// caller can stop retrying; false re-opens the dialog with input kept.
-  Future<bool> _changeEmail(
-    String currentEmail,
-    String password,
-    String newEmail,
-  ) async {
+  /// Shows the spinner while [op] runs, then reports [successMessage] and
+  /// calls [onSuccess], or logs under [logLabel] and shows the mapped auth
+  /// error. Returns true on success so the caller can stop retrying; false
+  /// re-opens the dialog with input kept.
+  Future<bool> _runReauthed({
+    required Future<void> Function(AuthNotifier auth) op,
+    required String logLabel,
+    String? successMessage,
+    VoidCallback? onSuccess,
+  }) async {
     final l10n = AppLocalizations.of(context);
     setState(() => _isLoading = true);
 
     try {
-      final auth = ref.read(authProvider.notifier);
-      await auth.reauthenticateWithEmailPassword(currentEmail, password);
-      await auth.updateEmail(newEmail);
+      await op(ref.read(authProvider.notifier));
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.accountSettingsEmailUpdated)),
-        );
+        if (successMessage != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(successMessage)));
+        }
+        onSuccess?.call();
       }
       return true;
     } on Exception catch (e) {
-      appLogger.error('Account: email update failed', error: e);
+      appLogger.error(logLabel, error: e);
       if (mounted) {
         ScaffoldMessenger.of(
           context,
@@ -279,6 +288,23 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         setState(() => _isLoading = false);
       }
     }
+  }
+
+  /// Re-authenticates then updates the email.
+  Future<bool> _changeEmail(
+    String currentEmail,
+    String password,
+    String newEmail,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    return _runReauthed(
+      op: (auth) async {
+        await auth.reauthenticateWithEmailPassword(currentEmail, password);
+        await auth.updateEmail(newEmail);
+      },
+      logLabel: 'Account: email update failed',
+      successMessage: l10n.accountSettingsEmailUpdated,
+    );
   }
 
   Future<void> _showChangePasswordDialog() async {
@@ -309,47 +335,25 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
-  /// Re-authenticates then updates the password. Returns true on success so
-  /// the caller can stop retrying; false re-opens the dialog with input kept.
+  /// Re-authenticates then updates the password.
   Future<bool> _changePassword(
     String email,
     String currentPassword,
     String newPassword,
-  ) async {
+  ) {
     final l10n = AppLocalizations.of(context);
-    setState(() => _isLoading = true);
-
-    try {
-      final auth = ref.read(authProvider.notifier);
-      await auth.reauthenticateWithEmailPassword(email, currentPassword);
-      await auth.updatePassword(newPassword);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.accountSettingsPasswordUpdated)),
-        );
-      }
-      return true;
-    } on Exception catch (e) {
-      appLogger.error('Account: password update failed', error: e);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
-      }
-      return false;
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+    return _runReauthed(
+      op: (auth) async {
+        await auth.reauthenticateWithEmailPassword(email, currentPassword);
+        await auth.updatePassword(newPassword);
+      },
+      logLabel: 'Account: password update failed',
+      successMessage: l10n.accountSettingsPasswordUpdated,
+    );
   }
 
   Future<void> _showDeleteAccountDialog() async {
-    final firebaseUser = ref.read(firebaseAuthProvider).currentUser;
-    final isEmailPasswordUser =
-        firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-        false;
+    final isEmailPasswordUser = _isEmailPasswordUser;
     var email = '';
 
     // Re-open prefilled on a re-auth failure so the typed email isn't lost;
@@ -375,41 +379,22 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
   }
 
   /// Re-authenticates if required then deletes the account, navigating to
-  /// login on success (returns true). Returns false on failure so the
-  /// caller can re-open the dialog with the typed email preserved.
+  /// login on success.
   Future<bool> _deleteAccount(
     String email,
     String password, {
     required bool requiresReauth,
-  }) async {
-    final l10n = AppLocalizations.of(context);
-    setState(() => _isLoading = true);
-
-    try {
-      final auth = ref.read(authProvider.notifier);
-      if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
-        await auth.reauthenticateWithEmailPassword(email, password);
-      }
-
-      await auth.deleteAccount();
-
-      if (mounted) {
-        context.go(appRoutes.login);
-      }
-      return true;
-    } on Exception catch (e) {
-      appLogger.error('Account: account deletion failed', error: e);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
-      }
-      return false;
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+  }) {
+    return _runReauthed(
+      op: (auth) async {
+        if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
+          await auth.reauthenticateWithEmailPassword(email, password);
+        }
+        await auth.deleteAccount();
+      },
+      logLabel: 'Account: account deletion failed',
+      onSuccess: () => context.go(appRoutes.login),
+    );
   }
 }
 

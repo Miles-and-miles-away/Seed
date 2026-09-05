@@ -4,23 +4,18 @@
 Run: conda activate seed && python -m pytest test_pipeline.py -v
 """
 
-import math
 import textwrap
-from pathlib import Path
-from unittest.mock import patch
 
 import pytest
-import yaml
 
-SCRIPT_DIR = Path(__file__).parent
+from _common import load_config
 
 # --- Fixtures ---
 
 
 @pytest.fixture
 def config():
-    with open(SCRIPT_DIR / "config.yaml") as f:
-        return yaml.safe_load(f)
+    return load_config()
 
 
 @pytest.fixture

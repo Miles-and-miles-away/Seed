@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_card.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 const _fixture = <EquivalencyMetadata>[
   EquivalencyMetadata(
@@ -37,20 +36,12 @@ const _fixture = <EquivalencyMetadata>[
   ),
 ];
 
-Widget _wrap(Widget child) => ProviderScope(
+Widget _wrap(Widget child) => createTestWidget(
+  scaffold: true,
   overrides: [
     impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
   ],
-  child: MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: child),
-  ),
+  child: child,
 );
 
 void main() {

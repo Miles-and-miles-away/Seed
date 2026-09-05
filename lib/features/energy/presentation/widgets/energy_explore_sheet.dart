@@ -61,9 +61,7 @@ class EnergyExploreSheet extends StatefulWidget {
     constraints: BoxConstraints(
       maxHeight: MediaQuery.sizeOf(context).height * _maxSheetHeightFraction,
     ),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-    ),
+    shape: sheetShape,
     builder: (_) => EnergyExploreSheet(
       behavior: behavior,
       anchorBehavior: anchorBehavior,

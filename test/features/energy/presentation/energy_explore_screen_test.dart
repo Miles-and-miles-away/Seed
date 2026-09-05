@@ -1,56 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 
 import '../../../helpers/test_helpers.dart';
-
-const _oneUse = UsagePreset(
-  id: 'one',
-  nameEn: '1 use',
-  nameJa: '',
-  nameEs: '',
-  units: 1,
-);
-
-EnergyBehavior _behavior(
-  String id,
-  String group,
-  EnergyCarrier carrier,
-  double kwh,
-) => EnergyBehavior(
-  id: id,
-  comparableGroup: group,
-  carrier: carrier,
-  unit: EnergyUnit.use,
-  kwhPerUnit: kwh,
-  nameEn: id,
-  nameJa: '',
-  nameEs: '',
-  presets: const [_oneUse],
-  defaultPresetId: 'one',
-);
+import '../energy_fixtures.dart';
 
 // All four explore baselines, plus a big row, a zero row and a gas row.
 final _behaviors = [
-  _behavior('led_bulb', 'lighting', EnergyCarrier.electricity, 0.0085),
-  _behavior('phone_charge', 'device', EnergyCarrier.electricity, 0.015271),
-  _behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
-  _behavior('fan', 'space_cool', EnergyCarrier.electricity, 0.022),
-  _behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
-  _behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
-  _behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
+  behavior('led_bulb', 'lighting', EnergyCarrier.electricity, 0.0085),
+  behavior('phone_charge', 'device', EnergyCarrier.electricity, 0.015271),
+  behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
+  behavior('fan', 'space_cool', EnergyCarrier.electricity, 0.022),
+  behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
+  behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
+  behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
 ];
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp({List<EnergyBehavior>? behaviors}) => ProviderScope(
+  Widget buildApp({List<EnergyBehavior>? behaviors}) => createTestWidget(
     overrides: [
       energyBehaviorsProvider.overrideWith(
         (_) async => behaviors ?? _behaviors,
@@ -59,16 +31,7 @@ void main() {
         (_) async => const CarrierFactors(grid: 458, gas: 182),
       ),
     ],
-    child: const MaterialApp(
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: EnergyExploreScreen(),
-    ),
+    child: const EnergyExploreScreen(),
   );
 
   /// Opens a row's sheet, scrolling it into view first: the list is

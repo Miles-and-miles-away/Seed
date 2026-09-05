@@ -852,8 +852,9 @@ def main():
     # The blocklist is the only thing this script may change.
     assert json.dumps(payload["metadata"]["links"]) == links_before
     assert json.dumps(payload["cities"]) == cities_before
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     with open(CITIES_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+        f.write(blob)
         f.write("\n")
 
     added = set(result) - previous

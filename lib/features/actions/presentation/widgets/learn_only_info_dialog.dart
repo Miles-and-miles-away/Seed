@@ -5,6 +5,8 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'action_science_bottom_sheet.dart';
@@ -46,33 +48,11 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(spacingXxl),
-            decoration: BoxDecoration(
-              color: categoryColor.withValues(alpha: opacityVeryFaint),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28),
-                topRight: Radius.circular(28),
-              ),
-            ),
-            child: Column(
-              children: [
-                Icon(
-                  Icons.menu_book,
-                  size: 48,
-                  color: theme.colorScheme.outline,
-                ),
-                const SizedBox(height: spacingMd),
-                Text(
-                  action.name(languageCode),
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+          ActionDialogHeader(
+            tint: categoryColor.withValues(alpha: opacityVeryFaint),
+            icon: Icons.menu_book,
+            iconColor: theme.colorScheme.outline,
+            title: action.name(languageCode),
           ),
           // Body
           Padding(
@@ -101,7 +81,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: spacingSm),
-                  _buildSdgRow(action.relatedSdgs, goalMap, theme),
+                  _buildSdgRow(action.relatedSdgs, goalMap),
                 ],
               ],
             ),
@@ -163,42 +143,20 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
     );
   }
 
-  Widget _buildSdgRow(
-    List<String> sdgNumbers,
-    Map<int, SdgGoal> goalMap,
-    ThemeData theme,
-  ) {
-    final parsed =
-        sdgNumbers
-            .map(int.tryParse)
-            .whereType<int>()
-            .where((n) => n >= 1 && n <= 17)
-            .toList()
-          ..sort();
-
+  Widget _buildSdgRow(List<String> sdgNumbers, Map<int, SdgGoal> goalMap) {
     return Wrap(
       alignment: WrapAlignment.center,
       spacing: 6,
       runSpacing: 6,
-      children: parsed.map((number) {
-        final sdg = goalMap[number];
-        final color = sdg?.color ?? Colors.grey;
-        return Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          child: Center(
-            child: Text(
-              '$number',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      children: [
+        for (final number in parsedSdgNumbers(sdgNumbers))
+          sdgNumberBadge(
+            '$number',
+            goalMap[number]?.color ?? Colors.grey,
+            diameter: 28,
+            fontSize: 12,
           ),
-        );
-      }).toList(),
+      ],
     );
   }
 }

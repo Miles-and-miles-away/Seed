@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
@@ -12,6 +10,8 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_science_she
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 EnergyBehavior _behavior(
   String id, {
@@ -39,15 +39,7 @@ EnergyBehavior _behavior(
   sources: sources,
 );
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+Widget _wrap(Widget child) => createTestWidget(scaffold: true, child: child);
 
 void main() {
   group('EnergyBehaviorPicker', () {
@@ -214,19 +206,17 @@ void main() {
     Future<void> open(WidgetTester tester, {double? initialUnits}) async {
       returned = null;
       await tester.pumpWidget(
-        ProviderScope(
-          child: _wrap(
-            Builder(
-              builder: (context) => TextButton(
-                onPressed: () async {
-                  returned = await UsageEditorSheet.show(
-                    context,
-                    behavior: shower,
-                    initialUnits: initialUnits,
-                  );
-                },
-                child: const Text('open'),
-              ),
+        _wrap(
+          Builder(
+            builder: (context) => TextButton(
+              onPressed: () async {
+                returned = await UsageEditorSheet.show(
+                  context,
+                  behavior: shower,
+                  initialUnits: initialUnits,
+                );
+              },
+              child: const Text('open'),
             ),
           ),
         ),

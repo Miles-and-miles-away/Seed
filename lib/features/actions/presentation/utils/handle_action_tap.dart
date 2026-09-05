@@ -66,7 +66,7 @@ Future<void> handleActionTap(
       ),
     );
 
-    if (logResult.challengeCompleted && context.mounted) {
+    if (logResult.challengeCompleted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -79,20 +79,18 @@ Future<void> handleActionTap(
     }
 
     // Eco-Dex discovery evaluation
-    if (context.mounted) {
-      final newIds = await ref
-          .read(ecoDexDiscoveryProvider.notifier)
-          .discoverNewEntries(minActionsCount: logResult.newTotalActionsCount);
-      if (newIds.isNotEmpty && context.mounted) {
-        final ecoDex = await ref.read(ecoDexDataProvider.future);
-        final byId = {for (final e in ecoDex.entries) e.id: e};
-        final entries = newIds
-            .map((id) => byId[id])
-            .whereType<EcoDexEntry>()
-            .toList();
-        if (entries.isNotEmpty && context.mounted) {
-          await showEcoDexCelebrations(context, entries: entries);
-        }
+    final newIds = await ref
+        .read(ecoDexDiscoveryProvider.notifier)
+        .discoverNewEntries(minActionsCount: logResult.newTotalActionsCount);
+    if (newIds.isNotEmpty && context.mounted) {
+      final ecoDex = await ref.read(ecoDexDataProvider.future);
+      final byId = {for (final e in ecoDex.entries) e.id: e};
+      final entries = newIds
+          .map((id) => byId[id])
+          .whereType<EcoDexEntry>()
+          .toList();
+      if (entries.isNotEmpty && context.mounted) {
+        await showEcoDexCelebrations(context, entries: entries);
       }
     }
 

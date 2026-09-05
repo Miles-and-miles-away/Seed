@@ -15,20 +15,6 @@ class ActionLogRemoteDataSource {
           .doc(userId)
           .collection(AppConstants.collectionActionLog);
 
-  Future<ActionLogModel> createActionLog(
-    String userId,
-    ActionLogModel log,
-  ) async {
-    final docRef = _userActionLogs(userId).doc();
-    final logWithId = log.copyWith(id: docRef.id);
-
-    // Convert to JSON and handle the Timestamp conversion
-    final data = logWithId.toJson()..remove('id'); // Don't store id in document
-
-    await docRef.set(data);
-    return logWithId;
-  }
-
   Query<Map<String, dynamic>> _rangeQuery(
     String userId,
     DateTime start,

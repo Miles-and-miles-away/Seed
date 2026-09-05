@@ -62,30 +62,12 @@ class EnergyMethodologyScreen extends ConsumerWidget {
         EnergyRankedTable(behaviors: behaviors),
         const SizedBox(height: spacingXxl),
         MarkdownBlock(
-          data: appendExternalLinkArrow(_sourcesMarkdown(l10n, behaviors)),
+          data: appendExternalLinkArrow(
+            dedupedSourcesMarkdown(behaviors.expand((b) => b.sources), l10n),
+          ),
           config: config,
         ),
       ],
     );
-  }
-
-  /// Deduplicated, data-derived source list (same shape as the
-  /// transport and food methodology screens).
-  String _sourcesMarkdown(
-    AppLocalizations l10n,
-    List<EnergyBehavior> behaviors,
-  ) {
-    final buffer = StringBuffer()..writeln('### ${l10n.scienceSourcesHeading}');
-    // Union of every shipped source, first name seen per URL wins.
-    final sources = <String, String>{};
-    for (final behavior in behaviors) {
-      for (final source in behavior.sources) {
-        sources.putIfAbsent(source.url, () => source.name);
-      }
-    }
-    for (final entry in sources.entries) {
-      buffer.writeln('- [${entry.value}](${entry.key})');
-    }
-    return buffer.toString();
   }
 }
