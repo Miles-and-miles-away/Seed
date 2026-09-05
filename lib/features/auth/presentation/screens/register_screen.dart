@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +13,11 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
+import '../utils/sign_in_with_social.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/or_divider.dart';
 import '../widgets/social_sign_in_button.dart';
+import '../widgets/social_sign_in_row.dart';
 
 /// Registration screen with email/password and social sign-in.
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -30,8 +32,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
   bool _acceptedTerms = false;
   bool _isCooldown = false;
   SocialProvider? _pendingSocial;
@@ -105,48 +105,33 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   textInputAction: TextInputAction.next,
-                  validator: (v) => _validateEmail(v, l10n),
+                  validator: (v) => validateEmail(
+                    v,
+                    emptyError: l10n.authValidationEmailRequired,
+                    invalidError: l10n.authValidationEmailInvalid,
+                  ),
                 ),
                 const SizedBox(height: spacingLg),
                 AuthTextField(
                   controller: _passwordController,
                   label: l10n.authPassword,
-                  obscureText: _obscurePassword,
+                  obscurable: true,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.next,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                    ),
-                    onPressed: () {
-                      setState(() => _obscurePassword = !_obscurePassword);
-                    },
+                  validator: (v) => validatePassword(
+                    v,
+                    emptyError: l10n.authValidationPasswordRequired,
+                    shortError: l10n.authValidationPasswordShort,
                   ),
-                  validator: (v) => _validatePassword(v, l10n),
                 ),
                 const SizedBox(height: spacingLg),
                 AuthTextField(
                   controller: _confirmPasswordController,
                   label: l10n.authConfirmPassword,
-                  obscureText: _obscureConfirmPassword,
+                  obscurable: true,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _handleSignUp(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                    ),
-                    onPressed: () {
-                      setState(
-                        () =>
-                            _obscureConfirmPassword = !_obscureConfirmPassword,
-                      );
-                    },
-                  ),
                   validator: (v) => _validateConfirmPassword(v, l10n),
                 ),
                 const SizedBox(height: spacingLg),
@@ -216,52 +201,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       : Text(l10n.authCreateAccount),
                 ),
                 const SizedBox(height: spacingXxl),
-                Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingLg,
-                      ),
-                      child: Text(
-                        l10n.authOrSignUpWith,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                    const Expanded(child: Divider()),
-                  ],
-                ),
+                OrDivider(label: l10n.authOrSignUpWith),
                 const SizedBox(height: spacingXxl),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SocialSignInButton(
-                        provider: SocialProvider.google,
-                        isLoading:
-                            isLoading &&
-                            _pendingSocial == SocialProvider.google,
-                        onPressed: isLoading || _isCooldown
-                            ? null
-                            : () => _handleSocialSignIn(SocialProvider.google),
-                      ),
-                    ),
-                    if (Platform.isIOS) ...[
-                      const SizedBox(width: spacingLg),
-                      Expanded(
-                        child: SocialSignInButton(
-                          provider: SocialProvider.apple,
-                          isLoading:
-                              isLoading &&
-                              _pendingSocial == SocialProvider.apple,
-                          onPressed: isLoading || _isCooldown
-                              ? null
-                              : () => _handleSocialSignIn(SocialProvider.apple),
-                        ),
-                      ),
-                    ],
-                  ],
+                SocialSignInRow(
+                  isLoading: isLoading,
+                  isCooldown: _isCooldown,
+                  pendingProvider: _pendingSocial,
+                  onPressed: (provider) {
+                    setState(() => _pendingSocial = provider);
+                    signInWithSocial(ref, provider);
+                  },
                 ),
                 const SizedBox(height: spacingXxxl),
                 Row(
@@ -287,24 +236,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  String? _validateEmail(String? value, AppLocalizations l10n) {
-    return validateEmail(
-      value,
-      emptyError: l10n.authValidationEmailRequired,
-      invalidError: l10n.authValidationEmailInvalid,
-    );
-  }
-
-  String? _validatePassword(String? value, AppLocalizations l10n) {
-    if (value == null || value.isEmpty) {
-      return l10n.authValidationPasswordRequired;
-    }
-    if (value.length < 6) {
-      return l10n.authValidationPasswordShort;
-    }
-    return null;
-  }
-
   String? _validateConfirmPassword(String? value, AppLocalizations l10n) {
     if (value == null || value.isEmpty) {
       return l10n.authValidationConfirmRequired;
@@ -313,17 +244,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return l10n.accountSettingsPasswordMismatch;
     }
     return null;
-  }
-
-  void _handleSocialSignIn(SocialProvider provider) {
-    setState(() => _pendingSocial = provider);
-    final notifier = ref.read(authProvider.notifier);
-    switch (provider) {
-      case SocialProvider.google:
-        notifier.signInWithGoogle();
-      case SocialProvider.apple:
-        notifier.signInWithApple();
-    }
   }
 
   void _handleSignUp() {

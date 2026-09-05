@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 import 'package:seed_app/features/transport/domain/services/journey_distance.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
+import 'package:seed_app/shared/widgets/group_heading.dart';
 
 /// Grouped transport mode list for the leg editor.
 ///
@@ -47,7 +47,6 @@ class TransportModePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final band = flightBandId;
     final groups = <String, List<TransportMode>>{};
     for (final mode in modes) {
@@ -60,20 +59,7 @@ class TransportModePicker extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final entry in groups.entries) ...[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              spacingLg,
-              spacingMd,
-              spacingLg,
-              0,
-            ),
-            child: Text(
-              transportGroupLabel(l10n, entry.key),
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ),
+          GroupHeading(transportGroupLabel(l10n, entry.key)),
           for (final mode in entry.value)
             _ModeTile(
               mode: mode,

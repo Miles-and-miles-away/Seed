@@ -127,7 +127,8 @@ def suggest(a, b, links, blocked, pair_index):
 
 
 def main():
-    root = json.load(open(CITIES_JSON, encoding="utf-8"))
+    with open(CITIES_JSON, encoding="utf-8") as f:
+        root = json.load(f)
     cities = root["cities"]
     links = root["metadata"]["links"]
     blocked = {tuple(p) for p in root["metadata"].get("water_blocked", [])}
@@ -245,9 +246,8 @@ def main():
     # concern -- cc granularity cannot see them.
     update_reviewed = "--update-reviewed" in sys.argv
     if REVIEWED_CC_PATH.exists():
-        reviewed = set(
-            json.load(open(REVIEWED_CC_PATH, encoding="utf-8"))["pairs"]
-        )
+        with open(REVIEWED_CC_PATH, encoding="utf-8") as f:
+            reviewed = set(json.load(f)["pairs"])
     else:
         reviewed = set()
         if not update_reviewed:
@@ -292,8 +292,9 @@ def main():
             ),
             "pairs": sorted(cc_ground),
         }
+        blob = json.dumps(payload, ensure_ascii=False, indent=1)
         with open(REVIEWED_CC_PATH, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=1)
+            f.write(blob)
             f.write("\n")
         print(f"reviewed cc-pair list updated: {len(cc_ground)} pairs")
     print("\nPASS: sweep gate clean")

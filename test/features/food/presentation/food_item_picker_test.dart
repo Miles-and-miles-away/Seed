@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_item_picker.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 FoodItem _item(
   String id,
@@ -135,19 +135,12 @@ void main() {
 
   group('FoodItemPicker', () {
     Widget harness({required void Function(FoodItem) onSelected}) =>
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: FoodItemPicker(
-              items: _items,
-              onSelected: onSelected,
-              onInfo: (_) {},
-            ),
+        createTestWidget(
+          scaffold: true,
+          child: FoodItemPicker(
+            items: _items,
+            onSelected: onSelected,
+            onInfo: (_) {},
           ),
         );
 
@@ -193,19 +186,12 @@ void main() {
         for (var i = 0; i < 300; i++) _item('item$i', 'meat', 'Food $i'),
       ];
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: FoodItemPicker(
-              items: many,
-              onSelected: (_) {},
-              onInfo: (_) {},
-            ),
+        createTestWidget(
+          scaffold: true,
+          child: FoodItemPicker(
+            items: many,
+            onSelected: (_) {},
+            onInfo: (_) {},
           ),
         ),
       );
@@ -220,21 +206,13 @@ void main() {
 
   group('FoodItemPicker rows', () {
     Widget buildPickerWith(List<FoodItem> items, List<String> recentIds) =>
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: FoodItemPicker(
-              items: items,
-              recentIds: recentIds,
-              onSelected: (_) {},
-              onInfo: (_) {},
-            ),
+        createTestWidget(
+          scaffold: true,
+          child: FoodItemPicker(
+            items: items,
+            recentIds: recentIds,
+            onSelected: (_) {},
+            onInfo: (_) {},
           ),
         );
 

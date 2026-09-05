@@ -24,15 +24,34 @@ void main() {
     ).thenAnswer((_) async => MockUserCredential());
   });
 
+  Future<void> pumpRegister(WidgetTester tester) => tester.pumpWidget(
+    createTestWidget(
+      child: const RegisterScreen(),
+      firebaseAuth: mockFirebaseAuth,
+      firestore: fakeFirestore,
+    ),
+  );
+
+  Future<void> fillForm(
+    WidgetTester tester, {
+    required String email,
+    required String password,
+    required String confirm,
+  }) async {
+    await tester.enterText(find.widgetWithText(TextFormField, 'Email'), email);
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Password'),
+      password,
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Confirm Password'),
+      confirm,
+    );
+  }
+
   group('RegisterScreen', () {
     testWidgets('renders all expected UI elements', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify key UI elements are present
       // "Create Account" appears in both title and button
@@ -50,13 +69,7 @@ void main() {
     });
 
     testWidgets('shows validation error for empty fields', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // First accept terms
       await tester.tap(find.byType(Checkbox));
@@ -74,30 +87,18 @@ void main() {
     testWidgets('shows validation error for invalid email format', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Accept terms
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
 
       // Enter invalid email
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'invalid-email',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        'password123',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        'password123',
+      await fillForm(
+        tester,
+        email: 'invalid-email',
+        password: 'password123',
+        confirm: 'password123',
       );
 
       // Tap create account
@@ -109,30 +110,18 @@ void main() {
     });
 
     testWidgets('shows validation error for short password', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Accept terms
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
 
       // Enter valid email but short password
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'test@example.com',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        '12345',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        '12345',
+      await fillForm(
+        tester,
+        email: 'test@example.com',
+        password: '12345',
+        confirm: '12345',
       );
 
       // Tap create account
@@ -147,30 +136,18 @@ void main() {
     });
 
     testWidgets('shows validation error for password mismatch', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Accept terms
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
 
       // Enter mismatched passwords
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'test@example.com',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        'password123',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        'password456',
+      await fillForm(
+        tester,
+        email: 'test@example.com',
+        password: 'password123',
+        confirm: 'password456',
       );
 
       // Tap create account
@@ -182,26 +159,14 @@ void main() {
     });
 
     testWidgets('shows snackbar when terms not accepted', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Enter valid form data but don't accept terms
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'test@example.com',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        'password123',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        'password123',
+      await fillForm(
+        tester,
+        email: 'test@example.com',
+        password: 'password123',
+        confirm: 'password123',
       );
 
       // Tap create account without accepting terms
@@ -216,13 +181,7 @@ void main() {
     });
 
     testWidgets('toggles password visibility', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Initially should show visibility icons (passwords are hidden)
       // There are two password fields with visibility toggles
@@ -239,13 +198,7 @@ void main() {
     });
 
     testWidgets('toggles confirm password visibility', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Tap second visibility toggle (confirm password field)
       await tester.tap(find.byIcon(Icons.visibility_outlined).last);
@@ -257,13 +210,7 @@ void main() {
     });
 
     testWidgets('checkbox can be toggled', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Find checkbox and verify initially unchecked
       final checkboxFinder = find.byType(Checkbox);
@@ -289,13 +236,7 @@ void main() {
     });
 
     testWidgets('terms text exists with checkbox', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify checkbox exists
       expect(find.byType(Checkbox), findsOneWidget);
@@ -311,30 +252,18 @@ void main() {
     testWidgets(
       'calls createUserWithEmailAndPassword on valid form submission',
       (tester) async {
-        await tester.pumpWidget(
-          createTestWidget(
-            child: const RegisterScreen(),
-            firebaseAuth: mockFirebaseAuth,
-            firestore: fakeFirestore,
-          ),
-        );
+        await pumpRegister(tester);
 
         // Accept terms
         await tester.tap(find.byType(Checkbox));
         await tester.pumpAndSettle();
 
         // Enter valid credentials
-        await tester.enterText(
-          find.widgetWithText(TextFormField, 'Email'),
-          'test@example.com',
-        );
-        await tester.enterText(
-          find.widgetWithText(TextFormField, 'Password'),
-          'password123',
-        );
-        await tester.enterText(
-          find.widgetWithText(TextFormField, 'Confirm Password'),
-          'password123',
+        await fillForm(
+          tester,
+          email: 'test@example.com',
+          password: 'password123',
+          confirm: 'password123',
         );
 
         // Tap create account
@@ -352,39 +281,21 @@ void main() {
     );
 
     testWidgets('shows Google sign-in button', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Google sign-in should be visible on all platforms
       expect(find.text('Google'), findsOneWidget);
     });
 
     testWidgets('displays eco icon in header', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify eco icon is displayed
       expect(find.byIcon(Icons.eco), findsOneWidget);
     });
 
     testWidgets('email field has email icon prefix', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify email field has the correct prefix icon
       expect(find.byIcon(Icons.email_outlined), findsOneWidget);
@@ -395,13 +306,7 @@ void main() {
     testWidgets('displays Terms of Service and Privacy Policy text', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify terms text is present (Rich text contains spans)
       // Looking for the container with the checkbox and terms
@@ -417,13 +322,7 @@ void main() {
     });
 
     testWidgets('has Sign In text button that exists', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Verify sign in link exists
       expect(find.text('Sign In'), findsOneWidget);
@@ -431,32 +330,18 @@ void main() {
     });
 
     testWidgets('form field submission triggers sign up', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const RegisterScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpRegister(tester);
 
       // Accept terms
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
 
       // Enter valid credentials
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
-        'test@example.com',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
-        'password123',
-      );
-
-      // Use testTextInput to submit from confirm password field
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Confirm Password'),
-        'password123',
+      await fillForm(
+        tester,
+        email: 'test@example.com',
+        password: 'password123',
+        confirm: 'password123',
       );
 
       // Submit the form by pressing the done key on confirm password field

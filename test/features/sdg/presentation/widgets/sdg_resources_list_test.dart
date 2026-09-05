@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_resources_list.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 Widget _wrap(Widget child, {required Map<int, List<SdgResource>> resources}) =>
-    ProviderScope(
+    createTestWidget(
+      scaffold: true,
       overrides: [
         sdgResourcesDataProvider.overrideWith((_) async => resources),
       ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: Padding(padding: const EdgeInsets.all(16), child: child),
-        ),
-      ),
+      child: Padding(padding: const EdgeInsets.all(16), child: child),
     );
 
 void main() {

@@ -159,27 +159,17 @@ class _EmailVerificationScreenState
 
       // Read the freshly reloaded user directly; the auth stream may not have
       // propagated the updated emailVerified flag yet at this point.
-      final user = ref.read(authRepositoryProvider).currentUser;
-      if (user != null && user.emailVerified) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.authEmailVerified),
-              backgroundColor: AppColors.success,
-            ),
-          );
-          context.go(appRoutes.home);
-        }
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.authEmailNotVerified),
-              backgroundColor: AppColors.warning,
-            ),
-          );
-        }
-      }
+      final verified =
+          ref.read(authRepositoryProvider).currentUser?.emailVerified ?? false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            verified ? l10n.authEmailVerified : l10n.authEmailNotVerified,
+          ),
+          backgroundColor: verified ? AppColors.success : AppColors.warning,
+        ),
+      );
+      if (verified) context.go(appRoutes.home);
     } finally {
       if (mounted) {
         setState(() => _checkingVerification = false);

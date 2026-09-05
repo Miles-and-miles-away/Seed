@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/presentation/widgets/rainbow_sun_painter.dart';
 import 'package:seed_app/features/progress/presentation/widgets/rainbow_sun_widget.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget wrap(Widget child) => MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(
-      body: Center(child: SizedBox(width: 200, height: 200, child: child)),
-    ),
+  Widget wrap(Widget child) => createTestWidget(
+    scaffold: true,
+    child: Center(child: SizedBox(width: 200, height: 200, child: child)),
   );
 
   group('RainbowSunWidget', () {

@@ -26,7 +26,6 @@ class LegalDocument {
   final List<LegalSection> _es;
 
   String get lastUpdated => _lastUpdated;
-  String get contactEmail => _contactEmail;
 
   /// Sections for [locale], falling back to English.
   List<LegalSection> forLocale(Locale locale) {
@@ -38,7 +37,7 @@ class LegalDocument {
   }
 }
 
-const _lastUpdated = '2026-02-14';
+const _lastUpdated = '2026-09-05';
 const _contactEmail = 'support@seedhabit.app';
 
 /// Privacy policy content per locale.
@@ -126,7 +125,9 @@ const _privacyEn = [
         '- Firebase Cloud Messaging (push notifications)\n'
         '- Firebase Analytics (anonymous usage data)\n'
         '- Firebase Crashlytics (crash reporting)\n'
-        '- RevenueCat (subscription management)\n\n'
+        '- Firebase Performance Monitoring '
+        '(app performance data)\n'
+        '- Firebase App Check (abuse prevention)\n\n'
         'These services have their own privacy policies. '
         'We do not sell or share your personal data with '
         'any other third parties.',
@@ -238,7 +239,9 @@ const _privacyJa = [
         '- Firebase Cloud Messaging（プッシュ通知）\n'
         '- Firebase Analytics（匿名利用データ）\n'
         '- Firebase Crashlytics（クラッシュレポート）\n'
-        '- RevenueCat（サブスクリプション管理）\n\n'
+        '- Firebase Performance Monitoring'
+        '（アプリのパフォーマンスデータ）\n'
+        '- Firebase App Check（不正利用防止）\n\n'
         'これらのサービスには独自のプライバシーポリシーがあります。'
         '当社はお客様の個人データを他の第三者に販売または共有することはありません。',
   ),
@@ -357,7 +360,9 @@ const _privacyEs = [
         '(notificaciones push)\n'
         '- Firebase Analytics (datos de uso anónimos)\n'
         '- Firebase Crashlytics (informes de errores)\n'
-        '- RevenueCat (gestión de suscripciones)\n\n'
+        '- Firebase Performance Monitoring '
+        '(datos de rendimiento de la aplicación)\n'
+        '- Firebase App Check (prevención de abusos)\n\n'
         'Estos servicios tienen sus propias políticas de '
         'privacidad. No vendemos ni compartimos sus datos '
         'personales con otros terceros.',
@@ -468,9 +473,9 @@ const _termsEn = [
   LegalSection(
     title: 'Points and Virtual Items',
     body:
-        'Points earned through logging actions and '
-        'virtual items purchased in the cosmetic shop '
-        'have no real-world monetary value. They exist '
+        'Points and virtual items earned through '
+        'logging actions have no real-world monetary '
+        'value. They exist '
         'solely within the app and cannot be exchanged, '
         'transferred, or refunded outside of the app.',
   ),
@@ -596,7 +601,7 @@ const _termsJa = [
     title: 'ポイントと仮想アイテム',
     body:
         'アクションの記録で獲得したポイントや'
-        'コスメティックショップで購入した仮想アイテムは、'
+        '仮想アイテムは、'
         '現実世界の金銭的価値を持ちません。アプリ内'
         'でのみ存在し、アプリ外での交換、譲渡、'
         '返金はできません。',
@@ -724,9 +729,9 @@ const _termsEs = [
   LegalSection(
     title: 'Puntos y artículos virtuales',
     body:
-        'Los puntos ganados al registrar acciones y '
-        'los artículos virtuales comprados en la tienda '
-        'cosmética no tienen valor monetario real. '
+        'Los puntos y artículos virtuales ganados al '
+        'registrar acciones no tienen valor monetario '
+        'real. '
         'Existen únicamente dentro de la aplicación y '
         'no pueden ser intercambiados, transferidos o '
         'reembolsados fuera de la aplicación.',

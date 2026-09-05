@@ -182,7 +182,7 @@ final class MealOptionsProvider
   }
 }
 
-String _$mealOptionsHash() => r'3fc9d54337bcecbe9f233c726504eae144d72c5c';
+String _$mealOptionsHash() => r'3352803943f2084e32cc18f24a2f02fd077b46d0';
 
 /// The ingredients of both meal options, indexed [optionA] / [optionB].
 ///

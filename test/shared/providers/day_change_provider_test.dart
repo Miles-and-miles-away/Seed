@@ -3,21 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/shared/providers/day_change_provider.dart';
+
+import '../../helpers/test_helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final testUser = AppUserModel(uid: 'test-uid', email: 'test@example.com');
 
-  ProviderContainer createContainer() {
-    return ProviderContainer(
-      overrides: [
-        currentUserProvider.overrideWith((_) => Stream.value(testUser)),
-      ],
-    );
-  }
+  ProviderContainer createContainer() =>
+      ProviderContainer(overrides: [userOverride(testUser)]);
 
   group('DayChangeNotifier', () {
     test('build returns today date key', () {

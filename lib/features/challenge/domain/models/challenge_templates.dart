@@ -29,8 +29,8 @@ class DailyChallengeTemplate {
 
   String title(String locale) {
     return switch (locale) {
-      'es' => titleEs,
-      'ja' => titleJa,
+      'es' when titleEs.isNotEmpty => titleEs,
+      'ja' when titleJa.isNotEmpty => titleJa,
       _ => titleEn,
     };
   }
@@ -76,16 +76,16 @@ class MultiDayChallengeTemplate {
 
   String title(String locale) {
     return switch (locale) {
-      'es' => titleEs,
-      'ja' => titleJa,
+      'es' when titleEs.isNotEmpty => titleEs,
+      'ja' when titleJa.isNotEmpty => titleJa,
       _ => titleEn,
     };
   }
 
   String description(String locale) {
     return switch (locale) {
-      'es' => descriptionEs,
-      'ja' => descriptionJa,
+      'es' when descriptionEs.isNotEmpty => descriptionEs,
+      'ja' when descriptionJa.isNotEmpty => descriptionJa,
       _ => descriptionEn,
     };
   }

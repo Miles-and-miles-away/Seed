@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/presentation/widgets/reminder_list_tile.dart';
 
+void _noop() {}
+
+void _ignore(bool _) {}
+
 void main() {
   Widget createTestWidget({
     required NotificationScheduleModel schedule,
-    required ValueChanged<bool> onToggle,
-    required VoidCallback onDelete,
-    required VoidCallback onTap,
+    ValueChanged<bool> onToggle = _ignore,
+    VoidCallback onDelete = _noop,
+    VoidCallback onTap = _noop,
   }) {
     return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: ReminderListTile(
@@ -54,41 +52,20 @@ void main() {
 
   group('ReminderListTile', () {
     testWidgets('renders time display', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       // Should show the formatted time (9:00 AM)
       expect(find.text('9:00 AM'), findsOneWidget);
     });
 
     testWidgets('renders label when provided', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.text('Morning'), findsOneWidget);
     });
 
     testWidgets('does not render label when empty', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: noLabelSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: noLabelSchedule));
 
       // Should only find the time, no subtitle
       expect(find.text('12:00 PM'), findsOneWidget);
@@ -96,67 +73,32 @@ void main() {
     });
 
     testWidgets('shows alarm icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.byIcon(Icons.alarm), findsOneWidget);
     });
 
     testWidgets('shows delete icon button', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.byIcon(Icons.delete_outline), findsWidgets);
     });
 
     testWidgets('shows switch toggle', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.byType(Switch), findsOneWidget);
     });
 
     testWidgets('switch reflects enabled state', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       final switchWidget = tester.widget<Switch>(find.byType(Switch));
       expect(switchWidget.value, isTrue);
     });
 
     testWidgets('switch reflects disabled state', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: disabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: disabledSchedule));
 
       final switchWidget = tester.widget<Switch>(find.byType(Switch));
       expect(switchWidget.value, isFalse);
@@ -169,8 +111,6 @@ void main() {
         createTestWidget(
           schedule: enabledSchedule,
           onToggle: (value) => receivedValue = value,
-          onDelete: () {},
-          onTap: () {},
         ),
       );
 
@@ -187,9 +127,7 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           schedule: enabledSchedule,
-          onToggle: (_) {},
           onDelete: () => deleteCalled = true,
-          onTap: () {},
         ),
       );
 
@@ -206,8 +144,6 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
           onTap: () => tapCalled = true,
         ),
       );
@@ -220,27 +156,13 @@ void main() {
     });
 
     testWidgets('is wrapped in Dismissible', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.byType(Dismissible), findsOneWidget);
     });
 
     testWidgets('dismissible key uses schedule id', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       final dismissible = tester.widget<Dismissible>(find.byType(Dismissible));
       expect(dismissible.key, equals(const Key('test-1')));
@@ -252,9 +174,7 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           schedule: enabledSchedule,
-          onToggle: (_) {},
           onDelete: () => deleteCalled = true,
-          onTap: () {},
         ),
       );
 
@@ -266,28 +186,14 @@ void main() {
     });
 
     testWidgets('displays time with PM correctly', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: disabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: disabledSchedule));
 
       // 18:30 should display as 6:30 PM
       expect(find.text('6:30 PM'), findsOneWidget);
     });
 
     testWidgets('shows ListTile inside Dismissible', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          schedule: enabledSchedule,
-          onToggle: (_) {},
-          onDelete: () {},
-          onTap: () {},
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
       expect(find.byType(ListTile), findsOneWidget);
     });

@@ -6,9 +6,6 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
-const _kMaxChildSize = 0.85;
-const _kMinChildSize = 0.3;
-
 /// Bottom sheet displaying the scientific long description
 /// for an action, rendered as markdown with tappable links.
 class ActionScienceBottomSheet extends StatelessWidget {
@@ -31,9 +28,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (context) =>
           ActionScienceBottomSheet(action: action, languageCode: languageCode),
     );
@@ -47,8 +42,8 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final linkColor = readableTextColor(categoryColor, theme.brightness);
 
     return DraggableScrollableSheet(
-      maxChildSize: _kMaxChildSize,
-      minChildSize: _kMinChildSize,
+      maxChildSize: sheetMaxChildSize,
+      minChildSize: sheetMinChildSize,
       builder: (context, scrollController) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

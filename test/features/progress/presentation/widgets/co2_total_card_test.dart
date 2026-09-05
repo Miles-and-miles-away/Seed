@@ -1,29 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('Co2TotalCard', () {
     testWidgets('renders zero state as "0.0 kg"', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const Co2TotalCard(
+        createTestWidget(
+          scaffold: true,
+          child: const Co2TotalCard(
             stats: Co2Stats(
               totalGrams: 0,
               previousTotalGrams: 0,
@@ -40,8 +29,9 @@ void main() {
 
     testWidgets('renders sub-kg total in kg with one decimal', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const Co2TotalCard(
+        createTestWidget(
+          scaffold: true,
+          child: const Co2TotalCard(
             stats: Co2Stats(
               totalGrams: 412,
               previousTotalGrams: 0,
@@ -59,8 +49,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const Co2TotalCard(
+        createTestWidget(
+          scaffold: true,
+          child: const Co2TotalCard(
             stats: Co2Stats(
               totalGrams: 42008,
               previousTotalGrams: 0,
@@ -85,8 +76,9 @@ void main() {
 
       for (final (period, expectedHeader) in periods) {
         await tester.pumpWidget(
-          _wrap(
-            Co2TotalCard(
+          createTestWidget(
+            scaffold: true,
+            child: Co2TotalCard(
               stats: Co2Stats(
                 totalGrams: 1000,
                 previousTotalGrams: 0,

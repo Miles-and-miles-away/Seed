@@ -31,6 +31,59 @@ class CelebrationOverlay extends StatelessWidget {
   }
 }
 
+/// Bold white headline that fades in and drops into place after [delay].
+class CelebrationTitle extends StatelessWidget {
+  const CelebrationTitle(this.text, {this.delay = Duration.zero, super.key});
+
+  final String text;
+  final Duration delay;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+          text,
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        )
+        .animate()
+        .fadeIn(delay: delay, duration: 400.ms)
+        .slideY(begin: -0.2, end: 0);
+  }
+}
+
+/// Large pill-shaped dismiss button that fades in and rises into place
+/// once [delay] has elapsed.
+class CelebrationButton extends StatelessWidget {
+  const CelebrationButton({
+    required this.label,
+    required this.onPressed,
+    this.delay = Duration.zero,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+  final Duration delay;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      onPressed: onPressed,
+      style: FilledButton.styleFrom(
+        padding: const EdgeInsets.symmetric(
+          horizontal: spacingHuge,
+          vertical: spacingLg,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: borderRadiusLg),
+      ),
+      child: Text(label),
+    ).animate(delay: delay).fadeIn(duration: 400.ms).slideY(begin: 0.3, end: 0);
+  }
+}
+
 /// Presents [builder]'s widget as a full-screen celebration: transparent
 /// barrier, no transition, dismiss wired to pop. The shared launcher every
 /// `show*Celebration` helper delegates to.

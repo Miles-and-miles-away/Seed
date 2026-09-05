@@ -43,7 +43,7 @@ extension ActionModelLocalization on ActionModel {
   /// Returns the action name in the specified language.
   String name(String locale) {
     return switch (locale) {
-      'ja' => nameJa,
+      'ja' when nameJa.isNotEmpty => nameJa,
       'es' when nameEs.isNotEmpty => nameEs,
       _ => nameEn,
     };
@@ -52,7 +52,7 @@ extension ActionModelLocalization on ActionModel {
   /// Returns the action description in the specified language.
   String description(String locale) {
     return switch (locale) {
-      'ja' => descriptionJa,
+      'ja' when descriptionJa.isNotEmpty => descriptionJa,
       'es' when descriptionEs.isNotEmpty => descriptionEs,
       _ => descriptionEn,
     };

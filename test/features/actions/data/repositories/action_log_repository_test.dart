@@ -562,7 +562,6 @@ void main() {
       );
 
       expect(result.hatchedMascotId, isNotNull);
-      expect(result.didHatchEgg, isTrue);
       final data = (await getUser()).data()!;
       expect(data.containsKey(AppConstants.fieldEgg), isFalse);
       final mascots = data[AppConstants.fieldMascots] as List<dynamic>;

@@ -1,9 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Exact-value pins for every shipped figure (Phase 8.13).
 ///
@@ -22,18 +21,10 @@ import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 /// a silent one. When a value legitimately moves, re-derive it from
 /// RESEARCH_ENERGY.md and change it in both places.
 void main() {
-  late Map<String, dynamic> root;
   late Map<String, Map<String, dynamic>> byId;
 
   setUpAll(() {
-    root =
-        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
-            as Map<String, dynamic>;
-    byId = {
-      for (final b
-          in (root['behaviors'] as List<dynamic>).cast<Map<String, dynamic>>())
-        b['id'] as String: b,
-    };
+    byId = rawDatasetById('data/app/energy_behaviors.json', 'behaviors');
   });
 
   test('every kwh_per_unit ships exactly', () {
@@ -233,8 +224,7 @@ void main() {
     };
     final actual = <String, double>{};
     for (final b in byId.values) {
-      for (final p
-          in (b['presets'] as List<dynamic>).cast<Map<String, dynamic>>()) {
+      for (final p in datasetEntries(b, 'presets')) {
         actual['${b['id']}/${p['id']}'] = (p['units'] as num).toDouble();
       }
     }
@@ -245,9 +235,7 @@ void main() {
     // Not a copy of the data: a relationship the copy cannot express,
     // and the one the research derives it from.
     final presets = {
-      for (final p
-          in (byId['aircon_cooling']!['presets'] as List<dynamic>)
-              .cast<Map<String, dynamic>>())
+      for (final p in datasetEntries(byId['aircon_cooling']!, 'presets'))
         p['id'] as String: (p['units'] as num).toDouble(),
     };
     expect(presets['evening_26c'], closeTo(4 * presets['hour_26c']!, 1e-9));

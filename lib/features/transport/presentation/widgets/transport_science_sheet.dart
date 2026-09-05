@@ -22,24 +22,10 @@ void showTransportScienceSheet(
   );
 }
 
-String _body(AppLocalizations l10n, TransportMode mode) {
-  final buffer = StringBuffer()
-    ..writeln('**${transportModeFactorLabel(l10n, mode)}**')
-    ..writeln();
-  final basis = transportModeBasisNote(l10n, mode);
-  if (basis != null) {
-    buffer
-      ..writeln(basis)
-      ..writeln();
-  }
-  if (mode.calculationNotes.isNotEmpty) {
-    buffer
-      ..writeln('### ${l10n.scienceNotesHeading}')
-      ..writeln(mode.calculationNotes)
-      ..writeln();
-  }
-  if (mode.sources.isNotEmpty) {
-    buffer.write(sourcesMarkdown(mode.sources, l10n));
-  }
-  return buffer.toString();
-}
+String _body(AppLocalizations l10n, TransportMode mode) => scienceMarkdown(
+  l10n,
+  factorLine: transportModeFactorLabel(l10n, mode),
+  basisNote: transportModeBasisNote(l10n, mode),
+  notes: mode.calculationNotes,
+  sources: mode.sources,
+);

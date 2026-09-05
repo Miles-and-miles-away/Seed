@@ -1,22 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_trend_chart.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+import '../../../../helpers/test_helpers.dart';
 
 Co2TrendData _fixture({
   int days = 7,
@@ -47,8 +35,9 @@ void main() {
   group('Co2TrendChart', () {
     testWidgets('renders title and average legend label', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          Co2TrendChart(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
             data: _fixture(points: const [(0, 500), (3, 1200), (6, 900)]),
           ),
         ),
@@ -64,8 +53,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          Co2TrendChart(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
             data: _fixture(
               days: 90,
               points: const [(0, 200), (45, 1500), (89, 700)],

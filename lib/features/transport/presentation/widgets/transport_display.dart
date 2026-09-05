@@ -116,9 +116,6 @@ String journeyOptionLabel(
 /// Compact km display: whole values drop the decimal. Locale-aware
 /// (grouping and decimal separators), so display only -- never feed
 /// the result back into a parseable text field.
-String formatKmCompact(double km, String locale) {
-  final isWhole = km == km.roundToDouble();
-  return isWhole
-      ? NumberFormat.decimalPattern(locale).format(km.round())
-      : NumberFormat('#,##0.0', locale).format(km);
-}
+String formatKmCompact(double km, String locale) => km == km.roundToDouble()
+    ? NumberFormat.decimalPattern(locale).format(km.round())
+    : NumberFormat('#,##0.0', locale).format(km);

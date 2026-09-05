@@ -1,10 +1,12 @@
 import 'dart:ui' show Color;
 
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
@@ -25,9 +27,8 @@ Future<List<MascotSpeciesModel>> mascotSpeciesData(Ref ref) =>
     loadMascotSpecies();
 
 @riverpod
-MascotRepository mascotRepository(Ref ref) {
-  return MascotRepository(firestore: ref.watch(firestoreProvider));
-}
+MascotRepository mascotRepository(Ref ref) =>
+    MascotRepository(firestore: ref.watch(firestoreProvider));
 
 // =============================================================
 // Multi-Mascot Providers
@@ -48,27 +49,13 @@ Stream<List<MascotModel>> allMascots(Ref ref) async* {
 @riverpod
 Stream<MascotModel?> activeMascot(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
-  final activeId = user?.activeMascotId;
-  if (user == null || activeId == null) {
-    yield null;
-    return;
-  }
-  MascotModel? active;
-  for (final mascot in user.mascots) {
-    if (mascot.id == activeId) {
-      active = mascot;
-      break;
-    }
-  }
-  yield active;
+  yield user?.mascots.firstWhereOrNull((m) => m.id == user.activeMascotId);
 }
 
 /// Whether the current user has at least one mascot.
 @riverpod
-bool hasMascot(Ref ref) {
-  final mascots = ref.watch(allMascotsProvider).value;
-  return mascots != null && mascots.isNotEmpty;
-}
+bool hasMascot(Ref ref) =>
+    ref.watch(allMascotsProvider).value?.isNotEmpty ?? false;
 
 /// Species data for the active mascot.
 @riverpod
@@ -113,10 +100,8 @@ EvolutionStageModel? activeStageData(Ref ref) {
 
 /// Asset path for the active mascot's current stage.
 @riverpod
-String? activeMascotAssetPath(Ref ref) {
-  final stageData = ref.watch(activeStageDataProvider);
-  return stageData?.assetPath;
-}
+String? activeMascotAssetPath(Ref ref) =>
+    ref.watch(activeStageDataProvider)?.assetPath;
 
 /// Next evolution stage for the active mascot, or null.
 @riverpod
@@ -142,16 +127,11 @@ bool hasNewEvolution(Ref ref) {
 
 /// The user's current egg (derived from user data).
 @riverpod
-EggModel? currentEgg(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  return user?.egg;
-}
+EggModel? currentEgg(Ref ref) => ref.watch(currentUserProvider).value?.egg;
 
 /// Whether the user has an egg.
 @riverpod
-bool hasEgg(Ref ref) {
-  return ref.watch(currentEggProvider) != null;
-}
+bool hasEgg(Ref ref) => ref.watch(currentEggProvider) != null;
 
 /// Egg hatching progress (0.0 to 1.0).
 @riverpod
@@ -165,11 +145,8 @@ double eggHatchingProgress(Ref ref) {
 /// Whether to show the egg discovery celebration.
 /// True if eggPendingDiscovery flag is set.
 @riverpod
-bool shouldShowEggDiscovery(Ref ref) {
-  final user = ref.watch(currentUserProvider).value;
-  if (user == null) return false;
-  return user.eggPendingDiscovery;
-}
+bool shouldShowEggDiscovery(Ref ref) =>
+    ref.watch(currentUserProvider).value?.eggPendingDiscovery ?? false;
 
 // =============================================================
 // Localized Name Providers
@@ -177,120 +154,81 @@ bool shouldShowEggDiscovery(Ref ref) {
 
 /// Localized name for the active mascot's stage.
 @riverpod
-String? stageLocalizedName(Ref ref, String locale) {
-  final stageData = ref.watch(activeStageDataProvider);
-  if (stageData == null) return null;
-  return switch (locale) {
-    'ja' => stageData.nameJa,
-    'es' when stageData.nameEs.isNotEmpty => stageData.nameEs,
-    _ => stageData.nameEn,
-  };
-}
+String? stageLocalizedName(Ref ref, String locale) =>
+    ref.watch(activeStageDataProvider)?.name(locale);
 
 // =============================================================
 // MascotNotifier -- mutations
 // =============================================================
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MascotNotifier extends _$MascotNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
+
+  /// Runs [body] for the signed-in user, tracking loading and error
+  /// state; a no-op when signed out.
+  Future<void> _run(
+    Future<void> Function(MascotRepository repo, AppUserModel user) body,
+  ) async {
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) {
+      state = AsyncValue.error(Exception('Not logged in'), StackTrace.current);
+      return;
+    }
+
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(
+      () => body(ref.read(mascotRepositoryProvider), user),
+    );
+    if (!ref.mounted) return;
+    state = result;
+  }
 
   /// Selects a mascot for a new user.
   Future<void> selectMascot({
     required String speciesId,
     required String name,
-  }) async {
-    final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      await repo.selectMascot(
-        userId: user.uid,
-        speciesId: speciesId,
-        name: name,
-      );
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  }) => _run(
+    (repo, user) =>
+        repo.selectMascot(userId: user.uid, speciesId: speciesId, name: name),
+  );
 
   /// Renames the active mascot.
   Future<void> renameMascot(String name) async {
-    final user = ref.read(currentUserProvider).value;
     final mascot = ref.read(activeMascotProvider).value;
-    if (user == null || mascot == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateMascotName(user.uid, mascot.id, name);
-    });
-    if (!ref.mounted) return;
-    state = result;
+    if (mascot == null) return;
+    await _run(
+      (repo, user) => repo.updateMascotName(user.uid, mascot.id, name),
+    );
   }
 
   /// Marks the current evolution stage as seen.
   Future<void> markEvolutionSeen() async {
-    final user = ref.read(currentUserProvider).value;
     final mascot = ref.read(activeMascotProvider).value;
     final stage = ref.read(activeMascotStageProvider);
-    if (user == null || mascot == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateLastSeenStage(user.uid, mascot.id, stage);
-    });
-    if (!ref.mounted) return;
-    state = result;
+    if (mascot == null) return;
+    await _run(
+      (repo, user) => repo.updateLastSeenStage(user.uid, mascot.id, stage),
+    );
   }
 
   /// Switches the active mascot.
-  Future<void> switchActiveMascot(String mascotId) async {
-    final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      await repo.setActiveMascot(user.uid, mascotId);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> switchActiveMascot(String mascotId) =>
+      _run((repo, user) => repo.setActiveMascot(user.uid, mascotId));
 
   /// Acknowledges egg discovery -- creates the egg.
-  Future<void> acknowledgeEggDiscovery() async {
-    final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      final egg = EggModel(receivedAt: DateTime.now());
-      await repo.createEgg(user.uid, egg);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> acknowledgeEggDiscovery() => _run(
+    (repo, user) =>
+        repo.createEgg(user.uid, EggModel(receivedAt: DateTime.now())),
+  );
 
   /// Names a newly hatched mascot and makes it active.
-  Future<void> nameHatchedMascot(String mascotId, String name) async {
-    final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final repo = ref.read(mascotRepositoryProvider);
-      await repo.updateMascotName(user.uid, mascotId, name);
-      await repo.setActiveMascot(user.uid, mascotId);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> nameHatchedMascot(String mascotId, String name) =>
+      _run((repo, user) async {
+        await repo.updateMascotName(user.uid, mascotId, name);
+        await repo.setActiveMascot(user.uid, mascotId);
+      });
 }
 
 // =============================================================

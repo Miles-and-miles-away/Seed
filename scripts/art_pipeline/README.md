@@ -225,6 +225,7 @@ curl -s -H "Authorization: Bearer $RECRAFT_API_TOKEN" \
 scripts/art_pipeline/
   README.md                  # This file
   config.yaml                # Pipeline configuration
+  _common.py                 # Shared config paths and SVG rendering
   generate_assets.py         # Interactive orchestrator
   generate.py                # Step 1: Recraft API generation
   validate.py                # Step 2: Quality validation

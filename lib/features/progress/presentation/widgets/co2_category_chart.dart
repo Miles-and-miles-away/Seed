@@ -26,7 +26,9 @@ class Co2CategoryChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final otherColor = theme.colorScheme.outlineVariant.withValues(alpha: 0.8);
+    final otherColor = theme.colorScheme.outlineVariant.withValues(
+      alpha: opacityHeavy,
+    );
 
     final totalKg = data.totalGrams / 1000.0;
 
@@ -64,7 +66,7 @@ class Co2CategoryChart extends StatelessWidget {
                       for (final slice in data.slices)
                         PieChartSectionData(
                           value: slice.grams.toDouble(),
-                          color: _colorFor(slice, otherColor),
+                          color: slice.category?.color ?? otherColor,
                           radius: _sectionRadius,
                           showTitle: false,
                         ),
@@ -97,12 +99,6 @@ class Co2CategoryChart extends StatelessWidget {
       ),
     );
   }
-
-  Color _colorFor(Co2CategorySlice slice, Color otherColor) {
-    final category = slice.category;
-    if (category == null) return otherColor;
-    return category.color;
-  }
 }
 
 class _Legend extends StatelessWidget {
@@ -113,7 +109,6 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
 
     return Wrap(
@@ -127,8 +122,6 @@ class _Legend extends StatelessWidget {
                 ? l10n.categoryOther
                 : slice.category!.displayName(l10n),
             percentage: slice.percentage,
-            textTheme: theme.textTheme,
-            mutedColor: theme.colorScheme.onSurfaceVariant,
           ),
       ],
     );
@@ -140,18 +133,15 @@ class _LegendItem extends StatelessWidget {
     required this.color,
     required this.label,
     required this.percentage,
-    required this.textTheme,
-    required this.mutedColor,
   });
 
   final Color color;
   final String label;
   final double percentage;
-  final TextTheme textTheme;
-  final Color mutedColor;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -161,11 +151,13 @@ class _LegendItem extends StatelessWidget {
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: spacingXs),
-        Text(label, style: textTheme.labelMedium),
+        Text(label, style: theme.textTheme.labelMedium),
         const SizedBox(width: spacingXxs),
         Text(
           '${percentage.toStringAsFixed(0)}%',
-          style: textTheme.labelSmall?.copyWith(color: mutedColor),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );

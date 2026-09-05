@@ -437,7 +437,7 @@ final class AuthNotifierProvider
   }
 }
 
-String _$authNotifierHash() => r'2db8b200a0da6450daaff993c4f2c8cda0fca069';
+String _$authNotifierHash() => r'5869f1f079b84b0c0960cbbab3aeed9b7110c1f6';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.

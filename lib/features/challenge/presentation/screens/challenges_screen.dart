@@ -153,7 +153,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-                _buildStateBadge(context, theme, colorScheme, l10n),
+                _buildStateBadge(theme, colorScheme, l10n),
               ],
             ),
             const SizedBox(height: spacingSm),
@@ -180,7 +180,6 @@ class _ChallengeTemplateCard extends ConsumerWidget {
   }
 
   Widget _buildStateBadge(
-    BuildContext context,
     ThemeData theme,
     ColorScheme colorScheme,
     AppLocalizations l10n,
@@ -244,9 +243,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
   ) {
     final currentDay = activeChallenge?.currentDay ?? 0;
     final targetDays = activeChallenge?.targetDays ?? template.targetDays;
-    final progress = targetDays > 0
-        ? (currentDay / targetDays).clamp(0.0, 1.0)
-        : 0.0;
+    final progress = ActiveMultiDayChallenge.progress(currentDay, targetDays);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

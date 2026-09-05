@@ -1,7 +1,7 @@
 # Phase 9: Premium & Monetization
 
 **Version:** 1.0
-**Created:** July 2026 (extracted from PLAN_PHASE_7 v1.1)
+**Created:** July 2026
 **Status:** Planning
 
 ---
@@ -205,10 +205,7 @@ Configure subscription products and entitlements.
 
 | Product ID | Type | Duration | Price (suggested) |
 |------------|------|----------|-------------------|
-| `seed_premium_monthly` | Auto-renewable | 1 month | $2.99/month |
-| `seed_premium_yearly` | Auto-renewable | 1 year | $19.99/year |
-
-*Yearly = ~$1.67/month, ~44% savings*
+| `seed_premium_yearly` | Auto-renewable | 1 year | $2.99/year |
 
 #### Entitlements
 
@@ -319,21 +316,15 @@ Build the subscription purchase screen.
 │                                         │
 │  ─────────────────────────────────────  │
 │                                         │
-│  ┌─────────────────────────────────┐   │
-│  │  BEST VALUE                     │   │
-│  │  Yearly - $19.99/year           │   │
-│  │  Just $1.67/month - Save 44%    │   │
-│  │  ○                              │   │
-│  └─────────────────────────────────┘   │
+│  ┌─────────────────────────────────┐    │
+│  │                                 │    │
+│  │  Yearly - $2.99/year            │    │
+│  │                                 │    │
+│  └─────────────────────────────────┘    │
 │                                         │
-│  ┌─────────────────────────────────┐   │
-│  │  Monthly - $2.99/month          │   │
-│  │  ○                              │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │        Subscribe Now            │   │
-│  └─────────────────────────────────┘   │
+│  ┌─────────────────────────────────┐    │
+│  │        Subscribe Now            │    │
+│  └─────────────────────────────────┘    │
 │                                         │
 │  Restore Purchases                      │
 │                                         │
@@ -939,10 +930,7 @@ Stage 9.7: Polish & Testing
 
 | Package | US | Japan | Europe |
 |---------|-----|-------|--------|
-| Monthly | $2.99 | ¥400 | €2.99 |
-| Yearly | $19.99 | ¥2,800 | €19.99 |
-
-*Yearly offers ~44% savings over monthly*
+| Annual | $2.99 | ¥400 | €2.99 |
 
 ### Free Trial Option
 
@@ -962,4 +950,4 @@ Consider offering 7-day free trial to reduce friction:
 
 ---
 
-*This plan will be updated as implementation progresses.*
+*This plan will be updated if implementation progresses.*

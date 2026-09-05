@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_targets_section.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   const testGoal = SdgGoal(
@@ -41,23 +40,13 @@ void main() {
   });
 
   Widget buildTestWidget({SdgGoal goal = testGoal}) {
-    return ProviderScope(
+    return createTestWidget(
+      scaffold: true,
       overrides: [
         sdgTargetsDataProvider.overrideWith((ref) async => allTargets),
       ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: SingleChildScrollView(
-            child: SdgTargetsSection(goal: goal, locale: 'en'),
-          ),
-        ),
+      child: SingleChildScrollView(
+        child: SdgTargetsSection(goal: goal, locale: 'en'),
       ),
     );
   }

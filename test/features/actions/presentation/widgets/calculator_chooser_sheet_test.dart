@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/calculator_chooser_sheet.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget buildSheet() => const MaterialApp(
-    localizationsDelegates: [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: CalculatorChooserSheet()),
-  );
+  Widget buildSheet() =>
+      createTestWidget(scaffold: true, child: const CalculatorChooserSheet());
 
   group('CalculatorChooserSheet', () {
     testWidgets('offers all three calculators', (tester) async {

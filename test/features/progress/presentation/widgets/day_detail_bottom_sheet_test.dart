@@ -1,19 +1,17 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
 import 'package:seed_app/features/progress/presentation/widgets/day_detail_bottom_sheet.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 ActionLogModel _log({
   required String id,
@@ -50,9 +48,10 @@ void main() {
     required List<ActionLogModel> logs,
     required DateTime date,
   }) {
-    return ProviderScope(
+    return createTestWidget(
+      firestore: FakeFirebaseFirestore(),
       overrides: [
-        currentUserProvider.overrideWith((_) => Stream.value(user)),
+        userOverride(user),
         actionsForDayProvider.overrideWith(
           (_, day) async => logs
               .where(
@@ -64,23 +63,13 @@ void main() {
               .toList(),
         ),
         ecoFactsProvider.overrideWith((_) => Future.value(fakeFacts)),
-        firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
       ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Builder(
-          builder: (context) => Scaffold(
-            body: Center(
-              child: ElevatedButton(
-                onPressed: () => DayDetailBottomSheet.show(context, date: date),
-                child: const Text('open'),
-              ),
+      child: Builder(
+        builder: (context) => Scaffold(
+          body: Center(
+            child: ElevatedButton(
+              onPressed: () => DayDetailBottomSheet.show(context, date: date),
+              child: const Text('open'),
             ),
           ),
         ),

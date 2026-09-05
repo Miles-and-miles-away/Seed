@@ -101,44 +101,6 @@ void main() {
       });
     });
 
-    group('timeString', () {
-      test('formats single digit hours with padding', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 9,
-          minute: 30,
-        );
-
-        expect(model.timeString, '09:30');
-      });
-
-      test('formats single digit minutes with padding', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 14,
-          minute: 5,
-        );
-
-        expect(model.timeString, '14:05');
-      });
-
-      test('formats midnight correctly', () {
-        const model = NotificationScheduleModel(id: 'test', hour: 0, minute: 0);
-
-        expect(model.timeString, '00:00');
-      });
-
-      test('formats double digit values without extra padding', () {
-        const model = NotificationScheduleModel(
-          id: 'test',
-          hour: 23,
-          minute: 59,
-        );
-
-        expect(model.timeString, '23:59');
-      });
-    });
-
     group('displayTime', () {
       test('formats morning time correctly', () {
         const model = NotificationScheduleModel(id: 'test', hour: 9, minute: 0);

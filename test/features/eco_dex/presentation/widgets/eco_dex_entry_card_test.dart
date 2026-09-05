@@ -1,43 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
-import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/domain/models/eco_dex_entry_state.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_card.dart';
 
-EcoDexEntry _entry({String id = 'e1', String nameEn = 'Forests'}) =>
-    EcoDexEntry(
-      id: id,
-      category: 'forests',
-      nameEn: nameEn,
-      nameJa: '',
-      nameEs: '',
-      factEn: '',
-      factJa: '',
-      factEs: '',
-      sourceUrl: '',
-      iconName: id,
-      condition: const EcoDexCondition.totalActions(count: 1),
-      hintEn: '',
-      hintJa: '',
-      hintEs: '',
-    );
+import '../../../../helpers/test_helpers.dart';
+import '../../eco_dex_fixtures.dart';
 
 void main() {
-  Widget wrap(Widget child) => ProviderScope(
-    child: MaterialApp(
-      home: Scaffold(
-        body: Center(child: SizedBox(width: 100, height: 100, child: child)),
-      ),
-    ),
+  Widget wrap(Widget child) => createTestWidget(
+    scaffold: true,
+    child: Center(child: SizedBox(width: 100, height: 100, child: child)),
   );
 
   testWidgets('locked entry renders ??? label and lock icon', (tester) async {
     await tester.pumpWidget(
       wrap(
         EcoDexEntryCard(
-          entryState: EcoDexEntryState(entry: _entry(), isDiscovered: false),
+          entryState: EcoDexEntryState(
+            entry: ecoDexEntry('e1'),
+            isDiscovered: false,
+          ),
           locale: 'en',
         ),
       ),
@@ -52,7 +34,7 @@ void main() {
       wrap(
         EcoDexEntryCard(
           entryState: EcoDexEntryState(
-            entry: _entry(nameEn: 'Bees'),
+            entry: ecoDexEntry('e1', nameEn: 'Bees'),
             isDiscovered: true,
           ),
           locale: 'en',

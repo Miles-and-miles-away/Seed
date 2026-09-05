@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 const _action = ActionModel(
   id: 'transport-bike',
@@ -14,22 +14,13 @@ const _action = ActionModel(
   points: 10,
 );
 
-Widget _wrap() => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: const Scaffold(body: SizedBox()),
-);
-
 void main() {
   testWidgets('note field truncates emoji-heavy input to the UTF-16 unit cap', (
     tester,
   ) async {
-    await tester.pumpWidget(_wrap());
+    await tester.pumpWidget(
+      createTestWidget(scaffold: true, child: const SizedBox()),
+    );
 
     final future = ActionLogConfirmationDialog.show(
       tester.element(find.byType(Scaffold)),

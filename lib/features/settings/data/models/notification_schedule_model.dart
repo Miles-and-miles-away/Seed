@@ -31,13 +31,6 @@ abstract class NotificationScheduleModel with _$NotificationScheduleModel {
   factory NotificationScheduleModel.fromJson(Map<String, dynamic> json) =>
       _$NotificationScheduleModelFromJson(json);
 
-  /// Returns the time as a formatted string (e.g., "09:00").
-  String get timeString {
-    final h = hour.toString().padLeft(2, '0');
-    final m = minute.toString().padLeft(2, '0');
-    return '$h:$m';
-  }
-
   /// Returns the time formatted for display (e.g., "9:00 AM").
   // NOTE(postponed): hardcoded AM/PM; when the notifications feature
   // ships, format via TimeOfDay.format(context) for locale awareness.

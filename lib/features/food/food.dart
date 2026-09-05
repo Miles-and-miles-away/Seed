@@ -14,4 +14,3 @@ export 'presentation/widgets/food_display.dart';
 export 'presentation/widgets/food_item_picker.dart';
 export 'presentation/widgets/food_science_sheet.dart';
 export 'presentation/widgets/ingredient_editor_sheet.dart';
-export 'presentation/widgets/meal_ingredient_card.dart';

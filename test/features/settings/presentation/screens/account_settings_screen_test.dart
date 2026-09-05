@@ -1,22 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/settings/presentation/screens/account_settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
-// Mock classes
-class MockFirebaseAuth extends Mock implements FirebaseAuth {}
-
-class MockUser extends Mock implements User {}
-
-class MockUserInfo extends Mock implements UserInfo {}
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
@@ -29,12 +20,11 @@ void main() {
     mockUserInfo = MockUserInfo();
   });
 
-  Widget createTestWidget({
-    required Widget child,
+  Future<void> pumpScreen(
+    WidgetTester tester, {
     AppUserModel? currentUser,
     bool isEmailPasswordUser = true,
-  }) {
-    // Set up mock user info
+  }) async {
     when(
       () => mockUserInfo.providerId,
     ).thenReturn(isEmailPasswordUser ? 'password' : 'google.com');
@@ -42,18 +32,15 @@ void main() {
     when(() => mockUser.email).thenReturn('test@example.com');
     when(() => mockFirebaseAuth.currentUser).thenReturn(mockUser);
 
-    return ProviderScope(
-      overrides: [
-        currentUserProvider.overrideWith((ref) => Stream.value(currentUser)),
-        firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+    await tester.pumpWidget(
+      createTestWidget(
+        child: const AccountSettingsScreen(),
+        firebaseAuth: mockFirebaseAuth,
+        overrides: [userOverride(currentUser)],
         locale: const Locale('en'),
-        home: child,
       ),
     );
+    await tester.pumpAndSettle();
   }
 
   final testUser = AppUserModel(
@@ -65,13 +52,7 @@ void main() {
 
   group('AccountSettingsScreen', () {
     testWidgets('renders app bar with title', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.text('Account'), findsOneWidget);
@@ -80,13 +61,7 @@ void main() {
     testWidgets('display name dialog rejects an empty name with a message', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       // Open the Display Name dialog.
       await tester.tap(find.widgetWithText(SettingsTile, 'Display Name'));
@@ -104,37 +79,19 @@ void main() {
     });
 
     testWidgets('renders email section', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('EMAIL ADDRESS'), findsOneWidget);
     });
 
     testWidgets('shows current email label', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('Current email'), findsOneWidget);
     });
 
     testWidgets('displays user email', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('user@example.com'), findsOneWidget);
     });
@@ -142,13 +99,7 @@ void main() {
     testWidgets('shows change email option for email/password users', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('Change Email'), findsOneWidget);
     });
@@ -156,51 +107,30 @@ void main() {
     testWidgets('shows change password option for email/password users', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('Change Password'), findsOneWidget);
     });
 
     testWidgets('hides email/password options for OAuth users', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-          isEmailPasswordUser: false,
-        ),
+      await pumpScreen(
+        tester,
+        currentUser: testUser,
+        isEmailPasswordUser: false,
       );
-      await tester.pumpAndSettle();
 
       expect(find.text('Change Email'), findsNothing);
       expect(find.text('Change Password'), findsNothing);
     });
 
     testWidgets('shows delete account option', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('Delete Account'), findsOneWidget);
     });
 
     testWidgets('shows delete account warning text', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       // The profile section pushes the warning below the test viewport
       await tester.scrollUntilVisible(
@@ -212,49 +142,25 @@ void main() {
     });
 
     testWidgets('shows email icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.byIcon(Icons.email_outlined), findsOneWidget);
     });
 
     testWidgets('shows lock icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.byIcon(Icons.lock_outline), findsOneWidget);
     });
 
     testWidgets('shows delete forever icon', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.byIcon(Icons.delete_forever), findsOneWidget);
     });
 
     testWidgets('delete account tile is marked as dangerous', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       // Find the SettingsTile for delete
       final deleteIcon = find.byIcon(Icons.delete_forever);
@@ -262,51 +168,27 @@ void main() {
     });
 
     testWidgets('renders multiple SettingsSections', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       // Profile, Email, Account, Danger zone sections
       expect(find.byType(SettingsSection), findsNWidgets(4));
     });
 
     testWidgets('renders ListView', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('renders SettingsTile widgets', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       // Display Name, My Goal, Change Email, Change Password, Delete Account
       expect(find.byType(SettingsTile), findsNWidgets(5));
     });
 
     testWidgets('tapping change email shows dialog', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Email'));
       await tester.pumpAndSettle();
@@ -316,13 +198,7 @@ void main() {
     });
 
     testWidgets('tapping change password shows dialog', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Password'));
       await tester.pumpAndSettle();
@@ -334,13 +210,7 @@ void main() {
     testWidgets('tapping delete account shows confirmation dialog', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Delete Account'));
       await tester.pumpAndSettle();
@@ -350,13 +220,7 @@ void main() {
     });
 
     testWidgets('change email dialog has required fields', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Email'));
       await tester.pumpAndSettle();
@@ -368,13 +232,7 @@ void main() {
     });
 
     testWidgets('change password dialog has required fields', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Password'));
       await tester.pumpAndSettle();
@@ -387,13 +245,7 @@ void main() {
     });
 
     testWidgets('dialogs have cancel and save buttons', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Email'));
       await tester.pumpAndSettle();
@@ -403,13 +255,7 @@ void main() {
     });
 
     testWidgets('delete dialog has cancel and delete buttons', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Delete Account'));
       await tester.pumpAndSettle();
@@ -419,13 +265,7 @@ void main() {
     });
 
     testWidgets('cancel button closes dialog', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Change Email'));
       await tester.pumpAndSettle();
@@ -439,13 +279,7 @@ void main() {
     testWidgets('shows account section for email/password users', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('ACCOUNT'), findsOneWidget);
     });
@@ -453,13 +287,7 @@ void main() {
     testWidgets('renders profile section with display name and goal', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       expect(find.text('PROFILE'), findsOneWidget);
       expect(find.text('Display Name'), findsOneWidget);
@@ -471,25 +299,16 @@ void main() {
     testWidgets('shows localized preset text for stored goal ID', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser.copyWith(personalGoal: 'save_world'),
-        ),
+      await pumpScreen(
+        tester,
+        currentUser: testUser.copyWith(personalGoal: 'save_world'),
       );
-      await tester.pumpAndSettle();
 
       expect(find.text('Save the world'), findsOneWidget);
     });
 
     testWidgets('tapping display name shows prefilled dialog', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('Display Name'));
       await tester.pumpAndSettle();
@@ -499,13 +318,7 @@ void main() {
     });
 
     testWidgets('tapping my goal opens goal picker sheet', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const AccountSettingsScreen(),
-          currentUser: testUser,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpScreen(tester, currentUser: testUser);
 
       await tester.tap(find.text('My Goal'));
       await tester.pumpAndSettle();
