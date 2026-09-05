@@ -26,8 +26,8 @@ class SdgResource {
 
   String title(String locale) {
     return switch (locale) {
-      'ja' => titleJa,
-      'es' => titleEs,
+      'ja' when titleJa.isNotEmpty => titleJa,
+      'es' when titleEs.isNotEmpty => titleEs,
       _ => titleEn,
     };
   }

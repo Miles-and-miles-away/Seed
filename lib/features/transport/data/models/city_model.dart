@@ -35,11 +35,14 @@ abstract class City with _$City {
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 
   /// Localized display name with English fallback.
-  String localizedName(String locale) => switch (locale) {
-    'ja' => nameJa ?? name,
-    'es' => nameEs ?? name,
-    _ => name,
-  };
+  String localizedName(String locale) {
+    final localized = switch (locale) {
+      'ja' => nameJa,
+      'es' => nameEs,
+      _ => null,
+    };
+    return localized == null || localized.isEmpty ? name : localized;
+  }
 }
 
 /// A fixed crossing between two landmasses.

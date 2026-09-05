@@ -56,7 +56,7 @@ class EcoDexEntry {
   final String hintEs;
 
   String name(String locale) => switch (locale) {
-    'ja' => nameJa,
+    'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
   };
