@@ -1,46 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
 
-const _oneUse = UsagePreset(
-  id: 'one',
-  nameEn: '1 use',
-  nameJa: '',
-  nameEs: '',
-  units: 1,
-);
-
-EnergyBehavior _behavior(
-  String id,
-  String group,
-  EnergyCarrier carrier,
-  double kwh, {
-  List<EmissionSource> sources = const [],
-}) => EnergyBehavior(
-  id: id,
-  comparableGroup: group,
-  carrier: carrier,
-  unit: EnergyUnit.use,
-  kwhPerUnit: kwh,
-  nameEn: id,
-  nameJa: '',
-  nameEs: '',
-  presets: const [_oneUse],
-  defaultPresetId: 'one',
-  sources: sources,
-);
+import '../../../helpers/test_helpers.dart';
+import '../energy_fixtures.dart';
 
 final _behaviors = [
   // The ranked-table anchor: an LED hour is 1x (RESEARCH sec 7).
-  _behavior('led_bulb', 'lighting', EnergyCarrier.electricity, 0.0085),
-  _behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
-  _behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
-  _behavior(
+  behavior('led_bulb', 'lighting', EnergyCarrier.electricity, 0.0085),
+  behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
+  behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
+  behavior(
     'heater',
     'space_heat',
     EnergyCarrier.electricity,
@@ -54,44 +26,27 @@ final _behaviors = [
       ),
     ],
   ),
-  _behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
+  behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
 ];
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
-    return ProviderScope(
-      overrides: [
-        energyBehaviorsProvider.overrideWith((_) async => _behaviors),
-        energyCarrierFactorsProvider.overrideWith(
-          (_) async => const CarrierFactors(grid: 458, gas: 182),
-        ),
-      ],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: EnergyMethodologyScreen(),
+  Widget buildApp() => createTestWidget(
+    overrides: [
+      energyBehaviorsProvider.overrideWith((_) async => _behaviors),
+      energyCarrierFactorsProvider.overrideWith(
+        (_) async => const CarrierFactors(grid: 458, gas: 182),
       ),
-    );
-  }
+    ],
+    child: const EnergyMethodologyScreen(),
+  );
 
   /// The table on its own, for the option params the methodology
   /// screen leaves at their defaults.
-  Widget buildTable(EnergyRankedTable table) => MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: SingleChildScrollView(child: table)),
+  Widget buildTable(EnergyRankedTable table) => createTestWidget(
+    scaffold: true,
+    child: SingleChildScrollView(child: table),
   );
 
   group('EnergyMethodologyScreen', () {

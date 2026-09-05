@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/transport/transport.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 // Real dataset rows: the point of these tests is that the shipped
 // names are reachable from an ASCII keyboard and readable in JA/ES.
@@ -38,24 +39,13 @@ const _cities = [_saoPaulo, _herat, _tokyo];
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildFields({City? from, Locale locale = const Locale('en')}) {
-    return ProviderScope(
-      overrides: [transportCitiesProvider.overrideWith((_) async => _cities)],
-      child: MaterialApp(
+  Widget buildFields({City? from, Locale locale = const Locale('en')}) =>
+      createTestWidget(
+        overrides: [transportCitiesProvider.overrideWith((_) async => _cities)],
         locale: locale,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: CityPairFields(from: from, to: null, onChanged: (_, _) {}),
-        ),
-      ),
-    );
-  }
+        scaffold: true,
+        child: CityPairFields(from: from, to: null, onChanged: (_, _) {}),
+      );
 
   Future<void> search(WidgetTester tester, String query) async {
     await tester.pumpWidget(buildFields());
@@ -131,12 +121,7 @@ void main() {
           valueListenable: locale,
           builder: (context, value, _) => MaterialApp(
             locale: value,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             home: Scaffold(
               body: CityPairFields(

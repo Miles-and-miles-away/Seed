@@ -21,6 +21,8 @@ import 'package:seed_app/features/progress/domain/services/impact_equivalencies.
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/widgets/bank_and_report.dart';
+import 'package:seed_app/shared/widgets/explainer_dialog.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Side-by-side meal comparison (Phase 8.8/8.9).
@@ -46,36 +48,27 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     ref.read(analyticsServiceProvider).logFoodCalculatorOpened();
   }
 
-  /// Opens the quantity editor for a new ingredient. A null [option]
-  /// means the sheet asks which column to add to.
-  Future<void> _openEditor(FoodItem item, int? option) async {
-    final result = await IngredientEditorSheet.show(
-      context,
-      item: item,
-      fixedOption: option,
-    );
-    if (result == null || !mounted) return;
-    ref
-        .read(mealOptionsProvider.notifier)
-        .addIngredient(result.option, result.ingredient);
-  }
-
-  Future<void> _editIngredient(
+  /// Opens the quantity editor for a new ingredient, or for [edit]'s
+  /// entry when given. A null [option] means the sheet asks which
+  /// column to add to.
+  Future<void> _openEditor(
     FoodItem item,
-    int option,
-    int index,
-    MealIngredient ingredient,
-  ) async {
+    int? option, {
+    ({int index, MealIngredient existing})? edit,
+  }) async {
     final result = await IngredientEditorSheet.show(
       context,
       item: item,
-      initialIngredient: ingredient,
+      initialIngredient: edit?.existing,
       fixedOption: option,
     );
     if (result == null || !mounted) return;
-    ref
-        .read(mealOptionsProvider.notifier)
-        .updateIngredient(option, index, result.ingredient);
+    final notifier = ref.read(mealOptionsProvider.notifier);
+    if (edit == null) {
+      notifier.addIngredient(result.option, result.ingredient);
+    } else {
+      notifier.updateIngredient(result.option, edit.index, result.ingredient);
+    }
   }
 
   /// Opens the picker for [option]'s column. The column is known from
@@ -86,9 +79,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (sheetContext) => SafeArea(
         // Bounded so the picker's own lazy list does the scrolling.
         // Leaves the keyboard room: the search field is the first
@@ -128,14 +119,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       appBar: AppBar(
         title: Text(l10n.foodCalculatorTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.science_outlined),
+          methodologyAction(
+            context,
             tooltip: l10n.foodMethodologyTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const FoodMethodologyScreen(),
-              ),
-            ),
+            builder: (_) => const FoodMethodologyScreen(),
           ),
         ],
       ),
@@ -207,7 +194,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       detail: l10n.foodGramsValue(ingredient.grams.round().toString()),
       grams: FoodCalculator.ingredientCo2eGrams(item, ingredient),
       removeTooltip: l10n.calculatorRemoveEntry,
-      onTap: () => _editIngredient(item, option, index, ingredient),
+      onTap: () =>
+          _openEditor(item, option, edit: (index: index, existing: ingredient)),
       onRemove: () => ref
           .read(mealOptionsProvider.notifier)
           .removeIngredient(option, index),
@@ -224,23 +212,30 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     ComparisonSummary? summary,
     VerdictCheck? check,
   ) {
-    final theme = Theme.of(context);
     if (summary == null || check == null || summary.deltaGrams <= 0) {
-      return Text(
-        l10n.calculatorNeedBothOptions,
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
+      return CalculatorHint(l10n.calculatorNeedBothOptions);
+    }
+    // Below the bar there is no winner to name and nothing honest to
+    // bank -- but the user is owed the reason, not just a refusal, so
+    // the explanation is one tap away rather than buried in the
+    // methodology page.
+    if (check.block != VerdictBlock.none) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CalculatorHint(l10n.foodComparisonTooClose),
+          TextButton(
+            onPressed: () => _explainNoVerdict(l10n, locale, check),
+            child: Text(l10n.foodVerdictWhyCta),
+          ),
+        ],
       );
     }
     // On screen the options are the column names; naming a single
     // ingredient read as an arbitrary pick from the list. The banked
     // action still gets the full meal description.
-    String columnName(int i) =>
-        i == optionA ? l10n.calculatorOptionA : l10n.calculatorOptionB;
-    final bestLabel = columnName(summary.bestIndex);
-    final worstLabel = columnName(summary.worstIndex);
+    final bestLabel = optionLabel(l10n, summary.bestIndex);
+    final worstLabel = optionLabel(l10n, summary.worstIndex);
     final carKm = ref
         .watch(impactEquivalenciesDataProvider)
         .whenOrNull(
@@ -250,28 +245,6 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           ).where((e) => e.type == EquivalencyType.carKm).firstOrNull?.value,
         );
     final busy = ref.watch(foodChoiceLoggerProvider).isLoading;
-    // Below the bar there is no winner to name and nothing honest to
-    // bank -- but the user is owed the reason, not just a refusal, so
-    // the explanation is one tap away rather than buried in the
-    // methodology page.
-    if (check.block != VerdictBlock.none) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.foodComparisonTooClose,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          TextButton(
-            onPressed: () => _explainNoVerdict(l10n, locale, check),
-            child: Text(l10n.foodVerdictWhyCta),
-          ),
-        ],
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -337,18 +310,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       ),
       _ => l10n.foodVerdictTooClose(percent),
     };
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.foodVerdictBlockedTitle),
-        content: Text(body),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonClose),
-          ),
-        ],
-      ),
+    showExplainerDialog(
+      context,
+      title: l10n.foodVerdictBlockedTitle,
+      body: body,
     );
   }
 
@@ -359,23 +324,17 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
-  ) async {
-    final amount = formatCO2Compact(deltaGrams.round());
-    final ok = await ref
+  ) => bankAndReport(
+    context,
+    log: () => ref
         .read(foodChoiceLoggerProvider.notifier)
         .logChoice(
           name: l10n.foodCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
-        );
-    if (!mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    if (ok) {
-      ref.read(mealOptionsProvider.notifier).clear();
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.foodChoiceLoggedMessage(amount))),
-      );
-    } else {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
-    }
-  }
+        ),
+    successMessage: l10n.foodChoiceLoggedMessage(
+      formatCO2Compact(deltaGrams.round()),
+    ),
+    onSuccess: () => ref.read(mealOptionsProvider.notifier).clear(),
+  );
 }

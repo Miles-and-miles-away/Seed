@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Sanity invariants from Plan/RESEARCH_ENERGY.md section 6.
 ///
@@ -20,11 +19,7 @@ void main() {
   late Map<String, Map<String, dynamic>> byId;
 
   setUpAll(() {
-    final raw = File('data/app/energy_behaviors.json').readAsStringSync();
-    final root = json.decode(raw) as Map<String, dynamic>;
-    final behaviors = (root['behaviors'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
-    byId = {for (final b in behaviors) b['id'] as String: b};
+    byId = rawDatasetById('data/app/energy_behaviors.json', 'behaviors');
   });
 
   double kwh(String id) {

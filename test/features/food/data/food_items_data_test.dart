@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Schema validation for data/app/food_items.json
 /// (built from Plan/RESEARCH_FOOD.md sections 2-5).
@@ -31,9 +32,8 @@ void main() {
   late List<Map<String, dynamic>> items;
 
   setUpAll(() {
-    final raw = File('data/app/food_items.json').readAsStringSync();
-    root = json.decode(raw) as Map<String, dynamic>;
-    items = (root['items'] as List<dynamic>).cast<Map<String, dynamic>>();
+    root = rawDatasetRoot('data/app/food_items.json');
+    items = datasetEntries(root, 'items');
   });
 
   group('food_items.json dataset validation', () {
@@ -82,8 +82,7 @@ void main() {
     test('every item has at least one complete source', () {
       for (final item in items) {
         final id = item['id'] as String;
-        final sources = (item['sources'] as List<dynamic>)
-            .cast<Map<String, dynamic>>();
+        final sources = datasetEntries(item, 'sources');
         expect(sources, isNotEmpty, reason: id);
         for (final source in sources) {
           expect(source['name'] as String, isNotEmpty, reason: id);
@@ -101,8 +100,7 @@ void main() {
     test('servings have positive grams and all three locale names', () {
       for (final item in items) {
         final id = item['id'] as String;
-        final servings = (item['servings'] as List<dynamic>)
-            .cast<Map<String, dynamic>>();
+        final servings = datasetEntries(item, 'servings');
         // Every shipped item has researched presets; an empty list
         // would make this loop pass vacuously.
         expect(servings, isNotEmpty, reason: id);
@@ -207,9 +205,10 @@ void main() {
         );
         // A preset-only item with no resolvable default would open on
         // the raw grams field it is meant to avoid.
-        final presetIds = (item['servings'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()
-            .map((p) => p['id'] as String);
+        final presetIds = datasetEntries(
+          item,
+          'servings',
+        ).map((p) => p['id'] as String);
         expect(presetIds, contains(item['default_serving_id']), reason: id);
       }
     });

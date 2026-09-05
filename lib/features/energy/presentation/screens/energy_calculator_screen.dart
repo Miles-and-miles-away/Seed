@@ -44,33 +44,26 @@ class _EnergyCalculatorScreenState
     ref.read(analyticsServiceProvider).logEnergyCalculatorOpened();
   }
 
-  Future<void> _addUsage(EnergyBehavior behavior, int option) async {
-    final units = await UsageEditorSheet.show(context, behavior: behavior);
-    if (units == null || !mounted) return;
-    ref
-        .read(routineOptionsProvider.notifier)
-        .addUsage(option, RoutineUsage(behaviorId: behavior.id, units: units));
-  }
-
-  Future<void> _editUsage(
+  /// Opens the quantity editor for a new usage in [option], or for
+  /// [edit]'s entry when given.
+  Future<void> _openEditor(
     EnergyBehavior behavior,
-    int option,
-    int index,
-    RoutineUsage usage,
-  ) async {
+    int option, {
+    ({int index, RoutineUsage existing})? edit,
+  }) async {
     final units = await UsageEditorSheet.show(
       context,
       behavior: behavior,
-      initialUnits: usage.units,
+      initialUnits: edit?.existing.units,
     );
     if (units == null || !mounted) return;
-    ref
-        .read(routineOptionsProvider.notifier)
-        .updateUsage(
-          option,
-          index,
-          RoutineUsage(behaviorId: behavior.id, units: units),
-        );
+    final usage = RoutineUsage(behaviorId: behavior.id, units: units);
+    final notifier = ref.read(routineOptionsProvider.notifier);
+    if (edit == null) {
+      notifier.addUsage(option, usage);
+    } else {
+      notifier.updateUsage(option, edit.index, usage);
+    }
   }
 
   /// Opens the picker for [option]'s column. The column is known from
@@ -81,9 +74,7 @@ class _EnergyCalculatorScreenState
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (sheetContext) => SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -104,7 +95,7 @@ class _EnergyCalculatorScreenState
     );
     if (behavior == null || !mounted) return;
     ref.read(recentEnergyBehaviorIdsProvider.notifier).record(behavior.id);
-    await _addUsage(behavior, option);
+    await _openEditor(behavior, option);
   }
 
   @override
@@ -116,14 +107,10 @@ class _EnergyCalculatorScreenState
       appBar: AppBar(
         title: Text(l10n.energyCalculatorTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.science_outlined),
+          methodologyAction(
+            context,
             tooltip: l10n.energyMethodologyTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const EnergyMethodologyScreen(),
-              ),
-            ),
+            builder: (_) => const EnergyMethodologyScreen(),
           ),
         ],
       ),
@@ -217,7 +204,8 @@ class _EnergyCalculatorScreenState
         gasFactor: factors.gas,
       ),
       removeTooltip: l10n.calculatorRemoveEntry,
-      onTap: () => _editUsage(behavior, option, index, usage),
+      onTap: () =>
+          _openEditor(behavior, option, edit: (index: index, existing: usage)),
       onRemove: () =>
           ref.read(routineOptionsProvider.notifier).removeUsage(option, index),
     );
@@ -247,14 +235,9 @@ class _EnergyCalculatorScreenState
     EnergyVerdictCheck? check,
   ) {
     final theme = Theme.of(context);
-    final hint = Text(
-      l10n.calculatorNeedBothOptions,
-      textAlign: TextAlign.center,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
-      ),
-    );
-    if (summary == null || check == null) return hint;
+    if (summary == null || check == null) {
+      return CalculatorHint(l10n.calculatorNeedBothOptions);
+    }
 
     if (check.block != EnergyVerdictBlock.none) {
       // The reason is stated here rather than behind a "Why not?"
@@ -283,23 +266,13 @@ class _EnergyCalculatorScreenState
               ),
             ),
             const SizedBox(height: spacingSm),
-            Text(
-              _noVerdictReason(l10n, check),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+            CalculatorHint(_noVerdictReason(l10n, check)),
           ],
         ),
       );
     }
-    final bestLabel = summary.bestIndex == optionA
-        ? l10n.calculatorOptionA
-        : l10n.calculatorOptionB;
-    final worstLabel = summary.worstIndex == optionA
-        ? l10n.calculatorOptionA
-        : l10n.calculatorOptionB;
+    final bestLabel = optionLabel(l10n, summary.bestIndex);
+    final worstLabel = optionLabel(l10n, summary.worstIndex);
     final bestKwh = EnergyCalculator.routineKwh(
       byId,
       options[summary.bestIndex],
@@ -321,7 +294,8 @@ class _EnergyCalculatorScreenState
     final anchor = byId['phone_charge'];
     final charges = anchor == null
         ? 0
-        : ((worstKwh - bestKwh) / anchor.kwhPerUnit).round();
+        : ((worstKwh - bestKwh) / EnergyCalculator.defaultPresetKwh(anchor))
+              .round();
     final showCharges = electricOnly && charges >= 1;
     final amount = formatCO2Compact(summary.deltaGrams.round());
     final ratioLeads = singleCarrier && bestKwh > 0;
