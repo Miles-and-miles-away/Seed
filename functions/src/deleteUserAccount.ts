@@ -90,7 +90,7 @@ export async function handleDeleteUserAccount(
 export const deleteUserAccount = onCall(
   {
     memory: '256MiB',
-    region: 'us-central1',
+    region: 'asia-northeast1',
     maxInstances: 10,
     enforceAppCheck: true,
   },
