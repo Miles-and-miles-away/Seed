@@ -1,78 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
 import '../../../helpers/test_helpers.dart';
-
-const _oneUse = UsagePreset(
-  id: 'one',
-  nameEn: '1 use',
-  nameJa: '',
-  nameEs: '',
-  units: 1,
-);
-
-EnergyBehavior _behavior(
-  String id,
-  String group,
-  EnergyCarrier carrier,
-  double kwh, {
-  EnergyUnit unit = EnergyUnit.use,
-}) => EnergyBehavior(
-  id: id,
-  comparableGroup: group,
-  carrier: carrier,
-  unit: unit,
-  kwhPerUnit: kwh,
-  nameEn: id,
-  nameJa: '',
-  nameEs: '',
-  presets: const [_oneUse],
-  defaultPresetId: 'one',
-);
+import '../energy_fixtures.dart';
 
 final _behaviors = [
-  _behavior('heater', 'space_heat', EnergyCarrier.electricity, 1.2),
-  _behavior('kotatsu', 'space_heat', EnergyCarrier.electricity, 0.15),
-  _behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
-  _behavior('gas_hob', 'boil', EnergyCarrier.gas, 0.282389),
-  _behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
-  _behavior('shower_gas', 'hot_water', EnergyCarrier.gas, 3.28036),
-  _behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
-  _behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
-  _behavior('phone_charge', 'device', EnergyCarrier.electricity, 0.015271),
+  behavior('heater', 'space_heat', EnergyCarrier.electricity, 1.2),
+  behavior('kotatsu', 'space_heat', EnergyCarrier.electricity, 0.15),
+  behavior('kettle', 'boil', EnergyCarrier.electricity, 0.116278),
+  behavior('gas_hob', 'boil', EnergyCarrier.gas, 0.282389),
+  behavior('bath_gas', 'hot_water', EnergyCarrier.gas, 7.526854),
+  behavior('shower_gas', 'hot_water', EnergyCarrier.gas, 3.28036),
+  behavior('line_dry', 'laundry_dry', EnergyCarrier.none, 0),
+  behavior('dryer', 'laundry_dry', EnergyCarrier.electricity, 4.5),
+  behavior('phone_charge', 'device', EnergyCarrier.electricity, 0.015271),
 ];
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
-    return ProviderScope(
-      overrides: [
-        energyBehaviorsProvider.overrideWith((_) async => _behaviors),
-        energyCarrierFactorsProvider.overrideWith(
-          (_) async => const CarrierFactors(grid: 458, gas: 182),
-        ),
-      ],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: EnergyCalculatorScreen(),
+  Widget buildApp() => createTestWidget(
+    overrides: [
+      energyBehaviorsProvider.overrideWith((_) async => _behaviors),
+      energyCarrierFactorsProvider.overrideWith(
+        (_) async => const CarrierFactors(grid: 458, gas: 182),
       ),
-    );
-  }
+    ],
+    child: const EnergyCalculatorScreen(),
+  );
 
   /// Adds a usage through the shipped path: the per-column "Add"
   /// button opens the picker, then the quantity editor confirms with

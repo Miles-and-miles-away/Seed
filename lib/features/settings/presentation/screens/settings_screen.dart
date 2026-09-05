@@ -5,9 +5,11 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
+import 'language_settings_screen.dart';
 
 /// Main settings screen showing all settings categories.
 class SettingsScreen extends ConsumerWidget {
@@ -16,9 +18,9 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
 
     final settingsAsync = ref.watch(userSettingsProvider);
+    final version = ref.watch(packageInfoProvider).value?.version ?? '...';
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
@@ -39,7 +41,7 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   SettingsTile(
                     title: l10n.settingsLanguage,
-                    subtitle: _getLanguageDisplayName(settings.language),
+                    subtitle: _languageDisplayName(settings.language),
                     leading: const Icon(Icons.language_outlined),
                     onTap: () => context.push(appRoutes.settingsLanguage),
                   ),
@@ -98,17 +100,11 @@ class SettingsScreen extends ConsumerWidget {
                 title: l10n.settingsAbout,
                 showTopDivider: true,
                 children: [
-                  Builder(
-                    builder: (context) {
-                      final pkgAsync = ref.watch(packageInfoProvider);
-                      final version = pkgAsync.value?.version ?? '...';
-                      return SettingsTile(
-                        title: l10n.settingsAbout,
-                        subtitle: l10n.settingsVersionFormat(version),
-                        leading: const Icon(Icons.info_outline),
-                        onTap: () => context.push(appRoutes.settingsAbout),
-                      );
-                    },
+                  SettingsTile(
+                    title: l10n.settingsAbout,
+                    subtitle: l10n.settingsVersionFormat(version),
+                    leading: const Icon(Icons.info_outline),
+                    onTap: () => context.push(appRoutes.settingsAbout),
                   ),
                 ],
               ),
@@ -118,29 +114,20 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(l10n.settingsErrorLoading, style: theme.textTheme.bodyLarge),
-              const SizedBox(height: spacingSm),
-              Text(error.toString(), style: theme.textTheme.bodySmall),
-            ],
+        error: (_, _) => Center(
+          child: ErrorDisplay(
+            onRetry: () => ref.invalidate(userSettingsProvider),
           ),
         ),
       ),
     );
   }
 
-  String _getLanguageDisplayName(String languageCode) {
-    switch (languageCode) {
-      case 'ja':
-        return '日本語';
-      case 'es':
-        return 'Español';
-      case 'en':
-      default:
-        return 'English';
-    }
-  }
+  /// Native name for [languageCode]; unknown codes fall back to English.
+  String _languageDisplayName(String languageCode) => supportedLanguages
+      .firstWhere(
+        (l) => l.code == languageCode,
+        orElse: () => supportedLanguages.first,
+      )
+      .nativeName;
 }

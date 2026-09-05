@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
 import '../providers/sdg_stats_provider.dart';
 
 /// Displays the user's impact stats for a specific SDG.
@@ -37,17 +38,10 @@ class SdgImpactCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(Icons.insights, color: goalColor, size: 20),
-              const SizedBox(width: spacingSm),
-              Text(
-                l10n.sdgYourImpact,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          SdgSectionHeader(
+            icon: Icons.insights,
+            title: l10n.sdgYourImpact,
+            color: goalColor,
           ),
           const SizedBox(height: spacingLg),
           Row(
@@ -99,7 +93,7 @@ class _StatTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(spacingMd),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
+        color: color.withValues(alpha: opacityVeryFaint),
         borderRadius: borderRadiusMd,
       ),
       child: Column(

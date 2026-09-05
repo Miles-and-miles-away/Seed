@@ -16,19 +16,11 @@ import time
 from pathlib import Path
 
 import requests
-import yaml
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
-CONFIG_PATH = SCRIPT_DIR / "config.yaml"
+from _common import PROJECT_ROOT, load_config
 
 MODEL = "recraftv4_vector"
 WHITE_BG = {"rgb": [255, 255, 255]}
-
-
-def load_config():
-    with open(CONFIG_PATH) as f:
-        return yaml.safe_load(f)
 
 
 def get_api_token():
@@ -201,7 +193,7 @@ def generate_from_json(
                 f"  [{entry['id']}] ({n_colors} colors) "
                 f"{prompt[:72]}..."
             )
-        print(f"\nDry run -- no API calls made.")
+        print("\nDry run -- no API calls made.")
         return
 
     token = get_api_token()

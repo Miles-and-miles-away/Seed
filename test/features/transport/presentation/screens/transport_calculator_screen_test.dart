@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -7,6 +6,8 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/transport/transport.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 const _testCar = TransportMode(
   id: 'test_car',
@@ -46,30 +47,17 @@ void main() {
   Widget buildApp({
     List<City> cities = const [],
     Set<String> waterBlocked = const {},
-  }) {
-    return ProviderScope(
-      overrides: [
-        transportModesProvider.overrideWith((_) async => _testModes),
-        transportCitiesProvider.overrideWith((_) async => cities),
-        transportCityLinksProvider.overrideWith(
-          (_) async => const <CityLink>[],
-        ),
-        transportWaterBlockedPairsProvider.overrideWith(
-          (_) async => waterBlocked,
-        ),
-      ],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: TransportCalculatorScreen(),
+  }) => createTestWidget(
+    overrides: [
+      transportModesProvider.overrideWith((_) async => _testModes),
+      transportCitiesProvider.overrideWith((_) async => cities),
+      transportCityLinksProvider.overrideWith((_) async => const <CityLink>[]),
+      transportWaterBlockedPairsProvider.overrideWith(
+        (_) async => waterBlocked,
       ),
-    );
-  }
+    ],
+    child: const TransportCalculatorScreen(),
+  );
 
   /// Opens the leg editor through the shipped path: the per-column
   /// "Add leg" button opens the mode picker, which opens the editor.
@@ -542,12 +530,7 @@ void main() {
       Widget host(Widget child) => UncontrolledProviderScope(
         container: container,
         child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: child,
         ),

@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
   group('EcoDexEntryImage', () {
     Widget buildWidget({
       required String iconName,
       required Set<String> availableIcons,
-    }) {
-      return ProviderScope(
-        overrides: [
-          ecoDexAvailableIconsProvider.overrideWith(
-            (_) async => availableIcons,
-          ),
-        ],
-        child: MaterialApp(
-          home: Scaffold(body: EcoDexEntryImage(iconName: iconName, size: 48)),
-        ),
-      );
-    }
+    }) => createTestWidget(
+      overrides: [
+        ecoDexAvailableIconsProvider.overrideWith((_) async => availableIcons),
+      ],
+      scaffold: true,
+      child: EcoDexEntryImage(iconName: iconName, size: 48),
+    );
 
     testWidgets('falls back to blank white container when asset missing', (
       tester,

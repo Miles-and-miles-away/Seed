@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/food/data/food_items_data.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
+import 'package:seed_app/shared/domain/option_lists.dart';
 
 part 'food_providers.g.dart';
 
@@ -54,38 +55,29 @@ class MealOptions extends _$MealOptions {
     for (var i = 0; i < optionCount; i++) const <MealIngredient>[],
   ]);
 
-  bool _valid(int option) => option >= 0 && option < optionCount;
-
-  List<List<MealIngredient>> _withOption(
-    int option,
-    List<MealIngredient> ingredients,
-  ) => List.unmodifiable([
-    for (var i = 0; i < optionCount; i++)
-      if (i == option)
-        List<MealIngredient>.unmodifiable(ingredients)
-      else
-        state[i],
-  ]);
-
   /// Appends an ingredient to [option].
   void addIngredient(int option, MealIngredient ingredient) {
-    if (!_valid(option)) return;
-    state = _withOption(option, [...state[option], ingredient]);
+    if (!isValidOption(option)) return;
+    state = withOption(state, option, [...state[option], ingredient]);
   }
 
   /// Replaces the ingredient at [index] within [option].
   void updateIngredient(int option, int index, MealIngredient ingredient) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final ingredients = [...state[option]];
     ingredients[index] = ingredient;
-    state = _withOption(option, ingredients);
+    state = withOption(state, option, ingredients);
   }
 
   /// Removes the ingredient at [index] within [option].
   void removeIngredient(int option, int index) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final ingredients = [...state[option]]..removeAt(index);
-    state = _withOption(option, ingredients);
+    state = withOption(state, option, ingredients);
   }
 
   /// Empties both options (after banking a choice).

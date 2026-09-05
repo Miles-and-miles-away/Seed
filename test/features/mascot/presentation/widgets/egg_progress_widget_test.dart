@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/egg_progress_widget.dart';
 
-Widget _wrap(AppUserModel? user) => ProviderScope(
-  overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
-  child: MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: const Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 120,
-          height: 140,
-          child: EggProgressWidget(size: 100),
-        ),
-      ),
+import '../../../../helpers/test_helpers.dart';
+
+Widget _wrap(AppUserModel? user) => createTestWidget(
+  overrides: [userOverride(user)],
+  scaffold: true,
+  child: const Center(
+    child: SizedBox(
+      width: 120,
+      height: 140,
+      child: EggProgressWidget(size: 100),
     ),
   ),
 );

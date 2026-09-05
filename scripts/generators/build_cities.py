@@ -445,8 +445,9 @@ def main():
         },
         "cities": out_cities,
     }
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+        f.write(blob)
         f.write("\n")
 
     print(f"cities: {len(out_cities)}")

@@ -1,0 +1,28 @@
+name: Merge Guard
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  source-branch:
+    name: Source Branch Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      # head_ref is untrusted input, so it goes through env, never inline.
+      - env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$HEAD_REF" in
+            development | hotfix/?*) ;;
+            *)
+              echo "::error::Only 'development' or 'hotfix/*' may merge into" \
+                   "main. This PR is from '$HEAD_REF'."
+              exit 1
+              ;;
+          esac

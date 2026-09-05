@@ -30,6 +30,20 @@ void main() {
     when(() => mockFirebaseAuth.signOut()).thenAnswer((_) async {});
   });
 
+  Future<void> pumpVerification(
+    WidgetTester tester, {
+    MockFirebaseAuth? auth,
+  }) async {
+    await tester.pumpWidget(
+      createTestWidget(
+        child: const EmailVerificationScreen(),
+        firebaseAuth: auth ?? mockFirebaseAuth,
+        firestore: fakeFirestore,
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
   group('EmailVerificationScreen', () {
     // Set a larger screen size to avoid overflow
     void setLargeScreenSize(WidgetTester tester) {
@@ -40,14 +54,7 @@ void main() {
 
     testWidgets('renders all expected UI elements', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify key UI elements are present
       expect(find.text('Verify Email'), findsOneWidget);
@@ -61,14 +68,7 @@ void main() {
 
     testWidgets('displays app bar with back button', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify app bar with back button
       expect(find.byType(AppBar), findsOneWidget);
@@ -77,14 +77,7 @@ void main() {
 
     testWidgets('displays email icon', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify email icon is displayed
       expect(find.byIcon(Icons.mark_email_unread_outlined), findsOneWidget);
@@ -92,14 +85,7 @@ void main() {
 
     testWidgets('displays check circle icon on verify button', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify check circle icon exists
       expect(find.byIcon(Icons.check_circle_outline), findsOneWidget);
@@ -107,14 +93,7 @@ void main() {
 
     testWidgets('displays refresh icon on resend button', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify refresh icon exists
       expect(find.byIcon(Icons.refresh), findsOneWidget);
@@ -122,14 +101,7 @@ void main() {
 
     testWidgets('has buttons for actions', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify FilledButton.icon exists (for verification)
       expect(find.text("I've Verified My Email"), findsOneWidget);
@@ -143,14 +115,7 @@ void main() {
 
     testWidgets('tapping resend email shows snackbar', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Tap resend email button
       await tester.tap(find.text('Resend Email'));
@@ -168,14 +133,7 @@ void main() {
       when(() => mockUser.reload()).thenAnswer((_) async {});
       when(() => mockUser.emailVerified).thenReturn(false);
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Tap verify button
       await tester.tap(find.text("I've Verified My Email"));
@@ -188,14 +146,7 @@ void main() {
 
     testWidgets('displays instruction text', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Verify instruction text is present
       expect(
@@ -220,14 +171,7 @@ void main() {
       when(userWithEmail.reload).thenAnswer((_) async {});
       when(authWithUser.signOut).thenAnswer((_) async {});
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: authWithUser,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester, auth: authWithUser);
 
       // Verify specific email is displayed
       expect(find.text('specific@test.com'), findsOneWidget);
@@ -244,14 +188,7 @@ void main() {
 
       when(authWithNoUser.signOut).thenAnswer((_) async {});
 
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: authWithNoUser,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester, auth: authWithNoUser);
 
       // Email text should be empty string (the widget handles null gracefully)
       expect(find.text(''), findsWidgets);
@@ -261,14 +198,7 @@ void main() {
       tester,
     ) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const EmailVerificationScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpVerification(tester);
 
       // Find the Container that wraps the email icon
       final container = find.ancestor(

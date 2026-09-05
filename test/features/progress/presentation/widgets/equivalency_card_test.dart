@@ -1,28 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_card.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('EquivalencyCard', () {
     testWidgets('renders trees with one decimal place', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.trees,
               value: 2.4,
@@ -37,8 +26,9 @@ void main() {
 
     testWidgets('renders sub-unit trees value', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.trees,
               value: 0.2,
@@ -54,8 +44,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.phoneCharges,
               value: 3125.7,
@@ -72,8 +63,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.carKm,
               value: 105,
@@ -90,8 +82,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.burgers,
               value: 7,
@@ -108,8 +101,9 @@ void main() {
       // 0.04 would format as "0.0" -- replace with the sentinel so
       // a real action never reads as zero impact.
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.trees,
               value: 0.04,
@@ -126,8 +120,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const EquivalencyCard(
+        createTestWidget(
+          scaffold: true,
+          child: const EquivalencyCard(
             equivalency: ImpactEquivalency(
               type: EquivalencyType.carKm,
               value: 0.4,

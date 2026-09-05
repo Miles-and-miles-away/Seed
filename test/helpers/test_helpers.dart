@@ -3,11 +3,14 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 
 // =============================================================================
@@ -31,24 +34,89 @@ Widget createTestWidget({
   required Widget child,
   FirebaseAuth? firebaseAuth,
   FirebaseFirestore? firestore,
+  List<Override> overrides = const [],
+  bool scaffold = false,
+  Locale? locale,
+  ThemeData? theme,
 }) {
   return ProviderScope(
     overrides: [
       if (firebaseAuth != null)
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
       if (firestore != null) firestoreProvider.overrideWithValue(firestore),
+      ...overrides,
     ],
     child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: child,
+      locale: locale,
+      theme: theme,
+      home: scaffold ? Scaffold(body: child) : child,
     ),
   );
+}
+
+// =============================================================================
+// Provider Container Helpers
+// =============================================================================
+
+Override userOverride(AppUserModel? user) =>
+    currentUserProvider.overrideWith((_) => Stream.value(user));
+
+/// A container that is disposed with the test and has already let
+/// [warm] (the current user by default) emit once, so synchronous
+/// reads see settled state.
+Future<ProviderContainer> pumpedContainer(
+  List<Override> overrides, {
+  ProviderListenable<Object?>? warm,
+}) async {
+  final container = ProviderContainer(overrides: overrides);
+  addTearDown(container.dispose);
+  container.listen(warm ?? currentUserProvider, (_, _) {});
+  await Future<void>.delayed(Duration.zero);
+  return container;
+}
+
+// =============================================================================
+// Widget Test Helpers
+// =============================================================================
+
+/// CachedNetworkImage resolves its cache directory via path_provider,
+/// which has no platform implementation under test.
+void stubPathProvider() {
+  const channel = MethodChannel('plugins.flutter.io/path_provider');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (methodCall) async {
+        switch (methodCall.method) {
+          case 'getTemporaryDirectory':
+          case 'getApplicationSupportDirectory':
+          case 'getApplicationDocumentsDirectory':
+            return '/tmp';
+        }
+        return null;
+      });
+}
+
+/// A tall phone viewport so long screens lay out without scrolling.
+void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(() {
+    tester.view.resetPhysicalSize();
+    tester.view.resetDevicePixelRatio();
+  });
+}
+
+/// Pump until [finder] resolves or the budget runs out. For screens with
+/// infinite idle animations that never settle; each step yields to the
+/// real event loop via runAsync so asset futures and streams can emit.
+Future<void> pumpUntilFound(WidgetTester tester, Finder finder) async {
+  for (var i = 0; i < 30 && finder.evaluate().isEmpty; i++) {
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 20)),
+    );
+    await tester.pump();
+  }
 }
 
 // =============================================================================

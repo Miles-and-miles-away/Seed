@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
 /// Horizontal evolution timeline: one card per stage with connectors,
@@ -48,11 +49,7 @@ class EvolutionTimeline extends StatelessWidget {
           final stage = stages[stageIndex];
           final isCurrentStage = currentStage == stageIndex + 1;
           final isUnlocked = currentStage >= stageIndex + 1;
-          final stageName = switch (locale) {
-            'ja' => stage.nameJa,
-            'es' when stage.nameEs.isNotEmpty => stage.nameEs,
-            _ => stage.nameEn,
-          };
+          final stageName = stage.name(locale);
 
           return Expanded(
             flex: 2,

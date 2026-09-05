@@ -1,12 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// The gating rule exercised against the REAL dataset, not hand-built
 /// behaviors (Phase 8.15, decision E2).
@@ -21,12 +20,11 @@ void main() {
   late double gas;
 
   setUpAll(() {
-    final root =
-        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
-            as Map<String, dynamic>;
-    final behaviors = (root['behaviors'] as List<dynamic>)
-        .map((e) => EnergyBehavior.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final root = rawDatasetRoot('data/app/energy_behaviors.json');
+    final behaviors = datasetEntries(
+      root,
+      'behaviors',
+    ).map(EnergyBehavior.fromJson).toList();
     byId = EnergyCalculator.byId(behaviors);
     final metadata = root['metadata'] as Map<String, dynamic>;
     grid = (metadata['grid_factor_g_per_kwh'] as num).toDouble();
@@ -271,9 +269,7 @@ void main() {
   test('the engine constant matches the dataset metadata', () {
     // Two sources of truth for the 20% bar, previously unpinned: an
     // edit to the JSON changed nothing at runtime.
-    final root =
-        json.decode(File('data/app/energy_behaviors.json').readAsStringSync())
-            as Map<String, dynamic>;
+    final root = rawDatasetRoot('data/app/energy_behaviors.json');
     final metadata = root['metadata'] as Map<String, dynamic>;
     expect(
       (metadata['verdict_min_percent'] as num).toDouble(),

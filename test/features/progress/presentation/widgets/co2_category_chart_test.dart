@@ -1,23 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_category_chart.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('Co2CategoryChart', () {
@@ -40,7 +28,12 @@ void main() {
         totalGrams: 1000,
       );
 
-      await tester.pumpWidget(_wrap(const Co2CategoryChart(data: data)));
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: const Co2CategoryChart(data: data),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('By category'), findsOneWidget);
@@ -68,7 +61,12 @@ void main() {
         totalGrams: 1000,
       );
 
-      await tester.pumpWidget(_wrap(const Co2CategoryChart(data: data)));
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: const Co2CategoryChart(data: data),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Other'), findsOneWidget);

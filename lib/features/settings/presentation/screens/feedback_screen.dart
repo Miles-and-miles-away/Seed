@@ -194,7 +194,7 @@ class _MetadataFooter extends StatelessWidget {
     final platform = Platform.operatingSystem;
 
     final parts = <String>[
-      'App v$version${buildNumber.isEmpty ? '' : ' ($buildNumber)'}',
+      'App v${appVersionLabel(version, buildNumber)}',
       platform,
       locale,
     ];

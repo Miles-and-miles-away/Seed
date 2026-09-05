@@ -14,6 +14,10 @@ class ActiveMultiDayChallenge {
   final int targetDays;
   final String lastCompletionDate;
 
+  /// Fraction of [targetDays] reached by [currentDay], clamped to 0..1.
+  static double progress(int currentDay, int targetDays) =>
+      targetDays > 0 ? (currentDay / targetDays).clamp(0.0, 1.0) : 0.0;
+
   static ActiveMultiDayChallenge? fromMap(Map<String, dynamic>? map) {
     if (map == null || map.isEmpty) return null;
     final templateId = map[AppConstants.fieldTemplateId] as String?;

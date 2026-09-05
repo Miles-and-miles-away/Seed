@@ -16,6 +16,9 @@ class AboutScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final pkgAsync = ref.watch(packageInfoProvider);
+    final version = pkgAsync.value?.version ?? '...';
+    final buildNumber = pkgAsync.value?.buildNumber ?? '';
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.aboutSettingsTitle)),
@@ -31,17 +34,10 @@ class AboutScreen extends ConsumerWidget {
               title: l10n.aboutSettingsVersion,
               showTopDivider: true,
               children: [
-                Builder(
-                  builder: (context) {
-                    final pkgAsync = ref.watch(packageInfoProvider);
-                    final version = pkgAsync.value?.version ?? '...';
-                    final buildNumber = pkgAsync.value?.buildNumber ?? '';
-                    return ListTile(
-                      leading: const Icon(Icons.info_outline),
-                      title: Text('$version ($buildNumber)'),
-                      subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
-                    );
-                  },
+                ListTile(
+                  leading: const Icon(Icons.info_outline),
+                  title: Text('$version ($buildNumber)'),
+                  subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
                 ),
               ],
             ),

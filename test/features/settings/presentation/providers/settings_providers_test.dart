@@ -4,61 +4,45 @@ import 'package:seed_app/features/settings/data/models/notification_schedule_mod
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 
-ProviderContainer _container(UserSettingsModel settings) {
-  return ProviderContainer(
-    overrides: [
-      userSettingsProvider.overrideWith((_) => Stream.value(settings)),
-    ],
-  );
-}
+import '../../../../helpers/test_helpers.dart';
 
-Future<void> _pump(ProviderContainer c) async {
-  c.listen(userSettingsProvider, (_, _) {});
-  await Future<void>.delayed(Duration.zero);
-}
+Future<ProviderContainer> _container(UserSettingsModel settings) =>
+    pumpedContainer([
+      userSettingsProvider.overrideWith((_) => Stream.value(settings)),
+    ], warm: userSettingsProvider);
 
 void main() {
   group('derived settings selectors', () {
     test('currentLanguageProvider reflects the settings language', () async {
-      final c = _container(const UserSettingsModel(language: 'ja'));
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _container(const UserSettingsModel(language: 'ja'));
 
       expect(c.read(currentLanguageProvider), 'ja');
     });
 
     test('notificationsEnabledProvider mirrors the setting', () async {
-      final c = _container(
-        const UserSettingsModel(notificationsEnabled: false),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _container(const UserSettingsModel());
 
       expect(c.read(notificationsEnabledProvider), isFalse);
     });
 
     test('smartRemindersEnabledProvider mirrors the setting', () async {
-      final c = _container(
+      final c = await _container(
         const UserSettingsModel(smartRemindersEnabled: false),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       expect(c.read(smartRemindersEnabledProvider), isFalse);
     });
 
     test('analyticsEnabledProvider mirrors the setting', () async {
-      final c = _container(const UserSettingsModel(analyticsEnabled: false));
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _container(
+        const UserSettingsModel(analyticsEnabled: false),
+      );
 
       expect(c.read(analyticsEnabledProvider), isFalse);
     });
 
     test('appLocaleProvider wraps the language in a Locale', () async {
-      final c = _container(const UserSettingsModel(language: 'es'));
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _container(const UserSettingsModel(language: 'es'));
 
       expect(c.read(appLocaleProvider).languageCode, 'es');
     });
@@ -66,7 +50,7 @@ void main() {
 
   group('reminder selectors', () {
     test('canAddReminderProvider is false at 5 schedules', () async {
-      final c = _container(
+      final c = await _container(
         const UserSettingsModel(
           reminderSchedules: [
             NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
@@ -77,16 +61,12 @@ void main() {
           ],
         ),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       expect(c.read(canAddReminderProvider), isFalse);
     });
 
     test('canAddReminderProvider is true below the cap', () async {
-      final c = _container(const UserSettingsModel());
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _container(const UserSettingsModel());
 
       expect(c.read(canAddReminderProvider), isTrue);
     });

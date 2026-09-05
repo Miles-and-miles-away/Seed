@@ -5,17 +5,19 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/settings_providers.dart';
 
+/// Languages offered in the picker, in display order. English is first so
+/// [LanguageOption.nativeName] lookups can fall back to it for unknown codes.
+const supportedLanguages = [
+  LanguageOption(code: 'en', name: 'English', nativeName: 'English'),
+  LanguageOption(code: 'es', name: 'Spanish', nativeName: 'Español'),
+  LanguageOption(code: 'ja', name: 'Japanese', nativeName: '日本語'),
+];
+
 /// Screen for selecting the app language.
 ///
 /// Supports English and Japanese with live switching.
 class LanguageSettingsScreen extends ConsumerWidget {
   const LanguageSettingsScreen({super.key});
-
-  static const _supportedLanguages = [
-    _LanguageOption(code: 'en', name: 'English', nativeName: 'English'),
-    _LanguageOption(code: 'es', name: 'Spanish', nativeName: 'Español'),
-    _LanguageOption(code: 'ja', name: 'Japanese', nativeName: '日本語'),
-  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,16 +41,14 @@ class LanguageSettingsScreen extends ConsumerWidget {
               ),
             ),
             const Divider(height: 1),
-            ...List.generate(_supportedLanguages.length, (index) {
-              final language = _supportedLanguages[index];
-              final isSelected = currentLanguage == language.code;
-
-              return _LanguageTile(
+            for (final language in supportedLanguages)
+              _LanguageTile(
                 language: language,
-                isSelected: isSelected,
-                onTap: () => _onLanguageSelected(ref, language.code),
-              );
-            }),
+                isSelected: currentLanguage == language.code,
+                onTap: () => ref
+                    .read(settingsProvider.notifier)
+                    .updateLanguage(language.code),
+              ),
             const Divider(height: 1),
             Padding(
               padding: const EdgeInsets.all(spacingLg),
@@ -64,14 +64,11 @@ class LanguageSettingsScreen extends ConsumerWidget {
       ),
     );
   }
-
-  Future<void> _onLanguageSelected(WidgetRef ref, String languageCode) async {
-    await ref.read(settingsProvider.notifier).updateLanguage(languageCode);
-  }
 }
 
-class _LanguageOption {
-  const _LanguageOption({
+/// A selectable app language: ISO code, English name and native name.
+class LanguageOption {
+  const LanguageOption({
     required this.code,
     required this.name,
     required this.nativeName,
@@ -89,7 +86,7 @@ class _LanguageTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final _LanguageOption language;
+  final LanguageOption language;
   final bool isSelected;
   final VoidCallback onTap;
 

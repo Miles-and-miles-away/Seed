@@ -5,20 +5,24 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 
-/// Preset personal goal IDs, ordered from concrete to aspirational.
+/// Preset personal goals keyed by stored ID, ordered from concrete to
+/// aspirational.
 ///
 /// Presets are stored in Firestore as stable IDs so their display text
 /// follows the user's language; custom goals are stored as free text.
-const personalGoalPresetIds = [
-  'reduce_flights',
-  'plant_based',
-  'less_plastic',
-  'walk_bike',
-  'less_food_waste',
-  'buy_less',
-  'inspire_others',
-  'save_world',
-];
+final _personalGoalPresets = <String, String Function(AppLocalizations)>{
+  'reduce_flights': (l10n) => l10n.personalGoalReduceFlights,
+  'plant_based': (l10n) => l10n.personalGoalPlantBased,
+  'less_plastic': (l10n) => l10n.personalGoalLessPlastic,
+  'walk_bike': (l10n) => l10n.personalGoalWalkBike,
+  'less_food_waste': (l10n) => l10n.personalGoalLessFoodWaste,
+  'buy_less': (l10n) => l10n.personalGoalBuyLess,
+  'inspire_others': (l10n) => l10n.personalGoalInspireOthers,
+  'save_world': (l10n) => l10n.personalGoalSaveWorld,
+};
+
+/// Preset personal goal IDs in display order.
+final personalGoalPresetIds = _personalGoalPresets.keys;
 
 /// Stored prefix marking a goal as free-text custom input. Namespacing custom
 /// goals keeps one that happens to equal a preset ID (e.g. "save_world") from
@@ -38,28 +42,8 @@ String localizedPersonalGoal(String goal, AppLocalizations l10n) {
   if (goal.startsWith(personalGoalCustomPrefix)) {
     return goal.substring(personalGoalCustomPrefix.length);
   }
-  switch (goal) {
-    case 'reduce_flights':
-      return l10n.personalGoalReduceFlights;
-    case 'plant_based':
-      return l10n.personalGoalPlantBased;
-    case 'less_plastic':
-      return l10n.personalGoalLessPlastic;
-    case 'walk_bike':
-      return l10n.personalGoalWalkBike;
-    case 'less_food_waste':
-      return l10n.personalGoalLessFoodWaste;
-    case 'buy_less':
-      return l10n.personalGoalBuyLess;
-    case 'inspire_others':
-      return l10n.personalGoalInspireOthers;
-    case 'save_world':
-      return l10n.personalGoalSaveWorld;
-    default:
-      // Bare value with no prefix: presets are handled above, so this is a
-      // legacy custom goal saved before the prefix scheme. Show it as-is.
-      return goal;
-  }
+  // A bare non-preset value is a legacy custom goal saved before the prefix.
+  return _personalGoalPresets[goal]?.call(l10n) ?? goal;
 }
 
 /// Bottom sheet for choosing a personal sustainability goal.
@@ -80,9 +64,7 @@ class GoalPickerSheet extends StatefulWidget {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => GoalPickerSheet(initialGoal: initialGoal),
     );
   }

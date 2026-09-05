@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
@@ -34,31 +31,21 @@ void main() {
       iconName: 'recycling',
     );
 
-    Widget createTestWidget({
+    Widget buildCard({
       ActionModel action = testAction,
       String languageCode = 'en',
       VoidCallback? onTap,
     }) {
-      return ProviderScope(
+      return createTestWidget(
         overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: SizedBox(
-              width: 200,
-              height: 200,
-              child: ActionCard(
-                action: action,
-                languageCode: languageCode,
-                onTap: onTap ?? () {},
-              ),
-            ),
+        scaffold: true,
+        child: SizedBox(
+          width: 200,
+          height: 200,
+          child: ActionCard(
+            action: action,
+            languageCode: languageCode,
+            onTap: onTap ?? () {},
           ),
         ),
       );
@@ -66,21 +53,21 @@ void main() {
 
     testWidgets('displays action name in English', (tester) async {
       // ignore: avoid_redundant_argument_values
-      await tester.pumpWidget(createTestWidget(languageCode: 'en'));
+      await tester.pumpWidget(buildCard(languageCode: 'en'));
       await tester.pumpAndSettle();
 
       expect(find.text('Recycle Aluminum Can'), findsOneWidget);
     });
 
     testWidgets('displays action name in Japanese', (tester) async {
-      await tester.pumpWidget(createTestWidget(languageCode: 'ja'));
+      await tester.pumpWidget(buildCard(languageCode: 'ja'));
       await tester.pumpAndSettle();
 
       expect(find.text('アルミ缶リサイクル'), findsOneWidget);
     });
 
     testWidgets('displays points badge', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
       // Points should be displayed in a badge format
@@ -88,7 +75,7 @@ void main() {
     });
 
     testWidgets('displays icon', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.recycling), findsOneWidget);
@@ -96,7 +83,7 @@ void main() {
 
     testWidgets('is tappable', (tester) async {
       var tapped = false;
-      await tester.pumpWidget(createTestWidget(onTap: () => tapped = true));
+      await tester.pumpWidget(buildCard(onTap: () => tapped = true));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionCard));
@@ -106,21 +93,21 @@ void main() {
     });
 
     testWidgets('renders as Card widget', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsOneWidget);
     });
 
     testWidgets('renders InkWell for tap feedback', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
       expect(find.byType(InkWell), findsOneWidget);
     });
 
     testWidgets('displays category color accent', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
       // The card should have a colored container at the top
@@ -137,7 +124,7 @@ void main() {
         iconName: 'bike',
       );
 
-      await tester.pumpWidget(createTestWidget(action: bikeAction));
+      await tester.pumpWidget(buildCard(action: bikeAction));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.pedal_bike), findsOneWidget);
@@ -154,7 +141,7 @@ void main() {
         iconName: 'eco',
       );
 
-      await tester.pumpWidget(createTestWidget(action: ecoAction));
+      await tester.pumpWidget(buildCard(action: ecoAction));
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.eco), findsOneWidget);
@@ -170,7 +157,7 @@ void main() {
         iconName: 'unknown_icon_name',
       );
 
-      await tester.pumpWidget(createTestWidget(action: unknownIconAction));
+      await tester.pumpWidget(buildCard(action: unknownIconAction));
       await tester.pumpAndSettle();
 
       // Should fall back to eco icon
@@ -191,7 +178,7 @@ void main() {
           relatedSdgs: ['12', '13'],
         );
 
-        await tester.pumpWidget(createTestWidget(action: actionWithSdgs));
+        await tester.pumpWidget(buildCard(action: actionWithSdgs));
         await tester.pumpAndSettle();
 
         // Should display SDG numbers 12 and 13
@@ -203,7 +190,7 @@ void main() {
         tester,
       ) async {
         // testAction has no relatedSdgs
-        await tester.pumpWidget(createTestWidget());
+        await tester.pumpWidget(buildCard());
         await tester.pumpAndSettle();
 
         // Should not find any SDG numbers (1-17)
@@ -224,7 +211,7 @@ void main() {
           relatedSdgs: ['1', '2', '3', '4', '5'],
         );
 
-        await tester.pumpWidget(createTestWidget(action: actionWithManySdgs));
+        await tester.pumpWidget(buildCard(action: actionWithManySdgs));
         await tester.pumpAndSettle();
 
         // Should show first 3 SDGs
@@ -249,7 +236,7 @@ void main() {
           relatedSdgs: ['7', '11', '12', '13'],
         );
 
-        await tester.pumpWidget(createTestWidget(action: actionWith4Sdgs));
+        await tester.pumpWidget(buildCard(action: actionWith4Sdgs));
         await tester.pumpAndSettle();
 
         // Should show all 4 SDGs
@@ -273,9 +260,7 @@ void main() {
           relatedSdgs: ['0', '12', '18', '13', 'invalid'],
         );
 
-        await tester.pumpWidget(
-          createTestWidget(action: actionWithInvalidSdgs),
-        );
+        await tester.pumpWidget(buildCard(action: actionWithInvalidSdgs));
         await tester.pumpAndSettle();
 
         // Should only show valid SDGs (12 and 13)
@@ -296,25 +281,15 @@ void main() {
       // words do not.
       const category = ActionCategory.energy;
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: Scaffold(
-              body: ActionTile(
-                accentColor: category.color,
-                contentColor: category.color,
-                icon: Icons.bolt,
-                title: 'Heat yourself, not the room',
-                badgeLabel: '18 points',
-                onTap: () {},
-              ),
-            ),
+        createTestWidget(
+          scaffold: true,
+          child: ActionTile(
+            accentColor: category.color,
+            contentColor: category.color,
+            icon: Icons.bolt,
+            title: 'Heat yourself, not the room',
+            badgeLabel: '18 points',
+            onTap: () {},
           ),
         ),
       );

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_info_sheet.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 const _fixture = <EquivalencyMetadata>[
   EquivalencyMetadata(
@@ -36,30 +35,17 @@ const _fixture = <EquivalencyMetadata>[
   ),
 ];
 
-Widget _wrap(Widget home) => ProviderScope(
-  overrides: [
-    impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
-  ],
-  child: MaterialApp(
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: home,
-  ),
-);
-
 void main() {
   group('EquivalencyInfoSheet', () {
     testWidgets('shows title, intro, all four explainers, and sources', (
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          Builder(
+        createTestWidget(
+          overrides: [
+            impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
+          ],
+          child: Builder(
             builder: (context) => Scaffold(
               body: Center(
                 child: ElevatedButton(

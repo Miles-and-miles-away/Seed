@@ -29,6 +29,10 @@ Project aliases are configured in `.firebaserc`:
 
 Use `--project <alias>` with any Firebase CLI command to target the right environment.
 
+> `seed-dev` has not been created yet (checked 2026-09-05: only
+> `seed-3d48d` exists in the account). Every `--project dev` command
+> below fails until the Environment Setup Checklist is completed.
+
 ---
 
 ## Deploy Commands

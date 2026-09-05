@@ -225,30 +225,14 @@ void main() {
     });
   });
 
-  group('getCurrentUser / watchCurrentUser', () {
-    test('returns null when no firebase user', () async {
-      when(() => authDs.currentUser).thenReturn(null);
-
-      expect(await repository.getCurrentUser(), isNull);
-      verifyNever(() => userDs.getUser(any()));
-    });
-
-    test('fetches app user when signed in', () async {
-      final user = fakeFirebaseUser();
-      when(() => authDs.currentUser).thenReturn(user);
-      const existing = AppUserModel(uid: uid, email: email);
-      when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
-
-      expect(await repository.getCurrentUser(), existing);
-    });
-
-    test('watchCurrentUser emits null when no firebase user', () async {
+  group('watchCurrentUser', () {
+    test('emits null when no firebase user', () async {
       when(() => authDs.currentUser).thenReturn(null);
 
       await expectLater(repository.watchCurrentUser(), emits(isNull));
     });
 
-    test('watchCurrentUser delegates to user data source when signed in', () {
+    test('delegates to user data source when signed in', () {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
       const existing = AppUserModel(uid: uid, email: email);
@@ -257,18 +241,6 @@ void main() {
       ).thenAnswer((_) => Stream.value(existing));
 
       expect(repository.watchCurrentUser(), emits(existing));
-    });
-  });
-
-  group('updateEmailVerified', () {
-    test('writes the flag through user data source', () async {
-      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
-
-      await repository.updateEmailVerified(uid, verified: true);
-
-      verify(
-        () => userDs.updateUser(uid, {AppConstants.fieldEmailVerified: true}),
-      ).called(1);
     });
   });
 

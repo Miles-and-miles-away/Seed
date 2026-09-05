@@ -55,17 +55,7 @@ class TransportMethodologyScreen extends ConsumerWidget {
     final buffer = StringBuffer()
       ..writeln(l10n.transportMethodologyBody(grid))
       ..writeln()
-      ..writeln('### ${l10n.scienceSourcesHeading}');
-    // Union of every shipped source, first name seen per URL wins.
-    final sources = <String, String>{};
-    for (final mode in modes) {
-      for (final source in mode.sources) {
-        sources.putIfAbsent(source.url, () => source.name);
-      }
-    }
-    for (final entry in sources.entries) {
-      buffer.writeln('- [${entry.value}](${entry.key})');
-    }
+      ..write(dedupedSourcesMarkdown(modes.expand((m) => m.sources), l10n));
     return buffer.toString();
   }
 }

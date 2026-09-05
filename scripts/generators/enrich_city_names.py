@@ -475,8 +475,9 @@ def main():
     assert json.dumps(metadata["links"]) == links_before
     assert json.dumps(metadata.get("water_blocked")) == blocked_before
     assert core_signature(cities) == core_before
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     with open(CITIES_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+        f.write(blob)
         f.write("\n")
 
 

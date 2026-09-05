@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Durations;
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
 
 /// Every progress card is exported at one canvas size, so reserving the
 /// space keeps the detail page from reflowing as the image decodes.
@@ -22,23 +23,15 @@ class SdgProgressChartViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(Icons.insert_chart_outlined, color: goal.color, size: 20),
-            const SizedBox(width: spacingSm),
-            Text(
-              l10n.sdgProgressChart,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        SdgSectionHeader(
+          icon: Icons.insert_chart_outlined,
+          title: l10n.sdgProgressChart,
+          color: goal.color,
         ),
         const SizedBox(height: spacingMd),
         Semantics(

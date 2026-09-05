@@ -22,6 +22,7 @@ import 'package:seed_app/features/transport/presentation/widgets/transport_mode_
 import 'package:seed_app/features/transport/presentation/widgets/transport_science_sheet.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/widgets/bank_and_report.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Side-by-side journey comparison (Phase 8.2/8.3).
@@ -181,9 +182,7 @@ class _TransportCalculatorScreenState
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (sheetContext) => SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: spacingLg),
@@ -211,14 +210,10 @@ class _TransportCalculatorScreenState
       appBar: AppBar(
         title: Text(l10n.transportCalculatorTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.science_outlined),
+          methodologyAction(
+            context,
             tooltip: l10n.transportMethodologyTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const TransportMethodologyScreen(),
-              ),
-            ),
+            builder: (_) => const TransportMethodologyScreen(),
           ),
         ],
       ),
@@ -297,23 +292,14 @@ class _TransportCalculatorScreenState
     List<List<JourneyLeg>> options,
     ComparisonSummary? summary,
   ) {
-    final theme = Theme.of(context);
     if (summary == null || summary.deltaGrams <= 0) {
-      return Text(
-        l10n.calculatorNeedBothOptions,
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      );
+      return CalculatorHint(l10n.calculatorNeedBothOptions);
     }
     // On screen the options are the column names; naming a single
     // leg read as an arbitrary pick from the list. The banked action
     // still gets the full journey description.
-    String columnName(int i) =>
-        i == optionA ? l10n.calculatorOptionA : l10n.calculatorOptionB;
-    final bestLabel = columnName(summary.bestIndex);
-    final worstLabel = columnName(summary.worstIndex);
+    final bestLabel = optionLabel(l10n, summary.bestIndex);
+    final worstLabel = optionLabel(l10n, summary.worstIndex);
     final trees = ref
         .watch(impactEquivalenciesDataProvider)
         .whenOrNull(
@@ -392,17 +378,18 @@ class _TransportCalculatorScreenState
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
-  ) async {
-    final amount = formatCO2Compact(deltaGrams.round());
-    final ok = await ref
+  ) => bankAndReport(
+    context,
+    log: () => ref
         .read(transportChoiceLoggerProvider.notifier)
         .logChoice(
           name: l10n.transportCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
-        );
-    if (!mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    if (ok) {
+        ),
+    successMessage: l10n.transportChoiceLoggedMessage(
+      formatCO2Compact(deltaGrams.round()),
+    ),
+    onSuccess: () {
       ref.read(journeyOptionsProvider.notifier).clear();
       setState(() {
         for (final cities in _legCities) {
@@ -410,11 +397,6 @@ class _TransportCalculatorScreenState
         }
         _referenceOption = null;
       });
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.transportChoiceLoggedMessage(amount))),
-      );
-    } else {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
-    }
-  }
+    },
+  );
 }

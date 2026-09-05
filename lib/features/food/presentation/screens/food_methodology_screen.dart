@@ -44,17 +44,7 @@ class FoodMethodologyScreen extends ConsumerWidget {
     final buffer = StringBuffer()
       ..writeln(l10n.foodMethodologyBody)
       ..writeln()
-      ..writeln('### ${l10n.scienceSourcesHeading}');
-    // Union of every shipped source, first name seen per URL wins.
-    final sources = <String, String>{};
-    for (final item in items) {
-      for (final source in item.sources) {
-        sources.putIfAbsent(source.url, () => source.name);
-      }
-    }
-    for (final entry in sources.entries) {
-      buffer.writeln('- [${entry.value}](${entry.key})');
-    }
+      ..write(dedupedSourcesMarkdown(items.expand((i) => i.sources), l10n));
     return buffer.toString();
   }
 }

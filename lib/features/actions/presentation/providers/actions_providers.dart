@@ -116,10 +116,6 @@ class SelectedCategory extends _$SelectedCategory {
   void select(ActionCategory? category) {
     state = category;
   }
-
-  void clear() {
-    state = null;
-  }
 }
 
 /// Search query for filtering actions.
@@ -167,6 +163,12 @@ class SelectedSdgFilter extends _$SelectedSdgFilter {
   }
 }
 
+/// Midnight starting [day] and midnight starting the day after.
+(DateTime, DateTime) _dayBounds(DateTime day) => (
+  DateTime(day.year, day.month, day.day),
+  DateTime(day.year, day.month, day.day + 1),
+);
+
 /// One-shot fetch of the logs for a single calendar day (used by the
 /// calendar's day-detail sheet; a range query instead of streaming
 /// the whole history).
@@ -175,8 +177,7 @@ Future<List<ActionLogModel>> actionsForDay(Ref ref, DateTime day) async {
   final userId = ref.watch(userIdProvider);
   if (userId == null) return const [];
 
-  final start = DateTime(day.year, day.month, day.day);
-  final end = DateTime(day.year, day.month, day.day + 1);
+  final (start, end) = _dayBounds(day);
   final repo = await ref.watch(actionLogRepositoryProvider.future);
   return repo.getActionLogsForRange(userId, start, end);
 }
@@ -194,9 +195,7 @@ Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
     return;
   }
 
-  final now = DateTime.now();
-  final start = DateTime(now.year, now.month, now.day);
-  final end = DateTime(now.year, now.month, now.day + 1);
+  final (start, end) = _dayBounds(DateTime.now());
 
   final repo = await ref.watch(actionLogRepositoryProvider.future);
   yield* repo.watchActionLogsForRange(userId, start, end);
@@ -319,7 +318,6 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     if (state.isLoading) return null;
 
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
-    state = const AsyncValue.loading();
 
     final userAsync = ref.read(currentUserProvider);
     final user = userAsync.asData?.value;
@@ -332,12 +330,14 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       return null;
     }
 
-    // Capture repository before async operations
-    final actionLogRepo = await ref.read(actionLogRepositoryProvider.future);
+    state = const AsyncValue.loading();
 
+    // The repository future loads bundled JSON and can reject, so it
+    // stays inside the guard or state strands in loading forever.
     // The daily summary is written inside the logAction transaction,
     // so only analytics remain as follow-up work here.
     final result = await AsyncValue.guard(() async {
+      final actionLogRepo = await ref.read(actionLogRepositoryProvider.future);
       return actionLogRepo.logAction(
         userId: user.uid,
         action: action,
@@ -396,10 +396,5 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     } on Exception catch (e) {
       appLogger.error('ActionLog: analytics failed', error: e);
     }
-  }
-
-  /// Resets the state after showing confirmation.
-  void reset() {
-    state = const AsyncValue.data(null);
   }
 }

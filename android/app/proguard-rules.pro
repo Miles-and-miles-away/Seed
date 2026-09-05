@@ -12,6 +12,3 @@
 # Crashlytics
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
-
-# RevenueCat
--keep class com.revenuecat.purchases.** { *; }

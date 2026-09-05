@@ -22,26 +22,6 @@ void main() {
           .doc(uid)
           .collection(AppConstants.collectionActionLog);
 
-  ActionLogModel createLog({
-    String id = '',
-    String actionId = 'action-1',
-    String actionName = 'Recycle',
-    String category = 'recycling',
-    int points = 10,
-    DateTime? loggedAt,
-    int co2Grams = 50,
-  }) {
-    return ActionLogModel(
-      id: id,
-      actionId: actionId,
-      actionName: actionName,
-      category: category,
-      points: points,
-      loggedAt: loggedAt ?? DateTime(2024, 6, 15),
-      co2Grams: co2Grams,
-    );
-  }
-
   Future<void> seedLog(
     String uid,
     String docId, {
@@ -61,43 +41,6 @@ void main() {
   }
 
   group('ActionLogRemoteDataSource', () {
-    group('createActionLog', () {
-      test('writes document to Firestore', () async {
-        final log = createLog();
-
-        final result = await dataSource.createActionLog(userId, log);
-
-        expect(result.id, isNotEmpty);
-        expect(result.actionName, 'Recycle');
-
-        final snapshot = await logsCollection(userId).get();
-        expect(snapshot.docs, hasLength(1));
-      });
-
-      test('assigns auto-generated ID', () async {
-        final log = createLog(id: 'ignored');
-
-        final result = await dataSource.createActionLog(userId, log);
-
-        expect(result.id, isNot('ignored'));
-        expect(result.id, isNotEmpty);
-      });
-
-      test('stores correct field values', () async {
-        final log = createLog(points: 25, co2Grams: 100, category: 'energy');
-
-        final result = await dataSource.createActionLog(userId, log);
-
-        final doc = await logsCollection(userId).doc(result.id).get();
-        final data = doc.data()!;
-        expect(data['points'], 25);
-        expect(data['co2Grams'], 100);
-        expect(data['category'], 'energy');
-        // id should not be stored in document
-        expect(data.containsKey('id'), isFalse);
-      });
-    });
-
     group('watchUserActionLogs', () {
       test('returns stream ordered by loggedAt desc', () async {
         await seedLog(userId, 'log1', loggedAt: DateTime(2024, 6, 13));

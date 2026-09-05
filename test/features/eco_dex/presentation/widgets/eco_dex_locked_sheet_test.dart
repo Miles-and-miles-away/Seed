@@ -1,49 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart';
 
+import '../../../../helpers/test_helpers.dart';
+import '../../eco_dex_fixtures.dart';
+
 void main() {
-  Widget wrap(Widget child, {AppUserModel? user}) => ProviderScope(
-    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    ),
+  Widget wrap(Widget child, {AppUserModel? user}) => createTestWidget(
+    overrides: [userOverride(user)],
+    scaffold: true,
+    child: child,
   );
 
   EcoDexEntry makeEntry({
     String hintEn = 'Walk five times',
-    String hintJa = '',
     String hintEs = '',
     EcoDexCondition condition = const EcoDexCondition.totalActions(count: 5),
-  }) => EcoDexEntry(
-    id: 'e1',
+  }) => ecoDexEntry(
+    'e1',
     category: 'transport',
     nameEn: 'Walking',
-    nameJa: '',
-    nameEs: '',
-    factEn: '',
-    factJa: '',
-    factEs: '',
-    sourceUrl: '',
     iconName: 'walking',
-    condition: condition,
     hintEn: hintEn,
-    hintJa: hintJa,
     hintEs: hintEs,
+    condition: condition,
   );
 
   testWidgets('shows lock icon and hint in the active locale', (tester) async {
