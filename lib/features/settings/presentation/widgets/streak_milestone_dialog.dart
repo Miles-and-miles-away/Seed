@@ -9,9 +9,9 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
-import '../providers/settings_providers.dart';
 
 /// Dialog shown when the user reaches a weekly streak milestone.
 ///
@@ -42,9 +42,7 @@ class StreakMilestoneDialog extends ConsumerStatefulWidget {
       _StreakMilestoneDialogState();
 }
 
-class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
-    with TickerProviderStateMixin {
-  late AnimationController _particleController;
+class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
   late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
@@ -52,12 +50,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
   @override
   void initState() {
     super.initState();
-    _particleController = AnimationController(
-      vsync: this,
-      duration: durationParticleLoop,
-    );
-
-    // Generate confetti particles
     _particles = List.generate(40, (_) => ConfettiParticle.random());
 
     // Start animations in sequence
@@ -65,10 +57,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
   }
 
   Future<void> _startAnimationSequence() async {
-    // Start particles immediately
-    unawaited(_particleController.repeat());
-
-    // Show content after brief delay
     await Future<void>.delayed(durationNormal);
     if (mounted) {
       setState(() => _showContent = true);
@@ -79,12 +67,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
     if (mounted) {
       setState(() => _showButton = true);
     }
-  }
-
-  @override
-  void dispose() {
-    _particleController.dispose();
-    super.dispose();
   }
 
   Future<void> _handleDismiss() async {
@@ -107,26 +89,17 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
 
     return CelebrationOverlay(
       children: [
-        // Confetti particles
-        RepaintBoundary(
-          child: AnimatedBuilder(
-            animation: _particleController,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: ConfettiPainter(
-                  particles: _particles,
-                  colors: [
-                    AppColors.gold,
-                    colorScheme.primary,
-                    colorScheme.secondary,
-                    AppColors.success,
-                    AppColors.celebrationPink,
-                  ],
-                  progress: _particleController.value,
-                ),
-              );
-            },
+        ConfettiLayer(
+          painter: (progress) => ConfettiPainter(
+            particles: _particles,
+            colors: [
+              AppColors.gold,
+              colorScheme.primary,
+              colorScheme.secondary,
+              AppColors.success,
+              AppColors.celebrationPink,
+            ],
+            progress: progress,
           ),
         ),
 
