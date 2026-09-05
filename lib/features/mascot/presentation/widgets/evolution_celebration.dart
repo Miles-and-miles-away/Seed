@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,9 +29,7 @@ class EvolutionCelebration extends ConsumerStatefulWidget {
       _EvolutionCelebrationState();
 }
 
-class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
-    with TickerProviderStateMixin {
-  late AnimationController _particleController;
+class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
   late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
@@ -41,22 +37,11 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
   @override
   void initState() {
     super.initState();
-    _particleController = AnimationController(
-      vsync: this,
-      duration: durationParticleLoop,
-    );
-
-    // Generate confetti particles
     _particles = List.generate(50, (_) => ConfettiParticle.random());
-
-    // Start animations in sequence
     _startAnimationSequence();
   }
 
   Future<void> _startAnimationSequence() async {
-    // Start particles immediately
-    unawaited(_particleController.repeat());
-
     // Show content after brief delay for dramatic effect
     await Future<void>.delayed(durationNormal);
     if (mounted) {
@@ -67,12 +52,6 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     if (mounted) {
       setState(() => _showButton = true);
     }
-  }
-
-  @override
-  void dispose() {
-    _particleController.dispose();
-    super.dispose();
   }
 
   Future<void> _handleDismiss() async {
@@ -104,8 +83,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
     String? previousArtboardName;
     if (species != null && currentStage > 1) {
       final previousStageIndex = currentStage - 2; // 0-indexed
-      if (previousStageIndex >= 0 &&
-          previousStageIndex < species.evolutionStages.length) {
+      if (previousStageIndex < species.evolutionStages.length) {
         previousAssetPath =
             species.evolutionStages[previousStageIndex].assetPath;
         previousArtboardName =
@@ -115,25 +93,17 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
 
     return CelebrationOverlay(
       children: [
-        // Confetti particles (wrapped in RepaintBoundary for Impeller compatibility)
-        RepaintBoundary(
-          child: AnimatedBuilder(
-            animation: _particleController,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: ConfettiPainter(
-                  particles: _particles,
-                  colors: [
-                    AppColors.gold,
-                    colorScheme.primary,
-                    colorScheme.secondary,
-                    AppColors.success,
-                    AppColors.celebrationPink,
-                  ],
-                ),
-              );
-            },
+        ConfettiLayer(
+          painter: (progress) => ConfettiPainter(
+            particles: _particles,
+            colors: [
+              AppColors.gold,
+              colorScheme.primary,
+              colorScheme.secondary,
+              AppColors.success,
+              AppColors.celebrationPink,
+            ],
+            progress: progress,
           ),
         ),
 
@@ -144,18 +114,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
               children: [
                 const Spacer(),
 
-                // Title
-                Text(
-                      l10n.evolutionTitle,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                    .animate()
-                    .fadeIn(delay: 100.ms, duration: 400.ms)
-                    .slideY(begin: -0.2, end: 0),
+                CelebrationTitle(l10n.evolutionTitle, delay: 100.ms),
 
                 const SizedBox(height: spacingSm),
 
@@ -179,29 +138,8 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                     children: [
                       // Previous stage (faded)
                       if (previousAssetPath != null) ...[
-                        ColorFiltered(
-                          colorFilter: const ColorFilter.matrix(<double>[
-                            1,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            1,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            1,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0.5,
-                            0,
-                          ]),
+                        Opacity(
+                          opacity: opacityHalf,
                           child: MascotImage(
                             assetPath: previousAssetPath,
                             artboardName: previousArtboardName,
@@ -336,23 +274,10 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration>
                     padding: const EdgeInsets.symmetric(
                       horizontal: spacingHuge,
                     ),
-                    child:
-                        FilledButton(
-                              onPressed: _handleDismiss,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: spacingHuge,
-                                  vertical: spacingLg,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: borderRadiusLg,
-                                ),
-                              ),
-                              child: Text(l10n.evolutionContinue),
-                            )
-                            .animate()
-                            .fadeIn(duration: 400.ms)
-                            .slideY(begin: 0.3, end: 0),
+                    child: CelebrationButton(
+                      label: l10n.evolutionContinue,
+                      onPressed: _handleDismiss,
+                    ),
                   ),
 
                 const SizedBox(height: spacingHuge),

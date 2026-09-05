@@ -104,151 +104,98 @@ class AuthNotifier extends _$AuthNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Signs in with email and password.
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  /// Sets loading, runs [body], keeps its outcome unless disposed meanwhile.
+  Future<void> _guarded(Future<void> Function() body) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(authRepositoryProvider)
-          .signInWithEmailAndPassword(email, password);
-      await ref.read(analyticsServiceProvider).logLogin(method: 'email');
-    });
+    final result = await AsyncValue.guard(body);
     if (!ref.mounted) return;
     state = result;
   }
+
+  /// Signs in with email and password.
+  Future<void> signInWithEmailAndPassword(String email, String password) =>
+      _guarded(() async {
+        await ref
+            .read(authRepositoryProvider)
+            .signInWithEmailAndPassword(email, password);
+        await ref.read(analyticsServiceProvider).logLogin(method: 'email');
+      });
 
   /// Creates a new user with email and password.
   /// Sends a verification email after account creation.
-  Future<void> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(authRepositoryProvider)
-          .createUserWithEmailAndPassword(email, password);
-      await ref.read(analyticsServiceProvider).logSignUp(method: 'email');
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> createUserWithEmailAndPassword(String email, String password) =>
+      _guarded(() async {
+        await ref
+            .read(authRepositoryProvider)
+            .createUserWithEmailAndPassword(email, password);
+        await ref.read(analyticsServiceProvider).logSignUp(method: 'email');
+      });
 
   /// Signs in with Google.
-  Future<void> signInWithGoogle() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).signInWithGoogle();
-      // Note: For social sign-in, we track as login since we can't easily
-      // distinguish first-time from returning users without modifying the repo.
-      await ref.read(analyticsServiceProvider).logLogin(method: 'google');
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> signInWithGoogle() => _guarded(() async {
+    await ref.read(authRepositoryProvider).signInWithGoogle();
+    // Note: For social sign-in, we track as login since we can't easily
+    // distinguish first-time from returning users without modifying the repo.
+    await ref.read(analyticsServiceProvider).logLogin(method: 'google');
+  });
 
   /// Signs in with Apple.
-  Future<void> signInWithApple() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).signInWithApple();
-      await ref.read(analyticsServiceProvider).logLogin(method: 'apple');
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> signInWithApple() => _guarded(() async {
+    await ref.read(authRepositoryProvider).signInWithApple();
+    await ref.read(analyticsServiceProvider).logLogin(method: 'apple');
+  });
 
   /// Sends a password reset email.
-  Future<void> sendPasswordResetEmail(String email) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).sendPasswordResetEmail(email);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> sendPasswordResetEmail(String email) => _guarded(
+    () => ref.read(authRepositoryProvider).sendPasswordResetEmail(email),
+  );
 
   /// Resends the verification email.
-  Future<void> resendVerificationEmail() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).sendEmailVerification();
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> resendVerificationEmail() =>
+      _guarded(() => ref.read(authRepositoryProvider).sendEmailVerification());
 
   /// Reloads the current user to check verification status.
-  Future<void> reloadUser() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).reloadCurrentUser();
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> reloadUser() =>
+      _guarded(() => ref.read(authRepositoryProvider).reloadCurrentUser());
 
   /// Signs out the current user.
-  Future<void> signOut() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      // FCM cleanup is best-effort: it must never block sign-out. On iOS
-      // deleteToken() throws when the APNS token hasn't arrived yet, which
-      // would otherwise abort the whole sign-out and leave the user logged in.
-      try {
-        final fcm = ref.read(fcmServiceProvider);
-        await fcm.removeStoredToken();
-        await fcm.deleteToken();
-      } on Object catch (e) {
-        // Expected on iOS when the APNS token isn't set yet (e.g. simulator).
-        appLogger.info('FCM cleanup skipped during sign-out: $e');
-      }
-      await ref.read(authRepositoryProvider).signOut();
-      await ref.read(analyticsServiceProvider).logLogout();
-      await ref.read(analyticsServiceProvider).setUserId(null);
-      await ref.read(crashlyticsProvider).setUserIdentifier('');
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> signOut() => _guarded(() async {
+    // FCM cleanup is best-effort: it must never block sign-out. On iOS
+    // deleteToken() throws when the APNS token hasn't arrived yet, which
+    // would otherwise abort the whole sign-out and leave the user logged in.
+    try {
+      final fcm = ref.read(fcmServiceProvider);
+      await fcm.removeStoredToken();
+      await fcm.deleteToken();
+    } on Object catch (e) {
+      // Expected on iOS when the APNS token isn't set yet (e.g. simulator).
+      appLogger.info('FCM cleanup skipped during sign-out: $e');
+    }
+    await ref.read(authRepositoryProvider).signOut();
+    await ref.read(analyticsServiceProvider).logLogout();
+    await ref.read(analyticsServiceProvider).setUserId(null);
+    await ref.read(crashlyticsProvider).setUserIdentifier('');
+  });
 
   /// Re-authenticates the user with email/password.
   /// Required before sensitive operations.
-  Future<void> reauthenticateWithEmailPassword(
-    String email,
-    String password,
-  ) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(authRepositoryProvider)
-          .reauthenticateWithEmailPassword(email, password);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> reauthenticateWithEmailPassword(String email, String password) =>
+      _guarded(
+        () => ref
+            .read(authRepositoryProvider)
+            .reauthenticateWithEmailPassword(email, password),
+      );
 
   /// Updates the user's email address.
   /// Requires re-authentication first.
-  Future<void> updateEmail(String newEmail) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).updateEmail(newEmail);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> updateEmail(String newEmail) =>
+      _guarded(() => ref.read(authRepositoryProvider).updateEmail(newEmail));
 
   /// Updates the user's password.
   /// Requires re-authentication first.
-  Future<void> updatePassword(String newPassword) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).updatePassword(newPassword);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> updatePassword(String newPassword) => _guarded(
+    () => ref.read(authRepositoryProvider).updatePassword(newPassword),
+  );
 
   /// Updates the user's display name.
   ///
@@ -272,12 +219,6 @@ class AuthNotifier extends _$AuthNotifier {
 
   /// Deletes the user's account and all data.
   /// Requires re-authentication first.
-  Future<void> deleteAccount() async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).deleteAccount();
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> deleteAccount() =>
+      _guarded(() => ref.read(authRepositoryProvider).deleteAccount());
 }

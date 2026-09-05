@@ -37,22 +37,32 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
   Future<void> _onSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _isSubmitting = true);
-
     final allSpecies = ref.read(mascotSpeciesDataProvider).value;
     if (allSpecies == null) return;
     final speciesList = selectableSpecies(allSpecies);
 
     final species = speciesList[_selectedSpeciesIndex];
 
+    setState(() => _isSubmitting = true);
+
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
     await ref
         .read(mascotProvider.notifier)
         .selectMascot(speciesId: species.id, name: _nameController.text.trim());
 
-    if (mounted) {
-      // Navigate to home
-      context.go(appRoutes.home);
+    if (!mounted) return;
+
+    // Navigating on a failed write strands the user with no mascot; the
+    // router guard would bounce them straight back here.
+    if (ref.read(mascotProvider).hasError) {
+      setState(() => _isSubmitting = false);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+      return;
     }
+
+    context.go(appRoutes.home);
   }
 
   @override

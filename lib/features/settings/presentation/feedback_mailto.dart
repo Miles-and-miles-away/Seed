@@ -7,6 +7,11 @@ const String feedbackRecipientEmail = 'support@seedhabit.app';
 /// exceed platform intent limits and silently fail to launch the client.
 const int feedbackDescriptionMaxLength = 2000;
 
+/// `version (buildNumber)`, or just `version` when the build number is
+/// absent, so no empty parentheses are shown.
+String appVersionLabel(String version, String buildNumber) =>
+    buildNumber.isEmpty ? version : '$version ($buildNumber)';
+
 /// Builds the `mailto:` URI launched when a user submits feedback.
 ///
 /// The subject is prefixed by [category]'s tag (e.g. `[Bug]`) and the
@@ -35,8 +40,6 @@ Uri buildFeedbackMailto({
 }) {
   final subject = '${category.subjectPrefix} Seed App Feedback';
 
-  // Match _MetadataFooter: no empty parens when the build number is absent.
-  final buildSuffix = buildNumber.isEmpty ? '' : ' ($buildNumber)';
   final trimmed = description.trim();
   final cappedDescription = trimmed.length <= feedbackDescriptionMaxLength
       ? trimmed
@@ -46,7 +49,7 @@ Uri buildFeedbackMailto({
     ..writeln('---')
     ..writeln(cappedDescription)
     ..writeln('---')
-    ..writeln('App: Seed v$appVersion$buildSuffix')
+    ..writeln('App: Seed v${appVersionLabel(appVersion, buildNumber)}')
     ..writeln('Platform: $platform $osVersion')
     ..writeln('Locale: $locale');
   if (userId != null && userId.isNotEmpty) {

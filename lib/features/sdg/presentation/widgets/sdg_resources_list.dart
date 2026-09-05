@@ -5,6 +5,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/sdg/data/sdg_resources.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
 
 /// Displays a list of external resources for an SDG.
 class SdgResourcesList extends ConsumerWidget {
@@ -23,7 +24,6 @@ class SdgResourcesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final allResources = ref.watch(sdgResourcesDataProvider).value;
     final resources = allResources?[goalNumber] ?? [];
@@ -33,17 +33,10 @@ class SdgResourcesList extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(Icons.link, color: goalColor, size: 20),
-            const SizedBox(width: spacingSm),
-            Text(
-              headerText ?? l10n.sdgResources,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        SdgSectionHeader(
+          icon: Icons.link,
+          title: headerText ?? l10n.sdgResources,
+          color: goalColor,
         ),
         const SizedBox(height: spacingMd),
         ...resources.map(

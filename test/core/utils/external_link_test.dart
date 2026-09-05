@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
+
+import '../../helpers/test_helpers.dart';
 
 const MethodChannel _launcherChannel = MethodChannel(
   'plugins.flutter.io/url_launcher',
 );
 const String _testUrl = 'https://example.org';
 
-Widget _wrap() => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(
-    body: Builder(
-      builder: (context) => TextButton(
-        onPressed: () => openExternalUrl(context, _testUrl),
-        child: const Text('open'),
-      ),
+Widget _wrap() => createTestWidget(
+  scaffold: true,
+  child: Builder(
+    builder: (context) => TextButton(
+      onPressed: () => openExternalUrl(context, _testUrl),
+      child: const Text('open'),
     ),
   ),
 );

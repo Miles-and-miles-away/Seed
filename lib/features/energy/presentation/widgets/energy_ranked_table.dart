@@ -74,20 +74,20 @@ class EnergyRankedTable extends StatelessWidget {
     final anchorKwh = anchors.isEmpty
         ? 0.0
         : EnergyCalculator.defaultPresetKwh(anchors.first);
-    // Stable secondary sort (rule 22) so tie-cluster rows do not
-    // jitter between dataset regenerations.
-    int byKwhThenName(EnergyBehavior a, EnergyBehavior b) {
-      final byKwh = EnergyCalculator.defaultPresetKwh(
-        b,
-      ).compareTo(EnergyCalculator.defaultPresetKwh(a));
-      return byKwh != 0 ? byKwh : a.name(locale).compareTo(b.name(locale));
-    }
-
-    // One list, gas included: this ranks energy used (rule 28).
-    final ranked = [...behaviors]..sort(byKwhThenName);
-    final maxRankedKwh = ranked.isEmpty
-        ? 0.0
-        : EnergyCalculator.defaultPresetKwh(ranked.first);
+    // One list, gas included: this ranks energy used (rule 28). Stable
+    // secondary sort (rule 22) so tie-cluster rows do not jitter
+    // between dataset regenerations.
+    final ranked =
+        [
+          for (final b in behaviors)
+            (behavior: b, kwh: EnergyCalculator.defaultPresetKwh(b)),
+        ]..sort((a, b) {
+          final byKwh = b.kwh.compareTo(a.kwh);
+          return byKwh != 0
+              ? byKwh
+              : a.behavior.name(locale).compareTo(b.behavior.name(locale));
+        });
+    final maxRankedKwh = ranked.isEmpty ? 0.0 : ranked.first.kwh;
     final noteStyle = theme.textTheme.bodySmall?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
@@ -105,20 +105,15 @@ class EnergyRankedTable extends StatelessWidget {
           Text(l10n.energyRankedIntro, style: noteStyle),
           const SizedBox(height: spacingMd),
         ],
-        for (final behavior in ranked)
+        for (final row in ranked)
           _row(
             context,
             l10n,
             locale,
-            behavior,
-            multiple:
-                anchorKwh > 0 && EnergyCalculator.defaultPresetKwh(behavior) > 0
-                ? EnergyCalculator.defaultPresetKwh(behavior) / anchorKwh
-                : null,
+            row.behavior,
+            multiple: anchorKwh > 0 && row.kwh > 0 ? row.kwh / anchorKwh : null,
             barFraction: showBars && maxRankedKwh > 0
-                ? sqrt(
-                    EnergyCalculator.defaultPresetKwh(behavior) / maxRankedKwh,
-                  )
+                ? sqrt(row.kwh / maxRankedKwh)
                 : null,
           ),
         const SizedBox(height: spacingLg),

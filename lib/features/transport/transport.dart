@@ -14,7 +14,6 @@ export 'presentation/providers/transport_providers.dart';
 export 'presentation/screens/transport_calculator_screen.dart';
 export 'presentation/screens/transport_methodology_screen.dart';
 export 'presentation/widgets/city_pair_fields.dart';
-export 'presentation/widgets/journey_leg_card.dart';
 export 'presentation/widgets/leg_editor_sheet.dart';
 export 'presentation/widgets/occupancy_stepper.dart';
 export 'presentation/widgets/transport_display.dart';

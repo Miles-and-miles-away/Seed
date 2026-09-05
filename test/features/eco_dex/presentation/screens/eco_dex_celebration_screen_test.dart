@@ -1,35 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_celebration_screen.dart';
 
-EcoDexEntry _entry(
-  String id, {
-  String nameEn = 'Entry Name',
-  String factEn = 'Entry fact text',
-}) {
-  return EcoDexEntry(
-    id: id,
-    category: 'climate',
-    nameEn: nameEn,
-    nameJa: '',
-    nameEs: '',
-    factEn: factEn,
-    factJa: '',
-    factEs: '',
-    sourceUrl: '',
-    iconName: id,
-    condition: const EcoDexCondition.totalActions(count: 1),
-    hintEn: '',
-    hintJa: '',
-    hintEs: '',
-  );
-}
+import '../../../../helpers/test_helpers.dart';
+import '../../eco_dex_fixtures.dart';
 
 class _CelebrationLauncher extends StatelessWidget {
   const _CelebrationLauncher({required this.entries});
@@ -49,19 +26,13 @@ class _CelebrationLauncher extends StatelessWidget {
   }
 }
 
-Widget _wrap(Widget home) {
-  return ProviderScope(
-    overrides: [
-      ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
-    ],
-    child: MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: home,
-    ),
-  );
-}
+Widget _wrap(Widget home) => createTestWidget(
+  overrides: [
+    ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
+  ],
+  locale: const Locale('en'),
+  child: home,
+);
 
 void main() {
   group('EcoDexCelebrationScreen (widget render)', () {
@@ -70,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           EcoDexCelebrationScreen(
-            entry: _entry(
+            entry: ecoDexEntry(
               'e1',
               nameEn: 'Habit Loop',
               factEn: 'After 7 days a behavior starts wiring itself in.',
@@ -97,7 +68,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           EcoDexCelebrationScreen(
-            entry: _entry('e1'),
+            entry: ecoDexEntry('e1'),
             onDismiss: () {},
             remainingInQueue: 2,
           ),
@@ -113,7 +84,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           EcoDexCelebrationScreen(
-            entry: _entry('e1'),
+            entry: ecoDexEntry('e1'),
             onDismiss: () => dismissed++,
           ),
         ),
@@ -129,7 +100,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           EcoDexCelebrationScreen(
-            entry: _entry('e1'),
+            entry: ecoDexEntry('e1'),
             onDismiss: () => dismissed++,
           ),
         ),
@@ -144,7 +115,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(EcoDexCelebrationScreen(entry: _entry('e1'), onDismiss: () {})),
+        _wrap(
+          EcoDexCelebrationScreen(entry: ecoDexEntry('e1'), onDismiss: () {}),
+        ),
       );
 
       // Run past the confetti window (4s) plus the fade (600ms); the
@@ -159,9 +132,9 @@ void main() {
   group('showEcoDexCelebrations (queue)', () {
     testWidgets('walks through every entry in order', (tester) async {
       final entries = [
-        _entry('first', nameEn: 'First Up'),
-        _entry('second', nameEn: 'Second Up'),
-        _entry('third', nameEn: 'Third Up'),
+        ecoDexEntry('first', nameEn: 'First Up'),
+        ecoDexEntry('second', nameEn: 'Second Up'),
+        ecoDexEntry('third', nameEn: 'Third Up'),
       ];
 
       await tester.pumpWidget(_wrap(_CelebrationLauncher(entries: entries)));

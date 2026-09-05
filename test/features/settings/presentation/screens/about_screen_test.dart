@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/presentation/screens/about_screen.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget createTestWidget({Widget? child}) {
-    return ProviderScope(
-      child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('en'),
-        home: child ?? const AboutScreen(),
-      ),
+  Future<void> pumpScreen(WidgetTester tester) async {
+    await tester.pumpWidget(
+      createTestWidget(child: const AboutScreen(), locale: const Locale('en')),
     );
+    await tester.pumpAndSettle();
   }
 
   group('AboutScreen', () {
     testWidgets('renders app header with Seed title', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       expect(find.text('Seed'), findsOneWidget);
       expect(find.text('Grow your sustainability habits'), findsOneWidget);
     });
 
     testWidgets('renders version section', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       // The version section header (uppercase from SettingsSection)
       expect(find.text('VERSION'), findsOneWidget);
@@ -36,30 +30,26 @@ void main() {
     });
 
     testWidgets('renders legal section with Privacy Policy', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       expect(find.text('LEGAL'), findsOneWidget);
       expect(find.text('Privacy Policy'), findsOneWidget);
     });
 
     testWidgets('renders legal section with Terms of Service', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       expect(find.text('Terms of Service'), findsOneWidget);
     });
 
     testWidgets('renders Open Source Licenses link', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
     testWidgets('renders footer with SDG acknowledgment', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       // Scroll to the bottom
       await tester.scrollUntilVisible(
@@ -77,16 +67,14 @@ void main() {
     });
 
     testWidgets('renders app icon', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       // The eco icon is used as the app icon
       expect(find.byIcon(Icons.eco), findsWidgets);
     });
 
     testWidgets('renders setting tiles with icons', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       // Check for the icons used in the settings tiles
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
@@ -96,8 +84,7 @@ void main() {
     });
 
     testWidgets('has correct app bar title', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
+      await pumpScreen(tester);
 
       // The app bar title from localization
       expect(find.text('About'), findsOneWidget);

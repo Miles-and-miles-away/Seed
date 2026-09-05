@@ -3928,6 +3928,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Just for fun. No points, and nothing is logged.'**
   String get quizNoPointsNote;
+
+  /// No description provided for @routeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This page could not be found.'**
+  String get routeNotFound;
 }
 
 class _AppLocalizationsDelegate

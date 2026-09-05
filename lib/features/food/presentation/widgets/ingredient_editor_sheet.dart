@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/decimal_input.dart';
-import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
+import 'package:seed_app/shared/widgets/editor_sheet_actions.dart';
 
 /// An ingredient together with the option column it belongs to.
 class IngredientPlacement {
@@ -53,9 +52,7 @@ class IngredientEditorSheet extends StatefulWidget {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => IngredientEditorSheet(
         item: item,
         initialIngredient: initialIngredient,
@@ -131,7 +128,6 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     final locale = Localizations.localeOf(context).languageCode;
     final item = widget.item;
     final draft = _draftIngredient;
-    final fixed = widget.fixedOption;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -208,57 +204,15 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
               ),
               // The factor line above is per kg; this is the footprint
               // of the quantity actually entered.
-              if (draft != null) ...[
-                const SizedBox(height: spacingSm),
-                Text(
-                  l10n.calculatorEntryPreview(
-                    formatCO2Compact(
-                      FoodCalculator.ingredientCo2eGrams(item, draft).round(),
-                    ),
-                  ),
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+              if (draft != null)
+                EntryPreviewLine(
+                  FoodCalculator.ingredientCo2eGrams(item, draft).round(),
                 ),
-              ],
               const SizedBox(height: spacingLg),
-              if (fixed != null)
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(l10n.buttonCancel),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () => _save(fixed),
-                        child: Text(l10n.buttonSave),
-                      ),
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionA),
-                        child: Text(l10n.calculatorAddToA),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionB),
-                        child: Text(l10n.calculatorAddToB),
-                      ),
-                    ),
-                  ],
-                ),
+              EditorSheetActions(
+                fixedOption: widget.fixedOption,
+                onSave: _save,
+              ),
             ],
           ),
         ),

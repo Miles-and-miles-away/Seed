@@ -223,7 +223,6 @@ const REPLACEMENTS = [
   [/\bestandar\b/g, 'estándar'],
   [/\bmediodia\b/g, 'mediodía'],
   [/\bjardin\b/g, 'jardín'],
-  [/\bjardines\b/g, 'jardines'],
   [/\bvacio\b/g, 'vacío'],
   [/\bvacia\b/g, 'vacía'],
   [/\bvacias\b/g, 'vacías'],
@@ -267,15 +266,12 @@ function processFile(filePath) {
     const trimmed = line.trim();
 
     // Detect start of es: block
-    if (trimmed.startsWith('es:') ||
-        trimmed.startsWith("es: '") ||
-        trimmed === "es:") {
+    if (trimmed.startsWith('es:')) {
       inEs = true;
     }
 
     // Detect end of es: block (next key or closing)
     if (inEs && i > 0) {
-      const prev = lines[i - 1].trim();
       if (trimmed.startsWith('ja:') ||
           trimmed.startsWith('en:') ||
           trimmed === '},') {

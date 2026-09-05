@@ -1,77 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/eco_dex/data/eco_dex_entries_data.dart';
-import 'package:seed_app/features/eco_dex/data/models/eco_dex_category_model.dart';
-import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
 
-EcoDexEntry _entry(String id) => EcoDexEntry(
-  id: id,
+import '../../../../helpers/test_helpers.dart';
+import '../../eco_dex_fixtures.dart';
+
+EcoDexEntry _entry(String id) => ecoDexEntry(
+  id,
   category: 'climate',
   nameEn: 'name-$id',
-  nameJa: '',
-  nameEs: '',
   factEn: 'fact-$id',
-  factJa: '',
-  factEs: '',
-  sourceUrl: '',
-  iconName: id,
-  condition: const EcoDexCondition.totalActions(count: 1),
-  hintEn: '',
-  hintJa: '',
-  hintEs: '',
 );
 
-EcoDexData _data(List<EcoDexEntry> entries) => EcoDexData(
-  categories: const [
-    EcoDexCategory(
-      id: 'climate',
-      nameEn: 'Climate',
-      nameJa: '気候',
-      nameEs: 'Clima',
-    ),
-  ],
-  entries: entries,
-);
-
-Widget _scoped({
+List<Override> _overrides({
   required List<EcoDexEntry> entries,
   required List<String> discovered,
-  required Widget child,
-}) {
-  return ProviderScope(
-    overrides: [
-      ecoDexDataProvider.overrideWith((_) async => _data(entries)),
-      ecoDexDiscoveredProvider.overrideWith((_) => discovered),
-      ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
-    ],
-    child: child,
-  );
-}
+}) => [
+  ecoDexDataProvider.overrideWith(
+    (_) async => ecoDexDataFor(entries, category: climateCategory),
+  ),
+  ecoDexDiscoveredProvider.overrideWith((_) => discovered),
+  ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
+];
 
 Widget _wrap({
   required List<EcoDexEntry> entries,
   required List<String> discovered,
-}) {
-  return _scoped(
-    entries: entries,
-    discovered: discovered,
-    child: MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: const Scaffold(body: ProfileEcoDexSection()),
-    ),
-  );
-}
+}) => createTestWidget(
+  overrides: _overrides(entries: entries, discovered: discovered),
+  locale: const Locale('en'),
+  scaffold: true,
+  child: const ProfileEcoDexSection(),
+);
 
 void main() {
   group('ProfileEcoDexSection', () {
@@ -138,9 +107,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        _scoped(
-          entries: [_entry('e1')],
-          discovered: const [],
+        ProviderScope(
+          overrides: _overrides(entries: [_entry('e1')], discovered: const []),
           child: MaterialApp.router(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

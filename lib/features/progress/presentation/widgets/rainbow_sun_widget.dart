@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart' hide Durations;
 
 import 'package:seed_app/core/constants/ui_constants.dart';
@@ -58,7 +59,7 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
     super.didUpdateWidget(oldWidget);
 
     final newCompletionRatio = _calculateCompletionRatio();
-    final hasNewSdgs = !_listEquals(
+    final hasNewSdgs = !listEquals(
       widget.completedSdgs,
       _previousCompletedSdgs,
     );
@@ -74,14 +75,6 @@ class _RainbowSunWidgetState extends State<RainbowSunWidget>
   double _calculateCompletionRatio() {
     if (widget.goalTarget <= 0) return 0;
     return (widget.goalCount / widget.goalTarget).clamp(0, 1);
-  }
-
-  bool _listEquals(List<int> a, List<int> b) {
-    if (a.length != b.length) return false;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
   }
 
   @override

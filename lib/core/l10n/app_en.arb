@@ -1495,5 +1495,6 @@
   "quizContinue": "Keep going",
   "quizNewRun": "Start again",
   "quizLadderHeading": "Ladder so far",
-  "quizNoPointsNote": "Just for fun. No points, and nothing is logged."
+  "quizNoPointsNote": "Just for fun. No points, and nothing is logged.",
+  "routeNotFound": "This page could not be found."
 }

@@ -21,24 +21,12 @@ void showEnergyScienceSheet(
   );
 }
 
-String _body(AppLocalizations l10n, EnergyBehavior behavior) {
-  final buffer = StringBuffer()
-    ..writeln('**${energyBehaviorFactorLabel(l10n, behavior)}**')
-    ..writeln();
-  if (behavior.calculationNotes.isNotEmpty) {
-    buffer
-      ..writeln('### ${l10n.scienceNotesHeading}')
-      ..writeln(behavior.calculationNotes)
-      ..writeln();
-  }
-  if (behavior.sources.isNotEmpty) {
-    buffer.write(sourcesMarkdown(behavior.sources, l10n));
-  } else {
-    // Silence would read as an oversight. Five entries ship without a
-    // citation on purpose and each says why in its notes.
-    buffer
-      ..writeln('### ${l10n.scienceSourcesHeading}')
-      ..writeln(l10n.energyScienceNoSources);
-  }
-  return buffer.toString();
-}
+/// Entries shipping without a citation say so on purpose: silence
+/// would read as an oversight, and each explains why in its notes.
+String _body(AppLocalizations l10n, EnergyBehavior behavior) => scienceMarkdown(
+  l10n,
+  factorLine: energyBehaviorFactorLabel(l10n, behavior),
+  notes: behavior.calculationNotes,
+  sources: behavior.sources,
+  noSourcesNote: l10n.energyScienceNoSources,
+);

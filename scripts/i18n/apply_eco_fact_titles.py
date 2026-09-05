@@ -1170,8 +1170,9 @@ def main() -> int:
     if missing_es:
         print(f'WARN: no ES titles for days {missing_es}')
 
+    blob = json.dumps(facts, ensure_ascii=False, indent=2)
     with FACTS_PATH.open('w', encoding='utf-8') as fh:
-        json.dump(facts, fh, ensure_ascii=False, indent=2)
+        fh.write(blob)
         fh.write('\n')
     print(
         f'wrote EN={applied_en} JA={applied_ja} '

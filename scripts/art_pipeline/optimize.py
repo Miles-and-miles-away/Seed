@@ -16,18 +16,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-import cairosvg
 import yaml
 from lxml import etree
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
-CONFIG_PATH = SCRIPT_DIR / "config.yaml"
-
-
-def load_config():
-    with open(CONFIG_PATH) as f:
-        return yaml.safe_load(f)
+from _common import PROJECT_ROOT, load_config, render_svg
 
 
 def run_svgo(input_path, output_path, config):
@@ -54,15 +46,7 @@ def run_svgo(input_path, output_path, config):
 def verify_render(svg_path):
     """Verify SVG renders correctly via cairosvg."""
     try:
-        png_bytes = cairosvg.svg2png(
-            url=str(svg_path),
-            output_width=512,
-            output_height=512,
-        )
-        # Check we got valid PNG data
-        if len(png_bytes) < 100:
-            print("  Render produced tiny output")
-            return False
+        render_svg(svg_path, 512)
         return True
     except Exception as e:
         print(f"  Render failed: {e}")

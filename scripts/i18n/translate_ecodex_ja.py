@@ -6,9 +6,22 @@ back to the JSON file. Follows glossary_ja.md conventions:
 - Polite form (ます/です)
 - Locked terminology
 - Arabic numerals with 億/万
+
+SPENT: TRANSLATIONS below has drifted behind the shipped file and a
+re-run reverts curated Japanese (roughly -2.4 KB): sourced figures are
+replaced by generic filler, and climate_01 gets a "2 kg" hint although
+its condition is co2Saved 1000 g. Refresh TRANSLATIONS from the shipped
+file before trusting it; --force runs anyway.
 """
 import json
 import os
+import sys
+
+REFUSAL = (
+    'refusing to run: the TRANSLATIONS table is stale and would revert '
+    'curated Japanese in data/app/eco_dex_entries.json. Refresh it first, '
+    'or pass --force if you really mean to overwrite.'
+)
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 JSON_PATH = os.path.join(
@@ -529,6 +542,9 @@ TRANSLATIONS = {
 
 
 def main():
+    if '--force' not in sys.argv:
+        raise SystemExit(REFUSAL)
+
     with open(JSON_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
@@ -545,8 +561,9 @@ def main():
         else:
             missing.append(eid)
 
+    blob = json.dumps(data, ensure_ascii=False, indent=2)
     with open(JSON_PATH, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write(blob)
         f.write('\n')
 
     print(f'Updated {updated}/100 entries')

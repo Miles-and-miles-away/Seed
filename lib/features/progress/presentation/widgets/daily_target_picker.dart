@@ -56,9 +56,9 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
-    } else {
-      widget.onComplete();
+      return;
     }
+    widget.onComplete();
   }
 
   @override

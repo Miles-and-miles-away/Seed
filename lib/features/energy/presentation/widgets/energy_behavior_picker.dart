@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
+import 'package:seed_app/shared/widgets/group_heading.dart';
 
 /// Grouped energy behavior list for the routine builder (Phase 8.14).
 ///
@@ -33,10 +33,7 @@ class EnergyBehaviorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final byId = {for (final b in behaviors) b.id: b};
-    final recents = [
-      for (final id in recentIds)
-        if (byId[id] != null) byId[id]!,
-    ];
+    final recents = [for (final id in recentIds) ?byId[id]];
     final groups = <String, List<EnergyBehavior>>{};
     for (final behavior in behaviors) {
       groups.putIfAbsent(behavior.comparableGroup, () => []).add(behavior);
@@ -45,7 +42,7 @@ class EnergyBehaviorPicker extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         if (recents.isNotEmpty) ...[
-          _GroupHeading(label: l10n.energyPickerRecents),
+          GroupHeading(l10n.energyPickerRecents),
           for (final behavior in recents)
             _BehaviorTile(
               behavior: behavior,
@@ -54,7 +51,7 @@ class EnergyBehaviorPicker extends StatelessWidget {
             ),
         ],
         for (final entry in groups.entries) ...[
-          _GroupHeading(label: energyGroupLabel(l10n, entry.key)),
+          GroupHeading(energyGroupLabel(l10n, entry.key)),
           for (final behavior in entry.value)
             _BehaviorTile(
               behavior: behavior,
@@ -63,26 +60,6 @@ class EnergyBehaviorPicker extends StatelessWidget {
             ),
         ],
       ],
-    );
-  }
-}
-
-class _GroupHeading extends StatelessWidget {
-  const _GroupHeading({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(spacingLg, spacingMd, spacingLg, 0),
-      child: Text(
-        label,
-        style: theme.textTheme.titleSmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
     );
   }
 }

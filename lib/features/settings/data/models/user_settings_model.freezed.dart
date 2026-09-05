@@ -226,7 +226,7 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 @JsonSerializable()
 
 class _UserSettingsModel extends UserSettingsModel {
-  const _UserSettingsModel({this.notificationsEnabled = true, final  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false, final  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,super._();
+  const _UserSettingsModel({this.notificationsEnabled = false, final  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false, final  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,super._();
   factory _UserSettingsModel.fromJson(Map<String, dynamic> json) => _$UserSettingsModelFromJson(json);
 
 /// Master toggle for all notifications.

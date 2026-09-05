@@ -1,29 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/period_comparison_badge.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: Scaffold(body: child),
-);
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('PeriodComparisonBadge', () {
     testWidgets('renders empty when previous total is 0', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const PeriodComparisonBadge(
+        createTestWidget(
+          scaffold: true,
+          child: const PeriodComparisonBadge(
             stats: Co2Stats(
               totalGrams: 1000,
               previousTotalGrams: 0,
@@ -40,8 +30,9 @@ void main() {
 
     testWidgets('renders empty for all-time period', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const PeriodComparisonBadge(
+        createTestWidget(
+          scaffold: true,
+          child: const PeriodComparisonBadge(
             stats: Co2Stats(
               totalGrams: 5000,
               previousTotalGrams: 4000,
@@ -60,8 +51,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const PeriodComparisonBadge(
+        createTestWidget(
+          scaffold: true,
+          child: const PeriodComparisonBadge(
             stats: Co2Stats(
               totalGrams: 1150,
               previousTotalGrams: 1000,
@@ -78,8 +70,9 @@ void main() {
 
     testWidgets('shows down arrow for negative change', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const PeriodComparisonBadge(
+        createTestWidget(
+          scaffold: true,
+          child: const PeriodComparisonBadge(
             stats: Co2Stats(
               totalGrams: 700,
               previousTotalGrams: 1000,
@@ -98,8 +91,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(
-          const PeriodComparisonBadge(
+        createTestWidget(
+          scaffold: true,
+          child: const PeriodComparisonBadge(
             stats: Co2Stats(
               totalGrams: 30000,
               previousTotalGrams: 20000,

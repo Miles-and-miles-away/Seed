@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// A horizontal progress bar showing level progression.
 class LevelProgressBar extends StatelessWidget {
@@ -28,6 +29,7 @@ class LevelProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,13 +40,13 @@ class LevelProgressBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Level $currentLevel',
+                l10n.levelLabel(currentLevel),
                 style: theme.textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Level ${currentLevel + 1}',
+                l10n.levelLabel(currentLevel + 1),
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),

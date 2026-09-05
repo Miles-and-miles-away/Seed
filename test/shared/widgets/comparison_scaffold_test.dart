@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -15,17 +13,8 @@ import '../../helpers/test_helpers.dart';
 /// crowns unconditionally while food and energy gate it on a verdict.
 /// Nothing in the suite pinned either contract before.
 void main() {
-  Widget wrap(Widget child, {ThemeData? theme}) => MaterialApp(
-    theme: theme,
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: child),
-  );
+  Widget wrap(Widget child, {ThemeData? theme}) =>
+      createTestWidget(theme: theme, scaffold: true, child: child);
 
   Widget scaffold({
     List<double> totals = const [100, 400],

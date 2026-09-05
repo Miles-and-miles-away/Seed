@@ -22,7 +22,7 @@ class EcoDexCategory {
   final String nameEs;
 
   String name(String locale) => switch (locale) {
-    'ja' => nameJa,
+    'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
   };

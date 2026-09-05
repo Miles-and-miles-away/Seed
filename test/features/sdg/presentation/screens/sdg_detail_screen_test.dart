@@ -1,11 +1,7 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/screens/sdg_detail_screen.dart';
@@ -38,22 +34,11 @@ void main() {
     }
 
     Widget buildTestWidget(int goalNumber) {
-      return ProviderScope(
-        overrides: [
-          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-          firestoreProvider.overrideWithValue(fakeFirestore),
-          sdgGoalsDataProvider.overrideWith((ref) async => sdgData),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: SdgDetailScreen(goalNumber: goalNumber),
-        ),
+      return createTestWidget(
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
+        overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
+        child: SdgDetailScreen(goalNumber: goalNumber),
       );
     }
 

@@ -274,7 +274,7 @@ final class RoutineOptionsProvider
   }
 }
 
-String _$routineOptionsHash() => r'f7702f197d3686cb531cbce2bad113cc7e57bd8a';
+String _$routineOptionsHash() => r'53adea17965f92ce0b908b3c8c9d0b644f1390d0';
 
 /// The usages of both routine options, indexed [optionA] / [optionB].
 ///

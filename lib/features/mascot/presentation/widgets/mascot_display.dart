@@ -8,44 +8,15 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
-/// Controller for triggering mascot animations from external widgets.
-class MascotAnimationController extends ChangeNotifier {
-  bool _shouldBounce = false;
-  bool _disposed = false;
-
-  /// Whether a bounce animation should be triggered.
-  bool get shouldBounce => _shouldBounce;
-
-  /// Triggers the happy bounce animation.
-  void triggerBounce() {
-    _shouldBounce = true;
-    notifyListeners();
-    // Reset after animation completes; the controller may have been
-    // disposed with its widget before the delay elapses.
-    Future.delayed(durationSlow, () {
-      if (_disposed) return;
-      _shouldBounce = false;
-      notifyListeners();
-    });
-  }
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-}
-
 /// Displays the user's mascot with idle animation.
 ///
 /// Features:
 /// - Loads the correct SVG based on evolution stage
 /// - Idle float animation (subtle up/down movement)
-/// - Happy bounce animation (triggered via controller)
+/// - Happy bounce animation (triggered via [mascotAnimationTriggerProvider])
 class MascotDisplay extends ConsumerStatefulWidget {
   const MascotDisplay({
     this.size = 200,
-    this.animationController,
     this.onTap,
     this.showGlow = true,
     super.key,
@@ -53,9 +24,6 @@ class MascotDisplay extends ConsumerStatefulWidget {
 
   /// The size (width and height) of the mascot display.
   final double size;
-
-  /// Controller for triggering animations from external widgets.
-  final MascotAnimationController? animationController;
 
   /// Callback when the mascot is tapped.
   final VoidCallback? onTap;
@@ -67,8 +35,7 @@ class MascotDisplay extends ConsumerStatefulWidget {
   ConsumerState<MascotDisplay> createState() => _MascotDisplayState();
 }
 
-class _MascotDisplayState extends ConsumerState<MascotDisplay>
-    with SingleTickerProviderStateMixin {
+class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   bool _isBouncing = false;
 
   // Rive face bindings; all stay null for SVG mascots or Rive files
@@ -86,27 +53,14 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
   @override
   void initState() {
     super.initState();
-    widget.animationController?.addListener(_onAnimationControllerChange);
     // Eyes follow the pointer anywhere on screen, not just over the
     // mascot, so listen to all pointer traffic rather than local hits.
     GestureBinding.instance.pointerRouter.addGlobalRoute(_onGlobalPointer);
   }
 
   @override
-  void didUpdateWidget(covariant MascotDisplay oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.animationController != widget.animationController) {
-      oldWidget.animationController?.removeListener(
-        _onAnimationControllerChange,
-      );
-      widget.animationController?.addListener(_onAnimationControllerChange);
-    }
-  }
-
-  @override
   void dispose() {
     GestureBinding.instance.pointerRouter.removeGlobalRoute(_onGlobalPointer);
-    widget.animationController?.removeListener(_onAnimationControllerChange);
     _faceVm?.dispose();
     super.dispose();
   }
@@ -157,12 +111,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay>
     final gaze = mascotGazeTarget(event.position, center, _screenSize);
     _lookX?.value = gaze.dx;
     _lookY?.value = gaze.dy;
-  }
-
-  void _onAnimationControllerChange() {
-    if ((widget.animationController?.shouldBounce ?? false) && !_isBouncing) {
-      _triggerBounce();
-    }
   }
 
   void _triggerBounce() {

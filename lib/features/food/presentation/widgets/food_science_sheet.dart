@@ -21,18 +21,9 @@ void showFoodScienceSheet(
   );
 }
 
-String _body(AppLocalizations l10n, FoodItem item) {
-  final buffer = StringBuffer()
-    ..writeln('**${foodItemFactorLabel(l10n, item)}**')
-    ..writeln();
-  if (item.calculationNotes.isNotEmpty) {
-    buffer
-      ..writeln('### ${l10n.scienceNotesHeading}')
-      ..writeln(item.calculationNotes)
-      ..writeln();
-  }
-  if (item.sources.isNotEmpty) {
-    buffer.write(sourcesMarkdown(item.sources, l10n));
-  }
-  return buffer.toString();
-}
+String _body(AppLocalizations l10n, FoodItem item) => scienceMarkdown(
+  l10n,
+  factorLine: foodItemFactorLabel(l10n, item),
+  notes: item.calculationNotes,
+  sources: item.sources,
+);
