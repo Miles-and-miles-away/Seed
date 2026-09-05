@@ -1,4 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,6 +8,7 @@ import 'package:seed_app/features/settings/data/models/notification_schedule_mod
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/services/fcm_service.dart';
 
 part 'settings_providers.g.dart';
 
@@ -110,8 +112,18 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   /// Toggles notifications on/off.
+  ///
+  /// Turning on requests OS notification permission first and leaves
+  /// the setting off when the user declines.
   Future<void> toggleNotifications({required bool enabled}) {
     return _write((uid, repo) async {
+      if (enabled) {
+        final status = await FCMService.instance.requestPermissions();
+        if (status != AuthorizationStatus.authorized &&
+            status != AuthorizationStatus.provisional) {
+          return;
+        }
+      }
       await repo.setNotificationsEnabled(uid, enabled: enabled);
 
       // Track analytics

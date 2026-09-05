@@ -37,7 +37,7 @@ _AppUserModel _$AppUserModelFromJson(Map<String, dynamic> json) =>
       eggPendingDiscoverySince: const TimestampConverter().fromJson(
         json['eggPendingDiscoverySince'] as Timestamp?,
       ),
-      notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
+      notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
       lastActionDate: const TimestampConverter().fromJson(
         json['lastActionDate'] as Timestamp?,
       ),

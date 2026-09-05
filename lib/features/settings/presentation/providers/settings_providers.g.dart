@@ -434,7 +434,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'2473c13ea9d7e587d5aaf6ce587bd5771041bdb5';
+String _$settingsNotifierHash() => r'985cfab2a9f6af693bae52df2e84f037dc429fc0';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

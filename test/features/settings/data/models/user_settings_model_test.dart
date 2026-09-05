@@ -8,7 +8,7 @@ void main() {
       test('creates model with default values', () {
         const model = UserSettingsModel();
 
-        expect(model.notificationsEnabled, isTrue);
+        expect(model.notificationsEnabled, isFalse);
         expect(model.reminderSchedules, isEmpty);
         expect(model.smartRemindersEnabled, isTrue);
         expect(model.language, 'en');
@@ -24,7 +24,6 @@ void main() {
         ];
 
         final model = UserSettingsModel(
-          notificationsEnabled: false,
           reminderSchedules: reminders,
           smartRemindersEnabled: false,
           language: 'ja',
@@ -96,7 +95,7 @@ void main() {
 
         final model = UserSettingsModel.fromJson(json);
 
-        expect(model.notificationsEnabled, isTrue);
+        expect(model.notificationsEnabled, isFalse);
         expect(model.reminderSchedules, isEmpty);
         expect(model.smartRemindersEnabled, isTrue);
         expect(model.language, 'en');
@@ -116,7 +115,7 @@ void main() {
         final model = UserSettingsModel.fromJson(json);
 
         expect(model.language, 'es');
-        expect(model.notificationsEnabled, isTrue);
+        expect(model.notificationsEnabled, isFalse);
         expect(model.seenStreakMilestones, isEmpty);
       });
     });
@@ -124,7 +123,6 @@ void main() {
     group('toJson', () {
       test('converts model to JSON correctly', () {
         const model = UserSettingsModel(
-          notificationsEnabled: false,
           smartRemindersEnabled: false,
           language: 'ja',
           hasSeenOnboarding: true,

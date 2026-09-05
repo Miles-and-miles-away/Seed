@@ -99,7 +99,7 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == 'en',
             ),
           ),
         );
@@ -123,7 +123,7 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == 'en',
             ),
           ),
         );
@@ -142,7 +142,7 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == 'en',
             ),
           ),
         );

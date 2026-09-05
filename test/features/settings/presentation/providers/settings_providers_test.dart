@@ -20,9 +20,7 @@ void main() {
     });
 
     test('notificationsEnabledProvider mirrors the setting', () async {
-      final c = await _container(
-        const UserSettingsModel(notificationsEnabled: false),
-      );
+      final c = await _container(const UserSettingsModel());
 
       expect(c.read(notificationsEnabledProvider), isFalse);
     });

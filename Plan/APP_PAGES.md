@@ -548,7 +548,9 @@ Settings hub.
 ### Notification Settings (`.../settings/notifications`) — hidden
 Feature postponed; no UI entry points to this route.
 - Links: none
-- Functionality: master notifications toggle, smart-reminders toggle,
+- Functionality: master notifications toggle (off by default; turning
+  it on requests OS notification permission and stays off if denied),
+  smart-reminders toggle,
   reminder list (up to 5) with add / edit / delete, time picker.
   Settings are persisted but no notification is ever scheduled (see
   notes in `lib/shared/providers/notification_providers.dart`).

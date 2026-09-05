@@ -14,7 +14,7 @@ part 'user_settings_model.g.dart';
 abstract class UserSettingsModel with _$UserSettingsModel {
   const factory UserSettingsModel({
     /// Master toggle for all notifications.
-    @Default(true) bool notificationsEnabled,
+    @Default(false) bool notificationsEnabled,
 
     /// List of scheduled reminder times (max 5).
     @Default([]) List<NotificationScheduleModel> reminderSchedules,
