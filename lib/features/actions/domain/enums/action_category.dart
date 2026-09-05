@@ -30,6 +30,12 @@ enum ActionCategory {
     };
   }
 
+  /// This category's colour, darkened (or lightened on a dark theme)
+  /// enough to carry text. The raw [color] is a fill: as ink it fails
+  /// the contrast bar on every category.
+  Color textColorOn(Brightness brightness, {bool large = false}) =>
+      readableTextColor(color, brightness, large: large);
+
   /// Returns the icon for this category.
   IconData get icon {
     return switch (this) {

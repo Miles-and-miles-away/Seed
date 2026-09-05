@@ -209,6 +209,34 @@ void main() {
       expect(find.text('Send'), findsOneWidget);
     });
 
+    testWidgets('the reset dialog survives being dismissed and reopened', (
+      tester,
+    ) async {
+      // Its controller used to be disposed right after `await
+      // showDialog`, and the departing dialog then rebuilt against it.
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const LoginScreen(),
+          firebaseAuth: mockFirebaseAuth,
+          firestore: fakeFirestore,
+        ),
+      );
+
+      for (var attempt = 0; attempt < 2; attempt++) {
+        await tester.tap(find.text('Forgot Password?'));
+        await tester.pumpAndSettle();
+        expect(find.text('Reset Password'), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField).last, 'a@b.com');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Cancel'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Reset Password'), findsNothing);
+        expect(tester.takeException(), isNull);
+      }
+    });
+
     testWidgets('shows Google sign-in button', (tester) async {
       await tester.pumpWidget(
         createTestWidget(

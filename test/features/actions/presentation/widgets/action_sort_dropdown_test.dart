@@ -23,28 +23,28 @@ void main() {
       );
     }
 
-    testWidgets('displays current sort option icon', (tester) async {
+    testWidgets('collapses to a sort icon, not a labelled chip', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // Default is alphabeticalAsc which uses
-      // arrow_downward icon
-      expect(find.byIcon(Icons.arrow_downward), findsOneWidget);
+      // It shares the search row, and the labels run to "Puntos
+      // (Mayor a menor)", which squeezed the field to 107px.
+      expect(find.byIcon(Icons.sort), findsOneWidget);
+      expect(find.text('Name (A-Z)'), findsNothing);
     });
 
-    testWidgets('displays current sort option label', (tester) async {
+    testWidgets('names the active option in its tooltip', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      // Default is alphabeticalAsc = "Name (A-Z)"
-      expect(find.text('Name (A-Z)'), findsOneWidget);
-    });
-
-    testWidgets('displays dropdown arrow', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.arrow_drop_down), findsOneWidget);
+      // The label left the button, so the tooltip is what carries the
+      // current sort for a user who has not opened the menu.
+      final button = tester.widget<PopupMenuButton<ActionSortOption>>(
+        find.byType(PopupMenuButton<ActionSortOption>),
+      );
+      expect(button.tooltip, 'Name (A-Z)');
     });
 
     testWidgets('opens popup menu on tap', (tester) async {

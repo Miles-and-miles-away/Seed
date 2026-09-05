@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 
@@ -33,6 +34,26 @@ String energyGroupLabel(AppLocalizations l10n, String group) => switch (group) {
   'lighting' => l10n.energyGroupLighting,
   'device' => l10n.energyGroupDevice,
   _ => group,
+};
+
+/// Chip label for an explore baseline, e.g. "LED hour". Unknown ids
+/// fall back to the raw id, like [energyGroupLabel].
+String energyAnchorChipLabel(AppLocalizations l10n, String id) => switch (id) {
+  'led_bulb' => l10n.energyAnchorChipLedBulb,
+  'phone_charge' => l10n.energyAnchorChipPhoneCharge,
+  'kettle' => l10n.energyAnchorChipKettle,
+  'fan' => l10n.energyAnchorChipFan,
+  _ => id,
+};
+
+/// The same baseline as a phrase that reads inside a sentence, e.g.
+/// "an hour of LED light".
+String energyAnchorUnitPhrase(AppLocalizations l10n, String id) => switch (id) {
+  'led_bulb' => l10n.energyAnchorUnitLedBulb,
+  'phone_charge' => l10n.energyAnchorUnitPhoneCharge,
+  'kettle' => l10n.energyAnchorUnitKettle,
+  'fan' => l10n.energyAnchorUnitFan,
+  _ => id,
 };
 
 /// Bare unit noun for a text-field suffix, e.g. "min".
@@ -122,3 +143,32 @@ String formatEnergyMultiple(String locale, double ratio) =>
       locale: locale,
       decimalDigits: ratio >= 10 ? 0 : 1,
     ).format(ratio);
+
+/// Title block the behavior sheets share: the name over its factor.
+Widget energyBehaviorSheetHeader(
+  BuildContext context,
+  AppLocalizations l10n,
+  EnergyBehavior behavior,
+) {
+  final theme = Theme.of(context);
+  final locale = Localizations.localeOf(context).languageCode;
+  return Column(
+    children: [
+      Text(
+        behavior.name(locale),
+        textAlign: TextAlign.center,
+        style: theme.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: spacingXs),
+      Text(
+        energyBehaviorFactorLabel(l10n, behavior),
+        textAlign: TextAlign.center,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+    ],
+  );
+}

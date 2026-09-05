@@ -64,6 +64,17 @@ jobs:
       - name: Test
         run: flutter test
 
+  generators:
+    name: Generator Self-Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pure stdlib; the runner's system python3 is enough.
+      - run: python3 scripts/generators/test_enrich_city_names.py
+
   functions:
     name: Functions Lint & Test
     runs-on: ubuntu-latest

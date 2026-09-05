@@ -148,6 +148,44 @@ void main() {
       );
     });
 
+    test('50% exactly is enough cross-tier', () {
+      final byId = FoodCalculator.byId([
+        item('a', 10, sourceTier: 2),
+        item('b', 20),
+      ]);
+      final options = meals('a', 'b');
+      final totals = options
+          .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
+          .toList();
+      // 2000 -> 1000 is a 50.0% reduction, exactly on the bar.
+      expect(compareTotals(totals)!.deltaPercent, closeTo(50, 1e-9));
+      expect(
+        FoodCalculator.checkVerdict(
+          compareTotals(totals)!,
+          byId,
+          options,
+        ).block,
+        VerdictBlock.none,
+      );
+      // A hair under it is refused, so the bar cannot drift.
+      final under = FoodCalculator.byId([
+        item('a', 10.1, sourceTier: 2),
+        item('b', 20),
+      ]);
+      final underTotals = meals(
+        'a',
+        'b',
+      ).map((o) => FoodCalculator.mealCo2eGrams(under, o)).toList();
+      expect(
+        FoodCalculator.checkVerdict(
+          compareTotals(underTotals)!,
+          under,
+          meals('a', 'b'),
+        ).block,
+        VerdictBlock.crossSource,
+      );
+    });
+
     test('a cross-tier gap needs a doubling, not 20%', () {
       // white_fish (tier 2) vs chicken (tier 1): 9.87 -> 5.125 is a
       // 48.1% reduction, over the 20% bar but under the 2x one, and

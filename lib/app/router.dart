@@ -20,6 +20,7 @@ import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
 import '../features/profile/profile.dart';
 import '../features/progress/progress.dart';
+import '../features/quiz/quiz.dart';
 import '../features/sdg/sdg.dart';
 import '../features/settings/presentation/screens/about_screen.dart';
 import '../features/settings/presentation/screens/account_settings_screen.dart';
@@ -63,6 +64,8 @@ class AppRoutes {
   String get transportCalculator => '/transport-calculator';
   String get foodCalculator => '/food-calculator';
   String get energyCalculator => '/energy-calculator';
+  String get energyExplore => '/energy-explore';
+  String get quiz => '/quiz';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -303,6 +306,18 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: appRoutes.energyCalculator,
         builder: (context, state) => const EnergyCalculatorScreen(),
+      ),
+
+      // The two energy teaching surfaces promoted out of the
+      // methodology page (decision E8): the ranked list of where energy
+      // goes, and the higher-or-lower quiz over the same rows.
+      GoRoute(
+        path: appRoutes.energyExplore,
+        builder: (context, state) => const EnergyExploreScreen(),
+      ),
+      GoRoute(
+        path: appRoutes.quiz,
+        builder: (context, state) => const HigherOrLowerScreen(),
       ),
 
       // Legal documents - canonical paths, accessible unauthenticated so
