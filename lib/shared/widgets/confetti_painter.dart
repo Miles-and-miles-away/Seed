@@ -69,8 +69,8 @@ class _ConfettiLayerState extends State<ConfettiLayer>
   }
 }
 
-/// A single confetti particle. Position is normalized 0..1 and mutated as
-/// the particle falls, so reuse the same list across repaints.
+/// A single confetti particle. Every field is a fixed seed; the painter
+/// derives position from loop progress, so reuse the list across repaints.
 class ConfettiParticle {
   ConfettiParticle({
     required this.x,
@@ -83,14 +83,14 @@ class ConfettiParticle {
     required this.shape,
   });
 
-  /// A random particle starting just above the top edge.
+  /// A random particle at a random point in its fall.
   ///
   /// [colorCount] must match the palette length passed to
   /// [ConfettiPainter.colors] for an even color distribution.
   factory ConfettiParticle.random({int colorCount = 5}) {
     return ConfettiParticle(
       x: _rng.nextDouble(),
-      y: -_rng.nextDouble() * 0.5, // Start above screen
+      y: _yStart + _rng.nextDouble() * _ySpan,
       size: _rng.nextDouble() * 10 + 5,
       speed: _rng.nextDouble() * 0.5 + 0.3,
       colorIndex: _rng.nextInt(colorCount),
@@ -113,10 +113,12 @@ class ConfettiParticle {
 
   /// Whole fall cycles per loop, so a particle lands back on its own
   /// start at progress 1 and the loop seam stays invisible.
-  int get fallCycles => max(1, (speed * _fallPerSecond / _ySpan).round());
+  int get fallCycles =>
+      max(1, (speed * _fallPerSecond * _loopSeconds / _ySpan).round());
 
   /// Whole turns per loop, for the same reason.
-  int get spinTurns => (rotationSpeed * _spinPerSecond / (pi * 2)).round();
+  int get spinTurns =>
+      (rotationSpeed * _spinPerSecond * _loopSeconds / (pi * 2)).round();
 }
 
 // The legacy per-frame step assumed 60Hz: y += speed * 0.02 and
@@ -125,6 +127,7 @@ const double _fallPerSecond = 0.02 * 60;
 const double _spinPerSecond = 60;
 const double _yStart = -0.1;
 const double _ySpan = 1.3;
+final double _loopSeconds = durationParticleLoop.inMilliseconds / 1000;
 
 /// Paints falling, rotating confetti as rectangles, circles, and stars.
 ///
