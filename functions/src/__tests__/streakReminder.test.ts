@@ -78,6 +78,19 @@ function fakeDoc(
   } as unknown as FirebaseFirestore.QueryDocumentSnapshot;
 }
 
+async function runReminders(
+  docs: FirebaseFirestore.QueryDocumentSnapshot[],
+  mocks = makeDbMock(),
+) {
+  const result = await sendReminders(
+    mocks.db,
+    mockMessaging,
+    docs,
+    TODAY,
+  );
+  return { result, ...mocks };
+}
+
 // --- Tests ---
 
 describe('getNotificationText', () => {
@@ -189,22 +202,14 @@ describe('getUsersAtRisk', () => {
 describe('sendReminders', () => {
   it('sends notification to users with FCM tokens', async () => {
     mockSend.mockResolvedValue('message-id-1');
-    const { db } = makeDbMock();
 
-    const docs = [
+    const { result } = await runReminders([
       fakeDoc('user1', {
         fcmToken: 'valid-token',
         language: 'en',
         currentStreak: 7,
       }),
-    ];
-
-    const result = await sendReminders(
-      db,
-      mockMessaging,
-      docs,
-      TODAY,
-    );
+    ]);
 
     expect(mockSend).toHaveBeenCalledTimes(1);
     expect(mockSend).toHaveBeenCalledWith({
@@ -224,21 +229,13 @@ describe('sendReminders', () => {
   });
 
   it('skips users without FCM tokens', async () => {
-    const { db } = makeDbMock();
-    const docs = [
+    const { result } = await runReminders([
       fakeDoc('user1', {
         language: 'en',
         currentStreak: 3,
         // no fcmToken
       }),
-    ];
-
-    const result = await sendReminders(
-      db,
-      mockMessaging,
-      docs,
-      TODAY,
-    );
+    ]);
 
     expect(mockSend).not.toHaveBeenCalled();
     expect(result.skipped).toBe(1);
@@ -248,22 +245,14 @@ describe('sendReminders', () => {
   it(
     'skips users already reminded today',
     async () => {
-      const { db, batch } = makeDbMock();
-      const docs = [
+      const { result, batch } = await runReminders([
         fakeDoc('user-deduped', {
           fcmToken: 'token-deduped',
           language: 'en',
           currentStreak: 9,
           lastStreakReminderDate: TODAY,
         }),
-      ];
-
-      const result = await sendReminders(
-        db,
-        mockMessaging,
-        docs,
-        TODAY,
-      );
+      ]);
 
       expect(mockSend).not.toHaveBeenCalled();
       expect(batch).not.toHaveBeenCalled();
@@ -276,22 +265,15 @@ describe('sendReminders', () => {
     'sends when the last reminder was a previous day',
     async () => {
       mockSend.mockResolvedValue('message-id-prev');
-      const { db } = makeDbMock();
-      const docs = [
+
+      const { result } = await runReminders([
         fakeDoc('user-prev', {
           fcmToken: 'token-prev',
           language: 'en',
           currentStreak: 4,
           lastStreakReminderDate: '2025-06-14',
         }),
-      ];
-
-      const result = await sendReminders(
-        db,
-        mockMessaging,
-        docs,
-        TODAY,
-      );
+      ]);
 
       expect(mockSend).toHaveBeenCalledTimes(1);
       expect(result.sent).toBe(1);
@@ -303,17 +285,14 @@ describe('sendReminders', () => {
     'records the reminder date for sent users',
     async () => {
       mockSend.mockResolvedValue('message-id-rec');
-      const { db, doc, batchUpdate, batchCommit } =
-        makeDbMock();
-      const docs = [
+
+      const { doc, batchUpdate, batchCommit } = await runReminders([
         fakeDoc('user-rec', {
           fcmToken: 'token-rec',
           language: 'en',
           currentStreak: 6,
         }),
-      ];
-
-      await sendReminders(db, mockMessaging, docs, TODAY);
+      ]);
 
       expect(doc).toHaveBeenCalledWith('user-rec');
       expect(batchUpdate).toHaveBeenCalledWith(
@@ -331,21 +310,14 @@ describe('sendReminders', () => {
       (error as unknown as { code: string }).code =
         'messaging/internal-error';
       mockSend.mockRejectedValue(error);
-      const { db, batch } = makeDbMock();
-      const docs = [
+
+      const { result, batch } = await runReminders([
         fakeDoc('user-fail', {
           fcmToken: 'token-fail',
           language: 'en',
           currentStreak: 2,
         }),
-      ];
-
-      const result = await sendReminders(
-        db,
-        mockMessaging,
-        docs,
-        TODAY,
-      );
+      ]);
 
       expect(batch).not.toHaveBeenCalled();
       expect(result.failed).toBe(1);
@@ -354,17 +326,14 @@ describe('sendReminders', () => {
 
   it('sends Japanese notification for ja users', async () => {
     mockSend.mockResolvedValue('message-id-2');
-    const { db } = makeDbMock();
 
-    const docs = [
+    await runReminders([
       fakeDoc('user-ja', {
         fcmToken: 'ja-token',
         language: 'ja',
         currentStreak: 14,
       }),
-    ];
-
-    await sendReminders(db, mockMessaging, docs, TODAY);
+    ]);
 
     expect(mockSend).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -382,17 +351,14 @@ describe('sendReminders', () => {
     'defaults to English for unknown language',
     async () => {
       mockSend.mockResolvedValue('message-id-3');
-      const { db } = makeDbMock();
 
-      const docs = [
+      await runReminders([
         fakeDoc('user-unknown', {
           fcmToken: 'token-unknown',
           language: 'fr',
           currentStreak: 2,
         }),
-      ];
-
-      await sendReminders(db, mockMessaging, docs, TODAY);
+      ]);
 
       expect(mockSend).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -408,17 +374,14 @@ describe('sendReminders', () => {
     'defaults to English when language is missing',
     async () => {
       mockSend.mockResolvedValue('message-id-4');
-      const { db } = makeDbMock();
 
-      const docs = [
+      await runReminders([
         fakeDoc('user-no-lang', {
           fcmToken: 'token-no-lang',
           currentStreak: 5,
           // no language field
         }),
-      ];
-
-      await sendReminders(db, mockMessaging, docs, TODAY);
+      ]);
 
       expect(mockSend).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -431,27 +394,18 @@ describe('sendReminders', () => {
   );
 
   it('cleans up invalid registration tokens', async () => {
-    const { db, doc, docUpdate } = makeDbMock();
-
     const error = new Error('Token not registered');
     (error as unknown as { code: string }).code =
       'messaging/registration-token-not-registered';
     mockSend.mockRejectedValue(error);
 
-    const docs = [
+    const { result, doc, docUpdate } = await runReminders([
       fakeDoc('user-bad-token', {
         fcmToken: 'expired-token',
         language: 'en',
         currentStreak: 10,
       }),
-    ];
-
-    const result = await sendReminders(
-      db,
-      mockMessaging,
-      docs,
-      TODAY,
-    );
+    ]);
 
     expect(doc).toHaveBeenCalledWith('user-bad-token');
     expect(docUpdate).toHaveBeenCalledWith({
@@ -463,27 +417,18 @@ describe('sendReminders', () => {
   it(
     'cleans up invalid-registration-token errors',
     async () => {
-      const { db, docUpdate } = makeDbMock();
-
       const error = new Error('Invalid token');
       (error as unknown as { code: string }).code =
         'messaging/invalid-registration-token';
       mockSend.mockRejectedValue(error);
 
-      const docs = [
+      const { result, docUpdate } = await runReminders([
         fakeDoc('user-invalid', {
           fcmToken: 'malformed-token',
           language: 'en',
           currentStreak: 3,
         }),
-      ];
-
-      const result = await sendReminders(
-        db,
-        mockMessaging,
-        docs,
-        TODAY,
-      );
+      ]);
 
       expect(docUpdate).toHaveBeenCalledWith({
         fcmToken: null,
@@ -494,9 +439,8 @@ describe('sendReminders', () => {
 
   it('handles multiple users in a batch', async () => {
     mockSend.mockResolvedValue('message-id');
-    const { db } = makeDbMock();
 
-    const docs = [
+    const { result } = await runReminders([
       fakeDoc('u1', {
         fcmToken: 't1',
         language: 'en',
@@ -517,14 +461,7 @@ describe('sendReminders', () => {
         language: 'en',
         currentStreak: 30,
       }),
-    ];
-
-    const result = await sendReminders(
-      db,
-      mockMessaging,
-      docs,
-      TODAY,
-    );
+    ]);
 
     expect(mockSend).toHaveBeenCalledTimes(3);
     expect(result.sent).toBe(3);
@@ -537,22 +474,14 @@ describe('sendReminders', () => {
     (genericError as unknown as { code: string }).code =
       'messaging/internal-error';
     mockSend.mockRejectedValue(genericError);
-    const { db } = makeDbMock();
 
-    const docs = [
+    const { result } = await runReminders([
       fakeDoc('user-err', {
         fcmToken: 'token-err',
         language: 'en',
         currentStreak: 5,
       }),
-    ];
-
-    const result = await sendReminders(
-      db,
-      mockMessaging,
-      docs,
-      TODAY,
-    );
+    ]);
 
     // Should not throw, just count as failed
     expect(result.failed).toBe(1);
@@ -563,17 +492,14 @@ describe('sendReminders', () => {
     'includes streak_reminder type in data payload',
     async () => {
       mockSend.mockResolvedValue('msg-id');
-      const { db } = makeDbMock();
 
-      const docs = [
+      await runReminders([
         fakeDoc('user-data', {
           fcmToken: 'token-data',
           language: 'en',
           currentStreak: 12,
         }),
-      ];
-
-      await sendReminders(db, mockMessaging, docs, TODAY);
+      ]);
 
       expect(mockSend).toHaveBeenCalledWith(
         expect.objectContaining({
