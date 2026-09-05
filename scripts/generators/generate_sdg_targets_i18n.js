@@ -464,31 +464,18 @@ function generateDart() {
       parts.push("    SdgTarget(");
       parts.push(`      code: '${code}',`);
 
-      // EN description
-      const enLines = wrapStr(en, 10);
-      if (enLines.includes('\n')) {
-        parts.push("      description:");
-        parts.push(enLines + ',');
-      } else {
-        parts.push(`      description: ${enLines},`);
-      }
-
-      // JA description
-      const jaLines = wrapStr(ja, 10);
-      if (jaLines.includes('\n')) {
-        parts.push("      descriptionJa:");
-        parts.push(jaLines + ',');
-      } else {
-        parts.push(`      descriptionJa: ${jaLines},`);
-      }
-
-      // ES description
-      const esLines = wrapStr(es, 10);
-      if (esLines.includes('\n')) {
-        parts.push("      descriptionEs:");
-        parts.push(esLines + ',');
-      } else {
-        parts.push(`      descriptionEs: ${esLines},`);
+      for (const [key, text] of [
+        ['description', en],
+        ['descriptionJa', ja],
+        ['descriptionEs', es],
+      ]) {
+        const wrapped = wrapStr(text, 10);
+        if (wrapped.includes('\n')) {
+          parts.push(`      ${key}:`);
+          parts.push(wrapped + ',');
+        } else {
+          parts.push(`      ${key}: ${wrapped},`);
+        }
       }
 
       parts.push("    ),");

@@ -545,8 +545,9 @@ def main():
         else:
             missing.append(eid)
 
+    blob = json.dumps(data, ensure_ascii=False, indent=2)
     with open(JSON_PATH, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write(blob)
         f.write('\n')
 
     print(f'Updated {updated}/100 entries')

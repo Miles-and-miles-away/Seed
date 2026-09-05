@@ -18,17 +18,12 @@ import json
 import math
 import re
 import sys
-from io import BytesIO
 from pathlib import Path
 
-import cairosvg
-import yaml
 from lxml import etree
 from PIL import Image
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
-CONFIG_PATH = SCRIPT_DIR / "config.yaml"
+from _common import load_config, render_svg
 
 # Optional CLIP import -- graceful fallback
 CLIP_AVAILABLE = False
@@ -39,11 +34,6 @@ try:
     CLIP_AVAILABLE = True
 except ImportError:
     pass
-
-
-def load_config():
-    with open(CONFIG_PATH) as f:
-        return yaml.safe_load(f)
 
 
 # --- Color utilities ---
@@ -200,12 +190,7 @@ def check_file_size(svg_path, max_bytes):
 
 def render_svg_to_image(svg_path, size=224):
     """Render SVG to PIL Image for CLIP."""
-    png_bytes = cairosvg.svg2png(
-        url=str(svg_path),
-        output_width=size,
-        output_height=size,
-    )
-    return Image.open(BytesIO(png_bytes)).convert("RGB")
+    return render_svg(svg_path, size, mode="RGB")
 
 
 class CLIPValidator:
@@ -463,6 +448,13 @@ def main():
     total = len(all_results)
     if not args.json and total > 0:
         print(f"\n--- {passed}/{total} passed ---")
+
+    if total == 0:
+        # A mistyped path silently validates nothing; the pipeline gates
+        # on this exit code, so an empty run must not read as success.
+        if not args.json:
+            print("\nERROR: no SVG candidates found to validate")
+        sys.exit(1)
 
     sys.exit(0 if passed == total else 1)
 
