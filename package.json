@@ -5,8 +5,8 @@
     "test:rules": "firebase emulators:exec --only firestore --project=demo-seed \"jest --config test/firestore/jest.config.js\""
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^4.0.1",
-    "firebase": "^11.0.0",
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "firebase": "^12.18.0",
     "firebase-admin": "^13.0.0",
     "firebase-tools": "^15.3.1",
     "jest": "^29.7.0"
