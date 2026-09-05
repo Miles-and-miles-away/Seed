@@ -7,6 +7,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/profile/presentation/providers/profile_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 const _stages = [
   EvolutionStageModel(
@@ -50,6 +51,7 @@ Future<ProviderContainer> createContainerWithUser(
 }) async {
   final container = ProviderContainer(
     overrides: [
+      _clock,
       currentUserProvider.overrideWith((ref) => Stream.value(user)),
       activeMascotProvider.overrideWith((ref) => Stream.value(activeMascot)),
       mascotSpeciesDataProvider.overrideWith((ref) async => _species),
@@ -73,6 +75,9 @@ Future<ProviderContainer> createContainerWithUser(
 
   return container;
 }
+
+final _now = DateTime(2026, 6, 17, 12);
+final _clock = clockProvider.overrideWithValue(() => _now);
 
 void main() {
   group('levelProgressProvider', () {
@@ -224,7 +229,7 @@ void main() {
     });
 
     test('returns correct days since joined', () async {
-      final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
+      final thirtyDaysAgo = _now.subtract(const Duration(days: 30));
       final user = AppUserModel(
         uid: 'test-uid',
         email: 'test@example.com',

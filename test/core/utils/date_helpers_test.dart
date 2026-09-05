@@ -97,29 +97,41 @@ void main() {
 
     setUpAll(() => initializeDateFormatting('en'));
 
+    final now = DateTime(2026, 6, 17, 12);
+
     test('labels today and yesterday', () {
-      final now = DateTime.now();
-      expect(formatDateLabel(now, l10n, 'en'), l10n.today);
+      expect(formatDateLabel(now, l10n, 'en', now: now), l10n.today);
       expect(
-        formatDateLabel(previousCalendarDay(now), l10n, 'en'),
+        formatDateLabel(previousCalendarDay(now), l10n, 'en', now: now),
         l10n.yesterday,
       );
     });
 
     test('includes the year only for other years', () {
-      final now = DateTime.now();
-      // A same-year date at least 2 days back (or forward in January).
-      final sameYear = now.month == 1 && now.day <= 3
-          ? DateTime(now.year, 6, 15)
-          : DateTime(now.year, now.month, now.day - 3);
       expect(
-        formatDateLabel(sameYear, l10n, 'en'),
-        isNot(contains('${sameYear.year}')),
+        formatDateLabel(DateTime(2026, 6, 14), l10n, 'en', now: now),
+        'Sunday, June 14',
       );
       expect(
-        formatDateLabel(DateTime(now.year - 1, 6, 15), l10n, 'en'),
-        contains('${now.year - 1}'),
+        formatDateLabel(DateTime(2025, 6, 15), l10n, 'en', now: now),
+        'Sunday, June 15, 2025',
       );
+    });
+  });
+
+  group('isSameCalendarDay', () {
+    test('ignores the time of day', () {
+      expect(
+        isSameCalendarDay(DateTime(2026, 6, 13, 1), DateTime(2026, 6, 13, 23)),
+        isTrue,
+      );
+    });
+
+    test('differs when any of day, month or year differs', () {
+      final base = DateTime(2026, 6, 13);
+      expect(isSameCalendarDay(base, DateTime(2026, 6, 14)), isFalse);
+      expect(isSameCalendarDay(base, DateTime(2026, 7, 13)), isFalse);
+      expect(isSameCalendarDay(base, DateTime(2025, 6, 13)), isFalse);
     });
   });
 }
