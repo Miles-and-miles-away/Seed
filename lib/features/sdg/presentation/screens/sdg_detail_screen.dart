@@ -64,12 +64,13 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 const SizedBox(height: spacingXxl),
                 SdgTargetsSection(goal: goal, locale: languageCode),
                 const SizedBox(height: spacingXxl),
+                // World state frames personal state, so it comes first.
+                SdgProgressChartViewer(goal: goal, locale: languageCode),
+                const SizedBox(height: spacingXxl),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(context, goal, languageCode)
                 else
                   ..._buildDirectContent(context, goal, languageCode),
-                const SizedBox(height: spacingXxl),
-                SdgProgressChartViewer(goal: goal, locale: languageCode),
                 const SizedBox(height: spacingXxxl),
                 _buildGoalNavigation(context, goal),
                 const SizedBox(height: spacingHuge),

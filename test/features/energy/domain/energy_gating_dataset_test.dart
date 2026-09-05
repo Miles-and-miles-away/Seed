@@ -68,9 +68,9 @@ void main() {
       );
     });
 
-    test('gas hand-wash vs dishwasher fails the carrier condition', () {
+    test('a gas bath vs an electric bath fails the carrier condition', () {
       expect(
-        blockFor([('washup_gas', 1)], [('dishwasher_normal', 1)]),
+        blockFor([('bath_gas', 1)], [('bath_electric', 1)]),
         EnergyVerdictBlock.differentCarrier,
       );
     });
@@ -200,7 +200,7 @@ void main() {
       // guarding this by accident, and its removal should not read as
       // an oversight.
       expect(
-        blockFor([('rice_keepwarm', 10)], [('oven', 1)]),
+        blockFor([('rice_cook_keepwarm', 1)], [('oven', 1)]),
         EnergyVerdictBlock.none,
       );
       expect(

@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// straight from disk (`flutter test` runs with the package root
 /// as cwd) instead of through a loader.
 void main() {
-  const itemCount = 167;
+  const itemCount = 166;
   const validGroups = {
     'meat',
     'seafood',
@@ -152,13 +152,16 @@ void main() {
       // `cream` added 2026-08-29 (dairy_eggs 9 -> 10, total 166 -> 167):
       // it was the last uncovered common food, derived from milk_dairy
       // on a total-solids allocation.
+      // Duplicate `bread` folded into `bread_wheat` 2026-09-01
+      // (staples 15 -> 14, total 167 -> 166); `palm_soy_oil` became
+      // `soybean_oil` in the same pass, so oils stays at 6.
       const expected = {
         'meat': 8,
         'seafood': 11,
         'dairy_eggs': 10,
         'plant_protein': 12,
         'nuts_seeds': 2,
-        'staples': 15,
+        'staples': 14,
         'vegetables': 43,
         'fruit': 21,
         'drinks': 18,

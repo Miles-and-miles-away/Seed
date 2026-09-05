@@ -27,16 +27,19 @@ String _distanceSeedText(double km) {
   return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
 }
 
-/// A leg, the option column it belongs to, and where it ends.
+/// A leg, the option column it belongs to, and its endpoints.
 ///
 /// [toCity] lets the screen chain the next leg's origin to this leg's
 /// destination, which is what makes a multi-stop journey (Tokyo ->
-/// Osaka -> Kobe) natural to enter one leg at a time.
+/// Osaka -> Kobe) natural to enter one leg at a time. [fromCity] lets
+/// it remember where a column's journey began, so the other column can
+/// be seeded with the same trip.
 class LegPlacement {
-  const LegPlacement(this.leg, this.option, {this.toCity});
+  const LegPlacement(this.leg, this.option, {this.fromCity, this.toCity});
 
   final JourneyLeg leg;
   final int option;
+  final City? fromCity;
   final City? toCity;
 }
 
@@ -204,7 +207,10 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
       setState(() => _distanceInvalid = true);
       return;
     }
-    Navigator.pop(context, LegPlacement(leg, option, toCity: _to));
+    Navigator.pop(
+      context,
+      LegPlacement(leg, option, fromCity: _from, toCity: _to),
+    );
   }
 
   @override

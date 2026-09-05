@@ -36,6 +36,47 @@ def stub(rows):
     e.sparql = lambda _query: rows
 
 
+def alt(alt_id, name, preferred="", short="", colloquial="", historic=""):
+    """An alternateNamesV2 row: id, geonameid, lang, name, 4 flags."""
+    return [str(alt_id), "1", "ja", name,
+            preferred, short, colloquial, historic]
+
+
+def check_pick():
+    # Colloquial and historic rows are excluded outright, even when
+    # nothing else remains.
+    assert e.pick([alt(1, "江戸", historic="1")], "ja") is None
+    assert e.pick([alt(1, "花の都", colloquial="1")], "ja") is None
+    assert e.pick([alt(1, "江戸", historic="1"),
+                   alt(2, "東京")], "ja") == "東京"
+    # Empty and whitespace-only names never ship.
+    assert e.pick([], "ja") is None
+    assert e.pick([alt(1, "  ")], "ja") is None
+    assert e.pick([alt(1, " 東京 ")], "ja") == "東京"
+    # Preferred beats everything except the exclusions and the JA
+    # romaji demotion.
+    assert e.pick([alt(1, "東京都"),
+                   alt(2, "東京", preferred="1")], "ja") == "東京"
+    # A full name beats a short form.
+    assert e.pick([alt(1, "NY", short="1"),
+                   alt(2, "ニューヨーク")], "ja") == "ニューヨーク"
+    # Preferred outranks full-over-short.
+    assert e.pick([alt(1, "ニューヨーク市"),
+                   alt(2, "ニューヨーク", preferred="1", short="1")],
+                  "ja") == "ニューヨーク"
+    # Oldest id wins so reruns are stable regardless of input order.
+    assert e.pick([alt(9, "後"), alt(3, "先")], "ja") == "先"
+    assert e.pick([alt(3, "先"), alt(9, "後")], "ja") == "先"
+    # JA demotes romaji rows GeoNames files as ja, even preferred
+    # ones; ES must not, or every Latin-script name would sink.
+    assert e.pick([alt(1, "Amusuterudamu", preferred="1"),
+                   alt(2, "アムステルダム")], "ja") == "アムステルダム"
+    assert e.pick([alt(1, "Amusuterudamu")], "ja") == "Amusuterudamu"
+    es = [["1", "1", "es", "Nueva York", "1", "", "", ""],
+          ["2", "1", "es", "ヌエバ", "", "", "", ""]]
+    assert e.pick(es, "es") == "Nueva York"
+
+
 def check_label_gates():
     assert e.gate_ja_label("サンパウロ (都市)", "Sao Paulo")[0] == "サンパウロ"
     assert e.gate_ja_label("(都市)", "X")[0] is None
@@ -83,8 +124,9 @@ def check_haversine():
 
 if __name__ == "__main__":
     e.POLITE_PAUSE_S = 0
-    for check in (check_label_gates, check_bands, check_country_rule,
-                  check_nearest_wins_and_empty, check_haversine):
+    for check in (check_pick, check_label_gates, check_bands,
+                  check_country_rule, check_nearest_wins_and_empty,
+                  check_haversine):
         check()
         print(f"ok {check.__name__}")
     print("all checks passed")

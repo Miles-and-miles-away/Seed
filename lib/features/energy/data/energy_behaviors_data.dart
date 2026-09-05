@@ -2,7 +2,7 @@ import 'package:seed_app/core/utils/json_asset_loader.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 
 // ignore_for_file: constant_identifier_names
-const ENERGY_BEHAVIOR_COUNT = 34;
+const ENERGY_BEHAVIOR_COUNT = 32;
 const _ASSET_PATH = 'data/app/energy_behaviors.json';
 
 /// Loads all energy behaviors from the bundled JSON asset.

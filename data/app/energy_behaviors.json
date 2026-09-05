@@ -19,9 +19,9 @@
       "carrier": "electricity",
       "unit": "minute",
       "kwh_per_unit": 0.248111,
-      "name_en": "Shower (electric water)",
+      "name_en": "Shower (electric hot water)",
       "name_ja": "シャワー（電気給湯）",
-      "name_es": "Ducha (agua eléctrica)",
+      "name_es": "Ducha (agua caliente eléctrica)",
       "confidence": "medium_high",
       "presets": [
         {
@@ -75,9 +75,9 @@
       "carrier": "electricity",
       "unit": "minute",
       "kwh_per_unit": 0.0577,
-      "name_en": "Shower (heat-pump water)",
+      "name_en": "Shower (heat-pump hot water)",
       "name_ja": "シャワー（ヒートポンプ給湯）",
-      "name_es": "Ducha (agua con bomba de calor)",
+      "name_es": "Ducha (agua caliente con bomba de calor)",
       "confidence": "medium",
       "presets": [
         {
@@ -137,9 +137,9 @@
       "carrier": "gas",
       "unit": "minute",
       "kwh_per_unit": 0.328036,
-      "name_en": "Shower (gas water)",
+      "name_en": "Shower (gas hot water)",
       "name_ja": "シャワー（ガス給湯）",
-      "name_es": "Ducha (agua calentada con gas)",
+      "name_es": "Ducha (agua caliente de gas)",
       "confidence": "medium_high",
       "presets": [
         {
@@ -199,9 +199,9 @@
       "carrier": "electricity",
       "unit": "use",
       "kwh_per_unit": 5.69296,
-      "name_en": "Bath (electric water)",
+      "name_en": "Bath (electric hot water)",
       "name_ja": "入浴（電気給湯）",
-      "name_es": "Baño (agua eléctrica)",
+      "name_es": "Baño (agua caliente eléctrica)",
       "confidence": "high",
       "presets": [
         {
@@ -242,9 +242,9 @@
       "carrier": "gas",
       "unit": "use",
       "kwh_per_unit": 7.526854,
-      "name_en": "Bath (gas water)",
+      "name_en": "Bath (gas hot water)",
       "name_ja": "入浴（ガス給湯）",
-      "name_es": "Baño (agua calentada con gas)",
+      "name_es": "Baño (agua caliente de gas)",
       "confidence": "medium_high",
       "presets": [
         {
@@ -269,98 +269,6 @@
           "name": "東京都水道局",
           "url": "https://www.waterworks.metro.tokyo.lg.jp/kurashi/shiyou/jouzu",
           "quote": "残り湯は、使用状態によって異なりますが、一般家庭では、約180リットルの量があります",
-          "accessed": "2026-08-02"
-        },
-        {
-          "name": "UK SAP 10.1 Appendix J and Table J1",
-          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
-          "quote": "Table J1: Cold water temperatures (°C)",
-          "accessed": "2026-08-02"
-        },
-        {
-          "name": "BRE Technical Paper STP09/B07 (GASTEC-at-CRE tests for DECC)",
-          "url": "https://bregroup.com/documents/d/bre-group/stp09-b07_dhw_boiler_tests_2009",
-          "quote": "ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)",
-          "accessed": "2026-08-02"
-        }
-      ]
-    },
-    {
-      "id": "washup_electric",
-      "comparable_group": "dishes",
-      "carrier": "electricity",
-      "unit": "use",
-      "kwh_per_unit": 1.992536,
-      "name_en": "Washing up by hand (electric water)",
-      "name_ja": "食器の手洗い（電気給湯）",
-      "name_es": "Lavar a mano (agua eléctrica)",
-      "confidence": "medium",
-      "presets": [
-        {
-          "id": "full_load",
-          "name_en": "A full load (14 place settings)",
-          "name_ja": "食器14人分をまとめて",
-          "name_es": "Carga completa (14 servicios)",
-          "units": 1.0
-        },
-        {
-          "id": "few_dishes",
-          "name_en": "A few dishes",
-          "name_ja": "少しの食器",
-          "name_es": "Unos pocos platos",
-          "units": 0.25
-        }
-      ],
-      "default_preset_id": "full_load",
-      "calculation_notes": "63 L x 0.03162756 kWh/L. The 63 L is Which? 2026 measuring a 14-place-setting load, the same load it measures the dishwasher on, which is what makes the two entries like-for-like. Technique dominates this entry: the peer-reviewed spread across real households is 18.3-472.8 L. RESEARCH_ENERGY section 3.1.",
-      "sources": [
-        {
-          "name": "Which? UK (dishwasher vs hand washing, 03 Jul 2026)",
-          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
-          "quote": "using a dishwasher for 14 place settings consumes just under 13 litres compared to approximately 63 litres when washing by hand",
-          "accessed": "2026-08-02"
-        },
-        {
-          "name": "UK SAP 10.1 Appendix J and Table J1",
-          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
-          "quote": "Table J1: Cold water temperatures (°C)",
-          "accessed": "2026-08-02"
-        }
-      ]
-    },
-    {
-      "id": "washup_gas",
-      "comparable_group": "dishes",
-      "carrier": "gas",
-      "unit": "use",
-      "kwh_per_unit": 2.634399,
-      "name_en": "Washing up by hand (gas water)",
-      "name_ja": "食器の手洗い（ガス給湯）",
-      "name_es": "Lavar a mano (agua calentada con gas)",
-      "confidence": "medium",
-      "presets": [
-        {
-          "id": "full_load",
-          "name_en": "A full load (14 place settings)",
-          "name_ja": "食器14人分をまとめて",
-          "name_es": "Carga completa (14 servicios)",
-          "units": 1.0
-        },
-        {
-          "id": "few_dishes",
-          "name_en": "A few dishes",
-          "name_ja": "少しの食器",
-          "name_es": "Unos pocos platos",
-          "units": 0.25
-        }
-      ],
-      "default_preset_id": "full_load",
-      "calculation_notes": "1.992536 kWh thermal / 0.756353 gross-CV gas hot-water efficiency. RESEARCH_ENERGY section 3.1.",
-      "sources": [
-        {
-          "name": "Which? UK (dishwasher vs hand washing, 03 Jul 2026)",
-          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
-          "quote": "using a dishwasher for 14 place settings consumes just under 13 litres compared to approximately 63 litres when washing by hand",
           "accessed": "2026-08-02"
         },
         {
@@ -533,9 +441,9 @@
       "carrier": "electricity",
       "unit": "use",
       "kwh_per_unit": 4.5,
-      "name_en": "Tumble dryer (vented or condenser)",
-      "name_ja": "乾燥機（排気・除湿式）",
-      "name_es": "Secadora (ventilada o de condensación)",
+      "name_en": "Tumble dryer (conventional)",
+      "name_ja": "乾燥機（ヒーター式）",
+      "name_es": "Secadora (por resistencia)",
       "confidence": "high",
       "presets": [
         {
@@ -1041,33 +949,26 @@
       ]
     },
     {
-      "id": "rice_keepwarm",
+      "id": "rice_cook_keepwarm",
       "comparable_group": "cook",
       "carrier": "electricity",
-      "unit": "hour",
-      "kwh_per_unit": 0.0165,
-      "name_en": "Rice cooker, keep warm",
-      "name_ja": "炊飯器（保温）",
-      "name_es": "Arrocera, mantener caliente",
+      "unit": "use",
+      "kwh_per_unit": 0.226,
+      "name_en": "Rice cooker, cycle + 4 h keeping warm",
+      "name_ja": "炊飯器（1回炊飯＋4時間保温）",
+      "name_es": "Arrocera, ciclo + 4 h manteniendo caliente",
       "confidence": "high",
       "presets": [
         {
-          "id": "four_hours",
-          "name_en": "4 hours (the guideline)",
-          "name_ja": "4時間（目安）",
-          "name_es": "4 horas (la guía)",
-          "units": 4
-        },
-        {
-          "id": "overnight_10h",
-          "name_en": "Overnight (10 h)",
-          "name_ja": "一晩（10時間）",
-          "name_es": "Toda la noche (10 h)",
-          "units": 10
+          "id": "cycle_plus_four",
+          "name_en": "1 cycle + 4 h keeping warm",
+          "name_ja": "1回炊飯＋4時間保温",
+          "name_es": "1 ciclo + 4 h manteniendo caliente",
+          "units": 1
         }
       ],
-      "default_preset_id": "four_hours",
-      "calculation_notes": "16.5 Wh/h on the same measured basis. Ships with the 4-hour rule the source states: keeping rice warm is sensible up to about 4 hours, after which reheating in a microwave uses less energy than continuing to hold it, and beyond 7-8 hours cooking twice is better. RESEARCH_ENERGY section 3.4.",
+      "default_preset_id": "cycle_plus_four",
+      "calculation_notes": "0.16 kWh for the cycle (the rice_cooker row: 158 Wh measured, 163 Wh corroborated) plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, all on the same measured basis. Ships as one figure because keeping warm never happens without a cycle first (owner call 2026-09-02): held alone it ranked below the cycle and read as though holding rice were the cheaper option, which is not a choice anyone has. The 4 hours is the guideline the source states -- past about 4 hours reheating in a microwave uses less than holding, and past 7-8 hours cooking twice does. RESEARCH_ENERGY section 3.4.",
       "sources": [
         {
           "name": "一般財団法人 家電製品協会 (省エネルギーセンター実測値)",

@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   late SdgGoalsData sdgData;
@@ -281,6 +286,53 @@ void main() {
         expect(find.text('0'), findsNothing);
         expect(find.text('18'), findsNothing);
       });
+    });
+  });
+
+  group('ActionTile badge', () {
+    testWidgets('the label reads against its own tint', (tester) async {
+      // The badge used the raw category colour on a 10% tint of itself,
+      // about 1.5:1. The bar and the icon keep the raw colour; the
+      // words do not.
+      const category = ActionCategory.energy;
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: ActionTile(
+                accentColor: category.color,
+                contentColor: category.color,
+                icon: Icons.bolt,
+                title: 'Heat yourself, not the room',
+                badgeLabel: '18 points',
+                onTap: () {},
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final label = tester.widget<Text>(find.text('18 points'));
+      final tint = category.color.withValues(alpha: opacityFaint);
+      final onWhite = Color.alphaBlend(tint, Colors.white);
+      expect(
+        contrastRatio(label.style!.color!, onWhite),
+        greaterThanOrEqualTo(4.5),
+        reason: 'the badge label sits on a tint of its own colour',
+      );
+      // The icon is a graphic and keeps the category colour as it is.
+      expect(
+        tester.widget<Icon>(find.byIcon(Icons.bolt)).color,
+        category.color,
+      );
     });
   });
 }

@@ -780,25 +780,13 @@
           "grams": 90
         }
       ],
-      "calculation_notes": "Derived from raw pork by the one curing loss that is published as a legal minimum. The traditional-speciality specification for Jamon Serrano, registered under EU law, requires a minimum 33% weight loss against the fresh weight of the leg, so at most 0.67 kg of finished ham comes out of each kilogram of fresh pork: 12.31 / 0.67 = 18.37, about 49% above raw pork, which is why cured meat is logged separately. No curing or smoking energy is added on top, because Poore & Nemecek's pork row already carries a processing stage and no published curing figure exists on a matching boundary -- adding one from a different boundary would double count. Read this as a floor rather than a central estimate, that is, as 'at least 18.37': the 33% is a regulatory minimum loss rather than a typical one, and it is measured on the bone-in leg, so deboning, rind and trim -- all of which raise the real ratio -- are left out. For scale, the US federal minimum for dry-cured ham is a loss of at least 18%, which would give 15.0, and the Spanish protected Jamon de Trevelez requires at least 35%, which gives 18.9. Corroboration from outside this derivation: a published life-cycle study of Parma ham on the bone reports 23.11 kg CO2e/kg on a different boundary and an Italian heavy-pig inventory, and Agribalyse's own ordering puts dry ham at about 2.07x its raw pork against the 1.49x used here, so this figure sits at the conservative end. Honest limitation: dry fermented sausages -- salami, chorizo, pepperoni -- log here too, yet no published weight yield exists for them anywhere, since the US rules that would set one are reserved and blank and the Spanish protected specifications for Salchichon de Vic and Chorizo de Cantimpalos fix diameter, curing days, fat, protein and sugars but no weight loss. They ride this figure rather than pork because they lose 25-45% of their water, and pork would put them well too low. Servings come from the USDA reference amount for dried meats, 30 g, whose own row text names Parma ham and pepperoni, at one, two and three amounts.",
+      "calculation_notes": "Derived from raw pork by the one curing loss that is published as a legal minimum. The traditional-speciality specification for Jamon Serrano, registered under EU law, requires a minimum 33% weight loss against the fresh weight of the leg, so at most 0.67 kg of finished ham comes out of each kilogram of fresh pork: 12.31 / 0.67 = 18.37, about 49% above raw pork, which is why cured meat is logged separately. No curing or smoking energy is added on top, because Poore & Nemecek's pork row already carries a processing stage and no published curing figure exists on a matching boundary -- adding one from a different boundary would double count. Read this as a floor rather than a central estimate, that is, as 'at least 18.37': the 33% is a regulatory minimum loss rather than a typical one, and it is measured on the bone-in leg, so deboning, rind and trim -- all of which raise the real ratio -- are left out. For scale, the US federal minimum for dry-cured ham is a loss of at least 18%, which would give 15.0, and the Spanish protected Jamon de Trevelez requires at least 35%, which gives 18.9. Corroboration from outside this derivation: a published life-cycle study of Parma ham on the bone reports 23.11 kg CO2e/kg on a different boundary and an Italian heavy-pig inventory, and Agribalyse's own ordering puts dry ham at about 2.07x its raw pork against the 1.49x used here, so this figure sits at the conservative end. Honest limitation: dry fermented sausages -- salami, chorizo, pepperoni -- log here too, yet no published weight yield exists for them anywhere, since the US rules that would set one are reserved and blank and the Spanish protected specifications for Salchichon de Vic and Chorizo de Cantimpalos fix diameter, curing days, fat, protein and sugars but no weight loss. They ride this figure rather than pork because they lose 25-45% of their water, and pork would put them well too low. Servings come from the USDA reference amount for dried meats, 30 g, whose own row text names Parma ham and pepperoni, at one, two and three amounts. Citation repair 2026-09-01: the short 'sobre el peso en sangre' wording was the Gobierno de Navarra PDF's, not the MAPA page's, and that PDF has returned 502 since before its recorded access date, so both copies were removed; the MAPA page was re-verified live and carries the full curing-phase sentence ('...alcanzar una merma minima del 33%, en relacion con el peso en sangre...') that the derivation rests on.",
       "sources": [
-        {
-          "name": "Pliego de condiciones de la ETG Jamon Serrano, MAPA (Spanish Ministry of Agriculture)",
-          "url": "https://www.mapa.gob.es/es/alimentacion/temas/calidad-diferenciada/etg/jamonserrano",
-          "quote": "Una merma mínima del 33%, sobre el peso en sangre.",
-          "accessed": "2026-08-01"
-        },
         {
           "name": "Pliego de condiciones de la ETG Jamon Serrano, MAPA (curing phase requirement)",
           "url": "https://www.mapa.gob.es/es/alimentacion/temas/calidad-diferenciada/etg/jamonserrano",
           "quote": "Los jamones permanecerán en esta fase el tiempo necesario para completar un mínimo de 210 días de proceso, desde su introducción en la sal, y alcanzar una merma mínima del 33%, en relación con el peso en sangre, salvo que en las fases anteriores ya se hubieran conseguido ambos valores.",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Pliego de condiciones de la ETG Jamon Serrano, Gobierno de Navarra (second live government copy)",
-          "url": "https://www.navarra.es/NR/rdonlyres/6BB83E78-A239-4740-A5B4-FFE71EB79CAB/311651/PLIEGO_CONDICIONES.pdf",
-          "quote": "Una merma mínima del 33%, sobre el peso en sangre.",
-          "accessed": "2026-08-01"
+          "accessed": "2026-09-01"
         },
         {
           "name": "Commission Regulation (EC) No 2419/1999 (registration instrument), CELEX 31999R2419",
@@ -1146,10 +1134,10 @@
           "accessed": "2026-08-08"
         },
         {
-          "name": "Carrefour Yaourt à la GRECQUE NATURE, Open Food Facts retail pack (barcode 3245412511561)",
+          "name": "Carrefour Yaourt à la GRECQUE NATURE, Open Food Facts (product_name and quantity field transcription, barcode 3245412511561)",
           "url": "https://world.openfoodfacts.org/api/v2/product/3245412511561.json",
-          "quote": "Yaourt à la GRECQUE NATURE 600 g (4 x 150 g)",
-          "accessed": "2026-08-01"
+          "quote": "product_name: \"Yaourt à la GRECQUE NATURE\" | quantity: \"600 g (4 x 150 g)\"",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -1407,7 +1395,7 @@
       "name_en": "Butter",
       "name_ja": "バター",
       "name_es": "Mantequilla",
-      "kg_co2e_per_kg": 12.0,
+      "kg_co2e_per_kg": 21.57498,
       "servings": [
         {
           "id": "tablespoon_14",
@@ -1424,22 +1412,46 @@
           "grams": 5
         }
       ],
-      "calculation_notes": "Butter is not in Poore & Nemecek, so this is the mean of three independent published figures (10.18 to 12.2 kg CO2e per kg). None is a primary dairy study: one is a national-database portion figure, one a meta-aggregator over 12 studies, one a modelled benchmark, and all three are live pages whose values drift -- one moved 15% between checks, rounded up rather than down. Weigh the butter itself: 14.2 g is a tablespoon and 5 g is a pat. Cream has its own entry and belongs there rather than here. The two figures are not comparable: cream's is built up from milk, this one comes from studies on a lower-emission milk supply, and butter would sit at roughly twice cream if both were worked out the same way.",
+      "calculation_notes": "Re-derived 2026-09-01 from milk on the total-solids rule the cream and milk powder entries use, with the derivation RESEARCH_FOOD.md recorded when the cream work exposed the old value: USDA Agricultural Handbook 697 Table 16 puts commercial butter at 80.30% milkfat plus 1.00% milk solids not fat, 81.30% milk solids in all (salt excluded, which is why the composition-table by-difference figure of about 83.8% is not used), against whole milk's 11.87%. A kilogram of butter therefore carries the solids of about 6.85 kg of milk, and against Poore & Nemecek 2018's global mean for milk that gives 21.57. Until then this row shipped 12.0, the mean of three published figures (10.18 to 12.2) that all sit on a lower-emission European milk supply, roughly a third of the P&N global mean with land-use change -- a value that could not be reconciled with this dataset's own milk anchor by any allocation rule. Those three figures are kept below as the honest lower end of the spread, and they remain the better guide for butter from a European supply chain. A milkfat-only allocation would give about 78 (some 25 kg of milk's fat per kg of butter); it is not used, because the total-solids split is the rule this dataset's dairy derivations share and the one the Canadian national-sector study applied, and because a fat-only split charges butter for skim solids that are sold in their own right. On this shared arithmetic butter sits at roughly twice cream, as both rows' notes have always said it should. Weigh the butter itself: 14.2 g is a tablespoon and 5 g is a pat. Cream has its own entry and belongs there rather than here.",
       "sources": [
         {
-          "name": "foodfootprint.nl (RIVM, average Dutch market)",
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- parent",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Milk,2010,3.15",
+          "accessed": "2026-09-01"
+        },
+        {
+          "name": "USDA ERS Agricultural Handbook 697, Table 16 (commercial butter composition; milk solids 80.30 + 1.00 = 81.30%)",
+          "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf",
+          "quote": "Milkfat products: Butter 80.0 80.30 1.00",
+          "accessed": "2026-09-01"
+        },
+        {
+          "name": "USDA FoodData Central, SR Legacy 171265 \"Milk, whole, 3.25% milkfat, with added vitamin D\" -- parent (field transcription)",
+          "url": "https://api.nal.usda.gov/fdc/v1/food/171265?api_key=DEMO_KEY",
+          "quote": "Milk, whole, 3.25% milkfat, with added vitamin D | Water 88.13 g | Total lipid (fat) 3.25 g | Protein 3.15 g",
+          "accessed": "2026-09-01"
+        },
+        {
+          "name": "Verge, X. P. C., Maxime, D., Dyer, J. A., Desjardins, R. L., Arcand, Y., & Vanderzaag, A. (2013). Carbon footprint of Canadian dairy products (allocation rule)",
+          "url": "https://publications.polymtl.ca/3424/1/2013_Verge_Carbon_footprint_Canadian_dairy.pdf",
+          "quote": "For raw milk, the allocation criterion was based on the degree of milk solids (fat, protein, lactose, and minerals) concentration in the final products.",
+          "accessed": "2026-08-29"
+        },
+        {
+          "name": "foodfootprint.nl (RIVM, average Dutch market) -- European-supply spread context",
           "url": "https://foodfootprint.nl/en/foodprintfinder/butter/",
           "quote": "61 g CO2eq",
           "accessed": "2026-07-18"
         },
         {
-          "name": "LiveLCA (analysis of 12 studies)",
+          "name": "LiveLCA (analysis of 12 studies) -- European-supply spread context",
           "url": "https://livelca.com/products/butter_273d0577-1c3b-4e5e-94fb-4084b0eebe78",
           "quote": "Butter 10.179 12",
           "accessed": "2026-07-18"
         },
         {
-          "name": "CarbonCloud ClimateHub",
+          "name": "CarbonCloud ClimateHub -- European-supply spread context",
           "url": "https://apps.carboncloud.com/climatehub/product-reports/id/116838100638",
           "quote": "Butter, 80% fat, unsalted | 11.89 | live value as of 2026-07-18",
           "accessed": "2026-07-18"
@@ -1464,8 +1476,10 @@
       "default_serving_id": "tablespoon_14",
       "tie_group": "derived_strained_dairy",
       "confidence": "medium",
-      "spread_low": null,
-      "spread_high": null
+      "spread_low": 10.179,
+      "spread_high": 21.57498,
+      "parent": "milk_dairy",
+      "mass_ratio": 6.8492
     },
     {
       "id": "cream",
@@ -1497,7 +1511,7 @@
           "grams": 238
         }
       ],
-      "calculation_notes": "This is whipping cream, worked out from milk by how much of the milk's solids end up in it. USDA composition tables put heavy whipping cream at 42.29% total solids against whole milk's 11.87%, so a kilogram of cream carries the solids of about 3.56 kg of milk, and against Poore & Nemecek 2018's global mean for milk that gives 11.22. The rest of the milk's footprint stays with the skimmed milk that comes off the separator, which is sold in its own right. Splitting on total solids is the same rule the milk powder entry uses, and it is the rule a Canadian study of a whole national dairy sector used; that study put its cream category at about twice its fluid milk. The split is where the uncertainty sits: weight it by fat and protein instead, as several dairy studies do, and cream comes out near 19.16. Published cream figures scatter for the same reason -- an Italian study of a Grana Padano plant, where cream is what gets skimmed off rather than what is made, ends up putting cream below the skimmed milk from the same vat, which cannot be the number for a tub of cream. A live food-footprint database reads 8.39 for a 40% American retail cream, below this figure because it is built on a lower-emission milk supply and carries no global land-use change. Do not read this against the butter figure here: butter's number comes from a different set of studies on a lower-emission milk supply, and on this row's own arithmetic butter would work out at roughly twice cream rather than a few percent above it. The figure is for cream at the 36% milkfat that US rules set for heavy cream. Single cream, table cream and half-and-half hold far less fat and would land nearer 5 to 7, so they are not covered here. Cream is close enough to water in density that a millilitre and a gram are the same entry. The 15 g spoonful is the FDA reference amount for fluid cream, and 120 g and 238 g are the USDA measures for a whipped serving and for a full small pour.",
+      "calculation_notes": "This is whipping cream, worked out from milk by how much of the milk's solids end up in it. USDA composition tables put heavy whipping cream at 42.29% total solids against whole milk's 11.87%, so a kilogram of cream carries the solids of about 3.56 kg of milk, and against Poore & Nemecek 2018's global mean for milk that gives 11.22. The rest of the milk's footprint stays with the skimmed milk that comes off the separator, which is sold in its own right. Splitting on total solids is the same rule the milk powder entry uses, and it is the rule a Canadian study of a whole national dairy sector used; that study put its cream category at about twice its fluid milk. The split is where the uncertainty sits: weight it by fat and protein instead, as several dairy studies do, and cream comes out near 19.16. Published cream figures scatter for the same reason -- an Italian study of a Grana Padano plant, where cream is what gets skimmed off rather than what is made, ends up putting cream below the skimmed milk from the same vat, which cannot be the number for a tub of cream. A live food-footprint database reads 8.39 for a 40% American retail cream, below this figure because it is built on a lower-emission milk supply and carries no global land-use change. Butter is now derived on this same total-solids arithmetic (2026-09-01) and sits at roughly twice cream, as this rule implies; the two rows share a tie group because their gap is the shared derivation, not a measurement. The figure is for cream at the 36% milkfat that US rules set for heavy cream. Single cream, table cream and half-and-half hold far less fat and would land nearer 5 to 7, so they are not covered here. Cream is close enough to water in density that a millilitre and a gram are the same entry. The 15 g spoonful is the FDA reference amount for fluid cream, and 120 g and 238 g are the USDA measures for a whipped serving and for a full small pour.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- parent",
@@ -2182,7 +2196,7 @@
       "name_en": "Edamame",
       "name_ja": "枝豆",
       "name_es": "Edamame",
-      "kg_co2e_per_kg": 0.98,
+      "kg_co2e_per_kg": 0.53,
       "servings": [
         {
           "id": "shelled_80g",
@@ -2200,19 +2214,19 @@
         },
         {
           "id": "pods_145g",
-          "name_en": "1 serving in pods (145 g of pods = 80 g shelled)",
-          "name_ja": "さやつき1人前（さや145g＝むき身80g）",
-          "name_es": "1 ración con vaina (145 g de vainas = 80 g sin vaina)",
-          "grams": 80
+          "name_en": "1 serving in pods (145 g as bought)",
+          "name_ja": "さやつき1人前（購入時145g）",
+          "name_es": "1 ración con vaina (145 g tal como se compra)",
+          "grams": 145
         }
       ],
-      "calculation_notes": "This is Poore & Nemecek 2018's global mean for peas, including land-use change and supply-chain losses, used as the pulse figure for a podded legume seed eaten as a protein food -- it is not a measurement of edamame. No life-cycle study of edamame exists and Agribalyse has no edamame entry, so there is nothing closer to use, and the frozen supply chain most edamame travels through is not in this number either. It is deliberately not placed on the tofu figure: tofu carries roughly 0.79 kg CO2e/kg of processing on its own, while edamame is an unprocessed fresh or frozen vegetable at about 72% water, so a tofu anchor would overstate it by around 3x. The basis is shelled beans, the edible part: Japan's MEXT food composition table gives a 45% refuse rate for raw edamame, so pods weigh about 1.8x the beans inside them and about 145 g of pods gives 80 g of beans -- if you are weighing pods, enter about 55% of that weight. USDA's edamame records show no refuse at all because they are already shelled, which is why the pod fraction comes from the Japanese table. For a sense of scale from a different source group, Agribalyse puts whole soybean grain at 1.25, fresh broad beans to shell at 0.858 and raw green beans at 0.447.",
+      "calculation_notes": "Rebased 2026-09-01 onto the global average for Poore & Nemecek 2018's whole 'Other Vegetables' group -- a catch-all row -- for the same reason the peas item was (decision D10): until then this row shipped the study's separate 'Peas' figure of 0.98, which is defined as 1 kg of DRY pea without pod, and pricing fresh green soybeans at about 72% water on a dry-pulse row overstated them roughly 3x. Edamame is a fresh or frozen green legume, the soy sibling of the garden pea the study itself files under Vegetables. No life-cycle study of edamame exists and Agribalyse has no edamame entry, so the catch-all is what there is; the frozen supply chain most edamame travels through is not in this number either. It is deliberately not placed on the tofu figure: tofu carries roughly 0.79 kg CO2e/kg of processing on its own, which edamame never undergoes. The functional unit is 1 kg of fresh vegetable as purchased, so weigh what you buy: Japan's MEXT food composition table gives a 45% refuse rate for raw edamame in pods, so pods weigh about 1.8x the beans inside them -- a shelled frozen bag enters at its own bought weight, and the podded preset enters the pod weight. The same podded-versus-shelled open question the peas item discloses applies here, unresolved in the source. For a sense of scale from a different source group, Agribalyse puts whole soybean grain at 1.25, fresh broad beans to shell at 0.858 and raw green beans at 0.447. Inside the group the middle observation is 0.42 against this mean of 0.53, the 10th-to-90th range is 0.23 to 0.97, so a difference between two vegetables here is not real.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Peas,2010,0.98",
-          "accessed": "2026-08-01"
+          "quote": "Other Vegetables,2010,0.53",
+          "accessed": "2026-09-01"
         },
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (tofu processing stage)",
@@ -2252,10 +2266,10 @@
       "category_anchor": "Peas",
       "source_tier": 1,
       "statistic": "mean_with_losses",
-      "weight_basis": "edible",
+      "weight_basis": "as_purchased",
       "entry_mode": "grams",
       "default_serving_id": "shelled_80g",
-      "tie_group": "pn_peas",
+      "tie_group": "pn_other_vegetables",
       "confidence": "medium",
       "spread_low": null,
       "spread_high": null
@@ -2266,7 +2280,7 @@
       "name_en": "Soy protein granules (dry)",
       "name_ja": "大豆ミート",
       "name_es": "Soja texturizada",
-      "kg_co2e_per_kg": 3.16,
+      "kg_co2e_per_kg": 4.1396,
       "servings": [
         {
           "id": "quarter_cup_23g",
@@ -2283,7 +2297,7 @@
           "grams": 92
         }
       ],
-      "calculation_notes": "This is Poore & Nemecek 2018's global mean for tofu, including land-use change and supply-chain losses, used to stand in for soy foods generally -- it is not a measurement of textured soy protein. Weigh the granules dry, before you rehydrate them: the maker's own instructions and declared serving work out to about 3.25x by weight, so 100 g of dry granules becomes roughly 325 g of mince on the plate. Because a dry concentrate is being priced with a wet food's number, 3.16 is a floor rather than a central estimate -- read it as 'at least' -- and Agribalyse's own ratio between dry soy protein and its tofu implies something nearer 4.1 on this scale, which is the top of the disclosed range. Agribalyse's textured soy protein values were not used directly: their dry row is about 31% worse than their own tofu, yet set beside Poore & Nemecek's tofu figure it would read about 59% better, which inverts the sign of the comparison. Worth knowing if you go to those rows yourself: the dry and rehydrated labels on the two Agribalyse soy protein entries are swapped, and the ratio between them is what identifies which is which.",
+      "calculation_notes": "Rebased 2026-09-01: until then this row shipped Poore & Nemecek 2018's tofu mean, 3.16, unscaled -- a dry concentrate priced with a wet food's number, which its own note called a floor. The value now applies the only measured dry-TVP-to-tofu ratio available: Agribalyse carries both foods, its dry textured soy protein at 1.31 against its tofu at 1.00, and 3.16 x 1.31 = 4.14. Agribalyse's TVP value is still not used directly, for the same reason as before: set beside Poore & Nemecek's tofu it would read 59% better and invert the comparison; only the internal ratio crosses over. Weigh the granules dry, before you rehydrate them: the maker's own instructions and declared serving work out to about 3.25x by weight, so 100 g of dry granules becomes roughly 325 g of mince on the plate (Agribalyse's own dry-to-rehydrated pair implies about 2.4x). Worth knowing if you go to the Agribalyse rows yourself: the dry and rehydrated labels on the two soy protein entries are swapped, and the ratio between them is what identifies which is which.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -2304,10 +2318,16 @@
           "accessed": "2026-08-01"
         },
         {
-          "name": "ADEME, AGRIBALYSE v3.2 Synthese (rejected T2 alternative)",
+          "name": "ADEME, AGRIBALYSE v3.2 Synthese (dry TVP row; its ratio to Agribalyse tofu supplies the dry-concentrate scaling)",
           "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-synthese/raw",
           "quote": "20591_2 | Proteine de soja texturee, rehydratee | CC= 1.31 | DQR= 2.01",
           "accessed": "2026-08-01"
+        },
+        {
+          "name": "ADEME, AGRIBALYSE v3.2 Synthese (tofu row, the denominator of the scaling ratio)",
+          "url": "https://data.ademe.fr/data-fair/api/v1/datasets/agribalyse-31-synthese/lines?q=tofu",
+          "quote": "20904 | Tofu, nature | Changement_climatique: 1",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -2333,7 +2353,7 @@
       "tie_group": "pn_tofu_soyfoods",
       "confidence": "medium",
       "spread_low": 3.16,
-      "spread_high": 4.1
+      "spread_high": 4.1396
     },
     {
       "id": "chickpeas_canned",
@@ -2469,10 +2489,10 @@
           "accessed": "2026-08-01"
         },
         {
-          "name": "H.J. Heinz, Beanz in Tomato Sauce (declared nutrition basis)",
+          "name": "H.J. Heinz, Beanz in Tomato Sauce (half-can serving; 207.5 g is half the declared 415 g can, our arithmetic)",
           "url": "https://heinztohome.co.uk/p/beanz-4pk-4x415g/14019140/",
-          "quote": "Per 1/2 Can (207.5g)",
-          "accessed": "2026-08-01"
+          "quote": "1 of your 5 a day in 1/2 a can when eaten as part of a balanced diet.",
+          "accessed": "2026-09-01"
         },
         {
           "name": "Regulation (EU) No 1169/2011 (FIC), Annex VIII point 3(a), consolidated 02011R1169-20180101",
@@ -2523,10 +2543,10 @@
           "accessed": "2026-08-01"
         },
         {
-          "name": "Open Food Facts barcode 5000157024671 (corroborating transcription)",
+          "name": "Open Food Facts barcode 5000157024671 (ingredients_text field transcription, corroborating)",
           "url": "https://world.openfoodfacts.org/api/v2/product/5000157024671.json",
-          "quote": "Beans (50%), Tomatoes (36%), ...",
-          "accessed": "2026-08-01"
+          "quote": "Beans (50%), Tomatoes (36%), Water, Sugar, Modified Cornflour, Salt, Spice Extracts , Herb Extract",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -3066,115 +3086,6 @@
       "spread_high": null
     },
     {
-      "id": "bread",
-      "group": "staples",
-      "name_en": "Bread",
-      "name_ja": "パン",
-      "name_es": "Pan",
-      "kg_co2e_per_kg": 1.57,
-      "servings": [
-        {
-          "id": "slice",
-          "name_en": "1 slice (50 g)",
-          "name_ja": "食パン1枚（50g）",
-          "name_es": "1 rebanada (50 g)",
-          "grams": 50
-        },
-        {
-          "id": "two_slices",
-          "name_en": "2 slices / sandwich (100 g)",
-          "name_ja": "食パン2枚（サンドイッチ・100g）",
-          "name_es": "2 rebanadas (sándwich, 100 g)",
-          "grams": 100
-        }
-      ],
-      "calculation_notes": "Global mean, Poore & Nemecek 2018, including land-use change and supply-chain losses. Bread is what they actually measured -- the published unit for their 'Wheat & Rye' row is 1 kg of bread (variable protein wheat) -- so this is not a grain figure carried across to bread, and the milling and baking that turn wheat into a loaf are already inside it, because their supply chain runs all the way to the retail shelf. What sits outside is everything after the shelf: the trip home, toasting, and bread thrown away at home. The French Agribalyse database, which draws a narrower boundary, reads 0.78 for a baguette and 1.41 for sliced sandwich bread -- lower, as expected, and in the same order. Weigh bread as bought; the figure is stored as 1.57, so display rounding may show 1.6.",
-      "sources": [
-        {
-          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
-          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
-          "quote": "Wheat & Rye,2010,1.57",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
-          "quote": "Wheat & Rye ... 1 kg of bread (variable protein wheat)",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Poore & Nemecek 2018, Supplementary Materials (system boundary)",
-          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
-          "quote": "The supply chain begins with the extraction of resources needed to produce inputs for agricultural production, the initial impact of choice by farmers, and ends at the retail store, the point of choice for consumers (fig. S1). Post-retail stages (cooking and consumer losses) were not considered",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Poore & Nemecek 2018, Accepted Manuscript, Fig. 1 rows",
-          "url": "https://josephpoore.com/Science%20360%206392%20987%20-%20Accepted%20Manuscript.pdf",
-          "quote": "Wheat & Rye (Bread) 8.8k                                0.3   0.6",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "FDA RACC, 21 CFR 101.12 Table 2 (via Cornell LII)",
-          "url": "https://www.law.cornell.edu/cfr/text/21/101.12",
-          "quote": "Breads (excluding sweet quick type), rolls   50 g",
-          "accessed": "2026-08-01"
-        }
-      ],
-      "search_terms_en": [
-        "white bread",
-        "wholemeal",
-        "wholewheat",
-        "brown bread",
-        "sourdough",
-        "baguette",
-        "roll",
-        "bap",
-        "bun",
-        "pita",
-        "pitta",
-        "naan",
-        "bagel",
-        "toast",
-        "sandwich bread",
-        "ciabatta",
-        "focaccia"
-      ],
-      "search_terms_ja": [
-        "食パン",
-        "角食",
-        "全粒粉パン",
-        "フランスパン",
-        "バゲット",
-        "ロールパン",
-        "ナン",
-        "ベーグル",
-        "ピタパン",
-        "トースト",
-        "しょくぱん"
-      ],
-      "search_terms_es": [
-        "pan de molde",
-        "pan integral",
-        "barra",
-        "baguete",
-        "bollo",
-        "pan de pita",
-        "chapata",
-        "tostada"
-      ],
-      "category_anchor": null,
-      "source_tier": 1,
-      "statistic": "mean_with_losses",
-      "weight_basis": "as_purchased",
-      "entry_mode": "grams",
-      "default_serving_id": "slice",
-      "tie_group": null,
-      "confidence": "high",
-      "spread_low": null,
-      "spread_high": null
-    },
-    {
       "id": "masa_flour",
       "group": "staples",
       "name_en": "Maize flour / masa",
@@ -3351,7 +3262,7 @@
       "confidence": "medium_high",
       "spread_low": null,
       "spread_high": null,
-      "parent": "bread",
+      "parent": "bread_wheat",
       "mass_ratio": 1.414473684
     },
     {
@@ -3579,7 +3490,7 @@
       "confidence": "medium",
       "spread_low": null,
       "spread_high": null,
-      "parent": "bread",
+      "parent": "bread_wheat",
       "mass_ratio": 1.105263158
     },
     {
@@ -3789,7 +3700,7 @@
       "confidence": "medium",
       "spread_low": null,
       "spread_high": null,
-      "parent": "bread",
+      "parent": "bread_wheat",
       "mass_ratio": 1.101973684
     },
     {
@@ -3798,7 +3709,7 @@
       "name_en": "Instant noodles",
       "name_ja": "インスタントラーメン",
       "name_es": "Fideos instantáneos",
-      "kg_co2e_per_kg": 3.324706521,
+      "kg_co2e_per_kg": 3.437716962,
       "servings": [
         {
           "id": "cup_block",
@@ -3808,7 +3719,7 @@
           "grams": 65
         }
       ],
-      "calculation_notes": "Derived, not measured, and it covers the noodle block only -- the seasoning sachet is not included. Two things are added together: the wheat dough, and the palm oil the noodles absorb when they are flash-fried at the factory, which is counted here rather than ignored. Japan's national composition tables list fried and non-fried instant noodles side by side with seasoning excluded, and the fat difference between them, 19.6 g against 1.9 g per 100 g, gives about 17.7 g of absorbed frying oil per 100 g of noodles; the fatty-acid profile of the fried row is textbook palm oil, so palm is what gets priced. Per kilogram of noodle block that is about 786 g of wheat dry matter at 2.58 kg CO2e per kg, which is 2.03, plus 177 g of palm oil at 7.32 per kg, which is 1.30 -- 3.32 in total, or roughly 1.45x the same weight of dry pasta. Nothing is added on top for the factory's own energy, so read 3.32 as a floor rather than a central estimate, and boiling the noodles at home is not counted either. One known soft spot: Poore & Nemecek measure palm oil per litre rather than per kilogram, and correcting for palm oil's real density would push this item to 3.45, about 4% higher. The one ready-made database figure for instant noodles reads below that same database's dry pasta, which cannot be right for a noodle carrying almost a fifth of its weight in added oil, so it is not used here. Instant noodles are logged by the block rather than by weight because they are sold that way -- a standard cup-noodle block is 65 g.",
+      "calculation_notes": "Derived, not measured, and it covers the noodle block only -- the seasoning sachet is not included. Two things are added together: the wheat dough, and the palm oil the noodles absorb when they are flash-fried at the factory, which is counted here rather than ignored. Japan's national composition tables list fried and non-fried instant noodles side by side with seasoning excluded, and the fat difference between them, 19.6 g against 1.9 g per 100 g, gives about 17.7 g of absorbed frying oil per 100 g of noodles; the fatty-acid profile of the fried row is textbook palm oil, so palm is what gets priced. Per kilogram of noodle block that is about 786 g of wheat dry matter at 2.58 kg CO2e per kg, which is 2.03, plus 177 g of palm oil at 7.96 per kg -- the D7 density-corrected per-kilogram palm figure this list's own palm oil item carries, applied here 2026-09-01 -- which is 1.41: 3.44 in total, or roughly 1.50x the same weight of dry pasta. Nothing is added on top for the factory's own energy, so read 3.32 as a floor rather than a central estimate, and boiling the noodles at home is not counted either. The one ready-made database figure for instant noodles reads below that same database's dry pasta, which cannot be right for a noodle carrying almost a fifth of its weight in added oil, so it is not used here. Instant noodles are logged by the block rather than by weight because they are sold that way -- a standard cup-noodle block is 65 g.",
       "sources": [
         {
           "name": "MEXT, 日本食品標準成分表（八訂）増補2023年, 第2章 本表 (表1穀類)",
@@ -3877,12 +3788,12 @@
       "default_serving_id": "cup_block",
       "tie_group": null,
       "confidence": "medium",
-      "spread_low": 3.3247,
-      "spread_high": 3.4458,
+      "spread_low": 3.437716962,
+      "spread_high": 3.437716962,
       "parent": null,
       "mass_ratio": null,
       "composite_of": [
-        "bread",
+        "bread_wheat",
         "palm_oil"
       ]
     },
@@ -4304,13 +4215,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
@@ -4488,7 +4399,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -4583,7 +4494,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -4673,7 +4584,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -4759,7 +4670,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -4852,7 +4763,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -4950,7 +4861,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5054,7 +4965,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5148,7 +5059,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5244,7 +5155,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5337,7 +5248,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5438,7 +5349,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5528,7 +5439,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5637,7 +5548,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Root Vegetables  1 kg of soil free tuber   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5746,7 +5657,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5832,7 +5743,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -5936,7 +5847,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -6026,7 +5937,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -6136,19 +6047,19 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Fig. S7 caption, p. 51",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "(F) Roots (potatoes, sugar beet, and root vegetables). (G) Sugar cane. (H) Vegetables (tomatoes, lettuce, cucumber, green beans, and green peas). (I) Beef and lamb.",
           "accessed": "2026-08-01"
         },
@@ -6231,19 +6142,19 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Fig. S7 caption, p. 51",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "(F) Roots (potatoes, sugar beet, and root vegetables). (G) Sugar cane. (H) Vegetables (tomatoes, lettuce, cucumber, green beans, and green peas). (I) Beef and lamb.",
           "accessed": "2026-08-01"
         },
@@ -6366,13 +6277,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -6481,13 +6392,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -6569,13 +6480,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -6682,13 +6593,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -6771,13 +6682,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -6853,19 +6764,19 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Fig. S7 caption, p. 51",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "(F) Roots (potatoes, sugar beet, and root vegetables). (G) Sugar cane. (H) Vegetables (tomatoes, lettuce, cucumber, green beans, and green peas). (I) Beef and lamb.",
           "accessed": "2026-08-01"
         },
@@ -6959,13 +6870,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7040,13 +6951,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7106,17 +7017,17 @@
       "servings": [
         {
           "id": "ear_kernels_102g",
-          "name_en": "Kernels from 1 corn cob (102 g)",
-          "name_ja": "とうもろこし1本分の粒（102g）",
-          "name_es": "Granos de 1 mazorca (102 g)",
-          "grams": 102
+          "name_en": "Kernels from 1 corn cob (102 g) - 283 g as bought",
+          "name_ja": "とうもろこし1本分の粒（102g）- 購入時283g",
+          "name_es": "Granos de 1 mazorca (102 g) - 283 g tal como se compra",
+          "grams": 283
         },
         {
           "id": "racc_85g",
-          "name_en": "1 serving (85 g)",
-          "name_ja": "1人前（85g）",
-          "name_es": "1 ración (85 g)",
-          "grams": 85
+          "name_en": "1 serving of kernels (85 g) - 236 g as bought",
+          "name_ja": "1人前・粒（85g）- 購入時236g",
+          "name_es": "1 ración de granos (85 g) - 236 g tal como se compra",
+          "grams": 236
         },
         {
           "id": "tin_165g",
@@ -7126,7 +7037,7 @@
           "grams": 165
         }
       ],
-      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Vegetables' group -- a catch-all row -- not a measurement of sweetcorn, including land-use change and supply-chain losses. The FAO classes green maize harvested for food as a vegetable, so the catch-all is the right home for it: the study's separate maize row of 1.70 is grain maize, measured per kilo of meal for polenta, and using that here would overstate sweetcorn by more than 3x. Weighing is the thing to get right on this item. The figure is per kilo of fresh vegetable as purchased, and USDA puts 64% of a raw cob in the bin -- 35% husk, silk and trimmings, 29% cob -- so if you weigh only the kernels and log them against this figure you will understate the impact by nearly 3x. The 102 g portion is USDA's kernel yield from a medium ear and is kernels rather than a whole cob, so it is already an edible-weight amount sitting on an as-purchased figure; the 165 g tin is drained weight, a third basis again. If you are logging a cob, weigh the cob. Poore & Nemecek never publish which species are inside their produce groups, so what else is averaged in is unknown, and the catch-all hides a very wide range: 66 farm observations from roughly 0.09 to 12 kg CO2e per kg, a median of 0.42 against the 0.53 mean, and most between about 0.23 and 0.97. Their four vegetable groups land at 0.43, 0.50, 0.51 and 0.53 on overlapping data, so a difference between two vegetables here is not a real difference.",
+      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Vegetables' group -- a catch-all row -- not a measurement of sweetcorn, including land-use change and supply-chain losses. The FAO classes green maize harvested for food as a vegetable, so the catch-all is the right home for it: the study's separate maize row of 1.70 is grain maize, measured per kilo of meal for polenta, and using that here would overstate sweetcorn by more than 3x. Weighing is the thing to get right on this item. The figure is per kilo of fresh vegetable as purchased, and USDA puts 64% of a raw cob in the bin -- 35% husk, silk and trimmings, 29% cob -- so if you weigh only the kernels and log them against this figure you will understate the impact by nearly 3x. The 102 g portion is USDA's kernel yield from a medium ear and is kernels rather than a whole cob, so it is already an edible-weight amount sitting on an as-purchased figure; the 165 g tin is drained weight, a third basis again. If you are logging a cob, weigh the cob. Poore & Nemecek never publish which species are inside their produce groups, so what else is averaged in is unknown, and the catch-all hides a very wide range: 66 farm observations from roughly 0.09 to 12 kg CO2e per kg, a median of 0.42 against the 0.53 mean, and most between about 0.23 and 0.97. Their four vegetable groups land at 0.43, 0.50, 0.51 and 0.53 on overlapping data, so a difference between two vegetables here is not a real difference. Presets converted 2026-09-01: the flesh/kernel portions had been shipping their prepared weight against this as-purchased figure, understating exactly as this note warns, so each now enters the as-purchased equivalent with the conversion shown in the label (kernels / 0.36, the USDA 64% refuse row quoted here; the drained tin stays on its own disclosed basis).",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -7136,13 +7047,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7236,13 +7147,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7431,17 +7342,17 @@
       "servings": [
         {
           "id": "portion_slices_151g",
-          "name_en": "1 portion, sliced (151 g)",
-          "name_ja": "1人前（薄切り・151g）",
-          "name_es": "1 porción en rodajas (151 g)",
-          "grams": 151
+          "name_en": "1 portion, sliced (151 g) - 302 g whole raw shoot",
+          "name_ja": "1人前（薄切り151g）- 皮つき生302g",
+          "name_es": "1 porción en rodajas (151 g) - 302 g de brote entero crudo",
+          "grams": 302
         },
         {
           "id": "half_portion_76g",
-          "name_en": "Half a portion, sliced (76 g)",
-          "name_ja": "半人前（薄切り・76g）",
-          "name_es": "Media porción en rodajas (76 g)",
-          "grams": 76
+          "name_en": "Half a portion, sliced (76 g) - 152 g whole raw shoot",
+          "name_ja": "半人前（薄切り76g）- 皮つき生152g",
+          "name_es": "Media porción en rodajas (76 g) - 152 g de brote entero crudo",
+          "grams": 152
         },
         {
           "id": "tin_drained_131g",
@@ -7451,7 +7362,7 @@
           "grams": 131
         }
       ],
-      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Vegetables' group -- a catch-all row -- not a measurement of bamboo shoots. Bamboo shoots at least clearly belong in that group: they are the first named entry in FAO's residual fresh-vegetable commodity. Two caveats follow, neither of them fatal. FAO describe vegetables as mainly annual plants, whereas bamboo is a perennial grove cut from an established stand with no yearly ploughing, planting or establishment cost, so 0.53 probably overstates takenoko -- the safe direction. The basis matters more here than for almost any other vegetable: a raw shoot is 50% waste in the Japanese composition tables (60% for small varieties such as hachiku and madake) and 71% in the USDA table, so weighing the peeled, trimmed shoot against this as-bought figure leaves you 2 to 3.5 times low -- weigh the shoot whole, as purchased. Most bamboo shoots are sold already boiled and vacuum-packed rather than raw, and that is a drained, cooked product on a different basis from this raw one: the 131 g tin option is a drained weight, and no separate boiled figure is offered because there is no citable ratio for boiling loss or drained yield. Poore & Nemecek never publish which species sit inside their produce groups; the only vegetables they confirm sampling are tomatoes, lettuce, cucumber, green beans and green peas. The group also hides a wide spread -- middle observation 0.42 against this mean of 0.53, a 10th-to-90th range of 0.23 to 0.97, and 66 farm observations spanning more than a hundredfold -- and their four vegetable averages sit at 0.43, 0.50, 0.51 and 0.53 on overlapping distributions, so a difference between two vegetables here is not real.",
+      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Vegetables' group -- a catch-all row -- not a measurement of bamboo shoots. Bamboo shoots at least clearly belong in that group: they are the first named entry in FAO's residual fresh-vegetable commodity. Two caveats follow, neither of them fatal. FAO describe vegetables as mainly annual plants, whereas bamboo is a perennial grove cut from an established stand with no yearly ploughing, planting or establishment cost, so 0.53 probably overstates takenoko -- the safe direction. The basis matters more here than for almost any other vegetable: a raw shoot is 50% waste in the Japanese composition tables (60% for small varieties such as hachiku and madake) and 71% in the USDA table, so weighing the peeled, trimmed shoot against this as-bought figure leaves you 2 to 3.5 times low -- weigh the shoot whole, as purchased. Most bamboo shoots are sold already boiled and vacuum-packed rather than raw, and that is a drained, cooked product on a different basis from this raw one: the 131 g tin option is a drained weight, and no separate boiled figure is offered because there is no citable ratio for boiling loss or drained yield. Poore & Nemecek never publish which species sit inside their produce groups; the only vegetables they confirm sampling are tomatoes, lettuce, cucumber, green beans and green peas. The group also hides a wide spread -- middle observation 0.42 against this mean of 0.53, a 10th-to-90th range of 0.23 to 0.97, and 66 farm observations spanning more than a hundredfold -- and their four vegetable averages sit at 0.43, 0.50, 0.51 and 0.53 on overlapping distributions, so a difference between two vegetables here is not real. Presets converted 2026-09-01: the flesh/kernel portions had been shipping their prepared weight against this as-purchased figure, understating exactly as this note warns, so each now enters the as-purchased equivalent with the conversion shown in the label (slices / 0.50, the MEXT standard-shoot waste rate quoted here -- the JP figure fits the JP item better than USDA's 71%, and the range stays disclosed above; the drained tin stays on its own disclosed basis).",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -7461,13 +7372,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7571,13 +7482,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7677,13 +7588,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7777,13 +7688,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7871,13 +7782,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -7972,13 +7883,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -8069,13 +7980,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -8169,13 +8080,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, yield reconciliation",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "For vegetable crops, many countries group multiple crops into 'Vegetables, fresh nes' for FAOSTAT reporting.",
           "accessed": "2026-08-01"
         },
@@ -8372,7 +8283,7 @@
           "grams": 250
         }
       ],
-      "calculation_notes": "This is a single modelled value from Agribalyse, the French government's food life-cycle database -- its row for raw green asparagus, version 3.2 -- and not a measured average across farms: the database publishes one number per product with no distribution behind it. It runs all the way from the farm to the consumer, cooking at home included, and counts only direct land-use change, so it stands on different footing from the Poore & Nemecek figures used for most vegetables and should not be read against them as a ranking. The modelled breakdown is roughly 0.97 at the farm, 0.42 in transport and 0.22 in the home. Transport is the important caveat: Agribalyse's own air-freight marker for this product is set to no, so 1.64 describes sea- and road-freighted asparagus only, there is no air-freighted entry, and this is not an average across transport modes -- it does not cover flown asparagus. Schwarz and colleagues (2016) put transport alone for Peruvian air-freighted asparagus at 11.12 kg CO2e per kg, against 0.03 for Belgian asparagus trucked within Belgium; that transport component on its own is more than six times this entire farm-to-consumer figure, and it is the top of the range quoted here even though it is a transport component rather than a full life-cycle result. Stoessel and colleagues (2012) find the same shape -- a 16- to 19-fold range from locally grown to air-freighted -- but publish no per-kilogram asparagus number, so the widely circulated 12.2 figure attributed to them is not theirs. Green asparagus is the variant most likely to have flown, because losses make it unsuitable for sea freight from overseas. Weigh spears as bought. A newer Agribalyse release gives 1.21 for the same product but reports the same data-quality score for every product in the file, which reads as a placeholder, so the version 3.2 value is kept.",
+      "calculation_notes": "This is a single modelled value from Agribalyse, the French government's food life-cycle database -- its row for raw green asparagus, version 3.2 -- and not a measured average across farms: the database publishes one number per product with no distribution behind it. It runs all the way from the farm to the consumer, cooking at home included, and counts only direct land-use change, so it stands on different footing from the Poore & Nemecek figures used for most vegetables and should not be read against them as a ranking. The modelled breakdown is roughly 0.97 at the farm, 0.42 in transport and 0.22 in the home. Transport is the important caveat: Agribalyse's own air-freight marker for this product is set to no, so 1.64 describes sea- and road-freighted asparagus only, there is no air-freighted entry, and this is not an average across transport modes -- it does not cover flown asparagus. Schwarz and colleagues (2016) put transport alone for Peruvian air-freighted asparagus at 11.12 kg CO2e per kg, against 0.03 for Belgian asparagus trucked within Belgium; that transport component on its own is more than six times this entire farm-to-consumer figure, and it is the top of the range quoted here even though it is a transport component rather than a full life-cycle result. Stoessel and colleagues (2012) find the same shape -- a 16- to 19-fold range from locally grown to air-freighted -- and Schwarz and colleagues attribute a 12.2 kg CO2e/kg total for air-freighted Peruvian asparagus, agricultural production included, to Stoessel's calculation; the figure is not in Stoessel's own abstract or main text, so it reaches this note through Schwarz (corrected 2026-09-01: an earlier version of this note wrongly called the attribution spurious). Green asparagus is the variant most likely to have flown, because losses make it unsuitable for sea freight from overseas. Weigh spears as bought. A newer Agribalyse release gives 1.21 for the same product but reports the same data-quality score for every product in the file, which reads as a placeholder, so the version 3.2 value is kept.",
       "sources": [
         {
           "name": "ADEME Agribalyse v3.2 (dataset slug agribalyse-31-synthese, description \"Version : AGRIBALYSE(R) v3.2\")",
@@ -8409,6 +8320,12 @@
           "url": "https://www.ars.usda.gov/arsuserfiles/80400525/data/sr/sr28/dnload/sr28asc.zip",
           "quote": "1 spear, medium (5-1/4\" to 7\" long)",
           "accessed": "2026-08-01"
+        },
+        {
+          "name": "Schwarz et al. (2016), Sustainability 8(4):344 (attribution of the 12.2 figure to Stoessel et al.)",
+          "url": "https://mdpi-res.com/d_attachment/sustainability/sustainability-08-00344/article_deploy/sustainability-08-00344.pdf",
+          "quote": "This is in line with a total impact of 12.2 kg CO2 equivalents/kg airfreighted Peruvian asparagus that was calculated by Stoessel et al. [3] including agricultural production.",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -8564,13 +8481,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
@@ -8654,13 +8571,13 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
@@ -8736,7 +8653,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -8814,7 +8731,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -8912,7 +8829,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9015,7 +8932,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9116,7 +9033,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9206,7 +9123,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9297,7 +9214,7 @@
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9364,17 +9281,17 @@
       "servings": [
         {
           "id": "portion_cubes_160g",
-          "name_en": "1 portion, cubed (160 g)",
-          "name_ja": "1人前（角切り・160g）",
-          "name_es": "1 porción en cubos (160 g)",
-          "grams": 160
+          "name_en": "1 portion, cubed (160 g) - 314 g whole",
+          "name_ja": "1人前（角切り160g）- 丸ごと314g",
+          "name_es": "1 porción en cubos (160 g) - 314 g entero",
+          "grams": 314
         },
         {
           "id": "racc_140g",
-          "name_en": "1 serving (140 g)",
-          "name_ja": "1人前（140g）",
-          "name_es": "1 ración (140 g)",
-          "grams": 140
+          "name_en": "1 serving (140 g flesh) - 275 g whole",
+          "name_ja": "1人前（果肉140g）- 丸ごと275g",
+          "name_es": "1 ración (140 g de pulpa) - 275 g entero",
+          "grams": 275
         },
         {
           "id": "quarter_melon_275g",
@@ -9384,17 +9301,17 @@
           "grams": 275
         }
       ],
-      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Fruit' group -- a catch-all row that collects the fruits the study did not measure separately -- not a measurement of melon. It is their mean including land-use change and supply-chain losses, and their functional unit is 1 kg of fresh fruit as bought, so weigh the melon whole and uncut. Melon is an awkward fit here, because FAO does not treat it as a fruit at all: melons and cantaloupes get vegetable codes on the grounds that, unlike orchard fruit, they are temporary crops. If the study followed those groupings, melon would belong on the 'Other Vegetables' average of 0.53 instead of 1.05 -- a factor of 2 -- and the study never says which way it went, which is why the range on this item runs 0.53 to 1.05; we use the higher of the two rather than the flattering one. Almost half a melon by weight is rind, seed cavity and cutting loss (USDA puts refuse at 49%), so a cubed-flesh weight entered against this whole-fruit figure comes out roughly 2x low. The group behind the number is very uneven: its median is 0.72 against a mean of 1.05, most of the farms in it fall between 0.35 and 2.93, and a quarter of the growers account for 57% of the emissions -- the second most skewed plant group in the study, after tomatoes. The study also never publishes which species sit in each of its produce groups, so a melon-versus-another-fruit comparison built on this figure is not meaningful. We list melon with the fruit because that is where people look for it.",
+      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Fruit' group -- a catch-all row that collects the fruits the study did not measure separately -- not a measurement of melon. It is their mean including land-use change and supply-chain losses, and their functional unit is 1 kg of fresh fruit as bought, so weigh the melon whole and uncut. Melon is an awkward fit here, because FAO does not treat it as a fruit at all: melons and cantaloupes get vegetable codes on the grounds that, unlike orchard fruit, they are temporary crops. If the study followed those groupings, melon would belong on the 'Other Vegetables' average of 0.53 instead of 1.05 -- a factor of 2 -- and the study never says which way it went, which is why the range on this item runs 0.53 to 1.05; we use the higher of the two rather than the flattering one. Almost half a melon by weight is rind, seed cavity and cutting loss (USDA puts refuse at 49%), so a cubed-flesh weight entered against this whole-fruit figure comes out roughly 2x low. The group behind the number is very uneven: its median is 0.72 against a mean of 1.05, most of the farms in it fall between 0.35 and 2.93, and a quarter of the growers account for 57% of the emissions -- the second most skewed plant group in the study, after tomatoes. The study also never publishes which species sit in each of its produce groups, so a melon-versus-another-fruit comparison built on this figure is not meaningful. We list melon with the fruit because that is where people look for it. Presets converted 2026-09-01: the flesh/kernel portions had been shipping their prepared weight against this as-purchased figure, understating exactly as this note warns, so each now enters the as-purchased equivalent with the conversion shown in the label (flesh / 0.51, the USDA 49% refuse row quoted here; the quarter-melon preset was already whole-basis).",
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9488,13 +9405,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9558,30 +9475,30 @@
       "servings": [
         {
           "id": "portion_chunks_165g",
-          "name_en": "1 portion, in chunks (165 g)",
-          "name_ja": "1人前（ひと口大・165g）",
-          "name_es": "1 porción en trozos (165 g)",
-          "grams": 165
+          "name_en": "1 portion, in chunks (165 g) - 324 g whole",
+          "name_ja": "1人前（ひと口大165g）- 丸ごと324g",
+          "name_es": "1 porción en trozos (165 g) - 324 g entera",
+          "grams": 324
         },
         {
           "id": "racc_140g",
-          "name_en": "1 serving (140 g)",
-          "name_ja": "1人前（140g）",
-          "name_es": "1 ración (140 g)",
-          "grams": 140
+          "name_en": "1 serving (140 g flesh) - 275 g whole",
+          "name_ja": "1人前（果肉140g）- 丸ごと275g",
+          "name_es": "1 ración (140 g de pulpa) - 275 g entera",
+          "grams": 275
         }
       ],
-      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Fruit' group -- a catch-all residual row -- not a measurement of pineapple. Pineapple is unambiguously a fruit (FAO names Ananas comosus as its own commodity); the study simply has no pineapple row, so the residual is what it has. The figure includes land-use change and supply-chain losses and is per 1 kg of fresh fruit as bought, meaning skin, crown and core included. That matters more for pineapple than for most fruit: USDA counts 49% refuse (8% core, 16% crown, 26% parings) and FAO's own text puts pineapple wastage at 35-45%, so prepared chunks weighed against this whole-fruit figure come out roughly 2x low. The group is heavily skewed -- half its farms come in below 0.72 while the mean is 1.05, and the top quarter of producers carry 57% of the impact -- and because the study never publishes which species belong to which group, treat 1.05 as a rough level for unmeasured fruit rather than a pineapple number.",
+      "calculation_notes": "This is the global average for Poore & Nemecek 2018's whole 'Other Fruit' group -- a catch-all residual row -- not a measurement of pineapple. Pineapple is unambiguously a fruit (FAO names Ananas comosus as its own commodity); the study simply has no pineapple row, so the residual is what it has. The figure includes land-use change and supply-chain losses and is per 1 kg of fresh fruit as bought, meaning skin, crown and core included. That matters more for pineapple than for most fruit: USDA counts 49% refuse (8% core, 16% crown, 26% parings) and FAO's own text puts pineapple wastage at 35-45%, so prepared chunks weighed against this whole-fruit figure come out roughly 2x low. The group is heavily skewed -- half its farms come in below 0.72 while the mean is 1.05, and the top quarter of producers carry 57% of the impact -- and because the study never publishes which species belong to which group, treat 1.05 as a rough level for unmeasured fruit rather than a pineapple number. Presets converted 2026-09-01: the flesh/kernel portions had been shipping their prepared weight against this as-purchased figure, understating exactly as this note warns, so each now enters the as-purchased equivalent with the conversion shown in the label (flesh / 0.51, the USDA 49% refuse row quoted here).",
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9662,13 +9579,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9743,13 +9660,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9832,13 +9749,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -9920,13 +9837,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -10006,13 +9923,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -10093,13 +10010,13 @@
       "sources": [
         {
           "name": "Poore & Nemecek 2018, Data S2, sheet \"Results - Retail Weight\"",
-          "url": "https://josephpoore.com/data/science2018/Data%20S2.xls",
+          "url": "https://josephpoore.com/data/science-2018/Data%20S2.xls",
           "quote": "GHG Emissions (kg CO2eq/FU, IPCC 2013 incl. CC feedbacks)",
           "accessed": "2026-08-01"
         },
         {
           "name": "Poore & Nemecek 2018, Supplementary Materials, Table S1 (functional units)",
-          "url": "https://josephpoore.com/data/science2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
+          "url": "https://josephpoore.com/data/science-2018/Science%20360%206392%20987%20-%20SUPPLEMENTARY%20MATERIALS.pdf",
           "quote": "\"Fruit & Veg.     1 kg of fresh fruit or vegetable   -   -\"",
           "accessed": "2026-08-01"
         },
@@ -11236,7 +11153,7 @@
           "grams": 473
         }
       ],
-      "calculation_notes": "Beer is 1.2 kg CO2e per litre, and because beer is close enough to water in density, a litre and a kilogram are the same entry here. This is derived rather than read straight off a published beer figure: Poore & Nemecek 2018 report 0.24 kg CO2e per unit of alcohol, where a unit is 10 ml of pure alcohol, so at 5% ABV one unit is 200 ml of beer and 0.24 divided by 0.2 litres gives 1.2 per litre. Their own functional unit for the barley row is one litre of beer, so this is a beverage figure and not a grain one. Because it comes from their per-unit table rather than their headline chart, it may not carry the supply-chain-losses uplift the chart values include; dedicated studies of packaged beer land lower, around 0.51 to 0.84 per litre, which is context on the spread rather than a correction to this number. Cider logs here too -- the one database that measures cider and beer on the same boundary separates them by about 1.5% (1.35 against 1.33), so a difference between them here would not be real. Watch the loanwords: Spanish sidra is alcoholic cider and belongs here, but Japanese サイダー is a clear fizzy lemonade and belongs on the cola and fizzy drink entry instead. Per serving that is about 0.40 kg for a 330 ml can, 0.42 kg for a 350 ml can, 0.57 kg for a 473 ml US pint and 0.60 kg for a 500 ml bottle or long can; 330 ml is the European standard can, 350 ml the most common Japanese can, and 500 ml the size the Japanese health ministry's alcohol guideline uses. Wine looks worse than beer per litre (1.79 against 1.20), but that reverses at the servings people actually pour: a 330 ml can is 0.40 kg against 0.31 kg for a 175 ml glass of wine, so compare these drinks by the can or the glass, not by the litre. Weighed as: liquid, density 1.0 -- per litre = per kg.",
+      "calculation_notes": "Beer is 1.2 kg CO2e per litre, and because beer is close enough to water in density, a litre and a kilogram are the same entry here. This is derived rather than read straight off a published beer figure: Poore & Nemecek 2018 report 0.24 kg CO2e per unit of alcohol, where a unit is 10 ml of pure alcohol, so at 5% ABV one unit is 200 ml of beer and 0.24 divided by 0.2 litres gives 1.2 per litre. Their own functional unit for the barley row is one litre of beer, so this is a beverage figure and not a grain one. Because it comes from their per-unit table rather than their headline chart, it may not carry the supply-chain-losses uplift the chart values include; dedicated studies of packaged beer land lower, around 0.51 to 0.84 per litre, which is context on the spread rather than a correction to this number. Cider logs here too -- the one database that measures cider and beer on the same boundary separates them by about 1.5% (1.35 against 1.33), so a difference between them here would not be real. Watch the loanwords: Spanish sidra is alcoholic cider and belongs here, but Japanese サイダー is a clear fizzy lemonade and belongs on the cola and fizzy drink entry instead. Per serving that is about 0.40 kg for a 330 ml can, 0.42 kg for a 350 ml can, 0.57 kg for a 473 ml US pint and 0.60 kg for a 500 ml bottle or long can; 330 ml is the European standard can, 350 ml the most common Japanese can, and 500 ml the size the Japanese health ministry's alcohol guideline uses. Wine looks worse than beer per litre (1.79 against 1.20), but that reverses at the servings people actually pour: a 330 ml can is 0.40 kg against 0.31 kg for a 175 ml glass of wine, so compare these drinks by the can or the glass, not by the litre. Weighed as: liquid, density 1.0 -- per litre = per kg. A co2everything aggregator citation implying 0.70 kg/L was removed 2026-09-01: it contradicted the shipped 1.2 without a stated basis, and the P&N derivation plus the Agribalyse 1.35 corroboration stand on their own.",
       "sources": [
         {
           "name": "Poore & Nemecek 2018, accepted manuscript",
@@ -11273,12 +11190,6 @@
           "url": "https://www.mhlw.go.jp/content/12200000/guideline1_20241018.pdf",
           "quote": "5%のビールの中ビン又はロング缶1本(500mL)",
           "accessed": "2026-08-01"
-        },
-        {
-          "name": "co2everything",
-          "url": "https://co2everything.com/co2e-of/beer",
-          "quote": "One bottle of Beer (355ml) is equivalent to 0.25kg CO2e",
-          "accessed": "2026-07-18"
         }
       ],
       "search_terms_en": [
@@ -12410,7 +12321,7 @@
       "name_en": "Crisps",
       "name_ja": "ポテトチップス",
       "name_es": "Patatas fritas de bolsa",
-      "kg_co2e_per_kg": 3.0711,
+      "kg_co2e_per_kg": 3.179748,
       "servings": [
         {
           "id": "racc_snack_30g",
@@ -12434,7 +12345,7 @@
           "grams": 28
         }
       ],
-      "calculation_notes": "Poore & Nemecek 2018 have no crisps row, so this is built from their potato and sunflower oil figures, both of which include land-use change and supply-chain losses. A peer-reviewed inventory of potato-chip production uses 0.2 kg of harvested potatoes for a 50 g bag, which is about 4 kg of potatoes per kg of crisps, and Japanese composition tables put crisps at 34.2 g of fat per 100 g, so about 0.34 kg of frying oil per kg -- a fat measurement rather than an oil-volume assumption. That gives 4.0 x 0.46 for the potatoes plus 0.34 x 3.60 for the oil: about 1.84 + 1.23 = 3.07 kg CO2e per kg. Only the ingredients are counted -- the factory's frying energy and the bag are not -- so read this as a floor rather than a complete figure. The frying oil carries the whole uncertainty: sunflower gives this 3.07, rapeseed about 3.13 and palm about 4.34, and since the composition table does not name the oil, sunflower is assumed and declared. That same potato-chip study's own full cradle-to-grave total is 1.96 kg CO2e per kg, which is less than its ingredients alone cost on Poore & Nemecek's figures -- a familiar gap between European database numbers and that study -- so it is not used here, though its oil input (about 0.31 kg per kg) agrees with the composition figure to within 10%. Sugar, sweets and crisps land within a few percent of each other, with jam not far below, so the ordering between them is not meaningful. Weigh the crisps as bought: the 50 g bag is the study's own unit, and the 30 g and 28 g presets come from the US snack serving standard, which names potato chips directly. In Spanish, 'patatas fritas' can also mean hot chips; this item is the bagged snack.",
+      "calculation_notes": "Poore & Nemecek 2018 have no crisps row, so this is built from their potato and sunflower oil figures, both of which include land-use change and supply-chain losses. A peer-reviewed inventory of potato-chip production uses 0.2 kg of harvested potatoes for a 50 g bag, which is about 4 kg of potatoes per kg of crisps, and Japanese composition tables put crisps at 34.2 g of fat per 100 g, so about 0.34 kg of frying oil per kg -- a fat measurement rather than an oil-volume assumption. That gives 4.0 x 0.46 for the potatoes plus 0.342 x 3.92 for the oil, with the oil priced per kilogram of oil after the same density correction the oil items themselves carry (D7; applied here 2026-09-01): about 1.84 + 1.34 = 3.18 kg CO2e per kg. Only the ingredients are counted -- the factory's frying energy and the bag are not -- so read this as a floor rather than a complete figure. The frying oil carries the whole uncertainty: sunflower gives this 3.18, rapeseed about 3.25 and palm about 4.56, and since the composition table does not name the oil, sunflower is assumed and declared. That same potato-chip study's own full cradle-to-grave total is 1.96 kg CO2e per kg, which is less than its ingredients alone cost on Poore & Nemecek's figures -- a familiar gap between European database numbers and that study -- so it is not used here, though its oil input (about 0.31 kg per kg) agrees with the composition figure to within 10%. Sugar, sweets and crisps land within a few percent of each other, with jam not far below, so the ordering between them is not meaningful. Weigh the crisps as bought: the 50 g bag is the study's own unit, and the 30 g and 28 g presets come from the US snack serving standard, which names potato chips directly. In Spanish, 'patatas fritas' can also mean hot chips; this item is the bagged snack.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- potato parent",
@@ -12508,8 +12419,8 @@
       "default_serving_id": "racc_snack_30g",
       "tie_group": "treats_sugar_fat_band",
       "confidence": "medium_high",
-      "spread_low": 3.0711,
-      "spread_high": 4.3423,
+      "spread_low": 3.179748,
+      "spread_high": 4.560695,
       "parent": null,
       "mass_ratio": null,
       "composite_of": [
@@ -12523,7 +12434,7 @@
       "name_en": "Popcorn",
       "name_ja": "ポップコーン",
       "name_es": "Palomitas",
-      "kg_co2e_per_kg": 2.1919,
+      "kg_co2e_per_kg": 2.247755,
       "servings": [
         {
           "id": "racc_snack_30g",
@@ -12533,7 +12444,7 @@
           "grams": 30
         }
       ],
-      "calculation_notes": "Poore & Nemecek 2018 have no popcorn row, so this is built from their maize figure plus frying oil, with Japanese composition tables used to work out how much of each is in the finished snack. Popcorn is 4% water and 21.7% fat; maize grain is 14.5% water and 4.5% fat; matching the non-fat solids on both sides gives about 0.92 kg of maize per kg of popcorn, and subtracting the fat the maize itself brings leaves about 0.18 kg of added oil per kg. That is 0.92 x 1.70 for the maize plus 0.18 x 3.60 for the oil: about 1.56 + 0.63 = 2.19 kg CO2e per kg, land-use change and supply-chain losses included in both parents. The basis is popped, oil-popped weight -- popped and unpopped kernels differ several-fold by weight, so weigh the popcorn after popping, not the kernels in the bag. Only the ingredients are counted; popping at a factory and the packaging are not, so this is a floor. Air-popped popcorn works out at about 1.91, since it carries no added oil and so needs slightly more than its own weight in maize, and palm frying oil would push the figure to about 2.85. Cinema popcorn with a butter topping sits above that whole range and is not this item. Jam and popcorn are close enough together that the ordering between them is not meaningful.",
+      "calculation_notes": "Poore & Nemecek 2018 have no popcorn row, so this is built from their maize figure plus frying oil, with Japanese composition tables used to work out how much of each is in the finished snack. Popcorn is 4% water and 21.7% fat; maize grain is 14.5% water and 4.5% fat; matching the non-fat solids on both sides gives about 0.92 kg of maize per kg of popcorn, and subtracting the fat the maize itself brings leaves about 0.18 kg of added oil per kg. That is 0.92 x 1.70 for the maize plus 0.18 x 3.92 for the oil, the oil priced per kilogram after the same density correction the oil items themselves carry (D7; applied here 2026-09-01): about 1.56 + 0.69 = 2.25 kg CO2e per kg, land-use change and supply-chain losses included in both parents. The basis is popped, oil-popped weight -- popped and unpopped kernels differ several-fold by weight, so weigh the popcorn after popping, not the kernels in the bag. Only the ingredients are counted; popping at a factory and the packaging are not, so this is a floor. Air-popped popcorn works out at about 1.91, since it carries no added oil and so needs slightly more than its own weight in maize, and palm frying oil would push the figure to about 2.96. Cinema popcorn with a butter topping sits above that whole range and is not this item. Jam and popcorn are close enough together that the ordering between them is not meaningful.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018) -- maize parent",
@@ -12593,7 +12504,7 @@
       "tie_group": "treats_grain_fruit_band",
       "confidence": "medium_high",
       "spread_low": 1.9088,
-      "spread_high": 2.8451,
+      "spread_high": 2.957296,
       "parent": null,
       "mass_ratio": null,
       "composite_of": [
@@ -13109,12 +13020,12 @@
       "mass_ratio": null
     },
     {
-      "id": "palm_soy_oil",
+      "id": "soybean_oil",
       "group": "oils",
-      "name_en": "Palm & soybean oil",
-      "name_ja": "パーム油・大豆油",
-      "name_es": "Aceite de palma y soja",
-      "kg_co2e_per_kg": 7.500804,
+      "name_en": "Soybean oil",
+      "name_ja": "大豆油",
+      "name_es": "Aceite de soja",
+      "kg_co2e_per_kg": 6.871862,
       "servings": [
         {
           "id": "tablespoon",
@@ -13131,18 +13042,12 @@
           "grams": 4.6
         }
       ],
-      "calculation_notes": "Poore & Nemecek 2018 measure oils per litre of refined oil rather than per kilogram, so this item averages their palm and soybean oils after converting each to a weight basis: soybean at about 6.32 per litre divided by a density of about 0.920 kg per litre gives about 6.87 per kg, palm at about 7.32 per litre divided by about 0.900 gives about 8.13 per kg, and the two average to the 7.50 shown here. The soybean density is a Codex Alimentarius relative density at 20C. The palm density comes from the Japanese (MEXT) composition table for refined palm oil, and it is the weakest number in this entry: refined palm oil is semi-solid at room temperature, so Codex can only quote it warm -- at 50C for palm oil and 40C for palm olein, the liquid cooking fraction -- and because oil gets denser as it cools, neither of those can be used directly. A litre of palm oil is not really a well-defined quantity in a kitchen, which is a caveat on measuring oil by volume rather than on the arithmetic. USDA composition data puts both oils nearer 0.921 kg per litre, which would pull the result down a little. Palm and soybean are about 18% apart and share this one number, so a difference between them here is not real and a specific bottle may sit anywhere between roughly 6.87 and 8.13 -- palm on its own would be about 8.13, not the 7.32 that appears as a per-litre figure elsewhere. Grouping the two is more than arithmetic: land-use change is about 38% of the palm figure and about 45% of the soybean figure, against roughly 3% for sunflower, 5% for rapeseed and a small credit for olive, so these are the two oils whose emissions are dominated by clearing land. On a production-only boundary, counting neither land-use change nor the supply chain, both fall to roughly 2.2 and the ordering against olive oil can reverse, so palm and olive are not a fair comparison. The Agribalyse database also puts palm and soy at the top of its own oils, which supports that ranking, though it disagrees on the gap between the two -- about 64% there against about 18% here. Figures are a global mean from farm to retail, including land-use change and supply-chain losses. Weigh the oil as poured; the spoon presets assume about 0.910 g per ml, so a 15 ml spoonful is about 13.7 g.",
+      "calculation_notes": "Poore & Nemecek 2018 measure oils per litre of refined oil rather than per kilogram, and soybean oil appears in their stage-by-stage breakdown, which totals about 6.32 per litre. Converting that to a weight uses a density of about 0.920 kg per litre -- inside the Codex Alimentarius relative-density range for soyabean oil at 20C and matching the Japanese (MEXT) composition table -- so about 6.32 divided by about 0.920 gives the 6.87 per kg shown here, roughly 9% above the published per-litre figure. Until 2026-09-01 this row shipped as a palm-and-soybean average under both names, which duplicated the separate palm oil item at a different number; it is now soybean alone, and palm searches resolve to the palm oil item. Land-use change is about 45% of this figure -- soybean and palm are the two oils whose emissions are dominated by clearing land, against roughly 3% for sunflower, 5% for rapeseed and a small credit for olive -- so on a production-only boundary the ordering against olive oil can reverse, and soy versus olive is not a fair comparison. Figures are a global mean from farm to retail, including land-use change and supply-chain losses. Weigh the oil as poured; the spoon presets assume about 0.910 g per ml, so a 15 ml spoonful is about 13.7 g.",
       "sources": [
         {
           "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
           "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
           "quote": "Soybean Oil,2018,2.8661838,1.406294,0,0.2877758,0.2769503,0.039402757,0.78606844,0.6617964",
-          "accessed": "2026-08-01"
-        },
-        {
-          "name": "Our World in Data, food-emissions-supply-chain grapher (Poore & Nemecek 2018)",
-          "url": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv",
-          "quote": "Palm Oil,2018,2.7555852,1.875132,0,1.1253257,0.18511687,0.038737673,0.78810805,0.5487651",
           "accessed": "2026-08-01"
         },
         {
@@ -13168,33 +13073,19 @@
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "1 tbsp (__ g); 1 tbsp (15 mL)",
           "accessed": "2026-08-01"
-        },
-        {
-          "name": "MEXT, Standard Tables of Food Composition in Japan (八訂) 増補2023年, 第2章",
-          "url": "https://www.mext.go.jp/a_menu/syokuhinseibun/mext_00001.html",
-          "quote": "試料： 精製油 / (100 g：111mL、100 mL：90g)",
-          "accessed": "2026-08-01"
         }
       ],
       "search_terms_en": [
-        "palm oil",
-        "soybean oil",
         "soy oil",
-        "vegetable shortening",
-        "palm fat",
-        "palm olein"
+        "soya oil"
       ],
       "search_terms_ja": [
-        "パーム油",
         "大豆油",
-        "植物油脂",
-        "パームオレイン"
+        "だいずゆ"
       ],
       "search_terms_es": [
-        "aceite de palma",
         "aceite de soja",
-        "aceite de soya",
-        "grasa vegetal"
+        "aceite de soya"
       ],
       "category_anchor": null,
       "source_tier": 1,
@@ -13202,10 +13093,10 @@
       "weight_basis": "as_purchased",
       "entry_mode": "grams",
       "default_serving_id": "tablespoon",
-      "tie_group": "t1_high_oil",
+      "tie_group": "pn_oils",
       "confidence": "medium_high",
       "spread_low": 6.871862,
-      "spread_high": 8.129745
+      "spread_high": 6.871862
     },
     {
       "id": "coconut_oil",
@@ -14123,7 +14014,7 @@
           "grams": 90
         }
       ],
-      "calculation_notes": "This is brand-specific and counts the cheese only: Goodfella's Stonebaked Thin Margherita (Nomad Foods UK and Ireland) declares a 28% cheese blend, and 0.28 x Poore & Nemecek 2018's global mean for cheese, 23.88, gives 6.69. The wheat flour is the first ingredient and is not quantified on the label; at a plausible 30-35% it would add roughly 0.47-0.55 on the wheat figure, and the tomato puree, tomato paste and rapeseed oil are uncounted too. Pushing the other way, 28% is a three-cheese thin crust at the high end of the market: the same arithmetic on a 23% pizza gives 5.49, and it is that cheese declaration, nothing else, that the range on this item is made of. So an arbitrary frozen pizza could be higher than this (the uncounted flour and tomato) or lower (a leaner cheese declaration), which is why we do not use this figure in comparisons with other foods. Agribalyse's own margherita pizza row (1.82) was not used: the declared cheese alone is worth 6.69 on the cheese figure this dataset uses, so that row sits 3.9x below the floor of its own cheese and would put a cheese-and-dough product below plain tomato pasta sauce. That gap is the difference between the two databases' dairy numbers, not an arithmetic mistake. Weigh the pizza as bought, frozen; the 140 g serving is the US Food and Drug Administration's reference amount for foods like pizza and 170 g is Goodfella's own half-pizza.",
+      "calculation_notes": "This is brand-specific and counts the cheese only: Goodfella's Stonebaked Thin Margherita (Nomad Foods UK and Ireland) declares a 28% cheese blend, and 0.28 x Poore & Nemecek 2018's global mean for cheese, 23.88, gives 6.69. The wheat flour is the first ingredient and is not quantified on the label; at a plausible 30-35% it would add roughly 0.47-0.55 on the wheat figure, and the tomato puree, tomato paste and rapeseed oil are uncounted too. Pushing the other way, 28% is a three-cheese thin crust at the high end of the market: the same arithmetic on a 23% pizza gives 5.49, and it is that cheese declaration, nothing else, that the range on this item is made of. So an arbitrary frozen pizza could be higher than this (the uncounted flour and tomato) or lower (a leaner cheese declaration), which is why we do not use this figure in comparisons with other foods. Agribalyse's own margherita pizza row (1.82) was not used: the declared cheese alone is worth 6.69 on the cheese figure this dataset uses, so that row sits 3.9x below the floor of its own cheese and would put a cheese-and-dough product below plain tomato pasta sauce. That gap is the difference between the two databases' dairy numbers, not an arithmetic mistake. Weigh the pizza as bought, frozen; the 140 g serving is the US Food and Drug Administration's reference amount for foods like pizza and 170 g is half the pizza's declared 345 g net weight, rounded down (sourced 2026-09-01 from the retail pack's declared quantity; the brand page itself declares only the half-pizza serving convention, and its per-serving-vs-per-100g energy ratio implies about 166 g oven-baked, consistent with a 172.5 g frozen half after baking loss).",
       "sources": [
         {
           "name": "Goodfella's UK & IE (Nomad Foods), \"Stonebaked Thin Margherita Pizza\"",
@@ -14148,6 +14039,12 @@
           "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title21-vol2/xml/CFR-2024-title21-vol2-sec101-12.xml",
           "quote": "Not measurable with cup, e.g., burritos, enchiladas, pizza, pizza rolls, quiche, all types of sandwiches",
           "accessed": "2026-08-01"
+        },
+        {
+          "name": "Goodfella's Stonebaked Thin Margherita Pizza, Open Food Facts (quantity field transcription, barcode 5011003046389)",
+          "url": "https://world.openfoodfacts.org/api/v2/product/5011003046389.json",
+          "quote": "product_name: \"Stonebaked Thin Margherita Pizza\" | quantity: \"345 g\"",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -14425,16 +14322,16 @@
           "accessed": "2026-08-08"
         },
         {
-          "name": "Open Food Facts retail pack size, Liebig Mouliné de 12 légumes carton (barcode 3036815431156, en:small-brick)",
+          "name": "Open Food Facts retail pack size, Liebig Mouliné de 12 légumes carton (product_name and quantity field transcription, barcode 3036815431156, en:small-brick)",
           "url": "https://world.openfoodfacts.org/api/v2/product/3036815431156.json",
-          "quote": "Mouliné de 12 légumes 2 x 30 cl",
-          "accessed": "2026-08-08"
+          "quote": "product_name: \"Mouliné de 12 légumes\" | quantity: \"2 x 30 cl\"",
+          "accessed": "2026-09-01"
         },
         {
-          "name": "Open Food Facts retail pack size, Heinz Cream of Tomato Soup tin (barcode 5000157062673, en:can)",
+          "name": "Open Food Facts retail pack size, Heinz Cream of Tomato Soup tin (product_name and quantity field transcription, barcode 5000157062673, en:can)",
           "url": "https://world.openfoodfacts.org/api/v2/product/5000157062673.json",
-          "quote": "Cream of Tomato Soup 400g",
-          "accessed": "2026-08-08"
+          "quote": "product_name: \"Cream of Tomato Soup\" | quantity: \"400g\"",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [
@@ -15677,7 +15574,7 @@
     {
       "id": "bread_wheat",
       "group": "staples",
-      "name_en": "Bread (wheat)",
+      "name_en": "Bread",
       "name_ja": "パン",
       "name_es": "Pan",
       "kg_co2e_per_kg": 1.57,
@@ -15697,7 +15594,7 @@
           "grams": 100
         }
       ],
-      "calculation_notes": "Global mean for the row Poore & Nemecek 2018 label 'Wheat & Rye', including land-use change and supply-chain losses. Bread is the product they measured rather than a grain we then applied to bread: their stated unit is 1 kg of bread (variable protein wheat), and because their supply chain ends at the retail shelf, milling and baking are already counted -- the processing stage is about 0.21 of the 1.57, roughly 13% of the total. What is genuinely left out is everything after the shelf: the trip home, toasting, and bread binned at home. 'Variable protein wheat' is their own wording. Weigh bread as bought; the figure is stored as 1.57, so display rounding may show 1.6. Dry pasta carries a higher number than this, but the gap is water, not farming: pasta is worked out from this figure by re-basing it onto pasta's much lower moisture, so it is not evidence that pasta is worse to produce.",
+      "calculation_notes": "Global mean for the row Poore & Nemecek 2018 label 'Wheat & Rye', including land-use change and supply-chain losses. Bread is the product they measured rather than a grain we then applied to bread: their stated unit is 1 kg of bread (variable protein wheat), and because their supply chain ends at the retail shelf, milling and baking are already counted -- the processing stage is about 0.21 of the 1.57, roughly 13% of the total. What is genuinely left out is everything after the shelf: the trip home, toasting, and bread binned at home. 'Variable protein wheat' is their own wording. Weigh bread as bought; the figure is stored as 1.57, so display rounding may show 1.6. Dry pasta carries a higher number than this, but the gap is water, not farming: pasta is worked out from this figure by re-basing it onto pasta's much lower moisture, so it is not evidence that pasta is worse to produce. The duplicate `bread` row (same value, same names, thinner search terms) was folded into this one on 2026-09-01; this is the only bread item.",
       "sources": [
         {
           "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018)",
@@ -15725,7 +15622,6 @@
         }
       ],
       "search_terms_en": [
-        "bread",
         "loaf",
         "toast",
         "baguette",
@@ -15747,7 +15643,8 @@
         "flatbread",
         "sliced bread",
         "sandwich bread",
-        "rye bread"
+        "rye bread",
+        "roll"
       ],
       "search_terms_ja": [
         "食パン",
@@ -15771,7 +15668,10 @@
         "pan blanco",
         "pita",
         "chapata",
-        "bollo"
+        "bollo",
+        "barra",
+        "baguete",
+        "pan de pita"
       ],
       "category_anchor": null,
       "source_tier": 1,
@@ -15841,17 +15741,20 @@
         "palm kernel",
         "palm olein",
         "shortening",
-        "vegetable fat"
+        "vegetable fat",
+        "vegetable shortening"
       ],
       "search_terms_ja": [
         "パームオイル",
         "植物油脂",
-        "ヤシ油"
+        "ヤシ油",
+        "パーム油"
       ],
       "search_terms_es": [
         "palma",
         "grasa de palma",
-        "grasa vegetal"
+        "grasa vegetal",
+        "aceite de palma"
       ],
       "category_anchor": null,
       "source_tier": 1,
@@ -16060,7 +15963,7 @@
           "grams": 300
         }
       ],
-      "calculation_notes": "Per kg of DRAINED canned beans -- unlike the dry-basis Beans / lentils item, this factor is multiplied by the drained weight you eat. Not in Poore & Nemecek; assembled as the mean of two constructions: (a) the CarbonCloud US canned-bean model 1.10 kg CO2e/kg as-sold divided by the USDA Food Buying Guide drained fraction (10.5 oz drained per 15.5 oz can, i.e. 298 g per 439 g = 0.677) = 1.62; and (b) a bottom-up build from the Poore & Nemecek dry-pulse factor (1.79 / 2.5 hydration = 0.72 content) plus the canning and can share of the same model (0.99) = 1.71. Mean 1.665, rounded up to 1.7. Canning energy is small but the steel can is not: packaging is the largest single share of a canned bean's footprint. Tidaker et al. 2021 (0.8 kg CO2e/kg, carton-packed, Sweden) is the peer-reviewed lower bound. Beans cooked from dry are roughly half this per drained kg -- use the Beans / lentils item with dry weight.",
+      "calculation_notes": "Per kg of DRAINED canned beans -- unlike the dry-basis Beans / lentils item, this factor is multiplied by the drained weight you eat. Not in Poore & Nemecek; assembled as the mean of two constructions: (a) the CarbonCloud US canned-bean model 1.10 kg CO2e/kg as-sold divided by the USDA Food Buying Guide drained fraction (10.5 oz drained per 15.5 oz can, i.e. 298 g per 439 g = 0.677) = 1.62; and (b) a bottom-up build from the Poore & Nemecek dry-pulse factor (1.79 / 2.5 hydration = 0.72 content) plus the canning and can share of the same model (0.99) = 1.71. Mean 1.665, rounded up to 1.7. Canning energy is small but the steel can is not: packaging is the largest single share of a canned bean's footprint. Tidaker et al. 2021 (0.8 kg CO2e/kg, carton-packed, Sweden) is the peer-reviewed lower bound. Beans cooked from dry are roughly half this per drained kg -- use the Beans / lentils item with dry weight. Full-text check (2026-09-01): Tidaker et al. 2021 puts Tetra Recart canned beans at 0.7-0.8 kg CO2e per kg cooked including intercontinental transport, with packaging 0.14 and processing 0.02 kg CO2e, and states that steel tins would give a larger packaging impact than Tetra Recart (citing Del Borghi et al. 2018) -- so the peer-reviewed figure stays a lower bound for this steel-tin drained-basis item and the shipped 1.7 reads conservative-high against it. Both constructed legs still depend on the same CarbonCloud 1.10 proxy model; that dependence stands disclosed.",
       "sources": [
         {
           "name": "CarbonCloud ClimateHub (autogenerated US canned-bean model)",
@@ -16081,10 +15984,16 @@
           "accessed": "2026-07-18"
         },
         {
-          "name": "Tidaker et al. 2021, Sustainable Production and Consumption (abstract via the Semantic Scholar record; peer-reviewed lower bound, carton-packed)",
+          "name": "Tidaker et al. 2021, Sustainable Production and Consumption (full text, journal pre-proof)",
           "url": "https://doi.org/10.1016/j.spc.2021.01.017",
           "quote": "Emissions of greenhouse gases per kg cooked product ranged from 0.1 kg CO2e for Swedish pulses purchased dry to 0.8 kg CO2e for canned beans.",
-          "accessed": "2026-07-20"
+          "accessed": "2026-09-01"
+        },
+        {
+          "name": "Tidaker et al. 2021, Sustainable Production and Consumption (per-stage split, full text)",
+          "url": "https://doi.org/10.1016/j.spc.2021.01.017",
+          "quote": "For canned pulses, the contribution of packaging and processing was 0.14 and 0.02 kg CO2e, respectively.",
+          "accessed": "2026-09-01"
         }
       ],
       "search_terms_en": [

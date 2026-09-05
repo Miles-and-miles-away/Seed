@@ -347,8 +347,9 @@ Conventions:
   boundary, tagged `source_tier: 2`. They sit 20-30% below this
   dataset's cradle-to-retail boundary through boundary alone, so
   every tier-2 row carries a boundary sublabel in the UI and the
-  comparison engine requires a doubling -- not the usual 20% -- before
-  it will call a winner across tiers. `prawns_farmed` stays on the
+  comparison engine holds a cross-tier pair to its stricter
+  cross-tier bar (the bars live in PDR_FOOD_CALCULATOR.md
+  section 3) before it will call a winner across tiers. `prawns_farmed` stays on the
   P&N value 26.87: completing Gephart's 9.428016 to this dataset's
   boundary gives 15.03, so the joint band is 15.03-26.87 and 9.43
   sits 37% below its own floor. Full reasoning in
@@ -434,8 +435,9 @@ number.** No item exists to re-home an orphaned value.
 **R5 -- Eaten often enough to matter in EN, JA or ES.**
 
 **R6 -- Never rank across sources.** Comparative copy requires
-both items to share `source_tier` and `tie_group == null`, at
->= 20% delta. Cross-tier comparison requires >= 2x.
+both items to share `source_tier` and `tie_group == null`, and
+the gap to clear the verdict gate's floor -- the bars themselves
+are product rules and live in PDR_FOOD_CALCULATOR.md section 3.
 
 **R7 -- Physical floor.** A processed or derived item may never
 fall below the sum of its inputs' factors x mass fractions. Runs
@@ -789,16 +791,23 @@ Candidate table after the QA-3 correction (the un-URLed
 | LiveLCA (analysis of 12 studies) | 10.18 | table row "Butter 10.179 12" (rendered page; plain requests intermittently 422) | https://livelca.com/products/butter_273d0577-1c3b-4e5e-94fb-4084b0eebe78 |
 | CarbonCloud "Butter, 80% fat, unsalted" | 11.89 | live value as of 2026-07-18 (research fetch and audit fetch agree) | https://apps.carboncloud.com/climatehub/product-reports/id/116838100638 |
 
-Chosen: **12.0**. Recompute with the dropped candidate removed:
-(12.2 + 10.18 + 11.89) / 3 = 34.27 / 3 = 11.42 -> rounds UP to
-12.0 (honest-not-generous; rounding down would understate). The
-original 4-candidate mean was 11.59 -> 12.0, so the chosen value
-is unchanged by the QA-3 drop. Producer spread is wide and
-allocation-driven (CarbonCloud country pages span ~11.4-19.6;
-un-URLed, illustrative only). Sits sensibly between milk (3.15)
-and cheese (23.88); butter (12.0) > chicken (9.87). Confidence
-Medium -- no single authoritative global mean. Science sheet must
-carry the "not in Poore & Nemecek" note (PDR section 5).
+Chosen at the time: **12.0** = mean(12.2, 10.18, 11.89) rounded
+UP. **Superseded 2026-09-01 (the dairy pass this section's cream
+finding called for): butter now ships 21.574980, derived from
+milk on the same total-solids allocation as cream and milk
+powder.** AH697 Table 16 puts commercial butter at 80.30% milkfat
+plus 1.00% MSNF = 81.30% milk solids (verbatim: "Milkfat products:
+Butter 80.0 80.30 1.00"; salt excluded, which is why the
+composition-table by-difference ~83.8% is not used), so
+81.30 / 11.87 x 3.15 = 21.574980 -- the 21.58 this document
+computed when the cream work exposed the irreconcilability. The
+three aggregator figures above stay in `sources[]` as the honest
+lower end of the spread (they measure a European milk supply at
+roughly a third of the P&N global mean with land-use change) and
+`spread_low` is 10.179. A milkfat-only allocation (~78) is
+rejected for charging butter with skim solids sold in their own
+right. Confidence Medium. Science sheet must carry the "not in
+Poore & Nemecek" note (PDR section 5).
 
 **Cream -- derived from milk on a total-solids allocation (added
 2026-08-29).** Cream was the last uncovered common food. The v2
@@ -903,8 +912,10 @@ says about half (21.58 / 11.22 = 1.92). That near-tie is an
 artefact of two source families, so `cream` joins `butter` and
 `greek_yogurt` in `tie_group: derived_strained_dairy` and the gate
 refuses any verdict between them. No allocation reconciles butter
-12.0 with milk 3.15; the butter row is the one that should move at
-the next dairy pass, not this one.
+12.0 with milk 3.15; the butter row was the one that had to move,
+and it did on 2026-09-01 (section 3.2 above): butter now ships
+21.574980 on this same rule, and the tie group keeps refusing the
+pair because the ~2x gap is the shared derivation.
 
 **Allocation is the uncertainty, and it is disclosed.** Weighting
 the split by fat and protein rather than total solids, which the
@@ -1249,9 +1260,24 @@ lower-bound carton format). Result: 130 g drained = 221 g CO2e vs
 output was accidentally near-right on a wrong basis. NEVER
 compare beans_canned (1.7, drained) with beans_lentils (1.79,
 dry): different bases, and the numbers are a 5% apparent tie.
-Tidaker per-stage snippets ("packaging 0.14 / processing 0.02",
-"0.97 steel tin chickpeas") appeared only in search snippets,
-were never fetched verbatim, and are NOT used.
+Tidaker full text read 2026-09-01 (journal pre-proof PDF,
+doi 10.1016/j.spc.2021.01.017), closing the fetch-blocked open
+item. Verified verbatim: "Emissions of greenhouse gases per kg
+cooked product ranged from 0.1 kg CO2e for Swedish pulses
+purchased dry to 0.8 kg CO2e for canned beans." and "For canned
+pulses, the contribution of packaging and processing was 0.14 and
+0.02 kg CO2e, respectively." (Tetra Recart packs; the 0.8 is
+beans from China/USA processed in Italy, so it includes
+intercontinental transport). The paper carries NO steel-tin
+figure -- the "0.97 steel tin chickpeas" search snippet is not in
+it; steel tins appear only qualitatively: "Packaging the product
+in glass bottles or steel tins, instead of Tetra Recart packs,
+would give an even larger impact (Del Borghi et al., 2018;
+Markwardt and Wellenreuther, 2017)." That direction confirms the
+0.8 as a lower bound for this steel-tin drained-basis item, and
+the shipped 1.7 stays: honest-high against the peer-reviewed
+carton figure, with the CarbonCloud proxy dependence of both
+constructed legs still disclosed in the item's notes.
 
 ### 3.4 Staples (verified 2026-07-18)
 
@@ -1961,7 +1987,7 @@ v1 and v2 alike, the citation of record is the item's own
 | fish_wild | Fish (wild-caught) | 9.50 | non-P&N; Gephart 2021 wild fisheries completed with P&N post-farmgate stages; mean of wild-mix 9.05 and canned-tuna 9.53, rounded up | Medium |
 | small_fish | Small oily fish (sardines, mackerel) | 5.5 | non-P&N; Gephart herring/sardines row completed as fish_wild; mean of fresh 5.17 and canned 5.78, rounded up | Medium-High |
 | cheese | Cheese | 23.88 | P&N mean w/ losses | High |
-| butter | Butter | 12.0 | non-P&N; mean of 3 independent dairy LCAs (11.42 -> 12.0 up) | Medium |
+| butter | Butter | 21.574980 | derived 2026-09-01: milk 3.15 x 6.8492 (AH697 81.30% solids / milk 11.87%); previously 12.0, the 3-LCA European mean, kept as spread_low context | Medium |
 | eggs | Eggs | 4.67 | P&N mean w/ losses | High |
 | milk_dairy | Milk (dairy) | 3.15 | P&N mean w/ losses; per L = per kg | High |
 | tofu | Tofu | 3.16 | P&N mean w/ losses | High |
@@ -2324,10 +2350,11 @@ it.
 5. `max(soy_milk, oat_milk) * 2 < milk_dairy`
    (0.98 x 2 = 1.96 < 3.15, +61% margin) -- stronger than the
    plain ordering, safe under both statistics.
-6. `rice >` every other staple (4.45). **Re-derived for v2:** the
-   runner-up is no longer oats but `breakfast_cereal` 3.3322
-   (`instant_noodles` 3.324706521 a hair behind it), so the margin
-   is **+33.5%**, not the +142% the oats comparison gave in v1.
+6. `rice >` every other staple (4.45). **Re-derived for v2, and
+   again 2026-09-01 when the D7 oil correction moved the snacks:**
+   the runner-up is now `instant_noodles` 3.437716962
+   (`breakfast_cereal` 3.3322 behind it), so the margin is
+   **+29.4%**, not the +142% the oats comparison gave in v1.
    Below them: `pasta` 2.290444 (D9), `oats` 1.84 (D3), `bread`
    1.57, `potatoes` 0.46.
 7. `chicken >` every **as-purchased** staple, vegetable, fruit and
@@ -2440,9 +2467,10 @@ it.
     ordering is the sanity check the whole decision turned on:
     cream is 36% fat against butter's 80%, so it cannot sit above
     butter, and it concentrates milk, so it cannot sit at or below
-    it. The tie-group assertion is what stops the app ranking cream
-    against butter across the 6.5% gap that two source families
-    manufacture (section 3.2).
+    it. Since 2026-09-01 butter is derived on the same rule
+    (21.574980) and the tie-group assertion stops the app ranking
+    cream against butter across a ~2x gap that is derivation, not
+    measurement (section 3.2).
 
 ### Tie groups mean one thing (curated 2026-08-29)
 
@@ -2592,8 +2620,10 @@ file; the copy engine must not emit "X beats Y" for any of them
   1.53 (strawberries, blueberries, grapes); `pasta` left this
   cluster at D9 (2.290444).
 - **eggs vs rice** (4.67 vs 4.45, 4.9%).
-- **butter vs pork** (12.0 vs 12.31, 2.6%) -- and butter is the
-  one non-P&N assembled value.
+- **butter vs pork** -- retired 2026-09-01: butter moved to the
+  milk-derived 21.574980, so the 2.6% near-tie with pork is gone
+  (the gap is now real, but cross-derivation, so still not copy
+  material).
 - **soy milk vs oat milk** (0.98 vs 0.90, 8.5%) -- oat has the
   0.43-0.64 commercial-LCA drift.
 - **soy milk vs peas** -- retired: D10 moved `peas` to the

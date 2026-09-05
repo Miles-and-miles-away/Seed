@@ -127,6 +127,33 @@ void main() {
       expect(selectedValue, ActionCategory.recycling);
     });
 
+    testWidgets('tapping the selected category clears back to All', (
+      tester,
+    ) async {
+      var called = false;
+      ActionCategory? selectedValue = ActionCategory.recycling;
+
+      await tester.pumpWidget(
+        createTestWidget(
+          selectedCategory: ActionCategory.recycling,
+          onCategorySelected: (category) {
+            called = true;
+            selectedValue = category;
+          },
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // The SDG chips below this row already toggle off on a second
+      // tap; re-selecting the same category here was a silent no-op.
+      await scrollToVisible(tester, find.text('Recycling'));
+      await tester.tap(find.text('Recycling'));
+      await tester.pumpAndSettle();
+
+      expect(called, isTrue);
+      expect(selectedValue, isNull);
+    });
+
     testWidgets('is horizontally scrollable', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();

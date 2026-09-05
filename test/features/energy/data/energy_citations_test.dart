@@ -150,36 +150,6 @@ void main() {
         'ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)',
       ),
       (
-        'washup_electric',
-        'Which? UK (dishwasher vs hand washing, 03 Jul 2026)',
-        'https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E',
-        'using a dishwasher for 14 place settings consumes just under 13 litres compared to approximately 63 litres when washing by hand',
-      ),
-      (
-        'washup_electric',
-        'UK SAP 10.1 Appendix J and Table J1',
-        'https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf',
-        'Table J1: Cold water temperatures (°C)',
-      ),
-      (
-        'washup_gas',
-        'Which? UK (dishwasher vs hand washing, 03 Jul 2026)',
-        'https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E',
-        'using a dishwasher for 14 place settings consumes just under 13 litres compared to approximately 63 litres when washing by hand',
-      ),
-      (
-        'washup_gas',
-        'UK SAP 10.1 Appendix J and Table J1',
-        'https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf',
-        'Table J1: Cold water temperatures (°C)',
-      ),
-      (
-        'washup_gas',
-        'BRE Technical Paper STP09/B07 (GASTEC-at-CRE tests for DECC)',
-        'https://bregroup.com/documents/d/bre-group/stp09-b07_dhw_boiler_tests_2009',
-        'ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)',
-      ),
-      (
         'dishwasher_eco',
         'Bosch SMS67MW00G dishwasher, 14 place settings',
         'https://media3.bosch-home.com/Documents/specsheet/en-GB/SMS67MW00G.pdf',
@@ -288,7 +258,7 @@ void main() {
         '炊飯ジャー：IH5.5合以上8合未満平均消費電力量（炊飯時158Wh/回 保温時16.5Wh/h）',
       ),
       (
-        'rice_keepwarm',
+        'rice_cook_keepwarm',
         '一般財団法人 家電製品協会 (省エネルギーセンター実測値)',
         'https://seihinjyoho.go.jp/frontguide/pdf/guide_rice_cooker_2022.pdf?update=22113',
         '炊飯ジャー：IH5.5合以上8合未満平均消費電力量（炊飯時158Wh/回 保温時16.5Wh/h）',
