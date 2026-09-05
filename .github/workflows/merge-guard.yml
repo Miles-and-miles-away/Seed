@@ -18,8 +18,11 @@ jobs:
       - env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          if [ "$HEAD_REF" != "development" ]; then
-            echo "::error::Only 'development' may merge into main." \
-                 "This PR is from '$HEAD_REF'. Retarget it at development."
-            exit 1
-          fi
+          case "$HEAD_REF" in
+            development | hotfix/?*) ;;
+            *)
+              echo "::error::Only 'development' or 'hotfix/*' may merge into" \
+                   "main. This PR is from '$HEAD_REF'."
+              exit 1
+              ;;
+          esac
