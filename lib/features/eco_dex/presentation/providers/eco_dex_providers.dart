@@ -122,7 +122,11 @@ Future<List<String>> ecoDexNewUnlocks(Ref ref) async {
 }
 
 /// Notifier for discovering new Eco-Dex entries.
-@riverpod
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// during the [_waitForUserCount] gap, silently dropping the unlock the
+/// user had just earned.
+@Riverpod(keepAlive: true)
 class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
@@ -138,12 +142,8 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
     if (minActionsCount != null) {
       await _waitForUserCount(minActionsCount);
     }
-    // This autoDispose provider can be disposed while the waits above
-    // run (the caller reads it without keeping it alive), so re-check
-    // before every ref use that follows an async gap.
-    if (!ref.mounted) return [];
     final newUnlocks = await ref.read(ecoDexNewUnlocksProvider.future);
-    if (newUnlocks.isEmpty || !ref.mounted) return [];
+    if (newUnlocks.isEmpty) return [];
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {

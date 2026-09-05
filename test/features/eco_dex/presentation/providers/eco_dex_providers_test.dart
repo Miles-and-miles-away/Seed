@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -362,6 +364,55 @@ void main() {
       );
       expect(stored, unorderedEquals(['a', 'b']));
       expect(stored.length, 2);
+    });
+
+    test('records the unlock when the user stream lags the log '
+        'transaction', () async {
+      final firestore = FakeFirebaseFirestore();
+      const uid = 'u';
+      final userDoc = firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(uid);
+      await userDoc.set({AppConstants.fieldEcodexDiscovered: <String>[]});
+
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      users.add(const AppUserModel(uid: uid, email: 'e', totalActionsCount: 5));
+
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith((_) => users.stream),
+        firestoreProvider.overrideWithValue(firestore),
+        ecoDexDataProvider.overrideWith(
+          (_) async => EcoDexData(
+            categories: const [],
+            entries: [
+              ecoDexEntry(
+                'b',
+                condition: const EcoDexCondition.totalActions(count: 6),
+              ),
+            ],
+          ),
+        ),
+      ]);
+
+      // The user doc catches up only after discovery has started waiting.
+      Timer(const Duration(milliseconds: 120), () {
+        users.add(
+          const AppUserModel(uid: uid, email: 'e', totalActionsCount: 6),
+        );
+      });
+
+      // Read-only caller: as autoDispose the notifier was disposed during
+      // the wait and dropped the unlock the action had just earned.
+      final result = await c
+          .read(ecoDexDiscoveryProvider.notifier)
+          .discoverNewEntries(minActionsCount: 6);
+
+      expect(result, ['b']);
+      final stored =
+          (await userDoc.get()).data()![AppConstants.fieldEcodexDiscovered]
+              as List<dynamic>;
+      expect(stored, ['b']);
     });
   });
 }
