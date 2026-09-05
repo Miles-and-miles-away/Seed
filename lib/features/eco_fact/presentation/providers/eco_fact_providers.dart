@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -22,28 +23,20 @@ Future<List<EcoFact>> ecoFacts(Ref ref) => loadEcoFacts();
 Future<EcoFact?> todayEcoFact(Ref ref) async {
   final facts = await ref.watch(ecoFactsProvider.future);
   final today = dayOfYear(DateTime.now());
-  for (final fact in facts) {
-    if (fact.dayOfYear == today) return fact;
-  }
-  // Defensive: a malformed data edit must not turn the home screen
-  // into a StateError.
-  return null;
+  // OrNull: a malformed data edit must not throw on the home screen.
+  return facts.firstWhereOrNull((fact) => fact.dayOfYear == today);
 }
 
 /// Whether today's fact has been viewed.
 @riverpod
 bool isTodayFactViewed(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  if (user == null) return false;
-  final todayKey = formatDateKey(DateTime.now());
-  return user.viewedFactDates.contains(todayKey);
+  return user?.viewedFactDates.contains(formatDateKey(DateTime.now())) ?? false;
 }
 
 /// Whether the eco-fact is locked behind challenge completion.
 @riverpod
-bool isEcoFactLocked(Ref ref) {
-  return !ref.watch(isTodayChallengeCompletedProvider);
-}
+bool isEcoFactLocked(Ref ref) => !ref.watch(isTodayChallengeCompletedProvider);
 
 /// True when the user has an unread, unlocked fact (drives red dot).
 @riverpod
@@ -84,9 +77,7 @@ Future<List<EcoFactInboxItem>> ecoFactInbox(Ref ref) async {
   final viewedKeys = user?.viewedFactDates.toSet() ?? const <String>{};
   final unlockedKeys = user?.unlockedFactDates.toSet() ?? const <String>{};
 
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-  final todayKey = formatDateKey(today);
+  final todayKey = formatDateKey(DateTime.now());
 
   // Union of every dateKey that should surface in the inbox: today
   // always, plus any past date that was unlocked or viewed.
@@ -122,14 +113,9 @@ class FactViewedNotifier extends _$FactViewedNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Marks today's fact as viewed.
-  Future<void> markViewed() => _markDateViewed(formatDateKey(DateTime.now()));
-
-  /// Marks an arbitrary date's fact as viewed. Safe no-op for a date
-  /// already in `viewedFactDates`.
-  Future<void> markDateViewed(String dateKey) => _markDateViewed(dateKey);
-
-  Future<void> _markDateViewed(String dateKey) async {
+  /// Marks a date's fact as viewed. Safe no-op for a date already in
+  /// `viewedFactDates`.
+  Future<void> markDateViewed(String dateKey) async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
     if (user.viewedFactDates.contains(dateKey)) return;

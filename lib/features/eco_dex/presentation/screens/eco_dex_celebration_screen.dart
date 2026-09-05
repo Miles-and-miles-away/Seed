@@ -10,6 +10,8 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 
 /// Full-screen celebration shown when the user discovers an Eco-Dex
 /// entry. The fact itself is the reward, so it takes center stage.
@@ -40,118 +42,85 @@ class EcoDexCelebrationScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
 
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          // Backdrop
-          RepaintBoundary(
-            child: Container(
-              color: Colors.black.withValues(alpha: opacityNearOpaque),
-            ).animate().fadeIn(duration: 300.ms),
-          ),
-
-          // Confetti
-          const RepaintBoundary(child: _ConfettiLayer()),
-
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                        l10n.ecoDexDiscoveryTitle,
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                      .animate()
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: -0.2, end: 0),
-                  const SizedBox(height: spacingXxxl),
-                  Container(
-                        width: 140,
-                        height: 140,
-                        padding: const EdgeInsets.all(spacingLg),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipOval(
-                          child: EcoDexEntryImage(
-                            iconName: entry.iconName,
-                            size: 96,
-                          ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 400.ms)
-                      .scale(
-                        begin: const Offset(0.3, 0.3),
-                        end: const Offset(1, 1),
-                        curve: Curves.elasticOut,
-                        duration: 800.ms,
+    return CelebrationOverlay(
+      children: [
+        const RepaintBoundary(child: _ConfettiLayer()),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CelebrationTitle(l10n.ecoDexDiscoveryTitle),
+                const SizedBox(height: spacingXxxl),
+                Container(
+                      width: 140,
+                      height: 140,
+                      padding: const EdgeInsets.all(spacingLg),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
                       ),
-                  const SizedBox(height: spacingXxl),
-                  Text(
-                    entry.name(locale),
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      child: ClipOval(
+                        child: EcoDexEntryImage(
+                          iconName: entry.iconName,
+                          size: 96,
+                        ),
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(duration: 400.ms)
+                    .scale(
+                      begin: const Offset(0.3, 0.3),
+                      end: const Offset(1, 1),
+                      curve: Curves.elasticOut,
+                      duration: 800.ms,
                     ),
-                    textAlign: TextAlign.center,
-                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                const SizedBox(height: spacingXxl),
+                Text(
+                  entry.name(locale),
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                const SizedBox(height: spacingMd),
+                Text(
+                  entry.fact(locale),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: Colors.white.withValues(alpha: opacityHeavy),
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                const SizedBox(height: spacingXl),
+                BalancedText(
+                  l10n.ecoDexAchievement(entry.hint(locale)),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: opacityMedium),
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
+                const SizedBox(height: spacingHuge),
+                CelebrationButton(
+                  label: l10n.ecoDexDiscoveryAcknowledge,
+                  onPressed: onDismiss,
+                  delay: 800.ms,
+                ),
+                if (remainingInQueue > 0) ...[
                   const SizedBox(height: spacingMd),
                   Text(
-                    entry.fact(locale),
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: Colors.white.withValues(alpha: opacityHeavy),
-                    ),
-                    textAlign: TextAlign.center,
-                  ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                  const SizedBox(height: spacingXl),
-                  BalancedText(
-                    l10n.ecoDexAchievement(entry.hint(locale)),
-                    style: theme.textTheme.bodyMedium?.copyWith(
+                    l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
+                    style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white.withValues(alpha: opacityMedium),
                     ),
-                    textAlign: TextAlign.center,
-                  ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
-                  const SizedBox(height: spacingHuge),
-                  FilledButton(
-                        onPressed: onDismiss,
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: spacingHuge,
-                            vertical: spacingLg,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: borderRadiusLg,
-                          ),
-                        ),
-                        child: Text(l10n.ecoDexDiscoveryAcknowledge),
-                      )
-                      .animate(delay: 800.ms)
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: 0.3, end: 0),
-                  if (remainingInQueue > 0) ...[
-                    const SizedBox(height: spacingMd),
-                    Text(
-                      l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.white.withValues(alpha: opacityMedium),
-                      ),
-                    ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
-                  ],
+                  ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
                 ],
-              ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -171,31 +140,23 @@ Future<void> showEcoDexCelebrations(
     // Latch so a rapid double-tap can't pop this dialog and then the route
     // beneath it (the second pop would resolve to an ancestor navigator).
     var dismissed = false;
-    await showGeneralDialog<void>(
-      context: context,
-      barrierColor: Colors.transparent,
-      pageBuilder: (dialogContext, _, _) {
-        return EcoDexCelebrationScreen(
-          entry: entries[i],
-          remainingInQueue: remaining,
-          onDismiss: () {
-            if (dismissed) return;
-            dismissed = true;
-            Navigator.of(dialogContext).pop();
-          },
-        );
-      },
-      transitionDuration: Duration.zero,
+    await showCelebrationOverlay(
+      context,
+      (onDismiss) => EcoDexCelebrationScreen(
+        entry: entries[i],
+        remainingInQueue: remaining,
+        onDismiss: () {
+          if (dismissed) return;
+          dismissed = true;
+          onDismiss();
+        },
+      ),
     );
   }
 }
 
-// ---------------------------------------------------------------------------
-// Confetti layer -- separate from EggHatchingCelebration's painter so a
-// future tweak to one widget cannot regress the other. Same visual
-// vocabulary (gold / success / glowBlue / celebrationPink); revisit
-// extracting a shared widget if a third caller appears.
-// ---------------------------------------------------------------------------
+// Painter kept separate from ConfettiPainter so a tweak to one celebration
+// cannot regress the other.
 
 // Confetti runs for the visual peak, then fades out and stops. The screen
 // waits indefinitely for the acknowledge button, so the painter must not
@@ -211,22 +172,17 @@ class _ConfettiLayer extends StatefulWidget {
   State<_ConfettiLayer> createState() => _ConfettiLayerState();
 }
 
-class _ConfettiLayerState extends State<_ConfettiLayer>
-    with SingleTickerProviderStateMixin {
+class _ConfettiLayerState extends State<_ConfettiLayer> {
   static final _rng = Random();
 
-  late final AnimationController _controller;
   late final List<_Particle> _particles;
   Timer? _fadeTimer;
   bool _visible = true;
+  bool _animating = true;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: durationParticleLoop,
-    )..repeat();
     _particles = List.generate(_particleCount, (_) => _Particle.random(_rng));
     _fadeTimer = Timer(_confettiRunDuration, () {
       if (mounted) setState(() => _visible = false);
@@ -236,7 +192,6 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
   @override
   void dispose() {
     _fadeTimer?.cancel();
-    _controller.dispose();
     super.dispose();
   }
 
@@ -248,17 +203,12 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
       // Stop repainting only once fully faded so particles never freeze
       // visibly midair.
       onEnd: () {
-        if (!_visible) _controller.stop();
+        if (!_visible) setState(() => _animating = false);
       },
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, _) => CustomPaint(
-          size: Size.infinite,
-          painter: _ConfettiPainter(
-            particles: _particles,
-            progress: _controller.value,
-          ),
-        ),
+      child: ConfettiLayer(
+        animating: _animating,
+        painter: (progress) =>
+            _ConfettiPainter(particles: _particles, progress: progress),
       ),
     );
   }

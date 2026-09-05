@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_list_tile.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget wrap(Widget child) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
-  }
+  Widget wrap(Widget child) => createTestWidget(scaffold: true, child: child);
 
   group('MailListTile', () {
     testWidgets('unread shows filled mail icon and dot', (tester) async {

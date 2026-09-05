@@ -9,14 +9,14 @@ class EcoDexEntry {
     required this.nameJa,
     required this.nameEs,
     required this.factEn,
-    required this.factJa,
-    required this.factEs,
-    required this.sourceUrl,
     required this.iconName,
     required this.condition,
     required this.hintEn,
-    required this.hintJa,
-    required this.hintEs,
+    this.factJa = '',
+    this.factEs = '',
+    this.sourceUrl = '',
+    this.hintJa = '',
+    this.hintEs = '',
   });
 
   factory EcoDexEntry.fromJson(Map<String, dynamic> json) {

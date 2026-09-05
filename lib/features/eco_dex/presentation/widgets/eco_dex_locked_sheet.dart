@@ -29,9 +29,7 @@ class EcoDexLockedSheet extends ConsumerWidget {
     return showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => EcoDexLockedSheet(entry: entry, locale: locale),
     );
   }

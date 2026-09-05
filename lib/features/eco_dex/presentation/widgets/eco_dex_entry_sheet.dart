@@ -29,9 +29,7 @@ class EcoDexEntrySheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => EcoDexEntrySheet(entry: entry, locale: locale),
     );
   }

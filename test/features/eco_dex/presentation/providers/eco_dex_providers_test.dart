@@ -11,78 +11,29 @@ import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.da
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 
-EcoDexEntry _entry({
-  required String id,
-  String category = 'forests',
-  EcoDexCondition condition = const EcoDexCondition.totalActions(count: 1),
-}) => EcoDexEntry(
-  id: id,
-  category: category,
-  nameEn: id,
-  nameJa: '',
-  nameEs: '',
-  factEn: '',
-  factJa: '',
-  factEs: '',
-  sourceUrl: '',
-  iconName: id,
-  condition: condition,
-  hintEn: '',
-  hintJa: '',
-  hintEs: '',
-);
+import '../../../../helpers/test_helpers.dart';
+import '../../eco_dex_fixtures.dart';
 
-const _forestsCategory = EcoDexCategory(
-  id: 'forests',
-  nameEn: 'Forests',
-  nameJa: '森',
-  nameEs: 'Bosques',
-);
-
-const _oceansCategory = EcoDexCategory(
-  id: 'oceans',
-  nameEn: 'Oceans',
-  nameJa: '海',
-  nameEs: 'Océanos',
-);
-
-ProviderContainer _container(AppUserModel? user) {
-  return ProviderContainer(
-    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
-  );
-}
-
-ProviderContainer _containerWithData({
+Future<ProviderContainer> _containerWithData({
   AppUserModel? user,
   List<EcoDexCategory> categories = const [],
   List<EcoDexEntry> entries = const [],
-}) {
-  return ProviderContainer(
-    overrides: [
-      currentUserProvider.overrideWith((_) => Stream.value(user)),
-      ecoDexDataProvider.overrideWith(
-        (_) async => EcoDexData(categories: categories, entries: entries),
-      ),
-      // Bypass the kDebugMode-only debug force list so tests reflect
-      // only the discovered set on the test user.
-      ecoDexDiscoveredProvider.overrideWith(
-        (_) => user?.ecodexDiscovered ?? const [],
-      ),
-    ],
-  );
-}
-
-Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, _) {});
-  await Future<void>.delayed(Duration.zero);
-}
+}) => pumpedContainer([
+  userOverride(user),
+  ecoDexDataProvider.overrideWith(
+    (_) async => EcoDexData(categories: categories, entries: entries),
+  ),
+  // Bypass the kDebugMode-only debug force list so tests reflect
+  // only the discovered set on the test user.
+  ecoDexDiscoveredProvider.overrideWith(
+    (_) => user?.ecodexDiscovered ?? const [],
+  ),
+]);
 
 void main() {
   group('ecoDexDiscoveredProvider', () {
     test('returns empty when user is null', () async {
-      final c = _container(null);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([userOverride(null)]);
 
       final discovered = c.read(ecoDexDiscoveredProvider);
       // In kDebugMode a debug-forced list is merged in; filter that out
@@ -97,31 +48,31 @@ void main() {
     });
 
     test('reflects the user.ecodexDiscovered list', () async {
-      final c = _container(
-        const AppUserModel(
-          uid: 'u',
-          email: 'e',
-          ecodexDiscovered: ['forests_01', 'oceans_02'],
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(
+            uid: 'u',
+            email: 'e',
+            ecodexDiscovered: ['forests_01', 'oceans_02'],
+          ),
         ),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      ]);
 
       final discovered = c.read(ecoDexDiscoveredProvider);
       expect(discovered, containsAll(['forests_01', 'oceans_02']));
     });
 
     test('de-duplicates debug overrides when already discovered', () async {
-      final c = _container(
-        const AppUserModel(
-          uid: 'u',
-          email: 'e',
-          // Matches debug-forced ID; must not appear twice.
-          ecodexDiscovered: ['oceans_01'],
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(
+            uid: 'u',
+            email: 'e',
+            // Matches debug-forced ID; must not appear twice.
+            ecodexDiscovered: ['oceans_01'],
+          ),
         ),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      ]);
 
       final discovered = c.read(ecoDexDiscoveredProvider);
       expect(discovered.where((id) => id == 'oceans_01').length, 1);
@@ -130,15 +81,15 @@ void main() {
 
   group('ecoDexDiscoveredCountProvider', () {
     test('returns list length', () async {
-      final c = _container(
-        const AppUserModel(
-          uid: 'u',
-          email: 'e',
-          ecodexDiscovered: ['a', 'b', 'c'],
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(
+            uid: 'u',
+            email: 'e',
+            ecodexDiscovered: ['a', 'b', 'c'],
+          ),
         ),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      ]);
 
       expect(
         c.read(ecoDexDiscoveredCountProvider),
@@ -149,26 +100,22 @@ void main() {
 
   group('ecoDexNewUnlocksProvider', () {
     test('returns empty when user is null', () async {
-      final c = _containerWithData(entries: [_entry(id: 'a')]);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await _containerWithData(entries: [ecoDexEntry('a')]);
 
       final result = await c.read(ecoDexNewUnlocksProvider.future);
       expect(result, isEmpty);
     });
 
     test('returns empty when no entries qualify', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
         entries: [
-          _entry(
-            id: 'too_high',
+          ecoDexEntry(
+            'too_high',
             condition: const EcoDexCondition.totalActions(count: 100),
           ),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final result = await c.read(ecoDexNewUnlocksProvider.future);
       expect(result, isEmpty);
@@ -177,7 +124,7 @@ void main() {
     test(
       'returns IDs whose conditions are met across condition types',
       () async {
-        final c = _containerWithData(
+        final c = await _containerWithData(
           user: const AppUserModel(
             uid: 'u',
             email: 'e',
@@ -185,22 +132,20 @@ void main() {
             level: 3,
           ),
           entries: [
-            _entry(
-              id: 'unlocked_actions',
+            ecoDexEntry(
+              'unlocked_actions',
               condition: const EcoDexCondition.totalActions(count: 5),
             ),
-            _entry(
-              id: 'unlocked_level',
+            ecoDexEntry(
+              'unlocked_level',
               condition: const EcoDexCondition.levelReached(level: 3),
             ),
-            _entry(
-              id: 'locked',
+            ecoDexEntry(
+              'locked',
               condition: const EcoDexCondition.totalActions(count: 999),
             ),
           ],
         );
-        addTearDown(c.dispose);
-        await _pump(c);
 
         final result = await c.read(ecoDexNewUnlocksProvider.future);
         expect(result, ['unlocked_actions', 'unlocked_level']);
@@ -208,7 +153,7 @@ void main() {
     );
 
     test('excludes entries already in ecodexDiscovered', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(
           uid: 'u',
           email: 'e',
@@ -216,37 +161,33 @@ void main() {
           ecodexDiscovered: ['already_have'],
         ),
         entries: [
-          _entry(id: 'already_have'),
-          _entry(
-            id: 'newly_unlocked',
+          ecoDexEntry('already_have'),
+          ecoDexEntry(
+            'newly_unlocked',
             condition: const EcoDexCondition.totalActions(count: 10),
           ),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final result = await c.read(ecoDexNewUnlocksProvider.future);
       expect(result, ['newly_unlocked']);
     });
 
     test('returns multiple newly-eligible entries in entry order', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e', totalActionsCount: 100),
         entries: [
-          _entry(id: 'a'),
-          _entry(
-            id: 'b',
+          ecoDexEntry('a'),
+          ecoDexEntry(
+            'b',
             condition: const EcoDexCondition.totalActions(count: 50),
           ),
-          _entry(
-            id: 'c',
+          ecoDexEntry(
+            'c',
             condition: const EcoDexCondition.totalActions(count: 100),
           ),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final result = await c.read(ecoDexNewUnlocksProvider.future);
       expect(result, ['a', 'b', 'c']);
@@ -255,20 +196,14 @@ void main() {
 
   group('ecoDexEntriesProvider', () {
     test('marks discovered entries with isDiscovered=true', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(
           uid: 'u',
           email: 'e',
           ecodexDiscovered: ['a', 'c'],
         ),
-        entries: [
-          _entry(id: 'a'),
-          _entry(id: 'b'),
-          _entry(id: 'c'),
-        ],
+        entries: [ecoDexEntry('a'), ecoDexEntry('b'), ecoDexEntry('c')],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final entries = await c.read(ecoDexEntriesProvider.future);
       expect(entries.map((e) => '${e.entry.id}:${e.isDiscovered}').toList(), [
@@ -279,15 +214,10 @@ void main() {
     });
 
     test('all undiscovered when user discovered list is empty', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
-        entries: [
-          _entry(id: 'a'),
-          _entry(id: 'b'),
-        ],
+        entries: [ecoDexEntry('a'), ecoDexEntry('b')],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final entries = await c.read(ecoDexEntriesProvider.future);
       expect(entries.every((e) => !e.isDiscovered), isTrue);
@@ -296,17 +226,15 @@ void main() {
 
   group('ecoDexEntriesByCategoryProvider', () {
     test('filters entries to a single category', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
-        categories: const [_forestsCategory, _oceansCategory],
+        categories: const [forestsCategory, oceansCategory],
         entries: [
-          _entry(id: 'f1'),
-          _entry(id: 'o1', category: 'oceans'),
-          _entry(id: 'f2'),
+          ecoDexEntry('f1'),
+          ecoDexEntry('o1', category: 'oceans'),
+          ecoDexEntry('f2'),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final forests = await c.read(
         ecoDexEntriesByCategoryProvider('forests').future,
@@ -322,17 +250,15 @@ void main() {
 
   group('ecoDexCategoryProgressProvider', () {
     test('returns (0, total) when nothing discovered', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
-        categories: const [_forestsCategory, _oceansCategory],
+        categories: const [forestsCategory, oceansCategory],
         entries: [
-          _entry(id: 'f1'),
-          _entry(id: 'f2'),
-          _entry(id: 'o1', category: 'oceans'),
+          ecoDexEntry('f1'),
+          ecoDexEntry('f2'),
+          ecoDexEntry('o1', category: 'oceans'),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final progress = await c.read(ecoDexCategoryProgressProvider.future);
       expect(progress['forests'], (0, 2));
@@ -340,21 +266,19 @@ void main() {
     });
 
     test('counts discovered per category', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(
           uid: 'u',
           email: 'e',
           ecodexDiscovered: ['f1', 'o1'],
         ),
-        categories: const [_forestsCategory, _oceansCategory],
+        categories: const [forestsCategory, oceansCategory],
         entries: [
-          _entry(id: 'f1'),
-          _entry(id: 'f2'),
-          _entry(id: 'o1', category: 'oceans'),
+          ecoDexEntry('f1'),
+          ecoDexEntry('f2'),
+          ecoDexEntry('o1', category: 'oceans'),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final progress = await c.read(ecoDexCategoryProgressProvider.future);
       expect(progress['forests'], (1, 2));
@@ -362,13 +286,11 @@ void main() {
     });
 
     test('reports (0, 0) for a category with no entries', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
-        categories: const [_forestsCategory, _oceansCategory],
-        entries: [_entry(id: 'f1')],
+        categories: const [forestsCategory, oceansCategory],
+        entries: [ecoDexEntry('f1')],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final progress = await c.read(ecoDexCategoryProgressProvider.future);
       expect(progress['oceans'], (0, 0));
@@ -378,17 +300,15 @@ void main() {
   group('ecoDexDiscoveryNotifier', () {
     test('discoverNewEntries returns [] without touching Firestore '
         'when nothing to unlock', () async {
-      final c = _containerWithData(
+      final c = await _containerWithData(
         user: const AppUserModel(uid: 'u', email: 'e'),
         entries: [
-          _entry(
-            id: 'too_high',
+          ecoDexEntry(
+            'too_high',
             condition: const EcoDexCondition.totalActions(count: 100),
           ),
         ],
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final notifier = c.read(ecoDexDiscoveryProvider.notifier);
       final result = await notifier.discoverNewEntries();
@@ -406,30 +326,24 @@ void main() {
           .doc(uid);
       await userDoc.set({AppConstants.fieldEcodexDiscovered: <String>[]});
 
-      final c = ProviderContainer(
-        overrides: [
-          currentUserProvider.overrideWith(
-            (_) => Stream.value(
-              const AppUserModel(uid: uid, email: 'e', totalActionsCount: 5),
-            ),
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(uid: uid, email: 'e', totalActionsCount: 5),
+        ),
+        firestoreProvider.overrideWithValue(firestore),
+        ecoDexDataProvider.overrideWith(
+          (_) async => EcoDexData(
+            categories: const [],
+            entries: [
+              ecoDexEntry('a'),
+              ecoDexEntry(
+                'b',
+                condition: const EcoDexCondition.totalActions(count: 5),
+              ),
+            ],
           ),
-          firestoreProvider.overrideWithValue(firestore),
-          ecoDexDataProvider.overrideWith(
-            (_) async => EcoDexData(
-              categories: const [],
-              entries: [
-                _entry(id: 'a'),
-                _entry(
-                  id: 'b',
-                  condition: const EcoDexCondition.totalActions(count: 5),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+        ),
+      ]);
 
       final notifier = c.read(ecoDexDiscoveryProvider.notifier);
       // Two discoveries race: both compute the same unlocks from the same
