@@ -28,9 +28,8 @@ void main() {
       expect(fallback.first.title, en.first.title);
     });
 
-    test('lastUpdated and contactEmail are published as constants', () {
+    test('lastUpdated is published as a constant', () {
       expect(privacyPolicyContent.lastUpdated, isNotEmpty);
-      expect(privacyPolicyContent.contactEmail, contains('@'));
     });
   });
 

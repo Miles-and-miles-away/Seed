@@ -123,6 +123,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog>
                     AppColors.success,
                     AppColors.celebrationPink,
                   ],
+                  progress: _particleController.value,
                 ),
               );
             },

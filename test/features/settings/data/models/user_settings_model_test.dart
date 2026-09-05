@@ -196,55 +196,6 @@ void main() {
   });
 
   group('UserSettingsModelX extension', () {
-    group('enabledReminders', () {
-      test('returns only enabled schedules', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(
-              id: 'r2',
-              hour: 12,
-              minute: 0,
-              isEnabled: false,
-            ),
-            NotificationScheduleModel(id: 'r3', hour: 18, minute: 0),
-          ],
-        );
-
-        final enabled = model.enabledReminders;
-
-        expect(enabled, hasLength(2));
-        expect(enabled.map((r) => r.id), containsAll(['r1', 'r3']));
-      });
-
-      test('returns empty when all disabled', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(
-              id: 'r1',
-              hour: 9,
-              minute: 0,
-              isEnabled: false,
-            ),
-            NotificationScheduleModel(
-              id: 'r2',
-              hour: 12,
-              minute: 0,
-              isEnabled: false,
-            ),
-          ],
-        );
-
-        expect(model.enabledReminders, isEmpty);
-      });
-
-      test('returns empty when no reminders', () {
-        const model = UserSettingsModel();
-
-        expect(model.enabledReminders, isEmpty);
-      });
-    });
-
     group('canAddReminder', () {
       test('returns true when under 5 reminders', () {
         const model = UserSettingsModel(
@@ -291,46 +242,6 @@ void main() {
       });
     });
 
-    group('enabledReminderCount', () {
-      test('returns correct count', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(
-              id: 'r2',
-              hour: 12,
-              minute: 0,
-              isEnabled: false,
-            ),
-            NotificationScheduleModel(id: 'r3', hour: 18, minute: 0),
-          ],
-        );
-
-        expect(model.enabledReminderCount, 2);
-      });
-
-      test('returns 0 when none enabled', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(
-              id: 'r1',
-              hour: 9,
-              minute: 0,
-              isEnabled: false,
-            ),
-          ],
-        );
-
-        expect(model.enabledReminderCount, 0);
-      });
-
-      test('returns 0 when no reminders', () {
-        const model = UserSettingsModel();
-
-        expect(model.enabledReminderCount, 0);
-      });
-    });
-
     group('hasSeenMilestone', () {
       test('returns false for unseen milestone', () {
         const model = UserSettingsModel(seenStreakMilestones: {'1': true});
@@ -351,45 +262,6 @@ void main() {
         const model = UserSettingsModel();
 
         expect(model.hasSeenMilestone(1), isFalse);
-      });
-    });
-
-    group('withMilestoneSeen', () {
-      test('adds new milestone', () {
-        const model = UserSettingsModel();
-
-        final updated = model.withMilestoneSeen(1);
-
-        expect(updated.seenStreakMilestones['1'], isTrue);
-      });
-
-      test('preserves existing milestones', () {
-        const model = UserSettingsModel(
-          seenStreakMilestones: {'1': true, '2': true},
-        );
-
-        final updated = model.withMilestoneSeen(3);
-
-        expect(updated.seenStreakMilestones['1'], isTrue);
-        expect(updated.seenStreakMilestones['2'], isTrue);
-        expect(updated.seenStreakMilestones['3'], isTrue);
-      });
-
-      test('does not modify original model', () {
-        const model = UserSettingsModel();
-
-        final _ = model.withMilestoneSeen(1);
-
-        expect(model.seenStreakMilestones, isEmpty);
-      });
-
-      test('handles overwriting existing milestone', () {
-        const model = UserSettingsModel(seenStreakMilestones: {'1': true});
-
-        final updated = model.withMilestoneSeen(1);
-
-        expect(updated.seenStreakMilestones['1'], isTrue);
-        expect(updated.seenStreakMilestones.length, 1);
       });
     });
   });

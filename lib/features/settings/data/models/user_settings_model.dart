@@ -64,25 +64,11 @@ abstract class UserSettingsModel with _$UserSettingsModel {
 
 /// Extension methods for UserSettingsModel.
 extension UserSettingsModelX on UserSettingsModel {
-  /// Returns only the enabled reminder schedules.
-  List<NotificationScheduleModel> get enabledReminders =>
-      reminderSchedules.where((r) => r.isEnabled).toList();
-
   /// Returns whether the user can add more reminders.
   bool get canAddReminder =>
       reminderSchedules.length < AppConstants.maxRemindersPerUser;
 
-  /// Returns the count of enabled reminders.
-  int get enabledReminderCount => enabledReminders.length;
-
   /// Checks if a streak milestone week has been seen.
   bool hasSeenMilestone(int weekNumber) =>
       seenStreakMilestones[weekNumber.toString()] ?? false;
-
-  /// Returns a copy with the milestone marked as seen.
-  UserSettingsModel withMilestoneSeen(int weekNumber) {
-    final updated = Map<String, bool>.from(seenStreakMilestones);
-    updated[weekNumber.toString()] = true;
-    return copyWith(seenStreakMilestones: updated);
-  }
 }

@@ -37,60 +37,35 @@ Stream<UserSettingsModel> userSettings(Ref ref) {
   return ref.watch(settingsRepositoryProvider).watchSettings(userId);
 }
 
+/// One field of the current settings, or [fallback] while loading or on error.
+T _setting<T>(Ref ref, T Function(UserSettingsModel) pick, T fallback) {
+  return ref
+      .watch(userSettingsProvider)
+      .when(data: pick, loading: () => fallback, error: (_, _) => fallback);
+}
+
 /// Returns whether the user can add more reminders.
 @riverpod
-bool canAddReminder(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.canAddReminder,
-    loading: () => false,
-    error: (_, _) => false,
-  );
-}
+bool canAddReminder(Ref ref) => _setting(ref, (s) => s.canAddReminder, false);
 
 /// Returns the current language setting.
 @riverpod
-String currentLanguage(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.language,
-    loading: () => 'en',
-    error: (_, _) => 'en',
-  );
-}
+String currentLanguage(Ref ref) => _setting(ref, (s) => s.language, 'en');
 
 /// Returns whether notifications are enabled.
 @riverpod
-bool notificationsEnabled(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.notificationsEnabled,
-    loading: () => true,
-    error: (_, _) => true,
-  );
-}
+bool notificationsEnabled(Ref ref) =>
+    _setting(ref, (s) => s.notificationsEnabled, true);
 
 /// Returns whether smart reminders are enabled.
 @riverpod
-bool smartRemindersEnabled(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.smartRemindersEnabled,
-    loading: () => true,
-    error: (_, _) => true,
-  );
-}
+bool smartRemindersEnabled(Ref ref) =>
+    _setting(ref, (s) => s.smartRemindersEnabled, true);
 
 /// Returns whether analytics collection is enabled.
 @riverpod
-bool analyticsEnabled(Ref ref) {
-  final settings = ref.watch(userSettingsProvider);
-  return settings.when(
-    data: (s) => s.analyticsEnabled,
-    loading: () => true,
-    error: (_, _) => true,
-  );
-}
+bool analyticsEnabled(Ref ref) =>
+    _setting(ref, (s) => s.analyticsEnabled, true);
 
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
@@ -106,7 +81,7 @@ Locale appLocale(Ref ref) {
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.
-@riverpod
+@Riverpod(keepAlive: true)
 class SettingsNotifier extends _$SettingsNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
@@ -116,16 +91,25 @@ class SettingsNotifier extends _$SettingsNotifier {
     return currentUser.value?.uid;
   }
 
-  /// Toggles notifications on/off.
-  Future<void> toggleNotifications({required bool enabled}) async {
+  /// Runs [op] for the signed-in user, tracking it in [state].
+  Future<void> _write(
+    Future<void> Function(String uid, SettingsRepository repo) op,
+  ) async {
     final uid = _currentUserId;
     if (uid == null) return;
 
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .setNotificationsEnabled(uid, enabled: enabled);
+    final result = await AsyncValue.guard(
+      () => op(uid, ref.read(settingsRepositoryProvider)),
+    );
+    if (!ref.mounted) return;
+    state = result;
+  }
+
+  /// Toggles notifications on/off.
+  Future<void> toggleNotifications({required bool enabled}) {
+    return _write((uid, repo) async {
+      await repo.setNotificationsEnabled(uid, enabled: enabled);
 
       // Track analytics
       if (enabled) {
@@ -134,57 +118,31 @@ class SettingsNotifier extends _$SettingsNotifier {
         await AnalyticsService.instance.logNotificationDisabled();
       }
     });
-    if (!ref.mounted) return;
-    state = result;
   }
 
   /// Toggles analytics and crashlytics collection.
-  Future<void> toggleAnalytics({required bool enabled}) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .setAnalyticsEnabled(uid, enabled: enabled);
+  Future<void> toggleAnalytics({required bool enabled}) {
+    return _write((uid, repo) async {
+      await repo.setAnalyticsEnabled(uid, enabled: enabled);
       await AnalyticsService.instance.setCollectionEnabled(enabled: enabled);
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
         enabled,
       );
       AnalyticsService.instance.setEnabled(enabled: enabled);
     });
-    if (!ref.mounted) return;
-    state = result;
   }
 
   /// Toggles smart reminders on/off.
-  Future<void> toggleSmartReminders({required bool enabled}) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .setSmartRemindersEnabled(uid, enabled: enabled);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> toggleSmartReminders({required bool enabled}) => _write(
+    (uid, repo) => repo.setSmartRemindersEnabled(uid, enabled: enabled),
+  );
 
   /// Updates the language preference.
-  Future<void> updateLanguage(String language) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref.read(settingsRepositoryProvider).setLanguage(uid, language);
+  Future<void> updateLanguage(String language) {
+    return _write((uid, repo) async {
+      await repo.setLanguage(uid, language);
       await AnalyticsService.instance.logLanguageChanged(language: language);
     });
-    if (!ref.mounted) return;
-    state = result;
   }
 
   /// Adds a new reminder at the specified time.
@@ -211,80 +169,25 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   /// Removes a reminder by its ID.
-  Future<void> removeReminder(String scheduleId) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .removeReminder(uid, scheduleId);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> removeReminder(String scheduleId) =>
+      _write((uid, repo) => repo.removeReminder(uid, scheduleId));
 
   /// Updates a reminder's time.
-  Future<void> updateReminderTime(String scheduleId, TimeOfDay time) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .updateReminderTime(uid, scheduleId, time);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> updateReminderTime(String scheduleId, TimeOfDay time) =>
+      _write((uid, repo) => repo.updateReminderTime(uid, scheduleId, time));
 
   /// Toggles a specific reminder on/off.
-  Future<void> toggleReminder(
-    String scheduleId, {
-    required bool enabled,
-  }) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .setReminderEnabled(uid, scheduleId, enabled: enabled);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> toggleReminder(String scheduleId, {required bool enabled}) =>
+      _write(
+        (uid, repo) =>
+            repo.setReminderEnabled(uid, scheduleId, enabled: enabled),
+      );
 
   /// Updates a reminder's label.
-  Future<void> updateReminderLabel(String scheduleId, String label) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .updateReminderLabel(uid, scheduleId, label);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> updateReminderLabel(String scheduleId, String label) =>
+      _write((uid, repo) => repo.updateReminderLabel(uid, scheduleId, label));
 
   /// Marks a streak milestone as seen.
-  Future<void> markMilestoneSeen(int weekNumber) async {
-    final uid = _currentUserId;
-    if (uid == null) return;
-
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      await ref
-          .read(settingsRepositoryProvider)
-          .markMilestoneSeen(uid, weekNumber);
-    });
-    if (!ref.mounted) return;
-    state = result;
-  }
+  Future<void> markMilestoneSeen(int weekNumber) =>
+      _write((uid, repo) => repo.markMilestoneSeen(uid, weekNumber));
 }

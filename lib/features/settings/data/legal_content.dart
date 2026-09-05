@@ -26,7 +26,6 @@ class LegalDocument {
   final List<LegalSection> _es;
 
   String get lastUpdated => _lastUpdated;
-  String get contactEmail => _contactEmail;
 
   /// Sections for [locale], falling back to English.
   List<LegalSection> forLocale(Locale locale) {

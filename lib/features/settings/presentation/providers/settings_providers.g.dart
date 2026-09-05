@@ -158,7 +158,7 @@ final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$canAddReminderHash() => r'820c461f953340e005d7b7d00a3018d1bcc1cf96';
+String _$canAddReminderHash() => r'db58b759b124fe64354cd95fb054ab493fe793d1';
 
 /// Returns the current language setting.
 
@@ -204,7 +204,7 @@ final class CurrentLanguageProvider
   }
 }
 
-String _$currentLanguageHash() => r'854ca47145b583688de1a2e299f30cd121857145';
+String _$currentLanguageHash() => r'0467d326d8f65820a58cb8b6734a4a57ce49faca';
 
 /// Returns whether notifications are enabled.
 
@@ -251,7 +251,7 @@ final class NotificationsEnabledProvider
 }
 
 String _$notificationsEnabledHash() =>
-    r'0f146eba8b45a99e555aca8150fffa21ba14e206';
+    r'456dab014d961184b24cca81e8e3bdb3ee38fcf7';
 
 /// Returns whether smart reminders are enabled.
 
@@ -298,7 +298,7 @@ final class SmartRemindersEnabledProvider
 }
 
 String _$smartRemindersEnabledHash() =>
-    r'050d746175d90109766b1c3669195147f37ca948';
+    r'1d3a7d79780f928df47d54e764e19e563253c8c5';
 
 /// Returns whether analytics collection is enabled.
 
@@ -344,7 +344,7 @@ final class AnalyticsEnabledProvider
   }
 }
 
-String _$analyticsEnabledHash() => r'58815e5a71335f8b7ab349c5c3c00f9744526cf2';
+String _$analyticsEnabledHash() => r'b136c3eb860e46f7dee84318115ad619984da3ab';
 
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
@@ -413,7 +413,7 @@ final class SettingsNotifierProvider
         argument: null,
         retry: null,
         name: r'settingsProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -434,7 +434,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'c3f54358ef16aca1ad28b80fcffb5c6f272abe09';
+String _$settingsNotifierHash() => r'2473c13ea9d7e587d5aaf6ce587bd5771041bdb5';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

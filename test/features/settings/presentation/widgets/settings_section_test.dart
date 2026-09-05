@@ -3,35 +3,44 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
 
 void main() {
-  Widget createTestWidget({required Widget child}) {
-    return MaterialApp(home: Scaffold(body: child));
+  Future<void> pumpSection(
+    WidgetTester tester, {
+    String title = 'Section',
+    bool showTopDivider = false,
+    List<Widget> children = const [ListTile(title: Text('Item'))],
+  }) {
+    return tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SettingsSection(
+            title: title,
+            showTopDivider: showTopDivider,
+            children: children,
+          ),
+        ),
+      ),
+    );
   }
 
   group('SettingsSection', () {
     testWidgets('renders title', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Notifications',
-            children: [ListTile(title: Text('Item 1'))],
-          ),
-        ),
+      await pumpSection(
+        tester,
+        title: 'Notifications',
+        children: const [ListTile(title: Text('Item 1'))],
       );
 
       expect(find.text('NOTIFICATIONS'), findsOneWidget);
     });
 
     testWidgets('renders children', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Test Section',
-            children: [
-              ListTile(title: Text('First Item')),
-              ListTile(title: Text('Second Item')),
-            ],
-          ),
-        ),
+      await pumpSection(
+        tester,
+        title: 'Test Section',
+        children: const [
+          ListTile(title: Text('First Item')),
+          ListTile(title: Text('Second Item')),
+        ],
       );
 
       expect(find.text('First Item'), findsOneWidget);
@@ -39,42 +48,20 @@ void main() {
     });
 
     testWidgets('shows divider when showTopDivider is true', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Section',
-            showTopDivider: true,
-            children: [ListTile(title: Text('Item'))],
-          ),
-        ),
-      );
+      await pumpSection(tester, showTopDivider: true);
 
       expect(find.byType(Divider), findsWidgets);
     });
 
     testWidgets('does not show top divider by default', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Section',
-            children: [ListTile(title: Text('Item'))],
-          ),
-        ),
-      );
+      await pumpSection(tester);
 
       // Should not find any divider when showTopDivider is false (default)
       expect(find.byType(Divider), findsNothing);
     });
 
     testWidgets('applies correct title styling', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Section',
-            children: [ListTile(title: Text('Item'))],
-          ),
-        ),
-      );
+      await pumpSection(tester);
 
       // Title should be uppercased
       expect(find.text('SECTION'), findsOneWidget);
@@ -82,30 +69,24 @@ void main() {
     });
 
     testWidgets('renders with empty children list', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Empty Section',
-            children: <Widget>[],
-          ),
-        ),
+      await pumpSection(
+        tester,
+        title: 'Empty Section',
+        children: const <Widget>[],
       );
 
       expect(find.text('EMPTY SECTION'), findsOneWidget);
     });
 
     testWidgets('renders multiple items correctly', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const SettingsSection(
-            title: 'Multiple Items',
-            children: [
-              ListTile(title: Text('Item 1')),
-              ListTile(title: Text('Item 2')),
-              ListTile(title: Text('Item 3')),
-            ],
-          ),
-        ),
+      await pumpSection(
+        tester,
+        title: 'Multiple Items',
+        children: const [
+          ListTile(title: Text('Item 1')),
+          ListTile(title: Text('Item 2')),
+          ListTile(title: Text('Item 3')),
+        ],
       );
 
       expect(find.byType(ListTile), findsNWidgets(3));
