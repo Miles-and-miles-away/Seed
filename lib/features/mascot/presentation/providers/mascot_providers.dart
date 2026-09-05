@@ -172,7 +172,10 @@ class MascotNotifier extends _$MascotNotifier {
     Future<void> Function(MascotRepository repo, AppUserModel user) body,
   ) async {
     final user = ref.read(currentUserProvider).value;
-    if (user == null) return;
+    if (user == null) {
+      state = AsyncValue.error(Exception('Not logged in'), StackTrace.current);
+      return;
+    }
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(

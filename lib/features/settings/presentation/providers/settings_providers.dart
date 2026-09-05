@@ -96,7 +96,10 @@ class SettingsNotifier extends _$SettingsNotifier {
     Future<void> Function(String uid, SettingsRepository repo) op,
   ) async {
     final uid = _currentUserId;
-    if (uid == null) return;
+    if (uid == null) {
+      state = AsyncValue.error(Exception('Not logged in'), StackTrace.current);
+      return;
+    }
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(
@@ -152,7 +155,10 @@ class SettingsNotifier extends _$SettingsNotifier {
     String? label,
   }) async {
     final uid = _currentUserId;
-    if (uid == null) return null;
+    if (uid == null) {
+      state = AsyncValue.error(Exception('Not logged in'), StackTrace.current);
+      return null;
+    }
 
     state = const AsyncValue.loading();
     NotificationScheduleModel? schedule;

@@ -905,7 +905,7 @@ final class MascotNotifierProvider
   }
 }
 
-String _$mascotNotifierHash() => r'e695fd2b5661c7df8d8519908617ec251aa109be';
+String _$mascotNotifierHash() => r'b314ebb4e7d6be3d99dab09106dd2be9299f77d5';
 
 abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();
