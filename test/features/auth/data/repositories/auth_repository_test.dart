@@ -394,4 +394,26 @@ void main() {
       verify(() => authDs.updatePassword('newpw')).called(1);
     });
   });
+
+  group('display name length boundary', () {
+    test('keeps a provider display name of exactly the maximum', () async {
+      final exact = 'x' * AppConstants.maxDisplayNameLength;
+      final user = fakeFirebaseUser(emailVerified: false);
+      when(() => user.displayName).thenReturn(exact);
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.createUserWithEmailAndPassword('a@b.com', 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenAnswer((_) async {});
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      final result = await repository.createUserWithEmailAndPassword(
+        'a@b.com',
+        'pw',
+      );
+
+      expect(result.displayName, exact);
+    });
+  });
 }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -106,13 +105,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
-    });
-
-    testWidgets('displays the shared bottom navigation bar', (tester) async {
-      await tester.pumpWidget(buildScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(AppBottomNav), findsOneWidget);
+      expect(find.text('Log an Action'), findsOneWidget);
     });
 
     testWidgets('bottom nav tab leaves the action log for the shell route', (
@@ -163,13 +156,6 @@ void main() {
 
       expect(find.byType(TextField), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
-    });
-
-    testWidgets('displays category tabs', (tester) async {
-      await tester.pumpWidget(buildScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ActionCategoryTabs), findsOneWidget);
     });
 
     testWidgets('pre-selects filter from initialCategory', (tester) async {
@@ -233,13 +219,6 @@ void main() {
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
-    testWidgets('displays GridView for actions', (tester) async {
-      await tester.pumpWidget(buildScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(GridView), findsOneWidget);
     });
 
     testWidgets('displays empty state when no actions match filter', (
@@ -338,13 +317,6 @@ void main() {
 
       // Should display action cards for test data (some may be off-screen in GridView)
       expect(find.byType(ActionCard), findsAtLeast(2));
-    });
-
-    testWidgets('displays sort dropdown', (tester) async {
-      await tester.pumpWidget(buildScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ActionSortDropdown), findsOneWidget);
     });
 
     testWidgets('displays SDG filter chips', (tester) async {

@@ -107,4 +107,23 @@ void main() {
       expect(find.text('50% vs. last month'), findsOneWidget);
     });
   });
+
+  testWidgets('a zero change still shows the up arrow', (tester) async {
+    await tester.pumpWidget(
+      createTestWidget(
+        scaffold: true,
+        child: const PeriodComparisonBadge(
+          stats: Co2Stats(
+            totalGrams: 1000,
+            previousTotalGrams: 1000,
+            percentChange: 0,
+            period: TimePeriod.today,
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.arrow_upward), findsOneWidget);
+    expect(find.text('0% vs. yesterday'), findsOneWidget);
+  });
 }

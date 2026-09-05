@@ -23,40 +23,11 @@ void main() {
     });
 
     group('color', () {
-      test('recycling has a color', () {
-        expect(ActionCategory.recycling.color, isA<Color>());
-      });
+      test('every category has its own opaque color', () {
+        final colors = ActionCategory.values.map((c) => c.color).toList();
 
-      test('transport has a color', () {
-        expect(ActionCategory.transport.color, isA<Color>());
-      });
-
-      test('food has a color', () {
-        expect(ActionCategory.food.color, isA<Color>());
-      });
-
-      test('energy has a color', () {
-        expect(ActionCategory.energy.color, isA<Color>());
-      });
-
-      test('consumption has a color', () {
-        expect(ActionCategory.consumption.color, isA<Color>());
-      });
-
-      test('water has a color', () {
-        expect(ActionCategory.water.color, isA<Color>());
-      });
-
-      test('community has a color', () {
-        expect(ActionCategory.community.color, isA<Color>());
-      });
-
-      test('advocacy has a color', () {
-        expect(ActionCategory.advocacy.color, isA<Color>());
-      });
-
-      test('learning has a color', () {
-        expect(ActionCategory.learning.color, isA<Color>());
+        expect(colors.toSet(), hasLength(ActionCategory.values.length));
+        expect(colors.every((c) => c.a == 1), isTrue);
       });
     });
 

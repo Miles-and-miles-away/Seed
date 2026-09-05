@@ -1,37 +1,42 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
 
 void main() {
-  group('AppLogger', () {
-    // These are smoke tests: the logger short-circuits in release mode
-    // and delegates to debugPrint in debug. We assert it doesn't throw
-    // and that the public API is reachable.
+  // Tests run in debug mode, so the logger writes through debugPrint.
+  late List<String?> lines;
+  late DebugPrintCallback previous;
 
-    test('debug does not throw', () {
-      expect(() => appLogger.debug('hello'), returnsNormally);
-    });
+  setUp(() {
+    lines = [];
+    previous = debugPrint;
+    debugPrint = (message, {wrapWidth}) => lines.add(message);
+  });
 
-    test('info does not throw', () {
-      expect(() => appLogger.info('hello'), returnsNormally);
-    });
+  tearDown(() => debugPrint = previous);
 
-    test('warning does not throw', () {
-      expect(() => appLogger.warning('hello'), returnsNormally);
-    });
+  test('each level prefixes its tag', () {
+    appLogger
+      ..debug('d')
+      ..info('i')
+      ..warning('w');
 
-    test('error does not throw with optional error and stack', () {
-      expect(
-        () => appLogger.error(
-          'boom',
-          error: Exception('x'),
-          stackTrace: StackTrace.current,
-        ),
-        returnsNormally,
-      );
-    });
+    expect(lines, ['[DEBUG] d', '[INFO] i', '[WARN] w']);
+  });
 
-    test('error accepts a message without additional context', () {
-      expect(() => appLogger.error('boom'), returnsNormally);
-    });
+  test('error prints the message, the error and the stack as lines', () {
+    appLogger.error(
+      'boom',
+      error: Exception('x'),
+      stackTrace: StackTrace.fromString('trace-1'),
+    );
+
+    expect(lines, ['[ERROR] boom', '[ERROR] Exception: x', '[ERROR] trace-1']);
+  });
+
+  test('error without context prints only the message', () {
+    appLogger.error('boom');
+
+    expect(lines, ['[ERROR] boom']);
   });
 }

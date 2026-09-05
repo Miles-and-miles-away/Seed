@@ -84,12 +84,6 @@ void main() {
       expect(find.byIcon(Icons.delete_outline), findsWidgets);
     });
 
-    testWidgets('shows switch toggle', (tester) async {
-      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
-
-      expect(find.byType(Switch), findsOneWidget);
-    });
-
     testWidgets('switch reflects enabled state', (tester) async {
       await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
@@ -155,12 +149,6 @@ void main() {
       expect(tapCalled, isTrue);
     });
 
-    testWidgets('is wrapped in Dismissible', (tester) async {
-      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
-
-      expect(find.byType(Dismissible), findsOneWidget);
-    });
-
     testWidgets('dismissible key uses schedule id', (tester) async {
       await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
 
@@ -190,12 +178,6 @@ void main() {
 
       // 18:30 should display as 6:30 PM
       expect(find.text('6:30 PM'), findsOneWidget);
-    });
-
-    testWidgets('shows ListTile inside Dismissible', (tester) async {
-      await tester.pumpWidget(createTestWidget(schedule: enabledSchedule));
-
-      expect(find.byType(ListTile), findsOneWidget);
     });
   });
 }

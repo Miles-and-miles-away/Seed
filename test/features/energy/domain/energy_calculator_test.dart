@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/routine_usage_model.dart';
+import 'package:seed_app/features/energy/data/models/usage_preset_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 
@@ -357,6 +358,23 @@ void main() {
         const [RoutineUsage(behaviorId: 'shower', units: 1)],
       ], map);
       expect(result.block, EnergyVerdictBlock.differentGroup);
+    });
+  });
+
+  group('defaultPresetKwh', () {
+    test('multiplies kWh per unit by the default preset units', () {
+      final kettle = b('kettle', group: 'g', kwh: 0.1).copyWith(
+        presets: const [
+          UsagePreset(id: 'p', nameEn: '', nameJa: '', nameEs: '', units: 3),
+        ],
+        defaultPresetId: 'p',
+      );
+
+      expect(EnergyCalculator.defaultPresetKwh(kettle), closeTo(0.3, 1e-9));
+    });
+
+    test('falls back to a single unit without a default preset', () {
+      expect(EnergyCalculator.defaultPresetKwh(electric), 2);
     });
   });
 }

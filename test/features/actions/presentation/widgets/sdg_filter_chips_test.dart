@@ -95,7 +95,8 @@ void main() {
       await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
-      expect(find.byType(ListView), findsOneWidget);
+      final list = tester.widget<ListView>(find.byType(ListView));
+      expect(list.scrollDirection, Axis.horizontal);
     });
 
     testWidgets('displays All chip', (tester) async {

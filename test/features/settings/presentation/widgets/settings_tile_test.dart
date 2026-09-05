@@ -137,19 +137,6 @@ void main() {
   });
 
   group('SettingsSwitchTile', () {
-    testWidgets('renders switch', (tester) async {
-      await pumpTile(
-        tester,
-        SettingsSwitchTile(
-          title: 'Notifications',
-          value: false,
-          onChanged: (_) {},
-        ),
-      );
-
-      expect(find.byType(Switch), findsOneWidget);
-    });
-
     testWidgets('shows current value as on', (tester) async {
       await pumpTile(
         tester,

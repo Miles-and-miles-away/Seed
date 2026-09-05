@@ -32,7 +32,7 @@ void main() {
       ),
     ];
 
-    testWidgets('renders as ListView', (tester) async {
+    testWidgets('scrolls horizontally', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -44,7 +44,8 @@ void main() {
         ),
       );
 
-      expect(find.byType(ListView), findsOneWidget);
+      final list = tester.widget<ListView>(find.byType(ListView));
+      expect(list.scrollDirection, Axis.horizontal);
     });
 
     testWidgets('renders horizontally scrollable list', (tester) async {
@@ -168,20 +169,23 @@ void main() {
       expect(find.text('Climate Action'), findsOneWidget);
     });
 
-    testWidgets('renders with GestureDetector', (tester) async {
+    testWidgets('calls onTap when the card is tapped', (tester) async {
+      var tapped = false;
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(goal: testGoal, onTap: () {}),
+              child: SdgCard(goal: testGoal, onTap: () => tapped = true),
             ),
           ),
         ),
       );
 
-      expect(find.byType(GestureDetector), findsOneWidget);
+      await tester.tap(find.byType(SdgCard));
+
+      expect(tapped, isTrue);
     });
 
     testWidgets('calls onTap when tapped', (tester) async {
