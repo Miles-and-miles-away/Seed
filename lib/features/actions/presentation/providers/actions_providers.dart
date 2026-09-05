@@ -17,7 +17,8 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
-import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 export 'package:seed_app/features/actions/data/repositories/action_log_repository.dart'
     show ActionLogResult;
@@ -56,6 +57,7 @@ Future<ActionLogRepository> actionLogRepository(Ref ref) async {
     dailyChallengeTemplates: challengeData.daily,
     multiDayChallengeTemplates: challengeData.multiDay,
     mascotSpecies: speciesData,
+    clock: ref.watch(clockProvider),
   );
 }
 
@@ -195,7 +197,7 @@ Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
     return;
   }
 
-  final (start, end) = _dayBounds(DateTime.now());
+  final (start, end) = _dayBounds(ref.watch(clockProvider)());
 
   final repo = await ref.watch(actionLogRepositoryProvider.future);
   yield* repo.watchActionLogsForRange(userId, start, end);
@@ -380,8 +382,10 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action,
     ActionLogResult? result,
   ) async {
+    if (!ref.mounted) return;
+    final analytics = ref.read(analyticsServiceProvider);
     try {
-      await AnalyticsService.instance.logActionLogged(
+      await analytics.logActionLogged(
         actionId: action.id,
         category: action.category,
         points: action.points,
@@ -389,9 +393,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         sdgs: action.relatedSdgs,
       );
       if (result?.shouldShowMilestone ?? false) {
-        await AnalyticsService.instance.logStreakMilestone(
-          days: result!.newStreakDays,
-        );
+        await analytics.logStreakMilestone(days: result!.newStreakDays);
       }
     } on Exception catch (e) {
       appLogger.error('ActionLog: analytics failed', error: e);

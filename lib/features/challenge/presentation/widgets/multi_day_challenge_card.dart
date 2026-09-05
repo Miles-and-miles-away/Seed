@@ -10,6 +10,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 /// Compact card showing the active multi-day challenge on the
 /// home screen. Hidden when no challenge is active.
@@ -38,7 +39,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
     // A completion date before yesterday means the run is already
     // broken (the next log resets to day 1); show zero progress
     // instead of the stale day count.
-    final now = DateTime.now();
+    final now = ref.watch(clockProvider)();
     final lastDate = activeChallenge.lastCompletionDate;
     final isBroken =
         lastDate.isNotEmpty &&

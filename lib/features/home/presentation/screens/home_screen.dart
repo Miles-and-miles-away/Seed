@@ -14,6 +14,7 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 
@@ -168,7 +169,7 @@ class HomeScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has
                 // already broken the streak (the stored value is
                 // only corrected at the next log).
-                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: DateTime.now())}',
+                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: ref.watch(clockProvider)())}',
                 l10n.profileCurrentStreak,
                 Colors.orange,
               ),

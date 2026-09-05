@@ -8,6 +8,7 @@ import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
 import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/domain/services/challenge_selection_service.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'challenge_providers.g.dart';
 
@@ -21,13 +22,14 @@ Future<ChallengeTemplateData> challengeTemplateData(Ref ref) =>
 Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
   final user = ref.watch(currentUserProvider).value;
   if (user == null) return null;
+  final now = ref.watch(clockProvider)();
   final data = await ref.watch(challengeTemplateDataProvider.future);
 
   // Completing a challenge prepends its id to recentChallengeIds,
   // which feeds the deterministic selection below -- without this
   // branch the provider would name a different template for the rest
   // of the day. The completed id is the head of recentChallengeIds.
-  final todayKey = formatDateKey(DateTime.now());
+  final todayKey = formatDateKey(now);
   if (user.challengeCompletedDate == todayKey &&
       user.recentChallengeIds.isNotEmpty) {
     final completedId = user.recentChallengeIds.first;
@@ -38,7 +40,7 @@ Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
 
   return selectDailyChallenge(
     user.uid,
-    DateTime.now(),
+    now,
     user.recentChallengeIds,
     data.daily,
   );
@@ -49,7 +51,7 @@ Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
 bool isTodayChallengeCompleted(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
   if (user == null) return false;
-  final todayKey = formatDateKey(DateTime.now());
+  final todayKey = formatDateKey(ref.watch(clockProvider)());
   return user.challengeCompletedDate == todayKey;
 }
 
@@ -64,7 +66,7 @@ int challengeStreak(Ref ref) {
   if (user == null) return 0;
   final completed = user.challengeCompletedDate;
   if (completed.isEmpty) return 0;
-  final now = DateTime.now();
+  final now = ref.watch(clockProvider)();
   if (completed != formatDateKey(now) &&
       completed != formatDateKey(previousCalendarDay(now))) {
     return 0;
@@ -137,7 +139,9 @@ class MultiDayChallengeNotifier extends _$MultiDayChallengeNotifier {
         transaction.update(userRef, {
           AppConstants.fieldActiveMultiDayChallenge: {
             AppConstants.fieldTemplateId: templateId,
-            AppConstants.fieldStartDate: Timestamp.fromDate(DateTime.now()),
+            AppConstants.fieldStartDate: Timestamp.fromDate(
+              ref.read(clockProvider)(),
+            ),
             AppConstants.fieldCurrentDay: 0,
             AppConstants.fieldTargetDays: template.targetDays,
             AppConstants.fieldLastCompletionDate: '',
