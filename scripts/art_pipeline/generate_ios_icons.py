@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Paths
 SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
 SVG_SOURCE = PROJECT_ROOT / "assets" / "images" / "app_icon.svg"
 OUTPUT_DIR = PROJECT_ROOT / "ios" / "Runner" / "Assets.xcassets" / "AppIcon.appiconset"
 

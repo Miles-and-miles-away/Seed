@@ -30,6 +30,9 @@ abstract class AppConstants {
 
   // Egg & hatching system
   static const eggHatchingStreakRequired = 30;
+  // Evolution stage a mascot must reach before the next species
+  // becomes available to hatch.
+  static const speciesUnlockStage = 3;
   static const maxEvolutionLevel = 50;
   static const maxMascotsPerUser = 20;
   static const maxMascotNameLength = 20;

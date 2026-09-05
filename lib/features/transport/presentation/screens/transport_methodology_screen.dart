@@ -22,16 +22,10 @@ class TransportMethodologyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final modesAsync = ref.watch(transportModesProvider);
     final gridFactor = ref
         .watch(transportMetadataProvider)
         .value?['grid_factor_g_per_kwh'];
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
-    final linkColor = theme.colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.transportMethodologyTitle)),
@@ -41,18 +35,9 @@ class TransportMethodologyScreen extends ConsumerWidget {
             _methodologyMarkdown(l10n, modes, gridFactor),
           ),
           padding: const EdgeInsets.all(spacingXxl),
-          config: mdConfig.copy(
-            configs: [
-              LinkConfig(
-                style: TextStyle(
-                  color: linkColor,
-                  decoration: TextDecoration.underline,
-                  decorationColor: linkColor,
-                ),
-                onTap: (url) => openExternalUrl(context, url),
-              ),
-            ],
-          ),
+          config: markdownConfigFor(
+            context,
+          ).copy(configs: [externalLinkConfig(context)]),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => const Center(child: ErrorDisplay()),
@@ -70,17 +55,7 @@ class TransportMethodologyScreen extends ConsumerWidget {
     final buffer = StringBuffer()
       ..writeln(l10n.transportMethodologyBody(grid))
       ..writeln()
-      ..writeln('### ${l10n.transportScienceSourcesHeading}');
-    // Union of every shipped source, first name seen per URL wins.
-    final sources = <String, String>{};
-    for (final mode in modes) {
-      for (final source in mode.sources) {
-        sources.putIfAbsent(source.url, () => source.name);
-      }
-    }
-    for (final entry in sources.entries) {
-      buffer.writeln('- [${entry.value}](${entry.key})');
-    }
+      ..write(dedupedSourcesMarkdown(modes.expand((m) => m.sources), l10n));
     return buffer.toString();
   }
 }

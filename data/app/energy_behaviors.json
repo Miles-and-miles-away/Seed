@@ -1,0 +1,1162 @@
+{
+  "metadata": {
+    "version": 1,
+    "scope": "Operational energy only: the kWh a behaviour consumes at the point of use, multiplied by a carrier factor. Generation-basis electricity with no well-to-tank term, and combustion-only gas, matching the transport dataset scope. Excludes appliance manufacturing, transmission and distribution losses, and water supply and treatment energy. One global grid factor for every user; per-country factors were considered and not shipped (decision E1). Whether a T&D correction is warranted is an open question rather than a settled exclusion (Plan/PDR_GRID_REGIONALISATION.md section 4.6). Nearly every comparison here is within one carrier, where the grid factor cancels out entirely. NEVER sum a figure from this calculator with one from the food or transport calculators: food counts a lifecycle, transport counts tailpipe energy, and this counts the electricity or gas to run a home.",
+    "grid_factor_g_per_kwh": 458,
+    "grid_factor_source": "Ember, Global Electricity Review 2026 (2025 world average, CO2e). Shared with data/app/transport_modes.json and pinned by a cross-dataset test. Decision E1, 2026-08-02.",
+    "gas_factor_g_per_kwh": 182,
+    "gas_factor_source": "DEFRA/DESNZ 2026 natural gas, Scope 1 combustion, Gross CV (0.18231 rounded down). Independently corroborated by 資源エネルギー庁 at 179.5 g CO2/kWh, 1.4% apart. Decision E2.",
+    "verdict_min_percent": 20,
+    "unit_note": "kwh_per_unit is per stated unit: minute, hour, use or day. Values are stored unrounded and rounded only for display.",
+    "awards_note": "This calculator awards no points and logs no CO2 savings. Energy is a teaching tool, not a decision tool that generates actions: a shorter shower has no verifiable counterfactual, and the action library already covers the same behaviours. Decision 8.18, permanent, not deferred.",
+    "research_doc": "Plan/RESEARCH_ENERGY.md",
+    "decisions_doc": "Plan/PDR_ENERGY_CALCULATOR.md"
+  },
+  "behaviors": [
+    {
+      "id": "shower_electric",
+      "comparable_group": "hot_water",
+      "carrier": "electricity",
+      "unit": "minute",
+      "kwh_per_unit": 0.248111,
+      "name_en": "Shower (electric hot water)",
+      "name_ja": "シャワー（電気給湯）",
+      "name_es": "Ducha (agua caliente eléctrica)",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "quick_5min",
+          "name_en": "A quick shower (5 min)",
+          "name_ja": "さっとシャワー（5分）",
+          "name_es": "Ducha rápida (5 min)",
+          "units": 5
+        },
+        {
+          "id": "typical_10min",
+          "name_en": "A typical shower (10 min)",
+          "name_ja": "ふつうのシャワー（10分）",
+          "name_es": "Ducha normal (10 min)",
+          "units": 10
+        },
+        {
+          "id": "long_20min",
+          "name_en": "A long shower (20 min)",
+          "name_ja": "長めのシャワー（20分）",
+          "name_es": "Ducha larga (20 min)",
+          "units": 20
+        }
+      ],
+      "default_preset_id": "quick_5min",
+      "calculation_notes": "7.844784 L/min (mean of three current showerheads, decision E4) x 0.03162756 kWh/L (heating 1 L by 27.2 K: delivered 40 C from a 12.8 C annual-mean mains inlet, SAP 10.1) = 0.248111 kWh/min thermal, shipped directly because resistance electric water heating is ~100% efficient. RESEARCH_ENERGY section 3.1.",
+      "sources": [
+        {
+          "name": "US EPA WaterSense (showerheads)",
+          "url": "https://www.epa.gov/watersense/showerheads",
+          "quote": "Did you know that standard showerheads use 2.5 gallons of water per minute (gpm)? Water-saving showerheads that earn the WaterSense label must demonstrate that they use no more than 2.0 gpm.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "TOTO CSR (shower water use)",
+          "url": "https://jp.toto.com/company/csr/csractivity/usefulinformation/use_shower/",
+          "quote": "現在、TOTOが販売しているコンフォートウェーブシャワーの水量は1分間に6.5Ｌです",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK SAP 10.1 Appendix J and Table J1",
+          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
+          "quote": "Table J1: Cold water temperatures (°C)",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "shower_heatpump",
+      "comparable_group": "hot_water",
+      "carrier": "electricity",
+      "unit": "minute",
+      "kwh_per_unit": 0.0577,
+      "name_en": "Shower (heat-pump hot water)",
+      "name_ja": "シャワー（ヒートポンプ給湯）",
+      "name_es": "Ducha (agua caliente con bomba de calor)",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "quick_5min",
+          "name_en": "A quick shower (5 min)",
+          "name_ja": "さっとシャワー（5分）",
+          "name_es": "Ducha rápida (5 min)",
+          "units": 5
+        },
+        {
+          "id": "typical_10min",
+          "name_en": "A typical shower (10 min)",
+          "name_ja": "ふつうのシャワー（10分）",
+          "name_es": "Ducha normal (10 min)",
+          "units": 10
+        },
+        {
+          "id": "long_20min",
+          "name_en": "A long shower (20 min)",
+          "name_ja": "長めのシャワー（20分）",
+          "name_es": "Ducha larga (20 min)",
+          "units": 20
+        }
+      ],
+      "default_preset_id": "quick_5min",
+      "calculation_notes": "The 0.248111 kWh/min thermal load divided by a heat-pump COP of 4.3, the mean of the 3.5 initial and 5.1 recent Eco Cute models. Ships as its own entry rather than averaged with resistance (decision E3): they are two appliances, and an Eco Cute owner knows they own one. RESEARCH_ENERGY section 3.1.",
+      "sources": [
+        {
+          "name": "US EPA WaterSense (showerheads)",
+          "url": "https://www.epa.gov/watersense/showerheads",
+          "quote": "Did you know that standard showerheads use 2.5 gallons of water per minute (gpm)? Water-saving showerheads that earn the WaterSense label must demonstrate that they use no more than 2.0 gpm.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "TOTO CSR (shower water use)",
+          "url": "https://jp.toto.com/company/csr/csractivity/usefulinformation/use_shower/",
+          "quote": "現在、TOTOが販売しているコンフォートウェーブシャワーの水量は1分間に6.5Ｌです",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK SAP 10.1 Appendix J and Table J1",
+          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
+          "quote": "Table J1: Cold water temperatures (°C)",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Heat Pump & Thermal Storage Technology Center of Japan",
+          "url": "https://www.hptcj.or.jp/e/learning/tabid/370/Default.aspx",
+          "quote": "Eco Cute has improved its efficiency to COP = 5.1 in the recent model",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "shower_gas",
+      "comparable_group": "hot_water",
+      "carrier": "gas",
+      "unit": "minute",
+      "kwh_per_unit": 0.328036,
+      "name_en": "Shower (gas hot water)",
+      "name_ja": "シャワー（ガス給湯）",
+      "name_es": "Ducha (agua caliente de gas)",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "quick_5min",
+          "name_en": "A quick shower (5 min)",
+          "name_ja": "さっとシャワー（5分）",
+          "name_es": "Ducha rápida (5 min)",
+          "units": 5
+        },
+        {
+          "id": "typical_10min",
+          "name_en": "A typical shower (10 min)",
+          "name_ja": "ふつうのシャワー（10分）",
+          "name_es": "Ducha normal (10 min)",
+          "units": 10
+        },
+        {
+          "id": "long_20min",
+          "name_en": "A long shower (20 min)",
+          "name_ja": "長めのシャワー（20分）",
+          "name_es": "Ducha larga (20 min)",
+          "units": 20
+        }
+      ],
+      "default_preset_id": "quick_5min",
+      "calculation_notes": "The 0.248111 kWh/min thermal load divided by a gas hot-water efficiency of 0.756353. That efficiency is BRE STP09/B07 test A (instantaneous condensing combi, keep-hot off) at 83.8% net, restated on the Gross CV basis the gas factor uses: 0.838 x (0.18231 / 0.20199). Pairing a net-CV efficiency with a gross-CV factor understated gas by 12.6%. RESEARCH_ENERGY section 3.1.",
+      "sources": [
+        {
+          "name": "US EPA WaterSense (showerheads)",
+          "url": "https://www.epa.gov/watersense/showerheads",
+          "quote": "Did you know that standard showerheads use 2.5 gallons of water per minute (gpm)? Water-saving showerheads that earn the WaterSense label must demonstrate that they use no more than 2.0 gpm.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "TOTO CSR (shower water use)",
+          "url": "https://jp.toto.com/company/csr/csractivity/usefulinformation/use_shower/",
+          "quote": "現在、TOTOが販売しているコンフォートウェーブシャワーの水量は1分間に6.5Ｌです",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK SAP 10.1 Appendix J and Table J1",
+          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
+          "quote": "Table J1: Cold water temperatures (°C)",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "BRE Technical Paper STP09/B07 (GASTEC-at-CRE tests for DECC)",
+          "url": "https://bregroup.com/documents/d/bre-group/stp09-b07_dhw_boiler_tests_2009",
+          "quote": "ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "bath_electric",
+      "comparable_group": "hot_water",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 5.69296,
+      "name_en": "Bath (electric hot water)",
+      "name_ja": "入浴（電気給湯）",
+      "name_es": "Baño (agua caliente eléctrica)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "full_180l",
+          "name_en": "A full bath (~180 L)",
+          "name_ja": "ふつうの湯量（約180L）",
+          "name_es": "Baño normal (~180 L)",
+          "units": 1.0
+        },
+        {
+          "id": "shallow_150l",
+          "name_en": "A shallow bath (~150 L)",
+          "name_ja": "浅めの湯量（約150L）",
+          "name_es": "Baño poco profundo (~150 L)",
+          "units": 0.83
+        }
+      ],
+      "default_preset_id": "full_180l",
+      "calculation_notes": "180 L x 0.03162756 kWh/L = 5.692960 kWh. The largest electric single-use figure in the dataset; bath_gas is larger still. RESEARCH_ENERGY section 3.1.",
+      "sources": [
+        {
+          "name": "東京都水道局",
+          "url": "https://www.waterworks.metro.tokyo.lg.jp/kurashi/shiyou/jouzu",
+          "quote": "残り湯は、使用状態によって異なりますが、一般家庭では、約180リットルの量があります",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK SAP 10.1 Appendix J and Table J1",
+          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
+          "quote": "Table J1: Cold water temperatures (°C)",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "bath_gas",
+      "comparable_group": "hot_water",
+      "carrier": "gas",
+      "unit": "use",
+      "kwh_per_unit": 7.526854,
+      "name_en": "Bath (gas hot water)",
+      "name_ja": "入浴（ガス給湯）",
+      "name_es": "Baño (agua caliente de gas)",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "full_180l",
+          "name_en": "A full bath (~180 L)",
+          "name_ja": "ふつうの湯量（約180L）",
+          "name_es": "Baño normal (~180 L)",
+          "units": 1.0
+        },
+        {
+          "id": "shallow_150l",
+          "name_en": "A shallow bath (~150 L)",
+          "name_ja": "浅めの湯量（約150L）",
+          "name_es": "Baño poco profundo (~150 L)",
+          "units": 0.83
+        }
+      ],
+      "default_preset_id": "full_180l",
+      "calculation_notes": "5.692960 kWh thermal / 0.756353 gross-CV gas hot-water efficiency. RESEARCH_ENERGY section 3.1.",
+      "sources": [
+        {
+          "name": "東京都水道局",
+          "url": "https://www.waterworks.metro.tokyo.lg.jp/kurashi/shiyou/jouzu",
+          "quote": "残り湯は、使用状態によって異なりますが、一般家庭では、約180リットルの量があります",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK SAP 10.1 Appendix J and Table J1",
+          "url": "https://www.cibse.org/media/jmomfdzb/sap-10-1-specification.pdf",
+          "quote": "Table J1: Cold water temperatures (°C)",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "BRE Technical Paper STP09/B07 (GASTEC-at-CRE tests for DECC)",
+          "url": "https://bregroup.com/documents/d/bre-group/stp09-b07_dhw_boiler_tests_2009",
+          "quote": "ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "dishwasher_eco",
+      "comparable_group": "dishes",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.85,
+      "name_en": "Dishwasher, eco programme",
+      "name_ja": "食洗機（エコ）",
+      "name_es": "Lavavajillas, programa eco",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_cycle",
+          "name_en": "1 cycle (14 place settings)",
+          "name_ja": "1回（食器14人分）",
+          "name_es": "1 ciclo (14 servicios)",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_cycle",
+      "calculation_notes": "85 kWh per 100 eco cycles = 0.85 kWh/cycle, 14 place settings. Eco is ~24% below the normal programme and takes 3h15, so both ship as a real behaviour choice. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch SMS67MW00G dishwasher, 14 place settings",
+          "url": "https://media3.bosch-home.com/Documents/specsheet/en-GB/SMS67MW00G.pdf",
+          "quote": "Energy Consumption for 100 cycles Eco Programme: 85 kWh",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "dishwasher_normal",
+      "comparable_group": "dishes",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 1.12,
+      "name_en": "Dishwasher, normal programme",
+      "name_ja": "食洗機（標準）",
+      "name_es": "Lavavajillas, programa normal",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_cycle",
+          "name_en": "1 cycle (14 place settings)",
+          "name_ja": "1回（食器14人分）",
+          "name_es": "1 ciclo (14 servicios)",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_cycle",
+      "calculation_notes": "Which? 2026 on the main wash, same 14-place-setting basis as the eco figure. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Which? UK (dishwasher main wash, 03 Jul 2026)",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "around 1.12kWh of energy per wash, which costs roughly 29.2p",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "wash_cold",
+      "comparable_group": "laundry_wash",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.35,
+      "name_en": "Washing machine, cold (20 C)",
+      "name_ja": "洗濯機（20℃）",
+      "name_es": "Lavado en frío (20 °C)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Bosch WNA14400GR Cottons 20 C at 9.0 kg, EN50229. Three temperatures from one machine, one standard and one document (decision E6). RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch WNA14400GR, 9 kg, EN50229 programme table",
+          "url": "https://media3.bosch-home.com/Documents/9001533128_A.pdf",
+          "quote": "Βαμβακερά (Cottons) 20 °C | 9,0 | 0,350 | 89,0 | 3:02",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "wash_warm",
+      "comparable_group": "laundry_wash",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 1.3,
+      "name_en": "Washing machine, warm (40 C)",
+      "name_ja": "洗濯機（40℃）",
+      "name_es": "Lavado en templado (40 °C)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Bosch WNA14400GR Cottons 40 C at 9.0 kg, EN50229. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch WNA14400GR, 9 kg, EN50229 programme table",
+          "url": "https://media3.bosch-home.com/Documents/9001533128_A.pdf",
+          "quote": "Βαμβακερά (Cottons) 40 °C | 9,0 | 1,300 | 89,0 | 3:48",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "wash_hot",
+      "comparable_group": "laundry_wash",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 1.7,
+      "name_en": "Washing machine, hot (60 C)",
+      "name_ja": "洗濯機（60℃）",
+      "name_es": "Lavado en caliente (60 °C)",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Bosch WNA14400GR Cottons 60 C at 9.0 kg, EN50229. This is a user-selected 60 C programme; the EU-label \"Cottons colour 60 C\" programme uses 0.900 kWh and does not actually reach 60 C, so a mandated sublabel saying \"about half that\" is 0.9/1.7. A \"60 C\" wash is 0.90-1.70 kWh depending on which 60 C the machine means. Confidence deviates from section 4 on purpose: that table says High, while section 3.2 splits it as High (provenance) / Medium (representativeness), and a user meets the representativeness half. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch WNA14400GR, 9 kg, EN50229 programme table",
+          "url": "https://media3.bosch-home.com/Documents/9001533128_A.pdf",
+          "quote": "Βαμβακερά (Cottons) 60 °C | 9,0 | 1,700 | 89,0 | 3:03",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "dryer_vented",
+      "comparable_group": "laundry_dry",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 4.5,
+      "name_en": "Tumble dryer (conventional)",
+      "name_ja": "乾燥機（ヒーター式）",
+      "name_es": "Secadora (por resistencia)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Rounded down from the verified 4.63 kWh full load, because that is one energy-class-B model and independent figures on a stated 7 kg basis give 3.5-4.5. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch WTM8327SZA condenser dryer, 8 kg",
+          "url": "https://media3.bosch-home.com/Documents/specsheet/en-ZA/WTM8327SZA.pdf",
+          "quote": "energy consumption of the standard cotton programme at full load 4.63 kWh and energy consumption of the standard cotton programme at half load 2.61 kWh",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "dryer_heatpump",
+      "comparable_group": "laundry_dry",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 2.05,
+      "name_en": "Tumble dryer (heat pump)",
+      "name_ja": "乾燥機（ヒートポンプ式）",
+      "name_es": "Secadora (bomba de calor)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Ships the verified figure exactly. Dryer type is a picker choice, not a footnote: the two differ by 2.2x. RESEARCH_ENERGY section 3.2.",
+      "sources": [
+        {
+          "name": "Bosch WQG24509GB heat-pump dryer, 9 kg",
+          "url": "https://media3.bosch-home.com/Documents/specsheet/en-GB/WQG24509GB.pdf",
+          "quote": "Energy consumption electric dryer, full load - NEW (2010/30/EC): 2.05 kWh",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "line_dry",
+      "comparable_group": "laundry_dry",
+      "carrier": "none",
+      "unit": "use",
+      "kwh_per_unit": 0,
+      "name_en": "Line drying",
+      "name_ja": "自然乾燥",
+      "name_es": "Secado al aire",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_load",
+          "name_en": "1 load",
+          "name_ja": "1回",
+          "name_es": "1 carga",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_load",
+      "calculation_notes": "Zero by definition, and the only entry with carrier \"none\". Caveat that must ship with it: outdoors or on a rack is free, but running a dehumidifier to dry indoors is not, and typically adds 1-4 kWh at 300-700 W. RESEARCH_ENERGY section 3.2.",
+      "sources": []
+    },
+    {
+      "id": "aircon_heating",
+      "comparable_group": "space_heat",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.241006,
+      "name_en": "Air conditioner, heating (20 C)",
+      "name_ja": "エアコン暖房（20℃）",
+      "name_es": "Aire acondicionado, calefacción (20 °C)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "hour_20c",
+          "name_en": "1 hour at 20 C",
+          "name_ja": "20℃で1時間",
+          "name_es": "1 hora a 20 °C",
+          "units": 1.0
+        },
+        {
+          "id": "hour_21c",
+          "name_en": "1 hour at 21 C",
+          "name_ja": "21℃で1時間",
+          "name_es": "1 hora a 21 °C",
+          "units": 1.1448
+        },
+        {
+          "id": "hour_22c",
+          "name_en": "1 hour at 22 C",
+          "name_ja": "22℃で1時間",
+          "name_es": "1 hora a 22 °C",
+          "units": 1.2896
+        }
+      ],
+      "default_preset_id": "hour_20c",
+      "calculation_notes": "METI publishes 40.73 kWh/year saved by shortening heating one hour a day at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day 暖房期間 that is 0.241006 kWh/h. MEASURED, not rated: the Panasonic CS-227VB JIS rating is 455 W, about 1.9x higher, because it is measured at full load. Do not \"correct\" this to the catalog figure. Setpoint presets use METI absolute deltas (+0.034898 kWh/h per 1 C) and are capped at +2 C because neither source supports extrapolating further. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (空調)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+          "quote": "暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "portable_electric_heater",
+      "comparable_group": "space_heat",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 1.2,
+      "name_en": "Portable electric heater",
+      "name_ja": "電気ストーブ／セラミックファンヒーター",
+      "name_es": "Calefactor eléctrico portátil",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4
+        }
+      ],
+      "default_preset_id": "evening_4h",
+      "calculation_notes": "JP ceramic fan heaters run 600-1200 W in three steps; ships the high setting. A plug-in electric resistance heater specifically, never a gas-fed radiator: \"space heater\" is banned as a term because in British English it reads as the whole category of space heating. Nameplate on high, so thermostatic cycling reduces the true average once the room is warm. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "Office of Congressional Workplace Rights (US)",
+          "url": "https://www.ocwr.gov/publications/fast-facts/portable-space-heaters/",
+          "quote": "Average electric space heaters range from 400-1,500 watts.",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "kotatsu",
+      "comparable_group": "space_heat",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.15,
+      "name_en": "Kotatsu (heated table)",
+      "name_ja": "こたつ",
+      "name_es": "Kotatsu (mesa con calefactor)",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4
+        }
+      ],
+      "default_preset_id": "evening_4h",
+      "calculation_notes": "The makers publish 標準（平均）消費電力量 in Wh, an already thermostat-averaged per-hour figure that is entirely separate from the 消費電力 nameplate: a 510 W nameplate unit measures ~170 Wh/h, a 3x gap. 0.15 sits inside the 強 cluster of 145-180 Wh/h across four manufacturer-grade sources. Never the 300-600 W nameplate. Heated carpets (電気カーペット) are NOT this entry: a carpet was closed as a deliberate non-entry at ~0.33 kWh/h on 中, over twice this figure, so logging one here would understate it by about 2.2x (RESEARCH_ENERGY_ARCHIVE section 1). RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "メトロ電気工業 (kotatsu 標準平均消費電力量 test method)",
+          "url": "https://www.kotatsu.metro-co.com/our-kotatsu/",
+          "quote": "こたつ：電気代及び標準平均消費電力量は、室温20℃で厚さ約５cmの綿のふとんを使用し、人が入らない状態で５時間運転した時の１時間あたりの平均値です。",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "electric_blanket",
+      "comparable_group": "space_heat",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.025,
+      "name_en": "Electric blanket",
+      "name_ja": "電気毛布",
+      "name_es": "Manta eléctrica",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4
+        }
+      ],
+      "default_preset_id": "evening_4h",
+      "calculation_notes": "Per-setting measured figures for a single-size Yamazen blanket. Another cycling appliance whose nameplate is never the shipped value. Ships the 適温 22 Wh/h setting rounded up, not the 弱 13 Wh/h the quote also lists. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "enechange (Yamazen electric blanket per-setting measurements)",
+          "url": "https://enechange.jp/articles/cost-electric-blanket",
+          "quote": "強（約53度）約35Wh、適温（約33度）約22Wh、弱（約21度）約13Wh",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "aircon_cooling",
+      "comparable_group": "space_cool",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.167679,
+      "name_en": "Air conditioner, cooling (28 C)",
+      "name_ja": "エアコン冷房（28℃）",
+      "name_es": "Aire acondicionado, refrigeración (28 °C)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "hour_28c",
+          "name_en": "1 hour at 28 C",
+          "name_ja": "28℃で1時間",
+          "name_es": "1 hora a 28 °C",
+          "units": 1.0
+        },
+        {
+          "id": "hour_27c",
+          "name_en": "1 hour at 27 C",
+          "name_ja": "27℃で1時間",
+          "name_es": "1 hora a 27 °C",
+          "units": 1.17891
+        },
+        {
+          "id": "hour_26c",
+          "name_en": "1 hour at 26 C",
+          "name_ja": "26℃で1時間",
+          "name_es": "1 hora a 26 °C",
+          "units": 1.35783
+        },
+        {
+          "id": "evening_26c",
+          "name_en": "An evening (4 h at 26 C)",
+          "name_ja": "夜に26℃で4時間",
+          "name_es": "Una tarde (4 h a 26 °C)",
+          "units": 5.43132
+        }
+      ],
+      "default_preset_id": "hour_28c",
+      "calculation_notes": "METI publishes 18.78 kWh/year saved by shortening cooling one hour a day at a 28 C setpoint, sourced to 省エネルギーセンター実測値; over the 112-day 冷房期間 that is 0.167679 kWh/h. MEASURED, not rated: the Panasonic JIS rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute deltas (+0.030 kWh/h per 1 C), capped at -2 C. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (空調)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+          "quote": "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "fan",
+      "comparable_group": "space_cool",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.022,
+      "name_en": "Electric fan",
+      "name_ja": "扇風機",
+      "name_es": "Ventilador",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1.0
+        },
+        {
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4.0
+        }
+      ],
+      "default_preset_id": "one_hour",
+      "calculation_notes": "Panasonic F-CV339 DC living fan at its highest notch (22 W), the same basis as the use_fan_instead_of_ac action so the calculator and the action library cannot disagree. A fan at a fixed notch draws constant power, so the nameplate-vs-cycling rule does not bind; the highest notch is the conservative direction for the fan-vs-aircon lesson. RESEARCH_ENERGY section 3.3.",
+      "sources": [
+        {
+          "name": "Panasonic F-CV339 仕様",
+          "url": "https://panasonic.jp/fan/products/F-CV339/spec.html",
+          "quote": "消費電力 [ノッチ 8(強)] 50/60Hz:22W",
+          "accessed": "2026-08-30"
+        }
+      ]
+    },
+    {
+      "id": "kettle",
+      "comparable_group": "boil",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.116278,
+      "name_en": "Electric kettle, 1 L",
+      "name_ja": "電気ケトル（1L）",
+      "name_es": "Hervidor eléctrico, 1 L",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "one_litre",
+          "name_en": "1 litre",
+          "name_ja": "1リットル",
+          "name_es": "1 litro",
+          "units": 1
+        },
+        {
+          "id": "one_mug",
+          "name_en": "A mug (0.3 L)",
+          "name_ja": "マグカップ1杯（0.3L）",
+          "name_es": "Una taza (0,3 L)",
+          "units": 0.3
+        }
+      ],
+      "default_preset_id": "one_litre",
+      "calculation_notes": "Physics floor for boiling 1 L from 15 C is 0.09883611 kWh (1 kg x 4.186 kJ/kg-K x 85 K); divided by a kettle efficiency of 0.85. Metered cross-check in the same paper: 1.50 L from 18 C consumed 0.17 kWh = 0.113 kWh/L. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "Murray, Liao, Stankovic & Stankovic (Strathclyde), EEDAL 2015",
+          "url": "https://strathprints.strath.ac.uk/55059/1/Murray_etal_EEDAL2015_How_make_efficient_use_kettles_understanding_usage_patterns.pdf",
+          "quote": "most kettles are around 80-90% efficient (efficiency is decreased due to heat dissipation and transference to the body of the kettle)",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "ih_hob",
+      "comparable_group": "boil",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.116598,
+      "name_en": "Induction hob, boil 1 L",
+      "name_ja": "IHクッキングヒーター（1L沸かす）",
+      "name_es": "Placa de inducción, hervir 1 L",
+      "confidence": "medium_high",
+      "presets": [
+        {
+          "id": "one_litre",
+          "name_en": "1 litre",
+          "name_ja": "1リットル",
+          "name_es": "1 litro",
+          "units": 1
+        },
+        {
+          "id": "one_mug",
+          "name_en": "A mug (0.3 L)",
+          "name_ja": "マグカップ1杯（0.3L）",
+          "name_es": "Una taza (0,3 L)",
+          "units": 0.3
+        }
+      ],
+      "default_preset_id": "one_litre",
+      "calculation_notes": "The same 0.09883611 kWh floor divided by 0.847667, the mean of three induction cooktops measured to ASTM F1521. Within 0.3% of the kettle, which is the point: this is a tie, and the app says so. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "Frontier Energy, Residential Cooktop Performance and Energy Comparison Study, Report #501318071-R0 (July 2019)",
+          "url": "https://cao-94612.s3.amazonaws.com/documents/Induction-Range-Final-Report-July-2019.pdf",
+          "quote": "Three induction cooktops measured 85.20%, 86.10%, 83.00%",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "gas_hob",
+      "comparable_group": "boil",
+      "carrier": "gas",
+      "unit": "use",
+      "kwh_per_unit": 0.282389,
+      "name_en": "Gas hob, boil 1 L",
+      "name_ja": "ガスコンロ（1L沸かす）",
+      "name_es": "Placa de gas, hervir 1 L",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_litre",
+          "name_en": "1 litre",
+          "name_ja": "1リットル",
+          "name_es": "1 litro",
+          "units": 1
+        },
+        {
+          "id": "one_mug",
+          "name_en": "A mug (0.3 L)",
+          "name_ja": "マグカップ1杯（0.3L）",
+          "name_es": "Una taza (0,3 L)",
+          "units": 0.3
+        }
+      ],
+      "default_preset_id": "one_litre",
+      "calculation_notes": "The same 0.09883611 kWh floor divided by 0.35. That efficiency is a physical spread, not measurement noise: 31.9% for an oversized US burner in an ASTM lab test, 38-42% for right-sized home measurements with a lid. 0.35 is the chosen midpoint. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "Frontier Energy, Residential Cooktop Performance and Energy Comparison Study, Report #501318071-R0 (July 2019)",
+          "url": "https://cao-94612.s3.amazonaws.com/documents/Induction-Range-Final-Report-July-2019.pdf",
+          "quote": "The efficiency of the gas burner for the 12 pounds of water heat-up test was just 32%",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "oven",
+      "comparable_group": "cook",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.82,
+      "name_en": "Electric oven, 1 bake",
+      "name_ja": "電気オーブン（1回）",
+      "name_es": "Horno eléctrico, 1 horneado",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_bake",
+          "name_en": "1 bake",
+          "name_ja": "1回焼く",
+          "name_es": "1 horneado",
+          "units": 1
+        },
+        {
+          "id": "two_bakes",
+          "name_en": "2 bakes",
+          "name_ja": "2回焼く",
+          "name_es": "2 horneados",
+          "units": 2
+        }
+      ],
+      "default_preset_id": "one_bake",
+      "calculation_notes": "PER BAKE CYCLE, not per hour, and that is structural rather than a gap: DOE never adopted an active-mode oven standard and ENERGY STAR does not certify ovens, both citing use-pattern variability, so no per-hour figure exists anywhere. Do not \"fix\" it to an hourly unit. From the EU formula at 60-70 L cavities (0.802-0.844), shipping the 0.82 midpoint. Lowest confidence of the cooking entries: it is an EU-to-US proxy. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "Commission Regulation (EU) No 66/2014, Annex II (ecodesign requirements for domestic ovens, hobs and range hoods)",
+          "url": "https://webgate.ec.europa.eu/reqs2/public/v2/requirement/auxi/eu/32014R0066_energcook_annex_2.pdf",
+          "quote": "SECelectric cavity = 0,0042 × V + 0,55 (in kWh)",
+          "accessed": "2026-08-29"
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "comparable_group": "cook",
+      "carrier": "electricity",
+      "unit": "minute",
+      "kwh_per_unit": 0.019,
+      "name_en": "Microwave",
+      "name_ja": "電子レンジ",
+      "name_es": "Microondas",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "two_min",
+          "name_en": "2 minutes",
+          "name_ja": "2分",
+          "name_es": "2 minutos",
+          "units": 2
+        },
+        {
+          "id": "ten_min",
+          "name_en": "10 minutes",
+          "name_ja": "10分",
+          "name_es": "10 minutos",
+          "units": 10
+        }
+      ],
+      "default_preset_id": "two_min",
+      "calculation_notes": "The advertised wattage of a microwave is OUTPUT, not draw. A 700 W-output unit at 60% conversion efficiency draws 1167 W, so 10 minutes is 0.1944 kWh and one minute is 0.019. The 50-64% efficiency range behind this is aggregator-sourced rather than a primary, which is why this entry carries no citation and is the weakest term in any oven-vs-microwave comparison. RESEARCH_ENERGY section 3.4.",
+      "sources": []
+    },
+    {
+      "id": "rice_cooker",
+      "comparable_group": "cook",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.16,
+      "name_en": "Rice cooker, one cycle",
+      "name_ja": "炊飯器（1回炊飯）",
+      "name_es": "Arrocera, un ciclo",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_cycle",
+          "name_en": "1 cycle (5.5 go)",
+          "name_ja": "1回（5.5合）",
+          "name_es": "1 ciclo (5,5 go)",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_cycle",
+      "calculation_notes": "158 Wh per cook cycle for an IH 5.5-8合 machine, sourced to 省エネルギーセンター実測値 and corroborated by Tiger at 163 Wh, two independent JP sources within 3%. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "一般財団法人 家電製品協会 (省エネルギーセンター実測値)",
+          "url": "https://seihinjyoho.go.jp/frontguide/pdf/guide_rice_cooker_2022.pdf?update=22113",
+          "quote": "炊飯ジャー：IH5.5合以上8合未満平均消費電力量（炊飯時158Wh/回 保温時16.5Wh/h）",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "rice_cook_keepwarm",
+      "comparable_group": "cook",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.226,
+      "name_en": "Rice cooker, cycle + 4 h keeping warm",
+      "name_ja": "炊飯器（1回炊飯＋4時間保温）",
+      "name_es": "Arrocera, ciclo + 4 h manteniendo caliente",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "cycle_plus_four",
+          "name_en": "1 cycle + 4 h keeping warm",
+          "name_ja": "1回炊飯＋4時間保温",
+          "name_es": "1 ciclo + 4 h manteniendo caliente",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "cycle_plus_four",
+      "calculation_notes": "0.16 kWh for the cycle (the rice_cooker row: 158 Wh measured, 163 Wh corroborated) plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, all on the same measured basis. Ships as one figure because keeping warm never happens without a cycle first (owner call 2026-09-02): held alone it ranked below the cycle and read as though holding rice were the cheaper option, which is not a choice anyone has. The 4 hours is the guideline the source states -- past about 4 hours reheating in a microwave uses less than holding, and past 7-8 hours cooking twice does. RESEARCH_ENERGY section 3.4.",
+      "sources": [
+        {
+          "name": "一般財団法人 家電製品協会 (省エネルギーセンター実測値)",
+          "url": "https://seihinjyoho.go.jp/frontguide/pdf/guide_rice_cooker_2022.pdf?update=22113",
+          "quote": "炊飯ジャー：IH5.5合以上8合未満平均消費電力量（炊飯時158Wh/回 保温時16.5Wh/h）",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "led_bulb",
+      "comparable_group": "lighting",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.0085,
+      "name_en": "LED bulb (800 lm)",
+      "name_ja": "LED電球（800lm）",
+      "name_es": "Bombilla LED (800 lm)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1
+        },
+        {
+          "id": "evening_5h",
+          "name_en": "An evening (5 h)",
+          "name_ja": "夜に5時間",
+          "name_es": "Una tarde (5 h)",
+          "units": 5
+        }
+      ],
+      "default_preset_id": "one_hour",
+      "calculation_notes": "NO CITATION SHIPS, on purpose: the primary is the Philips A19 spec quoted verbatim in RESEARCH_ENERGY section 3.5 (\"Wattage: 8.5 Watts\" / \"Lumen Output: 800 Lumens\"), and that pass did not capture its URL, so nothing citable exists to attach. Re-source before treating this as traceable. An 8.5 W lamp at 800 lm is the smallest per-hour entry and the scale anchor the heat entries are read against. RESEARCH_ENERGY section 3.5.",
+      "sources": []
+    },
+    {
+      "id": "incandescent_bulb",
+      "comparable_group": "lighting",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.06,
+      "name_en": "Incandescent bulb (60 W)",
+      "name_ja": "白熱電球（60W）",
+      "name_es": "Bombilla incandescente (60 W)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1
+        },
+        {
+          "id": "evening_5h",
+          "name_en": "An evening (5 h)",
+          "name_ja": "夜に5時間",
+          "name_es": "Una tarde (5 h)",
+          "units": 5
+        }
+      ],
+      "default_preset_id": "one_hour",
+      "calculation_notes": "NO CITATION SHIPS, same reason as the LED entry: no URL was captured for the lighting primary in RESEARCH_ENERGY section 3.5. The 60 W incandescent at ~800 lm is the definitional comparator for the LED, a 7.06x ratio. Japan never legally banned incandescents, so a blanket \"phased out\" claim is false for a JP reader. RESEARCH_ENERGY section 3.5.",
+      "sources": []
+    },
+    {
+      "id": "tv",
+      "comparable_group": "device",
+      "carrier": "electricity",
+      "unit": "hour",
+      "kwh_per_unit": 0.079096,
+      "name_en": "Television (50 inch)",
+      "name_ja": "テレビ（50V型）",
+      "name_es": "Televisor (50 pulgadas)",
+      "confidence": "high",
+      "presets": [
+        {
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1
+        },
+        {
+          "id": "evening_3h",
+          "name_en": "An evening (3 h)",
+          "name_ja": "夜に3時間",
+          "name_es": "Una tarde (3 h)",
+          "units": 3
+        }
+      ],
+      "default_preset_id": "one_hour",
+      "calculation_notes": "28.87 kWh/year for one hour a day, sourced to 省エネルギーセンター実測値; TVs run year-round so that is 0.079096 kWh/h, about 79 W for a 50V型 set. RESEARCH_ENERGY section 3.5.",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (娯楽)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/entertainment/index.html",
+          "quote": "1日1時間テレビ（50V型）を見る時間を減らした場合 年間で電気28.87kWhの省エネ",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "phone_charge",
+      "comparable_group": "device",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.015271,
+      "name_en": "Phone charge",
+      "name_ja": "スマートフォンの充電",
+      "name_es": "Carga de teléfono",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_charge",
+          "name_en": "1 full charge",
+          "name_ja": "1回フル充電",
+          "name_es": "1 carga completa",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_charge",
+      "calculation_notes": "A 12.98 Wh iPhone 15 battery at 85% charging efficiency. About 7 g CO2e per charge: small loads are never rounded up, because the honest smallness is why this entry ships. RESEARCH_ENERGY section 3.5.",
+      "sources": [
+        {
+          "name": "iFixit iPhone 15 battery",
+          "url": "https://www.ifixit.com/products/iphone-15-battery",
+          "quote": "12.98 Wh",
+          "accessed": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "laptop_charge",
+      "comparable_group": "device",
+      "carrier": "electricity",
+      "unit": "use",
+      "kwh_per_unit": 0.063294,
+      "name_en": "Laptop charge",
+      "name_ja": "ノートパソコンの充電",
+      "name_es": "Carga del portátil",
+      "confidence": "medium",
+      "presets": [
+        {
+          "id": "one_charge",
+          "name_en": "1 full charge",
+          "name_ja": "1回フル充電",
+          "name_es": "1 carga completa",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_charge",
+      "calculation_notes": "A 53.8 Wh MacBook Air battery at 85% charging efficiency. Sourced from the manufacturer spec quoted verbatim in RESEARCH_ENERGY section 3.5, whose URL that research pass did not capture, so no citation is attached here rather than attaching an unverified one. Distinct from a laptop RUNNING, which METI measures at about 15 W.",
+      "sources": []
+    },
+    {
+      "id": "standby",
+      "comparable_group": "device",
+      "carrier": "electricity",
+      "unit": "day",
+      "kwh_per_unit": 0.8,
+      "name_en": "Household standby",
+      "name_ja": "待機電力（家全体）",
+      "name_es": "Consumo en espera del hogar",
+      "confidence": "low",
+      "presets": [
+        {
+          "id": "one_day",
+          "name_en": "1 day",
+          "name_ja": "1日",
+          "name_es": "1 día",
+          "units": 1
+        }
+      ],
+      "default_preset_id": "one_day",
+      "calculation_notes": "25-40 always-on devices at about 1 W. Against a US home at ~29 kWh/day that is ~2.8%, below LBNL own 5-10% band, so the shipped value is deliberately conservative. The honest framing, which the copy must keep: per-device standby collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving roughly the same household total spread over many more products. Not \"standby is trivial\" and not \"standby is 10% of your bill\". Excludes builder-installed always-on load (smoke alarms, thermostats, security) that a user cannot unplug. RESEARCH_ENERGY section 3.5.",
+      "sources": [
+        {
+          "name": "Lawrence Berkeley National Laboratory, Standby Power",
+          "url": "https://standby.lbl.gov/",
+          "quote": "Most products draw relatively little standby power – less than 0.5 watts – but they still add up.",
+          "accessed": "2026-08-02"
+        }
+      ]
+    }
+  ]
+}

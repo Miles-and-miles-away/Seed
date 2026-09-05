@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_list_tile.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -56,9 +55,12 @@ class _InboxRow extends ConsumerWidget {
         ? MailRowState.read
         : MailRowState.unread;
 
+    final name = item.fact.name(locale);
     final subject = item.isLocked
         ? l10n.ecoFactInboxLockedSubject
-        : _subjectFor(item.fact, locale, l10n);
+        : name.isNotEmpty
+        ? name
+        : l10n.ecoFactTitle;
 
     return MailListTile(
       subject: subject,
@@ -67,11 +69,6 @@ class _InboxRow extends ConsumerWidget {
       onTap: () => context.push(appRoutes.dailyFactDetail(item.dateKey)),
     );
   }
-}
-
-String _subjectFor(EcoFact fact, String locale, AppLocalizations l10n) {
-  final name = fact.name(locale);
-  return name.isNotEmpty ? name : l10n.ecoFactTitle;
 }
 
 class _EmptyInbox extends StatelessWidget {

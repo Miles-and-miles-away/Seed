@@ -1,7 +1,7 @@
 name: seed_app
 description: A sustainability habit tracking app with gamified mascot system.
 publish_to: 'none'  # Private app, not published to pub.dev
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ^3.8.0
@@ -23,7 +23,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: ^4.5.0
-  flutter_local_notifications: ^21.0.0
+  flutter_local_notifications: ^22.3.0
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^3.0.0
@@ -53,6 +53,7 @@ dev_dependencies:
   mocktail: ^1.0.4
   riverpod_generator: ^4.0.3
   very_good_analysis: ^10.0.0
+  visibility_detector: ^0.4.0+2
 
 flutter:
   uses-material-design: true
@@ -91,7 +92,7 @@ flutter_launcher_icons:
 
   android: true
   min_sdk_android: 24
-  adaptive_icon_background: "#282828"
+  adaptive_icon_background: "#F3EADB"
   adaptive_icon_foreground: assets/icon/app_icon_foreground.png
   adaptive_icon_foreground_inset: 0
 

@@ -12,6 +12,7 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/stage_badge.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
 
@@ -54,19 +55,12 @@ class ProfileScreen extends ConsumerWidget {
                 const SizedBox(height: spacingXxl),
 
                 // Level progress
-                _buildLevelSection(
-                  context,
-                  ref,
-                  theme,
-                  colorScheme,
-                  user,
-                  l10n,
-                ),
+                _buildLevelSection(ref, theme, colorScheme, user, l10n),
 
                 const SizedBox(height: spacingXxl),
 
                 // Statistics section
-                _buildStatsSection(context, ref, theme, l10n),
+                _buildStatsSection(ref, theme, colorScheme, user, l10n),
 
                 const SizedBox(height: spacingXxl),
 
@@ -121,7 +115,7 @@ class ProfileScreen extends ConsumerWidget {
                 : null,
             child: user.photoUrl == null
                 ? Text(
-                    displayName[0].toUpperCase(),
+                    displayName.isEmpty ? '?' : displayName[0].toUpperCase(),
                     style: theme.textTheme.headlineMedium?.copyWith(
                       color: colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
@@ -183,7 +177,6 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildLevelSection(
-    BuildContext context,
     WidgetRef ref,
     ThemeData theme,
     ColorScheme colorScheme,
@@ -226,29 +219,11 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               // Evolution stage badge
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: spacingMd,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: colorScheme.tertiaryContainer,
-                  borderRadius: borderRadiusXl,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.star, size: 16, color: colorScheme.tertiary),
-                    const SizedBox(width: spacingSm),
-                    Text(
-                      l10n.profileEvolutionStage(evolutionStage),
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: colorScheme.onTertiaryContainer,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
+              StageBadge(
+                label: l10n.profileEvolutionStage(evolutionStage),
+                background: colorScheme.tertiaryContainer,
+                foreground: colorScheme.onTertiaryContainer,
+                iconColor: colorScheme.tertiary,
               ),
             ],
           ),
@@ -274,19 +249,15 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildStatsSection(
-    BuildContext context,
     WidgetRef ref,
     ThemeData theme,
+    ColorScheme colorScheme,
+    AppUserModel user,
     AppLocalizations l10n,
   ) {
-    final colorScheme = theme.colorScheme;
-    final userAsync = ref.watch(currentUserProvider);
     final totalCo2 = ref.watch(totalCo2SavedProvider);
     final totalActions = ref.watch(totalActionsCountProvider);
     final daysSinceJoined = ref.watch(daysSinceJoinedProvider);
-
-    final user = userAsync.value;
-    if (user == null) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

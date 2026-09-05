@@ -1,46 +1,71 @@
 # PDR: Phase 8 Transport Calculator -- Post-Design Review
 
 **Created:** 2026-07-17 | **Restructured:** 2026-07-19
-**Status:** Rounds 1-3 of adversarial review complete; every
-finding through Round 3 fixed and re-verified (or explicitly
-accepted, see R3-D1). Fix Backlog 3 (section 3) complete:
-port-anchored links, the sweep gate and the water-crossing
-blocklist all landed; the feature has since shipped.
+**Status:** Feature shipped. Review rounds 1-7 complete and Fix
+Backlogs 1-7 executed; every finding through Round 3 is fixed and
+re-verified (or explicitly accepted, see R3-D1), and the Round 4-7
+work landed as the water-crossing blocklist, the political
+overlays and the political screen. Sweep gate PASS re-run
+2026-08-29.
 **Purpose:** Record of the adversarial review of the
-transport-calculator work, the design decisions, and the fix
-ledger. The review can be continued from sections 2-4 alone. Companion docs: [PLAN_PHASE_8.md](./PLAN_PHASE_8.md)
+transport-calculator work, the design decisions, and a brief
+record of the completed work. Companion docs: [PLAN_PHASE_8.md](./PLAN_PHASE_8.md)
 (feature plan), [RESEARCH_TRANSPORT.md](./RESEARCH_TRANSPORT.md)
-(evidence base; sec 9 documents the distance-estimation design).
+(evidence base; sec 9 documents the distance-estimation design
+and Appendix A the durable rules from all seven rounds).
+
+**Scope warning:** the body below section 2 froze at the Round 3
+restructure. Rounds 4-7 produced no per-round findings register in
+any file; their durable output is the rule set in
+RESEARCH_TRANSPORT.md section 9 and its Appendix A.1, A.2 and A.5,
+plus the constants in
+`scripts/generators/build_water_blocklist.py`. Section 2 has been
+brought forward from those sources; treat them, not this document,
+as the regeneration authority. Appendix A.3 and A.4 moved here on
+2026-08-30 as sections 2.2 and 2.3.
 
 ---
 
 ## 1. Scope & Current State
 
-Delivered on `development`:
+Shipped. Measured 2026-08-29:
 
 - `data/app/transport_modes.json` -- 27 modes, live-verified
   cited factors
-- `data/app/cities.json` -- 982 cities, 10 port-anchored links
-  (+ `water_blocked` pair list once Backlog 3 lands)
+- `data/app/cities.json` -- 969 cities; 10 fixed links (9 ferry,
+  port-anchored, + the portless Channel Tunnel rail_tunnel);
+  `metadata.water_blocked` holds 2,399 index pairs
 - `lib/features/transport/` -- models, loaders, calculator,
   distance/suggestion service (generated files committed-style)
-- `test/features/transport/` -- 93 tests
-- `scripts/generators/build_cities.py`,
-  `sweep_suggestions.py` (regeneration gate),
-  `build_water_blocklist.py` (Backlog 3)
-- `data/reference/natural_earth/` -- land polygons (Backlog 3)
+- `test/features/transport/` -- 156 tests
+- `scripts/generators/build_cities.py` (city list),
+  `scripts/generators/build_water_blocklist.py` (water-crossing
+  and political blocklist),
+  `scripts/generators/sweep_suggestions.py` (regeneration gate)
+- `data/reference/natural_earth/` -- Natural Earth 1:50m land
+  polygons plus the cached 0.1-degree land raster
+- `data/reference/reviewed_cc_ground_pairs.json` -- 1,624
+  border-screened cross-country ground pairs, the input to the
+  R7 political screen
 - Edits to PLAN_PHASE_8.md, RESEARCH_TRANSPORT.md,
   data/app/impact_equivalencies.json
 
-Verification baseline: `flutter analyze` clean; full suite
-green (1,563 at last full run); sweep gate PASS (481,671 pairs:
-zero fictional ferries, zero cross-water ground/active, all air
-fallbacks >= 100 km, every link produces >= 1 pair).
+Verification baseline: the full suite was green and the sweep
+gate PASSed on 2026-08-29. Do not read counts out of this
+document -- running `scripts/generators/sweep_suggestions.py`
+prints the current ones (pairs swept, suggestion kinds, blocked
+pairs honored, reviewed cross-country pairs, smallest air
+fallback, and ferry pairs per link, which is also how a dead
+link shows up). The 2026-08-29 figures are recorded in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md).
 
-Review method (each round): four parallel adversarial agents --
-Dart bug hunt, independent maths recomputation, design red-team
-with a full all-pairs sweep, naive-user deception audit with
-live re-fetches of every cited URL.
+Review method (rounds 1-3, the rounds with a written record):
+four parallel adversarial agents -- Dart bug hunt, independent
+maths recomputation, design red-team with a full all-pairs sweep,
+naive-user deception audit with live re-fetches of every cited
+URL. RESEARCH_TRANSPORT.md Appendix A describes the same four
+lenses running across all seven rounds, but rounds 4-7 have no
+per-round write-up to cite.
 
 ---
 
@@ -50,10 +75,21 @@ Owner-approved. The warnings exist because earlier decisions
 were superseded; do not "fix" data backwards from old text.
 
 - **Active modes ship electricity-only**: walk 0 / cycle 0 /
-  ebike 2 / escooter 6. Do NOT restore cycle 16 / ebike 8 (a
-  superseded Round 1 decision proposed them). Metabolic figures
-  live in the methodology sheet with OWID's additionality
-  caveat; never generate copy claiming walking beats cycling.
+  ebike 2 / escooter_private 7. Do NOT restore cycle 16 / ebike
+  8 (a superseded Round 1 decision proposed them). Metabolic
+  figures live in the methodology sheet with OWID's
+  additionality caveat; never generate copy claiming walking
+  beats cycling.
+- **SUPERSEDED -- R2-24 (grid factor 386) no longer holds.**
+  Decision **E1 (2026-08-02)** raised the house grid factor
+  386 -> 458 g CO2e/kWh (Ember GER 2026) and rebased every
+  electricity-derived mode: **car_bev 73 -> 86**,
+  **escooter_private 6 -> 7**, ebike holds at 2. The three
+  shipped values are 458 / 86 / 7 in
+  `data/app/transport_modes.json` today. Do NOT restore 386, 73
+  or 6 from the R2-24 ledger line or from any pre-August prose;
+  regionalisation was explicitly spun out and is NOT part of E1
+  ([PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)).
 - **Private jet ships 1,700** (1,000 derived base x 1.7 RF,
   DESNZ 2025 para 8.43); airline factors include RF; helicopter
   is combustion-only. In-chart jet footnote is a UI requirement.
@@ -63,7 +99,7 @@ were superseded; do not "fix" data backwards from old text.
   excluded by DEFRA (para 5.42, quoted); note says so.
 - **Zero fiction beats convenience**: when a suggestion cannot
   be scoped to a real corridor, kill it (Malta-Sicily link
-  removed; Gibraltar cap history in Appendix A).
+  removed; Gibraltar cap history in the archive).
 - **Ferry links are port-anchored** (R3-D4): port coordinate +
   catchment radius per side; `max_km` remains a backstop.
   rail_tunnel links stay portless.
@@ -85,95 +121,195 @@ were superseded; do not "fix" data backwards from old text.
   `scripts/generators/sweep_suggestions.py`**; regeneration is
   not done until the gate passes (R3-D6).
 
+### 2.1 Blocklist rules (Backlogs 4-7)
+
+Added by rounds 4-7 and load-bearing on every regeneration.
+Source of truth: RESEARCH_TRANSPORT.md section 9 and Appendix A,
+plus the constant block in `build_water_blocklist.py`. Rounds 4-7
+left no findings register, so those two are the record.
+
+- **Land-path honesty test (R3-D5/R4, made unconditional in
+  R6).** A candidate pair blocks unless an honest land route
+  exists. The route is the shortest path on a 0.1-degree
+  rasterized land graph (`RASTER_DEG`, 8-connected, geodesic edge
+  weights) and it must come in at or under `HONESTY_MAX` = **1.4x
+  the estimate the app shows** (that estimate is
+  `GROUND_CIRCUITY` 1.3 x straight-line), with grid
+  underestimation compensated by `ROAD_OVER_GEODESIC` 1.15 and
+  `PATH_SLACK_KM` 30 for short hops. Since Round 6 the test runs
+  on **every** candidate pair, dry chords included, so walls and
+  front lines block the corridors they cut without hand-curated
+  pair lists. Wetness alone no longer decides:
+  `WATER_SPAN_BLOCK_KM` (25 km of continuous water) only selects
+  which chords are wet. This replaced Round 3's per-pair
+  curation, which a Round 4 audit showed had a false-positive
+  class in the hundreds.
+- **FIXED_CROSSINGS + the crossing self-check.** Real bridges,
+  tunnels and causeways are declared explicitly (16 entries
+  today) and added to the land graph. The build runs a
+  self-check that **warns loudly** when a crossing's snapped
+  cells collapse or its edge stops being load-bearing on a
+  crossings-free graph. This is not cosmetic: three entries were
+  silently dead before Backlog 5 (R5-11). Never add a crossing
+  without letting the self-check confirm it carries traffic.
+- **CLOSED_BORDERS (R5, extended R6) blocks on politics, not
+  geography.** Every pair between two countries whose shared
+  border is closed is blocked regardless of water or detour
+  honesty. **Owner rule: active fighting between two countries
+  closes their border, and doubt resolves to blocked** --
+  aid-only, trade-only and pilgrim-only crossings count as
+  closed. 22 country pairs are listed today. Verdicts carry
+  expiry risk; re-verify live against the border-status watchlist
+  in RESEARCH_TRANSPORT.md Appendix A.5 before regenerating.
+- **BORDER_WALLS cut edges before pathfinding.** They are
+  polyline barriers, so a closed border also stops **third-country
+  transit** (Warsaw-Helsinki must round the Gulf of Bothnia,
+  measures dishonest, auto-blocks). They double as the repair for
+  fake-land raster artifacts, restoring sub-resolution water to
+  water (Amazon delta/Marajo, Oslofjord pinch, Dardanelles). 22
+  walls today; **each names its basis and must cut at least one
+  edge or the build aborts.**
+- **DISHONEST_CC_PAIRS** blocks country pairs whose corridors
+  measure dishonest as a class, where grid geodesics undercut the
+  real detour (IR-AE/OM/QA around Hormuz, CD/CG x NG/TG/BJ around
+  the Gulf of Guinea bight, PK-SA at 1.85). 10 entries.
+- **MANUAL_BLOCK is the pair-level escape hatch** for what
+  neither polygons nor the raster can see (unbridged Congo,
+  Parana-delta raster gaps, Narva vehicle closure,
+  measured-dishonest bridge chains such as Malmo-Arhus at 1.8x).
+  25 entries. **MANUAL_ALLOW is deliberately empty** and is to
+  stay that way: an allow entry overrides the honesty test, so
+  reach for a FIXED_CROSSING or a threshold argument first.
+- **Gaza cities are removed from the dataset outright (R6-1,
+  owner ruling 2026-07-21).** All crossings are sealed, so no
+  honest suggestion of any kind exists. It is a predicate in
+  `build_cities.py` (`excluded()`, PS west of lon 34.9), not a
+  name list; do not reintroduce the cities by widening the
+  top-N cut.
+- **Same-settlement dedup at 1.5 km** (`DEDUP_KM` in
+  `build_cities.py`): within a country, a city closer than 1.5 km
+  to a larger one is the same settlement and is dropped before
+  the top-N cut (Majuro's twin listing, Macau/Conakry/Luanda
+  district records). 1.5 km is calibrated to keep adjacent
+  municipalities (Frederiksberg sits 2.0 km from Copenhagen);
+  raise it only with a dataset diff.
+- **Political screen (R7) gates the sweep.** Every grounded
+  cross-country pair must appear in
+  `data/reference/reviewed_cc_ground_pairs.json`; a new,
+  unscreened corridor fails the gate. The flow is: screen the
+  border for ordinary travelers, block it in
+  `build_water_blocklist.py` if closed, and only then rerun the
+  sweep with `--update-reviewed` to refresh the list. Refreshing
+  first defeats the screen.
+- **Regeneration order:** `build_cities.py` ->
+  `enrich_city_names.py` -> `build_water_blocklist.py` ->
+  `sweep_suggestions.py`. Only the first writes a fresh file; the
+  rest enrich it in place, so skipping one silently drops what it
+  adds. Regeneration is not done until the gate passes. Note that
+  cities.json has been edited in place since the last full
+  build, so the next full regeneration backfills freed top-N
+  slots with new cities and the political screen will fail until
+  each new corridor is screened (RESEARCH_TRANSPORT.md Appendix
+  A.5, backfill note).
+
+### 2.2 Copy rules (binding on the comparison view and science sheets)
+
+Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.3;
+they are product rules, not evidence.
+
+- "emits X kg less", **never "saves"** -- the delta is
+  hypothetical until the trip is actually swapped.
+- Comparative superlatives only at a meaningful delta; **never**
+  generate copy claiming walking beats cycling, or coach beats
+  rail -- both orderings are vintage-fragile
+  (RESEARCH_TRANSPORT.md section 6 non-invariants).
+- Binding in-UI disclosures: the private-jet bar carries an
+  in-chart RF footnote (its bar includes the same high-altitude
+  uplift as the airline bars, RESEARCH_TRANSPORT.md section 8.1);
+  the EV row carries a global-average-grid sublabel (section 2
+  there); active/micro rows carry their electricity-only /
+  lifecycle-excluded basis labels (section 3.3 there).
+
+### 2.3 Flight-band auto-pick (binding methodology, shipped)
+
+Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.4.
+
+The comparison view picks the honest flight band from leg distance
+rather than letting a short leg be overstated at the long-haul
+rate: **> 3,700 km = long-haul**; otherwise **same country =
+domestic**, **different countries = short-haul** (the DEFRA
+<= 3,700 km boundary, RESEARCH_TRANSPORT.md section 4). No
+invented medium-haul cutoff -- DEFRA publishes no medium-haul
+factor, so the three bands stand (owner Q&A, 2026-07-22). The
+picker offers only the band a city pair resolves to.
+
+### 2.4 Border-status watchlist (enforced by the build guard)
+
+Moved here 2026-09-01 from RESEARCH_TRANSPORT.md Appendix A.5;
+`build_water_blocklist.py` points here (its guard's abort message
+and the comment on `BORDER_VERDICTS_VERIFIED`).
+
+Border verdicts (RESEARCH_TRANSPORT.md section 9 CLOSED_BORDERS /
+walls) carry expiry risk: a closed border reopens, and a stale
+verdict then blocks honest corridors silently. The reminder is no
+longer a matter of memory: `build_water_blocklist.py` calls
+`check_border_verdicts()` as the first statement of `main()`,
+and the build aborts when `BORDER_VERDICTS_VERIFIED` (currently
+2026-07-21) is older than `BORDER_VERDICT_MAX_AGE_DAYS` (180).
+A run inside the window prints the age and continues. The
+guard's abort message points at this section instead of
+restating the entries, so the list below stays the single
+authoritative statement of what re-verifying covers.
+
+Re-verifying means: check every entry below live, then move
+`BORDER_VERDICTS_VERIFIED` to the date you did it. Moving the
+date without doing the checks is the one failure mode the guard
+cannot see. The verdicts themselves live in the script
+(CLOSED_BORDERS, BORDER_WALLS, MANUAL_BLOCK); this is the
+rationale and the watch reason for each:
+
+- **BJ-NE** -- the 2026-06 reopening accord was prospective;
+  likely to genuinely reopen (currently blocked).
+- **DZ-LY** -- conflicting sources; blocked under the in-doubt rule.
+- **AM-TR** -- reopening conditional on an unsigned AM-AZ treaty.
+- **ER-ET** -- owner "fragile-ok" watchlist (kept open).
+- **Rafah / Gaza** -- the strip ships no cities; revisit only if
+  crossings genuinely reopen to travelers.
+- **Sudan front line** (Kordofan; El Obeid the current flashpoint)
+  -- a manual wall; recheck as the front shifts.
+- **Backfill note** -- cities.json was edited in place (the
+  GeoNames inputs are off-disk), so the next full regeneration
+  backfills the freed top-5 slots with new cities; the gate's
+  political screen (R7, RESEARCH_TRANSPORT.md section 9) fails
+  any new grounded cc-pair until it is border-screened and added
+  via `--update-reviewed`.
+- **Cities can leave the GeoNames input** -- a shipping city can
+  disappear from cities15000 upstream: Seria BN was in the export
+  at the 2026-07-18 build and gone by 2026-08-29. build_cities.py
+  re-selects from that export, so a full regeneration drops the
+  vanished city silently and a backfill city takes its top-N
+  slot, compounding the note above. enrich_city_names.py joins
+  every shipping city against cities15000 and is the only place
+  that sees it go: its `KNOWN_UNJOINED` constant pins the
+  known-absent set, and the run aborts when the observed set
+  differs in either direction (a new absence, or a listed city
+  that has returned and left the constant stale).
+
 ---
 
-## 3. Active Work: Fix Backlog 3 -- Structural Robustness
+## 3. Fix Backlog 3 -- Structural Robustness (COMPLETE)
 
-Owner-approved 2026-07-19: stop whack-a-moling per-pair; make
-the method robust to regeneration. "It's okay to lose
-links/pairs if the method becomes more robust."
-
-### 3.1 Port-anchored ferry links (R3-D4) -- DONE
-
-`CityLink` gained six optional flat fields (json snake_case):
-`port_a_lat/port_a_lon/radius_a_km` + b-side trio. Ferry
-offered iff each city is within its side's radius AND
-straight-line <= (`max_km` ?? 500). Portless links keep legacy
-behavior; rail_tunnel links stay portless. Distance semantics
-unchanged (whole straight line at ferry rate; ports gate
-eligibility only).
-
-Port table (radii are catchment decisions, verified against
-dataset coordinates):
-
-| Link | a-side port (r km) | b-side port (r km) |
-|---|---|---|
-| Dover-Calais | Dover 51.127,1.324 (150) | Calais 50.966,1.862 (150) |
-| Irish Sea | Dublin Port 53.345,-6.194 (150) | Holyhead 53.309,-4.633 (250; nearest GB city Manchester 160) |
-| Ireland-France (max_km 900) | Rosslare 52.251,-6.335 (180; Cork 151) | Cherbourg 49.646,-1.622 (350; Paris 301, Brussels 445 out) |
-| Busan-Fukuoka | Hakata 33.606,130.410 (150) | Busan 35.098,129.040 (150) |
-| Gibraltar | Tanger 35.789,-5.813 (150) | Algeciras 36.127,-5.444 (150) |
-| Naples-Palermo/Messina | Palermo 38.13,13.37 (150) | Naples 40.842,14.252 (150) |
-| Zanzibar | Zanzibar -6.162,39.19 (50) | Dar port -6.82,39.29 (50) |
-| Cook Strait | Wellington -41.28,174.78 (50) | Picton -41.29,174.00 (300; Christchurch 274) |
-| St Thomas-St Croix | Charlotte Amalie 18.34,-64.93 (50) | Christiansted 17.75,-64.70 (50) |
-
-Result: ferry pairs 100 -> 21, every one on its named corridor;
-Sevilla-Tangier revived; Dublin-Groningen/Koln/Daejeon inland
-foot-ferries gone; pins updated (Sevilla-Tangier HAS,
-Hiroshima-Busan NO, Dublin-Amsterdam NO, London-Paris keeps
-ground loses ferry, synthetic port-gating unit test).
-
-### 3.2 Water-crossing blocklist (R3-D5) -- IN PROGRESS
-
-`scripts/generators/build_water_blocklist.py`: reads
-cities.json + Natural Earth 1:50m land polygons
-(`data/reference/natural_earth/`, public domain), densifies the
-great-circle chord of every same-mass pair within 2,000 km, and
-computes the longest continuous water span crossed. Span >
-WATER_SPAN_BLOCK_KM (25; bridged Oresund ~15 survives) => pair
-enters `metadata.water_blocked` as `[i, j]` index pairs (i < j,
-indices into the stored cities array -- regenerate together).
-MANUAL_BLOCK for water polygons cannot see (Kinshasa-
-Brazzaville, unbridged Congo). MANUAL_ALLOW for real bridged
-corridors the threshold would wrongly block (calibrated from
-output; each entry names its real crossing).
-
-Runtime: `suggestedDistancesKm` gained optional `waterBlocked`
-set (keys from `cityPairKey`; loader `loadWaterBlockedPairs`
-resolves indices). Ground/active suppressed for blocked pairs;
-ferry/air unaffected.
-
-Accepted gaps: lakes not included (ne_50m_land only); distances
-suppressed, not corrected (no routing in an offline app);
-same-mass ferry corridors (Helsinki-Tallinn) cannot be
-expressed by mass-to-mass links -- blocked pairs >= 100 km fall
-back to air, below that manual entry.
-
-Pins: Helsinki-Tallinn NO ground/active; Kinshasa-Brazzaville
-NO ground/active; Copenhagen-Malmo KEEPS ground; unit test for
-suppression + air fallback.
-
-### 3.3 Sweep as committed regeneration gate (R3-D6) -- DONE
-
-`scripts/generators/sweep_suggestions.py` (replaces the
-scratchpad artifact): faithful replica of suggestedDistancesKm
-incl. ports and blocklist, all pairs; exits nonzero printing
-offenders on: cross-mass ground outside rail_tunnel links; any
-cross-mass active; ferry violating ports or max_km; air
-fallback < 100 km; ground/active on a water_blocked pair; any
-dead link; CITY_COUNT pin mismatch. Wired into the
-build_cities.py header ("regeneration is not done until it
-passes").
-
-### 3.4 Remaining before done
-
-- Water agent lands `water_blocked` + MANUAL_ALLOW report;
-  eyeball surprising blocks; re-run sweep gate + full suite.
-- Research sec 9: blocklist + gate documentation, enclosed-sea
-  limitation bullet updated to "resolved by blocklist" with the
-  lakes gap noted.
-- Update section 1 baseline numbers and this section's status.
+Owner-approved 2026-07-19 and fully executed; nothing remains
+open. It delivered port-anchored ferry links (R3-D4), the
+water-crossing blocklist (R3-D5), and
+`scripts/generators/sweep_suggestions.py` as a committed
+regeneration gate (R3-D6). Rounds 4-7 then extended the
+blocklist into the honesty and political overlays, and section
+2.1 carries the rules as they stand today. Port coordinates and
+catchment radii ship in `data/app/cities.json`, which is their
+authority, so no archived table can silently disagree with the
+data. Full backlog text is in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md).
 
 ---
 
@@ -191,163 +327,92 @@ passes").
 
 ---
 
-## 5. Completed Fix Ledger (all verified; details in Appendix B)
+## 5. Completed Work (brief record)
 
-Round 1 (2026-07-18, all [x], re-verified Rounds 2-3):
+Rounds 1-3 produced 65 findings: 20 in Round 1 (PDR-1..20), 26
+in Round 2 (R2-1..26), 11 in Round 3 (R3-1..11). All are fixed
+and re-verified except R3-10 and R3-11, the Dart and maths-doc
+minors, which were accepted as-is rather than fixed under the
+R3-D1 stop line. Per-finding detail, the round decisions, the
+executed backlogs and the full one-line ledger are in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md), whose
+ledger also carries the only rounds 4-7 identifiers that exist
+anywhere (R4-9, R4-10, R5-11, R6-1, E1, and the round-level
+R5/R6/R7 entries). Appendix A says why no register exists.
 
-- [x] PDR-1 uncapped landmass ferries (Tokyo-Madrid) -> ferry
-      cap + per-link max_km (since superseded by ports)
-- [x] PDR-2 island/territory landmass errors (TL, BN, GQ, BM,
-      GL, AX, IM, JE, YT, RE, ID/PH/NZ splits, XK, MF+SX) ->
-      ISLANDS/anchors extended, fail-loud generator
-- [x] PDR-3 six annotation "quotes" -> live-verified row text
-- [x] PDR-4 active-mode scope contradiction -> electricity-only
-      convention + disclosure (see Standing Decisions)
-- [x] PDR-5 false "survives 2026 revisions" claim -> invariants
-      reframed as data pins; metro dropped from invariant 2
-- [x] PDR-6 stale "well-to-tank" scope line deleted
-- [x] PDR-7 RF scope contradictions -> scope sentence amended;
-      jet note "conservative lower band"
-- [x] PDR-8 no international rail -> rail_international 4.46
-      added with loud 2026 caveat
-- [x] PDR-9 equivalency carKm 200 -> 162.72 (DEFRA 2025)
-- [x] PDR-10 "saves" copy + stale mock numbers -> "emits less",
-      refreshed totals
-- [x] PDR-11 coach 2026-repudiation disclosure line
-- [x] PDR-12 shinkansen basis "Japan rail average, CO2" +
-      Navitime 2018 vintage corrected
-- [x] PDR-13 EV grid-dependence sublabel recorded as UI req
-- [x] PDR-14 gating edges -> walk 40 split, minFlight 250,
-      comment fixes; per-mode maxSuggestKm stays a UI-PR item
-- [x] PDR-15 taxi + car ferry modes added (see Standing
-      Decisions for the taxi correction)
-- [x] PDR-16 haversine antipodal NaN -> min(1.0, a) clamp
-- [x] PDR-17 occupant clamp crash -> clamp(1, max(1, ...));
-      motorbike perVehicle pinned
-- [x] PDR-18 generator csv QUOTE_NONE + coord-aware dedup
-- [x] PDR-19 cities.json decoded once (memoized, error-safe)
-- [x] PDR-20 island empty maps -> air fallback + MF/SX mass
+---
 
-Round 2 (2026-07-18, all [x], re-verified Round 3):
+## 6. Open Items
 
-- [x] R2-1 Zanzibar tagged Africa -> TZ split + ferry link
-- [x] R2-2 Faroes tagged Eurasia -> FO isolated
-- [x] R2-3 seven archipelagos single-mass -> KM/PG/CV/FJ/BS/TC/
-      VI per-island anchors
-- [x] R2-4 helicopter quote on homepage URL -> deep link
-- [x] R2-5 private_jet PJCC annotation -> real sentence
-- [x] R2-6 taxi 148.61 misleading -> per-vehicle 208.06 (R2-D1)
-- [x] R2-7 Gibraltar catch-all Red Sea ferries -> capped (now
-      port-anchored)
-- [x] R2-8 Ireland-France link dead -> max_km 900 revival
-- [x] R2-9 Suez corridor -> documented continental convention
-- [x] R2-10 +95 km pad on micro-hops -> 100 km fallback floor +
-      NaN guard (R2-D3)
-- [x] R2-11 motorbike cited to deprecated Climatiq -> re-cited
-- [x] R2-12 Navitime quote unmarked translation -> Japanese
-      original + marked translation
-- [x] R2-13 longhaul RF unsupported -> RF-stating source added
-- [x] R2-14 escooter 6 not reproducible -> aluminium-variant
-      quote + range note
-- [x] R2-15 rejected future memoized forever -> cache cleared
-      on error
-- [x] R2-16 unpinned guards -> 4 test pins added
-- [x] R2-17 walkModeMaxKm has no consumers -> UI-PR item
-- [x] R2-18 BH-QA / HK-Macau circuity lies -> known-limitations
-      doc line (class now handled by Backlog 3 blocklist)
-- [x] R2-19 MY Borneo latent trap -> anchors added
-- [x] R2-20 research doc typos fixed
-- [x] R2-21 CE Delft quote misattribution -> citation added
-- [x] R2-22 JR Central claim uncited -> source added, JR East
-      attribution dropped (JSON; doc fixed in R3-4)
-- [x] R2-23 PDR recorded superseded D1 values -> supersession
-      notes (now Standing Decisions warnings)
-- [x] R2-24 grid factor 386 below current global -> methodology
-      context note (app-wide house rule, out of scope)
-- [x] R2-25 RF applies to CO2 component only -> one-line
-      acknowledgment in research sec 8.1
-- [x] R2-26 Greencalculus/SCIF reconstructions -> fixed in R3-9
-      with live-verified page text
+**This is the single live open list for the transport
+workstream.** Moved here 2026-08-30 from RESEARCH_TRANSPORT.md
+section 7. Closures from the 2026-07-17/18 research passes are
+logged in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
 
-Round 3 (2026-07-19, all [x] except the accepted R3-10/11):
-
-- [x] R3-1 Mombasa-Zanzibar fictional ferry (only suggestion)
-      -> link capped, then port-anchored; pinned
-- [x] R3-2 enclosed-sea ground fiction (Helsinki-Tallinn,
-      Kinshasa-Brazzaville, ...) -> Backlog 3 water blocklist
-- [x] R3-3 Cook Strait unmodeled -> ferry link + pin
-- [x] R3-4 "JR East" attribution invented -> removed from
-      research doc
-- [x] R3-5 ferry_foot cited to deprecated page -> SustainMetrics
-      sea row, live-verified
-- [x] R3-6 Ireland-France inland reach -> ports + disclosure
-      (R3-D2); Dublin-Amsterdam pinned NO ferry
-- [x] R3-7 Malta-Sicily corridor fiction -> link removed; pin
-- [x] R3-8 St Croix-St Thomas empty map -> real ferry link; pin
-- [x] R3-9 citation nits (delimiters, stray colon, mid-sentence
-      caps, missing "A", Navitime ellipsis, indirect RF, CARB/
-      TRUE uncited, stale 8.1 heading, laundry "saves") -> all
-      fixed with live re-fetches; CARB kept WITH citation
-      (SB 1014 PDF verified verbatim), TRUE trimmed as
-      unverifiable; metadata citation_note discloses the
-      row-transcription convention
-- [-] R3-10 Dart minors (NaN guard, modes double-decode, latent
-      tunnel-active, fallback comment, near-duplicate metro
-      cities) -- ACCEPTED, no fix (R3-D1)
-- [-] R3-11 maths-doc minors (stale sec 6 preamble, unflagged
-      tram assumption, illustrative 81 kg, vacuous 2026 skip)
-      -- ACCEPTED, no fix (R3-D1)
-
-Verified sound across rounds (for the record): all 27 factors
-reproduce digit-for-digit from independent recomputation; all 13
-invariants hold now and under flagged 2026 revisions; haversine
-matches an independent implementation to 3.6e-11 km; occupancy
-clamping exact; mock arithmetic exact; DESNZ paras 5.39/5.42/
-8.43/8.44/8.45 verbatim; all cited URLs live.
+- [ ] **Next DEFRA pass** (when the 2026 numbers become
+      quotable): coach, national rail, London Underground, the UK
+      BEV anchor and international rail all move, several by more
+      than a third. Sizes and directions are recorded per mode in
+      RESEARCH_TRANSPORT.md section 5; every invariant pin in its
+      section 6 must be **re-derived**, never assumed to survive.
+      Cadence is tracked in
+      [ANNUAL_RESEARCH_UPDATE.json](./ANNUAL_RESEARCH_UPDATE.json).
+- [x] ~~**`enrich_city_names.py` pass 1 is untested, and no Python
+      runs in CI**~~ -- closed 2026-09-01: `check_pick()` added to
+      `scripts/generators/test_enrich_city_names.py` covering the
+      colloquial/historic exclusions, empty and whitespace names,
+      the preferred-over-full-over-short ordering, the oldest-id
+      stable tiebreak, and the JA romaji demotion (including that
+      it outranks a preferred flag, and that ES keeps Latin-script
+      names). CI gained a `generators` job running the file on the
+      runner's system python3 (the checks are pure stdlib).
+- [x] ~~**Shared dataset-assertion helper**~~ -- rejected
+      2026-08-30 in
+      [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+      section 9: only food and transport are near-verbatim twins,
+      energy's source rule is the inverse of theirs, and the
+      abstraction degrades failure output.
+- [x] ~~**Finish the RESEARCH/PDR split for transport.**~~ --
+      closed 2026-09-01: A.5 moved here as section 2.4 with a
+      redirect stub left at its letter, and both
+      `build_water_blocklist.py` pointers (the
+      `BORDER_VERDICTS_VERIFIED` comment and the guard's abort
+      message) updated to section 2.4. The open item counted a
+      third pointer; the script's only other RESEARCH_TRANSPORT
+      reference is the docstring's known-gaps note to section 9,
+      which is evidence, not the watchlist, and stays.
 
 ---
 
 ## Appendix A: Review History
 
-- **Round 1 (reviewed 2026-07-17, fixed 2026-07-18).** First
-  adversarial pass on the working tree: 5 blockers, 10 majors,
-  5 minors (PDR-1..20). Headline classes: uncapped mass-level
-  ferry links, island/territory landmass errors, annotation
-  text shipped as quotes, active-mode scope contradiction.
-  Key superseded decision: D1 originally kept cycle 16 / ebike
-  8 "for consistency"; the owner later switched active modes to
-  electricity-only -- hence the Standing Decisions warning. D3
-  originally shipped taxi at 148.61 per-passenger-km
-  "deadheading included"; Round 2 proved the premise false
-  (DESNZ 5.42 excludes deadheading) and taxi shipped per-vehicle
-  at 208.06 instead.
-- **Round 2 (2026-07-18).** Re-run of the four agents plus a
-  full-pair sweep and live fetches of all cited URLs: 6
-  blockers, 8 majors, 12 minors (R2-1..26), largely archipelago
-  geography and citation integrity. Decision R2-D2 introduced
-  per-link max_km; its Gibraltar cap was amended 200 -> 150
-  mid-execution when the sweep falsified the ">= 207 km"
-  premise -- zero fiction took precedence and Sevilla-Tangier
-  (180 km) was knowingly sacrificed, a regret later resolved by
-  port anchoring (Backlog 3), which revived it.
-- **Round 3 (2026-07-19).** Re-run against the post-Backlog-2
-  tree: zero blockers; all prior fixes re-verified (factors
-  digit-for-digit, sweep replica passing all Dart pins, 23/23
-  URLs live). Findings R3-1..11; owner promoted three
-  data/design minors to blocking, accepted the Dart/maths-doc
-  minors (R3-D1), and approved the structural Backlog 3.
-- **Historical baselines:** R1 review 1,534 tests; post-R1
-  1,559; post-R2 sweep: 106 ferry pairs, 40 empty-map pairs,
-  248 air fallbacks; post-R3+ports sweep: 21 ferry pairs.
+- **Rounds 1-3.** The per-round narrative, the severity counts
+  and the historical measured baselines are in
+  [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md).
+- **Rounds 4-7: no per-round narrative exists.**
+  Unlike rounds 1-3, these rounds were not written up: there is
+  no findings register, severity table or kickoff prompt for
+  them in this repo, and the archive does not hold one either.
+  Their durable output is the rule set in
+  RESEARCH_TRANSPORT.md section 9 and Appendix A, restated in
+  section 2.1 above; the only identifiers that exist are the
+  ones listed in the archived ledger. Do not reconstruct a
+  round-by-round story from them.
+
+  - Unused eco-fact: yacht eco-fact draft is written, translated and pre-audited however used as currently all 366 days have facts. Closure detail in [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
 
 ## Appendix B: Where the Detail Went
 
-The full findings registers (evidence columns, per-fix
-instructions), the executed backlogs 1-2, and the round kickoff
-prompts were moved verbatim to
-[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) in the
-2026-07-19 restructure -- every item is executed and
-independently re-verified, so the one-line ledger (section 5)
-carries the working record. The load-bearing survivors --
-standing decisions, supersession warnings, the active backlog,
-and verification -- live in sections 2-4.
+- **Rounds 1-3:**
+  [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) --
+  registers with evidence columns, round decisions, executed
+  backlogs 1-3, the completed fix ledger, the review history.
+- **Rounds 4-7:**
+  [RESEARCH_TRANSPORT.md](./RESEARCH_TRANSPORT.md) section 9 and
+  Appendix A, plus the constant block in
+  `scripts/generators/build_water_blocklist.py`; section 2.1
+  mirrors them. No rounds 4-7 register exists in any file.
+- The load-bearing survivors -- standing decisions, supersession
+  warnings, the blocklist rules, and verification -- live in
+  sections 2-4.

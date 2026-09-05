@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -11,30 +11,21 @@ import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 const _userId = 'test-user';
 
-ProviderContainer _container({
-  required FakeFirebaseFirestore firestore,
+List<Override> _overrides(
+  FakeFirebaseFirestore firestore, [
   AppUserModel? user,
-}) {
-  return ProviderContainer(
-    overrides: [
-      currentUserProvider.overrideWith((_) => Stream.value(user)),
-      // The stats provider keys on the user id, not the whole doc.
-      userIdProvider.overrideWithValue(user?.uid),
-      // Replace the repository so it reads from fake firestore instead
-      // of the FirebaseFirestore.instance the production provider uses.
-      progressRepositoryProvider.overrideWith(
-        (_) => ProgressRepository(firestore),
-      ),
-    ],
-  );
-}
-
-Future<void> _pump(ProviderContainer c) async {
-  c.listen(currentUserProvider, (_, _) {});
-  await Future<void>.delayed(Duration.zero);
-}
+]) => [
+  userOverride(user),
+  // The stats provider keys on the user id, not the whole doc.
+  userIdProvider.overrideWithValue(user?.uid),
+  // Replace the repository so it reads from fake firestore instead
+  // of the FirebaseFirestore.instance the production provider uses.
+  progressRepositoryProvider.overrideWith((_) => ProgressRepository(firestore)),
+];
 
 CollectionReference<Map<String, dynamic>> _summariesCollection(
   FakeFirebaseFirestore firestore,
@@ -65,9 +56,7 @@ void main() {
   group('co2StatsProvider', () {
     test('returns zeros when user is null', () async {
       final firestore = FakeFirebaseFirestore();
-      final c = _container(firestore: firestore);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer(_overrides(firestore));
 
       final stats = await c.read(co2StatsProvider(TimePeriod.today).future);
 
@@ -82,12 +71,9 @@ void main() {
       final firestore = FakeFirebaseFirestore();
       await _seedSummary(firestore, DateTime.now(), 1500);
 
-      final c = _container(
-        firestore: firestore,
-        user: const AppUserModel(uid: _userId, email: 'e'),
+      final c = await pumpedContainer(
+        _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final stats = await c.read(co2StatsProvider(TimePeriod.today).future);
 
@@ -101,12 +87,9 @@ void main() {
       await _seedSummary(firestore, now, 2300);
       await _seedSummary(firestore, yesterday, 2000);
 
-      final c = _container(
-        firestore: firestore,
-        user: const AppUserModel(uid: _userId, email: 'e'),
+      final c = await pumpedContainer(
+        _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final stats = await c.read(co2StatsProvider(TimePeriod.today).future);
 
@@ -121,12 +104,9 @@ void main() {
       final firestore = FakeFirebaseFirestore();
       await _seedSummary(firestore, DateTime.now(), 500);
 
-      final c = _container(
-        firestore: firestore,
-        user: const AppUserModel(uid: _userId, email: 'e'),
+      final c = await pumpedContainer(
+        _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final stats = await c.read(co2StatsProvider(TimePeriod.today).future);
 
@@ -144,12 +124,9 @@ void main() {
       await _seedSummary(firestore, now, 100);
       await _seedSummary(firestore, now.subtract(const Duration(days: 1)), 200);
 
-      final c = _container(
-        firestore: firestore,
-        user: const AppUserModel(uid: _userId, email: 'e'),
+      final c = await pumpedContainer(
+        _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final stats = await c.read(co2StatsProvider(TimePeriod.thisWeek).future);
 
@@ -165,16 +142,12 @@ void main() {
       // user.totalCo2Grams is the source of truth.
       await _seedSummary(firestore, DateTime.now(), 999);
 
-      final c = _container(
-        firestore: firestore,
-        user: const AppUserModel(
-          uid: _userId,
-          email: 'e',
-          totalCo2Grams: 42000,
+      final c = await pumpedContainer(
+        _overrides(
+          firestore,
+          const AppUserModel(uid: _userId, email: 'e', totalCo2Grams: 42000),
         ),
       );
-      addTearDown(c.dispose);
-      await _pump(c);
 
       final stats = await c.read(co2StatsProvider(TimePeriod.allTime).future);
 

@@ -2,9 +2,28 @@
 
 **Archived:** 2026-07-19. Verbatim long-form content moved out
 of [PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
-when it was restructured. Everything here is EXECUTED and
-re-verified; nothing below is a live instruction. Live rules,
-the active backlog, and the fix ledger are in the main PDR.
+when it was restructured. Everything here is EXECUTED or CLOSED
+and re-verified; nothing below is a live instruction. The live
+rules and the verification checklist are in the main PDR.
+
+**Second pass 2026-08-29.** A further round of completed work
+came across from the main PDR, which now keeps a short record of
+each: Fix Backlog 3 in full (port-anchored links and the port
+table, the water-crossing blocklist, the sweep gate), the
+completed fix ledger, the rounds 1-3 review-history narrative,
+and the historical measured baselines including the 2026-08-29
+one. The sections added in this pass carry no number, so the
+existing "section 9" reference from RESEARCH_TRANSPORT.md keeps
+resolving.
+
+**Scope: rounds 1-3 detail, plus the completed fix ledger.**
+The ledger's tail carries the only rounds 4-7 identifiers that
+exist anywhere (R4-9, R4-10, R5-11, R6-1, the round-level R5/R6/
+R7 entries, and E1). There is still no rounds 4-7 findings
+register in this or any other file and none should be invented.
+The rounds 4-7 rules live in
+[RESEARCH_TRANSPORT.md](./RESEARCH_TRANSPORT.md) section 9 and
+Appendix A, mirrored in the main PDR's section 2.1.
 
 ---
 
@@ -325,6 +344,336 @@ suite green; full suite 1,563/1,563; sweep re-run clean.
 
 ---
 
+## Fix Backlog 3 -- Structural Robustness (EXECUTED)
+
+Moved here 2026-08-29 from the main PDR's section 3, which now
+carries a summary only. Subsection numbers are kept as they read
+in the PDR.
+
+Owner-approved 2026-07-19: stop whack-a-moling per-pair; make
+the method robust to regeneration. "It's okay to lose
+links/pairs if the method becomes more robust." All three parts
+shipped; rounds 4-7 then extended 3.2 into the political and
+honesty overlays recorded in the main PDR's section 2.1. Kept as
+a record of how the current mechanism came to be, not as work to
+do.
+
+### 3.1 Port-anchored ferry links (R3-D4) -- DONE
+
+`CityLink` gained six optional flat fields (json snake_case):
+`port_a_lat/port_a_lon/radius_a_km` + b-side trio. Ferry
+offered iff each city is within its side's radius AND
+straight-line <= (`max_km` ?? 500). Portless links keep legacy
+behavior; rail_tunnel links stay portless. Distance semantics
+unchanged (whole straight line at ferry rate; ports gate
+eligibility only).
+
+Port table (radii are catchment decisions, verified against
+dataset coordinates). `data/app/cities.json` is the authority
+for these coordinates and radii; the table records them as they
+were set, not as values to restore from:
+
+| Link | a-side port (r km) | b-side port (r km) |
+|---|---|---|
+| Dover-Calais | Dover 51.127,1.324 (150) | Calais 50.966,1.862 (150) |
+| Irish Sea | Dublin Port 53.345,-6.194 (150) | Holyhead 53.309,-4.633 (250; nearest GB city Manchester 160) |
+| Ireland-France (max_km 900) | Rosslare 52.251,-6.335 (180; Cork 151) | Cherbourg 49.646,-1.622 (350; Paris 301, Brussels 445 out) |
+| Busan-Fukuoka | Hakata 33.606,130.410 (150) | Busan 35.098,129.040 (150) |
+| Gibraltar | Tanger 35.789,-5.813 (150) | Algeciras 36.127,-5.444 (150) |
+| Naples-Palermo/Messina | Palermo 38.13,13.37 (150) | Naples 40.842,14.252 (150) |
+| Zanzibar | Zanzibar -6.162,39.19 (50) | Dar port -6.82,39.29 (50) |
+| Cook Strait | Wellington -41.28,174.78 (50) | Picton -41.29,174.00 (300; Christchurch 274) |
+| St Thomas-St Croix | Charlotte Amalie 18.34,-64.93 (50) | Christiansted 17.75,-64.70 (50) |
+
+Result: ferry pairs 100 -> 21, every one on its named corridor;
+Sevilla-Tangier revived; Dublin-Groningen/Koln/Daejeon inland
+foot-ferries gone; pins updated (Sevilla-Tangier HAS,
+Hiroshima-Busan NO, Dublin-Amsterdam NO, London-Paris keeps
+ground loses ferry, synthetic port-gating unit test).
+
+### 3.2 Water-crossing blocklist (R3-D5) -- DONE
+
+`scripts/generators/build_water_blocklist.py`: reads
+cities.json + Natural Earth 1:50m land polygons
+(`data/reference/natural_earth/`, public domain), densifies the
+great-circle chord of every same-mass pair within 2,000 km, and
+computes the longest continuous water span crossed. Span >
+WATER_SPAN_BLOCK_KM (25; bridged Oresund ~15 survives) => pair
+enters `metadata.water_blocked` as `[i, j]` index pairs (i < j,
+indices into the stored cities array -- regenerate together).
+MANUAL_BLOCK for water polygons cannot see (Kinshasa-
+Brazzaville, unbridged Congo). MANUAL_ALLOW for real bridged
+corridors the threshold would wrongly block (calibrated from
+output; each entry names its real crossing).
+
+**Superseded in part by Backlogs 4-7 -- read the main PDR's
+section 2.1 before acting on the paragraph above.** The
+water-span test is no longer the blocking criterion on its own:
+the land-path honesty test decides, it runs on dry chords too,
+and MANUAL_ALLOW is now deliberately empty rather than a
+calibrated allow list.
+
+Runtime: `suggestedDistancesKm` gained optional `waterBlocked`
+set (keys from `cityPairKey`; loader `loadWaterBlockedPairs`
+resolves indices). Ground/active suppressed for blocked pairs;
+ferry/air unaffected.
+
+Accepted gaps: lakes not included (ne_50m_land only); distances
+suppressed, not corrected (no routing in an offline app);
+same-mass ferry corridors (Helsinki-Tallinn) cannot be
+expressed by mass-to-mass links -- blocked pairs >= 100 km fall
+back to air, below that manual entry.
+
+Pins: Helsinki-Tallinn NO ground/active; Kinshasa-Brazzaville
+NO ground/active; Copenhagen-Malmo KEEPS ground; unit test for
+suppression + air fallback.
+
+### 3.3 Sweep as committed regeneration gate (R3-D6) -- DONE
+
+`scripts/generators/sweep_suggestions.py` (replaces the
+scratchpad artifact): faithful replica of suggestedDistancesKm
+incl. ports and blocklist, all pairs; exits nonzero printing
+offenders on: cross-mass ground outside rail_tunnel links; any
+cross-mass active; ferry violating ports or max_km; air
+fallback < 100 km; ground/active on a water_blocked pair; any
+dead link; CITY_COUNT pin mismatch. Wired into the
+build_cities.py header ("regeneration is not done until it
+passes").
+
+### 3.4 Outcome
+
+Nothing remains open from this backlog. `water_blocked` is live
+in `data/app/cities.json` (2,399 index pairs, all honored by the
+gate on the 2026-08-29 run); the research doc carries the
+blocklist and gate documentation in section 9 with the lakes gap
+recorded under its known limitations; and section 1 of the main
+PDR is re-measured.
+
+---
+
+## Completed Fix Ledger (all verified)
+
+Moved here 2026-08-29 from the main PDR's section 5, which now
+carries a summary only. This is the one-line index of the
+registers above.
+
+Round 1 (2026-07-18, all [x], re-verified Rounds 2-3):
+
+- [x] PDR-1 uncapped landmass ferries (Tokyo-Madrid) -> ferry
+      cap + per-link max_km (since superseded by ports)
+- [x] PDR-2 island/territory landmass errors (TL, BN, GQ, BM,
+      GL, AX, IM, JE, YT, RE, ID/PH/NZ splits, XK, MF+SX) ->
+      ISLANDS/anchors extended, fail-loud generator
+- [x] PDR-3 six annotation "quotes" -> live-verified row text
+- [x] PDR-4 active-mode scope contradiction -> electricity-only
+      convention + disclosure (see Standing Decisions)
+- [x] PDR-5 false "survives 2026 revisions" claim -> invariants
+      reframed as data pins; metro dropped from invariant 2
+- [x] PDR-6 stale "well-to-tank" scope line deleted
+- [x] PDR-7 RF scope contradictions -> scope sentence amended;
+      jet note "conservative lower band"
+- [x] PDR-8 no international rail -> rail_international 4.46
+      added with loud 2026 caveat
+- [x] PDR-9 equivalency carKm 200 -> 162.72 (DEFRA 2025)
+- [x] PDR-10 "saves" copy + stale mock numbers -> "emits less",
+      refreshed totals
+- [x] PDR-11 coach 2026-repudiation disclosure line
+- [x] PDR-12 shinkansen basis "Japan rail average, CO2" +
+      Navitime 2018 vintage corrected
+- [x] PDR-13 EV grid-dependence sublabel recorded as UI req
+- [x] PDR-14 gating edges -> walk 40 split, minFlight 250,
+      comment fixes; per-mode maxSuggestKm stays a UI-PR item
+- [x] PDR-15 taxi + car ferry modes added (see Standing
+      Decisions for the taxi correction)
+- [x] PDR-16 haversine antipodal NaN -> min(1.0, a) clamp
+- [x] PDR-17 occupant clamp crash -> clamp(1, max(1, ...));
+      motorbike perVehicle pinned
+- [x] PDR-18 generator csv QUOTE_NONE + coord-aware dedup
+- [x] PDR-19 cities.json decoded once (memoized, error-safe)
+- [x] PDR-20 island empty maps -> air fallback + MF/SX mass
+
+Round 2 (2026-07-18, all [x], re-verified Round 3):
+
+- [x] R2-1 Zanzibar tagged Africa -> TZ split + ferry link
+- [x] R2-2 Faroes tagged Eurasia -> FO isolated
+- [x] R2-3 seven archipelagos single-mass -> KM/PG/CV/FJ/BS/TC/
+      VI per-island anchors
+- [x] R2-4 helicopter quote on homepage URL -> deep link
+- [x] R2-5 private_jet PJCC annotation -> real sentence
+- [x] R2-6 taxi 148.61 misleading -> per-vehicle 208.06 (R2-D1)
+- [x] R2-7 Gibraltar catch-all Red Sea ferries -> capped (now
+      port-anchored)
+- [x] R2-8 Ireland-France link dead -> max_km 900 revival
+- [x] R2-9 Suez corridor -> documented continental convention
+- [x] R2-10 +95 km pad on micro-hops -> 100 km fallback floor +
+      NaN guard (R2-D3)
+- [x] R2-11 motorbike cited to deprecated Climatiq -> re-cited
+- [x] R2-12 Navitime quote unmarked translation -> Japanese
+      original + marked translation
+- [x] R2-13 longhaul RF unsupported -> RF-stating source added
+- [x] R2-14 escooter 6 not reproducible -> aluminium-variant
+      quote + range note
+- [x] R2-15 rejected future memoized forever -> cache cleared
+      on error
+- [x] R2-16 unpinned guards -> 4 test pins added
+- [x] R2-17 walkModeMaxKm has no consumers -> UI-PR item
+- [x] R2-18 BH-QA / HK-Macau circuity lies -> known-limitations
+      doc line (class now handled by Backlog 3 blocklist)
+- [x] R2-19 MY Borneo latent trap -> anchors added
+- [x] R2-20 research doc typos fixed
+- [x] R2-21 CE Delft quote misattribution -> citation added
+- [x] R2-22 JR Central claim uncited -> source added, JR East
+      attribution dropped (JSON; doc fixed in R3-4)
+- [x] R2-23 PDR recorded superseded D1 values -> supersession
+      notes (now Standing Decisions warnings)
+- [x] R2-24 grid factor 386 below current global -> methodology
+      context note (app-wide house rule, out of scope)
+      **SUPERSEDED by decision E1 (2026-08-02): the house factor
+      is 458, not 386. See the main PDR's section 2.**
+- [x] R2-25 RF applies to CO2 component only -> one-line
+      acknowledgment in research sec 8.1
+- [x] R2-26 Greencalculus/SCIF reconstructions -> fixed in R3-9
+      with live-verified page text
+
+Round 3 (2026-07-19, all [x] except the accepted R3-10/11):
+
+- [x] R3-1 Mombasa-Zanzibar fictional ferry (only suggestion)
+      -> link capped, then port-anchored; pinned
+- [x] R3-2 enclosed-sea ground fiction (Helsinki-Tallinn,
+      Kinshasa-Brazzaville, ...) -> Backlog 3 water blocklist
+- [x] R3-3 Cook Strait unmodeled -> ferry link + pin
+- [x] R3-4 "JR East" attribution invented -> removed from
+      research doc
+- [x] R3-5 ferry_foot cited to deprecated page -> SustainMetrics
+      sea row, live-verified
+- [x] R3-6 Ireland-France inland reach -> ports + disclosure
+      (R3-D2); Dublin-Amsterdam pinned NO ferry
+- [x] R3-7 Malta-Sicily corridor fiction -> link removed; pin
+- [x] R3-8 St Croix-St Thomas empty map -> real ferry link; pin
+- [x] R3-9 citation nits (delimiters, stray colon, mid-sentence
+      caps, missing "A", Navitime ellipsis, indirect RF, CARB/
+      TRUE uncited, stale 8.1 heading, laundry "saves") -> all
+      fixed with live re-fetches; CARB kept WITH citation
+      (SB 1014 PDF verified verbatim), TRUE trimmed as
+      unverifiable; metadata citation_note discloses the
+      row-transcription convention
+- [-] R3-10 Dart minors (NaN guard, modes double-decode, latent
+      tunnel-active, fallback comment, near-duplicate metro
+      cities) -- ACCEPTED, no fix (R3-D1)
+- [-] R3-11 maths-doc minors (stale sec 6 preamble, unflagged
+      tram assumption, illustrative 81 kg, vacuous 2026 skip)
+      -- ACCEPTED, no fix (R3-D1)
+
+Rounds 4-7 -- **no findings register exists.** RESEARCH_TRANSPORT.md
+Appendix A dates the seven rounds 2026-07-17..21; the individual
+round-4-and-later artifacts carry dates of their own (owner rules
+2026-07-20 and 2026-07-21, reviewed cc-pair list 2026-07-22), and
+no other dating survives. Rounds 4 through 7 were never written
+up round by round in any
+file: there are no R4-x/R5-x/R6-x severity tables, kickoff
+prompts or per-round dates to recover, and none should be
+invented here. What survives is the rule set in
+RESEARCH_TRANSPORT.md section 9 and Appendix A, mirrored in the
+main PDR's section 2.1 and enforced by the constants in
+`build_water_blocklist.py`. The identifiers that do appear in
+those sources, and nothing beyond them:
+
+- [x] R3-D5/R4 water-crossing blocklist shipped; the land-path
+      honesty test replaced Round 3's per-pair curation, whose
+      false-positive class ran to the hundreds (Jakarta-Surabaya,
+      Bangkok-KL, Lagos-Accra)
+- [x] R4-9 Lake Victoria dishonesty (Kampala-Mwanza, real ~650 km
+      vs est 412, ~1.6x) -> recorded as the one material lakes
+      gap; ne_50m_land carries no lakes, accepted for v1
+- [x] R4-10 UI threads `loadWaterBlockedPairs()` into
+      `suggestedDistancesKm` -> pinned by a non-vacuous test;
+      binding on all future callers
+- [x] R5 political overlays added: CLOSED_BORDERS (owner rule
+      2026-07-20, no honest-detour exception), BORDER_WALLS,
+      DISHONEST_CC_PAIRS; MANUAL_ALLOW reduced to an empty
+      escape hatch
+- [x] R5-11 crossing self-check added after three FIXED_CROSSINGS
+      were found silently dead
+- [x] R6 honesty test made unconditional (dry chords too), so
+      walls and front lines block their corridors without
+      hand-curated lists; CLOSED_BORDERS extended on the owner
+      rule that active fighting closes a border and doubt
+      resolves to blocked (extended 2026-07-21, all
+      live-verified)
+- [x] R6-1 Gaza Strip cities removed from the dataset outright
+      (owner ruling 2026-07-21): all crossings sealed, no honest
+      suggestion of any kind exists
+- [x] R7 political screen wired into the gate:
+      `data/reference/reviewed_cc_ground_pairs.json` (reviewed
+      2026-07-22) plus the `--update-reviewed` refresh flow; an
+      unscreened grounded cross-country corridor now fails the
+      sweep
+- [x] E1 (2026-08-02) house grid factor 386 -> 458 g CO2e/kWh,
+      rebasing car_bev to 86 and escooter_private to 7 (see the
+      supersession warning in the main PDR's section 2)
+
+Verified sound across rounds (for the record): all 27 factors
+reproduce digit-for-digit from independent recomputation; all 13
+invariants hold now and under flagged 2026 revisions; haversine
+matches an independent implementation to 3.6e-11 km; occupancy
+clamping exact; mock arithmetic exact; DESNZ paras 5.39/5.42/
+8.43/8.44/8.45 verbatim; all cited URLs live.
+
+---
+
+## Review History (rounds 1-3) and measured baselines
+
+Moved here 2026-08-29 from the main PDR's Appendix A. The main
+PDR keeps only the rounds 4-7 block, which is a live warning
+against reconstructing a register that was never written.
+
+- **Round 1 (reviewed 2026-07-17, fixed 2026-07-18).** First
+  adversarial pass on the working tree: 5 blockers, 10 majors,
+  5 minors (PDR-1..20). Headline classes: uncapped mass-level
+  ferry links, island/territory landmass errors, annotation
+  text shipped as quotes, active-mode scope contradiction.
+  Key superseded decision: D1 originally kept cycle 16 / ebike
+  8 "for consistency"; the owner later switched active modes to
+  electricity-only -- hence the Standing Decisions warning. D3
+  originally shipped taxi at 148.61 per-passenger-km
+  "deadheading included"; Round 2 proved the premise false
+  (DESNZ 5.42 excludes deadheading) and taxi shipped per-vehicle
+  at 208.06 instead.
+- **Round 2 (2026-07-18).** Re-run of the four agents plus a
+  full-pair sweep and live fetches of all cited URLs: 6
+  blockers, 8 majors, 12 minors (R2-1..26), largely archipelago
+  geography and citation integrity. Decision R2-D2 introduced
+  per-link max_km; its Gibraltar cap was amended 200 -> 150
+  mid-execution when the sweep falsified the ">= 207 km"
+  premise -- zero fiction took precedence and Sevilla-Tangier
+  (180 km) was knowingly sacrificed, a regret later resolved by
+  port anchoring (Backlog 3), which revived it.
+- **Round 3 (2026-07-19).** Re-run against the post-Backlog-2
+  tree: zero blockers; all prior fixes re-verified (factors
+  digit-for-digit, sweep replica passing all Dart pins, 23/23
+  URLs live). Findings R3-1..11; owner promoted three
+  data/design minors to blocking, accepted the Dart/maths-doc
+  minors (R3-D1), and approved the structural Backlog 3.
+- **Historical baselines:** R1 review 1,534 tests; post-R1
+  1,559; post-R2 sweep: 106 ferry pairs, 40 empty-map pairs,
+  248 air fallbacks; post-R3+ports sweep: 21 ferry pairs.
+  Current state is in the main PDR's section 1; run the sweep
+  gate for current numbers.
+- **Measured 2026-08-29** (moved from the main PDR's section 1;
+  re-run the gate for current numbers rather than reading them
+  here): full suite 1,742 tests green, of which the 156
+  transport tests; sweep gate PASS over 468,996 pairs --
+  suggestion kinds 466,951 air / 29,476 ground / 1,136 active /
+  21 ferry; all 2,399 water_blocked pairs honored; 1,624
+  grounded cross-country pairs, all reviewed, zero new and zero
+  stale; smallest air fallback 100.5 km; and all nine ferry
+  links still produce ferry pairs (Dover-Calais 1, Irish Sea 6,
+  Ireland-France 4, Busan-Fukuoka 4, Gibraltar 2,
+  Messina/Naples-Palermo 1, Zanzibar 1, Cook Strait 1,
+  St Thomas-St Croix 1), so no link is dead.
+
+---
+
 ## 9. Research-Pass Closures (from RESEARCH_TRANSPORT.md sec 7)
 
 Moved 2026-08-08 so the research doc tracks only what is still
@@ -349,3 +698,288 @@ Resolved 2026-07-18: RF multiplier verified at 1.7 on the DESNZ
 one-leg-covers-both calc note (decision D3); JSON build step done
 (`data/app/transport_modes.json`, 27 modes).
 
+
+
+Moved 2026-08-29 (second pass), same reason: the research doc
+tracks only what is still open. Every item below is closed. The
+live rules they produced live on elsewhere -- grid factor E1 and
+port anchoring in the main PDR's section 2, the city-name
+sourcing rules in the header of
+`scripts/generators/enrich_city_names.py` and its pins in
+`test/features/transport/`, so nothing here is load-bearing.
+
+- [x] Re-verify exact MLIT FY2023/FY2024 chart values --
+      CLOSED 2026-08-29. Values and their publication form are
+      in section 1 (Japan context): chart image only, no table
+      and no dataset, so the re-verification was done by
+      reading the PNGs. The pass turned up a live discrepancy
+      in what ships, so the finding is recorded in full here.
+
+      **1. What MLIT says.** Rail is **17** g-CO2/passenger-km
+      in both 年度2023 and 年度2024. It was 20 in 年度2022 and
+      25 in 年度2021 (COVID load factors). So MLIT's own
+      FY2023 rail number is 17, not 20.
+
+      **2. The shipped claim does not hold as written.**
+      `rail_shinkansen` ships 20 g/km and its
+      `calculation_notes` say "Primary figure is the FY2023
+      value via Planet Forward" on a "Japan rail average"
+      basis. Traced live 2026-08-29: Planet Forward
+      (https://planetforward.org/story/japans-trains-climate/,
+      essay by Emma Ward, Kent State University, published
+      2026-02-24) says "data from the 2023 fiscal year show
+      that rail travel emits just 20 grams of CO2 per
+      passenger-kilometer, which is equal to about 16% of the
+      emissions produced by privately owned cars, roughly 20%
+      of those from aviation, and about 28% of bus emissions",
+      and hyperlinks that sentence to JR East's integrated
+      report. Those three ratios pin the comparator set, and
+      the arithmetic is the whole proof, so it is written out
+      here once: against the 年度2022 set 128/101/71 they come
+      out 15.6, 19.8 and 28.2, which is what the article
+      rounds to 16, 20 and 28; against the 年度2023 set
+      127/94/63 they would come out 16, 21 and 32, which is
+      not what the article says. Independently confirmed by
+      the owner before approval. That set 128/101/71/20 is the
+      JR East chart headed "CO2 Emissions per Transportation
+      Volume (Passenger Transportation) (Fiscal 2023)" in JR
+      East Group INTEGRATED REPORT 2024 (printed page 80),
+      credited "Source: Adapted from the website of the
+      Ministry of Land, Infrastructure, Transport and
+      Tourism" -- and it is MLIT's 年度2022 chart, digit for
+      digit. JR East is not misquoting: it uses the English
+      year-ending convention, so its "Fiscal 2023" is the year
+      ended March 2023, i.e. 年度2022. Planet Forward read
+      that label as a Japanese 年度 and our notes inherited
+      the slip. Net: the shipped 20 is MLIT's 年度2022
+      national rail average, two vintages stale, described to
+      users as an FY2023 figure. Both fields reach the user
+      (`transport_science_sheet.dart` writes
+      `calculationNotes` then iterates `sources`;
+      `transport_methodology_screen.dart` iterates
+      `mode.sources`), so the wording is user-facing.
+
+      **3. The re-source that keeps the number.**
+      The same page of the same report, under the heading
+      "Calculation and Disclosure of CO2 emissions by
+      Shinkansen Segments", states: "Based on fiscal
+      2024 results, we calculated segment-by-segment CO2
+      emissions per customer associated with travel on
+      Shinkansen lines. In addition, CO2 emissions per
+      transportation volume were 12g-CO2/person-km for JR East
+      as a whole, and 20g-CO2/person-km for Shinkansen
+      segments." JR East "fiscal 2024" = year ended March 2024
+      = 年度2023. That is a Shinkansen-specific,
+      operator-published 年度2023 figure of exactly 20 -- a
+      better fit for a mode called `rail_shinkansen` than any
+      all-rail national average.
+
+      The year mapping is not inference: the report's own
+      reporting-period statement (printed page 4) says "This
+      report principally covers our activities for fiscal
+      2024, from April 1, 2023 to March 31, 2024".
+
+      **Outcome: option A applied 2026-08-29** (owner
+      approved). `rail_shinkansen` keeps 20 g/km; Planet
+      Forward is replaced by the JR East disclosure; the
+      `calculation_notes` no longer claim a Japan rail average
+      basis or an FY2023 vintage via Planet Forward, and now
+      state the Shinkansen-specific basis and 年度2023. No
+      factor change, so no collision with the standing
+      decision in
+      [PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+      section 2. The two rejected alternatives, for the
+      record: keeping Planet Forward and correcting only the
+      vintage wording would ship a knowingly stale 年度2022
+      national average on a Shinkansen mode; dropping the
+      factor to 17 would match MLIT 年度2023 and 年度2024 but
+      substitute an all-rail average that includes commuter
+      and local lines for the operator's own Shinkansen
+      figure, making the number less right for this mode, not
+      more.
+
+      **Verification caveat, carried into the dataset.**
+      jreast.co.jp returns HTTP 403 to every automated request
+      from this session, including its own landing page and
+      re-confirmed at the time of the edit, so both JR East
+      quotes were read from the Internet Archive capture of
+      https://www.jreast.co.jp/e/environment/pdf_2024/all.pdf
+      taken 2025-08-03. The shipped `sources[].url` is that
+      archive URL rather than the bare jreast.co.jp one,
+      because only the archive URL actually resolves for a
+      reader today; the source NAME stays "JR East". The
+      Shinkansen figures sit on printed page 80 and the
+      reporting-period statement on printed page 4 (PDF pages
+      41 and 3 of the capture). A live re-read is owed when
+      the host becomes reachable; nothing else about the entry
+      depends on it.
+
+- [x] Yacht eco-fact -- DRAFTED 2026-08-29, parked in sec 8.3
+      awaiting a calendar slot. Re-sourced to the peer-reviewed
+      Barros & Wilk paper (the figure is 7,018 t CO2e, not the
+      7,020 t CO2 this doc long carried) and pre-audited against
+      [AUDIT_FACT_DATA.md](./AUDIT_FACT_DATA.md). Shipping it
+      means displacing one of the 366 days, which is an owner
+      call
+
+- [x] **House grid factor** -- RESOLVED 2026-08-02 (decision E1):
+  raised 386 -> 458 g CO2e/kWh (Ember GER 2026). car_bev 73 -> 86,
+  escooter_private 6 -> 7, ebike holds at 2. Regional factors are
+  now their own brief:
+  [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md).
+
+- [x] Port-anchored ferry links -- DONE (Fix Backlog 3, R3-D4);
+      Malta-Sicily can return with ports at Valletta/Pozzallo
+      once Catania is force-included
+
+- [x] JA/ES localization of city names -- DONE: `name_ja` on 925
+      of 969 cities, `name_es` on 275, sourced by
+      `scripts/generators/enrich_city_names.py` from GeoNames
+      alternate names (CC BY 4.0) and, for JA only, Wikidata
+      labels (CC0). JA splits 785 GeoNames + 107 Wikidata joined
+      on P1566 (GeoNames ID) + 33 Wikidata matched on the item's
+      primary English label. Matching on an alternate label was
+      tried and dropped: it is how Cape Bojador answers to
+      "Boujdour", and no coordinate check catches that. A name
+      match ships only when the item's P625 coordinate falls
+      inside a population-scaled band -- 25 km at 400k and above,
+      10 km below it, because a same-named settlement 20 km from
+      a small town is plausibly a different place. In the small
+      band a P17 country claim that disagrees with the city's
+      country code rejects the match only past 5 km: cities.json
+      codes dependent territories by their own ISO code while P17
+      names the sovereign state, so a closer mismatch is that
+      modelling gap rather than a wrong entity. Nothing is
+      transliterated, so the rest fall back to English: 44 have
+      no JA entry in either source; of the 694 without `name_es`,
+      486 are cities GeoNames spells identically in ES and 208
+      have no ES entry. Search folds accents and matches all
+      three names
+
+- [x] Rail-specific circuity factor -- CLOSED 2026-08-29,
+      FOUND. Two citable sources; neither is wired into code
+      (that is a separate change), and the recommendation is
+      still not to swap the shipped 1.3. Sources:
+
+      1. Heinold, A. and Makowski, C. (2026), "Driving the
+         Extra Mile: Comprehensive Analysis of Road and Rail
+         Transportation Distances in Europe", *Networks and
+         Spatial Economics* 26(2):633-662, published online
+         2026-02-19, open access CC BY 4.0.
+         https://doi.org/10.1007/s11067-026-09729-y
+         (accessed 2026-08-29). Defines circuity exactly as we
+         use it, "Circuity = Transportation Distance /
+         Great-Circle Distance", great circle by Haversine.
+         > "Circuity between countries ranges from 1.15 to
+         > 1.76 (median 1.25) for road transportation and 1.13
+         > to 2.07 (median 1.42) for rail transportation."
+         > "Across all country connections, the median
+         > circuity is 1.25 for road and 1.42 for rail.
+         > Similarly, across all regions, the median circuity
+         > is 1.23 for road and 1.38 for rail."
+         > "While circuity decreases for longer road
+         > distances, no such relationship is found for rail."
+         Method: OpenStreetMap network (Geofabrik 2024),
+         shortest path via SCGraph, 200 random point pairs per
+         NUTS pair, outlier bounds from 1.5x the interquartile
+         range and themselves clipped to [1, 3]. Per-country-
+         pair means and standard deviations are in the paper's
+         electronic appendix. Scope limits that matter to us:
+         continental Europe only, and train type is explicitly
+         out of scope --
+         > "Otherwise, we would require specific knowledge
+         > about the vehicle or train type, e.g., passenger vs.
+         > freight trains or electric vs. diesel locomotives,
+         > which is beyond the scope of this paper."
+         So 1.42 is network topology, not a passenger-service
+         route factor. The paper also restates Ballou et al.
+         2002 (already cited above): "For Europe, the study
+         reports an average circuity factor of 1.46, which
+         lies between the lowest (1.12 for Belarus) and
+         highest (2.1 for Egypt) value within the data set."
+         That is road, and it is the same reason our
+         US-derived 1.3 reads as a floor rather than a world
+         average.
+      2. UIC / ifeu EcoPassenger, "Environmental Methodology
+         and Data Update 2016" (Knoerr, ifeu Heidelberg;
+         Huettermann, HaCon Hannover; dated 2016-11-17).
+         https://uic.hafas.cloud/hafas-res/download/Ecopassenger_Methodology_Data.pdf
+         (accessed 2026-08-29). The rail industry's own
+         passenger calculator:
+         > "The length of the train routes is determined by
+         > the polygon defined by all in-between stops of a
+         > train. The length of the train route between two
+         > connected stations is calculated by the line of
+         > sight distance which is extended by 20%-30%
+         > depending on cases."
+         That is 1.20-1.30, but applied stop to stop along the
+         timetable polygon, not endpoint to endpoint, so the
+         effective origin-to-destination circuity under that
+         method is higher than 1.2-1.3: the polygon has
+         already deviated. Same report's car table is a
+         distance-banded factor (1.35 up to 100 km, 1.25 to
+         500, 1.15 to 1000, 1.1 beyond), a useful sanity check
+         on our flat 1.3.
+
+      **Recommendation: record, do not adopt.** The two
+      sources bracket rather than settle it. EcoPassenger's
+      leg-level rail factor is essentially our 1.3; Heinold's
+      endpoint-to-endpoint rail median of 1.42 is the closer
+      construct to what we compute, and would raise rail
+      estimates about 9%. Three things make that a bigger
+      change than one constant: (a) 1.42 is continental Europe
+      only, and rail suggestions here are mostly domestic and
+      heavily JP, where a dense purpose-built network is not
+      the Baltic-detour case that lifts the European median;
+      (b) there is no rail bucket to put it in --
+      `suggestedDistancesKm` computes one `kindGround` value
+      for car, bus and rail, so adopting it means splitting
+      the bucket; (c) `GROUND_CIRCUITY` is shared with
+      `build_water_blocklist.py`, where `PATH_LIMIT_FACTOR =
+      HONESTY_MAX * GROUND_CIRCUITY / ROAD_OVER_GEODESIC`
+      calibrates every open/blocked verdict, so a rail-only
+      change would show rail distances the honesty bar never
+      tested. Adopt only as part of a scoped change that does
+      all three. Known direction of the current bias, now
+      citable: rail estimates run short for European-style
+      networks. Revisit if a future edition of the Heinold
+      dataset covers Japan or splits passenger rail, or if
+      DEFRA/DESNZ ever adds a rail distance uplift.
+
+      Checked and negative, so the next person can skip them:
+      DESNZ 2026 GHG conversion factors methodology paper
+      (152 pp,
+      https://assets.publishing.service.gov.uk/media/6a2940543b15d05a7ce3202e/2026-GHG-conversion-factors-methodology-report.pdf,
+      accessed 2026-08-29) -- zero occurrences of "circuity"
+      or "detour"; its only distance uplift is aviation's,
+      > "An 8% uplift factor is used in the UK Greenhouse Gas
+      > Inventory to scale up Great Circle distances (GCD) for
+      > flights between airports"
+      with nothing equivalent for rail or road. EcoTransIT
+      World Methodology Report v4 (ISO 14083, 2025,
+      https://www.ecotransit.org/wp-content/uploads/EcoTransIT_World_Methodology_Report_Version_4_ISO14083.pdf,
+      accessed 2026-08-29) -- routes rail on its own network
+      graph rather than uplifting a great circle, and its
+      user-set Distance Adjustment Factor is "disabled by
+      default" with the only built-in default (15%) applying
+      to ocean shipments. Wikibooks Transportation Geography
+      and Network Science / Circuity -- defines the term
+      ("Circuity is the ratio of network to Euclidean
+      distance"), carries no rail values. DG MOVE "EU
+      transport in figures" Statistical Pocketbook 2025 -- its
+      published sections are tonne-km and passenger-km
+      performance, infrastructure, means of transport, safety,
+      and energy/environment; nothing distance-ratio, so it
+      was not opened section by section.
+
+- [x] UI threads `loadWaterBlockedPairs()` into
+      `suggestedDistancesKm` -- DONE, pinned by a non-vacuous test
+      (R4-10); binding on all future callers
+
+- [x] Per-mode `maxSuggestKm` -- CLOSED: satisfied by the
+      kind-to-group mapping (micro/taxi/high-impact are never
+      suggested; the distance caps gate the rest)
+
+- [x] Leg-length -> flight-band mapping -- DONE: the comparison
+      view auto-picks the honest band from leg distance
+      (Appendix A.4)

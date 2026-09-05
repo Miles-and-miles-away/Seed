@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
+import 'package:seed_app/features/progress/presentation/widgets/equivalency_display.dart';
 
 /// One tile in the equivalencies row: an icon, the formatted value,
 /// and the localized unit label. Width is dictated by the parent row,
@@ -33,7 +34,7 @@ class EquivalencyCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            _iconFor(equivalency.type),
+            equivalency.type.icon,
             size: 28,
             color: theme.colorScheme.primary,
           ),
@@ -58,7 +59,7 @@ class EquivalencyCard extends StatelessWidget {
           // charges") -- cap at two lines with ellipsis so the card
           // height stays bounded on every locale.
           Text(
-            _labelFor(equivalency.type, l10n),
+            equivalency.type.label(l10n),
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -70,21 +71,6 @@ class EquivalencyCard extends StatelessWidget {
       ),
     );
   }
-
-  IconData _iconFor(EquivalencyType type) => switch (type) {
-    EquivalencyType.trees => Icons.park,
-    EquivalencyType.carKm => Icons.directions_car_outlined,
-    EquivalencyType.phoneCharges => Icons.battery_charging_full,
-    EquivalencyType.burgers => Icons.lunch_dining,
-  };
-
-  String _labelFor(EquivalencyType type, AppLocalizations l10n) =>
-      switch (type) {
-        EquivalencyType.trees => l10n.equivTreesLabel,
-        EquivalencyType.carKm => l10n.equivCarKmLabel,
-        EquivalencyType.phoneCharges => l10n.equivPhoneChargesLabel,
-        EquivalencyType.burgers => l10n.equivBurgersLabel,
-      };
 
   // Trees can be sub-unit (e.g. 0.4) and read most clearly with one
   // decimal. Whole-unit equivalencies use locale-aware grouping

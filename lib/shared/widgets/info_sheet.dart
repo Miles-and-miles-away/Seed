@@ -23,9 +23,7 @@ class InfoSheet extends StatelessWidget {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => InfoSheet(title: title, body: body),
     );
   }

@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_impact_card.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget wrap(Widget child, {AppUserModel? user}) => ProviderScope(
-    overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(
-        body: Padding(padding: const EdgeInsets.all(16), child: child),
-      ),
-    ),
+  Widget wrap(Widget child, {AppUserModel? user}) => createTestWidget(
+    scaffold: true,
+    overrides: [userOverride(user)],
+    child: Padding(padding: const EdgeInsets.all(16), child: child),
   );
 
   testWidgets('shows zero counts when the user has no logged impact', (

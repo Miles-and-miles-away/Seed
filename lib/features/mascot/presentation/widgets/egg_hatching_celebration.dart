@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,9 +30,8 @@ class EggHatchingCelebration extends ConsumerStatefulWidget {
       _EggHatchingCelebrationState();
 }
 
-class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
-    with TickerProviderStateMixin {
-  late AnimationController _particleController;
+class _EggHatchingCelebrationState
+    extends ConsumerState<EggHatchingCelebration> {
   late List<ConfettiParticle> _particles;
   bool _showMascot = false;
   bool _showNameInput = false;
@@ -44,10 +41,6 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
   @override
   void initState() {
     super.initState();
-    _particleController = AnimationController(
-      vsync: this,
-      duration: durationParticleLoop,
-    );
     _particles = List.generate(
       40,
       (_) => ConfettiParticle.random(colorCount: 4),
@@ -56,8 +49,6 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
   }
 
   Future<void> _startSequence() async {
-    unawaited(_particleController.repeat());
-
     // Show mascot reveal after egg crack delay
     await Future<void>.delayed(durationReveal);
     if (mounted) setState(() => _showMascot = true);
@@ -68,7 +59,6 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
 
   @override
   void dispose() {
-    _particleController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -102,24 +92,16 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
 
     return CelebrationOverlay(
       children: [
-        // Particles
-        RepaintBoundary(
-          child: AnimatedBuilder(
-            animation: _particleController,
-            builder: (context, _) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: ConfettiPainter(
-                  particles: _particles,
-                  colors: const [
-                    AppColors.gold,
-                    AppColors.success,
-                    AppColors.glowBlue,
-                    AppColors.celebrationPink,
-                  ],
-                ),
-              );
-            },
+        ConfettiLayer(
+          painter: (progress) => ConfettiPainter(
+            particles: _particles,
+            colors: const [
+              AppColors.gold,
+              AppColors.success,
+              AppColors.glowBlue,
+              AppColors.celebrationPink,
+            ],
+            progress: progress,
           ),
         ),
 
@@ -129,15 +111,7 @@ class _EggHatchingCelebrationState extends ConsumerState<EggHatchingCelebration>
             children: [
               const Spacer(),
 
-              // Title
-              Text(
-                l10n.eggHatchingTitle,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.2, end: 0),
+              CelebrationTitle(l10n.eggHatchingTitle),
 
               const Spacer(),
 

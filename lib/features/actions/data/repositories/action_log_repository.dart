@@ -64,13 +64,15 @@ class ActionLogRepository {
     String? note,
   }) async {
     final now = DateTime.now();
+    final todayKey = formatDateKey(now);
+    final yesterdayKey = formatDateKey(previousCalendarDay(now));
     final userRef = firestore
         .collection(AppConstants.collectionUsers)
         .doc(userId);
     final actionLogRef = dataSource.getActionLogCollection(userId).doc();
     final summaryRef = userRef
         .collection(AppConstants.collectionDailySummaries)
-        .doc(formatDateKey(now));
+        .doc(todayKey);
 
     final actionLog = ActionLogModel(
       id: actionLogRef.id,
@@ -213,18 +215,21 @@ class ActionLogRepository {
             mascots[idx][AppConstants.fieldMascotPoints] = newMascotPts;
             mascots[idx][AppConstants.fieldMascotLevel] = newMascotLevel;
             mascots[idx][AppConstants.fieldIsFullyEvolved] = nowFullyEvolved;
-            updates[AppConstants.fieldMascots] = mascots;
-
-            // 4. Egg pending discovery
-            if (nowFullyEvolved &&
-                userData[AppConstants.fieldEgg] == null &&
-                !(userData[AppConstants.fieldEggPendingDiscovery] as bool? ??
-                    false)) {
-              updates[AppConstants.fieldEggPendingDiscovery] = true;
-              updates[AppConstants.fieldEggPendingDiscoverySince] =
-                  Timestamp.fromDate(now);
-            }
           }
+        }
+
+        // 4. Egg pending discovery: reaching the unlock stage earns the
+        // egg that carries the species the user did not start with.
+        if (userData[AppConstants.fieldEgg] == null &&
+            !(userData[AppConstants.fieldEggPendingDiscovery] as bool? ??
+                false) &&
+            eggHatchingService.hasUnlockedNextSpecies(
+              mascots.map(MascotModel.fromJson).toList(),
+              mascotSpecies,
+            )) {
+          updates[AppConstants.fieldEggPendingDiscovery] = true;
+          updates[AppConstants.fieldEggPendingDiscoverySince] =
+              Timestamp.fromDate(now);
         }
       }
 
@@ -280,7 +285,6 @@ class ActionLogRepository {
       // 6. Daily challenge completion
       final challengeCompletedDate =
           userData[AppConstants.fieldChallengeCompletedDate] as String? ?? '';
-      final todayKey = formatDateKey(now);
 
       if (challengeCompletedDate != todayKey) {
         final recentIds =
@@ -296,7 +300,6 @@ class ActionLogRepository {
 
         if (challenge.category == action.category) {
           challengeCompleted = true;
-          final yesterdayKey = formatDateKey(previousCalendarDay(now));
           final oldStreak =
               (userData[AppConstants.fieldChallengeStreak] as int?) ?? 0;
           final newStreak = challengeCompletedDate == yesterdayKey
@@ -332,7 +335,6 @@ class ActionLogRepository {
         );
         final lastDate =
             multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
-        final todayKey2 = formatDateKey(now);
 
         if (template == null) {
           // Template removed in an app update while still active for
@@ -340,11 +342,10 @@ class ActionLogRepository {
           // which would fail every subsequent log.
           updates[AppConstants.fieldActiveMultiDayChallenge] =
               <String, dynamic>{};
-        } else if (lastDate != todayKey2) {
+        } else if (lastDate != todayKey) {
           final categoryMatch =
               template.category == null || template.category == action.category;
           if (categoryMatch) {
-            final yesterdayKey = formatDateKey(previousCalendarDay(now));
             final currentDay =
                 (multiDay[AppConstants.fieldCurrentDay] as int?) ?? 0;
 
@@ -362,7 +363,7 @@ class ActionLogRepository {
                 updates[AppConstants.fieldActiveMultiDayChallenge] = {
                   ...multiDay,
                   AppConstants.fieldCurrentDay: newDay,
-                  AppConstants.fieldLastCompletionDate: todayKey2,
+                  AppConstants.fieldLastCompletionDate: todayKey,
                 };
               }
             } else {
@@ -370,7 +371,7 @@ class ActionLogRepository {
               updates[AppConstants.fieldActiveMultiDayChallenge] = {
                 ...multiDay,
                 AppConstants.fieldCurrentDay: 1,
-                AppConstants.fieldLastCompletionDate: todayKey2,
+                AppConstants.fieldLastCompletionDate: todayKey,
               };
             }
           }
@@ -407,7 +408,7 @@ class ActionLogRepository {
             .toJson();
       } else {
         summaryData = DailySummaryModel(
-          date: formatDateKey(now),
+          date: todayKey,
           goalCount: 1,
           completedSdgs: sdgNumbers.toSet().toList(),
           totalPoints: action.points,
@@ -441,12 +442,11 @@ class ActionLogRepository {
   }
 
   /// Parses a date from Firestore data.
-  DateTime? _parseDate(Object? value) {
-    if (value == null) return null;
-    if (value is Timestamp) return value.toDate();
-    if (value is DateTime) return value;
-    return null;
-  }
+  DateTime? _parseDate(Object? value) => switch (value) {
+    Timestamp() => value.toDate(),
+    DateTime() => value,
+    _ => null,
+  };
 }
 
 /// Result of logging an action.
@@ -479,6 +479,4 @@ class ActionLogResult {
   final int newTotalActionsCount;
 
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
-
-  bool get didHatchEgg => hatchedMascotId != null;
 }

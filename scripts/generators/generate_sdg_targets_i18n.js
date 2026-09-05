@@ -10,6 +10,13 @@
  * - ES: UN Spanish official translation
  *
  * Usage: node scripts/generate_sdg_targets_i18n.js
+ *
+ * SPENT: DATA below has drifted behind both shipped outputs. A re-run
+ * strips Spanish diacritics from sdg_targets.json (al dia, proporcion,
+ * ninos) and replaces the 29-line sdg_targets.dart model with a stale
+ * inlined-data version that drops SdgTarget.fromJson and renames
+ * description() to getDescription(), which breaks the build. Refresh
+ * DATA before trusting it; --force runs anyway.
  */
 
 const fs = require('fs');
@@ -464,31 +471,18 @@ function generateDart() {
       parts.push("    SdgTarget(");
       parts.push(`      code: '${code}',`);
 
-      // EN description
-      const enLines = wrapStr(en, 10);
-      if (enLines.includes('\n')) {
-        parts.push("      description:");
-        parts.push(enLines + ',');
-      } else {
-        parts.push(`      description: ${enLines},`);
-      }
-
-      // JA description
-      const jaLines = wrapStr(ja, 10);
-      if (jaLines.includes('\n')) {
-        parts.push("      descriptionJa:");
-        parts.push(jaLines + ',');
-      } else {
-        parts.push(`      descriptionJa: ${jaLines},`);
-      }
-
-      // ES description
-      const esLines = wrapStr(es, 10);
-      if (esLines.includes('\n')) {
-        parts.push("      descriptionEs:");
-        parts.push(esLines + ',');
-      } else {
-        parts.push(`      descriptionEs: ${esLines},`);
+      for (const [key, text] of [
+        ['description', en],
+        ['descriptionJa', ja],
+        ['descriptionEs', es],
+      ]) {
+        const wrapped = wrapStr(text, 10);
+        if (wrapped.includes('\n')) {
+          parts.push(`      ${key}:`);
+          parts.push(wrapped + ',');
+        } else {
+          parts.push(`      ${key}: ${wrapped},`);
+        }
       }
 
       parts.push("    ),");
@@ -520,6 +514,16 @@ function generateJson() {
 }
 
 function main() {
+  if (!process.argv.includes('--force')) {
+    console.error(
+      'refusing to run: the DATA table is stale. It would strip Spanish '
+      + 'diacritics from sdg_targets.json and overwrite sdg_targets.dart '
+      + 'with a version that no longer compiles. Refresh DATA first, or '
+      + 'pass --force if you really mean to overwrite.',
+    );
+    process.exit(1);
+  }
+
   // Count targets
   let total = 0;
   for (let g = 1; g <= 17; g++) {

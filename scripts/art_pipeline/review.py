@@ -13,16 +13,11 @@ Usage:
 
 import argparse
 import sys
-from io import BytesIO
 from pathlib import Path
 
-import cairosvg
-import yaml
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
-SCRIPT_DIR = Path(__file__).parent
-CONFIG_PATH = SCRIPT_DIR / "config.yaml"
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
+from _common import PROJECT_ROOT, load_config, render_svg
 
 THUMB_SIZE = 256
 PADDING = 16
@@ -32,20 +27,10 @@ LABEL_BG = (66, 66, 66)
 LABEL_FG = (255, 255, 255)
 
 
-def load_config():
-    with open(CONFIG_PATH) as f:
-        return yaml.safe_load(f)
-
-
 def svg_to_thumbnail(svg_path, size=THUMB_SIZE):
     """Render SVG to PIL Image thumbnail."""
     try:
-        png_bytes = cairosvg.svg2png(
-            url=str(svg_path),
-            output_width=size,
-            output_height=size,
-        )
-        return Image.open(BytesIO(png_bytes)).convert("RGBA")
+        return render_svg(svg_path, size)
     except Exception as e:
         # Return error placeholder
         img = Image.new("RGBA", (size, size), (255, 200, 200, 255))

@@ -378,25 +378,25 @@
       "name_es": "Shinkansen (tren bala)",
       "g_co2e_per_km": 20,
       "per_vehicle": false,
-      "calculation_notes": "Non-DEFRA source. Basis: Japan rail average, CO2 (not CO2e), per passenger-km -- a national average across all rail, not a Shinkansen-specific factor (Shinkansen-specific would be similar or better at typical load factors). Primary figure is the FY2023 value via Planet Forward; the Navitime corroboration page is the MLIT-supervised 2018 edition of Transport and Environment, an older vintage. JR Central's own quotable comparison for the Tokyo-Osaka Shinkansen vs an equivalent flight is ~1/8 the energy and ~1/12 the CO2 of the aircraft.",
+      "calculation_notes": "Non-DEFRA source. Basis: JR East's own Shinkansen-segment disclosure, CO2 (not CO2e), per passenger-km. Shinkansen-specific, not a national rail average: the same disclosure puts JR East as a whole at 12 g-CO2/person-km against 20 for Shinkansen segments. Vintage is Japanese fiscal 2023 (April 2023 to March 2024), which JR East labels 'fiscal 2024' under the year-ending convention its own reporting-period statement spells out. The Navitime corroboration page carries the same 20 g/km for rail, but as an all-rail figure from the MLIT-supervised 2018 edition of Transport and Environment, an older vintage. JR Central's own quotable comparison for the Tokyo-Osaka Shinkansen vs an equivalent flight is ~1/8 the energy and ~1/12 the CO2 of the aircraft. The JR East report is linked through its Internet Archive capture because jreast.co.jp blocks direct access.",
       "sources": [
         {
-          "name": "Planet Forward",
-          "url": "https://planetforward.org/story/japans-trains-climate/",
-          "quote": "rail travel emits just 20 grams of CO2 per passenger-kilometer",
-          "accessed": "2026-07-17"
+          "name": "JR East",
+          "url": "https://web.archive.org/web/20250803141325/https://www.jreast.co.jp/e/environment/pdf_2024/all.pdf",
+          "quote": "Based on fiscal 2024 results, we calculated segment-by-segment CO2 emissions per customer associated with travel on Shinkansen lines. In addition, CO2 emissions per transportation volume were 12g-CO2/person-km for JR East as a whole, and 20g-CO2/person-km for Shinkansen segments. | This report principally covers our activities for fiscal 2024, from April 1, 2023 to March 31, 2024 (JR East Group INTEGRATED REPORT 2024, printed pages 80 and 4; read from the Internet Archive capture of 2025-08-03, the live host being unreachable)",
+          "accessed": "2026-08-29"
         },
         {
           "name": "Navitime (MLIT-supervised reference page)",
           "url": "https://www.navitime.co.jp/pcstorage/html/co2info.html",
           "quote": "自動車 145g/km | バス 66g/km | 航空 96g/km | 鉄道 20g/km | … | 出典元:｢運輸･交通と環境2018年版」 (our translation: car 145, bus 66, airplane 96, rail 20 g/km per passenger-km; skipped lines list walking and cycling at 0; source: Transport and Environment, 2018 edition)",
-          "accessed": "2026-07-19"
+          "accessed": "2026-08-29"
         },
         {
           "name": "JR Central",
           "url": "https://global.jr-central.co.jp/en/company/about_shinkansen/",
           "quote": "The energy consumption amount per seat when traveling between Tokyo and Osaka is approximately 1/8th of that of an aircraft | The CO2 emission rate for the same is around 1/12th",
-          "accessed": "2026-07-18"
+          "accessed": "2026-08-29"
         }
       ]
     },

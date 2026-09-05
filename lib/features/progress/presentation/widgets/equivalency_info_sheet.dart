@@ -8,6 +8,7 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/progress/presentation/widgets/equivalency_display.dart';
 
 const double _kMaxChildSize = 0.9;
 const double _kMinChildSize = 0.4;
@@ -31,9 +32,7 @@ class EquivalencyInfoSheet extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => const EquivalencyInfoSheet(),
     );
   }
@@ -145,14 +144,14 @@ class _EquivalencyExplainer extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  _iconFor(metadata.type),
+                  metadata.type.icon,
                   color: theme.colorScheme.primary,
                   size: 24,
                 ),
                 const SizedBox(width: spacingSm),
                 Expanded(
                   child: Text(
-                    _labelFor(metadata.type, l10n),
+                    metadata.type.label(l10n),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -178,28 +177,12 @@ class _EquivalencyExplainer extends StatelessWidget {
             _LabeledLine(
               label: l10n.impactInfoFormulaLabel,
               value: l10n.equivFormulaTemplate(formattedFactor),
-              valueIsMonospace: true,
             ),
           ],
         ),
       ),
     );
   }
-
-  IconData _iconFor(EquivalencyType type) => switch (type) {
-    EquivalencyType.trees => Icons.park,
-    EquivalencyType.carKm => Icons.directions_car_outlined,
-    EquivalencyType.phoneCharges => Icons.battery_charging_full,
-    EquivalencyType.burgers => Icons.lunch_dining,
-  };
-
-  String _labelFor(EquivalencyType type, AppLocalizations l10n) =>
-      switch (type) {
-        EquivalencyType.trees => l10n.equivTreesLabel,
-        EquivalencyType.carKm => l10n.equivCarKmLabel,
-        EquivalencyType.phoneCharges => l10n.equivPhoneChargesLabel,
-        EquivalencyType.burgers => l10n.equivBurgersLabel,
-      };
 
   String _explainerFor(EquivalencyType type, AppLocalizations l10n) =>
       switch (type) {
@@ -265,15 +248,10 @@ class _SourceLinkTile extends StatelessWidget {
 /// Single "Label: value" line used for the formula row. Keeps prefix
 /// typography consistent.
 class _LabeledLine extends StatelessWidget {
-  const _LabeledLine({
-    required this.label,
-    required this.value,
-    this.valueIsMonospace = false,
-  });
+  const _LabeledLine({required this.label, required this.value});
 
   final String label;
   final String value;
-  final bool valueIsMonospace;
 
   @override
   Widget build(BuildContext context) {
@@ -289,12 +267,7 @@ class _LabeledLine extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text(
-          value,
-          style: base?.copyWith(
-            fontFamily: valueIsMonospace ? 'monospace' : null,
-          ),
-        ),
+        Text(value, style: base?.copyWith(fontFamily: 'monospace')),
       ],
     );
   }

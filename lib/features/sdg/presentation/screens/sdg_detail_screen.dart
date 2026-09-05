@@ -48,7 +48,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _buildAppBar(context, goal),
+          _buildAppBar(goal),
           SliverPadding(
             padding: const EdgeInsets.all(spacingXxl),
             sliver: SliverList(
@@ -64,12 +64,13 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 const SizedBox(height: spacingXxl),
                 SdgTargetsSection(goal: goal, locale: languageCode),
                 const SizedBox(height: spacingXxl),
+                // World state frames personal state, so it comes first.
+                SdgProgressChartViewer(goal: goal, locale: languageCode),
+                const SizedBox(height: spacingXxl),
                 if (goal.isLearnOnly)
                   ..._buildLearnOnlyContent(context, goal, languageCode)
                 else
-                  ..._buildDirectContent(context, goal, languageCode),
-                const SizedBox(height: spacingXxl),
-                SdgProgressChartViewer(goal: goal, locale: languageCode),
+                  ..._buildDirectContent(goal, languageCode),
                 const SizedBox(height: spacingXxxl),
                 _buildGoalNavigation(context, goal),
                 const SizedBox(height: spacingHuge),
@@ -82,11 +83,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
   }
 
   /// Content for SDGs with direct trackable actions.
-  List<Widget> _buildDirectContent(
-    BuildContext context,
-    SdgGoal goal,
-    String languageCode,
-  ) {
+  List<Widget> _buildDirectContent(SdgGoal goal, String languageCode) {
     return [
       SdgImpactCard(goalNumber: goal.number, goalColor: goal.color),
       const SizedBox(height: spacingXxl),
@@ -148,7 +145,22 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     ];
   }
 
-  Widget _buildAppBar(BuildContext context, SdgGoal goal) {
+  Widget _buildAppBar(SdgGoal goal) {
+    final fallback = Container(
+      width: 120,
+      height: 120,
+      color: Colors.white.withValues(alpha: opacityLight),
+      child: Center(
+        child: Text(
+          '${goal.number}',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
     return SliverAppBar(
       expandedHeight: 200,
       pinned: true,
@@ -176,36 +188,8 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                   width: 120,
                   height: 120,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    width: 120,
-                    height: 120,
-                    color: Colors.white.withValues(alpha: opacityLight),
-                    child: Center(
-                      child: Text(
-                        '${goal.number}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    width: 120,
-                    height: 120,
-                    color: Colors.white.withValues(alpha: opacityLight),
-                    child: Center(
-                      child: Text(
-                        '${goal.number}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
+                  placeholder: (_, _) => fallback,
+                  errorWidget: (_, _, _) => fallback,
                 ),
               ),
             ),

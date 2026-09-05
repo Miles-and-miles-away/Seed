@@ -46,7 +46,7 @@ abstract class AppUserModel with _$AppUserModel {
     // Phase 3 fields
 
     /// Master toggle for notifications.
-    @Default(true) bool notificationsEnabled,
+    @Default(false) bool notificationsEnabled,
 
     /// Date of the user's last logged action.
     @TimestampConverter() DateTime? lastActionDate,

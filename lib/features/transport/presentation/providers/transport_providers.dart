@@ -9,6 +9,7 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 import 'package:seed_app/features/transport/data/transport_modes_data.dart';
 import 'package:seed_app/features/transport/domain/services/journey_distance.dart';
 import 'package:seed_app/features/transport/domain/services/transport_calculator.dart';
+import 'package:seed_app/shared/domain/option_lists.dart';
 
 part 'transport_providers.g.dart';
 
@@ -76,33 +77,29 @@ class JourneyOptions extends _$JourneyOptions {
     for (var i = 0; i < optionCount; i++) const <JourneyLeg>[],
   ]);
 
-  bool _valid(int option) => option >= 0 && option < optionCount;
-
-  List<List<JourneyLeg>> _withOption(int option, List<JourneyLeg> legs) =>
-      List.unmodifiable([
-        for (var i = 0; i < optionCount; i++)
-          if (i == option) List<JourneyLeg>.unmodifiable(legs) else state[i],
-      ]);
-
   /// Appends a leg to [option].
   void addLeg(int option, JourneyLeg leg) {
-    if (!_valid(option)) return;
-    state = _withOption(option, [...state[option], leg]);
+    if (!isValidOption(option)) return;
+    state = withOption(state, option, [...state[option], leg]);
   }
 
   /// Replaces the leg at [index] within [option].
   void updateLeg(int option, int index, JourneyLeg leg) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final legs = [...state[option]];
     legs[index] = leg;
-    state = _withOption(option, legs);
+    state = withOption(state, option, legs);
   }
 
   /// Removes the leg at [index] within [option].
   void removeLeg(int option, int index) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final legs = [...state[option]]..removeAt(index);
-    state = _withOption(option, legs);
+    state = withOption(state, option, legs);
   }
 
   /// Empties both options (after banking a choice).

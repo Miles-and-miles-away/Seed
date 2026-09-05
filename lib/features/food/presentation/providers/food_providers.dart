@@ -5,29 +5,18 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/food/data/food_items_data.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
-import 'package:seed_app/features/food/domain/services/food_calculator.dart';
+import 'package:seed_app/shared/domain/option_lists.dart';
 
 part 'food_providers.g.dart';
 
-// Pure data loads stay autoDispose: the food asset is small, so
-// re-parsing on a screen revisit is cheaper than pinning it for the
-// app's lifetime (mirrors the transport providers).
+// Pure data loads stay autoDispose: rootBundle caches the source
+// string and drops it under memory pressure, which a decoded cache
+// here would not. The 838 KB parse runs in an isolate, so a revisit
+// costs no jank (json_asset_loader).
 
 /// All food items from the bundled dataset.
 @riverpod
 Future<List<FoodItem>> foodItems(Ref ref) => loadFoodItems();
-
-/// Dataset metadata (scope statement, primary source) for the
-/// methodology sheet (Phase 8.10).
-@riverpod
-Future<Map<String, dynamic>> foodMetadata(Ref ref) => loadFoodMetadata();
-
-/// Items indexed by id for calculator lookups.
-@riverpod
-Future<Map<String, FoodItem>> foodItemsById(Ref ref) async {
-  final items = await ref.watch(foodItemsProvider.future);
-  return FoodCalculator.byId(items);
-}
 
 /// Ids of items picked this session, most recent first.
 ///
@@ -66,38 +55,29 @@ class MealOptions extends _$MealOptions {
     for (var i = 0; i < optionCount; i++) const <MealIngredient>[],
   ]);
 
-  bool _valid(int option) => option >= 0 && option < optionCount;
-
-  List<List<MealIngredient>> _withOption(
-    int option,
-    List<MealIngredient> ingredients,
-  ) => List.unmodifiable([
-    for (var i = 0; i < optionCount; i++)
-      if (i == option)
-        List<MealIngredient>.unmodifiable(ingredients)
-      else
-        state[i],
-  ]);
-
   /// Appends an ingredient to [option].
   void addIngredient(int option, MealIngredient ingredient) {
-    if (!_valid(option)) return;
-    state = _withOption(option, [...state[option], ingredient]);
+    if (!isValidOption(option)) return;
+    state = withOption(state, option, [...state[option], ingredient]);
   }
 
   /// Replaces the ingredient at [index] within [option].
   void updateIngredient(int option, int index, MealIngredient ingredient) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final ingredients = [...state[option]];
     ingredients[index] = ingredient;
-    state = _withOption(option, ingredients);
+    state = withOption(state, option, ingredients);
   }
 
   /// Removes the ingredient at [index] within [option].
   void removeIngredient(int option, int index) {
-    if (!_valid(option) || index < 0 || index >= state[option].length) return;
+    if (!isValidOption(option) || index < 0 || index >= state[option].length) {
+      return;
+    }
     final ingredients = [...state[option]]..removeAt(index);
-    state = _withOption(option, ingredients);
+    state = withOption(state, option, ingredients);
   }
 
   /// Empties both options (after banking a choice).

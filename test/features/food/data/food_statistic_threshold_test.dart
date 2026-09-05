@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Proves the 20% comparison threshold rather than asserting it.
 ///
@@ -109,10 +108,7 @@ void main() {
       'Fish (farmed)': 'fish_farmed',
       'Nuts': 'tree_nuts',
     };
-    final raw = File('data/app/food_items.json').readAsStringSync();
-    final root = json.decode(raw) as Map<String, dynamic>;
-    final items = (root['items'] as List<dynamic>).cast<Map<String, dynamic>>();
-    final byId = {for (final i in items) i['id'] as String: i};
+    final byId = rawDatasetById('data/app/food_items.json', 'items');
     for (final product in sensitive) {
       final (mean, median) = stats[product]!;
       final shipped = byId[ids[product]!]?['statistic_ratio'] as num?;
@@ -125,7 +121,7 @@ void main() {
       );
     }
     // Nothing else may carry a ratio without a documented divergence.
-    final flagged = items
+    final flagged = byId.values
         .where((i) => i['statistic_ratio'] != null)
         .map((i) => i['id'] as String)
         .toSet();

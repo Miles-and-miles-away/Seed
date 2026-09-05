@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
-import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
 
@@ -52,26 +50,6 @@ void main() {
   };
 
   group('MascotRepository', () {
-    group('addMascot', () {
-      test('adds mascot and sets active', () async {
-        await createUserWithMascots('user1', []);
-
-        const mascot = MascotModel(
-          id: 'm1',
-          speciesId: 'seed',
-          name: 'Sprouty',
-        );
-        await repository.addMascot('user1', mascot);
-
-        final doc = await fakeFirestore.collection('users').doc('user1').get();
-        final data = doc.data()!;
-        final mascots = data['mascots'] as List<dynamic>;
-        expect(mascots, hasLength(1));
-        expect((mascots[0] as Map)['speciesId'], 'seed');
-        expect(data['activeMascotId'], 'm1');
-      });
-    });
-
     group('setActiveMascot', () {
       test('updates activeMascotId', () async {
         await createUserWithMascots('user1', [
@@ -83,28 +61,6 @@ void main() {
 
         final doc = await fakeFirestore.collection('users').doc('user1').get();
         expect(doc.data()!['activeMascotId'], 'm2');
-      });
-    });
-
-    group('updateMascotInArray', () {
-      test('updates mascot by id', () async {
-        await createUserWithMascots('user1', [
-          mascotJson(id: 'm1', name: 'Old'),
-        ]);
-
-        const updated = MascotModel(
-          id: 'm1',
-          speciesId: 'seed',
-          name: 'Updated',
-          mascotPoints: 100,
-        );
-        await repository.updateMascotInArray('user1', updated);
-
-        final doc = await fakeFirestore.collection('users').doc('user1').get();
-        final mascots = doc.data()!['mascots'] as List<dynamic>;
-        final first = mascots[0] as Map;
-        expect(first['name'], 'Updated');
-        expect(first['mascotPoints'], 100);
       });
     });
 
@@ -152,41 +108,6 @@ void main() {
         final data = doc.data()!;
         expect(data['egg'], isNotNull);
         expect(data['eggPendingDiscovery'], false);
-      });
-    });
-
-    group('removeEgg', () {
-      test('removes egg from user', () async {
-        await createUserWithMascots(
-          'user1',
-          [],
-          extra: {
-            'egg': {
-              'receivedAt': Timestamp.fromDate(DateTime(2024, 6, 15)),
-              'hatchingStreakDays': 10,
-            },
-          },
-        );
-
-        await repository.removeEgg('user1');
-
-        final doc = await fakeFirestore.collection('users').doc('user1').get();
-        expect(doc.data()!.containsKey('egg'), isFalse);
-      });
-    });
-
-    group('clearEggPendingDiscovery', () {
-      test('clears the flag', () async {
-        await createUserWithMascots(
-          'user1',
-          [],
-          extra: {'eggPendingDiscovery': true},
-        );
-
-        await repository.clearEggPendingDiscovery('user1');
-
-        final doc = await fakeFirestore.collection('users').doc('user1').get();
-        expect(doc.data()!['eggPendingDiscovery'], false);
       });
     });
 

@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../helpers/dataset_helpers.dart';
 
 /// Schema validation for data/app/food_items.json
 /// (built from Plan/RESEARCH_FOOD.md sections 2-5).
@@ -31,9 +32,8 @@ void main() {
   late List<Map<String, dynamic>> items;
 
   setUpAll(() {
-    final raw = File('data/app/food_items.json').readAsStringSync();
-    root = json.decode(raw) as Map<String, dynamic>;
-    items = (root['items'] as List<dynamic>).cast<Map<String, dynamic>>();
+    root = rawDatasetRoot('data/app/food_items.json');
+    items = datasetEntries(root, 'items');
   });
 
   group('food_items.json dataset validation', () {
@@ -82,8 +82,7 @@ void main() {
     test('every item has at least one complete source', () {
       for (final item in items) {
         final id = item['id'] as String;
-        final sources = (item['sources'] as List<dynamic>)
-            .cast<Map<String, dynamic>>();
+        final sources = datasetEntries(item, 'sources');
         expect(sources, isNotEmpty, reason: id);
         for (final source in sources) {
           expect(source['name'] as String, isNotEmpty, reason: id);
@@ -101,8 +100,7 @@ void main() {
     test('servings have positive grams and all three locale names', () {
       for (final item in items) {
         final id = item['id'] as String;
-        final servings = (item['servings'] as List<dynamic>)
-            .cast<Map<String, dynamic>>();
+        final servings = datasetEntries(item, 'servings');
         // Every shipped item has researched presets; an empty list
         // would make this loop pass vacuously.
         expect(servings, isNotEmpty, reason: id);
@@ -149,13 +147,19 @@ void main() {
       // cabbage_broccoli, onions_leeks, citrus, berries) plus
       // fish_wild, which the seafood source decision replaced with
       // white_fish and tuna.
+      // `cream` added 2026-08-29 (dairy_eggs 9 -> 10, total 166 -> 167):
+      // it was the last uncovered common food, derived from milk_dairy
+      // on a total-solids allocation.
+      // Duplicate `bread` folded into `bread_wheat` 2026-09-01
+      // (staples 15 -> 14, total 167 -> 166); `palm_soy_oil` became
+      // `soybean_oil` in the same pass, so oils stays at 6.
       const expected = {
         'meat': 8,
         'seafood': 11,
-        'dairy_eggs': 9,
+        'dairy_eggs': 10,
         'plant_protein': 12,
         'nuts_seeds': 2,
-        'staples': 15,
+        'staples': 14,
         'vegetables': 43,
         'fruit': 21,
         'drinks': 18,
@@ -185,7 +189,6 @@ void main() {
         'weight_basis',
         'entry_mode',
         'default_serving_id',
-        'comparable',
         'confidence',
       };
       const bases = {'as_purchased', 'dry', 'drained', 'edible', 'concentrate'};
@@ -202,9 +205,10 @@ void main() {
         );
         // A preset-only item with no resolvable default would open on
         // the raw grams field it is meant to avoid.
-        final presetIds = (item['servings'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()
-            .map((p) => p['id'] as String);
+        final presetIds = datasetEntries(
+          item,
+          'servings',
+        ).map((p) => p['id'] as String);
         expect(presetIds, contains(item['default_serving_id']), reason: id);
       }
     });
@@ -234,7 +238,8 @@ void main() {
     test('beans never carries the famous peas quote', () {
       // The OWID "peas emit just 1 kilogram" sentence belongs to
       // Peas (0.98); attached to Beans & lentils (1.79) it would
-      // overstate the item by ~80% (RESEARCH_FOOD.md section 8).
+      // overstate the item by ~80% (the copy rules in
+      // PDR_FOOD_CALCULATOR.md).
       final beans = items.firstWhere((i) => i['id'] == 'beans_lentils');
       final text = json.encode(beans).toLowerCase();
       expect(text.contains('peas emit just 1 kilogram'), isFalse);

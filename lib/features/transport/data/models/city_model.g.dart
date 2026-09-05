@@ -13,6 +13,8 @@ _City _$CityFromJson(Map<String, dynamic> json) => _City(
   lon: (json['lon'] as num).toDouble(),
   mass: json['mass'] as String,
   pop: (json['pop'] as num?)?.toInt() ?? 0,
+  nameJa: json['name_ja'] as String?,
+  nameEs: json['name_es'] as String?,
 );
 
 Map<String, dynamic> _$CityToJson(_City instance) => <String, dynamic>{
@@ -22,6 +24,8 @@ Map<String, dynamic> _$CityToJson(_City instance) => <String, dynamic>{
   'lon': instance.lon,
   'mass': instance.mass,
   'pop': instance.pop,
+  'name_ja': instance.nameJa,
+  'name_es': instance.nameEs,
 };
 
 _CityLink _$CityLinkFromJson(Map<String, dynamic> json) => _CityLink(

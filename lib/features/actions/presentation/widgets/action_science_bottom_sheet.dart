@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/external_link.dart';
-import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
-
-const _kMaxChildSize = 0.85;
-const _kMinChildSize = 0.3;
 
 /// Bottom sheet displaying the scientific long description
 /// for an action, rendered as markdown with tappable links.
@@ -31,9 +28,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (context) =>
           ActionScienceBottomSheet(action: action, languageCode: languageCode),
     );
@@ -44,15 +39,11 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final theme = Theme.of(context);
     final category = ActionCategory.fromString(action.category);
     final categoryColor = category?.color ?? theme.colorScheme.primary;
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
-    final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
+    final linkColor = readableTextColor(categoryColor, theme.brightness);
 
     return DraggableScrollableSheet(
-      maxChildSize: _kMaxChildSize,
-      minChildSize: _kMinChildSize,
+      maxChildSize: sheetMaxChildSize,
+      minChildSize: sheetMinChildSize,
       builder: (context, scrollController) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,7 +81,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   action.descriptionLong(languageCode),
                 ),
                 padding: const EdgeInsets.all(spacingXxl),
-                config: mdConfig.copy(
+                config: markdownConfigFor(context).copy(
                   configs: [
                     PConfig(
                       textStyle: TextStyle(
@@ -100,14 +91,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                         color: theme.colorScheme.onSurface,
                       ),
                     ),
-                    LinkConfig(
-                      style: TextStyle(
-                        color: linkColor,
-                        decoration: TextDecoration.underline,
-                        decorationColor: linkColor,
-                      ),
-                      onTap: (url) => openExternalUrl(context, url),
-                    ),
+                    externalLinkConfig(context, color: linkColor),
                   ],
                 ),
               ),

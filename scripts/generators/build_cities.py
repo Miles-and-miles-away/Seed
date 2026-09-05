@@ -17,6 +17,13 @@ Inputs (open data, re-download to rerun; not committed):
 Usage:
   python3 build_cities.py <input_dir> <output_json>
 
+Regeneration order (this script writes a bare city list; the rest
+enrich it in place, so skipping one silently drops what it adds):
+  1. build_cities.py          the city list itself
+  2. enrich_city_names.py     name_ja / name_es from GeoNames
+  3. build_water_blocklist.py metadata.water_blocked index pairs
+  4. sweep_suggestions.py     gate; not done until it passes
+
 Landmass model (adapted from the original city_pairs prototype):
 road-connected continental masses with islands isolated. Countries
 spanning several islands (see ISLAND_ANCHORS) are split per island
@@ -25,10 +32,11 @@ ferry corridors) are declared separately in LINKS rather than
 merging landmasses, so geography stays pure and connectivity stays
 explicit. Any country code that cannot be mapped fails the build.
 """
-import csv
 import json
 import sys
 from datetime import date
+
+from geo import geonames_rows
 
 TOP_N = 5
 TOP_N_JP = 15  # primary market: denser coverage
@@ -48,11 +56,41 @@ DEDUP_KM = 1.5
 # travel picker at all. Predicate, not a name list: any PS city
 # west of the strip/West Bank gap. West Bank cities sit at
 # lon >= 35.0; the strip spans 34.2-34.6.
-def excluded(cc, lat, lon):
-    return cc == "PS" and lon < 34.9
-# ponytail: PPL lets US boroughs (Brooklyn, Queens) crowd out real
-# cities in the top-5; prefer PPLA*/PPLC for US if that ever matters.
+def excluded(cc, gid, lat, lon):
+    return (cc == "PS" and lon < 34.9) or gid in BOROUGH_GIDS
+
+
+# GeoNames lists New York City and each of its five boroughs as
+# separate cities, so Brooklyn and Queens took two of the five US
+# slots. Feature code cannot separate them -- the boroughs are
+# PPLA2 (each is its own county) while New York City itself is a
+# plain PPL -- so they are excluded by geonameid. All five must go:
+# dropping only Brooklyn and Queens promotes Manhattan and The
+# Bronx into the freed slots. Ids, not names: "Manhattan" also
+# matches Manhattan, Kansas.
+BOROUGH_GIDS = {
+    "5110302",  # Brooklyn
+    "5133273",  # Queens
+    "5125771",  # Manhattan
+    "5110266",  # The Bronx
+    "5139568",  # Staten Island
+}
+
 KEEP_CODES = {"PPL", "PPLA", "PPLA2", "PPLA3", "PPLA4", "PPLA5", "PPLC", "PPLG"}
+
+# Capitals are force-included alongside the population cut: a
+# national capital is often not top-TOP_N by population (Washington,
+# Canberra, Brasilia, Islamabad) but a travel picker missing one
+# reads as broken. GeoNames marks the national capital PPLC.
+CAPITAL_CODES = {"PPLC"}
+
+# GB is the case ISO country codes cannot express: users expect the
+# constituent-country capitals, and London (PPLC) alone leaves out
+# Edinburgh, Cardiff and Belfast. GB has exactly four PPLA rows and
+# they are exactly those four capitals, so PPLA is the rule here
+# rather than a name list. Do not generalize: elsewhere PPLA is
+# every province seat.
+CAPITAL_CODES_BY_CC = {"GB": {"PPLC", "PPLA"}}
 
 # Whole-country islands that must be isolated from the continental
 # bases (including island territories whose ISO region would
@@ -238,21 +276,18 @@ LINKS = [
 
 def load_cities(path):
     cities = []
-    with open(path, encoding="utf-8") as f:
-        # GeoNames is raw tab-separated text; default quoting would
-        # corrupt rows containing quote characters.
-        for row in csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
-            try:
-                name, lat, lon, fcode, cc, pop = (
-                    row[1], float(row[4]), float(row[5]),
-                    row[7], row[8], int(row[14]),
-                )
-            except (IndexError, ValueError):
-                continue
-            # Capitals bypass the 15k-population floor in GeoNames
-            # and can carry pop 0 (Ngerulmud PW, Plymouth MS).
-            if fcode in KEEP_CODES and pop > 0:
-                cities.append((cc, name, lat, lon, pop))
+    for row in geonames_rows(path):
+        try:
+            gid, name, lat, lon, fcode, cc, pop = (
+                row[0], row[1], float(row[4]), float(row[5]),
+                row[7], row[8], int(row[14]),
+            )
+        except (IndexError, ValueError):
+            continue
+        # Capitals bypass the 15k-population floor in GeoNames
+        # and can carry pop 0 (Ngerulmud PW, Plymouth MS).
+        if fcode in KEEP_CODES and pop > 0:
+            cities.append((cc, name, lat, lon, pop, fcode, gid))
     # GeoNames occasionally carries two records for one place
     # (e.g. La Ceiba HN); keep the highest-population record.
     # Known upstream mislabel kept as-is: ER/Himora is actually
@@ -261,10 +296,10 @@ def load_cities(path):
     # Rounded coords keep genuinely distinct same-named cities
     # (the two Suzhous, CN) from being merged.
     best = {}
-    for cc, name, lat, lon, pop in cities:
+    for cc, name, lat, lon, pop, fcode, gid in cities:
         key = (cc, name, round(lat, 1), round(lon, 1))
         if key not in best or best[key][4] < pop:
-            best[key] = (cc, name, lat, lon, pop)
+            best[key] = (cc, name, lat, lon, pop, fcode, gid)
     return list(best.values())
 
 
@@ -278,10 +313,10 @@ def _same_settlement(lat1, lon1, lat2, lon2):
 
 def top_per_country(cities):
     by_country = {}
-    for cc, name, lat, lon, pop in cities:
-        if excluded(cc, lat, lon):
+    for cc, name, lat, lon, pop, fcode, gid in cities:
+        if excluded(cc, gid, lat, lon):
             continue
-        by_country.setdefault(cc, []).append((pop, name, lat, lon))
+        by_country.setdefault(cc, []).append((pop, name, lat, lon, fcode))
     pool = []
     for cc, lst in by_country.items():
         lst.sort(reverse=True)
@@ -294,7 +329,11 @@ def top_per_country(cities):
             ):
                 kept.append(row)
         limit = TOP_N_JP if cc == "JP" else TOP_N
-        for pop, name, lat, lon in kept[:limit]:
+        capitals = CAPITAL_CODES_BY_CC.get(cc, CAPITAL_CODES)
+        selected = kept[:limit] + [
+            row for row in kept[limit:] if row[4] in capitals
+        ]
+        for pop, name, lat, lon, _ in selected:
             pool.append(
                 {"cc": cc, "name": name, "lat": lat, "lon": lon, "pop": pop},
             )
@@ -400,14 +439,15 @@ def main():
             ),
             "selection": (
                 f"top {TOP_N} cities by population per country "
-                f"(top {TOP_N_JP} for JP)"
+                f"(top {TOP_N_JP} for JP), plus each national capital"
             ),
             "links": LINKS,
         },
         "cities": out_cities,
     }
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+        f.write(blob)
         f.write("\n")
 
     print(f"cities: {len(out_cities)}")

@@ -1,54 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
   group('ActionSortDropdown', () {
-    Widget createTestWidget() {
-      return ProviderScope(
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(body: ActionSortDropdown()),
-        ),
+    Widget buildDropdown() =>
+        createTestWidget(scaffold: true, child: const ActionSortDropdown());
+
+    testWidgets('collapses to a sort icon, not a labelled chip', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildDropdown());
+      await tester.pumpAndSettle();
+
+      // It shares the search row, and the labels run to "Puntos
+      // (Mayor a menor)", which squeezed the field to 107px.
+      expect(find.byIcon(Icons.sort), findsOneWidget);
+      expect(find.text('Name (A-Z)'), findsNothing);
+    });
+
+    testWidgets('names the active option in its tooltip', (tester) async {
+      await tester.pumpWidget(buildDropdown());
+      await tester.pumpAndSettle();
+
+      // The label left the button, so the tooltip is what carries the
+      // current sort for a user who has not opened the menu.
+      final button = tester.widget<PopupMenuButton<ActionSortOption>>(
+        find.byType(PopupMenuButton<ActionSortOption>),
       );
-    }
-
-    testWidgets('displays current sort option icon', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Default is alphabeticalAsc which uses
-      // arrow_downward icon
-      expect(find.byIcon(Icons.arrow_downward), findsOneWidget);
-    });
-
-    testWidgets('displays current sort option label', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Default is alphabeticalAsc = "Name (A-Z)"
-      expect(find.text('Name (A-Z)'), findsOneWidget);
-    });
-
-    testWidgets('displays dropdown arrow', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.arrow_drop_down), findsOneWidget);
+      expect(button.tooltip, 'Name (A-Z)');
     });
 
     testWidgets('opens popup menu on tap', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionSortDropdown));
@@ -58,7 +45,7 @@ void main() {
     });
 
     testWidgets('displays all sort options in menu', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionSortDropdown));
@@ -74,7 +61,7 @@ void main() {
     });
 
     testWidgets('shows checkmark on selected option', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionSortDropdown));
@@ -84,7 +71,7 @@ void main() {
     });
 
     testWidgets('displays directional icons for sort options', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionSortDropdown));
@@ -97,7 +84,7 @@ void main() {
     });
 
     testWidgets('closes menu after selecting option', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ActionSortDropdown));
@@ -110,14 +97,14 @@ void main() {
     });
 
     testWidgets('is wrapped in styled container', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       expect(find.byType(Container), findsAtLeast(1));
     });
 
     testWidgets('selecting option updates selection', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildDropdown());
       await tester.pumpAndSettle();
 
       // Open and select Z-A

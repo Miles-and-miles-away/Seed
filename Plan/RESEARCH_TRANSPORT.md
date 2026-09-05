@@ -1,13 +1,22 @@
 # Transport Emission Factor Research
 
-**Version:** 1.2
-**Created:** 2026-07-17
-**Status:** Research complete -- 27 shipped modes decided; open
-items tracked in section 7. Section 9 holds the
+**Version:** 1.3
+**Created:** 2026-07-17 | **Last research pass:** 2026-08-29
+**Status:** Research complete -- 27 shipped modes decided. **This
+document is the evidence base only** (finished 2026-08-30): the
+open list and the binding copy and flight-band rules are in
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+sections 6, 2.2 and 2.3. The 2026-08-29 pass closed the MLIT
+re-verification (it found a live sourcing error in
+`rail_shinkansen`, since fixed in the dataset by re-sourcing to
+JR East at an unchanged 20 g/km) and the rail-circuity question
+(section 9, found but not adopted). Section 9 holds the
 distance-estimation conventions for the city prefill; the durable
-rules from the seven review rounds are consolidated in Appendix A,
-and their per-round detail is in
-[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md).
+rules from the seven review rounds are consolidated in Appendix A.
+Per-round detail exists for rounds 1-3 only, in
+[PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md); rounds
+4-7 were never written up round by round, so section 9 and
+Appendix A here are their record.
 **Feeds:** `data/app/transport_modes.json` (Phase 8.1, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md))
 
@@ -16,6 +25,77 @@ Every factor that ships in the app must trace back to an entry
 here with source, quote, URL, access date, and vintage. Follows
 the sourcing rules in [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md)
 (sections 2 and 8) and [RESEARCH_STRATEGY.md](./RESEARCH_STRATEGY.md).
+
+---
+
+## 0. Method in brief
+
+Required by [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3:
+how these numbers were arrived at, in rules rather than figures.
+It is numbered 0 so the existing section numbers, which other
+documents and the test suite cite, keep resolving. **No value
+appears in this section**, deliberately -- a summary that restates
+a figure becomes a second home for it and drifts.
+
+**Primary source, and why.** UK DEFRA/DESNZ GHG Conversion
+Factors. It is government-published, revised annually with a
+stated vintage, and covers almost the whole mode list on one
+consistent basis, which matters more than any individual figure:
+mixing per-mode sources produces orderings that are artefacts of
+the sources rather than of the modes. Our World in Data is the
+secondary anchor for magnitude and ordering. Operator and
+ministry disclosures fill the rows the primary does not publish,
+Japan first, because Japan is the primary market.
+
+**Statistic.** The primary's published average for the mode, not
+a best case and not a modelled ideal.
+
+**Boundary.** Operational energy only: direct tailpipe emissions
+for combustion modes, generation emissions for the traction
+energy of electric modes, and aviation with its radiative-forcing
+uplift. Vehicle manufacturing, infrastructure construction and
+well-to-tank refining are excluded everywhere unless a mode's own
+entry says otherwise. This matches the primary's
+passenger-transport convention and is what the in-app methodology
+sheet states.
+
+**Functional unit.** Grams CO2e per kilometre, on one of two
+bases: per passenger-km, used as-is, or per vehicle-km, divided
+by the occupancy selector. Which basis a mode uses is part of its
+record, not a display choice, and the two are not interchangeable.
+
+**Precision and rounding.** Published factors ship at the source's
+own precision. Derived factors carry their arithmetic, and where a
+defensible range exists they resolve on the side that does not
+flatter the eco-choice.
+
+**What "verified" means here.** The number was seen
+digit-for-digit on at least two independent live pages -- or one
+primary page for an operator-specific figure -- with quote, URL
+and access date recorded.
+
+**Three things a reader would otherwise trip over.**
+
+1. **The electricity legs deviate from the primary on purpose.**
+   The EV, e-bike and e-scooter electricity components use the
+   app's house global-average grid factor rather than the
+   primary's UK electricity factor, because the audience is
+   global. That is a documented deviation under
+   [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md), not an
+   oversight, and the UK anchors are named in the methodology
+   sheet so a UK reader can reconcile.
+2. **Several factors are deliberately one release behind.** The
+   newer release moves some modes by more than a third in both
+   directions, but its digits were not quotable at the research
+   pass. Each affected mode records its vintage and the flagged
+   delta, and the sanity pins in section 6 are pins for the
+   shipped vintage rather than truth claims -- re-derive them at
+   the next pass, never assume they survive it.
+3. **A few modes ship on derived factors** because no government
+   per-passenger-km row exists for them at all. Where a
+   derivation cannot be made honest, the mode is dropped rather
+   than approximated: a self-derived number that contradicts the
+   cited set never ships.
 
 ---
 
@@ -106,28 +186,76 @@ every row here as unconfirmed until matched to a second source.
 
 Official Japanese per-passenger-km figures, MLIT
 (https://www.mlit.go.jp/sogoseisaku/environment/sosei_environment_tk_000007.html,
-page updated 2026-04-23; figures published as a chart image):
+page updated 2026-04-23; figures published as a chart image
+only -- no table, no CSV, no downloadable dataset):
 
-- FY2023 figures reported from the MLIT chart via search
-  summaries (exact values to re-verify when building the JSON):
-  private car ~127, domestic aviation ~94, bus ~58-63,
-  rail ~17 g-CO2/passenger-km.
+- Chart values, read directly off the PNGs 2026-08-29 (chart
+  title "輸送量当たりの二酸化炭素の排出量（旅客）", axis
+  "CO2排出原単位[g-CO2/人km]", compiled by MLIT 環境政策課
+  from the GHG Inventory Office emissions data plus MLIT's
+  own 自動車/航空/鉄道輸送統計):
+
+  | FY (年度) | private car | aviation | bus | rail |
+  |-----------|-------------|----------|-----|------|
+  | 2021 | 132 | 124 | 90 | 25 |
+  | 2022 | 128 | 101 | 71 | 20 |
+  | 2023 | 127 |  94 | 63 | 17 |
+  | 2024 | 125 |  91 | 57 | 17 |
+
+  FY2024 is what the live page serves now. MLIT overwrites the
+  chart in place at each annual update and has kept the same
+  content id since FY2022 (`content/001740968`, .jpg then
+  .png), so prior years survive only in the Internet Archive:
+  FY2023 at
+  https://web.archive.org/web/20251023072401im_/https://www.mlit.go.jp/sogoseisaku/environment/content/001740968.png
+  and FY2022 at
+  https://web.archive.org/web/20240927143019im_/https://www.mlit.go.jp/sogoseisaku/environment/content/001740968.jpg
 - Historical anchor (Ministry of the Environment deck,
   https://www.env.go.jp/content/900445318.pdf, FY2007 chart,
   read directly): private car 147, aviation 109, bus 51,
   rail 19 g-CO2/passenger-km. Confirms magnitude and the
   long-run trend (car and aviation falling, rail flat-low).
-- JCCCA chart page (chart image only):
-  https://www.jccca.org/download/13315
+- JCCCA chart page (chart image only, and it lags MLIT by a
+  year): https://www.jccca.org/download/13315 -- page updated
+  2026-08-17, still the FY2023 set (rail 17, bus 63, aviation
+  94, car 127), captioned "出典）国土交通省ホームページ運輸部門に
+  おける二酸化炭素排出量（2023年度）". Useful as a live citation
+  for FY2023 now that MLIT's own page has moved on to FY2024.
+- Only machine-readable restatement found (2026-08-29): Tokyo
+  Metropolitan Government環境局 publishes the FY2024 set inside
+  a small .xls trip calculator, sheet 交通手段別のＣＯ２排出量,
+  block "１人を１ｋｍ運ぶのに排出されるＣＯ２" -> rail 17, bus 57,
+  private car 125, walking/cycling 0, credited
+  "（国土交通省ホームページデータを元に作成）".
+  https://www.kankyo.metro.tokyo.lg.jp/vehicle/management/tokyo/transportation
+  (page updated 2026-05-01; the sheet is linked from it as
+  "CO2排出量の計算シート"). Secondary, but it is the only place
+  the numbers exist as data rather than pixels.
+- MLIT itself publishes no machine-readable version. The
+  compendium that used to carry derived tables,
+  交通関連統計資料集, was discontinued
+  (廃刊, 令和2年12月末日 = 2020-12) and its replacement,
+  交通関係基本データ (https://www.mlit.go.jp/k-toukei/), carries
+  the transport-volume surveys but not the CO2 原単位 ratio.
+  The two inputs are machine-readable separately (NIES GHG
+  Inventory Office; MLIT 輸送統計 via e-Stat), so the ratio is
+  reproducible but not published as data.
 
 Notes for methodology:
-- Japan's domestic aviation ~94-109 g/pkm is CO2-only (no RF)
-  and reflects high-load trunk routes; DEFRA domestic ~229-246
-  includes RF and CH4/N2O. Not contradictory -- different scopes.
-  The app ships DEFRA-with-RF and the methodology sheet says so.
-- Japan's private-car per-passenger-km (~127) embeds average
-  occupancy ~1.3; our dataset stores per-vehicle-km and divides
-  by user-selected occupants instead.
+- Japan's domestic aviation (91 in 年度2024, 109 back in
+  年度2007) is CO2-only (no RF) and reflects high-load trunk
+  routes; DEFRA domestic ~229-246 includes RF and CH4/N2O. Not
+  contradictory -- different scopes. The app ships
+  DEFRA-with-RF and the methodology sheet says so.
+- Japan's private-car per-passenger-km (125 in 年度2024)
+  embeds average occupancy ~1.3; our dataset stores
+  per-vehicle-km and divides by user-selected occupants
+  instead.
+- The bus and aviation rows move most between years because
+  they are load-factor driven: both spiked in 年度2021 and are
+  still settling back. Rail barely moves. Anything read off
+  this chart needs its 年度 stated, which is exactly where the
+  `rail_shinkansen` sourcing went wrong (section 7).
 
 ### Car occupancy (for the occupancy-selector design)
 
@@ -334,19 +462,40 @@ Key sources (accessed 2026-07-17):
   N700 vs Boeing 777-200 -- energy "approximately 1/8th", CO2
   "around 1/12th" of the aircraft. Use as the quotable in-app
   fact.
-- Absolute per-passenger-km: **20 g CO2/pkm** adopted. Two
-  agreeing sources: the FY2023 figure reported by Planet Forward
-  (https://planetforward.org/story/japans-trains-climate/, "rail
-  travel emits just 20 grams of CO2 per passenger-kilometer" --
-  the page does not name the underlying reporter; do not
-  attribute it to a specific JR company) and
-  the MLIT-supervised Navitime reference page
+- Absolute per-passenger-km: **20 g CO2/pkm** shipped. Primary
+  source since 2026-08-29 is JR East's own Shinkansen-segment
+  disclosure, JR East Group INTEGRATED REPORT 2024, printed
+  page 80, under "Calculation and Disclosure of CO2 emissions
+  by Shinkansen Segments": "Based on fiscal 2024 results, we
+  calculated segment-by-segment CO2 emissions per customer
+  associated with travel on Shinkansen lines. In addition, CO2
+  emissions per transportation volume were 12g-CO2/person-km
+  for JR East as a whole, and 20g-CO2/person-km for Shinkansen
+  segments." The report's own reporting-period statement
+  (printed page 4) fixes the vintage without inference: "This
+  report principally covers our activities for fiscal 2024,
+  from April 1, 2023 to March 31, 2024". So JR East's fiscal
+  2024 is 年度2023, and the shipped 20 is a 年度2023
+  Shinkansen-specific figure, not an all-rail average -- the
+  same disclosure puts all of JR East at 12. Read from the
+  Internet Archive capture of 2025-08-03,
+  https://web.archive.org/web/20250803141325/https://www.jreast.co.jp/e/environment/pdf_2024/all.pdf,
+  because jreast.co.jp returns HTTP 403 to every automated
+  request including its own landing page; that archive URL is
+  what ships as the source url, and a live re-read is owed
+  when the host becomes reachable.
+- Corroboration, same number, weaker vintage: the
+  MLIT-supervised Navitime reference page
   (https://www.navitime.co.jp/pcstorage/html/co2info.html:
   airplane 96, train 20, bus 66, car 145 g/km; source line
-  "運輸・交通と環境2018年版", MLIT environment policy division).
-  Note this is Japan rail average (Shinkansen-specific would be
-  similar or better at typical load factors); basis matches our
-  per-passenger-km convention.
+  "運輸・交通と環境2018年版", MLIT environment policy division;
+  re-verified live 2026-08-29). All-rail, 2018 edition, so it
+  agrees on the figure by a different route rather than
+  confirming the vintage.
+- Planet Forward was the primary source from 2026-07-17 until
+  2026-08-29 and is now removed. Its "20 grams" traced back to
+  MLIT's 年度2022 chart through a fiscal-year label mismatch;
+  the full trace is in section 7.
 - Candidate refinement, NOT verified (search snippets only, pages
   403): ~9.3 g/seat-km "according to JR"; ~4.2-4.65 kg/passenger
   Tokyo-Osaka. Mutually coherent with the verified ratios
@@ -570,7 +719,7 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | taxi | Taxi | 208.06 | vkm | DEFRA 2025 regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
 | rail_national | Local / national rail | 35.46 | pkm | DEFRA 2025; 2026 -13% flagged | High (2025) |
 | rail_international | International rail (Eurostar) | 4.46 | pkm | DEFRA 2025; 2026 raises ~2.5x -- order-of-magnitude only (D3) | High (2025) |
-| rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | FY2023 figure via Planet Forward + MLIT-supervised Navitime | Medium-high |
+| rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | JR East 年度2023 Shinkansen-segment disclosure + MLIT-supervised Navitime | Medium-high |
 | metro | Metro / underground | 27.8 | pkm | DEFRA 2025 (London Underground); 2026 -44% flagged | High (2025) |
 | tram | Tram / light rail | 28.6 | pkm | DEFRA 2025 | High |
 | ferry_foot | Ferry (foot passenger) | 18.71 | pkm | DEFRA 2025 | High |
@@ -654,22 +803,15 @@ surprises the feature exists to surface):
 
 ---
 
-## 7. Open Items
+## 7. Open Items -- moved
 
-Closures from the 2026-07-17/18 research passes are logged in
+The live open list is
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 6 (moved there 2026-08-30; an open task list is not
+evidence). This section keeps its number so existing references
+resolve. Closures from the 2026-07-17/18 research passes are
+logged in
 [PDR_TRANSPORT_ARCHIVE.md](./PDR_TRANSPORT_ARCHIVE.md) section 9.
-
-Remaining:
-
-- [ ] Re-verify exact MLIT FY2023/FY2024 chart values before the
-      Japan-context numbers appear anywhere user-facing
-- [ ] Next DEFRA pass (when 2026 numbers become quotable):
-      coach (+42%), national rail (-13%), LU (-44%), BEV UK
-      anchor (~30), international rail (~2.5x to ~11);
-      re-derive all invariant pins (sec 6)
-- [ ] Yacht eco-fact: draft `eco_facts.json` candidate from the
-      Barros & Wilk 7,020 t/yr figure (run through
-      [AUDIT_FACT_DATA.md](./AUDIT_FACT_DATA.md) criteria)
 
 ---
 
@@ -769,13 +911,51 @@ x 2.69 kg CO2/L diesel (EIA) = ~2.7 t CO2/h; at ~12 kn that is
 ~10 kg CO2/pkm even with 12 guests -- 40x a domestic flight seat,
 with error bars wider than every other mode combined.
 
-**Use instead as an eco-fact / methodology comparison stat**, the
-citable form: "a superyacht with a permanent crew, helicopter
-pad, submarines and pools emits about 7,020 tons of CO2 a year"
-(Barros & Wilk, Indiana University, via The Conversation,
-https://theconversation.com/private-planes-mansions-and-superyachts-what-gives-billionaires-like-musk-and-abramovich-such-a-massive-carbon-footprint-152514,
-2021). Candidate for `eco_facts.json` / an Eco-Dex entry rather
-than `transport_modes.json`.
+**Use instead as an eco-fact / methodology comparison stat.**
+Re-sourced 2026-08-29 to the peer-reviewed original, which
+`AUDIT_FACT_DATA.md` requires (The Conversation is not tier-1):
+Barros & Wilk, "The outsized carbon footprints of the
+super-rich", Sustainability: Science, Practice and Policy 17(1)
+316-322, 2021, open access,
+https://doi.org/10.1080/15487733.2021.1949847. Verbatim: "Three-
+quarters of the billionaires in our sample owned a yacht with an
+average length of 276 feet (84 meters), and their average carbon
+equivalent emissions were 7,018 tons per year."
+
+Three corrections to the figure as this section previously
+stated it, all confirmed against the paper's Table 1 (the 15
+non-empty yacht rows average 7,017.6):
+
+- It is **7,018 tonnes CO2e**, not 7,020 tonnes CO2. The string
+  "7,020" appears nowhere in the paper.
+- It is an **average across 15 yachts** averaging 84 m, not one
+  specced vessel.
+- The "helicopter pad, submarines and pools" wording belonged to
+  a different sentence, about why yacht emissions are growing.
+
+Destination is `eco_facts.json`, not the Eco-Dex: a Dex entry
+would need new artwork (owner call 2026-08-29). The calendar is
+full at 366, so the drafted fact is parked here until a slot
+frees. Category `comparison`, SDGs [10, 12] (13 is already
+over-assigned), and do not place it adjacent to day 51 or day
+296, which cover related wealth-and-emissions ground.
+
+- EN: "The superyachts in a study of twenty billionaires
+  averaged 84 metres and 7,018 tonnes of CO2 equivalent a year
+  -- as much as about 1,400 people living at the global average
+  of 5 tonnes each. Yachting accounted for 64% of the group's
+  measured emissions."
+- JA: 「20人の億万長者を対象とした研究では、スーパーヨットの平均は全長84
+  メートル、CO2換算で年間7,018トンでした -- 世界平均である1人あたり5トン
+  で暮らす約1,400人分に相当します。ヨットは、この20人の排出量全体の64%を
+  占めていました。」
+- ES: "Los superyates de un estudio de veinte multimillonarios
+  promediaban 84 metros y 7,018 toneladas de CO2 equivalente al
+  año -- tanto como unas 1,400 personas que viven con el
+  promedio mundial de 5 toneladas cada una. Los yates
+  representaban el 64% de las emisiones medidas del grupo."
+
+Source name ships untranslated in all three locales.
 
 ---
 
@@ -799,8 +979,10 @@ bundled city list (`data/app/cities.json`, generated by
   https://pmc.ncbi.nlm.nih.gov/articles/PMC3835347/ ;
   canonical country-circuity paper (Ballou et al. 2002)
   https://www.sciencedirect.com/science/article/abs/pii/S0965856401000441
-  Applied to ground and active estimates. Rail-specific circuity
-  not separately sourced; ground factor applied (open item).
+  Applied to ground and active estimates. Rail rides the same
+  factor: `suggestedDistancesKm` has one `kindGround` bucket for
+  car, bus and rail. A rail-specific figure is now sourced (see
+  the closed circuity item below) but deliberately not adopted.
 - **Flight = great-circle + 95 km:** the EN 16258 (2012)
   distance correction used by myclimate and EU monitoring
   conventions
@@ -821,7 +1003,7 @@ bundled city list (`data/app/cities.json`, generated by
   Dublin/Cork-Paris at 779-838 km). Portless links (the
   synthetic ones in unit tests) gate on distance alone;
   rail_tunnel links stay portless because through-rail reach is
-  real. The full 481,671-pair sweep after anchoring: 21 ferry
+  real. The full-dataset sweep after anchoring: 21 ferry
   pairs total, every one on the corridor its link names.
 - **Continental convention (Suez):** Africa-Eurasia ground stays
   unmodeled even where a real land corridor exists
@@ -872,8 +1054,9 @@ bundled city list (`data/app/cities.json`, generated by
 
 - **Water-crossing blocklist (Fix Backlogs 3+4, R3-D5/R4):**
   `scripts/generators/build_water_blocklist.py` emits
-  `metadata.water_blocked` in cities.json (2,064 index pairs
-  after Fix Backlog 5);
+  `metadata.water_blocked` in cities.json (2,399 index pairs as
+  shipped on 2026-08-29; the count moves with every regeneration,
+  so read it from the file rather than quoting it);
   the picker suppresses ground/active for them (ferry/air
   unaffected; blocked pairs under 100 km fall back to manual
   entry). Candidates are same-mass pairs PLUS rail_tunnel-linked
@@ -881,11 +1064,13 @@ bundled city list (`data/app/cities.json`, generated by
   Glasgow-Stavanger needed blocking too). A pair blocks iff its
   chord crosses > 25 km of continuous water (Natural Earth 1:50m
   land polygons) AND no honest land route exists: shortest path
-  on a 0.1-deg rasterized land graph -- augmented with 15
-  verified FIXED_CROSSINGS (Channel Tunnel, Oresund, Great/
-  Little Belt, Bosphorus, 1915 Canakkale, Osman Gazi, Kanmon,
-  Seikan, Tokyo Aqua-Line, HZMB, Shenzhen-Zhongshan, King Fahd,
-  Johor Causeway, Rio-Antirrio) -- must be within
+  on a 0.1-deg rasterized land graph -- augmented with the
+  verified FIXED_CROSSINGS declared in the script (Channel
+  Tunnel, Oresund, Great/Little Belt, Bosphorus, 1915 Canakkale,
+  Osman Gazi, Kanmon, Seikan, Tokyo Aqua-Line, HZMB,
+  Shenzhen-Zhongshan, King Fahd, Johor Causeway, Rio-Antirrio,
+  and the General Rafael Urdaneta Bridge over the Lake Maracaibo
+  outlet, added in R7) -- must be within
   1.4 x the shown estimate (grid-underestimation compensated;
   constants in the script header). This kills the fiction class
   (Helsinki-Tallinn cycling, Bahrain-Qatar, Sapporo-Osaka) while
@@ -966,34 +1151,13 @@ Known limitations (documented, accepted for v1):
   keep Sevilla-Tangier (180 km). Ports resolve the conflict by
   construction: the link now yields Gibraltar-Tangier and
   Sevilla-Tangier only.
-- [x] **House grid factor** -- RESOLVED 2026-08-02 (decision E1):
-  raised 386 -> 458 g CO2e/kWh (Ember GER 2026). car_bev 73 -> 86,
-  escooter_private 6 -> 7, ebike holds at 2. Regional factors are
-  now their own brief:
-  [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md).
 -- the political screen (R7) -- any grounded cross-country pair
 absent from data/reference/reviewed_cc_ground_pairs.json (new
 corridors must be border-screened, closed ones blocked in
 build_water_blocklist.py, then the list refreshed with
 --update-reviewed). Regeneration order: build_cities.py ->
-build_water_blocklist.py -> sweep_suggestions.py; not done
-until the gate passes.
-
-Open items added by this section:
-- [x] Port-anchored ferry links -- DONE (Fix Backlog 3, R3-D4);
-      Malta-Sicily can return with ports at Valletta/Pozzallo
-      once Catania is force-included
-- [ ] JA/ES localization of city names (ship EN-only v1)
-- [ ] Rail-specific circuity factor if a citable source lands
-- [x] UI threads `loadWaterBlockedPairs()` into
-      `suggestedDistancesKm` -- DONE, pinned by a non-vacuous test
-      (R4-10); binding on all future callers
-- [x] Per-mode `maxSuggestKm` -- CLOSED: satisfied by the
-      kind-to-group mapping (micro/taxi/high-impact are never
-      suggested; the distance caps gate the rest)
-- [x] Leg-length -> flight-band mapping -- DONE: the comparison
-      view auto-picks the honest band from leg distance
-      (Appendix A.4)
+enrich_city_names.py -> build_water_blocklist.py ->
+sweep_suggestions.py; not done until the gate passes.
 
 ---
 
@@ -1002,10 +1166,17 @@ Open items added by this section:
 Seven adversarial review rounds (bug hunt, maths recomputation,
 design red-team with full-pair sweeps, deception audits with live
 source fetches) ran over the dataset and the distance-estimation
-engine, 2026-07-17..21. The durable rules they produced are
-consolidated here so this document stays self-sufficient. Most are
-already applied in sections 2-9 -- this appendix names them as
-principles and records the few that live nowhere else.
+engine, 2026-07-17..21. Most of what they produced is already
+applied in sections 2-9; this appendix names the durable
+principles.
+
+**Split 2026-08-30, completed 2026-09-01.** A.1 and A.2 are
+research method and stay. A.3, A.4 and A.5 were product rules and
+moved to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+sections 2.2, 2.3 and 2.4; their letters are kept as redirects
+(`build_water_blocklist.py`'s pointers were updated to 2.4 in the
+same pass).
 
 ### A.1 Honesty ethic (the rule every data decision serves)
 
@@ -1036,48 +1207,28 @@ principles and records the few that live nowhere else.
   revisions break several (noted inline), so re-derive every pin
   at the next data pass rather than assuming it survives.
 
-### A.3 Copy rules (binding on the comparison view / science sheets)
+### A.3 Copy rules -- moved
 
-- "emits X kg less", **never "saves"** -- the delta is
-  hypothetical until the trip is actually swapped.
-- Comparative superlatives only at a meaningful delta; **never**
-  generate copy claiming walking beats cycling, or coach beats
-  rail -- both orderings are vintage-fragile (section 6
-  non-invariants).
-- Binding in-UI disclosures: the private-jet bar carries an
-  in-chart RF footnote (its bar includes the same high-altitude
-  uplift as the airline bars, section 8.1); the EV row carries a
-  global-average-grid sublabel (section 2); active/micro rows
-  carry their electricity-only / lifecycle-excluded basis labels
-  (section 3.3).
+Binding on the comparison view and the science sheets, so they are
+product rules rather than evidence. Moved 2026-08-30 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.2. The letter is kept so existing references resolve.
 
-### A.4 Flight-band auto-pick (binding methodology, shipped)
+### A.4 Flight-band auto-pick -- moved
 
-The comparison view picks the honest flight band from leg distance
-rather than letting a short leg be overstated at the long-haul
-rate: **> 3,700 km = long-haul**; otherwise **same country =
-domestic**, **different countries = short-haul** (the DEFRA
-<= 3,700 km boundary, section 4). No invented medium-haul cutoff --
-DEFRA publishes no medium-haul factor, so the three bands stand
-(owner Q&A, 2026-07-22). The picker offers only the band a city
-pair resolves to.
+Binding shipped methodology, so it is a product rule. Moved
+2026-08-30 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.3. The letter is kept so existing references resolve.
+The DEFRA <= 3,700 km band boundary it applies is evidence and
+stays in section 4 above.
 
-### A.5 Border-status watchlist (re-verify at the next data pass)
+### A.5 Border-status watchlist -- moved
 
-Border verdicts (section 9 CLOSED_BORDERS / walls) carry expiry
-risk; re-verify live before regenerating cities.json:
-
-- **BJ-NE** -- the 2026-06 reopening accord was prospective;
-  likely to genuinely reopen (currently blocked).
-- **DZ-LY** -- conflicting sources; blocked under the in-doubt rule.
-- **AM-TR** -- reopening conditional on an unsigned AM-AZ treaty.
-- **ER-ET** -- owner "fragile-ok" watchlist (kept open).
-- **Rafah / Gaza** -- the strip ships no cities; revisit only if
-  crossings genuinely reopen to travelers.
-- **Sudan front line** (Kordofan; El Obeid the current flashpoint)
-  -- a manual wall; recheck as the front shifts.
-- **Backfill note** -- cities.json was edited in place (the
-  GeoNames inputs are off-disk), so the next full regeneration
-  backfills the freed top-5 slots with new cities; the gate's
-  political screen (R7, section 9) fails any new grounded cc-pair
-  until it is border-screened and added via `--update-reviewed`.
+Enforced by `build_water_blocklist.py`'s `check_border_verdicts()`
+guard, so it is a product rule. Moved 2026-09-01 to
+[PDR_TRANSPORT_CALCULATOR.md](./PDR_TRANSPORT_CALCULATOR.md)
+section 2.4, which is now the single authoritative watchlist the
+guard's abort message points at. The letter is kept so existing
+references resolve. The border verdicts themselves live in the
+script (CLOSED_BORDERS, BORDER_WALLS, MANUAL_BLOCK).

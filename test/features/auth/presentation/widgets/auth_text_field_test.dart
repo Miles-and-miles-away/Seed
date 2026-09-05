@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/auth/presentation/widgets/auth_text_field.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  Widget wrap(Widget child) => MaterialApp(
-    home: Scaffold(
-      body: Padding(padding: const EdgeInsets.all(16), child: child),
-    ),
+  Widget wrap(Widget child) => createTestWidget(
+    scaffold: true,
+    child: Padding(padding: const EdgeInsets.all(16), child: child),
   );
 
   testWidgets('renders label text', (tester) async {
@@ -32,7 +33,7 @@ void main() {
     expect(controller.text, 'hello@x.com');
   });
 
-  testWidgets('obscureText hides typed characters', (tester) async {
+  testWidgets('obscurable hides typed characters', (tester) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
 
@@ -41,7 +42,7 @@ void main() {
         AuthTextField(
           controller: controller,
           label: 'Password',
-          obscureText: true,
+          obscurable: true,
         ),
       ),
     );

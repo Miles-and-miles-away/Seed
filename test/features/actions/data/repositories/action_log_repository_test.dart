@@ -8,6 +8,7 @@ import 'package:seed_app/features/actions/data/datasources/action_log_remote_dat
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
+import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 
 const _uid = 'user-1';
@@ -71,6 +72,15 @@ const _mdAnyCategory = MultiDayChallengeTemplate(
   descriptionJa: '',
 );
 
+// Stage thresholds mirror the bundled species data; the egg unlock is
+// keyed off stage 3 (level 25).
+const _stages = [
+  EvolutionStageModel(level: 1, assetPath: 'a1', nameEn: '1', nameJa: '1'),
+  EvolutionStageModel(level: 10, assetPath: 'a2', nameEn: '2', nameJa: '2'),
+  EvolutionStageModel(level: 25, assetPath: 'a3', nameEn: '3', nameJa: '3'),
+  EvolutionStageModel(level: 50, assetPath: 'a4', nameEn: '4', nameJa: '4'),
+];
+
 final _species = [
   const MascotSpeciesModel(
     id: 'seed',
@@ -78,7 +88,7 @@ final _species = [
     nameJa: 'シード',
     descriptionEn: '',
     descriptionJa: '',
-    evolutionStages: [],
+    evolutionStages: _stages,
   ),
   const MascotSpeciesModel(
     id: 'leaf',
@@ -86,7 +96,7 @@ final _species = [
     nameJa: 'リーフ',
     descriptionEn: '',
     descriptionJa: '',
-    evolutionStages: [],
+    evolutionStages: _stages,
   ),
 ];
 
@@ -417,13 +427,13 @@ void main() {
       expect(updated[AppConstants.fieldIsFullyEvolved], isTrue);
     });
 
-    test('crossing to fully evolved triggers egg pending discovery', () async {
-      // Seed just below the level-50 threshold to avoid large arithmetic here.
-      final pointsForLevel50 = calculatePointsForLevel(50);
+    test('crossing to stage 3 triggers egg pending discovery', () async {
+      // Seed just below the stage-3 (level 25) threshold.
+      final pointsForLevel25 = calculatePointsForLevel(25);
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
         AppConstants.fieldMascots: [
-          mascot(id: 'm1', points: pointsForLevel50 - 1, level: 49),
+          mascot(id: 'm1', points: pointsForLevel25 - 1, level: 24),
         ],
       });
 
@@ -437,12 +447,48 @@ void main() {
       final m =
           (data[AppConstants.fieldMascots] as List).first
               as Map<String, dynamic>;
-      expect(m[AppConstants.fieldIsFullyEvolved], isTrue);
+      expect(m[AppConstants.fieldMascotLevel], greaterThanOrEqualTo(25));
       expect(data[AppConstants.fieldEggPendingDiscovery], isTrue);
       expect(
         data[AppConstants.fieldEggPendingDiscoverySince],
         isA<Timestamp>(),
       );
+    });
+
+    test('no egg before stage 3', () async {
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [mascot(id: 'm1', points: 20, level: 5)],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldEggPendingDiscovery], isNot(isTrue));
+    });
+
+    test('no egg once every species is owned', () async {
+      final pointsForLevel25 = calculatePointsForLevel(25);
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [
+          mascot(id: 'm1', points: pointsForLevel25 - 1, level: 24),
+          mascot(id: 'm2', speciesId: 'leaf'),
+        ],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldEggPendingDiscovery], isNot(isTrue));
     });
 
     test('does not reset pending discovery when already flagged', () async {
@@ -516,7 +562,6 @@ void main() {
       );
 
       expect(result.hatchedMascotId, isNotNull);
-      expect(result.didHatchEgg, isTrue);
       final data = (await getUser()).data()!;
       expect(data.containsKey(AppConstants.fieldEgg), isFalse);
       final mascots = data[AppConstants.fieldMascots] as List<dynamic>;

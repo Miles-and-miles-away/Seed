@@ -8,33 +8,21 @@ part of 'food_choice_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Banks a chosen meal as a real action (Phase 8.12): creates the
-/// custom-action template, then logs it through the standard action
-/// transaction (points/streak/mascot/daily summary all handled there).
-/// No caps -- users are isolated (no leaderboards), so self-reported
-/// inflation only affects their own stats (scoring design decision).
-/// Reuses the category-agnostic customActions collection and rules that
-/// the transport bridge (8.6) already established.
+/// Banks a chosen meal as a real action (Phase 8.12). Reuses the
+/// category-agnostic customActions collection and rules that the
+/// transport bridge (8.6) already established.
 
 @ProviderFor(FoodChoiceLogger)
 final foodChoiceLoggerProvider = FoodChoiceLoggerProvider._();
 
-/// Banks a chosen meal as a real action (Phase 8.12): creates the
-/// custom-action template, then logs it through the standard action
-/// transaction (points/streak/mascot/daily summary all handled there).
-/// No caps -- users are isolated (no leaderboards), so self-reported
-/// inflation only affects their own stats (scoring design decision).
-/// Reuses the category-agnostic customActions collection and rules that
-/// the transport bridge (8.6) already established.
+/// Banks a chosen meal as a real action (Phase 8.12). Reuses the
+/// category-agnostic customActions collection and rules that the
+/// transport bridge (8.6) already established.
 final class FoodChoiceLoggerProvider
     extends $NotifierProvider<FoodChoiceLogger, AsyncValue<void>> {
-  /// Banks a chosen meal as a real action (Phase 8.12): creates the
-  /// custom-action template, then logs it through the standard action
-  /// transaction (points/streak/mascot/daily summary all handled there).
-  /// No caps -- users are isolated (no leaderboards), so self-reported
-  /// inflation only affects their own stats (scoring design decision).
-  /// Reuses the category-agnostic customActions collection and rules that
-  /// the transport bridge (8.6) already established.
+  /// Banks a chosen meal as a real action (Phase 8.12). Reuses the
+  /// category-agnostic customActions collection and rules that the
+  /// transport bridge (8.6) already established.
   FoodChoiceLoggerProvider._()
     : super(
         from: null,
@@ -62,15 +50,11 @@ final class FoodChoiceLoggerProvider
   }
 }
 
-String _$foodChoiceLoggerHash() => r'41d6a50a80bb54feb39519ec5fce321b76f6c0ad';
+String _$foodChoiceLoggerHash() => r'ffdcace8e1c5bfa528865863c3a648a745549712';
 
-/// Banks a chosen meal as a real action (Phase 8.12): creates the
-/// custom-action template, then logs it through the standard action
-/// transaction (points/streak/mascot/daily summary all handled there).
-/// No caps -- users are isolated (no leaderboards), so self-reported
-/// inflation only affects their own stats (scoring design decision).
-/// Reuses the category-agnostic customActions collection and rules that
-/// the transport bridge (8.6) already established.
+/// Banks a chosen meal as a real action (Phase 8.12). Reuses the
+/// category-agnostic customActions collection and rules that the
+/// transport bridge (8.6) already established.
 
 abstract class _$FoodChoiceLogger extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

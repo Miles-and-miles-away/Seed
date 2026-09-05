@@ -3,6 +3,20 @@ import 'package:flutter/material.dart';
 import '../core/constants/ui_constants.dart';
 import '../core/l10n/generated/app_localizations.dart';
 
+/// Cap on how far nav labels scale with the user's text setting.
+///
+/// The same 1.3 Material's own [NavigationBar] applies, and for the
+/// same reason: a fixed row of five destinations keeps its hierarchy
+/// only if the labels stop growing at some point. Everything else on
+/// screen still scales without limit.
+const _maxLabelScale = 1.3;
+
+/// Icon, padding and the gap under it: the part of the bar that does
+/// not move with the text scale, then the label at the default scale.
+/// Together they are the 65 this bar has always been.
+const _navChromeHeight = 49.0;
+const _navLabelHeight = 16.0;
+
 /// Shared bottom navigation bar.
 ///
 /// Rendered by the [MainShell] for the four shell tabs and by full-screen
@@ -39,9 +53,17 @@ class AppBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
+    // Labels are clamped, so the bar only has to grow over the clamped
+    // range -- and it must grow: at the fixed 65 the icon and label
+    // column overflowed by 4.7pt once the user's text scale passed
+    // about 1.8, on every screen that shows this bar.
+    final scaler = MediaQuery.textScalerOf(
+      context,
+    ).clamp(maxScaleFactor: _maxLabelScale);
+
     return BottomAppBar(
       padding: EdgeInsets.zero,
-      height: 65,
+      height: _navChromeHeight + scaler.scale(_navLabelHeight),
       child: Row(
         children: [
           Expanded(
@@ -126,24 +148,32 @@ class _NavBarItem extends StatelessWidget {
       onHover: onHover,
       borderRadius: borderRadiusMd,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: spacingXs,
+          vertical: spacingSm,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(isSelected ? selectedIcon : icon, color: color, size: 24),
-            const SizedBox(height: 4),
+            const SizedBox(height: spacingXs),
             // Labels render at natural size; FittedBox.scaleDown only
             // shrinks them when a translation (e.g. JP katakana) would
             // overflow the Expanded cell.
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                label,
-                maxLines: 1,
-                softWrap: false,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: color,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            MediaQuery.withClampedTextScaling(
+              maxScaleFactor: _maxLabelScale,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: color,
+                    fontWeight: isSelected
+                        ? FontWeight.w600
+                        : FontWeight.normal,
+                  ),
                 ),
               ),
             ),

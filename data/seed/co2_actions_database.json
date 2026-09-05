@@ -583,7 +583,7 @@
       "description_ja": "再生可能エネルギーで電気自動車を充電",
       "description_es": "Cargar tu auto electrico con fuentes de energia renovable",
       "co2_grams": 4500,
-      "calculation_notes": "~10 kWh charge x 458 g/kWh = 4580, rounded down to 4500.",
+      "calculation_notes": "~10 kWh charge x 458 g/kWh = 4580, rounded down to 4500. The 458 g/kWh grid factor is sourced; the ~10 kWh session size is an assumption with no primary behind it (RESEARCH_ENERGY has no charging-session basis), which is why confidence is low.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -595,8 +595,15 @@
       ],
       "is_active": true,
       "sort_order": 10,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "combine_errands",
@@ -802,37 +809,6 @@
       "sources": []
     },
     {
-      "action_id": "skip_food_delivery",
-      "category": "food",
-      "name_en": "Skip Food Delivery",
-      "name_ja": "フードデリバリーをスキップ",
-      "name_es": "Evitar delivery de comida",
-      "description_en": "Cook at home instead of ordering food delivery today",
-      "description_ja": "今日はフードデリバリーの代わりに自炊する",
-      "description_es": "Cocinar en casa en vez de pedir delivery de comida hoy",
-      "co2_grams": 0,
-      "calculation_notes": "NOT CO2-CLAIMABLE, shipped at 0 g 2026-08-09. The peer-reviewed comparison runs the other way: delivered meal kits beat grocery-store meals by 2.0 kg CO2e/meal, and last-mile emissions are LOWER for delivery (-0.45 kg CO2e/meal) because a van route amortizes across many drops while a store trip is one car. Restaurant delivery is not the same system as a meal kit, but no primary supports a saving for cooking at home, so the previous 600 g had no basis. Ships as a habit prompt worth 0 g until a restaurant-delivery LCA exists.",
-      "effort": 3,
-      "frequency": 4,
-      "impact": 2,
-      "icon_name": "kitchen",
-      "related_sdgs": [
-        "12",
-        "13"
-      ],
-      "is_active": true,
-      "sort_order": 6,
-      "confidence": "low",
-      "sources": [
-        {
-          "name": "Heard, Bandekar, Vassar & Miller, 'Comparison of Life Cycle Environmental Impacts from Meal Kits and Grocery Store Meals', Resources, Conservation and Recycling 147 (2019)",
-          "url": "https://par.nsf.gov/servlets/purl/10106237",
-          "quote": "grocery meal greenhouse gas emissions are 33% higher than meal kits (8.1 kg CO2e/meal compared with 6.1 kg CO2e/meal kit)",
-          "accessed": "2026-08-09"
-        }
-      ]
-    },
-    {
       "action_id": "vegan_day",
       "category": "food",
       "name_en": "Full Vegan Day",
@@ -892,7 +868,7 @@
       "description_ja": "今日は魚の代わりに植物性の食事を選択する",
       "description_es": "Elegir una comida vegetal en vez de pescado hoy",
       "co2_grams": 560,
-      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it.",
+      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it. Sources transcribed 2026-09-01 from the white_fish item and the shared pulses baseline, both live-verified in RESEARCH_FOOD.md section 3.1; confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -905,8 +881,27 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Gephart et al. 2021 via Our World in Data, ghg-emissions-seafood",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.csv",
+          "quote": "\"Cod, haddock (wild)\",2021,5.1250386",
+          "accessed": "2026-08-01"
+        },
+        {
+          "name": "Gephart et al. 2021 via Our World in Data (boundary note)",
+          "url": "https://ourworldindata.org/grapher/ghg-emissions-seafood.metadata.json",
+          "quote": "Includes on-farm and off-farm, but does not include post-farmgate emissions. This means it does not include impacts such as transport to retail, packaging, processing or cooking.",
+          "accessed": "2026-08-08"
+        },
+        {
+          "name": "Our World in Data, ghg-per-kg-poore grapher (Poore & Nemecek 2018; plant-alternative baseline)",
+          "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv",
+          "quote": "Other Pulses,2010,1.79",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "air_dry_clothes",
@@ -1067,8 +1062,8 @@
       "description_en": "Turn off lights when leaving a room",
       "description_ja": "部屋を出る時に電気を消す",
       "description_es": "Apagar las luces al salir de una habitacion",
-      "co2_grams": 70,
-      "calculation_notes": "4 h x 40 W = 0.16 kWh x 458 g/kWh = 73, rounded down to 70.",
+      "co2_grams": 15,
+      "calculation_notes": "4 h x 8.5 W LED = 0.034 kWh x 458 g CO2e/kWh = 15.6, rounded down to 15. Re-based 2026-08-29 from a 40 W bulb that no RESEARCH_ENERGY entry supports: the shipped lighting entries are the 8.5 W / 800 lm LED and the 60 W incandescent comparator (section 3.5), and the LED is the honest basis because LEDs are now the majority of installed household lamps -- crediting an incandescent would overstate the saving for most users, against the honest-not-generous rule. A user still on incandescents saves ~110 g for the same 4 h; the methodology sheet says so. The 4 h is the behaviour definition (lights left on in an unoccupied room), not a measurement. The 8.5 W primary is the Philips A19 spec quoted verbatim in RESEARCH_ENERGY section 3.5, whose URL that pass did not capture; the sources below corroborate the wattage class at 800 lm.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -1079,8 +1074,27 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US DOE Energy Saver (lighting choices)",
+          "url": "https://www.energy.gov/energysaver/lighting-choices-save-you-money",
+          "quote": "LEDs use up to 90% less energy and last up to 25 times longer than traditional incandescent bulbs.",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "Energy Use Calculator (LED light bulb)",
+          "url": "https://energyusecalculator.com/electricity_ledlightbulb.htm",
+          "quote": "A typical cheap (60 watt equivalent to incandescent) LED light bulb is advertised as providing 800 lumens, lasting up to 10,000 hours at 10 watts.",
+          "accessed": "2026-01-31"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "lower_thermostat",
@@ -1103,8 +1117,21 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (空調)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+          "quote": "外気温度6℃の時、エアコン（2.2kW）の暖房設定温度を21℃から20℃にした場合（使用時間：9時間／日）年間で電気53.08kWhの省エネ",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "raise_ac_thermostat",
@@ -1127,57 +1154,21 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
-    },
-    {
-      "action_id": "use_natural_light",
-      "category": "energy",
-      "name_en": "Use Natural Light",
-      "name_ja": "自然光を活用",
-      "name_es": "Usar luz natural",
-      "description_en": "Open curtains and use natural light instead of electric",
-      "description_ja": "カーテンを開けて電気の代わりに自然光を活用",
-      "description_es": "Abrir cortinas y usar luz natural en vez de electrica",
-      "co2_grams": 100,
-      "calculation_notes": "6 h x 40 W = 0.24 kWh x 458 g/kWh = 110, rounded down to 100.",
-      "effort": 1,
-      "frequency": 5,
-      "impact": 1,
-      "icon_name": "wb_sunny",
-      "related_sdgs": [
-        "7",
-        "13"
-      ],
-      "is_active": true,
-      "sort_order": 8,
-      "confidence": null,
-      "sources": []
-    },
-    {
-      "action_id": "full_laundry_load",
-      "category": "energy",
-      "name_en": "Run Full Laundry Load",
-      "name_ja": "洗濯機を満杯で回す",
-      "name_es": "Lavar con carga completa",
-      "description_en": "Wait until you have a full load before running laundry",
-      "description_ja": "洗濯物が満杯になってから洗濯機を回す",
-      "description_es": "Esperar hasta tener carga completa antes de lavar",
-      "co2_grams": 300,
-      "calculation_notes": "avoids ~35% wasted energy/load",
-      "effort": 1,
-      "frequency": 3,
-      "impact": 2,
-      "icon_name": "local_laundry_service",
-      "related_sdgs": [
-        "6",
-        "7",
-        "12"
-      ],
-      "is_active": true,
-      "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (空調)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+          "quote": "外気温度31℃の時、エアコン（2.2kW）の冷房設定温度を27℃から1℃上げた場合（使用時間：9時間／日）年間で電気30.24kWhの省エネ",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "eco_mode_appliance",
@@ -1201,8 +1192,27 @@
       ],
       "is_active": true,
       "sort_order": 10,
-      "confidence": null,
-      "sources": []
+      "confidence": "high",
+      "sources": [
+        {
+          "name": "Bosch SMS67MW00G spec sheet",
+          "url": "https://media3.bosch-home.com/Documents/specsheet/en-GB/SMS67MW00G.pdf",
+          "quote": "Energy Consumption for 100 cycles Eco Programme: 85 kWh",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Which? UK (dishwasher water and energy research, page-dated 03 Jul 2026)",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "around 1.12kWh of energy per wash, which costs roughly 29.2p",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "microwave_vs_oven",
@@ -1214,7 +1224,7 @@
       "description_ja": "温め直しにオーブンの代わりに電子レンジを使用",
       "description_es": "Usar el microondas en vez del horno para recalentar comida",
       "co2_grams": 280,
-      "calculation_notes": "oven 0.82 kWh per bake cycle - microwave 0.19 kWh per 10 min = 0.63 kWh x 458 = 289, rounded down to 280.",
+      "calculation_notes": "oven 0.82 kWh per bake cycle - microwave 0.19 kWh per 10 min = 0.63 kWh x 458 = 289, rounded down to 280. The oven leg is the EU tier-1 anchor (0,0042 x V + 0,55 at 60-70 L); the microwave leg converts a 700 W-output unit at ~60% conversion efficiency, an aggregator-sourced range (RESEARCH_ENERGY sec 3.4), and is the weaker of the two.",
       "effort": 1,
       "frequency": 4,
       "impact": 1,
@@ -1225,8 +1235,21 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Commission Delegated Regulation (EU) No 65/2014, Annex II",
+          "url": "https://webgate.ec.europa.eu/reqs2/public/v2/requirement/auxi/eu/32014R0066_energcook_annex_2.pdf",
+          "quote": "SEC_electric cavity = 0,0042 × V + 0,55 (in kWh)",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "use_fan_instead_of_ac",
@@ -1894,8 +1917,33 @@
       ],
       "is_active": true,
       "sort_order": 10,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "東京都水道局",
+          "url": "https://www.waterworks.metro.tokyo.lg.jp/kurashi/shiyou/jouzu",
+          "quote": "残り湯は、使用状態によって異なりますが、一般家庭では、約180リットルの量があります",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "US EPA WaterSense (showerheads)",
+          "url": "https://www.epa.gov/watersense/showerheads",
+          "quote": "Did you know that standard showerheads use 2.5 gallons of water per minute (gpm)? Water-saving showerheads that earn the WaterSense label must demonstrate that they use no more than 2.0 gpm.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "BRE Technical Paper STP09/B07 (GASTEC-at-CRE tests commissioned by DECC)",
+          "url": "https://bregroup.com/documents/d/bre-group/stp09-b07_dhw_boiler_tests_2009",
+          "quote": "ηDHW = heat content of the useful hot water drawn / heat in fuel consumption (net basis)",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "UK DEFRA/DESNZ GHG Conversion Factors 2026",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+          "quote": "ghg-conversion-factors-2026-flat-format-revised.xlsx, Version 1.2, natural gas Scope 1 Gross CV = 0.18231 kg CO2e/kWh. Extracted from the flat-format spreadsheet; the value is not rendered as page text on gov.uk.",
+          "accessed": "2026-08-02"
+        }
+      ]
     },
     {
       "action_id": "tree_planting",
@@ -2607,8 +2655,27 @@
       ],
       "is_active": true,
       "sort_order": 13,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Office of Congressional Workplace Rights (US)",
+          "url": "https://www.ocwr.gov/publications/fast-facts/portable-space-heaters/",
+          "quote": "Average electric space heaters range from 400-1,500 watts.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "メトロ電気工業 (kotatsu 標準平均消費電力量 test method)",
+          "url": "https://www.kotatsu.metro-co.com/our-kotatsu/",
+          "quote": "こたつ：電気代及び標準平均消費電力量は、室温20℃で厚さ約５cmの綿のふとんを使用し、人が入らない状態で５時間運転した時の１時間あたりの平均値です。",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        }
+      ]
     }
   ],
   "sdg_coverage": {
@@ -2730,7 +2797,7 @@
     "avoided_emissions_caveat": "Actions that credit avoided manufacturing (used_car_purchase, secondhand_clothing, repair_item, borrow_instead_buy, donate_items) are COUNTERFACTUAL claims, not inventory accounting. Each scores one decision against what would otherwise have been produced; they are not a share of any physical object's embodied carbon. Two consequences. (1) They are not additive: if a car is built, sold, and resold, the manufacturing happened once, and crediting each buyer is only coherent because each buyer faced a separate buy-new decision -- never sum them and never present the total as a physical quantity of CO2 not emitted. (2) They assume one-for-one displacement, which is an upper bound: real markets displace less than one new unit per secondhand purchase, and no published rate exists to correct with. The methodology screen must say both."
   },
   "research_only_records": {
-    "why": "Research records from the pre-2.0 database that have no shipping action. Kept for provenance: the transport-mode swaps are now handled by the transport calculator's logging bridge rather than by discrete actions, and the rest were researched but never shipped. Do NOT seed these -- seed_action_library.js reads `actions` only.",
+    "why": "Research records with no shipping action. Kept for provenance: the transport-mode swaps are now handled by the transport calculator's logging bridge rather than by discrete actions, some were researched but never shipped, and some are deliberate demotions of a previously shipping action (each such record says DEMOTED and why). Do NOT seed these -- seed_action_library.js reads `actions` only.",
     "records": [
       {
         "action_id": "bike_instead_of_car",
@@ -3021,6 +3088,56 @@
         "related_sdgs": [
           12,
           14
+        ]
+      },
+      {
+        "action_id": "use_natural_light",
+        "action_name": "Use Natural Light",
+        "category": "energy",
+        "co2_grams": 100,
+        "unit": "per_day",
+        "calculation_notes": "DEMOTED 2026-08-29 (owner call): overlapped `turn_off_lights` -- both credit a bulb not running, so shipping both let the same hour be logged twice. Also the weaker of the pair on two counts: its 6 h/day of daylight substitution depends on season, latitude and window orientation, none of which the app knows, and its shipped value rested on a 40 W bulb that RESEARCH_ENERGY does not contain (section 3.5 ships an 8.5 W LED at 800 lm and a 60 W incandescent, nothing between). Retired value: 6 h x 40 W = 0.24 kWh x 458 g/kWh = 110, rounded down to 100. Restore only with a sourced fixture wattage and a daylight-availability basis.",
+        "sources": [],
+        "confidence": null,
+        "related_sdgs": [
+          "7",
+          "13"
+        ]
+      },
+      {
+        "action_id": "full_laundry_load",
+        "action_name": "Run Full Laundry Load",
+        "category": "energy",
+        "co2_grams": 300,
+        "unit": "per_load",
+        "calculation_notes": "ARCHIVED 2026-08-29 (owner call): no current definitive answer, so it stops shipping rather than shipping an unfounded number. The retired value was 300 g on the note 'avoids ~35% wasted energy/load' -- no factor, no arithmetic, no source, and the E1 grid rebase never touched it, so its basis is unknown and may predate the 458 g CO2e/kWh factor. The evidence base cannot supply a replacement: RESEARCH_ENERGY section 3.2 holds no partial-load washing measurement, because the Bosch WNA14400GR table that supplies all three wash temperatures is a max-load (9.0 kg) table only, and the dryer's half-load figure in the same section is a different appliance from the one this action names. The only '35%' in that document is the gas hob efficiency in section 3.4, unrelated to laundry -- a coincidence, not a lineage. Restore only with a measured partial-load figure for the same programme; the cheapest first check is whether the manufacturer documents already cited declare a half-load or quarter-load figure.",
+        "sources": [],
+        "confidence": null,
+        "related_sdgs": [
+          "6",
+          "7",
+          "12"
+        ]
+      },
+      {
+        "action_id": "skip_food_delivery",
+        "action_name": "Skip Food Delivery",
+        "category": "food",
+        "co2_grams": 0,
+        "unit": "per_meal",
+        "calculation_notes": "DEMOTED 2026-09-01 (recorded in PDR_FOOD_CALCULATOR.md section 6): shipped at 0 g since 2026-08-09 because the only peer-reviewed comparison runs the other way (Heard et al. 2019: delivered meal kits beat grocery-store meals, and last-mile emissions are lower for a van route than a car trip), so no primary supports a saving for cooking at home. A 0 g action still pays points at seed time (computed from effort/frequency/impact), so keeping it rewarded a habit the evidence cannot back -- the same honesty rule that retired use_natural_light. Its long description also still claimed the retired 600 g. Restore only with a restaurant-delivery LCA showing a genuine saving, which does not exist today.",
+        "sources": [
+          {
+            "name": "Heard, Bandekar, Vassar & Miller, 'Comparison of Life Cycle Environmental Impacts from Meal Kits and Grocery Store Meals', Resources, Conservation and Recycling 147 (2019)",
+            "url": "https://par.nsf.gov/servlets/purl/10106237",
+            "quote": "grocery meal greenhouse gas emissions are 33% higher than meal kits (8.1 kg CO2e/meal compared with 6.1 kg CO2e/meal kit)",
+            "accessed": "2026-08-09"
+          }
+        ],
+        "confidence": "low",
+        "related_sdgs": [
+          "12",
+          "13"
         ]
       }
     ]

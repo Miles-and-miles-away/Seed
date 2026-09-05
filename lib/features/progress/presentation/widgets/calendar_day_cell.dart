@@ -23,8 +23,7 @@ class CalendarDayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     // Don't show anything for future dates
     if (data.isFuture) {

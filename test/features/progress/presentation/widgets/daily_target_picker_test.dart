@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/daily_target_picker.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
   group('DailyTargetPicker', () {
-    Widget createTestWidget({
-      VoidCallback? onComplete,
-      bool isLoading = false,
-    }) {
-      return ProviderScope(
+    Widget buildTestWidget({VoidCallback? onComplete, bool isLoading = false}) {
+      return createTestWidget(
+        scaffold: true,
         overrides: [
           dailyTargetProvider.overrideWith(
             () => _MockDailyTargetNotifier(isLoading: isLoading),
           ),
         ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            body: DailyTargetPicker(onComplete: onComplete ?? () {}),
-          ),
-        ),
+        child: DailyTargetPicker(onComplete: onComplete ?? () {}),
       );
     }
 
     testWidgets('displays number picker with values 1-10', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Should have a ListWheelScrollView
@@ -45,7 +32,7 @@ void main() {
     });
 
     testWidgets('displays confirm button', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Should have a FilledButton
@@ -53,7 +40,7 @@ void main() {
     });
 
     testWidgets('scrolling changes selected value', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Find the ListWheelScrollView
@@ -69,7 +56,7 @@ void main() {
     });
 
     testWidgets('shows loading indicator when saving', (tester) async {
-      await tester.pumpWidget(createTestWidget(isLoading: true));
+      await tester.pumpWidget(buildTestWidget(isLoading: true));
       // Use pump() instead of pumpAndSettle() because CircularProgressIndicator never settles
       await tester.pump();
 
@@ -78,7 +65,7 @@ void main() {
     });
 
     testWidgets('button is disabled while loading', (tester) async {
-      await tester.pumpWidget(createTestWidget(isLoading: true));
+      await tester.pumpWidget(buildTestWidget(isLoading: true));
       // Use pump() instead of pumpAndSettle() because CircularProgressIndicator never settles
       await tester.pump();
 
@@ -88,7 +75,7 @@ void main() {
 
     testWidgets('button is enabled when not loading', (tester) async {
       // ignore: avoid_redundant_argument_values
-      await tester.pumpWidget(createTestWidget(isLoading: false));
+      await tester.pumpWidget(buildTestWidget(isLoading: false));
       await tester.pumpAndSettle();
 
       final button = tester.widget<FilledButton>(find.byType(FilledButton));
@@ -98,7 +85,7 @@ void main() {
     testWidgets('displays description based on selected target', (
       tester,
     ) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Default is 3, which should show "moderate" description
@@ -107,7 +94,7 @@ void main() {
     });
 
     testWidgets('uses Spacer for vertical layout', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Should have Spacer widgets for vertical spacing
@@ -115,7 +102,7 @@ void main() {
     });
 
     testWidgets('has correct padding', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Should have Padding widget
@@ -123,7 +110,7 @@ void main() {
     });
 
     testWidgets('picker has correct configuration', (tester) async {
-      await tester.pumpWidget(createTestWidget());
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // Verify ListWheelScrollView exists

@@ -8,7 +8,7 @@ part of 'user_settings_model.dart';
 
 _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
     _UserSettingsModel(
-      notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
+      notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
       reminderSchedules:
           (json['reminderSchedules'] as List<dynamic>?)
               ?.map(

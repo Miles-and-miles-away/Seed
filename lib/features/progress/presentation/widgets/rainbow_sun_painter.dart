@@ -32,6 +32,8 @@ class RainbowSunPainter extends CustomPainter {
   /// SDG colors indexed 0-16 for goals 1-17
   final List<Color> sdgColors;
 
+  late final Set<int> _completedSet = completedSdgs.toSet();
+
   /// Minimum ball radius as a fraction of max radius
   static const double _minRadiusFraction = 0.2;
 
@@ -101,14 +103,12 @@ class RainbowSunPainter extends CustomPainter {
   }
 
   void _drawBarSegments(Canvas canvas, Offset center, double ballRadius) {
-    final completedSet = completedSdgs.toSet();
-
     // Bar segment dimensions
     final innerRadius = ballRadius + 8; // Gap from ball
     final outerRadius = ballRadius + 40; // Bar thickness of 32
 
     for (var sdgNumber = 1; sdgNumber <= 17; sdgNumber++) {
-      final isCompleted = completedSet.contains(sdgNumber);
+      final isCompleted = _completedSet.contains(sdgNumber);
       final sdgColor = sdgColors[sdgNumber - 1];
 
       // Calculate start angle for this segment
@@ -179,13 +179,11 @@ class RainbowSunPainter extends CustomPainter {
   }
 
   void _drawRays(Canvas canvas, Size size, Offset center, double ballRadius) {
-    final completedSet = completedSdgs.toSet();
-
     // Rays start from outside the bar segments
     final rayStartRadius = ballRadius + 48;
 
     for (var sdgNumber = 1; sdgNumber <= 17; sdgNumber++) {
-      if (!completedSet.contains(sdgNumber)) continue;
+      if (!_completedSet.contains(sdgNumber)) continue;
 
       // Ray is centered in the middle of its segment
       final segmentCenterAngle =

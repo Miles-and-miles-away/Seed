@@ -5,12 +5,13 @@ import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/helpers.dart';
-import 'package:seed_app/core/utils/readable_color.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -84,51 +85,27 @@ class _ActionLogConfirmationDialogState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header with category color
-          Container(
-            padding: const EdgeInsets.all(spacingXxl),
-            decoration: BoxDecoration(
-              color: categoryColor.withValues(alpha: opacityFaint),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28),
-                topRight: Radius.circular(28),
+          ActionDialogHeader(
+            tint: categoryColor.withValues(alpha: opacityFaint),
+            icon: category?.icon ?? Icons.eco,
+            iconColor: categoryColor,
+            title: widget.action.name(widget.languageCode),
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: spacingLg,
+                vertical: spacingSm,
               ),
-            ),
-            child: Column(
-              children: [
-                Icon(
-                  category?.icon ?? Icons.eco,
-                  size: 48,
-                  color: categoryColor,
+              decoration: BoxDecoration(
+                color: categoryColor,
+                borderRadius: borderRadiusXl,
+              ),
+              child: Text(
+                l10n.pointsLabel(widget.action.points),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: spacingMd),
-                Text(
-                  widget.action.name(widget.languageCode),
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: spacingSm),
-                // Points display
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: spacingLg,
-                    vertical: spacingSm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: categoryColor,
-                    borderRadius: borderRadiusXl,
-                  ),
-                  child: Text(
-                    l10n.pointsLabel(widget.action.points),
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           // Description and note field
@@ -298,11 +275,7 @@ class _ActionLogConfirmationDialogState
   }
 
   Widget _buildScienceContent(ThemeData theme, Color categoryColor) {
-    final isDark = theme.brightness == Brightness.dark;
-    final mdConfig = isDark
-        ? MarkdownConfig.darkConfig
-        : MarkdownConfig.defaultConfig;
-    final linkColor = readableOn(categoryColor, theme.colorScheme.surface);
+    final linkColor = readableTextColor(categoryColor, theme.brightness);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(spacingLg, 0, spacingLg, spacingLg),
@@ -310,7 +283,7 @@ class _ActionLogConfirmationDialogState
         data: appendExternalLinkArrow(
           widget.action.descriptionLong(widget.languageCode),
         ),
-        config: mdConfig.copy(
+        config: markdownConfigFor(context).copy(
           configs: [
             PConfig(
               textStyle: TextStyle(
@@ -319,14 +292,7 @@ class _ActionLogConfirmationDialogState
                 color: theme.colorScheme.onSurface,
               ),
             ),
-            LinkConfig(
-              style: TextStyle(
-                color: linkColor,
-                decoration: TextDecoration.underline,
-                decorationColor: linkColor,
-              ),
-              onTap: _onLinkTap,
-            ),
+            externalLinkConfig(context, color: linkColor, onTap: _onLinkTap),
           ],
         ),
       ),

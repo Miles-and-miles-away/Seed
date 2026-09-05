@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/shared/widgets/error_display.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_item.dart';
 
@@ -76,23 +77,8 @@ class ActionHistoryScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: 48,
-                color: theme.colorScheme.error,
-              ),
-              const SizedBox(height: spacingLg),
-              Text(l10n.errorGeneric, style: theme.textTheme.bodyLarge),
-              const SizedBox(height: spacingSm),
-              FilledButton.icon(
-                onPressed: () => ref.invalidate(userActionLogsProvider),
-                icon: const Icon(Icons.refresh),
-                label: Text(l10n.buttonRetry),
-              ),
-            ],
+          child: ErrorDisplay(
+            onRetry: () => ref.invalidate(userActionLogsProvider),
           ),
         ),
       ),

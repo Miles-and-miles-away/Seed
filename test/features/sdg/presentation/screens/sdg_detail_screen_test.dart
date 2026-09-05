@@ -1,14 +1,13 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/screens/sdg_detail_screen.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_impact_card.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_progress_chart_viewer.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_targets_section.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -35,22 +34,11 @@ void main() {
     }
 
     Widget buildTestWidget(int goalNumber) {
-      return ProviderScope(
-        overrides: [
-          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
-          firestoreProvider.overrideWithValue(fakeFirestore),
-          sdgGoalsDataProvider.overrideWith((ref) async => sdgData),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: SdgDetailScreen(goalNumber: goalNumber),
-        ),
+      return createTestWidget(
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
+        overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
+        child: SdgDetailScreen(goalNumber: goalNumber),
       );
     }
 
@@ -97,6 +85,26 @@ void main() {
 
       expect(find.text('About this Goal'), findsOneWidget);
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
+    });
+
+    testWidgets('orders About, Global progress, then Your Impact', (
+      tester,
+    ) async {
+      // Tall enough that every section builds, so the comparison sees
+      // all three rather than only what fits above the fold.
+      tester.view.physicalSize = const Size(800, 6000);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      await tester.pumpWidget(buildTestWidget(13));
+      await tester.pump();
+
+      // World state before personal state: the goal's own progress
+      // frames what a user's contribution is measured against.
+      final about = tester.getTopLeft(find.byType(SdgTargetsSection)).dy;
+      final global = tester.getTopLeft(find.byType(SdgProgressChartViewer)).dy;
+      final impact = tester.getTopLeft(find.byType(SdgImpactCard)).dy;
+      expect(about, lessThan(global));
+      expect(global, lessThan(impact));
     });
 
     testWidgets('displays expand chevron in targets section', (tester) async {

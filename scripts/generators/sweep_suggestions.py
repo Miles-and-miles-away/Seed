@@ -28,6 +28,8 @@ from collections import Counter
 from datetime import date
 from pathlib import Path
 
+from geo import haversine_km
+
 REPO = Path(__file__).resolve().parents[2]
 CITIES_JSON = REPO / "data" / "app" / "cities.json"
 CITIES_DATA_DART = (
@@ -43,7 +45,6 @@ REVIEWED_CC_PATH = (
     REPO / "data" / "reference" / "reviewed_cc_ground_pairs.json"
 )
 
-EARTH_RADIUS_KM = 6371.0088
 GROUND_CIRCUITY = 1.3
 FLIGHT_DETOUR_KM = 95.0
 GROUND_MODE_MAX_KM = 2000.0
@@ -51,15 +52,6 @@ MIN_FLIGHT_KM = 250.0
 FERRY_MODE_MAX_KM = 500.0
 FALLBACK_AIR_MIN_KM = 100.0
 ACTIVE_MODE_MAX_KM = 150.0
-
-
-def haversine_km(lat1, lon1, lat2, lon2):
-    p1 = math.radians(lat1)
-    p2 = math.radians(lat2)
-    sdp = math.sin(math.radians(lat2 - lat1) / 2)
-    sdl = math.sin(math.radians(lon2 - lon1) / 2)
-    a = sdp * sdp + math.cos(p1) * math.cos(p2) * sdl * sdl
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
 
 
 def find_link(a, b, links, kind):
@@ -135,7 +127,8 @@ def suggest(a, b, links, blocked, pair_index):
 
 
 def main():
-    root = json.load(open(CITIES_JSON, encoding="utf-8"))
+    with open(CITIES_JSON, encoding="utf-8") as f:
+        root = json.load(f)
     cities = root["cities"]
     links = root["metadata"]["links"]
     blocked = {tuple(p) for p in root["metadata"].get("water_blocked", [])}
@@ -253,9 +246,8 @@ def main():
     # concern -- cc granularity cannot see them.
     update_reviewed = "--update-reviewed" in sys.argv
     if REVIEWED_CC_PATH.exists():
-        reviewed = set(
-            json.load(open(REVIEWED_CC_PATH, encoding="utf-8"))["pairs"]
-        )
+        with open(REVIEWED_CC_PATH, encoding="utf-8") as f:
+            reviewed = set(json.load(f)["pairs"])
     else:
         reviewed = set()
         if not update_reviewed:
@@ -300,8 +292,9 @@ def main():
             ),
             "pairs": sorted(cc_ground),
         }
+        blob = json.dumps(payload, ensure_ascii=False, indent=1)
         with open(REVIEWED_CC_PATH, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=1)
+            f.write(blob)
             f.write("\n")
         print(f"reviewed cc-pair list updated: {len(cc_ground)} pairs")
     print("\nPASS: sweep gate clean")

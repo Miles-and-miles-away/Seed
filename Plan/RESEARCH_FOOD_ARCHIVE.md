@@ -1,53 +1,48 @@
-# PDR Food Dataset -- Archive (executed detail)
+# Food Dataset -- Archive (executed detail)
 
 **Archived:** 2026-08-08. Long-form content moved out of
 [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) so that document stays a
 concise methodology-and-evidence reference. Everything here is
-EXECUTED or CLOSED; nothing below is a live instruction. Live
-rules, open items and the binding copy rules stay in
-RESEARCH_FOOD.md (sections 6-9). The forward item spec for the v2
-dataset is [FOOD_ITEMS_V2_LIST.md](./FOOD_ITEMS_V2_LIST.md).
+EXECUTED or CLOSED; nothing below is a live instruction. The
+evidence base is [RESEARCH_FOOD.md](./RESEARCH_FOOD.md) sections
+1-6. The standing decisions, the binding copy rules and the
+single live open list are in
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md), whose section
+6 is the only live open list for this workstream. The v2 item
+spec, section 12 below, is delivered and closed too.
 
 ---
 
 ## 0. State as of 2026-08-08
 
 **Shipped:** `data/app/food_items.json` went 43 -> 166 items
-(v2), plus the tree-nut/peanut split, the seafood source decision D8,
+(v2), plus the tree-nut/peanut split, the seafood source decision D11,
 the comparison gate, and a four-part verification pass (section 9).
 
-**The suite is RED, and not from the food work.** 81 food tests pass;
-6 fail, all caused by the other session:
+**The six test failures recorded here are closed.** This section once
+read "the suite is RED": 81 food tests passing, 6 failing, all from
+two sessions landing on the same tree rather than from the food data.
+All six were fixed. The five in `food_action_consistency_test.dart`
+were resolved by re-pointing the test rather than restoring the ids:
+the rewrite of `co2_actions_database.json` had deliberately retired
+`meatless_meal_beef`/`_chicken`/`_pork` and `plant_milk_vs_dairy`, and
+the test now asserts they stay unshipped ("the retired per-item meat
+actions stay unshipped"). The one in `transport_modes_data_test.dart`
+was resolved by rebasing the grid pin 386 -> 458 (energy decision E1).
+The action table that replaced those four ids is PDR_FOOD_CALCULATOR.md
+section 4, which is the authority on food action values.
 
-- 5 in `food_action_consistency_test.dart` -- the action ids
-  `meatless_meal_beef`/`_chicken`/`_pork` and `plant_milk_vs_dairy`
-  were removed when `co2_actions_database.json` was rewritten at
-  ~15:05. If they were renamed, re-point the test; if deliberately
-  removed, RESEARCH_FOOD section 7 needs rewriting.
-- 1 in `transport_modes_data_test.dart` -- the grid factor moved
-  386 -> 458 (energy decision E1) without the test or the transport
-  invariant pins being re-derived.
-
-**Needs a re-seed before the new values are live:**
-`node scripts/seed/seed_action_library.js` (needs the Firebase service
-account). `skip_fish` 1200 -> 560 g is the user-visible change.
-
-**Open decisions for the owner** (none blocking, all recorded):
-
-1. `plant_based_meat` 4.5 may be ~3x low on its own cited peer-reviewed
-   source -- re-research or keep with the disclosure now in place.
-2. Wire `comparable`/`tie_group` into the verdict gate or delete the
-   fields; today they are read by no code, so the app ranks tree nuts
-   87% better than peanuts against an explicit never-rank rule.
-3. `shellfish`/`marisco` route to farmed prawns at 19.2x -- a one-line
-   alias cut, but it is the third defect of that class.
-4. `milk_chocolate` sits below the floor its own recipe implies.
-5. Cream still has no row, by decision.
-
-**Not verified at all:** the app has never been run. All confidence is
-unit and widget tests -- the 166-item picker, the cooked-weight preset
-labels, the no-verdict dialog and the methodology page have not been
-looked at on a device.
+**Live items are not kept in this file.** The re-seed that makes the
+corrected action values user-visible, the owner decisions this section
+used to list (`comparable`/`tie_group` read by no code, the
+`shellfish`/`marisco` fork, `plant_based_meat` 4.5, `milk_chocolate`
+14.9, cream having no row) and the fact that the app has never been
+run on a device are all tracked in PDR_FOOD_CALCULATOR.md section 6, the
+single live list for this dataset. Four of those closed on
+2026-08-29: the `shellfish`/`marisco` fork, `plant_based_meat` (kept
+at 4.5, the "3x low" reading was a cradle-to-fork boundary artefact),
+`milk_chocolate` (14.9 -> 19.35) and `peanut_butter` (3.39202 ->
+3.23). `comparable`/`tie_group` and cream remain open there.
 
 **Dates:** everything stamped 2026-08-04 during the day came from a
 misread clock; the real date was 2026-08-08. 223 stamps corrected,
@@ -74,7 +69,13 @@ assembly run.
 ## 1. Action-Data Fixes (closed)
 
 Follow-ups to the D1 means decision, beyond the correction table
-kept in RESEARCH_FOOD.md section 7.
+kept in PDR_FOOD_CALCULATOR.md section 4.
+
+**Every value below is as decided on its own date and has since
+moved.** The 2026-08-08 restructure retired the four per-item swap
+actions into `skip_high_impact_food` 3700, `skip_medium_impact_food`
+780, `plant_milk` 460 and `skip_fish` 560; PDR_FOOD_CALCULATOR.md section 4
+is the authority, and this section is the fix log, not the values.
 
 Additional fixes (all closed):
 
@@ -468,9 +469,14 @@ Applied:
 - New `peanuts` 3.23 (`Groundnuts,2010,3.23`, stage sum 3.23001357,
   Table S1 basis "1 kg of shell free, roasted nut"). Peanut butter
   rides this row via 21 CFR 164.150 alone.
-- Wave 4's raw-to-roasted uplift of 1.050161 on top of 3.23 is
+- Wave 4's raw-to-roasted uplift of 1.050161 on top of 3.23 was
   **withdrawn** -- the P&N parent is already roasted, so it double
-  counted (would have shipped 3.3920181818).
+  counted. As written on 2026-08-08 the withdrawal had not reached
+  the data and `peanut_butter` still shipped 3.39202, with the double
+  count disclosed in its own notes. **Closed 2026-08-29:** the
+  withdrawal is applied, `peanut_butter` ships 3.23, and the two USDA
+  water-content sources that carried the roast yield are removed from
+  the item. Full reasoning in RESEARCH_FOOD.md section 3.3.
 - Dataset 42 -> 43 items, `plant_protein` 5 -> 6; `FOOD_ITEM_COUNT`
   bumped. Pinned by `food_dataset_invariants_test.dart` 11b (both
   exact values plus the ordering) and an alias guard in
@@ -489,7 +495,7 @@ The dataset went from 43 to **166 items**. Ten research waves had
 already run in an earlier session; their per-item output (about
 750 KB, with quotes, URLs and arithmetic) survived only in that
 session's scratchpad and was recovered and preserved before it was
-consolidated. `FOOD_ITEMS_V2_LIST.md` sections 4 and 8 were both
+consolidated. RESEARCH_FOOD_ARCHIVE.md section 12 sections 4 and 8 were both
 stale when the work resumed: wave 9 had in fact completed a full
 re-run, and the picker had already gained search, alias ranking, a
 lazy list and group icons.
@@ -507,7 +513,7 @@ Consolidation, in order:
    shipped dataset; carried forward unchanged.
 4. Five umbrella rows retired into species rows (root_vegetables,
    cabbage_broccoli, onions_leeks, citrus, berries) and `fish_wild`
-   retired by D8.
+   retired by D11.
 5. All 162 new/changed `calculation_notes` were rewritten for users.
    The research agents wrote them as internal memos -- ALL-CAPS
    directives to the copy engine, route codes, wave numbers, "does
@@ -527,7 +533,7 @@ Consolidation, in order:
    fluid cream, and carried cream, double cream, nata and 生クリーム
    as aliases -- routing cream to 12.0 when the agent's own source
    list measures it near 0.82. Cream is now uncovered and tracked as
-   an open item (RESEARCH_FOOD.md section 9). `yogurt` lost an
+   an open item (PDR_FOOD_CALCULATOR.md section 6). `yogurt` lost an
    unsourced 400 g tub preset.
 8. 18 aliases repeating their own item's display name were stripped
    (duck, tuna, salmon, sugar, tofu, bread, both oils and others);
@@ -552,7 +558,7 @@ not truth claims:
 
 ---
 
-## 7. D8: the seafood source decision (2026-08-08)
+## 7. D11: the seafood source decision (2026-08-08)
 
 **Question:** the seafood group needs species resolution Poore &
 Nemecek does not have (one global farmed-fish row), but the only
@@ -660,7 +666,11 @@ not.** Headline findings:
   of `bivalves` (1.399), so the ordinary umbrella word for shellfish
   in two languages logs mussels and clams **19.2x too high**. The same
   class as the peanut and cream defects, and the third instance found.
-  Still open.
+  **Closed 2026-08-29**, though not the way this entry assumed: both
+  words denote the whole category, the picker lists every match with
+  its own number, and the fix was to put the terms on all five edible
+  marine invertebrate rows rather than to cut them. PDR_FOOD_CALCULATOR.md
+  section 6 carries the reasoning and the other forks the sweep found.
 
 **Also fixed in this pass:** dry-basis staples gained cooked-weight
 presets (rice, pasta, beans/lentils), each converting a 100 g cooked
@@ -725,18 +735,23 @@ rows re-fetched as a spot-check. Access dates are all plausible and in
 the past. No dead URLs beyond the navarra.es case above.
 
 **Open after the pass** -- recorded so the next reader is not misled
-into thinking the dataset is clean:
+into thinking the dataset is clean. This is the pass's own findings
+list, kept as its record; the live list that must be worked from is
+PDR_FOOD_CALCULATOR.md section 6, which carries these forward:
 
 - Wire `comparable`/`tie_group` into the verdict gate, or remove the
   fields. Read by nothing today, they mislead anyone who assumes the
   never-pin rules are enforced.
 - `milk_chocolate` 14.9 sits below the floor its own published recipe
   implies (~23 priced on sibling rows) and the app ranks it 68%
-  better than dark chocolate.
+  better than dark chocolate. **Closed 2026-08-29:** re-derived to
+  19.35, the rebuild floor and the spread midpoint; the gate now
+  refuses the pair.
 - `crisps`, `popcorn`, `instant_noodles` sit 3-4% below their own
   floors: their oil leg never received the density correction that
   `margarine` and `mayonnaise` did.
 - `peanut_butter` still carries the double-counted roast uplift.
+  **Closed 2026-08-29:** withdrawal applied, ships 3.23.
 - Six items default to a prepared weight on an as-purchased factor
   (`sweetcorn` ~2.8x, `takenoko` 2-3.5x, `melon`/`pineapple` ~2x).
 - `edamame` on a dry-pea anchor (~3x); `soy_tvp` declared dry on a
@@ -764,7 +779,428 @@ into thinking the dataset is clean:
 **Caveat on the pass itself.** It ran against a dataset being
 concurrently modified by another session, which during the same window
 changed the electricity grid factor in `transport_modes.json` and
-rewrote `co2_actions_database.json`, deleting the four food action ids
-that `food_action_consistency_test.dart` asserts on. Those five test
-failures are not defects in this dataset. Any finding above should be
-re-checked against the tree once both sessions have landed.
+rewrote `co2_actions_database.json`, retiring the four food action ids
+that `food_action_consistency_test.dart` then asserted on. Those five
+test failures were never defects in this dataset, and both sessions
+have since landed: the test was re-pointed and the grid pin rebased
+(section 0). The findings above were still recorded against a tree in
+motion and have not been re-checked since.
+
+---
+
+## 10. The 2026-08-29 decision pass (executed)
+
+Five items that had sat open in PDR_FOOD_CALCULATOR.md section 6 were
+closed on one pass. Section 9 keeps a one-line mention of each; the
+worked evidence is in RESEARCH_FOOD.md sections 3.3, 3.8 and 6, and
+the reasoning that is not evidence is here.
+
+### 10.1 `shellfish` / `marisco`: completed the category, did not cut it
+
+Both words denote every edible marine invertebrate, not one row:
+English "shellfish" covers molluscs, crustaceans and echinoderms;
+Spanish "marisco" is any edible marine invertebrate, spanning
+crustaceos, moluscos and equinodermos (both re-verified live
+2026-08-29). US regulatory usage is narrower -- FALCPA's major
+allergen is *Crustacean* shellfish and excludes molluscs -- which
+cuts the other way but still puts crab, lobster and prawns inside
+the word. The dataset holds five rows for that category and the two
+terms sat on exactly two of them, at opposite ends of the range,
+which is what produced the 19.2x fork.
+
+Cutting the term from both was rejected: the picker already has the
+disambiguation the cut would have substituted for. `searchFoodItems`
+returns every match ranked, the picker flattens to that list while
+searching, and each row carries its own name, factor, weight basis
+and boundary note plus an info button, so a category word resolves
+to a category listing and the user taps the row they ate. Cutting
+would only have made a word people really type return nothing. The
+terms now sit on all five rows, matching what the dataset already
+does for every other umbrella word ("plant milk" on all four milks,
+"cooking oil" on both oils). Japanese needed no change: 貝 is the
+mollusc sense specifically, and Japanese has no single word for the
+crustacean-plus-mollusc category (魚介類 is broader and includes
+fish).
+
+### 10.2 `plant_based_meat`: kept at 4.5
+
+The "~3x low" reading was a boundary artefact. Saget et al. 2021 is
+cradle-to-FORK and charges 0.55 kWh of home cooking plus fridge
+storage and the drive to the shop, all outside this dataset's
+declared scope; its Table 2 charges every patty 4.20 MJ of grinding
+electricity where the same paper's methods text says 4.2 kJ, a
+thousandfold discrepancy worth about a third of the 1.5; and its
+patty is built from 16 globally sourced crops, the formulated end of
+the category.
+
+The open item's own premise was also wrong: it asserted their beef
+sat close to ours, but theirs is 39.8-58.4 per kg economically
+allocated and 15.0-20.4 biophysically against our 70.3608, so the
+whole scale differs and no single number lifts out of it. A
+correction found on the way: the independent ifeu re-derivation
+stated a mean of 3.26 that its own sum does not give (17.56 / 6 =
+2.93), so the independent route lands 3.80-4.23. That makes 4.5 the
+top of the in-scope band rather than its centre, which is the right
+side to err on for a value the app uses to praise a swap away from
+meat.
+
+### 10.3 `milk_chocolate` 14.9 -> 19.35
+
+19.35 is both the midpoint of the item's own declared 14.9-23.8
+spread and the absolute floor of a rebuild on this dataset's own
+rows: it charges the cocoa fraction the entire dark-chocolate
+figure, as though a dark bar were pure cocoa, which is the cheapest
+cocoa Poore & Nemecek can imply. Every more realistic recipe pushes
+it up. Two alternatives were rejected: a copy rule alone (a doc rule
+cannot change a code gate, so the app would have gone on publishing
+68.1%), and widening `statistic_ratio` (that field is defined as an
+item's own mean/median ratio and is re-derived from both statistic
+sets on every test run, so inventing a spread there would corrupt
+the proof the test exists to provide).
+
+The delta to `dark_chocolate` falls 68.06% -> 58.52%, under dark
+chocolate's 59.92% bar, so the gate now refuses the pair. The margin
+is 1.4 percentage points, which is why copy rule 18 and a never-pin
+entry were added alongside as the durable protection; re-derive both
+numbers together if either moves.
+
+### 10.4 `peanut_butter` 3.39202 -> 3.23
+
+The withdrawal was applied. Three lines of evidence agree and none
+supports an uplift: the P&N groundnut row is already defined on
+roasted, shell-free nuts so the roast double counts; Agribalyse
+independently puts peanut butter at 0.971x its own peanuts, below
+rather than above; and the 21 CFR 164.150 composition route brackets
+the value at 2.907-3.70 with a 100%-peanut jar landing on 3.23
+exactly. The two USDA water-content sources that existed only to
+carry the roast yield were removed.
+
+### 10.5 `comparable` deleted, `tie_group` wired
+
+The reasoning is in RESEARCH_FOOD.md section 6, which is the live
+rule. Recorded here only as the shape of the mistake, because it
+will recur: one boolean had accumulated three meanings, and the
+fix was fewer fields rather than more. Wiring the gate is what
+exposed it -- 29 pairs were refused, 19 of them wrongly, all from
+groups that meant "same source database" rather than "same
+derivation". A field nothing reads cannot be wrong, so nothing
+forces it to stay coherent; the curation only became checkable once
+something depended on it.
+
+---
+
+## 11. FR-22: the actionLibrary re-seed (completed 2026-08-29)
+
+The food half of the re-seed that closed
+`ANNUAL_RESEARCH_UPDATE.json`'s `pending_from_decisions` block. It
+ran bundled with the energy E1 re-seed as **one seeding run**, as
+both entries intended, and the energy archive holds the joint
+record; this is the food-side copy, because a food closure should
+not be discoverable only from the energy workstream.
+
+Corrected values re-seeded and verified live against the
+`actionLibrary` collection: `skip_high_impact_food` 3700,
+`skip_medium_impact_food` 780, `plant_milk` 460, `skip_fish` 560.
+PDR_FOOD_CALCULATOR.md section 4 remains the authority for those values
+and their binding derivations; they are deliberately not restated
+here, so there is one place to change.
+
+Verification at the time: 92 live docs matching the 92 local
+actions, nothing to prune and nothing to add.
+
+**The durable fact, and its expiry:** as of 2026-08-29 the live
+action library and `data/seed/co2_actions_database.json` were in
+exact sync. Any later edit to the dataset makes that stale again --
+re-run `npm run seed`. Points for the four actions changed from
+this seed onward, so a user's historical logs keep the old values.
+
+---
+
+## 12. The v2 item spec (delivered 2026-08-08, folded in 2026-08-29)
+
+`FOOD_ITEMS_V2_LIST.md` was the build spec for the 43 -> 166
+expansion. It was marked DELIVERED on 2026-08-08 and retired as a
+file on 2026-08-29: a delivered build spec is archive material, and
+no other workstream carried a document of that kind. What shipped is
+recorded in section 6 above; what follows is the part of the spec
+worth keeping. Its own sections 10 and 4 survive here as 12.3 and
+12.4.
+
+### 12.1 F1: no second source can be ranked against a P&N value
+
+The finding that shaped the whole dataset, verified live
+2026-08-01. Poore & Nemecek is 37 rows deep and **nothing else can
+be bolted onto it**:
+
+- Agribalyse 3.2 publishes strippable per-stage data, but stripping
+  is pointless. Consumption is 0.26% of its braised-beef value while
+  the gap to P&N is 3.4x (28.9 against 99.48). That gap is
+  French/EU production systems and direct-land-use-change-only
+  accounting, not boundary.
+- SU-EATABLE LIFE has the closest boundary but publishes **medians**,
+  never mentions land-use change, and applies no supply-chain
+  losses. Its beef is 25.75 against P&N's 99.48.
+- Gephart 2021 stops at the farmgate or at landing, on an
+  **edible-weight** functional unit.
+
+Left unguarded, the dataset would have shipped physically impossible
+orderings: bacon, ham, sausage and salami all at 5.99 against P&N
+pork 12.31, cured meat beating its own raw parent when curing
+removes water; peanut butter 1.84 below its only input; yogurt below
+milk.
+
+This is the origin of two live rules: the cross-tier bar in the
+comparison gate (`crossTierMinPercent`, PDR section 3) and decision
+D11, which allows mixed sources but forbids ranking across them.
+
+### 12.2 The honest shape of the request
+
+The spec planned 175 pickable items and delivered 166, because
+roughly 30 candidates were correctly cut for want of a citable
+ratio. The reasoning it recorded still holds:
+
+> Two hundred separately numbered items cannot be sourced. P&N
+> stops at 37 rows, and every alternative database sits at a
+> quarter to a half of it on a different statistic with different
+> land-use accounting.
+
+What was deliverable instead: ~166 findable foods plus ~95 aliases
+resolving into them, on roughly **70 distinct researched numbers**,
+with the resolution limit stated in the UI rather than papered over
+with invented precision. That is why so many rows share a value and
+why `tie_group` exists.
+
+### 12.3 Owner-raised gaps, resolved 2026-08-02
+
+- **Nuts: no species split.** A single `tree_nuts` row stands. The
+  two databases that separate almond, cashew, walnut, hazelnut and
+  pistachio rank them in close to opposite order, so no per-species
+  claim is defensible.
+- **Vegetables widened 26 -> 41 rows**, all resolving onto a small
+  number of P&N category values.
+- **Bars (cereal, protein) stay cut.** No citable route.
+
+### 12.4 Blocking UI dependencies, all delivered
+
+The spec listed six dependencies the dataset could not ship without.
+All six landed: search with alias matching and diacritic folding
+(`searchFoodItems`), a lazy list, recents replacing the item pool
+(`RecentFoodItemIds`), group icons and l10n for the new groups,
+`entry_mode: preset_only` honoured in the editor
+(`FoodItem.isPresetOnly`), the comparative gate enforced
+(`verdictMinPercent`), and `weight_basis` rendered in the picker
+label.
+
+One item on that list was **not** delivered and is still open: the
+calculator has no serves-N divisor, so a family-sized pot banks
+roughly 4x the avoided CO2e it should. It is tracked in the PDR's
+open list.
+
+### 12.5 What did not survive
+
+`pinned_factors.json`, a snapshot file the spec proposed so
+non-tier-1 values would show as a diff, was never created. The
+`statistic_ratio` and `spread_*` fields cover part of that intent.
+
+---
+
+## 13. Closures (2026-08-29)
+
+Every item closed on the 2026-08-29 pass, moved out of
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 6 so that
+list holds only live work. The PDR keeps a one-line record of each.
+Several of these are also written up at length in sections 10 to 12
+above; the entries below are the closure records as the open list
+carried them.
+
+- [x] **`comparable` / `tie_group` read by no code** -- `tie_group`
+      wired and curated to one meaning, `comparable` deleted
+      (section 6). The gate enforces rules 3 and 13 for the first
+      time.
+- [x] **`shellfish` / `marisco` fork onto a 19.2x gap** -- closed by
+      completing the category, not cutting the term: both words now
+      sit on all five edible-marine-invertebrate rows, and the
+      picker's ranked listing is the disambiguation.
+- [x] **`plant_based_meat` 4.5 may be ~3x low** -- kept at 4.5. The
+      3x was a boundary artefact (cradle-to-fork), and 4.5 is the
+      top of the in-scope band. Section 3.3.
+- [x] **`milk_chocolate` below its own recipe floor** -- re-derived
+      14.9 -> 19.35, the floor of a rebuild on this dataset's rows.
+      The gate now refuses the chocolate pair, by 1.4 points, so
+      copy rule 18 carries the durable protection. Section 3.8.
+- [x] **`peanut_butter` carries the withdrawn roast uplift** --
+      withdrawal applied, 3.39202 -> 3.23. Docs and data now agree,
+      which was the defect. Section 3.3.
+- [x] **actionLibrary re-seed (FR-22, operational)** -- DONE
+      2026-08-29, bundled with the E1 re-seed as one run. All four
+      corrected values are live and match the local dataset.
+      Completion record and the sync caveat are in section 11
+      below; [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md)
+      section 4 stays the authority for the values.
+
+Open:
+- [x] **RESEARCH_FOOD.md carried two document types at once** --
+      CLOSED 2026-08-29. Sections 7-10 became
+      [PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) sections
+      4-7; the evidence base kept sections 1-6. Mapping in that
+      document's Appendix A.
+- [x] **The v2 item spec was a document type nothing else had** --
+      CLOSED 2026-08-29. `FOOD_ITEMS_V2_LIST.md` was folded into
+      section 12 below and the file retired.
+- [x] **Umbrella-word and homonym search forks** -- CLOSED
+      2026-08-29. Two true homonyms are fixed, and the rest were
+      never defects. `lamb` dropped the bare `ラム` (its own name
+      `ラム肉` already matches a `ラム` search) and `spirits` now
+      carries `ラム酒` rather than `ラム`, so neither asserts the
+      wrong referent for a word that genuinely means both lamb and
+      rum. `olive_oil` dropped the bare `オリーブ`, which alone means
+      the fruit; it keeps `オリーブ油` and its own name
+      `オリーブオイル`. Typing either bare word still reaches both
+      rows, which is correct -- the words are ambiguous, and each
+      row's name disambiguates on sight.
+      The six remaining shared terms are deliberate category words,
+      complete on every member rather than forked: `shellfish` and
+      `marisco` across all five marine invertebrates, `mixed nuts` /
+      `frutos secos` / `ミックスナッツ` across both nut rows (now one
+      tie group, so the gate refuses to rank them), and `chips`,
+      which is genuinely crisps in the UK and fries in the US.
+
+- [x] **Cream has no row** (opened 2026-08-08, **closed
+      2026-08-29**). `cream` ships at 11.222704, derived from
+      `milk_dairy` 3.15 on a total-solids allocation
+      (mass_ratio 3.562763). Full derivation, quotes and the two
+      rejected routes are in RESEARCH_FOOD.md section 3.2. What
+      settled it: Ferronato et al. 2025's 0.82 is not a
+      narrow-boundary cream figure eligible for the D11 tier-2
+      treatment, it is a by-product allocation inside a Grana
+      Padano plant that puts cream BELOW the skimmed milk from
+      the same vat (0.82 against 2.27), and no boundary correction
+      rescues that. Two consequences to carry forward. First,
+      `cream` shares `butter`'s tie group: on the shipped rule
+      butter would be 21.58 rather than 12.0, so the 6.5% gap
+      between the two rows is an artefact of two source families
+      and no verdict may cross it. Second, that is a defect in
+      `butter`, not in cream -- see the new open item below.
+
+---
+
+## 14. Closures (2026-09-01)
+
+Every item closed on the 2026-09-01 pass, moved out of
+[PDR_FOOD_CALCULATOR.md](./PDR_FOOD_CALCULATOR.md) section 6 so
+that list holds only live work. The PDR keeps a one-line record of
+each.
+
+- [x] **The v2 verification pass's open defect list** -- every
+      entry actioned:
+      - `crisps` 3.0711 -> 3.179748, `popcorn` 2.1919 -> 2.247755,
+        `instant_noodles` 3.324706521 -> 3.437716962: the oil legs
+        received the D7 density correction (per-kg oil figures in
+        place of the per-litre stage sums), reconstructed from each
+        item's own documented decomposition and recorded in the
+        notes. `instant_noodles` is now the staples runner-up
+        (RESEARCH sec 6 pin 6 re-derived, margin +29.4%).
+      - The four prepared-weight presets: `sweetcorn` (kernels /
+        0.36, USDA 64% refuse), `melon` and `pineapple` (flesh /
+        0.51, USDA 49% refuse) and `takenoko` (slices / 0.50, MEXT
+        standard-shoot waste) now enter as-purchased equivalents
+        with the conversion in the label, the rice cooked-preset
+        pattern. Drained-tin presets stay on their own disclosed
+        bases.
+      - `edamame` 0.98 -> 0.53: re-based from the dry-pea row onto
+        the Other Vegetables anchor, the D10 peas precedent
+        applied to its soy sibling; basis now as_purchased, the
+        pods preset enters pod weight.
+      - `soy_tvp` 3.16 -> 4.1396: the P&N tofu anchor scaled by
+        Agribalyse's own dry-TVP-to-tofu ratio (1.31 / 1.00,
+        re-fetched live; the swapped-labels caveat re-confirmed).
+        natto/soy_tvp and soy_tvp/tempeh became refusable tie
+        pairs, which is the gate working.
+      - Duplicate rows: `bread` folded into `bread_wheat` (renamed
+        plain "Bread", terms merged, `parent`/`composite_of`
+        references repointed; 167 -> 166 items, staples 15 -> 14).
+        `palm_soy_oil` became `soybean_oil` at its own soy leg
+        6.871862 (tie pn_oils); the palm-facing search terms moved
+        to `palm_oil`.
+      - `beer`: the co2everything citation (implying 0.70/L against
+        the shipped 1.2) removed; P&N derivation plus Agribalyse
+        corroboration stand alone.
+      - `beans_canned` / `chickpeas_canned` 1.7 unchanged, but the
+        Tidaker et al. 2021 full text (finally obtained) now bounds
+        it from below: Tetra Recart canned beans 0.7-0.8/kg cooked
+        incl. intercontinental transport, packaging 0.14 +
+        processing 0.02, steel tins stated to be worse. The
+        CarbonCloud proxy dependence of both constructed legs stays
+        disclosed.
+      - `oats` D3 re-read: CarbonCloud live 1.20 unchanged
+        (2026-09-01), average holds at 1.84.
+      - `cured_meat`: the mis-attributed short quote (Navarra PDF
+        wording on the MAPA citation) and the 502ing navarra.es
+        source both removed; the MAPA page re-verified live and
+        carries the full curing-phase sentence.
+      - Synthesised quotes repaired as field transcriptions with
+        live re-fetches: the Heinz per-half-can basis (now the
+        page's verbatim "1 of your 5 a day in 1/2 a can" sentence
+        plus our stated arithmetic), the `baked_beans` OFF
+        ingredients (full string, no ellipsis), the `greek_yogurt`
+        and two `canned_soup` OFF product_name+quantity
+        concatenations.
+      - `frozen_pizza`'s 170 g preset sourced: half the declared
+        345 g net weight (OFF barcode 5011003046389), consistent
+        with the brand page's own per-serving energy ratio.
+      - `asparagus`: the note claiming the 12.2 attribution to
+        Stoessel "is not theirs" corrected -- the cited Schwarz
+        paper explicitly attributes 12.2 to Stoessel's calculation
+        (quote added); the note now says the figure reaches us
+        through Schwarz.
+      - The 153 josephpoore.com citations: all four cited resources
+        fetched 2026-09-01 (both SI URLs serve one identical PDF;
+        Data S2.xls is Poore's own workbook). All 36 unique quotes
+        verified: 26 verbatim, 9 verbatim modulo PDF text-extraction
+        whitespace, the XLS header verbatim in Results - Retail
+        Weight. Two Table S1 transcriptions (Peas, Wheat & Rye) skip
+        the middle nutrition-FU column without an ellipsis --
+        recorded, not repaired. The /data/science2018/ URLs 301 to
+        /data/science-2018/; all 91 were canonicalized. This class
+        is no longer the weakest evidence in the dataset.
+- [x] **`skip_fish` shipped with no sources** -- transcribed
+      2026-09-01 from the white_fish item and the shared pulses
+      baseline (both live-verified in RESEARCH_FOOD.md section
+      3.1); confidence set to medium for the mixed Gephart/P&N
+      boundary, which reads conservative for a saving.
+- [x] **`skip_food_delivery` shipped at 0 g** -- retired to
+      `research_only_records` 2026-09-01, the `use_natural_light`
+      precedent: a 0 g action still pays points at seed time, the
+      only peer-reviewed comparison runs the other way, and its
+      long description still claimed the retired 600 g. Restore
+      only with a restaurant-delivery LCA showing a genuine saving.
+      Live actionLibrary still holds it until the next re-seed.
+- [x] **The 50% `crossTierMinPercent` boundary is not pinned** --
+      pinned 2026-09-01: `food_calculator_test.dart` now asserts
+      50.0% exactly passes and a hair under refuses as crossSource,
+      the twin of the existing 20% boundary case.
+- [x] **Fourteen numbers stated in both documents** -- the rule-3
+      dedup pass ran 2026-09-01: the PDR's action-derivation table
+      and copy rules 18-20 now point at RESEARCH sections instead
+      of restating item factors, and RESEARCH_FOOD's R6 and tier-2
+      boundary note point at PDR section 3 instead of restating the
+      gate bars. The PDR header records the standing authority
+      split.
+- [x] **Tidaker et al. 2021 full text unreadable** -- obtained
+      2026-09-01 (journal pre-proof PDF). The per-stage
+      packaging/processing split verified verbatim; the "0.97 steel
+      tin chickpeas" search snippet is NOT in the paper (steel tins
+      appear only qualitatively, citing Del Borghi et al. 2018).
+      Outcome folded into the beans_canned entry above.
+- [x] **`butter` 12.0 cannot be reconciled with `milk_dairy`
+      3.15** -- the dairy pass ran 2026-09-01: butter re-derived
+      from milk on the total-solids rule cream and milk powder use,
+      12.0 -> 21.574980 (AH697 Table 16 commercial butter, 80.30%
+      milkfat + 1.00% MSNF = 81.30% milk solids / 11.87% whole
+      milk, the exact derivation RESEARCH_FOOD.md recorded when the
+      cream work exposed the defect; Table 16 row now quoted
+      verbatim from the fetched PDF). The three European-supply
+      aggregator figures stay as spread_low context. butter/cream
+      and butter/greek_yogurt became refusable tie pairs; copy rule
+      20's rationale was rewritten; the butter-vs-pork never-pin
+      retired.

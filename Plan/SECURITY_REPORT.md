@@ -136,9 +136,11 @@ two Firestore items were closed on 2026-08-22.
       `deploy --dry-run` only checks that the file compiles, and the
       Rules REST API needs a minted access token. Redeploying is
       idempotent and is the cheapest way to guarantee parity.
-- [ ] **Configure Android release signing.** Keystore plus
-      `key.properties`. Only blocking for a store release;
-      `key.properties.example` is committed as the template.
+- [x] **Configure Android release signing.** `android/seed-release.keystore`
+      and `key.properties` exist locally (gitignored) as of 2026-08-23;
+      `key.properties.example` is the committed template. Still open:
+      register the release SHA-1/SHA-256 in Firebase so Google Sign-In
+      works on release builds, and back the keystore up off-machine.
 
 ---
 

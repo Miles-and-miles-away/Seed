@@ -67,6 +67,9 @@ async function seed(docPath, data) {
   });
 }
 
+const writeUser = (overrides, db = aliceDb()) =>
+  setDoc(doc(db, `users/${ALICE}`), {...baseUserDoc, ...overrides});
+
 function secondsAgo(seconds) {
   return Timestamp.fromMillis(Timestamp.now().toMillis() - seconds * 1000);
 }
@@ -109,75 +112,39 @@ describe('users/{userId} read', () => {
 
 describe('users/{userId} create', () => {
   test('owner can create their own document with zeroed state', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), baseUserDoc),
-    );
+    await assertSucceeds(writeUser({}));
   });
 
   test('a user cannot create another user document', async () => {
-    await assertFails(
-      setDoc(doc(bobDb(), `users/${ALICE}`), baseUserDoc),
-    );
+    await assertFails(writeUser({}, bobDb()));
   });
 
   test('an unauthenticated client cannot create one', async () => {
-    await assertFails(
-      setDoc(doc(anonDb(), `users/${ALICE}`), baseUserDoc),
-    );
+    await assertFails(writeUser({}, anonDb()));
   });
 
   test('rejects creating with pre-loaded points', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        points: 500,
-      }),
-    );
+    await assertFails(writeUser({points: 500}));
   });
 
   test('rejects creating with a pre-loaded streak', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        currentStreak: 30,
-      }),
-    );
+    await assertFails(writeUser({currentStreak: 30}));
   });
 
   test('rejects creating with lastActionDate already set', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        lastActionDate: Timestamp.now(),
-      }),
-    );
+    await assertFails(writeUser({lastActionDate: Timestamp.now()}));
   });
 
   test('allows a null lastActionDate (model default)', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        lastActionDate: null,
-      }),
-    );
+    await assertSucceeds(writeUser({lastActionDate: null}));
   });
 
   test('allows an empty email (hidden by social provider)', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        email: '',
-      }),
-    );
+    await assertSucceeds(writeUser({email: ''}));
   });
 
   test('rejects fields outside the whitelist', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        adminFlag: true,
-      }),
-    );
+    await assertFails(writeUser({adminFlag: true}));
   });
 });
 
@@ -186,19 +153,13 @@ describe('users/{userId} write — mascots limit', () => {
 
   test('allows up to 20 mascots', async () => {
     await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        mascots: Array.from({length: 20}, () => mascot),
-      }),
+      writeUser({mascots: Array.from({length: 20}, () => mascot)}),
     );
   });
 
   test('rejects more than 20 mascots', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        mascots: Array.from({length: 21}, () => mascot),
-      }),
+      writeUser({mascots: Array.from({length: 21}, () => mascot)}),
     );
   });
 });
@@ -211,7 +172,7 @@ describe('users/{userId} write — egg shape', () => {
   };
 
   function writeEgg(egg) {
-    return setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, egg});
+    return writeUser({egg});
   }
 
   test('allows a valid egg', async () => {
@@ -252,135 +213,52 @@ describe('users/{userId} write — egg shape', () => {
 describe('users/{userId} write — language enum', () => {
   for (const language of ['en', 'es', 'ja']) {
     test(`allows supported language "${language}"`, async () => {
-      await assertSucceeds(
-        setDoc(doc(aliceDb(), `users/${ALICE}`), {
-          ...baseUserDoc,
-          language,
-        }),
-      );
+      await assertSucceeds(writeUser({language}));
     });
   }
 
   test('rejects an unsupported language', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        language: 'fr',
-      }),
-    );
+    await assertFails(writeUser({language: 'fr'}));
   });
 });
 
-describe('users/{userId} write — displayName validation', () => {
-  test('allows null', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: null,
-      }),
-    );
-  });
+function describeStringField(field, {max, valid, wrongType}) {
+  describe(`users/{userId} write — ${field} validation`, () => {
+    const allowed = [
+      ['null', null],
+      [`"${valid}"`, valid],
+      [`a ${max}-character value (boundary)`, 'x'.repeat(max)],
+    ];
+    const rejected = [
+      [`a ${max + 1}-character value`, 'x'.repeat(max + 1)],
+      ['an empty string', ''],
+      ['a non-string value', wrongType],
+    ];
 
-  test('allows a normal name', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: 'EcoMiles',
-      }),
-    );
-  });
+    for (const [label, value] of allowed) {
+      test(`allows ${label}`, async () => {
+        await assertSucceeds(writeUser({[field]: value}));
+      });
+    }
 
-  test('allows a 50-character name (boundary)', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: 'x'.repeat(50),
-      }),
-    );
+    for (const [label, value] of rejected) {
+      test(`rejects ${label}`, async () => {
+        await assertFails(writeUser({[field]: value}));
+      });
+    }
   });
+}
 
-  test('rejects a 51-character name', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: 'x'.repeat(51),
-      }),
-    );
-  });
-
-  test('rejects an empty string', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: '',
-      }),
-    );
-  });
-
-  test('rejects a non-string value', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        displayName: 42,
-      }),
-    );
-  });
+describeStringField('displayName', {
+  max: 50,
+  valid: 'EcoMiles',
+  wrongType: 42,
 });
 
-describe('users/{userId} write — personalGoal validation', () => {
-  test('allows null', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: null,
-      }),
-    );
-  });
-
-  test('allows a preset id', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: 'save_world',
-      }),
-    );
-  });
-
-  test('allows a 100-character custom goal (boundary)', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: 'x'.repeat(100),
-      }),
-    );
-  });
-
-  test('rejects a 101-character custom goal', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: 'x'.repeat(101),
-      }),
-    );
-  });
-
-  test('rejects an empty string', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: '',
-      }),
-    );
-  });
-
-  test('rejects a non-string value', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {
-        ...baseUserDoc,
-        personalGoal: ['save_world'],
-      }),
-    );
-  });
+describeStringField('personalGoal', {
+  max: 100,
+  valid: 'save_world',
+  wrongType: ['save_world'],
 });
 
 describe('users/{userId} update — score integrity', () => {
@@ -390,21 +268,15 @@ describe('users/{userId} update — score integrity', () => {
   // exactly one new action counted).
 
   test('rejects non-integer points', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 1.5}),
-    );
+    await assertFails(writeUser({points: 1.5}));
   });
 
   test('rejects negative points', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: -10}),
-    );
+    await assertFails(writeUser({points: -10}));
   });
 
   test('rejects a level below 1', async () => {
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, level: 0}),
-    );
+    await assertFails(writeUser({level: 0}));
   });
 
   test('allows an action-shaped points increase', async () => {
@@ -449,9 +321,7 @@ describe('users/{userId} update — score integrity', () => {
 
   test('rejects points decreasing (reset/tamper)', async () => {
     await seed(`users/${ALICE}`, {...baseUserDoc, points: 100});
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, points: 50}),
-    );
+    await assertFails(writeUser({points: 50}));
   });
 
   test('rejects removing the points field (reset-by-delete)', async () => {
@@ -463,9 +333,7 @@ describe('users/{userId} update — score integrity', () => {
 
   test('rejects level decreasing', async () => {
     await seed(`users/${ALICE}`, {...baseUserDoc, level: 5});
-    await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}`), {...baseUserDoc, level: 2}),
-    );
+    await assertFails(writeUser({level: 2}));
   });
 
   test('rejects totalCo2Grams decreasing', async () => {

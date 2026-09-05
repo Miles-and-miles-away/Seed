@@ -1,43 +1,25 @@
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_selection_screen.dart';
 
-const _localizationDelegates = <LocalizationsDelegate<dynamic>>[
-  AppLocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
-];
+import '../../../../helpers/test_helpers.dart';
 
 void main() {
   // The real mascotSpeciesDataProvider loads bundled SVG assets, so the
-  // MascotAvatar can render. currentUserProvider is forced to null so the
-  // notifier's selectMascot returns early (no Firestore needed). A fresh
-  // override list is built per pump so closures are not shared across the
-  // independent ProviderScopes each test creates.
-  ProviderScope wrap(Widget child) => ProviderScope(
-    overrides: [currentUserProvider.overrideWith((_) => Stream.value(null))],
-    child: child,
-  );
-
-  // Give the test a tall viewport so the full-height selection screen does
-  // not overflow the default 800x600 surface (an overflow throws and tears
-  // down the tree, breaking later finders).
-  Future<void> sizeViewport(WidgetTester tester) async {
-    tester.view.physicalSize = const Size(1200, 2400);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
-  }
+  // MascotAvatar can render. The validation-only tests force
+  // currentUserProvider to null so selectMascot never reaches Firestore;
+  // the navigation test supplies a real user instead. A fresh override is
+  // built per pump so closures are not shared across the independent
+  // ProviderScopes each test creates.
 
   // Warm the bundled species asset on the real event loop. rootBundle IO does
   // not run under the fake test clock, so without this the species future
@@ -48,30 +30,13 @@ void main() {
     await tester.runAsync(loadMascotSpecies);
   }
 
-  // Pump until [finder] resolves or the budget runs out. Used instead of
-  // pumpAndSettle because the mascot has infinite idle animations that never
-  // settle. Each step yields to the real event loop via runAsync so the
-  // (cache-warmed) species future can complete and the screen rebuild past
-  // its loading spinner.
-  Future<void> pumpUntilFound(WidgetTester tester, Finder finder) async {
-    for (var i = 0; i < 30 && finder.evaluate().isEmpty; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 20)),
-      );
-      await tester.pump();
-    }
-  }
-
   Future<void> pumpSelectionScreen(WidgetTester tester) async {
-    await sizeViewport(tester);
+    sizeViewport(tester);
     await warmSpeciesBundle(tester);
     await tester.pumpWidget(
-      wrap(
-        const MaterialApp(
-          localizationsDelegates: _localizationDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: MascotSelectionScreen(),
-        ),
+      createTestWidget(
+        overrides: [userOverride(null)],
+        child: const MascotSelectionScreen(),
       ),
     );
     await pumpUntilFound(tester, find.byType(TextFormField));
@@ -123,7 +88,7 @@ void main() {
     testWidgets('single-character name is valid and navigates home', (
       tester,
     ) async {
-      await sizeViewport(tester);
+      sizeViewport(tester);
       await warmSpeciesBundle(tester);
       final router = GoRouter(
         initialLocation: '/mascot-selection',
@@ -139,12 +104,32 @@ void main() {
         ],
       );
 
+      // A real user and Firestore: navigating home has to follow an actual
+      // successful write, not a no-op that leaves the state untouched.
+      final firestore = FakeFirebaseFirestore();
+      await firestore
+          .collection(AppConstants.collectionUsers)
+          .doc('u')
+          .set(<String, dynamic>{});
+
       await tester.pumpWidget(
-        wrap(
-          MaterialApp.router(
-            localizationsDelegates: _localizationDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            routerConfig: router,
+        ProviderScope(
+          overrides: [
+            userOverride(const AppUserModel(uid: 'u', email: 'e')),
+            firestoreProvider.overrideWithValue(firestore),
+          ],
+          // app.dart keeps currentUserProvider alive through the theme
+          // seed; with no watcher it is autoDispose and each read of it
+          // is a fresh loading state with a null user.
+          child: Consumer(
+            builder: (_, ref, _) {
+              ref.watch(currentUserProvider);
+              return MaterialApp.router(
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                routerConfig: router,
+              );
+            },
           ),
         ),
       );
@@ -152,8 +137,7 @@ void main() {
 
       await tester.enterText(find.byType(TextFormField), 'A');
       await tester.tap(find.text("Let's Grow Together!"));
-      await tester.pump();
-      await tester.pump();
+      await pumpUntilFound(tester, find.text('HOME-OK'));
 
       // Navigation to /home means the validator passed (1 char is valid).
       expect(find.text('HOME-OK'), findsOneWidget);

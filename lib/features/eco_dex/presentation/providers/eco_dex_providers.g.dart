@@ -433,21 +433,33 @@ final class EcoDexNewUnlocksProvider
 String _$ecoDexNewUnlocksHash() => r'2f1d4624b3e6020a2df7f680e62218152d381661';
 
 /// Notifier for discovering new Eco-Dex entries.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// during the [_waitForUserCount] gap, silently dropping the unlock the
+/// user had just earned.
 
 @ProviderFor(EcoDexDiscoveryNotifier)
 final ecoDexDiscoveryProvider = EcoDexDiscoveryNotifierProvider._();
 
 /// Notifier for discovering new Eco-Dex entries.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// during the [_waitForUserCount] gap, silently dropping the unlock the
+/// user had just earned.
 final class EcoDexDiscoveryNotifierProvider
     extends $NotifierProvider<EcoDexDiscoveryNotifier, AsyncValue<void>> {
   /// Notifier for discovering new Eco-Dex entries.
+  ///
+  /// Kept alive: nothing watches it, so as autoDispose it was disposed
+  /// during the [_waitForUserCount] gap, silently dropping the unlock the
+  /// user had just earned.
   EcoDexDiscoveryNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'ecoDexDiscoveryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -469,9 +481,13 @@ final class EcoDexDiscoveryNotifierProvider
 }
 
 String _$ecoDexDiscoveryNotifierHash() =>
-    r'8edf53375e63b034efd078a3a561273db39e2962';
+    r'6bf80348100e07f1eb39bf044c8b5622397a0c16';
 
 /// Notifier for discovering new Eco-Dex entries.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// during the [_waitForUserCount] gap, silently dropping the unlock the
+/// user had just earned.
 
 abstract class _$EcoDexDiscoveryNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

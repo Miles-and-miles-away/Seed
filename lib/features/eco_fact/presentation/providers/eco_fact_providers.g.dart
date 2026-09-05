@@ -98,7 +98,7 @@ final class TodayEcoFactProvider
   }
 }
 
-String _$todayEcoFactHash() => r'27318a29d0467a0360c2f78ff06f36b622be7f47';
+String _$todayEcoFactHash() => r'9a3f1fea59777d55400e842ffb1e3bd1cf8b35f2';
 
 /// Whether today's fact has been viewed.
 
@@ -144,7 +144,7 @@ final class IsTodayFactViewedProvider
   }
 }
 
-String _$isTodayFactViewedHash() => r'6a9834b6e0be000b0d67d0d725768cc797723a89';
+String _$isTodayFactViewedHash() => r'291b8946cf79c037add3a3f279d08b593b8ba978';
 
 /// Whether the eco-fact is locked behind challenge completion.
 
@@ -190,7 +190,7 @@ final class IsEcoFactLockedProvider
   }
 }
 
-String _$isEcoFactLockedHash() => r'c485a44333867d9380d16bb043358839e84b0985';
+String _$isEcoFactLockedHash() => r'ca3ccc2f59e0487afaeab192ab83e31491c3b3c0';
 
 /// True when the user has an unread, unlocked fact (drives red dot).
 
@@ -290,7 +290,7 @@ final class EcoFactInboxProvider
   }
 }
 
-String _$ecoFactInboxHash() => r'0ab74a3891e4f758ab4f4d1f0d6d4d664f38201c';
+String _$ecoFactInboxHash() => r'8e474884f851708b1b83ba7a3ff8c24c5786eb22';
 
 /// Notifier to mark an eco-fact as viewed.
 
@@ -329,7 +329,7 @@ final class FactViewedNotifierProvider
 }
 
 String _$factViewedNotifierHash() =>
-    r'82bb1a04c3acfb332a7389db0a021a6c8fb206d3';
+    r'18f33f234f77f36907db2538516b37c59e04aff1';
 
 /// Notifier to mark an eco-fact as viewed.
 

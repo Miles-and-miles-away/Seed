@@ -4,7 +4,8 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 ActionModel _a({
   required String id,
@@ -25,24 +26,6 @@ ActionModel _a({
   relatedSdgs: sdgs,
   descriptionEn: desc,
 );
-
-ProviderContainer _container({List<ActionModel>? library, AppUserModel? user}) {
-  return ProviderContainer(
-    overrides: [
-      if (library != null)
-        actionLibraryProvider.overrideWith((_) async => library),
-      if (user != null)
-        currentUserProvider.overrideWith((_) => Stream.value(user)),
-    ],
-  );
-}
-
-Future<void> _pump(ProviderContainer c) async {
-  c
-    ..listen(actionLibraryProvider, (_, _) {})
-    ..listen(currentUserProvider, (_, _) {});
-  await Future<void>.delayed(Duration.zero);
-}
 
 void main() {
   final actions = [
@@ -66,15 +49,19 @@ void main() {
     ),
   ];
 
+  Future<ProviderContainer> libraryContainer() => pumpedContainer([
+    actionLibraryProvider.overrideWith((_) async => actions),
+  ], warm: actionLibraryProvider);
+
   group('state notifiers', () {
-    test('SelectedCategory: select and clear', () {
+    test('SelectedCategory: select, and select(null) clears', () {
       final c = ProviderContainer();
       addTearDown(c.dispose);
 
       expect(c.read(selectedCategoryProvider), isNull);
       c.read(selectedCategoryProvider.notifier).select(ActionCategory.food);
       expect(c.read(selectedCategoryProvider), ActionCategory.food);
-      c.read(selectedCategoryProvider.notifier).clear();
+      c.read(selectedCategoryProvider.notifier).select(null);
       expect(c.read(selectedCategoryProvider), isNull);
     });
 
@@ -117,19 +104,15 @@ void main() {
 
   group('userLanguageCodeProvider', () {
     test('defaults to en when no user', () async {
-      final c = _container();
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([]);
 
       expect(c.read(userLanguageCodeProvider), 'en');
     });
 
     test('reads from user language', () async {
-      final c = _container(
-        user: AppUserModel(uid: 'u', email: 'e', language: 'ja'),
-      );
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await pumpedContainer([
+        userOverride(AppUserModel(uid: 'u', email: 'e', language: 'ja')),
+      ]);
 
       expect(c.read(userLanguageCodeProvider), 'ja');
     });
@@ -137,18 +120,14 @@ void main() {
 
   group('baseFilteredActions', () {
     test('returns all actions when no filters applied', () async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await libraryContainer();
 
       final filtered = c.read(baseFilteredActionsProvider).value;
       expect(filtered, hasLength(4));
     });
 
     test('filters by selected category', () async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await libraryContainer();
 
       c.read(selectedCategoryProvider.notifier).select(ActionCategory.food);
       final filtered = c.read(baseFilteredActionsProvider).value!;
@@ -157,9 +136,7 @@ void main() {
     });
 
     test('filters by SDG number', () async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await libraryContainer();
 
       c.read(selectedSdgFilterProvider.notifier).select(13);
       final filtered = c.read(baseFilteredActionsProvider).value!;
@@ -168,9 +145,7 @@ void main() {
     });
 
     test('filters by search query (case-insensitive)', () async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await libraryContainer();
 
       c.read(actionSearchQueryProvider.notifier).setQuery('BIKE');
       final filtered = c.read(baseFilteredActionsProvider).value!;
@@ -179,9 +154,7 @@ void main() {
     });
 
     test('combines all three filters', () async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
-      await _pump(c);
+      final c = await libraryContainer();
 
       c
           .read(selectedCategoryProvider.notifier)
@@ -196,13 +169,11 @@ void main() {
 
   group('filteredActions (sort order)', () {
     Future<List<String>> sortedIds(ActionSortOption sort) async {
-      final c = _container(library: actions);
-      addTearDown(c.dispose);
+      final c = await libraryContainer();
       // Keep state alive across the upcoming reads.
       c
         ..listen(filteredActionsProvider, (_, _) {})
         ..listen(selectedSortOptionProvider, (_, _) {});
-      await _pump(c);
       c.read(selectedSortOptionProvider.notifier).select(sort);
       await Future<void>.delayed(Duration.zero);
       return c.read(filteredActionsProvider).value!.map((a) => a.id).toList();

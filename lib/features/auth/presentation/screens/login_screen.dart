@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +11,11 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
+import '../utils/sign_in_with_social.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/or_divider.dart';
 import '../widgets/social_sign_in_button.dart';
+import '../widgets/social_sign_in_row.dart';
 
 /// Login screen with email/password and social sign-in options.
 class LoginScreen extends ConsumerStatefulWidget {
@@ -27,7 +29,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
   bool _isCooldown = false;
   SocialProvider? _pendingSocial;
   Timer? _cooldownTimer;
@@ -94,27 +95,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   textInputAction: TextInputAction.next,
-                  validator: (v) => _validateEmail(v, l10n),
+                  validator: (v) => validateEmail(
+                    v,
+                    emptyError: l10n.authValidationEmailRequired,
+                    invalidError: l10n.authValidationEmailInvalid,
+                  ),
                 ),
                 const SizedBox(height: spacingLg),
                 AuthTextField(
                   controller: _passwordController,
                   label: l10n.authPassword,
-                  obscureText: _obscurePassword,
+                  obscurable: true,
                   prefixIcon: Icons.lock_outlined,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _handleSignIn(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                    ),
-                    onPressed: () {
-                      setState(() => _obscurePassword = !_obscurePassword);
-                    },
+                  validator: (v) => validatePassword(
+                    v,
+                    emptyError: l10n.authValidationPasswordRequired,
+                    shortError: l10n.authValidationPasswordShort,
                   ),
-                  validator: (v) => _validatePassword(v, l10n),
                 ),
                 const SizedBox(height: spacingSm),
                 Align(
@@ -142,52 +141,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       : Text(l10n.authSignIn),
                 ),
                 const SizedBox(height: spacingXxl),
-                Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingLg,
-                      ),
-                      child: Text(
-                        l10n.authOrContinueWith,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                    const Expanded(child: Divider()),
-                  ],
-                ),
+                OrDivider(label: l10n.authOrContinueWith),
                 const SizedBox(height: spacingXxl),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SocialSignInButton(
-                        provider: SocialProvider.google,
-                        isLoading:
-                            isLoading &&
-                            _pendingSocial == SocialProvider.google,
-                        onPressed: isLoading || _isCooldown
-                            ? null
-                            : () => _handleSocialSignIn(SocialProvider.google),
-                      ),
-                    ),
-                    if (Platform.isIOS) ...[
-                      const SizedBox(width: spacingLg),
-                      Expanded(
-                        child: SocialSignInButton(
-                          provider: SocialProvider.apple,
-                          isLoading:
-                              isLoading &&
-                              _pendingSocial == SocialProvider.apple,
-                          onPressed: isLoading || _isCooldown
-                              ? null
-                              : () => _handleSocialSignIn(SocialProvider.apple),
-                        ),
-                      ),
-                    ],
-                  ],
+                SocialSignInRow(
+                  isLoading: isLoading,
+                  isCooldown: _isCooldown,
+                  pendingProvider: _pendingSocial,
+                  onPressed: (provider) {
+                    setState(() => _pendingSocial = provider);
+                    signInWithSocial(ref, provider);
+                  },
                 ),
                 const SizedBox(height: spacingHuge),
                 Row(
@@ -210,35 +173,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  String? _validateEmail(String? value, AppLocalizations l10n) {
-    return validateEmail(
-      value,
-      emptyError: l10n.authValidationEmailRequired,
-      invalidError: l10n.authValidationEmailInvalid,
-    );
-  }
-
-  String? _validatePassword(String? value, AppLocalizations l10n) {
-    if (value == null || value.isEmpty) {
-      return l10n.authValidationPasswordRequired;
-    }
-    if (value.length < 6) {
-      return l10n.authValidationPasswordShort;
-    }
-    return null;
-  }
-
-  void _handleSocialSignIn(SocialProvider provider) {
-    setState(() => _pendingSocial = provider);
-    final notifier = ref.read(authProvider.notifier);
-    switch (provider) {
-      case SocialProvider.google:
-        notifier.signInWithGoogle();
-      case SocialProvider.apple:
-        notifier.signInWithApple();
-    }
-  }
-
   void _handleSignIn() {
     setState(() => _pendingSocial = null);
     if (_formKey.currentState?.validate() ?? false) {
@@ -251,86 +185,103 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  Future<void> _showForgotPasswordDialog() async {
+  Future<void> _showForgotPasswordDialog() {
+    return showDialog<void>(
+      context: context,
+      builder: (_) =>
+          _ForgotPasswordDialog(initialEmail: _emailController.text),
+    );
+  }
+}
+
+/// The reset-email dialog owns its controller so Flutter disposes it
+/// when the dialog element unmounts -- after the exit animation.
+/// Disposing in a finally after `await showDialog` crashed: the pop
+/// dismisses the keyboard, the inset change rebuilds the departing
+/// dialog, and its TextField touched a disposed controller.
+class _ForgotPasswordDialog extends ConsumerStatefulWidget {
+  const _ForgotPasswordDialog({required this.initialEmail});
+
+  final String initialEmail;
+
+  @override
+  ConsumerState<_ForgotPasswordDialog> createState() =>
+      _ForgotPasswordDialogState();
+}
+
+class _ForgotPasswordDialogState extends ConsumerState<_ForgotPasswordDialog> {
+  late final _emailController = TextEditingController(
+    text: widget.initialEmail,
+  );
+  String? _errorText;
+  bool _isSending = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSend() async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
-    final emailController = TextEditingController(text: _emailController.text);
-
-    try {
-      await showDialog<void>(
-        context: context,
-        builder: (dialogContext) {
-          String? errorText;
-          var isSending = false;
-
-          return StatefulBuilder(
-            builder: (dialogContext, setDialogState) {
-              Future<void> handleSend() async {
-                final email = emailController.text.trim();
-                final validationError = validateEmail(
-                  email,
-                  emptyError: l10n.authValidationEmailRequired,
-                  invalidError: l10n.authValidationEmailInvalid,
-                );
-                if (validationError != null) {
-                  setDialogState(() => errorText = validationError);
-                  return;
-                }
-
-                setDialogState(() {
-                  errorText = null;
-                  isSending = true;
-                });
-                await ref
-                    .read(authProvider.notifier)
-                    .sendPasswordResetEmail(email);
-                if (!dialogContext.mounted) return;
-
-                // Failures surface through the authProvider listener in
-                // build (mapped, localized); keep the dialog open so the
-                // user can retry or cancel.
-                if (ref.read(authProvider).hasError) {
-                  setDialogState(() => isSending = false);
-                  return;
-                }
-
-                Navigator.pop(dialogContext);
-                messenger.showSnackBar(
-                  SnackBar(content: Text(l10n.authForgotPasswordSent)),
-                );
-              }
-
-              return AlertDialog(
-                title: Text(l10n.authForgotPasswordTitle),
-                content: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: l10n.authEmail,
-                    hintText: l10n.authForgotPasswordHint,
-                    errorText: errorText,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: isSending
-                        ? null
-                        : () => Navigator.pop(dialogContext),
-                    child: Text(l10n.buttonCancel),
-                  ),
-                  FilledButton(
-                    onPressed: isSending ? null : handleSend,
-                    child: Text(l10n.authForgotPasswordSend),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      );
-    } finally {
-      emailController.dispose();
+    final email = _emailController.text.trim();
+    final validationError = validateEmail(
+      email,
+      emptyError: l10n.authValidationEmailRequired,
+      invalidError: l10n.authValidationEmailInvalid,
+    );
+    if (validationError != null) {
+      setState(() => _errorText = validationError);
+      return;
     }
+
+    setState(() {
+      _errorText = null;
+      _isSending = true;
+    });
+    await ref.read(authProvider.notifier).sendPasswordResetEmail(email);
+    if (!mounted) return;
+
+    // Failures surface through the authProvider listener in the login
+    // screen's build (mapped, localized); keep the dialog open so the
+    // user can retry or cancel.
+    if (ref.read(authProvider).hasError) {
+      setState(() => _isSending = false);
+      return;
+    }
+
+    Navigator.pop(context);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.authForgotPasswordSent)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l10n.authForgotPasswordTitle),
+      content: TextField(
+        controller: _emailController,
+        decoration: InputDecoration(
+          labelText: l10n.authEmail,
+          hintText: l10n.authForgotPasswordHint,
+          errorText: _errorText,
+        ),
+        keyboardType: TextInputType.emailAddress,
+        autofocus: true,
+      ),
+      actions: [
+        TextButton(
+          onPressed: _isSending ? null : () => Navigator.pop(context),
+          child: Text(l10n.buttonCancel),
+        ),
+        FilledButton(
+          onPressed: _isSending ? null : _handleSend,
+          child: Text(l10n.authForgotPasswordSend),
+        ),
+      ],
+    );
   }
 }

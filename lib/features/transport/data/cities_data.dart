@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 
 // ignore_for_file: constant_identifier_names
-const CITY_COUNT = 969;
+const CITY_COUNT = 982;
 const _ASSET_PATH = 'data/app/cities.json';
 
 /// Loads the city list (sorted by population, descending).
@@ -51,7 +51,7 @@ Future<Set<String>> loadWaterBlockedPairs() async {
 
 Future<Map<String, dynamic>>? _rootFuture;
 
-// The asset is static, so decode the 87 KB JSON once and share it
+// The asset is static, so decode the 136 KB JSON once and share it
 // across loadCities/loadCityLinks and repeated screen opens.
 Future<Map<String, dynamic>> _loadRoot() => _rootFuture ??= rootBundle
     .loadString(_ASSET_PATH)

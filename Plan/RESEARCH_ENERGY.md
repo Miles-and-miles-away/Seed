@@ -2,12 +2,17 @@
 
 **Version:** 2.0
 **Created:** 2026-08-02
-**Status:** Evidence base complete. 33 behaviors, every factor
-live-verified, no open items. Restructured 2026-08-02
-to match the transport pattern: this document is the **evidence
-base only**. Decisions, product rules, action-library additions,
-UI/copy requirements and the methodology screen copy moved to
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md).
+**Status:** Evidence base complete. 34 behaviors (the `fan` was
+added 2026-08-30 to pair the `space_cool` singleton, PDR section
+3), every factor live-verified, no open items. Restructured 2026-08-02
+to match the transport pattern, and finished 2026-08-30: this
+document is the **evidence base only**. Decisions, product rules,
+action-library additions and their derivations, standing rules,
+UI/copy requirements and the methodology screen copy are in
+[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) -- the
+action-value table and the standing-rule list that survived the
+2026-08-02 pass in sections 7 and 8 here moved there on
+2026-08-30, and the old section 9 is now section 7.
 **Feeds:** `data/app/energy_behaviors.json` (Phase 8.13, see
 [PLAN_PHASE_8.md](./PLAN_PHASE_8.md) Part 3)
 **Archive:** executed detail -- closed items, superseded values,
@@ -25,7 +30,79 @@ sourcing rules in [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md)
 Unit for every factor: **kWh per stated unit** (`use`, `minute`,
 `hour`, `day`), multiplied at runtime by **458 g CO2e/kWh**
 (electricity) or **182 g CO2e/kWh** (gas). Access date for every
-source below: **2026-08-02**.
+source below: **2026-08-02**, with two dated exceptions: the
+oven's EU regulation (re-fetched 2026-08-29) and the fan's
+Panasonic spec (live-verified 2026-08-30).
+
+---
+
+## 0. Method in brief
+
+Required by [DOCUMENT_TYPES.md](./DOCUMENT_TYPES.md) section 3:
+how these numbers were arrived at, in rules rather than figures.
+It is numbered 0 so the existing section numbers, which the
+dataset's `calculation_notes` cite by number, keep resolving.
+**No value appears in this section**, deliberately -- a summary
+that restates a figure becomes a second home for it and drifts.
+
+**Primary sources, and why.** Three, in a fixed order of
+authority. The same UK DEFRA/DESNZ conversion factors as
+transport supply the gas carrier, because one carrier factor set
+across two datasets is what keeps them commensurable. Japanese
+government measured figures (METI and its 省エネルギーセンター
+measurements) supply appliance consumption where they exist,
+because they are measured in service rather than rated on a test
+bench. Manufacturer product documentation is tier-1 for the
+remaining appliances, quoted from the maker's own spec page for a
+named model. Aggregators are corroboration with an access date and
+never an anchor; a figure seen only in a search-engine summary may
+not enter `sources[]` at all.
+
+**Statistic: measured beats rated, always.** Where a government
+measured figure and a manufacturer catalog rating disagree, the
+measured one ships. Cycling appliances -- inverter air
+conditioners, kotatsu, blankets, ovens -- draw far less than their
+nameplate on average, so a rating is not a conservative choice, it
+is simply the wrong number. Sanity pins guard the entries where
+the gap is largest.
+
+**Boundary.** Operational energy only: the kWh a behaviour
+consumes at the point of use, multiplied by a carrier factor.
+Excluded are appliance manufacturing, transmission and
+distribution losses, and the energy of water supply and
+treatment. Electricity is on a generation basis with no
+well-to-tank term and gas is combustion-only, matching the
+transport scope so the two datasets rest on the same convention.
+Matching scope is not permission to add them: food counts a
+lifecycle, transport counts tailpipe energy, and this counts the
+electricity or gas to run a home.
+
+**Functional unit: kWh per stated unit** -- a use, a minute, an
+hour or a day. **The unit is part of the entry, not a display
+choice.** Two entries on different units are not comparable, and
+several entries are per use because no per-hour figure exists in
+any source; those must never be "fixed" to an hourly basis. This
+is the single most common way to misread the dataset: a per-minute
+entry read as a per-use one is off by the length of the use.
+
+**Derivation discipline.** Every hot-water entry is built from one
+shared thermal load and then divided by the appliance's efficiency
+or coefficient of performance, so the family stays internally
+consistent and a change to the load moves all of them together.
+The calorific basis of a gas efficiency must match the calorific
+basis of the gas factor; pairing a net-basis efficiency with a
+gross-basis factor is a silent double-digit error, and it happened
+once.
+
+**Two more things a reader would otherwise trip over.**
+
+1. **The grid factor matters less here than it looks.** Nearly
+   every comparison the calculator offers is within one carrier,
+   where the factor cancels out entirely. It dominates the action
+   library, not the calculator.
+2. **Physics entries never age; their assumptions do.** Heating
+   water is heating water. What can go stale is the flow rate, the
+   temperature rise, or the efficiency wrapped around it.
 
 ---
 
@@ -255,11 +332,15 @@ by grid.
 Three consequences, all binding:
 
 1. Cross-carrier comparisons must never auto-generate a verdict
-   (enforced structurally by 2.2), because the verdict is a fact
-   about the user's country, not their behavior.
-2. This is the strongest argument for regional grid factors (the
-   Part 3 plan's own open question) -- a single global factor
-   gets the UK answer backwards.
+   (enforced structurally by the comparison gating,
+   [PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md)
+   section 3), because the verdict is a fact about the user's
+   country, not their behavior.
+2. This is the strongest argument for regional grid factors,
+   which are no longer a Part 3 open question but their own
+   scoped brief
+   ([PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)),
+   because a single global factor gets the UK answer backwards.
 3. The methodology paragraph must NOT say "gas looks better today
    and will flip eventually". It must say **the flip has already
    happened in some markets**, and state the 241 g/kWh crossover
@@ -542,6 +623,7 @@ behavior choice, so both ship.
 | Item | kWh/unit | Unit | Carrier | Confidence |
 |------|---------:|------|---------|------------|
 | Air conditioner, cooling (28 C) | 0.167679 | hour | electricity | High |
+| Electric fan | 0.022 | hour | electricity | Medium |
 | Air conditioner, heating (20 C) | 0.241006 | hour | electricity | High |
 | Portable electric heater | 1.2 | hour | electricity | Medium |
 | Kotatsu | 0.15 | hour | electricity | Medium-High |
@@ -602,6 +684,20 @@ uses METI's absolute deltas so the presets are internally
 consistent with the shipped per-hour values; the science sheet
 quotes 環境省's 13%/10% as the public rule of thumb and notes it
 is a rounded approximation.
+
+**Electric fan (added 2026-08-30; decision in PDR section 3).**
+Ships at **0.022 kWh/h**: the Panasonic F-CV339 リビング扇 at its
+highest notch, verbatim from the spec page: "消費電力
+[ノッチ 8(強)] 50/60Hz:22W"
+(https://panasonic.jp/fan/products/F-CV339/spec.html, accessed
+2026-08-30). Same product and basis as the
+`use_fan_instead_of_ac` action, so the calculator and the action
+library cannot quote different numbers for the same swap. A fan
+at a fixed notch draws constant power, so the
+nameplate-vs-cycling rule does not bind; the highest notch is the
+conservative direction for the fan-vs-aircon lesson (7.62x per
+hour, pin 16). Pairs the `space_cool` singleton, making
+cross-entry cooling comparisons buildable.
 
 **Portable electric heater** (renamed 2026-08-02; "space heater"
 is US usage and reads in British English as the whole category of
@@ -684,7 +780,8 @@ resistance heater, 1.6x lower than gas and 2.2x lower than
 kerosene.** That is the flagship heating lesson and it is now
 fully sourced from one government page. It also resolves the
 kerosene framing worry: kerosene beats resistance electric
-(243 vs 463) but loses badly to the heat pump, so the comparison
+(245 vs 550, the table's own 458-basis figures) but loses badly
+to the heat pump, so the comparison
 must always show all four.
 
 **Kerosene is researched but NOT shipped (decision E5).**
@@ -762,8 +859,13 @@ ENERGY STAR does not certify ovens
 ([archive](./RESEARCH_ENERGY_ARCHIVE.md) 6.2). **Nobody publishes
 an oven duty cycle because ovens are not operated by the hour.**
 So the entry ships per bake cycle on the
-tier-1 EU anchor: Commission Delegated Regulation (EU) No
-65/2014, Annex II, verbatim:
+tier-1 EU anchor: **Commission Regulation (EU) No 66/2014**
+(ecodesign requirements for domestic ovens, hobs and range
+hoods), Annex II, verbatim -- number corrected 2026-08-29, when
+the linked PDF was re-fetched and read: it is OJ L 29/42-44 of
+31.1.2014, its Annex II is "Measurements and calculations", and
+it covers hobs, which 65/2014 (labelling) does not. The URL was
+right all along; only the name was wrong:
 
 > "SEC_electric cavity = 0,0042 × V + 0,55 (in kWh)"
 
@@ -898,8 +1000,9 @@ consoles -- aggregator-only sourcing.
 ## 4. Chosen Dataset Values
 
 Final proposed table for `energy_behaviors.json`. **Store exact
-values unrounded; the UI rounds for display.** Decisions E2-E6
-are applied. **E1 is open and scales every electricity row.**
+values unrounded; the UI rounds for display.** Decisions E1-E6
+are all applied: E1 resolved on 2026-08-02, so every electricity
+row below already sits on the 458 g CO2e/kWh basis.
 
 | id | Behavior | kWh/unit | Unit | Carrier | Group | Conf. |
 |----|----------|---------:|------|---------|-------|-------|
@@ -923,6 +1026,7 @@ are applied. **E1 is open and scales every electricity row.**
 | kotatsu | Kotatsu | 0.15 | hour | electricity | space_heat | Med-High |
 | electric_blanket | Electric blanket | 0.025 | hour | electricity | space_heat | Med |
 | aircon_cooling | Air conditioner, cooling | 0.167679 | hour | electricity | space_cool | High |
+| fan | Electric fan | 0.022 | hour | electricity | space_cool | Med |
 | kettle | Electric kettle, 1 L | 0.116278 | use | electricity | boil | Med-High |
 | ih_hob | IH hob, boil 1 L | 0.116598 | use | electricity | boil | Med-High |
 | gas_hob | Gas hob, boil 1 L | 0.282389 | use | gas | boil | Med |
@@ -937,7 +1041,8 @@ are applied. **E1 is open and scales every electricity row.**
 | tv | Television (50 inch) | 0.079096 | hour | electricity | device | High |
 | standby | Household standby | 0.8 | day | electricity | device | Low |
 
-33 behaviors against the plan's "~25". The overshoot is the
+34 behaviors against the plan's "~25" (33 at the 823f984 build;
+`fan` added 2026-08-30). The overshoot is the
 water-heating carrier/hardware split (5 entries where the plan
 counted 2), plus three genuine behavior choices the research
 turned up: heat-pump vs vented dryer, eco vs normal dishwasher,
@@ -985,6 +1090,8 @@ Presets fill the `units` field, exactly like Part 2 servings.
 | aircon_cooling | 1 hour at 27 C | 1.17891 | +0.030 kWh/h per 1 C, METI |
 | aircon_cooling | 1 hour at 26 C | 1.35783 | +2 C, capped |
 | aircon_cooling | An evening (4 h at 26 C) | 5.43132 | 4 x 1.35783 |
+| fan | 1 hour | 1.0 | -- |
+| fan | An evening (4 h) | 4.0 | mirrors the heater evening |
 | aircon_heating | 1 hour at 20 C | 1.0 | METI measured baseline |
 | aircon_heating | 1 hour at 21 C | 1.14480 | +0.034898 kWh/h per 1 C |
 | aircon_heating | 1 hour at 22 C | 1.28960 | +2 C, capped |
@@ -1020,10 +1127,15 @@ re-derive at every data pass.
 
 ### Safe pins
 
-1. `bath_electric` is the dataset maximum per single use (5.693;
-   margin vs #2 `dryer_vented` 4.5 = +26%). Margin narrowed by the
-   9.3 delta-T correction -- re-derive before adding any entry
-   above 4.5.
+1. `bath_electric` is the maximum per single use **among the
+   electricity entries** (5.693; margin vs #2 `dryer_vented` 4.5 =
+   +26%). Margin narrowed by the 9.3 delta-T correction --
+   re-derive before adding any entry above 4.5. Scope clarified
+   2026-08-29: `bath_gas` carries a larger *kWh* (7.527) for the
+   same delivered hot water, because a gas figure is fuel input
+   divided by the 0.756353 efficiency. Never rank a gas kWh
+   against an electric one; the carbon comparison is what the two
+   carrier factors are for.
 2. Hot-water chain: `bath_electric > 10 x shower_electric >
    kettle > phone_charge` (5.693 > 2.481 > 0.116 > 0.0153).
    Thinnest link bath vs 10-min shower at **+129%** -- a ratio,
@@ -1054,14 +1166,25 @@ re-derive at every data pass.
 13. **Zero-carrier rule:** `line_dry` is the only entry with
     carrier `none` and the only entry allowed kWh = 0.
 14. **Group integrity:** every entry has a non-empty
-    `comparable_group`; every group has >= 1 member; no group
-    spans more than one `unit` type except `hot_water` (minute +
-    use) and `laundry_dry`.
+    `comparable_group`; every group has >= 1 member; the shipped
+    group distribution is hot_water 5, dishes 4, laundry_wash 3,
+    laundry_dry 3, space_heat 4, space_cool 2 (`fan` paired the
+    singleton 2026-08-30), boil 3, cook 4,
+    lighting 2, device 4. **Units are pinned per behavior, not per
+    group** -- corrected 2026-08-29, when the build found the
+    earlier "no group spans more than one unit" rule does not hold
+    and cannot: the unit follows each behavior's physics, so
+    `hot_water` mixes minute with use, `cook` mixes use, minute and
+    hour, and `device` mixes hour, use and day, while `laundry_dry`
+    (named as an exception in the old wording) does not mix at all.
+    The per-behavior pin is the stronger guard anyway, and it is
+    what catches the oven being "corrected" back to an hourly
+    unit.
 15. **Assembled-value pins** (RV-1 pattern -- judgment-call
     values unreachable by any ordering pin, so a silent revert
     would otherwise pass the suite): `kotatsu` 0.15 (not the
-    0.3-0.6 nameplate), `portable_electric_heater` 1.2 (not 1.5), `oven` 1.0
-    (not the 0.802 EU cycle or 2.0 nameplate), `standby` 0.8 (not
+    0.3-0.6 nameplate), `portable_electric_heater` 1.2 (not 1.5),
+    `standby` 0.8 (not
     1.78), `gas_hob` 0.282389 (efficiency 0.35, not 0.32 or
     0.42), `dryer_vented` 4.5 (not the model-specific 4.63),
     `oven` 0.82 (the EU 60-70 L midpoint, not 1.0/hour and not the
@@ -1069,6 +1192,9 @@ re-derive at every data pass.
     **`aircon_cooling` 0.167679 and `aircon_heating` 0.241006
     (METI measured -- NOT the Panasonic JIS rated 0.435 / 0.455,
     which a well-meaning future edit would "correct" them to)**.
+16. `aircon_cooling > 5 x fan` (0.167679 > 0.11, +52%). Actual
+    ratio 7.62x -- the flagship cooling lesson, buildable in-app
+    since `fan` paired the `space_cool` singleton (2026-08-30).
 
 ### Never pin / never generate superlative copy
 
@@ -1109,77 +1235,7 @@ the list records why.
 
 ---
 
-## 7. Action-Data Consistency
-
-The action library and this dataset must never quote different
-numbers for the same behaviour. As of 2026-08-02 they do not:
-`data/seed/co2_actions_database.json` is the single source of
-truth for actions, the seeder reads it, and every energy action is
-derived from an entry in section 3.
-
-The reconciliation table, the citation error it uncovered, and the
-four duplicate proposals it killed are recorded in
-[PDR_ENERGY_CALCULATOR.md](./PDR_ENERGY_CALCULATOR.md) section 4 --
-that is product record, not evidence, so it lives there.
-
-What belongs here is the derivation of each shipped action value
-from a dataset entry:
-
-| Action | g CO2e | Derived from |
-|--------|-------:|--------------|
-| `air_dry_clothes` | 2000 | `dryer_vented` 4.5 kWh x 458 = 2061, down |
-| `cold_wash` | 430 | `wash_warm` 1.300 - `wash_cold` 0.350 = 0.950 x 458 = 435, down |
-| `shorter_shower` | 110 | 2 min x 59 g/min (gas carrier floor) = 118, down |
-| `shorter_bath` | 770 | `bath_gas` 7.526854 - 10-min `shower_gas` 3.28036 = 4.2465 x 182 = 773, down |
-| `unplug_devices` | 25 | 5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, down |
-| `install_led_bulb` | 25000 | (`incandescent_bulb` 0.06 - `led_bulb` 0.0085) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, down |
-| `lower_thermostat` | 140 | METI 53.08 kWh/yr / 169 d = 0.3141 kWh/day x 458 = 144, down |
-| `raise_ac_thermostat` | 120 | METI 30.24 kWh/yr / 112 d = 0.2700 kWh/day x 458 = 124, down |
-| `eco_mode_appliance` | 120 | `dishwasher_normal` 1.12 - `dishwasher_eco` 0.85 = 0.27 x 458 = 124, down |
-| `microwave_vs_oven` | 280 | `oven` 0.82 - `microwave` 0.19 = 0.63 x 458 = 289, down |
-| `heat_person_not_room` | 1900 | (`portable_electric_heater` 1.2 - `kotatsu` 0.15) x 4 h = 4.2 kWh x 458 = 1924, down |
-| `use_fan_instead_of_ac` | 600 | (`aircon_cooling` 0.167679 - fan 0.022) x 9 h = 1.311111 kWh x 458 = 600.5, down. Fan is the Panasonic F-CV339 DC living fan at its highest notch (22 W, https://panasonic.jp/fan/products/F-CV339/spec.html); 9 h/day is METI's own basis on the aircon page (sec 3.3). Added 2026-08-09, replacing an unsourced 1200 |
-
-Every value rounds **down** to two significant figures --
-honest-not-generous, since each is a claimed saving.
-
-### Carrier floor convention
-
-`shorter_shower` and `shorter_bath` cover hot water whose carrier
-the app cannot know. Three configurations exist -- resistance
-electric, gas, heat pump -- spanning ~4x. Both ship the **gas**
-figure, not the absolute heat-pump floor: gas and resistance
-electric are the two dominant configurations globally, gas is the
-lower of that pair at the current grid factor, and heat-pump
-owners are a documented minority the methodology names. Using the
-heat-pump floor would make every hot-water action look trivial for
-the majority who do not have one.
-
----
-
-## 8. Standing Rules
-
-Nothing is open. Every item raised by either research pass is
-closed and recorded in
-[archive](./RESEARCH_ENERGY_ARCHIVE.md) 1. What remains here is
-permanent by design, never "done".
-
-- **Yearly DEFRA refresh:** re-read the natural-gas Gross CV
-  combustion row at each release, alongside Part 1's transport
-  refresh.
-- **Measured-over-rated guard** (prohibition): the aircon entries
-  must never be "corrected" to their JIS catalog ratings, nor the
-  kotatsu to its nameplate. Sanity pins catch both.
-- **Calorific-basis guard:** the gas factor and the hot-water
-  efficiency must always be on the same CV basis.
-- **SEARCH-ONLY guard** (prohibition): a figure seen only in a
-  search-engine summary may not enter `sources[]`.
-- **Physics entries never need refreshing.** Only the assumptions
-  around them (flow rate, delta-T, efficiency) can age.
-
----
-
-## 9. The Headline Number
+## 7. The Headline Number
 
 The full 38-item recomputation of every shipped value, with its
 CO2 and its confidence, is in
@@ -1204,11 +1260,15 @@ CO2 and its confidence, is in
 | Laptop charge | 0.063 | 29 | 7x |
 | Incandescent bulb, 1 h | 0.06 | 28 | 7x |
 | Electric blanket, 1 h | 0.025 | 11 | 3x |
+| Electric fan, 1 h | 0.022 | 10 | 2.6x |
 | Phone charge | 0.0153 | 7.0 | 1.8x |
 | LED bulb, 1 h | 0.0085 | 3.9 | 1x |
 
 **Anything that makes or moves heat costs 20-670x anything that
-makes light or computation.** The plan predicted 10-100x. A bath
+makes light or computation.** The plan predicted 10-100x. The fan
+is the one cooling-group row outside that band, at 2.6x: it moves
+air rather than heat, which is exactly the fan-vs-aircon lesson,
+so the methodology copy names it as the exception. A bath
 is 373 phone charges -- and a heat pump moves the same heat for a
 quarter of the carbon, which is the second lesson the dataset now
 teaches by itself.

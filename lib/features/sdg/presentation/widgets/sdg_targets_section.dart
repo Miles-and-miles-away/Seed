@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
 
 /// Expandable section showing an SDG's description
 /// and its UN targets.
@@ -49,27 +50,18 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
           GestureDetector(
             onTap: () => setState(() => _expanded = !_expanded),
             behavior: HitTestBehavior.opaque,
-            child: Row(
-              children: [
-                Icon(Icons.info_outline, color: goal.color, size: 20),
-                const SizedBox(width: spacingSm),
-                Expanded(
-                  child: Text(
-                    l10n.sdgAboutGoal,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            child: SdgSectionHeader(
+              icon: Icons.info_outline,
+              title: l10n.sdgAboutGoal,
+              color: goal.color,
+              trailing: AnimatedRotation(
+                turns: _expanded ? 0.5 : 0,
+                duration: durationNormal,
+                child: Icon(
+                  Icons.expand_more,
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-                AnimatedRotation(
-                  turns: _expanded ? 0.5 : 0,
-                  duration: durationNormal,
-                  child: Icon(
-                    Icons.expand_more,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           const SizedBox(height: spacingLg),

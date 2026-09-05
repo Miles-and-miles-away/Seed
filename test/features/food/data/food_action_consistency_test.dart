@@ -1,9 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
-/// Action-data consistency from Plan/RESEARCH_FOOD.md section 7.
+import '../../../helpers/dataset_helpers.dart';
+
+/// Action-data consistency from Plan/PDR_FOOD_CALCULATOR.md.
 ///
 /// Decision D1 (means dataset-wide) forces corrections to the
 /// food swap actions in data/seed/co2_actions_database.json;
@@ -25,26 +24,15 @@ void main() {
   late Map<String, Map<String, dynamic>> actionById;
 
   setUpAll(() {
-    final foodRoot =
-        json.decode(File('data/app/food_items.json').readAsStringSync())
-            as Map<String, dynamic>;
-    final items = (foodRoot['items'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
     factorById = {
-      for (final item in items)
+      for (final item in rawDatasetList('data/app/food_items.json', 'items'))
         item['id'] as String: (item['kg_co2e_per_kg'] as num).toDouble(),
     };
-
-    final actionsRoot =
-        json.decode(
-              File('data/seed/co2_actions_database.json').readAsStringSync(),
-            )
-            as Map<String, dynamic>;
-    final actions = (actionsRoot['actions'] as List<dynamic>)
-        .cast<Map<String, dynamic>>();
-    actionById = {
-      for (final action in actions) action['action_id'] as String: action,
-    };
+    actionById = rawDatasetById(
+      'data/seed/co2_actions_database.json',
+      'actions',
+      idKey: 'action_id',
+    );
   });
 
   double shippedGrams(String actionId) =>

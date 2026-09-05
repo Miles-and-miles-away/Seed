@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
 import 'package:seed_app/features/food/presentation/widgets/ingredient_editor_sheet.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 /// A dose-dominated item: 10 g of grounds against a 28.53 kg/kg factor,
 /// so the grams field is a trap and the preset is the safe default.
@@ -53,25 +52,15 @@ const _chicken = FoodItem(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
-    return ProviderScope(
-      overrides: [
-        foodItemsProvider.overrideWith((_) async => const [_chicken]),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        // The item is picked from the pool before the sheet opens, so
-        // the sheet is only ever the quantity form.
-        home: const Scaffold(body: IngredientEditorSheet(item: _chicken)),
-      ),
-    );
-  }
+  // The item is picked from the pool before the sheet opens, so the
+  // sheet is only ever the quantity form.
+  Widget buildApp() => createTestWidget(
+    overrides: [
+      foodItemsProvider.overrideWith((_) async => const [_chicken]),
+    ],
+    scaffold: true,
+    child: const IngredientEditorSheet(item: _chicken),
+  );
 
   testWidgets('tapping a serving preset fills the editable grams field', (
     tester,
@@ -94,20 +83,12 @@ void main() {
   });
 
   group('dose-dominated items', () {
-    Widget buildCoffee() => ProviderScope(
+    Widget buildCoffee() => createTestWidget(
       overrides: [
         foodItemsProvider.overrideWith((_) async => const [_coffee]),
       ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(body: IngredientEditorSheet(item: _coffee)),
-      ),
+      scaffold: true,
+      child: const IngredientEditorSheet(item: _coffee),
     );
 
     testWidgets('opens on the default preset instead of an empty field', (
@@ -115,7 +96,8 @@ void main() {
     ) async {
       // The shipped behaviour was an autofocused empty grams field, so
       // "250" (millilitres of drink) computed a 7.13 kg cup -- roughly
-      // 25x the real one (RESEARCH_FOOD.md section 8, rule 1).
+      // 25x the real one (the coffee per-cup rule,
+      // PDR_FOOD_CALCULATOR.md).
       await tester.pumpWidget(buildCoffee());
       await tester.pumpAndSettle();
 

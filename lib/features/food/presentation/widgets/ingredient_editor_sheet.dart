@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
-
-/// Keeps the quantity input to digits with at most one decimal
-/// separator; ',' is allowed because locale keypads emit it.
-final _gramsInputFormatter = FilteringTextInputFormatter.allow(
-  RegExp(r'^\d*[.,]?\d*'),
-);
-
-/// Full-precision seed for the editable grams field; drops a trailing
-/// ".0" so whole values read cleanly.
-String _gramsSeedText(double grams) {
-  final text = grams.toString();
-  return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
-}
+import 'package:seed_app/shared/widgets/editor_sheet_actions.dart';
 
 /// An ingredient together with the option column it belongs to.
 class IngredientPlacement {
@@ -66,9 +52,7 @@ class IngredientEditorSheet extends StatefulWidget {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => IngredientEditorSheet(
         item: item,
         initialIngredient: initialIngredient,
@@ -91,7 +75,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     super.initState();
     final ingredient = widget.initialIngredient;
     if (ingredient != null) {
-      _gramsController.text = _gramsSeedText(ingredient.grams);
+      _gramsController.text = decimalSeedText(ingredient.grams);
       return;
     }
     // Dose-dominated items open on their default serving rather than an
@@ -101,7 +85,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     // preset the path of least resistance.
     final preset = widget.item.defaultServing;
     if (widget.item.isPresetOnly && preset != null) {
-      _gramsController.text = _gramsSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams);
       _selectedPresetId = preset.id;
     }
   }
@@ -114,29 +98,15 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
 
   void _applyPreset(ServingPreset preset) {
     setState(() {
-      _gramsController.text = _gramsSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams);
       _selectedPresetId = preset.id;
       _gramsInvalid = false;
     });
   }
 
-  /// The typed quantity, or null when it is not a usable number.
-  ///
-  /// Locale keypads emit ',' as the decimal separator, so normalize
-  /// before parsing ("12,5" reads as 12.5). tryParse also accepts
-  /// "NaN" and "Infinity"; reject those and negatives too.
-  double? get _parsedGrams {
-    final grams = double.tryParse(
-      _gramsController.text.trim().replaceAll(',', '.'),
-    );
-    return (grams == null || grams.isNaN || grams.isInfinite || grams < 0)
-        ? null
-        : grams;
-  }
-
   /// The ingredient as currently entered, for the preview and save.
   MealIngredient? get _draftIngredient {
-    final grams = _parsedGrams;
+    final grams = parseDecimalInput(_gramsController.text);
     return grams == null
         ? null
         : MealIngredient(itemId: widget.item.id, grams: grams);
@@ -158,7 +128,6 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     final locale = Localizations.localeOf(context).languageCode;
     final item = widget.item;
     final draft = _draftIngredient;
-    final fixed = widget.fixedOption;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -222,7 +191,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                inputFormatters: [_gramsInputFormatter],
+                inputFormatters: [decimalInputFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.foodQuantityLabel,
                   border: const OutlineInputBorder(),
@@ -235,57 +204,15 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
               ),
               // The factor line above is per kg; this is the footprint
               // of the quantity actually entered.
-              if (draft != null) ...[
-                const SizedBox(height: spacingSm),
-                Text(
-                  l10n.calculatorEntryPreview(
-                    formatCO2Compact(
-                      FoodCalculator.ingredientCo2eGrams(item, draft).round(),
-                    ),
-                  ),
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+              if (draft != null)
+                EntryPreviewLine(
+                  FoodCalculator.ingredientCo2eGrams(item, draft).round(),
                 ),
-              ],
               const SizedBox(height: spacingLg),
-              if (fixed != null)
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(l10n.buttonCancel),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () => _save(fixed),
-                        child: Text(l10n.buttonSave),
-                      ),
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionA),
-                        child: Text(l10n.calculatorAddToA),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionB),
-                        child: Text(l10n.calculatorAddToB),
-                      ),
-                    ),
-                  ],
-                ),
+              EditorSheetActions(
+                fixedOption: widget.fixedOption,
+                onSave: _save,
+              ),
             ],
           ),
         ),

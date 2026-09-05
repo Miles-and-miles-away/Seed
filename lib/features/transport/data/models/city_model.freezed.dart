@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$City {
 
- String get name; String get cc; double get lat; double get lon; String get mass; int get pop;
+ String get name; String get cc; double get lat; double get lon; String get mass; int get pop; String? get nameJa; String? get nameEs;
 /// Create a copy of City
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CityCopyWith<City> get copyWith => _$CityCopyWithImpl<City>(this as City, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop);
+int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop,nameJa,nameEs);
 
 @override
 String toString() {
-  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop)';
+  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop, nameJa: $nameJa, nameEs: $nameEs)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CityCopyWith<$Res>  {
   factory $CityCopyWith(City value, $Res Function(City) _then) = _$CityCopyWithImpl;
 @useResult
 $Res call({
- String name, String cc, double lat, double lon, String mass, int pop
+ String name, String cc, double lat, double lon, String mass, int pop, String? nameJa, String? nameEs
 });
 
 
@@ -65,7 +65,7 @@ class _$CityCopyWithImpl<$Res>
 
 /// Create a copy of City
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? cc = null,Object? lat = null,Object? lon = null,Object? mass = null,Object? pop = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? cc = null,Object? lat = null,Object? lon = null,Object? mass = null,Object? pop = null,Object? nameJa = freezed,Object? nameEs = freezed,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,cc: null == cc ? _self.cc : cc // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,9 @@ as String,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nul
 as double,lon: null == lon ? _self.lon : lon // ignore: cast_nullable_to_non_nullable
 as double,mass: null == mass ? _self.mass : mass // ignore: cast_nullable_to_non_nullable
 as String,pop: null == pop ? _self.pop : pop // ignore: cast_nullable_to_non_nullable
-as int,
+as int,nameJa: freezed == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
+as String?,nameEs: freezed == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -158,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop,  String? nameJa,  String? nameEs)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _City() when $default != null:
-return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);case _:
+return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop,_that.nameJa,_that.nameEs);case _:
   return orElse();
 
 }
@@ -179,10 +181,10 @@ return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop,  String? nameJa,  String? nameEs)  $default,) {final _that = this;
 switch (_that) {
 case _City():
-return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);case _:
+return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop,_that.nameJa,_that.nameEs);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +201,10 @@ return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String cc,  double lat,  double lon,  String mass,  int pop,  String? nameJa,  String? nameEs)?  $default,) {final _that = this;
 switch (_that) {
 case _City() when $default != null:
-return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);case _:
+return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop,_that.nameJa,_that.nameEs);case _:
   return null;
 
 }
@@ -211,10 +213,10 @@ return $default(_that.name,_that.cc,_that.lat,_that.lon,_that.mass,_that.pop);ca
 }
 
 /// @nodoc
-@JsonSerializable()
 
-class _City implements City {
-  const _City({required this.name, required this.cc, required this.lat, required this.lon, required this.mass, this.pop = 0});
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _City extends City {
+  const _City({required this.name, required this.cc, required this.lat, required this.lon, required this.mass, this.pop = 0, this.nameJa, this.nameEs}): super._();
   factory _City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 
 @override final  String name;
@@ -223,6 +225,8 @@ class _City implements City {
 @override final  double lon;
 @override final  String mass;
 @override@JsonKey() final  int pop;
+@override final  String? nameJa;
+@override final  String? nameEs;
 
 /// Create a copy of City
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop);
+int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop,nameJa,nameEs);
 
 @override
 String toString() {
-  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop)';
+  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop, nameJa: $nameJa, nameEs: $nameEs)';
 }
 
 
@@ -257,7 +261,7 @@ abstract mixin class _$CityCopyWith<$Res> implements $CityCopyWith<$Res> {
   factory _$CityCopyWith(_City value, $Res Function(_City) _then) = __$CityCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String cc, double lat, double lon, String mass, int pop
+ String name, String cc, double lat, double lon, String mass, int pop, String? nameJa, String? nameEs
 });
 
 
@@ -274,7 +278,7 @@ class __$CityCopyWithImpl<$Res>
 
 /// Create a copy of City
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? cc = null,Object? lat = null,Object? lon = null,Object? mass = null,Object? pop = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? cc = null,Object? lat = null,Object? lon = null,Object? mass = null,Object? pop = null,Object? nameJa = freezed,Object? nameEs = freezed,}) {
   return _then(_City(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,cc: null == cc ? _self.cc : cc // ignore: cast_nullable_to_non_nullable
@@ -282,7 +286,9 @@ as String,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nul
 as double,lon: null == lon ? _self.lon : lon // ignore: cast_nullable_to_non_nullable
 as double,mass: null == mass ? _self.mass : mass // ignore: cast_nullable_to_non_nullable
 as String,pop: null == pop ? _self.pop : pop // ignore: cast_nullable_to_non_nullable
-as int,
+as int,nameJa: freezed == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
+as String?,nameEs: freezed == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

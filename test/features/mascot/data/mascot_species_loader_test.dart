@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
@@ -23,6 +24,20 @@ void main() {
 
       final ids = species.map((s) => s.id).toList();
       expect(ids.toSet().length, ids.length);
+    });
+
+    test('every evolution stage asset is bundled', () async {
+      final species = await loadMascotSpecies();
+
+      for (final s in species) {
+        for (final stage in s.evolutionStages) {
+          await expectLater(
+            rootBundle.load(stage.assetPath),
+            completes,
+            reason: '${s.id} stage ${stage.level}: ${stage.assetPath}',
+          );
+        }
+      }
     });
 
     test('evolution stages within a species are sorted by level', () async {

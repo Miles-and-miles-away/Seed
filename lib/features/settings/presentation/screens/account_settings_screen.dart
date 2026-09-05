@@ -15,6 +15,20 @@ import 'package:seed_app/shared/widgets/widgets.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
+typedef _ChangeEmailInput = ({
+  String currentEmail,
+  String password,
+  String newEmail,
+});
+
+typedef _ChangePasswordInput = ({
+  String email,
+  String currentPassword,
+  String newPassword,
+});
+
+typedef _DeleteAccountInput = ({String email, String password});
+
 /// Screen for managing account settings.
 ///
 /// Includes options to change email, change password, and delete account.
@@ -30,6 +44,15 @@ class AccountSettingsScreen extends ConsumerStatefulWidget {
 class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
   bool _isLoading = false;
 
+  /// Whether the signed-in Firebase user authenticates with email/password.
+  bool get _isEmailPasswordUser =>
+      ref
+          .read(firebaseAuthProvider)
+          .currentUser
+          ?.providerData
+          .any((p) => p.providerId == 'password') ??
+      false;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -40,11 +63,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     // don't briefly flash "Not set" for an existing display name / goal.
     final isUserLoading = !currentUserAsync.hasValue;
     final firebaseUser = ref.watch(firebaseAuthProvider).currentUser;
-
-    // Check if user signed in with email/password
-    final isEmailPasswordUser =
-        firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-        false;
+    final isEmailPasswordUser = _isEmailPasswordUser;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.accountSettingsTitle)),
@@ -69,7 +88,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                             : null,
                         onTap: isUserLoading
                             ? null
-                            : () => _showChangeDisplayNameDialog(context),
+                            : _showChangeDisplayNameDialog,
                       ),
                       SettingsTile(
                         leading: const Icon(Icons.flag_outlined),
@@ -112,12 +131,12 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                         SettingsTile(
                           leading: const Icon(Icons.email_outlined),
                           title: l10n.accountSettingsChangeEmail,
-                          onTap: () => _showChangeEmailDialog(context),
+                          onTap: _showChangeEmailDialog,
                         ),
                         SettingsTile(
                           leading: const Icon(Icons.lock_outline),
                           title: l10n.accountSettingsChangePassword,
-                          onTap: () => _showChangePasswordDialog(context),
+                          onTap: _showChangePasswordDialog,
                         ),
                       ],
                     ),
@@ -134,7 +153,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                         ),
                         title: l10n.accountSettingsDeleteAccount,
                         dangerous: true,
-                        onTap: () => _showDeleteAccountDialog(context),
+                        onTap: _showDeleteAccountDialog,
                       ),
                     ],
                   ),
@@ -155,63 +174,14 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     );
   }
 
-  Future<void> _showChangeDisplayNameDialog(BuildContext context) async {
-    final l10n = AppLocalizations.of(context);
+  Future<void> _showChangeDisplayNameDialog() async {
     final currentName = ref.read(currentUserProvider).value?.displayName;
-    final nameController = TextEditingController(text: currentName ?? '');
-    final formKey = GlobalKey<FormState>();
-
-    try {
-      final result = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(l10n.accountSettingsDisplayName),
-          content: Form(
-            key: formKey,
-            child: TextFormField(
-              controller: nameController,
-              autofocus: true,
-              maxLength: AppConstants.maxDisplayNameLength,
-              // Cap on UTF-16 units to match the Firestore rule's .size().
-              inputFormatters: [
-                Utf16LengthLimitingTextInputFormatter(
-                  AppConstants.maxDisplayNameLength,
-                ),
-              ],
-              decoration: InputDecoration(
-                labelText: l10n.accountSettingsDisplayName,
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return l10n.accountSettingsDisplayNameRequired;
-                }
-                return null;
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(l10n.buttonCancel),
-            ),
-            FilledButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  Navigator.pop(context, true);
-                }
-              },
-              child: Text(l10n.buttonSave),
-            ),
-          ],
-        ),
-      );
-
-      if ((result ?? false) && mounted) {
-        await _changeDisplayName(nameController.text.trim());
-      }
-    } finally {
-      nameController.dispose();
-    }
+    final name = await showDialog<String>(
+      context: context,
+      builder: (_) => _DisplayNameDialog(initialName: currentName ?? ''),
+    );
+    if (name == null || !mounted) return;
+    await _changeDisplayName(name);
   }
 
   Future<void> _changeDisplayName(String displayName) async {
@@ -253,79 +223,60 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
-  Future<void> _showChangeEmailDialog(BuildContext context) async {
-    final currentEmailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final newEmailController = TextEditingController();
+  Future<void> _showChangeEmailDialog() async {
+    var currentEmail = '';
+    var newEmail = '';
 
     // Re-open prefilled on a save failure (e.g. wrong password) so the typed
-    // emails are never lost; only the password is cleared for re-entry.
-    try {
-      while (await _promptChangeEmail(
-        currentEmailController,
-        passwordController,
-        newEmailController,
-      )) {
-        if (!mounted) break;
-        // Trim emails to match what the dialog validators accepted.
-        final saved = await _changeEmail(
-          currentEmailController.text.trim(),
-          passwordController.text,
-          newEmailController.text.trim(),
-        );
-        if (saved || !mounted) break;
-        passwordController.clear();
-      }
-    } finally {
-      currentEmailController.dispose();
-      passwordController.dispose();
-      newEmailController.dispose();
+    // emails are never lost; only the password must be re-entered.
+    while (true) {
+      final input = await showDialog<_ChangeEmailInput>(
+        context: context,
+        builder: (_) => _ChangeEmailDialog(
+          initialCurrentEmail: currentEmail,
+          initialNewEmail: newEmail,
+        ),
+      );
+      if (input == null || !mounted) return;
+
+      final saved = await _changeEmail(
+        input.currentEmail,
+        input.password,
+        input.newEmail,
+      );
+      if (saved || !mounted) return;
+      currentEmail = input.currentEmail;
+      newEmail = input.newEmail;
     }
   }
 
-  /// Shows the change-email form, returning true when the user confirms with
-  /// valid input and false when they cancel or dismiss it.
-  Future<bool> _promptChangeEmail(
-    TextEditingController currentEmailController,
-    TextEditingController passwordController,
-    TextEditingController newEmailController,
-  ) {
-    final l10n = AppLocalizations.of(context);
-    return _showFormDialog(
-      title: l10n.accountSettingsChangeEmail,
-      children: [
-        _emailField(currentEmailController, l10n.accountSettingsCurrentEmail),
-        const SizedBox(height: spacingLg),
-        _passwordField(passwordController, l10n.accountSettingsCurrentPassword),
-        const SizedBox(height: spacingLg),
-        _emailField(newEmailController, l10n.accountSettingsNewEmail),
-      ],
-    );
-  }
-
-  /// Re-authenticates then updates the email. Returns true on success so the
-  /// caller can stop retrying; false leaves the dialog's input to re-open.
-  Future<bool> _changeEmail(
-    String currentEmail,
-    String password,
-    String newEmail,
-  ) async {
+  /// Shows the spinner while [op] runs, then reports [successMessage] and
+  /// calls [onSuccess], or logs under [logLabel] and shows the mapped auth
+  /// error. Returns true on success so the caller can stop retrying; false
+  /// re-opens the dialog with input kept.
+  Future<bool> _runReauthed({
+    required Future<void> Function(AuthNotifier auth) op,
+    required String logLabel,
+    String? successMessage,
+    VoidCallback? onSuccess,
+  }) async {
     final l10n = AppLocalizations.of(context);
     setState(() => _isLoading = true);
 
     try {
-      final auth = ref.read(authProvider.notifier);
-      await auth.reauthenticateWithEmailPassword(currentEmail, password);
-      await auth.updateEmail(newEmail);
+      await op(ref.read(authProvider.notifier));
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.accountSettingsEmailUpdated)),
-        );
+        if (successMessage != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(successMessage)));
+        }
+        onSuccess?.call();
       }
       return true;
     } on Exception catch (e) {
-      appLogger.error('Account: email update failed', error: e);
+      appLogger.error(logLabel, error: e);
       if (mounted) {
         ScaffoldMessenger.of(
           context,
@@ -339,60 +290,298 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
-  Future<void> _showChangePasswordDialog(BuildContext context) async {
-    final currentEmailController = TextEditingController();
-    final currentPasswordController = TextEditingController();
-    final newPasswordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
+  /// Re-authenticates then updates the email.
+  Future<bool> _changeEmail(
+    String currentEmail,
+    String password,
+    String newEmail,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    return _runReauthed(
+      op: (auth) async {
+        await auth.reauthenticateWithEmailPassword(currentEmail, password);
+        await auth.updateEmail(newEmail);
+      },
+      logLabel: 'Account: email update failed',
+      successMessage: l10n.accountSettingsEmailUpdated,
+    );
+  }
 
-    // Re-open prefilled on a save failure (e.g. wrong current password) so the
-    // email and new password aren't lost; only the current password clears.
-    try {
-      while (await _promptChangePassword(
-        currentEmailController,
-        currentPasswordController,
-        newPasswordController,
-        confirmPasswordController,
-      )) {
-        if (!mounted) break;
-        // Trim the email to match what the dialog validator accepted.
-        final saved = await _changePassword(
-          currentEmailController.text.trim(),
-          currentPasswordController.text,
-          newPasswordController.text,
-        );
-        if (saved || !mounted) break;
-        currentPasswordController.clear();
-      }
-    } finally {
-      currentEmailController.dispose();
-      currentPasswordController.dispose();
-      newPasswordController.dispose();
-      confirmPasswordController.dispose();
+  Future<void> _showChangePasswordDialog() async {
+    var email = '';
+    var newPassword = '';
+
+    // Re-open prefilled on a save failure (e.g. wrong current password) so
+    // the email and new password aren't lost; only the current password must
+    // be re-entered.
+    while (true) {
+      final input = await showDialog<_ChangePasswordInput>(
+        context: context,
+        builder: (_) => _ChangePasswordDialog(
+          initialEmail: email,
+          initialNewPassword: newPassword,
+        ),
+      );
+      if (input == null || !mounted) return;
+
+      final saved = await _changePassword(
+        input.email,
+        input.currentPassword,
+        input.newPassword,
+      );
+      if (saved || !mounted) return;
+      email = input.email;
+      newPassword = input.newPassword;
     }
   }
 
-  /// Shows the change-password form, returning true when the user confirms
-  /// with valid input and false when they cancel or dismiss it.
-  Future<bool> _promptChangePassword(
-    TextEditingController currentEmailController,
-    TextEditingController currentPasswordController,
-    TextEditingController newPasswordController,
-    TextEditingController confirmPasswordController,
+  /// Re-authenticates then updates the password.
+  Future<bool> _changePassword(
+    String email,
+    String currentPassword,
+    String newPassword,
   ) {
     final l10n = AppLocalizations.of(context);
-    return _showFormDialog(
-      title: l10n.accountSettingsChangePassword,
+    return _runReauthed(
+      op: (auth) async {
+        await auth.reauthenticateWithEmailPassword(email, currentPassword);
+        await auth.updatePassword(newPassword);
+      },
+      logLabel: 'Account: password update failed',
+      successMessage: l10n.accountSettingsPasswordUpdated,
+    );
+  }
+
+  Future<void> _showDeleteAccountDialog() async {
+    final isEmailPasswordUser = _isEmailPasswordUser;
+    var email = '';
+
+    // Re-open prefilled on a re-auth failure so the typed email isn't lost;
+    // only the password must be re-entered.
+    while (true) {
+      final input = await showDialog<_DeleteAccountInput>(
+        context: context,
+        builder: (_) => _DeleteAccountDialog(
+          initialEmail: email,
+          requiresReauth: isEmailPasswordUser,
+        ),
+      );
+      if (input == null || !mounted) return;
+
+      final deleted = await _deleteAccount(
+        input.email,
+        input.password,
+        requiresReauth: isEmailPasswordUser,
+      );
+      if (deleted || !mounted) return;
+      email = input.email;
+    }
+  }
+
+  /// Re-authenticates if required then deletes the account, navigating to
+  /// login on success.
+  Future<bool> _deleteAccount(
+    String email,
+    String password, {
+    required bool requiresReauth,
+  }) {
+    return _runReauthed(
+      op: (auth) async {
+        if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
+          await auth.reauthenticateWithEmailPassword(email, password);
+        }
+        await auth.deleteAccount();
+      },
+      logLabel: 'Account: account deletion failed',
+      onSuccess: () => context.go(appRoutes.login),
+    );
+  }
+}
+
+/// The dialogs below own their controllers as State fields so Flutter
+/// disposes them when the dialog element unmounts, after the exit animation.
+/// Disposing right after `await showDialog` crashed: the pop dismisses the
+/// keyboard, the inset change rebuilds the departing dialog, and its fields
+/// touched a disposed controller.
+class _DisplayNameDialog extends StatefulWidget {
+  const _DisplayNameDialog({required this.initialName});
+
+  final String initialName;
+
+  @override
+  State<_DisplayNameDialog> createState() => _DisplayNameDialogState();
+}
+
+class _DisplayNameDialogState extends State<_DisplayNameDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final _nameController = TextEditingController(text: widget.initialName);
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return _FormDialog(
+      title: l10n.accountSettingsDisplayName,
+      formKey: _formKey,
+      onConfirm: () => Navigator.pop(context, _nameController.text.trim()),
       children: [
-        _emailField(currentEmailController, l10n.accountSettingsCurrentEmail),
+        TextFormField(
+          controller: _nameController,
+          autofocus: true,
+          maxLength: AppConstants.maxDisplayNameLength,
+          // Cap on UTF-16 units to match the Firestore rule's .size().
+          inputFormatters: [
+            Utf16LengthLimitingTextInputFormatter(
+              AppConstants.maxDisplayNameLength,
+            ),
+          ],
+          decoration: InputDecoration(
+            labelText: l10n.accountSettingsDisplayName,
+          ),
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return l10n.accountSettingsDisplayNameRequired;
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _ChangeEmailDialog extends StatefulWidget {
+  const _ChangeEmailDialog({
+    required this.initialCurrentEmail,
+    required this.initialNewEmail,
+  });
+
+  final String initialCurrentEmail;
+  final String initialNewEmail;
+
+  @override
+  State<_ChangeEmailDialog> createState() => _ChangeEmailDialogState();
+}
+
+class _ChangeEmailDialogState extends State<_ChangeEmailDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final _currentEmailController = TextEditingController(
+    text: widget.initialCurrentEmail,
+  );
+  final _passwordController = TextEditingController();
+  late final _newEmailController = TextEditingController(
+    text: widget.initialNewEmail,
+  );
+
+  @override
+  void dispose() {
+    _currentEmailController.dispose();
+    _passwordController.dispose();
+    _newEmailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return _FormDialog(
+      title: l10n.accountSettingsChangeEmail,
+      formKey: _formKey,
+      // Trim emails to match what the field validators accepted.
+      onConfirm: () => Navigator.pop(context, (
+        currentEmail: _currentEmailController.text.trim(),
+        password: _passwordController.text,
+        newEmail: _newEmailController.text.trim(),
+      )),
+      children: [
+        _emailField(
+          context,
+          _currentEmailController,
+          l10n.accountSettingsCurrentEmail,
+        ),
         const SizedBox(height: spacingLg),
         _passwordField(
-          currentPasswordController,
+          context,
+          _passwordController,
+          l10n.accountSettingsCurrentPassword,
+        ),
+        const SizedBox(height: spacingLg),
+        _emailField(context, _newEmailController, l10n.accountSettingsNewEmail),
+      ],
+    );
+  }
+}
+
+class _ChangePasswordDialog extends StatefulWidget {
+  const _ChangePasswordDialog({
+    required this.initialEmail,
+    required this.initialNewPassword,
+  });
+
+  final String initialEmail;
+  final String initialNewPassword;
+
+  @override
+  State<_ChangePasswordDialog> createState() => _ChangePasswordDialogState();
+}
+
+class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final _emailController = TextEditingController(
+    text: widget.initialEmail,
+  );
+  final _currentPasswordController = TextEditingController();
+  late final _newPasswordController = TextEditingController(
+    text: widget.initialNewPassword,
+  );
+  // Validation forces confirm == new, so the same initial value re-fills
+  // both fields when the dialog re-opens after a failed save.
+  late final _confirmPasswordController = TextEditingController(
+    text: widget.initialNewPassword,
+  );
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _currentPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return _FormDialog(
+      title: l10n.accountSettingsChangePassword,
+      formKey: _formKey,
+      // Trim the email to match what the field validator accepted.
+      onConfirm: () => Navigator.pop(context, (
+        email: _emailController.text.trim(),
+        currentPassword: _currentPasswordController.text,
+        newPassword: _newPasswordController.text,
+      )),
+      children: [
+        _emailField(
+          context,
+          _emailController,
+          l10n.accountSettingsCurrentEmail,
+        ),
+        const SizedBox(height: spacingLg),
+        _passwordField(
+          context,
+          _currentPasswordController,
           l10n.accountSettingsCurrentPassword,
         ),
         const SizedBox(height: spacingLg),
         _passwordField(
-          newPasswordController,
+          context,
+          _newPasswordController,
           l10n.accountSettingsNewPassword,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -406,10 +595,11 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         ),
         const SizedBox(height: spacingLg),
         _passwordField(
-          confirmPasswordController,
+          context,
+          _confirmPasswordController,
           l10n.accountSettingsConfirmNewPassword,
           validator: (value) {
-            if (value != newPasswordController.text) {
+            if (value != _newPasswordController.text) {
               return l10n.accountSettingsPasswordMismatch;
             }
             return null;
@@ -418,233 +608,168 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       ],
     );
   }
+}
 
-  /// Re-authenticates then updates the password. Returns true on success so
-  /// the caller can stop retrying; false leaves the input to re-open.
-  Future<bool> _changePassword(
-    String email,
-    String currentPassword,
-    String newPassword,
-  ) async {
-    final l10n = AppLocalizations.of(context);
-    setState(() => _isLoading = true);
+class _DeleteAccountDialog extends StatefulWidget {
+  const _DeleteAccountDialog({
+    required this.initialEmail,
+    required this.requiresReauth,
+  });
 
-    try {
-      final auth = ref.read(authProvider.notifier);
-      await auth.reauthenticateWithEmailPassword(email, currentPassword);
-      await auth.updatePassword(newPassword);
+  final String initialEmail;
+  final bool requiresReauth;
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.accountSettingsPasswordUpdated)),
-        );
-      }
-      return true;
-    } on Exception catch (e) {
-      appLogger.error('Account: password update failed', error: e);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
-      }
-      return false;
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+  @override
+  State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final _emailController = TextEditingController(
+    text: widget.initialEmail,
+  );
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
-  Future<void> _showDeleteAccountDialog(BuildContext context) async {
-    final firebaseUser = ref.read(firebaseAuthProvider).currentUser;
-    final isEmailPasswordUser =
-        firebaseUser?.providerData.any((p) => p.providerId == 'password') ??
-        false;
-
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    // Re-open prefilled on a re-auth failure so the typed email isn't lost;
-    // only the password is cleared for re-entry.
-    try {
-      while (await _promptDeleteAccount(
-        emailController,
-        passwordController,
-        isEmailPasswordUser,
-      )) {
-        if (!mounted) break;
-        // Trim the email to match what the dialog validator accepted.
-        final deleted = await _deleteAccount(
-          emailController.text.trim(),
-          passwordController.text,
-          isEmailPasswordUser,
-        );
-        if (deleted || !mounted) break;
-        passwordController.clear();
-      }
-    } finally {
-      emailController.dispose();
-      passwordController.dispose();
-    }
-  }
-
-  /// Shows the delete-account confirmation (with re-auth fields for
-  /// email/password users), returning true when the user confirms.
-  Future<bool> _promptDeleteAccount(
-    TextEditingController emailController,
-    TextEditingController passwordController,
-    bool isEmailPasswordUser,
-  ) {
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     // A Form with no fields validates trivially, so the confirm button
     // works unchanged for OAuth users with no re-auth fields.
-    return _showFormDialog(
+    return _FormDialog(
       title: l10n.accountSettingsDeleteConfirmTitle,
+      formKey: _formKey,
+      // Trim the email to match what the field validator accepted.
+      onConfirm: () => Navigator.pop(context, (
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      )),
       confirmText: l10n.accountSettingsDeleteConfirmButton,
       dangerous: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.accountSettingsDeleteConfirmMessage),
-        if (isEmailPasswordUser) ...[
+        if (widget.requiresReauth) ...[
           const SizedBox(height: spacingLg),
           Text(
             l10n.accountSettingsReauthRequired,
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: spacingSm),
-          _emailField(emailController, l10n.authEmail),
+          _emailField(context, _emailController, l10n.authEmail),
           const SizedBox(height: spacingSm),
-          _passwordField(passwordController, l10n.authPassword),
+          _passwordField(context, _passwordController, l10n.authPassword),
         ],
       ],
     );
   }
+}
 
-  /// Shared scaffold for the account dialogs: an [AlertDialog] wrapping
-  /// [children] in a scrollable [Form], with cancel/confirm actions where
-  /// confirm validates the form before popping true.
-  Future<bool> _showFormDialog({
-    required String title,
-    required List<Widget> children,
-    String? confirmText,
-    bool dangerous = false,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-  }) async {
+/// Shared scaffold for the account dialogs: an [AlertDialog] wrapping
+/// [children] in a scrollable [Form], with cancel/confirm actions where
+/// confirm validates the form before invoking [onConfirm].
+class _FormDialog extends StatelessWidget {
+  const _FormDialog({
+    required this.title,
+    required this.formKey,
+    required this.onConfirm,
+    required this.children,
+    this.confirmText,
+    this.dangerous = false,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+  });
+
+  final String title;
+  final GlobalKey<FormState> formKey;
+  final VoidCallback onConfirm;
+  final List<Widget> children;
+  final String? confirmText;
+  final bool dangerous;
+  final CrossAxisAlignment crossAxisAlignment;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final formKey = GlobalKey<FormState>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          title,
-          style: dangerous ? TextStyle(color: theme.colorScheme.error) : null,
-        ),
-        content: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: crossAxisAlignment,
-              children: children,
-            ),
+    return AlertDialog(
+      title: Text(
+        title,
+        style: dangerous ? TextStyle(color: theme.colorScheme.error) : null,
+      ),
+      content: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: crossAxisAlignment,
+            children: children,
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            style: dangerous
-                ? FilledButton.styleFrom(
-                    backgroundColor: theme.colorScheme.error,
-                  )
-                : null,
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.pop(context, true);
-              }
-            },
-            child: Text(confirmText ?? l10n.buttonSave),
-          ),
-        ],
       ),
-    );
-    return confirmed ?? false;
-  }
-
-  TextFormField _emailField(TextEditingController controller, String label) {
-    final l10n = AppLocalizations.of(context);
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-      keyboardType: TextInputType.emailAddress,
-      validator: (value) => validateEmail(
-        value,
-        emptyError: l10n.authValidationEmailRequired,
-        invalidError: l10n.authValidationEmailInvalid,
-      ),
-    );
-  }
-
-  TextFormField _passwordField(
-    TextEditingController controller,
-    String label, {
-    String? Function(String?)? validator,
-  }) {
-    final l10n = AppLocalizations.of(context);
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-      obscureText: true,
-      validator:
-          validator ??
-          (value) {
-            if (value == null || value.isEmpty) {
-              return l10n.authValidationPasswordRequired;
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(l10n.buttonCancel),
+        ),
+        FilledButton(
+          style: dangerous
+              ? FilledButton.styleFrom(backgroundColor: theme.colorScheme.error)
+              : null,
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              onConfirm();
             }
-            return null;
           },
+          child: Text(confirmText ?? l10n.buttonSave),
+        ),
+      ],
     );
   }
+}
 
-  /// Re-authenticates if required then deletes the account, navigating to
-  /// login on success (returns true). Returns false on failure so the
-  /// caller can re-open the dialog with the typed email preserved.
-  Future<bool> _deleteAccount(
-    String email,
-    String password,
-    bool requiresReauth,
-  ) async {
-    final l10n = AppLocalizations.of(context);
-    setState(() => _isLoading = true);
+TextFormField _emailField(
+  BuildContext context,
+  TextEditingController controller,
+  String label,
+) {
+  final l10n = AppLocalizations.of(context);
+  return TextFormField(
+    controller: controller,
+    decoration: InputDecoration(labelText: label),
+    keyboardType: TextInputType.emailAddress,
+    validator: (value) => validateEmail(
+      value,
+      emptyError: l10n.authValidationEmailRequired,
+      invalidError: l10n.authValidationEmailInvalid,
+    ),
+  );
+}
 
-    try {
-      final auth = ref.read(authProvider.notifier);
-      if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
-        await auth.reauthenticateWithEmailPassword(email, password);
-      }
-
-      await auth.deleteAccount();
-
-      if (mounted) {
-        context.go(appRoutes.login);
-      }
-      return true;
-    } on Exception catch (e) {
-      appLogger.error('Account: account deletion failed', error: e);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(mapAuthErrorToMessage(e, l10n))));
-      }
-      return false;
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
+TextFormField _passwordField(
+  BuildContext context,
+  TextEditingController controller,
+  String label, {
+  String? Function(String?)? validator,
+}) {
+  final l10n = AppLocalizations.of(context);
+  return TextFormField(
+    controller: controller,
+    decoration: InputDecoration(labelText: label),
+    obscureText: true,
+    validator:
+        validator ??
+        (value) {
+          if (value == null || value.isEmpty) {
+            return l10n.authValidationPasswordRequired;
+          }
+          return null;
+        },
+  );
 }

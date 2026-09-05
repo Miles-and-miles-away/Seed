@@ -2,20 +2,44 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
+    target-branch: development
     schedule:
       interval: monthly
+    groups:
+      actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: pub
     directory: /
+    target-branch: development
     schedule:
       interval: monthly
+    groups:
+      firebase:
+        patterns:
+          - "firebase*"
+          - "cloud_functions"
+    ignore:
+      # flutter_localizations pins intl to an exact version
+      - dependency-name: intl
 
   - package-ecosystem: npm
     directory: /
+    target-branch: development
     schedule:
       interval: monthly
+    groups:
+      firebase-testing:
+        patterns:
+          - "firebase"
+          - "@firebase/rules-unit-testing"
 
   - package-ecosystem: npm
     directory: /functions
+    target-branch: development
     schedule:
       interval: monthly
+    groups:
+      dev-tooling:
+        dependency-type: development

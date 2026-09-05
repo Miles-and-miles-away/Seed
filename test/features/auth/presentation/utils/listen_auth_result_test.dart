@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/auth/presentation/utils/listen_auth_result.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 class _MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -42,20 +42,11 @@ void main() {
     bool showHost = true,
   }) async {
     await tester.pumpWidget(
-      ProviderScope(
+      createTestWidget(
         overrides: [authRepositoryProvider.overrideWithValue(repo)],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: showHost
-              ? _Host(onError: onError, onCompleted: onCompleted)
-              : const SizedBox.shrink(),
-        ),
+        child: showHost
+            ? _Host(onError: onError, onCompleted: onCompleted)
+            : const SizedBox.shrink(),
       ),
     );
     await tester.pump();

@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
@@ -20,6 +21,8 @@ import 'package:seed_app/features/progress/domain/services/impact_equivalencies.
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/widgets/bank_and_report.dart';
+import 'package:seed_app/shared/widgets/explainer_dialog.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Side-by-side meal comparison (Phase 8.8/8.9).
@@ -45,36 +48,27 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     ref.read(analyticsServiceProvider).logFoodCalculatorOpened();
   }
 
-  /// Opens the quantity editor for a new ingredient. A null [option]
-  /// means the sheet asks which column to add to.
-  Future<void> _openEditor(FoodItem item, int? option) async {
-    final result = await IngredientEditorSheet.show(
-      context,
-      item: item,
-      fixedOption: option,
-    );
-    if (result == null || !mounted) return;
-    ref
-        .read(mealOptionsProvider.notifier)
-        .addIngredient(result.option, result.ingredient);
-  }
-
-  Future<void> _editIngredient(
+  /// Opens the quantity editor for a new ingredient, or for [edit]'s
+  /// entry when given. A null [option] means the sheet asks which
+  /// column to add to.
+  Future<void> _openEditor(
     FoodItem item,
-    int option,
-    int index,
-    MealIngredient ingredient,
-  ) async {
+    int? option, {
+    ({int index, MealIngredient existing})? edit,
+  }) async {
     final result = await IngredientEditorSheet.show(
       context,
       item: item,
-      initialIngredient: ingredient,
+      initialIngredient: edit?.existing,
       fixedOption: option,
     );
     if (result == null || !mounted) return;
-    ref
-        .read(mealOptionsProvider.notifier)
-        .updateIngredient(option, index, result.ingredient);
+    final notifier = ref.read(mealOptionsProvider.notifier);
+    if (edit == null) {
+      notifier.addIngredient(result.option, result.ingredient);
+    } else {
+      notifier.updateIngredient(result.option, edit.index, result.ingredient);
+    }
   }
 
   /// Opens the picker for [option]'s column. The column is known from
@@ -85,9 +79,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (sheetContext) => SafeArea(
         // Bounded so the picker's own lazy list does the scrolling.
         // Leaves the keyboard room: the search field is the first
@@ -104,7 +96,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
               items: items,
               recentIds: ref.read(recentFoodItemIdsProvider),
               onSelected: (item) => Navigator.pop(sheetContext, item),
-              onInfo: (item) => FoodScienceSheet.show(
+              onInfo: (item) => showFoodScienceSheet(
                 sheetContext,
                 item: item,
                 languageCode: locale,
@@ -127,14 +119,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       appBar: AppBar(
         title: Text(l10n.foodCalculatorTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.science_outlined),
+          methodologyAction(
+            context,
             tooltip: l10n.foodMethodologyTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const FoodMethodologyScreen(),
-              ),
-            ),
+            builder: (_) => const FoodMethodologyScreen(),
           ),
         ],
       ),
@@ -155,77 +143,38 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       for (final ingredients in options)
         FoodCalculator.mealCo2eGrams(itemsById, ingredients),
     ];
-    final worst = totals.reduce((a, b) => a > b ? a : b);
     final summary = options.every((i) => i.isNotEmpty)
         ? compareTotals(totals)
         : null;
     // Marking a column "best" is a verdict in its own right, so it
     // answers to the same gate as the headline copy.
-    final verdict = summary == null
+    final check = summary == null
         ? null
         : FoodCalculator.checkVerdict(summary, itemsById, options);
-    final showVerdict = verdict?.block == VerdictBlock.none;
+    final showVerdict = check?.block == VerdictBlock.none;
 
-    return Column(
-      children: [
-        const SizedBox(height: spacingSm),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingMd),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var option = 0; option < optionCount; option++) ...[
-                  if (option > 0) const SizedBox(width: spacingSm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: OptionColumn(
-                            title: option == optionA
-                                ? l10n.calculatorOptionA
-                                : l10n.calculatorOptionB,
-                            totalGrams: totals[option],
-                            fraction: worst <= 0 ? 0 : totals[option] / worst,
-                            isBest:
-                                summary != null &&
-                                showVerdict &&
-                                option == summary.bestIndex,
-                            isEmpty: options[option].isEmpty,
-                            emptyHint: l10n.foodColumnEmptyHint,
-                            children: [
-                              for (var i = 0; i < options[option].length; i++)
-                                _ingredientCard(
-                                  l10n,
-                                  locale,
-                                  itemsById,
-                                  option,
-                                  i,
-                                  options[option][i],
-                                ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: spacingSm),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _browseAll(items, option),
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.foodAddIngredient),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(spacingMd),
-          child: _buildResult(l10n, locale, itemsById, options, totals),
-        ),
+    return ComparisonScaffold(
+      accentColor: ActionCategory.food.color,
+      totals: totals,
+      entries: [
+        for (var option = 0; option < optionCount; option++)
+          [
+            for (var i = 0; i < options[option].length; i++)
+              _ingredientCard(
+                l10n,
+                locale,
+                itemsById,
+                option,
+                i,
+                options[option][i],
+              ),
+          ],
       ],
+      emptyHint: l10n.foodColumnEmptyHint,
+      addLabel: l10n.foodAddIngredient,
+      onAdd: (option) => _browseAll(items, option),
+      bestIndex: showVerdict ? summary?.bestIndex : null,
+      result: _buildResult(l10n, locale, itemsById, options, summary, check),
     );
   }
 
@@ -239,12 +188,14 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
   ) {
     final item = itemsById[ingredient.itemId]!;
     return OptionEntryCard(
+      accentColor: ActionCategory.food.color,
       icon: foodGroupIcon(item.group),
       name: item.name(locale),
       detail: l10n.foodGramsValue(ingredient.grams.round().toString()),
       grams: FoodCalculator.ingredientCo2eGrams(item, ingredient),
       removeTooltip: l10n.calculatorRemoveEntry,
-      onTap: () => _editIngredient(item, option, index, ingredient),
+      onTap: () =>
+          _openEditor(item, option, edit: (index: index, existing: ingredient)),
       onRemove: () => ref
           .read(mealOptionsProvider.notifier)
           .removeIngredient(option, index),
@@ -258,28 +209,33 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String locale,
     Map<String, FoodItem> itemsById,
     List<List<MealIngredient>> options,
-    List<double> totals,
+    ComparisonSummary? summary,
+    VerdictCheck? check,
   ) {
-    final theme = Theme.of(context);
-    final summary = options.every((i) => i.isNotEmpty)
-        ? compareTotals(totals)
-        : null;
-    if (summary == null || summary.deltaGrams <= 0) {
-      return Text(
-        l10n.calculatorNeedBothOptions,
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
+    if (summary == null || check == null || summary.deltaGrams <= 0) {
+      return CalculatorHint(l10n.calculatorNeedBothOptions);
+    }
+    // Below the bar there is no winner to name and nothing honest to
+    // bank -- but the user is owed the reason, not just a refusal, so
+    // the explanation is one tap away rather than buried in the
+    // methodology page.
+    if (check.block != VerdictBlock.none) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CalculatorHint(l10n.foodComparisonTooClose),
+          TextButton(
+            onPressed: () => _explainNoVerdict(l10n, locale, check),
+            child: Text(l10n.foodVerdictWhyCta),
+          ),
+        ],
       );
     }
     // On screen the options are the column names; naming a single
     // ingredient read as an arbitrary pick from the list. The banked
     // action still gets the full meal description.
-    String columnName(int i) =>
-        i == optionA ? l10n.calculatorOptionA : l10n.calculatorOptionB;
-    final bestLabel = columnName(summary.bestIndex);
-    final worstLabel = columnName(summary.worstIndex);
+    final bestLabel = optionLabel(l10n, summary.bestIndex);
+    final worstLabel = optionLabel(l10n, summary.worstIndex);
     final carKm = ref
         .watch(impactEquivalenciesDataProvider)
         .whenOrNull(
@@ -289,34 +245,12 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           ).where((e) => e.type == EquivalencyType.carKm).firstOrNull?.value,
         );
     final busy = ref.watch(foodChoiceLoggerProvider).isLoading;
-    // Below the bar there is no winner to name and nothing honest to
-    // bank -- but the user is owed the reason, not just a refusal, so
-    // the explanation is one tap away rather than buried in the
-    // methodology page.
-    final check = FoodCalculator.checkVerdict(summary, itemsById, options);
-    if (check.block != VerdictBlock.none) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.foodComparisonTooClose,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          TextButton(
-            onPressed: () => _explainNoVerdict(l10n, locale, check),
-            child: Text(l10n.foodVerdictWhyCta),
-          ),
-        ],
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
         ComparisonDeltaCard(
+          accentColor: ActionCategory.food.color,
           headline: l10n.foodComparisonDelta(
             bestLabel,
             formatCO2Compact(summary.deltaGrams.round()),
@@ -354,9 +288,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
 
   /// Explains why the comparison declined to name a winner.
   ///
-  /// Three different reasons, and they are not interchangeable: two
-  /// close meals, two incompatible sources, or one ingredient whose own
-  /// evidence is too wide to rank on.
+  /// Five different reasons, and they are not interchangeable: two
+  /// close meals, two incompatible sources, one ingredient whose own
+  /// evidence is too wide to rank on, a gap that rests on items sharing
+  /// a derivation, or a winner that swaps when that derivation is held
+  /// to one value.
   void _explainNoVerdict(
     AppLocalizations l10n,
     String locale,
@@ -365,6 +301,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     final percent = check.requiredPercent.round();
     final body = switch (check.block) {
       VerdictBlock.crossSource => l10n.foodVerdictCrossSource(percent),
+      VerdictBlock.tiedBasis => l10n.foodVerdictTiedBasis(percent),
+      VerdictBlock.tiedBasisFlips => l10n.foodVerdictTiedBasisFlips,
       VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
         check.item?.name(locale) ?? '',
         check.item?.statisticRatio?.toStringAsFixed(1) ?? '',
@@ -372,18 +310,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       ),
       _ => l10n.foodVerdictTooClose(percent),
     };
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.foodVerdictBlockedTitle),
-        content: Text(body),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonClose),
-          ),
-        ],
-      ),
+    showExplainerDialog(
+      context,
+      title: l10n.foodVerdictBlockedTitle,
+      body: body,
     );
   }
 
@@ -394,23 +324,17 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
-  ) async {
-    final amount = formatCO2Compact(deltaGrams.round());
-    final ok = await ref
+  ) => bankAndReport(
+    context,
+    log: () => ref
         .read(foodChoiceLoggerProvider.notifier)
         .logChoice(
           name: l10n.foodCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
-        );
-    if (!mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    if (ok) {
-      ref.read(mealOptionsProvider.notifier).clear();
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.foodChoiceLoggedMessage(amount))),
-      );
-    } else {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
-    }
-  }
+        ),
+    successMessage: l10n.foodChoiceLoggedMessage(
+      formatCO2Compact(deltaGrams.round()),
+    ),
+    onSuccess: () => ref.read(mealOptionsProvider.notifier).clear(),
+  );
 }

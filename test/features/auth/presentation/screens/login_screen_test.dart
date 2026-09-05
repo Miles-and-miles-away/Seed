@@ -24,15 +24,17 @@ void main() {
     ).thenAnswer((_) async => MockUserCredential());
   });
 
+  Future<void> pumpLogin(WidgetTester tester) => tester.pumpWidget(
+    createTestWidget(
+      child: const LoginScreen(),
+      firebaseAuth: mockFirebaseAuth,
+      firestore: fakeFirestore,
+    ),
+  );
+
   group('LoginScreen', () {
     testWidgets('renders all expected UI elements', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Verify key UI elements are present
       expect(find.text('Welcome Back'), findsOneWidget);
@@ -50,13 +52,7 @@ void main() {
     });
 
     testWidgets('shows validation error for empty email', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Tap sign in without entering anything
       await tester.tap(find.text('Sign In'));
@@ -70,13 +66,7 @@ void main() {
     testWidgets('shows validation error for invalid email format', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Enter invalid email
       await tester.enterText(
@@ -97,13 +87,7 @@ void main() {
     });
 
     testWidgets('shows validation error for short password', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Enter valid email but short password
       await tester.enterText(
@@ -127,13 +111,7 @@ void main() {
     });
 
     testWidgets('toggles password visibility', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Initially should show visibility icon (password is hidden)
       expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
@@ -158,13 +136,7 @@ void main() {
     testWidgets('calls signInWithEmailAndPassword on valid form submission', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Enter valid credentials
       await tester.enterText(
@@ -190,13 +162,7 @@ void main() {
     });
 
     testWidgets('shows forgot password dialog', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Tap forgot password
       await tester.tap(find.text('Forgot Password?'));
@@ -209,27 +175,37 @@ void main() {
       expect(find.text('Send'), findsOneWidget);
     });
 
+    testWidgets('the reset dialog survives being dismissed and reopened', (
+      tester,
+    ) async {
+      // Its controller used to be disposed right after `await
+      // showDialog`, and the departing dialog then rebuilt against it.
+      await pumpLogin(tester);
+
+      for (var attempt = 0; attempt < 2; attempt++) {
+        await tester.tap(find.text('Forgot Password?'));
+        await tester.pumpAndSettle();
+        expect(find.text('Reset Password'), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField).last, 'a@b.com');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Cancel'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Reset Password'), findsNothing);
+        expect(tester.takeException(), isNull);
+      }
+    });
+
     testWidgets('shows Google sign-in button', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Google sign-in should be visible on all platforms
       expect(find.text('Google'), findsOneWidget);
     });
 
     testWidgets('sign in button exists and can be tapped', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Enter valid credentials
       await tester.enterText(
@@ -249,26 +225,14 @@ void main() {
     });
 
     testWidgets('displays eco icon in header', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Verify eco icon is displayed
       expect(find.byIcon(Icons.eco), findsOneWidget);
     });
 
     testWidgets('email field has email icon prefix', (tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          child: const LoginScreen(),
-          firebaseAuth: mockFirebaseAuth,
-          firestore: fakeFirestore,
-        ),
-      );
+      await pumpLogin(tester);
 
       // Verify email field has the correct prefix icon
       expect(find.byIcon(Icons.email_outlined), findsOneWidget);

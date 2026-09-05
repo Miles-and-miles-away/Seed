@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/constants/action_icons.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 
@@ -84,7 +86,14 @@ class ActionTile extends StatelessWidget {
                             child: Text(
                               badgeLabel,
                               style: theme.textTheme.labelSmall?.copyWith(
-                                color: contentColor,
+                                // Darkened: the raw category colour on
+                                // a tint of itself is about 1.5:1, so
+                                // the label washed out. The accent bar
+                                // and the icon keep the colour as it is.
+                                color: readableTextColor(
+                                  contentColor,
+                                  theme.brightness,
+                                ),
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLines: 1,
@@ -147,15 +156,7 @@ class ActionCard extends ConsumerWidget {
 
   /// Builds a row of small SDG badges showing which goals this action supports.
   Widget _buildSdgBadges(List<String> sdgNumbers, Map<int, SdgGoal> goalMap) {
-    // Parse and sort SDG numbers, limit to 4 visible badges
-    final parsedNumbers =
-        sdgNumbers
-            .map(int.tryParse)
-            .whereType<int>()
-            .where((n) => n >= 1 && n <= 17)
-            .toList()
-          ..sort();
-
+    final parsedNumbers = parsedSdgNumbers(sdgNumbers);
     final visibleCount = parsedNumbers.length > 4 ? 3 : parsedNumbers.length;
     final remainingCount = parsedNumbers.length - visibleCount;
 
@@ -165,52 +166,16 @@ class ActionCard extends ConsumerWidget {
       children: [
         for (var i = 0; i < visibleCount; i++) ...[
           if (i > 0) const SizedBox(width: 3),
-          _buildSdgBadge(parsedNumbers[i], goalMap),
+          sdgNumberBadge(
+            '${parsedNumbers[i]}',
+            goalMap[parsedNumbers[i]]?.color ?? Colors.grey,
+          ),
         ],
         if (remainingCount > 0) ...[
           const SizedBox(width: 3),
-          Container(
-            width: 18,
-            height: 18,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                '+$remainingCount',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 8,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          sdgNumberBadge('+$remainingCount', Colors.grey.shade400, fontSize: 8),
         ],
       ],
-    );
-  }
-
-  /// Builds a single SDG badge with the goal number and color.
-  Widget _buildSdgBadge(int sdgNumber, Map<int, SdgGoal> goalMap) {
-    final sdg = goalMap[sdgNumber];
-    final color = sdg?.color ?? Colors.grey;
-
-    return Container(
-      width: 18,
-      height: 18,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      child: Center(
-        child: Text(
-          '$sdgNumber',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 9,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,13 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 import 'package:seed_app/features/transport/data/models/journey_leg_model.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
@@ -18,32 +16,21 @@ import 'package:seed_app/features/transport/presentation/providers/transport_pro
 import 'package:seed_app/features/transport/presentation/widgets/city_pair_fields.dart';
 import 'package:seed_app/features/transport/presentation/widgets/occupancy_stepper.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
+import 'package:seed_app/shared/widgets/editor_sheet_actions.dart';
 
-/// Keeps the distance input to digits with at most one decimal
-/// separator; ',' is allowed because locale keypads emit it (the
-/// anchored pattern keeps the longest valid prefix).
-final _distanceInputFormatter = FilteringTextInputFormatter.allow(
-  RegExp(r'^\d*[.,]?\d*'),
-);
-
-/// Full-precision seed for the editable distance field. The display
-/// formatter (formatKmCompact) rounds to one decimal, which would
-/// silently truncate the value on an edit round-trip.
-String _distanceSeedText(double km) {
-  final text = km.toString();
-  return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
-}
-
-/// A leg, the option column it belongs to, and where it ends.
+/// A leg, the option column it belongs to, and its endpoints.
 ///
 /// [toCity] lets the screen chain the next leg's origin to this leg's
 /// destination, which is what makes a multi-stop journey (Tokyo ->
-/// Osaka -> Kobe) natural to enter one leg at a time.
+/// Osaka -> Kobe) natural to enter one leg at a time. [fromCity] lets
+/// it remember where a column's journey began, so the other column can
+/// be seeded with the same trip.
 class LegPlacement {
-  const LegPlacement(this.leg, this.option, {this.toCity});
+  const LegPlacement(this.leg, this.option, {this.fromCity, this.toCity});
 
   final JourneyLeg leg;
   final int option;
+  final City? fromCity;
   final City? toCity;
 }
 
@@ -96,9 +83,7 @@ class LegEditorSheet extends ConsumerStatefulWidget {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => LegEditorSheet(
         mode: mode,
         initialLeg: initialLeg,
@@ -132,7 +117,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     _distanceFocus.addListener(() => setState(() {}));
     final leg = widget.initialLeg;
     if (leg != null) {
-      _distanceController.text = _distanceSeedText(leg.distanceKm);
+      _distanceController.text = decimalSeedText(leg.distanceKm);
       _occupants = leg.occupants.clamp(1, max(1, widget.mode.maxOccupants));
     }
   }
@@ -192,21 +177,9 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     _distanceIsEstimate = true;
   }
 
-  /// The typed distance, or null when it is not a usable number.
-  ///
-  /// Locale keypads emit ',' as the decimal separator, so normalize
-  /// before parsing ("12,5" reads as 12.5). tryParse also accepts
-  /// "NaN" and "Infinity"; reject those and negatives too.
-  double? get _parsedKm {
-    final km = double.tryParse(
-      _distanceController.text.trim().replaceAll(',', '.'),
-    );
-    return (km == null || km.isNaN || km.isInfinite || km < 0) ? null : km;
-  }
-
   /// The leg as currently entered, for the live preview and the save.
   JourneyLeg? get _draftLeg {
-    final km = _parsedKm;
+    final km = parseDecimalInput(_distanceController.text);
     final mode = _effectiveMode;
     return km == null
         ? null
@@ -223,7 +196,10 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
       setState(() => _distanceInvalid = true);
       return;
     }
-    Navigator.pop(context, LegPlacement(leg, option, toCity: _to));
+    Navigator.pop(
+      context,
+      LegPlacement(leg, option, fromCity: _from, toCity: _to),
+    );
   }
 
   @override
@@ -246,7 +222,6 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
         !_distanceFocus.hasFocus &&
         _distanceController.text.trim().isEmpty;
     final draft = _draftLeg;
-    final fixed = widget.fixedOption;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -301,7 +276,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                inputFormatters: [_distanceInputFormatter],
+                inputFormatters: [decimalInputFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.transportDistanceLabel,
                   border: const OutlineInputBorder(),
@@ -335,57 +310,15 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
               // The factor line above is per vehicle and never moves
               // with occupancy; this is where adding a passenger
               // visibly divides the leg's footprint.
-              if (draft != null) ...[
-                const SizedBox(height: spacingSm),
-                Text(
-                  l10n.calculatorEntryPreview(
-                    formatCO2Compact(
-                      TransportCalculator.legCo2eGrams(mode, draft).round(),
-                    ),
-                  ),
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+              if (draft != null)
+                EntryPreviewLine(
+                  TransportCalculator.legCo2eGrams(mode, draft).round(),
                 ),
-              ],
               const SizedBox(height: spacingLg),
-              if (fixed != null)
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(l10n.buttonCancel),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () => _save(fixed),
-                        child: Text(l10n.buttonSave),
-                      ),
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionA),
-                        child: Text(l10n.calculatorAddToA),
-                      ),
-                    ),
-                    const SizedBox(width: spacingMd),
-                    Expanded(
-                      child: FilledButton.tonal(
-                        onPressed: () => _save(optionB),
-                        child: Text(l10n.calculatorAddToB),
-                      ),
-                    ),
-                  ],
-                ),
+              EditorSheetActions(
+                fixedOption: widget.fixedOption,
+                onSave: _save,
+              ),
             ],
           ),
         ),

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/shared/widgets/level_progress_bar.dart';
 
+import '../../helpers/test_helpers.dart';
+
 /// Helper to wrap the progress bar in proper layout constraints.
 Widget wrapProgressBar(LevelProgressBar progressBar) {
-  return MaterialApp(
-    home: Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(width: 300, child: progressBar),
-        ),
+  return createTestWidget(
+    scaffold: true,
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SizedBox(width: 300, child: progressBar),
       ),
     ),
   );

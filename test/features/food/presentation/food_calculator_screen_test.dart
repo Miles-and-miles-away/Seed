@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/food.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
+
+import '../../../helpers/test_helpers.dart';
 
 const _beef = FoodItem(
   id: 'beef',
@@ -28,23 +27,12 @@ const _beans = FoodItem(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() {
-    return ProviderScope(
-      overrides: [
-        foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
-      ],
-      child: const MaterialApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: FoodCalculatorScreen(),
-      ),
-    );
-  }
+  Widget buildApp() => createTestWidget(
+    overrides: [
+      foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
+    ],
+    child: const FoodCalculatorScreen(),
+  );
 
   /// Adds an ingredient through the shipped path: the per-column
   /// "Add ingredient" button opens the picker, and because the column
@@ -99,7 +87,10 @@ void main() {
       // them -- naming the dominant item read as an arbitrary pick.
       expect(find.text('Build both options to compare them'), findsNothing);
       expect(find.textContaining('less than Option B'), findsOneWidget);
-      expect(find.text('I chose Option A'), findsOneWidget);
+      expect(
+        find.text('Log Option A as a choice I took today'),
+        findsOneWidget,
+      );
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
@@ -107,7 +98,8 @@ void main() {
       tester,
     ) async {
       // Same item both sides, 200 g vs 220 g: a real 9.1% delta that
-      // the gate must refuse to call (RESEARCH_FOOD.md section 8
+      // the gate must refuse to call (the comparative-copy rule,
+      // PDR_FOOD_CALCULATOR.md
       // rule 4). Before the gate this shipped a verdict and a reward.
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
@@ -116,7 +108,7 @@ void main() {
 
       expect(find.textContaining('too close to call'), findsOneWidget);
       expect(find.textContaining('less than'), findsNothing);
-      expect(find.text('I chose Option A'), findsNothing);
+      expect(find.text('Log Option A as a choice I took today'), findsNothing);
     });
 
     testWidgets('removing an ingredient empties the column again', (

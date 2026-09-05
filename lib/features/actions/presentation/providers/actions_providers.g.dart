@@ -107,8 +107,14 @@ final class ActionLogDataSourceProvider
 String _$actionLogDataSourceHash() =>
     r'a52a90701437ce2029e9acacc2fbad2b90ccd47c';
 
+/// Kept alive: every caller only `read`s it, so as autoDispose it was
+/// disposed mid-build and the `ref.watch` after its awaits threw.
+
 @ProviderFor(actionLogRepository)
 final actionLogRepositoryProvider = ActionLogRepositoryProvider._();
+
+/// Kept alive: every caller only `read`s it, so as autoDispose it was
+/// disposed mid-build and the `ref.watch` after its awaits threw.
 
 final class ActionLogRepositoryProvider
     extends
@@ -120,6 +126,8 @@ final class ActionLogRepositoryProvider
     with
         $FutureModifier<ActionLogRepository>,
         $FutureProvider<ActionLogRepository> {
+  /// Kept alive: every caller only `read`s it, so as autoDispose it was
+  /// disposed mid-build and the `ref.watch` after its awaits threw.
   ActionLogRepositoryProvider._()
     : super(
         from: null,
@@ -357,7 +365,7 @@ final class SelectedCategoryProvider
   }
 }
 
-String _$selectedCategoryHash() => r'd4f7b106428b48065da9b81c72b3e8a222bb7a47';
+String _$selectedCategoryHash() => r'2e71491f4852b087bc7cafab5eb6431a4376232a';
 
 /// Currently selected action category for filtering.
 /// Null means "All" categories.
@@ -627,7 +635,7 @@ final class ActionsForDayProvider
   }
 }
 
-String _$actionsForDayHash() => r'830b0e7496f0b7dbc7c20a5289b67919d6bf4b46';
+String _$actionsForDayHash() => r'3eb187bd73992a585261c3b56d62c324a6cf2445';
 
 /// One-shot fetch of the logs for a single calendar day (used by the
 /// calendar's day-detail sheet; a range query instead of streaming
@@ -711,7 +719,7 @@ final class TodayActionsProvider
   }
 }
 
-String _$todayActionsHash() => r'd7a4647ca895c1c6e9a8d3a674d5d90b863b12ea';
+String _$todayActionsHash() => r'7a01ff39b62bcccf0b18ab003f186ffe77623970';
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -832,14 +840,23 @@ final class FilteredActionsProvider
 String _$filteredActionsHash() => r'd6e1da63de401f7dbc9d3f0be6bc4138a93e3174';
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 
 @ProviderFor(ActionLogNotifier)
 final actionLogProvider = ActionLogNotifierProvider._();
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 final class ActionLogNotifierProvider
     extends $NotifierProvider<ActionLogNotifier, AsyncValue<ActionLogResult?>> {
   /// Notifier that handles logging actions.
+  ///
+  /// Kept alive: nothing watches it, so as autoDispose it was disposed
+  /// mid-log, silently skipping the stats invalidation and the error state.
   ActionLogNotifierProvider._()
     : super(
         from: null,
@@ -867,9 +884,12 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'feb302d61620deb0913f70a1e47299e0a5f091f0';
+String _$actionLogNotifierHash() => r'8f05d092f4ef99ed357d54b0d5efba90eeb42a07';
 
 /// Notifier that handles logging actions.
+///
+/// Kept alive: nothing watches it, so as autoDispose it was disposed
+/// mid-log, silently skipping the stats invalidation and the error state.
 
 abstract class _$ActionLogNotifier
     extends $Notifier<AsyncValue<ActionLogResult?>> {
