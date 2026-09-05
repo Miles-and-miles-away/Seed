@@ -365,7 +365,7 @@ final class SelectedCategoryProvider
   }
 }
 
-String _$selectedCategoryHash() => r'd4f7b106428b48065da9b81c72b3e8a222bb7a47';
+String _$selectedCategoryHash() => r'2e71491f4852b087bc7cafab5eb6431a4376232a';
 
 /// Currently selected action category for filtering.
 /// Null means "All" categories.
@@ -635,7 +635,7 @@ final class ActionsForDayProvider
   }
 }
 
-String _$actionsForDayHash() => r'830b0e7496f0b7dbc7c20a5289b67919d6bf4b46';
+String _$actionsForDayHash() => r'3eb187bd73992a585261c3b56d62c324a6cf2445';
 
 /// One-shot fetch of the logs for a single calendar day (used by the
 /// calendar's day-detail sheet; a range query instead of streaming
@@ -719,7 +719,7 @@ final class TodayActionsProvider
   }
 }
 
-String _$todayActionsHash() => r'd7a4647ca895c1c6e9a8d3a674d5d90b863b12ea';
+String _$todayActionsHash() => r'7a01ff39b62bcccf0b18ab003f186ffe77623970';
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -884,7 +884,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'5d74ed45e1d5b5d608500e73e1b272f35647bf80';
+String _$actionLogNotifierHash() => r'8f05d092f4ef99ed357d54b0d5efba90eeb42a07';
 
 /// Notifier that handles logging actions.
 ///

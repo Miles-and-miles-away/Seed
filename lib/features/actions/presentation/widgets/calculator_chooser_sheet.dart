@@ -18,9 +18,7 @@ class CalculatorChooserSheet extends StatelessWidget {
     final route = await showModalBottomSheet<String>(
       context: context,
       showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
-      ),
+      shape: sheetShape,
       builder: (_) => const CalculatorChooserSheet(),
     );
     if (route != null && context.mounted) await context.push(route);
