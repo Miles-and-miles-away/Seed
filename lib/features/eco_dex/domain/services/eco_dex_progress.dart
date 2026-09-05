@@ -105,7 +105,7 @@ EcoDexProgress ecoDexProgressOf(EcoDexCondition condition, AppUserModel user) {
 
 EcoDexProgress _numeric({required int current, required int target}) =>
     EcoDexProgress(
-      current: current.clamp(0, target),
+      current: target <= 0 ? 0 : current.clamp(0, target),
       target: target,
       hasProgress: true,
     );
