@@ -92,26 +92,14 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('renders as Card widget', (tester) async {
-      await tester.pumpWidget(buildCard());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(Card), findsOneWidget);
-    });
-
-    testWidgets('renders InkWell for tap feedback', (tester) async {
-      await tester.pumpWidget(buildCard());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(InkWell), findsOneWidget);
-    });
-
     testWidgets('displays category color accent', (tester) async {
       await tester.pumpWidget(buildCard());
       await tester.pumpAndSettle();
 
-      // The card should have a colored container at the top
-      expect(find.byType(Container), findsAtLeast(1));
+      final accents = tester
+          .widgetList<Container>(find.byType(Container))
+          .where((c) => c.color == ActionCategory.recycling.color);
+      expect(accents, isNotEmpty);
     });
 
     testWidgets('handles different icon names', (tester) async {

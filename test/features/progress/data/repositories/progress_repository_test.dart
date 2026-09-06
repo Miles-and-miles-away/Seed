@@ -5,6 +5,8 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/data/repositories/progress_repository.dart';
 
+final _now = DateTime(2026, 6, 17, 12);
+
 void main() {
   late FakeFirebaseFirestore firestore;
   late ProgressRepository repository;
@@ -13,7 +15,7 @@ void main() {
 
   setUp(() {
     firestore = FakeFirebaseFirestore();
-    repository = ProgressRepository(firestore);
+    repository = ProgressRepository(firestore, clock: () => _now);
   });
 
   CollectionReference<Map<String, dynamic>> summariesCollection(String u) =>
@@ -46,7 +48,7 @@ void main() {
     });
 
     test('emits summary for today', () async {
-      final now = DateTime.now();
+      final now = _now;
       final todayId =
           '${now.year}'
           '-${now.month.toString().padLeft(2, '0')}'
@@ -163,7 +165,7 @@ void main() {
     });
 
     test('flags today and future days', () async {
-      final now = DateTime.now();
+      final now = _now;
       final data = await repository.getMonthCalendarData(
         userId: uid,
         year: now.year,

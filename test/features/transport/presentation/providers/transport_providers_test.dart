@@ -158,4 +158,20 @@ void main() {
       ]);
     });
   });
+
+  group('JourneyOptions index boundary', () {
+    test('an index equal to the leg count is ignored', () {
+      const only = JourneyLeg(modeId: 'a', distanceKm: 1);
+      const other = JourneyLeg(modeId: 'b', distanceKm: 2);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      container.read(journeyOptionsProvider.notifier)
+        ..addLeg(optionA, only)
+        ..updateLeg(optionA, 1, other)
+        ..removeLeg(optionA, 1);
+
+      expect(container.read(journeyOptionsProvider)[optionA], [only]);
+    });
+  });
 }

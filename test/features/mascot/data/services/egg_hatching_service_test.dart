@@ -43,15 +43,13 @@ void main() {
         expect(result.streakBroken, isFalse);
       });
 
-      test('first activity hatches if streak req is 1', () {
-        // Edge case: if eggHatchingStreakRequired were 1
+      test('first activity hatches only if a single day meets the bar', () {
         final egg = EggModel(receivedAt: now);
 
         final result = service.calculateEggStreakUpdate(egg, now);
 
-        // 1 >= 30 is false, so shouldn't hatch
-        expect(result.shouldHatch, isFalse);
         expect(result.newStreakDays, 1);
+        expect(result.shouldHatch, AppConstants.eggHatchingStreakRequired <= 1);
       });
 
       test('same day returns no change', () {
@@ -187,21 +185,22 @@ void main() {
       final speciesB = species('b');
       final speciesC = species('c');
 
-      test('prefers unevolved species', () {
+      test('prefers unevolved species once every species is owned', () {
+        // Every species owned, so the "unowned first" rule cannot apply
+        // and the fully-evolved filter decides.
         final owned = [
           const MascotModel(id: 'm1', speciesId: 'a', isFullyEvolved: true),
+          const MascotModel(id: 'm2', speciesId: 'b'),
+          const MascotModel(id: 'm3', speciesId: 'c'),
         ];
         final allSpecies = [speciesA, speciesB, speciesC];
 
-        // Run many times to verify never picks 'a'
         final results = <String>{};
-        for (var i = 0; i < 50; i++) {
-          final picked = service.selectHatchingSpecies(owned, allSpecies);
-          results.add(picked.id);
+        for (var i = 0; i < 60; i++) {
+          results.add(service.selectHatchingSpecies(owned, allSpecies).id);
         }
 
-        expect(results, isNot(contains('a')));
-        expect(results.length, greaterThanOrEqualTo(1));
+        expect(results, {'b', 'c'});
       });
 
       test('returns from all species when all evolved', () {
@@ -231,19 +230,28 @@ void main() {
         expect(allSpecies.map((s) => s.id), contains(picked.id));
       });
 
-      test('only unevolved mascots do not filter', () {
-        final owned = [const MascotModel(id: 'm1', speciesId: 'a')];
+      test('unevolved owned species all stay candidates', () {
+        final owned = [
+          const MascotModel(id: 'm1', speciesId: 'a'),
+          const MascotModel(id: 'm2', speciesId: 'b'),
+        ];
         final allSpecies = [speciesA, speciesB];
 
-        // All species are candidates since none fully evolved
         final results = <String>{};
-        for (var i = 0; i < 50; i++) {
-          final picked = service.selectHatchingSpecies(owned, allSpecies);
-          results.add(picked.id);
+        for (var i = 0; i < 60; i++) {
+          results.add(service.selectHatchingSpecies(owned, allSpecies).id);
         }
 
-        // Both species should be possible
-        expect(results.length, greaterThanOrEqualTo(1));
+        expect(results, {'a', 'b'});
+      });
+
+      test('never hatches a species that is not currently offered', () {
+        final locked = speciesA.copyWith(availability: 'locked');
+        final allSpecies = [locked, speciesB];
+
+        for (var i = 0; i < 30; i++) {
+          expect(service.selectHatchingSpecies([], allSpecies).id, 'b');
+        }
       });
 
       test('prefers a species the user owns none of', () {
@@ -328,5 +336,19 @@ void main() {
         expect(service.hasUnlockedNextSpecies(const [], all), isFalse);
       });
     });
+  });
+
+  test('a gap after a two-day egg streak counts as broken', () {
+    const service = EggHatchingService();
+    final egg = EggModel(
+      receivedAt: DateTime(2024, 6, 10),
+      hatchingStreakDays: 2,
+      lastHatchingActivityDate: DateTime(2024, 6, 11),
+    );
+
+    final result = service.calculateEggStreakUpdate(egg, DateTime(2024, 6, 15));
+
+    expect(result.newStreakDays, 1);
+    expect(result.streakBroken, isTrue);
   });
 }

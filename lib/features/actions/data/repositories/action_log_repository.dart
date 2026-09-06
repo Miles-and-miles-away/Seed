@@ -24,6 +24,7 @@ class ActionLogRepository {
     required this.multiDayChallengeTemplates,
     required this.mascotSpecies,
     this.eggHatchingService = const EggHatchingService(),
+    this.clock = DateTime.now,
   });
 
   final ActionLogRemoteDataSource dataSource;
@@ -32,6 +33,7 @@ class ActionLogRepository {
   final List<MultiDayChallengeTemplate> multiDayChallengeTemplates;
   final List<MascotSpeciesModel> mascotSpecies;
   final EggHatchingService eggHatchingService;
+  final DateTime Function() clock;
 
   /// Watches the most recent [limit] action logs for the user.
   Stream<List<ActionLogModel>> watchUserActionLogs(
@@ -63,7 +65,7 @@ class ActionLogRepository {
     required String languageCode,
     String? note,
   }) async {
-    final now = DateTime.now();
+    final now = clock();
     final todayKey = formatDateKey(now);
     final yesterdayKey = formatDateKey(previousCalendarDay(now));
     final userRef = firestore

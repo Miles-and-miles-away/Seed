@@ -153,4 +153,20 @@ void main() {
       );
     });
   });
+
+  group('range query ordering', () {
+    test('range results are newest first', () async {
+      await seedLog(userId, 'early', loggedAt: DateTime(2024, 6, 15, 8));
+      await seedLog(userId, 'late', loggedAt: DateTime(2024, 6, 15, 20));
+      await seedLog(userId, 'mid', loggedAt: DateTime(2024, 6, 15, 12));
+
+      final logs = await dataSource.getActionLogsForRange(
+        userId,
+        DateTime(2024, 6, 15),
+        DateTime(2024, 6, 16),
+      );
+
+      expect(logs.map((l) => l.id), ['late', 'mid', 'early']);
+    });
+  });
 }

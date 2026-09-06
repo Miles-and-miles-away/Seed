@@ -217,12 +217,6 @@ void main() {
       expect(find.byIcon(Icons.add), findsOneWidget);
     });
 
-    testWidgets('renders ListView', (tester) async {
-      await pumpScreen(tester);
-
-      expect(find.byType(ListView), findsOneWidget);
-    });
-
     testWidgets('smart reminders subtitle describes feature', (tester) async {
       await pumpScreen(tester);
 

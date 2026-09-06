@@ -9,6 +9,7 @@ import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Shows a single eco-fact and marks it read on open. Today's fact is
@@ -26,7 +27,8 @@ class EcoFactDetailScreen extends ConsumerStatefulWidget {
 class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
   bool _marked = false;
 
-  bool get _isToday => widget.dateKey == formatDateKey(DateTime.now());
+  bool get _isToday =>
+      widget.dateKey == formatDateKey(ref.read(clockProvider)());
 
   @override
   Widget build(BuildContext context) {

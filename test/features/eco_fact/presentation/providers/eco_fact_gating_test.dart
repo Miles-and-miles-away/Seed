@@ -5,11 +5,15 @@ import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
+
+final _now = DateTime(2026, 6, 17, 12);
+final _clock = clockProvider.overrideWithValue(() => _now);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final todayKey = formatDateKey(DateTime.now());
+  final todayKey = formatDateKey(_now);
 
   ProviderContainer createContainer({
     String challengeCompletedDate = '',
@@ -23,7 +27,10 @@ void main() {
     );
 
     final container = ProviderContainer(
-      overrides: [currentUserProvider.overrideWith((_) => Stream.value(user))],
+      overrides: [
+        _clock,
+        currentUserProvider.overrideWith((_) => Stream.value(user)),
+      ],
     )..listen(currentUserProvider, (_, _) {});
 
     return container;

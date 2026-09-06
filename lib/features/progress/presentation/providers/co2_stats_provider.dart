@@ -7,6 +7,7 @@ import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/domain/services/time_period_range.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'co2_stats_provider.g.dart';
 
@@ -34,7 +35,7 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
     );
   }
 
-  final now = DateTime.now();
+  final now = ref.watch(clockProvider)();
   final repository = ref.watch(progressRepositoryProvider);
 
   final int currentTotal;

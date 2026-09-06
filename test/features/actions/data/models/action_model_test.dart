@@ -218,4 +218,22 @@ void main() {
       });
     });
   });
+
+  group('ActionModel localized fallbacks', () {
+    const model = ActionModel(
+      id: 'walk',
+      nameEn: 'Walk',
+      nameJa: '',
+      category: 'transport',
+      points: 1,
+      descriptionEn: 'Leave the car',
+    );
+
+    test('an empty translation falls back to English', () {
+      expect(model.name('ja'), 'Walk');
+      expect(model.name('es'), 'Walk');
+      expect(model.description('ja'), 'Leave the car');
+      expect(model.description('es'), 'Leave the car');
+    });
+  });
 }

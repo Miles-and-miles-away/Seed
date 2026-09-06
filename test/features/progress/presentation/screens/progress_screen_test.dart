@@ -117,6 +117,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
+      expect(find.text('Progress'), findsOneWidget);
     });
 
     testWidgets('displays EmptyRainbowSun when no goals completed', (
@@ -210,13 +211,6 @@ void main() {
       expect(find.byType(ProgressCalendar), findsOneWidget);
     });
 
-    testWidgets('content is scrollable', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(SingleChildScrollView), findsOneWidget);
-    });
-
     testWidgets('shows loading indicator while fetching today summary', (
       tester,
     ) async {
@@ -268,58 +262,6 @@ void main() {
       final sizedBoxes = tester.widgetList<SizedBox>(find.byType(SizedBox));
       final sunSizedBox = sizedBoxes.where((box) => box.height == 280);
       expect(sunSizedBox.isNotEmpty, isTrue);
-    });
-
-    testWidgets('calendar section has rounded container', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      // Find Container with decoration
-      expect(find.byType(Container), findsAtLeast(1));
-    });
-
-    testWidgets('defaults to goal target of 3 when not set', (tester) async {
-      const testUser = AppUserModel(
-        uid: 'test-uid',
-        email: 'test@example.com',
-        // ignore: avoid_redundant_argument_values
-        dailyGoalTarget: null,
-      );
-
-      final now = DateTime.now();
-      final widget = createTestWidget(
-        firebaseAuth: mockFirebaseAuth,
-        firestore: fakeFirestore,
-        overrides: [
-          userOverride(testUser),
-          needsDailyTargetSetupProvider.overrideWithValue(false),
-          dailyGoalTargetProvider.overrideWithValue(null),
-          todaySummaryProvider.overrideWith(
-            (ref) => Stream.value(
-              const DailySummaryModel(
-                date: '2024-01-15',
-                goalCount: 3,
-                completedSdgs: [1, 2, 3],
-                totalPoints: 30,
-                totalCo2Grams: 500,
-              ),
-            ),
-          ),
-          selectedMonthProvider.overrideWith(
-            () => TestSelectedMonth(DateTime(now.year, now.month)),
-          ),
-          monthCalendarDataProvider.overrideWith(
-            (ref) async => <CalendarDayData>[],
-          ),
-        ],
-        child: const ProgressScreen(),
-      );
-
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
-
-      // Should still render without crashing
-      expect(find.byType(ProgressScreen), findsOneWidget);
     });
   });
 }

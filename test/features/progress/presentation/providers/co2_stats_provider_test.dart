@@ -10,6 +10,7 @@ import 'package:seed_app/features/progress/data/repositories/progress_repository
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -19,12 +20,15 @@ List<Override> _overrides(
   FakeFirebaseFirestore firestore, [
   AppUserModel? user,
 ]) => [
+  _clock,
   userOverride(user),
   // The stats provider keys on the user id, not the whole doc.
   userIdProvider.overrideWithValue(user?.uid),
   // Replace the repository so it reads from fake firestore instead
   // of the FirebaseFirestore.instance the production provider uses.
-  progressRepositoryProvider.overrideWith((_) => ProgressRepository(firestore)),
+  progressRepositoryProvider.overrideWith(
+    (_) => ProgressRepository(firestore, clock: () => _now),
+  ),
 ];
 
 CollectionReference<Map<String, dynamic>> _summariesCollection(
@@ -52,6 +56,9 @@ Future<void> _seedSummary(
   });
 }
 
+final _now = DateTime(2026, 6, 17, 12);
+final _clock = clockProvider.overrideWithValue(() => _now);
+
 void main() {
   group('co2StatsProvider', () {
     test('returns zeros when user is null', () async {
@@ -69,7 +76,7 @@ void main() {
 
     test("today sums today's daily summary", () async {
       final firestore = FakeFirebaseFirestore();
-      await _seedSummary(firestore, DateTime.now(), 1500);
+      await _seedSummary(firestore, _now, 1500);
 
       final c = await pumpedContainer(
         _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
@@ -82,7 +89,7 @@ void main() {
 
     test("today comparison reads yesterday's total", () async {
       final firestore = FakeFirebaseFirestore();
-      final now = DateTime.now();
+      final now = _now;
       final yesterday = now.subtract(const Duration(days: 1));
       await _seedSummary(firestore, now, 2300);
       await _seedSummary(firestore, yesterday, 2000);
@@ -102,7 +109,7 @@ void main() {
 
     test('percentChange is 0 when previous total is 0', () async {
       final firestore = FakeFirebaseFirestore();
-      await _seedSummary(firestore, DateTime.now(), 500);
+      await _seedSummary(firestore, _now, 500);
 
       final c = await pumpedContainer(
         _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
@@ -116,13 +123,26 @@ void main() {
       expect(stats.hasComparison, isFalse);
     });
 
-    test('thisWeek sums daily summaries across the current week', () async {
+    test('thisWeek sums only the Monday-to-Sunday week', () async {
       final firestore = FakeFirebaseFirestore();
-      final now = DateTime.now();
-      // Seed today and a few days back to land within the current
-      // Mon-Sun week regardless of which day "today" is.
+      final now = _now;
+      final weekStart = DateTime(
+        now.year,
+        now.month,
+        now.day - (now.weekday - 1),
+      );
       await _seedSummary(firestore, now, 100);
-      await _seedSummary(firestore, now.subtract(const Duration(days: 1)), 200);
+      // Last week's Sunday and next week's Monday sit just outside.
+      await _seedSummary(
+        firestore,
+        DateTime(weekStart.year, weekStart.month, weekStart.day - 1),
+        200,
+      );
+      await _seedSummary(
+        firestore,
+        DateTime(weekStart.year, weekStart.month, weekStart.day + 7),
+        500,
+      );
 
       final c = await pumpedContainer(
         _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
@@ -130,17 +150,15 @@ void main() {
 
       final stats = await c.read(co2StatsProvider(TimePeriod.thisWeek).future);
 
-      // Both seeded days could fall within this week or one in last week
-      // depending on weekday. The total is at least 100 (today) and at
-      // most 300 (today + yesterday).
-      expect(stats.totalGrams, anyOf(100, 300));
+      expect(stats.totalGrams, 100);
+      expect(stats.previousTotalGrams, 200);
     });
 
     test('allTime reads user.totalCo2Grams and has zero previous', () async {
       final firestore = FakeFirebaseFirestore();
       // Seed some summaries that should NOT be summed for allTime --
       // user.totalCo2Grams is the source of truth.
-      await _seedSummary(firestore, DateTime.now(), 999);
+      await _seedSummary(firestore, _now, 999);
 
       final c = await pumpedContainer(
         _overrides(
@@ -155,5 +173,20 @@ void main() {
       expect(stats.previousTotalGrams, 0);
       expect(stats.hasComparison, isFalse);
     });
+  });
+
+  test('a one-gram previous total still yields a percent change', () async {
+    final firestore = FakeFirebaseFirestore();
+    await _seedSummary(firestore, _now, 3);
+    await _seedSummary(firestore, _now.subtract(const Duration(days: 1)), 1);
+    final c = await pumpedContainer(
+      _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
+    );
+
+    final stats = await c.read(co2StatsProvider(TimePeriod.today).future);
+
+    expect(stats.previousTotalGrams, 1);
+    expect(stats.percentChange, 200);
+    expect(stats.hasComparison, isTrue);
   });
 }

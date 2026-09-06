@@ -8,6 +8,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'eco_fact_providers.g.dart';
 
@@ -21,8 +22,8 @@ Future<List<EcoFact>> ecoFacts(Ref ref) => loadEcoFacts();
 /// Today's eco-fact based on the day of year.
 @riverpod
 Future<EcoFact?> todayEcoFact(Ref ref) async {
+  final today = dayOfYear(ref.watch(clockProvider)());
   final facts = await ref.watch(ecoFactsProvider.future);
-  final today = dayOfYear(DateTime.now());
   // OrNull: a malformed data edit must not throw on the home screen.
   return facts.firstWhereOrNull((fact) => fact.dayOfYear == today);
 }
@@ -31,7 +32,8 @@ Future<EcoFact?> todayEcoFact(Ref ref) async {
 @riverpod
 bool isTodayFactViewed(Ref ref) {
   final user = ref.watch(currentUserProvider).value;
-  return user?.viewedFactDates.contains(formatDateKey(DateTime.now())) ?? false;
+  final todayKey = formatDateKey(ref.watch(clockProvider)());
+  return user?.viewedFactDates.contains(todayKey) ?? false;
 }
 
 /// Whether the eco-fact is locked behind challenge completion.
@@ -70,14 +72,13 @@ class EcoFactInboxItem {
 @riverpod
 Future<List<EcoFactInboxItem>> ecoFactInbox(Ref ref) async {
   final user = ref.watch(currentUserProvider).value;
-  final facts = await ref.watch(ecoFactsProvider.future);
   final isLockedToday = ref.watch(isEcoFactLockedProvider);
+  final todayKey = formatDateKey(ref.watch(clockProvider)());
+  final facts = await ref.watch(ecoFactsProvider.future);
 
   final factsByDay = {for (final f in facts) f.dayOfYear: f};
   final viewedKeys = user?.viewedFactDates.toSet() ?? const <String>{};
   final unlockedKeys = user?.unlockedFactDates.toSet() ?? const <String>{};
-
-  final todayKey = formatDateKey(DateTime.now());
 
   // Union of every dateKey that should surface in the inbox: today
   // always, plus any past date that was unlocked or viewed.

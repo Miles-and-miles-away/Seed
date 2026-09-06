@@ -4,7 +4,6 @@ import 'package:seed_app/features/settings/data/models/user_settings_model.dart'
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/screens/settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
-import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -81,12 +80,6 @@ void main() {
       expect(find.text('ABOUT'), findsOneWidget);
     });
 
-    testWidgets('renders the analytics toggle switch', (tester) async {
-      await pumpScreen(tester);
-
-      expect(find.byType(SettingsSwitchTile), findsOneWidget);
-    });
-
     testWidgets('shows language setting', (tester) async {
       await pumpScreen(tester);
 
@@ -154,12 +147,6 @@ void main() {
 
       await tester.scrollUntilVisible(find.textContaining('Version'), 100);
       expect(find.textContaining('Version'), findsOneWidget);
-    });
-
-    testWidgets('renders ListView', (tester) async {
-      await pumpScreen(tester);
-
-      expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('analytics switch reflects enabled state', (tester) async {

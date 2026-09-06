@@ -1,81 +1,102 @@
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
 
+import '../../../../helpers/test_helpers.dart';
+
 void main() {
-  group('StreakMilestoneDialog widget properties', () {
-    test('weekNumber is stored correctly', () {
-      const dialog = StreakMilestoneDialog(
-        weekNumber: 5,
-        totalDays: 35,
-        onDismiss: _emptyCallback,
-      );
+  late FakeFirebaseFirestore firestore;
 
-      expect(dialog.weekNumber, 5);
-    });
-
-    test('totalDays is stored correctly', () {
-      const dialog = StreakMilestoneDialog(
-        weekNumber: 5,
-        totalDays: 35,
-        onDismiss: _emptyCallback,
-      );
-
-      expect(dialog.totalDays, 35);
-    });
-
-    test('onDismiss callback is stored', () {
-      var called = false;
-      final dialog = StreakMilestoneDialog(
-        weekNumber: 1,
-        totalDays: 7,
-        onDismiss: () => called = true,
-      );
-
-      dialog.onDismiss();
-      expect(called, isTrue);
-    });
-
-    test('creates ConsumerStatefulWidget', () {
-      const dialog = StreakMilestoneDialog(
-        weekNumber: 1,
-        totalDays: 7,
-        onDismiss: _emptyCallback,
-      );
-
-      expect(dialog, isA<StatefulWidget>());
-    });
-
-    test('accepts different week numbers', () {
-      for (final week in [1, 2, 3, 4, 8, 12, 26, 52]) {
-        final dialog = StreakMilestoneDialog(
-          weekNumber: week,
-          totalDays: week * 7,
-          onDismiss: _emptyCallback,
-        );
-
-        expect(dialog.weekNumber, week);
-        expect(dialog.totalDays, week * 7);
-      }
-    });
-
-    test('handles large week numbers', () {
-      const dialog = StreakMilestoneDialog(
-        weekNumber: 100,
-        totalDays: 700,
-        onDismiss: _emptyCallback,
-      );
-
-      expect(dialog.weekNumber, 100);
-      expect(dialog.totalDays, 700);
+  setUp(() async {
+    firestore = FakeFirebaseFirestore();
+    await firestore.collection(AppConstants.collectionUsers).doc('u').set({
+      'uid': 'u',
+      AppConstants.fieldSettings: <String, dynamic>{},
     });
   });
 
-  group('showStreakMilestoneCelebration function', () {
-    test('is callable', () {
-      expect(showStreakMilestoneCelebration, isA<Function>());
-    });
+  Future<void> pumpDialog(
+    WidgetTester tester, {
+    required VoidCallback onDismiss,
+  }) async {
+    await tester.pumpWidget(
+      createTestWidget(
+        firestore: firestore,
+        overrides: [
+          userOverride(const AppUserModel(uid: 'u', email: 'e')),
+          // No mascot art: keeps Rive out of the test.
+          activeMascotAssetPathProvider.overrideWith((_) => null),
+          activeStageDataProvider.overrideWith((_) => null),
+        ],
+        child: StreakMilestoneDialog(
+          weekNumber: 2,
+          totalDays: 14,
+          onDismiss: onDismiss,
+        ),
+      ),
+    );
+    // The shell keeps the user stream alive app-wide.
+    ProviderScope.containerOf(
+      tester.element(find.byType(StreakMilestoneDialog)),
+    ).listen(currentUserProvider, (_, _) {});
+  }
+
+  // Drops the looping confetti, then flushes flutter_animate's timers.
+  Future<void> tearDownTree(WidgetTester tester) async {
+    await tester.pumpWidget(const SizedBox.shrink());
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+  }
+
+  testWidgets('reveals the copy first and the button afterwards', (
+    tester,
+  ) async {
+    await pumpDialog(tester, onDismiss: () {});
+    expect(find.text('Amazing!'), findsNothing);
+
+    await tester.pump(durationNormal);
+    expect(find.text('Amazing!'), findsOneWidget);
+    expect(find.text('2 Week Streak!'), findsOneWidget);
+    expect(
+      find.text("You've logged actions for 14 days in a row!"),
+      findsOneWidget,
+    );
+    expect(find.text('Continue'), findsNothing);
+
+    await tester.pump(durationCelebration);
+    expect(find.text('Continue'), findsOneWidget);
+
+    await tearDownTree(tester);
+  });
+
+  testWidgets('Continue marks the week seen, then dismisses', (tester) async {
+    var dismissed = false;
+    await pumpDialog(tester, onDismiss: () => dismissed = true);
+    await tester.pump(durationNormal);
+    await tester.pump(durationCelebration);
+
+    await tester.tap(find.text('Continue'));
+    for (var i = 0; i < 6; i++) {
+      await tester.pump();
+    }
+
+    expect(dismissed, isTrue);
+    final doc = await firestore
+        .collection(AppConstants.collectionUsers)
+        .doc('u')
+        .get();
+    final settings = doc.data()![AppConstants.fieldSettings] as Map;
+    final seen = settings[AppConstants.fieldSeenStreakMilestones] as Map;
+    expect(seen['2'], isTrue);
+
+    await tearDownTree(tester);
   });
 }
-
-void _emptyCallback() {}

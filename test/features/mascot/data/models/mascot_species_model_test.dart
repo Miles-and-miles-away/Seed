@@ -330,4 +330,29 @@ void main() {
       });
     });
   });
+
+  group('localized fallbacks', () {
+    test('an empty translation falls back to English', () {
+      const stage = EvolutionStageModel(
+        level: 1,
+        assetPath: 'a',
+        nameEn: 'Seed',
+        nameJa: '',
+      );
+      const species = MascotSpeciesModel(
+        id: 's',
+        nameEn: 'Sprout',
+        nameJa: '',
+        descriptionEn: 'Grows fast',
+        descriptionJa: '',
+        evolutionStages: [stage],
+      );
+
+      expect(species.name('ja'), 'Sprout');
+      expect(species.name('es'), 'Sprout');
+      expect(species.description('es'), 'Grows fast');
+      expect(stage.name('ja'), 'Seed');
+      expect(stage.name('es'), 'Seed');
+    });
+  });
 }
