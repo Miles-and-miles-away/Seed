@@ -5,6 +5,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/home/presentation/providers/home_providers.dart';
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -104,12 +105,14 @@ void main() {
     });
 
     testWidgets('displays SDG carousel', (tester) async {
+      // Tall viewport: the carousel sits below the fold of a phone frame.
+      sizeViewport(tester);
       await pumpHomeScreen(tester);
 
       // The SDG carousel should be present (contains SDG items)
       // Looking for SDG goal indicators - there should be 17 goals
       // At least some should be visible in the carousel
-      expect(find.byType(CustomScrollView), findsOneWidget);
+      expect(find.byType(SdgCarousel), findsOneWidget);
 
       await disposeAndFlush(tester);
     });

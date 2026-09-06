@@ -18,7 +18,8 @@ class UserRemoteDataSource {
   // Resolved lazily so constructing the data source (e.g. in tests)
   // does not require an initialized Firebase app.
   FirebaseFunctions get _functions =>
-      _functionsOverride ?? FirebaseFunctions.instance;
+      _functionsOverride ??
+      FirebaseFunctions.instanceFor(region: AppConstants.functionsRegion);
 
   CollectionReference<Map<String, dynamic>> get _usersCollection =>
       _firestore.collection(AppConstants.collectionUsers);

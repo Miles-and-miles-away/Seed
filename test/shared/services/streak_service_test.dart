@@ -216,4 +216,66 @@ void main() {
       });
     });
   });
+
+  group('streak boundaries', () {
+    test('displayedStreak is 0 after a gap of exactly two days', () {
+      expect(
+        displayedStreak(
+          storedStreak: 6,
+          lastActionDate: DateTime(2026, 6, 11, 23),
+          now: DateTime(2026, 6, 13),
+        ),
+        0,
+      );
+    });
+
+    test('day 8 does not re-fire the week-one milestone', () {
+      final result = calculateStreakUpdate(
+        lastActionDate: DateTime(2026, 1, 26),
+        currentStreak: 7,
+        longestStreak: 7,
+        now: DateTime(2026, 1, 27),
+      );
+
+      expect(result.currentStreak, 8);
+      expect(result.crossedMilestoneWeek, isNull);
+    });
+
+    test('the same-day path never reports a milestone', () {
+      final result = calculateStreakUpdate(
+        lastActionDate: DateTime(2026, 1, 27, 8),
+        currentStreak: 13,
+        longestStreak: 13,
+        now: DateTime(2026, 1, 27, 20),
+      );
+
+      expect(result.currentStreak, 13);
+      expect(result.crossedMilestoneWeek, isNull);
+    });
+  });
+
+  group('streak edge values', () {
+    test('a gap after a two-day streak counts as broken', () {
+      final result = calculateStreakUpdate(
+        lastActionDate: DateTime(2026, 1, 20),
+        currentStreak: 2,
+        longestStreak: 2,
+        now: DateTime(2026, 1, 27),
+      );
+
+      expect(result.currentStreak, 1);
+      expect(result.streakWasBroken, isTrue);
+    });
+
+    test('a same-day action repairs a stored streak of 0 to 1', () {
+      final result = calculateStreakUpdate(
+        lastActionDate: DateTime(2026, 1, 27, 8),
+        currentStreak: 0,
+        longestStreak: 0,
+        now: DateTime(2026, 1, 27, 20),
+      );
+
+      expect(result.currentStreak, 1);
+    });
+  });
 }

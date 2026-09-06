@@ -1,9 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -26,6 +30,8 @@ ActionModel _a({
   relatedSdgs: sdgs,
   descriptionEn: desc,
 );
+
+class _MockRepository extends Mock implements ActionLogRepository {}
 
 void main() {
   final actions = [
@@ -232,6 +238,59 @@ void main() {
         'bike',
         'walk',
       ]);
+    });
+  });
+
+  group('log streams', () {
+    final now = DateTime(2026, 6, 17, 15, 30);
+    late _MockRepository repo;
+
+    setUp(() {
+      repo = _MockRepository();
+      when(
+        () => repo.watchActionLogsForRange(any(), any(), any()),
+      ).thenAnswer((_) => Stream.value(const []));
+      when(
+        () => repo.watchUserActionLogs(any(), limit: any(named: 'limit')),
+      ).thenAnswer((_) => Stream.value(const []));
+    });
+
+    Future<ProviderContainer> streamContainer() => pumpedContainer([
+      clockProvider.overrideWithValue(() => now),
+      userIdProvider.overrideWithValue('u'),
+      actionLogRepositoryProvider.overrideWith((_) async => repo),
+    ], warm: userIdProvider);
+
+    test('todayActions queries from local midnight to the next', () async {
+      final c = await streamContainer();
+      c.listen(todayActionsProvider, (_, _) {});
+
+      await c.read(todayActionsProvider.future);
+
+      verify(
+        () => repo.watchActionLogsForRange(
+          'u',
+          DateTime(2026, 6, 17),
+          DateTime(2026, 6, 18),
+        ),
+      ).called(1);
+    });
+
+    test('userActionLogs grows by one page per loadMore', () async {
+      final c = await streamContainer();
+      c.listen(userActionLogsProvider, (_, _) {});
+
+      await c.read(userActionLogsProvider.future);
+      verify(
+        () => repo.watchUserActionLogs('u', limit: actionHistoryPageSize),
+      ).called(1);
+
+      c.read(actionHistoryPagesProvider.notifier).loadMore();
+      await Future<void>.delayed(Duration.zero);
+      await c.read(userActionLogsProvider.future);
+      verify(
+        () => repo.watchUserActionLogs('u', limit: 2 * actionHistoryPageSize),
+      ).called(1);
     });
   });
 }

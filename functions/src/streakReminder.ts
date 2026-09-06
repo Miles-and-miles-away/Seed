@@ -231,7 +231,7 @@ export const sendStreakReminders = onSchedule(
     timeZone: 'UTC',
     retryCount: 1,
     memory: '256MiB',
-    region: 'us-central1',
+    region: 'asia-northeast1',
     maxInstances: 1,
   },
   async () => {

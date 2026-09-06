@@ -100,6 +100,8 @@ final _species = [
   ),
 ];
 
+final _now = DateTime(2026, 6, 17, 12);
+
 void main() {
   late FakeFirebaseFirestore firestore;
   late ActionLogRepository repository;
@@ -112,6 +114,7 @@ void main() {
       dailyChallengeTemplates: const [_transportDaily],
       multiDayChallengeTemplates: const [_mdTransport, _mdAnyCategory],
       mascotSpecies: _species,
+      clock: () => _now,
     );
   });
 
@@ -221,7 +224,7 @@ void main() {
 
   group('logAction — streak behaviour', () {
     test('same-day action does not increment streak', () async {
-      final now = DateTime.now();
+      final now = _now;
       await seedUser({
         AppConstants.fieldLastActionDate: Timestamp.fromDate(now),
         AppConstants.fieldCurrentStreak: 5,
@@ -239,7 +242,7 @@ void main() {
     });
 
     test('consecutive day increments streak', () async {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       await seedUser({
         AppConstants.fieldLastActionDate: Timestamp.fromDate(yesterday),
         AppConstants.fieldCurrentStreak: 5,
@@ -259,7 +262,7 @@ void main() {
     });
 
     test('crossing week-one milestone surfaces in result', () async {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       await seedUser({
         AppConstants.fieldLastActionDate: Timestamp.fromDate(yesterday),
         AppConstants.fieldCurrentStreak: 6,
@@ -278,7 +281,7 @@ void main() {
     });
 
     test('gap day resets streak to 1', () async {
-      final threeDaysAgo = DateTime.now().subtract(const Duration(days: 3));
+      final threeDaysAgo = _now.subtract(const Duration(days: 3));
       await seedUser({
         AppConstants.fieldLastActionDate: Timestamp.fromDate(threeDaysAgo),
         AppConstants.fieldCurrentStreak: 10,
@@ -493,7 +496,7 @@ void main() {
 
     test('does not reset pending discovery when already flagged', () async {
       final alreadySince = Timestamp.fromDate(
-        DateTime.now().subtract(const Duration(days: 2)),
+        _now.subtract(const Duration(days: 2)),
       );
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
@@ -516,7 +519,7 @@ void main() {
 
   group('logAction — egg hatching', () {
     test('egg streak increments on consecutive day', () async {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       await seedUser({
         AppConstants.fieldEgg: {
           'receivedAt': Timestamp.fromDate(yesterday),
@@ -541,7 +544,7 @@ void main() {
     });
 
     test('egg hatches at 30-day streak and adds mascot', () async {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       final existingMascot = mascot(id: 'm1', isFullyEvolved: true);
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm1',
@@ -569,7 +572,7 @@ void main() {
     });
 
     test('hatched species prefers one not already fully evolved', () async {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       // Seed user with species 'seed' already fully evolved.
       // Only 'leaf' should remain as a valid hatching candidate.
       await seedUser({
@@ -611,13 +614,13 @@ void main() {
       expect(result.challengeCompleted, isTrue);
       expect(
         data[AppConstants.fieldChallengeCompletedDate],
-        formatDateKey(DateTime.now()),
+        formatDateKey(_now),
       );
       expect(data[AppConstants.fieldChallengeStreak], 1);
       expect(data[AppConstants.fieldChallengesCompleted], 1);
       expect(
         data[AppConstants.fieldUnlockedFactDates],
-        contains(formatDateKey(DateTime.now())),
+        contains(formatDateKey(_now)),
       );
     });
 
@@ -646,7 +649,7 @@ void main() {
     });
 
     test('does not re-complete once marked for today', () async {
-      final todayKey = formatDateKey(DateTime.now());
+      final todayKey = formatDateKey(_now);
       await seedUser({
         AppConstants.fieldChallengeCompletedDate: todayKey,
         AppConstants.fieldChallengeStreak: 3,
@@ -667,7 +670,7 @@ void main() {
 
     test('yesterday completion continues the challenge streak', () async {
       final yesterdayKey = formatDateKey(
-        DateTime.now().subtract(const Duration(days: 1)),
+        _now.subtract(const Duration(days: 1)),
       );
       await seedUser({
         AppConstants.fieldChallengeCompletedDate: yesterdayKey,
@@ -685,7 +688,7 @@ void main() {
 
     test('gap in completion resets streak to 1', () async {
       final twoDaysAgoKey = formatDateKey(
-        DateTime.now().subtract(const Duration(days: 2)),
+        _now.subtract(const Duration(days: 2)),
       );
       await seedUser({
         AppConstants.fieldChallengeCompletedDate: twoDaysAgoKey,
@@ -733,7 +736,7 @@ void main() {
       AppConstants.fieldCurrentDay: currentDay,
       AppConstants.fieldTargetDays: target,
       AppConstants.fieldLastCompletionDate: lastDate,
-      AppConstants.fieldStartDate: formatDateKey(DateTime.now()),
+      AppConstants.fieldStartDate: formatDateKey(_now),
     };
 
     test('increments currentDay when matching category on new day', () async {
@@ -751,15 +754,12 @@ void main() {
           (await getUser()).data()![AppConstants.fieldActiveMultiDayChallenge]
               as Map<String, dynamic>;
       expect(md[AppConstants.fieldCurrentDay], 1);
-      expect(
-        md[AppConstants.fieldLastCompletionDate],
-        formatDateKey(DateTime.now()),
-      );
+      expect(md[AppConstants.fieldLastCompletionDate], formatDateKey(_now));
     });
 
     test('completes and clears challenge at target days', () async {
       final yesterdayKey = formatDateKey(
-        DateTime.now().subtract(const Duration(days: 1)),
+        _now.subtract(const Duration(days: 1)),
       );
       await seedUser({
         AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
@@ -787,7 +787,7 @@ void main() {
 
     test('gap day resets currentDay to 1', () async {
       final threeDaysAgoKey = formatDateKey(
-        DateTime.now().subtract(const Duration(days: 3)),
+        _now.subtract(const Duration(days: 3)),
       );
       await seedUser({
         AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
@@ -809,7 +809,7 @@ void main() {
     });
 
     test('same-day action does not double-count', () async {
-      final todayKey = formatDateKey(DateTime.now());
+      final todayKey = formatDateKey(_now);
       await seedUser({
         AppConstants.fieldActiveMultiDayChallenge: activeMultiDay(
           currentDay: 1,
@@ -917,7 +917,7 @@ void main() {
           .collection(AppConstants.collectionUsers)
           .doc(_uid)
           .collection(AppConstants.collectionDailySummaries)
-          .doc(formatDateKey(DateTime.now()))
+          .doc(formatDateKey(_now))
           .get();
       expect(doc.exists, isTrue);
       return doc.data()!;
@@ -933,7 +933,7 @@ void main() {
       );
 
       final data = await getSummary();
-      expect(data[AppConstants.fieldDate], formatDateKey(DateTime.now()));
+      expect(data[AppConstants.fieldDate], formatDateKey(_now));
       expect(data[AppConstants.fieldGoalCount], 1);
       expect(data[AppConstants.fieldTotalPoints], 20);
       expect(data[AppConstants.fieldTotalCo2Grams], 500);
@@ -1023,7 +1023,7 @@ void main() {
     test('disposes egg instead of hatching at the mascot cap', () async {
       // Hatching a 21st mascot would violate the security rules'
       // cap and reject every future log.
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final yesterday = _now.subtract(const Duration(days: 1));
       await seedUser({
         AppConstants.fieldActiveMascotId: 'm0',
         AppConstants.fieldMascots: List.generate(
@@ -1052,6 +1052,112 @@ void main() {
         data[AppConstants.fieldMascots] as List<dynamic>,
         hasLength(AppConstants.maxMascotsPerUser),
       );
+    });
+  });
+
+  group('logAction: result count, mascot CO2 and evolution boundary', () {
+    Future<Map<String, dynamic>> activeMascot() async =>
+        ((await getUser()).data()![AppConstants.fieldMascots] as List<dynamic>)
+                .first
+            as Map<String, dynamic>;
+
+    test('result reports the new total action count', () async {
+      await seedUser({AppConstants.fieldTotalActionsCount: 4});
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      expect(result.newTotalActionsCount, 5);
+    });
+
+    test('the active mascot accrues CO2 even once fully evolved', () async {
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [
+          {
+            ...mascot(id: 'm1', points: 9999, level: 50, isFullyEvolved: true),
+            AppConstants.fieldMascotCo2Grams: 100,
+          },
+        ],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final updated = await activeMascot();
+      expect(updated[AppConstants.fieldMascotCo2Grams], 600);
+      expect(updated[AppConstants.fieldMascotPoints], 9999);
+    });
+
+    test('reaching level 50 flags the mascot fully evolved', () async {
+      final justBelow =
+          calculatePointsForLevel(AppConstants.maxEvolutionLevel) -
+          _action.points;
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [
+          mascot(id: 'm1', points: justBelow, level: 49),
+        ],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final updated = await activeMascot();
+      expect(updated[AppConstants.fieldMascotLevel], 50);
+      expect(updated[AppConstants.fieldIsFullyEvolved], isTrue);
+    });
+
+    test('one point short of level 50 stays unevolved', () async {
+      final oneShort =
+          calculatePointsForLevel(AppConstants.maxEvolutionLevel) -
+          _action.points -
+          1;
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [
+          mascot(id: 'm1', points: oneShort, level: 49),
+        ],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final updated = await activeMascot();
+      expect(updated[AppConstants.fieldMascotLevel], 49);
+      expect(updated[AppConstants.fieldIsFullyEvolved], isFalse);
+    });
+
+    test('a legacy mascot without isFullyEvolved still levels', () async {
+      final legacy = mascot(id: 'm1', points: 90)
+        ..remove(AppConstants.fieldIsFullyEvolved);
+      await seedUser({
+        AppConstants.fieldActiveMascotId: 'm1',
+        AppConstants.fieldMascots: [legacy],
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final updated = await activeMascot();
+      expect(updated[AppConstants.fieldMascotPoints], 110);
+      expect(updated[AppConstants.fieldMascotLevel], 2);
+      expect(updated[AppConstants.fieldIsFullyEvolved], isFalse);
     });
   });
 }

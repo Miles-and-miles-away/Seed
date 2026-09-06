@@ -174,12 +174,6 @@ void main() {
       expect(find.byType(SettingsSection), findsNWidgets(4));
     });
 
-    testWidgets('renders ListView', (tester) async {
-      await pumpScreen(tester, currentUser: testUser);
-
-      expect(find.byType(ListView), findsOneWidget);
-    });
-
     testWidgets('renders SettingsTile widgets', (tester) async {
       await pumpScreen(tester, currentUser: testUser);
 

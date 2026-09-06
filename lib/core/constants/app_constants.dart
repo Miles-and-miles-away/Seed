@@ -12,6 +12,9 @@ abstract class AppConstants {
 
   // Firebase collections
   static const collectionUsers = 'users';
+
+  /// Cloud Functions region; matches the Firestore location.
+  static const functionsRegion = 'asia-northeast1';
   static const collectionActionLog = 'actionLog';
   static const collectionCustomActions = 'customActions';
   static const collectionActionLibrary = 'actionLibrary';

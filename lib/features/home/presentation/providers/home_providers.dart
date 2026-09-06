@@ -4,12 +4,14 @@ import 'package:seed_app/app/router.dart';
 
 part 'home_providers.g.dart';
 
-/// Emits an incrementing token each time the visible location *leaves* the
-/// Home tab's root route (`/home`) -- whether by switching tabs or by pushing
-/// a nested route (SDG detail, daily fact, challenges). Widgets such as the
-/// SDG carousel watch this so they reset their scroll position while Home is
-/// offscreen, leaving it already centered (no visible jump) the next time the
-/// kept-alive [IndexedStack] branch is shown.
+/// Emits an incrementing token each time the user switches away from the
+/// Home tab. Widgets such as the SDG carousel watch this so they reset their
+/// scroll position while Home is offscreen, leaving it already centered (no
+/// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
+///
+/// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
+/// count: go_router keeps the configuration uri at `/home` for imperative
+/// pushes, and popping back should return the user to the goal they tapped.
 @riverpod
 class HomeVisitSignal extends _$HomeVisitSignal {
   @override

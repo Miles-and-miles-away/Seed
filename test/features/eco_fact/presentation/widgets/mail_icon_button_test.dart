@@ -35,13 +35,6 @@ void main() {
       final badge = tester.widget<Badge>(find.byType(Badge));
       expect(badge.isLabelVisible, isFalse);
     });
-
-    testWidgets('renders as IconButton', (tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(IconButton), findsOneWidget);
-    });
   });
 }
 

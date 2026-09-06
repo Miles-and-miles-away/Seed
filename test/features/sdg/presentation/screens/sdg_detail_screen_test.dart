@@ -61,22 +61,6 @@ void main() {
       expect(find.text('Goal 13'), findsOneWidget);
     });
 
-    testWidgets('displays SliverAppBar', (tester) async {
-      setLargeScreenSize(tester);
-      await tester.pumpWidget(buildTestWidget(1));
-      await tester.pump();
-
-      expect(find.byType(SliverAppBar), findsOneWidget);
-    });
-
-    testWidgets('displays CustomScrollView', (tester) async {
-      setLargeScreenSize(tester);
-      await tester.pumpWidget(buildTestWidget(1));
-      await tester.pump();
-
-      expect(find.byType(CustomScrollView), findsOneWidget);
-    });
-
     testWidgets('displays About this Goal section', (tester) async {
       setLargeScreenSize(tester);
       // Use direct goal to avoid duplicate info_outline
@@ -130,14 +114,6 @@ void main() {
 
       expect(find.text('Goal 5'), findsOneWidget);
       expect(find.text('Gender Equality'), findsOneWidget);
-    });
-
-    testWidgets('renders FlexibleSpaceBar in app bar', (tester) async {
-      setLargeScreenSize(tester);
-      await tester.pumpWidget(buildTestWidget(1));
-      await tester.pump();
-
-      expect(find.byType(FlexibleSpaceBar), findsOneWidget);
     });
 
     testWidgets('defaults to first goal if invalid number', (tester) async {

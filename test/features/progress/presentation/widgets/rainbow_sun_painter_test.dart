@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/progress/presentation/widgets/rainbow_sun_painter.dart';
 
@@ -119,102 +120,110 @@ void main() {
     });
 
     group('paint', () {
-      testWidgets('renders CustomPaint with RainbowSunPainter', (tester) async {
+      RainbowSunPainter painter({
+        double completion = 0,
+        List<int> completed = const [],
+        double animation = 1,
+      }) => RainbowSunPainter(
+        completionRatio: completion,
+        completedSdgs: completed,
+        animationValue: animation,
+        sdgColors: _testColors,
+      );
+
+      /// A 300x300 canvas: max ball radius 75, minimum 15, centre (150, 150).
+      Future<RenderCustomPaint> pump(
+        WidgetTester tester,
+        RainbowSunPainter p,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: CustomPaint(
-                size: const Size(300, 300),
-                painter: RainbowSunPainter(
-                  completionRatio: 0.5,
-                  completedSdgs: const [1, 2, 3],
-                  animationValue: 1,
-                  sdgColors: _testColors,
-                ),
+            home: Center(
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: CustomPaint(painter: p),
               ),
             ),
           ),
         );
+        return tester.renderObject<RenderCustomPaint>(
+          find.byWidgetPredicate(
+            (w) => w is CustomPaint && w.painter is RainbowSunPainter,
+          ),
+        );
+      }
 
-        expect(find.byType(CustomPaint), findsAtLeast(1));
+      int drawPathCalls(RenderCustomPaint canvas) {
+        var paths = 0;
+        expect(
+          canvas,
+          paints..everything((method, _) {
+            if (method == #drawPath) paths++;
+            return true;
+          }),
+        );
+        return paths;
+      }
+
+      testWidgets('the ball rests at its minimum radius with no completion', (
+        tester,
+      ) async {
+        final canvas = await pump(tester, painter());
+
+        // Glow first (1.5x), then the ball itself.
+        expect(
+          canvas,
+          paints
+            ..circle(x: 150, y: 150, radius: 22.5)
+            ..circle(x: 150, y: 150, radius: 15),
+        );
       });
 
-      testWidgets('renders with zero completion', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: CustomPaint(
-                size: const Size(300, 300),
-                painter: RainbowSunPainter(
-                  completionRatio: 0,
-                  completedSdgs: const [],
-                  animationValue: 1,
-                  sdgColors: _testColors,
-                ),
-              ),
-            ),
-          ),
-        );
+      testWidgets('the ball reaches its maximum radius when complete', (
+        tester,
+      ) async {
+        final canvas = await pump(tester, painter(completion: 1));
 
-        expect(find.byType(CustomPaint), findsAtLeast(1));
+        expect(
+          canvas,
+          paints
+            ..circle(x: 150, y: 150, radius: 112.5)
+            ..circle(x: 150, y: 150, radius: 75),
+        );
       });
 
-      testWidgets('renders with full completion', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: CustomPaint(
-                size: const Size(300, 300),
-                painter: RainbowSunPainter(
-                  completionRatio: 1,
-                  completedSdgs: const [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17,
-                  ],
-                  animationValue: 1,
-                  sdgColors: _testColors,
-                ),
-              ),
-            ),
-          ),
+      testWidgets('growth follows the animation value', (tester) async {
+        final canvas = await pump(
+          tester,
+          painter(completion: 1, animation: 0.5),
         );
 
-        expect(find.byType(CustomPaint), findsAtLeast(1));
+        expect(
+          canvas,
+          paints
+            ..circle(x: 150, y: 150, radius: 67.5)
+            ..circle(x: 150, y: 150, radius: 45),
+        );
       });
 
-      testWidgets('renders with partial animation', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: CustomPaint(
-                size: const Size(300, 300),
-                painter: RainbowSunPainter(
-                  completionRatio: 0.5,
-                  completedSdgs: const [1, 5, 10],
-                  animationValue: 0.5,
-                  sdgColors: _testColors,
-                ),
-              ),
+      testWidgets('draws 17 segments plus one ray per completed SDG', (
+        tester,
+      ) async {
+        expect(drawPathCalls(await pump(tester, painter())), 17);
+        expect(
+          drawPathCalls(await pump(tester, painter(completed: [1, 5, 10]))),
+          20,
+        );
+        expect(
+          drawPathCalls(
+            await pump(
+              tester,
+              painter(completed: List.generate(17, (i) => i + 1)),
             ),
           ),
+          34,
         );
-
-        expect(find.byType(CustomPaint), findsAtLeast(1));
       });
     });
   });

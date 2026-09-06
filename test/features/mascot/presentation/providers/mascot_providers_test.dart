@@ -1,7 +1,12 @@
+import 'dart:async';
+
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -222,5 +227,222 @@ void main() {
         expect(c.read(stageLocalizedNameProvider('es')), 'Semilla');
       },
     );
+  });
+
+  group('MascotNotifier', () {
+    const stages = [
+      EvolutionStageModel(level: 1, assetPath: 'a/1', nameEn: '1', nameJa: ''),
+      EvolutionStageModel(level: 10, assetPath: 'a/2', nameEn: '2', nameJa: ''),
+      EvolutionStageModel(level: 25, assetPath: 'a/3', nameEn: '3', nameJa: ''),
+    ];
+    const species = [
+      MascotSpeciesModel(
+        id: 'seed',
+        nameEn: 'Seed',
+        nameJa: '',
+        descriptionEn: '',
+        descriptionJa: '',
+        evolutionStages: stages,
+      ),
+    ];
+    const m1 = MascotModel(
+      id: 'm1',
+      speciesId: 'seed',
+      name: 'One',
+      mascotLevel: 12,
+    );
+    const m2 = MascotModel(id: 'm2', speciesId: 'seed', name: 'Two');
+    const user = AppUserModel(
+      uid: 'u',
+      email: 'e',
+      mascots: [m1, m2],
+      activeMascotId: 'm2',
+      eggPendingDiscovery: true,
+    );
+
+    late FakeFirebaseFirestore firestore;
+
+    setUp(() async {
+      firestore = FakeFirebaseFirestore();
+      await firestore.collection(AppConstants.collectionUsers).doc('u').set({
+        'uid': 'u',
+        AppConstants.fieldMascots: [m1.toJson(), m2.toJson()],
+        AppConstants.fieldActiveMascotId: 'm2',
+        AppConstants.fieldEggPendingDiscovery: true,
+      });
+    });
+
+    Future<ProviderContainer> notifierContainer({
+      AppUserModel? signedIn = user,
+    }) async {
+      final c = await pumpedContainer([
+        userOverride(signedIn),
+        firestoreProvider.overrideWithValue(firestore),
+        mascotSpeciesDataProvider.overrideWith((_) async => species),
+      ]);
+      c
+        ..listen(allMascotsProvider, (_, _) {})
+        ..listen(activeMascotProvider, (_, _) {})
+        ..listen(mascotSpeciesDataProvider, (_, _) {});
+      await Future<void>.delayed(Duration.zero);
+      return c;
+    }
+
+    Future<Map<String, dynamic>> userDoc() async =>
+        (await firestore
+                .collection(AppConstants.collectionUsers)
+                .doc('u')
+                .get())
+            .data()!;
+
+    Future<Map<String, dynamic>> storedMascot(String id) async =>
+        ((await userDoc())[AppConstants.fieldMascots] as List<dynamic>)
+            .cast<Map<String, dynamic>>()
+            .singleWhere((m) => m[AppConstants.fieldId] == id);
+
+    test('activeMascot resolves activeMascotId among several', () async {
+      final c = await notifierContainer();
+
+      expect(c.read(activeMascotProvider).value?.id, 'm2');
+      expect(c.read(allMascotsProvider).value, hasLength(2));
+    });
+
+    test('renameMascot renames only the active mascot', () async {
+      final c = await notifierContainer();
+
+      await c.read(mascotProvider.notifier).renameMascot('Bud');
+
+      expect((await storedMascot('m2'))[AppConstants.fieldName], 'Bud');
+      expect((await storedMascot('m1'))[AppConstants.fieldName], 'One');
+      expect(c.read(mascotProvider).hasValue, isTrue);
+    });
+
+    test('switchActiveMascot writes the new active id', () async {
+      final c = await notifierContainer();
+
+      await c.read(mascotProvider.notifier).switchActiveMascot('m1');
+
+      expect((await userDoc())[AppConstants.fieldActiveMascotId], 'm1');
+    });
+
+    test('nameHatchedMascot names the mascot and makes it active', () async {
+      final c = await notifierContainer();
+
+      await c.read(mascotProvider.notifier).nameHatchedMascot('m1', 'Sprout');
+
+      expect((await storedMascot('m1'))[AppConstants.fieldName], 'Sprout');
+      expect((await userDoc())[AppConstants.fieldActiveMascotId], 'm1');
+    });
+
+    test('markEvolutionSeen stores the current stage', () async {
+      final c = await notifierContainer(
+        signedIn: user.copyWith(activeMascotId: 'm1'),
+      );
+      expect(c.read(activeMascotStageProvider), 2);
+
+      await c.read(mascotProvider.notifier).markEvolutionSeen();
+
+      expect((await storedMascot('m1'))[AppConstants.fieldLastSeenStage], 2);
+      expect((await storedMascot('m2'))[AppConstants.fieldLastSeenStage], 1);
+    });
+
+    test(
+      'acknowledgeEggDiscovery creates the egg and clears the flag',
+      () async {
+        final c = await notifierContainer();
+
+        await c.read(mascotProvider.notifier).acknowledgeEggDiscovery();
+
+        final doc = await userDoc();
+        expect(doc[AppConstants.fieldEgg], isA<Map<String, dynamic>>());
+        expect(doc[AppConstants.fieldEggPendingDiscovery], isFalse);
+      },
+    );
+
+    test('signed out: state errors and nothing is written', () async {
+      final c = await notifierContainer(signedIn: null);
+
+      await c.read(mascotProvider.notifier).switchActiveMascot('m1');
+
+      expect(c.read(mascotProvider).hasError, isTrue);
+      expect((await userDoc())[AppConstants.fieldActiveMascotId], 'm2');
+    });
+  });
+
+  group('animation triggers', () {
+    test('triggerBounce pulses true and resets after the instant', () async {
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      final seen = <bool>[];
+      c.listen(
+        mascotAnimationTriggerProvider,
+        (_, next) => seen.add(next),
+        fireImmediately: true,
+      );
+
+      c.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
+      expect(seen, [false, true]);
+
+      await Future<void>.delayed(durationInstant * 2);
+      expect(seen, [false, true, false]);
+    });
+
+    test('triggerSmile pulses true and resets after the instant', () async {
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      final seen = <bool>[];
+      c.listen(
+        mascotSmileTriggerProvider,
+        (_, next) => seen.add(next),
+        fireImmediately: true,
+      );
+
+      c.read(mascotSmileTriggerProvider.notifier).triggerSmile();
+      expect(seen, [false, true]);
+
+      await Future<void>.delayed(durationInstant * 2);
+      expect(seen, [false, true, false]);
+    });
+  });
+
+  group('fallbacks while loading or signed out', () {
+    test('hasMascot is false while the mascot list is loading', () async {
+      final c = await pumpedContainer([
+        allMascotsProvider.overrideWith(
+          (_) => StreamController<List<MascotModel>>().stream,
+        ),
+      ], warm: allMascotsProvider);
+
+      expect(c.read(hasMascotProvider), isFalse);
+    });
+
+    test('shouldShowEggDiscovery is false when signed out', () async {
+      final c = await _container();
+
+      expect(c.read(shouldShowEggDiscoveryProvider), isFalse);
+    });
+
+    test('hasNewEvolution is false without an active mascot', () async {
+      final c = await _container(
+        user: const AppUserModel(uid: 'u', email: 'e'),
+      );
+
+      expect(c.read(hasNewEvolutionProvider), isFalse);
+    });
+
+    test('activeMascotStage is 1 while species data is loading', () async {
+      final c = await pumpedContainer([
+        activeMascotProvider.overrideWith(
+          (_) => Stream.value(
+            const MascotModel(id: 'm1', speciesId: 'seed', mascotLevel: 30),
+          ),
+        ),
+        mascotSpeciesDataProvider.overrideWith(
+          (_) => Completer<List<MascotSpeciesModel>>().future,
+        ),
+      ], warm: activeMascotProvider);
+
+      expect(c.read(activeMascotStageProvider), 1);
+    });
   });
 }
