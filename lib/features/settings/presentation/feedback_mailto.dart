@@ -1,7 +1,7 @@
 import 'package:seed_app/features/settings/presentation/feedback_category.dart';
 
 /// Recipient inbox for in-app feedback submissions.
-const String feedbackRecipientEmail = 'support@seedhabit.app';
+const String feedbackRecipientEmail = 'support@seedahabit.com';
 
 /// Caps the feedback description length. Overly long `mailto:` URIs can
 /// exceed platform intent limits and silently fail to launch the client.
