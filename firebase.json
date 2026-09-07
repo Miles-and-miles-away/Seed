@@ -64,5 +64,12 @@
         "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }
-  ]
+  ],
+  "hosting": {
+    "public": "public",
+    "cleanUrls": true,
+    "ignore": [
+      "**/.*"
+    ]
+  }
 }
