@@ -1343,57 +1343,6 @@ const descriptions = {
       + 'con los ritmos agrícolas locales.',
   },
 
-  skip_food_delivery: {
-    en:
-      'Skipping a food delivery order and '
-      + 'eating from your own kitchen avoids '
-      + 'roughly **600g of CO2** from extra '
-      + 'vehicle trips, disposable packaging, '
-      + 'and commercial cooking energy. '
-      + 'Delivery services add a last-mile '
-      + 'transport leg that home cooking '
-      + 'eliminates entirely '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Single-use containers, cutlery, and '
-      + 'bags from delivery orders generate '
-      + 'additional waste and embedded '
-      + 'emissions. Cooking at home also tends '
-      + 'to produce less food waste, since '
-      + 'portions are self-managed.',
-    ja:
-      'フードデリバリーをやめて自炊すると'
-      + '約**600gのCO2**を回避できます。'
-      + '配達車両の追加移動、使い捨て包装、'
-      + '業務用調理のエネルギーが原因です。'
-      + 'デリバリーには自炊では不要なラスト'
-      + 'マイル輸送が加わります'
-      + '（[Carbon Trust]'
-      + '(https://www.carbontrust.com/)）。'
-      + '使い捨て容器、カトラリー、袋は'
-      + '追加の廃棄物と内包排出を生みます。'
-      + '自炊は量を自分で管理できるため'
-      + '食品ロスの削減にもつながります。',
-    es:
-      'Saltarse un pedido de comida a '
-      + 'domicilio y comer de tu propia '
-      + 'cocina evita unas **600g de CO2** '
-      + 'por viajes adicionales de vehículos, '
-      + 'empaques desechables y energía de '
-      + 'cocción comercial. Los servicios de '
-      + 'entrega añaden un tramo de transporte '
-      + 'de última milla que cocinar en casa '
-      + 'elimina por completo '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Los envases, cubiertos y bolsas '
-      + 'desechables de los pedidos generan '
-      + 'residuos adicionales y emisiones '
-      + 'incorporadas. Cocinar en casa también '
-      + 'suele producir menos desperdicio de '
-      + 'alimentos, ya que las porciones se '
-      + 'gestionan personalmente.',
-  },
 
   vegan_day: {
     en:

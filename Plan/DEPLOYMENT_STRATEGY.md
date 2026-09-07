@@ -10,11 +10,12 @@
 
 1. [Firebase Environments](#firebase-environments)
 2. [Deploy Commands](#deploy-commands)
-3. [Firebase Emulator Suite](#firebase-emulator-suite)
-4. [Firebase Performance Monitoring](#firebase-performance-monitoring)
-5. [Analytics Navigation Tracking](#analytics-navigation-tracking)
-6. [Alpha Testing Distribution](#alpha-testing-distribution)
-7. [Environment Setup Checklist](#environment-setup-checklist)
+3. [Legal Pages (Firebase Hosting)](#legal-pages-firebase-hosting)
+4. [Firebase Emulator Suite](#firebase-emulator-suite)
+5. [Firebase Performance Monitoring](#firebase-performance-monitoring)
+6. [Analytics Navigation Tracking](#analytics-navigation-tracking)
+7. [Alpha Testing Distribution](#alpha-testing-distribution)
+8. [Environment Setup Checklist](#environment-setup-checklist)
 
 ---
 
@@ -49,6 +50,33 @@ npm run firebase -- deploy --only firestore:rules --project dev
 npm run firebase -- deploy --only functions --project prod
 npm run firebase -- deploy --only firestore:indexes --project dev
 ```
+
+---
+
+## Legal Pages (Firebase Hosting)
+
+The privacy policy, terms of service and account-deletion page are
+served from Firebase Hosting on the prod project. Both store listings
+point at these URLs, and Google Play requires the deletion URL.
+
+| Page | URL |
+|------|-----|
+| Privacy policy | https://seed-3d48d.web.app/privacy |
+| Terms of service | https://seed-3d48d.web.app/terms |
+| Account deletion | https://seed-3d48d.web.app/delete-account |
+
+The HTML in `public/` is generated from the in-app text in
+`legal_content.dart`, so the app and the hosted pages never diverge.
+After editing that file, rebuild and redeploy:
+
+```bash
+python3 scripts/legal/build_legal_pages.py
+npm run firebase -- deploy --only hosting --project prod
+```
+
+Preview locally with `npm run firebase -- emulators:start --only hosting`.
+Plain static servers do not honour the `cleanUrls` setting in
+`firebase.json`, so `/privacy` returns 404 on them.
 
 ---
 
