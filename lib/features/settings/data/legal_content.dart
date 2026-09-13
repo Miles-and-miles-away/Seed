@@ -38,7 +38,7 @@ class LegalDocument {
 }
 
 const _lastUpdated = '2026-09-05';
-const _contactEmail = 'support@seedhabit.app';
+const _contactEmail = 'support@seedahabit.com';
 
 /// Privacy policy content per locale.
 const privacyPolicyContent = LegalDocument._(
