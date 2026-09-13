@@ -222,7 +222,7 @@ xcrun simctl shutdown all
 xcrun simctl erase "iPhone 17 Pro"
 
 # Delete an app from simulator
-xcrun simctl uninstall booted com.seedapp
+xcrun simctl uninstall booted com.seedahabit.app
 ```
 
 ### Available Simulators (iOS 26.2)
@@ -394,7 +394,7 @@ project via `--account`.
 | Setting | Value |
 |---------|-------|
 | iOS Deployment Target | 14.0 |
-| Bundle Identifier | com.seedapp |
+| Bundle Identifier | com.seedahabit.app |
 | Swift Version | 5.0 |
 
 --------------------------------------------------------------------------

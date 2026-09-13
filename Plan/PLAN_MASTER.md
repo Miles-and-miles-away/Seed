@@ -25,8 +25,8 @@
 ### App Identifiers
 | Platform | Bundle ID | Firebase App ID |
 |----------|-----------|-----------------|
-| Android | com.seedapp | 1:49522523534:android:f1503259d97a83b4adf8df |
-| iOS | com.seedapp | 1:49522523534:ios:74fd1f064405f5ffadf8df |
+| Android | com.seedahabit.app | 1:49522523534:android:f1503259d97a83b4adf8df |
+| iOS | com.seedahabit.app | 1:49522523534:ios:74fd1f064405f5ffadf8df |
 
 ---
 
