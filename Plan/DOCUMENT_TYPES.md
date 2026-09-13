@@ -29,6 +29,7 @@ and can be trimmed.
 Anything that fits none of these is a standalone reference
 (`APP_PAGES`, `STYLE_GUIDE`, `DESIGN_TOKENS`, `GLOSSARY`,
 `TEST_COVERAGE`, `SECURITY_REPORT`, `DEPLOYMENT_STRATEGY`,
+`PLAY_STORE_DEPLOYMENT`,
 `EMULATOR_TESTING`). Standalone is a fallback, not a first choice.
 
 ---
