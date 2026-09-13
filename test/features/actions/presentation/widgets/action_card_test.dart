@@ -21,9 +21,9 @@ void main() {
   group('ActionCard', () {
     const testAction = ActionModel(
       id: 'action1',
-      nameEn: 'Recycle Aluminum Can',
+      nameEn: 'Recycle Aluminium Can',
       nameJa: 'アルミ缶リサイクル',
-      descriptionEn: 'Recycle an aluminum can',
+      descriptionEn: 'Recycle an aluminium can',
       descriptionJa: 'アルミ缶をリサイクルする',
       category: 'recycling',
       points: 5,
@@ -56,7 +56,7 @@ void main() {
       await tester.pumpWidget(buildCard(languageCode: 'en'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Recycle Aluminum Can'), findsOneWidget);
+      expect(find.text('Recycle Aluminium Can'), findsOneWidget);
     });
 
     testWidgets('displays action name in Japanese', (tester) async {

@@ -389,7 +389,7 @@
         {
           "name": "Navitime (MLIT-supervised reference page)",
           "url": "https://www.navitime.co.jp/pcstorage/html/co2info.html",
-          "quote": "自動車 145g/km | バス 66g/km | 航空 96g/km | 鉄道 20g/km | … | 出典元:｢運輸･交通と環境2018年版」 (our translation: car 145, bus 66, airplane 96, rail 20 g/km per passenger-km; skipped lines list walking and cycling at 0; source: Transport and Environment, 2018 edition)",
+          "quote": "自動車 145g/km | バス 66g/km | 航空 96g/km | 鉄道 20g/km | … | 出典元:｢運輸･交通と環境2018年版」 (our translation: car 145, bus 66, aeroplane 96, rail 20 g/km per passenger-km; skipped lines list walking and cycling at 0; source: Transport and Environment, 2018 edition)",
           "accessed": "2026-08-29"
         },
         {

@@ -552,7 +552,7 @@
         }
       ],
       "default_preset_id": "hour_20c",
-      "calculation_notes": "METI publishes 40.73 kWh/year saved by shortening heating one hour a day at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day 暖房期間 that is 0.241006 kWh/h. MEASURED, not rated: the Panasonic CS-227VB JIS rating is 455 W, about 1.9x higher, because it is measured at full load. Do not \"correct\" this to the catalog figure. Setpoint presets use METI absolute deltas (+0.034898 kWh/h per 1 C) and are capped at +2 C because neither source supports extrapolating further. RESEARCH_ENERGY section 3.3.",
+      "calculation_notes": "METI publishes 40.73 kWh/year saved by shortening heating one hour a day at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day 暖房期間 that is 0.241006 kWh/h. MEASURED, not rated: the Panasonic CS-227VB JIS rating is 455 W, about 1.9x higher, because it is measured at full load. Do not \"correct\" this to the catalogue figure. Setpoint presets use METI absolute deltas (+0.034898 kWh/h per 1 C) and are capped at +2 C because neither source supports extrapolating further. RESEARCH_ENERGY section 3.3.",
       "sources": [
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",

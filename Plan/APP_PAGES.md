@@ -571,7 +571,7 @@ Feature postponed; no UI entry points to this route.
   - `/terms` (canonical legal route)
   - External: licenses page (system)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  SDG acknowledgment.
+  SDG acknowledgement.
 
 ### Feedback (`.../settings/feedback`)
 - Functionality: structured form with category chips (Bug / Feature /

@@ -325,7 +325,7 @@ const EcoFact(
 ### What Makes a Good Eco-Fact
 
 **Strong facts:**
-- "Aluminum can be recycled infinitely with no loss of quality.
+- "Aluminium can be recycled infinitely with no loss of quality.
   Recycling one can saves enough energy to power a TV for 3 hours."
   (Source: Aluminum Association)
 - "The fashion industry produces 10% of global CO2 emissions -- more

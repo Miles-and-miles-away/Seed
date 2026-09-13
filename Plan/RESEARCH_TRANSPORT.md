@@ -487,7 +487,7 @@ Key sources (accessed 2026-07-17):
 - Corroboration, same number, weaker vintage: the
   MLIT-supervised Navitime reference page
   (https://www.navitime.co.jp/pcstorage/html/co2info.html:
-  airplane 96, train 20, bus 66, car 145 g/km; source line
+  aeroplane 96, train 20, bus 66, car 145 g/km; source line
   "運輸・交通と環境2018年版", MLIT environment policy division;
   re-verified live 2026-08-29). All-rail, 2018 edition, so it
   agrees on the figure by a different route rather than

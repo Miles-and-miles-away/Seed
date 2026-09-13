@@ -14,7 +14,7 @@ import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.
 ///
-/// Modeled after EvolutionCelebration with the same overlay
+/// Modelled after EvolutionCelebration with the same overlay
 /// pattern -- confetti, dramatic entrance, and dismiss button.
 class EggDiscoveryCelebration extends ConsumerStatefulWidget {
   const EggDiscoveryCelebration({required this.onDismiss, super.key});

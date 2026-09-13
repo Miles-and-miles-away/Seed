@@ -203,7 +203,7 @@ Original derivation for the shower figure: 9.5 L/min showerhead
 
 | action_id | action_name | co2_grams | unit | item_weight | confidence |
 |-----------|-------------|-----------|------|-------------|------------|
-| recycle_aluminum_can | Aluminum can recycling | 99 | per_can | 15g | High |
+| recycle_aluminum_can | Aluminium can recycling | 99 | per_can | 15g | High |
 | recycle_pet_bottle | PET plastic bottle recycling | 47 | per_bottle | 28g | Medium-High |
 | recycle_glass_bottle | Glass bottle recycling | 300 | per_wine_bottle | 450g | Medium-High |
 | recycle_paper | Paper recycling | 2590 | per_kg | - | Medium |

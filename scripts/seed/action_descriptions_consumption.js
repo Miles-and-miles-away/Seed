@@ -260,7 +260,7 @@ const descriptions = {
     en:
       'Buying a secondhand garment instead '
       + 'of new avoids roughly **15,000g '
-      + '(15kg) of CO2** from fiber '
+      + '(15kg) of CO2** from fibre '
       + 'production, dyeing, and global '
       + 'shipping. According to '
       + '[WRAP UK](https://wrap.org.uk/), '

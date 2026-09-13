@@ -75,7 +75,7 @@ void main() {
       expect(find.textContaining('g of CO2 / 8'), findsOneWidget);
       expect(find.textContaining('g of CO2 / 3,000'), findsOneWidget);
 
-      // Source citations from JSON are present and labeled.
+      // Source citations from JSON are present and labelled.
       expect(find.textContaining('US EPA'), findsWidgets);
       expect(find.textContaining('DEFRA'), findsOneWidget);
       expect(find.textContaining('Our World in Data'), findsOneWidget);

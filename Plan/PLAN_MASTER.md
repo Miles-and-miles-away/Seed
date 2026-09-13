@@ -179,7 +179,7 @@ Key terms used throughout the codebase and documentation.
 
 | Term | Definition |
 |------|------------|
-| **Action** | A pre-defined eco-friendly activity from the action library (e.g., "Recycled an aluminum can"). Stored in `actionLibrary` collection. |
+| **Action** | A pre-defined eco-friendly activity from the action library (e.g., "Recycled an aluminium can"). Stored in `actionLibrary` collection. |
 | **Action Log** | A user's recorded instance of completing an action. Stored per-user in `users/{uid}/actionLog`. Immutable once created. |
 | **Action Category** | Grouping for actions: `recycling`, `transport`, `food`, `energy`, `consumption`, `water`, `community`, `advocacy`, `learning`. |
 | **Points** | Virtual currency earned by logging actions. Drives leveling and mascot evolution. |
@@ -1258,7 +1258,7 @@ For MVP, hardcode ~30 actions with researched values:
 final seedActions = [
   Action(
     id: 'recycle_aluminum_can',
-    nameEn: 'Recycled an aluminum can',
+    nameEn: 'Recycled an aluminium can',
     nameJa: 'アルミ缶をリサイクル',
     points: 5,
     co2Grams: 150,  // ~150g CO2 saved vs landfill

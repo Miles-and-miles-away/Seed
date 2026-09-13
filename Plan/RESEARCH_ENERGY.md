@@ -59,7 +59,7 @@ never an anchor; a figure seen only in a search-engine summary may
 not enter `sources[]` at all.
 
 **Statistic: measured beats rated, always.** Where a government
-measured figure and a manufacturer catalog rating disagree, the
+measured figure and a manufacturer catalogue rating disagree, the
 measured one ships. Cycling appliances -- inverter air
 conditioners, kotatsu, blankets, ovens -- draw far less than their
 nameplate on average, so a rating is not a conservative choice, it
@@ -659,7 +659,7 @@ The rated values are measured at fixed JIS C 9612 conditions with
 the unit working at capacity; the METI values are seasonal
 measured averages of a real operating hour, which is what the app
 actually asks. **Measured ships; rated becomes science-sheet
-context.** Mitsubishi Electric states the catalog caveat
+context.** Mitsubishi Electric states the catalogue caveat
 verbatim: "実際には地域、気象条件、ご使用条件等により電力量が変わります".
 
 **Setpoint effect.** METI publishes absolute deltas from the same
@@ -745,7 +745,7 @@ strong-setting, thermostat-averaged figure**. Resulting ratio to
 the portable electric heater: **8.0x** -- unchanged, and now
 source-backed rather than resting on an unlabelled aggregator.
 
-**Disclosed judgment call:** a *mixed*-setting average would land
+**Disclosed judgement call:** a *mixed*-setting average would land
 at 0.10-0.12 kWh/h and push the ratio to 10-12x -- the range the
 Part 3 plan claimed and this research previously rejected as
 unsupported. Not adopted: the 強 framing is better sourced and is
@@ -1180,7 +1180,7 @@ re-derive at every data pass.
     The per-behavior pin is the stronger guard anyway, and it is
     what catches the oven being "corrected" back to an hourly
     unit.
-15. **Assembled-value pins** (RV-1 pattern -- judgment-call
+15. **Assembled-value pins** (RV-1 pattern -- judgement-call
     values unreachable by any ordering pin, so a silent revert
     would otherwise pass the suite): `kotatsu` 0.15 (not the
     0.3-0.6 nameplate), `portable_electric_heater` 1.2 (not 1.5),
