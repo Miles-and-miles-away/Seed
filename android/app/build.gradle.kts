@@ -32,7 +32,7 @@ gradle.taskGraph.whenReady {
 }
 
 android {
-    namespace = "com.seedapp.seed_app"
+    namespace = "com.seedahabit.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -47,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.seedapp"
+        applicationId = "com.seedahabit.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

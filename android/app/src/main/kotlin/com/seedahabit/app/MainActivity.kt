@@ -1,4 +1,4 @@
-package com.seedapp.seed_app
+package com.seedahabit.app
 
 import io.flutter.embedding.android.FlutterActivity
 

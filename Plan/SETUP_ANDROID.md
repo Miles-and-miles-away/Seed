@@ -164,7 +164,7 @@ section of the output.
 ### 2. Register them in Firebase
 
 1. Firebase console -> **Project settings** -> **Your apps** -> the Android app
-   (package `com.seedapp`).
+   (package `com.seedahabit.app`).
 2. **Add fingerprint**, paste the SHA-1, save. Repeat for the SHA-256.
 3. **Download `google-services.json`** again -- it now contains an
    `oauth_client` entry with `client_type: 1` (the Android client). Replace
@@ -349,7 +349,7 @@ project via `--account`.
 | Java Version | 17 |
 | Kotlin Version | 2.2.20 |
 | Gradle Plugin | 8.11.1 |
-| Package Name (applicationId) | com.seedapp |
+| Package Name (applicationId) | com.seedahabit.app |
 
 ## Next Steps
 
