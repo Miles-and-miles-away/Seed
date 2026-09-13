@@ -106,11 +106,22 @@ personal information from a child under 13 requires **verifiable
 parental consent** under COPPA. That is a consent flow to design,
 build and operate, not a declaration.
 
-**Recommendation: declare 13+ and do not opt into Families.** Seed's
-content is habit tracking, CO2 calculators and SDG education, which
-carries fine at 13+. Opting in buys a younger audience at the cost of
-a parental consent system, an SDK audit, and a permanently tighter
-review surface. See D1.
+**Decision: 13+ at launch, under-13 support planned.** Seed's content
+is habit tracking, CO2 calculators and SDG education, and the intent is
+for kids to use it eventually. Launching at 13+ keeps the closed test
+unblocked; widening the audience later reopens the content rating and
+Data safety answers and can trigger re-review, but nothing permanent.
+D1 lists the work the later phase needs.
+
+At 13+ the current privacy policy is correct: its Children's Privacy
+section states that Seed is not directed at children under 13. It must
+be rewritten in all three languages, and the hosted pages rebuilt, as
+part of the under-13 phase, not before.
+
+Play also asks whether the store listing could **unintentionally
+appeal to children**. A hatching, evolving mascot is what triggers that
+question, so screenshots and descriptions are aimed at teens and
+adults, and the answer stays honest.
 
 ---
 
@@ -155,7 +166,9 @@ nowhere else, so an unverified review account is a dead end.
       `deleteUserAccount` callable, which removes subcollections and
       the Auth user server-side.
 - [ ] **Content rating questionnaire.**
-- [ ] **Target audience and content.** See D1 before answering.
+- [ ] **Target audience and content.** 13+ per D1. Answer "no" to
+      unintentional appeal to children and keep the listing assets
+      aimed at teens and adults.
 - [ ] **Ads declaration.** Seed serves no ads.
 - [ ] **News app declaration.** Seed is not a news app.
 - [ ] **Store listing.** Title, short and full description, feature
@@ -225,8 +238,8 @@ increase on every upload; Play rejects a reused one.
    delete the `com.seedapp` apps in Firebase.
 5. Decide D2 and, if removing the advertising ID, land the manifest
    change before the first upload.
-6. Create the app in Play Console. Answer D1 first, since target
-   audience drives the content rating and Data safety answers.
+6. Create the app in Play Console. Target audience is 13+ per D1,
+   which drives the content rating and Data safety answers.
 7. Create, verify and seed the review account.
 8. Complete the Console declarations above.
 9. Build the signed app bundle, upload the Dart symbols, upload the
@@ -237,17 +250,40 @@ increase on every upload; Play rejects a reused one.
 11. Recruit 12 testers and hold them for 14 unbroken days.
 12. Apply for production.
 
+After launch, the under-13 phase: build the age step and parental
+consent flow, complete the SDK audit, rewrite the Children's Privacy
+section, redeploy the hosted pages, then widen the target audience in
+the Console and redo the content rating and Data safety answers.
+
 ---
 
 ## Open decisions
 
-**D1. Target audience: 13+ or Families.** Open as of 2026-09-13.
-Recommendation is 13+, on the grounds that under-13 collection of
-email and display name triggers COPPA verifiable parental consent,
-which Seed has no flow for. Revisit only with a deliberate decision to
-build that flow. The answer here is not permanent the way the
-application ID is, but changing it later re-opens the content rating
-and Data safety answers and can trigger re-review.
+**D1. Target audience: 13+ at launch, under-13 support planned.**
+Decided. Building parental consent first would have delayed the
+12-tester clock by weeks. Adding under-13 users later is a Console
+change plus the following work, which is the scope of that phase:
+
+- **Verifiable parental consent** before an under-13 user's email and
+  display name are collected. Signup needs an age step; under-13 users
+  must not reach account creation until a parent has consented through
+  an accepted method. Design, build and operate this flow.
+- **Neutral age screen.** Seed targets children and adults, so it is a
+  mixed-audience app. Any SDK not approved for child-directed use may
+  run only behind the age screen, for users who pass it as adults.
+- **SDK audit.** Confirm each Firebase SDK in use (Auth, Firestore,
+  Storage, Analytics, Crashlytics, Performance, Messaging, App Check)
+  is acceptable in a child-directed context, and record the outcome.
+- **No ad identifiers.** Done under D2.
+- **Privacy policy rewrite.** The Children's Privacy section must
+  describe what is collected from children and how a parent consents,
+  reviews and deletes it.
+- **Consistency on every update.** Content rating, target audience and
+  Data safety must agree, and Play re-reviews if they drift.
+
+Declaring under-13s in the target audience is separate from opting
+into the Designed for Families program, which is optional and only
+governs listing in the Kids section.
 
 **D2. Advertising ID: removed.** Decided. Seed serves no ads and
 nothing reads the identifier, so the permission is stripped in
