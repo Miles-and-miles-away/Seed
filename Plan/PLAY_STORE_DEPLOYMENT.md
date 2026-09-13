@@ -142,11 +142,12 @@ nowhere else, so an unverified review account is a dead end.
       collection because the settings toggle can turn it off. Include
       the IP-derived approximate location that Analytics reports,
       which is easy to miss.
-- [ ] **Advertising ID.** The merged release manifest contains
+- [ ] **Advertising ID.** Answer "no". firebase_analytics pulls in
       `com.google.android.gms.permission.AD_ID` and two ADSERVICES
-      permissions, pulled in by firebase_analytics. The form asks about
-      it directly, so either declare it as collected or remove it. See
-      D2.
+      permissions; `AndroidManifest.xml` strips all three with
+      `tools:node="remove"` and turns off Analytics ad ID collection.
+      Confirm on every upload that the merged manifest still lacks
+      them. See D2.
 - [ ] **Privacy policy URL.** https://seed-3d48d.web.app/privacy,
       built from `public/privacy.html`.
 - [ ] **Account deletion URL.** https://seed-3d48d.web.app/delete-account,
@@ -248,18 +249,9 @@ build that flow. The answer here is not permanent the way the
 application ID is, but changing it later re-opens the content rating
 and Data safety answers and can trigger re-review.
 
-**D2. Advertising ID: remove or declare.**
-Seed serves no ads and nothing reads the identifier, but
-firebase_analytics collects it by default and adds the permission.
-Recommendation is to remove it, which also satisfies the Families rule
-should D1 ever change:
-
-```xml
-<uses-permission android:name="com.google.android.gms.permission.AD_ID"
-    tools:node="remove"/>
-<meta-data android:name="google_analytics_adid_collection_enabled"
-    android:value="false"/>
-```
-
-The alternative is to declare it as collected under Device or other
-IDs, which is honest but describes collection with no purpose.
+**D2. Advertising ID: removed.** Decided. Seed serves no ads and
+nothing reads the identifier, so the permission is stripped in
+`AndroidManifest.xml` and Analytics ad ID collection is disabled. This
+also satisfies the Families rule on AAID should D1 include children.
+The rejected alternative was declaring it as collected under Device or
+other IDs, which is honest but describes collection with no purpose.
