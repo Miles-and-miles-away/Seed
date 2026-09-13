@@ -829,22 +829,22 @@ service cloud.firestore {
 ### App Check Setup
 
 App Check is activated in the client (`lib/main.dart`: Play Integrity on
-Android, DeviceCheck on iOS; debug providers in debug builds), but
-**console enforcement is not yet enabled** and registration is blocked
-on creating the Android release/upload keystore. Until enforcement is
-on, App Check provides no protection — registration alone changes
-nothing. Hardened Firestore rules are the current barrier; App Check is
-the defence against scripted/off-device abuse.
+Android, DeviceCheck on iOS; debug providers in debug builds) and the
+Android app is registered, but **console enforcement is not yet
+enabled**. Until enforcement is on, App Check provides no protection:
+registration alone changes nothing. Hardened Firestore rules are the
+current barrier; App Check is the defence against scripted/off-device
+abuse.
 
-Sequence to complete (blocked on the release keystore):
+Sequence to complete (iOS steps blocked on Apple Developer enrolment):
 
 1. ~~Create the Android upload keystore~~ Done 2026-08-23
    (`android/seed-release.keystore` + `key.properties`, gitignored).
    Back it up off-machine (losing the upload key is unrecoverable).
-2. Register the Android app in App Check with **Play Integrity**, using
-   the keystore's SHA-256. Token TTL 1h. Leave the advanced toggles
-   (PLAY_RECOGNISED, LICENSED, device-integrity) **off** until
-   distribution moves to Google Play.
+2. ~~Register the Android app in App Check with **Play Integrity**~~
+   Done with the debug and release SHA-256s. Token TTL 1h.
+   Leave the advanced toggles (PLAY_RECOGNISED, LICENSED,
+   device-integrity) **off** until distribution moves to Google Play.
 3. After the first Play upload, copy the **Play App Signing**
    certificate SHA-256 and add it as a second fingerprint (Google
    re-signs the app, so the upload-key SHA-256 alone is not enough).
@@ -855,10 +855,10 @@ Sequence to complete (blocked on the release keystore):
    out.
 6. Watch the App Check metrics page until requests show as *verified*,
    then **Enforce** for Firestore and Storage in the console.
-7. Callables enforce in code, not via the console toggle: add
-   `enforceAppCheck: true` to `deleteUserAccount`'s options in
-   `functions/src/deleteUserAccount.ts` and redeploy. (Left off for now
-   so deletion keeps working while App Check is in monitor mode.)
+7. ~~Callables enforce in code, not via the console toggle~~ Done:
+   `deleteUserAccount` sets `enforceAppCheck: true` and is deployed to
+   `asia-northeast1`. Debug tokens (step 5) must be registered before
+   testing deletion from a dev build.
 
 > Note: server-authoritative scoring (Cloud Function on actionLog
 > create, aggregates rule-locked) stays deferred until leaderboards or

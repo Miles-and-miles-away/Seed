@@ -15,7 +15,8 @@
 5. [Firebase Performance Monitoring](#firebase-performance-monitoring)
 6. [Analytics Navigation Tracking](#analytics-navigation-tracking)
 7. [Alpha Testing Distribution](#alpha-testing-distribution)
-8. [Environment Setup Checklist](#environment-setup-checklist)
+8. [Google Play Release Track](#google-play-release-track)
+9. [Environment Setup Checklist](#environment-setup-checklist)
 
 ---
 
@@ -187,6 +188,15 @@ npm run firebase -- appdistribution:distribute \
 
 Testers receive an email invite and install builds via the Firebase
 App Tester app.
+
+---
+
+## Google Play Release Track
+
+The Play Console track lives in `PLAY_STORE_DEPLOYMENT.md`: the
+permanent application id, the 12-tester production gate, the review
+account, the Console declarations, and the release order. Nothing
+about it is restated here.
 
 ---
 
