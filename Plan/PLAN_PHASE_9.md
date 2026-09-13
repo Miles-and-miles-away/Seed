@@ -111,8 +111,8 @@ Integrate RevenueCat SDK for subscription management.
 ```
 RevenueCat Project: Seed
 ├── Apps
-│   ├── iOS App (com.seedapp)
-│   └── Android App (com.seedapp)
+│   ├── iOS App (com.seedahabit.app)
+│   └── Android App (com.seedahabit.app)
 ├── Products
 │   ├── seed_premium_monthly
 │   └── seed_premium_yearly
