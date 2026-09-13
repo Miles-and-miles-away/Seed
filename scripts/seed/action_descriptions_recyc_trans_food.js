@@ -15,7 +15,7 @@ const descriptions = {
   // -------------------------------------------------------
   recycle_aluminum_can: {
     en:
-      'Recycling a single aluminum can saves '
+      'Recycling a single aluminium can saves '
       + 'roughly **99g of CO2** compared to '
       + 'smelting one from raw bauxite ore. '
       + 'The process requires just 5% of the '
@@ -25,7 +25,7 @@ const descriptions = {
       + '/landing/aluminium-recycling-saves-95'
       + '-of-the-energy-needed-for-primary-'
       + 'aluminium-production/)). '
-      + 'Unlike most materials, aluminum can be '
+      + 'Unlike most materials, aluminium can be '
       + 'recycled infinitely with no quality '
       + 'loss ([Aluminum Association]'
       + '(https://www.aluminum.org/Recycling)). '
@@ -201,7 +201,7 @@ const descriptions = {
       + 'bottle (~667g per kg) according to '
       + 'the [EPA WARM model]'
       + '(https://www.epa.gov/warm). '
-      + 'Like aluminum, glass can be recycled '
+      + 'Like aluminium, glass can be recycled '
       + 'endlessly without degradation. Every '
       + '10% increase in recycled cullet used '
       + 'in production cuts energy consumption '
@@ -333,13 +333,13 @@ const descriptions = {
       'Recycling a bag of textiles prevents '
       + 'roughly **40,000g (40kg) of CO2** by '
       + 'diverting fabric from landfills and '
-      + 'reducing demand for virgin fiber '
+      + 'reducing demand for virgin fibre '
       + 'production. The fashion industry '
       + 'accounts for up to 10% of global '
       + 'carbon emissions. Reusing textiles '
       + 'avoids the water-intensive cotton '
       + 'farming and petroleum-based synthetic '
-      + 'fiber manufacturing processes '
+      + 'fibre manufacturing processes '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
@@ -1251,7 +1251,7 @@ const descriptions = {
       'Choosing plant milk over dairy saves '
       + 'roughly **460g of CO2** per 250ml '
       + 'serving. Dairy milk emits about 3.2kg '
-      + 'CO2 per liter versus 0.4-1.0kg for '
+      + 'CO2 per litre versus 0.4-1.0kg for '
       + 'plant alternatives ([Poore & '
       + 'Nemecek 2018](https://ourworldindata'
       + '.org/food-choice-vs-eating-local)). '
@@ -1261,7 +1261,7 @@ const descriptions = {
       + '(https://ourworldindata.org'
       + '/environmental-impacts-of-food)). '
       + 'Dairy also requires 10x more land and '
-      + '2-3x more water per liter than most '
+      + '2-3x more water per litre than most '
       + 'plant milks.',
     ja:
       '乳製品の代わりに植物性ミルクを選ぶと'
@@ -1343,57 +1343,6 @@ const descriptions = {
       + 'con los ritmos agrícolas locales.',
   },
 
-  skip_food_delivery: {
-    en:
-      'Skipping a food delivery order and '
-      + 'eating from your own kitchen avoids '
-      + 'roughly **600g of CO2** from extra '
-      + 'vehicle trips, disposable packaging, '
-      + 'and commercial cooking energy. '
-      + 'Delivery services add a last-mile '
-      + 'transport leg that home cooking '
-      + 'eliminates entirely '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Single-use containers, cutlery, and '
-      + 'bags from delivery orders generate '
-      + 'additional waste and embedded '
-      + 'emissions. Cooking at home also tends '
-      + 'to produce less food waste, since '
-      + 'portions are self-managed.',
-    ja:
-      'フードデリバリーをやめて自炊すると'
-      + '約**600gのCO2**を回避できます。'
-      + '配達車両の追加移動、使い捨て包装、'
-      + '業務用調理のエネルギーが原因です。'
-      + 'デリバリーには自炊では不要なラスト'
-      + 'マイル輸送が加わります'
-      + '（[Carbon Trust]'
-      + '(https://www.carbontrust.com/)）。'
-      + '使い捨て容器、カトラリー、袋は'
-      + '追加の廃棄物と内包排出を生みます。'
-      + '自炊は量を自分で管理できるため'
-      + '食品ロスの削減にもつながります。',
-    es:
-      'Saltarse un pedido de comida a '
-      + 'domicilio y comer de tu propia '
-      + 'cocina evita unas **600g de CO2** '
-      + 'por viajes adicionales de vehículos, '
-      + 'empaques desechables y energía de '
-      + 'cocción comercial. Los servicios de '
-      + 'entrega añaden un tramo de transporte '
-      + 'de última milla que cocinar en casa '
-      + 'elimina por completo '
-      + '([Carbon Trust]'
-      + '(https://www.carbontrust.com/)). '
-      + 'Los envases, cubiertos y bolsas '
-      + 'desechables de los pedidos generan '
-      + 'residuos adicionales y emisiones '
-      + 'incorporadas. Cocinar en casa también '
-      + 'suele producir menos desperdicio de '
-      + 'alimentos, ya que las porciones se '
-      + 'gestionan personalmente.',
-  },
 
   vegan_day: {
     en:

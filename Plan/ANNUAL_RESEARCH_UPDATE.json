@@ -364,7 +364,7 @@
       "next_check": "2027-08",
       "volatility": "medium",
       "watch_for": [
-        "PROHIBITION: never 'correct' the aircon values to their JIS catalog ratings (0.435 / 0.455). Measured beats rated; a sanity pin guards this.",
+        "PROHIBITION: never 'correct' the aircon values to their JIS catalogue ratings (0.435 / 0.455). Measured beats rated; a sanity pin guards this.",
         "If METI republishes with new season lengths, the per-hour derivation changes even if the annual savings do not.",
         "METI's own grid coefficient on that page (0.488 general, 0.429 lighting/TV) is a separate JP figure -- do not confuse it with the house factor.",
         "Kotatsu ships at 0.15 kWh/h = the 強 (strong) setting on the makers' own 標準（平均）消費電力量 basis, which is already thermostat-averaged. Never substitute the 300-600 W nameplate; a mixed-setting average (0.10-0.12) would push the headline ratio to 10-12x, which the research rejected as unsupported."

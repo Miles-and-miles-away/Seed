@@ -48,7 +48,7 @@ void main() {
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
-    testWidgets('renders footer with SDG acknowledgment', (tester) async {
+    testWidgets('renders footer with SDG acknowledgement', (tester) async {
       await pumpScreen(tester);
 
       // Scroll to the bottom

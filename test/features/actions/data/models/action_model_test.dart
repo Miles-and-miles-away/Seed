@@ -7,14 +7,14 @@ void main() {
       test('creates model with required fields', () {
         const model = ActionModel(
           id: 'action1',
-          nameEn: 'Recycle Aluminum Can',
+          nameEn: 'Recycle Aluminium Can',
           nameJa: 'アルミ缶リサイクル',
           category: 'recycling',
           points: 5,
         );
 
         expect(model.id, 'action1');
-        expect(model.nameEn, 'Recycle Aluminum Can');
+        expect(model.nameEn, 'Recycle Aluminium Can');
         expect(model.nameJa, 'アルミ缶リサイクル');
         expect(model.category, 'recycling');
         expect(model.points, 5);
@@ -41,9 +41,9 @@ void main() {
       test('creates model with all fields', () {
         const model = ActionModel(
           id: 'action1',
-          nameEn: 'Recycle Aluminum Can',
+          nameEn: 'Recycle Aluminium Can',
           nameJa: 'アルミ缶リサイクル',
-          descriptionEn: 'Recycle an aluminum can',
+          descriptionEn: 'Recycle an aluminium can',
           descriptionJa: 'アルミ缶をリサイクルする',
           category: 'recycling',
           points: 5,
@@ -55,7 +55,7 @@ void main() {
           sortOrder: 1,
         );
 
-        expect(model.descriptionEn, 'Recycle an aluminum can');
+        expect(model.descriptionEn, 'Recycle an aluminium can');
         expect(model.descriptionJa, 'アルミ缶をリサイクルする');
         expect(model.co2Grams, 150);
         expect(model.iconName, 'recycling');

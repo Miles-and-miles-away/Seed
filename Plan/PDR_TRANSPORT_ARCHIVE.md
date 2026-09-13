@@ -75,7 +75,7 @@ Severity: B = commit blocker, M = major, m = minor.
 | PDR-17 | m | `legCo2eGrams` throws via `int.clamp(1, maxOccupants)` if a programmatic mode has maxOccupants < 1; and deleting motorbike's `per_vehicle` flag passes all 75 tests (silent semantics flip) | Crash instead of degrade; unpinned flag | `clamp(1, max(1, ...))`; add explicit motorbike perVehicle test |
 | PDR-18 | m | build_cities.py: csv default quoting can corrupt GeoNames rows (needs QUOTE_NONE); dedup key (cc,name) merges genuinely distinct same-named cities (two Suzhous); US top-5 = NYC/LA/Brooklyn/Chicago/Queens (boroughs crowd out real cities) | Latent data corruption on rerun | QUOTE_NONE; add rounded coords to dedup key; note borough issue |
 | PDR-19 | m | cities.json decoded per call and twice across the two loaders (87 KB, no cache) | Wasted work each open | Load once, return cities+links together or cache the decoded root |
-| PDR-20 | m | 75 real island-neighbor pairs return an empty suggestion map (San Juan<->Charlotte Amalie 125 km; Mamoudzou->Moutsamoudou 113 km) | Picker shows nothing for real journeys | MF/SX shared mass fixes the worst; consider offering air below minFlightKm when map would be empty |
+| PDR-20 | m | 75 real island-neighbour pairs return an empty suggestion map (San Juan<->Charlotte Amalie 125 km; Mamoudzou->Moutsamoudou 113 km) | Picker shows nothing for real journeys | MF/SX shared mass fixes the worst; consider offering air below minFlightKm when map would be empty |
 
 Round 1 verified sound: all 24 factors match RESEARCH_TRANSPORT.md
 sec 5 digit-for-digit; every derivation chain reproduces; all 10
@@ -214,7 +214,7 @@ verbatim-clean.
 | R2-14 | m | escooter 6 not reproducible from its attached quote: "1.4 kWh/100 km" = 14 Wh/km x 386 = 5.4 -> 5 | the ~15 Wh/km midpoint needs the study's aluminium variant (1.576 kWh/100 km) | add second quote, state range in note |
 | R2-15 | m | memoized cities cache stores a rejected future forever (regression vs per-call decode) | first-load failure rethrows until restart | clear cache on error |
 | R2-16 | m | Unpinned guards: occupant clamp, air fallback, ferry gate mid-range, link reachability -- reverting each leaves the suite green | e.g. Osaka-Busan ~590 km is a natural just-over-gate pin | add 4 test pins |
-| R2-17 | m | walkModeMaxKm has zero consumers; nothing forces the future UI to honor it | 195 km walk reappears if kindActive maps straight to walk | keep constant; UI-PR item recorded |
+| R2-17 | m | walkModeMaxKm has zero consumers; nothing forces the future UI to honour it | 195 km walk reappears if kindActive maps straight to walk | keep constant; UI-PR item recorded |
 | R2-18 | m | Same-mass circuity lies: all 25 BH-QA pairs suggest ~185 km cycling (bridge never built; real road ~400 km via SA); HK-Macau cycling 85 km (banned on bridge) | circuity 1.3 cannot see missing/banned crossings | known-limitations doc line |
 | R2-19 | m | Latent generator trap: MY has no island anchors -- a Borneo city entering top-5 on regen silently becomes Eurasia | fail-loudly catches unmapped ccs only | add MY Borneo anchors + comment |
 | R2-20 | m | Research doc typos: "+154 to -156%" (stray minus); "within 1%" is actually 1.2% | -- | fix |
@@ -222,7 +222,7 @@ verbatim-clean.
 | R2-22 | m | shinkansen: JR Central 1/8-energy / 1/12-CO2 claim uncited in sources[]; Planet Forward does not name JR East | citation is free to add | add JR Central source, reword attribution |
 | R2-23 | m | PDR sec 3 D1 recorded superseded values -- a future session executing from it would fix the data backwards | -- | supersession notes added |
 | R2-24 | m | House grid factor 386 g/kWh sits below current global ~470-480; EV 73 would be ~86-90 at those | app-wide house rule, out of scope | methodology-sheet context note only |
-| R2-25 | m | DESNZ says the 1.7 RF multiplier applies to the CO2 component only; jet derivation applies it to the full CO2e base (immaterial: CH4/N2O < 1% of aviation CO2e) | para 8.44 | one-line acknowledgment in research sec 8.1 |
+| R2-25 | m | DESNZ says the 1.7 RF multiplier applies to the CO2 component only; jet derivation applies it to the full CO2e base (immaterial: CH4/N2O < 1% of aviation CO2e) | para 8.44 | one-line acknowledgement in research sec 8.1 |
 | R2-26 | m | Greencalculus and SCIF quotes on car_petrol_avg are row/header reconstructions | -- | optional; later fixed in R3-9 |
 
 Round 2 verified sound: all 27 factors match research sec 5
@@ -302,7 +302,7 @@ airtight.
    London-Torshavn; Moroni-Moutsamoudou; Port Said-Gaza NO
    ferry; Dublin-Paris HAS ferry; Gibraltar-Tangier HAS ferry.
 5. **Docs**: research doc taxi basis rewrite, typo fixes, RF
-   component acknowledgment, sec 9 fallback/max_km/Suez/known
+   component acknowledgement, sec 9 fallback/max_km/Suez/known
    limitations; PLAN_PHASE_8 mock totals (taxi 208.06, total
    122.2 kg, "Rail emits 112 kg less CO2e (92%)", 5 trees);
    estimation-rules air row >= 100 km condition.
@@ -531,7 +531,7 @@ Round 2 (2026-07-18, all [x], re-verified Round 3):
       **SUPERSEDED by decision E1 (2026-08-02): the house factor
       is 458, not 386. See the main PDR's section 2.**
 - [x] R2-25 RF applies to CO2 component only -> one-line
-      acknowledgment in research sec 8.1
+      acknowledgement in research sec 8.1
 - [x] R2-26 Greencalculus/SCIF reconstructions -> fixed in R3-9
       with live-verified page text
 

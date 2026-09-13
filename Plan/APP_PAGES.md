@@ -571,7 +571,7 @@ Feature postponed; no UI entry points to this route.
   - `/terms` (canonical legal route)
   - External: licenses page (system)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  SDG acknowledgment.
+  SDG acknowledgement.
 
 ### Feedback (`.../settings/feedback`)
 - Functionality: structured form with category chips (Bug / Feature /
@@ -591,6 +591,9 @@ register screen can link to it. Wraps `LegalDocumentScreen`.
 ### Legal Document (internal)
 Reusable template for legal docs — title, sections, last-updated date.
 Not routable directly.
+The same content is published at https://seed-3d48d.web.app/privacy,
+/terms and /delete-account for the store listings; see the Legal Pages
+section of `DEPLOYMENT_STRATEGY.md` for the rebuild command.
 
 ## Route Reference
 

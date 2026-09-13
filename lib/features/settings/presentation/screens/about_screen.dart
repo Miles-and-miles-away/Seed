@@ -67,7 +67,7 @@ class AboutScreen extends ConsumerWidget {
 
             const SizedBox(height: spacingXxxl),
 
-            // Footer with SDG acknowledgment
+            // Footer with SDG acknowledgement
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
               child: Text(

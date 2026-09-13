@@ -1130,7 +1130,7 @@ The pipeline uses `recraftv4_vector` which differs from V3:
 - **10,000 char prompt limit** (vs 1,000 in V3) -- ample room
   for precise style direction.
 - **`controls.colors`** -- 3-5 RGB palette colors (soft
-  constraint; model uses visual judgment to apply them).
+  constraint; model uses visual judgement to apply them).
 - **`controls.background_color`** -- separate from palette.
 - **V4 "design taste"** -- the model makes better compositional
   and color decisions than V3, so simpler prompts often work

@@ -757,7 +757,7 @@ Notes locked in now (they shape the schema):
 
 - **Everything is stored per kilogram.** Liquids are entered in ml
   and computed with density 1.0 (water-like drinks; the error is
-  noise next to LCA spread). No separate per-liter code path.
+  noise next to LCA spread). No separate per-litre code path.
 - **Serving presets are the core UX addition over Part 1.** Users
   know "1 can", "1 egg", "1 chicken breast" -- not grams. Each
   item ships 1-3 presets (`{name, grams}`); a raw grams field

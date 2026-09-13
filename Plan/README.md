@@ -60,8 +60,10 @@ data rules live here.
 - [SECURITY_REPORT.md](./SECURITY_REPORT.md) -- security audit and
   status of findings.
 - [DEPLOYMENT_STRATEGY.md](./DEPLOYMENT_STRATEGY.md),
+  [PLAY_STORE_DEPLOYMENT.md](./PLAY_STORE_DEPLOYMENT.md),
   [SETUP_ANDROID.md](./SETUP_ANDROID.md),
-  [SETUP_IOS.md](./SETUP_IOS.md) -- environments and platform setup.
+  [SETUP_IOS.md](./SETUP_IOS.md) -- environments, the Play release
+  track, and platform setup.
 - [TEST_COVERAGE.md](./TEST_COVERAGE.md),
   [GLOSSARY.md](./GLOSSARY.md)
 

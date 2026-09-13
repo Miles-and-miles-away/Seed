@@ -450,7 +450,7 @@ Requirements, not suggestions.
    already crossed it. Never imply gas is universally cleaner.
 5. **Measured-vs-rated disclosure on the aircon entries:** "a
    measured average hour of use (Energy Conservation Center via
-   METI); the catalog rating is about 2.5x higher because it is
+   METI); the catalogue rating is about 2.5x higher because it is
    measured at full load."
 6. **Kotatsu vs portable electric heater ships as "roughly 8x", never
    "10x"**, and kotatsu carries "least certain figure in this

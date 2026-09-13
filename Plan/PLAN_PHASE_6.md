@@ -869,7 +869,7 @@ Stage 6.6: Polish & Testing
 - [x] Conversion factors + source URLs live in
       `data/app/impact_equivalencies.json`, loaded via
       `impactEquivalenciesDataProvider` — single source of truth, matches
-      the codebase's catalog pattern (`sdg_resources.json` etc.)
+      the codebase's catalogue pattern (`sdg_resources.json` etc.)
 - [x] Unit + widget tests pass (calculator, row, card, info sheet,
       dashboard zero-state)
 

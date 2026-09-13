@@ -548,7 +548,7 @@ For quick reference during research:
 | 1 kg chicken | ~6,900g | Our World in Data |
 | 1 kg vegetables | ~2,000g | Our World in Data |
 | 1 plastic bag | ~33g | EPA |
-| 1 aluminum can (recycled) | ~150g saved | EPA |
+| 1 aluminium can (recycled) | ~150g saved | EPA |
 | 1 plastic bottle (recycled) | ~100g saved | EPA |
 | 1 kWh electricity (US avg) | ~400g | EPA |
 | 1 kWh electricity (UK avg) | ~230g | DEFRA |

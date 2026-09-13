@@ -22,7 +22,7 @@ void main() {
     final testActions = [
       const ActionModel(
         id: 'action1',
-        nameEn: 'Recycle Aluminum Can',
+        nameEn: 'Recycle Aluminium Can',
         nameJa: 'アルミ缶リサイクル',
         category: 'recycling',
         points: 5,

@@ -388,116 +388,7 @@ const descriptions = {
       + '-2024)).',
   },
 
-  use_natural_light: {
-    en:
-      'Opening curtains and blinds to use '
-      + 'daylight instead of electric '
-      + 'lighting saves roughly **90g of '
-      + 'CO2 per day**. Natural light can '
-      + 'replace several bulbs worth of '
-      + 'electricity for 8-10 hours during '
-      + 'daytime ([Energy Saving Trust]'
-      + '(https://energysavingtrust'
-      + '.org.uk/)). Beyond energy savings, '
-      + 'exposure to natural light improves '
-      + 'circadian rhythm and productivity. '
-      + 'Strategic use of mirrors and light-'
-      + 'coloured walls can further amplify '
-      + 'natural light deeper into your home '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)).',
-    ja:
-      'カーテンやブラインドを開けて電気照明'
-      + 'の代わりに自然光を使うと1日あたり約'
-      + '**90gのCO2**を削減できます。自然光は'
-      + '日中8〜10時間にわたり複数の電球分の'
-      + '電力を代替できます（[Energy Saving '
-      + 'Trust](https://energysavingtrust'
-      + '.org.uk/)）。省エネだけでなく自然光'
-      + 'は体内時計の改善や生産性の向上にも'
-      + '効果があります。鏡や明るい色の壁を'
-      + '活用すると自然光を室内の奥まで届ける'
-      + 'ことができます（[DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)）。',
-    es:
-      'Abrir cortinas y persianas para '
-      + 'aprovechar la luz natural en vez de '
-      + 'la iluminación eléctrica ahorra '
-      + 'aproximadamente **90g de CO2 al '
-      + 'día**. La luz natural puede sustituir '
-      + 'varias bombillas durante 8-10 horas '
-      + 'del día ([Energy Saving Trust]'
-      + '(https://energysavingtrust'
-      + '.org.uk/)). Más allá del ahorro '
-      + 'energético, la exposición a la luz '
-      + 'natural mejora el ritmo circadiano y '
-      + 'la productividad. El uso estratégico '
-      + 'de espejos y paredes claras amplifica '
-      + 'la luz natural hacia el interior del '
-      + 'hogar ([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)).',
-  },
 
-  full_laundry_load: {
-    en:
-      'Running a full laundry load instead '
-      + 'of a half load saves about **300g of '
-      + 'CO2** per wash. Half loads waste '
-      + 'roughly 50% of the water and energy '
-      + 'used, since the machine runs a nearly '
-      + 'identical cycle regardless of load '
-      + 'size ([Energy Saving Trust]'
-      + '(https://energysavingtrust.org.uk/)). '
-      + 'Waiting until you have a full load '
-      + 'also means fewer total cycles per '
-      + 'year, extending machine life. This '
-      + 'reduces both your carbon footprint '
-      + 'and utility bills ([DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)).',
-    ja:
-      '半分の量ではなく満杯で洗濯すると'
-      + '1回あたり約**300gのCO2**を節約でき'
-      + 'ます。半量の洗濯は水とエネルギーの約'
-      + '50%を無駄にします。洗濯機は量に'
-      + 'かかわらずほぼ同じサイクルを回すため'
-      + 'です（[Energy Saving Trust]'
-      + '(https://energysavingtrust'
-      + '.org.uk/)）。満杯になるまで待つことで'
-      + '年間の総サイクル数が減り洗濯機の寿命'
-      + 'も延びます。カーボンフットプリントと'
-      + '光熱費の両方を削減できます'
-      + '（[DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)）。',
-    es:
-      'Poner una carga completa de lavadora '
-      + 'en vez de media ahorra unos **300g de '
-      + 'CO2** por lavado. Las medias cargas '
-      + 'desperdician aproximadamente el 50% '
-      + 'del agua y la energía, ya que la '
-      + 'máquina ejecuta un ciclo casi '
-      + 'idéntico sin importar la cantidad '
-      + '([Energy Saving Trust]'
-      + '(https://energysavingtrust.org.uk/)). '
-      + 'Esperar a tener carga completa '
-      + 'también significa menos ciclos al '
-      + 'año, prolongando la vida de la '
-      + 'máquina. Esto reduce tanto la huella '
-      + 'de carbono como las facturas '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)).',
-  },
 
   eco_mode_appliance: {
     en:
@@ -670,6 +561,57 @@ const descriptions = {
   // -------------------------------------------------------
   // WATER (10 actions)
   // -------------------------------------------------------
+  heat_person_not_room: {
+    en:
+      'Spending an evening under a kotatsu, heated '
+      + 'blanket or heated carpet instead of running a '
+      + 'portable electric heater saves about **1.9kg of '
+      + 'CO2**. A portable heater draws up to 1.5kW to warm '
+      + 'the whole room ([OCWR](https://www.ocwr.gov/'
+      + 'publications/fast-facts/portable-space-heaters/)), '
+      + 'while a kotatsu averages about 150W because it only '
+      + 'heats the space around your body ([Metro Electric]'
+      + '(https://www.kotatsu.metro-co.com/our-kotatsu/)). '
+      + 'Over a four-hour evening that gap is roughly 4kWh, '
+      + 'or 1.9kg of CO2 at the 2025 world average grid '
+      + 'intensity of 458g per kWh ([Ember](https://'
+      + 'ember-energy.org/latest-insights/'
+      + 'global-electricity-review-2026/)). Heating the '
+      + 'person, not the room, is one of the cheapest winter '
+      + 'habits to keep.',
+    ja:
+      '電気ストーブの代わりにこたつ・電気毛布・電気'
+      + 'カーペットで一晩過ごすと、約**1.9kgのCO2**を'
+      + '削減できます。電気ストーブは部屋全体を暖める'
+      + 'ために最大1.5kWを消費しますが（[OCWR](https://'
+      + 'www.ocwr.gov/publications/fast-facts/'
+      + 'portable-space-heaters/)）、こたつは体の周りだけ'
+      + 'を暖めるため平均約150Wで済みます（[メトロ電気'
+      + '工業](https://www.kotatsu.metro-co.com/'
+      + 'our-kotatsu/)）。4時間の夜で差は約4kWh、2025年の'
+      + '世界平均排出係数458g/kWhでは約1.9kgのCO2に'
+      + 'なります（[Ember](https://ember-energy.org/'
+      + 'latest-insights/global-electricity-review-2026/)）。'
+      + '部屋ではなく人を暖めるのは、最も安上がりな冬の'
+      + '習慣のひとつです。',
+    es:
+      'Pasar la noche bajo un kotatsu, una manta electrica '
+      + 'o una alfombra electrica en lugar de encender un '
+      + 'calefactor portatil ahorra unos **1,9kg de CO2**. '
+      + 'Un calefactor portatil consume hasta 1,5kW para '
+      + 'calentar toda la habitacion ([OCWR](https://'
+      + 'www.ocwr.gov/publications/fast-facts/'
+      + 'portable-space-heaters/)), mientras que un kotatsu '
+      + 'promedia unos 150W porque solo calienta el espacio '
+      + 'alrededor de tu cuerpo ([Metro Electric](https://'
+      + 'www.kotatsu.metro-co.com/our-kotatsu/)). En una '
+      + 'noche de cuatro horas la diferencia es de unos 4kWh, '
+      + 'o 1,9kg de CO2 con la intensidad media mundial de '
+      + '458g por kWh en 2025 ([Ember](https://ember-energy.'
+      + 'org/latest-insights/global-electricity-review-2026/'
+      + ')). Calentar a la persona y no la habitacion es uno '
+      + 'de los habitos de invierno mas baratos de mantener.',
+  },
   shorter_shower: {
     en:
       'Cutting your shower by four minutes '

@@ -247,7 +247,7 @@ const descriptions = {
       + 'and supporting local composting. '
       + 'Community gardens also build social '
       + 'cohesion, provide fresh produce to '
-      + 'food-insecure neighborhoods, and '
+      + 'food-insecure neighbourhoods, and '
       + 'increase urban green space '
       + '([UN SDG 11]'
       + '(https://sdgs.un.org/goals'

@@ -27,7 +27,7 @@ represents. Three types exist:
   description (e.g., "...instead of electric lighting
   today").
 - Per-instance actions should name the countable thing
-  (e.g., "Recycle an aluminum can", "Choose plant-based
+  (e.g., "Recycle an aluminium can", "Choose plant-based
   milk for a drink or meal").
 - One-time actions should describe the milestone event
   (e.g., "Install an LED bulb", "Purchase an electric
@@ -234,7 +234,7 @@ more than one EV purchase.
 
 ### Worked Examples
 
-**Recycle Aluminum Can** (co2:100, eff:1, freq:5, imp:2)
+**Recycle Aluminium Can** (co2:100, eff:1, freq:5, imp:2)
 ```
 effortMult = 0.7 + (1 * 0.15) = 0.85
 rarityMult = 1.3 - (5 * 0.1) = 0.80
