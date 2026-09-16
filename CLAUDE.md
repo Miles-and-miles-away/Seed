@@ -46,7 +46,7 @@ flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 ## Architecture
 
 ### Tech Stack
-- **Frontend:** Flutter 3.44.1 / Dart 3.12.1
+- **Frontend:** Flutter 3.47.2 / Dart 3.13.2
 - **State Management:** Riverpod 3.x with code generation
 - **Navigation:** go_router 17.x
 - **Backend:** Firebase (Auth, Firestore, FCM, Storage)
