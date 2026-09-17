@@ -18,16 +18,20 @@ const String mascotVmSmileHold = 'smileHold';
 /// Value sent to lookX/lookY at full gaze deflection.
 const double mascotLookRange = 100;
 
+/// Multiple of the mascot's own size at which the gaze saturates, so a
+/// pointer inside the mascot card already reads as a strong look.
+const double mascotGazeReach = 3;
+
 /// Gaze deflection for a pointer at [pointer] (global coordinates) relative
 /// to a mascot centred at [center]. Full deflection (±[mascotLookRange]) is
-/// reached at the screen edges.
-Offset mascotGazeTarget(Offset pointer, Offset center, Size screen) {
+/// reached half of [reach] away from the centre on each axis.
+Offset mascotGazeTarget(Offset pointer, Offset center, Size reach) {
   double axis(double p, double c, double extent) => extent <= 0
       ? 0
       : ((p - c) / (extent / 2)).clamp(-1.0, 1.0) * mascotLookRange;
   return Offset(
-    axis(pointer.dx, center.dx, screen.width),
-    axis(pointer.dy, center.dy, screen.height),
+    axis(pointer.dx, center.dx, reach.width),
+    axis(pointer.dy, center.dy, reach.height),
   );
 }
 
