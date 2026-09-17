@@ -32,15 +32,21 @@ void main() {
       expect(find.text('opt4'), findsNothing);
     });
 
-    testWidgets('opens mid-list so it scrolls both ways', (tester) async {
-      await tester.pumpWidget(wrap(optionCount: 3));
+    testWidgets('opens on All and scrolls both ways', (tester) async {
+      final seen = <int>[];
+      await tester.pumpWidget(wrap(optionCount: 3, seen: seen));
       await tester.pumpAndSettle();
 
       final position = tester
           .state<ScrollableState>(find.byType(Scrollable))
           .position;
-      expect(position.pixels, greaterThan(0));
-      expect(position.pixels, lessThan(position.maxScrollExtent));
+      expect(position.minScrollExtent, lessThan(0));
+      expect(position.maxScrollExtent, greaterThan(0));
+      expect(find.text('All'), findsWidgets);
+      // Opening must only build what the viewport shows, not walk a
+      // long list to a mid-way offset (one open used to build ~1300
+      // chips during layout).
+      expect(seen.length, lessThan(40));
     });
 
     testWidgets('an option count of zero still renders All', (tester) async {

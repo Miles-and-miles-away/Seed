@@ -46,6 +46,63 @@ void main() {
         }
       });
 
+      // Drives lookX like the app and lets the FaceRig script produce
+      // pupilX and blink, so an unsigned build (script inert) fails here.
+      test('FaceRig script runs and its outputs reach the eyes', () async {
+        final file = await load(e.key);
+        final face = file.artboard('Face')!;
+        final sm = face.defaultStateMachine()!;
+        final vm = file
+            .defaultArtboardViewModel(face)!
+            .createDefaultInstance()!;
+        sm.bindViewModelInstance(vm);
+        final gaze = face.component('gaze')!;
+        final eyes = [face.component('Eye_L')!, face.component('Eye_R')!];
+        final designScale = eyes.first.scaleY;
+        final pupilX = vm.number('pupilX')!;
+        final blink = vm.number('blink')!;
+        vm.number('lookX')!.value = 100;
+
+        var minBlink = 1.0;
+        for (var t = 0.0; t < 8; t += 1 / 60) {
+          sm.advanceAndApply(1 / 60);
+          if (blink.value < minBlink) minBlink = blink.value;
+          for (final eye in eyes) {
+            expect(
+              eye.scaleY,
+              closeTo(blink.value * designScale, 0.001),
+              reason: 'eye Scale-Y must follow blink at the design scale',
+            );
+          }
+        }
+        expect(
+          pupilX.value,
+          greaterThan(10),
+          reason: 'FaceRig did not run; build the .riv with --publish',
+        );
+        expect(gaze.x, closeTo(pupilX.value, 0.01), reason: 'gaze.x not bound');
+        expect(minBlink, lessThan(0.5), reason: 'no blink within 8s');
+      });
+
+      // A gaze node that carries the eye offset itself reads fine at rest
+      // and drops the pupil the moment pupilY (0) is bound over it.
+      test('pupil rests centred on the sclera once binds apply', () async {
+        final file = await load(e.key);
+        final face = file.artboard('Face')!;
+        final vm = file
+            .defaultArtboardViewModel(face)!
+            .createDefaultInstance()!;
+        face.defaultStateMachine()!.bindViewModelInstance(vm);
+        vm.number('pupilX')!.value = 0;
+        vm.number('pupilY')!.value = 0;
+        face.defaultStateMachine()!.advanceAndApply(1 / 60);
+        final gaze = face.component('gaze')!;
+        final pupil = face.component('Pupil')!;
+        final sclera = face.component('Sclera')!;
+        expect(gaze.x + pupil.x, closeTo(sclera.x, 2));
+        expect(gaze.y + pupil.y, closeTo(sclera.y, 2));
+      });
+
       test('every stage artboard nests the Face', () async {
         final file = await load(e.key);
         for (var s = 1; s <= 4; s++) {
