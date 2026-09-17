@@ -150,9 +150,11 @@ void main() {
       await tester.pumpWidget(buildTabs());
       await tester.pumpAndSettle();
 
-      expect(find.byType(ListView), findsOneWidget);
+      expect(find.byType(CustomScrollView), findsOneWidget);
 
-      final listView = tester.widget<ListView>(find.byType(ListView));
+      final listView = tester.widget<CustomScrollView>(
+        find.byType(CustomScrollView),
+      );
       expect(listView.scrollDirection, Axis.horizontal);
     });
 

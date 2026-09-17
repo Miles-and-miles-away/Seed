@@ -46,10 +46,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   rive.ViewModelInstanceTrigger? _smile;
   rive.ViewModelInstanceNumber? _smileHold;
 
-  // Screen size cached in build; pointer callbacks must not depend on
-  // inherited widgets.
-  Size _screenSize = Size.zero;
-
   @override
   void initState() {
     super.initState();
@@ -108,7 +104,11 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     final box = context.findRenderObject() as RenderBox?;
     if (box == null || !box.attached || !box.hasSize) return;
     final center = box.localToGlobal(box.size.center(Offset.zero));
-    final gaze = mascotGazeTarget(event.position, center, _screenSize);
+    final gaze = mascotGazeTarget(
+      event.position,
+      center,
+      box.size * mascotGazeReach,
+    );
     _lookX?.value = gaze.dx;
     _lookY?.value = gaze.dy;
   }
@@ -162,8 +162,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
         child: const Center(child: CircularProgressIndicator()),
       );
     }
-
-    _screenSize = MediaQuery.sizeOf(context);
 
     return GestureDetector(
       onTap: widget.onTap,

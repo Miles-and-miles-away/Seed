@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 
-/// Repeats so the row never reaches an edge.
-const _repeatCount = 100;
-
-/// Rough chip width, only used to open the row mid-cycle.
-const _estimatedChipWidth = 100.0;
-
 /// The endless horizontal filter row the two action filters share: an
-/// "All" chip at index 0, then [optionCount] options, repeated.
+/// "All" chip at index 0, then [optionCount] options, repeated without
+/// end in both directions.
 class FilterChipRow extends StatefulWidget {
   const FilterChipRow({
     required this.optionCount,
@@ -28,28 +23,39 @@ class FilterChipRow extends StatefulWidget {
 }
 
 class _FilterChipRowState extends State<FilterChipRow> {
-  int get _cycleLength => widget.optionCount + 1;
-  late final ScrollController _controller = ScrollController(
-    initialScrollOffset:
-        (_repeatCount ~/ 2) * _cycleLength * _estimatedChipWidth,
-  );
+  // Two unbounded slivers meeting at this key: the viewport opens on
+  // "All" with nothing to lay out behind it, unlike one long list
+  // opened mid-way, which builds every chip before the offset.
+  final _forward = UniqueKey();
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  int get _cycleLength => widget.optionCount + 1;
 
   @override
   Widget build(BuildContext context) => SizedBox(
     height: spacingHuge,
-    child: ListView.builder(
-      controller: _controller,
+    child: CustomScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: spacingLg),
-      itemCount: _cycleLength * _repeatCount,
-      itemBuilder: (context, index) =>
-          widget.itemBuilder(context, index % _cycleLength),
+      center: _forward,
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => widget.itemBuilder(
+              context,
+              _cycleLength - 1 - index % _cycleLength,
+            ),
+          ),
+        ),
+        SliverPadding(
+          key: _forward,
+          padding: const EdgeInsets.only(left: spacingLg),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) =>
+                  widget.itemBuilder(context, index % _cycleLength),
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }

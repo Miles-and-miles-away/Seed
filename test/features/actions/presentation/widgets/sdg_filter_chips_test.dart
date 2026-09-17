@@ -91,11 +91,13 @@ void main() {
       expect(category.avatar, isA<Icon>());
     });
 
-    testWidgets('renders as horizontal ListView', (tester) async {
+    testWidgets('renders as horizontal CustomScrollView', (tester) async {
       await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
-      final list = tester.widget<ListView>(find.byType(ListView));
+      final list = tester.widget<CustomScrollView>(
+        find.byType(CustomScrollView),
+      );
       expect(list.scrollDirection, Axis.horizontal);
     });
 
@@ -112,7 +114,7 @@ void main() {
       await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
-      // ListView renders visible chips; expect at
+      // CustomScrollView renders visible chips; expect at
       // least a few FilterChips
       expect(find.byType(FilterChip), findsAtLeast(4));
     });
@@ -196,7 +198,7 @@ void main() {
 
       final sizedBox = tester.widget<SizedBox>(
         find.ancestor(
-          of: find.byType(ListView),
+          of: find.byType(CustomScrollView),
           matching: find.byType(SizedBox),
         ),
       );
@@ -208,7 +210,9 @@ void main() {
       await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
-      final listView = tester.widget<ListView>(find.byType(ListView));
+      final listView = tester.widget<CustomScrollView>(
+        find.byType(CustomScrollView),
+      );
       expect(listView.scrollDirection, Axis.horizontal);
     });
 

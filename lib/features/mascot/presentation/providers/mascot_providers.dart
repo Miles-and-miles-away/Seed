@@ -259,9 +259,9 @@ class MascotSmileTrigger extends _$MascotSmileTrigger {
   @override
   bool build() => false;
 
-  void triggerSmile() {
+  void triggerSmile({Duration hold = durationInstant}) {
     state = true;
-    Future.delayed(durationInstant, () {
+    Future.delayed(hold, () {
       // The autoDispose notifier may be gone before the delay
       // elapses; touching state then throws.
       if (ref.mounted && state) state = false;

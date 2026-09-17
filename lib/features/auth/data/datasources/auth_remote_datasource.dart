@@ -132,7 +132,12 @@ class AuthRemoteDataSource {
   }
 
   Future<void> reloadCurrentUser() async {
-    await _firebaseAuth.currentUser?.reload();
+    final user = _firebaseAuth.currentUser;
+    if (user == null) return;
+    await user.reload();
+    // Firestore rules read email_verified from the ID token, which
+    // reload() leaves stale for up to an hour.
+    await user.getIdToken(true);
   }
 
   Future<void> reauthenticateWithEmailPassword(

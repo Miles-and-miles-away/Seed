@@ -109,14 +109,18 @@ void main() {
   });
 
   group('reloadCurrentUser', () {
-    test('calls reload on current user', () async {
+    test('reloads the user and forces an ID token refresh', () async {
       final user = _MockUser();
       when(() => auth.currentUser).thenReturn(user);
       when(user.reload).thenAnswer((_) async {});
+      when(() => user.getIdToken(true)).thenAnswer((_) async => 'token');
 
       await dataSource.reloadCurrentUser();
 
       verify(user.reload).called(1);
+      // Without the forced refresh the ID token keeps email_verified
+      // false and Firestore rules deny every gameplay write.
+      verify(() => user.getIdToken(true)).called(1);
     });
 
     test('no-ops when no current user', () async {
