@@ -37,6 +37,7 @@ const double sheetMinChildSize = 0.3;
 const durationInstant = Duration(milliseconds: 100);
 const durationFast = Duration(milliseconds: 200);
 const durationNormal = Duration(milliseconds: 300);
+const durationMedium = Duration(milliseconds: 400);
 const durationEmphasis = Duration(milliseconds: 400);
 const durationSlow = Duration(milliseconds: 500);
 const durationSlower = Duration(milliseconds: 600);

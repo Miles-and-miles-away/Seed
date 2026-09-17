@@ -145,7 +145,7 @@ nowhere else, so an unverified review account is a dead end.
 
 ## Console declarations
 
-- [ ] **Data safety.** One list, matched against the privacy policy
+- [x] **Data safety.** One list, matched against the privacy policy
       in `legal_content.dart` and the iOS `PrivacyInfo.xcprivacy`:
       email address, display name, Firebase user ID, action history
       and custom action text (user content), FCM token (device ID),
@@ -153,25 +153,25 @@ nowhere else, so an unverified review account is a dead end.
       collection because the settings toggle can turn it off. Include
       the IP-derived approximate location that Analytics reports,
       which is easy to miss.
-- [ ] **Advertising ID.** Answer "no". firebase_analytics pulls in
+- [x] **Advertising ID.** Answer "no". firebase_analytics pulls in
       `com.google.android.gms.permission.AD_ID` and two ADSERVICES
       permissions; `AndroidManifest.xml` strips all three with
       `tools:node="remove"` and turns off Analytics ad ID collection.
       Confirm on every upload that the merged manifest still lacks
       them. See D2.
-- [ ] **Privacy policy URL.** https://seed-3d48d.web.app/privacy,
+- [x] **Privacy policy URL.** https://seed-3d48d.web.app/privacy,
       built from `public/privacy.html`.
-- [ ] **Account deletion URL.** https://seed-3d48d.web.app/delete-account,
+- [x] **Account deletion URL.** https://seed-3d48d.web.app/delete-account,
       built from `public/delete-account.html`. Backed by the
       `deleteUserAccount` callable, which removes subcollections and
       the Auth user server-side.
-- [ ] **Content rating questionnaire.**
-- [ ] **Target audience and content.** 13+ per D1. Answer "no" to
+- [x] **Content rating questionnaire.**
+- [x] **Target audience and content.** 13+ per D1. Answer "no" to
       unintentional appeal to children and keep the listing assets
       aimed at teens and adults.
-- [ ] **Ads declaration.** Seed serves no ads.
-- [ ] **News app declaration.** Seed is not a news app.
-- [ ] **Store listing.** Title, short and full description, feature
+- [x] **Ads declaration.** Seed serves no ads.
+- [x] **News app declaration.** Seed is not a news app.
+- [x] **Store listing.** Title, short and full description, feature
       graphic, screenshots per form factor, app icon.
 
 The in-app policy text these must match lives in

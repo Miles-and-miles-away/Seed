@@ -78,11 +78,14 @@ class _MainShellState extends ConsumerState<MainShell> {
   }
 
   void _onActionPressed() {
-    // Touch never hovers, so let the mascot smile briefly before the
-    // action log slides in.
+    // Touch never hovers, so let the mascot smile before the action log
+    // opens; the push lands while the 0.5s smile timeline is still on
+    // the happy mouth.
     if (_mascotTabs.contains(widget.navigationShell.currentIndex)) {
-      ref.read(mascotSmileTriggerProvider.notifier).triggerSmile();
-      Future.delayed(durationInstant, () {
+      ref
+          .read(mascotSmileTriggerProvider.notifier)
+          .triggerSmile(hold: durationMedium - durationInstant);
+      Future.delayed(durationMedium, () {
         if (mounted) context.push(appRoutes.actionLog);
       });
     } else {

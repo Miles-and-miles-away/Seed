@@ -52,7 +52,9 @@ void main() {
         final file = await load(e.key);
         final face = file.artboard('Face')!;
         final sm = face.defaultStateMachine()!;
-        final vm = file.defaultArtboardViewModel(face)!.createDefaultInstance()!;
+        final vm = file
+            .defaultArtboardViewModel(face)!
+            .createDefaultInstance()!;
         sm.bindViewModelInstance(vm);
         final gaze = face.component('gaze')!;
         final eyes = [face.component('Eye_L')!, face.component('Eye_R')!];
@@ -87,7 +89,9 @@ void main() {
       test('pupil rests centred on the sclera once binds apply', () async {
         final file = await load(e.key);
         final face = file.artboard('Face')!;
-        final vm = file.defaultArtboardViewModel(face)!.createDefaultInstance()!;
+        final vm = file
+            .defaultArtboardViewModel(face)!
+            .createDefaultInstance()!;
         face.defaultStateMachine()!.bindViewModelInstance(vm);
         vm.number('pupilX')!.value = 0;
         vm.number('pupilY')!.value = 0;
