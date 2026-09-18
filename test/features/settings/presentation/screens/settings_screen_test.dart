@@ -86,6 +86,30 @@ void main() {
       expect(find.text('Language'), findsOneWidget);
     });
 
+    testWidgets(
+      'theme selector fits a phone width and shows the current mode',
+      (tester) async {
+        await tester.binding.setSurfaceSize(const Size(390, 844));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+
+        await pumpScreen(
+          tester,
+          settings: const UserSettingsModel(themeMode: 'dark'),
+        );
+
+        expect(find.text('Theme'), findsOneWidget);
+        expect(find.byType(SegmentedButton<ThemeMode>), findsOneWidget);
+        expect(
+          tester
+              .widget<SegmentedButton<ThemeMode>>(
+                find.byType(SegmentedButton<ThemeMode>),
+              )
+              .selected,
+          {ThemeMode.dark},
+        );
+      },
+    );
+
     testWidgets('shows account setting', (tester) async {
       await pumpScreen(tester);
 

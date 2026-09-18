@@ -108,6 +108,7 @@ abstract class AppConstants {
   static const fieldReminderSchedules = 'reminderSchedules';
   static const fieldSmartRemindersEnabled = 'smartRemindersEnabled';
   static const fieldAnalyticsEnabled = 'analyticsEnabled';
+  static const fieldThemeMode = 'themeMode';
   static const fieldSeenStreakMilestones = 'seenStreakMilestones';
 
   // Firestore action library fields

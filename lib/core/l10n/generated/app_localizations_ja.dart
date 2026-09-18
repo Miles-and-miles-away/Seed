@@ -1258,6 +1258,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get trendChartAverageLabel => '平均';
 
   @override
+  String get trendChartTrendLabel => '傾向';
+
+  @override
   String get categoryChartTitle => 'カテゴリ別';
 
   @override
@@ -1341,7 +1344,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoDexNextUp => 'もうすぐ発見';
 
   @override
-  String get ecoDexDiscoveryTitle => '新発見！';
+  String get ecoDexDiscoveryTitle => '実績を達成しました！';
+
+  @override
+  String ecoDexEntryTitle(String name) {
+    return 'エコ図鑑: $name';
+  }
 
   @override
   String get ecoDexDiscoveryAcknowledge => 'やったね！';

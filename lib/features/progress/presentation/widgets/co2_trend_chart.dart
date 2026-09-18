@@ -76,6 +76,24 @@ class Co2TrendChart extends StatelessWidget {
       dotData: const FlDotData(show: false),
     );
 
+    final trendColor = theme.colorScheme.tertiary;
+    final fit = data.trendFit;
+    final trendSpots = fit == null
+        ? null
+        : _clipToPlot(
+            y0: fit.intercept / 1000.0,
+            y1: (fit.intercept + fit.slope * maxX) / 1000.0,
+            maxX: maxX,
+            maxY: maxY,
+          );
+    final trendSeries = trendSpots == null
+        ? null
+        : LineChartBarData(
+            spots: trendSpots,
+            color: trendColor,
+            dotData: const FlDotData(show: false),
+          );
+
     return Container(
       padding: const EdgeInsets.fromLTRB(
         spacingMd,
@@ -102,18 +120,22 @@ class Co2TrendChart extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Inline legend for the average line so users know
-                // what the dashed line represents.
-                Container(
-                  width: 16,
-                  height: 1.5,
-                  decoration: BoxDecoration(color: avgColor),
-                ),
-                const SizedBox(width: spacingXs),
-                Text(
-                  l10n.trendChartAverageLabel,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                // Inline legend so users know what each line means.
+                Flexible(
+                  child: Wrap(
+                    alignment: WrapAlignment.end,
+                    spacing: spacingSm,
+                    children: [
+                      _LegendItem(
+                        color: avgColor,
+                        label: l10n.trendChartAverageLabel,
+                      ),
+                      if (trendSeries != null)
+                        _LegendItem(
+                          color: trendColor,
+                          label: l10n.trendChartTrendLabel,
+                        ),
+                    ],
                   ),
                 ),
               ],
@@ -128,7 +150,7 @@ class Co2TrendChart extends StatelessWidget {
                 maxX: maxX,
                 minY: 0,
                 maxY: maxY,
-                lineBarsData: [dotsSeries, avgSeries],
+                lineBarsData: [dotsSeries, avgSeries, ?trendSeries],
                 gridData: FlGridData(
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (_) => FlLine(
@@ -211,6 +233,31 @@ class Co2TrendChart extends StatelessWidget {
     );
   }
 
+  /// The visible part of the fitted line, as the two endpoints of its
+  /// segment inside the plot area. Null when the fit never enters the
+  /// drawn y-range, so a steep fit is trimmed rather than drawn
+  /// outside the axes.
+  List<FlSpot>? _clipToPlot({
+    required double y0,
+    required double y1,
+    required double maxX,
+    required double maxY,
+  }) {
+    final dy = y1 - y0;
+    if (dy == 0) {
+      if (y0 < 0 || y0 > maxY) return null;
+      return [FlSpot(0, y0), FlSpot(maxX, y0)];
+    }
+
+    final tAtZero = -y0 / dy;
+    final tAtMax = (maxY - y0) / dy;
+    final lo = math.max(math.min(tAtZero, tAtMax), 0);
+    final hi = math.min(math.max(tAtZero, tAtMax), 1);
+    if (hi <= lo) return null;
+
+    return [FlSpot(lo * maxX, y0 + dy * lo), FlSpot(hi * maxX, y0 + dy * hi)];
+  }
+
   /// Pick a y-axis label interval that yields roughly 3-4 grid lines
   /// for a given max value. Avoids label crowding without going
   /// fully bespoke per scale.
@@ -220,5 +267,30 @@ class Co2TrendChart extends StatelessWidget {
     if (maxY <= 20) return 5;
     if (maxY <= 50) return 10;
     return 25;
+  }
+}
+
+class _LegendItem extends StatelessWidget {
+  const _LegendItem({required this.color, required this.label});
+
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 16, height: 1.5, color: color),
+        const SizedBox(width: spacingXs),
+        Text(
+          label,
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
   }
 }

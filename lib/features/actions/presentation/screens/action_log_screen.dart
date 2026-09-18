@@ -98,6 +98,13 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final filteredActionsAsync = ref.watch(filteredActionsProvider);
     final languageCode = ref.watch(userLanguageCodeProvider);
 
+    // Outline glyphs alone read as decoration against the app bar, so
+    // each header action sits on its own tinted disc.
+    final headerButtonStyle = IconButton.styleFrom(
+      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+      foregroundColor: theme.colorScheme.onSurfaceVariant,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.actionLogTitle),
@@ -109,6 +116,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           // Carbon calculators hub (Phase 8): opens the transport / food
           // / home-energy chooser without spending a bottom-nav slot.
           IconButton(
+            style: headerButtonStyle,
             icon: const Icon(Icons.calculate_outlined),
             tooltip: l10n.calculatorsButtonTooltip,
             onPressed: () => CalculatorChooserSheet.show(context),
@@ -118,6 +126,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           // would overflow, and rather than as category tiles, because
           // neither is an action to log.
           IconButton(
+            style: headerButtonStyle,
             // The app's own energy glyph rather than a generic chart:
             // both of these icons are energy-only surfaces.
             icon: const Icon(Icons.bolt),
@@ -125,6 +134,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
             onPressed: () => context.push(appRoutes.energyExplore),
           ),
           IconButton(
+            style: headerButtonStyle,
             icon: const Icon(Icons.quiz_outlined),
             // Domain-neutral: the game rotates between energy, food and
             // transport rounds.

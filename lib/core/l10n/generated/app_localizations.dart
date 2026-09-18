@@ -2380,6 +2380,12 @@ abstract class AppLocalizations {
   /// **'average'**
   String get trendChartAverageLabel;
 
+  /// No description provided for @trendChartTrendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'trend'**
+  String get trendChartTrendLabel;
+
   /// No description provided for @categoryChartTitle.
   ///
   /// In en, this message translates to:
@@ -2527,8 +2533,14 @@ abstract class AppLocalizations {
   /// No description provided for @ecoDexDiscoveryTitle.
   ///
   /// In en, this message translates to:
-  /// **'New Discovery!'**
+  /// **'Achievement unlocked!'**
   String get ecoDexDiscoveryTitle;
+
+  /// No description provided for @ecoDexEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco-Dex: {name}'**
+  String ecoDexEntryTitle(String name);
 
   /// No description provided for @ecoDexDiscoveryAcknowledge.
   ///

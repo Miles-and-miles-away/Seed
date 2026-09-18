@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
@@ -41,6 +42,18 @@ void main() {
       );
 
       expect(c.read(analyticsEnabledProvider), isFalse);
+    });
+
+    test('themeModeProvider maps the stored name', () async {
+      final c = await _container(const UserSettingsModel(themeMode: 'dark'));
+
+      expect(c.read(themeModeProvider), ThemeMode.dark);
+    });
+
+    test('themeModeProvider falls back to system on an unknown name', () async {
+      final c = await _container(const UserSettingsModel(themeMode: 'sepia'));
+
+      expect(c.read(themeModeProvider), ThemeMode.system);
     });
 
     test('appLocaleProvider wraps the language in a Locale', () async {

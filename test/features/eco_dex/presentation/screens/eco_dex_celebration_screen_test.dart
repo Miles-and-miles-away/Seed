@@ -45,6 +45,7 @@ void main() {
               'e1',
               nameEn: 'Habit Loop',
               factEn: 'After 7 days a behavior starts wiring itself in.',
+              hintEn: 'Keep a 7-day streak',
             ),
             onDismiss: () => dismissed = true,
           ),
@@ -52,8 +53,10 @@ void main() {
       );
       await tester.pump(const Duration(seconds: 2));
 
-      expect(find.text('New Discovery!'), findsOneWidget);
-      expect(find.text('Habit Loop'), findsOneWidget);
+      expect(find.text('Achievement unlocked!'), findsOneWidget);
+      expect(find.text('Eco-Dex: Habit Loop'), findsOneWidget);
+      // The unlock condition is spelled out under the title.
+      expect(find.text('Keep a 7-day streak'), findsOneWidget);
       expect(
         find.text('After 7 days a behavior starts wiring itself in.'),
         findsOneWidget,
@@ -125,7 +128,7 @@ void main() {
       await tester.pump(const Duration(seconds: 5));
       await tester.pumpAndSettle();
 
-      expect(find.text('New Discovery!'), findsOneWidget);
+      expect(find.text('Achievement unlocked!'), findsOneWidget);
     });
   });
 
@@ -141,26 +144,26 @@ void main() {
       await tester.tap(find.text('launch'));
       await tester.pump(const Duration(seconds: 2));
 
-      expect(find.text('First Up'), findsOneWidget);
+      expect(find.text('Eco-Dex: First Up'), findsOneWidget);
       expect(find.text('+2 more queued'), findsOneWidget);
 
       await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
-      expect(find.text('Second Up'), findsOneWidget);
+      expect(find.text('Eco-Dex: Second Up'), findsOneWidget);
       expect(find.text('+1 more queued'), findsOneWidget);
 
       await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
-      expect(find.text('Third Up'), findsOneWidget);
+      expect(find.text('Eco-Dex: Third Up'), findsOneWidget);
       expect(find.textContaining('more queued'), findsNothing);
 
       await tester.tap(find.text('Awesome!'));
       await tester.pump(const Duration(seconds: 2));
 
-      expect(find.text('Third Up'), findsNothing);
-      expect(find.text('New Discovery!'), findsNothing);
+      expect(find.text('Eco-Dex: Third Up'), findsNothing);
+      expect(find.text('Achievement unlocked!'), findsNothing);
     });
 
     testWidgets('empty list is a no-op (no dialog opens)', (tester) async {
@@ -168,7 +171,7 @@ void main() {
       await tester.tap(find.text('launch'));
       await tester.pump(const Duration(seconds: 1));
 
-      expect(find.text('New Discovery!'), findsNothing);
+      expect(find.text('Achievement unlocked!'), findsNothing);
     });
   });
 }

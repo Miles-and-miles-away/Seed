@@ -631,6 +631,7 @@
   "vsLastMonth": "先月比",
   "trendChartTitle": "日々の推移",
   "trendChartAverageLabel": "平均",
+  "trendChartTrendLabel": "傾向",
   "categoryChartTitle": "カテゴリ別",
   "categoryOther": "その他",
   "equivalentToHeader": "つまり",
@@ -672,7 +673,8 @@
   "ecoDexAchievement": "実績: {hint}",
   "ecoDexNewDiscovery": "新しいエコ図鑑の発見！",
   "ecoDexNextUp": "もうすぐ発見",
-  "ecoDexDiscoveryTitle": "新発見！",
+  "ecoDexDiscoveryTitle": "実績を達成しました！",
+  "ecoDexEntryTitle": "エコ図鑑: {name}",
   "ecoDexDiscoveryAcknowledge": "やったね！",
   "ecoDexDiscoveryMoreQueued": "他に{count}件",
   "@ecoDexDiscoveryMoreQueued": {

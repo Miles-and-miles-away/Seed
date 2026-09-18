@@ -1024,7 +1024,7 @@ final class MascotSmileTriggerProvider
 }
 
 String _$mascotSmileTriggerHash() =>
-    r'6146970c03b45858fc8f68211d15d11be7ff4ff8';
+    r'203e548f1d7dfa1cd126adda2331b94888b8f6a6';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///

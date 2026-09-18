@@ -329,7 +329,7 @@ void main() {
     await tapAndConfirm(tester, until: find.byType(EcoDexCelebrationScreen));
 
     expect(find.byType(EcoDexCelebrationScreen), findsOneWidget);
-    expect(find.text('forests_01'), findsOneWidget);
+    expect(find.text('Eco-Dex: forests_01'), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
     await tester.tap(find.text('Awesome!'));
     await tester.pump();
