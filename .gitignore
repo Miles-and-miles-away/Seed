@@ -30,6 +30,8 @@ android/key.properties
 android/*.jks
 android/*.keystore
 
+.crashlytics/
+
 # iOS
 ios/.symlinks/
 ios/Pods/

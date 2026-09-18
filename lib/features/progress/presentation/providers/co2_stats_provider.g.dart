@@ -96,7 +96,7 @@ final class Co2StatsProvider
   }
 }
 
-String _$co2StatsHash() => r'754b3b5e6d1fc62e8a741011e3a14a2998673eaa';
+String _$co2StatsHash() => r'02b54736bab19a318a512c91c3f72408ff3a97dc';
 
 /// Aggregated CO2 totals for the Impact dashboard.
 ///

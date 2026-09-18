@@ -99,7 +99,7 @@ final class TodayChallengeProvider
   }
 }
 
-String _$todayChallengeHash() => r'a33fdb91c54dd2ef4414f393fedebf993570d26f';
+String _$todayChallengeHash() => r'922bb5df1fbfedd100140f05ce4a303cf6fe9546';
 
 /// Whether today's daily challenge is completed.
 
@@ -146,7 +146,7 @@ final class IsTodayChallengeCompletedProvider
 }
 
 String _$isTodayChallengeCompletedHash() =>
-    r'98034732425cc74d92a40d2b4c3e5f063b05f11c';
+    r'18ae9cb590fb4c4526212a4bd0fe7fa68c080188';
 
 /// Current challenge streak as the user should see it.
 ///
@@ -203,7 +203,7 @@ final class ChallengeStreakProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$challengeStreakHash() => r'05057cf9ebc5b6af057416b5d0422e39982f3812';
+String _$challengeStreakHash() => r'bafc196e011397b059b7d44313127b67330988bc';
 
 /// Active multi-day challenge data.
 
@@ -414,7 +414,7 @@ final class MultiDayChallengeNotifierProvider
 }
 
 String _$multiDayChallengeNotifierHash() =>
-    r'8d855c6acb951ef20b79f6ea72e68e0121747ae6';
+    r'990ab997d5b7252bcbc425652aa704d1c34e0515';
 
 /// Notifier for multi-day challenge actions.
 ///
