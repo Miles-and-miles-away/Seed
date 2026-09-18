@@ -46,7 +46,32 @@ void main() {
 
       expect(find.text('Daily trend'), findsOneWidget);
       expect(find.text('average'), findsOneWidget);
+      expect(find.text('trend'), findsOneWidget);
       expect(find.byType(LineChart), findsOneWidget);
+    });
+
+    testWidgets('draws the best-fit line inside the plot area', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          // A steep drop: the fit extrapolates well below zero at the
+          // window start, so it has to be trimmed to the drawn range.
+          child: Co2TrendChart(
+            data: _fixture(days: 30, points: const [(25, 4000), (29, 100)]),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final bars = tester
+          .widget<LineChart>(find.byType(LineChart))
+          .data
+          .lineBarsData;
+      expect(bars, hasLength(3));
+      for (final spot in bars.last.spots) {
+        expect(spot.y, greaterThanOrEqualTo(0));
+        expect(spot.x, inInclusiveRange(0, 29));
+      }
     });
 
     testWidgets('renders without throwing for sparse 90-day data', (
