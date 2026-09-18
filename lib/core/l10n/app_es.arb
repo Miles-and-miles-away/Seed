@@ -631,6 +631,7 @@
   "vsLastMonth": "vs. mes pasado",
   "trendChartTitle": "Tendencia diaria",
   "trendChartAverageLabel": "promedio",
+  "trendChartTrendLabel": "tendencia",
   "categoryChartTitle": "Por categoría",
   "categoryOther": "Otros",
   "equivalentToHeader": "Equivale a",
@@ -672,7 +673,8 @@
   "ecoDexAchievement": "Logro: {hint}",
   "ecoDexNewDiscovery": "Nuevo descubrimiento en Eco-Dex!",
   "ecoDexNextUp": "Próximos",
-  "ecoDexDiscoveryTitle": "¡Nuevo Descubrimiento!",
+  "ecoDexDiscoveryTitle": "¡Logro desbloqueado!",
+  "ecoDexEntryTitle": "Eco-Dex: {name}",
   "ecoDexDiscoveryAcknowledge": "¡Genial!",
   "ecoDexDiscoveryMoreQueued": "+{count} más en cola",
   "@ecoDexDiscoveryMoreQueued": {

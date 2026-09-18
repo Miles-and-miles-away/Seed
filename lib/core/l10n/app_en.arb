@@ -631,6 +631,7 @@
   "vsLastMonth": "vs. last month",
   "trendChartTitle": "Daily trend",
   "trendChartAverageLabel": "average",
+  "trendChartTrendLabel": "trend",
   "categoryChartTitle": "By category",
   "categoryOther": "Other",
   "equivalentToHeader": "Equivalent to",
@@ -679,7 +680,15 @@
   },
   "ecoDexNewDiscovery": "New Eco-Dex discovery!",
   "ecoDexNextUp": "Next Up",
-  "ecoDexDiscoveryTitle": "New Discovery!",
+  "ecoDexDiscoveryTitle": "Achievement unlocked!",
+  "ecoDexEntryTitle": "Eco-Dex: {name}",
+  "@ecoDexEntryTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "ecoDexDiscoveryAcknowledge": "Awesome!",
   "ecoDexDiscoveryMoreQueued": "+{count} more queued",
   "@ecoDexDiscoveryMoreQueued": {
