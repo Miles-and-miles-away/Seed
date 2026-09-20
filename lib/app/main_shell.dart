@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:seed_app/features/actions/actions.dart';
 
 import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
+import '../shared/providers/analytics_providers.dart';
 import '../shared/providers/day_change_provider.dart';
 import 'app_bottom_nav.dart';
 import 'router.dart';
@@ -25,6 +28,7 @@ class MainShell extends ConsumerStatefulWidget {
 class _MainShellState extends ConsumerState<MainShell> {
   // Shell tabs where the mascot is visible (0 Home, 2 Mascot).
   static const _mascotTabs = {0, 2};
+  static const _tabRouteNames = ['home', 'progress', 'mascot', 'profile'];
 
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
@@ -104,6 +108,13 @@ class _MainShellState extends ConsumerState<MainShell> {
     widget.navigationShell.goBranch(
       index,
       initialLocation: index == widget.navigationShell.currentIndex,
+    );
+    // Tab switches swap an IndexedStack, so the navigator observer that
+    // records the route key for Crashlytics never sees them.
+    unawaited(
+      ref
+          .read(crashlyticsProvider)
+          .setCustomKey('route', _tabRouteNames[index]),
     );
   }
 }
