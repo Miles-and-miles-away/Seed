@@ -22,9 +22,6 @@ updates:
     ignore:
       # flutter_localizations pins intl to an exact version
       - dependency-name: intl
-      # freezed 4.x requires Dart >=3.13; we are on Flutter 3.44 / Dart 3.12
-      - dependency-name: freezed
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: npm
     directory: /

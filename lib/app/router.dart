@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +34,7 @@ import '../features/settings/presentation/screens/privacy_policy_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/settings/presentation/screens/terms_of_service_screen.dart';
 import '../features/transport/transport.dart';
+import '../shared/providers/analytics_providers.dart';
 import '../shared/services/analytics_service.dart';
 import 'main_shell.dart';
 
@@ -44,11 +46,20 @@ int _parseSdgGoalNumber(String? value) {
 }
 
 /// A route whose screen needs nothing from the router state.
+///
+/// Named after its path so Analytics screen_view reports read as
+/// `settings`, not as route patterns like `:dateKey`.
 GoRoute _route(
   String path,
   Widget child, {
+  String? name,
   List<RouteBase> routes = const [],
-}) => GoRoute(path: path, builder: (_, _) => child, routes: routes);
+}) => GoRoute(
+  path: path,
+  name: name ?? path.replaceFirst('/', ''),
+  builder: (_, _) => child,
+  routes: routes,
+);
 
 /// Full-path routes for use at navigation call sites via [appRoutes].
 ///
@@ -127,18 +138,19 @@ GoRouter router(Ref ref) {
   );
 
   final analyticsObserver = AnalyticsService.instance.observer;
+  final routeKeyObserver = _RouteKeyObserver(ref.read(crashlyticsProvider));
 
   final router = GoRouter(
     initialLocation: appRoutes.splash,
     debugLogDiagnostics: kDebugMode,
-    observers: [?analyticsObserver],
+    observers: [?analyticsObserver, routeKeyObserver],
 
     // Refresh router when auth state changes
     refreshListenable: refreshStream,
 
     routes: [
       // Splash / Loading screen
-      _route(appRoutes.splash, const _SplashScreen()),
+      _route(appRoutes.splash, const _SplashScreen(), name: 'splash'),
 
       // Auth routes
       _route(appRoutes.login, const LoginScreen()),
@@ -164,6 +176,7 @@ GoRouter router(Ref ref) {
                   // SDG detail is nested under home
                   GoRoute(
                     path: 'sdg/:goalNumber',
+                    name: 'sdg-detail',
                     builder: (_, state) {
                       final goalNumber = _parseSdgGoalNumber(
                         state.pathParameters['goalNumber'],
@@ -178,6 +191,7 @@ GoRouter router(Ref ref) {
                     routes: [
                       GoRoute(
                         path: ':dateKey',
+                        name: 'daily-fact-detail',
                         builder: (_, state) {
                           final dateKey = state.pathParameters['dateKey'] ?? '';
                           return EcoFactDetailScreen(dateKey: dateKey);
@@ -197,6 +211,7 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: appRoutes.progress,
+                name: 'progress',
                 builder: (_, state) => ProgressScreen(
                   initialTab: state.uri.queryParameters['tab'],
                 ),
@@ -247,8 +262,10 @@ GoRouter router(Ref ref) {
       // of sliding in as a pushed page and out to the edge on exit.
       GoRoute(
         path: appRoutes.actionLog,
+        name: 'log-action',
         pageBuilder: (_, state) => NoTransitionPage(
           key: state.pageKey,
+          name: state.name,
           child: ActionLogScreen(
             initialCategory: state.uri.queryParameters['category'],
           ),
@@ -347,6 +364,31 @@ GoRouter router(Ref ref) {
   });
 
   return router;
+}
+
+/// Records the current route as a Crashlytics custom key so crash reports
+/// say which screen the user was on.
+class _RouteKeyObserver extends NavigatorObserver {
+  _RouteKeyObserver(this._crashlytics);
+
+  final FirebaseCrashlytics _crashlytics;
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      _record(route);
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      _record(previousRoute);
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) =>
+      _record(newRoute);
+
+  void _record(Route<dynamic>? route) {
+    final name = route?.settings.name;
+    if (name != null) unawaited(_crashlytics.setCustomKey('route', name));
+  }
 }
 
 /// Splash screen shown while determining auth state.

@@ -1410,7 +1410,6 @@ extension AppDelegate: MessagingDelegate {
 <!-- Add to existing Info.plist -->
 <key>UIBackgroundModes</key>
 <array>
-  <string>fetch</string>
   <string>remote-notification</string>
 </array>
 ```
@@ -1854,7 +1853,7 @@ service cloud.firestore {
 
 4. **Platform Configuration** ✅
    - iOS `AppDelegate.swift` - FCM token registration complete
-   - iOS `Info.plist` - Added UIBackgroundModes (fetch, remote-notification)
+   - iOS `Info.plist` - Added UIBackgroundModes (remote-notification)
    - Android `AndroidManifest.xml` - All permissions configured
    - `main.dart` - Service initialization complete
 

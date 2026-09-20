@@ -71,5 +71,5 @@ class SdgGoal {
 
   String get progressChartAsset =>
       'assets/images/sdg_progress/'
-      'sdg_progress_${number.toString().padLeft(2, '0')}.png';
+      'sdg_progress_${number.toString().padLeft(2, '0')}.webp';
 }

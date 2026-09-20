@@ -37,7 +37,7 @@ class LegalDocument {
   }
 }
 
-const _lastUpdated = '2026-09-05';
+const _lastUpdated = '2026-09-20';
 const _contactEmail = 'support@seedahabit.com';
 
 /// Privacy policy content per locale.
@@ -88,6 +88,8 @@ const _privacyEn = [
         'record)\n'
         '- Device push notification token (for sending '
         'reminders)\n'
+        '- Approximate location (country or region, derived '
+        'from your IP address by analytics)\n'
         '- Anonymous usage analytics (app feature usage, '
         'crash reports)',
   ),
@@ -127,7 +129,9 @@ const _privacyEn = [
         '- Firebase Crashlytics (crash reporting)\n'
         '- Firebase Performance Monitoring '
         '(app performance data)\n'
-        '- Firebase App Check (abuse prevention)\n\n'
+        '- Firebase App Check (abuse prevention)\n'
+        '- Google Sign-In (optional sign-in method)\n'
+        '- Sign in with Apple (optional sign-in method)\n\n'
         'These services have their own privacy policies. '
         'We do not sell or share your personal data with '
         'any other third parties.',
@@ -208,6 +212,7 @@ const _privacyJa = [
         '- 表示名（任意、プロフィールに表示）\n'
         '- アクション履歴（記録されたサステナビリティ活動）\n'
         '- デバイスプッシュ通知トークン（リマインダー送信用）\n'
+        '- おおよその位置情報（分析のためIPアドレスから推定される国または地域）\n'
         '- 匿名の利用分析データ（アプリ機能の使用状況、クラッシュレポート）',
   ),
   LegalSection(
@@ -241,7 +246,9 @@ const _privacyJa = [
         '- Firebase Crashlytics（クラッシュレポート）\n'
         '- Firebase Performance Monitoring'
         '（アプリのパフォーマンスデータ）\n'
-        '- Firebase App Check（不正利用防止）\n\n'
+        '- Firebase App Check（不正利用防止）\n'
+        '- Google Sign-In（任意のサインイン方法）\n'
+        '- Sign in with Apple（任意のサインイン方法）\n\n'
         'これらのサービスには独自のプライバシーポリシーがあります。'
         '当社はお客様の個人データを他の第三者に販売または共有することはありません。',
   ),
@@ -320,6 +327,8 @@ const _privacyEs = [
         'sostenibilidad registradas)\n'
         '- Token de notificaciones push del dispositivo '
         '(para enviar recordatorios)\n'
+        '- Ubicación aproximada (país o región, derivada de '
+        'su dirección IP por los análisis)\n'
         '- Datos anónimos de uso (uso de funciones '
         'de la aplicación, informes de errores)',
   ),
@@ -362,7 +371,9 @@ const _privacyEs = [
         '- Firebase Crashlytics (informes de errores)\n'
         '- Firebase Performance Monitoring '
         '(datos de rendimiento de la aplicación)\n'
-        '- Firebase App Check (prevención de abusos)\n\n'
+        '- Firebase App Check (prevención de abusos)\n'
+        '- Google Sign-In (método de inicio de sesión opcional)\n'
+        '- Sign in with Apple (método de inicio de sesión opcional)\n\n'
         'Estos servicios tienen sus propias políticas de '
         'privacidad. No vendemos ni compartimos sus datos '
         'personales con otros terceros.',
