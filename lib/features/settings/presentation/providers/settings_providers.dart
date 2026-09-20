@@ -68,6 +68,13 @@ bool smartRemindersEnabled(Ref ref) =>
 bool analyticsEnabled(Ref ref) =>
     _setting(ref, (s) => s.analyticsEnabled, true);
 
+/// Returns the preferred theme mode, defaulting to the system setting.
+@riverpod
+ThemeMode themeMode(Ref ref) {
+  final name = _setting(ref, (s) => s.themeMode, ThemeMode.system.name);
+  return ThemeMode.values.asNameMap()[name] ?? ThemeMode.system;
+}
+
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
 @riverpod
@@ -161,6 +168,10 @@ class SettingsNotifier extends _$SettingsNotifier {
           .logLanguageChanged(language: language);
     });
   }
+
+  /// Updates the theme preference.
+  Future<void> updateThemeMode(ThemeMode mode) =>
+      _write((uid, repo) => repo.setThemeMode(uid, mode.name));
 
   /// Adds a new reminder at the specified time.
   /// Returns the created schedule, or null if max reminders reached.

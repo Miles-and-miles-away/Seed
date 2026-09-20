@@ -21,6 +21,36 @@ void main() {
     });
   });
 
+  group('Co2TrendData.trendFit', () {
+    test('fits the slope and intercept of a rising line', () {
+      // Days 1, 3, 5 (x = 0, 2, 4) at 100, 300, 500 g.
+      final fit = _trend([
+        _point(1, 100),
+        _point(3, 300),
+        _point(5, 500),
+      ]).trendFit!;
+
+      expect(fit.slope, closeTo(100, 0.001));
+      expect(fit.intercept, closeTo(100, 0.001));
+    });
+
+    test('fits a falling line through scattered days', () {
+      final fit = _trend([
+        _point(1, 400),
+        _point(2, 200),
+        _point(6, 100),
+      ]).trendFit!;
+
+      expect(fit.slope, lessThan(0));
+    });
+
+    test('has no fit without two distinct days', () {
+      expect(_trend([_point(1, 100)]).trendFit, isNull);
+      expect(_trend([_point(1, 100), _point(1, 300)]).trendFit, isNull);
+      expect(_trend([]).trendFit, isNull);
+    });
+  });
+
   group('Co2CategoryData.isPlottable', () {
     const slice = Co2CategorySlice(
       category: ActionCategory.food,

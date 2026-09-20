@@ -25,7 +25,8 @@ mixin _$UserSettingsModel {
  Map<String, bool> get seenStreakMilestones;/// Whether the streak grace period has been used (Phase 4 foundation).
 /// When true, user cannot use grace period again until streak resets.
  bool get streakGracePeriodUsed;/// Whether analytics and crashlytics collection is enabled.
- bool get analyticsEnabled;
+ bool get analyticsEnabled;/// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
+ String get themeMode;
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,16 +39,16 @@ $UserSettingsModelCopyWith<UserSettingsModel> get copyWith => _$UserSettingsMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled);
+int get hashCode => Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled,themeMode);
 
 @override
 String toString() {
-  return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled)';
+  return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled, themeMode: $themeMode)';
 }
 
 
@@ -58,7 +59,7 @@ abstract mixin class $UserSettingsModelCopyWith<$Res>  {
   factory $UserSettingsModelCopyWith(UserSettingsModel value, $Res Function(UserSettingsModel) _then) = _$UserSettingsModelCopyWithImpl;
 @useResult
 $Res call({
- bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled
+ bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode
 });
 
 
@@ -75,7 +76,7 @@ class _$UserSettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,}) {
   return _then(_self.copyWith(
 notificationsEnabled: null == notificationsEnabled ? _self.notificationsEnabled : notificationsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,reminderSchedules: null == reminderSchedules ? _self.reminderSchedules : reminderSchedules // ignore: cast_nullable_to_non_nullable
@@ -85,7 +86,8 @@ as String,hasSeenOnboarding: null == hasSeenOnboarding ? _self.hasSeenOnboarding
 as bool,seenStreakMilestones: null == seenStreakMilestones ? _self.seenStreakMilestones : seenStreakMilestones // ignore: cast_nullable_to_non_nullable
 as Map<String, bool>,streakGracePeriodUsed: null == streakGracePeriodUsed ? _self.streakGracePeriodUsed : streakGracePeriodUsed // ignore: cast_nullable_to_non_nullable
 as bool,analyticsEnabled: null == analyticsEnabled ? _self.analyticsEnabled : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -170,10 +172,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserSettingsModel() when $default != null:
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
   return orElse();
 
 }
@@ -191,10 +193,10 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)  $default,) {final _that = this;
 switch (_that) {
 case _UserSettingsModel():
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +213,10 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)?  $default,) {final _that = this;
 switch (_that) {
 case _UserSettingsModel() when $default != null:
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
   return null;
 
 }
@@ -226,7 +228,7 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 @JsonSerializable()
 
 class _UserSettingsModel extends UserSettingsModel {
-  const _UserSettingsModel({this.notificationsEnabled = false, final  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false, final  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,super._();
+  const _UserSettingsModel({this.notificationsEnabled = false, final  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false, final  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true, this.themeMode = 'system'}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,super._();
   factory _UserSettingsModel.fromJson(Map<String, dynamic> json) => _$UserSettingsModelFromJson(json);
 
 /// Master toggle for all notifications.
@@ -262,6 +264,8 @@ class _UserSettingsModel extends UserSettingsModel {
 @override@JsonKey() final  bool streakGracePeriodUsed;
 /// Whether analytics and crashlytics collection is enabled.
 @override@JsonKey() final  bool analyticsEnabled;
+/// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
+@override@JsonKey() final  String themeMode;
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -276,16 +280,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other._reminderSchedules, _reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other._seenStreakMilestones, _seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other._reminderSchedules, _reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other._seenStreakMilestones, _seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(_reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(_seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled);
+int get hashCode => Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(_reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(_seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled,themeMode);
 
 @override
 String toString() {
-  return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled)';
+  return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled, themeMode: $themeMode)';
 }
 
 
@@ -296,7 +300,7 @@ abstract mixin class _$UserSettingsModelCopyWith<$Res> implements $UserSettingsM
   factory _$UserSettingsModelCopyWith(_UserSettingsModel value, $Res Function(_UserSettingsModel) _then) = __$UserSettingsModelCopyWithImpl;
 @override @useResult
 $Res call({
- bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled
+ bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode
 });
 
 
@@ -313,7 +317,7 @@ class __$UserSettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,}) {
   return _then(_UserSettingsModel(
 notificationsEnabled: null == notificationsEnabled ? _self.notificationsEnabled : notificationsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,reminderSchedules: null == reminderSchedules ? _self._reminderSchedules : reminderSchedules // ignore: cast_nullable_to_non_nullable
@@ -323,7 +327,8 @@ as String,hasSeenOnboarding: null == hasSeenOnboarding ? _self.hasSeenOnboarding
 as bool,seenStreakMilestones: null == seenStreakMilestones ? _self._seenStreakMilestones : seenStreakMilestones // ignore: cast_nullable_to_non_nullable
 as Map<String, bool>,streakGracePeriodUsed: null == streakGracePeriodUsed ? _self.streakGracePeriodUsed : streakGracePeriodUsed // ignore: cast_nullable_to_non_nullable
 as bool,analyticsEnabled: null == analyticsEnabled ? _self.analyticsEnabled : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

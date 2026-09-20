@@ -38,6 +38,9 @@ abstract class UserSettingsModel with _$UserSettingsModel {
 
     /// Whether analytics and crashlytics collection is enabled.
     @Default(true) bool analyticsEnabled,
+
+    /// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
+    @Default('system') String themeMode,
   }) = _UserSettingsModel;
 
   const UserSettingsModel._();

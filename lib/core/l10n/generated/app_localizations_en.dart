@@ -1295,6 +1295,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trendChartAverageLabel => 'average';
 
   @override
+  String get trendChartTrendLabel => 'trend';
+
+  @override
   String get categoryChartTitle => 'By category';
 
   @override
@@ -1378,7 +1381,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ecoDexNextUp => 'Next Up';
 
   @override
-  String get ecoDexDiscoveryTitle => 'New Discovery!';
+  String get ecoDexDiscoveryTitle => 'Achievement unlocked!';
+
+  @override
+  String ecoDexEntryTitle(String name) {
+    return 'Eco-Dex: $name';
+  }
 
   @override
   String get ecoDexDiscoveryAcknowledge => 'Awesome!';
