@@ -72,7 +72,7 @@ Last verified: 2026-08-21.
 
 - **What:** the World-aggregate values plotted on the 17 per-goal progress
   charts.
-- **Where:** `assets/images/sdg_progress/sdg_progress_NN.png`. The artwork is
+- **Where:** `assets/images/sdg_progress/sdg_progress_NN.webp`. The artwork is
   original to this project; only the underlying values come from the UN.
 - **Source:** UN SDG Global Database, pulled 2026-08-22 from
   `https://unstats.un.org/SDGAPI/v1/sdg/Series/Data` at `areaCode=1` (World).

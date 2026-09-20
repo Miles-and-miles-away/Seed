@@ -125,7 +125,7 @@ Strict analysis enabled in `analysis_options.yaml`:
 - `strict-casts: true`
 - `strict-inference: true`
 - `strict-raw-types: true`
-- Uses `flutter_lints` + `very_good_analysis`
+- Uses `flutter_lints`
 
 ### Generated Files
 Excluded from linting (via `analysis_options.yaml`) but **committed** to

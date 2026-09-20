@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +25,7 @@ void main() {
         expect(
           _goal(n).progressChartAsset,
           'assets/images/sdg_progress/sdg_progress_'
-          '${n.toString().padLeft(2, '0')}.png',
+          '${n.toString().padLeft(2, '0')}.webp',
         );
       }
     });
@@ -39,16 +40,17 @@ void main() {
       }
     });
 
-    test('all 17 cards share one canvas size', () {
+    test('all 17 cards share one canvas size', () async {
       // The widget reserves space from a single aspect ratio, so a
       // re-export at a different size would silently letterbox.
       final sizes = <String>{};
       for (var n = 1; n <= 17; n++) {
         final bytes = File(_goal(n).progressChartAsset).readAsBytesSync();
-        // PNG IHDR: width and height are big-endian uint32 at offset 16.
-        final w = bytes.buffer.asByteData().getUint32(16);
-        final h = bytes.buffer.asByteData().getUint32(20);
-        sizes.add('${w}x$h');
+        final codec = await ui.instantiateImageCodec(bytes);
+        final image = (await codec.getNextFrame()).image;
+        sizes.add('${image.width}x${image.height}');
+        image.dispose();
+        codec.dispose();
       }
       expect(sizes, {'984x1296'});
     });
