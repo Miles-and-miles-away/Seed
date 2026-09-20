@@ -27,18 +27,17 @@ class _SeedAppState extends ConsumerState<SeedApp> {
     // Sync the collection toggle only on change. While settings load the
     // provider reports its default, so hold the SDKs' persisted state
     // rather than switching an opted-out user back on for a moment.
-    ref.listenManual(analyticsEnabledProvider, (_, on) {
-      if (ref.read(userSettingsProvider).isLoading) return;
-      final collect = on && !kDebugMode;
-      AnalyticsService.instance.setEnabled(enabled: on);
-      FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
-      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(collect);
-      FirebasePerformance.instance.setPerformanceCollectionEnabled(collect);
-    }, fireImmediately: true);
-
-    // Crash triage context. Keys ride the toggle above and never hold
-    // per-user values, which would trip Crashlytics throttling.
+    // The custom keys are crash triage context; they ride the toggle and
+    // never hold per-user values, which would trip Crashlytics throttling.
     ref
+      ..listenManual(analyticsEnabledProvider, (_, on) {
+        if (ref.read(userSettingsProvider).isLoading) return;
+        final collect = on && !kDebugMode;
+        AnalyticsService.instance.setEnabled(enabled: on);
+        FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
+        FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(collect);
+        FirebasePerformance.instance.setPerformanceCollectionEnabled(collect);
+      }, fireImmediately: true)
       ..listenManual(appLocaleProvider, (_, locale) {
         FirebaseCrashlytics.instance.setCustomKey(
           'locale',
