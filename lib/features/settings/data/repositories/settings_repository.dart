@@ -86,6 +86,13 @@ class SettingsRepository {
     });
   }
 
+  /// Updates the theme preference (a [ThemeMode] name).
+  Future<void> setThemeMode(String uid, String themeMode) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldThemeMode}': themeMode,
+    });
+  }
+
   /// Enables or disables analytics and crashlytics collection.
   Future<void> setAnalyticsEnabled(String uid, {required bool enabled}) async {
     await _userDoc(uid).update({

@@ -31,6 +31,32 @@ abstract class Co2TrendData with _$Co2TrendData {
   /// A 1-point chart isn't a trend. Hide the widget until the user
   /// has activity on at least two distinct days in the window.
   bool get isPlottable => points.length >= 2;
+
+  /// Least-squares fit through the plotted days: grams per day
+  /// ([slope]) and grams at [windowStart] ([intercept]). Null when
+  /// the points share a single calendar day, which has no slope.
+  ({double slope, double intercept})? get trendFit {
+    if (points.length < 2) return null;
+
+    final xs = points
+        .map((p) => p.date.difference(windowStart).inDays.toDouble())
+        .toList(growable: false);
+    final meanX = xs.reduce((a, b) => a + b) / xs.length;
+    final meanY =
+        points.fold<int>(0, (sum, p) => sum + p.grams) / points.length;
+
+    var sxy = 0.0;
+    var sxx = 0.0;
+    for (var i = 0; i < xs.length; i++) {
+      final dx = xs[i] - meanX;
+      sxy += dx * (points[i].grams - meanY);
+      sxx += dx * dx;
+    }
+    if (sxx == 0) return null;
+
+    final slope = sxy / sxx;
+    return (slope: slope, intercept: meanY - slope * meanX);
+  }
 }
 
 /// One wedge on the donut: an action category (null = lumped

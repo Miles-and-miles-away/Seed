@@ -43,6 +43,7 @@ class _SeedAppState extends ConsumerState<SeedApp> {
     final router = ref.watch(routerProvider);
     final appLocale = ref.watch(appLocaleProvider);
     final themeSeed = ref.watch(activeSpeciesThemeSeedProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
       title: 'Seed',
@@ -56,6 +57,7 @@ class _SeedAppState extends ConsumerState<SeedApp> {
       // Theme, seeded by the active mascot species
       theme: appTheme(Brightness.light, seedColor: themeSeed),
       darkTheme: appTheme(Brightness.dark, seedColor: themeSeed),
+      themeMode: themeMode,
 
       // Routing
       routerConfig: router,

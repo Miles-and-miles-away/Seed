@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/settings/presentation/feedback_mailto.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
@@ -36,7 +37,7 @@ class AboutScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   leading: const Icon(Icons.info_outline),
-                  title: Text('$version ($buildNumber)'),
+                  title: Text(appVersionLabel(version, buildNumber)),
                   subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
                 ),
               ],

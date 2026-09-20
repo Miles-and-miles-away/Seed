@@ -45,6 +45,17 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(Icons.language_outlined),
                     onTap: () => context.push(appRoutes.settingsLanguage),
                   ),
+                  SettingsTile(
+                    title: l10n.settingsTheme,
+                    leading: const Icon(Icons.brightness_6_outlined),
+                    showChevron: false,
+                    trailing: _ThemeModeSelector(
+                      value: ref.watch(themeModeProvider),
+                      onChanged: (mode) => ref
+                          .read(settingsProvider.notifier)
+                          .updateThemeMode(mode),
+                    ),
+                  ),
                 ],
               ),
 
@@ -130,4 +141,43 @@ class SettingsScreen extends ConsumerWidget {
         orElse: () => supportedLanguages.first,
       )
       .nativeName;
+}
+
+/// Compact system / light / dark picker for the theme tile. Icon-only
+/// so the three options fit beside the tile title at phone widths;
+/// the labels ride along as tooltips and semantics.
+class _ThemeModeSelector extends StatelessWidget {
+  const _ThemeModeSelector({required this.value, required this.onChanged});
+
+  final ThemeMode value;
+  final ValueChanged<ThemeMode> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final labels = {
+      ThemeMode.system: l10n.settingsThemeSystem,
+      ThemeMode.light: l10n.settingsThemeLight,
+      ThemeMode.dark: l10n.settingsThemeDark,
+    };
+    const icons = {
+      ThemeMode.system: Icons.brightness_auto_outlined,
+      ThemeMode.light: Icons.light_mode_outlined,
+      ThemeMode.dark: Icons.dark_mode_outlined,
+    };
+
+    return SegmentedButton<ThemeMode>(
+      showSelectedIcon: false,
+      segments: [
+        for (final mode in ThemeMode.values)
+          ButtonSegment(
+            value: mode,
+            icon: Icon(icons[mode], semanticLabel: labels[mode]),
+            tooltip: labels[mode],
+          ),
+      ],
+      selected: {value},
+      onSelectionChanged: (selection) => onChanged(selection.first),
+    );
+  }
 }

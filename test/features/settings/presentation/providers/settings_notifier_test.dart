@@ -181,6 +181,14 @@ void main() {
       );
     });
 
+    test('updateThemeMode persists the chosen mode', () async {
+      final c = await container();
+
+      await c.read(settingsProvider.notifier).updateThemeMode(ThemeMode.dark);
+
+      expect((await settingsField())[AppConstants.fieldThemeMode], 'dark');
+    });
+
     test('updateLanguage persists both copies and logs', () async {
       final c = await container();
 

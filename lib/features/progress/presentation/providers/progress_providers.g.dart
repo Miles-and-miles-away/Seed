@@ -55,7 +55,7 @@ final class ProgressRepositoryProvider
 }
 
 String _$progressRepositoryHash() =>
-    r'7df2f1d27155e954dbc2bca3d8c4d84a2b9af969';
+    r'23a26d96d5087f480fb7eff90d31cfd15bbe5827';
 
 /// Loads and caches impact equivalency metadata (conversion factors
 /// and source URLs) from the bundled JSON asset. Cached for the
@@ -294,7 +294,7 @@ final class SelectedMonthProvider
   }
 }
 
-String _$selectedMonthHash() => r'fbe04c080dc8d5be5573000e2ea8215aada171ee';
+String _$selectedMonthHash() => r'b0fb5b5d52e66a0b6911f5fcc0ae0c9dbe88055a';
 
 /// Currently selected month for the calendar view.
 

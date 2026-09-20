@@ -251,7 +251,7 @@ final class NotificationsEnabledProvider
 }
 
 String _$notificationsEnabledHash() =>
-    r'456dab014d961184b24cca81e8e3bdb3ee38fcf7';
+    r'773fb279d76a064c1f17b95b37d828ef4aaf9808';
 
 /// Returns whether smart reminders are enabled.
 
@@ -346,6 +346,52 @@ final class AnalyticsEnabledProvider
 
 String _$analyticsEnabledHash() => r'b136c3eb860e46f7dee84318115ad619984da3ab';
 
+/// Returns the preferred theme mode, defaulting to the system setting.
+
+@ProviderFor(themeMode)
+final themeModeProvider = ThemeModeProvider._();
+
+/// Returns the preferred theme mode, defaulting to the system setting.
+
+final class ThemeModeProvider
+    extends $FunctionalProvider<ThemeMode, ThemeMode, ThemeMode>
+    with $Provider<ThemeMode> {
+  /// Returns the preferred theme mode, defaulting to the system setting.
+  ThemeModeProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'themeModeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$themeModeHash();
+
+  @$internal
+  @override
+  $ProviderElement<ThemeMode> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ThemeMode create(Ref ref) {
+    return themeMode(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ThemeMode value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ThemeMode>(value),
+    );
+  }
+}
+
+String _$themeModeHash() => r'f37638bc896c8dd117c5e0c5ce92c70f3272cee8';
+
 /// Returns the current app locale based on user settings.
 /// Falls back to English if no setting is found.
 
@@ -434,7 +480,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'985cfab2a9f6af693bae52df2e84f037dc429fc0';
+String _$settingsNotifierHash() => r'73d2c85ebbac8b4fcf7549d5f543daa59eb8188a';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

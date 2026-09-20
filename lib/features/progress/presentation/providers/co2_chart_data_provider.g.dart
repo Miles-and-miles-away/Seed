@@ -101,7 +101,7 @@ final class TrendWindowSummariesProvider
 }
 
 String _$trendWindowSummariesHash() =>
-    r'143cdd5145ce40efca72dee7f5bd147d9704f133';
+    r'8d4fe1aa17f433f32175c6c4811d587e64e50932';
 
 /// Daily-points + average for the trend scatter chart.
 ///
@@ -204,7 +204,7 @@ final class Co2TrendDataProvider
   }
 }
 
-String _$co2TrendDataHash() => r'd339ace592ba2ca56b2009a1a3768c4034d8bb92';
+String _$co2TrendDataHash() => r'867b49600a9562421f51aa081f08fb764269167b';
 
 final class Co2TrendDataFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Co2TrendData>, TimePeriod> {

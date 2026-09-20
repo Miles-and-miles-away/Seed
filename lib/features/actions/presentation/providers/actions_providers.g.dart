@@ -155,7 +155,7 @@ final class ActionLogRepositoryProvider
 }
 
 String _$actionLogRepositoryHash() =>
-    r'1af8616b77804603c57f7705bd4d98aba44b3db9';
+    r'74572b448056c90d877d8a184398d45318e82505';
 
 /// Loads the active actions from the action library.
 ///
@@ -719,7 +719,7 @@ final class TodayActionsProvider
   }
 }
 
-String _$todayActionsHash() => r'7a01ff39b62bcccf0b18ab003f186ffe77623970';
+String _$todayActionsHash() => r'0d390fdbec8c078f298da747ad5141d6b44d87b6';
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -884,7 +884,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'8f05d092f4ef99ed357d54b0d5efba90eeb42a07';
+String _$actionLogNotifierHash() => r'2257391f48cd17145a8c9d9ab2abc3136d34caa3';
 
 /// Notifier that handles logging actions.
 ///

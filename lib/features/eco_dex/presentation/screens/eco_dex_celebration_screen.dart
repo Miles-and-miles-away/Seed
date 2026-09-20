@@ -51,7 +51,17 @@ class EcoDexCelebrationScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CelebrationTitle(l10n.ecoDexDiscoveryTitle),
-                const SizedBox(height: spacingXxxl),
+                const SizedBox(height: spacingSm),
+                // The unlock condition sits directly under the title:
+                // it is the answer to "what did I just do?".
+                BalancedText(
+                  entry.hint(locale),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: opacityHeavy),
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                const SizedBox(height: spacingXxl),
                 Container(
                       width: 140,
                       height: 140,
@@ -77,7 +87,7 @@ class EcoDexCelebrationScreen extends StatelessWidget {
                     ),
                 const SizedBox(height: spacingXxl),
                 Text(
-                  entry.name(locale),
+                  l10n.ecoDexEntryTitle(entry.name(locale)),
                   style: theme.textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -92,14 +102,6 @@ class EcoDexCelebrationScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                const SizedBox(height: spacingXl),
-                BalancedText(
-                  l10n.ecoDexAchievement(entry.hint(locale)),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: opacityMedium),
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
                 const SizedBox(height: spacingHuge),
                 CelebrationButton(
                   label: l10n.ecoDexDiscoveryAcknowledge,
