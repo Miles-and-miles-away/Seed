@@ -69,6 +69,10 @@ android {
             }
             isMinifyEnabled = true
             isShrinkResources = true
+            // CI builds a stub Firebase config; uploading its mapping would fail.
+            configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
+                mappingFileUploadEnabled = System.getenv("CI") == null
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

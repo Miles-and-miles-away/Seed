@@ -5,3 +5,4 @@
 
 # Crashlytics
 -keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
