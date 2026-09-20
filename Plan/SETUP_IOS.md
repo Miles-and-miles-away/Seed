@@ -234,8 +234,6 @@ xcrun simctl uninstall booted com.seedahabit.app
 | iPhone 17 | Standard size testing |
 | iPhone Air | Thin form factor |
 | iPhone 16e | Budget model testing |
-| iPad Pro 13-inch (M5) | Tablet testing |
-| iPad Air 11-inch (M3) | Tablet testing |
 
 --------------------------------------------------------------------------
 

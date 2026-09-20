@@ -90,7 +90,7 @@ Declaring an audience that includes under-13s puts Seed under the
 Families policy. That is not a checkbox; it attaches these:
 
 - **Every SDK must be approved for primarily child-directed
-  services.** Seed ships Firebase Auth, Firestore, Storage, Analytics,
+  services.** Seed ships Firebase Auth, Firestore, Analytics,
   Crashlytics, Performance, Messaging and App Check.
 - **No Android Advertising ID transmission**, along with SIM serial,
   build serial, BSSID, MAC, IMSI and IMEI. The Firebase SDK collects
@@ -236,6 +236,7 @@ npm run firebase -- crashlytics:symbols:upload \
   --app=1:49522523534:android:5191fb3210e7f88fadf8df build/debug-info
 ```
 
+`make release-android` runs the build and this upload as one step.
 The `conda activate` is load-bearing. The Crashlytics jar needs a JDK
 and the `seed` env is the only one on the machine, so without it the
 upload fails with an opaque "java command failed".
@@ -309,7 +310,7 @@ change plus the following work, which is the scope of that phase:
   mixed-audience app. Any SDK not approved for child-directed use may
   run only behind the age screen, for users who pass it as adults.
 - **SDK audit.** Confirm each Firebase SDK in use (Auth, Firestore,
-  Storage, Analytics, Crashlytics, Performance, Messaging, App Check)
+  Analytics, Crashlytics, Performance, Messaging, App Check)
   is acceptable in a child-directed context, and record the outcome.
 - **No ad identifiers.** Done under D2.
 - **Privacy policy rewrite.** The Children's Privacy section must
@@ -328,3 +329,23 @@ nothing reads the identifier, so the permission is stripped in
 also satisfies the Families rule on AAID should D1 include children.
 The rejected alternative was declaring it as collected under Device or
 other IDs, which is honest but describes collection with no purpose.
+
+**D3. Direct APK distribution for testers outside Play.** Open. A
+tester asked for an APK because they install through Aurora Store
+rather than a Google account. Nothing blocks it today:
+
+```bash
+flutter build apk --release --split-per-abi --obfuscate \
+  --split-debug-info=build/debug-info
+```
+
+Send `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk` and
+upload the Dart symbols with the same command as the bundle. Two
+caveats before making it a habit. The APK carries the upload
+certificate, not the Play App Signing certificate, so a device that
+installs it cannot later update from Play without uninstalling first,
+and sign-in works only because the upload fingerprint is registered in
+Firebase. It also gets no automatic updates, so every release means
+sending a new file. Decide whether to add a `release-apk` Make target
+and a tester note, or to point Aurora users at the Play listing once
+production is open.

@@ -131,13 +131,16 @@ must keep working; losing it is a rejection, not a warning.
 and must agree with `ios/Runner/PrivacyInfo.xcprivacy`, which is
 already populated and is the better source of truth because it ships
 in the binary. It currently declares `NSPrivacyTracking` false, no
-tracking domains, and six collected types:
+tracking domains, and nine collected types:
 
 | Type | Linked to user | Purpose |
 |---|---|---|
 | Email address | yes | App functionality |
 | Name | yes | App functionality |
 | User ID | yes | App functionality |
+| Device ID (FCM token) | yes | App functionality |
+| Other user content (custom action text, notes) | yes | App functionality |
+| Coarse location (IP-derived, Analytics) | no | Analytics |
 | Crash data | no | App functionality |
 | Performance data | no | App functionality |
 | Other usage data | no | Analytics |
@@ -166,7 +169,7 @@ listings disagree.
 **Export compliance.** Asked on every single upload. Seed uses only
 HTTPS and platform-standard cryptography, which is exempt. Setting
 `ITSAppUsesNonExemptEncryption` to false in `Info.plist` answers it
-once and stops the per-build prompt. It is not currently set.
+once and stops the per-build prompt. It is set.
 
 **Screenshots.** Required per device size and are not the same
 dimensions as the Play assets, so the Play screenshots cannot be
@@ -199,8 +202,7 @@ blocking, but it is a trap waiting for whoever turns them on.
 Two different kinds of symbol reach Crashlytics and they are easy to
 confuse. Native iOS dSYMs are uploaded automatically by the
 `FlutterFire: "flutterfire upload-crashlytics-symbols"` build phase
-in `project.pbxproj`; nothing manual is needed and a second dSYM
-phase alongside it is redundant. **Dart** symbols are separate,
+in `project.pbxproj`; nothing manual is needed. **Dart** symbols are separate,
 written to `build/debug-info` by `--split-debug-info`, and must be
 uploaded by hand or Dart stack traces stay unreadable. That upload
 needs a JDK on `PATH`:
@@ -229,7 +231,7 @@ APIs will accept it, exactly as Play Integrity did on Android.
    photo ID ready; verification is the slow step.
 2. Open `ios/Runner.xcodeproj` in Xcode, select the team, let
    automatic signing issue the certificate and profile.
-3. Set `ITSAppUsesNonExemptEncryption` to false in `Info.plist`.
+3. ~~Set `ITSAppUsesNonExemptEncryption` to false in `Info.plist`.~~ Done.
 4. Run `flutter build ipa` and fix what it surfaces. This has never
    been run; CI only builds `--simulator --debug`, so the release
    path is entirely unproven.
