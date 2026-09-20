@@ -65,12 +65,18 @@ class AnalyticsService {
     );
   }
 
-  /// Get the analytics observer for navigation tracking.
-  /// Returns a no-op observer if Firebase is not available.
+  /// Navigation observer for screen_view tracking, or null when Firebase
+  /// is unavailable. Not gated on [_enabled]: the router builds it once,
+  /// and Firebase's own collection flag decides whether views are sent.
   FirebaseAnalyticsObserver? get observer {
-    final analytics = _safeAnalytics;
-    if (analytics == null) return null;
-    return FirebaseAnalyticsObserver(analytics: analytics);
+    try {
+      return FirebaseAnalyticsObserver(
+        analytics: _analytics ??= FirebaseAnalytics.instance,
+      );
+    } on Object catch (e) {
+      appLogger.warning('Analytics: Firebase not available - $e');
+      return null;
+    }
   }
 
   /// Set the user ID for analytics.

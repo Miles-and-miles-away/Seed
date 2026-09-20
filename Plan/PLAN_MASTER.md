@@ -448,7 +448,6 @@ dependencies:
   cloud_firestore: ^6.1.1
   firebase_messaging: ^16.1.0
   firebase_analytics: ^12.1.0
-  firebase_storage: ^13.0.5
 
   # Authentication
   google_sign_in: ^7.2.0
@@ -489,7 +488,6 @@ dev_dependencies:
   json_serializable: ^6.8.0
   riverpod_generator: ^3.0.0
   flutter_lints: ^6.0.0
-  very_good_analysis: ^10.0.0
   mocktail: ^1.0.4
   fake_cloud_firestore: ^4.0.1
 ```
@@ -514,7 +512,6 @@ dev_dependencies:
 | Cloud Firestore | Database | 1GB storage, 50K reads/day |
 | Cloud Functions | Server logic | 2M invocations/month |
 | Cloud Messaging | Push notifications | Unlimited |
-| Cloud Storage | Mascot assets | 5GB storage |
 | Analytics | Usage tracking | Unlimited |
 
 For <100 users, you'll stay well within free tier.
@@ -854,7 +851,7 @@ Sequence to complete (iOS steps blocked on Apple Developer enrolment):
    the debug log on launch) BEFORE enforcing, or dev builds get locked
    out.
 6. Watch the App Check metrics page until requests show as *verified*,
-   then **Enforce** for Firestore and Storage in the console.
+   then **Enforce** for Firestore and Authentication in the console.
 7. ~~Callables enforce in code, not via the console toggle~~ Done:
    `deleteUserAccount` sets `enforceAppCheck: true` and is deployed to
    `asia-northeast1`. Debug tokens (step 5) must be registered before
@@ -1215,7 +1212,7 @@ Phase 7 shop and unlock systems.
 | Navigation | **go_router 17.x** | Declarative routing with type-safe routes |
 | Local storage | **Firestore only** (offline persistence) | Hive, then shared_preferences, removed -- all state in Firestore |
 | Code generation | **Freezed 3.x** | For immutable data classes |
-| Linting | **flutter_lints + very_good_analysis** | Strict analysis enabled |
+| Linting | **flutter_lints** | Strict analysis enabled |
 | Auth providers | **Email + Google + Apple** | Sign in with Apple required for iOS |
 
 ### Can Decide Later

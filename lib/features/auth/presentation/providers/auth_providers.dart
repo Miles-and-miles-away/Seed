@@ -174,7 +174,6 @@ class AuthNotifier extends _$AuthNotifier {
     await ref.read(authRepositoryProvider).signOut();
     await ref.read(analyticsServiceProvider).logLogout();
     await ref.read(analyticsServiceProvider).setUserId(null);
-    await ref.read(crashlyticsProvider).setUserIdentifier('');
   });
 
   /// Re-authenticates the user with email/password.

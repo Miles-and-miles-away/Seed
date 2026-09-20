@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build-android:
-    name: Build Android APK
+    name: Build Android Bundle
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -27,7 +27,7 @@ jobs:
 
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
-          flutter-version: "3.44.x"
+          flutter-version: "3.47.x"
           cache: true
 
       - name: Create Firebase options stub
@@ -80,13 +80,23 @@ jobs:
 
       - run: flutter pub get
 
-      # Generated files (.g.dart, .freezed.dart, l10n/generated/) are
-      # committed to the repo, so codegen does not run in CI. Run
-      # `flutter pub run build_runner build` and `flutter gen-l10n`
-      # locally after editing `@riverpod`/`@freezed` classes or ARB files.
+      # A release build exercises R8 shrinking and the ProGuard rules,
+      # which a debug build never touches. The Gradle script refuses to
+      # build a release without a keystore, so CI makes a throwaway one.
+      - name: Create throwaway upload keystore
+        run: |
+          keytool -genkeypair -v -keystore /tmp/ci.jks -storetype JKS \
+            -alias ci -keyalg RSA -keysize 2048 -validity 1 \
+            -storepass cicicici -keypass cicicici -dname "CN=ci"
+          cat > android/key.properties << 'PROPS'
+          storeFile=/tmp/ci.jks
+          storePassword=cicicici
+          keyAlias=ci
+          keyPassword=cicicici
+          PROPS
 
-      - name: Build debug APK
-        run: flutter build apk --debug
+      - name: Build release app bundle
+        run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
 
   build-ios:
     name: Build iOS
@@ -98,7 +108,7 @@ jobs:
 
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
-          flutter-version: "3.44.x"
+          flutter-version: "3.47.x"
           cache: true
 
       - name: Create Firebase options stub

@@ -54,8 +54,7 @@ Future<Map<int, List<T>>> loadGoalKeyedJsonList<T>(
   String asset,
   T Function(Map<String, dynamic>) fromJson,
 ) async {
-  final jsonString = await rootBundle.loadString(asset);
-  final json = jsonDecode(jsonString) as Map<String, dynamic>;
+  final json = await loadJsonRoot(asset);
 
   return {
     for (final entry in json.entries)

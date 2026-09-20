@@ -33,7 +33,7 @@ class _FakeAnalyticsService extends Fake implements AnalyticsService {
 
 class _FakeCrashlytics extends Fake implements FirebaseCrashlytics {
   @override
-  Future<void> setUserIdentifier(String identifier) async {}
+  Future<void> setCustomKey(String key, Object value) async {}
 }
 
 class _FakeFcmService extends Fake implements FCMService {
@@ -80,6 +80,7 @@ void main() {
   Widget buildApp(MockFirebaseAuth auth) {
     return ProviderScope(
       overrides: [
+        crashlyticsProvider.overrideWithValue(_FakeCrashlytics()),
         firebaseAuthProvider.overrideWithValue(auth),
         firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
         // Home renders inside the shell; skip Firestore mascot lookups.
