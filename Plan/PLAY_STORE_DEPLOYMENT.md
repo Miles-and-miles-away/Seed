@@ -1,7 +1,7 @@
 # Play Store Deployment
 
 **Created:** 2026-09-13
-**Status:** In closed testing. `0.1.1 (3)` is live on the internal
+**Status:** In closed testing. `0.1.1 (4)` is live on the internal
 and closed tracks. Play App Signing is active and its certificate is
 registered in Firebase. The 12-tester, 14-day production gate is the
 only remaining blocker; see the gate section below.
@@ -245,7 +245,8 @@ The `+N` build number must increase on every upload and can never be
 reused, including for a bundle that was uploaded and then discarded.
 It is a single counter for the life of the app, shared with iOS, and
 it does not reset when the version name changes. Codes 1 and 2 are
-spent; `0.1.1+3` is live and `0.1.2+4` is the next upload.
+spent, and 4 shipped as `0.1.1 (4)` because the bundle was built before
+the name bump; `0.1.2+5` is the next upload.
 
 ---
 
