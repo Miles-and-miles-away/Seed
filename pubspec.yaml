@@ -1,7 +1,7 @@
 name: seed_app
 description: A sustainability habit tracking app with gamified mascot system.
 publish_to: 'none'  # Private app, not published to pub.dev
-version: 0.1.1+3
+version: 0.1.1+4
 
 environment:
   sdk: ^3.8.0

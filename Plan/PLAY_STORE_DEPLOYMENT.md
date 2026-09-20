@@ -245,7 +245,7 @@ The `+N` build number must increase on every upload and can never be
 reused, including for a bundle that was uploaded and then discarded.
 It is a single counter for the life of the app, shared with iOS, and
 it does not reset when the version name changes. Codes 1 and 2 are
-spent; `0.1.1+3` is the current release.
+spent; `0.1.1+3` is live and `0.1.1+4` is the next upload.
 
 ---
 
