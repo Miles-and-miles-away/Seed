@@ -1,8 +1,10 @@
 # Play Store Deployment
 
 **Created:** 2026-09-13
-**Status:** Pre-launch. No build has been uploaded. Developer account
-verified, no app created in Play Console yet.
+**Status:** In closed testing. `0.1.1 (3)` is live on the internal
+and closed tracks. Play App Signing is active and its certificate is
+registered in Firebase. The 12-tester, 14-day production gate is the
+only remaining blocker; see the gate section below.
 **Purpose:** The Google Play release track: identifiers that cannot
 change, the production access gate, the Console declarations, and the
 order to do them in.
@@ -12,7 +14,8 @@ Distribution for alpha builds. `SETUP_ANDROID.md` holds local
 toolchain setup. Neither is restated here.
 
 **Not here:** App Store Connect and the iOS release path, which has
-its own gate and its own review rules.
+its own gate and its own review rules. See
+`APP_STORE_DEPLOYMENT.md`.
 
 ---
 
@@ -54,10 +57,10 @@ published app. Changing it means a new listing that starts at zero
 installs, zero reviews, and no update path for existing users.
 
 Renamed from `com.seedapp` on 2026-09-13, before any upload, so the
-old identifier has no history to preserve. Firebase still holds only
-the `com.seedapp` apps, and they carry the SHA fingerprints, OAuth
-clients and App Check registration. Delete them only after the new
-apps exist, are configured, and a build has signed in through them.
+old identifier had no history to preserve. The `com.seedapp` Firebase
+apps were deleted on 2026-09-18 once the replacements were configured
+and signing in. Firebase now holds one Android and one iOS app, both
+on `com.seedahabit.app`.
 
 ---
 
@@ -200,27 +203,57 @@ reset request to Play support, which is recoverable but slow.
 
 Because Google re-signs the bundle, the installed app carries the
 **Play App Signing certificate**, not the upload key. Google sign-in
-and App Check verify that certificate. After the first upload, copy its
-SHA-1 and SHA-256 from Play Console (Test and release > App integrity)
-into Firebase project settings and App Check, then re-download
-`google-services.json`. Skipping this is the usual cause of sign-in
-failing only on Play-installed builds.
+verifies that certificate. Its SHA-1 and SHA-256 live in Play Console
+under Protected with Play > Play Store protection > Manage Play App
+Signing; the older Test and release > App integrity path now
+redirects there. Both were added to Firebase project settings on
+2026-09-18, alongside the debug and upload fingerprints.
+
+This is worth understanding rather than following blindly, because
+the obvious mental model is wrong. The certificate hashes in
+`google-services.json` are **not** compiled into the app: the
+google-services plugin emits only `default_web_client_id`,
+`google_app_id`, `project_id`, `gcm_defaultSenderId` and
+`google_api_key`. What fixes sign-in is the OAuth client that Google
+creates server-side the moment the fingerprint is registered, so
+registering it is sufficient and no rebuild is required. Re-download
+`google-services.json` anyway to keep the local copy honest.
+
+Symptom when the Play App Signing fingerprint is missing: sign-in
+works from `flutter run` and from a sideloaded release APK, because
+the debug and upload certificates are registered, and fails only on
+the copy installed from Play. `google_sign_in` reports it as
+"Sign-in was cancelled", which names neither the cause nor the
+certificate.
 
 `--split-debug-info` writes the Dart symbols to `build/debug-info`.
 Crashlytics cannot symbolicate Dart stack traces until they are
 uploaded; the Gradle plugin handles the R8 mapping only:
 
 ```bash
+conda activate seed
 npm run firebase -- crashlytics:symbols:upload \
-  --app=<android app id> build/debug-info
+  --app=1:49522523534:android:5191fb3210e7f88fadf8df build/debug-info
 ```
 
-`pubspec.yaml` carries `version: 1.0.0+1`. The `+N` build number must
-increase on every upload; Play rejects a reused one.
+The `conda activate` is load-bearing. The Crashlytics jar needs a JDK
+and the `seed` env is the only one on the machine, so without it the
+upload fails with an opaque "java command failed".
+
+The `+N` build number must increase on every upload and can never be
+reused, including for a bundle that was uploaded and then discarded.
+It is a single counter for the life of the app, shared with iOS, and
+it does not reset when the version name changes. Codes 1 and 2 are
+spent; `0.1.1+3` is the current release.
 
 ---
 
 ## Order of operations
+
+**Steps 1 to 10 are complete**, carried out between 2026-09-13 and
+2026-09-20. They are kept below as the record of what was done and
+in what order, not as an open list. The live remaining work is steps
+11 and 12, and step 11 is the long one.
 
 1. Merge the rename branch so every checkout carries
    `com.seedahabit.app`. A config for the new package breaks builds on
@@ -245,9 +278,13 @@ increase on every upload; Play rejects a reused one.
 9. Build the signed app bundle, upload the Dart symbols, upload the
    bundle to closed testing.
 10. Add the Play App Signing SHA-1 and SHA-256 to Firebase and App
-    Check, re-download `google-services.json`, and confirm Google
-    sign-in from the Play-installed build.
-11. Recruit 12 testers and hold them for 14 unbroken days.
+    Check, then confirm Google sign-in from the Play-installed build.
+    Re-download `google-services.json` to keep the local copy
+    current, but no rebuild is needed: the fingerprints are not
+    compiled into the app, and registering them creates the OAuth
+    client server-side.
+11. Recruit 12 testers and hold them for 14 unbroken days. Internal
+    testing does not count towards this; only the closed track does.
 12. Apply for production.
 
 After launch, the under-13 phase: build the age step and parental

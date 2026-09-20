@@ -1,4 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -33,34 +32,23 @@ class _RecordingAnalytics extends Fake implements AnalyticsService {
   Future<void> setUserId(String? userId) async => calls.add('userId:$userId');
 }
 
-class _RecordingCrashlytics extends Fake implements FirebaseCrashlytics {
-  String? identifier;
-
-  @override
-  Future<void> setUserIdentifier(String identifier) async =>
-      this.identifier = identifier;
-}
-
 const _user = AppUserModel(uid: 'u', email: 'e');
 
 void main() {
   late _MockAuthRepository repo;
   late _MockFcmService fcm;
   late _RecordingAnalytics analytics;
-  late _RecordingCrashlytics crashlytics;
   late ProviderContainer container;
 
   setUp(() {
     repo = _MockAuthRepository();
     fcm = _MockFcmService();
     analytics = _RecordingAnalytics();
-    crashlytics = _RecordingCrashlytics();
     container = ProviderContainer(
       overrides: [
         authRepositoryProvider.overrideWithValue(repo),
         fcmServiceProvider.overrideWithValue(fcm),
         analyticsServiceProvider.overrideWithValue(analytics),
-        crashlyticsProvider.overrideWithValue(crashlytics),
       ],
     );
     addTearDown(container.dispose);
@@ -134,7 +122,6 @@ void main() {
 
       verifyInOrder([fcm.removeStoredToken, fcm.deleteToken, repo.signOut]);
       expect(analytics.calls, ['logout', 'userId:null']);
-      expect(crashlytics.identifier, '');
       expect(container.read(authProvider).hasValue, isTrue);
     });
 

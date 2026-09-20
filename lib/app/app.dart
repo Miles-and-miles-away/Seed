@@ -1,11 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
-import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/mascot/presentation/providers/mascot_providers.dart';
 import '../features/settings/settings.dart';
 import '../shared/services/analytics_service.dart';
@@ -24,18 +24,12 @@ class _SeedAppState extends ConsumerState<SeedApp> {
     super.initState();
 
     // Sync analytics toggle only on change
-    ref
-      ..listenManual(analyticsEnabledProvider, (_, on) {
-        AnalyticsService.instance.setEnabled(enabled: on);
-        FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
-        FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(on);
-      }, fireImmediately: true)
-      // Sync Crashlytics user ID only on auth change
-      ..listenManual(authStateChangesProvider, (_, next) {
-        next.whenData((user) {
-          FirebaseCrashlytics.instance.setUserIdentifier(user?.uid ?? '');
-        });
-      }, fireImmediately: true);
+    ref.listenManual(analyticsEnabledProvider, (_, on) {
+      AnalyticsService.instance.setEnabled(enabled: on);
+      FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(on);
+      FirebasePerformance.instance.setPerformanceCollectionEnabled(on);
+    }, fireImmediately: true);
   }
 
   @override
