@@ -1,8 +1,8 @@
-import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
@@ -102,6 +102,7 @@ Future<void> handleActionTap(
       if (!alreadySeen && context.mounted) {
         await showStreakMilestoneCelebration(
           context,
+          ref,
           weekNumber: milestoneWeek,
           totalDays: logResult.newStreakDays,
         );
@@ -115,25 +116,10 @@ Future<void> handleActionTap(
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(_logErrorMessage(context, logState.error)),
+        content: Text(logErrorMessage(context, logState.error)),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
-}
-
-String _logErrorMessage(BuildContext context, Object? error) {
-  final l10n = AppLocalizations.of(context);
-  if (error is FirebaseException) {
-    // permission-denied on a log almost always means the server-side
-    // 5s rate limit rejected a rapid second submission.
-    if (error.code == 'permission-denied') {
-      return l10n.errorActionTooSoon;
-    }
-    if (error.code == 'unavailable') {
-      return l10n.errorOffline;
-    }
-  }
-  return l10n.errorGeneric;
 }

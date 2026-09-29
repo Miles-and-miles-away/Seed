@@ -51,7 +51,7 @@ class _MainShellState extends ConsumerState<MainShell> {
           _hasShownEvolutionCelebration = true;
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              showEvolutionCelebration(context);
+              showEvolutionCelebration(context, ref);
             }
           });
         }

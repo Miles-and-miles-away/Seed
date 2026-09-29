@@ -65,14 +65,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
     }
   }
 
-  Future<void> _handleDismiss() async {
-    // Mark milestone as seen
-    await ref
-        .read(settingsProvider.notifier)
-        .markMilestoneSeen(widget.weekNumber);
-    if (mounted) widget.onDismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -258,7 +250,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                     // Continue button
                     if (_showButton)
                       FilledButton(
-                            onPressed: _handleDismiss,
+                            onPressed: widget.onDismiss,
                             style: FilledButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: spacingHuge,
@@ -283,15 +275,17 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
   }
 }
 
-/// Shows the streak milestone celebration dialog.
-///
-/// Call this method when a weekly milestone is crossed.
+/// Shows the streak milestone celebration, then records the week as
+/// seen however the overlay closed. The write is not awaited: offline it
+/// only completes on server ack.
 Future<void> showStreakMilestoneCelebration(
-  BuildContext context, {
+  BuildContext context,
+  WidgetRef ref, {
   required int weekNumber,
   required int totalDays,
-}) {
-  return showCelebrationOverlay(
+}) async {
+  final settings = ref.read(settingsProvider.notifier);
+  await showCelebrationOverlay(
     context,
     (onDismiss) => StreakMilestoneDialog(
       weekNumber: weekNumber,
@@ -299,4 +293,5 @@ Future<void> showStreakMilestoneCelebration(
       onDismiss: onDismiss,
     ),
   );
+  unawaited(settings.markMilestoneSeen(weekNumber));
 }

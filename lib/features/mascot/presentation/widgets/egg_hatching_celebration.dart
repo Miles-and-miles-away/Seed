@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,17 +60,18 @@ class _EggHatchingCelebrationState
     super.dispose();
   }
 
-  Future<void> _handleConfirm() async {
+  void _handleConfirm() {
     final name = _nameController.text.trim();
     if (name.length < 2 || name.length > 20) return;
 
     setState(() => _isSubmitting = true);
-
-    await ref
-        .read(mascotProvider.notifier)
-        .nameHatchedMascot(widget.hatchedMascot.id, name);
-
-    if (mounted) widget.onDismiss();
+    // Not awaited: offline the write only completes on server ack.
+    unawaited(
+      ref
+          .read(mascotProvider.notifier)
+          .nameHatchedMascot(widget.hatchedMascot.id, name),
+    );
+    widget.onDismiss();
   }
 
   @override

@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/data/eco_dex_entries_data.dart';
 import 'package:seed_app/features/eco_dex/domain/models/eco_dex_entry_state.dart';
@@ -144,27 +147,26 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
     }
     final newUnlocks = await ref.read(ecoDexNewUnlocksProvider.future);
     if (newUnlocks.isEmpty) return [];
+    final user = ref.read(currentUserProvider).value;
+    if (user == null) return [];
 
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final user = ref.read(currentUserProvider).value;
-      if (user == null) throw Exception('Not logged in');
-
-      final userRef = ref
+    // Not awaited: offline the write only completes on server ack, and
+    // the celebrations must not wait for it.
+    unawaited(
+      ref
           .read(firestoreProvider)
           .collection(AppConstants.collectionUsers)
-          .doc(user.uid);
-
-      await userRef.update({
-        AppConstants.fieldEcodexDiscovered: FieldValue.arrayUnion(newUnlocks),
-      });
-    });
-
-    if (ref.mounted) {
-      state = result;
-    }
-
-    return result.hasError ? [] : newUnlocks;
+          .doc(user.uid)
+          .update({
+            AppConstants.fieldEcodexDiscovered: FieldValue.arrayUnion(
+              newUnlocks,
+            ),
+          })
+          .catchError(
+            (Object e) => appLogger.warning('Eco-Dex discovery not saved: $e'),
+          ),
+    );
+    return newUnlocks;
   }
 
   /// Waits (bounded) for the user stream to reflect at least
