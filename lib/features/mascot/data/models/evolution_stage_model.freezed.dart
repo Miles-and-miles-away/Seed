@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'evolution_stage_model.dart';
@@ -9,6 +9,7 @@ part of 'evolution_stage_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -37,16 +38,21 @@ $EvolutionStageModelCopyWith<EvolutionStageModel> get copyWith => _$EvolutionSta
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EvolutionStageModel&&(identical(other.level, level) || other.level == level)&&(identical(other.assetPath, assetPath) || other.assetPath == assetPath)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.artboardName, artboardName) || other.artboardName == artboardName)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
+  final _this = this as EvolutionStageModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EvolutionStageModel&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.assetPath, _this.assetPath) || other.assetPath == _this.assetPath)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.artboardName, _this.artboardName) || other.artboardName == _this.artboardName)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,level,assetPath,nameEn,nameJa,artboardName,nameEs);
+int get hashCode {
+  final _this = this as EvolutionStageModel;
+  return Object.hash(runtimeType,_this.level,_this.assetPath,_this.nameEn,_this.nameJa,_this.artboardName,_this.nameEs);
+}
 
 @override
 String toString() {
-  return 'EvolutionStageModel(level: $level, assetPath: $assetPath, nameEn: $nameEn, nameJa: $nameJa, artboardName: $artboardName, nameEs: $nameEs)';
+  final _this = this as EvolutionStageModel;
+  return 'EvolutionStageModel(level: ${_this.level}, assetPath: ${_this.assetPath}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, artboardName: ${_this.artboardName}, nameEs: ${_this.nameEs})';
 }
 
 
@@ -75,7 +81,7 @@ class _$EvolutionStageModelCopyWithImpl<$Res>
 /// Create a copy of EvolutionStageModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? assetPath = null,Object? nameEn = null,Object? nameJa = null,Object? artboardName = freezed,Object? nameEs = null,}) {
-  return _then(_self.copyWith(
+  return _then(EvolutionStageModel(
 level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
 as int,assetPath: null == assetPath ? _self.assetPath : assetPath // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
@@ -255,16 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EvolutionStageModel&&(identical(other.level, level) || other.level == level)&&(identical(other.assetPath, assetPath) || other.assetPath == assetPath)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.artboardName, artboardName) || other.artboardName == artboardName)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EvolutionStageModel&&(identical(other.level, level) || other.level == level)&&(identical(other.assetPath, assetPath) || other.assetPath == assetPath)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.artboardName, artboardName) || other.artboardName == artboardName)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,level,assetPath,nameEn,nameJa,artboardName,nameEs);
+int get hashCode {
+    return Object.hash(runtimeType,level,assetPath,nameEn,nameJa,artboardName,nameEs);
+}
 
 @override
 String toString() {
-  return 'EvolutionStageModel(level: $level, assetPath: $assetPath, nameEn: $nameEn, nameJa: $nameJa, artboardName: $artboardName, nameEs: $nameEs)';
+    return 'EvolutionStageModel(level: $level, assetPath: $assetPath, nameEn: $nameEn, nameJa: $nameJa, artboardName: $artboardName, nameEs: $nameEs)';
 }
 
 

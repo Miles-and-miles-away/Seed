@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'action_model.dart';
@@ -9,6 +9,7 @@ part of 'action_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ActionModelCopyWith<ActionModel> get copyWith => _$ActionModelCopyWithImpl<Acti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.descriptionLongEn, descriptionLongEn) || other.descriptionLongEn == descriptionLongEn)&&(identical(other.descriptionLongJa, descriptionLongJa) || other.descriptionLongJa == descriptionLongJa)&&(identical(other.descriptionLongEs, descriptionLongEs) || other.descriptionLongEs == descriptionLongEs)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.iconName, iconName) || other.iconName == iconName)&&const DeepCollectionEquality().equals(other.relatedSdgs, relatedSdgs)&&(identical(other.isLearnOnly, isLearnOnly) || other.isLearnOnly == isLearnOnly)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+  final _this = this as ActionModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.points, _this.points) || other.points == _this.points)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.descriptionEn, _this.descriptionEn) || other.descriptionEn == _this.descriptionEn)&&(identical(other.descriptionJa, _this.descriptionJa) || other.descriptionJa == _this.descriptionJa)&&(identical(other.descriptionEs, _this.descriptionEs) || other.descriptionEs == _this.descriptionEs)&&(identical(other.descriptionLongEn, _this.descriptionLongEn) || other.descriptionLongEn == _this.descriptionLongEn)&&(identical(other.descriptionLongJa, _this.descriptionLongJa) || other.descriptionLongJa == _this.descriptionLongJa)&&(identical(other.descriptionLongEs, _this.descriptionLongEs) || other.descriptionLongEs == _this.descriptionLongEs)&&(identical(other.co2Grams, _this.co2Grams) || other.co2Grams == _this.co2Grams)&&(identical(other.iconName, _this.iconName) || other.iconName == _this.iconName)&&const DeepCollectionEquality().equals(other.relatedSdgs, _this.relatedSdgs)&&(identical(other.isLearnOnly, _this.isLearnOnly) || other.isLearnOnly == _this.isLearnOnly)&&(identical(other.isActive, _this.isActive) || other.isActive == _this.isActive)&&(identical(other.sortOrder, _this.sortOrder) || other.sortOrder == _this.sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,category,points,nameEs,descriptionEn,descriptionJa,descriptionEs,descriptionLongEn,descriptionLongJa,descriptionLongEs,co2Grams,iconName,const DeepCollectionEquality().hash(relatedSdgs),isLearnOnly,isActive,sortOrder);
+int get hashCode {
+  final _this = this as ActionModel;
+  return Object.hash(runtimeType,_this.id,_this.nameEn,_this.nameJa,_this.category,_this.points,_this.nameEs,_this.descriptionEn,_this.descriptionJa,_this.descriptionEs,_this.descriptionLongEn,_this.descriptionLongJa,_this.descriptionLongEs,_this.co2Grams,_this.iconName,const DeepCollectionEquality().hash(_this.relatedSdgs),_this.isLearnOnly,_this.isActive,_this.sortOrder);
+}
 
 @override
 String toString() {
-  return 'ActionModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, category: $category, points: $points, nameEs: $nameEs, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, descriptionEs: $descriptionEs, descriptionLongEn: $descriptionLongEn, descriptionLongJa: $descriptionLongJa, descriptionLongEs: $descriptionLongEs, co2Grams: $co2Grams, iconName: $iconName, relatedSdgs: $relatedSdgs, isLearnOnly: $isLearnOnly, isActive: $isActive, sortOrder: $sortOrder)';
+  final _this = this as ActionModel;
+  return 'ActionModel(id: ${_this.id}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, category: ${_this.category}, points: ${_this.points}, nameEs: ${_this.nameEs}, descriptionEn: ${_this.descriptionEn}, descriptionJa: ${_this.descriptionJa}, descriptionEs: ${_this.descriptionEs}, descriptionLongEn: ${_this.descriptionLongEn}, descriptionLongJa: ${_this.descriptionLongJa}, descriptionLongEs: ${_this.descriptionLongEs}, co2Grams: ${_this.co2Grams}, iconName: ${_this.iconName}, relatedSdgs: ${_this.relatedSdgs}, isLearnOnly: ${_this.isLearnOnly}, isActive: ${_this.isActive}, sortOrder: ${_this.sortOrder})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ActionModelCopyWithImpl<$Res>
 /// Create a copy of ActionModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nameEn = null,Object? nameJa = null,Object? category = null,Object? points = null,Object? nameEs = null,Object? descriptionEn = null,Object? descriptionJa = null,Object? descriptionEs = null,Object? descriptionLongEn = null,Object? descriptionLongJa = null,Object? descriptionLongEs = null,Object? co2Grams = null,Object? iconName = null,Object? relatedSdgs = null,Object? isLearnOnly = null,Object? isActive = null,Object? sortOrder = null,}) {
-  return _then(_self.copyWith(
+  return _then(ActionModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
 as String,nameJa: null == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
@@ -226,7 +232,7 @@ return $default(_that.id,_that.nameEn,_that.nameJa,_that.category,_that.points,_
 @JsonSerializable()
 
 class _ActionModel implements ActionModel {
-  const _ActionModel({required this.id, required this.nameEn, required this.nameJa, required this.category, required this.points, this.nameEs = '', this.descriptionEn = '', this.descriptionJa = '', this.descriptionEs = '', this.descriptionLongEn = '', this.descriptionLongJa = '', this.descriptionLongEs = '', this.co2Grams = 0, this.iconName = 'eco', final  List<String> relatedSdgs = const [], this.isLearnOnly = false, this.isActive = true, this.sortOrder = 0}): _relatedSdgs = relatedSdgs;
+  const _ActionModel({required this.id, required this.nameEn, required this.nameJa, required this.category, required this.points, this.nameEs = '', this.descriptionEn = '', this.descriptionJa = '', this.descriptionEs = '', this.descriptionLongEn = '', this.descriptionLongJa = '', this.descriptionLongEs = '', this.co2Grams = 0, this.iconName = 'eco',  List<String> relatedSdgs = const [], this.isLearnOnly = false, this.isActive = true, this.sortOrder = 0}): _relatedSdgs = relatedSdgs;
   factory _ActionModel.fromJson(Map<String, dynamic> json) => _$ActionModelFromJson(json);
 
 @override final  String id;
@@ -267,16 +273,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.descriptionLongEn, descriptionLongEn) || other.descriptionLongEn == descriptionLongEn)&&(identical(other.descriptionLongJa, descriptionLongJa) || other.descriptionLongJa == descriptionLongJa)&&(identical(other.descriptionLongEs, descriptionLongEs) || other.descriptionLongEs == descriptionLongEs)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.iconName, iconName) || other.iconName == iconName)&&const DeepCollectionEquality().equals(other._relatedSdgs, _relatedSdgs)&&(identical(other.isLearnOnly, isLearnOnly) || other.isLearnOnly == isLearnOnly)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.descriptionLongEn, descriptionLongEn) || other.descriptionLongEn == descriptionLongEn)&&(identical(other.descriptionLongJa, descriptionLongJa) || other.descriptionLongJa == descriptionLongJa)&&(identical(other.descriptionLongEs, descriptionLongEs) || other.descriptionLongEs == descriptionLongEs)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.iconName, iconName) || other.iconName == iconName)&&const DeepCollectionEquality().equals(other.relatedSdgs, _relatedSdgs)&&(identical(other.isLearnOnly, isLearnOnly) || other.isLearnOnly == isLearnOnly)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,category,points,nameEs,descriptionEn,descriptionJa,descriptionEs,descriptionLongEn,descriptionLongJa,descriptionLongEs,co2Grams,iconName,const DeepCollectionEquality().hash(_relatedSdgs),isLearnOnly,isActive,sortOrder);
+int get hashCode {
+    return Object.hash(runtimeType,id,nameEn,nameJa,category,points,nameEs,descriptionEn,descriptionJa,descriptionEs,descriptionLongEn,descriptionLongJa,descriptionLongEs,co2Grams,iconName,const DeepCollectionEquality().hash(_relatedSdgs),isLearnOnly,isActive,sortOrder);
+}
 
 @override
 String toString() {
-  return 'ActionModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, category: $category, points: $points, nameEs: $nameEs, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, descriptionEs: $descriptionEs, descriptionLongEn: $descriptionLongEn, descriptionLongJa: $descriptionLongJa, descriptionLongEs: $descriptionLongEs, co2Grams: $co2Grams, iconName: $iconName, relatedSdgs: $relatedSdgs, isLearnOnly: $isLearnOnly, isActive: $isActive, sortOrder: $sortOrder)';
+    return 'ActionModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, category: $category, points: $points, nameEs: $nameEs, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, descriptionEs: $descriptionEs, descriptionLongEn: $descriptionLongEn, descriptionLongJa: $descriptionLongJa, descriptionLongEs: $descriptionLongEs, co2Grams: $co2Grams, iconName: $iconName, relatedSdgs: $relatedSdgs, isLearnOnly: $isLearnOnly, isActive: $isActive, sortOrder: $sortOrder)';
 }
 
 

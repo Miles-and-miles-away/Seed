@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'notification_schedule_model.dart';
@@ -9,6 +9,7 @@ part of 'notification_schedule_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -33,16 +34,21 @@ $NotificationScheduleModelCopyWith<NotificationScheduleModel> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotificationScheduleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.hour, hour) || other.hour == hour)&&(identical(other.minute, minute) || other.minute == minute)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled)&&(identical(other.label, label) || other.label == label));
+  final _this = this as NotificationScheduleModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotificationScheduleModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.hour, _this.hour) || other.hour == _this.hour)&&(identical(other.minute, _this.minute) || other.minute == _this.minute)&&(identical(other.isEnabled, _this.isEnabled) || other.isEnabled == _this.isEnabled)&&(identical(other.label, _this.label) || other.label == _this.label));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hour,minute,isEnabled,label);
+int get hashCode {
+  final _this = this as NotificationScheduleModel;
+  return Object.hash(runtimeType,_this.id,_this.hour,_this.minute,_this.isEnabled,_this.label);
+}
 
 @override
 String toString() {
-  return 'NotificationScheduleModel(id: $id, hour: $hour, minute: $minute, isEnabled: $isEnabled, label: $label)';
+  final _this = this as NotificationScheduleModel;
+  return 'NotificationScheduleModel(id: ${_this.id}, hour: ${_this.hour}, minute: ${_this.minute}, isEnabled: ${_this.isEnabled}, label: ${_this.label})';
 }
 
 
@@ -71,7 +77,7 @@ class _$NotificationScheduleModelCopyWithImpl<$Res>
 /// Create a copy of NotificationScheduleModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? hour = null,Object? minute = null,Object? isEnabled = null,Object? label = null,}) {
-  return _then(_self.copyWith(
+  return _then(NotificationScheduleModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,hour: null == hour ? _self.hour : hour // ignore: cast_nullable_to_non_nullable
 as int,minute: null == minute ? _self.minute : minute // ignore: cast_nullable_to_non_nullable
@@ -245,16 +251,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NotificationScheduleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.hour, hour) || other.hour == hour)&&(identical(other.minute, minute) || other.minute == minute)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled)&&(identical(other.label, label) || other.label == label));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NotificationScheduleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.hour, hour) || other.hour == hour)&&(identical(other.minute, minute) || other.minute == minute)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled)&&(identical(other.label, label) || other.label == label));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hour,minute,isEnabled,label);
+int get hashCode {
+    return Object.hash(runtimeType,id,hour,minute,isEnabled,label);
+}
 
 @override
 String toString() {
-  return 'NotificationScheduleModel(id: $id, hour: $hour, minute: $minute, isEnabled: $isEnabled, label: $label)';
+    return 'NotificationScheduleModel(id: $id, hour: $hour, minute: $minute, isEnabled: $isEnabled, label: $label)';
 }
 
 
