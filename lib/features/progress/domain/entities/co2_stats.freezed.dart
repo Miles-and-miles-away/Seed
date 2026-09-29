@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'co2_stats.dart';
@@ -9,6 +9,7 @@ part of 'co2_stats.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $Co2StatsCopyWith<Co2Stats> get copyWith => _$Co2StatsCopyWithImpl<Co2Stats>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2Stats&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams)&&(identical(other.previousTotalGrams, previousTotalGrams) || other.previousTotalGrams == previousTotalGrams)&&(identical(other.percentChange, percentChange) || other.percentChange == percentChange)&&(identical(other.period, period) || other.period == period));
+  final _this = this as Co2Stats;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2Stats&&(identical(other.totalGrams, _this.totalGrams) || other.totalGrams == _this.totalGrams)&&(identical(other.previousTotalGrams, _this.previousTotalGrams) || other.previousTotalGrams == _this.previousTotalGrams)&&(identical(other.percentChange, _this.percentChange) || other.percentChange == _this.percentChange)&&(identical(other.period, _this.period) || other.period == _this.period));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,totalGrams,previousTotalGrams,percentChange,period);
+int get hashCode {
+  final _this = this as Co2Stats;
+  return Object.hash(runtimeType,_this.totalGrams,_this.previousTotalGrams,_this.percentChange,_this.period);
+}
 
 @override
 String toString() {
-  return 'Co2Stats(totalGrams: $totalGrams, previousTotalGrams: $previousTotalGrams, percentChange: $percentChange, period: $period)';
+  final _this = this as Co2Stats;
+  return 'Co2Stats(totalGrams: ${_this.totalGrams}, previousTotalGrams: ${_this.previousTotalGrams}, percentChange: ${_this.percentChange}, period: ${_this.period})';
 }
 
 
@@ -63,7 +69,7 @@ class _$Co2StatsCopyWithImpl<$Res>
 /// Create a copy of Co2Stats
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? totalGrams = null,Object? previousTotalGrams = null,Object? percentChange = null,Object? period = null,}) {
-  return _then(_self.copyWith(
+  return _then(Co2Stats(
 totalGrams: null == totalGrams ? _self.totalGrams : totalGrams // ignore: cast_nullable_to_non_nullable
 as int,previousTotalGrams: null == previousTotalGrams ? _self.previousTotalGrams : previousTotalGrams // ignore: cast_nullable_to_non_nullable
 as int,percentChange: null == percentChange ? _self.percentChange : percentChange // ignore: cast_nullable_to_non_nullable
@@ -227,16 +233,18 @@ _$Co2StatsCopyWith<_Co2Stats> get copyWith => __$Co2StatsCopyWithImpl<_Co2Stats>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2Stats&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams)&&(identical(other.previousTotalGrams, previousTotalGrams) || other.previousTotalGrams == previousTotalGrams)&&(identical(other.percentChange, percentChange) || other.percentChange == percentChange)&&(identical(other.period, period) || other.period == period));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2Stats&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams)&&(identical(other.previousTotalGrams, previousTotalGrams) || other.previousTotalGrams == previousTotalGrams)&&(identical(other.percentChange, percentChange) || other.percentChange == percentChange)&&(identical(other.period, period) || other.period == period));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,totalGrams,previousTotalGrams,percentChange,period);
+int get hashCode {
+    return Object.hash(runtimeType,totalGrams,previousTotalGrams,percentChange,period);
+}
 
 @override
 String toString() {
-  return 'Co2Stats(totalGrams: $totalGrams, previousTotalGrams: $previousTotalGrams, percentChange: $percentChange, period: $period)';
+    return 'Co2Stats(totalGrams: $totalGrams, previousTotalGrams: $previousTotalGrams, percentChange: $percentChange, period: $period)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'co2_chart_data.dart';
@@ -9,6 +9,7 @@ part of 'co2_chart_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $Co2TrendPointCopyWith<Co2TrendPoint> get copyWith => _$Co2TrendPointCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2TrendPoint&&(identical(other.date, date) || other.date == date)&&(identical(other.grams, grams) || other.grams == grams));
+  final _this = this as Co2TrendPoint;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2TrendPoint&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.grams, _this.grams) || other.grams == _this.grams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,date,grams);
+int get hashCode {
+  final _this = this as Co2TrendPoint;
+  return Object.hash(runtimeType,_this.date,_this.grams);
+}
 
 @override
 String toString() {
-  return 'Co2TrendPoint(date: $date, grams: $grams)';
+  final _this = this as Co2TrendPoint;
+  return 'Co2TrendPoint(date: ${_this.date}, grams: ${_this.grams})';
 }
 
 
@@ -63,7 +69,7 @@ class _$Co2TrendPointCopyWithImpl<$Res>
 /// Create a copy of Co2TrendPoint
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? grams = null,}) {
-  return _then(_self.copyWith(
+  return _then(Co2TrendPoint(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,grams: null == grams ? _self.grams : grams // ignore: cast_nullable_to_non_nullable
 as int,
@@ -223,16 +229,18 @@ _$Co2TrendPointCopyWith<_Co2TrendPoint> get copyWith => __$Co2TrendPointCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2TrendPoint&&(identical(other.date, date) || other.date == date)&&(identical(other.grams, grams) || other.grams == grams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2TrendPoint&&(identical(other.date, date) || other.date == date)&&(identical(other.grams, grams) || other.grams == grams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,date,grams);
+int get hashCode {
+    return Object.hash(runtimeType,date,grams);
+}
 
 @override
 String toString() {
-  return 'Co2TrendPoint(date: $date, grams: $grams)';
+    return 'Co2TrendPoint(date: $date, grams: $grams)';
 }
 
 
@@ -285,16 +293,21 @@ $Co2TrendDataCopyWith<Co2TrendData> get copyWith => _$Co2TrendDataCopyWithImpl<C
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2TrendData&&const DeepCollectionEquality().equals(other.points, points)&&(identical(other.averageGrams, averageGrams) || other.averageGrams == averageGrams)&&(identical(other.windowStart, windowStart) || other.windowStart == windowStart)&&(identical(other.windowEnd, windowEnd) || other.windowEnd == windowEnd));
+  final _this = this as Co2TrendData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2TrendData&&const DeepCollectionEquality().equals(other.points, _this.points)&&(identical(other.averageGrams, _this.averageGrams) || other.averageGrams == _this.averageGrams)&&(identical(other.windowStart, _this.windowStart) || other.windowStart == _this.windowStart)&&(identical(other.windowEnd, _this.windowEnd) || other.windowEnd == _this.windowEnd));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(points),averageGrams,windowStart,windowEnd);
+int get hashCode {
+  final _this = this as Co2TrendData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.points),_this.averageGrams,_this.windowStart,_this.windowEnd);
+}
 
 @override
 String toString() {
-  return 'Co2TrendData(points: $points, averageGrams: $averageGrams, windowStart: $windowStart, windowEnd: $windowEnd)';
+  final _this = this as Co2TrendData;
+  return 'Co2TrendData(points: ${_this.points}, averageGrams: ${_this.averageGrams}, windowStart: ${_this.windowStart}, windowEnd: ${_this.windowEnd})';
 }
 
 
@@ -323,7 +336,7 @@ class _$Co2TrendDataCopyWithImpl<$Res>
 /// Create a copy of Co2TrendData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? points = null,Object? averageGrams = null,Object? windowStart = null,Object? windowEnd = null,}) {
-  return _then(_self.copyWith(
+  return _then(Co2TrendData(
 points: null == points ? _self.points : points // ignore: cast_nullable_to_non_nullable
 as List<Co2TrendPoint>,averageGrams: null == averageGrams ? _self.averageGrams : averageGrams // ignore: cast_nullable_to_non_nullable
 as double,windowStart: null == windowStart ? _self.windowStart : windowStart // ignore: cast_nullable_to_non_nullable
@@ -469,7 +482,7 @@ return $default(_that.points,_that.averageGrams,_that.windowStart,_that.windowEn
 
 
 class _Co2TrendData extends Co2TrendData {
-  const _Co2TrendData({required final  List<Co2TrendPoint> points, required this.averageGrams, required this.windowStart, required this.windowEnd}): _points = points,super._();
+  const _Co2TrendData({required  List<Co2TrendPoint> points, required this.averageGrams, required this.windowStart, required this.windowEnd}): _points = points,super._();
   
 
  final  List<Co2TrendPoint> _points;
@@ -493,16 +506,18 @@ _$Co2TrendDataCopyWith<_Co2TrendData> get copyWith => __$Co2TrendDataCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2TrendData&&const DeepCollectionEquality().equals(other._points, _points)&&(identical(other.averageGrams, averageGrams) || other.averageGrams == averageGrams)&&(identical(other.windowStart, windowStart) || other.windowStart == windowStart)&&(identical(other.windowEnd, windowEnd) || other.windowEnd == windowEnd));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2TrendData&&const DeepCollectionEquality().equals(other.points, _points)&&(identical(other.averageGrams, averageGrams) || other.averageGrams == averageGrams)&&(identical(other.windowStart, windowStart) || other.windowStart == windowStart)&&(identical(other.windowEnd, windowEnd) || other.windowEnd == windowEnd));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_points),averageGrams,windowStart,windowEnd);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_points),averageGrams,windowStart,windowEnd);
+}
 
 @override
 String toString() {
-  return 'Co2TrendData(points: $points, averageGrams: $averageGrams, windowStart: $windowStart, windowEnd: $windowEnd)';
+    return 'Co2TrendData(points: $points, averageGrams: $averageGrams, windowStart: $windowStart, windowEnd: $windowEnd)';
 }
 
 
@@ -557,16 +572,21 @@ $Co2CategorySliceCopyWith<Co2CategorySlice> get copyWith => _$Co2CategorySliceCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2CategorySlice&&(identical(other.category, category) || other.category == category)&&(identical(other.grams, grams) || other.grams == grams)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  final _this = this as Co2CategorySlice;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2CategorySlice&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.grams, _this.grams) || other.grams == _this.grams)&&(identical(other.percentage, _this.percentage) || other.percentage == _this.percentage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,grams,percentage);
+int get hashCode {
+  final _this = this as Co2CategorySlice;
+  return Object.hash(runtimeType,_this.category,_this.grams,_this.percentage);
+}
 
 @override
 String toString() {
-  return 'Co2CategorySlice(category: $category, grams: $grams, percentage: $percentage)';
+  final _this = this as Co2CategorySlice;
+  return 'Co2CategorySlice(category: ${_this.category}, grams: ${_this.grams}, percentage: ${_this.percentage})';
 }
 
 
@@ -595,7 +615,7 @@ class _$Co2CategorySliceCopyWithImpl<$Res>
 /// Create a copy of Co2CategorySlice
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? category = freezed,Object? grams = null,Object? percentage = null,}) {
-  return _then(_self.copyWith(
+  return _then(Co2CategorySlice(
 category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as ActionCategory?,grams: null == grams ? _self.grams : grams // ignore: cast_nullable_to_non_nullable
 as int,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
@@ -757,16 +777,18 @@ _$Co2CategorySliceCopyWith<_Co2CategorySlice> get copyWith => __$Co2CategorySlic
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2CategorySlice&&(identical(other.category, category) || other.category == category)&&(identical(other.grams, grams) || other.grams == grams)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2CategorySlice&&(identical(other.category, category) || other.category == category)&&(identical(other.grams, grams) || other.grams == grams)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,grams,percentage);
+int get hashCode {
+    return Object.hash(runtimeType,category,grams,percentage);
+}
 
 @override
 String toString() {
-  return 'Co2CategorySlice(category: $category, grams: $grams, percentage: $percentage)';
+    return 'Co2CategorySlice(category: $category, grams: $grams, percentage: $percentage)';
 }
 
 
@@ -820,16 +842,21 @@ $Co2CategoryDataCopyWith<Co2CategoryData> get copyWith => _$Co2CategoryDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2CategoryData&&const DeepCollectionEquality().equals(other.slices, slices)&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams));
+  final _this = this as Co2CategoryData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2CategoryData&&const DeepCollectionEquality().equals(other.slices, _this.slices)&&(identical(other.totalGrams, _this.totalGrams) || other.totalGrams == _this.totalGrams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(slices),totalGrams);
+int get hashCode {
+  final _this = this as Co2CategoryData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.slices),_this.totalGrams);
+}
 
 @override
 String toString() {
-  return 'Co2CategoryData(slices: $slices, totalGrams: $totalGrams)';
+  final _this = this as Co2CategoryData;
+  return 'Co2CategoryData(slices: ${_this.slices}, totalGrams: ${_this.totalGrams})';
 }
 
 
@@ -858,7 +885,7 @@ class _$Co2CategoryDataCopyWithImpl<$Res>
 /// Create a copy of Co2CategoryData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? slices = null,Object? totalGrams = null,}) {
-  return _then(_self.copyWith(
+  return _then(Co2CategoryData(
 slices: null == slices ? _self.slices : slices // ignore: cast_nullable_to_non_nullable
 as List<Co2CategorySlice>,totalGrams: null == totalGrams ? _self.totalGrams : totalGrams // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1002,7 +1029,7 @@ return $default(_that.slices,_that.totalGrams);case _:
 
 
 class _Co2CategoryData extends Co2CategoryData {
-  const _Co2CategoryData({required final  List<Co2CategorySlice> slices, required this.totalGrams}): _slices = slices,super._();
+  const _Co2CategoryData({required  List<Co2CategorySlice> slices, required this.totalGrams}): _slices = slices,super._();
   
 
  final  List<Co2CategorySlice> _slices;
@@ -1024,16 +1051,18 @@ _$Co2CategoryDataCopyWith<_Co2CategoryData> get copyWith => __$Co2CategoryDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2CategoryData&&const DeepCollectionEquality().equals(other._slices, _slices)&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Co2CategoryData&&const DeepCollectionEquality().equals(other.slices, _slices)&&(identical(other.totalGrams, totalGrams) || other.totalGrams == totalGrams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_slices),totalGrams);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_slices),totalGrams);
+}
 
 @override
 String toString() {
-  return 'Co2CategoryData(slices: $slices, totalGrams: $totalGrams)';
+    return 'Co2CategoryData(slices: $slices, totalGrams: $totalGrams)';
 }
 
 

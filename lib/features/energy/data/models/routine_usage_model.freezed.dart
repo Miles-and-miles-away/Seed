@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'routine_usage_model.dart';
@@ -9,6 +9,7 @@ part of 'routine_usage_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $RoutineUsageCopyWith<RoutineUsage> get copyWith => _$RoutineUsageCopyWithImpl<R
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoutineUsage&&(identical(other.behaviorId, behaviorId) || other.behaviorId == behaviorId)&&(identical(other.units, units) || other.units == units));
+  final _this = this as RoutineUsage;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoutineUsage&&(identical(other.behaviorId, _this.behaviorId) || other.behaviorId == _this.behaviorId)&&(identical(other.units, _this.units) || other.units == _this.units));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,behaviorId,units);
+int get hashCode {
+  final _this = this as RoutineUsage;
+  return Object.hash(runtimeType,_this.behaviorId,_this.units);
+}
 
 @override
 String toString() {
-  return 'RoutineUsage(behaviorId: $behaviorId, units: $units)';
+  final _this = this as RoutineUsage;
+  return 'RoutineUsage(behaviorId: ${_this.behaviorId}, units: ${_this.units})';
 }
 
 
@@ -63,7 +69,7 @@ class _$RoutineUsageCopyWithImpl<$Res>
 /// Create a copy of RoutineUsage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? behaviorId = null,Object? units = null,}) {
-  return _then(_self.copyWith(
+  return _then(RoutineUsage(
 behaviorId: null == behaviorId ? _self.behaviorId : behaviorId // ignore: cast_nullable_to_non_nullable
 as String,units: null == units ? _self.units : units // ignore: cast_nullable_to_non_nullable
 as double,
@@ -223,16 +229,18 @@ _$RoutineUsageCopyWith<_RoutineUsage> get copyWith => __$RoutineUsageCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoutineUsage&&(identical(other.behaviorId, behaviorId) || other.behaviorId == behaviorId)&&(identical(other.units, units) || other.units == units));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoutineUsage&&(identical(other.behaviorId, behaviorId) || other.behaviorId == behaviorId)&&(identical(other.units, units) || other.units == units));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,behaviorId,units);
+int get hashCode {
+    return Object.hash(runtimeType,behaviorId,units);
+}
 
 @override
 String toString() {
-  return 'RoutineUsage(behaviorId: $behaviorId, units: $units)';
+    return 'RoutineUsage(behaviorId: $behaviorId, units: $units)';
 }
 
 

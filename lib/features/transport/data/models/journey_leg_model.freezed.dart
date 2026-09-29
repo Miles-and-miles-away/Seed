@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'journey_leg_model.dart';
@@ -9,6 +9,7 @@ part of 'journey_leg_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $JourneyLegCopyWith<JourneyLeg> get copyWith => _$JourneyLegCopyWithImpl<Journey
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is JourneyLeg&&(identical(other.modeId, modeId) || other.modeId == modeId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.occupants, occupants) || other.occupants == occupants));
+  final _this = this as JourneyLeg;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is JourneyLeg&&(identical(other.modeId, _this.modeId) || other.modeId == _this.modeId)&&(identical(other.distanceKm, _this.distanceKm) || other.distanceKm == _this.distanceKm)&&(identical(other.occupants, _this.occupants) || other.occupants == _this.occupants));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,modeId,distanceKm,occupants);
+int get hashCode {
+  final _this = this as JourneyLeg;
+  return Object.hash(runtimeType,_this.modeId,_this.distanceKm,_this.occupants);
+}
 
 @override
 String toString() {
-  return 'JourneyLeg(modeId: $modeId, distanceKm: $distanceKm, occupants: $occupants)';
+  final _this = this as JourneyLeg;
+  return 'JourneyLeg(modeId: ${_this.modeId}, distanceKm: ${_this.distanceKm}, occupants: ${_this.occupants})';
 }
 
 
@@ -63,7 +69,7 @@ class _$JourneyLegCopyWithImpl<$Res>
 /// Create a copy of JourneyLeg
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? modeId = null,Object? distanceKm = null,Object? occupants = null,}) {
-  return _then(_self.copyWith(
+  return _then(JourneyLeg(
 modeId: null == modeId ? _self.modeId : modeId // ignore: cast_nullable_to_non_nullable
 as String,distanceKm: null == distanceKm ? _self.distanceKm : distanceKm // ignore: cast_nullable_to_non_nullable
 as double,occupants: null == occupants ? _self.occupants : occupants // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$JourneyLegCopyWith<_JourneyLeg> get copyWith => __$JourneyLegCopyWithImpl<_Jou
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _JourneyLeg&&(identical(other.modeId, modeId) || other.modeId == modeId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.occupants, occupants) || other.occupants == occupants));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _JourneyLeg&&(identical(other.modeId, modeId) || other.modeId == modeId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.occupants, occupants) || other.occupants == occupants));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,modeId,distanceKm,occupants);
+int get hashCode {
+    return Object.hash(runtimeType,modeId,distanceKm,occupants);
+}
 
 @override
 String toString() {
-  return 'JourneyLeg(modeId: $modeId, distanceKm: $distanceKm, occupants: $occupants)';
+    return 'JourneyLeg(modeId: $modeId, distanceKm: $distanceKm, occupants: $occupants)';
 }
 
 
