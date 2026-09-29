@@ -558,9 +558,9 @@ Settings hub.
   - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
 - Functionality: language selector, theme picker, "Replay
-  walkthrough" tile (confirm dialog, then clears the user's
-  `settings.walkthroughFound` so the first-login walkthrough runs
-  again), analytics toggle, section tiles.
+  walkthrough" tile under Support (confirm dialog, then clears the
+  user's `settings.walkthroughFound` and opens Home so the intro pops
+  straight away), analytics toggle, section tiles.
 - Note: the Notifications section is hidden while the reminder feature
   is postponed (the route below still exists but is unreachable from
   the UI).

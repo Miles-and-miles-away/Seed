@@ -38,6 +38,10 @@ class MascotDisplay extends ConsumerStatefulWidget {
 class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   bool _isBouncing = false;
 
+  // Keeps the Rive widget mounted while the float and bounce wrappers
+  // swap around it; a remount resets gaze and cuts any clip in flight.
+  final _mascotKey = GlobalKey();
+
   // Rive face bindings; all stay null for SVG mascots or Rive files
   // without a view model, turning gaze and smile into no-ops.
   rive.ViewModelInstance? _faceVm;
@@ -163,6 +167,25 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       );
     }
 
+    final reduceMotion =
+        MediaQuery.disableAnimationsOf(context) ||
+        MediaQuery.reduceMotionOf(context);
+    final glow = Container(
+      width: widget.size * 0.9,
+      height: widget.size * 0.9,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        // Soft white feathering behind the mascot
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withValues(alpha: opacityModerate),
+            blurRadius: 40,
+            spreadRadius: 10,
+          ),
+        ],
+      ),
+    );
+
     return GestureDetector(
       onTap: widget.onTap,
       child: SizedBox(
@@ -174,46 +197,38 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
             // Glow effect (wrapped in RepaintBoundary for Impeller compatibility)
             if (widget.showGlow)
               RepaintBoundary(
-                child: Animate(
-                  onPlay: (controller) => controller.repeat(reverse: true),
-                  effects: [
-                    ScaleEffect(
-                      begin: const Offset(0.95, 0.95),
-                      end: const Offset(1.05, 1.05),
-                      duration: 2.seconds,
-                      curve: Curves.easeInOut,
-                    ),
-                  ],
-                  child: Container(
-                    width: widget.size * 0.9,
-                    height: widget.size * 0.9,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      // Soft white feathering behind the mascot
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withValues(
-                            alpha: opacityModerate,
+                child: reduceMotion
+                    ? glow
+                    : Animate(
+                        onPlay: (controller) =>
+                            controller.repeat(reverse: true),
+                        effects: [
+                          ScaleEffect(
+                            begin: const Offset(0.95, 0.95),
+                            end: const Offset(1.05, 1.05),
+                            duration: 2.seconds,
+                            curve: Curves.easeInOut,
                           ),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        ],
+                        child: glow,
+                      ),
               ),
 
             // Mascot with animations
-            _buildAnimatedMascot(assetPath, artboardName),
+            _buildAnimatedMascot(assetPath, artboardName, reduceMotion),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAnimatedMascot(String assetPath, String? artboardName) {
+  Widget _buildAnimatedMascot(
+    String assetPath,
+    String? artboardName,
+    bool reduceMotion,
+  ) {
     Widget mascot = MascotImage(
+      key: _mascotKey,
       assetPath: assetPath,
       artboardName: artboardName,
       width: widget.size * 0.96,
@@ -245,7 +260,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     // Apply idle float animation (only when not bouncing).
     // Rive mascots author their own idle motion; floating the widget too
     // would double the movement.
-    if (!_isBouncing && !assetPath.endsWith('.riv')) {
+    if (!_isBouncing && !reduceMotion && !assetPath.endsWith('.riv')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [
