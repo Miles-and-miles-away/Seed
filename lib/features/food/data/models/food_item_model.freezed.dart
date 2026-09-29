@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'food_item_model.dart';
@@ -9,6 +9,7 @@ part of 'food_item_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -35,16 +36,21 @@ $FoodItemCopyWith<FoodItem> get copyWith => _$FoodItemCopyWithImpl<FoodItem>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodItem&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.kgCo2ePerKg, kgCo2ePerKg) || other.kgCo2ePerKg == kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, searchTermsEs)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, sources)&&(identical(other.weightBasis, weightBasis) || other.weightBasis == weightBasis)&&(identical(other.entryMode, entryMode) || other.entryMode == entryMode)&&(identical(other.defaultServingId, defaultServingId) || other.defaultServingId == defaultServingId)&&(identical(other.sourceTier, sourceTier) || other.sourceTier == sourceTier)&&(identical(other.tieGroup, tieGroup) || other.tieGroup == tieGroup)&&(identical(other.statisticRatio, statisticRatio) || other.statisticRatio == statisticRatio));
+  final _this = this as FoodItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.kgCo2ePerKg, _this.kgCo2ePerKg) || other.kgCo2ePerKg == _this.kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _this.servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _this.searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _this.searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _this.searchTermsEs)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.weightBasis, _this.weightBasis) || other.weightBasis == _this.weightBasis)&&(identical(other.entryMode, _this.entryMode) || other.entryMode == _this.entryMode)&&(identical(other.defaultServingId, _this.defaultServingId) || other.defaultServingId == _this.defaultServingId)&&(identical(other.sourceTier, _this.sourceTier) || other.sourceTier == _this.sourceTier)&&(identical(other.tieGroup, _this.tieGroup) || other.tieGroup == _this.tieGroup)&&(identical(other.statisticRatio, _this.statisticRatio) || other.statisticRatio == _this.statisticRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,kgCo2ePerKg,const DeepCollectionEquality().hash(servings),const DeepCollectionEquality().hash(searchTermsEn),const DeepCollectionEquality().hash(searchTermsJa),const DeepCollectionEquality().hash(searchTermsEs),calculationNotes,const DeepCollectionEquality().hash(sources),weightBasis,entryMode,defaultServingId,sourceTier,tieGroup,statisticRatio);
+int get hashCode {
+  final _this = this as FoodItem;
+  return Object.hash(runtimeType,_this.id,_this.group,_this.nameEn,_this.nameJa,_this.nameEs,_this.kgCo2ePerKg,const DeepCollectionEquality().hash(_this.servings),const DeepCollectionEquality().hash(_this.searchTermsEn),const DeepCollectionEquality().hash(_this.searchTermsJa),const DeepCollectionEquality().hash(_this.searchTermsEs),_this.calculationNotes,const DeepCollectionEquality().hash(_this.sources),_this.weightBasis,_this.entryMode,_this.defaultServingId,_this.sourceTier,_this.tieGroup,_this.statisticRatio);
+}
 
 @override
 String toString() {
-  return 'FoodItem(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, kgCo2ePerKg: $kgCo2ePerKg, servings: $servings, searchTermsEn: $searchTermsEn, searchTermsJa: $searchTermsJa, searchTermsEs: $searchTermsEs, calculationNotes: $calculationNotes, sources: $sources, weightBasis: $weightBasis, entryMode: $entryMode, defaultServingId: $defaultServingId, sourceTier: $sourceTier, tieGroup: $tieGroup, statisticRatio: $statisticRatio)';
+  final _this = this as FoodItem;
+  return 'FoodItem(id: ${_this.id}, group: ${_this.group}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, kgCo2ePerKg: ${_this.kgCo2ePerKg}, servings: ${_this.servings}, searchTermsEn: ${_this.searchTermsEn}, searchTermsJa: ${_this.searchTermsJa}, searchTermsEs: ${_this.searchTermsEs}, calculationNotes: ${_this.calculationNotes}, sources: ${_this.sources}, weightBasis: ${_this.weightBasis}, entryMode: ${_this.entryMode}, defaultServingId: ${_this.defaultServingId}, sourceTier: ${_this.sourceTier}, tieGroup: ${_this.tieGroup}, statisticRatio: ${_this.statisticRatio})';
 }
 
 
@@ -73,7 +79,7 @@ class _$FoodItemCopyWithImpl<$Res>
 /// Create a copy of FoodItem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? kgCo2ePerKg = null,Object? servings = null,Object? searchTermsEn = null,Object? searchTermsJa = null,Object? searchTermsEs = null,Object? calculationNotes = null,Object? sources = null,Object? weightBasis = null,Object? entryMode = null,Object? defaultServingId = null,Object? sourceTier = null,Object? tieGroup = freezed,Object? statisticRatio = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(FoodItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
@@ -233,7 +239,7 @@ return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_tha
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _FoodItem extends FoodItem {
-  const _FoodItem({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.kgCo2ePerKg, final  List<ServingPreset> servings = const [], final  List<String> searchTermsEn = const [], final  List<String> searchTermsJa = const [], final  List<String> searchTermsEs = const [], this.calculationNotes = '', final  List<EmissionSource> sources = const [], this.weightBasis = 'as_purchased', this.entryMode = 'grams', this.defaultServingId = '', this.sourceTier = 1, this.tieGroup, this.statisticRatio}): _servings = servings,_searchTermsEn = searchTermsEn,_searchTermsJa = searchTermsJa,_searchTermsEs = searchTermsEs,_sources = sources,super._();
+  const _FoodItem({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.kgCo2ePerKg,  List<ServingPreset> servings = const [],  List<String> searchTermsEn = const [],  List<String> searchTermsJa = const [],  List<String> searchTermsEs = const [], this.calculationNotes = '',  List<EmissionSource> sources = const [], this.weightBasis = 'as_purchased', this.entryMode = 'grams', this.defaultServingId = '', this.sourceTier = 1, this.tieGroup, this.statisticRatio}): _servings = servings,_searchTermsEn = searchTermsEn,_searchTermsJa = searchTermsJa,_searchTermsEs = searchTermsEs,_sources = sources,super._();
   factory _FoodItem.fromJson(Map<String, dynamic> json) => _$FoodItemFromJson(json);
 
 @override final  String id;
@@ -305,16 +311,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodItem&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.kgCo2ePerKg, kgCo2ePerKg) || other.kgCo2ePerKg == kgCo2ePerKg)&&const DeepCollectionEquality().equals(other._servings, _servings)&&const DeepCollectionEquality().equals(other._searchTermsEn, _searchTermsEn)&&const DeepCollectionEquality().equals(other._searchTermsJa, _searchTermsJa)&&const DeepCollectionEquality().equals(other._searchTermsEs, _searchTermsEs)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other._sources, _sources)&&(identical(other.weightBasis, weightBasis) || other.weightBasis == weightBasis)&&(identical(other.entryMode, entryMode) || other.entryMode == entryMode)&&(identical(other.defaultServingId, defaultServingId) || other.defaultServingId == defaultServingId)&&(identical(other.sourceTier, sourceTier) || other.sourceTier == sourceTier)&&(identical(other.tieGroup, tieGroup) || other.tieGroup == tieGroup)&&(identical(other.statisticRatio, statisticRatio) || other.statisticRatio == statisticRatio));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodItem&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.kgCo2ePerKg, kgCo2ePerKg) || other.kgCo2ePerKg == kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _searchTermsEs)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.weightBasis, weightBasis) || other.weightBasis == weightBasis)&&(identical(other.entryMode, entryMode) || other.entryMode == entryMode)&&(identical(other.defaultServingId, defaultServingId) || other.defaultServingId == defaultServingId)&&(identical(other.sourceTier, sourceTier) || other.sourceTier == sourceTier)&&(identical(other.tieGroup, tieGroup) || other.tieGroup == tieGroup)&&(identical(other.statisticRatio, statisticRatio) || other.statisticRatio == statisticRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,kgCo2ePerKg,const DeepCollectionEquality().hash(_servings),const DeepCollectionEquality().hash(_searchTermsEn),const DeepCollectionEquality().hash(_searchTermsJa),const DeepCollectionEquality().hash(_searchTermsEs),calculationNotes,const DeepCollectionEquality().hash(_sources),weightBasis,entryMode,defaultServingId,sourceTier,tieGroup,statisticRatio);
+int get hashCode {
+    return Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,kgCo2ePerKg,const DeepCollectionEquality().hash(_servings),const DeepCollectionEquality().hash(_searchTermsEn),const DeepCollectionEquality().hash(_searchTermsJa),const DeepCollectionEquality().hash(_searchTermsEs),calculationNotes,const DeepCollectionEquality().hash(_sources),weightBasis,entryMode,defaultServingId,sourceTier,tieGroup,statisticRatio);
+}
 
 @override
 String toString() {
-  return 'FoodItem(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, kgCo2ePerKg: $kgCo2ePerKg, servings: $servings, searchTermsEn: $searchTermsEn, searchTermsJa: $searchTermsJa, searchTermsEs: $searchTermsEs, calculationNotes: $calculationNotes, sources: $sources, weightBasis: $weightBasis, entryMode: $entryMode, defaultServingId: $defaultServingId, sourceTier: $sourceTier, tieGroup: $tieGroup, statisticRatio: $statisticRatio)';
+    return 'FoodItem(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, kgCo2ePerKg: $kgCo2ePerKg, servings: $servings, searchTermsEn: $searchTermsEn, searchTermsJa: $searchTermsJa, searchTermsEs: $searchTermsEs, calculationNotes: $calculationNotes, sources: $sources, weightBasis: $weightBasis, entryMode: $entryMode, defaultServingId: $defaultServingId, sourceTier: $sourceTier, tieGroup: $tieGroup, statisticRatio: $statisticRatio)';
 }
 
 

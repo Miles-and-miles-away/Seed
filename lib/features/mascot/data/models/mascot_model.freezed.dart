@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'mascot_model.dart';
@@ -9,6 +9,7 @@ part of 'mascot_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -40,16 +41,21 @@ $MascotModelCopyWith<MascotModel> get copyWith => _$MascotModelCopyWithImpl<Masc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MascotModel&&(identical(other.id, id) || other.id == id)&&(identical(other.speciesId, speciesId) || other.speciesId == speciesId)&&(identical(other.name, name) || other.name == name)&&(identical(other.mascotPoints, mascotPoints) || other.mascotPoints == mascotPoints)&&(identical(other.mascotLevel, mascotLevel) || other.mascotLevel == mascotLevel)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams)&&(identical(other.isFullyEvolved, isFullyEvolved) || other.isFullyEvolved == isFullyEvolved)&&const DeepCollectionEquality().equals(other.equippedItems, equippedItems)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastSeenStage, lastSeenStage) || other.lastSeenStage == lastSeenStage));
+  final _this = this as MascotModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MascotModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.speciesId, _this.speciesId) || other.speciesId == _this.speciesId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.mascotPoints, _this.mascotPoints) || other.mascotPoints == _this.mascotPoints)&&(identical(other.mascotLevel, _this.mascotLevel) || other.mascotLevel == _this.mascotLevel)&&(identical(other.co2SavedGrams, _this.co2SavedGrams) || other.co2SavedGrams == _this.co2SavedGrams)&&(identical(other.isFullyEvolved, _this.isFullyEvolved) || other.isFullyEvolved == _this.isFullyEvolved)&&const DeepCollectionEquality().equals(other.equippedItems, _this.equippedItems)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.lastSeenStage, _this.lastSeenStage) || other.lastSeenStage == _this.lastSeenStage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,speciesId,name,mascotPoints,mascotLevel,co2SavedGrams,isFullyEvolved,const DeepCollectionEquality().hash(equippedItems),createdAt,lastSeenStage);
+int get hashCode {
+  final _this = this as MascotModel;
+  return Object.hash(runtimeType,_this.id,_this.speciesId,_this.name,_this.mascotPoints,_this.mascotLevel,_this.co2SavedGrams,_this.isFullyEvolved,const DeepCollectionEquality().hash(_this.equippedItems),_this.createdAt,_this.lastSeenStage);
+}
 
 @override
 String toString() {
-  return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, co2SavedGrams: $co2SavedGrams, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
+  final _this = this as MascotModel;
+  return 'MascotModel(id: ${_this.id}, speciesId: ${_this.speciesId}, name: ${_this.name}, mascotPoints: ${_this.mascotPoints}, mascotLevel: ${_this.mascotLevel}, co2SavedGrams: ${_this.co2SavedGrams}, isFullyEvolved: ${_this.isFullyEvolved}, equippedItems: ${_this.equippedItems}, createdAt: ${_this.createdAt}, lastSeenStage: ${_this.lastSeenStage})';
 }
 
 
@@ -78,7 +84,7 @@ class _$MascotModelCopyWithImpl<$Res>
 /// Create a copy of MascotModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? speciesId = null,Object? name = null,Object? mascotPoints = null,Object? mascotLevel = null,Object? co2SavedGrams = null,Object? isFullyEvolved = null,Object? equippedItems = null,Object? createdAt = freezed,Object? lastSeenStage = null,}) {
-  return _then(_self.copyWith(
+  return _then(MascotModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,speciesId: null == speciesId ? _self.speciesId : speciesId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -230,7 +236,7 @@ return $default(_that.id,_that.speciesId,_that.name,_that.mascotPoints,_that.mas
 @JsonSerializable()
 
 class _MascotModel implements MascotModel {
-  const _MascotModel({required this.id, required this.speciesId, this.name = '', this.mascotPoints = 0, this.mascotLevel = 1, this.co2SavedGrams = 0, this.isFullyEvolved = false, final  List<String> equippedItems = const [], @TimestampConverter() this.createdAt, this.lastSeenStage = 1}): _equippedItems = equippedItems;
+  const _MascotModel({required this.id, required this.speciesId, this.name = '', this.mascotPoints = 0, this.mascotLevel = 1, this.co2SavedGrams = 0, this.isFullyEvolved = false,  List<String> equippedItems = const [], @TimestampConverter() this.createdAt, this.lastSeenStage = 1}): _equippedItems = equippedItems;
   factory _MascotModel.fromJson(Map<String, dynamic> json) => _$MascotModelFromJson(json);
 
 /// Unique mascot instance ID.
@@ -276,16 +282,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MascotModel&&(identical(other.id, id) || other.id == id)&&(identical(other.speciesId, speciesId) || other.speciesId == speciesId)&&(identical(other.name, name) || other.name == name)&&(identical(other.mascotPoints, mascotPoints) || other.mascotPoints == mascotPoints)&&(identical(other.mascotLevel, mascotLevel) || other.mascotLevel == mascotLevel)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams)&&(identical(other.isFullyEvolved, isFullyEvolved) || other.isFullyEvolved == isFullyEvolved)&&const DeepCollectionEquality().equals(other._equippedItems, _equippedItems)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastSeenStage, lastSeenStage) || other.lastSeenStage == lastSeenStage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MascotModel&&(identical(other.id, id) || other.id == id)&&(identical(other.speciesId, speciesId) || other.speciesId == speciesId)&&(identical(other.name, name) || other.name == name)&&(identical(other.mascotPoints, mascotPoints) || other.mascotPoints == mascotPoints)&&(identical(other.mascotLevel, mascotLevel) || other.mascotLevel == mascotLevel)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams)&&(identical(other.isFullyEvolved, isFullyEvolved) || other.isFullyEvolved == isFullyEvolved)&&const DeepCollectionEquality().equals(other.equippedItems, _equippedItems)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastSeenStage, lastSeenStage) || other.lastSeenStage == lastSeenStage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,speciesId,name,mascotPoints,mascotLevel,co2SavedGrams,isFullyEvolved,const DeepCollectionEquality().hash(_equippedItems),createdAt,lastSeenStage);
+int get hashCode {
+    return Object.hash(runtimeType,id,speciesId,name,mascotPoints,mascotLevel,co2SavedGrams,isFullyEvolved,const DeepCollectionEquality().hash(_equippedItems),createdAt,lastSeenStage);
+}
 
 @override
 String toString() {
-  return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, co2SavedGrams: $co2SavedGrams, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
+    return 'MascotModel(id: $id, speciesId: $speciesId, name: $name, mascotPoints: $mascotPoints, mascotLevel: $mascotLevel, co2SavedGrams: $co2SavedGrams, isFullyEvolved: $isFullyEvolved, equippedItems: $equippedItems, createdAt: $createdAt, lastSeenStage: $lastSeenStage)';
 }
 
 

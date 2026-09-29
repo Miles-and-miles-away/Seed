@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'eco_dex_condition_model.dart';
@@ -9,6 +9,7 @@ part of 'eco_dex_condition_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 EcoDexCondition _$EcoDexConditionFromJson(
@@ -98,7 +99,7 @@ mixin _$EcoDexCondition {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoDexCondition);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoDexCondition);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -107,7 +108,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'EcoDexCondition()';
+    return 'EcoDexCondition()';
 }
 
 
@@ -331,7 +332,7 @@ return uniqueZeroCo2Actions(_that.count);case _:
 @JsonSerializable()
 
 class TotalActionsCondition implements EcoDexCondition {
-  const TotalActionsCondition({required this.count, final  String? $type}): $type = $type ?? 'totalActions';
+  const TotalActionsCondition({required this.count,  String? $type}): $type = $type ?? 'totalActions';
   factory TotalActionsCondition.fromJson(Map<String, dynamic> json) => _$TotalActionsConditionFromJson(json);
 
  final  int count;
@@ -353,16 +354,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TotalActionsCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TotalActionsCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.totalActions(count: $count)';
+    return 'EcoDexCondition.totalActions(count: $count)';
 }
 
 
@@ -404,7 +407,7 @@ as int,
 @JsonSerializable()
 
 class CategoryActionsCondition implements EcoDexCondition {
-  const CategoryActionsCondition({required this.category, required this.count, final  String? $type}): $type = $type ?? 'categoryActions';
+  const CategoryActionsCondition({required this.category, required this.count,  String? $type}): $type = $type ?? 'categoryActions';
   factory CategoryActionsCondition.fromJson(Map<String, dynamic> json) => _$CategoryActionsConditionFromJson(json);
 
  final  String category;
@@ -427,16 +430,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryActionsCondition&&(identical(other.category, category) || other.category == category)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryActionsCondition&&(identical(other.category, category) || other.category == category)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,count);
+int get hashCode {
+    return Object.hash(runtimeType,category,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.categoryActions(category: $category, count: $count)';
+    return 'EcoDexCondition.categoryActions(category: $category, count: $count)';
 }
 
 
@@ -479,7 +484,7 @@ as int,
 @JsonSerializable()
 
 class Co2SavedCondition implements EcoDexCondition {
-  const Co2SavedCondition({required this.grams, final  String? $type}): $type = $type ?? 'co2Saved';
+  const Co2SavedCondition({required this.grams,  String? $type}): $type = $type ?? 'co2Saved';
   factory Co2SavedCondition.fromJson(Map<String, dynamic> json) => _$Co2SavedConditionFromJson(json);
 
  final  int grams;
@@ -501,16 +506,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2SavedCondition&&(identical(other.grams, grams) || other.grams == grams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2SavedCondition&&(identical(other.grams, grams) || other.grams == grams));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,grams);
+int get hashCode {
+    return Object.hash(runtimeType,grams);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.co2Saved(grams: $grams)';
+    return 'EcoDexCondition.co2Saved(grams: $grams)';
 }
 
 
@@ -552,7 +559,7 @@ as int,
 @JsonSerializable()
 
 class StreakDaysCondition implements EcoDexCondition {
-  const StreakDaysCondition({required this.days, final  String? $type}): $type = $type ?? 'streakDays';
+  const StreakDaysCondition({required this.days,  String? $type}): $type = $type ?? 'streakDays';
   factory StreakDaysCondition.fromJson(Map<String, dynamic> json) => _$StreakDaysConditionFromJson(json);
 
  final  int days;
@@ -574,16 +581,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreakDaysCondition&&(identical(other.days, days) || other.days == days));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is StreakDaysCondition&&(identical(other.days, days) || other.days == days));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days);
+int get hashCode {
+    return Object.hash(runtimeType,days);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.streakDays(days: $days)';
+    return 'EcoDexCondition.streakDays(days: $days)';
 }
 
 
@@ -625,7 +634,7 @@ as int,
 @JsonSerializable()
 
 class LevelReachedCondition implements EcoDexCondition {
-  const LevelReachedCondition({required this.level, final  String? $type}): $type = $type ?? 'levelReached';
+  const LevelReachedCondition({required this.level,  String? $type}): $type = $type ?? 'levelReached';
   factory LevelReachedCondition.fromJson(Map<String, dynamic> json) => _$LevelReachedConditionFromJson(json);
 
  final  int level;
@@ -647,16 +656,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LevelReachedCondition&&(identical(other.level, level) || other.level == level));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LevelReachedCondition&&(identical(other.level, level) || other.level == level));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,level);
+int get hashCode {
+    return Object.hash(runtimeType,level);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.levelReached(level: $level)';
+    return 'EcoDexCondition.levelReached(level: $level)';
 }
 
 
@@ -698,7 +709,7 @@ as int,
 @JsonSerializable()
 
 class SdgBreadthCondition implements EcoDexCondition {
-  const SdgBreadthCondition({required this.count, final  String? $type}): $type = $type ?? 'sdgBreadth';
+  const SdgBreadthCondition({required this.count,  String? $type}): $type = $type ?? 'sdgBreadth';
   factory SdgBreadthCondition.fromJson(Map<String, dynamic> json) => _$SdgBreadthConditionFromJson(json);
 
  final  int count;
@@ -720,16 +731,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgBreadthCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgBreadthCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.sdgBreadth(count: $count)';
+    return 'EcoDexCondition.sdgBreadth(count: $count)';
 }
 
 
@@ -771,7 +784,7 @@ as int,
 @JsonSerializable()
 
 class ChallengeStreakCondition implements EcoDexCondition {
-  const ChallengeStreakCondition({required this.days, final  String? $type}): $type = $type ?? 'challengeStreak';
+  const ChallengeStreakCondition({required this.days,  String? $type}): $type = $type ?? 'challengeStreak';
   factory ChallengeStreakCondition.fromJson(Map<String, dynamic> json) => _$ChallengeStreakConditionFromJson(json);
 
  final  int days;
@@ -793,16 +806,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengeStreakCondition&&(identical(other.days, days) || other.days == days));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengeStreakCondition&&(identical(other.days, days) || other.days == days));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days);
+int get hashCode {
+    return Object.hash(runtimeType,days);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.challengeStreak(days: $days)';
+    return 'EcoDexCondition.challengeStreak(days: $days)';
 }
 
 
@@ -844,7 +859,7 @@ as int,
 @JsonSerializable()
 
 class MultiDayChallengeCondition implements EcoDexCondition {
-  const MultiDayChallengeCondition({required this.templateId, final  String? $type}): $type = $type ?? 'multiDayChallenge';
+  const MultiDayChallengeCondition({required this.templateId,  String? $type}): $type = $type ?? 'multiDayChallenge';
   factory MultiDayChallengeCondition.fromJson(Map<String, dynamic> json) => _$MultiDayChallengeConditionFromJson(json);
 
  final  String templateId;
@@ -866,16 +881,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiDayChallengeCondition&&(identical(other.templateId, templateId) || other.templateId == templateId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiDayChallengeCondition&&(identical(other.templateId, templateId) || other.templateId == templateId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,templateId);
+int get hashCode {
+    return Object.hash(runtimeType,templateId);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.multiDayChallenge(templateId: $templateId)';
+    return 'EcoDexCondition.multiDayChallenge(templateId: $templateId)';
 }
 
 
@@ -917,7 +934,7 @@ as String,
 @JsonSerializable()
 
 class EcoFactsViewedCondition implements EcoDexCondition {
-  const EcoFactsViewedCondition({required this.count, final  String? $type}): $type = $type ?? 'ecoFactsViewed';
+  const EcoFactsViewedCondition({required this.count,  String? $type}): $type = $type ?? 'ecoFactsViewed';
   factory EcoFactsViewedCondition.fromJson(Map<String, dynamic> json) => _$EcoFactsViewedConditionFromJson(json);
 
  final  int count;
@@ -939,16 +956,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoFactsViewedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoFactsViewedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.ecoFactsViewed(count: $count)';
+    return 'EcoDexCondition.ecoFactsViewed(count: $count)';
 }
 
 
@@ -990,7 +1009,7 @@ as int,
 @JsonSerializable()
 
 class CategoriesCoveredCondition implements EcoDexCondition {
-  const CategoriesCoveredCondition({required this.count, final  String? $type}): $type = $type ?? 'categoriesCovered';
+  const CategoriesCoveredCondition({required this.count,  String? $type}): $type = $type ?? 'categoriesCovered';
   factory CategoriesCoveredCondition.fromJson(Map<String, dynamic> json) => _$CategoriesCoveredConditionFromJson(json);
 
  final  int count;
@@ -1012,16 +1031,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoriesCoveredCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoriesCoveredCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.categoriesCovered(count: $count)';
+    return 'EcoDexCondition.categoriesCovered(count: $count)';
 }
 
 
@@ -1063,7 +1084,7 @@ as int,
 @JsonSerializable()
 
 class UniqueActionsLoggedCondition implements EcoDexCondition {
-  const UniqueActionsLoggedCondition({required this.count, final  String? $type}): $type = $type ?? 'uniqueActionsLogged';
+  const UniqueActionsLoggedCondition({required this.count,  String? $type}): $type = $type ?? 'uniqueActionsLogged';
   factory UniqueActionsLoggedCondition.fromJson(Map<String, dynamic> json) => _$UniqueActionsLoggedConditionFromJson(json);
 
  final  int count;
@@ -1085,16 +1106,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueActionsLoggedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueActionsLoggedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.uniqueActionsLogged(count: $count)';
+    return 'EcoDexCondition.uniqueActionsLogged(count: $count)';
 }
 
 
@@ -1136,7 +1159,7 @@ as int,
 @JsonSerializable()
 
 class ProfileCompleteCondition implements EcoDexCondition {
-  const ProfileCompleteCondition({final  String? $type}): $type = $type ?? 'profileComplete';
+  const ProfileCompleteCondition({ String? $type}): $type = $type ?? 'profileComplete';
   factory ProfileCompleteCondition.fromJson(Map<String, dynamic> json) => _$ProfileCompleteConditionFromJson(json);
 
 
@@ -1153,7 +1176,7 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileCompleteCondition);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileCompleteCondition);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1162,7 +1185,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'EcoDexCondition.profileComplete()';
+    return 'EcoDexCondition.profileComplete()';
 }
 
 
@@ -1175,7 +1198,7 @@ String toString() {
 @JsonSerializable()
 
 class EcodexCountCondition implements EcoDexCondition {
-  const EcodexCountCondition({required this.count, final  String? $type}): $type = $type ?? 'ecodexCount';
+  const EcodexCountCondition({required this.count,  String? $type}): $type = $type ?? 'ecodexCount';
   factory EcodexCountCondition.fromJson(Map<String, dynamic> json) => _$EcodexCountConditionFromJson(json);
 
  final  int count;
@@ -1197,16 +1220,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcodexCountCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcodexCountCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.ecodexCount(count: $count)';
+    return 'EcoDexCondition.ecodexCount(count: $count)';
 }
 
 
@@ -1248,7 +1273,7 @@ as int,
 @JsonSerializable()
 
 class ChallengesCompletedCondition implements EcoDexCondition {
-  const ChallengesCompletedCondition({required this.count, final  String? $type}): $type = $type ?? 'challengesCompleted';
+  const ChallengesCompletedCondition({required this.count,  String? $type}): $type = $type ?? 'challengesCompleted';
   factory ChallengesCompletedCondition.fromJson(Map<String, dynamic> json) => _$ChallengesCompletedConditionFromJson(json);
 
  final  int count;
@@ -1270,16 +1295,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengesCompletedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengesCompletedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.challengesCompleted(count: $count)';
+    return 'EcoDexCondition.challengesCompleted(count: $count)';
 }
 
 
@@ -1321,7 +1348,7 @@ as int,
 @JsonSerializable()
 
 class UniqueZeroCo2ActionsCondition implements EcoDexCondition {
-  const UniqueZeroCo2ActionsCondition({required this.count, final  String? $type}): $type = $type ?? 'uniqueZeroCo2Actions';
+  const UniqueZeroCo2ActionsCondition({required this.count,  String? $type}): $type = $type ?? 'uniqueZeroCo2Actions';
   factory UniqueZeroCo2ActionsCondition.fromJson(Map<String, dynamic> json) => _$UniqueZeroCo2ActionsConditionFromJson(json);
 
  final  int count;
@@ -1343,16 +1370,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueZeroCo2ActionsCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueZeroCo2ActionsCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.uniqueZeroCo2Actions(count: $count)';
+    return 'EcoDexCondition.uniqueZeroCo2Actions(count: $count)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'daily_summary_model.dart';
@@ -9,6 +9,7 @@ part of 'daily_summary_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -39,16 +40,21 @@ $DailySummaryModelCopyWith<DailySummaryModel> get copyWith => _$DailySummaryMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailySummaryModel&&(identical(other.date, date) || other.date == date)&&(identical(other.goalCount, goalCount) || other.goalCount == goalCount)&&const DeepCollectionEquality().equals(other.completedSdgs, completedSdgs)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints)&&(identical(other.totalCo2Grams, totalCo2Grams) || other.totalCo2Grams == totalCo2Grams)&&const DeepCollectionEquality().equals(other.categoryCo2Grams, categoryCo2Grams)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  final _this = this as DailySummaryModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailySummaryModel&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.goalCount, _this.goalCount) || other.goalCount == _this.goalCount)&&const DeepCollectionEquality().equals(other.completedSdgs, _this.completedSdgs)&&(identical(other.totalPoints, _this.totalPoints) || other.totalPoints == _this.totalPoints)&&(identical(other.totalCo2Grams, _this.totalCo2Grams) || other.totalCo2Grams == _this.totalCo2Grams)&&const DeepCollectionEquality().equals(other.categoryCo2Grams, _this.categoryCo2Grams)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,date,goalCount,const DeepCollectionEquality().hash(completedSdgs),totalPoints,totalCo2Grams,const DeepCollectionEquality().hash(categoryCo2Grams),createdAt,updatedAt);
+int get hashCode {
+  final _this = this as DailySummaryModel;
+  return Object.hash(runtimeType,_this.date,_this.goalCount,const DeepCollectionEquality().hash(_this.completedSdgs),_this.totalPoints,_this.totalCo2Grams,const DeepCollectionEquality().hash(_this.categoryCo2Grams),_this.createdAt,_this.updatedAt);
+}
 
 @override
 String toString() {
-  return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, categoryCo2Grams: $categoryCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
+  final _this = this as DailySummaryModel;
+  return 'DailySummaryModel(date: ${_this.date}, goalCount: ${_this.goalCount}, completedSdgs: ${_this.completedSdgs}, totalPoints: ${_this.totalPoints}, totalCo2Grams: ${_this.totalCo2Grams}, categoryCo2Grams: ${_this.categoryCo2Grams}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
 }
 
 
@@ -77,7 +83,7 @@ class _$DailySummaryModelCopyWithImpl<$Res>
 /// Create a copy of DailySummaryModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? goalCount = null,Object? completedSdgs = null,Object? totalPoints = null,Object? totalCo2Grams = null,Object? categoryCo2Grams = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DailySummaryModel(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String,goalCount: null == goalCount ? _self.goalCount : goalCount // ignore: cast_nullable_to_non_nullable
 as int,completedSdgs: null == completedSdgs ? _self.completedSdgs : completedSdgs // ignore: cast_nullable_to_non_nullable
@@ -227,7 +233,7 @@ return $default(_that.date,_that.goalCount,_that.completedSdgs,_that.totalPoints
 @JsonSerializable()
 
 class _DailySummaryModel implements DailySummaryModel {
-  const _DailySummaryModel({required this.date, this.goalCount = 0, final  List<int> completedSdgs = const [], this.totalPoints = 0, this.totalCo2Grams = 0, final  Map<String, int> categoryCo2Grams = const <String, int>{}, @TimestampConverter() this.createdAt, @TimestampConverter() this.updatedAt}): _completedSdgs = completedSdgs,_categoryCo2Grams = categoryCo2Grams;
+  const _DailySummaryModel({required this.date, this.goalCount = 0,  List<int> completedSdgs = const [], this.totalPoints = 0, this.totalCo2Grams = 0,  Map<String, int> categoryCo2Grams = const <String, int>{}, @TimestampConverter() this.createdAt, @TimestampConverter() this.updatedAt}): _completedSdgs = completedSdgs,_categoryCo2Grams = categoryCo2Grams;
   factory _DailySummaryModel.fromJson(Map<String, dynamic> json) => _$DailySummaryModelFromJson(json);
 
 /// Date string in YYYY-MM-DD format (document ID)
@@ -280,16 +286,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DailySummaryModel&&(identical(other.date, date) || other.date == date)&&(identical(other.goalCount, goalCount) || other.goalCount == goalCount)&&const DeepCollectionEquality().equals(other._completedSdgs, _completedSdgs)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints)&&(identical(other.totalCo2Grams, totalCo2Grams) || other.totalCo2Grams == totalCo2Grams)&&const DeepCollectionEquality().equals(other._categoryCo2Grams, _categoryCo2Grams)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DailySummaryModel&&(identical(other.date, date) || other.date == date)&&(identical(other.goalCount, goalCount) || other.goalCount == goalCount)&&const DeepCollectionEquality().equals(other.completedSdgs, _completedSdgs)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints)&&(identical(other.totalCo2Grams, totalCo2Grams) || other.totalCo2Grams == totalCo2Grams)&&const DeepCollectionEquality().equals(other.categoryCo2Grams, _categoryCo2Grams)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,date,goalCount,const DeepCollectionEquality().hash(_completedSdgs),totalPoints,totalCo2Grams,const DeepCollectionEquality().hash(_categoryCo2Grams),createdAt,updatedAt);
+int get hashCode {
+    return Object.hash(runtimeType,date,goalCount,const DeepCollectionEquality().hash(_completedSdgs),totalPoints,totalCo2Grams,const DeepCollectionEquality().hash(_categoryCo2Grams),createdAt,updatedAt);
+}
 
 @override
 String toString() {
-  return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, categoryCo2Grams: $categoryCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DailySummaryModel(date: $date, goalCount: $goalCount, completedSdgs: $completedSdgs, totalPoints: $totalPoints, totalCo2Grams: $totalCo2Grams, categoryCo2Grams: $categoryCo2Grams, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 

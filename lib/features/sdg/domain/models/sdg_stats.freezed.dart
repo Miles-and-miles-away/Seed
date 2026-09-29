@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sdg_stats.dart';
@@ -9,6 +9,7 @@ part of 'sdg_stats.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $SdgStatsCopyWith<SdgStats> get copyWith => _$SdgStatsCopyWithImpl<SdgStats>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgStats&&(identical(other.sdgNumber, sdgNumber) || other.sdgNumber == sdgNumber)&&(identical(other.actionsLogged, actionsLogged) || other.actionsLogged == actionsLogged)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams));
+  final _this = this as SdgStats;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgStats&&(identical(other.sdgNumber, _this.sdgNumber) || other.sdgNumber == _this.sdgNumber)&&(identical(other.actionsLogged, _this.actionsLogged) || other.actionsLogged == _this.actionsLogged)&&(identical(other.co2SavedGrams, _this.co2SavedGrams) || other.co2SavedGrams == _this.co2SavedGrams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sdgNumber,actionsLogged,co2SavedGrams);
+int get hashCode {
+  final _this = this as SdgStats;
+  return Object.hash(runtimeType,_this.sdgNumber,_this.actionsLogged,_this.co2SavedGrams);
+}
 
 @override
 String toString() {
-  return 'SdgStats(sdgNumber: $sdgNumber, actionsLogged: $actionsLogged, co2SavedGrams: $co2SavedGrams)';
+  final _this = this as SdgStats;
+  return 'SdgStats(sdgNumber: ${_this.sdgNumber}, actionsLogged: ${_this.actionsLogged}, co2SavedGrams: ${_this.co2SavedGrams})';
 }
 
 
@@ -63,7 +69,7 @@ class _$SdgStatsCopyWithImpl<$Res>
 /// Create a copy of SdgStats
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? sdgNumber = null,Object? actionsLogged = null,Object? co2SavedGrams = null,}) {
-  return _then(_self.copyWith(
+  return _then(SdgStats(
 sdgNumber: null == sdgNumber ? _self.sdgNumber : sdgNumber // ignore: cast_nullable_to_non_nullable
 as int,actionsLogged: null == actionsLogged ? _self.actionsLogged : actionsLogged // ignore: cast_nullable_to_non_nullable
 as int,co2SavedGrams: null == co2SavedGrams ? _self.co2SavedGrams : co2SavedGrams // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$SdgStatsCopyWith<_SdgStats> get copyWith => __$SdgStatsCopyWithImpl<_SdgStats>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SdgStats&&(identical(other.sdgNumber, sdgNumber) || other.sdgNumber == sdgNumber)&&(identical(other.actionsLogged, actionsLogged) || other.actionsLogged == actionsLogged)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SdgStats&&(identical(other.sdgNumber, sdgNumber) || other.sdgNumber == sdgNumber)&&(identical(other.actionsLogged, actionsLogged) || other.actionsLogged == actionsLogged)&&(identical(other.co2SavedGrams, co2SavedGrams) || other.co2SavedGrams == co2SavedGrams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sdgNumber,actionsLogged,co2SavedGrams);
+int get hashCode {
+    return Object.hash(runtimeType,sdgNumber,actionsLogged,co2SavedGrams);
+}
 
 @override
 String toString() {
-  return 'SdgStats(sdgNumber: $sdgNumber, actionsLogged: $actionsLogged, co2SavedGrams: $co2SavedGrams)';
+    return 'SdgStats(sdgNumber: $sdgNumber, actionsLogged: $actionsLogged, co2SavedGrams: $co2SavedGrams)';
 }
 
 

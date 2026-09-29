@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'energy_behavior_model.dart';
@@ -9,6 +9,7 @@ part of 'energy_behavior_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -45,16 +46,21 @@ $EnergyBehaviorCopyWith<EnergyBehavior> get copyWith => _$EnergyBehaviorCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnergyBehavior&&(identical(other.id, id) || other.id == id)&&(identical(other.comparableGroup, comparableGroup) || other.comparableGroup == comparableGroup)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kwhPerUnit, kwhPerUnit) || other.kwhPerUnit == kwhPerUnit)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&const DeepCollectionEquality().equals(other.presets, presets)&&(identical(other.defaultPresetId, defaultPresetId) || other.defaultPresetId == defaultPresetId)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, sources)&&(identical(other.confidence, confidence) || other.confidence == confidence));
+  final _this = this as EnergyBehavior;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnergyBehavior&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.comparableGroup, _this.comparableGroup) || other.comparableGroup == _this.comparableGroup)&&(identical(other.carrier, _this.carrier) || other.carrier == _this.carrier)&&(identical(other.unit, _this.unit) || other.unit == _this.unit)&&(identical(other.kwhPerUnit, _this.kwhPerUnit) || other.kwhPerUnit == _this.kwhPerUnit)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&const DeepCollectionEquality().equals(other.presets, _this.presets)&&(identical(other.defaultPresetId, _this.defaultPresetId) || other.defaultPresetId == _this.defaultPresetId)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.confidence, _this.confidence) || other.confidence == _this.confidence));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,comparableGroup,carrier,unit,kwhPerUnit,nameEn,nameJa,nameEs,const DeepCollectionEquality().hash(presets),defaultPresetId,calculationNotes,const DeepCollectionEquality().hash(sources),confidence);
+int get hashCode {
+  final _this = this as EnergyBehavior;
+  return Object.hash(runtimeType,_this.id,_this.comparableGroup,_this.carrier,_this.unit,_this.kwhPerUnit,_this.nameEn,_this.nameJa,_this.nameEs,const DeepCollectionEquality().hash(_this.presets),_this.defaultPresetId,_this.calculationNotes,const DeepCollectionEquality().hash(_this.sources),_this.confidence);
+}
 
 @override
 String toString() {
-  return 'EnergyBehavior(id: $id, comparableGroup: $comparableGroup, carrier: $carrier, unit: $unit, kwhPerUnit: $kwhPerUnit, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, presets: $presets, defaultPresetId: $defaultPresetId, calculationNotes: $calculationNotes, sources: $sources, confidence: $confidence)';
+  final _this = this as EnergyBehavior;
+  return 'EnergyBehavior(id: ${_this.id}, comparableGroup: ${_this.comparableGroup}, carrier: ${_this.carrier}, unit: ${_this.unit}, kwhPerUnit: ${_this.kwhPerUnit}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, presets: ${_this.presets}, defaultPresetId: ${_this.defaultPresetId}, calculationNotes: ${_this.calculationNotes}, sources: ${_this.sources}, confidence: ${_this.confidence})';
 }
 
 
@@ -83,7 +89,7 @@ class _$EnergyBehaviorCopyWithImpl<$Res>
 /// Create a copy of EnergyBehavior
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? comparableGroup = null,Object? carrier = null,Object? unit = null,Object? kwhPerUnit = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? presets = null,Object? defaultPresetId = null,Object? calculationNotes = null,Object? sources = null,Object? confidence = null,}) {
-  return _then(_self.copyWith(
+  return _then(EnergyBehavior(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,comparableGroup: null == comparableGroup ? _self.comparableGroup : comparableGroup // ignore: cast_nullable_to_non_nullable
 as String,carrier: null == carrier ? _self.carrier : carrier // ignore: cast_nullable_to_non_nullable
@@ -238,7 +244,7 @@ return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kw
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _EnergyBehavior extends EnergyBehavior {
-  const _EnergyBehavior({required this.id, required this.comparableGroup, required this.carrier, required this.unit, required this.kwhPerUnit, required this.nameEn, required this.nameJa, required this.nameEs, final  List<UsagePreset> presets = const [], this.defaultPresetId = '', this.calculationNotes = '', final  List<EmissionSource> sources = const [], this.confidence = 'medium'}): _presets = presets,_sources = sources,super._();
+  const _EnergyBehavior({required this.id, required this.comparableGroup, required this.carrier, required this.unit, required this.kwhPerUnit, required this.nameEn, required this.nameJa, required this.nameEs,  List<UsagePreset> presets = const [], this.defaultPresetId = '', this.calculationNotes = '',  List<EmissionSource> sources = const [], this.confidence = 'medium'}): _presets = presets,_sources = sources,super._();
   factory _EnergyBehavior.fromJson(Map<String, dynamic> json) => _$EnergyBehaviorFromJson(json);
 
 @override final  String id;
@@ -297,16 +303,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnergyBehavior&&(identical(other.id, id) || other.id == id)&&(identical(other.comparableGroup, comparableGroup) || other.comparableGroup == comparableGroup)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kwhPerUnit, kwhPerUnit) || other.kwhPerUnit == kwhPerUnit)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&const DeepCollectionEquality().equals(other._presets, _presets)&&(identical(other.defaultPresetId, defaultPresetId) || other.defaultPresetId == defaultPresetId)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other._sources, _sources)&&(identical(other.confidence, confidence) || other.confidence == confidence));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnergyBehavior&&(identical(other.id, id) || other.id == id)&&(identical(other.comparableGroup, comparableGroup) || other.comparableGroup == comparableGroup)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kwhPerUnit, kwhPerUnit) || other.kwhPerUnit == kwhPerUnit)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&const DeepCollectionEquality().equals(other.presets, _presets)&&(identical(other.defaultPresetId, defaultPresetId) || other.defaultPresetId == defaultPresetId)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.confidence, confidence) || other.confidence == confidence));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,comparableGroup,carrier,unit,kwhPerUnit,nameEn,nameJa,nameEs,const DeepCollectionEquality().hash(_presets),defaultPresetId,calculationNotes,const DeepCollectionEquality().hash(_sources),confidence);
+int get hashCode {
+    return Object.hash(runtimeType,id,comparableGroup,carrier,unit,kwhPerUnit,nameEn,nameJa,nameEs,const DeepCollectionEquality().hash(_presets),defaultPresetId,calculationNotes,const DeepCollectionEquality().hash(_sources),confidence);
+}
 
 @override
 String toString() {
-  return 'EnergyBehavior(id: $id, comparableGroup: $comparableGroup, carrier: $carrier, unit: $unit, kwhPerUnit: $kwhPerUnit, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, presets: $presets, defaultPresetId: $defaultPresetId, calculationNotes: $calculationNotes, sources: $sources, confidence: $confidence)';
+    return 'EnergyBehavior(id: $id, comparableGroup: $comparableGroup, carrier: $carrier, unit: $unit, kwhPerUnit: $kwhPerUnit, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, presets: $presets, defaultPresetId: $defaultPresetId, calculationNotes: $calculationNotes, sources: $sources, confidence: $confidence)';
 }
 
 

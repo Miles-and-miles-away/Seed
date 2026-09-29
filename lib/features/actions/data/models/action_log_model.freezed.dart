@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'action_log_model.dart';
@@ -9,6 +9,7 @@ part of 'action_log_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ActionLogModelCopyWith<ActionLogModel> get copyWith => _$ActionLogModelCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.actionId, actionId) || other.actionId == actionId)&&(identical(other.actionName, actionName) || other.actionName == actionName)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.loggedAt, loggedAt) || other.loggedAt == loggedAt)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other.relatedSdgs, relatedSdgs));
+  final _this = this as ActionLogModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionLogModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.actionId, _this.actionId) || other.actionId == _this.actionId)&&(identical(other.actionName, _this.actionName) || other.actionName == _this.actionName)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.points, _this.points) || other.points == _this.points)&&(identical(other.loggedAt, _this.loggedAt) || other.loggedAt == _this.loggedAt)&&(identical(other.co2Grams, _this.co2Grams) || other.co2Grams == _this.co2Grams)&&(identical(other.note, _this.note) || other.note == _this.note)&&const DeepCollectionEquality().equals(other.relatedSdgs, _this.relatedSdgs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,actionId,actionName,category,points,loggedAt,co2Grams,note,const DeepCollectionEquality().hash(relatedSdgs));
+int get hashCode {
+  final _this = this as ActionLogModel;
+  return Object.hash(runtimeType,_this.id,_this.actionId,_this.actionName,_this.category,_this.points,_this.loggedAt,_this.co2Grams,_this.note,const DeepCollectionEquality().hash(_this.relatedSdgs));
+}
 
 @override
 String toString() {
-  return 'ActionLogModel(id: $id, actionId: $actionId, actionName: $actionName, category: $category, points: $points, loggedAt: $loggedAt, co2Grams: $co2Grams, note: $note, relatedSdgs: $relatedSdgs)';
+  final _this = this as ActionLogModel;
+  return 'ActionLogModel(id: ${_this.id}, actionId: ${_this.actionId}, actionName: ${_this.actionName}, category: ${_this.category}, points: ${_this.points}, loggedAt: ${_this.loggedAt}, co2Grams: ${_this.co2Grams}, note: ${_this.note}, relatedSdgs: ${_this.relatedSdgs})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ActionLogModelCopyWithImpl<$Res>
 /// Create a copy of ActionLogModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? actionId = null,Object? actionName = null,Object? category = null,Object? points = null,Object? loggedAt = null,Object? co2Grams = null,Object? note = freezed,Object? relatedSdgs = null,}) {
-  return _then(_self.copyWith(
+  return _then(ActionLogModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,actionId: null == actionId ? _self.actionId : actionId // ignore: cast_nullable_to_non_nullable
 as String,actionName: null == actionName ? _self.actionName : actionName // ignore: cast_nullable_to_non_nullable
@@ -217,7 +223,7 @@ return $default(_that.id,_that.actionId,_that.actionName,_that.category,_that.po
 @JsonSerializable()
 
 class _ActionLogModel implements ActionLogModel {
-  const _ActionLogModel({required this.id, required this.actionId, required this.actionName, required this.category, required this.points, @RequiredTimestampConverter() required this.loggedAt, this.co2Grams = 0, this.note, final  List<String> relatedSdgs = const []}): _relatedSdgs = relatedSdgs;
+  const _ActionLogModel({required this.id, required this.actionId, required this.actionName, required this.category, required this.points, @RequiredTimestampConverter() required this.loggedAt, this.co2Grams = 0, this.note,  List<String> relatedSdgs = const []}): _relatedSdgs = relatedSdgs;
   factory _ActionLogModel.fromJson(Map<String, dynamic> json) => _$ActionLogModelFromJson(json);
 
 @override final  String id;
@@ -249,16 +255,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.actionId, actionId) || other.actionId == actionId)&&(identical(other.actionName, actionName) || other.actionName == actionName)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.loggedAt, loggedAt) || other.loggedAt == loggedAt)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other._relatedSdgs, _relatedSdgs));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.actionId, actionId) || other.actionId == actionId)&&(identical(other.actionName, actionName) || other.actionName == actionName)&&(identical(other.category, category) || other.category == category)&&(identical(other.points, points) || other.points == points)&&(identical(other.loggedAt, loggedAt) || other.loggedAt == loggedAt)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other.relatedSdgs, _relatedSdgs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,actionId,actionName,category,points,loggedAt,co2Grams,note,const DeepCollectionEquality().hash(_relatedSdgs));
+int get hashCode {
+    return Object.hash(runtimeType,id,actionId,actionName,category,points,loggedAt,co2Grams,note,const DeepCollectionEquality().hash(_relatedSdgs));
+}
 
 @override
 String toString() {
-  return 'ActionLogModel(id: $id, actionId: $actionId, actionName: $actionName, category: $category, points: $points, loggedAt: $loggedAt, co2Grams: $co2Grams, note: $note, relatedSdgs: $relatedSdgs)';
+    return 'ActionLogModel(id: $id, actionId: $actionId, actionName: $actionName, category: $category, points: $points, loggedAt: $loggedAt, co2Grams: $co2Grams, note: $note, relatedSdgs: $relatedSdgs)';
 }
 
 

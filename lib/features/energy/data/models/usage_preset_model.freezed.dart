@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'usage_preset_model.dart';
@@ -9,6 +9,7 @@ part of 'usage_preset_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $UsagePresetCopyWith<UsagePreset> get copyWith => _$UsagePresetCopyWithImpl<Usag
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UsagePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.units, units) || other.units == units));
+  final _this = this as UsagePreset;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UsagePreset&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.units, _this.units) || other.units == _this.units));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,nameEs,units);
+int get hashCode {
+  final _this = this as UsagePreset;
+  return Object.hash(runtimeType,_this.id,_this.nameEn,_this.nameJa,_this.nameEs,_this.units);
+}
 
 @override
 String toString() {
-  return 'UsagePreset(id: $id, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, units: $units)';
+  final _this = this as UsagePreset;
+  return 'UsagePreset(id: ${_this.id}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, units: ${_this.units})';
 }
 
 
@@ -66,7 +72,7 @@ class _$UsagePresetCopyWithImpl<$Res>
 /// Create a copy of UsagePreset
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? units = null,}) {
-  return _then(_self.copyWith(
+  return _then(UsagePreset(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
 as String,nameJa: null == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UsagePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.units, units) || other.units == units));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UsagePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.units, units) || other.units == units));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,nameEs,units);
+int get hashCode {
+    return Object.hash(runtimeType,id,nameEn,nameJa,nameEs,units);
+}
 
 @override
 String toString() {
-  return 'UsagePreset(id: $id, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, units: $units)';
+    return 'UsagePreset(id: $id, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, units: $units)';
 }
 
 
