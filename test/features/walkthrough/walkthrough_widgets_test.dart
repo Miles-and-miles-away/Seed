@@ -82,17 +82,30 @@ void main() {
 
   group('WalkthroughShimmer', () {
     Widget shimmer(Iterable<WalkthroughItem> found, {Widget? child}) => wrap(
-      WalkthroughShimmer(
-        item: WalkthroughItem.quiz,
-        child: child ?? const Text('anchor'),
-      ),
+      child ??
+          const WalkthroughShimmer(
+            item: WalkthroughItem.quiz,
+            child: Text('anchor'),
+          ),
       settings: Stream.value(settingsWith(found)),
     );
 
-    testWidgets('sweeps while the item is pending', (tester) async {
+    testWidgets('sweeps once, then requests no frames until the gap ends', (
+      tester,
+    ) async {
       await tester.pumpWidget(shimmer([WalkthroughItem.intro]));
       await tester.pump();
       expect(find.byType(Animate), findsOneWidget);
+      expect(tester.binding.hasScheduledFrame, isTrue);
+
+      // Past the sweep: the controller is idle, so nothing asks to paint.
+      await tester.pump(const Duration(milliseconds: 1100));
+      await tester.pump();
+      expect(tester.binding.hasScheduledFrame, isFalse);
+
+      // The gap ends and the next sweep starts.
+      await tester.pump(const Duration(seconds: 1));
+      expect(tester.binding.hasScheduledFrame, isTrue);
       await flushOverlayTimers(tester);
     });
 

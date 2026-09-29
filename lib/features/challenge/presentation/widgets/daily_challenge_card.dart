@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -206,10 +208,12 @@ Future<void> _explainThenOpen(
 
 /// One explanation per tap: the inbox explains itself on arrival, so the
 /// card is ticked silently here.
-Future<void> _openFact(BuildContext context, WidgetRef ref) async {
+Future<void> _openFact(BuildContext context, WidgetRef ref) {
   if (ref.read(walkthroughPendingProvider(_item))) {
-    await ref.read(settingsProvider.notifier).markWalkthroughFound(_item.name);
-    if (!context.mounted) return;
+    // Not awaited: offline, the write only completes on server ack.
+    unawaited(
+      ref.read(settingsProvider.notifier).markWalkthroughFound(_item.name),
+    );
   }
-  await context.push(appRoutes.dailyFact);
+  return context.push(appRoutes.dailyFact);
 }

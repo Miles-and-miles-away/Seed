@@ -21,11 +21,22 @@ class WalkthroughOverlay extends ConsumerStatefulWidget {
   const WalkthroughOverlay({
     required this.item,
     required this.onDismiss,
+    this.spotlight,
+    this.onPage,
     super.key,
   });
 
   final WalkthroughItem item;
   final VoidCallback onDismiss;
+
+  /// Screen rect to leave uncovered, for an item explained over its own
+  /// surface (the calculator sheet). The bubble then descends from the
+  /// top instead of sitting centred over a full scrim.
+  final Rect? Function()? spotlight;
+
+  /// Reports the page being shown, and null on dismiss, so the surface
+  /// under a spotlight can highlight the part being explained.
+  final ValueChanged<int?>? onPage;
 
   @override
   ConsumerState<WalkthroughOverlay> createState() => _WalkthroughOverlayState();
@@ -45,6 +56,9 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
     _completes =
         widget.item != WalkthroughItem.intro &&
         WalkthroughItem.checklist.every((i) => found.contains(i.name));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) widget.onPage?.call(0);
+    });
   }
 
   @override
@@ -66,51 +80,63 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
         ? l10n.walkthroughStart
         : l10n.walkthroughGotIt;
 
+    final spotlight = widget.spotlight?.call();
+    Widget content = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const MascotDisplay(size: 120, showGlow: false),
+        const SizedBox(height: spacingSm),
+        Text(
+          mascotName,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: spacingLg),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(spacingLg),
+            child: Text(
+              pages[_page],
+              style: theme.textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ).animate(key: ValueKey(_page)).fadeIn(duration: durationNormal),
+        if (isLast) ...[
+          const SizedBox(height: spacingXl),
+          _Checklist(found: found, current: item),
+        ],
+        const SizedBox(height: spacingXxl),
+        CelebrationButton(
+          label: buttonLabel,
+          onPressed: () => _advance(isLast: isLast),
+        ),
+      ],
+    );
+    if (spotlight != null) {
+      content = content.animate().slideY(
+        begin: -0.1,
+        end: 0,
+        duration: durationNormal,
+      );
+    }
+
     return PopScope(
       canPop: false,
       child: CelebrationOverlay(
+        backdropBottom: spotlight?.top,
         children: [
           if (_completes && isLast) const TimedConfettiLayer(),
           SafeArea(
-            child: Center(
+            child: Align(
+              alignment: spotlight == null
+                  ? Alignment.center
+                  : Alignment.topCenter,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(spacingXxl),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const MascotDisplay(size: 120, showGlow: false),
-                    const SizedBox(height: spacingSm),
-                    Text(
-                      mascotName,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: spacingLg),
-                    Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(spacingLg),
-                            child: Text(
-                              pages[_page],
-                              style: theme.textTheme.bodyLarge,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        )
-                        .animate(key: ValueKey(_page))
-                        .fadeIn(duration: durationNormal),
-                    if (isLast) ...[
-                      const SizedBox(height: spacingXl),
-                      _Checklist(found: found, current: item),
-                    ],
-                    const SizedBox(height: spacingXxl),
-                    CelebrationButton(
-                      label: buttonLabel,
-                      onPressed: () => _advance(isLast: isLast),
-                    ),
-                  ],
-                ),
+                child: content,
               ),
             ),
           ),
@@ -122,10 +148,12 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
   void _advance({required bool isLast}) {
     if (!isLast) {
       setState(() => _page++);
+      widget.onPage?.call(_page);
       return;
     }
     if (_done) return;
     _done = true;
+    widget.onPage?.call(null);
     final analytics = ref.read(analyticsServiceProvider);
     ref.read(settingsProvider.notifier).markWalkthroughFound(widget.item.name);
     analytics.logWalkthroughItemFound(item: widget.item.name);
@@ -191,10 +219,20 @@ class _Checklist extends StatelessWidget {
 
 /// Shows [item]'s explanation; resolves when dismissed. Callers check
 /// [walkthroughPendingProvider] first, or use [WalkthroughTrigger].
-Future<void> showWalkthroughItem(BuildContext context, WalkthroughItem item) {
+Future<void> showWalkthroughItem(
+  BuildContext context,
+  WalkthroughItem item, {
+  Rect? Function()? spotlight,
+  ValueChanged<int?>? onPage,
+}) {
   return showCelebrationOverlay(
     context,
-    (onDismiss) => WalkthroughOverlay(item: item, onDismiss: onDismiss),
+    (onDismiss) => WalkthroughOverlay(
+      item: item,
+      onDismiss: onDismiss,
+      spotlight: spotlight,
+      onPage: onPage,
+    ),
   );
 }
 
@@ -205,12 +243,18 @@ class WalkthroughTrigger extends ConsumerStatefulWidget {
     required this.item,
     required this.child,
     this.enabled = true,
+    this.spotlight,
+    this.onPage,
     super.key,
   });
 
   final WalkthroughItem item;
   final Widget child;
   final bool enabled;
+
+  /// See [WalkthroughOverlay.spotlight] and [WalkthroughOverlay.onPage].
+  final Rect? Function()? spotlight;
+  final ValueChanged<int?>? onPage;
 
   @override
   ConsumerState<WalkthroughTrigger> createState() => _WalkthroughTriggerState();
@@ -229,7 +273,14 @@ class _WalkthroughTriggerState extends ConsumerState<WalkthroughTrigger> {
         TickerMode.valuesOf(context).enabled) {
       _shown = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) showWalkthroughItem(context, widget.item);
+        if (mounted) {
+          showWalkthroughItem(
+            context,
+            widget.item,
+            spotlight: widget.spotlight,
+            onPage: widget.onPage,
+          );
+        }
       });
     }
     return widget.child;

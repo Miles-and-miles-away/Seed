@@ -1,6 +1,9 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -197,15 +200,32 @@ void main() {
 
       Future<void> pumpAndOpenDialog(WidgetTester tester) async {
         sizeViewport(tester);
+        final router = GoRouter(
+          initialLocation: '/',
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (_, _) => const WarmUser(child: SettingsScreen()),
+            ),
+            GoRoute(
+              path: '/home',
+              builder: (_, _) => const Scaffold(body: Text('Home stub')),
+            ),
+          ],
+        );
         await tester.pumpWidget(
-          createTestWidget(
-            child: const WarmUser(child: SettingsScreen()),
+          ProviderScope(
             overrides: walkthroughOverrides(
               settings: repo.watchSettings(walkthroughTestUid),
               firestore: firestore,
               analytics: analytics,
             ),
-            locale: const Locale('en'),
+            child: MaterialApp.router(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              locale: const Locale('en'),
+              routerConfig: router,
+            ),
           ),
         );
         await pumpUntilFound(tester, find.text('Replay walkthrough'));
@@ -225,14 +245,40 @@ void main() {
         expect(analytics.events, isEmpty);
       });
 
-      testWidgets('confirm empties the found list and logs', (tester) async {
+      testWidgets('confirm empties the list, logs, and goes Home', (
+        tester,
+      ) async {
         await pumpAndOpenDialog(tester);
         await tester.tap(find.text('Replay'));
         await tester.pump();
         await settleWrites(tester);
+        await pumpUntilFound(tester, find.text('Home stub'));
 
         expect(await found(), isEmpty);
         expect(analytics.events, ['reset']);
+        expect(find.text('Home stub'), findsOneWidget);
+      });
+
+      testWidgets('the tile lives in the Support section', (tester) async {
+        sizeViewport(tester);
+        await tester.pumpWidget(
+          createTestWidget(
+            child: const SettingsScreen(),
+            overrides: [
+              userSettingsProvider.overrideWith(
+                (_) => Stream.value(const UserSettingsModel()),
+              ),
+            ],
+            locale: const Locale('en'),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final support = find.ancestor(
+          of: find.text('Replay walkthrough'),
+          matching: find.byType(SettingsSection),
+        );
+        expect(tester.widget<SettingsSection>(support).title, 'Support');
       });
     });
 
