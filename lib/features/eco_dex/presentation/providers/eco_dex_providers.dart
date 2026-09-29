@@ -153,21 +153,19 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
     // Not awaited: offline the write only completes on server ack, and
     // the celebrations must not wait for it.
     unawaited(
-      ref
-          .read(firestoreProvider)
-          .collection(AppConstants.collectionUsers)
-          .doc(user.uid)
-          .update({
-            AppConstants.fieldEcodexDiscovered: FieldValue.arrayUnion(
-              newUnlocks,
-            ),
-          })
-          .catchError(
-            (Object e) => appLogger.warning('Eco-Dex discovery not saved: $e'),
-          ),
+      saveDiscovered(user.uid, newUnlocks).catchError(
+        (Object e) => appLogger.warning('Eco-Dex discovery not saved: $e'),
+      ),
     );
     return newUnlocks;
   }
+
+  @protected
+  Future<void> saveDiscovered(String uid, List<String> ids) => ref
+      .read(firestoreProvider)
+      .collection(AppConstants.collectionUsers)
+      .doc(uid)
+      .update({AppConstants.fieldEcodexDiscovered: FieldValue.arrayUnion(ids)});
 
   /// Waits (bounded) for the user stream to reflect at least
   /// [minActionsCount] logged actions.
