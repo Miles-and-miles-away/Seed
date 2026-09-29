@@ -46,6 +46,13 @@ class SettingsScreen extends ConsumerWidget {
                     onTap: () => context.push(appRoutes.settingsLanguage),
                   ),
                   SettingsTile(
+                    title: l10n.settingsReplayWalkthrough,
+                    subtitle: l10n.settingsReplayWalkthroughSubtitle,
+                    leading: const Icon(Icons.explore_outlined),
+                    showChevron: false,
+                    onTap: () => _confirmReplayWalkthrough(context, ref),
+                  ),
+                  SettingsTile(
                     title: l10n.settingsTheme,
                     leading: const Icon(Icons.brightness_6_outlined),
                     showChevron: false,
@@ -132,6 +139,32 @@ class SettingsScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _confirmReplayWalkthrough(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsReplayWalkthrough),
+        content: Text(l10n.settingsReplayWalkthroughConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.buttonCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.settingsReplayWalkthroughAction),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !context.mounted) return;
+    await ref.read(settingsProvider.notifier).resetWalkthrough();
   }
 
   /// Native name for [languageCode]; unknown codes fall back to English.

@@ -10,6 +10,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
@@ -45,39 +46,42 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       currentUserProvider.select((u) => u.value?.language ?? 'en'),
     );
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildAppBar(goal),
-          SliverPadding(
-            padding: const EdgeInsets.all(spacingXxl),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                _buildGoalBadge(context, goal),
-                const SizedBox(height: spacingLg),
-                Text(
-                  goal.title(languageCode),
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+    return WalkthroughTrigger(
+      item: WalkthroughItem.sdg,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            _buildAppBar(goal),
+            SliverPadding(
+              padding: const EdgeInsets.all(spacingXxl),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildGoalBadge(context, goal),
+                  const SizedBox(height: spacingLg),
+                  Text(
+                    goal.title(languageCode),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: spacingXxl),
-                SdgTargetsSection(goal: goal, locale: languageCode),
-                const SizedBox(height: spacingXxl),
-                // World state frames personal state, so it comes first.
-                SdgProgressChartViewer(goal: goal, locale: languageCode),
-                const SizedBox(height: spacingXxl),
-                if (goal.isLearnOnly)
-                  ..._buildLearnOnlyContent(context, goal, languageCode)
-                else
-                  ..._buildDirectContent(goal, languageCode),
-                const SizedBox(height: spacingXxxl),
-                _buildGoalNavigation(context, goal),
-                const SizedBox(height: spacingHuge),
-              ]),
+                  const SizedBox(height: spacingXxl),
+                  SdgTargetsSection(goal: goal, locale: languageCode),
+                  const SizedBox(height: spacingXxl),
+                  // World state frames personal state, so it comes first.
+                  SdgProgressChartViewer(goal: goal, locale: languageCode),
+                  const SizedBox(height: spacingXxl),
+                  if (goal.isLearnOnly)
+                    ..._buildLearnOnlyContent(context, goal, languageCode)
+                  else
+                    ..._buildDirectContent(goal, languageCode),
+                  const SizedBox(height: spacingXxxl),
+                  _buildGoalNavigation(context, goal),
+                  const SizedBox(height: spacingHuge),
+                ]),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

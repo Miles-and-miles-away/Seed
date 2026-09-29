@@ -8,6 +8,8 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 /// Card showing today's daily challenge status on the home screen.
 class DailyChallengeCard extends ConsumerWidget {
@@ -29,11 +31,12 @@ class DailyChallengeCard extends ConsumerWidget {
     final category = ActionCategory.fromString(challenge.category);
 
     if (completed) {
-      return _buildCompletedCard(context, theme, colorScheme, l10n);
+      return _buildCompletedCard(context, ref, theme, colorScheme, l10n);
     }
 
     return _buildIncompleteCard(
       context,
+      ref,
       theme,
       colorScheme,
       l10n,
@@ -45,6 +48,7 @@ class DailyChallengeCard extends ConsumerWidget {
 
   Widget _buildCompletedCard(
     BuildContext context,
+    WidgetRef ref,
     ThemeData theme,
     ColorScheme colorScheme,
     AppLocalizations l10n,
@@ -70,7 +74,7 @@ class DailyChallengeCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: spacingXs),
                   GestureDetector(
-                    onTap: () => context.push(appRoutes.dailyFact),
+                    onTap: () => _openFact(context, ref),
                     child: Text(
                       l10n.challengeSeeFact,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -91,6 +95,7 @@ class DailyChallengeCard extends ConsumerWidget {
 
   Widget _buildIncompleteCard(
     BuildContext context,
+    WidgetRef ref,
     ThemeData theme,
     ColorScheme colorScheme,
     AppLocalizations l10n,
@@ -105,7 +110,9 @@ class DailyChallengeCard extends ConsumerWidget {
         // its category filter already applied. Deep-links by category rather
         // than a specific action -- fine while challenges target a category;
         // revisit if a challenge ever targets a single action.
-        onTap: () => context.push(
+        onTap: () => _explainThenOpen(
+          context,
+          ref,
           category != null
               ? appRoutes.actionLogForCategory(category.name)
               : appRoutes.actionLog,
@@ -180,4 +187,29 @@ class _StreakBadge extends StatelessWidget {
       ],
     );
   }
+}
+
+const _item = WalkthroughItem.dailyChallenge;
+
+/// Explains the card the first time it is tapped, then navigates.
+Future<void> _explainThenOpen(
+  BuildContext context,
+  WidgetRef ref,
+  String route,
+) async {
+  if (ref.read(walkthroughPendingProvider(_item))) {
+    await showWalkthroughItem(context, _item);
+    if (!context.mounted) return;
+  }
+  await context.push(route);
+}
+
+/// One explanation per tap: the inbox explains itself on arrival, so the
+/// card is ticked silently here.
+Future<void> _openFact(BuildContext context, WidgetRef ref) async {
+  if (ref.read(walkthroughPendingProvider(_item))) {
+    await ref.read(settingsProvider.notifier).markWalkthroughFound(_item.name);
+    if (!context.mounted) return;
+  }
+  await context.push(appRoutes.dailyFact);
 }

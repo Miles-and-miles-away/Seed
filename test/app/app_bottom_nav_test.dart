@@ -1,9 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
+
+import '../features/walkthrough/walkthrough_test_support.dart';
 
 void main() {
   Widget wrap({
@@ -13,29 +19,53 @@ void main() {
     VoidCallback? onActionPressed,
     ValueChanged<bool>? onActionHover,
     double textScale = 1.0,
+    List<Override> overrides = const [],
   }) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(
-          context,
-        ).copyWith(textScaler: TextScaler.linear(textScale)),
-        child: child!,
-      ),
-      home: Scaffold(
-        bottomNavigationBar: AppBottomNav(
-          currentIndex: currentIndex,
-          isActionSelected: isActionSelected,
-          onTabSelected: onTabSelected ?? (_) {},
-          onActionPressed: onActionPressed ?? () {},
-          onActionHover: onActionHover,
+    return ProviderScope(
+      overrides: overrides,
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
+        home: Scaffold(
+          bottomNavigationBar: AppBottomNav(
+            currentIndex: currentIndex,
+            isActionSelected: isActionSelected,
+            onTabSelected: onTabSelected ?? (_) {},
+            onActionPressed: onActionPressed ?? () {},
+            onActionHover: onActionHover,
+          ),
         ),
       ),
     );
   }
 
   group('AppBottomNav', () {
+    testWidgets('shimmers the Progress and Action items while pending', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          overrides: walkthroughOverrides(
+            settings: Stream.value(settingsWith([WalkthroughItem.intro])),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final shimmers = tester
+          .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
+          .map((s) => s.item);
+      expect(shimmers, [WalkthroughItem.progress, WalkthroughItem.logAction]);
+      expect(find.byType(Animate), findsNWidgets(2));
+      await flushOverlayTimers(tester);
+    });
+
     testWidgets('renders all five navigation entries', (tester) async {
       await tester.pumpWidget(wrap());
 

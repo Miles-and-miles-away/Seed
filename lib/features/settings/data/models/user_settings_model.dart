@@ -41,6 +41,9 @@ abstract class UserSettingsModel with _$UserSettingsModel {
 
     /// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
     @Default('system') String themeMode,
+
+    /// Walkthrough item ids the user has found (see WalkthroughItem).
+    @Default([]) List<String> walkthroughFound,
   }) = _UserSettingsModel;
 
   const UserSettingsModel._();

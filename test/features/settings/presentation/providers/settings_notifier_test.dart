@@ -37,6 +37,9 @@ class _RecordingAnalytics extends Fake implements AnalyticsService {
 
   @override
   void setEnabled({required bool enabled}) => events.add('runtime:$enabled');
+
+  @override
+  Future<void> logWalkthroughReset() async => events.add('walkthrough_reset');
 }
 
 class _RecordingCrashlytics extends Fake implements FirebaseCrashlytics {
@@ -199,6 +202,24 @@ void main() {
       expect(analytics.events, ['language:ja']);
     });
 
+    test(
+      'markWalkthroughFound accumulates and resetWalkthrough logs',
+      () async {
+        final c = await container();
+        final notifier = c.read(settingsProvider.notifier);
+
+        await notifier.markWalkthroughFound('quiz');
+        await notifier.markWalkthroughFound('sdg');
+        await notifier.markWalkthroughFound('quiz');
+        expect((await settingsField())['walkthroughFound'], ['quiz', 'sdg']);
+        expect(analytics.events, isEmpty);
+
+        await notifier.resetWalkthrough();
+        expect((await settingsField())['walkthroughFound'], isEmpty);
+        expect(analytics.events, ['walkthrough_reset']);
+      },
+    );
+
     test('markMilestoneSeen records the week', () async {
       final c = await container();
 
@@ -259,6 +280,9 @@ void main() {
       const TimeOfDay(hour: 8, minute: 0),
     );
     expect(schedule, isNull);
+    expect(c.read(settingsProvider).hasError, isTrue);
+
+    await notifier.resetWalkthrough();
     expect(c.read(settingsProvider).hasError, isTrue);
     expect(await userDoc(), before);
     expect(analytics.events, isEmpty);

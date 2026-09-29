@@ -346,6 +346,55 @@ final class AnalyticsEnabledProvider
 
 String _$analyticsEnabledHash() => r'b136c3eb860e46f7dee84318115ad619984da3ab';
 
+/// Walkthrough item ids the user has found, or null while signed out or
+/// until settings load, so nothing shimmers or pops on a guess.
+
+@ProviderFor(walkthroughFound)
+final walkthroughFoundProvider = WalkthroughFoundProvider._();
+
+/// Walkthrough item ids the user has found, or null while signed out or
+/// until settings load, so nothing shimmers or pops on a guess.
+
+final class WalkthroughFoundProvider
+    extends $FunctionalProvider<Set<String>?, Set<String>?, Set<String>?>
+    with $Provider<Set<String>?> {
+  /// Walkthrough item ids the user has found, or null while signed out or
+  /// until settings load, so nothing shimmers or pops on a guess.
+  WalkthroughFoundProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'walkthroughFoundProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$walkthroughFoundHash();
+
+  @$internal
+  @override
+  $ProviderElement<Set<String>?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Set<String>? create(Ref ref) {
+    return walkthroughFound(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Set<String>? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Set<String>?>(value),
+    );
+  }
+}
+
+String _$walkthroughFoundHash() => r'0cf4a82b84cd39850988493f186736323a119232';
+
 /// Returns the preferred theme mode, defaulting to the system setting.
 
 @ProviderFor(themeMode)
@@ -480,7 +529,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'73d2c85ebbac8b4fcf7549d5f543daa59eb8188a';
+String _$settingsNotifierHash() => r'd76b5ba69699c63383a77b3dbb1f8709df9deb86';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

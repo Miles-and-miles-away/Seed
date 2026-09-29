@@ -5,6 +5,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 /// Bottom-sheet chooser for the three carbon calculators (Phase 8).
 ///
@@ -28,45 +29,54 @@ class CalculatorChooserSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(spacingLg, 0, spacingLg, spacingLg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              l10n.calculatorsSheetTitle,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+    return WalkthroughTrigger(
+      item: WalkthroughItem.calculators,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            spacingLg,
+            0,
+            spacingLg,
+            spacingLg,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.calculatorsSheetTitle,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: spacingLg),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _CalculatorTile(
-                  icon: Icons.commute,
-                  color: ActionCategory.transport.color,
-                  label: l10n.categoryTransport,
-                  onTap: () =>
-                      Navigator.pop(context, appRoutes.transportCalculator),
-                ),
-                _CalculatorTile(
-                  icon: Icons.restaurant,
-                  color: ActionCategory.food.color,
-                  label: l10n.categoryFood,
-                  onTap: () => Navigator.pop(context, appRoutes.foodCalculator),
-                ),
-                _CalculatorTile(
-                  icon: Icons.bolt,
-                  color: ActionCategory.energy.color,
-                  label: l10n.calculatorHomeEnergy,
-                  onTap: () =>
-                      Navigator.pop(context, appRoutes.energyCalculator),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(height: spacingLg),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _CalculatorTile(
+                    icon: Icons.commute,
+                    color: ActionCategory.transport.color,
+                    label: l10n.categoryTransport,
+                    onTap: () =>
+                        Navigator.pop(context, appRoutes.transportCalculator),
+                  ),
+                  _CalculatorTile(
+                    icon: Icons.restaurant,
+                    color: ActionCategory.food.color,
+                    label: l10n.categoryFood,
+                    onTap: () =>
+                        Navigator.pop(context, appRoutes.foodCalculator),
+                  ),
+                  _CalculatorTile(
+                    icon: Icons.bolt,
+                    color: ActionCategory.energy.color,
+                    label: l10n.calculatorHomeEnergy,
+                    onTap: () =>
+                        Navigator.pop(context, appRoutes.energyCalculator),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

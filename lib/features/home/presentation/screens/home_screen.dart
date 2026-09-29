@@ -14,6 +14,7 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
@@ -28,91 +29,100 @@ class HomeScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final hasMascot = ref.watch(hasMascotProvider);
 
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // App bar
-            SliverAppBar(
-              floating: true,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.eco, color: theme.colorScheme.primary),
-                  const SizedBox(width: spacingSm),
-                  Text(l10n.appTitle),
-                ],
+    return WalkthroughTrigger(
+      item: WalkthroughItem.intro,
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              // App bar
+              SliverAppBar(
+                floating: true,
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.eco, color: theme.colorScheme.primary),
+                    const SizedBox(width: spacingSm),
+                    Text(l10n.appTitle),
+                  ],
+                ),
+                centerTitle: true,
+                actions: const [MailIconButton()],
               ),
-              centerTitle: true,
-              actions: const [MailIconButton()],
-            ),
 
-            // Main content
-            SliverPadding(
-              padding: const EdgeInsets.all(spacingXxl),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // Mascot section or selection prompt
-                  if (hasMascot)
-                    _buildMascotSection(context, ref)
-                  else
-                    _buildMascotSelectionPrompt(context, ref, l10n),
-                  const SizedBox(height: spacingMd),
+              // Main content
+              SliverPadding(
+                padding: const EdgeInsets.all(spacingXxl),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    // Mascot section or selection prompt
+                    if (hasMascot)
+                      _buildMascotSection(context, ref)
+                    else
+                      _buildMascotSelectionPrompt(context, ref, l10n),
+                    const SizedBox(height: spacingMd),
 
-                  const DailyChallengeCard(),
-                  const SizedBox(height: spacingMd),
-                  const MultiDayChallengeCard(),
-                  const SizedBox(height: spacingMd),
-
-                  // Personal goal
-                  const MyGoalCard(),
-                  const SizedBox(height: spacingXxl),
-
-                  // SDG Section header
-                  Text(
-                    l10n.homeExploreGoals,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    const WalkthroughShimmer(
+                      item: WalkthroughItem.dailyChallenge,
+                      child: DailyChallengeCard(),
                     ),
-                  ),
-                  const SizedBox(height: spacingSm),
-                  Text(
-                    l10n.homeExploreGoalsSubtitle,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ]),
-              ),
-            ),
+                    const SizedBox(height: spacingMd),
+                    const MultiDayChallengeCard(),
+                    const SizedBox(height: spacingMd),
 
-            // SDG Carousel (infinite scroll)
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 140,
-                child: SdgCarousel(
-                  goals: ref.watch(sdgGoalsDataProvider).value?.goals ?? [],
-                  locale: Localizations.localeOf(context).languageCode,
-                  resetSignal: ref.watch(homeVisitSignalProvider),
-                  onGoalTap: (goal) {
-                    context.push(appRoutes.sdgDetail(goal.number));
-                  },
+                    // Personal goal
+                    const MyGoalCard(),
+                    const SizedBox(height: spacingXxl),
+
+                    // SDG Section header
+                    Text(
+                      l10n.homeExploreGoals,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: spacingSm),
+                    Text(
+                      l10n.homeExploreGoalsSubtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ]),
                 ),
               ),
-            ),
 
-            // Learn more at UN.org
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: spacingXxl,
-                vertical: spacingLg,
+              // SDG Carousel (infinite scroll)
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 140,
+                  child: WalkthroughShimmer(
+                    item: WalkthroughItem.sdg,
+                    child: SdgCarousel(
+                      goals: ref.watch(sdgGoalsDataProvider).value?.goals ?? [],
+                      locale: Localizations.localeOf(context).languageCode,
+                      resetSignal: ref.watch(homeVisitSignalProvider),
+                      onGoalTap: (goal) {
+                        context.push(appRoutes.sdgDetail(goal.number));
+                      },
+                    ),
+                  ),
+                ),
               ),
-              sliver: SliverToBoxAdapter(child: _buildLearnMoreLink(context)),
-            ),
 
-            // Bottom padding
-            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
-          ],
+              // Learn more at UN.org
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: spacingXxl,
+                  vertical: spacingLg,
+                ),
+                sliver: SliverToBoxAdapter(child: _buildLearnMoreLink(context)),
+              ),
+
+              // Bottom padding
+              const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+            ],
+          ),
         ),
       ),
     );

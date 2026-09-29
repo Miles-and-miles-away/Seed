@@ -14,6 +14,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_category_t
 import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -99,6 +100,36 @@ void main() {
         ),
       );
     }
+
+    testWidgets('walkthrough trigger is off when opened with a category', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildScreen(initialCategory: 'transport'));
+      await tester.pumpAndSettle();
+      var trigger = tester.widget<WalkthroughTrigger>(
+        find.byType(WalkthroughTrigger),
+      );
+      expect(trigger.item, WalkthroughItem.logAction);
+      expect(trigger.enabled, isFalse);
+
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+      trigger = tester.widget<WalkthroughTrigger>(
+        find.byType(WalkthroughTrigger),
+      );
+      expect(trigger.enabled, isTrue);
+
+      // The two app bar icons, then the shared bottom nav's two items.
+      final shimmers = tester
+          .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
+          .map((s) => s.item);
+      expect(shimmers, [
+        WalkthroughItem.calculators,
+        WalkthroughItem.quiz,
+        WalkthroughItem.progress,
+        WalkthroughItem.logAction,
+      ]);
+    });
 
     testWidgets('displays app bar with title', (tester) async {
       await tester.pumpWidget(buildScreen());

@@ -95,12 +95,7 @@ class _EggHatchingCelebrationState
         ConfettiLayer(
           painter: (progress) => ConfettiPainter(
             particles: _particles,
-            colors: const [
-              AppColors.gold,
-              AppColors.success,
-              AppColors.glowBlue,
-              AppColors.celebrationPink,
-            ],
+            colors: celebrationConfettiColors,
             progress: progress,
           ),
         ),

@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
@@ -43,7 +40,7 @@ class EcoDexCelebrationScreen extends StatelessWidget {
 
     return CelebrationOverlay(
       children: [
-        const _ConfettiLayer(),
+        const TimedConfettiLayer(),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
@@ -155,70 +152,3 @@ Future<void> showEcoDexCelebrations(
     );
   }
 }
-
-// Confetti runs for the visual peak, then fades out and stops. The screen
-// waits indefinitely for the acknowledge button, so the painter must not
-// keep rebuilding every frame once the moment has passed.
-const _confettiRunDuration = Duration(seconds: 4);
-const _confettiFadeDuration = Duration(milliseconds: 600);
-const _particleCount = 40;
-
-class _ConfettiLayer extends StatefulWidget {
-  const _ConfettiLayer();
-
-  @override
-  State<_ConfettiLayer> createState() => _ConfettiLayerState();
-}
-
-class _ConfettiLayerState extends State<_ConfettiLayer> {
-  late final List<ConfettiParticle> _particles;
-  Timer? _fadeTimer;
-  bool _visible = true;
-  bool _animating = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _particles = List.generate(
-      _particleCount,
-      (_) => ConfettiParticle.random(colorCount: _colors.length),
-    );
-    _fadeTimer = Timer(_confettiRunDuration, () {
-      if (mounted) setState(() => _visible = false);
-    });
-  }
-
-  @override
-  void dispose() {
-    _fadeTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: _visible ? 1 : 0,
-      duration: _confettiFadeDuration,
-      // Stop repainting only once fully faded so particles never freeze
-      // visibly midair.
-      onEnd: () {
-        if (!_visible) setState(() => _animating = false);
-      },
-      child: ConfettiLayer(
-        animating: _animating,
-        painter: (progress) => ConfettiPainter(
-          particles: _particles,
-          colors: _colors,
-          progress: progress,
-        ),
-      ),
-    );
-  }
-}
-
-const _colors = [
-  AppColors.gold,
-  AppColors.success,
-  AppColors.glowBlue,
-  AppColors.celebrationPink,
-];

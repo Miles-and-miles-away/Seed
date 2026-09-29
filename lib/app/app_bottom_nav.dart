@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
+
 import '../core/constants/ui_constants.dart';
 import '../core/l10n/generated/app_localizations.dart';
 
@@ -76,22 +78,28 @@ class AppBottomNav extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _NavBarItem(
-              icon: Icons.calendar_today_outlined,
-              selectedIcon: Icons.calendar_today,
-              label: l10n.navProgress,
-              isSelected: currentIndex == 1,
-              onTap: () => onTabSelected(1),
+            child: WalkthroughShimmer(
+              item: WalkthroughItem.progress,
+              child: _NavBarItem(
+                icon: Icons.calendar_today_outlined,
+                selectedIcon: Icons.calendar_today,
+                label: l10n.navProgress,
+                isSelected: currentIndex == 1,
+                onTap: () => onTabSelected(1),
+              ),
             ),
           ),
           Expanded(
-            child: _NavBarItem(
-              icon: Icons.add_circle_outline,
-              selectedIcon: Icons.add_circle,
-              label: l10n.navLogAction,
-              isSelected: isActionSelected,
-              onTap: onActionPressed,
-              onHover: onActionHover,
+            child: WalkthroughShimmer(
+              item: WalkthroughItem.logAction,
+              child: _NavBarItem(
+                icon: Icons.add_circle_outline,
+                selectedIcon: Icons.add_circle,
+                label: l10n.navLogAction,
+                isSelected: isActionSelected,
+                onTap: onActionPressed,
+                onHover: onActionHover,
+              ),
             ),
           ),
           Expanded(
