@@ -57,6 +57,7 @@ class NextEvolutionCard extends StatelessWidget {
               child: MascotImage(
                 assetPath: nextStage.assetPath,
                 artboardName: nextStage.artboardName,
+                onRiveInit: pauseRive,
               ),
             ),
           ),

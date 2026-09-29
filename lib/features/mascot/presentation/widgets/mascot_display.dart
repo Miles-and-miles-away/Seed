@@ -289,6 +289,7 @@ class MascotAvatar extends StatelessWidget {
       artboardName: artboardName,
       width: size,
       height: size,
+      onRiveInit: animate ? null : pauseRive,
     );
 
     // Rive mascots author their own idle motion (see MascotDisplay).

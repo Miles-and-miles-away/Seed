@@ -35,6 +35,11 @@ Offset mascotGazeTarget(Offset pointer, Offset center, Size reach) {
   );
 }
 
+/// Freezes a Rive mascot on its first frame: the ticker stops, so the
+/// artboard costs nothing until a trigger or input wakes it.
+void pauseRive(rive.RiveWidgetController controller) =>
+    controller.active = false;
+
 /// Renders a mascot asset, dispatching on file extension.
 ///
 /// Animated Rive mascots (`.riv`) play their default state machine;
@@ -127,21 +132,25 @@ class _MascotImageState extends State<MascotImage> {
     return SizedBox(
       width: widget.width,
       height: widget.height,
-      child: rive.RiveWidgetBuilder(
-        // Force a fresh builder when the target artboard changes; the
-        // builder resolves its artboard once on load.
-        key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
-        fileLoader: fileLoader,
-        artboardSelector: artboardName == null
-            ? rive.ArtboardSelector.byDefault()
-            : rive.ArtboardSelector.byName(artboardName),
-        onLoaded: (state) => widget.onRiveInit?.call(state.controller),
-        builder: (context, state) => switch (state) {
-          rive.RiveLoaded(:final controller) => rive.RiveWidget(
-            controller: controller,
-          ),
-          _ => SizedBox(width: widget.width, height: widget.height),
-        },
+      // The Rive render box is not a repaint boundary; without one every
+      // sibling animation repaints the artboard too.
+      child: RepaintBoundary(
+        child: rive.RiveWidgetBuilder(
+          // Force a fresh builder when the target artboard changes; the
+          // builder resolves its artboard once on load.
+          key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
+          fileLoader: fileLoader,
+          artboardSelector: artboardName == null
+              ? rive.ArtboardSelector.byDefault()
+              : rive.ArtboardSelector.byName(artboardName),
+          onLoaded: (state) => widget.onRiveInit?.call(state.controller),
+          builder: (context, state) => switch (state) {
+            rive.RiveLoaded(:final controller) => rive.RiveWidget(
+              controller: controller,
+            ),
+            _ => SizedBox(width: widget.width, height: widget.height),
+          },
+        ),
       ),
     );
   }
