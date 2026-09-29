@@ -146,24 +146,13 @@ class SettingsScreen extends ConsumerWidget {
     WidgetRef ref,
   ) async {
     final l10n = AppLocalizations.of(context);
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.settingsReplayWalkthrough),
-        content: Text(l10n.settingsReplayWalkthroughConfirm),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(l10n.settingsReplayWalkthroughAction),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: l10n.settingsReplayWalkthrough,
+      message: l10n.settingsReplayWalkthroughConfirm,
+      confirmLabel: l10n.settingsReplayWalkthroughAction,
     );
-    if (confirmed != true || !context.mounted) return;
+    if (!confirmed || !context.mounted) return;
     await ref.read(settingsProvider.notifier).resetWalkthrough();
   }
 

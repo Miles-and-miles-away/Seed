@@ -51,9 +51,6 @@ data rules live here.
   retrospectively in August 2026; the archive also absorbed the
   delivered v2 item spec.
 - [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)
-- [PDR_WALKTHROUGH.md](./PDR_WALKTHROUGH.md): the first-login
-  walkthrough (shimmering anchors, mascot explanations, checklist,
-  Settings replay)
 
 ## Design and operations
 

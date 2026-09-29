@@ -24,8 +24,8 @@ shell and the pushed Log Action screen so every primary screen shows it):
 On the Log Action screen (a pushed route outside the shell) the same bar's
 tabs use `context.go` to jump straight into the chosen shell branch.
 
-First-login walkthrough (`lib/features/walkthrough/`, see
-`PDR_WALKTHROUGH.md`): until the user has found a feature, its anchor
+First-login walkthrough (`lib/features/walkthrough/`): until the user
+has found a feature, its anchor
 carries a gold `WalkthroughShimmer` sweep, and the first time its
 surface opens a `WalkthroughTrigger` pops the mascot's explanation over
 it, with the checklist of things still to find under the last page.

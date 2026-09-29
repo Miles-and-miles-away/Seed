@@ -32,7 +32,6 @@ class EggHatchingCelebration extends ConsumerStatefulWidget {
 
 class _EggHatchingCelebrationState
     extends ConsumerState<EggHatchingCelebration> {
-  late List<ConfettiParticle> _particles;
   bool _showMascot = false;
   bool _showNameInput = false;
   final _nameController = TextEditingController();
@@ -41,10 +40,6 @@ class _EggHatchingCelebrationState
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(
-      40,
-      (_) => ConfettiParticle.random(colorCount: 4),
-    );
     _startSequence();
   }
 
@@ -92,13 +87,7 @@ class _EggHatchingCelebrationState
 
     return CelebrationOverlay(
       children: [
-        ConfettiLayer(
-          painter: (progress) => ConfettiPainter(
-            particles: _particles,
-            colors: celebrationConfettiColors,
-            progress: progress,
-          ),
-        ),
+        const TimedConfettiLayer(),
 
         // Content
         SafeArea(

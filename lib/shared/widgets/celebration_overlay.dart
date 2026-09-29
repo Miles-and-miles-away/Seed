@@ -86,15 +86,21 @@ class CelebrationButton extends StatelessWidget {
 
 /// Presents [builder]'s widget as a full-screen celebration: transparent
 /// barrier, no transition, dismiss wired to pop. The shared launcher every
-/// `show*Celebration` helper delegates to.
+/// `show*Celebration` helper delegates to. The dismiss callback pops once:
+/// a rapid double tap must not pop the dialog and then the route beneath.
 Future<void> showCelebrationOverlay(
   BuildContext context,
   Widget Function(VoidCallback onDismiss) builder,
 ) {
+  var dismissed = false;
   return showGeneralDialog<void>(
     context: context,
     barrierColor: Colors.transparent,
     transitionDuration: Duration.zero,
-    pageBuilder: (context, _, _) => builder(() => Navigator.of(context).pop()),
+    pageBuilder: (context, _, _) => builder(() {
+      if (dismissed) return;
+      dismissed = true;
+      Navigator.of(context).pop();
+    }),
   );
 }

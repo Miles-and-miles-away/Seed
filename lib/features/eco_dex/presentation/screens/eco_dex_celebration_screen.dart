@@ -135,19 +135,12 @@ Future<void> showEcoDexCelebrations(
   for (var i = 0; i < entries.length; i++) {
     if (!context.mounted) return;
     final remaining = entries.length - i - 1;
-    // Latch so a rapid double-tap can't pop this dialog and then the route
-    // beneath it (the second pop would resolve to an ancestor navigator).
-    var dismissed = false;
     await showCelebrationOverlay(
       context,
       (onDismiss) => EcoDexCelebrationScreen(
         entry: entries[i],
         remainingInQueue: remaining,
-        onDismiss: () {
-          if (dismissed) return;
-          dismissed = true;
-          onDismiss();
-        },
+        onDismiss: onDismiss,
       ),
     );
   }

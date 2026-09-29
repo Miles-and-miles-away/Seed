@@ -30,14 +30,12 @@ class EvolutionCelebration extends ConsumerStatefulWidget {
 }
 
 class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
-  late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
 
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(50, (_) => ConfettiParticle.random());
     _startAnimationSequence();
   }
 
@@ -93,18 +91,14 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
 
     return CelebrationOverlay(
       children: [
-        ConfettiLayer(
-          painter: (progress) => ConfettiPainter(
-            particles: _particles,
-            colors: [
-              AppColors.gold,
-              colorScheme.primary,
-              colorScheme.secondary,
-              AppColors.success,
-              AppColors.celebrationPink,
-            ],
-            progress: progress,
-          ),
+        TimedConfettiLayer(
+          colors: [
+            AppColors.gold,
+            colorScheme.primary,
+            colorScheme.secondary,
+            AppColors.success,
+            AppColors.celebrationPink,
+          ],
         ),
 
         // Main content

@@ -43,16 +43,12 @@ class StreakMilestoneDialog extends ConsumerStatefulWidget {
 }
 
 class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
-  late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
 
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(40, (_) => ConfettiParticle.random());
-
-    // Start animations in sequence
     _startAnimationSequence();
   }
 
@@ -89,18 +85,14 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
 
     return CelebrationOverlay(
       children: [
-        ConfettiLayer(
-          painter: (progress) => ConfettiPainter(
-            particles: _particles,
-            colors: [
-              AppColors.gold,
-              colorScheme.primary,
-              colorScheme.secondary,
-              AppColors.success,
-              AppColors.celebrationPink,
-            ],
-            progress: progress,
-          ),
+        TimedConfettiLayer(
+          colors: [
+            AppColors.gold,
+            colorScheme.primary,
+            colorScheme.secondary,
+            AppColors.success,
+            AppColors.celebrationPink,
+          ],
         ),
 
         // Main content

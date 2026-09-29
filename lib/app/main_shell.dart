@@ -32,6 +32,7 @@ class _MainShellState extends ConsumerState<MainShell> {
 
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
+  bool _actionPushPending = false;
 
   @override
   void initState() {
@@ -86,10 +87,14 @@ class _MainShellState extends ConsumerState<MainShell> {
     // opens; the push lands while the 0.5s smile timeline is still on
     // the happy mouth.
     if (_mascotTabs.contains(widget.navigationShell.currentIndex)) {
+      // The delayed push would otherwise stack one Log Action per tap.
+      if (_actionPushPending) return;
+      _actionPushPending = true;
       ref
           .read(mascotSmileTriggerProvider.notifier)
           .triggerSmile(hold: durationMedium - durationInstant);
       Future.delayed(durationMedium, () {
+        _actionPushPending = false;
         if (mounted) context.push(appRoutes.actionLog);
       });
     } else {

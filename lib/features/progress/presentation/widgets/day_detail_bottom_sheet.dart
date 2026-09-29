@@ -17,6 +17,7 @@ import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/eco_fact_card.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/widgets/confirm_dialog.dart';
 
 const double _kSheetMaxChildSize = 0.9;
 const double _kSheetInitialChildSize = 0.7;
@@ -197,26 +198,13 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
 
   Future<void> _confirmReproduce(ActionLogModel log) async {
     final l10n = AppLocalizations.of(context);
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(log.actionName),
-        content: Text(
-          l10n.transportLogChoiceBody(formatCO2Compact(log.co2Grams)),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.actionReproduce),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: log.actionName,
+      message: l10n.transportLogChoiceBody(formatCO2Compact(log.co2Grams)),
+      confirmLabel: l10n.actionReproduce,
     );
-    if (confirmed != true || !mounted) return;
+    if (!confirmed || !mounted) return;
     // Rebuild an ActionModel from the log; the still-present custom
     // template makes the relaxed actionLog rule accept the re-log.
     final result = await ref

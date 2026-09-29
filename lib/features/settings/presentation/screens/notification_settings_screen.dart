@@ -264,28 +264,15 @@ class NotificationSettingsScreen extends ConsumerWidget {
     String displayTime,
   ) async {
     final l10n = AppLocalizations.of(context);
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.notifDeleteTitle),
-        content: Text(l10n.notifDeleteMessage(displayTime)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-            ),
-            child: Text(l10n.buttonDelete),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: l10n.notifDeleteTitle,
+      message: l10n.notifDeleteMessage(displayTime),
+      confirmLabel: l10n.buttonDelete,
+      destructive: true,
     );
 
-    if ((confirmed ?? false) && context.mounted) {
+    if (confirmed && context.mounted) {
       await ref.read(settingsProvider.notifier).removeReminder(scheduleId);
     }
   }
