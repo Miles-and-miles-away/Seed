@@ -7,6 +7,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_list_tile.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Inbox-style screen listing the user's eco-fact mail. Tapping a row
@@ -19,21 +20,24 @@ class EcoFactScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final inboxAsync = ref.watch(ecoFactInboxProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.ecoFactInboxTitle)),
-      body: inboxAsync.when(
-        data: (items) {
-          if (items.isEmpty) {
-            return _EmptyInbox(message: l10n.ecoFactInboxEmpty);
-          }
-          return ListView.separated(
-            itemCount: items.length,
-            separatorBuilder: (_, _) => const Divider(height: 1),
-            itemBuilder: (context, i) => _InboxRow(item: items[i]),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(child: ErrorDisplay()),
+    return WalkthroughTrigger(
+      item: WalkthroughItem.ecoFact,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.ecoFactInboxTitle)),
+        body: inboxAsync.when(
+          data: (items) {
+            if (items.isEmpty) {
+              return _EmptyInbox(message: l10n.ecoFactInboxEmpty);
+            }
+            return ListView.separated(
+              itemCount: items.length,
+              separatorBuilder: (_, _) => const Divider(height: 1),
+              itemBuilder: (context, i) => _InboxRow(item: items[i]),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (_, _) => const Center(child: ErrorDisplay()),
+        ),
       ),
     );
   }

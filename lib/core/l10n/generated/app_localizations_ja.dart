@@ -2199,5 +2199,104 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizNoPointsNote => '遊びのためのクイズです。ポイントは付かず、記録もされません。';
 
   @override
+  String walkthroughIntro1(String name) {
+    return 'はじめまして、$nameです。Seedは毎日の小さな選択を習慣に変えるアプリ。あなたが続けるほど、わたしも育ちます。';
+  }
+
+  @override
+  String get walkthroughIntro2 =>
+      'このアプリには見た目以上のものがあります。見つけてほしいもののリストを作りました。金色に光っているものは、まだ見つけていない場所です。';
+
+  @override
+  String get walkthroughItemLogAction => '最初のアクションを記録する';
+
+  @override
+  String get walkthroughItemDailyChallenge => '今日のチャレンジ';
+
+  @override
+  String get walkthroughItemSdg => 'SDGを見てみる';
+
+  @override
+  String get walkthroughItemEcoFact => '今日のエコファクト';
+
+  @override
+  String get walkthroughItemCalculators => '計算ツールを知る';
+
+  @override
+  String get walkthroughItemQuiz => '「多い？ 少ない？」で遊ぶ';
+
+  @override
+  String get walkthroughItemProgress => '進み具合を見る';
+
+  @override
+  String get walkthroughLogAction1 =>
+      'ここがSeedの中心です。今日やったことを選ぶと、減らせたCO2をわたしが数えます。';
+
+  @override
+  String get walkthroughDailyChallenge1 =>
+      '毎日新しいチャレンジがひとつ。達成すると今日のエコファクトが開き、チャレンジの連続記録も続きます。';
+
+  @override
+  String get walkthroughSdg1 =>
+      '17の持続可能な開発目標は、世界のやることリスト。それぞれのターゲット、これまでの進み具合、役に立つアクションが見られます。';
+
+  @override
+  String get walkthroughEcoFact1 => '毎日ここに新しいエコファクトが届きます。今日のチャレンジを達成すると開けます。';
+
+  @override
+  String get walkthroughCalculators1 =>
+      '3つの計算ツールで2つの選択肢を並べて比べられます。交通：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、カスタムアクションとして記録できます。';
+
+  @override
+  String get walkthroughCalculators2 =>
+      '食事：2つの献立を材料ごとに比較。軽い方を選んだら、こちらもカスタムアクションとして記録できます。';
+
+  @override
+  String get walkthroughCalculators3 =>
+      '家庭のエネルギー：シャワーから乾燥機まで、2つの習慣を比較。学ぶためのツールで、ポイントはつきません。隣の稲妻アイコンでは家全体をランキングで見られます。';
+
+  @override
+  String get walkthroughQuiz1 =>
+      '2つのもの、1つの問い：どっちの排出量が多い？連続正解を伸ばしましょう。ポイントはなし、自慢できるだけです。';
+
+  @override
+  String get walkthroughProgress1 => 'カレンダー：記録した日と、1日の目標。';
+
+  @override
+  String get walkthroughProgress2 => 'インパクト：減らせたCO2を、木、車の走行距離、スマホの充電回数に換算。';
+
+  @override
+  String get walkthroughProgress3 =>
+      'エコ図鑑：アクションを記録すると見つかる地球の豆知識。ひとつひとつが小さな知識で、ポイントではありません。';
+
+  @override
+  String get walkthroughComplete => 'これで全部です。もうSeedのことはよく分かりましたね。一緒に育っていきましょう。';
+
+  @override
+  String get walkthroughChecklistTitle => '見つけるもの';
+
+  @override
+  String get walkthroughNext => '次へ';
+
+  @override
+  String get walkthroughGotIt => 'わかった';
+
+  @override
+  String get walkthroughStart => 'はじめる';
+
+  @override
+  String get settingsReplayWalkthrough => 'アプリ案内をもう一度見る';
+
+  @override
+  String get settingsReplayWalkthroughSubtitle => 'マスコットがもう一度アプリを案内します';
+
+  @override
+  String get settingsReplayWalkthroughConfirm =>
+      'アプリ案内をもう一度見ますか？見つけるまで、すべてがまた金色に光ります。';
+
+  @override
+  String get settingsReplayWalkthroughAction => 'もう一度見る';
+
+  @override
   String get routeNotFound => 'このページは見つかりませんでした。';
 }

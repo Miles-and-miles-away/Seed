@@ -24,6 +24,23 @@ shell and the pushed Log Action screen so every primary screen shows it):
 On the Log Action screen (a pushed route outside the shell) the same bar's
 tabs use `context.go` to jump straight into the chosen shell branch.
 
+First-login walkthrough (`lib/features/walkthrough/`): until the user
+has found a feature, its anchor
+carries a gold `WalkthroughShimmer` sweep, and the first time its
+surface opens a `WalkthroughTrigger` pops the mascot's explanation over
+it, with the checklist of things still to find under the last page.
+Anchors: the Progress and Log Action nav items, the daily challenge
+card, the SDG carousel, the mail icon, and the calculator and quiz
+icons on Log Action. Nothing is pending until a mascot exists and any
+evolution or egg celebration has been shown; the intro then pops on
+Home, and only after it do the items shimmer. One explanation per tap:
+the challenge card explains itself before opening Log Action (whose
+trigger is off when opened by category), and its completed state ticks
+silently so the eco-fact inbox can explain itself. Finding the last
+item ends with a confetti page. State is the
+`settings.walkthroughFound` list on the user doc; Settings > Replay
+walkthrough empties it.
+
 Auth redirect logic (in `router.dart`):
 - Unauthenticated -> `/login`
 - Email/password user, unverified -> `/verify-email`
@@ -540,7 +557,10 @@ Settings hub.
   - `/profile/settings/account`
   - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
-- Functionality: language selector, analytics toggle, section tiles.
+- Functionality: language selector, theme picker, "Replay
+  walkthrough" tile under Support (confirm dialog, then clears the
+  user's `settings.walkthroughFound` and opens Home so the intro pops
+  straight away), analytics toggle, section tiles.
 - Note: the Notifications section is hidden while the reminder feature
   is postponed (the route below still exists but is unreachable from
   the UI).

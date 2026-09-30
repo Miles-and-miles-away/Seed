@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -103,6 +105,13 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(Icons.mail_outline),
                     onTap: () => context.push(appRoutes.settingsFeedback),
                   ),
+                  SettingsTile(
+                    title: l10n.settingsReplayWalkthrough,
+                    subtitle: l10n.settingsReplayWalkthroughSubtitle,
+                    leading: const Icon(Icons.explore_outlined),
+                    showChevron: false,
+                    onTap: () => _confirmReplayWalkthrough(context, ref),
+                  ),
                 ],
               ),
 
@@ -132,6 +141,24 @@ class SettingsScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _confirmReplayWalkthrough(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showConfirmDialog(
+      context,
+      title: l10n.settingsReplayWalkthrough,
+      message: l10n.settingsReplayWalkthroughConfirm,
+      confirmLabel: l10n.settingsReplayWalkthroughAction,
+    );
+    if (!confirmed || !context.mounted) return;
+    // Not awaited: the local write applies at once, and offline the
+    // future only completes when the server acknowledges it.
+    unawaited(ref.read(settingsProvider.notifier).resetWalkthrough());
+    context.go(appRoutes.home);
   }
 
   /// Native name for [languageCode]; unknown codes fall back to English.

@@ -27,7 +27,8 @@ mixin _$UserSettingsModel {
 /// When true, user cannot use grace period again until streak resets.
  bool get streakGracePeriodUsed;/// Whether analytics and crashlytics collection is enabled.
  bool get analyticsEnabled;/// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
- String get themeMode;
+ String get themeMode;/// Walkthrough item ids the user has found (see WalkthroughItem).
+ List<String> get walkthroughFound;
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -41,20 +42,20 @@ $UserSettingsModelCopyWith<UserSettingsModel> get copyWith => _$UserSettingsMode
 @override
 bool operator ==(Object other) {
   final _this = this as UserSettingsModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserSettingsModel&&(identical(other.notificationsEnabled, _this.notificationsEnabled) || other.notificationsEnabled == _this.notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, _this.reminderSchedules)&&(identical(other.smartRemindersEnabled, _this.smartRemindersEnabled) || other.smartRemindersEnabled == _this.smartRemindersEnabled)&&(identical(other.language, _this.language) || other.language == _this.language)&&(identical(other.hasSeenOnboarding, _this.hasSeenOnboarding) || other.hasSeenOnboarding == _this.hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, _this.seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, _this.streakGracePeriodUsed) || other.streakGracePeriodUsed == _this.streakGracePeriodUsed)&&(identical(other.analyticsEnabled, _this.analyticsEnabled) || other.analyticsEnabled == _this.analyticsEnabled)&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserSettingsModel&&(identical(other.notificationsEnabled, _this.notificationsEnabled) || other.notificationsEnabled == _this.notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, _this.reminderSchedules)&&(identical(other.smartRemindersEnabled, _this.smartRemindersEnabled) || other.smartRemindersEnabled == _this.smartRemindersEnabled)&&(identical(other.language, _this.language) || other.language == _this.language)&&(identical(other.hasSeenOnboarding, _this.hasSeenOnboarding) || other.hasSeenOnboarding == _this.hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, _this.seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, _this.streakGracePeriodUsed) || other.streakGracePeriodUsed == _this.streakGracePeriodUsed)&&(identical(other.analyticsEnabled, _this.analyticsEnabled) || other.analyticsEnabled == _this.analyticsEnabled)&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&const DeepCollectionEquality().equals(other.walkthroughFound, _this.walkthroughFound));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserSettingsModel;
-  return Object.hash(runtimeType,_this.notificationsEnabled,const DeepCollectionEquality().hash(_this.reminderSchedules),_this.smartRemindersEnabled,_this.language,_this.hasSeenOnboarding,const DeepCollectionEquality().hash(_this.seenStreakMilestones),_this.streakGracePeriodUsed,_this.analyticsEnabled,_this.themeMode);
+  return Object.hash(runtimeType,_this.notificationsEnabled,const DeepCollectionEquality().hash(_this.reminderSchedules),_this.smartRemindersEnabled,_this.language,_this.hasSeenOnboarding,const DeepCollectionEquality().hash(_this.seenStreakMilestones),_this.streakGracePeriodUsed,_this.analyticsEnabled,_this.themeMode,const DeepCollectionEquality().hash(_this.walkthroughFound));
 }
 
 @override
 String toString() {
   final _this = this as UserSettingsModel;
-  return 'UserSettingsModel(notificationsEnabled: ${_this.notificationsEnabled}, reminderSchedules: ${_this.reminderSchedules}, smartRemindersEnabled: ${_this.smartRemindersEnabled}, language: ${_this.language}, hasSeenOnboarding: ${_this.hasSeenOnboarding}, seenStreakMilestones: ${_this.seenStreakMilestones}, streakGracePeriodUsed: ${_this.streakGracePeriodUsed}, analyticsEnabled: ${_this.analyticsEnabled}, themeMode: ${_this.themeMode})';
+  return 'UserSettingsModel(notificationsEnabled: ${_this.notificationsEnabled}, reminderSchedules: ${_this.reminderSchedules}, smartRemindersEnabled: ${_this.smartRemindersEnabled}, language: ${_this.language}, hasSeenOnboarding: ${_this.hasSeenOnboarding}, seenStreakMilestones: ${_this.seenStreakMilestones}, streakGracePeriodUsed: ${_this.streakGracePeriodUsed}, analyticsEnabled: ${_this.analyticsEnabled}, themeMode: ${_this.themeMode}, walkthroughFound: ${_this.walkthroughFound})';
 }
 
 
@@ -65,7 +66,7 @@ abstract mixin class $UserSettingsModelCopyWith<$Res>  {
   factory $UserSettingsModelCopyWith(UserSettingsModel value, $Res Function(UserSettingsModel) _then) = _$UserSettingsModelCopyWithImpl;
 @useResult
 $Res call({
- bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode
+ bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode, List<String> walkthroughFound
 });
 
 
@@ -82,7 +83,7 @@ class _$UserSettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,Object? walkthroughFound = null,}) {
   return _then(UserSettingsModel(
 notificationsEnabled: null == notificationsEnabled ? _self.notificationsEnabled : notificationsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,reminderSchedules: null == reminderSchedules ? _self.reminderSchedules : reminderSchedules // ignore: cast_nullable_to_non_nullable
@@ -93,7 +94,8 @@ as bool,seenStreakMilestones: null == seenStreakMilestones ? _self.seenStreakMil
 as Map<String, bool>,streakGracePeriodUsed: null == streakGracePeriodUsed ? _self.streakGracePeriodUsed : streakGracePeriodUsed // ignore: cast_nullable_to_non_nullable
 as bool,analyticsEnabled: null == analyticsEnabled ? _self.analyticsEnabled : analyticsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
-as String,
+as String,walkthroughFound: null == walkthroughFound ? _self.walkthroughFound : walkthroughFound // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -178,10 +180,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode,  List<String> walkthroughFound)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserSettingsModel() when $default != null:
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode,_that.walkthroughFound);case _:
   return orElse();
 
 }
@@ -199,10 +201,10 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode,  List<String> walkthroughFound)  $default,) {final _that = this;
 switch (_that) {
 case _UserSettingsModel():
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode,_that.walkthroughFound);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +221,10 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool notificationsEnabled,  List<NotificationScheduleModel> reminderSchedules,  bool smartRemindersEnabled,  String language,  bool hasSeenOnboarding,  Map<String, bool> seenStreakMilestones,  bool streakGracePeriodUsed,  bool analyticsEnabled,  String themeMode,  List<String> walkthroughFound)?  $default,) {final _that = this;
 switch (_that) {
 case _UserSettingsModel() when $default != null:
-return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode);case _:
+return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRemindersEnabled,_that.language,_that.hasSeenOnboarding,_that.seenStreakMilestones,_that.streakGracePeriodUsed,_that.analyticsEnabled,_that.themeMode,_that.walkthroughFound);case _:
   return null;
 
 }
@@ -234,7 +236,7 @@ return $default(_that.notificationsEnabled,_that.reminderSchedules,_that.smartRe
 @JsonSerializable()
 
 class _UserSettingsModel extends UserSettingsModel {
-  const _UserSettingsModel({this.notificationsEnabled = false,  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false,  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true, this.themeMode = 'system'}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,super._();
+  const _UserSettingsModel({this.notificationsEnabled = false,  List<NotificationScheduleModel> reminderSchedules = const [], this.smartRemindersEnabled = true, this.language = 'en', this.hasSeenOnboarding = false,  Map<String, bool> seenStreakMilestones = const {}, this.streakGracePeriodUsed = false, this.analyticsEnabled = true, this.themeMode = 'system',  List<String> walkthroughFound = const []}): _reminderSchedules = reminderSchedules,_seenStreakMilestones = seenStreakMilestones,_walkthroughFound = walkthroughFound,super._();
   factory _UserSettingsModel.fromJson(Map<String, dynamic> json) => _$UserSettingsModelFromJson(json);
 
 /// Master toggle for all notifications.
@@ -272,6 +274,15 @@ class _UserSettingsModel extends UserSettingsModel {
 @override@JsonKey() final  bool analyticsEnabled;
 /// Preferred theme: a ThemeMode name ('system', 'light', 'dark').
 @override@JsonKey() final  String themeMode;
+/// Walkthrough item ids the user has found (see WalkthroughItem).
+ final  List<String> _walkthroughFound;
+/// Walkthrough item ids the user has found (see WalkthroughItem).
+@override@JsonKey() List<String> get walkthroughFound {
+  if (_walkthroughFound is EqualUnmodifiableListView) return _walkthroughFound;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_walkthroughFound);
+}
+
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -286,18 +297,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, _reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, _seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserSettingsModel&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&const DeepCollectionEquality().equals(other.reminderSchedules, _reminderSchedules)&&(identical(other.smartRemindersEnabled, smartRemindersEnabled) || other.smartRemindersEnabled == smartRemindersEnabled)&&(identical(other.language, language) || other.language == language)&&(identical(other.hasSeenOnboarding, hasSeenOnboarding) || other.hasSeenOnboarding == hasSeenOnboarding)&&const DeepCollectionEquality().equals(other.seenStreakMilestones, _seenStreakMilestones)&&(identical(other.streakGracePeriodUsed, streakGracePeriodUsed) || other.streakGracePeriodUsed == streakGracePeriodUsed)&&(identical(other.analyticsEnabled, analyticsEnabled) || other.analyticsEnabled == analyticsEnabled)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&const DeepCollectionEquality().equals(other.walkthroughFound, _walkthroughFound));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(_reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(_seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled,themeMode);
+    return Object.hash(runtimeType,notificationsEnabled,const DeepCollectionEquality().hash(_reminderSchedules),smartRemindersEnabled,language,hasSeenOnboarding,const DeepCollectionEquality().hash(_seenStreakMilestones),streakGracePeriodUsed,analyticsEnabled,themeMode,const DeepCollectionEquality().hash(_walkthroughFound));
 }
 
 @override
 String toString() {
-    return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled, themeMode: $themeMode)';
+    return 'UserSettingsModel(notificationsEnabled: $notificationsEnabled, reminderSchedules: $reminderSchedules, smartRemindersEnabled: $smartRemindersEnabled, language: $language, hasSeenOnboarding: $hasSeenOnboarding, seenStreakMilestones: $seenStreakMilestones, streakGracePeriodUsed: $streakGracePeriodUsed, analyticsEnabled: $analyticsEnabled, themeMode: $themeMode, walkthroughFound: $walkthroughFound)';
 }
 
 
@@ -308,7 +319,7 @@ abstract mixin class _$UserSettingsModelCopyWith<$Res> implements $UserSettingsM
   factory _$UserSettingsModelCopyWith(_UserSettingsModel value, $Res Function(_UserSettingsModel) _then) = __$UserSettingsModelCopyWithImpl;
 @override @useResult
 $Res call({
- bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode
+ bool notificationsEnabled, List<NotificationScheduleModel> reminderSchedules, bool smartRemindersEnabled, String language, bool hasSeenOnboarding, Map<String, bool> seenStreakMilestones, bool streakGracePeriodUsed, bool analyticsEnabled, String themeMode, List<String> walkthroughFound
 });
 
 
@@ -325,7 +336,7 @@ class __$UserSettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of UserSettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? notificationsEnabled = null,Object? reminderSchedules = null,Object? smartRemindersEnabled = null,Object? language = null,Object? hasSeenOnboarding = null,Object? seenStreakMilestones = null,Object? streakGracePeriodUsed = null,Object? analyticsEnabled = null,Object? themeMode = null,Object? walkthroughFound = null,}) {
   return _then(_UserSettingsModel(
 notificationsEnabled: null == notificationsEnabled ? _self.notificationsEnabled : notificationsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,reminderSchedules: null == reminderSchedules ? _self._reminderSchedules : reminderSchedules // ignore: cast_nullable_to_non_nullable
@@ -336,7 +347,8 @@ as bool,seenStreakMilestones: null == seenStreakMilestones ? _self._seenStreakMi
 as Map<String, bool>,streakGracePeriodUsed: null == streakGracePeriodUsed ? _self.streakGracePeriodUsed : streakGracePeriodUsed // ignore: cast_nullable_to_non_nullable
 as bool,analyticsEnabled: null == analyticsEnabled ? _self.analyticsEnabled : analyticsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
-as String,
+as String,walkthroughFound: null == walkthroughFound ? _self._walkthroughFound : walkthroughFound // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

@@ -294,6 +294,20 @@ class AnalyticsService {
   }
 
   // ============================================================
+  // Walkthrough Events
+  // ============================================================
+
+  /// Log when a walkthrough item's explanation is dismissed.
+  Future<void> logWalkthroughItemFound({required String item}) =>
+      _log('walkthrough_item_found', {'item': item});
+
+  /// Log when the last checklist item is found.
+  Future<void> logWalkthroughCompleted() => _log('walkthrough_completed');
+
+  /// Log when the user replays the walkthrough from Settings.
+  Future<void> logWalkthroughReset() => _log('walkthrough_reset');
+
+  // ============================================================
   // Settings Events
   // ============================================================
 

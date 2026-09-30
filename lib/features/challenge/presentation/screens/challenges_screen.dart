@@ -296,7 +296,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     WidgetRef ref,
     AppLocalizations l10n,
   ) async {
-    final confirmed = await _showConfirmDialog(
+    final confirmed = await showConfirmDialog(
       context,
       message: l10n.challengeStartConfirm,
       confirmLabel: l10n.challengeStart,
@@ -313,7 +313,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     WidgetRef ref,
     AppLocalizations l10n,
   ) async {
-    final confirmed = await _showConfirmDialog(
+    final confirmed = await showConfirmDialog(
       context,
       message: l10n.challengeAbandonConfirm,
       confirmLabel: l10n.challengeAbandon,
@@ -322,28 +322,4 @@ class _ChallengeTemplateCard extends ConsumerWidget {
       await ref.read(multiDayChallengeProvider.notifier).abandonChallenge();
     }
   }
-}
-
-Future<bool> _showConfirmDialog(
-  BuildContext context, {
-  required String message,
-  required String confirmLabel,
-}) async {
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      content: Text(message),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text(confirmLabel),
-        ),
-      ],
-    ),
-  );
-  return confirmed ?? false;
 }

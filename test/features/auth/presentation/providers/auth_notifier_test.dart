@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -141,6 +144,23 @@ void main() {
 
       verify(repo.signOut).called(1);
       expect(analytics.calls, ['logout', 'userId:null']);
+    });
+
+    test('gives up on FCM cleanup that hangs offline', () {
+      fakeAsync((async) {
+        when(repo.signOut).thenAnswer((_) async {});
+        when(fcm.removeStoredToken).thenAnswer((_) => Completer<void>().future);
+        when(fcm.deleteToken).thenAnswer((_) async {});
+        var done = false;
+
+        unawaited(notifier().signOut().then((_) => done = true));
+        async.elapse(const Duration(seconds: 3));
+
+        expect(done, isTrue);
+        verify(repo.signOut).called(1);
+        verifyNever(fcm.deleteToken);
+        expect(analytics.calls, ['logout', 'userId:null']);
+      });
     });
   });
 

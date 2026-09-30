@@ -16,6 +16,12 @@ import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_provide
 import '../../../../helpers/test_helpers.dart';
 import '../../eco_dex_fixtures.dart';
 
+class _HangingWrite extends EcoDexDiscoveryNotifier {
+  @override
+  Future<void> saveDiscovered(String uid, List<String> ids) =>
+      Completer<void>().future;
+}
+
 Future<ProviderContainer> _containerWithData({
   AppUserModel? user,
   List<EcoDexCategory> categories = const [],
@@ -317,6 +323,26 @@ void main() {
       expect(result, isEmpty);
       // Empty-list short-circuits before Firestore call -- no error state.
       expect(c.read(ecoDexDiscoveryProvider).hasError, isFalse);
+    });
+
+    test('returns the unlocks before the write is acknowledged', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          const AppUserModel(uid: 'u', email: 'e', totalActionsCount: 1),
+        ),
+        ecoDexDiscoveryProvider.overrideWith(_HangingWrite.new),
+        ecoDexDataProvider.overrideWith(
+          (_) async =>
+              EcoDexData(categories: const [], entries: [ecoDexEntry('a')]),
+        ),
+      ]);
+
+      final result = await c
+          .read(ecoDexDiscoveryProvider.notifier)
+          .discoverNewEntries()
+          .timeout(const Duration(seconds: 1));
+
+      expect(result, ['a']);
     });
 
     test('concurrent discoverNewEntries records each unlock once '

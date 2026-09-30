@@ -10,6 +10,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/error_display.dart';
 import '../providers/actions_providers.dart';
 import '../utils/handle_action_tap.dart';
@@ -105,130 +106,143 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       foregroundColor: theme.colorScheme.onSurfaceVariant,
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.actionLogTitle),
-        // Action log is a primary destination reached via the bottom-nav
-        // Action button; navigation is via the tabs, so suppress the
-        // implicit back arrow to avoid a redundant second exit.
-        automaticallyImplyLeading: false,
-        actions: [
-          // Carbon calculators hub (Phase 8): opens the transport / food
-          // / home-energy chooser without spending a bottom-nav slot.
-          IconButton(
-            style: headerButtonStyle,
-            icon: const Icon(Icons.calculate_outlined),
-            tooltip: l10n.calculatorsButtonTooltip,
-            onPressed: () => CalculatorChooserSheet.show(context),
-          ),
-          // The two energy teaching surfaces (decision E8). They sit
-          // here rather than in the chooser sheet, whose three-tile row
-          // would overflow, and rather than as category tiles, because
-          // neither is an action to log.
-          IconButton(
-            style: headerButtonStyle,
-            // The app's own energy glyph rather than a generic chart:
-            // both of these icons are energy-only surfaces.
-            icon: const Icon(Icons.bolt),
-            tooltip: l10n.energyRankedTitle,
-            onPressed: () => context.push(appRoutes.energyExplore),
-          ),
-          IconButton(
-            style: headerButtonStyle,
-            icon: const Icon(Icons.quiz_outlined),
-            // Domain-neutral: the game rotates between energy, food and
-            // transport rounds.
-            tooltip: l10n.quizTitle,
-            onPressed: () => context.push(appRoutes.quiz),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(56),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              spacingLg,
-              0,
-              spacingLg,
-              spacingSm,
+    return WalkthroughTrigger(
+      item: WalkthroughItem.logAction,
+      // Arriving from the daily challenge card ticks that item only.
+      enabled: widget.initialCategory == null,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.actionLogTitle),
+          // Action log is a primary destination reached via the bottom-nav
+          // Action button; navigation is via the tabs, so suppress the
+          // implicit back arrow to avoid a redundant second exit.
+          automaticallyImplyLeading: false,
+          actions: [
+            // Carbon calculators hub (Phase 8): opens the transport / food
+            // / home-energy chooser without spending a bottom-nav slot.
+            WalkthroughShimmer(
+              item: WalkthroughItem.calculators,
+              child: IconButton(
+                style: headerButtonStyle,
+                icon: const Icon(Icons.calculate_outlined),
+                tooltip: l10n.calculatorsButtonTooltip,
+                onPressed: () => CalculatorChooserSheet.show(context),
+              ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _showClear,
-                    builder: (context, show, _) => TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: l10n.actionSearchHint,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: show
-                            ? IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  _searchController.clear();
-                                  _debounceTimer?.cancel();
-                                  ref
-                                      .read(actionSearchQueryProvider.notifier)
-                                      .clear();
-                                },
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: theme.colorScheme.surfaceContainerHighest,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(28),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: spacingLg,
-                          vertical: spacingMd,
+            // The two energy teaching surfaces (decision E8). They sit
+            // here rather than in the chooser sheet, whose three-tile row
+            // would overflow, and rather than as category tiles, because
+            // neither is an action to log.
+            IconButton(
+              style: headerButtonStyle,
+              // The app's own energy glyph rather than a generic chart:
+              // both of these icons are energy-only surfaces.
+              icon: const Icon(Icons.bolt),
+              tooltip: l10n.energyRankedTitle,
+              onPressed: () => context.push(appRoutes.energyExplore),
+            ),
+            WalkthroughShimmer(
+              item: WalkthroughItem.quiz,
+              child: IconButton(
+                style: headerButtonStyle,
+                icon: const Icon(Icons.quiz_outlined),
+                // Domain-neutral: the game rotates between energy, food and
+                // transport rounds.
+                tooltip: l10n.quizTitle,
+                onPressed: () => context.push(appRoutes.quiz),
+              ),
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(56),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                spacingLg,
+                0,
+                spacingLg,
+                spacingSm,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _showClear,
+                      builder: (context, show, _) => TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: l10n.actionSearchHint,
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: show
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    _debounceTimer?.cancel();
+                                    ref
+                                        .read(
+                                          actionSearchQueryProvider.notifier,
+                                        )
+                                        .clear();
+                                  },
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: theme.colorScheme.surfaceContainerHighest,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(28),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: spacingLg,
+                            vertical: spacingMd,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: spacingSm),
-                const ActionSortDropdown(),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          // Category tabs
-          const SizedBox(height: spacingSm),
-          ActionCategoryTabs(
-            selectedCategory: selectedCategory,
-            onCategorySelected: (category) {
-              ref.read(selectedCategoryProvider.notifier).select(category);
-            },
-          ),
-          const SizedBox(height: spacingSm),
-          // SDG filter chips
-          const SdgFilterChips(),
-          const SizedBox(height: spacingSm),
-          // Actions grid
-          Expanded(
-            child: filteredActionsAsync.when(
-              data: (actions) => _buildActionsGrid(actions, languageCode),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(
-                child: ErrorDisplay(
-                  onRetry: () => ref.invalidate(actionLibraryProvider),
-                ),
+                  const SizedBox(width: spacingSm),
+                  const ActionSortDropdown(),
+                ],
               ),
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: AppBottomNav(
-        // No shell tab is active while the Action log is open; the centre
-        // Action button highlights to mark the current screen instead.
-        currentIndex: null,
-        isActionSelected: true,
-        onTabSelected: _goToTab,
-        onActionPressed: () {},
+        ),
+        body: Column(
+          children: [
+            // Category tabs
+            const SizedBox(height: spacingSm),
+            ActionCategoryTabs(
+              selectedCategory: selectedCategory,
+              onCategorySelected: (category) {
+                ref.read(selectedCategoryProvider.notifier).select(category);
+              },
+            ),
+            const SizedBox(height: spacingSm),
+            // SDG filter chips
+            const SdgFilterChips(),
+            const SizedBox(height: spacingSm),
+            // Actions grid
+            Expanded(
+              child: filteredActionsAsync.when(
+                data: (actions) => _buildActionsGrid(actions, languageCode),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Center(
+                  child: ErrorDisplay(
+                    onRetry: () => ref.invalidate(actionLibraryProvider),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: AppBottomNav(
+          // No shell tab is active while the Action log is open; the centre
+          // Action button highlights to mark the current screen instead.
+          currentIndex: null,
+          isActionSelected: true,
+          onTabSelected: _goToTab,
+          onActionPressed: () {},
+        ),
       ),
     );
   }

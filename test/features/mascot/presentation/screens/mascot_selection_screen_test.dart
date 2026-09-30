@@ -1,17 +1,25 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
+import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_selection_screen.dart';
 
 import '../../../../helpers/test_helpers.dart';
+
+class _MockMascotRepository extends Mock implements MascotRepository {}
 
 void main() {
   // The real mascotSpeciesDataProvider loads bundled SVG assets, so the
@@ -85,9 +93,13 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('single-character name is valid and navigates home', (
-      tester,
-    ) async {
+    /// The selection screen behind a router with a Home stub, so a
+    /// navigation can be asserted. A real user is supplied, so the
+    /// submit reaches the mascot repository.
+    Future<void> pumpRouted(
+      WidgetTester tester, {
+      List<Override> overrides = const [],
+    }) async {
       sizeViewport(tester);
       await warmSpeciesBundle(tester);
       final router = GoRouter(
@@ -104,19 +116,11 @@ void main() {
         ],
       );
 
-      // A real user and Firestore: navigating home has to follow an actual
-      // successful write, not a no-op that leaves the state untouched.
-      final firestore = FakeFirebaseFirestore();
-      await firestore
-          .collection(AppConstants.collectionUsers)
-          .doc('u')
-          .set(<String, dynamic>{});
-
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             userOverride(const AppUserModel(uid: 'u', email: 'e')),
-            firestoreProvider.overrideWithValue(firestore),
+            ...overrides,
           ],
           // app.dart keeps currentUserProvider alive through the theme
           // seed; with no watcher it is autoDispose and each read of it
@@ -134,6 +138,21 @@ void main() {
         ),
       );
       await pumpUntilFound(tester, find.byType(TextFormField));
+    }
+
+    testWidgets('single-character name is valid and navigates home', (
+      tester,
+    ) async {
+      // A real Firestore: navigating home has to follow an actual write.
+      final firestore = FakeFirebaseFirestore();
+      await firestore
+          .collection(AppConstants.collectionUsers)
+          .doc('u')
+          .set(<String, dynamic>{});
+      await pumpRouted(
+        tester,
+        overrides: [firestoreProvider.overrideWithValue(firestore)],
+      );
 
       await tester.enterText(find.byType(TextFormField), 'A');
       await tester.tap(find.text("Let's Grow Together!"));
@@ -143,6 +162,44 @@ void main() {
       expect(find.text('HOME-OK'), findsOneWidget);
       expect(find.text('Please enter a name'), findsNothing);
       expect(find.text('Name must be 20 characters or less'), findsNothing);
+      final doc = await firestore
+          .collection(AppConstants.collectionUsers)
+          .doc('u')
+          .get();
+      expect(doc.data()![AppConstants.fieldActiveMascotId], isNotNull);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('navigates home while the write is still pending', (
+      tester,
+    ) async {
+      // Offline, the write only completes on server ack.
+      final repo = _MockMascotRepository();
+      when(
+        () => repo.selectMascot(
+          userId: any(named: 'userId'),
+          speciesId: any(named: 'speciesId'),
+          name: any(named: 'name'),
+        ),
+      ).thenAnswer((_) => Completer<void>().future);
+      await pumpRouted(
+        tester,
+        overrides: [mascotRepositoryProvider.overrideWithValue(repo)],
+      );
+
+      await tester.enterText(find.byType(TextFormField), 'Bud');
+      await tester.tap(find.text("Let's Grow Together!"));
+      await pumpUntilFound(tester, find.text('HOME-OK'));
+
+      expect(find.text('HOME-OK'), findsOneWidget);
+      verify(
+        () => repo.selectMascot(
+          userId: 'u',
+          speciesId: any(named: 'speciesId'),
+          name: 'Bud',
+        ),
+      ).called(1);
 
       await disposeAndFlush(tester);
     });

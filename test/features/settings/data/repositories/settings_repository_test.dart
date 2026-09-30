@@ -348,6 +348,24 @@ void main() {
       });
     });
 
+    group('walkthrough', () {
+      test('marks items found without duplicates and resets them', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.markWalkthroughFound(testUid, 'quiz');
+        await repository.markWalkthroughFound(testUid, 'sdg');
+        await repository.markWalkthroughFound(testUid, 'quiz');
+
+        var settings = await repository.watchSettings(testUid).first;
+        expect(settings.walkthroughFound, ['quiz', 'sdg']);
+
+        await repository.resetWalkthrough(testUid);
+
+        settings = await repository.watchSettings(testUid).first;
+        expect(settings.walkthroughFound, isEmpty);
+      });
+    });
+
     group('markMilestoneSeen', () {
       test('marks week milestones as seen independently', () async {
         await seedUserWithSettings(testUid, settingsJson());

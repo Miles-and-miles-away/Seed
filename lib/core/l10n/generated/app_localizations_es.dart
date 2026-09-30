@@ -2290,5 +2290,109 @@ class AppLocalizationsEs extends AppLocalizations {
       'Solo por diversión. No da puntos ni registra nada.';
 
   @override
+  String walkthroughIntro1(String name) {
+    return 'Hola, soy $name. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.';
+  }
+
+  @override
+  String get walkthroughIntro2 =>
+      'Aquí hay más de lo que parece. He hecho una lista de cosas por descubrir. Todo lo que brilla en dorado aún te espera.';
+
+  @override
+  String get walkthroughItemLogAction => 'Registra tu primera acción';
+
+  @override
+  String get walkthroughItemDailyChallenge => 'El desafío de hoy';
+
+  @override
+  String get walkthroughItemSdg => 'Explora un ODS';
+
+  @override
+  String get walkthroughItemEcoFact => 'Tu eco-dato diario';
+
+  @override
+  String get walkthroughItemCalculators => 'Conoce las calculadoras';
+
+  @override
+  String get walkthroughItemQuiz => 'Juega a ¿Más o menos?';
+
+  @override
+  String get walkthroughItemProgress => 'Sigue tu progreso';
+
+  @override
+  String get walkthroughLogAction1 =>
+      'Este es el corazón de Seed. Elige algo que hayas hecho hoy y yo contaré el carbono que ahorraste.';
+
+  @override
+  String get walkthroughDailyChallenge1 =>
+      'Un desafío nuevo cada día. Complétalo para desbloquear el eco-dato de hoy y mantener viva tu racha de desafíos.';
+
+  @override
+  String get walkthroughSdg1 =>
+      'Los 17 ODS son la lista de tareas del mundo. Cada uno muestra sus metas, el progreso hasta ahora y acciones que ayudan.';
+
+  @override
+  String get walkthroughEcoFact1 =>
+      'Cada día llega aquí un eco-dato nuevo. Completa el desafío de hoy para abrirlo.';
+
+  @override
+  String get walkthroughCalculators1 =>
+      'Tres calculadoras comparan dos opciones. Transporte: dos rutas, cualquier mezcla de medios. ¿Elegiste la más verde? Regístrala como acción personalizada.';
+
+  @override
+  String get walkthroughCalculators2 =>
+      'Comida: dos platos, ingrediente por ingrediente. ¿Elegiste el más ligero? Regístralo también como acción personalizada.';
+
+  @override
+  String get walkthroughCalculators3 =>
+      'Energía del hogar: dos rutinas, de la ducha a la secadora. Enseña, nunca puntúa. El icono del rayo de al lado clasifica toda tu casa.';
+
+  @override
+  String get walkthroughQuiz1 =>
+      'Dos cosas, una pregunta: ¿cuál tiene la huella más grande? Haz una racha. Sin puntos, solo para presumir.';
+
+  @override
+  String get walkthroughProgress1 =>
+      'Calendario: cada día que registraste algo, y tu meta diaria.';
+
+  @override
+  String get walkthroughProgress2 =>
+      'Impacto: el carbono que has ahorrado, traducido en árboles, kilómetros en coche y cargas de móvil.';
+
+  @override
+  String get walkthroughProgress3 =>
+      'Eco-Dex: datos del planeta que descubres al registrar acciones. Cada uno es un pedacito de conocimiento, nunca puntos.';
+
+  @override
+  String get walkthroughComplete =>
+      'Eso es todo. Ahora conoces Seed mejor que la mayoría. A crecer.';
+
+  @override
+  String get walkthroughChecklistTitle => 'Cosas por descubrir';
+
+  @override
+  String get walkthroughNext => 'Siguiente';
+
+  @override
+  String get walkthroughGotIt => 'Entendido';
+
+  @override
+  String get walkthroughStart => 'Vamos';
+
+  @override
+  String get settingsReplayWalkthrough => 'Repetir el recorrido';
+
+  @override
+  String get settingsReplayWalkthroughSubtitle =>
+      'Deja que tu mascota te enseñe la app otra vez';
+
+  @override
+  String get settingsReplayWalkthroughConfirm =>
+      '¿Repetir el recorrido? Todo volverá a brillar en dorado hasta que lo encuentres.';
+
+  @override
+  String get settingsReplayWalkthroughAction => 'Repetir';
+
+  @override
   String get routeNotFound => 'No se ha encontrado esta página.';
 }

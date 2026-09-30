@@ -97,6 +97,7 @@ class MascotCollectionSection extends ConsumerWidget {
               artboardName: stage.artboardName,
               width: 44,
               height: 44,
+              onRiveInit: pauseRive,
             ),
             const SizedBox(height: spacingXs),
             Text(

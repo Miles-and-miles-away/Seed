@@ -2267,5 +2267,109 @@ class AppLocalizationsEn extends AppLocalizations {
       'Just for fun. No points, and nothing is logged.';
 
   @override
+  String walkthroughIntro1(String name) {
+    return 'Hi, I\'m $name. Seed turns small everyday choices into a habit, and I grow as you go.';
+  }
+
+  @override
+  String get walkthroughIntro2 =>
+      'There\'s more here than meets the eye. I\'ve made a list of things to find. Anything glowing gold is still waiting for you.';
+
+  @override
+  String get walkthroughItemLogAction => 'Log your first action';
+
+  @override
+  String get walkthroughItemDailyChallenge => 'Today\'s challenge';
+
+  @override
+  String get walkthroughItemSdg => 'Explore an SDG';
+
+  @override
+  String get walkthroughItemEcoFact => 'Your daily eco-fact';
+
+  @override
+  String get walkthroughItemCalculators => 'Meet the calculators';
+
+  @override
+  String get walkthroughItemQuiz => 'Play Higher or lower';
+
+  @override
+  String get walkthroughItemProgress => 'Track your progress';
+
+  @override
+  String get walkthroughLogAction1 =>
+      'This is the heart of Seed. Pick something you did today and I\'ll count the carbon it saved.';
+
+  @override
+  String get walkthroughDailyChallenge1 =>
+      'One fresh challenge every day. Complete it to unlock today\'s eco-fact and keep your challenge streak alive.';
+
+  @override
+  String get walkthroughSdg1 =>
+      'The 17 SDGs are the world\'s to-do list. Each one shows you the targets, the progress so far, and actions that help.';
+
+  @override
+  String get walkthroughEcoFact1 =>
+      'A new eco-fact lands here every day. Complete today\'s challenge to open it.';
+
+  @override
+  String get walkthroughCalculators1 =>
+      'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as a custom action.';
+
+  @override
+  String get walkthroughCalculators2 =>
+      'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that as a custom action too.';
+
+  @override
+  String get walkthroughCalculators3 =>
+      'Home energy: two routines, from showers to tumble drying. It teaches but never scores. The lightning icon beside it ranks your whole home.';
+
+  @override
+  String get walkthroughQuiz1 =>
+      'Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.';
+
+  @override
+  String get walkthroughProgress1 =>
+      'Calendar: every day you logged something, and your daily goal.';
+
+  @override
+  String get walkthroughProgress2 =>
+      'Impact: the carbon you\'ve saved, translated into trees, car kilometres and phone charges.';
+
+  @override
+  String get walkthroughProgress3 =>
+      'Eco-Dex: planet facts you discover by logging actions. Each one is a small piece of knowledge, never points.';
+
+  @override
+  String get walkthroughComplete =>
+      'That\'s everything. You know Seed better than most now. Let\'s grow.';
+
+  @override
+  String get walkthroughChecklistTitle => 'Things to find';
+
+  @override
+  String get walkthroughNext => 'Next';
+
+  @override
+  String get walkthroughGotIt => 'Got it';
+
+  @override
+  String get walkthroughStart => 'Let\'s go';
+
+  @override
+  String get settingsReplayWalkthrough => 'Replay walkthrough';
+
+  @override
+  String get settingsReplayWalkthroughSubtitle =>
+      'Let your mascot show you around again';
+
+  @override
+  String get settingsReplayWalkthroughConfirm =>
+      'Replay the walkthrough? Everything will glow gold again until you find it.';
+
+  @override
+  String get settingsReplayWalkthroughAction => 'Replay';
+
+  @override
   String get routeNotFound => 'This page could not be found.';
 }

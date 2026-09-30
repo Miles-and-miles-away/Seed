@@ -1505,5 +1505,41 @@
   "quizNewRun": "Start again",
   "quizLadderHeading": "Ladder so far",
   "quizNoPointsNote": "Just for fun. No points, and nothing is logged.",
+  "walkthroughIntro1": "Hi, I'm {name}. Seed turns small everyday choices into a habit, and I grow as you go.",
+  "@walkthroughIntro1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "walkthroughIntro2": "There's more here than meets the eye. I've made a list of things to find. Anything glowing gold is still waiting for you.",
+  "walkthroughItemLogAction": "Log your first action",
+  "walkthroughItemDailyChallenge": "Today's challenge",
+  "walkthroughItemSdg": "Explore an SDG",
+  "walkthroughItemEcoFact": "Your daily eco-fact",
+  "walkthroughItemCalculators": "Meet the calculators",
+  "walkthroughItemQuiz": "Play Higher or lower",
+  "walkthroughItemProgress": "Track your progress",
+  "walkthroughLogAction1": "This is the heart of Seed. Pick something you did today and I'll count the carbon it saved.",
+  "walkthroughDailyChallenge1": "One fresh challenge every day. Complete it to unlock today's eco-fact and keep your challenge streak alive.",
+  "walkthroughSdg1": "The 17 SDGs are the world's to-do list. Each one shows you the targets, the progress so far, and actions that help.",
+  "walkthroughEcoFact1": "A new eco-fact lands here every day. Complete today's challenge to open it.",
+  "walkthroughCalculators1": "Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as a custom action.",
+  "walkthroughCalculators2": "Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that as a custom action too.",
+  "walkthroughCalculators3": "Home energy: two routines, from showers to tumble drying. It teaches but never scores. The lightning icon beside it ranks your whole home.",
+  "walkthroughQuiz1": "Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.",
+  "walkthroughProgress1": "Calendar: every day you logged something, and your daily goal.",
+  "walkthroughProgress2": "Impact: the carbon you've saved, translated into trees, car kilometres and phone charges.",
+  "walkthroughProgress3": "Eco-Dex: planet facts you discover by logging actions. Each one is a small piece of knowledge, never points.",
+  "walkthroughComplete": "That's everything. You know Seed better than most now. Let's grow.",
+  "walkthroughChecklistTitle": "Things to find",
+  "walkthroughNext": "Next",
+  "walkthroughGotIt": "Got it",
+  "walkthroughStart": "Let's go",
+  "settingsReplayWalkthrough": "Replay walkthrough",
+  "settingsReplayWalkthroughSubtitle": "Let your mascot show you around again",
+  "settingsReplayWalkthroughConfirm": "Replay the walkthrough? Everything will glow gold again until you find it.",
+  "settingsReplayWalkthroughAction": "Replay",
   "routeNotFound": "This page could not be found."
 }
