@@ -1482,6 +1482,9 @@
       }
     }
   },
+  "quizFlightDomesticNote": "Within one country, about 430 km on average",
+  "quizFlightShortHaulNote": "International, about 1,500 km on average",
+  "quizFlightLongHaulNote": "Intercontinental, 5,500 km and more",
   "quizHigher": "Higher",
   "quizLower": "Lower",
   "quizCorrect": "Right!",

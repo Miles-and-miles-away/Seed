@@ -2169,6 +2169,15 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get quizFlightDomesticNote => '国内、平均約430km';
+
+  @override
+  String get quizFlightShortHaulNote => '国際線、平均約1,500km';
+
+  @override
+  String get quizFlightLongHaulNote => '大陸間、5,500km以上';
+
+  @override
   String get quizHigher => '多い';
 
   @override

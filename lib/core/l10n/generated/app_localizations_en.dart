@@ -2236,6 +2236,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get quizFlightDomesticNote =>
+      'Within one country, about 430 km on average';
+
+  @override
+  String get quizFlightShortHaulNote =>
+      'International, about 1,500 km on average';
+
+  @override
+  String get quizFlightLongHaulNote => 'Intercontinental, 5,500 km and more';
+
+  @override
   String get quizHigher => 'Higher';
 
   @override

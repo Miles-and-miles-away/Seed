@@ -3887,6 +3887,24 @@ abstract class AppLocalizations {
   /// **'{amount} per km'**
   String quizPerKm(String amount);
 
+  /// No description provided for @quizFlightDomesticNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Within one country, about 430 km on average'**
+  String get quizFlightDomesticNote;
+
+  /// No description provided for @quizFlightShortHaulNote.
+  ///
+  /// In en, this message translates to:
+  /// **'International, about 1,500 km on average'**
+  String get quizFlightShortHaulNote;
+
+  /// No description provided for @quizFlightLongHaulNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Intercontinental, 5,500 km and more'**
+  String get quizFlightLongHaulNote;
+
   /// No description provided for @quizHigher.
   ///
   /// In en, this message translates to:

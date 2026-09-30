@@ -2259,6 +2259,16 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get quizFlightDomesticNote =>
+      'Dentro de un país, unos 430 km de media';
+
+  @override
+  String get quizFlightShortHaulNote => 'Internacional, unos 1.500 km de media';
+
+  @override
+  String get quizFlightLongHaulNote => 'Intercontinental, 5.500 km o más';
+
+  @override
   String get quizHigher => 'Más';
 
   @override
