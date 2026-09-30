@@ -14,6 +14,8 @@ import 'package:seed_app/shared/providers/notification_providers.dart';
 
 part 'auth_providers.g.dart';
 
+const _fcmCleanupTimeout = Duration(seconds: 2);
+
 // =============================================================================
 // Firebase Instance Providers
 // =============================================================================
@@ -161,12 +163,16 @@ class AuthNotifier extends _$AuthNotifier {
   /// Signs out the current user.
   Future<void> signOut() => _guarded(() async {
     // FCM cleanup is best-effort: it must never block sign-out. On iOS
-    // deleteToken() throws when the APNS token hasn't arrived yet, which
-    // would otherwise abort the whole sign-out and leave the user logged in.
+    // deleteToken() throws when the APNS token hasn't arrived yet, and
+    // offline both calls hang until the server answers.
     try {
       final fcm = ref.read(fcmServiceProvider);
-      await fcm.removeStoredToken();
-      await fcm.deleteToken();
+      Future<void> clear() async {
+        await fcm.removeStoredToken();
+        await fcm.deleteToken();
+      }
+
+      await clear().timeout(_fcmCleanupTimeout);
     } on Object catch (e) {
       // Expected on iOS when the APNS token isn't set yet (e.g. simulator).
       appLogger.info('FCM cleanup skipped during sign-out: $e');

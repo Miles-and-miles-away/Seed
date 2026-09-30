@@ -4,6 +4,7 @@ library;
 
 export 'balanced_text.dart';
 export 'comparison_widgets.dart';
+export 'confirm_dialog.dart';
 export 'error_display.dart';
 export 'goal_picker_sheet.dart';
 export 'info_sheet.dart';

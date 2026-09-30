@@ -63,11 +63,6 @@ class _EggDiscoveryCelebrationState
     super.dispose();
   }
 
-  Future<void> _handleDismiss() async {
-    await ref.read(mascotProvider.notifier).acknowledgeEggDiscovery();
-    if (mounted) widget.onDismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -170,7 +165,7 @@ class _EggDiscoveryCelebrationState
                     ),
                     child: CelebrationButton(
                       label: l10n.eggDiscoveryDismiss,
-                      onPressed: _handleDismiss,
+                      onPressed: widget.onDismiss,
                     ),
                   ),
 
@@ -235,10 +230,17 @@ class _SparklePainter extends CustomPainter {
   bool shouldRepaint(covariant _SparklePainter old) => true;
 }
 
-/// Shows the egg discovery celebration as a dialog overlay.
-Future<void> showEggDiscoveryCelebration(BuildContext context, WidgetRef ref) {
-  return showCelebrationOverlay(
+/// Shows the egg discovery celebration, then creates the egg however the
+/// overlay closed. The write is not awaited: offline it only completes on
+/// server ack.
+Future<void> showEggDiscoveryCelebration(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final mascots = ref.read(mascotProvider.notifier);
+  await showCelebrationOverlay(
     context,
     (onDismiss) => EggDiscoveryCelebration(onDismiss: onDismiss),
   );
+  unawaited(mascots.acknowledgeEggDiscovery());
 }

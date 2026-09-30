@@ -3,6 +3,7 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
 import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart';
+import 'package:seed_app/features/walkthrough/presentation/walkthrough_items.dart';
 
 void main() {
   /// Minimal user with all defaults (zeroed stats).
@@ -173,6 +174,22 @@ void main() {
 
       expect(progress.hasProgress, isFalse);
       expect(progress.fraction, 0);
+    });
+
+    test('walkthroughComplete counts found checklist items', () {
+      const condition = EcoDexCondition.walkthroughComplete();
+      final user = baseUser().copyWith(
+        walkthroughFound: [
+          WalkthroughItem.intro.name,
+          WalkthroughItem.logAction.name,
+          WalkthroughItem.sdg.name,
+        ],
+      );
+
+      final progress = ecoDexProgressOf(condition, user);
+
+      expect(progress.current, 2);
+      expect(progress.target, WalkthroughItem.checklist.length);
     });
 
     test('multiDayChallenge is binary', () {

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'custom_action_model.dart';
@@ -9,6 +9,7 @@ part of 'custom_action_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CustomActionCopyWith<CustomAction> get copyWith => _$CustomActionCopyWithImpl<C
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomAction&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.points, points) || other.points == points)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other.relatedSdgs, relatedSdgs));
+  final _this = this as CustomAction;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomAction&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.co2Grams, _this.co2Grams) || other.co2Grams == _this.co2Grams)&&(identical(other.points, _this.points) || other.points == _this.points)&&(identical(other.category, _this.category) || other.category == _this.category)&&const DeepCollectionEquality().equals(other.relatedSdgs, _this.relatedSdgs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,co2Grams,points,category,const DeepCollectionEquality().hash(relatedSdgs));
+int get hashCode {
+  final _this = this as CustomAction;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.co2Grams,_this.points,_this.category,const DeepCollectionEquality().hash(_this.relatedSdgs));
+}
 
 @override
 String toString() {
-  return 'CustomAction(id: $id, name: $name, co2Grams: $co2Grams, points: $points, category: $category, relatedSdgs: $relatedSdgs)';
+  final _this = this as CustomAction;
+  return 'CustomAction(id: ${_this.id}, name: ${_this.name}, co2Grams: ${_this.co2Grams}, points: ${_this.points}, category: ${_this.category}, relatedSdgs: ${_this.relatedSdgs})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CustomActionCopyWithImpl<$Res>
 /// Create a copy of CustomAction
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? co2Grams = null,Object? points = null,Object? category = null,Object? relatedSdgs = null,}) {
-  return _then(_self.copyWith(
+  return _then(CustomAction(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,co2Grams: null == co2Grams ? _self.co2Grams : co2Grams // ignore: cast_nullable_to_non_nullable
@@ -214,7 +220,7 @@ return $default(_that.id,_that.name,_that.co2Grams,_that.points,_that.category,_
 @JsonSerializable()
 
 class _CustomAction extends CustomAction {
-  const _CustomAction({required this.id, required this.name, required this.co2Grams, required this.points, required this.category, required final  List<String> relatedSdgs}): _relatedSdgs = relatedSdgs,super._();
+  const _CustomAction({required this.id, required this.name, required this.co2Grams, required this.points, required this.category, required  List<String> relatedSdgs}): _relatedSdgs = relatedSdgs,super._();
   factory _CustomAction.fromJson(Map<String, dynamic> json) => _$CustomActionFromJson(json);
 
 @override final  String id;
@@ -243,16 +249,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomAction&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.points, points) || other.points == points)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._relatedSdgs, _relatedSdgs));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomAction&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.co2Grams, co2Grams) || other.co2Grams == co2Grams)&&(identical(other.points, points) || other.points == points)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other.relatedSdgs, _relatedSdgs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,co2Grams,points,category,const DeepCollectionEquality().hash(_relatedSdgs));
+int get hashCode {
+    return Object.hash(runtimeType,id,name,co2Grams,points,category,const DeepCollectionEquality().hash(_relatedSdgs));
+}
 
 @override
 String toString() {
-  return 'CustomAction(id: $id, name: $name, co2Grams: $co2Grams, points: $points, category: $category, relatedSdgs: $relatedSdgs)';
+    return 'CustomAction(id: $id, name: $name, co2Grams: $co2Grams, points: $points, category: $category, relatedSdgs: $relatedSdgs)';
 }
 
 

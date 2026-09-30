@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,14 +32,12 @@ class EvolutionCelebration extends ConsumerStatefulWidget {
 }
 
 class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
-  late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
 
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(50, (_) => ConfettiParticle.random());
     _startAnimationSequence();
   }
 
@@ -52,12 +52,6 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
     if (mounted) {
       setState(() => _showButton = true);
     }
-  }
-
-  Future<void> _handleDismiss() async {
-    // Mark evolution as seen before dismissing
-    await ref.read(mascotProvider.notifier).markEvolutionSeen();
-    if (mounted) widget.onDismiss();
   }
 
   @override
@@ -93,18 +87,14 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
 
     return CelebrationOverlay(
       children: [
-        ConfettiLayer(
-          painter: (progress) => ConfettiPainter(
-            particles: _particles,
-            colors: [
-              AppColors.gold,
-              colorScheme.primary,
-              colorScheme.secondary,
-              AppColors.success,
-              AppColors.celebrationPink,
-            ],
-            progress: progress,
-          ),
+        TimedConfettiLayer(
+          colors: [
+            AppColors.gold,
+            colorScheme.primary,
+            colorScheme.secondary,
+            AppColors.success,
+            AppColors.celebrationPink,
+          ],
         ),
 
         // Main content
@@ -276,7 +266,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                     ),
                     child: CelebrationButton(
                       label: l10n.evolutionContinue,
-                      onPressed: _handleDismiss,
+                      onPressed: widget.onDismiss,
                     ),
                   ),
 
@@ -289,12 +279,17 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
   }
 }
 
-/// Shows the evolution celebration as an overlay.
-///
-/// Call this method when [hasNewEvolutionProvider] returns true.
-Future<void> showEvolutionCelebration(BuildContext context) {
-  return showCelebrationOverlay(
+/// Shows the evolution celebration, then marks the stage seen however
+/// the overlay closed. The transaction is not awaited: offline it fails
+/// and the celebration simply returns on the next launch.
+Future<void> showEvolutionCelebration(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final mascots = ref.read(mascotProvider.notifier);
+  await showCelebrationOverlay(
     context,
     (onDismiss) => EvolutionCelebration(onDismiss: onDismiss),
   );
+  unawaited(mascots.markEvolutionSeen());
 }

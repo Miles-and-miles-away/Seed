@@ -6,6 +6,7 @@ import 'package:seed_app/features/home/presentation/providers/home_providers.dar
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -57,6 +58,30 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
     }
+
+    testWidgets('anchors the walkthrough intro and three shimmers', (
+      tester,
+    ) async {
+      // Tall enough for the SDG carousel sliver to build.
+      sizeViewport(tester);
+      await pumpHomeScreen(tester);
+
+      final trigger = tester.widget<WalkthroughTrigger>(
+        find.byType(WalkthroughTrigger),
+      );
+      expect(trigger.item, WalkthroughItem.intro);
+      final shimmers = tester
+          .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
+          .map((s) => s.item)
+          .toSet();
+      expect(shimmers, {
+        WalkthroughItem.ecoFact,
+        WalkthroughItem.dailyChallenge,
+        WalkthroughItem.sdg,
+      });
+
+      await disposeAndFlush(tester);
+    });
 
     testWidgets('renders app title and logo', (tester) async {
       await pumpHomeScreen(tester);

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'eco_dex_condition_model.dart';
@@ -9,6 +9,7 @@ part of 'eco_dex_condition_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 EcoDexCondition _$EcoDexConditionFromJson(
@@ -63,6 +64,10 @@ EcoDexCondition _$EcoDexConditionFromJson(
           return ProfileCompleteCondition.fromJson(
             json
           );
+                case 'walkthroughComplete':
+          return WalkthroughCompleteCondition.fromJson(
+            json
+          );
                 case 'ecodexCount':
           return EcodexCountCondition.fromJson(
             json
@@ -98,7 +103,7 @@ mixin _$EcoDexCondition {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoDexCondition);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoDexCondition);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -107,7 +112,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'EcoDexCondition()';
+    return 'EcoDexCondition()';
 }
 
 
@@ -133,7 +138,7 @@ extension EcoDexConditionPatterns on EcoDexCondition {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TotalActionsCondition value)?  totalActions,TResult Function( CategoryActionsCondition value)?  categoryActions,TResult Function( Co2SavedCondition value)?  co2Saved,TResult Function( StreakDaysCondition value)?  streakDays,TResult Function( LevelReachedCondition value)?  levelReached,TResult Function( SdgBreadthCondition value)?  sdgBreadth,TResult Function( ChallengeStreakCondition value)?  challengeStreak,TResult Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult Function( ProfileCompleteCondition value)?  profileComplete,TResult Function( EcodexCountCondition value)?  ecodexCount,TResult Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TotalActionsCondition value)?  totalActions,TResult Function( CategoryActionsCondition value)?  categoryActions,TResult Function( Co2SavedCondition value)?  co2Saved,TResult Function( StreakDaysCondition value)?  streakDays,TResult Function( LevelReachedCondition value)?  levelReached,TResult Function( SdgBreadthCondition value)?  sdgBreadth,TResult Function( ChallengeStreakCondition value)?  challengeStreak,TResult Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult Function( ProfileCompleteCondition value)?  profileComplete,TResult Function( WalkthroughCompleteCondition value)?  walkthroughComplete,TResult Function( EcodexCountCondition value)?  ecodexCount,TResult Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
@@ -148,7 +153,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition() when ecoFactsView
 return ecoFactsViewed(_that);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete(_that);case EcodexCountCondition() when ecodexCount != null:
+return profileComplete(_that);case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete(_that);case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that);case _:
@@ -169,7 +175,7 @@ return uniqueZeroCo2Actions(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TotalActionsCondition value)  totalActions,required TResult Function( CategoryActionsCondition value)  categoryActions,required TResult Function( Co2SavedCondition value)  co2Saved,required TResult Function( StreakDaysCondition value)  streakDays,required TResult Function( LevelReachedCondition value)  levelReached,required TResult Function( SdgBreadthCondition value)  sdgBreadth,required TResult Function( ChallengeStreakCondition value)  challengeStreak,required TResult Function( MultiDayChallengeCondition value)  multiDayChallenge,required TResult Function( EcoFactsViewedCondition value)  ecoFactsViewed,required TResult Function( CategoriesCoveredCondition value)  categoriesCovered,required TResult Function( UniqueActionsLoggedCondition value)  uniqueActionsLogged,required TResult Function( ProfileCompleteCondition value)  profileComplete,required TResult Function( EcodexCountCondition value)  ecodexCount,required TResult Function( ChallengesCompletedCondition value)  challengesCompleted,required TResult Function( UniqueZeroCo2ActionsCondition value)  uniqueZeroCo2Actions,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TotalActionsCondition value)  totalActions,required TResult Function( CategoryActionsCondition value)  categoryActions,required TResult Function( Co2SavedCondition value)  co2Saved,required TResult Function( StreakDaysCondition value)  streakDays,required TResult Function( LevelReachedCondition value)  levelReached,required TResult Function( SdgBreadthCondition value)  sdgBreadth,required TResult Function( ChallengeStreakCondition value)  challengeStreak,required TResult Function( MultiDayChallengeCondition value)  multiDayChallenge,required TResult Function( EcoFactsViewedCondition value)  ecoFactsViewed,required TResult Function( CategoriesCoveredCondition value)  categoriesCovered,required TResult Function( UniqueActionsLoggedCondition value)  uniqueActionsLogged,required TResult Function( ProfileCompleteCondition value)  profileComplete,required TResult Function( WalkthroughCompleteCondition value)  walkthroughComplete,required TResult Function( EcodexCountCondition value)  ecodexCount,required TResult Function( ChallengesCompletedCondition value)  challengesCompleted,required TResult Function( UniqueZeroCo2ActionsCondition value)  uniqueZeroCo2Actions,}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition():
@@ -184,7 +190,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition():
 return ecoFactsViewed(_that);case CategoriesCoveredCondition():
 return categoriesCovered(_that);case UniqueActionsLoggedCondition():
 return uniqueActionsLogged(_that);case ProfileCompleteCondition():
-return profileComplete(_that);case EcodexCountCondition():
+return profileComplete(_that);case WalkthroughCompleteCondition():
+return walkthroughComplete(_that);case EcodexCountCondition():
 return ecodexCount(_that);case ChallengesCompletedCondition():
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition():
 return uniqueZeroCo2Actions(_that);}
@@ -201,7 +208,7 @@ return uniqueZeroCo2Actions(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TotalActionsCondition value)?  totalActions,TResult? Function( CategoryActionsCondition value)?  categoryActions,TResult? Function( Co2SavedCondition value)?  co2Saved,TResult? Function( StreakDaysCondition value)?  streakDays,TResult? Function( LevelReachedCondition value)?  levelReached,TResult? Function( SdgBreadthCondition value)?  sdgBreadth,TResult? Function( ChallengeStreakCondition value)?  challengeStreak,TResult? Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult? Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult? Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult? Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult? Function( ProfileCompleteCondition value)?  profileComplete,TResult? Function( EcodexCountCondition value)?  ecodexCount,TResult? Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult? Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TotalActionsCondition value)?  totalActions,TResult? Function( CategoryActionsCondition value)?  categoryActions,TResult? Function( Co2SavedCondition value)?  co2Saved,TResult? Function( StreakDaysCondition value)?  streakDays,TResult? Function( LevelReachedCondition value)?  levelReached,TResult? Function( SdgBreadthCondition value)?  sdgBreadth,TResult? Function( ChallengeStreakCondition value)?  challengeStreak,TResult? Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult? Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult? Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult? Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult? Function( ProfileCompleteCondition value)?  profileComplete,TResult? Function( WalkthroughCompleteCondition value)?  walkthroughComplete,TResult? Function( EcodexCountCondition value)?  ecodexCount,TResult? Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult? Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
@@ -216,7 +223,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition() when ecoFactsView
 return ecoFactsViewed(_that);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete(_that);case EcodexCountCondition() when ecodexCount != null:
+return profileComplete(_that);case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete(_that);case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that);case _:
@@ -236,7 +244,7 @@ return uniqueZeroCo2Actions(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int count)?  totalActions,TResult Function( String category,  int count)?  categoryActions,TResult Function( int grams)?  co2Saved,TResult Function( int days)?  streakDays,TResult Function( int level)?  levelReached,TResult Function( int count)?  sdgBreadth,TResult Function( int days)?  challengeStreak,TResult Function( String templateId)?  multiDayChallenge,TResult Function( int count)?  ecoFactsViewed,TResult Function( int count)?  categoriesCovered,TResult Function( int count)?  uniqueActionsLogged,TResult Function()?  profileComplete,TResult Function( int count)?  ecodexCount,TResult Function( int count)?  challengesCompleted,TResult Function( int count)?  uniqueZeroCo2Actions,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int count)?  totalActions,TResult Function( String category,  int count)?  categoryActions,TResult Function( int grams)?  co2Saved,TResult Function( int days)?  streakDays,TResult Function( int level)?  levelReached,TResult Function( int count)?  sdgBreadth,TResult Function( int days)?  challengeStreak,TResult Function( String templateId)?  multiDayChallenge,TResult Function( int count)?  ecoFactsViewed,TResult Function( int count)?  categoriesCovered,TResult Function( int count)?  uniqueActionsLogged,TResult Function()?  profileComplete,TResult Function()?  walkthroughComplete,TResult Function( int count)?  ecodexCount,TResult Function( int count)?  challengesCompleted,TResult Function( int count)?  uniqueZeroCo2Actions,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
 return totalActions(_that.count);case CategoryActionsCondition() when categoryActions != null:
@@ -250,7 +258,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition() when e
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete();case EcodexCountCondition() when ecodexCount != null:
+return profileComplete();case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete();case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that.count);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that.count);case _:
@@ -271,7 +280,7 @@ return uniqueZeroCo2Actions(_that.count);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int count)  totalActions,required TResult Function( String category,  int count)  categoryActions,required TResult Function( int grams)  co2Saved,required TResult Function( int days)  streakDays,required TResult Function( int level)  levelReached,required TResult Function( int count)  sdgBreadth,required TResult Function( int days)  challengeStreak,required TResult Function( String templateId)  multiDayChallenge,required TResult Function( int count)  ecoFactsViewed,required TResult Function( int count)  categoriesCovered,required TResult Function( int count)  uniqueActionsLogged,required TResult Function()  profileComplete,required TResult Function( int count)  ecodexCount,required TResult Function( int count)  challengesCompleted,required TResult Function( int count)  uniqueZeroCo2Actions,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int count)  totalActions,required TResult Function( String category,  int count)  categoryActions,required TResult Function( int grams)  co2Saved,required TResult Function( int days)  streakDays,required TResult Function( int level)  levelReached,required TResult Function( int count)  sdgBreadth,required TResult Function( int days)  challengeStreak,required TResult Function( String templateId)  multiDayChallenge,required TResult Function( int count)  ecoFactsViewed,required TResult Function( int count)  categoriesCovered,required TResult Function( int count)  uniqueActionsLogged,required TResult Function()  profileComplete,required TResult Function()  walkthroughComplete,required TResult Function( int count)  ecodexCount,required TResult Function( int count)  challengesCompleted,required TResult Function( int count)  uniqueZeroCo2Actions,}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition():
 return totalActions(_that.count);case CategoryActionsCondition():
@@ -285,7 +294,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition():
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition():
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition():
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition():
-return profileComplete();case EcodexCountCondition():
+return profileComplete();case WalkthroughCompleteCondition():
+return walkthroughComplete();case EcodexCountCondition():
 return ecodexCount(_that.count);case ChallengesCompletedCondition():
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition():
 return uniqueZeroCo2Actions(_that.count);}
@@ -302,7 +312,7 @@ return uniqueZeroCo2Actions(_that.count);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int count)?  totalActions,TResult? Function( String category,  int count)?  categoryActions,TResult? Function( int grams)?  co2Saved,TResult? Function( int days)?  streakDays,TResult? Function( int level)?  levelReached,TResult? Function( int count)?  sdgBreadth,TResult? Function( int days)?  challengeStreak,TResult? Function( String templateId)?  multiDayChallenge,TResult? Function( int count)?  ecoFactsViewed,TResult? Function( int count)?  categoriesCovered,TResult? Function( int count)?  uniqueActionsLogged,TResult? Function()?  profileComplete,TResult? Function( int count)?  ecodexCount,TResult? Function( int count)?  challengesCompleted,TResult? Function( int count)?  uniqueZeroCo2Actions,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int count)?  totalActions,TResult? Function( String category,  int count)?  categoryActions,TResult? Function( int grams)?  co2Saved,TResult? Function( int days)?  streakDays,TResult? Function( int level)?  levelReached,TResult? Function( int count)?  sdgBreadth,TResult? Function( int days)?  challengeStreak,TResult? Function( String templateId)?  multiDayChallenge,TResult? Function( int count)?  ecoFactsViewed,TResult? Function( int count)?  categoriesCovered,TResult? Function( int count)?  uniqueActionsLogged,TResult? Function()?  profileComplete,TResult? Function()?  walkthroughComplete,TResult? Function( int count)?  ecodexCount,TResult? Function( int count)?  challengesCompleted,TResult? Function( int count)?  uniqueZeroCo2Actions,}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
 return totalActions(_that.count);case CategoryActionsCondition() when categoryActions != null:
@@ -316,7 +326,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition() when e
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete();case EcodexCountCondition() when ecodexCount != null:
+return profileComplete();case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete();case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that.count);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that.count);case _:
@@ -331,7 +342,7 @@ return uniqueZeroCo2Actions(_that.count);case _:
 @JsonSerializable()
 
 class TotalActionsCondition implements EcoDexCondition {
-  const TotalActionsCondition({required this.count, final  String? $type}): $type = $type ?? 'totalActions';
+  const TotalActionsCondition({required this.count,  String? $type}): $type = $type ?? 'totalActions';
   factory TotalActionsCondition.fromJson(Map<String, dynamic> json) => _$TotalActionsConditionFromJson(json);
 
  final  int count;
@@ -353,16 +364,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TotalActionsCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TotalActionsCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.totalActions(count: $count)';
+    return 'EcoDexCondition.totalActions(count: $count)';
 }
 
 
@@ -404,7 +417,7 @@ as int,
 @JsonSerializable()
 
 class CategoryActionsCondition implements EcoDexCondition {
-  const CategoryActionsCondition({required this.category, required this.count, final  String? $type}): $type = $type ?? 'categoryActions';
+  const CategoryActionsCondition({required this.category, required this.count,  String? $type}): $type = $type ?? 'categoryActions';
   factory CategoryActionsCondition.fromJson(Map<String, dynamic> json) => _$CategoryActionsConditionFromJson(json);
 
  final  String category;
@@ -427,16 +440,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryActionsCondition&&(identical(other.category, category) || other.category == category)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryActionsCondition&&(identical(other.category, category) || other.category == category)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,count);
+int get hashCode {
+    return Object.hash(runtimeType,category,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.categoryActions(category: $category, count: $count)';
+    return 'EcoDexCondition.categoryActions(category: $category, count: $count)';
 }
 
 
@@ -479,7 +494,7 @@ as int,
 @JsonSerializable()
 
 class Co2SavedCondition implements EcoDexCondition {
-  const Co2SavedCondition({required this.grams, final  String? $type}): $type = $type ?? 'co2Saved';
+  const Co2SavedCondition({required this.grams,  String? $type}): $type = $type ?? 'co2Saved';
   factory Co2SavedCondition.fromJson(Map<String, dynamic> json) => _$Co2SavedConditionFromJson(json);
 
  final  int grams;
@@ -501,16 +516,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2SavedCondition&&(identical(other.grams, grams) || other.grams == grams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Co2SavedCondition&&(identical(other.grams, grams) || other.grams == grams));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,grams);
+int get hashCode {
+    return Object.hash(runtimeType,grams);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.co2Saved(grams: $grams)';
+    return 'EcoDexCondition.co2Saved(grams: $grams)';
 }
 
 
@@ -552,7 +569,7 @@ as int,
 @JsonSerializable()
 
 class StreakDaysCondition implements EcoDexCondition {
-  const StreakDaysCondition({required this.days, final  String? $type}): $type = $type ?? 'streakDays';
+  const StreakDaysCondition({required this.days,  String? $type}): $type = $type ?? 'streakDays';
   factory StreakDaysCondition.fromJson(Map<String, dynamic> json) => _$StreakDaysConditionFromJson(json);
 
  final  int days;
@@ -574,16 +591,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreakDaysCondition&&(identical(other.days, days) || other.days == days));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is StreakDaysCondition&&(identical(other.days, days) || other.days == days));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days);
+int get hashCode {
+    return Object.hash(runtimeType,days);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.streakDays(days: $days)';
+    return 'EcoDexCondition.streakDays(days: $days)';
 }
 
 
@@ -625,7 +644,7 @@ as int,
 @JsonSerializable()
 
 class LevelReachedCondition implements EcoDexCondition {
-  const LevelReachedCondition({required this.level, final  String? $type}): $type = $type ?? 'levelReached';
+  const LevelReachedCondition({required this.level,  String? $type}): $type = $type ?? 'levelReached';
   factory LevelReachedCondition.fromJson(Map<String, dynamic> json) => _$LevelReachedConditionFromJson(json);
 
  final  int level;
@@ -647,16 +666,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LevelReachedCondition&&(identical(other.level, level) || other.level == level));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LevelReachedCondition&&(identical(other.level, level) || other.level == level));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,level);
+int get hashCode {
+    return Object.hash(runtimeType,level);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.levelReached(level: $level)';
+    return 'EcoDexCondition.levelReached(level: $level)';
 }
 
 
@@ -698,7 +719,7 @@ as int,
 @JsonSerializable()
 
 class SdgBreadthCondition implements EcoDexCondition {
-  const SdgBreadthCondition({required this.count, final  String? $type}): $type = $type ?? 'sdgBreadth';
+  const SdgBreadthCondition({required this.count,  String? $type}): $type = $type ?? 'sdgBreadth';
   factory SdgBreadthCondition.fromJson(Map<String, dynamic> json) => _$SdgBreadthConditionFromJson(json);
 
  final  int count;
@@ -720,16 +741,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgBreadthCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is SdgBreadthCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.sdgBreadth(count: $count)';
+    return 'EcoDexCondition.sdgBreadth(count: $count)';
 }
 
 
@@ -771,7 +794,7 @@ as int,
 @JsonSerializable()
 
 class ChallengeStreakCondition implements EcoDexCondition {
-  const ChallengeStreakCondition({required this.days, final  String? $type}): $type = $type ?? 'challengeStreak';
+  const ChallengeStreakCondition({required this.days,  String? $type}): $type = $type ?? 'challengeStreak';
   factory ChallengeStreakCondition.fromJson(Map<String, dynamic> json) => _$ChallengeStreakConditionFromJson(json);
 
  final  int days;
@@ -793,16 +816,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengeStreakCondition&&(identical(other.days, days) || other.days == days));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengeStreakCondition&&(identical(other.days, days) || other.days == days));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days);
+int get hashCode {
+    return Object.hash(runtimeType,days);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.challengeStreak(days: $days)';
+    return 'EcoDexCondition.challengeStreak(days: $days)';
 }
 
 
@@ -844,7 +869,7 @@ as int,
 @JsonSerializable()
 
 class MultiDayChallengeCondition implements EcoDexCondition {
-  const MultiDayChallengeCondition({required this.templateId, final  String? $type}): $type = $type ?? 'multiDayChallenge';
+  const MultiDayChallengeCondition({required this.templateId,  String? $type}): $type = $type ?? 'multiDayChallenge';
   factory MultiDayChallengeCondition.fromJson(Map<String, dynamic> json) => _$MultiDayChallengeConditionFromJson(json);
 
  final  String templateId;
@@ -866,16 +891,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiDayChallengeCondition&&(identical(other.templateId, templateId) || other.templateId == templateId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiDayChallengeCondition&&(identical(other.templateId, templateId) || other.templateId == templateId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,templateId);
+int get hashCode {
+    return Object.hash(runtimeType,templateId);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.multiDayChallenge(templateId: $templateId)';
+    return 'EcoDexCondition.multiDayChallenge(templateId: $templateId)';
 }
 
 
@@ -917,7 +944,7 @@ as String,
 @JsonSerializable()
 
 class EcoFactsViewedCondition implements EcoDexCondition {
-  const EcoFactsViewedCondition({required this.count, final  String? $type}): $type = $type ?? 'ecoFactsViewed';
+  const EcoFactsViewedCondition({required this.count,  String? $type}): $type = $type ?? 'ecoFactsViewed';
   factory EcoFactsViewedCondition.fromJson(Map<String, dynamic> json) => _$EcoFactsViewedConditionFromJson(json);
 
  final  int count;
@@ -939,16 +966,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoFactsViewedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcoFactsViewedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.ecoFactsViewed(count: $count)';
+    return 'EcoDexCondition.ecoFactsViewed(count: $count)';
 }
 
 
@@ -990,7 +1019,7 @@ as int,
 @JsonSerializable()
 
 class CategoriesCoveredCondition implements EcoDexCondition {
-  const CategoriesCoveredCondition({required this.count, final  String? $type}): $type = $type ?? 'categoriesCovered';
+  const CategoriesCoveredCondition({required this.count,  String? $type}): $type = $type ?? 'categoriesCovered';
   factory CategoriesCoveredCondition.fromJson(Map<String, dynamic> json) => _$CategoriesCoveredConditionFromJson(json);
 
  final  int count;
@@ -1012,16 +1041,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoriesCoveredCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoriesCoveredCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.categoriesCovered(count: $count)';
+    return 'EcoDexCondition.categoriesCovered(count: $count)';
 }
 
 
@@ -1063,7 +1094,7 @@ as int,
 @JsonSerializable()
 
 class UniqueActionsLoggedCondition implements EcoDexCondition {
-  const UniqueActionsLoggedCondition({required this.count, final  String? $type}): $type = $type ?? 'uniqueActionsLogged';
+  const UniqueActionsLoggedCondition({required this.count,  String? $type}): $type = $type ?? 'uniqueActionsLogged';
   factory UniqueActionsLoggedCondition.fromJson(Map<String, dynamic> json) => _$UniqueActionsLoggedConditionFromJson(json);
 
  final  int count;
@@ -1085,16 +1116,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueActionsLoggedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueActionsLoggedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.uniqueActionsLogged(count: $count)';
+    return 'EcoDexCondition.uniqueActionsLogged(count: $count)';
 }
 
 
@@ -1136,7 +1169,7 @@ as int,
 @JsonSerializable()
 
 class ProfileCompleteCondition implements EcoDexCondition {
-  const ProfileCompleteCondition({final  String? $type}): $type = $type ?? 'profileComplete';
+  const ProfileCompleteCondition({ String? $type}): $type = $type ?? 'profileComplete';
   factory ProfileCompleteCondition.fromJson(Map<String, dynamic> json) => _$ProfileCompleteConditionFromJson(json);
 
 
@@ -1153,7 +1186,7 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileCompleteCondition);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileCompleteCondition);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1162,7 +1195,46 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'EcoDexCondition.profileComplete()';
+    return 'EcoDexCondition.profileComplete()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+@JsonSerializable()
+
+class WalkthroughCompleteCondition implements EcoDexCondition {
+  const WalkthroughCompleteCondition({ String? $type}): $type = $type ?? 'walkthroughComplete';
+  factory WalkthroughCompleteCondition.fromJson(Map<String, dynamic> json) => _$WalkthroughCompleteConditionFromJson(json);
+
+
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+
+@override
+Map<String, dynamic> toJson() {
+  return _$WalkthroughCompleteConditionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WalkthroughCompleteCondition);
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'EcoDexCondition.walkthroughComplete()';
 }
 
 
@@ -1175,7 +1247,7 @@ String toString() {
 @JsonSerializable()
 
 class EcodexCountCondition implements EcoDexCondition {
-  const EcodexCountCondition({required this.count, final  String? $type}): $type = $type ?? 'ecodexCount';
+  const EcodexCountCondition({required this.count,  String? $type}): $type = $type ?? 'ecodexCount';
   factory EcodexCountCondition.fromJson(Map<String, dynamic> json) => _$EcodexCountConditionFromJson(json);
 
  final  int count;
@@ -1197,16 +1269,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EcodexCountCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is EcodexCountCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.ecodexCount(count: $count)';
+    return 'EcoDexCondition.ecodexCount(count: $count)';
 }
 
 
@@ -1248,7 +1322,7 @@ as int,
 @JsonSerializable()
 
 class ChallengesCompletedCondition implements EcoDexCondition {
-  const ChallengesCompletedCondition({required this.count, final  String? $type}): $type = $type ?? 'challengesCompleted';
+  const ChallengesCompletedCondition({required this.count,  String? $type}): $type = $type ?? 'challengesCompleted';
   factory ChallengesCompletedCondition.fromJson(Map<String, dynamic> json) => _$ChallengesCompletedConditionFromJson(json);
 
  final  int count;
@@ -1270,16 +1344,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengesCompletedCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ChallengesCompletedCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.challengesCompleted(count: $count)';
+    return 'EcoDexCondition.challengesCompleted(count: $count)';
 }
 
 
@@ -1321,7 +1397,7 @@ as int,
 @JsonSerializable()
 
 class UniqueZeroCo2ActionsCondition implements EcoDexCondition {
-  const UniqueZeroCo2ActionsCondition({required this.count, final  String? $type}): $type = $type ?? 'uniqueZeroCo2Actions';
+  const UniqueZeroCo2ActionsCondition({required this.count,  String? $type}): $type = $type ?? 'uniqueZeroCo2Actions';
   factory UniqueZeroCo2ActionsCondition.fromJson(Map<String, dynamic> json) => _$UniqueZeroCo2ActionsConditionFromJson(json);
 
  final  int count;
@@ -1343,16 +1419,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueZeroCo2ActionsCondition&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UniqueZeroCo2ActionsCondition&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count);
+int get hashCode {
+    return Object.hash(runtimeType,count);
+}
 
 @override
 String toString() {
-  return 'EcoDexCondition.uniqueZeroCo2Actions(count: $count)';
+    return 'EcoDexCondition.uniqueZeroCo2Actions(count: $count)';
 }
 
 

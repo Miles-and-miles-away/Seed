@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_screen.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/progress_providers.dart';
 import '../widgets/daily_target_picker.dart';
@@ -95,56 +96,59 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.progressTitle), centerTitle: true),
-      body: Column(
-        children: [
-          // Segmented control
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingLg,
-              vertical: spacingSm,
-            ),
-            child: SegmentedButton<_ProgressSegment>(
-              segments: [
-                ButtonSegment(
-                  value: _ProgressSegment.calendar,
-                  label: Text(l10n.progressCalendarTab),
-                  icon: const Icon(Icons.calendar_month, size: 18),
+    return WalkthroughTrigger(
+      item: WalkthroughItem.progress,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.progressTitle), centerTitle: true),
+        body: Column(
+          children: [
+            // Segmented control
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: spacingLg,
+                vertical: spacingSm,
+              ),
+              child: SegmentedButton<_ProgressSegment>(
+                segments: [
+                  ButtonSegment(
+                    value: _ProgressSegment.calendar,
+                    label: Text(l10n.progressCalendarTab),
+                    icon: const Icon(Icons.calendar_month, size: 18),
+                  ),
+                  ButtonSegment(
+                    value: _ProgressSegment.impact,
+                    label: Text(l10n.impactTab),
+                    icon: const Icon(Icons.public, size: 18),
+                  ),
+                  ButtonSegment(
+                    value: _ProgressSegment.ecoDex,
+                    label: Text(l10n.ecoDexTab),
+                    icon: const Icon(Icons.auto_stories, size: 18),
+                  ),
+                ],
+                selected: {_segment},
+                onSelectionChanged: (selected) {
+                  setState(() => _segment = selected.first);
+                },
+                style: SegmentedButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
                 ),
-                ButtonSegment(
-                  value: _ProgressSegment.impact,
-                  label: Text(l10n.impactTab),
-                  icon: const Icon(Icons.public, size: 18),
-                ),
-                ButtonSegment(
-                  value: _ProgressSegment.ecoDex,
-                  label: Text(l10n.ecoDexTab),
-                  icon: const Icon(Icons.auto_stories, size: 18),
-                ),
-              ],
-              selected: {_segment},
-              onSelectionChanged: (selected) {
-                setState(() => _segment = selected.first);
-              },
-              style: SegmentedButton.styleFrom(
-                visualDensity: VisualDensity.compact,
               ),
             ),
-          ),
 
-          // Content
-          Expanded(
-            child: switch (_segment) {
-              _ProgressSegment.calendar => _CalendarView(
-                theme: theme,
-                l10n: l10n,
-              ),
-              _ProgressSegment.impact => const ImpactDashboard(),
-              _ProgressSegment.ecoDex => const EcoDexScreen(),
-            },
-          ),
-        ],
+            // Content
+            Expanded(
+              child: switch (_segment) {
+                _ProgressSegment.calendar => _CalendarView(
+                  theme: theme,
+                  l10n: l10n,
+                ),
+                _ProgressSegment.impact => const ImpactDashboard(),
+                _ProgressSegment.ecoDex => const EcoDexScreen(),
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

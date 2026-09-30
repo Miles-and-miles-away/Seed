@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'transport_mode_model.dart';
@@ -9,6 +9,7 @@ part of 'transport_mode_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $TransportModeCopyWith<TransportMode> get copyWith => _$TransportModeCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransportMode&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.gCo2ePerKm, gCo2ePerKm) || other.gCo2ePerKm == gCo2ePerKm)&&(identical(other.perVehicle, perVehicle) || other.perVehicle == perVehicle)&&(identical(other.maxOccupants, maxOccupants) || other.maxOccupants == maxOccupants)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, sources));
+  final _this = this as TransportMode;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransportMode&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.gCo2ePerKm, _this.gCo2ePerKm) || other.gCo2ePerKm == _this.gCo2ePerKm)&&(identical(other.perVehicle, _this.perVehicle) || other.perVehicle == _this.perVehicle)&&(identical(other.maxOccupants, _this.maxOccupants) || other.maxOccupants == _this.maxOccupants)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _this.sources));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,gCo2ePerKm,perVehicle,maxOccupants,calculationNotes,const DeepCollectionEquality().hash(sources));
+int get hashCode {
+  final _this = this as TransportMode;
+  return Object.hash(runtimeType,_this.id,_this.group,_this.nameEn,_this.nameJa,_this.nameEs,_this.gCo2ePerKm,_this.perVehicle,_this.maxOccupants,_this.calculationNotes,const DeepCollectionEquality().hash(_this.sources));
+}
 
 @override
 String toString() {
-  return 'TransportMode(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, gCo2ePerKm: $gCo2ePerKm, perVehicle: $perVehicle, maxOccupants: $maxOccupants, calculationNotes: $calculationNotes, sources: $sources)';
+  final _this = this as TransportMode;
+  return 'TransportMode(id: ${_this.id}, group: ${_this.group}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, gCo2ePerKm: ${_this.gCo2ePerKm}, perVehicle: ${_this.perVehicle}, maxOccupants: ${_this.maxOccupants}, calculationNotes: ${_this.calculationNotes}, sources: ${_this.sources})';
 }
 
 
@@ -66,7 +72,7 @@ class _$TransportModeCopyWithImpl<$Res>
 /// Create a copy of TransportMode
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? gCo2ePerKm = null,Object? perVehicle = null,Object? maxOccupants = null,Object? calculationNotes = null,Object? sources = null,}) {
-  return _then(_self.copyWith(
+  return _then(TransportMode(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
@@ -218,7 +224,7 @@ return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_tha
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _TransportMode extends TransportMode {
-  const _TransportMode({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.gCo2ePerKm, this.perVehicle = false, this.maxOccupants = 1, this.calculationNotes = '', final  List<EmissionSource> sources = const []}): _sources = sources,super._();
+  const _TransportMode({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.gCo2ePerKm, this.perVehicle = false, this.maxOccupants = 1, this.calculationNotes = '',  List<EmissionSource> sources = const []}): _sources = sources,super._();
   factory _TransportMode.fromJson(Map<String, dynamic> json) => _$TransportModeFromJson(json);
 
 @override final  String id;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransportMode&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.gCo2ePerKm, gCo2ePerKm) || other.gCo2ePerKm == gCo2ePerKm)&&(identical(other.perVehicle, perVehicle) || other.perVehicle == perVehicle)&&(identical(other.maxOccupants, maxOccupants) || other.maxOccupants == maxOccupants)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other._sources, _sources));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransportMode&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.gCo2ePerKm, gCo2ePerKm) || other.gCo2ePerKm == gCo2ePerKm)&&(identical(other.perVehicle, perVehicle) || other.perVehicle == perVehicle)&&(identical(other.maxOccupants, maxOccupants) || other.maxOccupants == maxOccupants)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _sources));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,gCo2ePerKm,perVehicle,maxOccupants,calculationNotes,const DeepCollectionEquality().hash(_sources));
+int get hashCode {
+    return Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,gCo2ePerKm,perVehicle,maxOccupants,calculationNotes,const DeepCollectionEquality().hash(_sources));
+}
 
 @override
 String toString() {
-  return 'TransportMode(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, gCo2ePerKm: $gCo2ePerKm, perVehicle: $perVehicle, maxOccupants: $maxOccupants, calculationNotes: $calculationNotes, sources: $sources)';
+    return 'TransportMode(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, gCo2ePerKm: $gCo2ePerKm, perVehicle: $perVehicle, maxOccupants: $maxOccupants, calculationNotes: $calculationNotes, sources: $sources)';
 }
 
 

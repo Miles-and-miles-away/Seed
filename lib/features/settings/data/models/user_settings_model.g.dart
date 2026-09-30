@@ -29,6 +29,11 @@ _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
       streakGracePeriodUsed: json['streakGracePeriodUsed'] as bool? ?? false,
       analyticsEnabled: json['analyticsEnabled'] as bool? ?? true,
       themeMode: json['themeMode'] as String? ?? 'system',
+      walkthroughFound:
+          (json['walkthroughFound'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$UserSettingsModelToJson(_UserSettingsModel instance) =>
@@ -42,4 +47,5 @@ Map<String, dynamic> _$UserSettingsModelToJson(_UserSettingsModel instance) =>
       'streakGracePeriodUsed': instance.streakGracePeriodUsed,
       'analyticsEnabled': instance.analyticsEnabled,
       'themeMode': instance.themeMode,
+      'walkthroughFound': instance.walkthroughFound,
     };

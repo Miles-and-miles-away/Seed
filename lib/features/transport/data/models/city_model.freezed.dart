@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'city_model.dart';
@@ -9,6 +9,7 @@ part of 'city_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CityCopyWith<City> get copyWith => _$CityCopyWithImpl<City>(this as City, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
+  final _this = this as City;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is City&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.cc, _this.cc) || other.cc == _this.cc)&&(identical(other.lat, _this.lat) || other.lat == _this.lat)&&(identical(other.lon, _this.lon) || other.lon == _this.lon)&&(identical(other.mass, _this.mass) || other.mass == _this.mass)&&(identical(other.pop, _this.pop) || other.pop == _this.pop)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop,nameJa,nameEs);
+int get hashCode {
+  final _this = this as City;
+  return Object.hash(runtimeType,_this.name,_this.cc,_this.lat,_this.lon,_this.mass,_this.pop,_this.nameJa,_this.nameEs);
+}
 
 @override
 String toString() {
-  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop, nameJa: $nameJa, nameEs: $nameEs)';
+  final _this = this as City;
+  return 'City(name: ${_this.name}, cc: ${_this.cc}, lat: ${_this.lat}, lon: ${_this.lon}, mass: ${_this.mass}, pop: ${_this.pop}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CityCopyWithImpl<$Res>
 /// Create a copy of City
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? cc = null,Object? lat = null,Object? lon = null,Object? mass = null,Object? pop = null,Object? nameJa = freezed,Object? nameEs = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(City(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,cc: null == cc ? _self.cc : cc // ignore: cast_nullable_to_non_nullable
 as String,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
@@ -241,16 +247,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _City&&(identical(other.name, name) || other.name == name)&&(identical(other.cc, cc) || other.cc == cc)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lon, lon) || other.lon == lon)&&(identical(other.mass, mass) || other.mass == mass)&&(identical(other.pop, pop) || other.pop == pop)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,cc,lat,lon,mass,pop,nameJa,nameEs);
+int get hashCode {
+    return Object.hash(runtimeType,name,cc,lat,lon,mass,pop,nameJa,nameEs);
+}
 
 @override
 String toString() {
-  return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop, nameJa: $nameJa, nameEs: $nameEs)';
+    return 'City(name: $name, cc: $cc, lat: $lat, lon: $lon, mass: $mass, pop: $pop, nameJa: $nameJa, nameEs: $nameEs)';
 }
 
 
@@ -312,16 +320,21 @@ $CityLinkCopyWith<CityLink> get copyWith => _$CityLinkCopyWithImpl<CityLink>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CityLink&&(identical(other.a, a) || other.a == a)&&(identical(other.b, b) || other.b == b)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.label, label) || other.label == label)&&(identical(other.maxKm, maxKm) || other.maxKm == maxKm)&&(identical(other.portALat, portALat) || other.portALat == portALat)&&(identical(other.portALon, portALon) || other.portALon == portALon)&&(identical(other.radiusAKm, radiusAKm) || other.radiusAKm == radiusAKm)&&(identical(other.portBLat, portBLat) || other.portBLat == portBLat)&&(identical(other.portBLon, portBLon) || other.portBLon == portBLon)&&(identical(other.radiusBKm, radiusBKm) || other.radiusBKm == radiusBKm));
+  final _this = this as CityLink;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CityLink&&(identical(other.a, _this.a) || other.a == _this.a)&&(identical(other.b, _this.b) || other.b == _this.b)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.maxKm, _this.maxKm) || other.maxKm == _this.maxKm)&&(identical(other.portALat, _this.portALat) || other.portALat == _this.portALat)&&(identical(other.portALon, _this.portALon) || other.portALon == _this.portALon)&&(identical(other.radiusAKm, _this.radiusAKm) || other.radiusAKm == _this.radiusAKm)&&(identical(other.portBLat, _this.portBLat) || other.portBLat == _this.portBLat)&&(identical(other.portBLon, _this.portBLon) || other.portBLon == _this.portBLon)&&(identical(other.radiusBKm, _this.radiusBKm) || other.radiusBKm == _this.radiusBKm));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,b,kind,label,maxKm,portALat,portALon,radiusAKm,portBLat,portBLon,radiusBKm);
+int get hashCode {
+  final _this = this as CityLink;
+  return Object.hash(runtimeType,_this.a,_this.b,_this.kind,_this.label,_this.maxKm,_this.portALat,_this.portALon,_this.radiusAKm,_this.portBLat,_this.portBLon,_this.radiusBKm);
+}
 
 @override
 String toString() {
-  return 'CityLink(a: $a, b: $b, kind: $kind, label: $label, maxKm: $maxKm, portALat: $portALat, portALon: $portALon, radiusAKm: $radiusAKm, portBLat: $portBLat, portBLon: $portBLon, radiusBKm: $radiusBKm)';
+  final _this = this as CityLink;
+  return 'CityLink(a: ${_this.a}, b: ${_this.b}, kind: ${_this.kind}, label: ${_this.label}, maxKm: ${_this.maxKm}, portALat: ${_this.portALat}, portALon: ${_this.portALon}, radiusAKm: ${_this.radiusAKm}, portBLat: ${_this.portBLat}, portBLon: ${_this.portBLon}, radiusBKm: ${_this.radiusBKm})';
 }
 
 
@@ -350,7 +363,7 @@ class _$CityLinkCopyWithImpl<$Res>
 /// Create a copy of CityLink
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = null,Object? b = null,Object? kind = null,Object? label = null,Object? maxKm = freezed,Object? portALat = freezed,Object? portALon = freezed,Object? radiusAKm = freezed,Object? portBLat = freezed,Object? portBLon = freezed,Object? radiusBKm = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CityLink(
 a: null == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
 as String,b: null == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
@@ -531,16 +544,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CityLink&&(identical(other.a, a) || other.a == a)&&(identical(other.b, b) || other.b == b)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.label, label) || other.label == label)&&(identical(other.maxKm, maxKm) || other.maxKm == maxKm)&&(identical(other.portALat, portALat) || other.portALat == portALat)&&(identical(other.portALon, portALon) || other.portALon == portALon)&&(identical(other.radiusAKm, radiusAKm) || other.radiusAKm == radiusAKm)&&(identical(other.portBLat, portBLat) || other.portBLat == portBLat)&&(identical(other.portBLon, portBLon) || other.portBLon == portBLon)&&(identical(other.radiusBKm, radiusBKm) || other.radiusBKm == radiusBKm));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CityLink&&(identical(other.a, a) || other.a == a)&&(identical(other.b, b) || other.b == b)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.label, label) || other.label == label)&&(identical(other.maxKm, maxKm) || other.maxKm == maxKm)&&(identical(other.portALat, portALat) || other.portALat == portALat)&&(identical(other.portALon, portALon) || other.portALon == portALon)&&(identical(other.radiusAKm, radiusAKm) || other.radiusAKm == radiusAKm)&&(identical(other.portBLat, portBLat) || other.portBLat == portBLat)&&(identical(other.portBLon, portBLon) || other.portBLon == portBLon)&&(identical(other.radiusBKm, radiusBKm) || other.radiusBKm == radiusBKm));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,b,kind,label,maxKm,portALat,portALon,radiusAKm,portBLat,portBLon,radiusBKm);
+int get hashCode {
+    return Object.hash(runtimeType,a,b,kind,label,maxKm,portALat,portALon,radiusAKm,portBLat,portBLon,radiusBKm);
+}
 
 @override
 String toString() {
-  return 'CityLink(a: $a, b: $b, kind: $kind, label: $label, maxKm: $maxKm, portALat: $portALat, portALon: $portALon, radiusAKm: $radiusAKm, portBLat: $portBLat, portBLon: $portBLon, radiusBKm: $radiusBKm)';
+    return 'CityLink(a: $a, b: $b, kind: $kind, label: $label, maxKm: $maxKm, portALat: $portALat, portALon: $portALon, radiusAKm: $radiusAKm, portBLat: $portBLat, portBLon: $portBLon, radiusBKm: $radiusBKm)';
 }
 
 

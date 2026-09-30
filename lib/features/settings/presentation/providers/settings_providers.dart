@@ -68,6 +68,14 @@ bool smartRemindersEnabled(Ref ref) =>
 bool analyticsEnabled(Ref ref) =>
     _setting(ref, (s) => s.analyticsEnabled, true);
 
+/// Walkthrough item ids the user has found, or null while signed out or
+/// until settings load, so nothing shimmers or pops on a guess.
+@riverpod
+Set<String>? walkthroughFound(Ref ref) {
+  if (ref.watch(userIdProvider) == null) return null;
+  return _setting(ref, (s) => s.walkthroughFound.toSet(), null);
+}
+
 /// Returns the preferred theme mode, defaulting to the system setting.
 @riverpod
 ThemeMode themeMode(Ref ref) {
@@ -221,4 +229,14 @@ class SettingsNotifier extends _$SettingsNotifier {
   /// Marks a streak milestone as seen.
   Future<void> markMilestoneSeen(int weekNumber) =>
       _write((uid, repo) => repo.markMilestoneSeen(uid, weekNumber));
+
+  /// Records a walkthrough item as found.
+  Future<void> markWalkthroughFound(String itemId) =>
+      _write((uid, repo) => repo.markWalkthroughFound(uid, itemId));
+
+  /// Replays the walkthrough from the start.
+  Future<void> resetWalkthrough() => _write((uid, repo) async {
+    await repo.resetWalkthrough(uid);
+    await ref.read(analyticsServiceProvider).logWalkthroughReset();
+  });
 }

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/domain/services/condition_evaluator.dart';
+import 'package:seed_app/features/walkthrough/presentation/walkthrough_items.dart';
 
 /// Numeric progress toward discovering an Eco-Dex entry: where the
 /// user currently stands and the threshold the condition requires.
@@ -88,6 +89,12 @@ EcoDexProgress ecoDexProgressOf(EcoDexCondition condition, AppUserModel user) {
       target: count,
     ),
     ProfileCompleteCondition() => const EcoDexProgress.binary(),
+    WalkthroughCompleteCondition() => _numeric(
+      current: WalkthroughItem.checklist
+          .where((item) => user.walkthroughFound.contains(item.name))
+          .length,
+      target: WalkthroughItem.checklist.length,
+    ),
     EcodexCountCondition(:final count) => _numeric(
       current: user.ecodexDiscovered.length,
       target: count,

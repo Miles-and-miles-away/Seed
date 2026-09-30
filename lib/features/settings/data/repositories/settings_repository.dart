@@ -39,7 +39,13 @@ class SettingsRepository {
     try {
       return UserSettingsModel.fromJson(settingsData);
     } on Object {
-      return fallback;
+      // Keep the walkthrough found list, or the tour replays every start.
+      final found = settingsData[AppConstants.fieldWalkthroughFound];
+      return fallback.copyWith(
+        walkthroughFound: found is List
+            ? found.whereType<String>().toList()
+            : const [],
+      );
     }
   }
 
@@ -98,6 +104,22 @@ class SettingsRepository {
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}.${AppConstants.fieldAnalyticsEnabled}':
           enabled,
+    });
+  }
+
+  /// Records a walkthrough item as found.
+  Future<void> markWalkthroughFound(String uid, String itemId) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldWalkthroughFound}':
+          FieldValue.arrayUnion([itemId]),
+    });
+  }
+
+  /// Forgets every found walkthrough item so the tour replays.
+  Future<void> resetWalkthrough(String uid) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldWalkthroughFound}':
+          <String>[],
     });
   }
 

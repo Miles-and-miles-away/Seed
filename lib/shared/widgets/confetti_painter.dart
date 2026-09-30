@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 
 /// Repaints [painter] every frame of a looping [durationParticleLoop]
 /// controller, passing the loop progress (0..1). Isolated in its own
@@ -214,4 +216,79 @@ class ConfettiPainter extends CustomPainter {
       oldDelegate.progress != progress ||
       oldDelegate.particles != particles ||
       oldDelegate.colors != colors;
+}
+
+// Confetti runs for the visual peak, then fades out and stops. Overlays
+// wait indefinitely for their button, so the painter must not keep
+// rebuilding every frame once the moment has passed.
+const _confettiRunDuration = Duration(seconds: 4);
+const _confettiFadeDuration = Duration(milliseconds: 600);
+const _particleCount = 40;
+
+/// The palette every confetti celebration shares.
+const celebrationConfettiColors = [
+  AppColors.gold,
+  AppColors.success,
+  AppColors.glowBlue,
+  AppColors.celebrationPink,
+];
+
+/// A [ConfettiLayer] that fades out after a few seconds and then stops
+/// repainting.
+class TimedConfettiLayer extends StatefulWidget {
+  const TimedConfettiLayer({
+    this.colors = celebrationConfettiColors,
+    super.key,
+  });
+
+  final List<Color> colors;
+
+  @override
+  State<TimedConfettiLayer> createState() => _TimedConfettiLayerState();
+}
+
+class _TimedConfettiLayerState extends State<TimedConfettiLayer> {
+  late final List<ConfettiParticle> _particles;
+  Timer? _fadeTimer;
+  bool _visible = true;
+  bool _animating = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _particles = List.generate(
+      _particleCount,
+      (_) => ConfettiParticle.random(colorCount: widget.colors.length),
+    );
+    _fadeTimer = Timer(_confettiRunDuration, () {
+      if (mounted) setState(() => _visible = false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _fadeTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: _visible ? 1 : 0,
+      duration: _confettiFadeDuration,
+      // Stop repainting only once fully faded so particles never freeze
+      // visibly midair.
+      onEnd: () {
+        if (!_visible) setState(() => _animating = false);
+      },
+      child: ConfettiLayer(
+        animating: _animating,
+        painter: (progress) => ConfettiPainter(
+          particles: _particles,
+          colors: widget.colors,
+          progress: progress,
+        ),
+      ),
+    );
+  }
 }

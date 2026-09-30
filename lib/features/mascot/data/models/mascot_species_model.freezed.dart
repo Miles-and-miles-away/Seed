@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'mascot_species_model.dart';
@@ -9,6 +9,7 @@ part of 'mascot_species_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -37,16 +38,21 @@ $MascotSpeciesModelCopyWith<MascotSpeciesModel> get copyWith => _$MascotSpeciesM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MascotSpeciesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&const DeepCollectionEquality().equals(other.evolutionStages, evolutionStages)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.availability, availability) || other.availability == availability));
+  final _this = this as MascotSpeciesModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MascotSpeciesModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.descriptionEn, _this.descriptionEn) || other.descriptionEn == _this.descriptionEn)&&(identical(other.descriptionJa, _this.descriptionJa) || other.descriptionJa == _this.descriptionJa)&&const DeepCollectionEquality().equals(other.evolutionStages, _this.evolutionStages)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.descriptionEs, _this.descriptionEs) || other.descriptionEs == _this.descriptionEs)&&(identical(other.availability, _this.availability) || other.availability == _this.availability));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,descriptionEn,descriptionJa,const DeepCollectionEquality().hash(evolutionStages),nameEs,descriptionEs,availability);
+int get hashCode {
+  final _this = this as MascotSpeciesModel;
+  return Object.hash(runtimeType,_this.id,_this.nameEn,_this.nameJa,_this.descriptionEn,_this.descriptionJa,const DeepCollectionEquality().hash(_this.evolutionStages),_this.nameEs,_this.descriptionEs,_this.availability);
+}
 
 @override
 String toString() {
-  return 'MascotSpeciesModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, evolutionStages: $evolutionStages, nameEs: $nameEs, descriptionEs: $descriptionEs, availability: $availability)';
+  final _this = this as MascotSpeciesModel;
+  return 'MascotSpeciesModel(id: ${_this.id}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, descriptionEn: ${_this.descriptionEn}, descriptionJa: ${_this.descriptionJa}, evolutionStages: ${_this.evolutionStages}, nameEs: ${_this.nameEs}, descriptionEs: ${_this.descriptionEs}, availability: ${_this.availability})';
 }
 
 
@@ -75,7 +81,7 @@ class _$MascotSpeciesModelCopyWithImpl<$Res>
 /// Create a copy of MascotSpeciesModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nameEn = null,Object? nameJa = null,Object? descriptionEn = null,Object? descriptionJa = null,Object? evolutionStages = null,Object? nameEs = null,Object? descriptionEs = null,Object? availability = null,}) {
-  return _then(_self.copyWith(
+  return _then(MascotSpeciesModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
 as String,nameJa: null == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
@@ -226,7 +232,7 @@ return $default(_that.id,_that.nameEn,_that.nameJa,_that.descriptionEn,_that.des
 @JsonSerializable()
 
 class _MascotSpeciesModel implements MascotSpeciesModel {
-  const _MascotSpeciesModel({required this.id, required this.nameEn, required this.nameJa, required this.descriptionEn, required this.descriptionJa, required final  List<EvolutionStageModel> evolutionStages, this.nameEs = '', this.descriptionEs = '', this.availability = 'free'}): _evolutionStages = evolutionStages;
+  const _MascotSpeciesModel({required this.id, required this.nameEn, required this.nameJa, required this.descriptionEn, required this.descriptionJa, required  List<EvolutionStageModel> evolutionStages, this.nameEs = '', this.descriptionEs = '', this.availability = 'free'}): _evolutionStages = evolutionStages;
   factory _MascotSpeciesModel.fromJson(Map<String, dynamic> json) => _$MascotSpeciesModelFromJson(json);
 
 /// Unique identifier for the species (e.g., "seed").
@@ -268,16 +274,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MascotSpeciesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&const DeepCollectionEquality().equals(other._evolutionStages, _evolutionStages)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.availability, availability) || other.availability == availability));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MascotSpeciesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.descriptionJa, descriptionJa) || other.descriptionJa == descriptionJa)&&const DeepCollectionEquality().equals(other.evolutionStages, _evolutionStages)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.descriptionEs, descriptionEs) || other.descriptionEs == descriptionEs)&&(identical(other.availability, availability) || other.availability == availability));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nameEn,nameJa,descriptionEn,descriptionJa,const DeepCollectionEquality().hash(_evolutionStages),nameEs,descriptionEs,availability);
+int get hashCode {
+    return Object.hash(runtimeType,id,nameEn,nameJa,descriptionEn,descriptionJa,const DeepCollectionEquality().hash(_evolutionStages),nameEs,descriptionEs,availability);
+}
 
 @override
 String toString() {
-  return 'MascotSpeciesModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, evolutionStages: $evolutionStages, nameEs: $nameEs, descriptionEs: $descriptionEs, availability: $availability)';
+    return 'MascotSpeciesModel(id: $id, nameEn: $nameEn, nameJa: $nameJa, descriptionEn: $descriptionEn, descriptionJa: $descriptionJa, evolutionStages: $evolutionStages, nameEs: $nameEs, descriptionEs: $descriptionEs, availability: $availability)';
 }
 
 

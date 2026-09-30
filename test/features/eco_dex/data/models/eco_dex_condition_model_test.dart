@@ -132,5 +132,11 @@ void main() {
       final restored = EcoDexCondition.fromJson(original.toJson());
       expect(restored, original);
     });
+
+    test('walkthroughComplete parses and survives roundtrip', () {
+      final c = EcoDexCondition.fromJson({'type': 'walkthroughComplete'});
+      expect(c, isA<WalkthroughCompleteCondition>());
+      expect(EcoDexCondition.fromJson(c.toJson()), c);
+    });
   });
 }

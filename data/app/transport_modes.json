@@ -516,7 +516,7 @@
       "name_es": "Vuelo internacional de larga distancia (turista)",
       "g_co2e_per_km": 117.04,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 long-haul international economy, per passenger-km, includes radiative forcing. Lower per-km than short-haul or domestic flights due to cruise-phase efficiency -- total trip impact is still far larger than rail because of distance, which is exactly the counterintuitive fact the comparison view is meant to surface.",
+      "calculation_notes": "DEFRA 2025 long-haul international economy, per passenger-km, includes radiative forcing. Lower per-km than short-haul economy only because of seat-class allocation: the whole-plane long-haul average (82.5 gCO2/pkm before uplifts, methodology paper Table 39) is above short-haul (69.1), but premium cabins take 1.6-4x the space of an economy seat, so economy is allocated 76.6% of the average (63.2 vs 68.0 for short-haul economy). Total trip impact is still far larger than rail because of distance, which is exactly the counterintuitive fact the comparison view is meant to surface.",
       "sources": [
         {
           "name": "myCarbon",

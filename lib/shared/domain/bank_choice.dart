@@ -5,6 +5,8 @@ import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/models/custom_action_model.dart';
 import 'package:seed_app/shared/providers/custom_action_providers.dart';
 
+const _templateTimeout = Duration(seconds: 5);
+
 /// Banks [co2Grams] of avoided emissions under [name] as a real action
 /// (Phase 8.6 transport, 8.12 food): creates the custom-action
 /// template, then logs it through the standard action transaction
@@ -36,7 +38,8 @@ Future<AsyncValue<void>?> bankChoice(
             category: category,
             relatedSdgs: relatedSdgs,
           ),
-        );
+        )
+        .timeout(_templateTimeout);
     if (!ref.mounted) return;
     final logged = await ref
         .read(actionLogProvider.notifier)

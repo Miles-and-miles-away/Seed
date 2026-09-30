@@ -139,6 +139,14 @@ Map<String, dynamic> _$ProfileCompleteConditionToJson(
   ProfileCompleteCondition instance,
 ) => <String, dynamic>{'type': instance.$type};
 
+WalkthroughCompleteCondition _$WalkthroughCompleteConditionFromJson(
+  Map<String, dynamic> json,
+) => WalkthroughCompleteCondition($type: json['type'] as String?);
+
+Map<String, dynamic> _$WalkthroughCompleteConditionToJson(
+  WalkthroughCompleteCondition instance,
+) => <String, dynamic>{'type': instance.$type};
+
 EcodexCountCondition _$EcodexCountConditionFromJson(
   Map<String, dynamic> json,
 ) => EcodexCountCondition(

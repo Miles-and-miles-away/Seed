@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +36,7 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
     super.dispose();
   }
 
-  Future<void> _onSubmit() async {
+  void _onSubmit() {
     if (!_formKey.currentState!.validate()) return;
 
     final allSpecies = ref.read(mascotSpeciesDataProvider).value;
@@ -45,23 +47,17 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
     setState(() => _isSubmitting = true);
 
-    final l10n = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.of(context);
-
-    await ref
-        .read(mascotProvider.notifier)
-        .selectMascot(speciesId: species.id, name: _nameController.text.trim());
-
-    if (!mounted) return;
-
-    // Navigating on a failed write strands the user with no mascot; the
-    // router guard would bounce them straight back here.
-    if (ref.read(mascotProvider).hasError) {
-      setState(() => _isSubmitting = false);
-      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
-      return;
-    }
-
+    // Not awaited: the write lands in the local cache at once and only
+    // completes on server ack. Home shows the selection prompt if it is
+    // ever rolled back.
+    unawaited(
+      ref
+          .read(mascotProvider.notifier)
+          .selectMascot(
+            speciesId: species.id,
+            name: _nameController.text.trim(),
+          ),
+    );
     context.go(appRoutes.home);
   }
 

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/firestore_converters.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -105,6 +106,12 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// Per-category action counts: { "food": 12, "energy": 5 }
     @Default({}) Map<String, int> categoryActionCounts,
+
+    /// Walkthrough checklist item ids found. Read-only projection of
+    /// the nested settings map, which the settings repository writes.
+    @JsonKey(readValue: _readWalkthroughFound, includeToJson: false)
+    @Default([])
+    List<String> walkthroughFound,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>
@@ -112,3 +119,7 @@ abstract class AppUserModel with _$AppUserModel {
 }
 
 // TimestampConverter is now in core/utils/firestore_converters.dart
+
+Object? _readWalkthroughFound(Map<dynamic, dynamic> json, String key) =>
+    (json[AppConstants.fieldSettings]
+        as Map<dynamic, dynamic>?)?[AppConstants.fieldWalkthroughFound];

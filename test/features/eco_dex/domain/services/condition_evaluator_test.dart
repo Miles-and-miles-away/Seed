@@ -3,6 +3,7 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
 import 'package:seed_app/features/eco_dex/domain/services/condition_evaluator.dart';
+import 'package:seed_app/features/walkthrough/presentation/walkthrough_items.dart';
 
 void main() {
   /// Minimal user with all defaults (zeroed stats).
@@ -274,11 +275,45 @@ void main() {
         expect(isConditionMet(condition, user), isFalse);
       });
 
-      test('true when both set', () {
+      test('false on the first action even with both set', () {
         final user = baseUser().copyWith(
           displayName: 'Test',
           photoUrl: 'https://x.com/a.png',
+          totalActionsCount: 1,
         );
+        expect(isConditionMet(condition, user), isFalse);
+      });
+
+      test('true when both set from the second action', () {
+        final user = baseUser().copyWith(
+          displayName: 'Test',
+          photoUrl: 'https://x.com/a.png',
+          totalActionsCount: 2,
+        );
+        expect(isConditionMet(condition, user), isTrue);
+      });
+    });
+
+    // ---------------------------------------------------------------
+    // WalkthroughCompleteCondition
+    // ---------------------------------------------------------------
+    group('walkthroughComplete', () {
+      const condition = EcoDexCondition.walkthroughComplete();
+      final checklist = WalkthroughItem.checklist.map((i) => i.name).toList();
+
+      test('false when nothing found', () {
+        expect(isConditionMet(condition, baseUser()), isFalse);
+      });
+
+      test('false when one checklist item is missing', () {
+        final user = baseUser().copyWith(
+          walkthroughFound: [WalkthroughItem.intro.name, ...checklist.skip(1)],
+        );
+        expect(isConditionMet(condition, user), isFalse);
+      });
+
+      test('true when every checklist item is found, intro not required', () {
+        final user = baseUser().copyWith(walkthroughFound: checklist);
         expect(isConditionMet(condition, user), isTrue);
       });
     });

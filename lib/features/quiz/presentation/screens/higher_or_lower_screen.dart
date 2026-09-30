@@ -18,7 +18,9 @@ import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
 import 'package:seed_app/features/quiz/presentation/providers/quiz_providers.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
+import 'package:seed_app/features/transport/domain/services/flight_band.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/domain/quiz_deck.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -170,22 +172,25 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     final itemsAsync = ref.watch(foodItemsProvider);
     final modesAsync = ref.watch(transportModesProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.quizTitle)),
-      body: switch ((behaviorsAsync, factorsAsync, itemsAsync, modesAsync)) {
-        (
-          AsyncData(value: final behaviors),
-          AsyncData(value: final factors),
-          AsyncData(value: final items),
-          AsyncData(value: final modes),
-        ) =>
-          _buildBody(context, l10n, behaviors, factors, items, modes),
-        (AsyncError(), _, _, _) ||
-        (_, AsyncError(), _, _) ||
-        (_, _, AsyncError(), _) ||
-        (_, _, _, AsyncError()) => const Center(child: ErrorDisplay()),
-        _ => const Center(child: CircularProgressIndicator()),
-      },
+    return WalkthroughTrigger(
+      item: WalkthroughItem.quiz,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.quizTitle)),
+        body: switch ((behaviorsAsync, factorsAsync, itemsAsync, modesAsync)) {
+          (
+            AsyncData(value: final behaviors),
+            AsyncData(value: final factors),
+            AsyncData(value: final items),
+            AsyncData(value: final modes),
+          ) =>
+            _buildBody(context, l10n, behaviors, factors, items, modes),
+          (AsyncError(), _, _, _) ||
+          (_, AsyncError(), _, _) ||
+          (_, _, AsyncError(), _) ||
+          (_, _, _, AsyncError()) => const Center(child: ErrorDisplay()),
+          _ => const Center(child: CircularProgressIndicator()),
+        },
+      ),
     );
   }
 
@@ -292,6 +297,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     );
   }
 
+  /// Flight bands carry DEFRA's average route length, because "domestic"
+  /// is a jurisdiction, not a distance, and a player has no other way
+  /// to rank it against short-haul.
   QuizCard _transportCard(
     AppLocalizations l10n,
     String locale,
@@ -299,7 +307,12 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   ) => QuizCard(
     id: 'transport:${mode.id}',
     title: mode.name(locale),
-    subtitle: '',
+    subtitle: switch (mode.id) {
+      flightModeDomestic => l10n.quizFlightDomesticNote,
+      flightModeShortHaul => l10n.quizFlightShortHaulNote,
+      flightModeLongHaul => l10n.quizFlightLongHaulNote,
+      _ => '',
+    },
     magnitude: mode.gCo2ePerKm,
     revealText: l10n.quizPerKm(formatCO2Compact(mode.gCo2ePerKm.round())),
   );

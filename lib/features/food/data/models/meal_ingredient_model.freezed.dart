@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'meal_ingredient_model.dart';
@@ -9,6 +9,7 @@ part of 'meal_ingredient_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $MealIngredientCopyWith<MealIngredient> get copyWith => _$MealIngredientCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealIngredient&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.grams, grams) || other.grams == grams));
+  final _this = this as MealIngredient;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealIngredient&&(identical(other.itemId, _this.itemId) || other.itemId == _this.itemId)&&(identical(other.grams, _this.grams) || other.grams == _this.grams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,itemId,grams);
+int get hashCode {
+  final _this = this as MealIngredient;
+  return Object.hash(runtimeType,_this.itemId,_this.grams);
+}
 
 @override
 String toString() {
-  return 'MealIngredient(itemId: $itemId, grams: $grams)';
+  final _this = this as MealIngredient;
+  return 'MealIngredient(itemId: ${_this.itemId}, grams: ${_this.grams})';
 }
 
 
@@ -63,7 +69,7 @@ class _$MealIngredientCopyWithImpl<$Res>
 /// Create a copy of MealIngredient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? itemId = null,Object? grams = null,}) {
-  return _then(_self.copyWith(
+  return _then(MealIngredient(
 itemId: null == itemId ? _self.itemId : itemId // ignore: cast_nullable_to_non_nullable
 as String,grams: null == grams ? _self.grams : grams // ignore: cast_nullable_to_non_nullable
 as double,
@@ -223,16 +229,18 @@ _$MealIngredientCopyWith<_MealIngredient> get copyWith => __$MealIngredientCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealIngredient&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.grams, grams) || other.grams == grams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealIngredient&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.grams, grams) || other.grams == grams));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,itemId,grams);
+int get hashCode {
+    return Object.hash(runtimeType,itemId,grams);
+}
 
 @override
 String toString() {
-  return 'MealIngredient(itemId: $itemId, grams: $grams)';
+    return 'MealIngredient(itemId: $itemId, grams: $grams)';
 }
 
 

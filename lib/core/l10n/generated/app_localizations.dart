@@ -628,11 +628,11 @@ abstract class AppLocalizations {
   /// **'Please wait a few seconds between actions.'**
   String get errorActionTooSoon;
 
-  /// No description provided for @errorOffline.
+  /// No description provided for @errorLogActionOffline.
   ///
   /// In en, this message translates to:
-  /// **'You\'re offline. Check your connection and try again.'**
-  String get errorOffline;
+  /// **'Cannot log an action while offline. Check your connection and try again.'**
+  String get errorLogActionOffline;
 
   /// No description provided for @errorAuthEmailInUse.
   ///
@@ -687,6 +687,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign-in was cancelled.'**
   String get errorAuthSignInCancelled;
+
+  /// No description provided for @errorAuthSignInOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot sign in while offline. Check your connection and try again.'**
+  String get errorAuthSignInOffline;
 
   /// No description provided for @errorAuthAccountExistsWithDifferentCredential.
   ///
@@ -3881,6 +3887,24 @@ abstract class AppLocalizations {
   /// **'{amount} per km'**
   String quizPerKm(String amount);
 
+  /// No description provided for @quizFlightDomesticNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Within one country, about 430 km on average'**
+  String get quizFlightDomesticNote;
+
+  /// No description provided for @quizFlightShortHaulNote.
+  ///
+  /// In en, this message translates to:
+  /// **'International, about 1,500 km on average'**
+  String get quizFlightShortHaulNote;
+
+  /// No description provided for @quizFlightLongHaulNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Intercontinental, 5,500 km and more'**
+  String get quizFlightLongHaulNote;
+
   /// No description provided for @quizHigher.
   ///
   /// In en, this message translates to:
@@ -3940,6 +3964,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Just for fun. No points, and nothing is logged.'**
   String get quizNoPointsNote;
+
+  /// No description provided for @walkthroughIntro1.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, I\'m {name}. Seed turns small everyday choices into a habit, and I grow as you go.'**
+  String walkthroughIntro1(String name);
+
+  /// No description provided for @walkthroughIntro2.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s more here than meets the eye. I\'ve made a list of things to find. Anything glowing gold is still waiting for you.'**
+  String get walkthroughIntro2;
+
+  /// No description provided for @walkthroughItemLogAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first action'**
+  String get walkthroughItemLogAction;
+
+  /// No description provided for @walkthroughItemDailyChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s challenge'**
+  String get walkthroughItemDailyChallenge;
+
+  /// No description provided for @walkthroughItemSdg.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore an SDG'**
+  String get walkthroughItemSdg;
+
+  /// No description provided for @walkthroughItemEcoFact.
+  ///
+  /// In en, this message translates to:
+  /// **'Your daily eco-fact'**
+  String get walkthroughItemEcoFact;
+
+  /// No description provided for @walkthroughItemCalculators.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet the calculators'**
+  String get walkthroughItemCalculators;
+
+  /// No description provided for @walkthroughItemQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Higher or lower'**
+  String get walkthroughItemQuiz;
+
+  /// No description provided for @walkthroughItemProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your progress'**
+  String get walkthroughItemProgress;
+
+  /// No description provided for @walkthroughLogAction1.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the heart of Seed. Pick something you did today and I\'ll count the carbon it saved.'**
+  String get walkthroughLogAction1;
+
+  /// No description provided for @walkthroughDailyChallenge1.
+  ///
+  /// In en, this message translates to:
+  /// **'One fresh challenge every day. Complete it to unlock today\'s eco-fact and keep your challenge streak alive.'**
+  String get walkthroughDailyChallenge1;
+
+  /// No description provided for @walkthroughSdg1.
+  ///
+  /// In en, this message translates to:
+  /// **'The 17 SDGs are the world\'s to-do list. Each one shows you the targets, the progress so far, and actions that help.'**
+  String get walkthroughSdg1;
+
+  /// No description provided for @walkthroughEcoFact1.
+  ///
+  /// In en, this message translates to:
+  /// **'A new eco-fact lands here every day. Complete today\'s challenge to open it.'**
+  String get walkthroughEcoFact1;
+
+  /// No description provided for @walkthroughCalculators1.
+  ///
+  /// In en, this message translates to:
+  /// **'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as an action.'**
+  String get walkthroughCalculators1;
+
+  /// No description provided for @walkthroughCalculators2.
+  ///
+  /// In en, this message translates to:
+  /// **'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that too.'**
+  String get walkthroughCalculators2;
+
+  /// No description provided for @walkthroughCalculators3.
+  ///
+  /// In en, this message translates to:
+  /// **'Home energy: two routines, from showers to tumble drying. It teaches but never scores.'**
+  String get walkthroughCalculators3;
+
+  /// No description provided for @walkthroughCalculators4.
+  ///
+  /// In en, this message translates to:
+  /// **'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
+  String get walkthroughCalculators4;
+
+  /// No description provided for @walkthroughQuiz1.
+  ///
+  /// In en, this message translates to:
+  /// **'Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.'**
+  String get walkthroughQuiz1;
+
+  /// No description provided for @walkthroughProgress1.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar: every day you logged something, and your daily goal.'**
+  String get walkthroughProgress1;
+
+  /// No description provided for @walkthroughProgress2.
+  ///
+  /// In en, this message translates to:
+  /// **'Impact: the carbon you\'ve saved, translated into trees, car kilometres, phone charges and burgers.'**
+  String get walkthroughProgress2;
+
+  /// No description provided for @walkthroughProgress3.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco-Dex: planet facts you discover as you use Seed. Each one is a small piece of knowledge, never points.'**
+  String get walkthroughProgress3;
+
+  /// No description provided for @walkthroughComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s everything. You know Seed better than most now. Something new is waiting in the Eco-Dex. Let\'s grow.'**
+  String get walkthroughComplete;
+
+  /// No description provided for @walkthroughChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Things to find'**
+  String get walkthroughChecklistTitle;
+
+  /// No description provided for @walkthroughNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get walkthroughNext;
+
+  /// No description provided for @walkthroughGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get walkthroughGotIt;
+
+  /// No description provided for @walkthroughStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go'**
+  String get walkthroughStart;
+
+  /// No description provided for @settingsReplayWalkthrough.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay walkthrough'**
+  String get settingsReplayWalkthrough;
+
+  /// No description provided for @settingsReplayWalkthroughSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let your mascot show you around again'**
+  String get settingsReplayWalkthroughSubtitle;
+
+  /// No description provided for @settingsReplayWalkthroughConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay the walkthrough? Everything will glow gold again until you find it.'**
+  String get settingsReplayWalkthroughConfirm;
+
+  /// No description provided for @settingsReplayWalkthroughAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay'**
+  String get settingsReplayWalkthroughAction;
 
   /// No description provided for @routeNotFound.
   ///

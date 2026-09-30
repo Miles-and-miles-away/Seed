@@ -15,12 +15,16 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Banks [co2Grams] of avoided emissions under [name]. Returns true
-  /// on success. No-ops while a log is already in flight.
-  Future<bool> logChoice({required String name, required int co2Grams}) async {
-    if (state.isLoading) return false;
+  /// Banks [co2Grams] of avoided emissions under [name]. Returns the
+  /// outcome, or null when nothing was attempted (a log already in
+  /// flight, no user) or the notifier was disposed mid-flight.
+  Future<AsyncValue<void>?> logChoice({
+    required String name,
+    required int co2Grams,
+  }) async {
+    if (state.isLoading) return null;
     final userId = ref.read(userIdProvider);
-    if (userId == null) return false;
+    if (userId == null) return null;
     state = const AsyncValue.loading();
 
     final result = await bankChoice(
@@ -31,8 +35,8 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
       category: 'transport',
       relatedSdgs: kTransportChoiceSdgs,
     );
-    if (result == null) return false;
+    if (result == null) return null;
     state = result;
-    return !result.hasError;
+    return result;
   }
 }

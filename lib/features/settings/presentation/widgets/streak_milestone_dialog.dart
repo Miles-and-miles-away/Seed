@@ -43,16 +43,12 @@ class StreakMilestoneDialog extends ConsumerStatefulWidget {
 }
 
 class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
-  late List<ConfettiParticle> _particles;
   bool _showContent = false;
   bool _showButton = false;
 
   @override
   void initState() {
     super.initState();
-    _particles = List.generate(40, (_) => ConfettiParticle.random());
-
-    // Start animations in sequence
     _startAnimationSequence();
   }
 
@@ -69,14 +65,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
     }
   }
 
-  Future<void> _handleDismiss() async {
-    // Mark milestone as seen
-    await ref
-        .read(settingsProvider.notifier)
-        .markMilestoneSeen(widget.weekNumber);
-    if (mounted) widget.onDismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -89,18 +77,14 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
 
     return CelebrationOverlay(
       children: [
-        ConfettiLayer(
-          painter: (progress) => ConfettiPainter(
-            particles: _particles,
-            colors: [
-              AppColors.gold,
-              colorScheme.primary,
-              colorScheme.secondary,
-              AppColors.success,
-              AppColors.celebrationPink,
-            ],
-            progress: progress,
-          ),
+        TimedConfettiLayer(
+          colors: [
+            AppColors.gold,
+            colorScheme.primary,
+            colorScheme.secondary,
+            AppColors.success,
+            AppColors.celebrationPink,
+          ],
         ),
 
         // Main content
@@ -266,7 +250,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                     // Continue button
                     if (_showButton)
                       FilledButton(
-                            onPressed: _handleDismiss,
+                            onPressed: widget.onDismiss,
                             style: FilledButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: spacingHuge,
@@ -291,15 +275,17 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
   }
 }
 
-/// Shows the streak milestone celebration dialog.
-///
-/// Call this method when a weekly milestone is crossed.
+/// Shows the streak milestone celebration, then records the week as
+/// seen however the overlay closed. The write is not awaited: offline it
+/// only completes on server ack.
 Future<void> showStreakMilestoneCelebration(
-  BuildContext context, {
+  BuildContext context,
+  WidgetRef ref, {
   required int weekNumber,
   required int totalDays,
-}) {
-  return showCelebrationOverlay(
+}) async {
+  final settings = ref.read(settingsProvider.notifier);
+  await showCelebrationOverlay(
     context,
     (onDismiss) => StreakMilestoneDialog(
       weekNumber: weekNumber,
@@ -307,4 +293,5 @@ Future<void> showStreakMilestoneCelebration(
       onDismiss: onDismiss,
     ),
   );
+  unawaited(settings.markMilestoneSeen(weekNumber));
 }

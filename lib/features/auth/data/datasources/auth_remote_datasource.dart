@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
+import 'package:seed_app/core/utils/is_offline.dart' as net;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Web (server) OAuth client ID for the Firebase project. Passing it as
@@ -15,10 +16,30 @@ const String _googleServerClientId =
 
 /// Firebase Auth operations.
 class AuthRemoteDataSource {
-  AuthRemoteDataSource({required FirebaseAuth firebaseAuth})
-    : _firebaseAuth = firebaseAuth;
+  AuthRemoteDataSource({
+    required FirebaseAuth firebaseAuth,
+    Future<bool> Function() isOffline = net.isOffline,
+  }) : _firebaseAuth = firebaseAuth,
+       _isOffline = isOffline;
 
   final FirebaseAuth _firebaseAuth;
+  final Future<bool> Function() _isOffline;
+
+  /// The provider SDKs report a broken sheet as a plain cancel when the
+  /// network is down, so a failure is checked against reachability first.
+  Future<AuthException> _socialSignInFailure({
+    required bool cancelled,
+    required String failureCode,
+    required String message,
+  }) async {
+    if (await _isOffline()) {
+      return AuthException(code: 'sign-in-offline', message: message);
+    }
+    return AuthException(
+      code: cancelled ? 'sign-in-cancelled' : failureCode,
+      message: message,
+    );
+  }
 
   // google_sign_in 7.x requires initialize() before authenticate()/disconnect.
   // Run it once per process and reuse the result.
@@ -75,10 +96,9 @@ class AuthRemoteDataSource {
     try {
       account = await GoogleSignIn.instance.authenticate();
     } on GoogleSignInException catch (e) {
-      throw AuthException(
-        code: e.code == GoogleSignInExceptionCode.canceled
-            ? 'sign-in-cancelled'
-            : 'google-sign-in-failed',
+      throw await _socialSignInFailure(
+        cancelled: e.code == GoogleSignInExceptionCode.canceled,
+        failureCode: 'google-sign-in-failed',
         message: 'Google sign-in failed: ${e.description ?? e.code.name}',
       );
     }
@@ -100,10 +120,9 @@ class AuthRemoteDataSource {
         ],
       );
     } on SignInWithAppleAuthorizationException catch (e) {
-      throw AuthException(
-        code: e.code == AuthorizationErrorCode.canceled
-            ? 'sign-in-cancelled'
-            : 'apple-sign-in-failed',
+      throw await _socialSignInFailure(
+        cancelled: e.code == AuthorizationErrorCode.canceled,
+        failureCode: 'apple-sign-in-failed',
         message: 'Apple sign-in failed: ${e.code.name} ${e.message}',
       );
     }

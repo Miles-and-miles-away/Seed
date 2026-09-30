@@ -17,6 +17,7 @@ const {
   setDoc,
   getDoc,
   updateDoc,
+  arrayUnion,
   deleteDoc,
   deleteField,
   writeBatch,
@@ -259,6 +260,31 @@ describeStringField('personalGoal', {
   max: 100,
   valid: 'save_world',
   wrongType: ['save_world'],
+});
+
+describe('users/{userId} update — ownership', () => {
+  test('rejects an update by another signed-in user', async () => {
+    await seed(`users/${ALICE}`, baseUserDoc);
+    await assertFails(
+      updateDoc(doc(bobDb(), `users/${ALICE}`), {displayName: 'Mallory'}),
+    );
+  });
+
+  test('rejects an update by an anonymous client', async () => {
+    await seed(`users/${ALICE}`, baseUserDoc);
+    await assertFails(
+      updateDoc(doc(anonDb(), `users/${ALICE}`), {displayName: 'Mallory'}),
+    );
+  });
+
+  test('lets the owner append walkthrough items under settings', async () => {
+    await seed(`users/${ALICE}`, baseUserDoc);
+    await assertSucceeds(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        'settings.walkthroughFound': arrayUnion('intro', 'quiz'),
+      }),
+    );
+  });
 });
 
 describe('users/{userId} update — score integrity', () => {
