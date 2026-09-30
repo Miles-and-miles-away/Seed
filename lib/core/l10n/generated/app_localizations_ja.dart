@@ -305,7 +305,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorActionTooSoon => 'アクションの記録は数秒おいてから行ってください。';
 
   @override
-  String get errorOffline => 'オフラインです。接続を確認してもう一度お試しください。';
+  String get errorLogActionOffline =>
+      'オフラインではアクションを記録できません。接続を確認してもう一度お試しください。';
 
   @override
   String get errorAuthEmailInUse => 'このメールアドレスは既に登録されています。';
@@ -335,6 +336,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorAuthSignInCancelled => 'サインインがキャンセルされました。';
+
+  @override
+  String get errorAuthSignInOffline => 'オフラインではサインインできません。接続を確認してもう一度お試しください。';
 
   @override
   String get errorAuthAccountExistsWithDifferentCredential =>

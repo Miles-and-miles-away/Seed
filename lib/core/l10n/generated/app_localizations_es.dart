@@ -309,8 +309,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorActionTooSoon => 'Espera unos segundos entre acciones.';
 
   @override
-  String get errorOffline =>
-      'Sin conexión. Comprueba tu conexión e inténtalo de nuevo.';
+  String get errorLogActionOffline =>
+      'No se puede registrar una acción sin conexión. Comprueba tu conexión e inténtalo de nuevo.';
 
   @override
   String get errorAuthEmailInUse =>
@@ -346,6 +346,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorAuthSignInCancelled => 'Se canceló el inicio de sesión.';
+
+  @override
+  String get errorAuthSignInOffline =>
+      'No se puede iniciar sesión sin conexión. Comprueba tu conexión e inténtalo de nuevo.';
 
   @override
   String get errorAuthAccountExistsWithDifferentCredential =>

@@ -48,6 +48,8 @@ String _mapAuthCode(String code, AppLocalizations l10n) {
     // Social sign-in errors
     case 'sign-in-cancelled':
       return l10n.errorAuthSignInCancelled;
+    case 'sign-in-offline':
+      return l10n.errorAuthSignInOffline;
     case 'account-exists-with-different-credential':
       return l10n.errorAuthAccountExistsWithDifferentCredential;
 

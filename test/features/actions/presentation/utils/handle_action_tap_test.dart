@@ -365,7 +365,7 @@ void main() {
       );
       await expectMessage(
         tester,
-        "You're offline. Check your connection and try again.",
+        'Cannot log an action while offline. Check your connection and try again.',
       );
     });
 

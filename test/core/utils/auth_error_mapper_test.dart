@@ -112,6 +112,13 @@ void main() {
         );
       });
 
+      test('maps sign-in-offline', () {
+        expect(
+          mapAuthErrorToMessage(errorWithCode('sign-in-offline'), l10n),
+          l10n.errorAuthSignInOffline,
+        );
+      });
+
       test('maps account-exists-with-different-credential', () {
         expect(
           mapAuthErrorToMessage(

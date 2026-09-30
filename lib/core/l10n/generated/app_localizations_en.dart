@@ -308,8 +308,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorActionTooSoon => 'Please wait a few seconds between actions.';
 
   @override
-  String get errorOffline =>
-      'You\'re offline. Check your connection and try again.';
+  String get errorLogActionOffline =>
+      'Cannot log an action while offline. Check your connection and try again.';
 
   @override
   String get errorAuthEmailInUse =>
@@ -344,6 +344,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorAuthSignInCancelled => 'Sign-in was cancelled.';
+
+  @override
+  String get errorAuthSignInOffline =>
+      'Cannot sign in while offline. Check your connection and try again.';
 
   @override
   String get errorAuthAccountExistsWithDifferentCredential =>

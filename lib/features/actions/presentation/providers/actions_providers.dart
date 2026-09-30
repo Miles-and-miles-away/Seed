@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
@@ -349,11 +350,15 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     });
 
     if (result.hasError) {
-      appLogger.error(
-        'ActionLog: logAction failed',
-        error: result.error,
-        stackTrace: result.stackTrace,
-      );
+      if (isOfflineError(result.error)) {
+        appLogger.warning('ActionLog: logAction skipped offline');
+      } else {
+        appLogger.error(
+          'ActionLog: logAction failed',
+          error: result.error,
+          stackTrace: result.stackTrace,
+        );
+      }
     }
 
     if (result.hasValue && result.asData?.value != null) {

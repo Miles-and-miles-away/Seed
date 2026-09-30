@@ -628,11 +628,11 @@ abstract class AppLocalizations {
   /// **'Please wait a few seconds between actions.'**
   String get errorActionTooSoon;
 
-  /// No description provided for @errorOffline.
+  /// No description provided for @errorLogActionOffline.
   ///
   /// In en, this message translates to:
-  /// **'You\'re offline. Check your connection and try again.'**
-  String get errorOffline;
+  /// **'Cannot log an action while offline. Check your connection and try again.'**
+  String get errorLogActionOffline;
 
   /// No description provided for @errorAuthEmailInUse.
   ///
@@ -687,6 +687,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign-in was cancelled.'**
   String get errorAuthSignInCancelled;
+
+  /// No description provided for @errorAuthSignInOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot sign in while offline. Check your connection and try again.'**
+  String get errorAuthSignInOffline;
 
   /// No description provided for @errorAuthAccountExistsWithDifferentCredential.
   ///
