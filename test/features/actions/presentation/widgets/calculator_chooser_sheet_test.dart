@@ -46,14 +46,23 @@ void main() {
       );
       await tester.pump();
       await tester.tap(find.text('open'));
-      await pumpUntilFound(tester, find.byType(WalkthroughOverlay));
-      await tester.pump();
+      // Frame by frame, as on a device: the explanation must wait for the
+      // sheet to finish sliding in or its spotlight lands mid-transition.
+      for (var i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
 
       final overlay = tester.widget<CelebrationOverlay>(
         find.byType(CelebrationOverlay),
       );
       expect(overlay.backdropBottom, isNotNull);
       expect(overlay.backdropBottom, greaterThan(0));
+      expect(
+        overlay.backdropBottom,
+        lessThanOrEqualTo(
+          tester.getTopLeft(find.byType(CalculatorChooserSheet)).dy,
+        ),
+      );
       expect(tileOpacities(tester), [1, opacityMuted, opacityMuted]);
 
       await tester.tap(find.text('Next'));

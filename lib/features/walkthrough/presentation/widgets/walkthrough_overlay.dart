@@ -275,6 +275,30 @@ class WalkthroughTrigger extends ConsumerStatefulWidget {
 
 class _WalkthroughTriggerState extends ConsumerState<WalkthroughTrigger> {
   bool _shown = false;
+  Animation<double>? _transition;
+
+  @override
+  void dispose() {
+    _transition?.removeStatusListener(_onTransition);
+    super.dispose();
+  }
+
+  void _show() {
+    if (!mounted) return;
+    showWalkthroughItem(
+      context,
+      widget.item,
+      spotlight: widget.spotlight,
+      onPage: widget.onPage,
+    );
+  }
+
+  void _onTransition(AnimationStatus status) {
+    if (status != AnimationStatus.completed) return;
+    _transition?.removeStatusListener(_onTransition);
+    _transition = null;
+    _show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -285,16 +309,13 @@ class _WalkthroughTriggerState extends ConsumerState<WalkthroughTrigger> {
         !_shown &&
         TickerMode.valuesOf(context).enabled) {
       _shown = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          showWalkthroughItem(
-            context,
-            widget.item,
-            spotlight: widget.spotlight,
-            onPage: widget.onPage,
-          );
-        }
-      });
+      // A route still sliding in would hand the spotlight a moving rect.
+      final transition = ModalRoute.of(context)?.animation;
+      if (transition != null && transition.status == AnimationStatus.forward) {
+        _transition = transition..addStatusListener(_onTransition);
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _show());
+      }
     }
     return widget.child;
   }
