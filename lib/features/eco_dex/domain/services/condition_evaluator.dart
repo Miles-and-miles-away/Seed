@@ -1,6 +1,7 @@
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_condition_model.dart';
 import 'package:seed_app/features/eco_dex/domain/constants/zero_co2_action_ids.dart';
+import 'package:seed_app/features/walkthrough/presentation/walkthrough_items.dart';
 
 /// Checks if a condition is met given the user's stats.
 bool isConditionMet(EcoDexCondition condition, AppUserModel user) {
@@ -21,8 +22,15 @@ bool isConditionMet(EcoDexCondition condition, AppUserModel user) {
       categoriesCoveredCount(user) >= count,
     UniqueActionsLoggedCondition(:final count) =>
       user.uniqueActionIds.length >= count,
+    // Social sign-in fills name and photo up front, so without the
+    // action gate this lands on top of the first-action entry.
     ProfileCompleteCondition() =>
-      user.displayName != null && user.photoUrl != null,
+      user.displayName != null &&
+          user.photoUrl != null &&
+          user.totalActionsCount >= 2,
+    WalkthroughCompleteCondition() => WalkthroughItem.checklist.every(
+      (item) => user.walkthroughFound.contains(item.name),
+    ),
     EcodexCountCondition(:final count) => user.ecodexDiscovered.length >= count,
     ChallengesCompletedCondition(:final count) =>
       user.challengesCompleted >= count,

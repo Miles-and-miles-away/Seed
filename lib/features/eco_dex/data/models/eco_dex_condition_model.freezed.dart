@@ -64,6 +64,10 @@ EcoDexCondition _$EcoDexConditionFromJson(
           return ProfileCompleteCondition.fromJson(
             json
           );
+                case 'walkthroughComplete':
+          return WalkthroughCompleteCondition.fromJson(
+            json
+          );
                 case 'ecodexCount':
           return EcodexCountCondition.fromJson(
             json
@@ -134,7 +138,7 @@ extension EcoDexConditionPatterns on EcoDexCondition {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TotalActionsCondition value)?  totalActions,TResult Function( CategoryActionsCondition value)?  categoryActions,TResult Function( Co2SavedCondition value)?  co2Saved,TResult Function( StreakDaysCondition value)?  streakDays,TResult Function( LevelReachedCondition value)?  levelReached,TResult Function( SdgBreadthCondition value)?  sdgBreadth,TResult Function( ChallengeStreakCondition value)?  challengeStreak,TResult Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult Function( ProfileCompleteCondition value)?  profileComplete,TResult Function( EcodexCountCondition value)?  ecodexCount,TResult Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TotalActionsCondition value)?  totalActions,TResult Function( CategoryActionsCondition value)?  categoryActions,TResult Function( Co2SavedCondition value)?  co2Saved,TResult Function( StreakDaysCondition value)?  streakDays,TResult Function( LevelReachedCondition value)?  levelReached,TResult Function( SdgBreadthCondition value)?  sdgBreadth,TResult Function( ChallengeStreakCondition value)?  challengeStreak,TResult Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult Function( ProfileCompleteCondition value)?  profileComplete,TResult Function( WalkthroughCompleteCondition value)?  walkthroughComplete,TResult Function( EcodexCountCondition value)?  ecodexCount,TResult Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
@@ -149,7 +153,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition() when ecoFactsView
 return ecoFactsViewed(_that);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete(_that);case EcodexCountCondition() when ecodexCount != null:
+return profileComplete(_that);case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete(_that);case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that);case _:
@@ -170,7 +175,7 @@ return uniqueZeroCo2Actions(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TotalActionsCondition value)  totalActions,required TResult Function( CategoryActionsCondition value)  categoryActions,required TResult Function( Co2SavedCondition value)  co2Saved,required TResult Function( StreakDaysCondition value)  streakDays,required TResult Function( LevelReachedCondition value)  levelReached,required TResult Function( SdgBreadthCondition value)  sdgBreadth,required TResult Function( ChallengeStreakCondition value)  challengeStreak,required TResult Function( MultiDayChallengeCondition value)  multiDayChallenge,required TResult Function( EcoFactsViewedCondition value)  ecoFactsViewed,required TResult Function( CategoriesCoveredCondition value)  categoriesCovered,required TResult Function( UniqueActionsLoggedCondition value)  uniqueActionsLogged,required TResult Function( ProfileCompleteCondition value)  profileComplete,required TResult Function( EcodexCountCondition value)  ecodexCount,required TResult Function( ChallengesCompletedCondition value)  challengesCompleted,required TResult Function( UniqueZeroCo2ActionsCondition value)  uniqueZeroCo2Actions,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TotalActionsCondition value)  totalActions,required TResult Function( CategoryActionsCondition value)  categoryActions,required TResult Function( Co2SavedCondition value)  co2Saved,required TResult Function( StreakDaysCondition value)  streakDays,required TResult Function( LevelReachedCondition value)  levelReached,required TResult Function( SdgBreadthCondition value)  sdgBreadth,required TResult Function( ChallengeStreakCondition value)  challengeStreak,required TResult Function( MultiDayChallengeCondition value)  multiDayChallenge,required TResult Function( EcoFactsViewedCondition value)  ecoFactsViewed,required TResult Function( CategoriesCoveredCondition value)  categoriesCovered,required TResult Function( UniqueActionsLoggedCondition value)  uniqueActionsLogged,required TResult Function( ProfileCompleteCondition value)  profileComplete,required TResult Function( WalkthroughCompleteCondition value)  walkthroughComplete,required TResult Function( EcodexCountCondition value)  ecodexCount,required TResult Function( ChallengesCompletedCondition value)  challengesCompleted,required TResult Function( UniqueZeroCo2ActionsCondition value)  uniqueZeroCo2Actions,}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition():
@@ -185,7 +190,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition():
 return ecoFactsViewed(_that);case CategoriesCoveredCondition():
 return categoriesCovered(_that);case UniqueActionsLoggedCondition():
 return uniqueActionsLogged(_that);case ProfileCompleteCondition():
-return profileComplete(_that);case EcodexCountCondition():
+return profileComplete(_that);case WalkthroughCompleteCondition():
+return walkthroughComplete(_that);case EcodexCountCondition():
 return ecodexCount(_that);case ChallengesCompletedCondition():
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition():
 return uniqueZeroCo2Actions(_that);}
@@ -202,7 +208,7 @@ return uniqueZeroCo2Actions(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TotalActionsCondition value)?  totalActions,TResult? Function( CategoryActionsCondition value)?  categoryActions,TResult? Function( Co2SavedCondition value)?  co2Saved,TResult? Function( StreakDaysCondition value)?  streakDays,TResult? Function( LevelReachedCondition value)?  levelReached,TResult? Function( SdgBreadthCondition value)?  sdgBreadth,TResult? Function( ChallengeStreakCondition value)?  challengeStreak,TResult? Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult? Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult? Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult? Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult? Function( ProfileCompleteCondition value)?  profileComplete,TResult? Function( EcodexCountCondition value)?  ecodexCount,TResult? Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult? Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TotalActionsCondition value)?  totalActions,TResult? Function( CategoryActionsCondition value)?  categoryActions,TResult? Function( Co2SavedCondition value)?  co2Saved,TResult? Function( StreakDaysCondition value)?  streakDays,TResult? Function( LevelReachedCondition value)?  levelReached,TResult? Function( SdgBreadthCondition value)?  sdgBreadth,TResult? Function( ChallengeStreakCondition value)?  challengeStreak,TResult? Function( MultiDayChallengeCondition value)?  multiDayChallenge,TResult? Function( EcoFactsViewedCondition value)?  ecoFactsViewed,TResult? Function( CategoriesCoveredCondition value)?  categoriesCovered,TResult? Function( UniqueActionsLoggedCondition value)?  uniqueActionsLogged,TResult? Function( ProfileCompleteCondition value)?  profileComplete,TResult? Function( WalkthroughCompleteCondition value)?  walkthroughComplete,TResult? Function( EcodexCountCondition value)?  ecodexCount,TResult? Function( ChallengesCompletedCondition value)?  challengesCompleted,TResult? Function( UniqueZeroCo2ActionsCondition value)?  uniqueZeroCo2Actions,}){
 final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
@@ -217,7 +223,8 @@ return multiDayChallenge(_that);case EcoFactsViewedCondition() when ecoFactsView
 return ecoFactsViewed(_that);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete(_that);case EcodexCountCondition() when ecodexCount != null:
+return profileComplete(_that);case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete(_that);case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that);case _:
@@ -237,7 +244,7 @@ return uniqueZeroCo2Actions(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int count)?  totalActions,TResult Function( String category,  int count)?  categoryActions,TResult Function( int grams)?  co2Saved,TResult Function( int days)?  streakDays,TResult Function( int level)?  levelReached,TResult Function( int count)?  sdgBreadth,TResult Function( int days)?  challengeStreak,TResult Function( String templateId)?  multiDayChallenge,TResult Function( int count)?  ecoFactsViewed,TResult Function( int count)?  categoriesCovered,TResult Function( int count)?  uniqueActionsLogged,TResult Function()?  profileComplete,TResult Function( int count)?  ecodexCount,TResult Function( int count)?  challengesCompleted,TResult Function( int count)?  uniqueZeroCo2Actions,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int count)?  totalActions,TResult Function( String category,  int count)?  categoryActions,TResult Function( int grams)?  co2Saved,TResult Function( int days)?  streakDays,TResult Function( int level)?  levelReached,TResult Function( int count)?  sdgBreadth,TResult Function( int days)?  challengeStreak,TResult Function( String templateId)?  multiDayChallenge,TResult Function( int count)?  ecoFactsViewed,TResult Function( int count)?  categoriesCovered,TResult Function( int count)?  uniqueActionsLogged,TResult Function()?  profileComplete,TResult Function()?  walkthroughComplete,TResult Function( int count)?  ecodexCount,TResult Function( int count)?  challengesCompleted,TResult Function( int count)?  uniqueZeroCo2Actions,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
 return totalActions(_that.count);case CategoryActionsCondition() when categoryActions != null:
@@ -251,7 +258,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition() when e
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete();case EcodexCountCondition() when ecodexCount != null:
+return profileComplete();case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete();case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that.count);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that.count);case _:
@@ -272,7 +280,7 @@ return uniqueZeroCo2Actions(_that.count);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int count)  totalActions,required TResult Function( String category,  int count)  categoryActions,required TResult Function( int grams)  co2Saved,required TResult Function( int days)  streakDays,required TResult Function( int level)  levelReached,required TResult Function( int count)  sdgBreadth,required TResult Function( int days)  challengeStreak,required TResult Function( String templateId)  multiDayChallenge,required TResult Function( int count)  ecoFactsViewed,required TResult Function( int count)  categoriesCovered,required TResult Function( int count)  uniqueActionsLogged,required TResult Function()  profileComplete,required TResult Function( int count)  ecodexCount,required TResult Function( int count)  challengesCompleted,required TResult Function( int count)  uniqueZeroCo2Actions,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int count)  totalActions,required TResult Function( String category,  int count)  categoryActions,required TResult Function( int grams)  co2Saved,required TResult Function( int days)  streakDays,required TResult Function( int level)  levelReached,required TResult Function( int count)  sdgBreadth,required TResult Function( int days)  challengeStreak,required TResult Function( String templateId)  multiDayChallenge,required TResult Function( int count)  ecoFactsViewed,required TResult Function( int count)  categoriesCovered,required TResult Function( int count)  uniqueActionsLogged,required TResult Function()  profileComplete,required TResult Function()  walkthroughComplete,required TResult Function( int count)  ecodexCount,required TResult Function( int count)  challengesCompleted,required TResult Function( int count)  uniqueZeroCo2Actions,}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition():
 return totalActions(_that.count);case CategoryActionsCondition():
@@ -286,7 +294,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition():
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition():
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition():
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition():
-return profileComplete();case EcodexCountCondition():
+return profileComplete();case WalkthroughCompleteCondition():
+return walkthroughComplete();case EcodexCountCondition():
 return ecodexCount(_that.count);case ChallengesCompletedCondition():
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition():
 return uniqueZeroCo2Actions(_that.count);}
@@ -303,7 +312,7 @@ return uniqueZeroCo2Actions(_that.count);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int count)?  totalActions,TResult? Function( String category,  int count)?  categoryActions,TResult? Function( int grams)?  co2Saved,TResult? Function( int days)?  streakDays,TResult? Function( int level)?  levelReached,TResult? Function( int count)?  sdgBreadth,TResult? Function( int days)?  challengeStreak,TResult? Function( String templateId)?  multiDayChallenge,TResult? Function( int count)?  ecoFactsViewed,TResult? Function( int count)?  categoriesCovered,TResult? Function( int count)?  uniqueActionsLogged,TResult? Function()?  profileComplete,TResult? Function( int count)?  ecodexCount,TResult? Function( int count)?  challengesCompleted,TResult? Function( int count)?  uniqueZeroCo2Actions,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int count)?  totalActions,TResult? Function( String category,  int count)?  categoryActions,TResult? Function( int grams)?  co2Saved,TResult? Function( int days)?  streakDays,TResult? Function( int level)?  levelReached,TResult? Function( int count)?  sdgBreadth,TResult? Function( int days)?  challengeStreak,TResult? Function( String templateId)?  multiDayChallenge,TResult? Function( int count)?  ecoFactsViewed,TResult? Function( int count)?  categoriesCovered,TResult? Function( int count)?  uniqueActionsLogged,TResult? Function()?  profileComplete,TResult? Function()?  walkthroughComplete,TResult? Function( int count)?  ecodexCount,TResult? Function( int count)?  challengesCompleted,TResult? Function( int count)?  uniqueZeroCo2Actions,}) {final _that = this;
 switch (_that) {
 case TotalActionsCondition() when totalActions != null:
 return totalActions(_that.count);case CategoryActionsCondition() when categoryActions != null:
@@ -317,7 +326,8 @@ return multiDayChallenge(_that.templateId);case EcoFactsViewedCondition() when e
 return ecoFactsViewed(_that.count);case CategoriesCoveredCondition() when categoriesCovered != null:
 return categoriesCovered(_that.count);case UniqueActionsLoggedCondition() when uniqueActionsLogged != null:
 return uniqueActionsLogged(_that.count);case ProfileCompleteCondition() when profileComplete != null:
-return profileComplete();case EcodexCountCondition() when ecodexCount != null:
+return profileComplete();case WalkthroughCompleteCondition() when walkthroughComplete != null:
+return walkthroughComplete();case EcodexCountCondition() when ecodexCount != null:
 return ecodexCount(_that.count);case ChallengesCompletedCondition() when challengesCompleted != null:
 return challengesCompleted(_that.count);case UniqueZeroCo2ActionsCondition() when uniqueZeroCo2Actions != null:
 return uniqueZeroCo2Actions(_that.count);case _:
@@ -1186,6 +1196,45 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
     return 'EcoDexCondition.profileComplete()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+@JsonSerializable()
+
+class WalkthroughCompleteCondition implements EcoDexCondition {
+  const WalkthroughCompleteCondition({ String? $type}): $type = $type ?? 'walkthroughComplete';
+  factory WalkthroughCompleteCondition.fromJson(Map<String, dynamic> json) => _$WalkthroughCompleteConditionFromJson(json);
+
+
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+
+@override
+Map<String, dynamic> toJson() {
+  return _$WalkthroughCompleteConditionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WalkthroughCompleteCondition);
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'EcoDexCondition.walkthroughComplete()';
 }
 
 

@@ -70,11 +70,11 @@
       "artPrompt": "Blue-green globe with white ice caps wrapped in a thin warm red atmospheric band",
       "condition": {
         "type": "co2Saved",
-        "grams": 1000
+        "grams": 10000
       },
-      "hintEn": "Save 1 kg of CO2 to discover this entry",
-      "hintJa": "CO2を1 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 1 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 10 kg of CO2 to discover this entry",
+      "hintJa": "CO2を10 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 10 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_02",
@@ -90,11 +90,11 @@
       "artPrompt": "Green forest blending into blue ocean, grey wisps descending into both",
       "condition": {
         "type": "co2Saved",
-        "grams": 5000
+        "grams": 50000
       },
-      "hintEn": "Save 5 kg of CO2 to discover this entry",
-      "hintJa": "CO2を5 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 5 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 50 kg of CO2 to discover this entry",
+      "hintJa": "CO2を50 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 50 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_03",
@@ -111,11 +111,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 10
+        "count": 25
       },
-      "hintEn": "Log 10 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを10回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 10 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 25 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを25回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 25 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "climate_04",
@@ -130,12 +130,12 @@
       "iconName": "climate_04",
       "artPrompt": "red-orange dominoes mid-fall in a curving line, gradient from standing to toppled",
       "condition": {
-        "type": "co2Saved",
-        "grams": 15000
+        "type": "ecodexCount",
+        "count": 10
       },
-      "hintEn": "Save 15 kg of CO2 to discover this entry",
-      "hintJa": "CO2を15 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 15 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Discover 10 Eco-Dex entries",
+      "hintJa": "Eco-Dexのエントリーを10個発見しましょう",
+      "hintEs": "Descubre 10 entradas del Eco-Dex"
     },
     {
       "id": "climate_05",
@@ -151,11 +151,11 @@
       "artPrompt": "White calendar page for a month, 30 days as squares. Some squares have green circles in them, clean background",
       "condition": {
         "type": "streakDays",
-        "days": 7
+        "days": 50
       },
-      "hintEn": "Maintain a 7-day streak to discover this entry",
-      "hintJa": "7日間の連続記録を達成してこのエントリーを発見しましょう",
-      "hintEs": "Mantén una racha de 7 días para descubrir esta entrada"
+      "hintEn": "Maintain a 50-day streak to discover this entry",
+      "hintJa": "50日間の連続記録を達成してこのエントリーを発見しましょう",
+      "hintEs": "Mantén una racha de 50 días para descubrir esta entrada"
     },
     {
       "id": "climate_06",
@@ -171,11 +171,11 @@
       "artPrompt": "Red curved line rising steeply across faint grey gridlines",
       "condition": {
         "type": "co2Saved",
-        "grams": 40000
+        "grams": 100000
       },
-      "hintEn": "Save 40 kg of CO2 to discover this entry",
-      "hintJa": "CO2を40 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 40 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 100 kg of CO2 to discover this entry",
+      "hintJa": "CO2を100 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 100 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_07",
@@ -192,11 +192,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "transport",
-        "count": 25
+        "count": 30
       },
-      "hintEn": "Log 25 transport actions to discover this entry",
-      "hintJa": "交通アクションを25回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 25 acciones de transporte para descubrir esta entrada"
+      "hintEn": "Log 30 transport actions to discover this entry",
+      "hintJa": "交通アクションを30回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 30 acciones de transporte para descubrir esta entrada"
     },
     {
       "id": "climate_08",
@@ -212,11 +212,11 @@
       "artPrompt": "bright yellow sun lines striking a white ice sheet",
       "condition": {
         "type": "co2Saved",
-        "grams": 100000
+        "grams": 200000
       },
-      "hintEn": "Save 100 kg of CO2 to discover this entry",
-      "hintJa": "CO2を100 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 100 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 200 kg of CO2 to discover this entry",
+      "hintJa": "CO2を200 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 200 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_09",
@@ -252,11 +252,11 @@
       "artPrompt": "Frozen tundra surface with blue bubbles rising from brown cracked earth",
       "condition": {
         "type": "co2Saved",
-        "grams": 250000
+        "grams": 500000
       },
-      "hintEn": "Save 250 kg of CO2 to discover this entry",
-      "hintJa": "CO2を250 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 250 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 500 kg of CO2 to discover this entry",
+      "hintJa": "CO2を500 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 500 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_11",
@@ -272,11 +272,11 @@
       "artPrompt": "Green hillside with white wind turbines and a small grey smokestack",
       "condition": {
         "type": "co2Saved",
-        "grams": 500000
+        "grams": 750000
       },
-      "hintEn": "Save 500 kg of CO2 to discover this entry",
-      "hintJa": "CO2を500 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 500 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 750 kg of CO2 to discover this entry",
+      "hintJa": "CO2を750 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 750 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "climate_12",
@@ -313,11 +313,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 3
+        "count": 10
       },
-      "hintEn": "Log 3 water actions to discover this entry",
-      "hintJa": "水アクションを3回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 3 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 10 water actions to discover this entry",
+      "hintJa": "水アクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_02",
@@ -334,11 +334,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 10
+        "count": 25
       },
-      "hintEn": "Log 10 water actions to discover this entry",
-      "hintJa": "水アクションを10回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 10 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 25 water actions to discover this entry",
+      "hintJa": "水アクションを25回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 25 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_03",
@@ -355,11 +355,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 10
+        "count": 20
       },
-      "hintEn": "Log 10 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを10回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 10 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 20 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを20回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 20 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "oceans_04",
@@ -376,11 +376,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 25
+        "count": 50
       },
-      "hintEn": "Log 25 water actions to discover this entry",
-      "hintJa": "水アクションを25回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 25 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 50 water actions to discover this entry",
+      "hintJa": "水アクションを50回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 50 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_05",
@@ -395,12 +395,13 @@
       "iconName": "oceans_05",
       "artPrompt": "Deep blue ocean surface with grey wisps sinking beneath the waves",
       "condition": {
-        "type": "co2Saved",
-        "grams": 20000
+        "type": "categoryActions",
+        "category": "water",
+        "count": 500
       },
-      "hintEn": "Save 20 kg of CO2 to discover this entry",
-      "hintJa": "CO2を20 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 20 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Log 500 water actions to discover this entry",
+      "hintJa": "水アクションを500回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 500 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_06",
@@ -417,11 +418,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 30
+        "count": 120
       },
-      "hintEn": "Log 30 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを30回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 30 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 120 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを120回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 120 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "oceans_07",
@@ -437,11 +438,11 @@
       "artPrompt": "Reusable blue water bottle and canvas tote bag standing on clean sandy shore with gentle turquoise waves",
       "condition": {
         "type": "multiDayChallenge",
-        "templateId": "md_zero_waste_week"
+        "templateId": "md_streak_14"
       },
-      "hintEn": "Complete the Zero Waste Week challenge",
-      "hintJa": "ゼロウェイストウィークチャレンジを達成しましょう",
-      "hintEs": "Completa el desafío Semana Cero Residuos"
+      "hintEn": "Complete the Two-Week Streak challenge",
+      "hintJa": "2週間チャレンジを達成しましょう",
+      "hintEs": "Completa el desafío Racha de Dos Semanas"
     },
     {
       "id": "oceans_08",
@@ -458,11 +459,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 60
+        "count": 100
       },
-      "hintEn": "Log 60 water actions to discover this entry",
-      "hintJa": "水アクションを60回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 60 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 100 water actions to discover this entry",
+      "hintJa": "水アクションを100回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 100 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_09",
@@ -499,11 +500,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 100
+        "count": 180
       },
-      "hintEn": "Log 100 water actions to discover this entry",
-      "hintJa": "水アクションを100回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 100 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 180 water actions to discover this entry",
+      "hintJa": "水アクションを180回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 180 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "oceans_11",
@@ -520,11 +521,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "water",
-        "count": 200
+        "count": 300
       },
-      "hintEn": "Log 200 water actions to discover this entry",
-      "hintJa": "水アクションを200回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 200 acciones de agua para descubrir esta entrada"
+      "hintEn": "Log 300 water actions to discover this entry",
+      "hintJa": "水アクションを300回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 300 acciones de agua para descubrir esta entrada"
     },
     {
       "id": "food_01",
@@ -541,11 +542,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 3
+        "count": 10
       },
-      "hintEn": "Log 3 food actions to discover this entry",
-      "hintJa": "食のアクションを3回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 3 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 10 food actions to discover this entry",
+      "hintJa": "食のアクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_02",
@@ -562,11 +563,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 10
+        "count": 20
       },
-      "hintEn": "Log 10 food actions to discover this entry",
-      "hintJa": "食のアクションを10回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 10 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 20 food actions to discover this entry",
+      "hintJa": "食のアクションを20回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 20 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_03",
@@ -581,12 +582,13 @@
       "iconName": "food_03",
       "artPrompt": "cross-section of brown soil layers with tiny colorful organisms inside",
       "condition": {
-        "type": "co2Saved",
-        "grams": 10000
+        "type": "categoryActions",
+        "category": "food",
+        "count": 500
       },
-      "hintEn": "Save 10 kg of CO2 to discover this entry",
-      "hintJa": "CO2を10 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 10 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Log 500 food actions to discover this entry",
+      "hintJa": "食のアクションを500回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 500 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_04",
@@ -603,11 +605,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 25
+        "count": 75
       },
-      "hintEn": "Log 25 food actions to discover this entry",
-      "hintJa": "食のアクションを25回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 25 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 75 food actions to discover this entry",
+      "hintJa": "食のアクションを75回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 75 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_05",
@@ -644,11 +646,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 50
+        "count": 120
       },
-      "hintEn": "Log 50 food actions to discover this entry",
-      "hintJa": "食のアクションを50回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 50 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 120 food actions to discover this entry",
+      "hintJa": "食のアクションを120回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 120 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_07",
@@ -665,11 +667,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 20
+        "count": 75
       },
-      "hintEn": "Log 20 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを20回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 20 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 75 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを75回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 75 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "food_08",
@@ -686,11 +688,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 80
+        "count": 180
       },
-      "hintEn": "Log 80 food actions to discover this entry",
-      "hintJa": "食のアクションを80回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 80 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 180 food actions to discover this entry",
+      "hintJa": "食のアクションを180回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 180 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_09",
@@ -727,11 +729,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 150
+        "count": 250
       },
-      "hintEn": "Log 150 food actions to discover this entry",
-      "hintJa": "食のアクションを150回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 150 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 250 food actions to discover this entry",
+      "hintJa": "食のアクションを250回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 250 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "food_11",
@@ -768,11 +770,11 @@
       "artPrompt": "white mycelium threads spreading through brown soil around tree roots",
       "condition": {
         "type": "categoriesCovered",
-        "count": 2
+        "count": 5
       },
-      "hintEn": "Log actions in 2 different categories",
-      "hintJa": "2つの異なるカテゴリでアクションを記録しましょう",
-      "hintEs": "Registra acciones en 2 categorías diferentes"
+      "hintEn": "Log actions in 5 different categories",
+      "hintJa": "5つの異なるカテゴリでアクションを記録しましょう",
+      "hintEs": "Registra acciones en 5 categorías diferentes"
     },
     {
       "id": "bio_02",
@@ -788,11 +790,11 @@
       "artPrompt": "row of animal silhouettes, each fainter than the last, ending in an empty outline, light background",
       "condition": {
         "type": "totalActions",
-        "count": 10
+        "count": 20
       },
-      "hintEn": "Log 10 total actions to discover this entry",
-      "hintJa": "合計10回のアクションを記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 10 acciones totales para descubrir esta entrada"
+      "hintEn": "Log 20 total actions to discover this entry",
+      "hintJa": "合計20回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 20 acciones totales para descubrir esta entrada"
     },
     {
       "id": "bio_03",
@@ -808,11 +810,11 @@
       "artPrompt": "Grey wolf running through a green valley beside a blue river",
       "condition": {
         "type": "categoriesCovered",
-        "count": 4
+        "count": 7
       },
-      "hintEn": "Log actions in 4 different categories",
-      "hintJa": "4つの異なるカテゴリでアクションを記録しましょう",
-      "hintEs": "Registra acciones en 4 categorías diferentes"
+      "hintEn": "Log actions in 7 different categories",
+      "hintJa": "7つの異なるカテゴリでアクションを記録しましょう",
+      "hintEs": "Registra acciones en 7 categorías diferentes"
     },
     {
       "id": "bio_04",
@@ -827,12 +829,12 @@
       "iconName": "bio_04",
       "artPrompt": "Layered green rainforest canopy with white mist wisps between trees",
       "condition": {
-        "type": "sdgBreadth",
-        "count": 4
+        "type": "totalActions",
+        "count": 50
       },
-      "hintEn": "Log actions for 4 different SDGs",
-      "hintJa": "4つの異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 4 ODS diferentes"
+      "hintEn": "Log 50 total actions to discover this entry",
+      "hintJa": "合計50回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 50 acciones totales para descubrir esta entrada"
     },
     {
       "id": "bio_05",
@@ -848,11 +850,11 @@
       "artPrompt": "Grid of colorful animal and plant shapes arranged in a square",
       "condition": {
         "type": "uniqueActionsLogged",
-        "count": 10
+        "count": 20
       },
-      "hintEn": "Log 10 different types of actions",
-      "hintJa": "10種類の異なるアクションを記録しましょう",
-      "hintEs": "Registra 10 tipos diferentes de acciones"
+      "hintEn": "Log 20 different types of actions",
+      "hintJa": "20種類の異なるアクションを記録しましょう",
+      "hintEs": "Registra 20 tipos diferentes de acciones"
     },
     {
       "id": "bio_06",
@@ -868,11 +870,11 @@
       "artPrompt": "White heron standing on green lily pads in blue water, golden sky",
       "condition": {
         "type": "categoriesCovered",
-        "count": 6
+        "count": 8
       },
-      "hintEn": "Log actions in 6 different categories",
-      "hintJa": "6つの異なるカテゴリでアクションを記録しましょう",
-      "hintEs": "Registra acciones en 6 categorías diferentes"
+      "hintEn": "Log actions in all 8 categories",
+      "hintJa": "8つすべてのカテゴリでアクションを記録しましょう",
+      "hintEs": "Registra acciones en las 8 categorías"
     },
     {
       "id": "bio_07",
@@ -888,11 +890,11 @@
       "artPrompt": "green tree frog sitting on a large green leaf",
       "condition": {
         "type": "totalActions",
-        "count": 75
+        "count": 100
       },
-      "hintEn": "Log 75 total actions to discover this entry",
-      "hintJa": "合計75回のアクションを記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 75 acciones totales para descubrir esta entrada"
+      "hintEn": "Log 100 total actions to discover this entry",
+      "hintJa": "合計100回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 100 acciones totales para descubrir esta entrada"
     },
     {
       "id": "bio_08",
@@ -907,12 +909,12 @@
       "iconName": "bio_08",
       "artPrompt": "brown sea otter floating among green kelp fronds, blue water",
       "condition": {
-        "type": "sdgBreadth",
-        "count": 8
+        "type": "totalActions",
+        "count": 200
       },
-      "hintEn": "Log actions for 8 different SDGs",
-      "hintJa": "8つの異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 8 ODS diferentes"
+      "hintEn": "Log 200 total actions to discover this entry",
+      "hintJa": "合計200回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 200 acciones totales para descubrir esta entrada"
     },
     {
       "id": "bio_09",
@@ -928,11 +930,11 @@
       "artPrompt": "Golden 5 point star with trees, sea, and city motifs around it",
       "condition": {
         "type": "uniqueActionsLogged",
-        "count": 25
+        "count": 45
       },
-      "hintEn": "Log 25 different types of actions",
-      "hintJa": "25種類の異なるアクションを記録しましょう",
-      "hintEs": "Registra 25 tipos diferentes de acciones"
+      "hintEn": "Log 45 different types of actions",
+      "hintJa": "45種類の異なるアクションを記録しましょう",
+      "hintEs": "Registra 45 tipos diferentes de acciones"
     },
     {
       "id": "bio_10",
@@ -947,12 +949,11 @@
       "iconName": "bio_10",
       "artPrompt": "Green fern, brown rabbit, and grey mushroom linked by green curved lines",
       "condition": {
-        "type": "categoriesCovered",
-        "count": 9
+        "type": "walkthroughComplete"
       },
-      "hintEn": "Log actions in all 9 categories",
-      "hintJa": "9つすべてのカテゴリでアクションを記録しましょう",
-      "hintEs": "Registra acciones en las 9 categorías"
+      "hintEn": "Find everything on the Things to find list to discover this entry",
+      "hintJa": "「見つけるもの」リストをすべて見つけてこのエントリーを発見しましょう",
+      "hintEs": "Encuentra todo en la lista Cosas por descubrir para revelar esta entrada"
     },
     {
       "id": "bio_11",
@@ -968,11 +969,11 @@
       "artPrompt": "Black-and-white panda eating green bamboo, small blue whale silhouette behind",
       "condition": {
         "type": "totalActions",
-        "count": 200
+        "count": 365
       },
-      "hintEn": "Log 200 total actions to discover this entry",
-      "hintJa": "合計200回のアクションを記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 200 acciones totales para descubrir esta entrada"
+      "hintEn": "Log 365 total actions to discover this entry",
+      "hintJa": "合計365回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 365 acciones totales para descubrir esta entrada"
     },
     {
       "id": "energy_01",
@@ -989,11 +990,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 3
+        "count": 10
       },
-      "hintEn": "Log 3 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを3回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 3 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 10 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "energy_02",
@@ -1010,11 +1011,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "transport",
-        "count": 5
+        "count": 10
       },
-      "hintEn": "Log 5 transport actions to discover this entry",
-      "hintJa": "交通アクションを5回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 5 acciones de transporte para descubrir esta entrada"
+      "hintEn": "Log 10 transport actions to discover this entry",
+      "hintJa": "交通アクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de transporte para descubrir esta entrada"
     },
     {
       "id": "energy_03",
@@ -1031,11 +1032,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 15
+        "count": 50
       },
-      "hintEn": "Log 15 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを15回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 15 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 50 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを50回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 50 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "energy_04",
@@ -1050,12 +1051,13 @@
       "iconName": "energy_04",
       "artPrompt": "rectangle white light switch turned off with a small green leaf beside it, light blue background",
       "condition": {
-        "type": "co2Saved",
-        "grams": 8000
+        "type": "categoryActions",
+        "category": "energy",
+        "count": 500
       },
-      "hintEn": "Save 8 kg of CO2 to discover this entry",
-      "hintJa": "CO2を8 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 8 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Log 500 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを500回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 500 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "energy_05",
@@ -1072,11 +1074,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "transport",
-        "count": 25
+        "count": 75
       },
-      "hintEn": "Log 25 transport actions to discover this entry",
-      "hintJa": "交通アクションを25回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 25 acciones de transporte para descubrir esta entrada"
+      "hintEn": "Log 75 transport actions to discover this entry",
+      "hintJa": "交通アクションを75回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 75 acciones de transporte para descubrir esta entrada"
     },
     {
       "id": "energy_06",
@@ -1093,11 +1095,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 40
+        "count": 100
       },
-      "hintEn": "Log 40 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを40回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 40 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 100 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを100回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 100 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "energy_07",
@@ -1113,11 +1115,11 @@
       "artPrompt": "row of unplugged power plugs with small green check marks",
       "condition": {
         "type": "challengeStreak",
-        "days": 10
+        "days": 14
       },
-      "hintEn": "Complete 10 daily challenges in a row",
-      "hintJa": "デイリーチャレンジを10回連続で達成しましょう",
-      "hintEs": "Completa 10 desafíos diarios consecutivos"
+      "hintEn": "Complete 14 daily challenges in a row",
+      "hintJa": "デイリーチャレンジを14回連続で達成しましょう",
+      "hintEs": "Completa 14 desafíos diarios consecutivos"
     },
     {
       "id": "energy_08",
@@ -1134,11 +1136,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "transport",
-        "count": 60
+        "count": 150
       },
-      "hintEn": "Log 60 transport actions to discover this entry",
-      "hintJa": "交通アクションを60回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 60 acciones de transporte para descubrir esta entrada"
+      "hintEn": "Log 150 transport actions to discover this entry",
+      "hintJa": "交通アクションを150回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 150 acciones de transporte para descubrir esta entrada"
     },
     {
       "id": "energy_09",
@@ -1154,11 +1156,11 @@
       "artPrompt": "bright white LED lightbulb with a green ring around it",
       "condition": {
         "type": "co2Saved",
-        "grams": 150000
+        "grams": 300000
       },
-      "hintEn": "Save 150 kg of CO2 to discover this entry",
-      "hintJa": "CO2を150 kg節約してこのエントリーを発見しましょう",
-      "hintEs": "Ahorra 150 kg de CO2 para descubrir esta entrada"
+      "hintEn": "Save 300 kg of CO2 to discover this entry",
+      "hintJa": "CO2を300 kg節約してこのエントリーを発見しましょう",
+      "hintEs": "Ahorra 300 kg de CO2 para descubrir esta entrada"
     },
     {
       "id": "energy_10",
@@ -1175,11 +1177,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 120
+        "count": 180
       },
-      "hintEn": "Log 120 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを120回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 120 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 180 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを180回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 180 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "energy_11",
@@ -1196,11 +1198,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "energy",
-        "count": 200
+        "count": 300
       },
-      "hintEn": "Log 200 energy actions to discover this entry",
-      "hintJa": "エネルギーアクションを200回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 200 acciones de energía para descubrir esta entrada"
+      "hintEn": "Log 300 energy actions to discover this entry",
+      "hintJa": "エネルギーアクションを300回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 300 acciones de energía para descubrir esta entrada"
     },
     {
       "id": "circular_01",
@@ -1217,11 +1219,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 3
+        "count": 10
       },
-      "hintEn": "Log 3 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを3回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 3 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 10 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "circular_02",
@@ -1238,11 +1240,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "consumption",
-        "count": 5
+        "count": 10
       },
-      "hintEn": "Log 5 consumption actions to discover this entry",
-      "hintJa": "消費アクションを5回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 5 acciones de consumo para descubrir esta entrada"
+      "hintEn": "Log 10 consumption actions to discover this entry",
+      "hintJa": "消費アクションを10回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 10 acciones de consumo para descubrir esta entrada"
     },
     {
       "id": "circular_03",
@@ -1259,11 +1261,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 15
+        "count": 40
       },
-      "hintEn": "Log 15 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを15回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 15 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 40 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを40回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 40 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "circular_04",
@@ -1280,11 +1282,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "consumption",
-        "count": 20
+        "count": 40
       },
-      "hintEn": "Log 20 consumption actions to discover this entry",
-      "hintJa": "消費アクションを20回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 20 acciones de consumo para descubrir esta entrada"
+      "hintEn": "Log 40 consumption actions to discover this entry",
+      "hintJa": "消費アクションを40回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 40 acciones de consumo para descubrir esta entrada"
     },
     {
       "id": "circular_05",
@@ -1321,11 +1323,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 40
+        "count": 180
       },
-      "hintEn": "Log 40 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを40回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 40 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 180 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを180回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 180 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "circular_07",
@@ -1342,11 +1344,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "food",
-        "count": 15
+        "count": 40
       },
-      "hintEn": "Log 15 food actions to discover this entry",
-      "hintJa": "食のアクションを15回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 15 acciones de alimentación para descubrir esta entrada"
+      "hintEn": "Log 40 food actions to discover this entry",
+      "hintJa": "食のアクションを40回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 40 acciones de alimentación para descubrir esta entrada"
     },
     {
       "id": "circular_08",
@@ -1383,11 +1385,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "consumption",
-        "count": 60
+        "count": 120
       },
-      "hintEn": "Log 60 consumption actions to discover this entry",
-      "hintJa": "消費アクションを60回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 60 acciones de consumo para descubrir esta entrada"
+      "hintEn": "Log 120 consumption actions to discover this entry",
+      "hintJa": "消費アクションを120回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 120 acciones de consumo para descubrir esta entrada"
     },
     {
       "id": "circular_10",
@@ -1404,11 +1406,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 100
+        "count": 250
       },
-      "hintEn": "Log 100 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを100回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 100 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 250 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを250回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 250 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "circular_11",
@@ -1425,11 +1427,11 @@
       "condition": {
         "type": "categoryActions",
         "category": "recycling",
-        "count": 250
+        "count": 365
       },
-      "hintEn": "Log 250 recycling actions to discover this entry",
-      "hintJa": "リサイクルアクションを250回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 250 acciones de reciclaje para descubrir esta entrada"
+      "hintEn": "Log 365 recycling actions to discover this entry",
+      "hintJa": "リサイクルアクションを365回記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 365 acciones de reciclaje para descubrir esta entrada"
     },
     {
       "id": "people_01",
@@ -1445,11 +1447,11 @@
       "artPrompt": "colorful wheel of 17 distinct colored segments arranged in a circle. Count 17 segments, each a different color, with a white circle in the center. 17 is the number of segments",
       "condition": {
         "type": "sdgBreadth",
-        "count": 3
+        "count": 8
       },
-      "hintEn": "Log actions for 3 different SDGs",
-      "hintJa": "3つの異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 3 ODS diferentes"
+      "hintEn": "Log actions for 8 different SDGs",
+      "hintJa": "8つの異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 8 ODS diferentes"
     },
     {
       "id": "people_02",
@@ -1486,11 +1488,11 @@
       "artPrompt": "Gold balance scale tipped, large grey cloud on one side, small grey cloud on the other",
       "condition": {
         "type": "sdgBreadth",
-        "count": 5
+        "count": 10
       },
-      "hintEn": "Log actions for 5 different SDGs",
-      "hintJa": "5つの異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 5 ODS diferentes"
+      "hintEn": "Log actions for 10 different SDGs",
+      "hintJa": "10つの異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 10 ODS diferentes"
     },
     {
       "id": "people_04",
@@ -1527,11 +1529,11 @@
       "artPrompt": "person in warm earth tones standing in a lush green forest",
       "condition": {
         "type": "sdgBreadth",
-        "count": 7
+        "count": 12
       },
-      "hintEn": "Log actions for 7 different SDGs",
-      "hintJa": "7つの異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 7 ODS diferentes"
+      "hintEn": "Log actions for 12 different SDGs",
+      "hintJa": "12つの異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 12 ODS diferentes"
     },
     {
       "id": "people_06",
@@ -1568,11 +1570,11 @@
       "artPrompt": "green calendar page with a small plant growing taller across the days",
       "condition": {
         "type": "challengeStreak",
-        "days": 14
+        "days": 30
       },
-      "hintEn": "Complete 14 daily challenges in a row",
-      "hintJa": "デイリーチャレンジを14回連続で達成しましょう",
-      "hintEs": "Completa 14 desafíos diarios consecutivos"
+      "hintEn": "Complete 30 daily challenges in a row",
+      "hintJa": "デイリーチャレンジを30回連続で達成しましょう",
+      "hintEs": "Completa 30 desafíos diarios consecutivos"
     },
     {
       "id": "people_08",
@@ -1588,11 +1590,11 @@
       "artPrompt": "clear blue water flowing from a stone well into cupped hands",
       "condition": {
         "type": "sdgBreadth",
-        "count": 10
+        "count": 14
       },
-      "hintEn": "Log actions for 10 different SDGs",
-      "hintJa": "10の異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 10 ODS diferentes"
+      "hintEn": "Log actions for 14 different SDGs",
+      "hintJa": "14の異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 14 ODS diferentes"
     },
     {
       "id": "people_09",
@@ -1629,11 +1631,11 @@
       "artPrompt": "Nine nested rings, green center shifting to yellow then red at the edge. Count 9 rings",
       "condition": {
         "type": "sdgBreadth",
-        "count": 13
+        "count": 15
       },
-      "hintEn": "Log actions for 13 different SDGs",
-      "hintJa": "13の異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 13 ODS diferentes"
+      "hintEn": "Log actions for 15 different SDGs",
+      "hintJa": "15の異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 15 ODS diferentes"
     },
     {
       "id": "people_11",
@@ -1649,11 +1651,11 @@
       "artPrompt": "diverse hands clasped together above a blue-green globe",
       "condition": {
         "type": "sdgBreadth",
-        "count": 15
+        "count": 16
       },
-      "hintEn": "Log actions for 15 different SDGs",
-      "hintJa": "15の異なるSDGsに関連するアクションを記録しましょう",
-      "hintEs": "Registra acciones para 15 ODS diferentes"
+      "hintEn": "Log actions for 16 different SDGs",
+      "hintJa": "16の異なるSDGsに関連するアクションを記録しましょう",
+      "hintEs": "Registra acciones para 16 ODS diferentes"
     },
     {
       "id": "people_12",
@@ -1749,11 +1751,11 @@
       "artPrompt": "Golden arrow embedded in a red bullseye target with green circles around it",
       "condition": {
         "type": "challengeStreak",
-        "days": 3
+        "days": 5
       },
-      "hintEn": "Complete 3 daily challenges in a row",
-      "hintJa": "デイリーチャレンジを3回連続で達成しましょう",
-      "hintEs": "Completa 3 desafíos diarios consecutivos"
+      "hintEn": "Complete 5 daily challenges in a row",
+      "hintJa": "デイリーチャレンジを5回連続で達成しましょう",
+      "hintEs": "Completa 5 desafíos diarios consecutivos"
     },
     {
       "id": "journey_03",
@@ -1989,11 +1991,11 @@
       "artPrompt": "spiral of green leaves rising from a single sprout, each leaf larger than the last",
       "condition": {
         "type": "totalActions",
-        "count": 500
+        "count": 730
       },
-      "hintEn": "Log 500 total actions to discover this entry",
-      "hintJa": "合計500回のアクションを記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 500 acciones totales para descubrir esta entrada"
+      "hintEn": "Log 730 total actions to discover this entry",
+      "hintJa": "合計730回のアクションを記録してこのエントリーを発見しましょう",
+      "hintEs": "Registra 730 acciones totales para descubrir esta entrada"
     },
     {
       "id": "journey_15",
@@ -2088,11 +2090,11 @@
       "artPrompt": "hand holding a fan of five blank colored cards",
       "condition": {
         "type": "uniqueActionsLogged",
-        "count": 5
+        "count": 10
       },
-      "hintEn": "Try 5 different types of actions",
-      "hintJa": "5種類の異なるアクションを試しましょう",
-      "hintEs": "Prueba 5 tipos diferentes de acciones"
+      "hintEn": "Try 10 different types of actions",
+      "hintJa": "10種類の異なるアクションを試しましょう",
+      "hintEs": "Prueba 10 tipos diferentes de acciones"
     },
     {
       "id": "gem_04",
@@ -2108,11 +2110,11 @@
       "artPrompt": "Small green flags along a winding brown mountain trail",
       "condition": {
         "type": "challengesCompleted",
-        "count": 10
+        "count": 20
       },
-      "hintEn": "Complete 10 total challenges",
-      "hintJa": "合計10回のチャレンジを達成しましょう",
-      "hintEs": "Completa 10 desafíos en total"
+      "hintEn": "Complete 20 total challenges",
+      "hintJa": "合計20回のチャレンジを達成しましょう",
+      "hintEs": "Completa 20 desafíos en total"
     },
     {
       "id": "gem_05",
@@ -2148,11 +2150,11 @@
       "artPrompt": "colorful cards fanned into a full circle, one golden card pulled outward",
       "condition": {
         "type": "uniqueActionsLogged",
-        "count": 15
+        "count": 30
       },
-      "hintEn": "Try 15 different types of actions",
-      "hintJa": "15種類の異なるアクションを試しましょう",
-      "hintEs": "Prueba 15 tipos diferentes de acciones"
+      "hintEn": "Try 30 different types of actions",
+      "hintJa": "30種類の異なるアクションを試しましょう",
+      "hintEs": "Prueba 30 tipos diferentes de acciones"
     },
     {
       "id": "gem_07",
@@ -2167,13 +2169,12 @@
       "iconName": "gem_07",
       "artPrompt": "golden lightbulb with small green leaves growing inside it",
       "condition": {
-        "type": "categoryActions",
-        "category": "learning",
-        "count": 15
+        "type": "ecoFactsViewed",
+        "count": 100
       },
-      "hintEn": "Log 15 learning actions to discover this entry",
-      "hintJa": "学習アクションを15回記録してこのエントリーを発見しましょう",
-      "hintEs": "Registra 15 acciones de aprendizaje para descubrir esta entrada"
+      "hintEn": "View 100 daily eco-facts to discover this entry",
+      "hintJa": "デイリーエコファクトを100回閲覧してこのエントリーを発見しましょう",
+      "hintEs": "Lee 100 eco-datos diarios para descubrir esta entrada"
     },
     {
       "id": "gem_08",
@@ -2189,11 +2190,11 @@
       "artPrompt": "golden trophy cup overflowing with tiny green seedlings",
       "condition": {
         "type": "challengesCompleted",
-        "count": 50
+        "count": 100
       },
-      "hintEn": "Complete 50 total challenges",
-      "hintJa": "合計50回のチャレンジを達成しましょう",
-      "hintEs": "Completa 50 desafíos en total"
+      "hintEn": "Complete 100 total challenges",
+      "hintJa": "合計100回のチャレンジを達成しましょう",
+      "hintEs": "Completa 100 desafíos en total"
     },
     {
       "id": "gem_09",
@@ -2229,11 +2230,11 @@
       "artPrompt": "Blue book with colorful leaves, animals, and drops tumbling from its pages",
       "condition": {
         "type": "uniqueActionsLogged",
-        "count": 30
+        "count": 60
       },
-      "hintEn": "Try 30 different types of actions",
-      "hintJa": "30種類の異なるアクションを試しましょう",
-      "hintEs": "Prueba 30 tipos diferentes de acciones"
+      "hintEn": "Try 60 different types of actions",
+      "hintJa": "60種類の異なるアクションを試しましょう",
+      "hintEs": "Prueba 60 tipos diferentes de acciones"
     },
     {
       "id": "gem_11",
