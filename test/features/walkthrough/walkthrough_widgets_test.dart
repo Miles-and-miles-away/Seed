@@ -268,6 +268,7 @@ void main() {
       expect(find.text('Things to find'), findsNothing);
       await tapButton(tester, 'Next');
       await tapButton(tester, 'Next');
+      await tapButton(tester, 'Next');
       expect(find.text('Got it'), findsOneWidget);
       expect(find.text('Things to find'), findsOneWidget);
       // sdg, ecoFact and the current item are ticked; four remain.

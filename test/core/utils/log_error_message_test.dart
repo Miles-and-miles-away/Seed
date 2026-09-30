@@ -27,7 +27,7 @@ void main() {
   testWidgets('a timeout reads as offline', (tester) async {
     expect(
       await messageFor(tester, TimeoutException('slow')),
-      "You're offline. Check your connection and try again.",
+      'Cannot log an action while offline. Check your connection and try again.',
     );
   });
 
@@ -37,7 +37,17 @@ void main() {
         tester,
         FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
       ),
-      "You're offline. Check your connection and try again.",
+      'Cannot log an action while offline. Check your connection and try again.',
+    );
+  });
+
+  testWidgets('deadline-exceeded reads as offline', (tester) async {
+    expect(
+      await messageFor(
+        tester,
+        FirebaseException(plugin: 'cloud_firestore', code: 'deadline-exceeded'),
+      ),
+      'Cannot log an action while offline. Check your connection and try again.',
     );
   });
 

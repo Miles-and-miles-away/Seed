@@ -57,6 +57,10 @@ sealed class EcoDexCondition with _$EcoDexCondition {
   /// Unlock when the user has set a display name and photo.
   const factory EcoDexCondition.profileComplete() = ProfileCompleteCondition;
 
+  /// Unlock once every walkthrough checklist item has been found.
+  const factory EcoDexCondition.walkthroughComplete() =
+      WalkthroughCompleteCondition;
+
   /// Unlock after discovering N Eco-Dex entries (meta).
   const factory EcoDexCondition.ecodexCount({required int count}) =
       EcodexCountCondition;

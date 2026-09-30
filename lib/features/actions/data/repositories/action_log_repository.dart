@@ -15,6 +15,10 @@ import 'package:seed_app/features/mascot/data/services/egg_hatching_service.dart
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 
+// Transactions need the server, so offline they only time out; the plugin
+// default of 30s is too long to leave a user on a spinner.
+const _transactionTimeout = Duration(seconds: 10);
+
 /// Repository for logging actions and managing user statistics.
 class ActionLogRepository {
   ActionLogRepository({
@@ -94,7 +98,9 @@ class ActionLogRepository {
     var challengeCompleted = false;
     var newTotalActionsCount = 1;
 
-    await firestore.runTransaction((transaction) async {
+    await firestore.runTransaction(timeout: _transactionTimeout, (
+      transaction,
+    ) async {
       // Firestore retries this closure on contention; reset the
       // captured outputs so values from an abandoned attempt cannot
       // leak into the result (e.g. a celebration for a hatch the

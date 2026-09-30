@@ -79,6 +79,28 @@ void main() {
         expect(model.level, 2);
       });
 
+      test('reads walkthroughFound from the nested settings map', () {
+        final model = AppUserModel.fromJson({
+          'uid': 'user123',
+          'email': 'test@example.com',
+          'settings': {
+            'walkthroughFound': ['intro', 'logAction'],
+          },
+        });
+
+        expect(model.walkthroughFound, ['intro', 'logAction']);
+        expect(model.toJson().containsKey('walkthroughFound'), isFalse);
+      });
+
+      test('walkthroughFound defaults to empty without settings', () {
+        final model = AppUserModel.fromJson({
+          'uid': 'user123',
+          'email': 'test@example.com',
+        });
+
+        expect(model.walkthroughFound, isEmpty);
+      });
+
       test('creates model from JSON with Timestamp', () {
         final timestamp = Timestamp.fromDate(DateTime(2024, 1, 15));
         final json = {

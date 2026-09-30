@@ -69,8 +69,8 @@ class DailyChallengeCard extends ConsumerWidget {
                 children: [
                   Text(
                     l10n.challengeCompleted,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: colorScheme.primary,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -81,8 +81,6 @@ class DailyChallengeCard extends ConsumerWidget {
                       l10n.challengeSeeFact,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.primary,
-                        decoration: TextDecoration.underline,
-                        decorationColor: colorScheme.primary,
                       ),
                     ),
                   ),

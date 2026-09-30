@@ -305,7 +305,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorActionTooSoon => 'アクションの記録は数秒おいてから行ってください。';
 
   @override
-  String get errorOffline => 'オフラインです。接続を確認してもう一度お試しください。';
+  String get errorLogActionOffline =>
+      'オフラインではアクションを記録できません。接続を確認してもう一度お試しください。';
 
   @override
   String get errorAuthEmailInUse => 'このメールアドレスは既に登録されています。';
@@ -335,6 +336,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorAuthSignInCancelled => 'サインインがキャンセルされました。';
+
+  @override
+  String get errorAuthSignInOffline => 'オフラインではサインインできません。接続を確認してもう一度お試しください。';
 
   @override
   String get errorAuthAccountExistsWithDifferentCredential =>
@@ -2165,6 +2169,15 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get quizFlightDomesticNote => '国内、平均約430km';
+
+  @override
+  String get quizFlightShortHaulNote => '国際線、平均約1,500km';
+
+  @override
+  String get quizFlightLongHaulNote => '大陸間、5,500km以上';
+
+  @override
   String get quizHigher => '多い';
 
   @override
@@ -2245,15 +2258,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      '3つの計算ツールで2つの選択肢を並べて比べられます。交通：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、カスタムアクションとして記録できます。';
+      '3つの計算ツールで2つの選択肢を並べて比べられます。交通：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、アクションとして記録できます。';
 
   @override
-  String get walkthroughCalculators2 =>
-      '食事：2つの献立を材料ごとに比較。軽い方を選んだら、こちらもカスタムアクションとして記録できます。';
+  String get walkthroughCalculators2 => '食事：2つの献立を材料ごとに比較。軽い方を選んだら、こちらも記録できます。';
 
   @override
   String get walkthroughCalculators3 =>
-      '家庭のエネルギー：シャワーから乾燥機まで、2つの習慣を比較。学ぶためのツールで、ポイントはつきません。隣の稲妻アイコンでは家全体をランキングで見られます。';
+      '家庭のエネルギー：シャワーから乾燥機まで、2つの習慣を比較。学ぶためのツールで、ポイントはつきません。';
+
+  @override
+  String get walkthroughCalculators4 =>
+      '隣の稲妻アイコンで「エネルギーの行き先」が開きます。日々の習慣を、LED 1時間、スマホ充電1回、ケトル1L、扇風機1時間のいずれかを基準にランキングで見られます。';
 
   @override
   String get walkthroughQuiz1 =>
@@ -2263,14 +2279,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get walkthroughProgress1 => 'カレンダー：記録した日と、1日の目標。';
 
   @override
-  String get walkthroughProgress2 => 'インパクト：減らせたCO2を、木、車の走行距離、スマホの充電回数に換算。';
+  String get walkthroughProgress2 =>
+      'インパクト：減らせたCO2を、木、車の走行距離、スマホの充電回数、ハンバーガーの個数に換算。';
 
   @override
   String get walkthroughProgress3 =>
-      'エコ図鑑：アクションを記録すると見つかる地球の豆知識。ひとつひとつが小さな知識で、ポイントではありません。';
+      'エコ図鑑：Seedを使うなかで見つかる地球の豆知識。ひとつひとつが小さな知識で、ポイントではありません。';
 
   @override
-  String get walkthroughComplete => 'これで全部です。もうSeedのことはよく分かりましたね。一緒に育っていきましょう。';
+  String get walkthroughComplete =>
+      'これで全部です。もうSeedのことはよく分かりましたね。エコ図鑑に新しい発見が待っています。一緒に育っていきましょう。';
 
   @override
   String get walkthroughChecklistTitle => '見つけるもの';

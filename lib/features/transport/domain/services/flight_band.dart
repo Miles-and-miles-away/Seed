@@ -2,11 +2,14 @@
 ///
 /// DEFRA/DESNZ 2025 (the dataset's primary source) defines exactly
 /// three flight rows -- domestic, short-haul, long-haul -- and no
-/// "medium-haul". Its only distance-defined boundary is 3,700 km
-/// (short vs long haul); "domestic" is jurisdictional, not a
-/// distance. So the auto-pick uses the cited boundary for the
-/// short/long split and country codes for domestic, inventing no
-/// uncited km threshold.
+/// "medium-haul". "Domestic" is jurisdictional, not a distance. The
+/// short/long split is geographic and UK-centric (UK to Europe and
+/// North Africa is short-haul, everything else long-haul); the 2025
+/// methodology paper (para 8.9) retired its earlier 3,700 km rule as
+/// simplistic. A global app cannot use the UK geography, so the
+/// auto-pick keeps that superseded but still DEFRA-cited 3,700 km
+/// boundary for the short/long split and country codes for domestic,
+/// inventing no threshold of its own.
 ///
 /// ponytail: if the product later wants a different rule (e.g. a
 /// distance cutoff for domestic), this one function is the only
@@ -17,7 +20,7 @@ const flightModeDomestic = 'flight_domestic';
 const flightModeShortHaul = 'flight_shorthaul';
 const flightModeLongHaul = 'flight_longhaul';
 
-/// DEFRA short-haul vs long-haul boundary (straight-line km).
+/// DEFRA's pre-2025 short-haul vs long-haul boundary (straight-line km).
 const flightLongHaulMinKm = 3700.0;
 
 /// The honest flight-mode id for a leg of [straightLineKm] between
