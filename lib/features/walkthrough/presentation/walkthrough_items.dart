@@ -41,6 +41,7 @@ enum WalkthroughItem {
           l10n.walkthroughCalculators1,
           l10n.walkthroughCalculators2,
           l10n.walkthroughCalculators3,
+          l10n.walkthroughCalculators4,
         ],
         quiz => [l10n.walkthroughQuiz1],
         progress => [

@@ -2351,15 +2351,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      'Tres calculadoras comparan dos opciones. Transporte: dos rutas, cualquier mezcla de medios. ¿Elegiste la más verde? Regístrala como acción personalizada.';
+      'Tres calculadoras comparan dos opciones. Transporte: dos rutas, cualquier mezcla de medios. ¿Elegiste la más verde? Regístrala como acción.';
 
   @override
   String get walkthroughCalculators2 =>
-      'Comida: dos platos, ingrediente por ingrediente. ¿Elegiste el más ligero? Regístralo también como acción personalizada.';
+      'Comida: dos platos, ingrediente por ingrediente. ¿Elegiste el más ligero? Regístralo también.';
 
   @override
   String get walkthroughCalculators3 =>
-      'Energía del hogar: dos rutinas, de la ducha a la secadora. Enseña, nunca puntúa. El icono del rayo de al lado clasifica toda tu casa.';
+      'Energía del hogar: dos rutinas, de la ducha a la secadora. Enseña, nunca puntúa.';
+
+  @override
+  String get walkthroughCalculators4 =>
+      'El icono del rayo de al lado abre A dónde va tu energía: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
 
   @override
   String get walkthroughQuiz1 =>
@@ -2371,15 +2375,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughProgress2 =>
-      'Impacto: el carbono que has ahorrado, traducido en árboles, kilómetros en coche y cargas de móvil.';
+      'Impacto: el carbono que has ahorrado, traducido en árboles, kilómetros en coche, cargas de móvil y hamburguesas.';
 
   @override
   String get walkthroughProgress3 =>
-      'Eco-Dex: datos del planeta que descubres al registrar acciones. Cada uno es un pedacito de conocimiento, nunca puntos.';
+      'Eco-Dex: datos del planeta que descubres al usar Seed. Cada uno es un pedacito de conocimiento, nunca puntos.';
 
   @override
   String get walkthroughComplete =>
-      'Eso es todo. Ahora conoces Seed mejor que la mayoría. A crecer.';
+      'Eso es todo. Ahora conoces Seed mejor que la mayoría. Algo nuevo te espera en el Eco-Dex. A crecer.';
 
   @override
   String get walkthroughChecklistTitle => 'Cosas por descubrir';

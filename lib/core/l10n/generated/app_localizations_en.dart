@@ -2329,15 +2329,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as a custom action.';
+      'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as an action.';
 
   @override
   String get walkthroughCalculators2 =>
-      'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that as a custom action too.';
+      'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that too.';
 
   @override
   String get walkthroughCalculators3 =>
-      'Home energy: two routines, from showers to tumble drying. It teaches but never scores. The lightning icon beside it ranks your whole home.';
+      'Home energy: two routines, from showers to tumble drying. It teaches but never scores.';
+
+  @override
+  String get walkthroughCalculators4 =>
+      'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.';
 
   @override
   String get walkthroughQuiz1 =>
@@ -2349,15 +2353,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughProgress2 =>
-      'Impact: the carbon you\'ve saved, translated into trees, car kilometres and phone charges.';
+      'Impact: the carbon you\'ve saved, translated into trees, car kilometres, phone charges and burgers.';
 
   @override
   String get walkthroughProgress3 =>
-      'Eco-Dex: planet facts you discover by logging actions. Each one is a small piece of knowledge, never points.';
+      'Eco-Dex: planet facts you discover as you use Seed. Each one is a small piece of knowledge, never points.';
 
   @override
   String get walkthroughComplete =>
-      'That\'s everything. You know Seed better than most now. Let\'s grow.';
+      'That\'s everything. You know Seed better than most now. Something new is waiting in the Eco-Dex. Let\'s grow.';
 
   @override
   String get walkthroughChecklistTitle => 'Things to find';

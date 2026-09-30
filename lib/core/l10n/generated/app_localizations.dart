@@ -4046,20 +4046,26 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughCalculators1.
   ///
   /// In en, this message translates to:
-  /// **'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as a custom action.'**
+  /// **'Three calculators compare two choices side by side. Transport: two routes, any mix of modes. Took the greener one? Log it as an action.'**
   String get walkthroughCalculators1;
 
   /// No description provided for @walkthroughCalculators2.
   ///
   /// In en, this message translates to:
-  /// **'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that as a custom action too.'**
+  /// **'Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that too.'**
   String get walkthroughCalculators2;
 
   /// No description provided for @walkthroughCalculators3.
   ///
   /// In en, this message translates to:
-  /// **'Home energy: two routines, from showers to tumble drying. It teaches but never scores. The lightning icon beside it ranks your whole home.'**
+  /// **'Home energy: two routines, from showers to tumble drying. It teaches but never scores.'**
   String get walkthroughCalculators3;
+
+  /// No description provided for @walkthroughCalculators4.
+  ///
+  /// In en, this message translates to:
+  /// **'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
+  String get walkthroughCalculators4;
 
   /// No description provided for @walkthroughQuiz1.
   ///
@@ -4076,19 +4082,19 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughProgress2.
   ///
   /// In en, this message translates to:
-  /// **'Impact: the carbon you\'ve saved, translated into trees, car kilometres and phone charges.'**
+  /// **'Impact: the carbon you\'ve saved, translated into trees, car kilometres, phone charges and burgers.'**
   String get walkthroughProgress2;
 
   /// No description provided for @walkthroughProgress3.
   ///
   /// In en, this message translates to:
-  /// **'Eco-Dex: planet facts you discover by logging actions. Each one is a small piece of knowledge, never points.'**
+  /// **'Eco-Dex: planet facts you discover as you use Seed. Each one is a small piece of knowledge, never points.'**
   String get walkthroughProgress3;
 
   /// No description provided for @walkthroughComplete.
   ///
   /// In en, this message translates to:
-  /// **'That\'s everything. You know Seed better than most now. Let\'s grow.'**
+  /// **'That\'s everything. You know Seed better than most now. Something new is waiting in the Eco-Dex. Let\'s grow.'**
   String get walkthroughComplete;
 
   /// No description provided for @walkthroughChecklistTitle.
