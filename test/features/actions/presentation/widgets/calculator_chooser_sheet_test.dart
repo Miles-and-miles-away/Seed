@@ -73,6 +73,11 @@ void main() {
       await tester.pump();
       expect(tileOpacities(tester), [opacityMuted, opacityMuted, 1]);
 
+      // The fourth page points outside the sheet, so nothing is lit.
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(tileOpacities(tester), [opacityMuted, opacityMuted, opacityMuted]);
+
       await tester.tap(find.text('Got it'));
       await tester.pump();
       await tester.pump();
