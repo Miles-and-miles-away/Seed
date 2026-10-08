@@ -1,8 +1,10 @@
 # Deployment Strategy
 
-**Version:** 1.0
-**Created:** March 2026
-**Status:** In Progress
+Firebase deployment reference shared by both store tracks. The Play
+Console track is `PLAY_STORE_DEPLOYMENT.md`, the App Store track is
+`APP_STORE_DEPLOYMENT.md`, and the release build commands live in the
+`Makefile` (`make release-android`, `make release-ios`). Nothing about
+the stores is restated here.
 
 ---
 
@@ -12,11 +14,6 @@
 2. [Deploy Commands](#deploy-commands)
 3. [Legal Pages (Firebase Hosting)](#legal-pages-firebase-hosting)
 4. [Firebase Emulator Suite](#firebase-emulator-suite)
-5. [Firebase Performance Monitoring](#firebase-performance-monitoring)
-6. [Analytics Navigation Tracking](#analytics-navigation-tracking)
-7. [Alpha Testing Distribution](#alpha-testing-distribution)
-8. [Google Play Release Track](#google-play-release-track)
-9. [Environment Setup Checklist](#environment-setup-checklist)
 
 ---
 
@@ -31,9 +28,11 @@ Project aliases are configured in `.firebaserc`:
 
 Use `--project <alias>` with any Firebase CLI command to target the right environment.
 
-> `seed-dev` has not been created yet (checked 2026-09-05: only
-> `seed-3d48d` exists in the account). Every `--project dev` command
-> below fails until the Environment Setup Checklist is completed.
+> `seed-dev` has not been created; only `seed-3d48d` exists in the
+> account. Every `--project dev` command fails until it is. Creating it
+> means duplicating from prod: Auth providers, Firestore rules and
+> indexes, Cloud Functions, the seeded read-only collections, FCM, and
+> `flutterfire configure --project=seed-dev --out=lib/firebase_options_dev.dart`.
 
 ---
 
@@ -119,99 +118,3 @@ or physical devices, update the host in `main.dart`.
 | Android emulator  | `10.0.2.2`  |
 | iOS simulator     | `localhost`  |
 | Physical device   | Machine's LAN IP |
-
----
-
-## Firebase Performance Monitoring
-
-`firebase_performance` is included as a dependency and initialized in
-`main.dart`. Performance collection is disabled in debug mode to avoid
-noise.
-
-Firebase Performance automatically tracks:
-- App startup time
-- HTTP request latency (for supported clients)
-- Screen rendering performance
-
-Custom traces can be added for specific operations:
-
-```dart
-final trace = FirebasePerformance.instance.newTrace('my_operation');
-await trace.start();
-// ... perform operation ...
-await trace.stop();
-```
-
----
-
-## Analytics Navigation Tracking
-
-`FirebaseAnalyticsObserver` is wired into GoRouter (`router.dart`)
-to automatically track screen views as users navigate. This works
-alongside the existing manual `logScreenView()` calls and custom
-events in `AnalyticsService`.
-
----
-
-## Alpha Testing Distribution
-
-Firebase App Distribution is the recommended approach for sharing
-builds with testers.
-
-### Android
-
-```bash
-# Build release APK
-flutter build apk --release
-
-# Distribute via Firebase App Distribution
-npm run firebase -- appdistribution:distribute \
-  build/app/outputs/flutter-apk/app-release.apk \
-  --app <FIREBASE_APP_ID> \
-  --groups "alpha-testers" \
-  --project dev
-```
-
-### iOS
-
-```bash
-# Build release IPA
-flutter build ipa --release
-
-# Distribute via Firebase App Distribution
-npm run firebase -- appdistribution:distribute \
-  build/ios/ipa/seed_app.ipa \
-  --app <FIREBASE_APP_ID> \
-  --groups "alpha-testers" \
-  --project dev
-```
-
-Testers receive an email invite and install builds via the Firebase
-App Tester app.
-
----
-
-## Google Play Release Track
-
-The Play Console track lives in `PLAY_STORE_DEPLOYMENT.md`: the
-permanent application id, the 12-tester production gate, the review
-account, the Console declarations, and the release order. Nothing
-about it is restated here.
-
----
-
-## Environment Setup Checklist
-
-When setting up the dev Firebase project, duplicate the following
-from prod:
-
-- [ ] Create `seed-dev` project in Firebase Console
-- [ ] Update `.firebaserc` with actual dev project ID
-- [ ] Enable Auth providers (Google, Apple Sign-In)
-- [ ] Deploy Firestore security rules (`--only firestore:rules`)
-- [ ] Deploy Firestore indexes (`--only firestore:indexes`)
-- [ ] Deploy Cloud Functions (`--only functions`)
-- [ ] Seed read-only collections (`actionLibrary`, `mascotSpecies`, `cosmeticItems`)
-- [ ] Configure FCM for dev
-- [ ] Run `flutterfire configure --project=seed-dev --out=lib/firebase_options_dev.dart`
-- [ ] Set up Firebase App Distribution tester groups
