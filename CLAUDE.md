@@ -49,7 +49,7 @@ flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 - **Frontend:** Flutter 3.49.0-0.1.pre / Dart 3.14.0
 - **State Management:** Riverpod 3.x with code generation
 - **Navigation:** go_router 17.x
-- **Backend:** Firebase (Auth, Firestore, FCM, Storage)
+- **Backend:** Firebase (Auth, Firestore, FCM)
 - **Code Generation:** Freezed 3.x for immutable data classes
 
 ### Directory Structure
