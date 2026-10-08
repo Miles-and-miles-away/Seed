@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -328,6 +330,62 @@ void main() {
       await expectLater(repository.deleteAccount(), throwsA(isA<Exception>()));
 
       verifyNever(() => authDs.signOut());
+    });
+
+    group('Apple user on iOS', () {
+      setUp(() {
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+        when(() => authDs.isAppleUser).thenReturn(true);
+        when(() => userDs.deleteUser()).thenAnswer((_) async {});
+        when(() => authDs.signOut()).thenAnswer((_) async {});
+      });
+
+      tearDown(() => debugDefaultTargetPlatformOverride = null);
+
+      test('revokes the Apple grant before deleting', () async {
+        when(() => authDs.revokeAppleSignIn()).thenAnswer((_) async {});
+
+        await repository.deleteAccount();
+
+        verifyInOrder([
+          () => authDs.revokeAppleSignIn(),
+          () => userDs.deleteUser(),
+          () => authDs.signOut(),
+        ]);
+      });
+
+      test('still deletes when revocation fails', () async {
+        when(
+          () => authDs.revokeAppleSignIn(),
+        ).thenThrow(FirebaseAuthException(code: 'invalid-credential'));
+
+        await repository.deleteAccount();
+
+        verify(() => userDs.deleteUser()).called(1);
+      });
+
+      test('does not delete when the Apple prompt is cancelled', () async {
+        when(
+          () => authDs.revokeAppleSignIn(),
+        ).thenThrow(AuthException(code: 'sign-in-cancelled'));
+
+        await expectLater(
+          repository.deleteAccount(),
+          throwsA(isA<AuthException>()),
+        );
+
+        verifyNever(() => userDs.deleteUser());
+      });
+    });
+
+    test('skips revocation off iOS', () async {
+      when(() => authDs.isAppleUser).thenReturn(true);
+      when(() => userDs.deleteUser()).thenAnswer((_) async {});
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+
+      await repository.deleteAccount();
+
+      verifyNever(() => authDs.revokeAppleSignIn());
     });
   });
 
