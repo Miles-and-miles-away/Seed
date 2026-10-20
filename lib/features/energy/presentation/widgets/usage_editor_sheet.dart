@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/decimal_input.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 
@@ -47,16 +48,21 @@ class UsageEditorSheet extends StatefulWidget {
 }
 
 class _UsageEditorSheetState extends State<UsageEditorSheet> {
-  late final TextEditingController _controller;
+  final _controller = TextEditingController();
   String? _selectedPresetId;
   bool _invalid = false;
+  bool _seeded = false;
+
+  String get _locale => Localizations.localeOf(context).languageCode;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_seeded) return;
+    _seeded = true;
     final initial =
         widget.initialUnits ?? widget.behavior.defaultPreset?.units ?? 1;
-    _controller = TextEditingController(text: decimalSeedText(initial));
+    _controller.text = decimalSeedText(initial, _locale);
     _selectedPresetId = _presetIdFor(initial);
   }
 
@@ -79,12 +85,12 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
     setState(() {
       _selectedPresetId = id;
       _invalid = false;
-      _controller.text = decimalSeedText(units);
+      _controller.text = decimalSeedText(units, _locale);
     });
   }
 
   void _submit() {
-    final units = parseDecimalInput(_controller.text);
+    final units = parseDecimalInput(_controller.text, _locale);
     if (units == null || units <= 0) {
       setState(() => _invalid = true);
       return;
@@ -119,7 +125,7 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
                 children: [
                   for (final preset in widget.behavior.presets)
                     ChoiceChip(
-                      label: Text(preset.name(locale)),
+                      label: Text(keepUnitsTogether(preset.name(locale))),
                       selected: _selectedPresetId == preset.id,
                       onSelected: (_) => _applyPreset(preset.id, preset.units),
                     ),
@@ -137,14 +143,18 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
                 labelText: l10n.energyQuantityLabel,
                 suffixText: energyUnitSuffix(l10n, widget.behavior.unit),
                 border: const OutlineInputBorder(),
-                errorText: _invalid ? l10n.energyQuantityInvalid : null,
+                errorText: !_invalid
+                    ? null
+                    : isAmbiguousDecimalInput(_controller.text, locale)
+                    ? l10n.quantityAmbiguousSeparator
+                    : l10n.energyQuantityInvalid,
               ),
               // Typing a raw amount means the user is no longer on a
               // preset, so the chip stops claiming to describe it.
               onChanged: (value) => setState(() {
                 _invalid = false;
                 _selectedPresetId = _presetIdFor(
-                  parseDecimalInput(value) ?? -1,
+                  parseDecimalInput(value, locale) ?? -1,
                 );
               }),
               onSubmitted: (_) => _submit(),

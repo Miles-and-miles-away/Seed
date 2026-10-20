@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 
 /// Donut chart + legend showing which action categories drove the
@@ -77,7 +78,12 @@ class Co2CategoryChart extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      totalKg.toStringAsFixed(1),
+                      formatDecimal(
+                        totalKg,
+                        l10n.localeName,
+                        minDigits: 1,
+                        maxDigits: 1,
+                      ),
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -142,6 +148,7 @@ class _LegendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -154,7 +161,7 @@ class _LegendItem extends StatelessWidget {
         Text(label, style: theme.textTheme.labelMedium),
         const SizedBox(width: spacingXxs),
         Text(
-          '${percentage.toStringAsFixed(0)}%',
+          '${formatDecimal(percentage, locale, maxDigits: 0)}%',
           style: theme.textTheme.labelSmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),

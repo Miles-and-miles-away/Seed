@@ -117,8 +117,22 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     _distanceFocus.addListener(() => setState(() {}));
     final leg = widget.initialLeg;
     if (leg != null) {
-      _distanceController.text = decimalSeedText(leg.distanceKm);
       _occupants = leg.occupants.clamp(1, max(1, widget.mode.maxOccupants));
+    }
+  }
+
+  bool _seeded = false;
+
+  String get _locale => Localizations.localeOf(context).languageCode;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_seeded) return;
+    _seeded = true;
+    final leg = widget.initialLeg;
+    if (leg != null) {
+      _distanceController.text = decimalSeedText(leg.distanceKm, _locale);
     }
   }
 
@@ -179,7 +193,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
 
   /// The leg as currently entered, for the live preview and the save.
   JourneyLeg? get _draftLeg {
-    final km = parseDecimalInput(_distanceController.text);
+    final km = parseDecimalInput(_distanceController.text, _locale);
     final mode = _effectiveMode;
     return km == null
         ? null
@@ -286,9 +300,14 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
                   floatingLabelBehavior: showUnknown
                       ? FloatingLabelBehavior.always
                       : FloatingLabelBehavior.auto,
-                  errorText: _distanceInvalid
-                      ? l10n.transportDistanceInvalid
-                      : null,
+                  errorText: !_distanceInvalid
+                      ? null
+                      : isAmbiguousDecimalInput(
+                          _distanceController.text,
+                          _locale,
+                        )
+                      ? l10n.quantityAmbiguousSeparator
+                      : l10n.transportDistanceInvalid,
                   helperText: _distanceIsEstimate
                       ? l10n.transportDistanceEstimateNote
                       : null,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 import 'package:seed_app/shared/widgets/group_heading.dart';
@@ -82,7 +83,7 @@ class _BehaviorTile extends StatelessWidget {
     final locale = Localizations.localeOf(context).languageCode;
     return ListTile(
       leading: Icon(energyGroupIcon(behavior.comparableGroup)),
-      title: Text(behavior.name(locale)),
+      title: Text(keepUnitsTogether(behavior.name(locale))),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

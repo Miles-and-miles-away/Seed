@@ -124,9 +124,11 @@ available / blocked).
 
 Rainbow sun daily-goal tracker plus three segmented views: Calendar,
 Impact, and Eco-Dex.
-- Links: `/progress/history`
-- Functionality: segmented control (Calendar / Impact / Eco-Dex),
-  daily target picker for first-time users, calendar grid. Supports a
+- Links: none (see Action History below)
+- Functionality: segmented control (Calendar / Impact / Eco-Dex; text
+  labels only, no icons, scaled together when a translation is too long
+  for its segment), daily target picker for first-time users, calendar
+  grid. Supports a
   `?tab=` query parameter (`calendar` / `impact` / `ecodex`) so other
   screens can deep-link to a specific segment.
 
@@ -138,7 +140,8 @@ burgers), and trend / category charts of the same window.
   (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
   Time); headline kg total card with period-over-period comparison
-  badge; static four-card equivalencies row with info-icon sheet showing
+  badge; four equivalency cards (a 2 x 2 grid below 600pt wide, one
+  row of four on wider layouts) with an info-icon sheet showing
   per-equivalency explainer, formula, and tappable source citation;
   daily-trend scatter chart with dashed mean line; category donut
   (Top 5 + Other) with center kg total and color-dot legend. Charts
@@ -162,6 +165,10 @@ never points).
 
 ### Action History (`/progress/history`)
 Timeline of logged actions grouped by date with running points total.
+Action names show in the current language, falling back to the name
+stored at log time for banked calculator choices.
+- Reached from: no UI entry point today; the route exists and is
+  reachable only by deep link.
 - Links: none
 - Functionality: read-only list, retry on error.
 
@@ -537,7 +544,8 @@ one you think has the bigger footprint to the top.
 Active mascot with evolution timeline and multi-mascot collection.
 - Links: none
 - Functionality: rename (edit/check/cancel), switch-mascot dialog,
-  mascot thumbnails, next-evolution progress.
+  mascot thumbnails, evolution timeline (stage names sit below each
+  stage card, up to two lines), next-evolution progress.
 
 ## Tab 3 — Profile (`/profile`)
 

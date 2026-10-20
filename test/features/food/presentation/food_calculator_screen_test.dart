@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/food.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
@@ -71,8 +72,8 @@ void main() {
       await addIngredient(tester, itemName: 'Beef', grams: '50');
 
       expect(find.byType(OptionEntryCard), findsNWidgets(2));
-      expect(find.text('150 g'), findsOneWidget);
-      expect(find.text('50 g'), findsOneWidget);
+      expect(find.text('150${unitSpace}g'), findsOneWidget);
+      expect(find.text('50${unitSpace}g'), findsOneWidget);
     });
 
     testWidgets('both columns built shows the delta and the bank action', (

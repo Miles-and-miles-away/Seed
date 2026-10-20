@@ -236,7 +236,7 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
                       ),
                     ),
                   Text(
-                    formatCO2Compact(grams.round()),
+                    formatCO2Compact(grams.round(), l10n.localeName),
                     textAlign: TextAlign.center,
                     style: multiple == null
                         ? theme.textTheme.headlineSmall?.copyWith(

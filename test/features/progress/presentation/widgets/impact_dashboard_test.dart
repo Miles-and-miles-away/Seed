@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
@@ -121,7 +122,7 @@ void main() {
       await _pumpDashboard(tester);
 
       // 1500g -> 1.5 kg
-      expect(find.text('1.5 kg'), findsOneWidget);
+      expect(find.text('1.5${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved today'), findsOneWidget);
     });
 
@@ -134,10 +135,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // 7200g -> 7.2 kg
-      expect(find.text('7.2 kg'), findsOneWidget);
+      expect(find.text('7.2${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved this week'), findsOneWidget);
       // Previous selection no longer rendered.
-      expect(find.text('1.5 kg'), findsNothing);
+      expect(find.text('1.5${unitSpace}kg'), findsNothing);
     });
 
     testWidgets('switching to This Month updates the displayed total', (
@@ -149,7 +150,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // 30500g -> 30.5 kg
-      expect(find.text('30.5 kg'), findsOneWidget);
+      expect(find.text('30.5${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved this month'), findsOneWidget);
     });
 
@@ -162,7 +163,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // 184000g -> 184.0 kg
-      expect(find.text('184.0 kg'), findsOneWidget);
+      expect(find.text('184.0${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved all time'), findsOneWidget);
     });
 
@@ -196,7 +197,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('0.0 kg'), findsOneWidget);
+      expect(find.text('0.0${unitSpace}kg'), findsOneWidget);
       expect(find.text('Equivalent to'), findsNothing);
       expect(find.byType(EquivalencyRow), findsNothing);
     });

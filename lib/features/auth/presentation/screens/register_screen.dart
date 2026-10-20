@@ -213,8 +213,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: spacingXxxl),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                // Wraps rather than overflows when a translation is long.
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       l10n.authHaveAccount,

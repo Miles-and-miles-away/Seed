@@ -40,6 +40,7 @@ class _EmailVerificationScreenState
         title: Text(l10n.authVerifyEmailTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: _handleSignOut,
         ),
       ),

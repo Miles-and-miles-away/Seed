@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -79,7 +80,7 @@ void main() {
       // DateFormat.yMMMd('en') for DateTime(2026, 1, 1).
       expect(find.text('Jan 1, 2026'), findsOneWidget);
       // formatCO2Compact(1500) -> "1.5kg".
-      expect(find.text('1.5kg'), findsOneWidget);
+      expect(find.text('1.5${unitSpace}kg'), findsOneWidget);
       // Exact count depends on today's date; just assert the label exists.
       expect(find.text('Days together'), findsOneWidget);
 

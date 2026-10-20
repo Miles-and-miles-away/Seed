@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/usage_preset_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_behavior_picker.dart';
@@ -90,11 +91,11 @@ void main() {
       );
       // Per minute for the shower, per day for standby: the unit is
       // part of the number's meaning.
-      expect(find.text('0.248 kWh per minute'), findsOneWidget);
+      expect(find.text('0.248${unitSpace}kWh per minute'), findsOneWidget);
       // Trailing zeros stripped: "0.800" would claim precision the
       // standby figure does not have.
-      expect(find.text('0.8 kWh per day'), findsOneWidget);
-      expect(find.text('1 kWh per use'), findsWidgets);
+      expect(find.text('0.8${unitSpace}kWh per day'), findsOneWidget);
+      expect(find.text('1${unitSpace}kWh per use'), findsWidgets);
     });
 
     testWidgets('flags the low-confidence entry on its own row', (
@@ -239,7 +240,7 @@ void main() {
 
     testWidgets('tapping a preset chip fills the amount field', (tester) async {
       await open(tester);
-      await tester.tap(find.text('A quick shower (5 min)'));
+      await tester.tap(find.text('A quick shower (5${unitSpace}min)'));
       await tester.pump();
       final field = tester.widget<TextField>(find.byType(TextField));
       expect(field.controller?.text, '5');

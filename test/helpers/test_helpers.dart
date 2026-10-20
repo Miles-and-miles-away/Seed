@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,6 +108,28 @@ void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
   });
 }
 
+/// Loads Roboto (in `test/fonts/`) under the family name Material uses on
+/// Android, which is the test platform. The default test font draws every
+/// Latin glyph 1em wide, so Spanish and English layouts need real metrics;
+/// kana and kanji are 1em in both, so Japanese layouts do not.
+Future<void> loadTestFonts() async {
+  final loader = FontLoader('Roboto');
+  for (final file in ['Roboto-Regular.ttf', 'Roboto-Medium.ttf']) {
+    final bytes = File('test/fonts/$file').readAsBytesSync();
+    loader.addFont(Future.value(ByteData.sublistView(bytes)));
+  }
+  await loader.load();
+}
+
+/// Phone widths the layout tests run at: a 320pt stress width, a small
+/// Android, the smallest current iPhones and the tester's iPhone.
+const testPhoneWidths = [320.0, 360.0, 375.0, 393.0];
+
+/// SF Pro measures 5-8% wider than Roboto for the same Latin text, so
+/// Spanish layout tests run at this fraction of a phone width to stand in
+/// for iOS.
+const robotoToSfWidthFactor = 0.92;
+
 /// Pump until [finder] resolves or the budget runs out. For screens with
 /// infinite idle animations that never settle; each step yields to the
 /// real event loop via runAsync so asset futures and streams can emit.
@@ -174,4 +197,28 @@ double contrastRatio(Color a, Color b) {
   final la = a.computeLuminance();
   final lb = b.computeLuminance();
   return (max(la, lb) + 0.05) / (min(la, lb) + 0.05);
+}
+
+/// Approximates Android's nonlinear 200% font scale, which doubles small
+/// type but grows large type less.
+class NonlinearScaler200 extends TextScaler {
+  const NonlinearScaler200();
+
+  static const _from = [8.0, 10, 12, 14, 18, 20, 24, 30, 100];
+  static const _to = [16.0, 20, 24, 26, 30, 34, 36, 38, 100];
+
+  @override
+  double scale(double fontSize) {
+    if (fontSize <= _from.first) return fontSize * _to.first / _from.first;
+    for (var i = 1; i < _from.length; i++) {
+      if (fontSize <= _from[i]) {
+        final t = (fontSize - _from[i - 1]) / (_from[i] - _from[i - 1]);
+        return _to[i - 1] + t * (_to[i] - _to[i - 1]);
+      }
+    }
+    return fontSize;
+  }
+
+  @override
+  double get textScaleFactor => 2;
 }

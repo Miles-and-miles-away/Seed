@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_impact_card.dart';
 
@@ -40,6 +41,6 @@ void main() {
 
     expect(find.text('4'), findsOneWidget);
     // formatCO2Compact(2500) = "2.5kg".
-    expect(find.text('2.5kg'), findsOneWidget);
+    expect(find.text('2.5${unitSpace}kg'), findsOneWidget);
   });
 }

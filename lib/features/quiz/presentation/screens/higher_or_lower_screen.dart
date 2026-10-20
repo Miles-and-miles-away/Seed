@@ -16,6 +16,7 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_ranked_tabl
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
+import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/features/quiz/presentation/providers/quiz_providers.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 import 'package:seed_app/features/transport/domain/services/flight_band.dart';
@@ -267,11 +268,11 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     required double gridFactor,
   }) {
     final kwh = EnergyCalculator.defaultPresetKwh(behavior);
-    final grams = formatCO2Compact((kwh * gridFactor).round());
+    final grams = formatCO2Compact((kwh * gridFactor).round(), locale);
     return QuizCard(
       id: 'energy:${behavior.id}',
-      title: behavior.name(locale),
-      subtitle: behavior.defaultPreset?.name(locale) ?? '',
+      title: keepUnitsTogether(behavior.name(locale)),
+      subtitle: keepUnitsTogether(behavior.defaultPreset?.name(locale) ?? ''),
       magnitude: kwh,
       revealText: _hasAnchor
           ? l10n.energyExploreSheetMultiple(
@@ -291,9 +292,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     return QuizCard(
       id: 'food:${item.id}',
       title: item.name(locale),
-      subtitle: serving.name(locale),
+      subtitle: keepUnitsTogether(servingHeadline(serving.name(locale))),
       magnitude: grams,
-      revealText: formatCO2Compact(grams.round()),
+      revealText: formatCO2Compact(grams.round(), locale),
     );
   }
 
@@ -314,7 +315,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       _ => '',
     },
     magnitude: mode.gCo2ePerKm,
-    revealText: l10n.quizPerKm(formatCO2Compact(mode.gCo2ePerKm.round())),
+    revealText: l10n.quizPerKm(
+      formatCO2Compact(mode.gCo2ePerKm.round(), locale),
+    ),
   );
 
   /// Deals a pair from a randomly chosen domain, or empties the pair

@@ -38,7 +38,7 @@ class AboutScreen extends ConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.info_outline),
                   title: Text(appVersionLabel(version, buildNumber)),
-                  subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
+                  subtitle: Text(l10n.aboutSubtitleTracker),
                 ),
               ],
             ),

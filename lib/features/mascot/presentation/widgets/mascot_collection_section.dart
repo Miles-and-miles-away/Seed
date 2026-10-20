@@ -134,13 +134,16 @@ class MascotCollectionSection extends ConsumerWidget {
     MascotModel target,
   ) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+    final name = target.name.isNotEmpty
+        ? target.name
+        : _getSpeciesForMascot(ref, target.speciesId)?.name(locale) ??
+              target.speciesId;
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.mascotSwitchConfirm),
-        content: Text(
-          '${l10n.switchToMascot} ${target.name.isEmpty ? target.speciesId : target.name}?',
-        ),
+        content: Text(l10n.mascotSwitchConfirmBody(name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),

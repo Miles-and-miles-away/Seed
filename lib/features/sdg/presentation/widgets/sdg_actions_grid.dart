@@ -40,22 +40,17 @@ class SdgActionsGrid extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SdgSectionHeader(
-              icon: Icons.eco,
-              title: l10n.sdgRelatedActions,
-              color: goalColor,
-            ),
-            TextButton(
-              onPressed: () {
-                ref.read(selectedSdgFilterProvider.notifier).select(goalNumber);
-                context.push(appRoutes.actionLog);
-              },
-              child: Text(l10n.sdgViewAllActions),
-            ),
-          ],
+        SdgSectionHeader(
+          icon: Icons.eco,
+          title: l10n.sdgRelatedActions,
+          color: goalColor,
+          trailing: TextButton(
+            onPressed: () {
+              ref.read(selectedSdgFilterProvider.notifier).select(goalNumber);
+              context.push(appRoutes.actionLog);
+            },
+            child: Text(l10n.sdgViewAllActions),
+          ),
         ),
         const SizedBox(height: spacingMd),
         SizedBox(

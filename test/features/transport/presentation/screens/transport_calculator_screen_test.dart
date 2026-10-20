@@ -107,7 +107,7 @@ void main() {
       await addLeg(tester, modeName: 'Test Rail', distance: '100');
 
       expect(find.byType(OptionEntryCard), findsOneWidget);
-      expect(find.text('100 km'), findsOneWidget);
+      expect(find.text('100${unitSpace}km'), findsOneWidget);
       // Column A holds it, so B is still showing its hint.
       expect(find.text('Tap Add leg to start this journey'), findsOneWidget);
 
@@ -116,7 +116,7 @@ void main() {
         const [JourneyLeg(modeId: 'test_rail', distanceKm: 100)],
       );
       expect(
-        find.textContaining(formatCO2Compact(expected.round())),
+        find.textContaining(formatCO2Compact(expected.round(), 'en')),
         findsWidgets,
       );
     });
@@ -133,10 +133,10 @@ void main() {
       // 160 g/vehicle-km x 100 km = 16kg alone, halved by a second
       // passenger. The per-vehicle factor line never moves, so this
       // preview is the only place occupancy is visible.
-      expect(find.text('This adds 16.0kg CO2e'), findsOneWidget);
+      expect(find.text('This adds 16.0${unitSpace}kg CO2e'), findsOneWidget);
       await tester.tap(find.byTooltip('Add a person'));
       await tester.pumpAndSettle();
-      expect(find.text('This adds 8.0kg CO2e'), findsOneWidget);
+      expect(find.text('This adds 8.0${unitSpace}kg CO2e'), findsOneWidget);
     });
 
     testWidgets('per-passenger modes get no occupancy stepper', (tester) async {
@@ -179,7 +179,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(OptionEntryCard), findsOneWidget);
-      expect(find.text('250 km'), findsOneWidget);
+      expect(find.text('250${unitSpace}km'), findsOneWidget);
     });
 
     testWidgets('removing a leg empties the column again', (tester) async {
@@ -212,7 +212,7 @@ void main() {
         ],
       );
       expect(
-        find.textContaining(formatCO2Compact(expected.round())),
+        find.textContaining(formatCO2Compact(expected.round(), 'en')),
         findsWidgets,
       );
     });

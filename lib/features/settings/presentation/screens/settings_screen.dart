@@ -195,6 +195,10 @@ class _ThemeModeSelector extends StatelessWidget {
 
     return SegmentedButton<ThemeMode>(
       showSelectedIcon: false,
+      style: SegmentedButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        padding: const EdgeInsets.symmetric(horizontal: spacingSm),
+      ),
       segments: [
         for (final mode in ThemeMode.values)
           ButtonSegment(

@@ -1,4 +1,7 @@
 import 'dart:math';
+
+import 'package:intl/intl.dart';
+
 import '../constants/app_constants.dart';
 
 /// Calculate level from total points
@@ -54,27 +57,48 @@ double calculateLevelProgress(int totalPoints) {
   return (progressPoints / levelRange).clamp(0.0, 1.0);
 }
 
-/// Format CO2 amount in compact form (e.g., "3.4t", "1.2kg", "500g")
-String formatCO2Compact(int grams) {
-  if (grams >= 1000000) {
-    return '${(grams / 1000000).toStringAsFixed(1)}t';
-  }
-  if (grams >= 1000) {
-    return '${(grams / 1000).toStringAsFixed(1)}kg';
-  }
-  return '${grams}g';
+/// Joins a value to its unit so a line never breaks between them.
+const unitSpace = '\u00A0';
+
+/// [value] in [locale]'s number style: grouping, decimal separator, and
+/// between [minDigits] and [maxDigits] fraction digits.
+String formatDecimal(
+  num value,
+  String locale, {
+  required int maxDigits,
+  int minDigits = 0,
+}) {
+  final format = NumberFormat.decimalPattern(locale)
+    ..minimumFractionDigits = minDigits
+    ..maximumFractionDigits = maxDigits;
+  return format.format(value);
 }
 
-/// Format points with suffix
-String formatPoints(int points) {
-  if (points >= 1000000) {
-    return '${(points / 1000000).toStringAsFixed(1)}M';
-  }
-  if (points >= 1000) {
-    return '${(points / 1000).toStringAsFixed(1)}K';
-  }
-  return points.toString();
+/// CO2 in compact form: "3.4 t", "1.2 kg", "500 g" (separators per
+/// [locale], [unitSpace] before the unit).
+String formatCO2Compact(int grams, String locale) {
+  String oneDecimal(num v) =>
+      formatDecimal(v, locale, minDigits: 1, maxDigits: 1);
+  // Pick the unit after rounding, so 999950 g reads "1.0 t", not "1000.0 kg".
+  final tenthsOfKg = (grams / 100).round();
+  if (tenthsOfKg >= 10000) return '${oneDecimal(grams / 1000000)}${unitSpace}t';
+  if (grams >= 1000) return '${oneDecimal(grams / 1000)}${unitSpace}kg';
+  return '${formatDecimal(grams, locale, maxDigits: 0)}${unitSpace}g';
 }
+
+/// Points in [locale]'s compact notation ("1.2K", "1,2 mil", "1.2万").
+String formatPoints(int points, String locale) =>
+    NumberFormat.compact(locale: locale).format(points);
+
+final _unitAfterNumber = RegExp(
+  r'(\d) (g|kg|ml|L|km|h|min|kWh|W|lm|°C|C|%)(?![\p{L}\p{N}])',
+  unicode: true,
+);
+
+/// [text] with [unitSpace] between each number and the unit after it, so
+/// "15 ml" in data strings never splits across lines.
+String keepUnitsTogether(String text) =>
+    text.replaceAllMapped(_unitAfterNumber, (m) => '${m[1]}$unitSpace${m[2]}');
 
 /// Accent-insensitive, case-insensitive key for search matching.
 ///

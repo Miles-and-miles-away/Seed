@@ -8,10 +8,17 @@ import '../providers/settings_providers.dart';
 /// Languages offered in the picker, in display order. English is first so
 /// [LanguageOption.nativeName] lookups can fall back to it for unknown codes.
 const supportedLanguages = [
-  LanguageOption(code: 'en', name: 'English', nativeName: 'English'),
-  LanguageOption(code: 'es', name: 'Spanish', nativeName: 'Español'),
-  LanguageOption(code: 'ja', name: 'Japanese', nativeName: '日本語'),
+  LanguageOption(code: 'en', nativeName: 'English'),
+  LanguageOption(code: 'es', nativeName: 'Español'),
+  LanguageOption(code: 'ja', nativeName: '日本語'),
 ];
+
+/// [code]'s name in the current UI language ("Spanish", "スペイン語").
+String languageNameFor(AppLocalizations l10n, String code) => switch (code) {
+  'es' => l10n.languageNameSpanish,
+  'ja' => l10n.languageNameJapanese,
+  _ => l10n.languageNameEnglish,
+};
 
 /// Screen for selecting the app language.
 ///
@@ -66,16 +73,11 @@ class LanguageSettingsScreen extends ConsumerWidget {
   }
 }
 
-/// A selectable app language: ISO code, English name and native name.
+/// A selectable app language: ISO code and native name.
 class LanguageOption {
-  const LanguageOption({
-    required this.code,
-    required this.name,
-    required this.nativeName,
-  });
+  const LanguageOption({required this.code, required this.nativeName});
 
   final String code;
-  final String name;
   final String nativeName;
 }
 
@@ -93,10 +95,15 @@ class _LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localName = languageNameFor(
+      AppLocalizations.of(context),
+      language.code,
+    );
 
     return ListTile(
       title: Text(language.nativeName),
-      subtitle: Text(language.name),
+      // The UI language's own tile would repeat its native name.
+      subtitle: localName == language.nativeName ? null : Text(localName),
       trailing: isSelected
           ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
           : null,

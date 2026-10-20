@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
@@ -162,7 +163,9 @@ class HomeScreen extends ConsumerWidget {
 
           // Evolution stage badge
           StageBadge(
-            label: '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
+            label: stageName == null
+                ? l10n.levelLabel(mascot?.mascotLevel ?? 1)
+                : l10n.stageWithLevel(stageName, mascot?.mascotLevel ?? 1),
             background: colorScheme.primary.withValues(alpha: opacitySubtle),
             foreground: colorScheme.primary,
           ),
@@ -186,7 +189,7 @@ class HomeScreen extends ConsumerWidget {
               _buildQuickStat(
                 context,
                 Icons.star_outline,
-                '${user?.points ?? 0}',
+                formatDecimal(user?.points ?? 0, locale, maxDigits: 0),
                 l10n.homePoints,
                 colorScheme.primary,
               ),

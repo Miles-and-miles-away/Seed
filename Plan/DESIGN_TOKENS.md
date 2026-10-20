@@ -405,13 +405,59 @@ clip-art.
 ## 8. Localisation
 
 Three locales: EN, JA, ES. User-facing strings come from ARB via
-`AppLocalizations.of(context)`.
+`AppLocalizations.of(context)`. Spanish is Spain Spanish (es-ES); the
+style authority is `scripts/i18n/glossary_es.md`.
 
-One exception exists and should **not** be copied: `co2_trend_chart.dart`
-hardcodes the unit in its tooltip as `'${spot.y.toStringAsFixed(1)} kg'`.
-`kg` happens to be identical across all three locales, so nothing is
-visibly broken, but unit placement is locale-dependent in general. A new
-chart should localise its unit string rather than follow this line.
+Rules:
+
+- **No string assembly around translated text.** When a sentence holds a
+  value (a name, a percent, a level), the ARB owns the whole sentence
+  through a placeholder, so each language sets its own word order and
+  punctuation. Gluing a translated fragment to a name and a `?` in code
+  breaks Japanese order and drops the Spanish ¿.
+- **Fractional and grouped numbers go through the locale formatter** in
+  `lib/core/utils/helpers.dart` (`formatDecimal`, `formatCO2Compact`,
+  `formatPoints`), never `toStringAsFixed` or plain interpolation, so
+  Spanish gets its decimal comma and period grouping. Small counts that
+  can never reach a thousand (levels, stage numbers) may interpolate.
+- **A value and its unit do not wrap apart.** The formatters and the ARB
+  templates that put a placeholder before a unit (`{km}\u00A0km`) use a
+  no-break space (`unitSpace`). Data strings that carry quantities
+  (servings, presets, energy behaviour names) go through
+  `keepUnitsTogether` at their display sites; it joins g, kg, ml, L, km,
+  h, min, kWh, W, lm, °C, C and %. Literal numbers inside long ARB prose
+  are not covered. Editable quantity fields seed and parse with the
+  locale (`decimalSeedText`, `parseDecimalInput`), and flag a
+  thousands-shaped entry such as "1.500" rather than guess.
+- **No hard-coded user-visible literal.**
+  `test/core/l10n/no_hardcoded_strings_test.dart` scans `lib/` for any
+  literal inside a text argument (`Text` and its subclasses, `TextSpan`
+  `text:`, tooltips, labels, hints, semantics and input decoration text),
+  including ternaries, adjacent literals and `+`. Its allowlist is keyed
+  by file and literal and holds brand names, notation that reads the
+  same in every language, and the postponed reminder text. It ignores
+  literals with no letters, so assembly with `' - '` or `'?'` still needs
+  review against the first rule.
+- **Single-line labels never wrap.** Segmented controls use
+  `ScaledSegmentedButton`, which shrinks all labels by one common factor
+  when the widest does not fit, so siblings never render at different
+  sizes. Rows holding translated text give it an `Expanded` or
+  `Flexible`, or use a `Wrap`.
+- **Spanish punctuation:** questions and exclamations open with ¿ and ¡
+  (`test/core/l10n/arb_spanish_punctuation_test.dart`); feature names
+  inside a sentence are quoted with « ».
+- **Layout tests run in Japanese and Spanish** at `testPhoneWidths`
+  (`test/helpers/test_helpers.dart`). Japanese uses the default test
+  font, whose 1em glyphs match kana and kanji. Spanish loads Roboto from
+  `test/fonts/` with `loadTestFonts()` and runs at
+  `robotoToSfWidthFactor` of each width, because the default test font
+  draws Latin letters 1em wide. Roboto has no kana and stays loaded for
+  the rest of the file, so a Japanese case in the same file sets
+  `fontFamily: 'FlutterTest'` in its theme.
+- **Spanish data text follows the same number marks.** `factEs` in
+  `data/app/eco_facts.json` and `data/app/eco_dex_entries.json` uses the
+  decimal comma and period grouping
+  (`test/core/l10n/spanish_fact_numbers_test.dart`).
 
 - Dates use `DateFormat.MMMd(locale)` with
   `Localizations.localeOf(context).toLanguageTag()`.

@@ -48,6 +48,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authPassword => 'Contraseña';
 
   @override
+  String get authShowPassword => 'Mostrar contraseña';
+
+  @override
+  String get authHidePassword => 'Ocultar contraseña';
+
+  @override
   String get authConfirmPassword => 'Confirmar contraseña';
 
   @override
@@ -78,7 +84,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Aún no hay acciones registradas. ¡Comienza tu viaje!';
 
   @override
-  String get actionLogTitle => 'Registrar una acción';
+  String get actionLogTitle => 'Registrar acción';
 
   @override
   String get actionSearchHint => 'Buscar acciones...';
@@ -120,6 +126,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String levelLabel(int level) {
     return 'Nivel $level';
+  }
+
+  @override
+  String stageWithLevel(String stage, int level) {
+    return '$stage (Nivel $level)';
   }
 
   @override
@@ -190,6 +201,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileMemberSince => 'Miembro desde';
+
+  @override
+  String profileMemberSinceDate(String date) {
+    return 'Miembro desde $date';
+  }
 
   @override
   String get profileCurrentStreak => 'Racha actual';
@@ -391,6 +407,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get progressGoalReached => '¡Meta diaria alcanzada!';
 
   @override
+  String get progressSunEmptyHint =>
+      '¡Cumple tus metas para que crezca tu sol!';
+
+  @override
   String get progressSetDailyGoal => 'Establece tu meta diaria';
 
   @override
@@ -426,6 +446,15 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get languageSettingsNote =>
       'Parte del contenido de la biblioteca de acciones puede permanecer en su idioma original.';
+
+  @override
+  String get languageNameEnglish => 'Inglés';
+
+  @override
+  String get languageNameSpanish => 'Español';
+
+  @override
+  String get languageNameJapanese => 'Japonés';
 
   @override
   String settingsNotificationsSubtitle(int count) {
@@ -711,7 +740,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mascotSwitchConfirm => '¿Cambiar mascota?';
 
   @override
-  String get switchToMascot => 'Cambiar a';
+  String mascotSwitchConfirmBody(String name) {
+    return '¿Cambiar a $name?';
+  }
 
   @override
   String get switchMascotButton => 'Cambiar';
@@ -863,7 +894,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aboutFooterMade => 'Hecho con cuidado para nuestro planeta.';
 
   @override
-  String get aboutSubtitleTracker => 'Rastreador de hábitos sostenibles';
+  String get aboutSubtitleTracker => 'Seed - Rastreador de hábitos sostenibles';
 
   @override
   String get feedbackTitle => 'Enviar comentarios';
@@ -889,6 +920,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get feedbackMetadataNote =>
       'Incluimos la siguiente información para ayudarnos a investigar: versión de la app, dispositivo y SO, idioma y tu ID de cuenta.';
+
+  @override
+  String feedbackMetaAppVersion(String version) {
+    return 'App v$version';
+  }
 
   @override
   String get feedbackSubmit => 'Enviar comentarios';
@@ -940,7 +976,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'Explora los Objetivos ODS';
+  String get homeExploreGoals => 'Explora los ODS';
 
   @override
   String get homeExploreGoalsSubtitle =>
@@ -1001,6 +1037,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String sdgGoalNumber(int number) {
     return 'Objetivo $number';
+  }
+
+  @override
+  String sdgGoalNumberTitle(int number, String title) {
+    return 'Objetivo $number: $title';
   }
 
   @override
@@ -1124,7 +1165,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String pointsAbbreviated(int count) {
-    return '$count pts';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pts',
+      one: '$count pt',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1145,14 +1192,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ecoFactTitle => 'Eco-dato del día';
 
   @override
-  String get ecoFactDidYouKnow => 'Sabías que...?';
+  String get ecoFactDidYouKnow => '¿Sabías que...?';
 
   @override
   String get ecoFactSource => 'Fuente';
 
   @override
   String get ecoFactLocked =>
-      'Completa el desafío de hoy para desbloquear este dato!';
+      '¡Completa el desafío de hoy para desbloquear este dato!';
 
   @override
   String get ecoFactInboxTitle => 'Bandeja de entrada';
@@ -1190,13 +1237,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get challengeDialogUnlock =>
-      'Completa para desbloquear el eco-dato de hoy!';
+      '¡Completa para desbloquear el eco-dato de hoy!';
 
   @override
   String get challengeTabLabel => 'Desafío';
 
   @override
-  String get challengeCompleted => 'Completado!';
+  String get challengeCompleted => '¡Completado!';
 
   @override
   String get challengeNotCompleted => 'Aún no completado';
@@ -1216,7 +1263,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get challengeCompletedSnackbar =>
-      'Desafío completado! Eco-dato desbloqueado!';
+      '¡Desafío completado! ¡Eco-dato desbloqueado!';
 
   @override
   String get challengeBrowse => 'Explorar desafíos';
@@ -1228,7 +1275,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get challengeStart => 'Iniciar desafío';
 
   @override
-  String get challengeStartConfirm => 'Iniciar este desafío?';
+  String get challengeStartConfirm => '¿Iniciar este desafío?';
 
   @override
   String get challengeActive => 'Activo';
@@ -1244,7 +1291,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get challengeAbandonConfirm =>
-      'Abandonar este desafío? Se perderá el progreso.';
+      '¿Abandonar este desafío? Se perderá el progreso.';
 
   @override
   String challengeDays(int days) {
@@ -1276,10 +1323,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get periodToday => 'Hoy';
 
   @override
-  String get periodThisWeek => 'Esta semana';
+  String get periodThisWeek => 'Semana';
 
   @override
-  String get periodThisMonth => 'Este mes';
+  String get periodThisMonth => 'Mes';
 
   @override
   String get periodAllTime => 'Total';
@@ -1300,13 +1347,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get kgUnit => 'kg';
 
   @override
-  String get vsYesterday => 'vs. ayer';
+  String comparisonVsYesterday(String percent) {
+    return '$percent% vs. ayer';
+  }
 
   @override
-  String get vsLastWeek => 'vs. semana pasada';
+  String comparisonVsLastWeek(String percent) {
+    return '$percent% vs. semana pasada';
+  }
 
   @override
-  String get vsLastMonth => 'vs. mes pasado';
+  String comparisonVsLastMonth(String percent) {
+    return '$percent% vs. mes pasado';
+  }
 
   @override
   String get trendChartTitle => 'Tendencia diaria';
@@ -1395,7 +1448,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get ecoDexNewDiscovery => 'Nuevo descubrimiento en Eco-Dex!';
+  String get ecoDexNewDiscovery => '¡Nuevo descubrimiento en Eco-Dex!';
 
   @override
   String get ecoDexNextUp => 'Próximos';
@@ -1431,7 +1484,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no otorgan puntos: cada uno te recompensa con conocimiento.';
 
   @override
-  String get transportCalculatorTitle => 'Calculadora de transporte';
+  String get transportCalculatorTitle => 'Transporte';
 
   @override
   String get calculatorsSheetTitle => 'Calculadoras';
@@ -1447,7 +1500,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añade un tramo para crear tu trayecto y ver su huella de CO2e.';
 
   @override
-  String get transportAddLeg => 'Añadir trayecto';
+  String get transportAddLeg => 'Añadir tramo';
 
   @override
   String get transportEditLeg => 'Editar tramo';
@@ -1509,12 +1562,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportEstimatedKm(String km) {
-    return '~$km km';
+    return '~$km km';
   }
 
   @override
   String transportKmValue(String km) {
-    return '$km km';
+    return '$km km';
   }
 
   @override
@@ -1530,12 +1583,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportModeFactorPerPassenger(int grams) {
-    return '$grams g CO2e por km';
+    return '$grams g CO2e por km';
   }
 
   @override
   String transportModeFactorPerVehicle(int grams) {
-    return '$grams g CO2e por vehículo y km';
+    return '$grams g CO2e por vehículo y km';
   }
 
   @override
@@ -1627,7 +1680,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportColumnEmptyHint =>
-      'Toca Añadir trayecto para empezar este viaje';
+      'Toca «Añadir tramo» para empezar este viaje';
 
   @override
   String get calculatorNeedBothOptions =>
@@ -1682,7 +1735,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportMethodologyBody(int grid) {
-    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los modos eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que pueden no sumarse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya son por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Siguiendo a DESNZ 2025, los factores de vuelos y jets privados incluyen un incremento del 1,7x (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo incremento, así que la comparación es equivalente.\n\n### Modos eléctricos y la red\nLos coches eléctricos, las bicis y patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Promedios, no tu trayecto exacto\nLos factores son promedios por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos modos están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
+    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los modos eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que pueden no sumarse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya son por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Siguiendo a DESNZ 2025, los factores de vuelos y jets privados incluyen un incremento del 1,7x (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo incremento, así que la comparación es equivalente.\n\n### Modos eléctricos y la red\nLos coches eléctricos, las bicis y patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Promedios, no tu trayecto exacto\nLos factores son promedios por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos modos están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
   }
 
   @override
@@ -1732,7 +1785,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionReproducedMessage => 'Registrado de nuevo';
 
   @override
-  String get foodCalculatorTitle => 'Calculadora de alimentación';
+  String get foodCalculatorTitle => 'Alimentación';
 
   @override
   String get foodMethodologyTitle => 'Metodología y fuentes';
@@ -1745,7 +1798,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Añade un ingrediente para construir tu comida y ver su huella de CO2e.';
 
   @override
-  String get foodAddIngredient => 'Añadir alimento';
+  String get foodAddIngredient => 'Añadir';
 
   @override
   String get foodEditIngredient => 'Editar ingrediente';
@@ -1763,8 +1816,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodQuantityInvalid => 'Introduce una cantidad de 0 g o más';
 
   @override
+  String get quantityAmbiguousSeparator =>
+      'Escribe los miles sin separador (1500). Para los decimales, sirven tanto 1,5 como 1.5.';
+
+  @override
   String foodGramsValue(String grams) {
-    return '$grams g';
+    return '$grams g';
   }
 
   @override
@@ -1774,8 +1831,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodItemScienceTooltip => 'Sobre este factor';
 
   @override
-  String get foodColumnEmptyHint =>
-      'Toca Añadir alimento para empezar esta comida';
+  String get foodColumnEmptyHint => 'Toca «Añadir» para empezar esta comida';
 
   @override
   String get foodSearchHint => 'Buscar alimentos...';
@@ -1789,12 +1845,12 @@ class AppLocalizationsEs extends AppLocalizations {
     String perServing,
     String serving,
   ) {
-    return '$perKg kg CO2e por kg  ·  $perServing por $serving';
+    return '$perKg kg CO2e por kg  ·  $perServing por $serving';
   }
 
   @override
   String foodItemFactorPerKg(String value) {
-    return '$value kg de CO2e por kg';
+    return '$value kg de CO2e por kg';
   }
 
   @override
@@ -1927,7 +1983,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodComparisonCarKmEquiv(int km) {
-    return 'Equivale a unos $km km no recorridos en un coche de gasolina';
+    return 'Equivale a unos $km km no recorridos en un coche de gasolina';
   }
 
   @override
@@ -2009,22 +2065,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyFactorPerMinute(String kwh) {
-    return '$kwh kWh por minuto';
+    return '$kwh kWh por minuto';
   }
 
   @override
   String energyFactorPerHour(String kwh) {
-    return '$kwh kWh por hora';
+    return '$kwh kWh por hora';
   }
 
   @override
   String energyFactorPerUse(String kwh) {
-    return '$kwh kWh por uso';
+    return '$kwh kWh por uso';
   }
 
   @override
   String energyFactorPerDay(String kwh) {
-    return '$kwh kWh por día';
+    return '$kwh kWh por día';
   }
 
   @override
@@ -2127,12 +2183,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyGridBasisNote(int grid) {
-    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025)';
+    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025)';
   }
 
   @override
   String energyGridBasisNoteRatio(int grid) {
-    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025); el múltiplo vale en cualquier red';
+    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025); el múltiplo vale en cualquier red';
   }
 
   @override
@@ -2140,7 +2196,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se otorgan puntos: los hábitos de energía se registran en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma secadora cuesta unos 0,6 kg de CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces por una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nConsideramos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red funcionando con solar de mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $grid g de CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g de CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hiciste.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $grid de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición termostatada de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos segura de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz asumen un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
+    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se otorgan puntos: los hábitos de energía se registran en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma secadora cuesta unos 0,6 kg de CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces por una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nConsideramos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red funcionando con solar de mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $grid g de CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g de CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hiciste.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $grid de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición termostatada de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos segura de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz asumen un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
   }
 
   @override
@@ -2363,7 +2419,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughCalculators4 =>
-      'El icono del rayo de al lado abre A dónde va tu energía: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
+      'El icono del rayo de al lado abre «A dónde va tu energía»: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
 
   @override
   String get walkthroughQuiz1 =>

@@ -203,7 +203,9 @@ class _ActionLogConfirmationDialogState
               Icon(Icons.eco, size: 16, color: theme.colorScheme.primary),
               const SizedBox(width: spacingSm),
               Text(
-                l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
+                l10n.co2Saved(
+                  formatCO2Compact(widget.action.co2Grams, l10n.localeName),
+                ),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.primary,
                 ),

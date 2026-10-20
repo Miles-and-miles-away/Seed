@@ -95,7 +95,9 @@ class Co2eAmount extends StatelessWidget {
         child: Text.rich(
           TextSpan(
             children: [
-              TextSpan(text: '${formatCO2Compact(grams.round())} '),
+              TextSpan(
+                text: '${formatCO2Compact(grams.round(), l10n.localeName)} ',
+              ),
               TextSpan(
                 text: 'CO2e',
                 style: base?.copyWith(
@@ -261,7 +263,10 @@ class ComparisonScaffold extends StatelessWidget {
                                   ),
                                   onPressed: () => onAdd(option),
                                   icon: const Icon(Icons.add),
-                                  label: Text(addLabel),
+                                  label: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(addLabel),
+                                  ),
                                 ),
                               ),
                             ],
@@ -466,6 +471,7 @@ class OptionEntryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accent = accentColor ?? theme.colorScheme.primary;
+    final locale = Localizations.localeOf(context).languageCode;
     return Card(
       margin: const EdgeInsets.only(bottom: spacingXs),
       child: InkWell(
@@ -511,7 +517,7 @@ class OptionEntryCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '${formatCO2Compact(grams.round())} CO2e',
+                '${formatCO2Compact(grams.round(), locale)} CO2e',
                 style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),

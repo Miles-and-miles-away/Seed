@@ -35,6 +35,7 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
+            tooltip: l10n.settingsTitle,
             onPressed: () => context.push(appRoutes.settings),
           ),
         ],
@@ -157,12 +158,15 @@ class ProfileScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: spacingSm),
-                      Text(
-                        '${l10n.profileMemberSince} '
-                        '${DateFormat.yMMMd(locale).format(user.createdAt!)}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onPrimaryContainer.withValues(
-                            alpha: opacityStrong,
+                      Expanded(
+                        child: Text(
+                          l10n.profileMemberSinceDate(
+                            DateFormat.yMMMd(locale).format(user.createdAt!),
+                          ),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onPrimaryContainer.withValues(
+                              alpha: opacityStrong,
+                            ),
                           ),
                         ),
                       ),
@@ -198,8 +202,12 @@ class ProfileScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Level and points header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // The stage badge drops to its own line when the row is tight.
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: spacingSm,
+            runSpacing: spacingSm,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +227,6 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              // Evolution stage badge
               StageBadge(
                 label: l10n.profileEvolutionStage(evolutionStage),
                 background: colorScheme.tertiaryContainer,
@@ -306,7 +313,7 @@ class ProfileScreen extends ConsumerWidget {
             Expanded(
               child: StatCard(
                 icon: Icons.eco,
-                value: formatCO2Compact(totalCo2),
+                value: formatCO2Compact(totalCo2, l10n.localeName),
                 label: l10n.profileTotalCO2,
                 iconColor: colorScheme.primary,
               ),

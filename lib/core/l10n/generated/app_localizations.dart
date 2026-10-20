@@ -178,6 +178,18 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get authPassword;
 
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
   /// No description provided for @authConfirmPassword.
   ///
   /// In en, this message translates to:
@@ -298,6 +310,12 @@ abstract class AppLocalizations {
   /// **'Level {level}'**
   String levelLabel(int level);
 
+  /// No description provided for @stageWithLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'{stage} (Level {level})'**
+  String stageWithLevel(String stage, int level);
+
   /// No description provided for @streakLabel.
   ///
   /// In en, this message translates to:
@@ -417,6 +435,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Member Since'**
   String get profileMemberSince;
+
+  /// No description provided for @profileMemberSinceDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since {date}'**
+  String profileMemberSinceDate(String date);
 
   /// No description provided for @profileCurrentStreak.
   ///
@@ -766,6 +790,12 @@ abstract class AppLocalizations {
   /// **'Daily goal reached!'**
   String get progressGoalReached;
 
+  /// No description provided for @progressSunEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete goals to grow your sun!'**
+  String get progressSunEmptyHint;
+
   /// No description provided for @progressSetDailyGoal.
   ///
   /// In en, this message translates to:
@@ -825,6 +855,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Some content from the action library may remain in its original language.'**
   String get languageSettingsNote;
+
+  /// No description provided for @languageNameEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageNameEnglish;
+
+  /// No description provided for @languageNameSpanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get languageNameSpanish;
+
+  /// No description provided for @languageNameJapanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get languageNameJapanese;
 
   /// No description provided for @settingsNotificationsSubtitle.
   ///
@@ -1312,11 +1360,11 @@ abstract class AppLocalizations {
   /// **'Switch Mascot?'**
   String get mascotSwitchConfirm;
 
-  /// No description provided for @switchToMascot.
+  /// No description provided for @mascotSwitchConfirmBody.
   ///
   /// In en, this message translates to:
-  /// **'Switch to'**
-  String get switchToMascot;
+  /// **'Switch to {name}?'**
+  String mascotSwitchConfirmBody(String name);
 
   /// No description provided for @switchMascotButton.
   ///
@@ -1585,7 +1633,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutSubtitleTracker.
   ///
   /// In en, this message translates to:
-  /// **'Sustainability Habit Tracker'**
+  /// **'Seed - Sustainability Habit Tracker'**
   String get aboutSubtitleTracker;
 
   /// No description provided for @feedbackTitle.
@@ -1635,6 +1683,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The following info is included to help us investigate: app version, device and OS, language, and your account ID.'**
   String get feedbackMetadataNote;
+
+  /// No description provided for @feedbackMetaAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App v{version}'**
+  String feedbackMetaAppVersion(String version);
 
   /// No description provided for @feedbackSubmit.
   ///
@@ -1821,6 +1875,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Goal {number}'**
   String sdgGoalNumber(int number);
+
+  /// No description provided for @sdgGoalNumberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal {number}: {title}'**
+  String sdgGoalNumberTitle(int number, String title);
 
   /// No description provided for @sdgProgressChart.
   ///
@@ -2047,7 +2107,7 @@ abstract class AppLocalizations {
   /// No description provided for @pointsAbbreviated.
   ///
   /// In en, this message translates to:
-  /// **'{count} pts'**
+  /// **'{count, plural, one{{count} pt} other{{count} pts}}'**
   String pointsAbbreviated(int count);
 
   /// No description provided for @stageFallback.
@@ -2356,23 +2416,23 @@ abstract class AppLocalizations {
   /// **'kg'**
   String get kgUnit;
 
-  /// No description provided for @vsYesterday.
+  /// No description provided for @comparisonVsYesterday.
   ///
   /// In en, this message translates to:
-  /// **'vs. yesterday'**
-  String get vsYesterday;
+  /// **'{percent}% vs. yesterday'**
+  String comparisonVsYesterday(String percent);
 
-  /// No description provided for @vsLastWeek.
+  /// No description provided for @comparisonVsLastWeek.
   ///
   /// In en, this message translates to:
-  /// **'vs. last week'**
-  String get vsLastWeek;
+  /// **'{percent}% vs. last week'**
+  String comparisonVsLastWeek(String percent);
 
-  /// No description provided for @vsLastMonth.
+  /// No description provided for @comparisonVsLastMonth.
   ///
   /// In en, this message translates to:
-  /// **'vs. last month'**
-  String get vsLastMonth;
+  /// **'{percent}% vs. last month'**
+  String comparisonVsLastMonth(String percent);
 
   /// No description provided for @trendChartTitle.
   ///
@@ -2725,13 +2785,13 @@ abstract class AppLocalizations {
   /// No description provided for @transportEstimatedKm.
   ///
   /// In en, this message translates to:
-  /// **'~{km} km'**
+  /// **'~{km} km'**
   String transportEstimatedKm(String km);
 
   /// No description provided for @transportKmValue.
   ///
   /// In en, this message translates to:
-  /// **'{km} km'**
+  /// **'{km} km'**
   String transportKmValue(String km);
 
   /// No description provided for @transportOccupantsValue.
@@ -2743,13 +2803,13 @@ abstract class AppLocalizations {
   /// No description provided for @transportModeFactorPerPassenger.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g CO2e per km'**
+  /// **'{grams} g CO2e per km'**
   String transportModeFactorPerPassenger(int grams);
 
   /// No description provided for @transportModeFactorPerVehicle.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g CO2e per vehicle km'**
+  /// **'{grams} g CO2e per vehicle km'**
   String transportModeFactorPerVehicle(int grams);
 
   /// No description provided for @transportGroupActive.
@@ -2994,7 +3054,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.'**
   String transportMethodologyBody(int grid);
 
   /// No description provided for @transportLogChoiceTitle.
@@ -3129,10 +3189,16 @@ abstract class AppLocalizations {
   /// **'Enter a quantity of 0 g or more'**
   String get foodQuantityInvalid;
 
+  /// No description provided for @quantityAmbiguousSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'Type thousands without a separator (1500). For decimals, 1.5 and 1,5 both work.'**
+  String get quantityAmbiguousSeparator;
+
   /// No description provided for @foodGramsValue.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g'**
+  /// **'{grams} g'**
   String foodGramsValue(String grams);
 
   /// No description provided for @foodRemoveIngredient.
@@ -3168,7 +3234,7 @@ abstract class AppLocalizations {
   /// Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities
   ///
   /// In en, this message translates to:
-  /// **'{perKg} kg CO2e per kg  ·  {perServing} per {serving}'**
+  /// **'{perKg} kg CO2e per kg  ·  {perServing} per {serving}'**
   String foodItemFactorWithServing(
     String perKg,
     String perServing,
@@ -3178,7 +3244,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodItemFactorPerKg.
   ///
   /// In en, this message translates to:
-  /// **'{value} kg CO2e per kg'**
+  /// **'{value} kg CO2e per kg'**
   String foodItemFactorPerKg(String value);
 
   /// No description provided for @foodGroupMeat.
@@ -3387,7 +3453,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodComparisonCarKmEquiv.
   ///
   /// In en, this message translates to:
-  /// **'That\'s about {km} km not driven in a petrol car'**
+  /// **'That\'s about {km} km not driven in a petrol car'**
   String foodComparisonCarKmEquiv(int km);
 
   /// No description provided for @foodChoseLabel.
@@ -3525,25 +3591,25 @@ abstract class AppLocalizations {
   /// No description provided for @energyFactorPerMinute.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per minute'**
+  /// **'{kwh} kWh per minute'**
   String energyFactorPerMinute(String kwh);
 
   /// No description provided for @energyFactorPerHour.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per hour'**
+  /// **'{kwh} kWh per hour'**
   String energyFactorPerHour(String kwh);
 
   /// No description provided for @energyFactorPerUse.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per use'**
+  /// **'{kwh} kWh per use'**
   String energyFactorPerUse(String kwh);
 
   /// No description provided for @energyFactorPerDay.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per day'**
+  /// **'{kwh} kWh per day'**
   String energyFactorPerDay(String kwh);
 
   /// No description provided for @energyQuantityOneMinute.
@@ -3674,13 +3740,13 @@ abstract class AppLocalizations {
   /// No description provided for @energyGridBasisNote.
   ///
   /// In en, this message translates to:
-  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data)'**
+  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data)'**
   String energyGridBasisNote(int grid);
 
   /// No description provided for @energyGridBasisNoteRatio.
   ///
   /// In en, this message translates to:
-  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid'**
+  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid'**
   String energyGridBasisNoteRatio(int grid);
 
   /// No description provided for @energyMethodologyTitle.
@@ -3692,7 +3758,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator\'s convention and deliberately not the food calculator\'s, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use {grid} g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the {grid} above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner\'s hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalogue rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI\'s own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator\'s convention and deliberately not the food calculator\'s, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use {grid} g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the {grid} above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner\'s hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalogue rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI\'s own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.'**
   String energyMethodologyBody(int grid);
 
   /// No description provided for @energyRankedTitle.

@@ -68,7 +68,7 @@ void main() {
       List<ActionModel>? actions,
       String? initialCategory,
       bool isLoading = false,
-      double textScale = 1.0,
+      TextScaler scaler = TextScaler.noScaling,
     }) {
       return createTestWidget(
         overrides: [
@@ -95,7 +95,7 @@ void main() {
           }),
         ],
         child: MediaQuery(
-          data: MediaQueryData(textScaler: TextScaler.linear(textScale)),
+          data: MediaQueryData(textScaler: scaler),
           child: ActionLogScreen(initialCategory: initialCategory),
         ),
       );
@@ -318,16 +318,22 @@ void main() {
       // The trim must not come out of accessibility: the cell grows
       // with the text scale, because the text block is the only part
       // of a tile that does.
-      for (final scale in [1.0, 1.3, 2.0]) {
+      final scalers = {
+        '1.0': TextScaler.noScaling,
+        '1.3': const TextScaler.linear(1.3),
+        '2.0': const TextScaler.linear(2),
+        'Android nonlinear 200%': const NonlinearScaler200(),
+      };
+      for (final MapEntry(key: name, value: scaler) in scalers.entries) {
         tester.view.physicalSize = const Size(402, 1400);
         tester.view.devicePixelRatio = 1.0;
         addTearDown(tester.view.reset);
-        await tester.pumpWidget(buildScreen(textScale: scale));
+        await tester.pumpWidget(buildScreen(scaler: scaler));
         await tester.pumpAndSettle();
         expect(
           tester.takeException(),
           isNull,
-          reason: 'a tile overflowed at text scale $scale',
+          reason: 'a tile overflowed at text scale $name',
         );
       }
     });

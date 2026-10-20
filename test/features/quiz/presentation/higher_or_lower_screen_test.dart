@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
@@ -272,7 +273,7 @@ void main() {
       // Showing a card's multiple up front handed over most of the
       // answer, so both cards are names only until the drag commits.
       expect(find.textContaining('an hour of LED light'), findsNothing);
-      expect(find.text('2.1kg'), findsNothing);
+      expect(find.text('2.1${unitSpace}kg'), findsNothing);
       expect(find.text('dryer'), findsOneWidget);
       expect(find.text('led_bulb'), findsOneWidget);
       expect(
@@ -299,9 +300,9 @@ void main() {
 
       // 4.5 / 0.0085 = 529x; 4.5 kWh x 458 g = 2.1kg (rule 26).
       expect(onCard('529x an hour of LED light'), findsOneWidget);
-      expect(onCard('2.1kg'), findsOneWidget);
+      expect(onCard('2.1${unitSpace}kg'), findsOneWidget);
       expect(onCard('1.0x an hour of LED light'), findsOneWidget);
-      expect(onCard('4g'), findsOneWidget);
+      expect(onCard('4${unitSpace}g'), findsOneWidget);
 
       // Coloured by the round's domain. The figure is large text, so
       // it takes the vivid 3:1 tone; the raw category colour is a fill
@@ -315,7 +316,10 @@ void main() {
           .widget<Text>(onCard('529x an hour of LED light'))
           .style!
           .fontSize!;
-      final gramsSize = tester.widget<Text>(onCard('2.1kg')).style!.fontSize!;
+      final gramsSize = tester
+          .widget<Text>(onCard('2.1${unitSpace}kg'))
+          .style!
+          .fontSize!;
       expect(gramsSize, lessThan(multipleSize));
       // The basis note only claims any-grid validity for the multiple.
       await tester.scrollUntilVisible(
@@ -481,7 +485,10 @@ void main() {
       // note drops the any-grid claim with them. Scoped to the cards:
       // a revealed figure repeats in the ladder.
       expect(
-        find.descendant(of: find.byType(Card), matching: find.text('2.1kg')),
+        find.descendant(
+          of: find.byType(Card),
+          matching: find.text('2.1${unitSpace}kg'),
+        ),
         findsOneWidget,
       );
       // Scrolled to the footer, so the absent claim is really absent

@@ -41,10 +41,12 @@ void main() {
   Future<void> pumpAndShow(
     WidgetTester tester, {
     List<Override> overrides = const [],
+    Locale? locale,
   }) async {
     await tester.pumpWidget(
       createTestWidget(
         firestore: firestore,
+        locale: locale,
         overrides: [...baseOverrides, ...overrides],
         child: Consumer(
           builder: (context, ref, _) => ElevatedButton(
@@ -86,6 +88,25 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
     }
   }
+
+  group('in Spanish with real Latin metrics', () {
+    setUpAll(loadTestFonts);
+
+    for (final width in testPhoneWidths) {
+      testWidgets(
+        'the streak pill wraps instead of overflowing at ${width}pt',
+        (tester) async {
+          sizeViewport(tester, size: Size(width * robotoToSfWidthFactor, 800));
+          await pumpAndShow(tester, locale: const Locale('es'));
+          await revealButton(tester);
+
+          expect(tester.takeException(), isNull);
+          expect(find.text('¡2 semanas de racha!'), findsOneWidget);
+          await tearDownTree(tester);
+        },
+      );
+    }
+  });
 
   testWidgets('reveals the copy first and the button afterwards', (
     tester,

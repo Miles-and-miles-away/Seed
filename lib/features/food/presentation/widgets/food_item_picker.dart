@@ -117,6 +117,9 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
                   ? null
                   : IconButton(
                       icon: const Icon(Icons.clear),
+                      tooltip: MaterialLocalizations.of(
+                        context,
+                      ).clearButtonTooltip,
                       onPressed: _controller.clear,
                     ),
               filled: true,

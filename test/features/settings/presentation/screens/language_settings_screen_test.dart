@@ -57,6 +57,15 @@ void main() {
       expect(find.text('Japanese'), findsOneWidget);
     });
 
+    testWidgets('names the other languages in the UI language', (tester) async {
+      await pumpScreen(tester, currentLanguage: 'ja');
+
+      expect(find.text('スペイン語'), findsOneWidget);
+      expect(find.text('英語'), findsOneWidget);
+      // The Japanese tile would only repeat its native name.
+      expect(find.text('日本語'), findsOneWidget);
+    });
+
     testWidgets('shows checkmark on current language (English)', (
       tester,
     ) async {

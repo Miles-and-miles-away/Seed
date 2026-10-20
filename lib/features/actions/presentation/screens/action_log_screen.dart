@@ -40,10 +40,15 @@ class ActionLogScreen extends ConsumerStatefulWidget {
   /// Title, badge and SDG row at the default text scale.
   static const _tileTextHeight = 82.0;
 
+  /// The title's font size: nonlinear platform scalers grow small type
+  /// more than a raw 82pt block, so the text block scales like the title.
+  static const _tileTextFontSize = 14.0;
+
   /// Height of one action tile at [scaler]. Public so a test can put a
   /// tile in exactly the box the grid gives it.
   static double tileHeightFor(TextScaler scaler) =>
-      _tileChromeHeight + scaler.scale(_tileTextHeight);
+      _tileChromeHeight +
+      _tileTextHeight * scaler.scale(_tileTextFontSize) / _tileTextFontSize;
 
   @override
   ConsumerState<ActionLogScreen> createState() => _ActionLogScreenState();
@@ -112,7 +117,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       enabled: widget.initialCategory == null,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.actionLogTitle),
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(l10n.actionLogTitle),
+          ),
           // Action log is a primary destination reached via the bottom-nav
           // Action button; navigation is via the tabs, so suppress the
           // implicit back arrow to avoid a redundant second exit.
@@ -175,6 +183,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                           suffixIcon: show
                               ? IconButton(
                                   icon: const Icon(Icons.clear),
+                                  tooltip: MaterialLocalizations.of(
+                                    context,
+                                  ).clearButtonTooltip,
                                   onPressed: () {
                                     _searchController.clear();
                                     _debounceTimer?.cancel();

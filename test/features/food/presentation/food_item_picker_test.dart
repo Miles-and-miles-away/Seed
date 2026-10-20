@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
@@ -261,8 +262,14 @@ void main() {
       await tester.pumpWidget(buildPickerWith(const [chocolate], const []));
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('47 kg CO2e per kg'), findsOneWidget);
-      expect(find.textContaining('1 serving (30 g)'), findsOneWidget);
+      expect(
+        find.textContaining('47${unitSpace}kg CO2e per kg'),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('1 serving (30${unitSpace}g)'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('a narrower-boundary row says so on its own tile', (

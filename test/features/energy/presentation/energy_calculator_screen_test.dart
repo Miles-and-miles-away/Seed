@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
@@ -103,13 +104,15 @@ void main() {
       );
       // (1.2 - 0.15) kWh x 458 = 481 g; / 0.015271 kWh = 69 charges.
       expect(
-        find.text("That's 481g saved, about 69 phone charges of electricity"),
+        find.text(
+          "That's 481${unitSpace}g saved, about 69 phone charges of electricity",
+        ),
         findsOneWidget,
       );
       // The any-grid clause ships only where a multiple is on screen.
       expect(
         find.textContaining(
-          'world-average grid, 458 g CO2e/kWh (Ember, 2025 data); the '
+          'world-average grid, 458${unitSpace}g CO2e/kWh (Ember, 2025 data); the '
           'multiple holds on any grid',
         ),
         findsOneWidget,
@@ -137,7 +140,9 @@ void main() {
       // One charge of delta rounds to 1, which shipped as "1 phone
       // charges" until the count got an ICU plural.
       expect(
-        find.text("That's 7g saved, about 1 phone charge of electricity"),
+        find.text(
+          "That's 7${unitSpace}g saved, about 1 phone charge of electricity",
+        ),
         findsOneWidget,
       );
     });

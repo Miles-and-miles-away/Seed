@@ -108,31 +108,14 @@ class _ProgressContentState extends ConsumerState<_ProgressContent> {
                 horizontal: spacingLg,
                 vertical: spacingSm,
               ),
-              child: SegmentedButton<_ProgressSegment>(
+              child: ScaledSegmentedButton<_ProgressSegment>(
                 segments: [
-                  ButtonSegment(
-                    value: _ProgressSegment.calendar,
-                    label: Text(l10n.progressCalendarTab),
-                    icon: const Icon(Icons.calendar_month, size: 18),
-                  ),
-                  ButtonSegment(
-                    value: _ProgressSegment.impact,
-                    label: Text(l10n.impactTab),
-                    icon: const Icon(Icons.public, size: 18),
-                  ),
-                  ButtonSegment(
-                    value: _ProgressSegment.ecoDex,
-                    label: Text(l10n.ecoDexTab),
-                    icon: const Icon(Icons.auto_stories, size: 18),
-                  ),
+                  (_ProgressSegment.calendar, l10n.progressCalendarTab),
+                  (_ProgressSegment.impact, l10n.impactTab),
+                  (_ProgressSegment.ecoDex, l10n.ecoDexTab),
                 ],
-                selected: {_segment},
-                onSelectionChanged: (selected) {
-                  setState(() => _segment = selected.first);
-                },
-                style: SegmentedButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                ),
+                selected: _segment,
+                onSelected: (segment) => setState(() => _segment = segment),
               ),
             ),
 

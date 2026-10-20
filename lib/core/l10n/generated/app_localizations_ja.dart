@@ -48,6 +48,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authPassword => 'パスワード';
 
   @override
+  String get authShowPassword => 'パスワードを表示';
+
+  @override
+  String get authHidePassword => 'パスワードを隠す';
+
+  @override
   String get authConfirmPassword => 'パスワード確認';
 
   @override
@@ -121,6 +127,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String stageWithLevel(String stage, int level) {
+    return '$stage（レベル$level）';
+  }
+
+  @override
   String streakLabel(int days) {
     return '$days日連続';
   }
@@ -187,6 +198,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileMemberSince => '登録日';
+
+  @override
+  String profileMemberSinceDate(String date) {
+    return '$dateから利用';
+  }
 
   @override
   String get profileCurrentStreak => '現在の連続日数';
@@ -378,6 +394,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get progressGoalReached => '日目標達成！';
 
   @override
+  String get progressSunEmptyHint => '目標を達成して太陽を育てよう！';
+
+  @override
   String get progressSetDailyGoal => '毎日の目標を設定';
 
   @override
@@ -408,6 +427,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get languageSettingsNote => 'アクションライブラリの一部のコンテンツは元の言語のままになる場合があります。';
+
+  @override
+  String get languageNameEnglish => '英語';
+
+  @override
+  String get languageNameSpanish => 'スペイン語';
+
+  @override
+  String get languageNameJapanese => '日本語';
 
   @override
   String settingsNotificationsSubtitle(int count) {
@@ -684,7 +712,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mascotSwitchConfirm => 'マスコットを切り替える？';
 
   @override
-  String get switchToMascot => '切り替え先:';
+  String mascotSwitchConfirmBody(String name) {
+    return '$nameに切り替えますか？';
+  }
 
   @override
   String get switchMascotButton => '切り替え';
@@ -828,7 +858,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutFooterMade => '地球への思いを込めて。';
 
   @override
-  String get aboutSubtitleTracker => 'サステナビリティ習慣トラッカー';
+  String get aboutSubtitleTracker => 'Seed - サステナビリティ習慣トラッカー';
 
   @override
   String get feedbackTitle => 'フィードバックを送る';
@@ -854,6 +884,11 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get feedbackMetadataNote =>
       '調査のため、以下の情報を一緒に送信します: アプリのバージョン、端末とOS、言語、アカウントID。';
+
+  @override
+  String feedbackMetaAppVersion(String version) {
+    return 'アプリ v$version';
+  }
 
   @override
   String get feedbackSubmit => '送信する';
@@ -962,6 +997,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String sdgGoalNumberTitle(int number, String title) {
+    return '目標 $number：$title';
+  }
+
+  @override
   String get sdgProgressChart => '世界の進捗';
 
   @override
@@ -989,7 +1029,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authOrContinueWith => 'または次の方法で続ける';
 
   @override
-  String get authNoAccount => 'アカウントをお持ちでないですか？';
+  String get authNoAccount => '初めての方は';
 
   @override
   String get authCreateAccount => 'アカウント作成';
@@ -1001,7 +1041,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authOrSignUpWith => 'または次の方法で登録';
 
   @override
-  String get authHaveAccount => 'すでにアカウントをお持ちですか？';
+  String get authHaveAccount => 'アカウントをお持ちの方';
 
   @override
   String get authAgreePrefix => '以下に同意します: ';
@@ -1077,7 +1117,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String pointsAbbreviated(int count) {
-    return '$count pts';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '${count}pt',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1247,13 +1292,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get kgUnit => 'kg';
 
   @override
-  String get vsYesterday => '昨日比';
+  String comparisonVsYesterday(String percent) {
+    return '昨日比 $percent%';
+  }
 
   @override
-  String get vsLastWeek => '先週比';
+  String comparisonVsLastWeek(String percent) {
+    return '先週比 $percent%';
+  }
 
   @override
-  String get vsLastMonth => '先月比';
+  String comparisonVsLastMonth(String percent) {
+    return '先月比 $percent%';
+  }
 
   @override
   String get trendChartTitle => '日々の推移';
@@ -1451,12 +1502,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportEstimatedKm(String km) {
-    return '約$km km';
+    return '約$km km';
   }
 
   @override
   String transportKmValue(String km) {
-    return '$km km';
+    return '$km km';
   }
 
   @override
@@ -1471,12 +1522,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportModeFactorPerPassenger(int grams) {
-    return '1kmあたり$grams g CO2e';
+    return '1kmあたり$grams g CO2e';
   }
 
   @override
   String transportModeFactorPerVehicle(int grams) {
-    return '車両1kmあたり$grams g CO2e';
+    return '車両1kmあたり$grams g CO2e';
   }
 
   @override
@@ -1696,8 +1747,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodQuantityInvalid => '0 g以上の分量を入力してください';
 
   @override
+  String get quantityAmbiguousSeparator =>
+      '千の位は区切らずに入力してください（例：1500）。小数は「1.5」「1,5」のどちらでも入力できます。';
+
+  @override
   String foodGramsValue(String grams) {
-    return '$grams g';
+    return '$grams g';
   }
 
   @override
@@ -1721,12 +1776,12 @@ class AppLocalizationsJa extends AppLocalizations {
     String perServing,
     String serving,
   ) {
-    return '$perKg kg CO2e／kg  ·  $servingで$perServing';
+    return '$perKg kg CO2e／kg  ·  $servingで$perServing';
   }
 
   @override
   String foodItemFactorPerKg(String value) {
-    return '1kgあたり$value kg CO2e';
+    return '1kgあたり$value kg CO2e';
   }
 
   @override
@@ -1934,22 +1989,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyFactorPerMinute(String kwh) {
-    return '1分あたり $kwh kWh';
+    return '1分あたり $kwh kWh';
   }
 
   @override
   String energyFactorPerHour(String kwh) {
-    return '1時間あたり $kwh kWh';
+    return '1時間あたり $kwh kWh';
   }
 
   @override
   String energyFactorPerUse(String kwh) {
-    return '1回あたり $kwh kWh';
+    return '1回あたり $kwh kWh';
   }
 
   @override
   String energyFactorPerDay(String kwh) {
-    return '1日あたり $kwh kWh';
+    return '1日あたり $kwh kWh';
   }
 
   @override
@@ -2038,12 +2093,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyGridBasisNote(int grid) {
-    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます';
+    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます';
   }
 
   @override
   String energyGridBasisNoteRatio(int grid) {
-    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます。倍率はどの電力網でも変わりません';
+    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます。倍率はどの電力網でも変わりません';
   }
 
   @override
@@ -2051,7 +2106,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください -- それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2e -- 同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です -- 湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1 -- ただしこのデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g -- そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
+    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください -- それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2e -- 同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です -- 湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1 -- ただしこのデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g -- そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
   }
 
   @override
