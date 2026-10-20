@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 
@@ -114,6 +115,33 @@ void main() {
       await tester.pumpWidget(build(1));
       await tester.pump();
       expect(controller.offset, closeTo(centered, 0.5));
+    });
+
+    testWidgets('starts centred when goals arrive after an empty frame', (
+      tester,
+    ) async {
+      Widget build(List<SdgGoal> goals) => MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            height: 200,
+            width: 400,
+            child: SdgCarousel(goals: goals, onGoalTap: (_) {}),
+          ),
+        ),
+      );
+
+      // Cold start: the list lays out once with no goals, then data lands.
+      await tester.pumpWidget(build(const []));
+      await tester.pumpWidget(build(testGoals));
+      await tester.pump();
+
+      const itemExtent = 120.0 + 12.0;
+      final centred =
+          spacingXxl + testGoals.length * 500 * itemExtent + 60 - 200;
+      final controller = tester
+          .widget<ListView>(find.byType(ListView))
+          .controller!;
+      expect(controller.offset, closeTo(centred, 0.5));
     });
 
     testWidgets('calls onGoalTap when card is tapped', (tester) async {

@@ -103,6 +103,9 @@ class _SdgCarouselState extends State<SdgCarousel> {
         initialScrollOffset: _initialOffset(width),
       );
       _lastViewportWidth = width;
+      // A list that already laid out empty keeps its offset of 0 when the
+      // controller attaches, so the initial offset must be applied by hand.
+      _recenterOnFirstGoal();
       return;
     }
     final previousWidth = _lastViewportWidth;
