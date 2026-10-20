@@ -89,7 +89,6 @@ cloud projects. Emulator ports are configured in `firebase.json`:
 |------------|------|
 | Auth       | 9099 |
 | Firestore  | 8080 |
-| Storage    | 9199 |
 | Emulator UI| 4000 |
 
 ### Starting the emulators
@@ -106,10 +105,10 @@ The Emulator UI is available at `http://localhost:4000`.
 flutter run --dart-define=USE_EMULATOR=true
 ```
 
-This connects Auth, Firestore, and Storage to the local emulators
-(`main.dart` checks the `USE_EMULATOR` flag). The default emulator
-host is `10.0.2.2` (Android emulator loopback). For iOS simulator
-or physical devices, update the host in `main.dart`.
+This connects Auth and Firestore to the local emulators (`main.dart`
+checks the `USE_EMULATOR` flag). The host is `10.0.2.2` on Android
+emulators and `localhost` elsewhere; for a physical device, use the
+machine's LAN IP.
 
 ### Emulator host by device type
 

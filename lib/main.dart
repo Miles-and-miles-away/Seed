@@ -69,7 +69,10 @@ void main() async {
 
       // Connect to Firebase Emulator Suite in debug mode
       if (_useEmulator) {
-        const emulatorHost = '10.0.2.2'; // Android emulator
+        // Android emulators reach the host machine via 10.0.2.2.
+        final emulatorHost = defaultTargetPlatform == TargetPlatform.android
+            ? '10.0.2.2'
+            : 'localhost';
         FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
         await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
         FirebaseFunctions.instanceFor(
