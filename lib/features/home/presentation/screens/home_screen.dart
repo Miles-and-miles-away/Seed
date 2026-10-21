@@ -15,6 +15,7 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
@@ -49,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 centerTitle: true,
-                actions: const [MailIconButton()],
+                actions: const [MailIconButton(), SettingsIconButton()],
               ),
 
               // Main content

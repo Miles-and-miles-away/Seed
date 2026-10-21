@@ -24,6 +24,7 @@ export 'presentation/screens/settings_screen.dart';
 // Presentation layer - Widgets
 export 'presentation/widgets/language_picker_sheet.dart';
 export 'presentation/widgets/language_tile.dart';
+export 'presentation/widgets/settings_icon_button.dart';
 export 'presentation/widgets/settings_section.dart';
 export 'presentation/widgets/settings_tile.dart';
 export 'presentation/widgets/streak_milestone_dialog.dart';

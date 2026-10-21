@@ -96,11 +96,13 @@ Main hub with mascot summary, challenges, and SDG carousel.
   - `/mascot-selection` (if no mascot)
   - `/home/sdg/:goalNumber` (SDG carousel tap)
   - `/home/daily-fact` (mail icon in app bar)
+  - `/profile/settings` (settings gear in app bar; pushed on the Home tab)
   - `/home/challenges` (multi-day challenge card)
   - `/log-action` (bottom nav, via shell)
   - `/log-action?category=<category>` (incomplete daily challenge card)
   - External: UN SDG page (`AppConstants.sdgGoalsUrl`)
-- Functionality: mascot card with streak/points, daily challenge card
+- Functionality: settings gear beside the mail icon in the app bar,
+  mascot card with streak/points, daily challenge card
   (tap when incomplete jumps to the actions for its category),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
@@ -567,7 +569,7 @@ Active mascot with evolution timeline and multi-mascot collection.
 User stats (level, streak, CO2 saved, total actions) and evolution
 stage.
 - Links: `/profile/settings`, `/progress?tab=ecodex`
-- Functionality: settings icon in app bar, sign-out button, stat
+- Functionality: settings gear in app bar, sign-out button, stat
   cards, Eco-Dex preview card (up to 3 most recent discoveries + "+N
   more" chip and a "X / Y discovered" counter; thumbnail tap opens
   the entry fact sheet, card tap deep-links to the Eco-Dex segment
@@ -575,6 +577,8 @@ stage.
 
 ### Settings (`/profile/settings`)
 Settings hub.
+- Reached from: the gear in the Home app bar and the gear in the
+  Profile app bar.
 - Links:
   - `/profile/settings/language`
   - `/profile/settings/account`

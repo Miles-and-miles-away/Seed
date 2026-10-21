@@ -8,13 +8,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/app/main_shell.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/auth/presentation/screens/email_verification_screen.dart';
 import 'package:seed_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
@@ -243,6 +247,45 @@ void main() {
 
       expect(locationOf(tester), appRoutes.login);
       expect(find.byType(LoginScreen), findsOneWidget);
+
+      await disposeAndFlush(tester);
+    });
+  });
+
+  group('settings entry from Home', () {
+    const homeTabIndex = 0;
+
+    int? selectedTab(WidgetTester tester) =>
+        tester.widget<AppBottomNav>(find.byType(AppBottomNav)).currentIndex;
+
+    testWidgets('the Home gear opens Settings over Home and back returns', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await tester.pumpWidget(buildApp(authReturning(createMockUser())));
+      await pumpRedirects(tester);
+      expect(find.byType(HomeScreen), findsOneWidget);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(HomeScreen),
+          matching: find.byType(SettingsIconButton),
+        ),
+      );
+      await pumpRedirects(tester);
+
+      expect(find.byType(SettingsScreen), findsOneWidget);
+      expect(selectedTab(tester), homeTabIndex);
+      expect(find.byType(ProfileScreen, skipOffstage: false), findsNothing);
+
+      await tester.pageBack();
+      await pumpRedirects(tester);
+      await pumpRedirects(tester);
+
+      expect(find.byType(SettingsScreen), findsNothing);
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(ProfileScreen, skipOffstage: false), findsNothing);
+      expect(selectedTab(tester), homeTabIndex);
 
       await disposeAndFlush(tester);
     });
