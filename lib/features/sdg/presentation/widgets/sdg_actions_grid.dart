@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
@@ -45,10 +44,8 @@ class SdgActionsGrid extends ConsumerWidget {
           title: l10n.sdgRelatedActions,
           color: goalColor,
           trailing: TextButton(
-            onPressed: () {
-              ref.read(selectedSdgFilterProvider.notifier).select(goalNumber);
-              context.push(appRoutes.actionLog);
-            },
+            onPressed: () =>
+                context.push(appRoutes.actionLogForSdg(goalNumber)),
             child: Text(l10n.sdgViewAllActions),
           ),
         ),

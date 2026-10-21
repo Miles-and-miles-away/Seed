@@ -92,6 +92,11 @@ class AppRoutes {
   String actionLogForCategory(String category) =>
       Uri(path: actionLog, queryParameters: {'category': category}).toString();
 
+  /// Action log pre-filtered to one SDG, used by "View all actions" on the
+  /// SDG detail screen.
+  String actionLogForSdg(int goalNumber) =>
+      Uri(path: actionLog, queryParameters: {'sdg': '$goalNumber'}).toString();
+
   // Main shell tabs
   String get home => '/home';
   String get progress => '/progress';
@@ -268,6 +273,7 @@ GoRouter router(Ref ref) {
           name: state.name,
           child: ActionLogScreen(
             initialCategory: state.uri.queryParameters['category'],
+            initialSdg: int.tryParse(state.uri.queryParameters['sdg'] ?? ''),
           ),
         ),
       ),

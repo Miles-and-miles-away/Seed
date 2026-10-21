@@ -22,11 +22,14 @@ import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
 class ActionLogScreen extends ConsumerStatefulWidget {
-  const ActionLogScreen({super.key, this.initialCategory});
+  const ActionLogScreen({super.key, this.initialCategory, this.initialSdg});
 
   /// Category name to pre-select on open (e.g. from the daily challenge
   /// card). Null or unrecognized values show all categories.
   final String? initialCategory;
+
+  /// SDG number to pre-select on open (from "View all actions" on an SDG).
+  final int? initialSdg;
 
   /// Accent bar, padding, icon and gaps: the part of a tile that does
   /// not move with the text scale.
@@ -64,12 +67,17 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     super.initState();
     _searchController.addListener(_onSearchChanged);
     final initialCategory = ActionCategory.fromString(widget.initialCategory);
-    if (initialCategory != null) {
+    final initialSdg = widget.initialSdg;
+    if (initialCategory != null || initialSdg != null) {
       // Provider mutations are disallowed during initState, so apply the
       // incoming filter on the first frame (during the route transition).
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
+        if (!mounted) return;
+        if (initialCategory != null) {
           ref.read(selectedCategoryProvider.notifier).select(initialCategory);
+        }
+        if (initialSdg != null) {
+          ref.read(selectedSdgFilterProvider.notifier).select(initialSdg);
         }
       });
     }

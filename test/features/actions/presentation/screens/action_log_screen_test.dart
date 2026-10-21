@@ -69,6 +69,7 @@ void main() {
     Widget buildScreen({
       List<ActionModel>? actions,
       String? initialCategory,
+      int? initialSdg,
       bool isLoading = false,
       TextScaler scaler = TextScaler.noScaling,
     }) {
@@ -99,7 +100,10 @@ void main() {
         ],
         child: MediaQuery(
           data: MediaQueryData(textScaler: scaler),
-          child: ActionLogScreen(initialCategory: initialCategory),
+          child: ActionLogScreen(
+            initialCategory: initialCategory,
+            initialSdg: initialSdg,
+          ),
         ),
       );
     }
@@ -205,6 +209,18 @@ void main() {
       );
       // Only the single transport action passes the filter.
       expect(find.byType(ActionCard), findsOneWidget);
+    });
+
+    testWidgets('pre-selects the SDG filter from initialSdg', (tester) async {
+      await tester.pumpWidget(buildScreen(initialSdg: 13));
+      await tester.pumpAndSettle();
+
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionCategoryTabs)),
+        ).read(selectedSdgFilterProvider),
+        13,
+      );
     });
 
     testWidgets('shows all actions when initialCategory is unknown', (
