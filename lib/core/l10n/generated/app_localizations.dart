@@ -874,6 +874,24 @@ abstract class AppLocalizations {
   /// **'Japanese'**
   String get languageNameJapanese;
 
+  /// No description provided for @languagePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get languagePickerTitle;
+
+  /// No description provided for @languagePickerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change this at any time in Settings.'**
+  String get languagePickerHint;
+
+  /// No description provided for @languageCurrentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language: {language}'**
+  String languageCurrentLabel(String language);
+
   /// No description provided for @settingsNotificationsSubtitle.
   ///
   /// In en, this message translates to:

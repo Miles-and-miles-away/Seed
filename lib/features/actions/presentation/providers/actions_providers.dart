@@ -19,6 +19,7 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
@@ -225,12 +226,10 @@ Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
   yield* repo.watchActionLogsForRange(userId, start, end);
 }
 
-/// User's language code, selected from the user document
-/// to avoid recomputing filters on unrelated user changes.
-final userLanguageCodeProvider = Provider<String>((ref) {
-  final user = ref.watch(currentUserProvider).asData?.value;
-  return user?.language ?? 'en';
-});
+/// The app language, for action names and the A-Z sort.
+final userLanguageCodeProvider = Provider<String>(
+  (ref) => ref.watch(currentLanguageProvider),
+);
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.

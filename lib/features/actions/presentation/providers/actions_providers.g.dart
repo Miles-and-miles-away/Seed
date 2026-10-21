@@ -875,16 +875,12 @@ final class BaseFilteredActionsProvider
 String _$baseFilteredActionsHash() =>
     r'6631c1849ec23de7611061957ccaad125716246f';
 
-/// Filtered + sorted actions. Only re-sorts when the sort option,
-/// language or shuffle changes; filter changes propagate
-/// through baseFilteredActions.
+/// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
 
 @ProviderFor(filteredActions)
 final filteredActionsProvider = FilteredActionsProvider._();
 
-/// Filtered + sorted actions. Only re-sorts when the sort option,
-/// language or shuffle changes; filter changes propagate
-/// through baseFilteredActions.
+/// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
 
 final class FilteredActionsProvider
     extends
@@ -894,9 +890,7 @@ final class FilteredActionsProvider
           AsyncValue<List<ActionModel>>
         >
     with $Provider<AsyncValue<List<ActionModel>>> {
-  /// Filtered + sorted actions. Only re-sorts when the sort option,
-  /// language or shuffle changes; filter changes propagate
-  /// through baseFilteredActions.
+  /// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
   FilteredActionsProvider._()
     : super(
         from: null,

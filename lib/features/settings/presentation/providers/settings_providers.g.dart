@@ -160,17 +160,23 @@ final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
 
 String _$canAddReminderHash() => r'db58b759b124fe64354cd95fb054ab493fe793d1';
 
-/// Returns the current language setting.
+/// The app language: an OS-side change made after this device's last
+/// pick, else the account's choice, else this device's pick, else the
+/// OS language. Computed, never stored.
 
 @ProviderFor(currentLanguage)
 final currentLanguageProvider = CurrentLanguageProvider._();
 
-/// Returns the current language setting.
+/// The app language: an OS-side change made after this device's last
+/// pick, else the account's choice, else this device's pick, else the
+/// OS language. Computed, never stored.
 
 final class CurrentLanguageProvider
     extends $FunctionalProvider<String, String, String>
     with $Provider<String> {
-  /// Returns the current language setting.
+  /// The app language: an OS-side change made after this device's last
+  /// pick, else the account's choice, else this device's pick, else the
+  /// OS language. Computed, never stored.
   CurrentLanguageProvider._()
     : super(
         from: null,
@@ -204,7 +210,7 @@ final class CurrentLanguageProvider
   }
 }
 
-String _$currentLanguageHash() => r'0467d326d8f65820a58cb8b6734a4a57ce49faca';
+String _$currentLanguageHash() => r'b4922b1151c1117739aa756a20c5cb4678a3beea';
 
 /// Returns whether notifications are enabled.
 
@@ -441,20 +447,17 @@ final class ThemeModeProvider
 
 String _$themeModeHash() => r'f37638bc896c8dd117c5e0c5ce92c70f3272cee8';
 
-/// Returns the current app locale based on user settings.
-/// Falls back to English if no setting is found.
+/// The app locale for [currentLanguageProvider].
 
 @ProviderFor(appLocale)
 final appLocaleProvider = AppLocaleProvider._();
 
-/// Returns the current app locale based on user settings.
-/// Falls back to English if no setting is found.
+/// The app locale for [currentLanguageProvider].
 
 final class AppLocaleProvider
     extends $FunctionalProvider<Locale, Locale, Locale>
     with $Provider<Locale> {
-  /// Returns the current app locale based on user settings.
-  /// Falls back to English if no setting is found.
+  /// The app locale for [currentLanguageProvider].
   AppLocaleProvider._()
     : super(
         from: null,
@@ -529,7 +532,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'd76b5ba69699c63383a77b3dbb1f8709df9deb86';
+String _$settingsNotifierHash() => r'1d35b60600a60172d9128f7c2063edc739f14ed1';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

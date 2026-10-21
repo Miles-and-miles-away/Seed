@@ -55,14 +55,28 @@ Shown while auth state resolves; redirects based on user state.
 ### Login (`/login`)
 Email/password sign-in plus social sign-in (Google, Apple on iOS).
 - Links: `/register`
-- Functionality: email/password fields, password visibility toggle, forgot
-  password dialog, Google button, Apple button (iOS).
+- Functionality: language pill (top right: globe plus the current
+  language's native name; opens the language picker sheet), email/password
+  fields, password visibility toggle, forgot password dialog, Google
+  button, Apple button (iOS).
+- First launch: the language picker sheet opens once over the screen,
+  with the device language pre-selected. A tap applies a language and
+  closes it; dismissing keeps following the device language. Either way
+  it never opens again on this device, nor after any sign-in.
+
+### Language picker sheet (modal, no route)
+Opened by the first launch on Login and by the language pill on Login
+and Register.
+- Functionality: title and hint, then English / Español / 日本語 tiles
+  (the Language Settings tiles); one tap applies the language and closes
+  the sheet.
 
 ### Register (`/register`)
 Create account with email/password and accept terms.
 - Links: `/terms`, `/privacy`, `/login`
-- Functionality: email/password/confirm fields, T&C checkbox with
-  tappable inline links, Google/Apple sign-up.
+- Functionality: language pill (as on Login), email/password/confirm
+  fields, T&C checkbox with tappable inline links, Google/Apple sign-up.
+  A new account starts in the language on screen.
 
 ### Email Verification (`/verify-email`)
 Post-registration verification gate.
@@ -587,6 +601,13 @@ Feature postponed; no UI entry points to this route.
 ### Language Settings (`.../settings/language`)
 - Links: none
 - Functionality: English / Spanish / Japanese tiles, live app switching.
+  A pick applies to this device and the account (and, on Android 13+,
+  the system per-app language, which also follows the account's
+  language at sign-in unless an OS-side change is active). The language
+  shown is the device
+  language until a pick; an OS per-app or system language change made
+  after the last pick wins on that device only. Signing out keeps the
+  language on screen.
 
 ### Account Settings (`.../settings/account`)
 - Links: `/login` (on account deletion)

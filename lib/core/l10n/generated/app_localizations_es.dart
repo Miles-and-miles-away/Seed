@@ -457,6 +457,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get languageNameJapanese => 'Japonés';
 
   @override
+  String get languagePickerTitle => 'Elige tu idioma';
+
+  @override
+  String get languagePickerHint =>
+      'Puedes cambiarlo cuando quieras en Ajustes.';
+
+  @override
+  String languageCurrentLabel(String language) {
+    return 'Idioma: $language';
+  }
+
+  @override
   String settingsNotificationsSubtitle(int count) {
     return '$count recordatorios activados';
   }

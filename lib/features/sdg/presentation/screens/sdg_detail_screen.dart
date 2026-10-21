@@ -7,9 +7,9 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
@@ -43,9 +43,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     final goal = sdgData.goalMap[widget.goalNumber] ?? sdgData.goals.first;
-    final languageCode = ref.watch(
-      currentUserProvider.select((u) => u.value?.language ?? 'en'),
-    );
+    final languageCode = ref.watch(currentLanguageProvider);
 
     return WalkthroughTrigger(
       item: WalkthroughItem.sdg,

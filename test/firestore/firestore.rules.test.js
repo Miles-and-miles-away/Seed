@@ -144,6 +144,12 @@ describe('users/{userId} create', () => {
     await assertSucceeds(writeUser({email: ''}));
   });
 
+  test('allows the app language in both language fields', async () => {
+    await assertSucceeds(
+      writeUser({language: 'es', settings: {language: 'es'}}),
+    );
+  });
+
   test('rejects fields outside the whitelist', async () => {
     await assertFails(writeUser({adminFlag: true}));
   });

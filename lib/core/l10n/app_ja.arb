@@ -207,6 +207,9 @@
   "languageNameEnglish": "英語",
   "languageNameSpanish": "スペイン語",
   "languageNameJapanese": "日本語",
+  "languagePickerTitle": "言語を選択",
+  "languagePickerHint": "設定からいつでも変更できます。",
+  "languageCurrentLabel": "言語：{language}",
   "settingsNotificationsSubtitle": "{count}件のリマインダーが有効",
   "@settingsNotificationsSubtitle": {
     "placeholders": {

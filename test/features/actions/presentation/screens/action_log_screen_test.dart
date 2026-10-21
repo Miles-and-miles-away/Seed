@@ -166,6 +166,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             userOverride(testUser),
             userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
@@ -532,6 +533,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             userOverride(testUser),
             userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
@@ -675,6 +677,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             userOverride(testUser),
             userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),

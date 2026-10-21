@@ -30,9 +30,13 @@ class UserRemoteDataSource {
     return AppUserModel.fromJson({...doc.data()!, 'uid': uid});
   }
 
+  /// Creates the user document; settings.language marks the language chosen.
   Future<void> createUser(AppUserModel user) async {
     // Remove uid from document data since it's the document ID
     final data = user.toJson()..remove('uid');
+    data[AppConstants.fieldSettings] = {
+      AppConstants.fieldLanguage: user.language,
+    };
     await _usersCollection.doc(user.uid).set(data);
   }
 

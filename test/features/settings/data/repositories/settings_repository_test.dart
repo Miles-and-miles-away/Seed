@@ -99,20 +99,44 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => !s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == null,
             ),
           ),
         );
       });
 
-      test('emits defaults with user language fallback', () async {
+      test('ignores the top-level language, which is not a choice', () async {
         await seedUserWithoutSettings(testUid, language: 'ja');
 
         final stream = repository.watchSettings(testUid);
 
         await expectLater(
           stream,
-          emits(predicate<UserSettingsModel>((s) => s.language == 'ja')),
+          emits(predicate<UserSettingsModel>((s) => s.language == null)),
+        );
+      });
+
+      test('an unsupported settings language reads as unset', () async {
+        await seedUserWithSettings(testUid, settingsJson(language: 'fr'));
+
+        final stream = repository.watchSettings(testUid);
+
+        await expectLater(
+          stream,
+          emits(predicate<UserSettingsModel>((s) => s.language == null)),
+        );
+      });
+
+      test('malformed settings keep a valid language', () async {
+        await userDoc(testUid).set({
+          'settings': {'language': 'es', 'notificationsEnabled': 'yes'},
+        });
+
+        final stream = repository.watchSettings(testUid);
+
+        await expectLater(
+          stream,
+          emits(predicate<UserSettingsModel>((s) => s.language == 'es')),
         );
       });
 
@@ -123,7 +147,7 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => !s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == null,
             ),
           ),
         );
@@ -142,7 +166,7 @@ void main() {
           stream,
           emits(
             predicate<UserSettingsModel>(
-              (s) => !s.notificationsEnabled && s.language == 'en',
+              (s) => !s.notificationsEnabled && s.language == null,
             ),
           ),
         );
@@ -332,6 +356,41 @@ void main() {
         final settings = data['settings'] as Map<String, dynamic>;
         expect(settings['language'], 'ja');
         expect(data['language'], 'ja');
+      });
+    });
+
+    group('backfillLanguage', () {
+      Future<Map<String, dynamic>> saved() async =>
+          (await userDoc(testUid).get()).data()! as Map<String, dynamic>;
+
+      test('writes both copies when the account has no choice', () async {
+        await seedUserWithoutSettings(testUid);
+
+        await repository.backfillLanguage(testUid, 'ja');
+
+        final data = await saved();
+        expect(data['language'], 'ja');
+        expect((data['settings'] as Map<String, dynamic>)['language'], 'ja');
+      });
+
+      test('leaves an existing choice alone', () async {
+        await seedUserWithSettings(
+          testUid,
+          settingsJson(language: 'es'),
+          language: 'es',
+        );
+
+        await repository.backfillLanguage(testUid, 'ja');
+
+        final data = await saved();
+        expect(data['language'], 'es');
+        expect((data['settings'] as Map<String, dynamic>)['language'], 'es');
+      });
+
+      test('does not create a missing user document', () async {
+        await repository.backfillLanguage(testUid, 'ja');
+
+        expect((await userDoc(testUid).get()).exists, isFalse);
       });
     });
 

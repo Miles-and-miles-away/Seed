@@ -438,6 +438,17 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageNameJapanese => '日本語';
 
   @override
+  String get languagePickerTitle => '言語を選択';
+
+  @override
+  String get languagePickerHint => '設定からいつでも変更できます。';
+
+  @override
+  String languageCurrentLabel(String language) {
+    return '言語：$language';
+  }
+
+  @override
   String settingsNotificationsSubtitle(int count) {
     return '$count件のリマインダーが有効';
   }

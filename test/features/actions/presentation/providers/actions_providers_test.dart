@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -11,6 +13,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -110,18 +113,22 @@ void main() {
   });
 
   group('userLanguageCodeProvider', () {
-    test('defaults to en when no user', () async {
-      final c = await pumpedContainer([]);
+    Override os(String code) =>
+        osLocalesProvider.overrideWithBuild((_, _) => [Locale(code)]);
 
-      expect(c.read(userLanguageCodeProvider), 'en');
+    test('follows the device language when signed out', () async {
+      final c = await pumpedContainer([os('ja')]);
+
+      expect(c.read(userLanguageCodeProvider), 'ja');
     });
 
-    test('reads from user language', () async {
+    test('follows the app language, not the top-level user field', () async {
       final c = await pumpedContainer([
+        os('en'),
         userOverride(AppUserModel(uid: 'u', email: 'e', language: 'ja')),
       ]);
 
-      expect(c.read(userLanguageCodeProvider), 'ja');
+      expect(c.read(userLanguageCodeProvider), 'en');
     });
   });
 
@@ -375,15 +382,21 @@ void main() {
     });
 
     test('a different signed-in user resets the sort to random', () async {
-      final c = await pumpedContainer([
-        userIdProvider.overrideWithValue('a'),
-      ], warm: userIdProvider);
+      final store = MemoryLanguageStore();
+      final c = await pumpedContainer(
+        [userIdProvider.overrideWithValue('a')],
+        warm: userIdProvider,
+        languageStore: store,
+      );
       c.listen(selectedSortOptionProvider, (_, _) {});
       c
           .read(selectedSortOptionProvider.notifier)
           .select(ActionSortOption.co2LowToHigh);
 
-      c.updateOverrides([userIdProvider.overrideWithValue('b')]);
+      c.updateOverrides([
+        languageStoreOverride(store),
+        userIdProvider.overrideWithValue('b'),
+      ]);
       await c.pump();
 
       expect(c.read(selectedSortOptionProvider), ActionSortOption.random);

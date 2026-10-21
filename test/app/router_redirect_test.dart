@@ -80,6 +80,7 @@ void main() {
   Widget buildApp(MockFirebaseAuth auth) {
     return ProviderScope(
       overrides: [
+        languageStoreOverride(),
         crashlyticsProvider.overrideWithValue(_FakeCrashlytics()),
         firebaseAuthProvider.overrideWithValue(auth),
         firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
@@ -219,6 +220,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             firebaseAuthProvider.overrideWithValue(auth),
             firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
             hasMascotProvider.overrideWithValue(false),

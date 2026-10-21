@@ -7,6 +7,7 @@ import 'package:seed_app/features/settings/data/models/notification_schedule_mod
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 
 part 'settings_providers.g.dart';
@@ -49,9 +50,20 @@ T _setting<T>(Ref ref, T Function(UserSettingsModel) pick, T fallback) {
 @riverpod
 bool canAddReminder(Ref ref) => _setting(ref, (s) => s.canAddReminder, false);
 
-/// Returns the current language setting.
+/// The app language: an OS-side change made after this device's last
+/// pick, else the account's choice, else this device's pick, else the
+/// OS language. Computed, never stored.
 @riverpod
-String currentLanguage(Ref ref) => _setting(ref, (s) => s.language, 'en');
+String currentLanguage(Ref ref) {
+  final os = resolveOsLanguage(ref.watch(osLocalesProvider));
+  final stored = ref.watch(deviceLanguageProvider).pick;
+  if (stored != null && os != stored.os) return os;
+  final account = ref.watch(userIdProvider) == null
+      ? null
+      : ref.watch(pendingLanguagePushProvider) ??
+            _setting(ref, (s) => s.language, null);
+  return account ?? stored?.language ?? os;
+}
 
 /// Returns whether notifications are enabled.
 @riverpod
@@ -83,8 +95,7 @@ ThemeMode themeMode(Ref ref) {
   return ThemeMode.values.asNameMap()[name] ?? ThemeMode.system;
 }
 
-/// Returns the current app locale based on user settings.
-/// Falls back to English if no setting is found.
+/// The app locale for [currentLanguageProvider].
 @riverpod
 Locale appLocale(Ref ref) {
   final language = ref.watch(currentLanguageProvider);
@@ -167,15 +178,9 @@ class SettingsNotifier extends _$SettingsNotifier {
     (uid, repo) => repo.setSmartRemindersEnabled(uid, enabled: enabled),
   );
 
-  /// Updates the language preference.
-  Future<void> updateLanguage(String language) {
-    return _write((uid, repo) async {
-      await repo.setLanguage(uid, language);
-      await ref
-          .read(analyticsServiceProvider)
-          .logLanguageChanged(language: language);
-    });
-  }
+  /// Updates the account's language.
+  Future<void> updateLanguage(String language) =>
+      _write((uid, repo) => repo.setLanguage(uid, language));
 
   /// Updates the theme preference.
   Future<void> updateThemeMode(ThemeMode mode) =>

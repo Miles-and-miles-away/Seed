@@ -16,6 +16,7 @@ import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
 import '../utils/sign_in_with_social.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/language_pill.dart';
 import '../widgets/or_divider.dart';
 import '../widgets/social_sign_in_button.dart';
 import '../widgets/social_sign_in_row.dart';
@@ -81,7 +82,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: spacingXxxl),
+                const Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: LanguagePill(),
+                ),
                 Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                 const SizedBox(height: spacingLg),
                 Text(

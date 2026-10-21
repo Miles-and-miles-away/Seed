@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
 Future<ProviderContainer> _container(UserSettingsModel settings) =>
     pumpedContainer([
+      userIdProvider.overrideWithValue('u'),
       userSettingsProvider.overrideWith((_) => Stream.value(settings)),
     ], warm: userSettingsProvider);
 
@@ -90,12 +93,16 @@ void main() {
   group('fallbacks while settings are loading', () {
     test('selectors report their defaults until the stream emits', () async {
       final c = await pumpedContainer([
+        userIdProvider.overrideWithValue('u'),
+        osLocalesProvider.overrideWithBuild(
+          (_, _) => const [Locale('ja', 'JP')],
+        ),
         userSettingsProvider.overrideWith(
           (_) => StreamController<UserSettingsModel>().stream,
         ),
       ], warm: userSettingsProvider);
 
-      expect(c.read(currentLanguageProvider), 'en');
+      expect(c.read(currentLanguageProvider), 'ja');
       expect(c.read(notificationsEnabledProvider), isFalse);
       expect(c.read(smartRemindersEnabledProvider), isTrue);
       expect(c.read(analyticsEnabledProvider), isTrue);

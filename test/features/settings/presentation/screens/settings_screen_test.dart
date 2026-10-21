@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -26,6 +27,7 @@ void main() {
       createTestWidget(
         child: const SettingsScreen(),
         overrides: [
+          userIdProvider.overrideWithValue('u'),
           userSettingsProvider.overrideWith((ref) => Stream.value(settings)),
         ],
         locale: locale,
@@ -233,11 +235,14 @@ void main() {
         );
         await tester.pumpWidget(
           ProviderScope(
-            overrides: walkthroughOverrides(
-              settings: repo.watchSettings(walkthroughTestUid),
-              firestore: firestore,
-              analytics: analytics,
-            ),
+            overrides: [
+              languageStoreOverride(),
+              ...walkthroughOverrides(
+                settings: repo.watchSettings(walkthroughTestUid),
+                firestore: firestore,
+                analytics: analytics,
+              ),
+            ],
             child: MaterialApp.router(
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,

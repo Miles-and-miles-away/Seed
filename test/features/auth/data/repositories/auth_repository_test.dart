@@ -83,7 +83,11 @@ void main() {
         );
         when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-        final result = await repository.signInWithEmailAndPassword(email, 'pw');
+        final result = await repository.signInWithEmailAndPassword(
+          email,
+          'pw',
+          language: 'es',
+        );
 
         expect(result, existing);
         verifyNever(() => userDs.updateUser(any(), any()));
@@ -103,7 +107,11 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
       when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.emailVerified, isTrue);
       verify(
@@ -121,10 +129,15 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.uid, uid);
       expect(result.email, email);
+      expect(result.language, 'es');
       expect(result.createdAt, isNotNull);
       verify(() => userDs.createUser(any())).called(1);
     });
@@ -144,6 +157,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.uid, uid);
@@ -169,6 +183,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, 'x' * AppConstants.maxDisplayNameLength);
@@ -188,6 +203,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, isNull);
@@ -203,7 +219,7 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithGoogle();
+      final result = await repository.signInWithGoogle(language: 'es');
 
       expect(result.uid, uid);
       verify(() => userDs.createUser(any())).called(1);
@@ -221,7 +237,7 @@ void main() {
       );
       when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-      final result = await repository.signInWithApple();
+      final result = await repository.signInWithApple(language: 'es');
 
       expect(result, existing);
     });
@@ -469,6 +485,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         'a@b.com',
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, exact);

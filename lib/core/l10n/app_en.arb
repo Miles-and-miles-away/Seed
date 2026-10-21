@@ -224,6 +224,16 @@
   "languageNameEnglish": "English",
   "languageNameSpanish": "Spanish",
   "languageNameJapanese": "Japanese",
+  "languagePickerTitle": "Choose your language",
+  "languagePickerHint": "You can change this at any time in Settings.",
+  "languageCurrentLabel": "Language: {language}",
+  "@languageCurrentLabel": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
   "settingsNotificationsSubtitle": "{count} reminders enabled",
   "@settingsNotificationsSubtitle": {
     "placeholders": {

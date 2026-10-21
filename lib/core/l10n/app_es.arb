@@ -207,6 +207,9 @@
   "languageNameEnglish": "Inglés",
   "languageNameSpanish": "Español",
   "languageNameJapanese": "Japonés",
+  "languagePickerTitle": "Elige tu idioma",
+  "languagePickerHint": "Puedes cambiarlo cuando quieras en Ajustes.",
+  "languageCurrentLabel": "Idioma: {language}",
   "settingsNotificationsSubtitle": "{count} recordatorios activados",
   "@settingsNotificationsSubtitle": {
     "placeholders": {

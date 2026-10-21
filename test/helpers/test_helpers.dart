@@ -13,6 +13,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/data/language_store.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
+
+import 'memory_language_store.dart';
+
+export 'memory_language_store.dart';
 
 // =============================================================================
 // Mock Classes
@@ -39,9 +45,11 @@ Widget createTestWidget({
   bool scaffold = false,
   Locale? locale,
   ThemeData? theme,
+  LanguageStore? languageStore,
 }) {
   return ProviderScope(
     overrides: [
+      languageStoreOverride(languageStore),
       if (firebaseAuth != null)
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
       if (firestore != null) firestoreProvider.overrideWithValue(firestore),
@@ -61,6 +69,11 @@ Widget createTestWidget({
 // Provider Container Helpers
 // =============================================================================
 
+/// Backs [languageStoreProvider] with [store], a returning device's
+/// in-memory store by default.
+Override languageStoreOverride([LanguageStore? store]) =>
+    languageStoreProvider.overrideWithValue(store ?? MemoryLanguageStore());
+
 Override userOverride(AppUserModel? user) =>
     currentUserProvider.overrideWith((_) => Stream.value(user));
 
@@ -70,8 +83,11 @@ Override userOverride(AppUserModel? user) =>
 Future<ProviderContainer> pumpedContainer(
   List<Override> overrides, {
   ProviderListenable<Object?>? warm,
+  LanguageStore? languageStore,
 }) async {
-  final container = ProviderContainer(overrides: overrides);
+  final container = ProviderContainer(
+    overrides: [languageStoreOverride(languageStore), ...overrides],
+  );
   addTearDown(container.dispose);
   container.listen(warm ?? currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
