@@ -7,6 +7,7 @@ import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Expandable section showing an SDG's description
 /// and its UN targets.
@@ -157,7 +158,7 @@ class _TargetRow extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
+            child: PhraseText(
               target.description(locale),
               style: theme.textTheme.bodySmall?.copyWith(
                 height: 1.5,

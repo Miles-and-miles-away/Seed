@@ -12,6 +12,7 @@ import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
 import '../widgets/sdg_progress_chart_viewer.dart';
@@ -58,8 +59,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
                 delegate: SliverChildListDelegate([
                   _buildGoalBadge(context, goal),
                   const SizedBox(height: spacingLg),
-                  Text(
+                  PhraseText(
                     goal.title(languageCode),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

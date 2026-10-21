@@ -18,6 +18,7 @@ import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 
 /// The main home screen of the Seed app
@@ -83,8 +84,9 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: spacingSm),
-                    Text(
+                    PhraseText(
                       l10n.homeExploreGoalsSubtitle,
+                      minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -288,8 +290,9 @@ class HomeScreen extends ConsumerWidget {
 
           const SizedBox(height: spacingSm),
 
-          Text(
+          PhraseText(
             l10n.mascotSelectionSubtitle,
+            minLineWidth: phraseNarrowestScreenWidth - 4 * spacingXxl,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onPrimaryContainer.withValues(
                 alpha: opacityHeavy,

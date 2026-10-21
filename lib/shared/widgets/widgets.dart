@@ -9,6 +9,7 @@ export 'error_display.dart';
 export 'goal_picker_sheet.dart';
 export 'info_sheet.dart';
 export 'level_progress_bar.dart';
+export 'phrase_text.dart';
 export 'scaled_segmented_button.dart';
 export 'science_sheet.dart';
 export 'skeleton_line.dart';

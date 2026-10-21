@@ -59,7 +59,7 @@ class EcoDexCategorySection extends ConsumerWidget {
         ),
         SliverGrid.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
+            crossAxisCount: ecoDexGridColumns,
             mainAxisSpacing: spacingMd,
             crossAxisSpacing: spacingMd,
             mainAxisExtent: EcoDexEntryCard.heightFor(

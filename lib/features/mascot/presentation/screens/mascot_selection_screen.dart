@@ -11,6 +11,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/mascot_display.dart';
 
@@ -107,8 +108,10 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                       const SizedBox(height: spacingSm),
 
                       // Subtitle
-                      Text(
+                      PhraseText(
                         l10n.mascotSelectionSubtitle,
+                        minLineWidth:
+                            phraseNarrowestScreenWidth - 2 * spacingXxl,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),

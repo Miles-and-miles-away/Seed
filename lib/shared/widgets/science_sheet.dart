@@ -5,6 +5,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// The markdown source list every science sheet ends with: a bullet
 /// per citation, its quote as a blockquote, and the access date.
@@ -72,6 +73,8 @@ String scienceMarkdown(
   return buffer.toString();
 }
 
+const _bodyWidth = phraseNarrowestScreenWidth - 2 * spacingXxl;
+
 /// Draggable sheet holding one dataset entry's markdown explanation.
 ///
 /// The chrome only -- each calculator assembles its own [markdown],
@@ -124,6 +127,7 @@ class ScienceSheet extends StatelessWidget {
             child: MarkdownWidget(
               data: appendExternalLinkArrow(markdown),
               padding: const EdgeInsets.all(spacingXxl),
+              markdownGenerator: phraseMarkdownGenerator(bodyWidth: _bodyWidth),
               config: markdownConfigFor(
                 context,
               ).copy(configs: [externalLinkConfig(context)]),

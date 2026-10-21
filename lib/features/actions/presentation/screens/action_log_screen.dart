@@ -300,7 +300,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     return GridView.builder(
       padding: const EdgeInsets.all(spacingLg),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: actionGridColumns,
         crossAxisSpacing: spacingMd,
         mainAxisSpacing: spacingMd,
         // Height from the content, not from a fraction of the cell

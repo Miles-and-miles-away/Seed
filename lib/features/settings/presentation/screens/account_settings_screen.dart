@@ -655,7 +655,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
       dangerous: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.accountSettingsDeleteConfirmMessage),
+        PhraseText(
+          l10n.accountSettingsDeleteConfirmMessage,
+          minLineWidth: phraseDialogMinLineWidth,
+        ),
         if (widget.requiresReauth) ...[
           const SizedBox(height: spacingLg),
           Text(

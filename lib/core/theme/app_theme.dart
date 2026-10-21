@@ -18,6 +18,7 @@ ThemeData appTheme(Brightness brightness, {Color? seedColor}) => ThemeData(
   appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
   cardTheme: CardThemeData(
     elevation: 0,
+    margin: const EdgeInsets.all(cardMargin),
     shape: RoundedRectangleBorder(borderRadius: borderRadiusLg),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

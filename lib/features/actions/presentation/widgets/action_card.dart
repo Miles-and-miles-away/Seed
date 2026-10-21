@@ -10,6 +10,18 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+/// Tiles per row in the Action log grid.
+const actionGridColumns = 2;
+
+/// Tile title width at 320pt, one grid cell less chrome: the phrase default.
+const actionTileTitleWidth =
+    (phraseNarrowestScreenWidth -
+            2 * spacingLg -
+            (actionGridColumns - 1) * spacingMd) /
+        actionGridColumns -
+    2 * (cardMargin + spacingLg);
 
 /// The shared grid-tile look for anything logged from the Action log:
 /// accent bar, icon, title and a small badge. Kept generic so entries
@@ -24,6 +36,7 @@ class ActionTile extends StatelessWidget {
     required this.onTap,
     this.badgeIcon,
     this.footer,
+    this.titleLocale,
     super.key,
   });
 
@@ -35,6 +48,9 @@ class ActionTile extends StatelessWidget {
   final IconData? badgeIcon;
   final Widget? footer;
   final VoidCallback onTap;
+
+  /// The title's language when it can differ from the app locale.
+  final Locale? titleLocale;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +72,9 @@ class ActionTile extends StatelessWidget {
                   children: [
                     Icon(icon, size: 36, color: contentColor),
                     const SizedBox(height: spacingSm),
-                    Text(
+                    PhraseText(
                       title,
+                      locale: titleLocale,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -143,6 +160,7 @@ class ActionCard extends ConsumerWidget {
       contentColor: isLearnOnly ? theme.colorScheme.outline : categoryColor,
       icon: getActionIcon(action.iconName),
       title: action.name(languageCode),
+      titleLocale: Locale(languageCode),
       badgeLabel: isLearnOnly
           ? l10n.learnOnlyBadge
           : l10n.pointsLabel(action.points),

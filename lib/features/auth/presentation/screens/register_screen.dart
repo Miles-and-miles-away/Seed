@@ -11,6 +11,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/validators.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
 import '../utils/sign_in_with_social.dart';
@@ -91,8 +92,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: spacingSm),
-                Text(
+                PhraseText(
                   l10n.authCreateAccountSubtitle,
+                  minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -149,7 +151,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: spacingMd),
-                        child: Text.rich(
+                        child: PhraseText.rich(
+                          minLineWidth:
+                              phraseNarrowestScreenWidth -
+                              2 * spacingXxl -
+                              kMinInteractiveDimension,
                           TextSpan(
                             text: l10n.authAgreePrefix,
                             style: theme.textTheme.bodyMedium,

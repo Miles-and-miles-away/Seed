@@ -5,6 +5,7 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Bottom sheet displaying the scientific long description
 /// for an action, rendered as markdown with tappable links.
@@ -84,6 +85,9 @@ class ActionScienceBottomSheet extends StatelessWidget {
                   action.descriptionLong(languageCode),
                 ),
                 padding: const EdgeInsets.all(spacingXxl),
+                markdownGenerator: phraseMarkdownGenerator(
+                  bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+                ),
                 config: markdownConfigFor(context).copy(
                   configs: [
                     PConfig(

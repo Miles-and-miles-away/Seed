@@ -12,6 +12,19 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+const _iconSize = 32.0;
+const _chevronSize = 24.0;
+
+/// Text width at 320pt without the streak badge (with it, the default).
+const _textMinLineWidth =
+    phraseNarrowestScreenWidth -
+    2 * (spacingXxl + cardMargin + spacingLg) -
+    _iconSize -
+    spacingMd -
+    spacingXs -
+    _chevronSize;
 
 /// Card showing today's daily challenge status on the home screen.
 class DailyChallengeCard extends ConsumerWidget {
@@ -103,6 +116,9 @@ class DailyChallengeCard extends ConsumerWidget {
     ActionCategory? category,
     int streak,
   ) {
+    final textWidth = streak > 0
+        ? defaultPhraseMinLineWidth
+        : _textMinLineWidth;
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -124,22 +140,24 @@ class DailyChallengeCard extends ConsumerWidget {
               Icon(
                 category?.icon ?? Icons.eco,
                 color: category?.color ?? colorScheme.primary,
-                size: 32,
+                size: _iconSize,
               ),
               const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    PhraseText(
                       title,
+                      minLineWidth: textWidth,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: spacingXs),
-                    Text(
+                    PhraseText(
                       l10n.challengeDialogUnlock,
+                      minLineWidth: textWidth,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -149,7 +167,11 @@ class DailyChallengeCard extends ConsumerWidget {
               ),
               if (streak > 0) _StreakBadge(streak: streak, l10n: l10n),
               const SizedBox(width: spacingXs),
-              Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.chevron_right,
+                size: _chevronSize,
+                color: colorScheme.onSurfaceVariant,
+              ),
             ],
           ),
         ),

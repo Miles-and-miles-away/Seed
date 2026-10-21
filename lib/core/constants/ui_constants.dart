@@ -11,6 +11,9 @@ const double spacingXxl = 24;
 const double spacingXxxl = 32;
 const double spacingHuge = 48;
 
+// Margin on every side of a Card (Material's default, set in the theme).
+const double cardMargin = 4;
+
 // Border radius values for cards, dialogs, and containers.
 const double radiusXs = 4;
 const double radiusSm = 8;

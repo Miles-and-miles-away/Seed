@@ -9,6 +9,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
 import '../utils/sign_in_with_social.dart';
@@ -81,8 +82,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: spacingSm),
-                Text(
+                PhraseText(
                   l10n.authSignInSubtitle,
+                  minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

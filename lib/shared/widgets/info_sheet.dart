@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+const _minLineWidth = phraseNarrowestScreenWidth - 2 * spacingXxl;
 
 /// Generic informational bottom sheet: a centered title above a
 /// single body paragraph. Used by the "how does this work" info
@@ -43,16 +46,18 @@ class InfoSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            PhraseText(
               title,
+              minLineWidth: _minLineWidth,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: spacingLg),
-            Text(
+            PhraseText(
               body,
+              minLineWidth: _minLineWidth,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
                 height: 1.5,

@@ -9,6 +9,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/egg_progress_widget.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// "My Mascots" horizontal collection: one thumbnail per owned mascot,
 /// with the in-progress egg at the end. Tapping an inactive mascot asks
@@ -143,7 +144,10 @@ class MascotCollectionSection extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.mascotSwitchConfirm),
-        content: Text(l10n.mascotSwitchConfirmBody(name)),
+        content: PhraseText(
+          l10n.mascotSwitchConfirmBody(name),
+          minLineWidth: phraseDialogMinLineWidth,
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),

@@ -12,6 +12,7 @@ import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.d
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -188,8 +189,9 @@ class _ActionLogConfirmationDialogState
     if (!hasDesc && !hasCo2) return const SizedBox.shrink();
 
     final descWidget = hasDesc
-        ? Text(
+        ? PhraseText(
             desc,
+            locale: Locale(widget.languageCode),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -284,6 +286,9 @@ class _ActionLogConfirmationDialogState
       child: MarkdownBlock(
         data: appendExternalLinkArrow(
           widget.action.descriptionLong(widget.languageCode),
+        ),
+        generator: phraseMarkdownGenerator(
+          bodyWidth: phraseDialogMinLineWidth - 2 * spacingLg,
         ),
         config: markdownConfigFor(context).copy(
           configs: [

@@ -65,6 +65,7 @@ flutter:
     - assets/images/sdg_progress/
     - assets/animations/
     - assets/eco_dex/
+    - assets/licences/
     - data/app/
 
   # ===================

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/settings_providers.dart';
 
 /// Languages offered in the picker, in display order. English is first so
@@ -40,8 +41,9 @@ class LanguageSettingsScreen extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(spacingLg),
-              child: Text(
+              child: PhraseText(
                 l10n.languageSettingsDescription,
+                minLineWidth: phraseNarrowestScreenWidth - 2 * spacingLg,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -59,8 +61,9 @@ class LanguageSettingsScreen extends ConsumerWidget {
             const Divider(height: 1),
             Padding(
               padding: const EdgeInsets.all(spacingLg),
-              child: Text(
+              child: PhraseText(
                 l10n.languageSettingsNote,
+                minLineWidth: phraseNarrowestScreenWidth - 2 * spacingLg,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

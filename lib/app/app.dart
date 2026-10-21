@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
@@ -11,6 +12,17 @@ import '../features/mascot/presentation/providers/mascot_providers.dart';
 import '../features/settings/settings.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
+
+const _budouxLicenceAsset = 'assets/licences/budoux.txt';
+
+/// Adds the bundled code that is not a pub package (the BudouX phrase
+/// model) to the licences page.
+void registerBundledLicences() {
+  LicenseRegistry.addLicense(() async* {
+    final text = await rootBundle.loadString(_budouxLicenceAsset);
+    yield LicenseEntryWithLineBreaks(const ['BudouX'], text);
+  });
+}
 
 class SeedApp extends ConsumerStatefulWidget {
   const SeedApp({super.key});

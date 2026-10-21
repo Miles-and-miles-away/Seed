@@ -11,8 +11,13 @@ import 'package:seed_app/features/settings/presentation/providers/settings_provi
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/walkthrough_providers.dart';
 import '../walkthrough_items.dart';
+
+/// Bubble text width at 320pt: scroll padding, card margin, card padding.
+const _bubbleMinLineWidth =
+    phraseNarrowestScreenWidth - 2 * (spacingXxl + cardMargin + spacingLg);
 
 /// The mascot explaining one walkthrough item over a dark scrim: short
 /// pages tapped through in order, with the checklist under the last one.
@@ -110,8 +115,9 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
         Card(
           child: Padding(
             padding: const EdgeInsets.all(spacingLg),
-            child: Text(
+            child: PhraseText(
               pages[_page],
+              minLineWidth: _bubbleMinLineWidth,
               style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),

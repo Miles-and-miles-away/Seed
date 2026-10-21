@@ -9,6 +9,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_dialog_hea
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'action_science_bottom_sheet.dart';
 
 /// A dialog showing educational info for learn-only actions.
@@ -64,8 +65,9 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                   _buildDescription(context, theme, categoryColor),
                   const SizedBox(height: spacingLg),
                 ],
-                Text(
+                PhraseText(
                   l10n.learnOnlyDescription,
+                  minLineWidth: phraseDialogMinLineWidth,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
@@ -106,8 +108,9 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
     final hasLong = action.descriptionLong(languageCode).isNotEmpty;
 
     if (!hasLong) {
-      return Text(
+      return PhraseText(
         desc,
+        locale: Locale(languageCode),
         style: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurfaceVariant,
         ),
@@ -126,8 +129,9 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
-            child: Text(
+            child: PhraseText(
               desc,
+              locale: Locale(languageCode),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: categoryColor,
                 decoration: TextDecoration.underline,

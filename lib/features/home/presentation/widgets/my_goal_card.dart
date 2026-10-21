@@ -6,6 +6,17 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
+const _flagIconSize = 32.0;
+const _editIconSize = 20.0;
+
+/// Goal text width at 320pt: Home padding, card chrome, both icons and gaps.
+const _goalMinLineWidth =
+    phraseNarrowestScreenWidth -
+    2 * (spacingXxl + cardMargin + spacingLg) -
+    _flagIconSize -
+    _editIconSize -
+    2 * spacingMd;
+
 /// Card showing the user's personal sustainability goal on the home
 /// screen, prompting them to set one when none exists yet.
 class MyGoalCard extends ConsumerWidget {
@@ -30,7 +41,11 @@ class MyGoalCard extends ConsumerWidget {
           padding: const EdgeInsets.all(spacingLg),
           child: Row(
             children: [
-              Icon(Icons.flag_outlined, color: colorScheme.primary, size: 32),
+              Icon(
+                Icons.flag_outlined,
+                color: colorScheme.primary,
+                size: _flagIconSize,
+              ),
               const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(
@@ -46,10 +61,11 @@ class MyGoalCard extends ConsumerWidget {
                     if (loading)
                       const SkeletonLine()
                     else
-                      Text(
+                      PhraseText(
                         goal == null
                             ? l10n.myGoalEmptyPrompt
                             : localizedPersonalGoal(goal, l10n),
+                        minLineWidth: _goalMinLineWidth,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: goal == null
@@ -65,7 +81,7 @@ class MyGoalCard extends ConsumerWidget {
                 Icon(
                   goal == null ? Icons.add_circle_outline : Icons.edit_outlined,
                   color: colorScheme.primary,
-                  size: 20,
+                  size: _editIconSize,
                 ),
               ],
             ],

@@ -8,6 +8,7 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_ima
 import 'package:seed_app/shared/widgets/balanced_text.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Full-screen celebration shown when the user discovers an Eco-Dex
 /// entry. The fact itself is the reward, so it takes center stage.
@@ -93,8 +94,9 @@ class EcoDexCelebrationScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
                   const SizedBox(height: spacingMd),
-                  Text(
+                  PhraseText(
                     entry.fact(locale),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.white.withValues(alpha: opacityHeavy),
                     ),

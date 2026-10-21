@@ -443,6 +443,19 @@ Rules:
   when the widest does not fit, so siblings never render at different
   sizes. Rows holding translated text give it an `Expanded` or
   `Flexible`, or use a `Wrap`.
+- **Multi-line Japanese text renders through `PhraseText`**
+  (`lib/shared/widgets/phrase_text.dart`; `PhraseText.rich` for spans,
+  `phraseMarkdownGenerator` for markdown). Flutter breaks Japanese
+  between any two characters; `PhraseText` inserts word joiners so lines
+  break between BudouX phrases and never before a closing mark or small
+  kana. Pass `minLineWidth`, the narrowest width the text gets on a 320pt
+  phone (dialogs use `phraseDialogMinLineWidth`); too large a value lets
+  a joined phrase outgrow the line. Text with `maxLines` gets the
+  kinsoku joins only, and measures itself to drop them if they alone
+  would ellipsise it, so it must not sit under an intrinsic-sizing
+  parent such as an `AlertDialog`. Joiners stay in the display layer:
+  never in ARB values, data files, search keys, Firestore writes or
+  analytics. Single-line labels stay plain `Text`.
 - **Spanish punctuation:** questions and exclamations open with ¿ and ¡
   (`test/core/l10n/arb_spanish_punctuation_test.dart`); feature names
   inside a sentence are quoted with « ».
