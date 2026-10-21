@@ -446,22 +446,118 @@ abstract class _$ActionSearchQuery extends $Notifier<String> {
   }
 }
 
-/// Currently selected sort option for the action library.
+/// One shuffle per Log Action visit, redrawn when Shuffle is picked.
+
+@ProviderFor(actionShuffleSeed)
+final actionShuffleSeedProvider = ActionShuffleSeedProvider._();
+
+/// One shuffle per Log Action visit, redrawn when Shuffle is picked.
+
+final class ActionShuffleSeedProvider extends $FunctionalProvider<int, int, int>
+    with $Provider<int> {
+  /// One shuffle per Log Action visit, redrawn when Shuffle is picked.
+  ActionShuffleSeedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionShuffleSeedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionShuffleSeedHash();
+
+  @$internal
+  @override
+  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  int create(Ref ref) {
+    return actionShuffleSeed(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$actionShuffleSeedHash() => r'4f8e6b6b081b78e708bc06e6a38f8d34aa03de1a';
+
+/// Ranks the whole library so relative order holds as filters change.
+
+@ProviderFor(actionShuffleRank)
+final actionShuffleRankProvider = ActionShuffleRankProvider._();
+
+/// Ranks the whole library so relative order holds as filters change.
+
+final class ActionShuffleRankProvider
+    extends
+        $FunctionalProvider<
+          Map<String, int>,
+          Map<String, int>,
+          Map<String, int>
+        >
+    with $Provider<Map<String, int>> {
+  /// Ranks the whole library so relative order holds as filters change.
+  ActionShuffleRankProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionShuffleRankProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionShuffleRankHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<String, int>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Map<String, int> create(Ref ref) {
+    return actionShuffleRank(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, int> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, int>>(value),
+    );
+  }
+}
+
+String _$actionShuffleRankHash() => r'28abe16bdbc0a560b7054c0505883d906a697f1a';
+
+/// The Log Action sort for this app session, reset per signed-in user.
 
 @ProviderFor(SelectedSortOption)
 final selectedSortOptionProvider = SelectedSortOptionProvider._();
 
-/// Currently selected sort option for the action library.
+/// The Log Action sort for this app session, reset per signed-in user.
 final class SelectedSortOptionProvider
     extends $NotifierProvider<SelectedSortOption, ActionSortOption> {
-  /// Currently selected sort option for the action library.
+  /// The Log Action sort for this app session, reset per signed-in user.
   SelectedSortOptionProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'selectedSortOptionProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -483,9 +579,9 @@ final class SelectedSortOptionProvider
 }
 
 String _$selectedSortOptionHash() =>
-    r'04c8692800b8e1efda2f0514834323264de5a75a';
+    r'399f2f7da0ebedda0560909c55d7f3e6ed78a219';
 
-/// Currently selected sort option for the action library.
+/// The Log Action sort for this app session, reset per signed-in user.
 
 abstract class _$SelectedSortOption extends $Notifier<ActionSortOption> {
   ActionSortOption build();
@@ -779,15 +875,15 @@ final class BaseFilteredActionsProvider
 String _$baseFilteredActionsHash() =>
     r'6631c1849ec23de7611061957ccaad125716246f';
 
-/// Filtered + sorted actions. Only re-sorts when sort
-/// option or language changes; filter changes propagate
+/// Filtered + sorted actions. Only re-sorts when the sort option,
+/// language or shuffle changes; filter changes propagate
 /// through baseFilteredActions.
 
 @ProviderFor(filteredActions)
 final filteredActionsProvider = FilteredActionsProvider._();
 
-/// Filtered + sorted actions. Only re-sorts when sort
-/// option or language changes; filter changes propagate
+/// Filtered + sorted actions. Only re-sorts when the sort option,
+/// language or shuffle changes; filter changes propagate
 /// through baseFilteredActions.
 
 final class FilteredActionsProvider
@@ -798,8 +894,8 @@ final class FilteredActionsProvider
           AsyncValue<List<ActionModel>>
         >
     with $Provider<AsyncValue<List<ActionModel>>> {
-  /// Filtered + sorted actions. Only re-sorts when sort
-  /// option or language changes; filter changes propagate
+  /// Filtered + sorted actions. Only re-sorts when the sort option,
+  /// language or shuffle changes; filter changes propagate
   /// through baseFilteredActions.
   FilteredActionsProvider._()
     : super(
@@ -837,7 +933,7 @@ final class FilteredActionsProvider
   }
 }
 
-String _$filteredActionsHash() => r'd6e1da63de401f7dbc9d3f0be6bc4138a93e3174';
+String _$filteredActionsHash() => r'4089bf801210db86cde029d11ee9d4f601a0cef4';
 
 /// Notifier that handles logging actions.
 ///

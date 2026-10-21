@@ -302,6 +302,19 @@
   },
   "streakBrokenStartNew": "Start New Streak",
   "sortLabel": "Sort",
+  "sortButtonTooltip": "Sort: {option}",
+  "@sortButtonTooltip": {
+    "description": "Sort button tooltip and accessible name; option is the active sort",
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "sortShuffle": "Shuffle",
+  "@sortShuffle": {
+    "description": "Sort option that shows actions in a random order, new on each visit"
+  },
   "sortAlphabeticalAZ": "Name (A-Z)",
   "sortAlphabeticalZA": "Name (Z-A)",
   "sortCo2HighToLow": "CO₂ (High to Low)",

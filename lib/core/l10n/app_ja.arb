@@ -285,6 +285,15 @@
   },
   "streakBrokenStartNew": "新しい記録を始める",
   "sortLabel": "並べ替え",
+  "sortButtonTooltip": "並べ替え: {option}",
+  "@sortButtonTooltip": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "sortShuffle": "シャッフル",
   "sortAlphabeticalAZ": "名前 (あ→わ)",
   "sortAlphabeticalZA": "名前 (わ→あ)",
   "sortCo2HighToLow": "CO₂ (多い順)",

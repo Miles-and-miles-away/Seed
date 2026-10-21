@@ -597,6 +597,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sortLabel => 'Sort';
 
   @override
+  String sortButtonTooltip(String option) {
+    return 'Sort: $option';
+  }
+
+  @override
+  String get sortShuffle => 'Shuffle';
+
+  @override
   String get sortAlphabeticalAZ => 'Name (A-Z)';
 
   @override

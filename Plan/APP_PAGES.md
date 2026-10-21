@@ -203,15 +203,16 @@ unambiguous exit. Browse and log actions.
   they are teaching surfaces rather than actions to log, and the problem
   decision E8 resolved was exactly that they were buried. The chooser
   sheet's three tiles carry their own category colours. Then search, category
-  tabs, sort dropdown, SDG filter chips, action cards with log
-  confirmation and science info; and one custom-action tile in the
-  transport and food category views -- "Log a Custom Transport action"
-  and "Log a Custom Food action". The energy category has no such tile:
-  its calculator banks nothing (decision 8.18), and a tile in a grid of
-  loggable actions promises a log it cannot deliver, so the energy
-  calculator is reached from the AppBar chooser only (2026-09-02). An
-  empty filter result shows the "No actions found" state with no tile at
-  all.
+  tabs, sort dropdown (Shuffle by default, a new order each visit; a
+  chosen sort is kept until the app is closed or the account changes),
+  SDG filter chips, action cards with log confirmation and science info;
+  and one custom-action tile in the transport and food category views --
+  "Log a Custom Transport action" and "Log a Custom Food action". The
+  energy category has no such tile: its calculator banks nothing
+  (decision 8.18), and a tile in a grid of loggable actions promises a
+  log it cannot deliver, so the energy calculator is reached from the
+  AppBar chooser only (2026-09-02). An empty filter result shows the "No
+  actions found" state with no tile at all.
 
 ### Calculator colouring (all three)
 

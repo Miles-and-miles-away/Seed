@@ -579,6 +579,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sortLabel => '並べ替え';
 
   @override
+  String sortButtonTooltip(String option) {
+    return '並べ替え: $option';
+  }
+
+  @override
+  String get sortShuffle => 'シャッフル';
+
+  @override
   String get sortAlphabeticalAZ => '名前 (あ→わ)';
 
   @override

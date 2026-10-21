@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_category_t
 import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -73,6 +75,7 @@ void main() {
       return createTestWidget(
         overrides: [
           userOverride(testUser),
+          userIdProvider.overrideWithValue(testUser.uid),
           actionLibraryProvider.overrideWith((ref) {
             if (isLoading) {
               // Never completes: keeps the provider in loading state.
@@ -160,6 +163,7 @@ void main() {
         ProviderScope(
           overrides: [
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
             filteredActionsProvider.overrideWith(
               (ref) => AsyncValue.data(testActions),
@@ -225,6 +229,7 @@ void main() {
         createTestWidget(
           overrides: [
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
           ],
           child: const ActionLogScreen(initialCategory: 'transport'),
@@ -373,7 +378,7 @@ void main() {
       // It used to sit on a row of its own, right-aligned, with dead
       // space beside it. Same row now, and icon-only so the search
       // field keeps its width.
-      expect(find.byIcon(Icons.sort), findsOneWidget);
+      expect(find.byIcon(Icons.shuffle), findsOneWidget);
       final search = tester.getRect(find.byType(TextField).first);
       final sort = tester.getRect(find.byType(ActionSortDropdown));
       expect(sort.center.dy, closeTo(search.center.dy, 1));
@@ -477,6 +482,161 @@ void main() {
       expect(find.byTooltip('Higher or lower?'), findsOneWidget);
     });
 
+    List<String> shuffledIds(List<ActionModel> actions, int seed) =>
+        [for (final a in actions) a.id]..shuffle(Random(seed));
+
+    List<String> cardIds(WidgetTester tester) => [
+      for (final card in tester.widgetList<ActionCard>(find.byType(ActionCard)))
+        card.action.id,
+    ];
+
+    testWidgets('one shuffle per mount, a chosen sort across mounts', (
+      tester,
+    ) async {
+      useTallView(tester);
+      var seedBuilds = 0;
+      final router = GoRouter(
+        initialLocation: '/home',
+        routes: [
+          GoRoute(
+            path: '/home',
+            builder: (_, _) => const Scaffold(body: Text('Home Screen')),
+          ),
+          GoRoute(
+            path: '/log-action',
+            builder: (_, _) => const ActionLogScreen(),
+          ),
+          GoRoute(
+            path: '/quiz',
+            builder: (_, _) => const Scaffold(body: Text('Quiz Screen')),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
+            actionLibraryProvider.overrideWith((ref) async => testActions),
+            actionShuffleSeedProvider.overrideWith((ref) => ++seedBuilds),
+          ],
+          child: MaterialApp.router(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: router,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(seedBuilds, 0);
+
+      unawaited(router.push('/log-action'));
+      await tester.pumpAndSettle();
+      expect(seedBuilds, 1);
+      expect(cardIds(tester), shuffledIds(testActions, 1));
+
+      unawaited(router.push('/quiz'));
+      await tester.pumpAndSettle();
+      router.pop();
+      await tester.pumpAndSettle();
+      expect(seedBuilds, 1);
+
+      await tester.tap(find.byType(ActionSortDropdown));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Points (High to Low)'));
+      await tester.pumpAndSettle();
+
+      router.go('/home');
+      await tester.pumpAndSettle();
+      unawaited(router.push('/log-action'));
+      await tester.pumpAndSettle();
+
+      expect(seedBuilds, 2);
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionSortDropdown)),
+        ).read(selectedSortOptionProvider),
+        ActionSortOption.pointsHighToLow,
+      );
+      expect(find.byIcon(Icons.sort), findsOneWidget);
+    });
+
+    testWidgets('picking Shuffle while active reshuffles the grid', (
+      tester,
+    ) async {
+      useTallView(tester);
+      var seedBuilds = 0;
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
+            actionLibraryProvider.overrideWith((ref) async => testActions),
+            actionShuffleSeedProvider.overrideWith((ref) => ++seedBuilds),
+          ],
+          child: const ActionLogScreen(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(cardIds(tester), shuffledIds(testActions, 1));
+
+      await tester.tap(find.byType(ActionSortDropdown));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Shuffle'));
+      await tester.pumpAndSettle();
+
+      expect(seedBuilds, 2);
+      expect(cardIds(tester), shuffledIds(testActions, 2));
+    });
+
+    testWidgets('the custom-action tile stays first under Shuffle', (
+      tester,
+    ) async {
+      useTallView(tester);
+      const seed = 1;
+      final actions = [
+        ...testActions,
+        const ActionModel(
+          id: 'transport2',
+          nameEn: 'Take the Train',
+          nameJa: '電車に乗る',
+          category: 'transport',
+          points: 10,
+        ),
+        const ActionModel(
+          id: 'transport3',
+          nameEn: 'Car Share',
+          nameJa: 'カーシェア',
+          category: 'transport',
+          points: 8,
+        ),
+      ];
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
+            actionLibraryProvider.overrideWith((ref) async => actions),
+            actionShuffleSeedProvider.overrideWith((ref) => seed),
+          ],
+          child: const ActionLogScreen(initialCategory: 'transport'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final tiles = tester.widgetList<ActionTile>(find.byType(ActionTile));
+      expect(tiles.first.title, 'Log a Custom Transport action');
+      final transportIds = {
+        for (final a in actions)
+          if (a.category == 'transport') a.id,
+      };
+      expect(cardIds(tester), [
+        for (final id in shuffledIds(actions, seed))
+          if (transportIds.contains(id)) id,
+      ]);
+    });
+
     testWidgets('the energy AppBar icons push their own routes', (
       tester,
     ) async {
@@ -500,6 +660,7 @@ void main() {
         ProviderScope(
           overrides: [
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
           ],
           child: MaterialApp.router(

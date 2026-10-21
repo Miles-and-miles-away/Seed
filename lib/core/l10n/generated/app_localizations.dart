@@ -1132,6 +1132,18 @@ abstract class AppLocalizations {
   /// **'Sort'**
   String get sortLabel;
 
+  /// Sort button tooltip and accessible name; option is the active sort
+  ///
+  /// In en, this message translates to:
+  /// **'Sort: {option}'**
+  String sortButtonTooltip(String option);
+
+  /// Sort option that shows actions in a random order, new on each visit
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get sortShuffle;
+
   /// No description provided for @sortAlphabeticalAZ.
   ///
   /// In en, this message translates to:

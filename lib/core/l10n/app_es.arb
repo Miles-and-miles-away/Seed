@@ -285,6 +285,15 @@
   },
   "streakBrokenStartNew": "Comenzar nueva racha",
   "sortLabel": "Ordenar",
+  "sortButtonTooltip": "Ordenar: {option}",
+  "@sortButtonTooltip": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "sortShuffle": "Aleatorio",
   "sortAlphabeticalAZ": "Nombre (A-Z)",
   "sortAlphabeticalZA": "Nombre (Z-A)",
   "sortCo2HighToLow": "CO₂ (Mayor a menor)",

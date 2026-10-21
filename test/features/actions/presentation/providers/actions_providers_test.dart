@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -82,14 +86,11 @@ void main() {
       expect(c.read(actionSearchQueryProvider), '');
     });
 
-    test('SelectedSortOption: defaults to alphabeticalAsc and can change', () {
+    test('SelectedSortOption: defaults to random and can change', () {
       final c = ProviderContainer();
       addTearDown(c.dispose);
 
-      expect(
-        c.read(selectedSortOptionProvider),
-        ActionSortOption.alphabeticalAsc,
-      );
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.random);
       c
           .read(selectedSortOptionProvider.notifier)
           .select(ActionSortOption.co2HighToLow);
@@ -238,6 +239,220 @@ void main() {
         'bike',
         'walk',
       ]);
+    });
+  });
+
+  group('filteredActions (shuffle)', () {
+    final libraryIds = [for (final a in actions) a.id];
+
+    List<String> shuffledIds(int seed, [Iterable<String>? survivors]) {
+      final order = [...libraryIds]..shuffle(Random(seed));
+      return [
+        for (final id in order)
+          if (survivors == null || survivors.contains(id)) id,
+      ];
+    }
+
+    late List<int> seeds;
+    late int seedBuilds;
+
+    setUp(() {
+      seeds = [1, 2, 3, 4];
+      seedBuilds = 0;
+    });
+
+    final seedOverride = actionShuffleSeedProvider.overrideWith((_) {
+      seedBuilds++;
+      return seeds.removeAt(0);
+    });
+
+    Future<ProviderContainer> shuffleContainer() => pumpedContainer([
+      actionLibraryProvider.overrideWith((_) async => actions),
+      seedOverride,
+    ], warm: actionLibraryProvider);
+
+    List<String> ids(ProviderContainer c) =>
+        c.read(filteredActionsProvider).value!.map((a) => a.id).toList();
+
+    test('defaults to random and follows the seeded rank', () async {
+      final c = await shuffleContainer();
+      c.listen(filteredActionsProvider, (_, _) {});
+
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.random);
+      expect(ids(c), shuffledIds(1));
+    });
+
+    test('is a permutation of the filtered ids', () async {
+      final c = await shuffleContainer();
+      c.listen(filteredActionsProvider, (_, _) {});
+      c.read(selectedSdgFilterProvider.notifier).select(13);
+
+      final base = c.read(baseFilteredActionsProvider).value!;
+      expect(ids(c), unorderedEquals(base.map((a) => a.id)));
+      expect(ids(c), hasLength(base.length));
+    });
+
+    test('order holds within a visit across filter changes', () async {
+      final c = await shuffleContainer();
+      c.listen(filteredActionsProvider, (_, _) {});
+      final first = ids(c);
+
+      expect(ids(c), first);
+
+      c.read(actionSearchQueryProvider.notifier).setQuery('bike');
+      expect(ids(c), ['bike']);
+      c.read(actionSearchQueryProvider.notifier).clear();
+      expect(ids(c), first);
+
+      c.read(selectedCategoryProvider.notifier).select(ActionCategory.food);
+      expect(ids(c), ['veggies']);
+      c.read(selectedCategoryProvider.notifier).select(null);
+      expect(ids(c), first);
+
+      c.read(selectedSdgFilterProvider.notifier).select(13);
+      c.read(selectedSdgFilterProvider.notifier).clear();
+      expect(ids(c), first);
+
+      c.invalidate(actionLibraryProvider);
+      await c.read(actionLibraryProvider.future);
+      await c.pump();
+      expect(ids(c), first);
+      expect(seedBuilds, 1);
+    });
+
+    test('a filter keeps the unfiltered relative order', () async {
+      final c = await shuffleContainer();
+      c.listen(filteredActionsProvider, (_, _) {});
+
+      c.read(selectedSdgFilterProvider.notifier).select(13);
+      expect(ids(c), shuffledIds(1, {'walk', 'veggies'}));
+
+      c.read(selectedSdgFilterProvider.notifier).clear();
+      c
+          .read(selectedCategoryProvider.notifier)
+          .select(ActionCategory.transport);
+      expect(ids(c), shuffledIds(1, {'walk', 'bike'}));
+    });
+
+    test('a new visit draws a new seed', () async {
+      final c = await shuffleContainer();
+      final visit = c.listen(filteredActionsProvider, (_, _) {});
+      expect(ids(c), shuffledIds(1));
+
+      visit.close();
+      await c.pump();
+      c.listen(filteredActionsProvider, (_, _) {});
+
+      expect(ids(c), shuffledIds(2));
+      expect(seedBuilds, 2);
+    });
+
+    test('a chosen sort lasts the session, the seed does not', () async {
+      final c = await shuffleContainer();
+      final visit = c.listen(filteredActionsProvider, (_, _) {});
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.co2HighToLow);
+      expect(ids(c), ['bike', 'walk', 'veggies', 'shower']);
+
+      visit.close();
+      await c.pump();
+      c.listen(filteredActionsProvider, (_, _) {});
+
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.co2HighToLow);
+      expect(ids(c), ['bike', 'walk', 'veggies', 'shower']);
+      expect(seedBuilds, 2);
+    });
+
+    test('a cold start is random again', () async {
+      final first = await shuffleContainer();
+      first
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.co2HighToLow);
+
+      final second = await shuffleContainer();
+      expect(second.read(selectedSortOptionProvider), ActionSortOption.random);
+    });
+
+    test('a different signed-in user resets the sort to random', () async {
+      final c = await pumpedContainer([
+        userIdProvider.overrideWithValue('a'),
+      ], warm: userIdProvider);
+      c.listen(selectedSortOptionProvider, (_, _) {});
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.co2LowToHigh);
+
+      c.updateOverrides([userIdProvider.overrideWithValue('b')]);
+      await c.pump();
+
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.random);
+    });
+
+    test('an account change resets the sort while nothing listens', () async {
+      final auth = StreamController<User?>();
+      addTearDown(auth.close);
+      final c = await pumpedContainer([
+        authStateChangesProvider.overrideWith((_) => auth.stream),
+      ], warm: authStateChangesProvider);
+      auth.add(createMockUser(uid: 'a'));
+      await Future<void>.delayed(Duration.zero);
+
+      final visit = c.listen(selectedSortOptionProvider, (_, _) {});
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.co2LowToHigh);
+      visit.close();
+      await c.pump();
+
+      auth.add(createMockUser(uid: 'b'));
+      await Future<void>.delayed(Duration.zero);
+
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.random);
+    });
+
+    test('a user-document update keeps the chosen sort', () async {
+      final auth = StreamController<User?>();
+      final doc = StreamController<AppUserModel?>();
+      addTearDown(auth.close);
+      addTearDown(doc.close);
+      final c = await pumpedContainer([
+        authStateChangesProvider.overrideWith((_) => auth.stream),
+        currentUserProvider.overrideWith((_) => doc.stream),
+      ], warm: authStateChangesProvider);
+      c.listen(currentUserProvider, (_, _) {});
+      auth.add(createMockUser(uid: 'a'));
+      doc.add(const AppUserModel(uid: 'a', email: 'e'));
+      await Future<void>.delayed(Duration.zero);
+
+      c.listen(selectedSortOptionProvider, (_, _) {});
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.co2LowToHigh);
+
+      doc.add(const AppUserModel(uid: 'a', email: 'e', points: 20));
+      auth.add(createMockUser(uid: 'a'));
+      await Future<void>.delayed(Duration.zero);
+
+      expect(c.read(currentUserProvider).value?.points, 20);
+      expect(c.read(selectedSortOptionProvider), ActionSortOption.co2LowToHigh);
+    });
+
+    test('picking Shuffle reshuffles, even when already active', () async {
+      final c = await shuffleContainer();
+      c.listen(filteredActionsProvider, (_, _) {});
+      final sort = c.read(selectedSortOptionProvider.notifier);
+      expect(ids(c), shuffledIds(1));
+
+      sort.select(ActionSortOption.random);
+      expect(ids(c), shuffledIds(2));
+      expect(seedBuilds, 2);
+
+      sort.select(ActionSortOption.alphabeticalAsc);
+      expect(seedBuilds, 2);
+      sort.select(ActionSortOption.random);
+      expect(ids(c), shuffledIds(3));
+      expect(seedBuilds, 3);
     });
   });
 
