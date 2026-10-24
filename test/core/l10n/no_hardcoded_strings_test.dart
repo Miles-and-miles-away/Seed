@@ -44,7 +44,7 @@ const _allowed = <String, Set<String>>{
   'lib/features/progress/presentation/widgets/day_detail_bottom_sheet.dart': {
     'CO',
   },
-  'lib/shared/widgets/comparison_widgets.dart': {'CO2e', ' CO2e'},
+  'lib/shared/widgets/comparison_widgets.dart': {' CO2e'},
   // Reminders are postponed; localise this when they ship.
   'lib/shared/providers/notification_providers.dart': {
     'Time to make an impact!',

@@ -52,7 +52,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
             onTap: () => setState(() => _expanded = !_expanded),
             behavior: HitTestBehavior.opaque,
             child: SdgSectionHeader(
-              icon: Icons.info_outline,
+              icon: Icons.article_outlined,
               title: l10n.sdgAboutGoal,
               color: goal.color,
               trailing: AnimatedRotation(

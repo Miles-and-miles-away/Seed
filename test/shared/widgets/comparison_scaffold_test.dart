@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/app_theme.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -275,4 +280,147 @@ void main() {
 
     expect(tapped, [optionB, optionA]);
   });
+
+  group('the amount in an amber column', () {
+    const amber = Color(0xFFFFC107);
+
+    for (final brightness in Brightness.values) {
+      for (final best in [true, false]) {
+        testWidgets('${best ? 'best' : 'other'} column on ${brightness.name} '
+            'is drawn in one readable ink', (tester) async {
+          final semantics = tester.ensureSemantics();
+          await tester.pumpWidget(
+            wrap(
+              scaffold(accentColor: amber, bestIndex: best ? optionA : null),
+              theme: appTheme(brightness),
+            ),
+          );
+
+          final amount = find.byType(Co2eAmount).first;
+          final figure = find.descendant(
+            of: amount,
+            matching: find.byType(Text),
+          );
+          final ink = best
+              ? readableTextColor(amber, brightness)
+              : Theme.of(tester.element(amount)).colorScheme.onSurface;
+          final root = tester
+              .widget<RichText>(
+                find
+                    .descendant(of: figure, matching: find.byType(RichText))
+                    .first,
+              )
+              .text;
+          final colours = {?root.style?.color};
+          final decorations = {?root.style?.decoration};
+          root.visitChildren((span) {
+            final style = span.style;
+            if (style?.color case final colour?) colours.add(colour);
+            if (style?.decoration case final decoration?) {
+              decorations.add(decoration);
+            }
+            return true;
+          });
+          expect(colours, {ink});
+          expect(decorations.difference({TextDecoration.none}), isEmpty);
+          final glyph = tester.widget<RichText>(
+            find.descendant(
+              of: find.descendant(
+                of: amount,
+                matching: find.byIcon(Icons.info_outline),
+              ),
+              matching: find.byType(RichText),
+            ),
+          );
+          expect(glyph.text.style?.color, infoColor(brightness));
+
+          final node = tester.getSemantics(figure);
+          expect(node.label, '100${unitSpace}g CO2e');
+          expect(node.hint, 'What is CO2e?');
+          expect(node.tooltip, isEmpty);
+          expect(
+            tester
+                .getSize(
+                  find.descendant(of: amount, matching: find.byType(InkWell)),
+                )
+                .height,
+            greaterThanOrEqualTo(kMinInteractiveDimension),
+          );
+          semantics.dispose();
+        });
+      }
+    }
+  });
+
+  group('a three-digit kg total at 320pt and text scale 2', () {
+    setUpAll(loadTestFonts);
+
+    for (final language in ['en', 'es']) {
+      testWidgets('wraps between words in $language', (tester) async {
+        sizeViewport(
+          tester,
+          size: Size(
+            language == 'es'
+                ? testPhoneWidths.first * robotoToSfWidthFactor
+                : testPhoneWidths.first,
+            640,
+          ),
+        );
+        tester.platformDispatcher.textScaleFactorTestValue = 2;
+        addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+        await tester.pumpWidget(
+          createTestWidget(
+            locale: Locale(language),
+            scaffold: true,
+            child: scaffold(totals: const [123500, 29800]),
+          ),
+        );
+
+        final amount = find.byType(Co2eAmount).first;
+        final lines = renderedLines(
+          tester,
+          find.descendant(of: amount, matching: find.byType(Text)),
+        );
+        final paragraph = tester.renderObject<RenderParagraph>(
+          find.descendant(of: amount, matching: find.byType(RichText)).first,
+        );
+        final glyph = find.descendant(
+          of: amount,
+          matching: find.byIcon(Icons.info_outline),
+        );
+        expect(
+          [
+            for (final line in lines)
+              if (line.replaceAll('\uFFFC', '').trim() case final text
+                  when text.isNotEmpty)
+                text,
+          ],
+          [formatCO2Compact(123500, language), 'CO2e'],
+        );
+        expect(tester.getRect(glyph).size, const Size.square(infoIconSize));
+        final co2e = TextPosition(
+          offset: paragraph.text.toPlainText().indexOf('CO2e'),
+        );
+        final lineTop = paragraph
+            .localToGlobal(paragraph.getOffsetForCaret(co2e, Rect.zero))
+            .dy;
+        expect(
+          tester.getCenter(glyph).dy,
+          inInclusiveRange(
+            lineTop,
+            lineTop + paragraph.getFullHeightForCaret(co2e),
+          ),
+        );
+      });
+    }
+  });
+
+  stressWidthLayoutTests(
+    (locale, theme) => createTestWidget(
+      locale: locale,
+      theme: theme,
+      scaffold: true,
+      child: scaffold(totals: const [123500, 29800]),
+    ),
+  );
 }

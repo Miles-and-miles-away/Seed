@@ -47,7 +47,11 @@ void main() {
   Widget buildApp({
     List<City> cities = const [],
     Set<String> waterBlocked = const {},
+    Locale? locale,
+    ThemeData? theme,
   }) => createTestWidget(
+    locale: locale,
+    theme: theme,
     overrides: [
       transportModesProvider.overrideWith((_) async => _testModes),
       transportCitiesProvider.overrideWith((_) async => cities),
@@ -243,7 +247,12 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(Co2eAmount).first);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Co2eAmount).first,
+          matching: find.byType(Text),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('What is CO2e?'), findsOneWidget);
@@ -590,4 +599,8 @@ void main() {
       expect(find.text('Unknown'), findsNothing);
     });
   });
+
+  stressWidthLayoutTests(
+    (locale, theme) => buildApp(locale: locale, theme: theme),
+  );
 }

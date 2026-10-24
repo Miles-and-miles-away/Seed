@@ -1408,11 +1408,11 @@ abstract class AppLocalizations {
   /// **'Switch'**
   String get switchMascotButton;
 
-  /// No description provided for @actionLearnMore.
+  /// No description provided for @actionScienceTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Tap to learn the science'**
-  String get actionLearnMore;
+  /// **'About this action'**
+  String get actionScienceTooltip;
 
   /// No description provided for @maxEvolutionTitle.
   ///

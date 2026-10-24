@@ -9,6 +9,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_dialog_hea
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'action_science_bottom_sheet.dart';
 
@@ -45,6 +46,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
+      scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +64,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (action.description(languageCode).isNotEmpty) ...[
-                  _buildDescription(context, theme, categoryColor),
+                  _buildDescription(context, theme),
                   const SizedBox(height: spacingLg),
                 ],
                 PhraseText(
@@ -99,50 +101,27 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
     );
   }
 
-  Widget _buildDescription(
-    BuildContext context,
-    ThemeData theme,
-    Color categoryColor,
-  ) {
-    final desc = action.description(languageCode);
-    final hasLong = action.descriptionLong(languageCode).isNotEmpty;
-
-    if (!hasLong) {
-      return PhraseText(
-        desc,
-        locale: Locale(languageCode),
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        textAlign: TextAlign.center,
-      );
-    }
-
-    return GestureDetector(
-      onTap: () => ActionScienceBottomSheet.show(
-        context,
-        action: action,
-        languageCode: languageCode,
+  Widget _buildDescription(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context);
+    final description = PhraseText(
+      action.description(languageCode),
+      locale: Locale(languageCode),
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.onSurfaceVariant,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: PhraseText(
-              desc,
-              locale: Locale(languageCode),
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: categoryColor,
-                decoration: TextDecoration.underline,
-                decorationColor: categoryColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(width: spacingSm),
-          Icon(Icons.info_outline, size: 16, color: categoryColor),
-        ],
+      textAlign: TextAlign.center,
+    );
+    if (action.descriptionLong(languageCode).isEmpty) return description;
+
+    return Center(
+      child: TermWithInfo(
+        term: description,
+        tooltip: l10n.actionScienceTooltip,
+        onPressed: () => ActionScienceBottomSheet.show(
+          context,
+          action: action,
+          languageCode: languageCode,
+        ),
       ),
     );
   }

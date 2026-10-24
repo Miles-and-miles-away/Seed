@@ -764,7 +764,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get switchMascotButton => 'Switch';
 
   @override
-  String get actionLearnMore => 'Tap to learn the science';
+  String get actionScienceTooltip => 'About this action';
 
   @override
   String get maxEvolutionTitle => 'Maximum Evolution!';

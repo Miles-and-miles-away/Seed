@@ -771,7 +771,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get switchMascotButton => 'Cambiar';
 
   @override
-  String get actionLearnMore => 'Toca para conocer la ciencia';
+  String get actionScienceTooltip => 'Acerca de esta acción';
 
   @override
   String get maxEvolutionTitle => '¡Evolución máxima!';
@@ -1662,7 +1662,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportGroupHighImpact => 'Alto impacto';
 
   @override
-  String get transportModeScienceTooltip => 'Sobre este factor';
+  String get transportModeScienceTooltip => 'Acerca de este factor';
 
   @override
   String get transportBasisEvGrid =>
@@ -1871,7 +1871,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodRemoveIngredient => 'Eliminar ingrediente';
 
   @override
-  String get foodItemScienceTooltip => 'Sobre este factor';
+  String get foodItemScienceTooltip => 'Acerca de este factor';
 
   @override
   String get foodColumnEmptyHint => 'Toca «Añadir» para empezar esta comida';

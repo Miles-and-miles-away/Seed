@@ -30,13 +30,25 @@ class InfoIconButton extends StatelessWidget {
 /// tall. The term is the label, the tooltip the hint.
 class TermWithInfo extends StatelessWidget {
   const TermWithInfo({
-    required this.term,
+    required Widget this.term,
     required this.tooltip,
     required this.onPressed,
     super.key,
-  });
+  }) : text = null,
+       style = null;
 
-  final Widget term;
+  /// The glyph flows after [text] instead of taking a column beside it.
+  const TermWithInfo.inline({
+    required String this.text,
+    required this.tooltip,
+    required this.onPressed,
+    this.style,
+    super.key,
+  }) : term = null;
+
+  final Widget? term;
+  final String? text;
+  final TextStyle? style;
   final String tooltip;
   final VoidCallback onPressed;
 
@@ -64,13 +76,11 @@ class TermWithInfo extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Flexible(child: term),
-                const SizedBox(width: spacingXs),
-                Icon(
-                  Icons.info_outline,
-                  size: infoIconSize,
-                  color: infoColor(Theme.of(context).brightness),
-                ),
+                Flexible(child: term ?? _inlineTerm(context)),
+                if (term != null) ...[
+                  const SizedBox(width: spacingXs),
+                  _glyph(context),
+                ],
               ],
             ),
           ),
@@ -78,4 +88,33 @@ class TermWithInfo extends StatelessWidget {
       ),
     ),
   );
+
+  Widget _glyph(BuildContext context, [double size = infoIconSize]) => Icon(
+    Icons.info_outline,
+    size: size,
+    color: infoColor(Theme.of(context).brightness),
+  );
+
+  Widget _inlineTerm(BuildContext context) {
+    // A WidgetSpan scales with the text; this keeps the glyph at 20dp.
+    final fontSize =
+        DefaultTextStyle.of(context).style.merge(style).fontSize ??
+        kDefaultFontSize;
+    final unscale = fontSize / MediaQuery.textScalerOf(context).scale(fontSize);
+    return Text.rich(
+      TextSpan(
+        text: text,
+        children: [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: spacingXs * unscale),
+              child: _glyph(context, infoIconSize * unscale),
+            ),
+          ),
+        ],
+      ),
+      style: style,
+    );
+  }
 }

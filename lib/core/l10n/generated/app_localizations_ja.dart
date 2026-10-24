@@ -742,7 +742,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get switchMascotButton => '切り替え';
 
   @override
-  String get actionLearnMore => 'タップして科学を学ぶ';
+  String get actionScienceTooltip => 'このアクションについて';
 
   @override
   String get maxEvolutionTitle => '最大進化！';

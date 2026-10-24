@@ -146,11 +146,13 @@ const testPhoneWidths = [320.0, 360.0, 375.0, 393.0];
 /// Laid-out lines of the text [finder] matches, word joiners removed.
 List<String> renderedLines(WidgetTester tester, Finder finder) {
   final paragraph = tester.renderObject<RenderParagraph>(
-    find.descendant(
-      of: finder,
-      matching: find.byType(RichText),
-      matchRoot: true,
-    ),
+    find
+        .descendant(
+          of: finder,
+          matching: find.byType(RichText),
+          matchRoot: true,
+        )
+        .first,
   );
   final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
   final lines = <String>[];
@@ -170,6 +172,48 @@ List<String> renderedLines(WidgetTester tester, Finder finder) {
 /// Spanish layout tests run at this fraction of a phone width to stand in
 /// for iOS.
 const robotoToSfWidthFactor = 0.92;
+
+/// Expects no overflow at [widths] in JA and ES at text scale 1 and 2; loads Roboto.
+void stressWidthLayoutTests(
+  Widget Function(Locale locale, ThemeData? theme) build, {
+  List<double> widths = const [320],
+  Future<void> Function(WidgetTester tester, Locale locale)? act,
+}) => group('in Japanese and Spanish', () {
+  setUpAll(loadTestFonts);
+  for (final width in widths) {
+    for (final language in ['ja', 'es']) {
+      for (final scale in [1.0, 2.0]) {
+        testWidgets(
+          'lays out at ${width.round()}pt in $language at text scale $scale',
+          (tester) async {
+            sizeViewport(
+              tester,
+              size: Size(
+                language == 'es' ? width * robotoToSfWidthFactor : width,
+                640,
+              ),
+            );
+            tester.platformDispatcher.textScaleFactorTestValue = scale;
+            addTearDown(
+              tester.platformDispatcher.clearTextScaleFactorTestValue,
+            );
+            final locale = Locale(language);
+            await tester.pumpWidget(
+              build(
+                locale,
+                // Roboto has no kana, so Japanese keeps the test font.
+                language == 'ja' ? ThemeData(fontFamily: 'FlutterTest') : null,
+              ),
+            );
+            await tester.pumpAndSettle();
+            await act?.call(tester, locale);
+            expect(tester.takeException(), isNull);
+          },
+        );
+      }
+    }
+  }
+});
 
 /// Pump until [finder] resolves or the budget runs out. For screens with
 /// infinite idle animations that never settle; each step yields to the

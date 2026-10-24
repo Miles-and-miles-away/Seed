@@ -25,7 +25,9 @@ final _behaviors = [
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() => createTestWidget(
+  Widget buildApp({Locale? locale, ThemeData? theme}) => createTestWidget(
+    locale: locale,
+    theme: theme,
     overrides: [
       energyBehaviorsProvider.overrideWith((_) async => _behaviors),
       energyCarrierFactorsProvider.overrideWith(
@@ -342,6 +344,22 @@ void main() {
       });
     });
 
+    testWidgets('a CO2e total opens the definition of the unit', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Co2eAmount).first,
+          matching: find.byType(Text),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('What is CO2e?'), findsOneWidget);
+    });
+
     testWidgets('removing a usage empties the column again', (tester) async {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
@@ -352,4 +370,8 @@ void main() {
       expect(find.byType(OptionEntryCard), findsNothing);
     });
   });
+
+  stressWidthLayoutTests(
+    (locale, theme) => buildApp(locale: locale, theme: theme),
+  );
 }

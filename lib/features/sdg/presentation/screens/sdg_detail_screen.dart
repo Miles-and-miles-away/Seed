@@ -125,7 +125,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.info_outline, color: goal.color, size: 24),
+            Icon(Icons.menu_book, color: goal.color, size: 24),
             const SizedBox(width: spacingMd),
             Expanded(
               child: Text(

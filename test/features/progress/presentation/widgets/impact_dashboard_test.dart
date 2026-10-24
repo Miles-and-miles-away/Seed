@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/helpers.dart';
@@ -9,6 +10,7 @@ import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/progress/presentation/widgets/equivalency_info_sheet.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/impact_dashboard.dart';
 
@@ -201,5 +203,20 @@ void main() {
       expect(find.text('Equivalent to'), findsNothing);
       expect(find.byType(EquivalencyRow), findsNothing);
     });
+
+    for (final (part, target) in [
+      ('term', find.text('Equivalent to')),
+      ('glyph', find.byIcon(Icons.info_outline)),
+    ]) {
+      testWidgets('the header $part opens the equivalency explainer', (
+        tester,
+      ) async {
+        await _pumpDashboard(tester);
+
+        await tester.tap(target);
+        await tester.pumpAndSettle();
+        expect(find.byType(EquivalencyInfoSheet), findsOneWidget);
+      });
+    }
   });
 }

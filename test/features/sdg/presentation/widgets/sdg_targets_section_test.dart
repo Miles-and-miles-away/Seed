@@ -59,11 +59,14 @@ void main() {
       expect(find.text('About this Goal'), findsOneWidget);
     });
 
-    testWidgets('displays info_outline icon', (tester) async {
+    testWidgets('displays the article icon, not the info glyph', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pump();
 
-      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byIcon(Icons.article_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.info_outline), findsNothing);
     });
 
     testWidgets('displays goal description', (tester) async {

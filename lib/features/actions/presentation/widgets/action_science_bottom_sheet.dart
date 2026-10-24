@@ -43,6 +43,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
     final linkColor = readableTextColor(categoryColor, theme.brightness);
 
     return DraggableScrollableSheet(
+      expand: false,
       maxChildSize: sheetMaxChildSize,
       minChildSize: sheetMinChildSize,
       builder: (context, scrollController) {
@@ -61,7 +62,11 @@ class ActionScienceBottomSheet extends StatelessWidget {
                     child: Text(
                       action.name(languageCode),
                       style: theme.textTheme.titleLarge?.copyWith(
-                        color: categoryColor,
+                        color: readableTextColor(
+                          categoryColor,
+                          theme.brightness,
+                          large: true,
+                        ),
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,

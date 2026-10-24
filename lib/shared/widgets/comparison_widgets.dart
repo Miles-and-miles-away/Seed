@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/shared/widgets/explainer_dialog.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 /// Shared presentation widgets for the Phase 8 calculator comparison
 /// views (transport 8.3, food 8.9, energy 8.15).
@@ -49,24 +50,14 @@ class CalculatorHint extends StatelessWidget {
   }
 }
 
-/// A CO2e figure whose unit is a link to a plain-language definition
-/// of the term.
+/// A CO2e figure that opens a plain-language definition of the term.
 ///
 /// "CO2e" is unavoidable jargon -- the factors include methane, N2O
 /// and the flight radiative-forcing uplift, so calling them "CO2"
 /// would be wrong rather than simpler. Defining it in place is the
-/// honest fix. The whole amount is the tap target, not just the four
-/// characters, so it clears the minimum touch size.
+/// honest fix.
 class Co2eAmount extends StatelessWidget {
-  const Co2eAmount({
-    required this.grams,
-    this.style,
-    this.accentColor,
-    super.key,
-  });
-
-  /// The domain's colour. Null keeps the scheme's primary.
-  final Color? accentColor;
+  const Co2eAmount({required this.grams, this.style, super.key});
 
   final double grams;
   final TextStyle? style;
@@ -82,35 +73,12 @@ class Co2eAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // The raw category colour, matching the bars and the tokens.
-    final ink = accentColor ?? theme.colorScheme.primary;
     final l10n = AppLocalizations.of(context);
-    final base = style ?? theme.textTheme.bodyMedium;
-    return Semantics(
-      button: true,
-      label: l10n.co2eDefinitionTitle,
-      child: InkWell(
-        onTap: () => showDefinition(context),
-        child: Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: '${formatCO2Compact(grams.round(), l10n.localeName)} ',
-              ),
-              TextSpan(
-                text: 'CO2e',
-                style: base?.copyWith(
-                  color: ink,
-                  decoration: TextDecoration.underline,
-                  decorationColor: ink,
-                ),
-              ),
-            ],
-          ),
-          style: base,
-        ),
-      ),
+    return TermWithInfo.inline(
+      text: '${formatCO2Compact(grams.round(), l10n.localeName)} CO2e',
+      style: style ?? Theme.of(context).textTheme.bodyMedium,
+      tooltip: l10n.co2eDefinitionTitle,
+      onPressed: () => showDefinition(context),
     );
   }
 }
@@ -378,7 +346,6 @@ class OptionColumn extends StatelessWidget {
                       ),
                       const SizedBox(height: spacingXs),
                       Co2eAmount(
-                        accentColor: accent,
                         grams: totalGrams,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,

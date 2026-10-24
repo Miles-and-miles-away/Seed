@@ -36,7 +36,7 @@ class AboutScreen extends ConsumerWidget {
               showTopDivider: true,
               children: [
                 ListTile(
-                  leading: const Icon(Icons.info_outline),
+                  leading: const Icon(Icons.tag),
                   title: Text(appVersionLabel(version, buildNumber)),
                   subtitle: Text(l10n.aboutSubtitleTracker),
                 ),

@@ -63,12 +63,11 @@ void main() {
 
     testWidgets('displays About this Goal section', (tester) async {
       setLargeScreenSize(tester);
-      // Use direct goal to avoid duplicate info_outline
       await tester.pumpWidget(buildTestWidget(13));
       await tester.pump();
 
       expect(find.text('About this Goal'), findsOneWidget);
-      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byIcon(Icons.article_outlined), findsOneWidget);
     });
 
     testWidgets('orders About, Global progress, then Your Impact', (
@@ -172,12 +171,21 @@ void main() {
     });
 
     testWidgets('learn-only goal shows explanation text', (tester) async {
-      setLargeScreenSize(tester);
-      await tester.pumpWidget(buildTestWidget(1));
+      // Tall enough that the banner under the chart builds.
+      sizeViewport(tester, size: const Size(800, 6000));
+      await tester.pumpWidget(buildTestWidget(4));
       await tester.pump();
 
-      // Goal 1 is learn-only, should show explanation
-      expect(find.byIcon(Icons.info_outline), findsAtLeast(1));
+      // The banner is not tappable, so it carries the learn-only glyph.
+      final banner = find.ancestor(
+        of: find.textContaining('This goal addresses systemic issues'),
+        matching: find.byType(Row),
+      );
+      expect(
+        find.descendant(of: banner, matching: find.byIcon(Icons.menu_book)),
+        findsOneWidget,
+      );
+      expect(find.byIcon(Icons.info_outline), findsNothing);
     });
   });
 }

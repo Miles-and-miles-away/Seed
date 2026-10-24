@@ -24,6 +24,10 @@ shell and the pushed Log Action screen so every primary screen shows it):
 On the Log Action screen (a pushed route outside the shell) the same bar's
 tabs use `context.go` to jump straight into the chosen shell branch.
 
+Anything that explains a term carries the violet info glyph
+(`InfoIconButton` / `TermWithInfo`). Nothing else uses the violet, and
+only the labelled Settings About row reuses the glyph.
+
 First-login walkthrough (`lib/features/walkthrough/`): until the user
 has found a feature, its anchor carries a gold `WalkthroughShimmer`
 sweep, and the first time its surface opens a `WalkthroughTrigger` pops
@@ -227,7 +231,8 @@ unambiguous exit. Browse and log actions.
   every language. Search, category tabs, sort dropdown (Shuffle by
   default, a new order each visit; a chosen sort is kept until the app
   is closed or the account changes), SDG filter chips, action cards with
-  log confirmation and science info; and one custom-action tile in the
+  log confirmation (the science sheet opens from the info glyph on the
+  dialog's description panel); and one custom-action tile in the
   transport and food category views -- "Log a Custom Transport action"
   and "Log a Custom Food action". The energy category has no such tile:
   its calculator banks nothing (decision 8.18), and a tile in a grid of
@@ -329,9 +334,9 @@ are folded in under the columns.
   leg: if the leg's cities imply a different DEFRA band than the air
   mode picked, the correct band is used and a note says so, so a short
   hop can never be priced as long-haul.
-- Each column shows its total as a tappable CO2e amount (opens a
-  plain-language definition of the unit) and a magnitude bar scaled to
-  the worse column, with the lower one highlighted.
+- Each column shows its total as a CO2e amount with the info glyph
+  (opens a plain-language definition of the unit) and a magnitude bar
+  scaled to the worse column, with the lower one highlighted.
 - Result panel: "Option A emits N CO2e less than Option B (P% lower)"
   — never "saves" (data-review copy rule). The options are named by
   column, not by an item inside them, which read as an arbitrary pick
@@ -451,9 +456,9 @@ library already covers the same behaviours).
   otherwise it reads "No winner here" as a proper heading with the real
   reason stated underneath, in a tinted panel. The reason used to sit
   behind a "Why not?" dialog, which read as a dead end (2026-09-02).
-  The option bars and totals carry the category colour, as transport's
-  and food's do. When a verdict passes, the grid-invariant multiple
-  leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
+  The option bars and the crowned total carry the category colour, as
+  transport's and food's do. When a verdict passes, the grid-invariant
+  multiple leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
   computed in kWh; the gram delta and a phone-charge equivalency
   (anchored on the dataset's own `phone_charge` row, electricity
   deltas only) sit beneath, over basis notes naming the 458 g CO2e/kWh

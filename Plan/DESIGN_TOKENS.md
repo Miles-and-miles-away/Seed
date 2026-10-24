@@ -94,6 +94,11 @@ Action categories:
 Semantic: `success #4CAF50`, `warning #FFC107`, `error #F44336`,
 `streak #FF9800`.
 
+Info affordance, reserved: `infoLight #6200EA` on light themes and
+`infoDark #B388FF` on dark, picked by `infoColor(brightness)`. Only the
+shared info widgets (`InfoIconButton`, `TermWithInfo`) use them;
+`test/shared/widgets/info_affordance_reserved_test.dart` enforces it.
+
 Neutral ramp (full Material grey, available as design tokens):
 `neutral50 #FAFAFA`, `100 #F5F5F5`, `200 #EEEEEE`, `300 #E0E0E0`,
 `400 #BDBDBD`, `500 #9E9E9E`, `600 #757575`, `700 #616161`,
@@ -164,6 +169,9 @@ at small sizes.
 There are effectively four clusters: reds (1, 4, 5, 8), oranges and golds
 (2, 9, 11, 12), greens (3, 13, 15), and blues (6, 14, 16, 17). A
 17-series chart keyed only on these colours is unreadable.
+
+Outside the SDG set: a new species seed keeps every scheme role more
+than delta E 20 from both info tones (2.2), so the violet stays unique.
 
 ### 3.4 Contrast against surfaces
 
@@ -494,4 +502,5 @@ Rules:
 - [ ] Title is `titleSmall` at `w600`.
 - [ ] Widget takes its entity as a parameter, reads no provider.
 - [ ] Every string is localised; checked at JA width.
+- [ ] Any explainer uses the shared info widgets.
 - [ ] Empty and "no data" states designed, not afterthoughts.

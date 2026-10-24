@@ -5,6 +5,7 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 import 'package:seed_app/shared/widgets/group_heading.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Grouped energy behavior list for the routine builder (Phase 8.14).
@@ -103,8 +104,7 @@ class _BehaviorTile extends StatelessWidget {
         ],
       ),
       isThreeLine: behavior.isLowConfidence,
-      trailing: IconButton(
-        icon: const Icon(Icons.info_outline),
+      trailing: InfoIconButton(
         tooltip: l10n.energyBehaviorScienceTooltip,
         onPressed: () => onInfo(behavior),
       ),

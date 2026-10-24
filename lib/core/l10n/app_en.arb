@@ -411,7 +411,7 @@
     }
   },
   "switchMascotButton": "Switch",
-  "actionLearnMore": "Tap to learn the science",
+  "actionScienceTooltip": "About this action",
   "maxEvolutionTitle": "Maximum Evolution!",
   "maxEvolutionSubtitle": "Your companion has reached their full potential!",
   "maxEvolutionEggHint": "Nurture your egg to discover a new companion!",

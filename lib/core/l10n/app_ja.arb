@@ -376,7 +376,7 @@
   "mascotSwitchConfirm": "マスコットを切り替える？",
   "mascotSwitchConfirmBody": "{name}に切り替えますか？",
   "switchMascotButton": "切り替え",
-  "actionLearnMore": "タップして科学を学ぶ",
+  "actionScienceTooltip": "このアクションについて",
   "maxEvolutionTitle": "最大進化！",
   "maxEvolutionSubtitle": "あなたの相棒は最高の姿に到達しました！",
   "maxEvolutionEggHint": "タマゴを育てて新しい相棒を見つけよう！",
