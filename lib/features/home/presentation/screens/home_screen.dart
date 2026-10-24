@@ -145,10 +145,14 @@ class HomeScreen extends ConsumerWidget {
     return MascotHousing(
       child: Column(
         children: [
-          // Mascot display
-          GestureDetector(
-            onTap: () => context.push(appRoutes.mascot),
-            child: const MascotDisplay(size: 160),
+          Semantics(
+            container: true,
+            button: true,
+            label: l10n.mascotLinkTitle,
+            child: GestureDetector(
+              onTap: () => context.push(appRoutes.mascot),
+              child: const MascotDisplay(size: 160),
+            ),
           ),
 
           const SizedBox(height: spacingMd),

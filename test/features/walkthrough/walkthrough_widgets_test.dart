@@ -6,10 +6,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -122,6 +124,27 @@ void main() {
       await tester.pumpWidget(shimmer(const []));
       await tester.pump();
       expect(find.byType(Animate), findsNothing);
+    });
+
+    testWidgets('an orItem keeps the sweep while only it is pending', (
+      tester,
+    ) async {
+      const both = WalkthroughShimmer(
+        item: WalkthroughItem.calculators,
+        orItem: WalkthroughItem.quiz,
+        child: Text('anchor'),
+      );
+      await tester.pumpWidget(shimmer(_allButQuiz, child: both));
+      await tester.pump();
+      expect(find.byType(Animate), findsOneWidget);
+      await flushOverlayTimers(tester);
+
+      await tester.pumpWidget(
+        shimmer([..._allButQuiz, WalkthroughItem.quiz], child: both),
+      );
+      await tester.pump();
+      expect(find.byType(Animate), findsNothing);
+      expect(find.text('anchor'), findsOneWidget);
     });
 
     testWidgets('draws a static border under reduced motion', (tester) async {
@@ -250,6 +273,50 @@ void main() {
       await tester.pump();
       expect(find.byType(WalkthroughOverlay), findsOneWidget);
       await flushOverlayTimers(tester);
+    });
+  });
+
+  group('CelebrationOverlay', () {
+    final backdrop = find.byWidgetPredicate(
+      (w) =>
+          w is Container &&
+          w.color == Colors.black.withValues(alpha: opacityNearOpaque),
+    );
+
+    Future<void> pumpOverlay(WidgetTester tester, {Rect? clearRect}) async {
+      sizeViewport(tester, size: const Size(400, 800));
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CelebrationOverlay(clearRect: clearRect, children: const []),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a clear rect splits the backdrop above and below it', (
+      tester,
+    ) async {
+      const clear = Rect.fromLTRB(0, 100, 400, 180);
+      await pumpOverlay(tester, clearRect: clear);
+
+      expect(backdrop, findsNWidgets(2));
+      expect(
+        tester.getRect(backdrop.first),
+        const Rect.fromLTRB(0, 0, 400, 100),
+      );
+      expect(
+        tester.getRect(backdrop.last),
+        const Rect.fromLTRB(0, 180, 400, 800),
+      );
+    });
+
+    testWidgets('without one, a single backdrop covers the screen', (
+      tester,
+    ) async {
+      await pumpOverlay(tester);
+
+      expect(backdrop, findsOneWidget);
+      expect(tester.getRect(backdrop), const Rect.fromLTRB(0, 0, 400, 800));
     });
   });
 

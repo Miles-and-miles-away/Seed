@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navMascot => 'Mascot';
 
   @override
+  String get navExplore => 'Explore';
+
+  @override
   String get navProfile => 'Profile';
 
   @override
@@ -985,7 +988,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'Explore the SDG Goals';
+  String get homeExploreGoals => 'Discover the SDGs';
 
   @override
   String get homeExploreGoalsSubtitle =>
@@ -1269,9 +1272,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Challenge completed! Eco-fact unlocked!';
 
   @override
-  String get challengeBrowse => 'Browse Challenges';
-
-  @override
   String get challengesScreenTitle => 'Multi-Day Challenges';
 
   @override
@@ -1493,10 +1493,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorsSheetTitle => 'Calculators';
 
   @override
-  String get calculatorsButtonTooltip => 'Calculators';
+  String get calculatorHomeEnergy => 'Home energy';
 
   @override
-  String get calculatorHomeEnergy => 'Home energy';
+  String get exploreTitle => 'Explore';
+
+  @override
+  String get explorePlayHeader => 'Learn and play';
+
+  @override
+  String get exploreTransportSubtitle => 'Two routes, any mix of modes';
+
+  @override
+  String get exploreFoodSubtitle => 'Two meals, ingredient by ingredient';
+
+  @override
+  String get exploreEnergySubtitle =>
+      'Two routines, from showers to tumble drying';
+
+  @override
+  String get exploreEnergyRankedSubtitle => 'Everyday habits ranked by energy';
+
+  @override
+  String get exploreQuizSubtitle => 'Which has the bigger footprint?';
+
+  @override
+  String get mascotLinkTitle => 'Your mascot';
 
   @override
   String get transportJourneyEmpty =>
@@ -2373,7 +2395,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walkthroughItemDailyChallenge => 'Today\'s challenge';
 
   @override
-  String get walkthroughItemSdg => 'Explore an SDG';
+  String get walkthroughItemSdg => 'Discover SDGs';
 
   @override
   String get walkthroughItemEcoFact => 'Your daily eco-fact';
@@ -2417,7 +2439,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughCalculators4 =>
-      'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.';
+      'Below them, Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.';
 
   @override
   String get walkthroughQuiz1 =>

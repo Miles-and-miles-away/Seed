@@ -27,6 +27,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get navMascot => 'マスコット';
 
   @override
+  String get navExplore => '探索';
+
+  @override
   String get navProfile => 'プロフ';
 
   @override
@@ -957,7 +960,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'SDGsの目標を探る';
+  String get homeExploreGoals => 'SDGsを知る';
 
   @override
   String get homeExploreGoalsSubtitle => '国連の持続可能な開発目標について学ぶ';
@@ -1232,9 +1235,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get challengeCompletedSnackbar => 'チャレンジ完了！エコファクトが解除されました！';
 
   @override
-  String get challengeBrowse => 'チャレンジを探す';
-
-  @override
   String get challengesScreenTitle => 'マルチデイチャレンジ';
 
   @override
@@ -1453,10 +1453,31 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calculatorsSheetTitle => '計算ツール';
 
   @override
-  String get calculatorsButtonTooltip => '計算ツール';
+  String get calculatorHomeEnergy => '家庭のエネルギー';
 
   @override
-  String get calculatorHomeEnergy => '家庭のエネルギー';
+  String get exploreTitle => '探索';
+
+  @override
+  String get explorePlayHeader => '学んで遊ぶ';
+
+  @override
+  String get exploreTransportSubtitle => '好きな手段を組み合わせた2つのルート';
+
+  @override
+  String get exploreFoodSubtitle => '2つの献立を材料ごとに比較';
+
+  @override
+  String get exploreEnergySubtitle => 'シャワーから乾燥機まで、2つの習慣を比較';
+
+  @override
+  String get exploreEnergyRankedSubtitle => '日々の習慣をエネルギーでランキング';
+
+  @override
+  String get exploreQuizSubtitle => 'どっちの排出量が多い？';
+
+  @override
+  String get mascotLinkTitle => 'あなたのマスコット';
 
   @override
   String get transportJourneyEmpty => '区間を追加して行程を作ると、CO2e排出量が表示されます。';
@@ -2301,7 +2322,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get walkthroughItemDailyChallenge => '今日のチャレンジ';
 
   @override
-  String get walkthroughItemSdg => 'SDGを見てみる';
+  String get walkthroughItemSdg => 'SDGsを知る';
 
   @override
   String get walkthroughItemEcoFact => '今日のエコファクト';
@@ -2343,7 +2364,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughCalculators4 =>
-      '隣の稲妻アイコンで「エネルギーの行き先」が開きます。日々の習慣を、LED 1時間、スマホ充電1回、ケトル1L、扇風機1時間のいずれかを基準にランキングで見られます。';
+      'その下の「エネルギーの行き先」では、日々の習慣を、LED 1時間、スマホ充電1回、ケトル1L、扇風機1時間のいずれかを基準にランキングで見られます。';
 
   @override
   String get walkthroughQuiz1 =>

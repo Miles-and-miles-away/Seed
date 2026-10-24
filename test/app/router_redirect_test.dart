@@ -12,18 +12,22 @@ import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/app/main_shell.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/auth/presentation/screens/email_verification_screen.dart';
 import 'package:seed_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:seed_app/features/explore/explore.dart';
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
-import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:seed_app/features/settings/settings.dart';
+import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/services/fcm_service.dart';
 
+import '../features/walkthrough/walkthrough_test_support.dart';
 import '../helpers/test_helpers.dart';
 
 // Firebase-touching services signOut() calls; no-ops keep the flow off the
@@ -81,7 +85,7 @@ void main() {
     return auth;
   }
 
-  Widget buildApp(MockFirebaseAuth auth) {
+  Widget buildApp(MockFirebaseAuth auth, {bool withMascot = false}) {
     return ProviderScope(
       overrides: [
         languageStoreOverride(),
@@ -89,7 +93,25 @@ void main() {
         firebaseAuthProvider.overrideWithValue(auth),
         firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
         // Home renders inside the shell; skip Firestore mascot lookups.
-        hasMascotProvider.overrideWithValue(false),
+        hasMascotProvider.overrideWithValue(withMascot),
+        if (withMascot) ...[
+          userOverride(const AppUserModel(uid: 'test-uid', email: 'e')),
+          activeMascotProvider.overrideWith(
+            (_) => Stream.value(
+              const MascotModel(id: 'm', speciesId: 'seed', name: 'Pip'),
+            ),
+          ),
+          // An SVG keeps MascotDisplay off Rive.
+          activeMascotAssetPathProvider.overrideWith(
+            (_) => 'assets/images/mascot/seed_stage1.svg',
+          ),
+          hasNewEvolutionProvider.overrideWithValue(false),
+          shouldShowEggDiscoveryProvider.overrideWithValue(false),
+          // Every item found, so no walkthrough covers the screens.
+          userSettingsProvider.overrideWith(
+            (_) => Stream.value(settingsWith(WalkthroughItem.values)),
+          ),
+        ],
       ],
       child: const _RouterApp(),
     );
@@ -252,11 +274,93 @@ void main() {
     });
   });
 
+  int? selectedTab(WidgetTester tester) =>
+      tester.widget<AppBottomNav>(find.byType(AppBottomNav)).currentIndex;
+
+  Future<void> tapTab(WidgetTester tester, String label) async {
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AppBottomNav),
+        matching: find.text(label),
+      ),
+    );
+    await pumpRedirects(tester);
+  }
+
+  group('Explore tab and Mascot screen', () {
+    const homeTabIndex = 0;
+    const exploreTabIndex = 2;
+    const profileTabIndex = 3;
+
+    testWidgets('Explore is the third shell branch', (tester) async {
+      setLargeScreenSize(tester);
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), withMascot: true),
+      );
+      await pumpRedirects(tester);
+
+      await tapTab(tester, 'Explore');
+
+      expect(find.byType(ExploreScreen), findsOneWidget);
+      expect(selectedTab(tester), exploreTabIndex);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('the Profile row opens Mascot over Profile; back returns', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), withMascot: true),
+      );
+      await pumpRedirects(tester);
+      await tapTab(tester, 'Profile');
+      expect(find.byType(ProfileScreen), findsOneWidget);
+
+      await tester.tap(find.text('Your mascot'));
+      await pumpRedirects(tester);
+
+      expect(find.byType(MascotScreen), findsOneWidget);
+      expect(selectedTab(tester), profileTabIndex);
+
+      await tester.pageBack();
+      await pumpRedirects(tester);
+      await pumpRedirects(tester);
+
+      expect(find.byType(MascotScreen), findsNothing);
+      expect(find.byType(ProfileScreen), findsOneWidget);
+      expect(selectedTab(tester), profileTabIndex);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('the Home mascot opens Mascot with Home selected', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), withMascot: true),
+      );
+      await pumpRedirects(tester);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(HomeScreen),
+          matching: find.byType(MascotDisplay),
+        ),
+      );
+      await pumpRedirects(tester);
+
+      expect(find.byType(MascotScreen), findsOneWidget);
+      expect(selectedTab(tester), homeTabIndex);
+
+      await disposeAndFlush(tester);
+    });
+  });
+
   group('settings entry from Home', () {
     const homeTabIndex = 0;
-
-    int? selectedTab(WidgetTester tester) =>
-        tester.widget<AppBottomNav>(find.byType(AppBottomNav)).currentIndex;
 
     testWidgets('the Home gear opens Settings over Home and back returns', (
       tester,

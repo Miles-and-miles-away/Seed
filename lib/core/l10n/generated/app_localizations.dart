@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// **'Mascot'**
   String get navMascot;
 
+  /// No description provided for @navExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get navExplore;
+
   /// No description provided for @navProfile.
   ///
   /// In en, this message translates to:
@@ -1795,7 +1801,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeExploreGoals.
   ///
   /// In en, this message translates to:
-  /// **'Explore the SDG Goals'**
+  /// **'Discover the SDGs'**
   String get homeExploreGoals;
 
   /// No description provided for @homeExploreGoalsSubtitle.
@@ -2302,12 +2308,6 @@ abstract class AppLocalizations {
   /// **'Challenge completed! Eco-fact unlocked!'**
   String get challengeCompletedSnackbar;
 
-  /// No description provided for @challengeBrowse.
-  ///
-  /// In en, this message translates to:
-  /// **'Browse Challenges'**
-  String get challengeBrowse;
-
   /// No description provided for @challengesScreenTitle.
   ///
   /// In en, this message translates to:
@@ -2686,17 +2686,59 @@ abstract class AppLocalizations {
   /// **'Calculators'**
   String get calculatorsSheetTitle;
 
-  /// No description provided for @calculatorsButtonTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Calculators'**
-  String get calculatorsButtonTooltip;
-
   /// No description provided for @calculatorHomeEnergy.
   ///
   /// In en, this message translates to:
   /// **'Home energy'**
   String get calculatorHomeEnergy;
+
+  /// No description provided for @exploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get exploreTitle;
+
+  /// No description provided for @explorePlayHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn and play'**
+  String get explorePlayHeader;
+
+  /// No description provided for @exploreTransportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two routes, any mix of modes'**
+  String get exploreTransportSubtitle;
+
+  /// No description provided for @exploreFoodSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two meals, ingredient by ingredient'**
+  String get exploreFoodSubtitle;
+
+  /// No description provided for @exploreEnergySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two routines, from showers to tumble drying'**
+  String get exploreEnergySubtitle;
+
+  /// No description provided for @exploreEnergyRankedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyday habits ranked by energy'**
+  String get exploreEnergyRankedSubtitle;
+
+  /// No description provided for @exploreQuizSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which has the bigger footprint?'**
+  String get exploreQuizSubtitle;
+
+  /// No description provided for @mascotLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mascot'**
+  String get mascotLinkTitle;
 
   /// No description provided for @transportJourneyEmpty.
   ///
@@ -4088,7 +4130,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughItemSdg.
   ///
   /// In en, this message translates to:
-  /// **'Explore an SDG'**
+  /// **'Discover SDGs'**
   String get walkthroughItemSdg;
 
   /// No description provided for @walkthroughItemEcoFact.
@@ -4160,7 +4202,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughCalculators4.
   ///
   /// In en, this message translates to:
-  /// **'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
+  /// **'Below them, Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
   String get walkthroughCalculators4;
 
   /// No description provided for @walkthroughQuiz1.

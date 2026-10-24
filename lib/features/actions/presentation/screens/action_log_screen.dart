@@ -17,7 +17,6 @@ import '../utils/handle_action_tap.dart';
 import '../widgets/action_card.dart';
 import '../widgets/action_category_tabs.dart';
 import '../widgets/action_sort_dropdown.dart';
-import '../widgets/calculator_chooser_sheet.dart';
 import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
@@ -112,13 +111,6 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final filteredActionsAsync = ref.watch(filteredActionsProvider);
     final languageCode = ref.watch(userLanguageCodeProvider);
 
-    // Outline glyphs alone read as decoration against the app bar, so
-    // each header action sits on its own tinted disc.
-    final headerButtonStyle = IconButton.styleFrom(
-      backgroundColor: theme.colorScheme.surfaceContainerHighest,
-      foregroundColor: theme.colorScheme.onSurfaceVariant,
-    );
-
     return WalkthroughTrigger(
       item: WalkthroughItem.logAction,
       // Arriving from the daily challenge card ticks that item only.
@@ -133,42 +125,6 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
           // Action button; navigation is via the tabs, so suppress the
           // implicit back arrow to avoid a redundant second exit.
           automaticallyImplyLeading: false,
-          actions: [
-            // Carbon calculators hub (Phase 8): opens the transport / food
-            // / home-energy chooser without spending a bottom-nav slot.
-            WalkthroughShimmer(
-              item: WalkthroughItem.calculators,
-              child: IconButton(
-                style: headerButtonStyle,
-                icon: const Icon(Icons.calculate_outlined),
-                tooltip: l10n.calculatorsButtonTooltip,
-                onPressed: () => CalculatorChooserSheet.show(context),
-              ),
-            ),
-            // The two energy teaching surfaces (decision E8). They sit
-            // here rather than in the chooser sheet, whose three-tile row
-            // would overflow, and rather than as category tiles, because
-            // neither is an action to log.
-            IconButton(
-              style: headerButtonStyle,
-              // The app's own energy glyph rather than a generic chart:
-              // both of these icons are energy-only surfaces.
-              icon: const Icon(Icons.bolt),
-              tooltip: l10n.energyRankedTitle,
-              onPressed: () => context.push(appRoutes.energyExplore),
-            ),
-            WalkthroughShimmer(
-              item: WalkthroughItem.quiz,
-              child: IconButton(
-                style: headerButtonStyle,
-                icon: const Icon(Icons.quiz_outlined),
-                // Domain-neutral: the game rotates between energy, food and
-                // transport rounds.
-                tooltip: l10n.quizTitle,
-                onPressed: () => context.push(appRoutes.quiz),
-              ),
-            ),
-          ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(56),
             child: Padding(
@@ -272,7 +228,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final route = switch (index) {
       0 => appRoutes.home,
       1 => appRoutes.progress,
-      2 => appRoutes.mascot,
+      2 => appRoutes.explore,
       _ => appRoutes.profile,
     };
     context.go(route);
@@ -345,8 +301,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   ///
   /// Energy has no tile here: its calculator banks nothing (decision
   /// 8.18), and a tile in a grid of loggable actions promises a log it
-  /// cannot deliver. It stays in the AppBar calculator chooser, beside
-  /// the two energy teaching surfaces (decision E8).
+  /// cannot deliver. It lives on the Explore tab with the two energy
+  /// teaching surfaces.
   Widget? _buildCalculatorEntry(AppLocalizations l10n) {
     final category = ref.watch(selectedCategoryProvider);
     final (String title, String route) = switch (category) {

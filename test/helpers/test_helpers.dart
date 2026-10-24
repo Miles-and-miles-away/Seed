@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/shared/data/language_store.dart';
@@ -140,6 +142,29 @@ Future<void> loadTestFonts() async {
 /// Phone widths the layout tests run at: a 320pt stress width, a small
 /// Android, the smallest current iPhones and the tester's iPhone.
 const testPhoneWidths = [320.0, 360.0, 375.0, 393.0];
+
+/// Laid-out lines of the text [finder] matches, word joiners removed.
+List<String> renderedLines(WidgetTester tester, Finder finder) {
+  final paragraph = tester.renderObject<RenderParagraph>(
+    find.descendant(
+      of: finder,
+      matching: find.byType(RichText),
+      matchRoot: true,
+    ),
+  );
+  final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
+  final lines = <String>[];
+  double? lineTop;
+  for (var i = 0; i < text.length; i++) {
+    final top = paragraph
+        .getOffsetForCaret(TextPosition(offset: i), Rect.zero)
+        .dy;
+    if (top != lineTop) lines.add('');
+    lineTop = top;
+    lines.last += text[i];
+  }
+  return [for (final line in lines) stripWordJoiners(line)];
+}
 
 /// SF Pro measures 5-8% wider than Roboto for the same Latin text, so
 /// Spanish layout tests run at this fraction of a phone width to stand in

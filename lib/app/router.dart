@@ -18,6 +18,7 @@ import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
 import '../features/energy/energy.dart';
+import '../features/explore/explore.dart';
 import '../features/food/food.dart';
 import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
@@ -100,7 +101,7 @@ class AppRoutes {
   // Main shell tabs
   String get home => '/home';
   String get progress => '/progress';
-  String get mascot => '/mascot';
+  String get explore => '/explore';
   String get profile => '/profile';
 
   // Nested under home
@@ -108,6 +109,9 @@ class AppRoutes {
   String get challenges => '/home/challenges';
   String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
   String dailyFactDetail(String dateKey) => '/home/daily-fact/$dateKey';
+
+  /// Push, never go: a go leaves `/home` and resets the SDG carousel.
+  String get mascot => '/home/mascot';
 
   // Nested under progress
   String get actionHistory => '/progress/history';
@@ -206,6 +210,7 @@ GoRouter router(Ref ref) {
                   ),
                   // Multi-day challenges screen
                   _route('challenges', const ChallengesScreen()),
+                  _route('mascot', const MascotScreen()),
                 ],
               ),
             ],
@@ -228,9 +233,9 @@ GoRouter router(Ref ref) {
             ],
           ),
 
-          // Mascot tab (index 2)
+          // Explore tab (index 2)
           StatefulShellBranch(
-            routes: [_route(appRoutes.mascot, const MascotScreen())],
+            routes: [_route(appRoutes.explore, const ExploreScreen())],
           ),
 
           // Profile tab (index 3)

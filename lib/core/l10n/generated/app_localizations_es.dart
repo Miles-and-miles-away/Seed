@@ -27,6 +27,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get navMascot => 'Mascota';
 
   @override
+  String get navExplore => 'Explorar';
+
+  @override
   String get navProfile => 'Perfil';
 
   @override
@@ -996,7 +999,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeExploreGoals => 'Explora los ODS';
+  String get homeExploreGoals => 'Descubre los ODS';
 
   @override
   String get homeExploreGoalsSubtitle =>
@@ -1286,9 +1289,6 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡Desafío completado! ¡Eco-dato desbloqueado!';
 
   @override
-  String get challengeBrowse => 'Explorar desafíos';
-
-  @override
   String get challengesScreenTitle => 'Desafíos de varios días';
 
   @override
@@ -1510,10 +1510,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get calculatorsSheetTitle => 'Calculadoras';
 
   @override
-  String get calculatorsButtonTooltip => 'Calculadoras';
+  String get calculatorHomeEnergy => 'Energía del hogar';
 
   @override
-  String get calculatorHomeEnergy => 'Energía del hogar';
+  String get exploreTitle => 'Explorar';
+
+  @override
+  String get explorePlayHeader => 'Aprende y juega';
+
+  @override
+  String get exploreTransportSubtitle =>
+      'Dos rutas, cualquier mezcla de medios';
+
+  @override
+  String get exploreFoodSubtitle => 'Dos platos, ingrediente por ingrediente';
+
+  @override
+  String get exploreEnergySubtitle => 'Dos rutinas, de la ducha a la secadora';
+
+  @override
+  String get exploreEnergyRankedSubtitle =>
+      'Los hábitos diarios clasificados por energía';
+
+  @override
+  String get exploreQuizSubtitle => '¿Cuál tiene la huella más grande?';
+
+  @override
+  String get mascotLinkTitle => 'Tu mascota';
 
   @override
   String get transportJourneyEmpty =>
@@ -2395,7 +2418,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get walkthroughItemDailyChallenge => 'El desafío de hoy';
 
   @override
-  String get walkthroughItemSdg => 'Explora un ODS';
+  String get walkthroughItemSdg => 'Descubre los ODS';
 
   @override
   String get walkthroughItemEcoFact => 'Tu eco-dato diario';
@@ -2439,7 +2462,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughCalculators4 =>
-      'El icono del rayo de al lado abre «A dónde va tu energía»: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
+      'Debajo, «A dónde va tu energía»: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
 
   @override
   String get walkthroughQuiz1 =>

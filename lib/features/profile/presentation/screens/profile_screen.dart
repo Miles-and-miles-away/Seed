@@ -1,20 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
+
+const _listIconSize = 24.0;
+
+/// Mascot row title width at 320pt: page padding, the tile's 16 and 24
+/// padding, and the leading and trailing icons with their gaps.
+const _mascotLinkMinLineWidth =
+    phraseNarrowestScreenWidth -
+    3 * spacingLg -
+    spacingXxl -
+    2 * (_listIconSize + spacingLg);
 
 /// User profile screen displaying stats, level progress, and discoveries.
 class ProfileScreen extends ConsumerWidget {
@@ -51,6 +64,11 @@ class ProfileScreen extends ConsumerWidget {
 
                 // Level progress
                 _buildLevelSection(ref, theme, colorScheme, user, l10n),
+
+                if (ref.watch(hasMascotProvider)) ...[
+                  const SizedBox(height: spacingXxl),
+                  _buildMascotLink(context, ref, theme, l10n),
+                ],
 
                 const SizedBox(height: spacingXxl),
 
@@ -245,6 +263,34 @@ class ProfileScreen extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMascotLink(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    final mascot = ref.watch(activeMascotProvider).value;
+    return Card(
+      margin: EdgeInsets.zero,
+      color: theme.colorScheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        leading: Icon(Icons.pets, color: theme.colorScheme.primary),
+        title: PhraseText(
+          l10n.mascotLinkTitle,
+          minLineWidth: _mascotLinkMinLineWidth,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: mascot == null ? null : Text(mascot.name),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(appRoutes.mascot),
       ),
     );
   }

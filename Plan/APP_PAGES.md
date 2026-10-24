@@ -18,28 +18,29 @@ shell and the pushed Log Action screen so every primary screen shows it):
 | 0     | Home         | `/home`         | home              |
 | 1     | Progress     | `/progress`     | calendar_today    |
 | —     | Log Action   | `/log-action`   | add_circle (push) |
-| 2     | Mascot       | `/mascot`       | pets              |
+| 2     | Explore      | `/explore`      | explore           |
 | 3     | Profile      | `/profile`      | person            |
 
 On the Log Action screen (a pushed route outside the shell) the same bar's
 tabs use `context.go` to jump straight into the chosen shell branch.
 
 First-login walkthrough (`lib/features/walkthrough/`): until the user
-has found a feature, its anchor
-carries a gold `WalkthroughShimmer` sweep, and the first time its
-surface opens a `WalkthroughTrigger` pops the mascot's explanation over
-it, with the checklist of things still to find under the last page.
-Anchors: the Progress and Log Action nav items, the daily challenge
-card, the SDG carousel, the mail icon, and the calculator and quiz
-icons on Log Action. Nothing is pending until a mascot exists and any
-evolution or egg celebration has been shown; the intro then pops on
-Home, and only after it do the items shimmer. One explanation per tap:
-the challenge card explains itself before opening Log Action (whose
-trigger is off when opened by category), and its completed state ticks
-silently so the eco-fact inbox can explain itself. Finding the last
-item ends with a confetti page. State is the
-`settings.walkthroughFound` list on the user doc; Settings > Replay
-walkthrough empties it.
+has found a feature, its anchor carries a gold `WalkthroughShimmer`
+sweep, and the first time its surface opens a `WalkthroughTrigger` pops
+the mascot's explanation over it, with the checklist of things still to
+find under the last page. Anchors: the Progress, Log Action and Explore
+nav items (Explore sweeps while the calculators or the quiz is pending),
+the daily challenge card, the SDG carousel, the mail icon, and the quiz
+tile on the Explore screen; the Explore screen itself explains the
+calculators, with a spotlight on each tile in turn. Nothing is pending
+until a mascot exists and any evolution or egg celebration has been
+shown; the intro then pops on Home, and only after it do the items
+shimmer. One explanation per tap: the challenge card explains itself
+before opening Log Action (whose trigger is off when opened by
+category), and its completed state ticks silently so the eco-fact inbox
+can explain itself. Finding the last item ends with a confetti page.
+State is the `settings.walkthroughFound` list on the user doc;
+Settings > Replay walkthrough empties it.
 
 Auth redirect logic (in `router.dart`):
 - Unauthenticated -> `/login`
@@ -92,7 +93,7 @@ One-time species pick and naming after sign-up.
 
 Main hub with mascot summary, challenges, and SDG carousel.
 - Links:
-  - `/mascot` (tap mascot display)
+  - `/home/mascot` (tap mascot display, a button labelled "Your mascot")
   - `/mascot-selection` (if no mascot)
   - `/home/sdg/:goalNumber` (SDG carousel tap)
   - `/home/daily-fact` (mail icon in app bar)
@@ -106,7 +107,7 @@ Main hub with mascot summary, challenges, and SDG carousel.
   (tap when incomplete jumps to the actions for its category),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
-  sheet), infinite SDG carousel under an "Explore the SDG Goals" header,
+  sheet), infinite SDG carousel under a "Discover the SDGs" header,
   "Learn more at UN.org" external link.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
@@ -128,6 +129,19 @@ Inbox-style list of daily eco facts; tapping marks as read.
 Single fact display; locked until the day's challenge is complete.
 - Links: none
 - Functionality: fact card, auto-mark as viewed, locked state UI.
+
+### Mascot (`/home/mascot`)
+Active mascot with evolution timeline and multi-mascot collection.
+Pushed (never `go`) so Home's SDG carousel keeps its place; the bottom
+nav stays visible and the tab it was opened from stays selected.
+- Reached from: tapping the mascot on Home; the Your mascot row on
+  Profile.
+- Links: none
+- Functionality: rename (edit/check/cancel), switch-mascot dialog,
+  mascot thumbnails, evolution timeline (stage names sit below each
+  stage card, up to two lines), next-evolution progress. While the
+  mascot loads the screen shows a spinner under a "Mascot" app bar with
+  a back arrow.
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
@@ -194,15 +208,12 @@ Pushed route — not a shell branch, but shows the shared bottom nav so users
 navigate via the tabs. The implicit AppBar back arrow is suppressed
 (`automaticallyImplyLeading: false`) so the bottom nav is the single,
 unambiguous exit. Browse and log actions.
-- Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
-  `/transport-calculator`, `/food-calculator` and `/energy-calculator` —
-  all three reached via the AppBar calculator chooser (transport / food /
-  home energy, live since 8.17), and transport and food additionally from
-  the "Log a Custom Transport action" / "Log a Custom Food action" cards
-  shown only in their category views; `/energy-explore` and
-  `/quiz` from two AppBar icons beside the calculator chooser,
-  shown in every category (decision E8); inline
-  confirmation dialog / science bottom sheet
+- Links: bottom nav tabs (`context.go` to Home/Progress/Explore/Profile);
+  `/transport-calculator` and `/food-calculator` from the "Log a Custom
+  Transport action" / "Log a Custom Food action" cards shown only in
+  their category views; inline confirmation dialog / science bottom
+  sheet. The calculators and the energy teaching surfaces live on the
+  Explore tab.
 - Tile height: the grid sizes a cell to the tile's content
   (`ActionLogScreen.tileHeightFor`) rather than to a fraction of its
   width. A 0.9 aspect ratio made a 179pt cell 199pt tall for a tile that
@@ -212,23 +223,17 @@ unambiguous exit. Browse and log actions.
   scale 1.0, 1.3 and 2.0 (2026-09-02).
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All").
-- Functionality: three AppBar icons -- the calculator chooser
-  (`calculate_outlined`, opens the calculators bottom sheet), "Where
-  your energy goes" (`bolt`, the app's own energy glyph) and "Higher or
-  lower?" (`quiz_outlined`). The latter two are not category-dependent:
-  they are teaching surfaces rather than actions to log, and the problem
-  decision E8 resolved was exactly that they were buried. The chooser
-  sheet's three tiles carry their own category colours. Then search, category
-  tabs, sort dropdown (Shuffle by default, a new order each visit; a
-  chosen sort is kept until the app is closed or the account changes),
-  SDG filter chips, action cards with log confirmation and science info;
-  and one custom-action tile in the transport and food category views --
-  "Log a Custom Transport action" and "Log a Custom Food action". The
-  energy category has no such tile: its calculator banks nothing
-  (decision 8.18), and a tile in a grid of loggable actions promises a
-  log it cannot deliver, so the energy calculator is reached from the
-  AppBar chooser only (2026-09-02). An empty filter result shows the "No
-  actions found" state with no tile at all.
+- Functionality: no AppBar actions, so the title renders at full size in
+  every language. Search, category tabs, sort dropdown (Shuffle by
+  default, a new order each visit; a chosen sort is kept until the app
+  is closed or the account changes), SDG filter chips, action cards with
+  log confirmation and science info; and one custom-action tile in the
+  transport and food category views -- "Log a Custom Transport action"
+  and "Log a Custom Food action". The energy category has no such tile:
+  its calculator banks nothing (decision 8.18), and a tile in a grid of
+  loggable actions promises a log it cannot deliver, so the energy
+  calculator is reached from the Explore tab only. An empty filter
+  result shows the "No actions found" state with no tile at all.
 
 ### Calculator colouring (all three)
 
@@ -250,6 +255,25 @@ on a fill it cannot be read against. The raw colours are fills, not ink: amber r
 orange 2.2:1, so figures in the raw colour would be unreadable. A test
 pins the contrast for every category on both themes (2026-09-02).
 
+## Tab 2 -- Explore (`/explore`)
+
+Calculators and games as a top-level destination, each a labelled tile
+with a one-line description; every tile pushes its full-screen route.
+- Links:
+  - Calculators: `/transport-calculator` (Transport),
+    `/food-calculator` (Food), `/energy-calculator` (Home energy)
+  - Learn and play: `/energy-explore` (Where your energy goes),
+    `/quiz` (Higher or lower?)
+- Functionality: two sections of `ExploreTile`s, each a tinted disc
+  (category colour, icon in its readable tone; the quiz takes the
+  scheme's primary), title, subtitle and chevron. The calculators
+  walkthrough pops here with a spotlight on the tile each page explains
+  (transport, food, home energy, then the ranking), the bubble in the
+  taller band beside it with its button always on screen; a tile off
+  screen, or a band too short for the bubble, gets the full scrim and a
+  centred bubble instead. The quiz tile shimmers until the quiz is
+  found. No info icon: every tile carries its own subtitle.
+
 ## Transport Calculator (`/transport-calculator`)
 
 Pushed full-screen route (Phase 8). Educational side-by-side journey
@@ -257,10 +281,9 @@ comparison: two option columns (A and B) are built at once and
 totalled live. There is no separate comparison screen — the delta,
 its equivalency, the data-honesty basis notes and the banking action
 are folded in under the columns.
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (transport tile), and the "Log a Custom Transport action" card
-  shown in that screen's transport category view (kept off the bottom
-  nav to hold it at five buttons).
+- Reached from: the Explore tab (Transport tile), and the "Log a Custom
+  Transport action" card shown in the Log Action screen's transport
+  category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-mode science sheets and
   external source URLs open from info icons / tappable links.
@@ -344,10 +367,8 @@ meal comparison. Mirrors the transport calculator exactly (shared
 `OptionColumn`, `OptionEntryCard`, `ComparisonDeltaCard`,
 `Co2eAmount`), minus occupancy and cities.
 Never awards points inside the tool.
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (food tile), and the "Log a Custom Food action" card shown in that
-  screen's food category view (kept off the bottom nav to hold it at
-  five buttons).
+- Reached from: the Explore tab (Food tile), and the "Log a Custom Food
+  action" card shown in the Log Action screen's food category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-item science sheets and
   external source URLs open from info icons / tappable links.
@@ -414,11 +435,10 @@ routine comparison, same two-column shape as the other calculators
 awards points and has no banking button (decision 8.18 --
 a shorter shower has no verifiable counterfactual, and the action
 library already covers the same behaviours).
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (home energy tile) -- and only there. It has no card in the energy
-  category view: that grid is for actions that can be logged, and this
-  calculator banks nothing (decision 8.18). Kept off the bottom nav to
-  hold it at five buttons.
+- Reached from: the Explore tab (Home energy tile) -- and only there.
+  It has no card in the energy category view: that grid is for actions
+  that can be logged, and this calculator banks nothing (decision
+  8.18).
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-behavior science sheets
   open from the picker's info icons.
@@ -463,8 +483,8 @@ enforced in one widget.
 Pushed full-screen route (decision E8). "Where your energy goes"
 promoted out of the methodology page into its own surface: the ranked
 table is the screen.
-- Reached from: the `bar_chart` AppBar icon on the Log Action screen,
-  visible in every category.
+- Reached from: the Explore tab (Where your energy goes tile,
+  `bar_chart`).
 - Layout: a 2x2 grid of equally sized baseline buttons switching the
   measuring baseline (LED hour / phone charge / kettle litre / fan hour
   -- each one a dataset row with a one-unit default preset, never an
@@ -509,8 +529,8 @@ table is the screen.
 
 Pushed full-screen route (decision E8). Two cards, names only: drag the
 one you think has the bigger footprint to the top.
-- Reached from: the `quiz_outlined` AppBar icon on the Log Action
-  screen, visible in every category.
+- Reached from: the Explore tab (Higher or lower? tile,
+  `quiz_outlined`).
 - Rounds rotate at random between home energy, food and transport, and
   each round is drawn wholly from one domain. A PAIR never mixes
   domains: a serving of beef against an hour of LED light would set a
@@ -556,20 +576,14 @@ one you think has the bigger footprint to the top.
   all three datasets equally, and only started in `energy` because
   energy was the first deck it had.
 
-## Tab 2 — Mascot (`/mascot`)
-
-Active mascot with evolution timeline and multi-mascot collection.
-- Links: none
-- Functionality: rename (edit/check/cancel), switch-mascot dialog,
-  mascot thumbnails, evolution timeline (stage names sit below each
-  stage card, up to two lines), next-evolution progress.
-
 ## Tab 3 — Profile (`/profile`)
 
 User stats (level, streak, CO2 saved, total actions) and evolution
 stage.
-- Links: `/profile/settings`, `/progress?tab=ecodex`
-- Functionality: settings gear in app bar, sign-out button, stat
+- Links: `/profile/settings`, `/home/mascot`, `/progress?tab=ecodex`
+- Functionality: settings gear in app bar, a "Your mascot" row under
+  the level card (pets icon, the mascot's name, pushes the Mascot
+  screen; hidden while the user has no mascot), sign-out button, stat
   cards, Eco-Dex preview card (up to 3 most recent discoveries + "+N
   more" chip and a "X / Y discovered" counter; thumbnail tap opens
   the entry fact sheet, card tap deep-links to the Eco-Dex segment
@@ -671,8 +685,9 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `quiz`                    | `/quiz`                           |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
-| `mascot`                  | `/mascot`                         |
+| `explore`                 | `/explore`                        |
 | `profile`                 | `/profile`                        |
+| `mascot`                  | `/home/mascot`                    |
 | `dailyFact`               | `/home/daily-fact`                |
 | `challenges`              | `/home/challenges`                |
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |

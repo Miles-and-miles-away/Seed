@@ -61,6 +61,46 @@ void main() {
   }
 
   group('MascotScreen', () {
+    testWidgets('while loading, offers a titled app bar with back', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(_testUser),
+            activeMascotProvider.overrideWith((_) => Stream.value(null)),
+          ],
+          child: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const MascotScreen()),
+              ),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+
+      final appBar = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBar, matching: find.text('Mascot')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBar, matching: find.byType(BackButton)),
+        findsOneWidget,
+      );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(MascotScreen), findsNothing);
+    });
+
     testWidgets('renders the Our Journey section and mascot name', (
       tester,
     ) async {

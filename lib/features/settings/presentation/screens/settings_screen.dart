@@ -110,7 +110,7 @@ class SettingsScreen extends ConsumerWidget {
                   SettingsTile(
                     title: l10n.settingsReplayWalkthrough,
                     subtitle: l10n.settingsReplayWalkthroughSubtitle,
-                    leading: const Icon(Icons.explore_outlined),
+                    leading: const Icon(Icons.replay),
                     showChevron: false,
                     onTap: () => _confirmReplayWalkthrough(context, ref),
                   ),

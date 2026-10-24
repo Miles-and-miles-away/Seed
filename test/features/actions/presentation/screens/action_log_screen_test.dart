@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -72,8 +73,12 @@ void main() {
       int? initialSdg,
       bool isLoading = false,
       TextScaler scaler = TextScaler.noScaling,
+      Locale? locale,
+      ThemeData? theme,
     }) {
       return createTestWidget(
+        locale: locale,
+        theme: theme,
         overrides: [
           userOverride(testUser),
           userIdProvider.overrideWithValue(testUser.uid),
@@ -126,15 +131,14 @@ void main() {
       );
       expect(trigger.enabled, isTrue);
 
-      // The two app bar icons, then the shared bottom nav's two items.
+      // The shared bottom nav's Progress, Action and Explore items.
       final shimmers = tester
           .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
           .map((s) => s.item);
       expect(shimmers, [
-        WalkthroughItem.calculators,
-        WalkthroughItem.quiz,
         WalkthroughItem.progress,
         WalkthroughItem.logAction,
+        WalkthroughItem.calculators,
       ]);
     });
 
@@ -414,8 +418,8 @@ void main() {
     // Only transport and food get a grid tile: both bank the choice
     // their calculator produces. Energy banks nothing (decision 8.18),
     // so a tile in a grid of loggable actions would promise a log it
-    // cannot deliver -- its calculator lives in the AppBar chooser and
-    // its two teaching surfaces are AppBar icons (decision E8).
+    // cannot deliver -- its calculator and its two teaching surfaces
+    // live on the Explore tab.
     //
     // The grid needs a tall viewport here: at the default 800x600 the
     // second row of tiles is never built, so a missing tile and an
@@ -476,27 +480,12 @@ void main() {
       expect(find.byType(ActionTile), findsNothing);
     });
 
-    testWidgets('the AppBar carries the two energy surfaces in every '
-        'category', (tester) async {
+    testWidgets('the app bar has no actions', (tester) async {
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
-      // Beside the calculator chooser, and not category-dependent: the
-      // discoverability problem E8 resolved was being buried two taps
-      // deep.
-      expect(find.byIcon(Icons.calculate_outlined), findsOneWidget);
-      // The bolt is the app's own energy glyph; the quiz tooltip is
-      // domain-neutral because the game rotates all three datasets.
-      // Scoped to the bar: an energy action card carries a bolt too.
-      expect(
-        find.descendant(
-          of: find.byType(AppBar),
-          matching: find.byIcon(Icons.bolt),
-        ),
-        findsOneWidget,
-      );
-      expect(find.byTooltip('Where your energy goes'), findsOneWidget);
-      expect(find.byTooltip('Higher or lower?'), findsOneWidget);
+      final actions = tester.widget<AppBar>(find.byType(AppBar)).actions;
+      expect(actions ?? const <Widget>[], isEmpty);
     });
 
     List<String> shuffledIds(List<ActionModel> actions, int seed) =>
@@ -655,51 +644,43 @@ void main() {
       ]);
     });
 
-    testWidgets('the energy AppBar icons push their own routes', (
-      tester,
-    ) async {
-      Widget stub(String label) => Scaffold(body: Text(label));
-      final router = GoRouter(
-        initialLocation: '/log-action',
-        routes: [
-          GoRoute(
-            path: '/log-action',
-            builder: (_, _) => const ActionLogScreen(),
-          ),
-          GoRoute(
-            path: '/energy-explore',
-            builder: (_, _) => stub('Explore Screen'),
-          ),
-          GoRoute(path: '/quiz', builder: (_, _) => stub('Quiz Screen')),
-        ],
-      );
+    group('the title is not scaled down at 320pt', () {
+      setUpAll(loadTestFonts);
 
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            languageStoreOverride(),
-            userOverride(testUser),
-            userIdProvider.overrideWithValue(testUser.uid),
-            actionLibraryProvider.overrideWith((ref) async => testActions),
-          ],
-          child: MaterialApp.router(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            routerConfig: router,
-          ),
+      for (final (locale, title, width, theme) in [
+        (
+          const Locale('ja'),
+          'アクションを記録',
+          320.0,
+          ThemeData(fontFamily: 'FlutterTest'),
         ),
-      );
-      await tester.pumpAndSettle();
+        (
+          const Locale('es'),
+          'Registrar acción',
+          320 * robotoToSfWidthFactor,
+          null,
+        ),
+      ]) {
+        testWidgets(locale.languageCode, (tester) async {
+          tester.view.physicalSize = Size(width, 800);
+          tester.view.devicePixelRatio = 1.0;
+          addTearDown(tester.view.reset);
+          await tester.pumpWidget(buildScreen(locale: locale, theme: theme));
+          await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Where your energy goes'));
-      await tester.pumpAndSettle();
-      expect(find.text('Explore Screen'), findsOneWidget);
-
-      router.pop();
-      await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Higher or lower?'));
-      await tester.pumpAndSettle();
-      expect(find.text('Quiz Screen'), findsOneWidget);
+          final paragraph = tester.renderObject<RenderParagraph>(
+            find.descendant(
+              of: find.byType(AppBar),
+              matching: find.text(title),
+            ),
+          );
+          final drawn = MatrixUtils.transformRect(
+            paragraph.getTransformTo(null),
+            Offset.zero & paragraph.size,
+          );
+          expect(drawn.width, closeTo(paragraph.size.width, 0.01));
+        });
+      }
     });
   });
 }

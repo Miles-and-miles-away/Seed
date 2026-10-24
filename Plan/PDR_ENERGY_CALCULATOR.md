@@ -867,6 +867,9 @@ mandatory footnote. Both new surfaces award nothing, log nothing
 and persist nothing beyond the session best streak (decision
 8.18).
 
+Placement since moved: all three calculators and both teaching surfaces
+now sit on the Explore tab, and the Log Action app bar carries none.
+
 **Cross-domain multiples are ruled out, permanently.** A food or
 transport figure is never stated as a multiple of an electricity
 row (never "a burger in phone charges"), and quiz decks are never
