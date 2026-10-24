@@ -35,9 +35,14 @@ and targets remain accurate, well-sourced, and consistent.
   "unWorldDay": "Veganuary",
   "nameEn": "Short title",
   "nameJa": "Short title",
-  "nameEs": "Short title"
+  "nameEs": "Short title",
+  "keyFigureEn": "124 kg",
+  "keyFigureEs": "124 kg",
+  "keyFigureJa": "124 kg"
 }
 ```
+
+The three `keyFigure*` fields are optional (see Key Figures below).
 
 ### Field Rules
 
@@ -53,6 +58,55 @@ and targets remain accurate, well-sourced, and consistent.
 | `relatedSdgs` | int[] | yes | 1-4 SDG numbers (1-17) |
 | `unWorldDay` | string/null | yes | UN observance name or null |
 | `nameEn` / `nameJa` / `nameEs` | string | yes | Short display title |
+| `keyFigureEn` / `keyFigureJa` / `keyFigureEs` | string | no | All three or none; see Key Figures |
+
+### Key Figures
+
+The fact games (Fact pairs, Fact recall) deal only facts with a key
+figure: they pair the title with the figure, or blank the figure out
+of the text. A fact without one still unlocks and reads as usual.
+
+- All three fields present or all three absent.
+- Each is a verbatim substring of the fact text in its language, so
+  the fact stays the one authority and the figure keeps its number
+  format: ES decimal comma and period grouping, JA as written
+  (`1億3200万`, `5万 km`).
+- The headline quantity of the fact with its unit, scale word or
+  percent sign (`124 kg`, `40%`, `1.500 millones`). Not a year, an
+  SDG number, a count that is part of the title, or an incidental
+  number such as a study period.
+- At most 18 characters in every language. Prefer stopping at the
+  scale word when the noun would overflow (`3.1 billion`, not
+  `3.1 billion hectares`).
+- Never inside a longer number: `5%` cannot be the figure of a text
+  that also says `25%`, since blanking it would clip the other.
+- The three figures have the same shape: when one language drops the
+  unit, all do (`130`, not `130か国`, beside `130` and `130`), so a
+  lone unit never marks the answer among the options.
+- The three figures carry the same value. A range is a figure only
+  when every language writes it compactly (`8 to 15 tonnes`,
+  `8〜15トン`, `8 a 15 toneladas`); `entre un 5 y un 10%` is not.
+- Absent when the title has a digit in any language, or states the
+  figure in words in any language (half, double, twice, one, a scale
+  word such as billions, 半, 倍, mitad, doble: "Half Our Oxygen",
+  相乗りで半減, "Cambia una hamburguesa").
+- Absent when the text states the same quantity again in other words
+  ("124 kg" and later "over 120 kilograms", "doubled from 26% to
+  52%", "3.6 billion, nearly half the world"), or when another number
+  left in the text gives it away ("23 of 27" next to "23 million"),
+  or when the rest of the text lets a reader work it out (a yearly
+  total and a daily figure, "17 GW" and "60-fold", "boiling" beside
+  "100 degrees C"), because blanking the figure would leave the
+  answer visible.
+- Two facts whose figures read the same in any language must share
+  `keyFigureEn` ("5x" and "5 times" are both 5倍 and 5 veces), since
+  the games tell figures apart by `keyFigureEn`. When the EN texts
+  write it differently, drop one of the figures.
+
+`scripts/generators/propose_fact_key_figures.py` proposes figures and
+flags the cases above; a person reviews every proposal against the
+fact in all three languages before writing it. The floor of playable
+facts is pinned in `eco_fact_key_figure_test.dart`.
 
 ### Categories (5)
 
@@ -250,6 +304,28 @@ Total: 169 targets across 17 goals.
       are acceptable)
 - [ ] `sourceEn` attribution matches the actual content
       at `sourceUrl` (not a different organization)
+
+### Key figure checks
+
+- [ ] `keyFigureEn/Ja/Es` are all present or all absent
+- [ ] Each figure is a verbatim substring of its language's fact
+      text and never part of a longer number
+- [ ] Each figure is the headline quantity with its unit or percent
+      sign, at most 18 characters, not a year or SDG number
+- [ ] The three figures have the same shape, units included or
+      dropped in all three
+- [ ] Figures that read the same in any language have the same
+      `keyFigureEn`
+- [ ] No figure on a fact whose title has a digit in any language
+- [ ] No figure on a fact whose title states it in words in any
+      language (half, double, twice, one, billions, 半, 倍, mitad,
+      doble)
+- [ ] The text does not state the same quantity a second time in
+      other words, and nothing left after blanking the figure gives
+      it away or lets a reader work it out
+- [ ] After editing a fact's text or title, its key figures still
+      pass these checks (`flutter test
+      test/features/eco_fact/data/eco_fact_key_figure_test.dart`)
 
 ### SDG mapping checks
 
