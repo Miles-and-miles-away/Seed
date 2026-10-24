@@ -74,10 +74,25 @@ String? userId(Ref ref) {
   return ref.watch(authStateChangesProvider.select((auth) => auth.value?.uid));
 }
 
+/// Creates the signed-in user's doc if the server reports it missing.
+///
+/// Keyed on [userIdProvider] so it runs once per sign-in, not on every
+/// auth event. Sign-in creates the doc itself when online; this covers a
+/// sign-in whose user read failed offline, which otherwise left a
+/// signed-in account with no doc and no way to recover.
+@riverpod
+Future<void> userDocRecovery(Ref ref) async {
+  if (ref.watch(userIdProvider) == null) return;
+  await ref
+      .read(authRepositoryProvider)
+      .ensureUserDoc(language: ref.read(currentLanguageProvider));
+}
+
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
 @riverpod
 Stream<AppUserModel?> currentUser(Ref ref) {
+  ref.listen(userDocRecoveryProvider, (_, _) {});
   final authState = ref.watch(authStateChangesProvider);
 
   return authState.when(

@@ -104,6 +104,32 @@ void main() {
       });
     });
 
+    group('createUserIfAbsent', () {
+      test('creates the doc when the server has none', () async {
+        const user = AppUserModel(uid: 'u1', email: 'new@example.com');
+
+        await dataSource.createUserIfAbsent(user);
+
+        final doc = await usersCollection().doc('u1').get();
+        expect(doc.data()!['email'], 'new@example.com');
+        expect(doc.data()![AppConstants.fieldSettings], {
+          AppConstants.fieldLanguage: 'en',
+        });
+      });
+
+      test('leaves an existing doc untouched', () async {
+        await seedUser('u1', email: 'old@example.com', points: 75);
+
+        await dataSource.createUserIfAbsent(
+          const AppUserModel(uid: 'u1', email: 'new@example.com'),
+        );
+
+        final data = (await usersCollection().doc('u1').get()).data()!;
+        expect(data['email'], 'old@example.com');
+        expect(data['points'], 75);
+      });
+    });
+
     group('updateUser', () {
       test('updates specific fields', () async {
         await seedUser('u1');

@@ -143,6 +143,50 @@ void main() {
     });
   });
 
+  group('offline user read', () {
+    test('sign-in rethrows and never creates over the unread doc', () async {
+      final user = fakeFirebaseUser();
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => userDs.getUser(uid)).thenThrow(
+        FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
+      );
+
+      await expectLater(
+        repository.signInWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsA(isA<FirebaseException>()),
+      );
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc creates only via createUserIfAbsent', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(() => userDs.createUserIfAbsent(any())).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final created =
+          verify(() => userDs.createUserIfAbsent(captureAny())).captured.single
+              as AppUserModel;
+      expect(created.uid, uid);
+      expect(created.email, email);
+      expect(created.language, 'es');
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc does nothing when signed out', () async {
+      when(() => authDs.currentUser).thenReturn(null);
+
+      await repository.ensureUserDoc(language: 'es');
+
+      verifyNever(() => userDs.createUserIfAbsent(any()));
+    });
+  });
+
   group('createUserWithEmailAndPassword', () {
     test('creates Firestore doc and triggers email verification', () async {
       final user = fakeFirebaseUser(emailVerified: false);

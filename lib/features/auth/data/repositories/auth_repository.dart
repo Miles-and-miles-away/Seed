@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
+
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/app_user_model.dart';
@@ -119,6 +120,16 @@ class AuthRepository {
     return appUser;
   }
 
+  /// Creates the signed-in user's doc in [language] once the server
+  /// confirms it is missing, recovering a sign-in whose read failed offline.
+  Future<void> ensureUserDoc({required String language}) async {
+    final firebaseUser = currentUser;
+    if (firebaseUser == null) return;
+    await _userDataSource.createUserIfAbsent(
+      _newUserModel(firebaseUser, language),
+    );
+  }
+
   /// Updates the current user's display name in Firestore.
   Future<void> updateDisplayName(String displayName) async {
     final user = currentUser;
@@ -152,20 +163,23 @@ class AuthRepository {
     return name.substring(0, AppConstants.maxDisplayNameLength);
   }
 
+  AppUserModel _newUserModel(User firebaseUser, String language) =>
+      AppUserModel(
+        uid: firebaseUser.uid,
+        language: language,
+        email: firebaseUser.email ?? '',
+        displayName: _clampDisplayName(firebaseUser.displayName),
+        photoUrl: firebaseUser.photoURL,
+        emailVerified: firebaseUser.emailVerified,
+        createdAt: DateTime.now(),
+      );
+
   /// Creates a new user document in Firestore, in [language].
   Future<AppUserModel> _createNewUser(
     User firebaseUser,
     String language,
   ) async {
-    final newUser = AppUserModel(
-      uid: firebaseUser.uid,
-      language: language,
-      email: firebaseUser.email ?? '',
-      displayName: _clampDisplayName(firebaseUser.displayName),
-      photoUrl: firebaseUser.photoURL,
-      emailVerified: firebaseUser.emailVerified,
-      createdAt: DateTime.now(),
-    );
+    final newUser = _newUserModel(firebaseUser, language);
     await _userDataSource.createUser(newUser);
     return newUser;
   }
