@@ -24,6 +24,8 @@ const _units = {
   '°C': '°C',
   '℃': '°C',
   'x': 'x',
+  'times': 'x',
+  '-fold': 'x',
   '倍': 'x',
   'veces': 'x',
   'h': 'h',
@@ -49,9 +51,11 @@ final _token = RegExp(
   '(?:(\\s?)($_unitPattern)(?![A-Za-z]))?',
 );
 
-/// Section, paragraph, table and bill numbers are names, written the same
-/// in every locale.
-final _referenceBefore = RegExp(r'\b(?:section|sec|para|Table|SB|SAP) $');
+/// Section, paragraph, table, bill and version numbers are names, written the
+/// same in every locale.
+final _referenceBefore = RegExp(
+  r'\b(?:section|sec|para|Table|SB|SAP|version) $',
+);
 
 /// Model codes and standards (E4, H125, EN50229, CS-227VB): integers only.
 final _codeBefore = RegExp(r'(?:[A-Za-z_]|[A-Za-z]-)$');

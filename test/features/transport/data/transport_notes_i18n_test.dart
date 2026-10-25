@@ -117,6 +117,33 @@ void main() {
         'extra 90.5',
       ]);
     });
+
+    test('reads "N times" and "N-fold" as ratios', () {
+      expect(
+        es(
+          '2 to 3.5 times low, a 16- to 19-fold range',
+          'de 2 a 3,5 veces, de 16 a 19 veces',
+        ),
+        isEmpty,
+      );
+      expect(
+        numberMismatches(
+          '2 to 3.5 times low, a 16- to 19-fold range',
+          '2〜3.5倍低く、16〜19倍の幅',
+          locale: 'ja',
+        ),
+        isEmpty,
+      );
+      expect(es('nearly 14 times', 'casi un 14%'), [
+        'missing 14 x',
+        'extra 14 %',
+      ]);
+    });
+
+    test('keeps a version number as written', () {
+      expect(es('Agribalyse version 3.2', 'Agribalyse versión 3.2'), isEmpty);
+      expect(es('version 3.2', 'versión 3,2'), ['missing 3.2', 'extra 3,2']);
+    });
   });
 
   test('a partial completeness check needs a floor', () {
