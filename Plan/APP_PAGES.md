@@ -304,7 +304,9 @@ are folded in under the columns.
   category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-mode science sheets and
-  external source URLs open from info icons / tappable links.
+  external source URLs open from info icons / tappable links. A
+  sheet's calculation notes follow the app language; source names and
+  quotes stay as published.
 - Layout: an optional journey-level From/To city pair at the top (the
   trip being compared), the two option columns down the middle, the
   result panel, and an "Add leg" button under each column. Columns
@@ -389,7 +391,10 @@ Never awards points inside the tool.
   action" card shown in the Log Action screen's food category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-item science sheets and
-  external source URLs open from info icons / tappable links.
+  external source URLs open from info icons / tappable links. A
+  sheet's calculation notes follow the app language where the item has
+  a translation and fall back to English otherwise; source names and
+  quotes stay as published.
 - Layout: two option columns down the middle, each with its own
   "Add ingredient" button underneath, and the result panel below.
   There is no item-chip pool and no drag-and-drop: the food dataset
@@ -459,7 +464,8 @@ library already covers the same behaviours).
   8.18).
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-behavior science sheets
-  open from the picker's info icons.
+  open from the picker's info icons. A sheet's calculation notes
+  follow the app language; source names and quotes stay as published.
 - Layout: two option columns with an "Add usage" button under each and
   the result panel below. Adding opens the grouped behavior picker
   (recents on top), then a quantity editor with preset chips over an

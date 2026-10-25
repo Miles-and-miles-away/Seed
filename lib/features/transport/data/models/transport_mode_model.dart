@@ -26,6 +26,8 @@ abstract class TransportMode with _$TransportMode {
     @Default(false) bool perVehicle,
     @Default(1) int maxOccupants,
     @Default('') String calculationNotes,
+    @Default('') String calculationNotesJa,
+    @Default('') String calculationNotesEs,
     @Default([]) List<EmissionSource> sources,
   }) = _TransportMode;
 
@@ -39,5 +41,12 @@ abstract class TransportMode with _$TransportMode {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
+  };
+
+  /// Localized calculation notes with English fallback.
+  String notes(String locale) => switch (locale) {
+    'ja' when calculationNotesJa.isNotEmpty => calculationNotesJa,
+    'es' when calculationNotesEs.isNotEmpty => calculationNotesEs,
+    _ => calculationNotes,
   };
 }

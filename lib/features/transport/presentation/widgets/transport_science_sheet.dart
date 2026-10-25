@@ -18,14 +18,15 @@ void showTransportScienceSheet(
   ScienceSheet.show(
     context,
     title: mode.name(languageCode),
-    markdown: _body(l10n, mode),
+    markdown: _body(l10n, mode, languageCode),
   );
 }
 
-String _body(AppLocalizations l10n, TransportMode mode) => scienceMarkdown(
-  l10n,
-  factorLine: transportModeFactorLabel(l10n, mode),
-  basisNote: transportModeBasisNote(l10n, mode),
-  notes: mode.calculationNotes,
-  sources: mode.sources,
-);
+String _body(AppLocalizations l10n, TransportMode mode, String languageCode) =>
+    scienceMarkdown(
+      l10n,
+      factorLine: transportModeFactorLabel(l10n, mode),
+      basisNote: transportModeBasisNote(l10n, mode),
+      notes: mode.notes(languageCode),
+      sources: mode.sources,
+    );
