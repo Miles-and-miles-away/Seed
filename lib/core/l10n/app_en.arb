@@ -1685,6 +1685,58 @@
     }
   },
   "factGamesGoToChallenge": "Today's challenge",
+  "factRecallTitle": "Fact recall",
+  "factRecallSubtitle": "Fill in the number in each eco-fact",
+  "factRecallRules": "Pick the number that completes each eco-fact.",
+  "factRecallProgress": "Question {index} of {total}",
+  "@factRecallProgress": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "factRecallScore": "Score: {count}",
+  "@factRecallScore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factRecallBlank": "____",
+  "@factRecallBlank": {
+    "description": "Stands in the eco-fact text where the missing number goes."
+  },
+  "factRecallBlankSpoken": "blank",
+  "@factRecallBlankSpoken": {
+    "description": "Read by screen readers in place of the blank."
+  },
+  "factRecallWrong": "Not this time. It's {figure}.",
+  "@factRecallWrong": {
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallNext": "Next question",
+  "factRecallSeeScore": "See score",
+  "factRecallFinished": "{correct} of {total} correct",
+  "@factRecallFinished": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "factRecallYourWrongAnswer": "your answer, wrong",
   "walkthroughIntro1": "Hi, I'm {name}. Seed turns small everyday choices into a habit, and I grow as you go.",
   "@walkthroughIntro1": {
     "placeholders": {

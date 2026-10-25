@@ -2,20 +2,17 @@ import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
+import 'package:seed_app/features/fact_games/domain/figure_text.dart';
 
 const _maxFigureLength = 18;
-const _playableFloor = 204;
+const _playableFloor = 193;
 const _locales = ['en', 'ja', 'es'];
 const _jaScales = {'兆': 1e12, '億': 1e8, '万': 1e4};
 
 final _digit = RegExp(r'\d');
-final _numberTail = RegExp(r'^[.,]?\d');
 
 // A digit after a letter is a unit exponent or a formula: km2, CO2.
 final _number = RegExp(r'(?<![A-Za-z\d.,])\d[\d.,]*');
-final _jaNumber = RegExp(
-  r'(?<![A-Za-z\d.,])(?:(?:\d[\d.,]*[兆億万])+(?:\d[\d.,]*)?|\d[\d.,]*)',
-);
 final _jaScaled = RegExp(r'(\d[\d.,]*)([兆億万])');
 
 double _value(String token, String locale) {
@@ -40,24 +37,17 @@ double _value(String token, String locale) {
 /// The significant digits of each number, so "132 million", "1億3200万"
 /// and "132 millones" all read as ['132'].
 List<String> _digits(String figure, String locale) => [
-  for (final match in (locale == 'ja' ? _jaNumber : _number).allMatches(figure))
+  for (final match in (locale == 'ja' ? figureNumber : _number).allMatches(
+    figure,
+  ))
     _value(
       match[0]!.replaceFirst(RegExp(r'[.,]+$'), ''),
       locale,
     ).toStringAsFixed(6).replaceAll('.', '').replaceAll(RegExp(r'^0+|0+$'), ''),
 ];
 
-bool _insideLongerNumber(String figure, String text) {
-  for (final match in figure.allMatches(text)) {
-    final before = match.start > 0 ? text[match.start - 1] : '';
-    final endsInDigit = _digit.hasMatch(figure[figure.length - 1]);
-    if (RegExp(r'[\d.,]').hasMatch(before) ||
-        (endsInDigit && _numberTail.hasMatch(text.substring(match.end)))) {
-      return true;
-    }
-  }
-  return false;
-}
+bool _insideLongerNumber(String figure, String text) =>
+    figure.allMatches(text).length > wholeNumberMatches(figure, text).length;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -110,6 +100,20 @@ void main() {
     expect(clipped, isEmpty);
   });
 
+  test('each figure occurs once in its text, as a whole number', () {
+    final repeated = [
+      for (final fact in playable)
+        for (final locale in _locales)
+          if (wholeNumberMatches(
+                fact.keyFigure(locale)!,
+                fact.fact(locale),
+              ).length !=
+              1)
+            '${fact.dayOfYear} $locale: ${fact.keyFigure(locale)}',
+    ];
+    expect(repeated, isEmpty);
+  });
+
   test('each figure is at most $_maxFigureLength characters', () {
     final long = [
       for (final fact in playable)
@@ -143,6 +147,16 @@ void main() {
             group.map((f) => f.dayOfYear).toList(),
     ];
     expect(clashes, isEmpty);
+  });
+
+  test('facts sharing keyFigureEn write it the same in each language', () {
+    final spellings = [
+      for (final locale in ['ja', 'es'])
+        for (final group in groupBy(playable, (f) => f.keyFigureEn).values)
+          if (group.map((f) => f.keyFigure(locale)).toSet().length > 1)
+            '$locale: ${group.map((f) => f.dayOfYear).toList()}',
+    ];
+    expect(spellings, isEmpty);
   });
 
   test('no figure on a fact whose title has a digit', () {

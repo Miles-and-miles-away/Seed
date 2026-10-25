@@ -66,8 +66,9 @@ int phraseCap(double minLineWidth, double glyphAdvance) =>
 /// two clusters of each paragraph, so none ends on a lone character.
 /// Any unbreakable run longer than `maxPhrase + 1` clusters loses its
 /// joins again, because the engine splits an over-long run character
-/// by character and ignores the joins. Other languages and text
-/// without kana or kanji come back unchanged.
+/// by character and ignores the joins. Joiners already in [text], such
+/// as a [jaFigureWrap] figure's, are kept with the strength of level 1.
+/// Other languages and text without kana or kanji come back unchanged.
 String phraseWrap(
   String text, {
   required Locale locale,
@@ -137,8 +138,15 @@ List<String> jaPhrases(String text) =>
 final _memo = <(String, int, bool), String>{};
 
 String _wrap(String text, int maxPhrase, {required bool phrases}) {
-  final g = text.characters.toList();
+  final g = <String>[];
   final level1 = <int>{};
+  for (final cluster in text.characters) {
+    if (cluster != wordJoiner) {
+      g.add(cluster);
+    } else if (g.isNotEmpty) {
+      level1.add(g.length);
+    }
+  }
   final level2 = <int>{};
   for (var i = 1; i < g.length; i++) {
     if (!_joinable(g[i - 1], g[i])) continue;

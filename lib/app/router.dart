@@ -89,6 +89,7 @@ class AppRoutes {
   String get energyExplore => '/energy-explore';
   String get quiz => '/quiz';
   String get factPairs => '/fact-pairs';
+  String get factRecall => '/fact-recall';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -303,8 +304,9 @@ GoRouter router(Ref ref) {
       _route(appRoutes.energyExplore, const EnergyExploreScreen()),
       _route(appRoutes.quiz, const HigherOrLowerScreen()),
 
-      // Memory game over the user's unlocked eco-facts; banks nothing.
+      // Games over the user's unlocked eco-facts; bank nothing.
       _route(appRoutes.factPairs, const FactPairsScreen()),
+      _route(appRoutes.factRecall, const FactRecallScreen()),
 
       // Legal documents - canonical paths, accessible unauthenticated so
       // the register screen can link to them before sign-up.

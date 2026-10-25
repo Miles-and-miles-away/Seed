@@ -80,9 +80,22 @@ of the text. A fact without one still unlocks and reads as usual.
   `3.1 billion hectares`).
 - Never inside a longer number: `5%` cannot be the figure of a text
   that also says `25%`, since blanking it would clip the other.
+- Once in its text: Fact recall blanks every occurrence, so a figure
+  stated twice would leave two blanks.
 - The three figures have the same shape: when one language drops the
   unit, all do (`130`, not `130か国`, beside `130` and `130`), so a
-  lone unit never marks the answer among the options.
+  lone unit never marks the answer among the options. The same goes
+  for a `+` sign (`58+` beside `58`), a counter (か国, 種) and a short
+  unit (`L` beside リットル), and across facts: write a figure as the
+  other figures of its unit are written in that language.
+- Every figure has two valid Fact recall decoys in each language:
+  other facts' figures in its unit or unit family (mass, volume, time,
+  length, temperature, count, species, money, percent, times), not
+  already in its blanked text as a whole number, and not two that share
+  a format the answer lacks. A unit outside the families (`MW`, `km/h`,
+  `volts`) or one with no partner leaves the figure unaskable; drop it
+  (or, when a new unit is right, add it to a family in
+  `figure_text.dart` on purpose).
 - The three figures carry the same value. A range is a figure only
   when every language writes it compactly (`8 to 15 tonnes`,
   `8〜15トン`, `8 a 15 toneladas`); `entre un 5 y un 10%` is not.
@@ -101,7 +114,10 @@ of the text. A fact without one still unlocks and reads as usual.
 - Two facts whose figures read the same in any language must share
   `keyFigureEn` ("5x" and "5 times" are both 5倍 and 5 veces), since
   the games tell figures apart by `keyFigureEn`. When the EN texts
-  write it differently, drop one of the figures.
+  write it differently, drop one of the figures. The converse holds too:
+  facts sharing `keyFigureEn` write it the same way in each language
+  (not `10年` on one and `10年間` on the other), or one spelling could
+  stand as a decoy beside the other in a fact's text.
 
 `scripts/generators/propose_fact_key_figures.py` proposes figures and
 flags the cases above; a person reviews every proposal against the
@@ -309,13 +325,19 @@ Total: 169 targets across 17 goals.
 
 - [ ] `keyFigureEn/Ja/Es` are all present or all absent
 - [ ] Each figure is a verbatim substring of its language's fact
-      text and never part of a longer number
+      text, occurs there exactly once and never as part of a longer
+      number
 - [ ] Each figure is the headline quantity with its unit or percent
       sign, at most 18 characters, not a year or SDG number
 - [ ] The three figures have the same shape, units included or
-      dropped in all three
+      dropped in all three, with no `+` sign, counter or short unit
+      that the other figures of that unit do not use
+- [ ] Every figure has two valid Fact recall decoys in each language
+      (`flutter test
+      test/features/fact_games/domain/fact_recall_data_test.dart`)
 - [ ] Figures that read the same in any language have the same
-      `keyFigureEn`
+      `keyFigureEn`, and facts sharing a `keyFigureEn` write it the same
+      way in each language
 - [ ] No figure on a fact whose title has a digit in any language
 - [ ] No figure on a fact whose title states it in words in any
       language (half, double, twice, one, billions, 半, 倍, mitad,

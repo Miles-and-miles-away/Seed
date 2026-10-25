@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
+import 'package:seed_app/features/fact_games/presentation/widgets/no_word_break.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const _glyphSize = 28.0;
@@ -147,75 +147,24 @@ class FactCardTile extends StatelessWidget {
     );
     return LayoutBuilder(
       builder: (context, constraints) => Center(
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: _NoWordBreak(
-            width: constraints.maxWidth,
-            child: isTitle
-                ? PhraseText(
-                    card.text,
-                    minLineWidth: constraints.maxWidth,
-                    textAlign: TextAlign.center,
-                    style: style,
-                  )
-                : Text.rich(
-                    TextSpan(
-                      text: figure,
-                      semanticsLabel: figure == card.text ? null : card.text,
-                    ),
-                    textAlign: TextAlign.center,
-                    style: style,
+        child: NoWordBreak(
+          child: isTitle
+              ? PhraseText(
+                  card.text,
+                  minLineWidth: constraints.maxWidth,
+                  textAlign: TextAlign.center,
+                  style: style,
+                )
+              : Text.rich(
+                  TextSpan(
+                    text: figure,
+                    semanticsLabel: figure == card.text ? null : card.text,
                   ),
-          ),
+                  textAlign: TextAlign.center,
+                  style: style,
+                ),
         ),
       ),
     );
-  }
-}
-
-/// Lays its text child out at [width], or wider when its widest
-/// unbreakable run needs more, so the engine never breaks inside a word.
-class _NoWordBreak extends SingleChildRenderObjectWidget {
-  const _NoWordBreak({required this.width, super.child});
-
-  final double width;
-
-  @override
-  RenderObject createRenderObject(BuildContext context) =>
-      _RenderNoWordBreak(width);
-
-  @override
-  void updateRenderObject(BuildContext context, _RenderNoWordBreak render) =>
-      render.width = width;
-}
-
-class _RenderNoWordBreak extends RenderProxyBox {
-  _RenderNoWordBreak(this._width);
-
-  double _width;
-  double get width => _width;
-
-  set width(double value) {
-    if (value == _width) return;
-    _width = value;
-    markNeedsLayout();
-  }
-
-  BoxConstraints _childConstraints(RenderBox child) => BoxConstraints.tightFor(
-    width: max(_width, child.getMinIntrinsicWidth(double.infinity)),
-  );
-
-  @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    final child = this.child;
-    if (child == null) return constraints.smallest;
-    return constraints.constrain(child.getDryLayout(_childConstraints(child)));
-  }
-
-  @override
-  void performLayout() {
-    final child = this.child!;
-    child.layout(_childConstraints(child), parentUsesSize: true);
-    size = constraints.constrain(child.size);
   }
 }

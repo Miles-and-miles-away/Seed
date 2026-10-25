@@ -4193,6 +4193,78 @@ abstract class AppLocalizations {
   /// **'Today\'s challenge'**
   String get factGamesGoToChallenge;
 
+  /// No description provided for @factRecallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fact recall'**
+  String get factRecallTitle;
+
+  /// No description provided for @factRecallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the number in each eco-fact'**
+  String get factRecallSubtitle;
+
+  /// No description provided for @factRecallRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the number that completes each eco-fact.'**
+  String get factRecallRules;
+
+  /// No description provided for @factRecallProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {index} of {total}'**
+  String factRecallProgress(int index, int total);
+
+  /// No description provided for @factRecallScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Score: {count}'**
+  String factRecallScore(int count);
+
+  /// Stands in the eco-fact text where the missing number goes.
+  ///
+  /// In en, this message translates to:
+  /// **'____'**
+  String get factRecallBlank;
+
+  /// Read by screen readers in place of the blank.
+  ///
+  /// In en, this message translates to:
+  /// **'blank'**
+  String get factRecallBlankSpoken;
+
+  /// No description provided for @factRecallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this time. It\'s {figure}.'**
+  String factRecallWrong(String figure);
+
+  /// No description provided for @factRecallNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next question'**
+  String get factRecallNext;
+
+  /// No description provided for @factRecallSeeScore.
+  ///
+  /// In en, this message translates to:
+  /// **'See score'**
+  String get factRecallSeeScore;
+
+  /// No description provided for @factRecallFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'{correct} of {total} correct'**
+  String factRecallFinished(int correct, int total);
+
+  /// No description provided for @factRecallYourWrongAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'your answer, wrong'**
+  String get factRecallYourWrongAnswer;
+
   /// No description provided for @walkthroughIntro1.
   ///
   /// In en, this message translates to:

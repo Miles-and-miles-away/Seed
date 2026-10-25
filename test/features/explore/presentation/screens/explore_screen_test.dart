@@ -34,7 +34,13 @@ const _titles = [
   'Where your energy goes',
   'Higher or lower?',
   'Fact pairs',
+  'Fact recall',
 ];
+
+const _factGames = {
+  'Fact pairs': 'Match each eco-fact to its number',
+  'Fact recall': 'Fill in the number in each eco-fact',
+};
 
 /// The fact games' pool, unlocked unless given.
 Override _pool([List<EcoFact>? pool]) =>
@@ -74,7 +80,7 @@ void main() {
   }
 
   group('ExploreScreen', () {
-    testWidgets('lists six tiles in two sections, in order', (tester) async {
+    testWidgets('lists seven tiles in two sections, in order', (tester) async {
       sizeViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
@@ -90,33 +96,42 @@ void main() {
       expect(tops, [...tops]..sort());
       expect(find.text('Two routes, any mix of modes'), findsOneWidget);
       expect(find.text('Which has the bigger footprint?'), findsOneWidget);
-      expect(find.text('Match each eco-fact to its number'), findsOneWidget);
+      for (final subtitle in _factGames.values) {
+        expect(find.text(subtitle), findsOneWidget);
+      }
     });
 
-    testWidgets('a locked fact game shows progress and a lock', (tester) async {
+    testWidgets('both fact games lock with progress and a lock', (
+      tester,
+    ) async {
       sizeViewport(tester);
       await tester.pumpWidget(buildScreen(pool: playableFacts(2)));
       await tester.pumpAndSettle();
 
-      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
-      expect(
-        find.descendant(
-          of: tile,
-          matching: find.text('2 of 3 eco-facts with a number'),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
-        findsNothing,
-      );
+      for (final title in _factGames.keys) {
+        final tile = find.widgetWithText(ExploreTile, title);
+        expect(
+          find.descendant(
+            of: tile,
+            matching: find.text('2 of 3 eco-facts with a number'),
+          ),
+          findsOneWidget,
+          reason: title,
+        );
+        expect(
+          find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+          findsOneWidget,
+          reason: title,
+        );
+        expect(
+          find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
+          findsNothing,
+          reason: title,
+        );
+      }
     });
 
-    testWidgets('a fact game unlocks when the user doc changes', (
+    testWidgets('both fact games unlock together when the user doc changes', (
       tester,
     ) async {
       sizeViewport(tester);
@@ -140,53 +155,50 @@ void main() {
       );
       users.add(user(2));
       await tester.pumpAndSettle();
-      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
-      expect(
-        find.descendant(
-          of: tile,
-          matching: find.text('2 of 3 eco-facts with a number'),
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('2 of 3 eco-facts with a number'), findsNWidgets(2));
 
       users.add(user(3));
       await tester.pumpAndSettle();
-      expect(
-        find.descendant(
-          of: tile,
-          matching: find.text('Match each eco-fact to its number'),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
-        findsNothing,
-      );
+      for (final MapEntry(key: title, value: subtitle) in _factGames.entries) {
+        final tile = find.widgetWithText(ExploreTile, title);
+        expect(
+          find.descendant(of: tile, matching: find.text(subtitle)),
+          findsOneWidget,
+          reason: title,
+        );
+        expect(
+          find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+          findsNothing,
+          reason: title,
+        );
+      }
     });
 
-    testWidgets('an unlocked fact game shows its subtitle and chevron', (
+    testWidgets('unlocked fact games show their subtitles and chevrons', (
       tester,
     ) async {
       sizeViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
-      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
-      expect(
-        find.descendant(
-          of: tile,
-          matching: find.text('Match each eco-fact to its number'),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
-        findsNothing,
-      );
+      for (final MapEntry(key: title, value: subtitle) in _factGames.entries) {
+        final tile = find.widgetWithText(ExploreTile, title);
+        expect(
+          find.descendant(of: tile, matching: find.text(subtitle)),
+          findsOneWidget,
+          reason: title,
+        );
+        expect(
+          find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
+          findsOneWidget,
+          reason: title,
+        );
+        expect(
+          find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+          findsNothing,
+          reason: title,
+        );
+      }
     });
 
     testWidgets('each tile wears its own category colour', (tester) async {
@@ -238,6 +250,7 @@ void main() {
           'Where your energy goes': AppColors.categoryEnergy,
           'Higher or lower?': theme.colorScheme.primary,
           'Fact pairs': AppColors.categoryLearning,
+          'Fact recall': AppColors.categoryConsumption,
         };
         for (final MapEntry(key: title, value: colour) in expected.entries) {
           final icon = tester.widget<Icon>(
@@ -267,6 +280,7 @@ void main() {
         'Where your energy goes': appRoutes.energyExplore,
         'Higher or lower?': appRoutes.quiz,
         'Fact pairs': appRoutes.factPairs,
+        'Fact recall': appRoutes.factRecall,
       };
       final router = GoRouter(
         initialLocation: appRoutes.explore,
@@ -414,6 +428,7 @@ void main() {
             energyRankedEntry,
             quizEntry,
             factPairsEntry,
+            factRecallEntry,
           ]) {
             final title = entry.title(l10n);
             final lines = renderedLines(

@@ -169,18 +169,18 @@ class PhraseText extends StatelessWidget {
 
 /// [root] with [wrap] applied to its plain text as one string, so a
 /// style or link boundary does not cut a phrase. Joiners land inside
-/// [TextSpan]s only, never in a placeholder; each changed span keeps its
-/// clean text as `semanticsLabel` and keeps its recogniser.
+/// [TextSpan]s only, never in a placeholder; each joined span carries its
+/// clean text as `semanticsLabel` and keeps its recogniser. Joiners
+/// already in [root] go to [wrap] with the text, which decides them.
 InlineSpan wrapPhraseSpan(InlineSpan root, String Function(String) wrap) {
   final plain = root.toPlainText(includeSemanticsLabels: false);
-  if (plain.contains(wordJoiner)) return root;
   final wrapped = wrap(plain);
   if (wrapped == plain) return root;
 
   final joinBefore = <int>{};
   var index = 0;
   for (final unit in wrapped.codeUnits) {
-    if (unit == wordJoiner.codeUnitAt(0)) {
+    if (unit == _joinerUnit) {
       joinBefore.add(index);
     } else {
       index++;
@@ -197,15 +197,14 @@ InlineSpan wrapPhraseSpan(InlineSpan root, String Function(String) wrap) {
     String? joined;
     if (text != null) {
       final buffer = StringBuffer();
-      for (var i = 0; i < text.length; i++) {
-        if (joinBefore.contains(offset + i)) buffer.write(wordJoiner);
-        buffer.writeCharCode(text.codeUnitAt(i));
+      for (final unit in text.codeUnits) {
+        if (unit == _joinerUnit) continue;
+        if (joinBefore.contains(offset++)) buffer.write(wordJoiner);
+        buffer.writeCharCode(unit);
       }
-      offset += text.length;
       joined = buffer.toString();
     }
     final children = span.children?.map(visit).toList();
-    final changed = joined != text;
     return TextSpan(
       text: joined,
       children: children,
@@ -214,7 +213,11 @@ InlineSpan wrapPhraseSpan(InlineSpan root, String Function(String) wrap) {
       mouseCursor: span.mouseCursor,
       onEnter: span.onEnter,
       onExit: span.onExit,
-      semanticsLabel: span.semanticsLabel ?? (changed ? text : null),
+      semanticsLabel:
+          span.semanticsLabel ??
+          (joined != null && joined.contains(wordJoiner)
+              ? stripWordJoiners(joined)
+              : null),
       semanticsIdentifier: span.semanticsIdentifier,
       locale: span.locale,
       spellOut: span.spellOut,
@@ -223,6 +226,8 @@ InlineSpan wrapPhraseSpan(InlineSpan root, String Function(String) wrap) {
 
   return visit(root);
 }
+
+final _joinerUnit = wordJoiner.codeUnitAt(0);
 
 double _largestFontSize(InlineSpan span, double inherited) {
   final own = span.style?.fontSize ?? inherited;

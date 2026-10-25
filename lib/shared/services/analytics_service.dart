@@ -283,6 +283,18 @@ class AnalyticsService {
   Future<void> logFactPairsFinished({required int pairs, required int moves}) =>
       _log('fact_pairs_finished', {'pairs': pairs, 'moves': moves});
 
+  /// Log when the Fact recall game is opened.
+  Future<void> logFactRecallOpened() => _log('fact_recall_opened');
+
+  /// Log a Fact recall round once its last question is answered.
+  Future<void> logFactRecallFinished({
+    required int questions,
+    required int correct,
+  }) => _log('fact_recall_finished', {
+    'questions': questions,
+    'correct': correct,
+  });
+
   /// Log when a user runs a meal comparison (Phase 8.9).
   ///
   /// NOTE(planned): defined with the 8.9 comparison feature but not

@@ -96,10 +96,7 @@
     "unWorldDay": null,
     "nameEn": "A Record Year for Renewables",
     "nameEs": "Récord de renovables",
-    "nameJa": "再エネ記録の年",
-    "keyFigureEn": "510 GW",
-    "keyFigureEs": "510 GW",
-    "keyFigureJa": "510 GW"
+    "nameJa": "再エネ記録の年"
   },
   {
     "dayOfYear": 6,
@@ -719,10 +716,7 @@
     "unWorldDay": null,
     "nameEn": "Worth the Swap",
     "nameEs": "Vale cada taza",
-    "nameJa": "マイカップの元取り",
-    "keyFigureEn": "40 uses",
-    "keyFigureEs": "40 usos",
-    "keyFigureJa": "40回"
+    "nameJa": "マイカップの元取り"
   },
   {
     "dayOfYear": 36,
@@ -762,10 +756,7 @@
     "unWorldDay": null,
     "nameEn": "Biodegradable, Really?",
     "nameEs": "Biodegradable de verdad",
-    "nameJa": "生分解性の誤解",
-    "keyFigureEn": "58+ degrees C",
-    "keyFigureEs": "58 grados C",
-    "keyFigureJa": "58度"
+    "nameJa": "生分解性の誤解"
   },
   {
     "dayOfYear": 38,
@@ -1032,10 +1023,7 @@
     "unWorldDay": null,
     "nameEn": "Reviving the Loess",
     "nameEs": "El Loess renace",
-    "nameJa": "黄土高原の再生",
-    "keyFigureEn": "35,000 sq km",
-    "keyFigureEs": "35.000 km²",
-    "keyFigureJa": "3万5,000 km2"
+    "nameJa": "黄土高原の再生"
   },
   {
     "dayOfYear": 51,
@@ -1791,10 +1779,7 @@
     "unWorldDay": "Earth Hour",
     "nameEn": "Earth Hour Grows",
     "nameEs": "La Hora del Planeta",
-    "nameJa": "アースアワーの広がり",
-    "keyFigureEn": "190+ countries",
-    "keyFigureEs": "190 países",
-    "keyFigureJa": "190か国"
+    "nameJa": "アースアワーの広がり"
   },
   {
     "dayOfYear": 88,
@@ -2516,10 +2501,7 @@
     "unWorldDay": "World Tuna Day",
     "nameEn": "Tuna's Ocean Marathon",
     "nameEs": "Maratón del atún",
-    "nameJa": "マグロの大洋横断",
-    "keyFigureEn": "75 km/h",
-    "keyFigureEs": "75 km/h",
-    "keyFigureJa": "時速75 km"
+    "nameJa": "マグロの大洋横断"
   },
   {
     "dayOfYear": 123,
@@ -4300,10 +4282,7 @@
     "unWorldDay": null,
     "nameEn": "Solar Without a Roof",
     "nameEs": "Solar sin techo",
-    "nameJa": "共有ソーラーガーデン",
-    "keyFigureEn": "5 GW",
-    "keyFigureEs": "5 GW",
-    "keyFigureJa": "5 GW"
+    "nameJa": "共有ソーラーガーデン"
   },
   {
     "dayOfYear": 211,
@@ -4403,10 +4382,7 @@
     "unWorldDay": null,
     "nameEn": "Shade-Grown Coffee",
     "nameEs": "Café a la sombra",
-    "nameJa": "日陰栽培コーヒー",
-    "keyFigureEn": "150+ species",
-    "keyFigureEs": "150 especies",
-    "keyFigureJa": "150種"
+    "nameJa": "日陰栽培コーヒー"
   },
   {
     "dayOfYear": 216,
@@ -4466,10 +4442,7 @@
     "unWorldDay": null,
     "nameEn": "The Living Battery",
     "nameEs": "La anguila eléctrica",
-    "nameJa": "発電するウナギ",
-    "keyFigureEn": "860 volts",
-    "keyFigureEs": "860 voltios",
-    "keyFigureJa": "860ボルト"
+    "nameJa": "発電するウナギ"
   },
   {
     "dayOfYear": 219,
@@ -5197,10 +5170,7 @@
     "unWorldDay": null,
     "nameEn": "Dishwasher Beats Hand-Wash",
     "nameEs": "Lavaplatos ahorra",
-    "nameJa": "食洗機の省水",
-    "keyFigureEn": "6 litres",
-    "keyFigureEs": "6 litros",
-    "keyFigureJa": "6 L"
+    "nameJa": "食洗機の省水"
   },
   {
     "dayOfYear": 255,
@@ -6169,10 +6139,7 @@
     "unWorldDay": null,
     "nameEn": "Kenya's Wind Giant",
     "nameEs": "Gran eólica keniata",
-    "nameJa": "ケニア最大風力",
-    "keyFigureEn": "310 MW",
-    "keyFigureEs": "310 MW",
-    "keyFigureJa": "310 MW"
+    "nameJa": "ケニア最大風力"
   },
   {
     "dayOfYear": 302,

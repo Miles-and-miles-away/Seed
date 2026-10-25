@@ -175,6 +175,32 @@ void main() {
     }
   });
 
+  test('joiners already in a span are kept and the rest is wrapped', () {
+    final figure = jaFigureWrap('1億3,200万', locale: const Locale('ja'));
+    const bold = TextStyle(fontWeight: FontWeight.bold);
+    final root = TextSpan(
+      children: [
+        const TextSpan(text: 'お風呂の代わりに'),
+        TextSpan(text: figure, style: bold),
+        const TextSpan(text: '人がシャワー'),
+      ],
+    );
+    final mapped =
+        wrapPhraseSpan(
+              root,
+              (text) =>
+                  phraseWrap(text, locale: const Locale('ja'), maxPhrase: 6),
+            )
+            as TextSpan;
+
+    expect((mapped.children![0] as TextSpan).text, contains(wordJoiner));
+    expect((mapped.children![1] as TextSpan).text, figure);
+    expect(
+      mapped.toPlainText(),
+      stripWordJoiners(root.toPlainText(includeSemanticsLabels: false)),
+    );
+  });
+
   test('joiners skip placeholders and keep span offsets', () {
     const bold = TextStyle(fontWeight: FontWeight.bold);
     final root = TextSpan(

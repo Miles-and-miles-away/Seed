@@ -2446,6 +2446,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String get factGamesGoToChallenge => 'Today\'s challenge';
 
   @override
+  String get factRecallTitle => 'Fact recall';
+
+  @override
+  String get factRecallSubtitle => 'Fill in the number in each eco-fact';
+
+  @override
+  String get factRecallRules => 'Pick the number that completes each eco-fact.';
+
+  @override
+  String factRecallProgress(int index, int total) {
+    return 'Question $index of $total';
+  }
+
+  @override
+  String factRecallScore(int count) {
+    return 'Score: $count';
+  }
+
+  @override
+  String get factRecallBlank => '____';
+
+  @override
+  String get factRecallBlankSpoken => 'blank';
+
+  @override
+  String factRecallWrong(String figure) {
+    return 'Not this time. It\'s $figure.';
+  }
+
+  @override
+  String get factRecallNext => 'Next question';
+
+  @override
+  String get factRecallSeeScore => 'See score';
+
+  @override
+  String factRecallFinished(int correct, int total) {
+    return '$correct of $total correct';
+  }
+
+  @override
+  String get factRecallYourWrongAnswer => 'your answer, wrong';
+
+  @override
   String walkthroughIntro1(String name) {
     return 'Hi, I\'m $name. Seed turns small everyday choices into a habit, and I grow as you go.';
   }

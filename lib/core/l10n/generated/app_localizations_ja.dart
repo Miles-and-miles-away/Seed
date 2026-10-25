@@ -2371,6 +2371,50 @@ class AppLocalizationsJa extends AppLocalizations {
   String get factGamesGoToChallenge => '今日のチャレンジ';
 
   @override
+  String get factRecallTitle => 'ファクトクイズ';
+
+  @override
+  String get factRecallSubtitle => 'エコファクトの数字を当てよう';
+
+  @override
+  String get factRecallRules => 'エコファクトに入る数字を選ぼう。';
+
+  @override
+  String factRecallProgress(int index, int total) {
+    return '第$index問（全$total問）';
+  }
+
+  @override
+  String factRecallScore(int count) {
+    return '正解 $count';
+  }
+
+  @override
+  String get factRecallBlank => '＿＿＿＿';
+
+  @override
+  String get factRecallBlankSpoken => '空欄';
+
+  @override
+  String factRecallWrong(String figure) {
+    return '残念！正解は$figureです。';
+  }
+
+  @override
+  String get factRecallNext => '次の問題';
+
+  @override
+  String get factRecallSeeScore => '結果を見る';
+
+  @override
+  String factRecallFinished(int correct, int total) {
+    return '$total問中$correct問正解';
+  }
+
+  @override
+  String get factRecallYourWrongAnswer => 'あなたの答え、不正解';
+
+  @override
   String walkthroughIntro1(String name) {
     return 'はじめまして、$nameです。Seedは毎日の小さな選択を習慣に変えるアプリ。あなたが続けるほど、わたしも育ちます。';
   }

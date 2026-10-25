@@ -62,6 +62,20 @@ void main() {
     });
   });
 
+  group('factGamesAllPlayableProvider', () {
+    test('is every playable fact, locked or not, and nothing else', () async {
+      final container = await pumpedContainer([
+        userOverride(null),
+        ecoFactsProvider.overrideWith((_) async => facts),
+      ]);
+      final all = await container.read(factGamesAllPlayableProvider.future);
+      expect(
+        [for (final fact in all) fact.dayOfYear],
+        [for (var day = 1; day <= 10; day++) day],
+      );
+    });
+  });
+
   group('distinctFigureCount', () {
     test('counts each EN figure once and skips unplayable facts', () {
       expect(

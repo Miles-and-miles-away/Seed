@@ -28,3 +28,10 @@ Future<List<EcoFact>> factGamesPool(Ref ref) async {
       if (fact.isPlayable && days.contains(fact.dayOfYear)) fact,
   ];
 }
+
+/// Every playable fact, locked or not: Fact recall's decoy candidates.
+@riverpod
+Future<List<EcoFact>> factGamesAllPlayable(Ref ref) async => [
+  for (final fact in await ref.watch(ecoFactsProvider.future))
+    if (fact.isPlayable) fact,
+];

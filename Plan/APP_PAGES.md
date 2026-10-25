@@ -268,21 +268,23 @@ with a one-line description; every tile pushes its full-screen route.
   - Calculators: `/transport-calculator` (Transport),
     `/food-calculator` (Food), `/energy-calculator` (Home energy)
   - Learn and play: `/energy-explore` (Where your energy goes),
-    `/quiz` (Higher or lower?), `/fact-pairs` (Fact pairs)
+    `/quiz` (Higher or lower?), `/fact-pairs` (Fact pairs),
+    `/fact-recall` (Fact recall)
 - Functionality: two sections of `ExploreTile`s, each a tinted disc
   (category colour, icon in its readable tone; the quiz takes the
-  scheme's primary, Fact pairs `categoryLearning` blue grey), title,
-  subtitle and chevron. While the user has fewer than 3 unlocked
-  eco-facts with a key figure, the Fact pairs tile's subtitle reads
-  "N of 3 eco-facts with a number" and a lock replaces the chevron; it
-  stays tappable and opens the game's locked view. The calculators
+  scheme's primary, Fact pairs `categoryLearning` blue grey, Fact recall
+  `categoryConsumption` purple), title, subtitle and chevron. While the
+  user has fewer than 3 unlocked eco-facts with a key figure, both fact
+  game tiles read "N of 3 eco-facts with a number" and a lock replaces
+  the chevron (one lock for both); they stay tappable and open the
+  game's locked view. The calculators
   walkthrough pops here with a spotlight on the tile each page explains
   (transport, food, home energy, then the ranking), the bubble in the
   taller band beside it with its button always on screen; a tile off
   screen, or a band too short for the bubble, gets the full scrim and a
   centred bubble instead. The quiz tile shimmers until the quiz is
-  found. No info icon: every tile carries its own subtitle. The Fact
-  pairs tile dims with the others during the walkthrough but has no
+  found. No info icon: every tile carries its own subtitle. The fact
+  game tiles dim with the others during the walkthrough but have no
   shimmer and no walkthrough item.
 
 ## Transport Calculator (`/transport-calculator`)
@@ -625,6 +627,43 @@ turn two cards at a time to match each fact's title to its key figure.
   `fact_pairs_finished {pairs, moves}`.
 - Lives in `lib/features/fact_games/`.
 
+## Fact Recall (`/fact-recall`)
+
+Pushed full-screen route. A quiz over the user's own eco-facts: each
+question blanks a fact's key figure and offers three figures.
+- Reached from: the Explore tab (Fact recall tile, `psychology_outlined`).
+- Pool and lock: the same as Fact pairs (shared provider and locked
+  view). A round asks up to 5 facts with distinct figures; "Play again"
+  asks facts the last round left out first.
+- Decoys: two other facts' real key figures, never invented numbers,
+  drawn from every playable fact (locked ones too; a decoy is a bare
+  number with no title). A decoy is never a figure the blanked text
+  already states as a whole number, and is always in the answer's unit
+  or its family (mass, time, money and so on), preferring the answer's
+  exact format; the answer is never the only one written differently.
+- Layout: the rule line, a wrapping status row (question N of 5,
+  score), the question card (title, then the text with a blank; after
+  an answer the full text with the figure in bold primary) and the
+  no-points footnote, scrolling. A panel pinned at the bottom holds the
+  result line ("Right!" or "Not this time. It's X."), the three answers
+  and Next, so they never leave the screen; Next is always there,
+  disabled until the question is answered, and the answers scroll inside
+  the panel only past 45% of the screen height. Card text wraps between
+  words; a word too wide for a line at large text shrinks the text
+  instead, and JA figures and the blank never split.
+- Interaction: one tap answers and locks the three; the right answer
+  turns `tertiaryContainer` with a check, a wrong choice
+  `errorContainer` with a cross. Next scrolls the body back to the top.
+  After the last question "See score" replaces the body with the score
+  and "Play again". Screen readers hear the card as one label (the
+  blank read as "blank"), the verdict on each answer, the new question
+  after Next and the score at the end.
+- The round is widget state: a pool reload keeps the question, a locale
+  change deals a new round from question 1. Awards nothing and persists
+  nothing. Analytics: `fact_recall_opened`, `fact_recall_finished
+  {questions, correct}` on the last answer.
+- Lives in `lib/features/fact_games/`.
+
 ## Tab 3 — Profile (`/profile`)
 
 User stats (level, streak, CO2 saved, total actions) and evolution
@@ -733,6 +772,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `energyExplore`           | `/energy-explore`                 |
 | `quiz`                    | `/quiz`                           |
 | `factPairs`               | `/fact-pairs`                     |
+| `factRecall`              | `/fact-recall`                    |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `explore`                 | `/explore`                        |

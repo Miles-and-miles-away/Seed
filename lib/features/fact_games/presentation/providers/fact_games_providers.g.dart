@@ -62,4 +62,49 @@ final class FactGamesPoolProvider
   }
 }
 
-String _$factGamesPoolHash() => r'd452b1577b04a01c36471c31a4062b9f6459ba52';
+String _$factGamesPoolHash() => r'a009f57b706aa792f8a4ac2425828ac907fc4114';
+
+/// Every playable fact, locked or not: Fact recall's decoy candidates.
+
+@ProviderFor(factGamesAllPlayable)
+final factGamesAllPlayableProvider = FactGamesAllPlayableProvider._();
+
+/// Every playable fact, locked or not: Fact recall's decoy candidates.
+
+final class FactGamesAllPlayableProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<EcoFact>>,
+          List<EcoFact>,
+          FutureOr<List<EcoFact>>
+        >
+    with $FutureModifier<List<EcoFact>>, $FutureProvider<List<EcoFact>> {
+  /// Every playable fact, locked or not: Fact recall's decoy candidates.
+  FactGamesAllPlayableProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'factGamesAllPlayableProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$factGamesAllPlayableHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<EcoFact>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<EcoFact>> create(Ref ref) {
+    return factGamesAllPlayable(ref);
+  }
+}
+
+String _$factGamesAllPlayableHash() =>
+    r'9d357352b0f61595b2c1d350f38c7646370b4029';

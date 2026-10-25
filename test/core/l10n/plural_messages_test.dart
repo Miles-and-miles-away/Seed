@@ -29,6 +29,9 @@ void main() {
       expect(es.profileDaysActive(1), isNot(es.profileDaysActive(2)));
       expect(es.factPairsFinished(1), 'Todas las parejas en 1 movimiento');
       expect(es.factPairsFinished(9), 'Todas las parejas en 9 movimientos');
+      expect(es.factRecallFinished(1, 5), '1 acierto de 5');
+      expect(es.factRecallFinished(0, 5), '0 aciertos de 5');
+      expect(es.factRecallFinished(4, 5), '4 aciertos de 5');
     });
 
     test('Japanese renders counts without crashing (single form)', () {
@@ -36,6 +39,7 @@ void main() {
       expect(ja.pointsLabel(5), contains('5'));
       expect(ja.challengeDays(3), contains('3'));
       expect(ja.factPairsFinished(9), contains('9'));
+      expect(ja.factRecallFinished(1, 5), '5問中1問正解');
     });
   });
 }

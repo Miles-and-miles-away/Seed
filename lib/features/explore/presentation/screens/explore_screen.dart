@@ -91,6 +91,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               const SizedBox(height: spacingSm),
               FactGameExploreTile(entry: factPairsEntry, dimmed: shown != null),
+              const SizedBox(height: spacingSm),
+              FactGameExploreTile(
+                entry: factRecallEntry,
+                dimmed: shown != null,
+              ),
             ],
           ),
         ),

@@ -2469,6 +2469,56 @@ class AppLocalizationsEs extends AppLocalizations {
   String get factGamesGoToChallenge => 'El desafío de hoy';
 
   @override
+  String get factRecallTitle => 'Recuerda la cifra';
+
+  @override
+  String get factRecallSubtitle => 'Completa la cifra de cada eco-dato';
+
+  @override
+  String get factRecallRules => 'Elige la cifra que completa cada eco-dato.';
+
+  @override
+  String factRecallProgress(int index, int total) {
+    return 'Pregunta $index de $total';
+  }
+
+  @override
+  String factRecallScore(int count) {
+    return 'Aciertos: $count';
+  }
+
+  @override
+  String get factRecallBlank => '____';
+
+  @override
+  String get factRecallBlankSpoken => 'espacio en blanco';
+
+  @override
+  String factRecallWrong(String figure) {
+    return 'Esta vez no. Es $figure.';
+  }
+
+  @override
+  String get factRecallNext => 'Siguiente pregunta';
+
+  @override
+  String get factRecallSeeScore => 'Ver resultado';
+
+  @override
+  String factRecallFinished(int correct, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      correct,
+      locale: localeName,
+      other: '$correct aciertos de $total',
+      one: '$correct acierto de $total',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get factRecallYourWrongAnswer => 'tu respuesta, incorrecta';
+
+  @override
   String walkthroughIntro1(String name) {
     return 'Hola, soy $name. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.';
   }

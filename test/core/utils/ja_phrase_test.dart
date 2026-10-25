@@ -228,6 +228,15 @@ void main() {
       expect(stripWordJoiners(_wrap(text)), text);
     });
 
+    test('joiners already in the text are kept', () {
+      final blank = '＿＿＿＿'.characters.join(wordJoiner);
+      final text = '節水型の食洗機は$blankしか使いません。';
+      final wrapped = _wrap(text);
+      expect(wrapped, contains(blank));
+      expect(stripWordJoiners(wrapped), stripWordJoiners(text));
+      expect(_wrap(wrapped), wrapped);
+    });
+
     test('phraseCap leaves one cluster of headroom', () {
       expect(phraseCap(106, 14), 6);
       expect(phraseCap(192, 14), 12);
