@@ -80,7 +80,7 @@
       "id": "escooter_private",
       "group": "micro",
       "name_en": "E-scooter (private)",
-      "name_ja": "電動キックスクーター（個人所有）",
+      "name_ja": "電動キックボード（個人所有）",
       "name_es": "Patinete eléctrico (privado)",
       "g_co2e_per_km": 7,
       "per_vehicle": false,

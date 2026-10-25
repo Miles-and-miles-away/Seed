@@ -1170,7 +1170,7 @@
       "kwh_per_unit": 0.015271,
       "name_en": "Phone charge",
       "name_ja": "スマートフォンの充電",
-      "name_es": "Carga de teléfono",
+      "name_es": "Carga del móvil",
       "confidence": "medium",
       "presets": [
         {

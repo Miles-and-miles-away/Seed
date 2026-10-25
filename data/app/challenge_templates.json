@@ -103,10 +103,10 @@
       "category": "food",
       "targetDays": 7,
       "titleEn": "Vegan Week",
-      "titleEs": "Semana Vegana",
+      "titleEs": "Semana vegana",
       "titleJa": "ヴィーガンウィーク",
       "descriptionEn": "Log a Food action every day for 7 days.",
-      "descriptionEs": "Registra una acción de Alimentación cada día durante 7 días.",
+      "descriptionEs": "Registra una acción de alimentación cada día durante 7 días.",
       "descriptionJa": "7日間毎日食事のアクションを記録しよう。"
     },
     {
@@ -117,7 +117,7 @@
       "titleEs": "Veganuary",
       "titleJa": "ヴィーガニュアリー",
       "descriptionEn": "Log a Food action every day for 30 days.",
-      "descriptionEs": "Registra una acción de Alimentación cada día durante 30 días.",
+      "descriptionEs": "Registra una acción de alimentación cada día durante 30 días.",
       "descriptionJa": "30日間毎日食事のアクションを記録しよう。"
     },
     {
@@ -125,10 +125,10 @@
       "category": "recycling",
       "targetDays": 7,
       "titleEn": "Zero Waste Week",
-      "titleEs": "Semana Basura Cero",
+      "titleEs": "Semana cero residuos",
       "titleJa": "ゼロウェイストウィーク",
       "descriptionEn": "Log a Recycling action every day for 7 days.",
-      "descriptionEs": "Registra una acción de Reciclaje cada día durante 7 días.",
+      "descriptionEs": "Registra una acción de reciclaje cada día durante 7 días.",
       "descriptionJa": "7日間毎日リサイクルのアクションを記録しよう。"
     },
     {
@@ -136,10 +136,10 @@
       "category": "transport",
       "targetDays": 7,
       "titleEn": "Green Transport Week",
-      "titleEs": "Semana de Transporte Verde",
+      "titleEs": "Semana de transporte verde",
       "titleJa": "グリーン交通ウィーク",
       "descriptionEn": "Log a Transport action every day for 7 days.",
-      "descriptionEs": "Registra una acción de Transporte cada día durante 7 días.",
+      "descriptionEs": "Registra una acción de transporte cada día durante 7 días.",
       "descriptionJa": "7日間毎日交通のアクションを記録しよう。"
     },
     {
@@ -147,7 +147,7 @@
       "category": null,
       "targetDays": 14,
       "titleEn": "Two-Week Streak",
-      "titleEs": "Racha de Dos Semanas",
+      "titleEs": "Racha de dos semanas",
       "titleJa": "2週間チャレンジ",
       "descriptionEn": "Log any action every day for 14 days.",
       "descriptionEs": "Registra cualquier acción cada día durante 14 días.",
@@ -158,7 +158,7 @@
       "category": null,
       "targetDays": 30,
       "titleEn": "Monthly Momentum",
-      "titleEs": "Impulso Mensual",
+      "titleEs": "Impulso mensual",
       "titleJa": "月間モメンタム",
       "descriptionEn": "Log any action every day for 30 days.",
       "descriptionEs": "Registra cualquier acción cada día durante 30 días.",

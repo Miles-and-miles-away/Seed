@@ -892,7 +892,7 @@ BEHAVIORS = [
       notes_sha='959dc55b90bf192b42e9a2c7733b0b72df9b88f933f9b23ae8354dea63cbf33d'),
  dict(id='phone_charge', group='device', carrier='electricity', unit='use',
       kwh=0.015271, en='Phone charge', ja='スマートフォンの充電',
-      es='Carga de teléfono', conf='medium',
+      es='Carga del móvil', conf='medium',
       presets=[P('one_charge', '1 full charge', '1回フル充電', '1 carga completa', 1)],
       sources=[IFIXIT],
       notes='A 12.98 Wh iPhone 15 battery at 85% charging efficiency. About 7 g CO2e '

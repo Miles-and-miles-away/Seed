@@ -31,7 +31,7 @@ FoodItem _item(
 );
 
 final _items = <FoodItem>[
-  _item('beef', 'meat', 'Beef', ja: '牛肉', es: 'Carne de res'),
+  _item('beef', 'meat', 'Beef', ja: '牛肉', es: 'Carne de vacuno'),
   _item('chicken', 'meat', 'Chicken', ja: '鶏肉', es: 'Pollo'),
   _item('bananas', 'fruit', 'Bananas', ja: 'バナナ', es: 'Plátano'),
   _item('chilli', 'vegetables', 'Chilli', ja: '唐辛子', es: 'Jalapeño'),
