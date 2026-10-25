@@ -931,7 +931,7 @@ final class BaseFilteredActionsProvider
 }
 
 String _$baseFilteredActionsHash() =>
-    r'6631c1849ec23de7611061957ccaad125716246f';
+    r'03ab42fcf30840d1a5dc2f766576df151cb725c1';
 
 /// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
 

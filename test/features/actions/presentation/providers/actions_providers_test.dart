@@ -27,15 +27,19 @@ ActionModel _a({
   List<String> sdgs = const [],
   String nameJa = '',
   String desc = '',
+  String nameEs = '',
+  String descEs = '',
 }) => ActionModel(
   id: id,
   nameEn: name,
   nameJa: nameJa.isEmpty ? name : nameJa,
+  nameEs: nameEs,
   category: category,
   points: points,
   co2Grams: co2,
   relatedSdgs: sdgs,
   descriptionEn: desc,
+  descriptionEs: descEs,
 );
 
 class _MockRepository extends Mock implements ActionLogRepository {}
@@ -178,6 +182,41 @@ void main() {
 
       final filtered = c.read(baseFilteredActionsProvider).value!;
       expect(filtered.map((a) => a.id).toList(), ['walk']);
+    });
+
+    test('search folds accents and case in both directions', () async {
+      final c = await pumpedContainer([
+        actionLibraryProvider.overrideWith(
+          (_) async => [
+            _a(
+              id: 'cardboard',
+              name: 'Recycle cardboard',
+              nameJa: 'ダンボールをリサイクル',
+              nameEs: 'Reciclar cartón',
+            ),
+            _a(
+              id: 'teach',
+              name: 'Teach a child',
+              descEs: 'Dedicar tiempo a enseñar a un niño',
+            ),
+            _a(id: 'bus', name: 'Take the bus'),
+          ],
+        ),
+      ], warm: actionLibraryProvider);
+      List<String> ids(String q) {
+        c.read(actionSearchQueryProvider.notifier).setQuery(q);
+        return c
+            .read(baseFilteredActionsProvider)
+            .value!
+            .map((a) => a.id)
+            .toList();
+      }
+
+      expect(ids('carton'), ['cardboard']);
+      expect(ids('CARTÓN'), ['cardboard']);
+      expect(ids('nino '), ['teach']);
+      expect(ids('autobús'), isEmpty);
+      expect(ids('リサイクル'), ['cardboard']);
     });
   });
 

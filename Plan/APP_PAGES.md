@@ -246,6 +246,9 @@ unambiguous exit. Browse and log actions.
   loggable actions promises a log it cannot deliver, so the energy
   calculator is reached from the Explore tab only. An empty filter
   result shows the "No actions found" state with no tile at all.
+- Search matches the EN/JA/ES name and description of every action,
+  ignoring case, accents and surrounding spaces ("carton" finds
+  "Reciclar cartón").
 
 ### Calculator colouring (all three)
 

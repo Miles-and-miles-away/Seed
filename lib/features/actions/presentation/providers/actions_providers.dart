@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
@@ -247,7 +248,9 @@ final userLanguageCodeProvider = Provider<String>(
 AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
-  final searchQuery = ref.watch(actionSearchQueryProvider).toLowerCase();
+  final searchQuery = foldForSearch(
+    ref.watch(actionSearchQueryProvider).trim(),
+  );
   final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
   return actionsAsync.whenData((actions) {
@@ -267,12 +270,14 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
 
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((a) {
-        return a.nameEn.toLowerCase().contains(searchQuery) ||
-            a.nameJa.toLowerCase().contains(searchQuery) ||
-            a.nameEs.toLowerCase().contains(searchQuery) ||
-            a.descriptionEn.toLowerCase().contains(searchQuery) ||
-            a.descriptionJa.toLowerCase().contains(searchQuery) ||
-            a.descriptionEs.toLowerCase().contains(searchQuery);
+        return [
+          a.nameEn,
+          a.nameJa,
+          a.nameEs,
+          a.descriptionEn,
+          a.descriptionJa,
+          a.descriptionEs,
+        ].any((field) => foldForSearch(field).contains(searchQuery));
       }).toList();
     }
 
