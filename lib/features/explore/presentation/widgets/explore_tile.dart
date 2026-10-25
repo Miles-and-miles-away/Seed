@@ -22,10 +22,18 @@ class ExploreTile extends StatelessWidget {
     required this.entry,
     this.dimmed = false,
     this.ringed = false,
+    this.subtitle,
+    this.trailingIcon,
     super.key,
   });
 
   final ExploreEntry entry;
+
+  /// Replaces the entry's own subtitle, for a state such as locked.
+  final String? subtitle;
+
+  /// Replaces the chevron.
+  final IconData? trailingIcon;
 
   /// Faded while the walkthrough explains another tile.
   final bool dimmed;
@@ -71,13 +79,16 @@ class ExploreTile extends StatelessWidget {
             ),
           ),
           subtitle: PhraseText(
-            entry.subtitle(l10n),
+            subtitle ?? entry.subtitle(l10n),
             minLineWidth: _textMinLineWidth,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          trailing: const Icon(Icons.chevron_right, size: _chevronSize),
+          trailing: Icon(
+            trailingIcon ?? Icons.chevron_right,
+            size: _chevronSize,
+          ),
           onTap: () => context.push(entry.route),
         ),
       ),

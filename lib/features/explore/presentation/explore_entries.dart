@@ -64,3 +64,12 @@ final quizEntry = ExploreEntry(
   subtitle: (l10n) => l10n.exploreQuizSubtitle,
   route: appRoutes.quiz,
 );
+
+/// Blue grey sets the fact games apart from the quiz's primary green.
+final factPairsEntry = ExploreEntry(
+  icon: Icons.style,
+  color: AppColors.categoryLearning,
+  title: (l10n) => l10n.factPairsTitle,
+  subtitle: (l10n) => l10n.factPairsSubtitle,
+  route: appRoutes.factPairs,
+);

@@ -2403,6 +2403,72 @@ class AppLocalizationsEs extends AppLocalizations {
       'Solo por diversión. No da puntos ni registra nada.';
 
   @override
+  String get factPairsTitle => 'Parejas de datos';
+
+  @override
+  String get factPairsSubtitle => 'Une cada eco-dato con su cifra';
+
+  @override
+  String get factPairsRules =>
+      'Da la vuelta a dos cartas cada vez y encuentra la cifra de cada eco-dato.';
+
+  @override
+  String factPairsFound(int found, int total) {
+    return 'Parejas: $found de $total';
+  }
+
+  @override
+  String factPairsMoves(int count) {
+    return 'Movimientos: $count';
+  }
+
+  @override
+  String get factPairsMatch => '¡Pareja!';
+
+  @override
+  String get factPairsMiss => 'No es pareja';
+
+  @override
+  String factPairsFinished(int moves) {
+    String _temp0 = intl.Intl.pluralLogic(
+      moves,
+      locale: localeName,
+      other: 'Todas las parejas en $moves movimientos',
+      one: 'Todas las parejas en 1 movimiento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String factPairsCardHidden(int index, int total) {
+    return 'Carta $index de $total, boca abajo';
+  }
+
+  @override
+  String factPairsCardMatched(String text) {
+    return '$text, emparejada';
+  }
+
+  @override
+  String get factGamesPlayAgain => 'Jugar otra vez';
+
+  @override
+  String get factGamesLockedTitle => 'Desbloquea eco-datos para jugar';
+
+  @override
+  String factGamesLockedBody(int needed) {
+    return 'Completa desafíos diarios para desbloquear eco-datos. La mayoría incluye una cifra clave; los juegos empiezan cuando tengas $needed de ellos.';
+  }
+
+  @override
+  String factGamesLockedProgress(int count, int needed) {
+    return '$count de $needed eco-datos con cifra';
+  }
+
+  @override
+  String get factGamesGoToChallenge => 'El desafío de hoy';
+
+  @override
   String walkthroughIntro1(String name) {
     return 'Hola, soy $name. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.';
   }

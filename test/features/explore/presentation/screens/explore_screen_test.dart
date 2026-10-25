@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,11 +14,17 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
+import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/explore/explore.dart';
+import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../../../../helpers/test_helpers.dart';
+import '../../../fact_games/fact_games_fixtures.dart';
 import '../../../walkthrough/walkthrough_test_support.dart';
 
 const _titles = [
@@ -24,7 +33,12 @@ const _titles = [
   'Home energy',
   'Where your energy goes',
   'Higher or lower?',
+  'Fact pairs',
 ];
+
+/// The fact games' pool, unlocked unless given.
+Override _pool([List<EcoFact>? pool]) =>
+    factGamesPoolProvider.overrideWith((_) async => pool ?? playableFacts(3));
 
 void main() {
   // Roboto for every case, so a run of one group lays out like the file.
@@ -34,9 +48,11 @@ void main() {
     Locale locale = const Locale('en'),
     ThemeData? theme,
     TextScaler textScaler = TextScaler.noScaling,
+    List<EcoFact>? pool,
   }) => createTestWidget(
     locale: locale,
     theme: theme,
+    overrides: [_pool(pool)],
     child: MediaQuery(
       data: MediaQueryData(textScaler: textScaler),
       child: const ExploreScreen(),
@@ -58,7 +74,7 @@ void main() {
   }
 
   group('ExploreScreen', () {
-    testWidgets('lists five tiles in two sections, in order', (tester) async {
+    testWidgets('lists six tiles in two sections, in order', (tester) async {
       sizeViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
@@ -74,6 +90,103 @@ void main() {
       expect(tops, [...tops]..sort());
       expect(find.text('Two routes, any mix of modes'), findsOneWidget);
       expect(find.text('Which has the bigger footprint?'), findsOneWidget);
+      expect(find.text('Match each eco-fact to its number'), findsOneWidget);
+    });
+
+    testWidgets('a locked fact game shows progress and a lock', (tester) async {
+      sizeViewport(tester);
+      await tester.pumpWidget(buildScreen(pool: playableFacts(2)));
+      await tester.pumpAndSettle();
+
+      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
+      expect(
+        find.descendant(
+          of: tile,
+          matching: find.text('2 of 3 eco-facts with a number'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
+        findsNothing,
+      );
+    });
+
+    testWidgets('a fact game unlocks when the user doc changes', (
+      tester,
+    ) async {
+      sizeViewport(tester);
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      AppUserModel user(int days) => AppUserModel(
+        uid: 'u',
+        email: 'e',
+        unlockedFactDates: [
+          for (var day = 1; day <= days; day++) '2026-01-0$day',
+        ],
+      );
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            currentUserProvider.overrideWith((_) => users.stream),
+            ecoFactsProvider.overrideWith((_) async => playableFacts(5)),
+          ],
+          child: const ExploreScreen(),
+        ),
+      );
+      users.add(user(2));
+      await tester.pumpAndSettle();
+      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
+      expect(
+        find.descendant(
+          of: tile,
+          matching: find.text('2 of 3 eco-facts with a number'),
+        ),
+        findsOneWidget,
+      );
+
+      users.add(user(3));
+      await tester.pumpAndSettle();
+      expect(
+        find.descendant(
+          of: tile,
+          matching: find.text('Match each eco-fact to its number'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+        findsNothing,
+      );
+    });
+
+    testWidgets('an unlocked fact game shows its subtitle and chevron', (
+      tester,
+    ) async {
+      sizeViewport(tester);
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+
+      final tile = find.widgetWithText(ExploreTile, 'Fact pairs');
+      expect(
+        find.descendant(
+          of: tile,
+          matching: find.text('Match each eco-fact to its number'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: tile, matching: find.byIcon(Icons.chevron_right)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
+        findsNothing,
+      );
     });
 
     testWidgets('each tile wears its own category colour', (tester) async {
@@ -124,6 +237,7 @@ void main() {
           'Home energy': AppColors.categoryEnergy,
           'Where your energy goes': AppColors.categoryEnergy,
           'Higher or lower?': theme.colorScheme.primary,
+          'Fact pairs': AppColors.categoryLearning,
         };
         for (final MapEntry(key: title, value: colour) in expected.entries) {
           final icon = tester.widget<Icon>(
@@ -152,6 +266,7 @@ void main() {
         'Home energy': appRoutes.energyCalculator,
         'Where your energy goes': appRoutes.energyExplore,
         'Higher or lower?': appRoutes.quiz,
+        'Fact pairs': appRoutes.factPairs,
       };
       final router = GoRouter(
         initialLocation: appRoutes.explore,
@@ -170,7 +285,7 @@ void main() {
       addTearDown(router.dispose);
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [languageStoreOverride()],
+          overrides: [languageStoreOverride(), _pool()],
           child: MaterialApp.router(
             routerConfig: router,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -207,13 +322,18 @@ void main() {
       sizeViewport(tester);
       await tester.pumpWidget(
         createTestWidget(
-          overrides: walkthroughOverrides(
-            settings: Stream.value(
-              settingsWith(
-                WalkthroughItem.values.where((i) => i != WalkthroughItem.quiz),
+          overrides: [
+            ...walkthroughOverrides(
+              settings: Stream.value(
+                settingsWith(
+                  WalkthroughItem.values.where(
+                    (i) => i != WalkthroughItem.quiz,
+                  ),
+                ),
               ),
             ),
-          ),
+            _pool(),
+          ],
           child: const MediaQuery(
             data: MediaQueryData(disableAnimations: true),
             child: ExploreScreen(),
@@ -293,6 +413,7 @@ void main() {
             ...calculatorEntries,
             energyRankedEntry,
             quizEntry,
+            factPairsEntry,
           ]) {
             final title = entry.title(l10n);
             final lines = renderedLines(
@@ -331,9 +452,10 @@ void main() {
       TextScaler textScaler = TextScaler.noScaling,
     }) => createTestWidget(
       locale: const Locale('en'),
-      overrides: walkthroughOverrides(
-        settings: Stream.value(settingsWith(found)),
-      ),
+      overrides: [
+        ...walkthroughOverrides(settings: Stream.value(settingsWith(found))),
+        _pool(),
+      ],
       child: MediaQuery(
         data: MediaQueryData(textScaler: textScaler),
         child: const ExploreScreen(),
@@ -354,9 +476,12 @@ void main() {
       return tester.pumpWidget(
         createTestWidget(
           locale: const Locale('en'),
-          overrides: walkthroughOverrides(
-            settings: Stream.value(settingsWith([WalkthroughItem.intro])),
-          ),
+          overrides: [
+            ...walkthroughOverrides(
+              settings: Stream.value(settingsWith([WalkthroughItem.intro])),
+            ),
+            _pool(),
+          ],
           child: Scaffold(
             body: const ExploreScreen(),
             bottomNavigationBar: AppBottomNav(

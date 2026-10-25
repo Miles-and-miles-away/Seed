@@ -19,6 +19,7 @@ import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
 import '../features/energy/energy.dart';
 import '../features/explore/explore.dart';
+import '../features/fact_games/fact_games.dart';
 import '../features/food/food.dart';
 import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
@@ -87,6 +88,7 @@ class AppRoutes {
   String get energyCalculator => '/energy-calculator';
   String get energyExplore => '/energy-explore';
   String get quiz => '/quiz';
+  String get factPairs => '/fact-pairs';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
   /// daily challenge card so its category opens already selected.
@@ -300,6 +302,9 @@ GoRouter router(Ref ref) {
       // goes, and the higher-or-lower quiz over the same rows.
       _route(appRoutes.energyExplore, const EnergyExploreScreen()),
       _route(appRoutes.quiz, const HigherOrLowerScreen()),
+
+      // Memory game over the user's unlocked eco-facts; banks nothing.
+      _route(appRoutes.factPairs, const FactPairsScreen()),
 
       // Legal documents - canonical paths, accessible unauthenticated so
       // the register screen can link to them before sign-up.

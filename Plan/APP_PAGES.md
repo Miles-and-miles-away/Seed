@@ -268,16 +268,22 @@ with a one-line description; every tile pushes its full-screen route.
   - Calculators: `/transport-calculator` (Transport),
     `/food-calculator` (Food), `/energy-calculator` (Home energy)
   - Learn and play: `/energy-explore` (Where your energy goes),
-    `/quiz` (Higher or lower?)
+    `/quiz` (Higher or lower?), `/fact-pairs` (Fact pairs)
 - Functionality: two sections of `ExploreTile`s, each a tinted disc
   (category colour, icon in its readable tone; the quiz takes the
-  scheme's primary), title, subtitle and chevron. The calculators
+  scheme's primary, Fact pairs `categoryLearning` blue grey), title,
+  subtitle and chevron. While the user has fewer than 3 unlocked
+  eco-facts with a key figure, the Fact pairs tile's subtitle reads
+  "N of 3 eco-facts with a number" and a lock replaces the chevron; it
+  stays tappable and opens the game's locked view. The calculators
   walkthrough pops here with a spotlight on the tile each page explains
   (transport, food, home energy, then the ranking), the bubble in the
   taller band beside it with its button always on screen; a tile off
   screen, or a band too short for the bubble, gets the full scrim and a
   centred bubble instead. The quiz tile shimmers until the quiz is
-  found. No info icon: every tile carries its own subtitle.
+  found. No info icon: every tile carries its own subtitle. The Fact
+  pairs tile dims with the others during the walkthrough but has no
+  shimmer and no walkthrough item.
 
 ## Transport Calculator (`/transport-calculator`)
 
@@ -581,6 +587,44 @@ one you think has the bigger footprint to the top.
   all three datasets equally, and only started in `energy` because
   energy was the first deck it had.
 
+## Fact Pairs (`/fact-pairs`)
+
+Pushed full-screen route. A memory game over the user's own eco-facts:
+turn two cards at a time to match each fact's title to its key figure.
+- Reached from: the Explore tab (Fact pairs tile, `style`).
+- Pool: every fact whose date is in `unlockedFactDates` or
+  `viewedFactDates` (the inbox's rule), one per `dayOfYear`, that carries
+  a key figure (`EcoFact.isPlayable`). Unread facts count, so a match
+  can show a fact the user skipped.
+- Board: 6 pairs (3 x 4) from 6 distinct figures, 3 pairs (3 x 2) from 3
+  to 5. Never two equal figures on one board, compared on `keyFigureEn`
+  because JA and ES can write one value two ways. Three columns at text
+  scale 1.0, two taller ones above it. Faces keep the user's text size
+  and wrap between words, never inside one: a word or JA figure run
+  wider than the face scales that face down instead. JA figures break
+  only after 万/億/兆 before a digit, at a space, or before a unit word
+  of two or more characters (1万 / 5,400 / リットル).
+- Layout: the rule line, a wrapping status row (pairs found, moves),
+  the grid, and the no-points footnote. Face down shows an eco glyph on
+  `primaryContainer`, face up the text on `surfaceContainerHigh`
+  (figures in bold primary), matched `tertiaryContainer` with a check.
+- Interaction: tap to turn (a 3D flip, none under reduced motion). A
+  miss stays up for 1.2 s, and taps meanwhile are ignored. A match
+  opens the fact in the info sheet over the board, so it never depends
+  on scrolling; the last match also scrolls the finish panel (move
+  count and "Play again") into view behind the sheet. Screen readers
+  hear each turned card, then "Pair found" or "Not a pair", in one
+  announcement, plus the finish line on the last match and the new
+  board's pair count after Play again.
+- Locked (fewer than 3 distinct figures): a centred lock, why, the
+  progress count and a "Today's challenge" button that goes to Home.
+  The locked view and pool are shared by the fact games.
+- The board is widget state: a pool reload keeps it, a locale change
+  deals a new one. Awards nothing and persists nothing; no best score,
+  since board sizes differ. Analytics: `fact_pairs_opened`,
+  `fact_pairs_finished {pairs, moves}`.
+- Lives in `lib/features/fact_games/`.
+
 ## Tab 3 — Profile (`/profile`)
 
 User stats (level, streak, CO2 saved, total actions) and evolution
@@ -688,6 +732,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `energyCalculator`        | `/energy-calculator`              |
 | `energyExplore`           | `/energy-explore`                 |
 | `quiz`                    | `/quiz`                           |
+| `factPairs`               | `/fact-pairs`                     |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
 | `explore`                 | `/explore`                        |

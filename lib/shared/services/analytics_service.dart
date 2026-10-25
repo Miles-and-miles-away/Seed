@@ -276,6 +276,13 @@ class AnalyticsService {
   Future<void> logQuizStreakEnded({required int streak}) =>
       _log('quiz_streak_ended', {'streak': streak});
 
+  /// Log when the Fact pairs game is opened.
+  Future<void> logFactPairsOpened() => _log('fact_pairs_opened');
+
+  /// Log a finished Fact pairs board.
+  Future<void> logFactPairsFinished({required int pairs, required int moves}) =>
+      _log('fact_pairs_finished', {'pairs': pairs, 'moves': moves});
+
   /// Log when a user runs a meal comparison (Phase 8.9).
   ///
   /// NOTE(planned): defined with the 8.9 comparison feature but not

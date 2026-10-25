@@ -4103,6 +4103,96 @@ abstract class AppLocalizations {
   /// **'Just for fun. No points, and nothing is logged.'**
   String get quizNoPointsNote;
 
+  /// No description provided for @factPairsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fact pairs'**
+  String get factPairsTitle;
+
+  /// No description provided for @factPairsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Match each eco-fact to its number'**
+  String get factPairsSubtitle;
+
+  /// No description provided for @factPairsRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn over two cards at a time. Find each eco-fact\'s number.'**
+  String get factPairsRules;
+
+  /// No description provided for @factPairsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Pairs: {found} of {total}'**
+  String factPairsFound(int found, int total);
+
+  /// No description provided for @factPairsMoves.
+  ///
+  /// In en, this message translates to:
+  /// **'Moves: {count}'**
+  String factPairsMoves(int count);
+
+  /// No description provided for @factPairsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Pair found'**
+  String get factPairsMatch;
+
+  /// No description provided for @factPairsMiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a pair'**
+  String get factPairsMiss;
+
+  /// No description provided for @factPairsFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'{moves, plural, one{All pairs found in 1 move} other{All pairs found in {moves} moves}}'**
+  String factPairsFinished(int moves);
+
+  /// No description provided for @factPairsCardHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Card {index} of {total}, face down'**
+  String factPairsCardHidden(int index, int total);
+
+  /// No description provided for @factPairsCardMatched.
+  ///
+  /// In en, this message translates to:
+  /// **'{text}, matched'**
+  String factPairsCardMatched(String text);
+
+  /// No description provided for @factGamesPlayAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get factGamesPlayAgain;
+
+  /// No description provided for @factGamesLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock eco-facts to play'**
+  String get factGamesLockedTitle;
+
+  /// No description provided for @factGamesLockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete daily challenges to unlock eco-facts. Most have a key number; the games start when {needed} of those are ready.'**
+  String factGamesLockedBody(int needed);
+
+  /// No description provided for @factGamesLockedProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {needed} eco-facts with a number'**
+  String factGamesLockedProgress(int count, int needed);
+
+  /// No description provided for @factGamesGoToChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s challenge'**
+  String get factGamesGoToChallenge;
+
   /// No description provided for @walkthroughIntro1.
   ///
   /// In en, this message translates to:

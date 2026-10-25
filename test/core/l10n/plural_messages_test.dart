@@ -20,17 +20,22 @@ void main() {
       expect(en.profileDaysActive(7), '7 days');
       expect(en.challengeDays(1), '1 day');
       expect(en.challengeDays(3), '3 days');
+      expect(en.factPairsFinished(1), 'All pairs found in 1 move');
+      expect(en.factPairsFinished(9), 'All pairs found in 9 moves');
     });
 
     test('Spanish has distinct singular and plural forms', () {
       expect(es.pointsLabel(1), isNot(es.pointsLabel(2)));
       expect(es.profileDaysActive(1), isNot(es.profileDaysActive(2)));
+      expect(es.factPairsFinished(1), 'Todas las parejas en 1 movimiento');
+      expect(es.factPairsFinished(9), 'Todas las parejas en 9 movimientos');
     });
 
     test('Japanese renders counts without crashing (single form)', () {
       expect(ja.pointsLabel(1), contains('1'));
       expect(ja.pointsLabel(5), contains('5'));
       expect(ja.challengeDays(3), contains('3'));
+      expect(ja.factPairsFinished(9), contains('9'));
     });
   });
 }

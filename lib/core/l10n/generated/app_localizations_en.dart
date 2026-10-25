@@ -2380,6 +2380,72 @@ class AppLocalizationsEn extends AppLocalizations {
       'Just for fun. No points, and nothing is logged.';
 
   @override
+  String get factPairsTitle => 'Fact pairs';
+
+  @override
+  String get factPairsSubtitle => 'Match each eco-fact to its number';
+
+  @override
+  String get factPairsRules =>
+      'Turn over two cards at a time. Find each eco-fact\'s number.';
+
+  @override
+  String factPairsFound(int found, int total) {
+    return 'Pairs: $found of $total';
+  }
+
+  @override
+  String factPairsMoves(int count) {
+    return 'Moves: $count';
+  }
+
+  @override
+  String get factPairsMatch => 'Pair found';
+
+  @override
+  String get factPairsMiss => 'Not a pair';
+
+  @override
+  String factPairsFinished(int moves) {
+    String _temp0 = intl.Intl.pluralLogic(
+      moves,
+      locale: localeName,
+      other: 'All pairs found in $moves moves',
+      one: 'All pairs found in 1 move',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String factPairsCardHidden(int index, int total) {
+    return 'Card $index of $total, face down';
+  }
+
+  @override
+  String factPairsCardMatched(String text) {
+    return '$text, matched';
+  }
+
+  @override
+  String get factGamesPlayAgain => 'Play again';
+
+  @override
+  String get factGamesLockedTitle => 'Unlock eco-facts to play';
+
+  @override
+  String factGamesLockedBody(int needed) {
+    return 'Complete daily challenges to unlock eco-facts. Most have a key number; the games start when $needed of those are ready.';
+  }
+
+  @override
+  String factGamesLockedProgress(int count, int needed) {
+    return '$count of $needed eco-facts with a number';
+  }
+
+  @override
+  String get factGamesGoToChallenge => 'Today\'s challenge';
+
+  @override
   String walkthroughIntro1(String name) {
     return 'Hi, I\'m $name. Seed turns small everyday choices into a habit, and I grow as you go.';
   }

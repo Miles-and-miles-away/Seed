@@ -1612,6 +1612,79 @@
   "quizNewRun": "Start again",
   "quizLadderHeading": "Ladder so far",
   "quizNoPointsNote": "Just for fun. No points, and nothing is logged.",
+  "factPairsTitle": "Fact pairs",
+  "factPairsSubtitle": "Match each eco-fact to its number",
+  "factPairsRules": "Turn over two cards at a time. Find each eco-fact's number.",
+  "factPairsFound": "Pairs: {found} of {total}",
+  "@factPairsFound": {
+    "placeholders": {
+      "found": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "factPairsMoves": "Moves: {count}",
+  "@factPairsMoves": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factPairsMatch": "Pair found",
+  "factPairsMiss": "Not a pair",
+  "factPairsFinished": "{moves, plural, one{All pairs found in 1 move} other{All pairs found in {moves} moves}}",
+  "@factPairsFinished": {
+    "placeholders": {
+      "moves": {
+        "type": "int"
+      }
+    }
+  },
+  "factPairsCardHidden": "Card {index} of {total}, face down",
+  "@factPairsCardHidden": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "factPairsCardMatched": "{text}, matched",
+  "@factPairsCardMatched": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "factGamesPlayAgain": "Play again",
+  "factGamesLockedTitle": "Unlock eco-facts to play",
+  "factGamesLockedBody": "Complete daily challenges to unlock eco-facts. Most have a key number; the games start when {needed} of those are ready.",
+  "@factGamesLockedBody": {
+    "placeholders": {
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "factGamesLockedProgress": "{count} of {needed} eco-facts with a number",
+  "@factGamesLockedProgress": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "factGamesGoToChallenge": "Today's challenge",
   "walkthroughIntro1": "Hi, I'm {name}. Seed turns small everyday choices into a habit, and I grow as you go.",
   "@walkthroughIntro1": {
     "placeholders": {

@@ -306,4 +306,55 @@ void main() {
       }
     });
   });
+
+  group('jaFigureWrap', () {
+    /// [figure] wrapped, with each place a line may break shown as `/`.
+    String breaks(String figure) {
+      final out = StringBuffer();
+      var joined = true;
+      for (final c in jaFigureWrap(figure, locale: _ja).characters) {
+        if (c == wordJoiner) {
+          joined = true;
+          continue;
+        }
+        if (!joined) out.write('/');
+        out.write(c);
+        joined = false;
+      }
+      return out.toString();
+    }
+
+    const expected = {
+      '1万5,400リットル': '1万/5,400/リットル',
+      '1億3,200万': '1億/3,200万',
+      '1億6000万': '1億/6000万',
+      '1兆8000億ドル': '1兆/8000億/ドル',
+      '50万トン': '50万/トン',
+      '4,700度C': '4,700/度C',
+      '10〜20年間': '10〜20/年間',
+      '190か国': '190/か国',
+      '12リットル': '12/リットル',
+      '40倍': '40倍',
+      '1,300倍': '1,300倍',
+      '41〜84%': '41〜84%',
+      '75万': '75万',
+      '時速75 km': '時速75/ /km',
+    };
+    for (final MapEntry(key: figure, value: shown) in expected.entries) {
+      test(figure, () => expect(breaks(figure), shown));
+    }
+
+    test('keeps the text when joiners are removed', () {
+      for (final figure in expected.keys) {
+        expect(stripWordJoiners(jaFigureWrap(figure, locale: _ja)), figure);
+      }
+    });
+
+    test('leaves other languages unchanged', () {
+      expect(
+        jaFigureWrap('8,800 tonnes', locale: const Locale('en')),
+        '8,800 tonnes',
+      );
+    });
+  });
 }

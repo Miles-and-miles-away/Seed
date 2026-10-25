@@ -4,6 +4,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/explore/presentation/explore_entries.dart';
 import 'package:seed_app/features/explore/presentation/widgets/explore_tile.dart';
+import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 /// The Explore tab: the three calculators, then the surfaces that teach
@@ -88,6 +89,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 borderRadius: borderRadiusLg,
                 child: ExploreTile(entry: quizEntry, dimmed: shown != null),
               ),
+              const SizedBox(height: spacingSm),
+              FactGameExploreTile(entry: factPairsEntry, dimmed: shown != null),
             ],
           ),
         ),

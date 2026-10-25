@@ -83,6 +83,40 @@ String phraseWrap(
   return _memo[key] = result;
 }
 
+/// Counters that end one place of a Japanese number, as in 1億6000万.
+const _jaNumberScales = {'万', '億', '兆'};
+
+final _digit = RegExp(r'\d');
+final _letter = RegExp(r'\p{L}', unicode: true);
+
+/// [figure], a quantity such as 1万5,400リットル, joined so a line breaks
+/// only after 万, 億 or 兆 when a digit follows, at a space, or before a
+/// trailing unit word of two or more clusters: 1万 / 5,400 / リットル.
+/// A lone counter such as 倍 stays with its number. Other languages come
+/// back unchanged.
+String jaFigureWrap(String figure, {required Locale locale}) {
+  if (locale.languageCode != 'ja') return figure;
+  final g = figure.characters.toList();
+  var unitStart = g.lastIndexWhere(_digit.hasMatch) + 1;
+  if (unitStart == 0) unitStart = g.length;
+  while (unitStart < g.length && _jaNumberScales.contains(g[unitStart])) {
+    unitStart++;
+  }
+  final unit = g.sublist(unitStart).join().trim().characters;
+  final breakBeforeUnit = unit.length > 1 && _letter.hasMatch(unit.first);
+  final out = StringBuffer();
+  for (var i = 0; i < g.length; i++) {
+    final free =
+        i == 0 ||
+        !_joinable(g[i - 1], g[i]) ||
+        (_jaNumberScales.contains(g[i - 1]) && _digit.hasMatch(g[i])) ||
+        (i == unitStart && breakBeforeUnit);
+    if (!free) out.write(wordJoiner);
+    out.write(g[i]);
+  }
+  return out.toString();
+}
+
 /// Removes every [wordJoiner] that [phraseWrap] inserted.
 String stripWordJoiners(String text) => text.replaceAll(wordJoiner, '');
 

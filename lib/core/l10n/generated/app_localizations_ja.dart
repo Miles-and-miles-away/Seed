@@ -2304,7 +2304,71 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizLadderHeading => 'これまでのカード';
 
   @override
-  String get quizNoPointsNote => '遊びのためのクイズです。ポイントは付かず、記録もされません。';
+  String get quizNoPointsNote => '遊びのためのものです。ポイントは付かず、記録もされません。';
+
+  @override
+  String get factPairsTitle => 'ファクトペア';
+
+  @override
+  String get factPairsSubtitle => 'エコファクトと数字をペアにしよう';
+
+  @override
+  String get factPairsRules => 'カードを2枚ずつめくって、エコファクトとその数字を見つけよう。';
+
+  @override
+  String factPairsFound(int found, int total) {
+    return 'ペア $found/$total';
+  }
+
+  @override
+  String factPairsMoves(int count) {
+    return '手数 $count';
+  }
+
+  @override
+  String get factPairsMatch => 'ペアがそろった！';
+
+  @override
+  String get factPairsMiss => 'ペアではありません';
+
+  @override
+  String factPairsFinished(int moves) {
+    String _temp0 = intl.Intl.pluralLogic(
+      moves,
+      locale: localeName,
+      other: '$moves手ですべてのペアを見つけました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String factPairsCardHidden(int index, int total) {
+    return '$total枚中$index枚目、裏向き';
+  }
+
+  @override
+  String factPairsCardMatched(String text) {
+    return '$text、ペア成立';
+  }
+
+  @override
+  String get factGamesPlayAgain => 'もう一度遊ぶ';
+
+  @override
+  String get factGamesLockedTitle => 'エコファクトを解除して遊ぼう';
+
+  @override
+  String factGamesLockedBody(int needed) {
+    return '今日のチャレンジを達成するとエコファクトが解除されます。多くは数字を含みます。そうしたファクトが$neededつそろうと遊べます。';
+  }
+
+  @override
+  String factGamesLockedProgress(int count, int needed) {
+    return '数字のあるエコファクト $count/$needed';
+  }
+
+  @override
+  String get factGamesGoToChallenge => '今日のチャレンジ';
 
   @override
   String walkthroughIntro1(String name) {
