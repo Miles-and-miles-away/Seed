@@ -30,10 +30,7 @@ class _StubHomeVisitSignal extends HomeVisitSignal {
 }
 
 void main() {
-  setUpAll(() {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    stubPathProvider();
-  });
+  setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
 
   group('HomeScreen', () {
     // Helper to pump widget and wait for initial frame

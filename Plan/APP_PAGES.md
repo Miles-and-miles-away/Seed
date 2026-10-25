@@ -114,7 +114,8 @@ Main hub with mascot summary, challenges, and SDG carousel.
   first; once complete, the whole card opens today's eco-fact),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
-  sheet), infinite SDG carousel under a "Discover the SDGs" header,
+  sheet), infinite SDG carousel under a "Discover the SDGs" header
+  (official UN goal icons bundled per app language, EN/JA/ES),
   "Learn more at UN.org" external link.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
@@ -123,7 +124,8 @@ global progress chart.
 - Links:
   - `/home/sdg/{prev}` and `/home/sdg/{next}` (goal nav buttons)
   - External: SDG resource URLs
-- Functionality: prev/next goal navigation, resource link tiles, action
+- Functionality: localised official goal icon in the header,
+  prev/next goal navigation, resource link tiles, action
   and impact cards, progress chart that opens a full-screen zoomable view
   (pushed route, no path of its own).
 
@@ -774,8 +776,9 @@ Feature postponed; no UI entry points to this route.
   - `/privacy` (canonical legal route)
   - `/terms` (canonical legal route)
   - External: licenses page (system)
+  - External: UN SDG icon guidelines (UNIC Tokyo page in JA)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  SDG acknowledgement.
+  SDG acknowledgement, SDG icons credit tile.
 
 ### Feedback (`.../settings/feedback`)
 - Functionality: structured form with category chips (Bug / Feature /

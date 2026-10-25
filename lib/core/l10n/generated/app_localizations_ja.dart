@@ -880,6 +880,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutFooterMade => '地球への思いを込めて。';
 
   @override
+  String get aboutSdgIconsCredit => 'SDGアイコンは国際連合と国連広報センターの提供です';
+
+  @override
   String get aboutSubtitleTracker => 'Seed - サステナビリティ習慣トラッカー';
 
   @override

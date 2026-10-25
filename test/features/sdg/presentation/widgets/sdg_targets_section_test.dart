@@ -20,7 +20,6 @@ void main() {
         'Take urgent action to combat climate '
         'change and its impacts.',
     color: Color(0xFF407F46),
-    iconUrl: 'https://example.com/icon13.jpg',
   );
 
   late Map<int, List<SdgTarget>> allTargets;
@@ -123,7 +122,6 @@ void main() {
         shortTitleEn: 'No Poverty',
         descriptionEn: 'End poverty in all its forms.',
         color: Color(0xFFE5233D),
-        iconUrl: 'https://example.com/icon1.jpg',
       );
       await tester.pumpWidget(buildTestWidget(goal: goal1));
       await tester.pump();
@@ -197,7 +195,6 @@ void main() {
         shortTitleEn: 'Partnerships',
         descriptionEn: 'Strengthen partnerships.',
         color: Color(0xFF13496B),
-        iconUrl: 'https://example.com/icon17.jpg',
       );
       await tester.pumpWidget(buildTestWidget(goal: goal17));
       await tester.pump();

@@ -68,10 +68,7 @@ class _RouterApp extends StatelessWidget {
 }
 
 void main() {
-  setUpAll(() {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    stubPathProvider();
-  });
+  setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
 
   // Each call must return a fresh stream: the router listens twice (the
   // auth state provider and the refresh listenable) and a shared

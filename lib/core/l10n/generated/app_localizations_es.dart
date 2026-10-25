@@ -917,6 +917,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aboutFooterMade => 'Hecho con cuidado para nuestro planeta.';
 
   @override
+  String get aboutSdgIconsCredit => 'Iconos de los ODS: Naciones Unidas';
+
+  @override
   String get aboutSubtitleTracker => 'Seed - Rastreador de hábitos sostenibles';
 
   @override

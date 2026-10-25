@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -50,7 +49,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            _buildAppBar(goal),
+            _buildAppBar(goal, languageCode),
             SliverPadding(
               padding: const EdgeInsets.all(spacingXxl),
               sliver: SliverList(
@@ -149,22 +148,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     ];
   }
 
-  Widget _buildAppBar(SdgGoal goal) {
-    final fallback = Container(
-      width: 120,
-      height: 120,
-      color: Colors.white.withValues(alpha: opacityLight),
-      child: Center(
-        child: Text(
-          '${goal.number}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
+  Widget _buildAppBar(SdgGoal goal, String languageCode) {
     return SliverAppBar(
       expandedHeight: 200,
       pinned: true,
@@ -185,16 +169,11 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           child: Center(
             child: Hero(
               tag: 'sdg_icon_${goal.number}',
-              child: ClipRRect(
-                borderRadius: borderRadiusLg,
-                child: CachedNetworkImage(
-                  imageUrl: goal.iconUrl,
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.cover,
-                  placeholder: (_, _) => fallback,
-                  errorWidget: (_, _, _) => fallback,
-                ),
+              child: Image.asset(
+                goal.iconAsset(languageCode),
+                width: 120,
+                height: 120,
+                excludeFromSemantics: true,
               ),
             ),
           ),

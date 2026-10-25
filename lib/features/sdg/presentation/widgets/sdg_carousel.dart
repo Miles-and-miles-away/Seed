@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
@@ -180,40 +179,11 @@ class SdgCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: borderRadiusSm,
-              child: CachedNetworkImage(
-                imageUrl: goal.iconUrl,
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.white.withValues(alpha: opacityLight),
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.white.withValues(alpha: opacityLight),
-                  child: Center(
-                    child: Text(
-                      '${goal.number}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            Image.asset(
+              goal.iconAsset(locale),
+              width: 80,
+              height: 80,
+              excludeFromSemantics: true,
             ),
             const SizedBox(height: spacingSm),
             Padding(

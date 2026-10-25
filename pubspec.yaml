@@ -64,6 +64,9 @@ flutter:
   # ===================
   assets:
     - assets/images/mascot/
+    - assets/images/sdg_icons/en/
+    - assets/images/sdg_icons/ja/
+    - assets/images/sdg_icons/es/
     - assets/images/sdg_progress/
     - assets/animations/
     - assets/eco_dex/

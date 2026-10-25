@@ -8,7 +8,6 @@ class SdgGoal {
     required this.shortTitleEn,
     required this.descriptionEn,
     required this.color,
-    required this.iconUrl,
     this.isLearnOnly = false,
     this.titleJa = '',
     this.titleEs = '',
@@ -26,7 +25,6 @@ class SdgGoal {
       shortTitleEn: json['shortTitle'] as String,
       descriptionEn: json['description'] as String,
       color: Color(int.parse(hex, radix: 16) + 0xFF000000),
-      iconUrl: json['iconUrl'] as String,
       isLearnOnly: json['isLearnOnly'] as bool? ?? false,
       titleJa: json['titleJa'] as String? ?? '',
       titleEs: json['titleEs'] as String? ?? '',
@@ -42,7 +40,6 @@ class SdgGoal {
   final String shortTitleEn;
   final String descriptionEn;
   final Color color;
-  final String iconUrl;
   final bool isLearnOnly;
   final String titleJa;
   final String titleEs;
@@ -68,6 +65,15 @@ class SdgGoal {
     'es' when descriptionEs.isNotEmpty => descriptionEs,
     _ => descriptionEn,
   };
+
+  String iconAsset(String locale) {
+    final code = switch (locale) {
+      'ja' || 'es' => locale,
+      _ => 'en',
+    };
+    return 'assets/images/sdg_icons/$code/'
+        'sdg_icon_${number.toString().padLeft(2, '0')}.webp';
+  }
 
   String get progressChartAsset =>
       'assets/images/sdg_progress/'

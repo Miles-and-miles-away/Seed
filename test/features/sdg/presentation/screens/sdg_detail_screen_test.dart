@@ -8,6 +8,7 @@ import 'package:seed_app/features/sdg/presentation/screens/sdg_detail_screen.dar
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_impact_card.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_progress_chart_viewer.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_targets_section.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -33,11 +34,14 @@ void main() {
       addTearDown(() => tester.view.resetPhysicalSize());
     }
 
-    Widget buildTestWidget(int goalNumber) {
+    Widget buildTestWidget(int goalNumber, {String language = 'en'}) {
       return createTestWidget(
         firebaseAuth: mockFirebaseAuth,
         firestore: fakeFirestore,
-        overrides: [sdgGoalsDataProvider.overrideWith((ref) async => sdgData)],
+        overrides: [
+          sdgGoalsDataProvider.overrideWith((ref) async => sdgData),
+          currentLanguageProvider.overrideWith((ref) => language),
+        ],
         child: SdgDetailScreen(goalNumber: goalNumber),
       );
     }
@@ -154,12 +158,17 @@ void main() {
       expect(sliverAppBar.expandedHeight, 200);
     });
 
-    testWidgets('renders ClipRRect for image border radius', (tester) async {
+    testWidgets('shows the goal icon for the app language', (tester) async {
       setLargeScreenSize(tester);
-      await tester.pumpWidget(buildTestWidget(1));
+      await tester.pumpWidget(buildTestWidget(1, language: 'es'));
       await tester.pump();
 
-      expect(find.byType(ClipRRect), findsAtLeast(1));
+      expect(
+        find.image(
+          const AssetImage('assets/images/sdg_icons/es/sdg_icon_01.webp'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('description is contained in styled container', (tester) async {

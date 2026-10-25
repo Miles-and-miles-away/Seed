@@ -100,22 +100,6 @@ Future<ProviderContainer> pumpedContainer(
 // Widget Test Helpers
 // =============================================================================
 
-/// CachedNetworkImage resolves its cache directory via path_provider,
-/// which has no platform implementation under test.
-void stubPathProvider() {
-  const channel = MethodChannel('plugins.flutter.io/path_provider');
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(channel, (methodCall) async {
-        switch (methodCall.method) {
-          case 'getTemporaryDirectory':
-          case 'getApplicationSupportDirectory':
-          case 'getApplicationDocumentsDirectory':
-            return '/tmp';
-        }
-        return null;
-      });
-}
-
 /// A tall phone viewport so long screens lay out without scrolling.
 void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
   tester.view.physicalSize = size;

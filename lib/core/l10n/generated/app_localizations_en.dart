@@ -906,6 +906,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutFooterMade => 'Made with care for our planet.';
 
   @override
+  String get aboutSdgIconsCredit => 'SDG icons: United Nations';
+
+  @override
   String get aboutSubtitleTracker => 'Seed - Sustainability Habit Tracker';
 
   @override

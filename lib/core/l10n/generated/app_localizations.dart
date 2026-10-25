@@ -1666,6 +1666,12 @@ abstract class AppLocalizations {
   /// **'Made with care for our planet.'**
   String get aboutFooterMade;
 
+  /// No description provided for @aboutSdgIconsCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'SDG icons: United Nations'**
+  String get aboutSdgIconsCredit;
+
   /// No description provided for @aboutSubtitleTracker.
   ///
   /// In en, this message translates to:
