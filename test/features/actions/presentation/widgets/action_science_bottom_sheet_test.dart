@@ -5,7 +5,6 @@ import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_science_bottom_sheet.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -19,11 +18,6 @@ const _action = ActionModel(
 );
 
 void main() {
-  // The sheet's markdown re-arms a 500ms visibility timer.
-  setUpAll(
-    () => VisibilityDetectorController.instance.updateInterval = Duration.zero,
-  );
-
   testWidgets('the title is drawn in the readable large-text category ink', (
     tester,
   ) async {
@@ -75,6 +69,29 @@ void main() {
     expect(
       tester.getSize(find.byType(BottomSheet)).height,
       lessThan(screen * 0.9),
+    );
+  });
+
+  testWidgets('the pinned close button sits on the sheet surface', (
+    tester,
+  ) async {
+    final theme = appTheme(Brightness.light);
+    await tester.pumpWidget(
+      createTestWidget(
+        theme: theme,
+        scaffold: true,
+        child: const ActionScienceBottomSheet(
+          action: _action,
+          languageCode: 'en',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final close = tester.widget<IconButton>(find.byType(IconButton));
+    expect(
+      close.style?.backgroundColor?.resolve({}),
+      theme.colorScheme.surfaceContainerLow,
     );
   });
 }

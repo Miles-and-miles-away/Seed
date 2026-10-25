@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
 import 'package:seed_app/shared/widgets/science_sheet.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -19,10 +18,6 @@ void main() {
 
   setUpAll(() async {
     l10n = await AppLocalizations.delegate.load(const Locale('en'));
-    // MarkdownWidget wraps its body in a VisibilityDetector, which
-    // re-arms a 500ms timer on every paint and so never drains under
-    // the test binding's pending-timer check.
-    VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
   group('sourcesMarkdown', () {

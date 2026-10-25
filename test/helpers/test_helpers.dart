@@ -311,7 +311,6 @@ void stressWidthLayoutTests(
   Widget Function(Locale locale, ThemeData? theme) build, {
   List<double> widths = const [320],
   List<double> scales = const [1.0, 2.0],
-  double height = 640,
   Future<void> Function(WidgetTester tester, Locale locale)? act,
 }) => group('in Japanese and Spanish', () {
   setUpAll(loadTestFonts);
@@ -325,7 +324,7 @@ void stressWidthLayoutTests(
               tester,
               size: Size(
                 language == 'es' ? width * robotoToSfWidthFactor : width,
-                height,
+                640,
               ),
             );
             tester.platformDispatcher.textScaleFactorTestValue = scale;

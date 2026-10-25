@@ -19,7 +19,6 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/dataset_helpers.dart';
 import '../../../helpers/test_helpers.dart';
@@ -618,7 +617,6 @@ void main() {
     testWidgets('after the answer it shows the figure and the science', (
       tester,
     ) async {
-      VisibilityDetectorController.instance.updateInterval = Duration.zero;
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
       await tapToken(tester, dryerIndex(tester));

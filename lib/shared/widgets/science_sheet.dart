@@ -4,6 +4,7 @@ import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
@@ -60,7 +61,7 @@ String scienceMarkdown(
   if (notes.isNotEmpty) {
     buffer
       ..writeln('### ${l10n.scienceNotesHeading}')
-      ..writeln(notes)
+      ..writeln(keepUnitsTogether(notes))
       ..writeln();
   }
   if (sources.isNotEmpty) {
@@ -105,35 +106,40 @@ class ScienceSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return DraggableScrollableSheet(
+      initialChildSize: sheetInitialChildSize(context),
       maxChildSize: sheetMaxChildSize,
       minChildSize: sheetMinChildSize,
       expand: false,
-      builder: (context, _) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
-            child: Text(
-              title,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+      // Sharing the sheet's controller lets a drag grow the sheet first.
+      builder: (context, scrollController) => SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
+              child: Text(
+                keepUnitsTogether(title),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: spacingLg),
-          const Divider(height: 1),
-          Expanded(
-            child: MarkdownWidget(
-              data: appendExternalLinkArrow(markdown),
+            const SizedBox(height: spacingLg),
+            const Divider(height: 1),
+            Padding(
               padding: const EdgeInsets.all(spacingXxl),
-              markdownGenerator: phraseMarkdownGenerator(bodyWidth: _bodyWidth),
-              config: markdownConfigFor(
-                context,
-              ).copy(configs: [externalLinkConfig(context)]),
+              child: MarkdownBlock(
+                data: appendExternalLinkArrow(markdown),
+                generator: phraseMarkdownGenerator(bodyWidth: _bodyWidth),
+                config: markdownConfigFor(
+                  context,
+                ).copy(configs: [externalLinkConfig(context)]),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

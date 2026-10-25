@@ -38,6 +38,15 @@ const sheetShape = RoundedRectangleBorder(
 );
 const double sheetMaxChildSize = 0.85;
 const double sheetMinChildSize = 0.3;
+const double _sheetDefaultChildSize = 0.5;
+const double _sheetLargeTextScale = 1.5;
+
+/// A science sheet's opening height: full at large text scales, where a
+/// long title alone would fill the default half.
+double sheetInitialChildSize(BuildContext context) =>
+    MediaQuery.textScalerOf(context).scale(1) >= _sheetLargeTextScale
+    ? sheetMaxChildSize
+    : _sheetDefaultChildSize;
 
 // Animation durations for transitions and celebrations.
 const durationInstant = Duration(milliseconds: 100);

@@ -10,7 +10,6 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_display.dar
 import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/test_helpers.dart';
 
@@ -290,12 +289,6 @@ void main() {
   });
 
   group('showEnergyScienceSheet', () {
-    setUpAll(() {
-      // MarkdownWidget's VisibilityDetector re-arms a 500ms timer on
-      // every paint, which never drains under the pending-timer check.
-      VisibilityDetectorController.instance.updateInterval = Duration.zero;
-    });
-
     Future<void> open(WidgetTester tester, EnergyBehavior behavior) async {
       await tester.pumpWidget(
         _wrap(

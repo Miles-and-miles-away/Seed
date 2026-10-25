@@ -8,7 +8,6 @@ import 'package:seed_app/features/actions/presentation/widgets/action_science_bo
 import 'package:seed_app/features/actions/presentation/widgets/learn_only_info_dialog.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -25,11 +24,6 @@ Widget _wrap() => createTestWidget(
 );
 
 void main() {
-  // The science sheet's markdown re-arms a 500ms visibility timer.
-  setUpAll(
-    () => VisibilityDetectorController.instance.updateInterval = Duration.zero,
-  );
-
   testWidgets('displays the action name and a dismiss button', (tester) async {
     await tester.pumpWidget(_wrap());
 

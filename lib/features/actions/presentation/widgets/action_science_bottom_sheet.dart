@@ -44,73 +44,84 @@ class ActionScienceBottomSheet extends StatelessWidget {
 
     return DraggableScrollableSheet(
       expand: false,
+      initialChildSize: sheetInitialChildSize(context),
       maxChildSize: sheetMaxChildSize,
       minChildSize: sheetMinChildSize,
-      builder: (context, scrollController) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: spacingXxl,
-                right: spacingSm,
-              ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 40),
-                  Expanded(
-                    child: Text(
-                      action.name(languageCode),
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: readableTextColor(
-                          categoryColor,
-                          theme.brightness,
-                          large: true,
+      // The close button stays pinned while the title scrolls with the body.
+      builder: (context, scrollController) => Stack(
+        children: [
+          SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  constraints: const BoxConstraints(
+                    minHeight: kMinInteractiveDimension,
+                  ),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(
+                    left: spacingXxl + 40,
+                    right: spacingSm + kMinInteractiveDimension,
+                  ),
+                  child: Text(
+                    action.name(languageCode),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: readableTextColor(
+                        categoryColor,
+                        theme.brightness,
+                        large: true,
+                      ),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: spacingLg),
+                const Divider(height: 1),
+                Padding(
+                  padding: const EdgeInsets.all(spacingXxl),
+                  child: MarkdownBlock(
+                    data: appendExternalLinkArrow(
+                      action.descriptionLong(languageCode),
+                    ),
+                    generator: phraseMarkdownGenerator(
+                      bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+                    ),
+                    config: markdownConfigFor(context).copy(
+                      configs: [
+                        PConfig(
+                          textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            height: 1.7,
+                            color: theme.colorScheme.onSurface,
+                          ),
                         ),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                        externalLinkConfig(context, color: linkColor),
+                      ],
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: MaterialLocalizations.of(
-                      context,
-                    ).closeButtonTooltip,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: spacingLg),
-            const Divider(height: 1),
-            Expanded(
-              child: MarkdownWidget(
-                data: appendExternalLinkArrow(
-                  action.descriptionLong(languageCode),
-                ),
-                padding: const EdgeInsets.all(spacingXxl),
-                markdownGenerator: phraseMarkdownGenerator(
-                  bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
-                ),
-                config: markdownConfigFor(context).copy(
-                  configs: [
-                    PConfig(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        height: 1.7,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    externalLinkConfig(context, color: linkColor),
-                  ],
-                ),
+          ),
+          Positioned(
+            top: 0,
+            right: spacingSm,
+            child: IconButton(
+              style: IconButton.styleFrom(
+                backgroundColor:
+                    theme.bottomSheetTheme.backgroundColor ??
+                    theme.colorScheme.surfaceContainerLow,
               ),
+              icon: const Icon(Icons.close),
+              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+              onPressed: () => Navigator.of(context).pop(),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/energy.dart';
 import 'package:seed_app/features/transport/transport.dart';
 import 'package:seed_app/shared/widgets/science_sheet.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -26,7 +26,6 @@ void main() {
   setUpAll(() async {
     modes = await loadTransportModes();
     behaviors = await loadEnergyBehaviors();
-    VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
   List<_Sheet> sheets(String languageCode) {
@@ -56,8 +55,6 @@ void main() {
   }
 
   stressWidthLayoutTests(
-    // At 640 the half-height sheet cannot fit the longest ES titles at 2x.
-    height: 800,
     (locale, theme) => createTestWidget(
       locale: locale,
       theme: theme,
@@ -76,7 +73,7 @@ void main() {
         await tester.pumpAndSettle();
         printOnFailure('sheet ${sheet.id}');
         // The note whole, so no markdown syntax swallowed a character.
-        final note = find.textContaining(sheet.notes);
+        final note = find.textContaining(keepUnitsTogether(sheet.notes));
         await tester.scrollUntilVisible(
           note,
           200,

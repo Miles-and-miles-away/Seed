@@ -8,7 +8,6 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_science_bottom_sheet.dart';
 import 'package:seed_app/shared/widgets/info_affordance.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -73,12 +72,6 @@ void main() {
   });
 
   group('the science panel', () {
-    // The science sheet's markdown re-arms a 500ms visibility timer.
-    setUpAll(
-      () =>
-          VisibilityDetectorController.instance.updateInterval = Duration.zero,
-    );
-
     Future<void> showDialog(WidgetTester tester, {String long = ''}) async {
       await tester.pumpWidget(
         createTestWidget(scaffold: true, child: const SizedBox()),
