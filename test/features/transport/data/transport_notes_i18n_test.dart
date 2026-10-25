@@ -59,6 +59,57 @@ void main() {
       expect(es('16 g/km', '16 g/km (~90 g/km)'), ['extra 90 g']);
     });
 
+    test('matches a JA 万 or 億 figure to its English scale by value', () {
+      List<String> ja(String english, String japanese) =>
+          numberMismatches(english, japanese, locale: 'ja');
+      expect(ja('61.4 million tonnes', '6140万トン'), isEmpty);
+      expect(
+        ja('16 billion trees, 350 million in one day', '160億本、1日で3億5000万本'),
+        isEmpty,
+      );
+      expect(ja('a 12 thousand km trip', '1.2万 kmの旅'), isEmpty);
+      expect(ja('61.4 million tonnes', '614万トン'), [
+        'missing 61400000',
+        'extra 6140000',
+      ]);
+      expect(ja('16 billion trees', '16億本'), [
+        'missing 16000000000',
+        'extra 1600000000',
+      ]);
+    });
+
+    test('reads JA digits after 万 or 億, 千 and grouping commas', () {
+      List<String> ja(String english, String japanese) =>
+          numberMismatches(english, japanese, locale: 'ja');
+      expect(ja('a 12 thousand km trip', '1万2000 kmの旅'), isEmpty);
+      expect(ja('a 12,000 km trip', '1万2千 kmの旅'), isEmpty);
+      expect(ja('a 12,000 km trip', '1.2万 kmの旅'), isEmpty);
+      expect(ja('12 million', '1,200万'), isEmpty);
+      expect(ja('350 million', '3億5,000万'), isEmpty);
+      expect(ja('321,752 tonnes', '32万1752トン'), isEmpty);
+      expect(ja('321,752 tonnes', '321,752トン'), isEmpty);
+      expect(ja('a 12,500 km trip', '1万2000 kmの旅'), [
+        'missing 12500 km',
+        'extra 12000 km',
+      ]);
+      expect(ja('305 million', '3億5,000万'), [
+        'missing 305000000',
+        'extra 350000000',
+      ]);
+    });
+
+    test('allows a repeat of an English number but not a new one', () {
+      expect(
+        numberMismatches(
+          'palm oil at 7.96 per kg, which is 1.41',
+          '1 kgあたり7.96で1.41です（7.96は「パーム油」の値）',
+          locale: 'ja',
+        ),
+        isEmpty,
+      );
+      expect(es('at 7.96 per kg', 'a 7,96 por kg (no 7,69)'), ['extra 7,69']);
+    });
+
     test('exempts a code but never a decimal after a hyphen', () {
       expect(es('Panasonic CS-227VB', 'Panasonic CS-227VB'), isEmpty);
       expect(es('the 10th-to-90.5th band', 'la banda 10th-to-90.5th'), [
@@ -66,6 +117,13 @@ void main() {
         'extra 90.5',
       ]);
     });
+  });
+
+  test('a partial completeness check needs a floor', () {
+    expect(
+      () => calculationNotesI18nTests('x.json', 'items', complete: false),
+      throwsArgumentError,
+    );
   });
 
   calculationNotesI18nTests(

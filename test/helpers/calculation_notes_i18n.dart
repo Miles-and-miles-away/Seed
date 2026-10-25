@@ -62,6 +62,35 @@ const _maxImplicitCount = 10;
 
 final _implicitCount = RegExp(r'^\d+(?: |$)');
 
+const _enScales = {'thousand': 1e3, 'million': 1e6, 'billion': 1e9};
+
+final _groupComma = RegExp(r'(?<=\d),(?=\d{3}(?!\d))');
+
+final _enScaled = RegExp(r'(\d+(?:\.\d+)?) (thousand|million|billion)\b');
+
+final _jaScaled = RegExp(
+  r'(?:(\d+(?:\.\d+)?)億)?(?:(\d+(?:\.\d+)?)万)?(?:(\d+)(千)?)?',
+);
+
+/// JA path: grouped digits, "61.4 million", 1万2千 and 3億5000万 as integers.
+String _unscaled(String text) => text
+    .replaceAll(_groupComma, '')
+    .replaceAllMapped(
+      _enScaled,
+      (m) => (double.parse(m[1]!) * _enScales[m[2]]!).round().toString(),
+    )
+    .replaceAllMapped(_jaScaled, (m) {
+      if (m[1] == null && m[2] == null) return m[0]!;
+      final below = m[3] == null
+          ? 0
+          : int.parse(m[3]!) * (m[4] == null ? 1 : 1000);
+      return (double.parse(m[1] ?? '0') * 1e8 +
+              double.parse(m[2] ?? '0') * 1e4 +
+              below)
+          .round()
+          .toString();
+    });
+
 /// The sha256 of an English note, as `calculation_notes_src_sha` stores it.
 String noteSha(String english) =>
     sha256.convert(utf8.encode(english)).toString();
@@ -98,20 +127,24 @@ String _show(_Number n) =>
 
 /// How [translated] differs from [english] in its signed numbers and
 /// units, each English number put in [locale] form: `missing` and `extra`
-/// entries. Small counts may be extra; numbers in [ignore] (English form)
-/// are skipped on both sides. Order and which clause a number sits in are
-/// not checked, so a pass is no proof of meaning.
+/// entries. Small counts may be extra, and so may a repeat of a number EN
+/// already gives; numbers in [ignore] (English form) are skipped on both
+/// sides. In JA, grouped and scaled figures (million, 万, 億) are compared
+/// by value. Order and which clause a number sits in are not checked, so a
+/// pass is no proof of meaning.
 List<String> numberMismatches(
   String english,
   String translated, {
   required String locale,
   Set<String> ignore = const {},
 }) {
+  final source = locale == 'ja' ? _unscaled(english) : english;
+  final target = locale == 'ja' ? _unscaled(translated) : translated;
   final expected = <String>[];
-  for (final m in _token.allMatches(english)) {
+  for (final m in _token.allMatches(source)) {
     final n = _parse(m);
     if (ignore.contains(n.number)) continue;
-    final before = english.substring(0, m.start);
+    final before = source.substring(0, m.start);
     final code =
         !n.number.contains(RegExp('[.,]')) && _codeBefore.hasMatch(before);
     final asIs = locale != 'es' || code || _referenceBefore.hasMatch(before);
@@ -124,7 +157,7 @@ List<String> numberMismatches(
     for (final number in ignore) ...{number, spanishNumber(number)},
   };
   final have = [
-    for (final n in _token.allMatches(translated).map(_parse))
+    for (final n in _token.allMatches(target).map(_parse))
       if (!ignored.contains(n.number)) _show(n),
   ];
   final missing = [
@@ -134,15 +167,16 @@ List<String> numberMismatches(
   return [
     for (final n in missing) 'missing $n',
     for (final n in have)
-      if (!_implicitCount.hasMatch(n) ||
-          int.parse(n.split(' ').first) > _maxImplicitCount)
+      if (!expected.contains(n) &&
+          (!_implicitCount.hasMatch(n) ||
+              int.parse(n.split(' ').first) > _maxImplicitCount))
         'extra $n',
   ];
 }
 
 /// Number-fidelity and staleness checks for the JA and ES calculation
 /// notes of the dataset at [path]. [complete] requires every entry to be
-/// translated; otherwise at least [minTranslated] must be. [exceptions]
+/// translated; otherwise the first [minTranslated] must be. [exceptions]
 /// maps an entry id to numbers [numberMismatches] skips, each with a
 /// reason.
 void calculationNotesI18nTests(
@@ -152,6 +186,9 @@ void calculationNotesI18nTests(
   int? minTranslated,
   Map<String, Map<String, String>> exceptions = const {},
 }) {
+  if (!complete && minTranslated == null) {
+    throw ArgumentError('a partial check needs minTranslated');
+  }
   final entries = rawDatasetList(path, key);
   String field(Map<String, dynamic> entry, String name) =>
       entry[name] as String? ?? '';
@@ -162,22 +199,14 @@ void calculationNotesI18nTests(
     test(
       complete
           ? 'every entry is translated'
-          : 'at least $minTranslated entries are translated',
+          : 'the first $minTranslated entries are translated',
       () {
-        final both = [
-          for (final e in entries)
-            if (translated(e, 'ja') && translated(e, 'es')) e,
+        final required = complete ? entries : entries.take(minTranslated!);
+        final missing = [
+          for (final e in required)
+            if (!translated(e, 'ja') || !translated(e, 'es')) e['id'],
         ];
-        if (complete) {
-          final missing = [
-            for (final e in entries)
-              if (!both.contains(e)) e['id'],
-          ];
-          expect(missing, isEmpty, reason: 'untranslated');
-        }
-        if (minTranslated != null) {
-          expect(both.length, greaterThanOrEqualTo(minTranslated));
-        }
+        expect(missing, isEmpty, reason: 'untranslated');
       },
     );
 

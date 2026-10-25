@@ -1,7 +1,7 @@
 import '../../../helpers/calculation_notes_i18n.dart';
 
-// Each food translation batch raises this to the notes it has landed.
-const _translatedFloor = 0;
+// Batches land in file order; each raises this to the notes now translated.
+const _translatedFloor = 46;
 
 void main() {
   calculationNotesI18nTests(
