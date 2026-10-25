@@ -601,6 +601,64 @@ abstract class _$SelectedSortOption extends $Notifier<ActionSortOption> {
   }
 }
 
+/// The daily challenge's action, shown first for this Log Action visit.
+
+@ProviderFor(PinnedActionId)
+final pinnedActionIdProvider = PinnedActionIdProvider._();
+
+/// The daily challenge's action, shown first for this Log Action visit.
+final class PinnedActionIdProvider
+    extends $NotifierProvider<PinnedActionId, String?> {
+  /// The daily challenge's action, shown first for this Log Action visit.
+  PinnedActionIdProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pinnedActionIdProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pinnedActionIdHash();
+
+  @$internal
+  @override
+  PinnedActionId create() => PinnedActionId();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$pinnedActionIdHash() => r'b7c3a41b142820ca0858d0131f1c86808d24201d';
+
+/// The daily challenge's action, shown first for this Log Action visit.
+
+abstract class _$PinnedActionId extends $Notifier<String?> {
+  String? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<String?, String?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 /// Selected SDG for filtering actions.
 /// Null means "All" SDGs.
 
@@ -927,7 +985,7 @@ final class FilteredActionsProvider
   }
 }
 
-String _$filteredActionsHash() => r'4089bf801210db86cde029d11ee9d4f601a0cef4';
+String _$filteredActionsHash() => r'62d37b3e8130d0cd5b5770cffc8ba1a19e6acfee';
 
 /// Notifier that handles logging actions.
 ///

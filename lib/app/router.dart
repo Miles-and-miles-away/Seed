@@ -92,9 +92,16 @@ class AppRoutes {
   String get factRecall => '/fact-recall';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
-  /// daily challenge card so its category opens already selected.
+  /// daily challenge card when the library lacks the action it names.
   String actionLogForCategory(String category) =>
       Uri(path: actionLog, queryParameters: {'category': category}).toString();
+
+  /// Action log filtered to [category] with [actionId] shown first, used
+  /// by the daily challenge card for the action it names.
+  String actionLogForAction(String category, String actionId) => Uri(
+    path: actionLog,
+    queryParameters: {'category': category, 'action': actionId},
+  ).toString();
 
   /// Action log pre-filtered to one SDG, used by "View all actions" on the
   /// SDG detail screen.
@@ -282,6 +289,7 @@ GoRouter router(Ref ref) {
           child: ActionLogScreen(
             initialCategory: state.uri.queryParameters['category'],
             initialSdg: int.tryParse(state.uri.queryParameters['sdg'] ?? ''),
+            initialActionId: state.uri.queryParameters['action'],
           ),
         ),
       ),

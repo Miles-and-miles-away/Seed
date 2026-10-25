@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -642,6 +643,191 @@ void main() {
         for (final id in shuffledIds(actions, seed))
           if (transportIds.contains(id)) id,
       ]);
+    });
+
+    group('a pinned challenge action', () {
+      final actions = [
+        ...testActions,
+        const ActionModel(
+          id: 'transport2',
+          nameEn: 'Take the Train',
+          nameJa: '電車に乗る',
+          category: 'transport',
+          points: 10,
+        ),
+        const ActionModel(
+          id: 'transport3',
+          nameEn: 'Car Share',
+          nameJa: 'カーシェア',
+          category: 'transport',
+          points: 8,
+        ),
+      ];
+
+      Future<void> open(
+        WidgetTester tester, {
+        String category = 'transport',
+        String? action,
+      }) async {
+        useTallView(tester);
+        await tester.pumpWidget(
+          createTestWidget(
+            overrides: [
+              userOverride(testUser),
+              userIdProvider.overrideWithValue(testUser.uid),
+              actionLibraryProvider.overrideWith((ref) async => actions),
+              actionShuffleSeedProvider.overrideWith((ref) => 1),
+            ],
+            child: ActionLogScreen(
+              initialCategory: category,
+              initialActionId: action,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      }
+
+      ShapeBorder? tileShape(WidgetTester tester, String title) => tester
+          .widget<Card>(
+            find.descendant(
+              of: find.widgetWithText(ActionTile, title),
+              matching: find.byType(Card),
+            ),
+          )
+          .shape;
+
+      testWidgets('leads the grid, ahead of the calculator entry', (
+        tester,
+      ) async {
+        await open(tester, action: 'transport3');
+
+        final titles = [
+          for (final tile in tester.widgetList<ActionTile>(
+            find.byType(ActionTile),
+          ))
+            tile.title,
+        ];
+        expect(titles.take(2), ['Car Share', 'Log a Custom Transport action']);
+        expect(titles, hasLength(4));
+      });
+
+      testWidgets('is ringed in tertiary and named for screen readers', (
+        tester,
+      ) async {
+        await open(tester, action: 'transport3');
+
+        final scheme = Theme.of(
+          tester.element(find.byType(ActionLogScreen)),
+        ).colorScheme;
+        final shape = tileShape(tester, 'Car Share')! as RoundedRectangleBorder;
+        expect(shape.side.color, scheme.tertiary);
+        expect(shape.side.width, 2);
+        expect(tileShape(tester, 'Take the Train'), isNull);
+        final pinnedTile = find.widgetWithText(ActionTile, 'Car Share');
+        final cardTop = tester
+            .getTopLeft(
+              find
+                  .descendant(of: pinnedTile, matching: find.byType(Material))
+                  .first,
+            )
+            .dy;
+        final bar = find.descendant(
+          of: pinnedTile,
+          matching: find.byWidgetPredicate(
+            (w) => w is Container && w.constraints?.maxHeight == 4,
+          ),
+        );
+        expect(tester.getTopLeft(bar).dy - cardTop, ringWidth);
+        expect(tester.getSize(bar).height, 4);
+        expect(
+          tester.getSemantics(find.text('Car Share')),
+          isSemantics(
+            label: 'Car Share\n8 points',
+            hint: 'Daily action challenge',
+            hasTapAction: true,
+          ),
+        );
+        expect(
+          tester.getSemantics(find.text('Take the Train')),
+          isNot(isSemantics(hint: 'Daily action challenge')),
+        );
+      });
+
+      testWidgets('leads a category without a calculator entry', (
+        tester,
+      ) async {
+        await open(tester, category: 'energy', action: 'action4');
+
+        expect(
+          tester.widgetList<ActionTile>(find.byType(ActionTile)).first.title,
+          'Switch Off Standby',
+        );
+        expect(tileShape(tester, 'Switch Off Standby'), isNotNull);
+      });
+
+      testWidgets('lasts one visit only', (tester) async {
+        useTallView(tester);
+        final router = GoRouter(
+          initialLocation: '/home',
+          routes: [
+            GoRoute(
+              path: '/home',
+              builder: (_, _) => const Scaffold(body: Text('Home Screen')),
+            ),
+            GoRoute(
+              path: '/log-action',
+              builder: (_, state) => ActionLogScreen(
+                initialCategory: state.uri.queryParameters['category'],
+                initialActionId: state.uri.queryParameters['action'],
+              ),
+            ),
+          ],
+        );
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              languageStoreOverride(),
+              userOverride(testUser),
+              userIdProvider.overrideWithValue(testUser.uid),
+              actionLibraryProvider.overrideWith((ref) async => actions),
+            ],
+            child: MaterialApp.router(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              routerConfig: router,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        bool ringed() => tester
+            .widgetList<ActionTile>(find.byType(ActionTile))
+            .any((tile) => tile.highlighted);
+
+        unawaited(router.push('/log-action?category=energy&action=action4'));
+        await tester.pumpAndSettle();
+        expect(ringed(), isTrue);
+
+        router.pop();
+        await tester.pumpAndSettle();
+        unawaited(router.push('/log-action'));
+        await tester.pumpAndSettle();
+        expect(find.byType(ActionTile), findsWidgets);
+        expect(ringed(), isFalse);
+      });
+
+      testWidgets('without one, no tile is ringed', (tester) async {
+        await open(tester);
+
+        for (final tile in tester.widgetList<ActionTile>(
+          find.byType(ActionTile),
+        )) {
+          expect(tile.highlighted, isFalse, reason: tile.title);
+        }
+        expect(
+          tester.widgetList<ActionTile>(find.byType(ActionTile)).first.title,
+          'Log a Custom Transport action',
+        );
+      });
     });
 
     group('the title is not scaled down at 320pt', () {

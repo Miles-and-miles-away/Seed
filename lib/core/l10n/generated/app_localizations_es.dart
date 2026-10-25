@@ -1259,10 +1259,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get challengeDialogLogAction => 'Registrar acción';
 
   @override
-  String get challengeDialogUnlock =>
-      '¡Completa para desbloquear el eco-dato de hoy!';
-
-  @override
   String get challengeTabLabel => 'Desafío';
 
   @override
@@ -1273,6 +1269,54 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get challengeSeeFact => 'Ver el eco-dato de hoy';
+
+  @override
+  String get challengeOverline => 'Desafío diario de acción';
+
+  @override
+  String challengeLogAction(String action) {
+    return 'Registra «$action» para desbloquear el eco-dato de hoy';
+  }
+
+  @override
+  String challengeAnyActionCounts(String category) {
+    String _temp0 = intl.Intl.selectLogic(category, {
+      'recycling': 'Vale cualquier acción de reciclaje',
+      'transport': 'Vale cualquier acción de transporte',
+      'food': 'Vale cualquier acción de alimentación',
+      'energy': 'Vale cualquier acción de energía',
+      'consumption': 'Vale cualquier acción de consumo',
+      'water': 'Vale cualquier acción de agua',
+      'community': 'Vale cualquier acción de comunidad',
+      'advocacy': 'Vale cualquier acción de defensa',
+      'other': 'Vale cualquier acción de esta categoría',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String challengeLogAnyAction(String category) {
+    String _temp0 = intl.Intl.selectLogic(category, {
+      'recycling':
+          'Registra una acción de reciclaje para desbloquear el eco-dato de hoy',
+      'transport':
+          'Registra una acción de transporte para desbloquear el eco-dato de hoy',
+      'food':
+          'Registra una acción de alimentación para desbloquear el eco-dato de hoy',
+      'energy':
+          'Registra una acción de energía para desbloquear el eco-dato de hoy',
+      'consumption':
+          'Registra una acción de consumo para desbloquear el eco-dato de hoy',
+      'water':
+          'Registra una acción de agua para desbloquear el eco-dato de hoy',
+      'community':
+          'Registra una acción de comunidad para desbloquear el eco-dato de hoy',
+      'advocacy':
+          'Registra una acción de defensa para desbloquear el eco-dato de hoy',
+      'other': 'Registra una acción para desbloquear el eco-dato de hoy',
+    });
+    return '$_temp0';
+  }
 
   @override
   String challengeStreakDays(int days) {

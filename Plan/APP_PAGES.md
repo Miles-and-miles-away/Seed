@@ -104,11 +104,14 @@ Main hub with mascot summary, challenges, and SDG carousel.
   - `/profile/settings` (settings gear in app bar; pushed on the Home tab)
   - `/home/challenges` (multi-day challenge card)
   - `/log-action` (bottom nav, via shell)
-  - `/log-action?category=<category>` (incomplete daily challenge card)
+  - `/log-action?category=<category>&action=<id>` (incomplete daily
+    challenge card; `category` alone if the library lacks the action)
   - External: UN SDG page (`AppConstants.sdgGoalsUrl`)
 - Functionality: settings gear beside the mail icon in the app bar,
-  mascot card with streak/points, daily challenge card
-  (tap when incomplete jumps to the actions for its category),
+  mascot card with streak/points, daily challenge card in a tertiary
+  shade (names one action; any action in its category completes it;
+  tap opens Log Action filtered to the category with that action
+  first; once complete, the whole card opens today's eco-fact),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
   sheet), infinite SDG carousel under a "Discover the SDGs" header,
@@ -226,7 +229,9 @@ unambiguous exit. Browse and log actions.
   not inflate with it; tests pin that the tallest tile still fits at
   scale 1.0, 1.3 and 2.0 (2026-09-02).
 - Query params: `category` pre-selects the matching category tab on open
-  (unknown values fall back to "All").
+  (unknown values fall back to "All"); an `action` parameter pins that
+  action first for the visit, under every sort and ahead of the
+  custom-action tile, ringed in the scheme's tertiary colour.
 - Functionality: no AppBar actions, so the title renders at full size in
   every language. Search, category tabs, sort dropdown (Shuffle by
   default, a new order each visit; a chosen sort is kept until the app

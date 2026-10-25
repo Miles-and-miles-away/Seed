@@ -37,6 +37,7 @@ class ActionTile extends StatelessWidget {
     this.badgeIcon,
     this.footer,
     this.titleLocale,
+    this.highlighted = false,
     super.key,
   });
 
@@ -52,80 +53,102 @@ class ActionTile extends StatelessWidget {
   /// The title's language when it can differ from the app locale.
   final Locale? titleLocale;
 
+  /// Rings the tile as the daily challenge's action.
+  final bool highlighted;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(height: 4, color: accentColor),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(spacingLg),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(icon, size: 36, color: contentColor),
-                    const SizedBox(height: spacingSm),
-                    PhraseText(
-                      title,
-                      locale: titleLocale,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+      shape: highlighted
+          ? RoundedRectangleBorder(
+              side: BorderSide(
+                color: theme.colorScheme.tertiary,
+                width: ringWidth,
+              ),
+              borderRadius: borderRadiusLg,
+            )
+          : null,
+      child: Semantics(
+        hint: highlighted
+            ? AppLocalizations.of(context).challengeOverline
+            : null,
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // The ring paints over the card's edge, so drop the bar below it.
+              if (highlighted) const SizedBox(height: ringWidth),
+              Container(height: 4, color: accentColor),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(spacingLg),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(icon, size: 36, color: contentColor),
+                      const SizedBox(height: spacingSm),
+                      PhraseText(
+                        title,
+                        locale: titleLocale,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: spacingXs),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingSm,
-                        vertical: spacingXs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: contentColor.withValues(alpha: opacityFaint),
-                        borderRadius: borderRadiusMd,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (badgeIcon != null) ...[
-                            Icon(badgeIcon, size: 12, color: contentColor),
-                            const SizedBox(width: spacingXs),
-                          ],
-                          Flexible(
-                            child: Text(
-                              badgeLabel,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                // Darkened: the raw category colour on
-                                // a tint of itself is about 1.5:1, so
-                                // the label washed out. The accent bar
-                                // and the icon keep the colour as it is.
-                                color: readableTextColor(
-                                  contentColor,
-                                  theme.brightness,
+                      const SizedBox(height: spacingXs),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacingSm,
+                          vertical: spacingXs,
+                        ),
+                        decoration: BoxDecoration(
+                          color: contentColor.withValues(alpha: opacityFaint),
+                          borderRadius: borderRadiusMd,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (badgeIcon != null) ...[
+                              Icon(badgeIcon, size: 12, color: contentColor),
+                              const SizedBox(width: spacingXs),
+                            ],
+                            Flexible(
+                              child: Text(
+                                badgeLabel,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  // Darkened: the raw category colour on
+                                  // a tint of itself is about 1.5:1, so
+                                  // the label washed out. The accent bar
+                                  // and the icon keep the colour as it is.
+                                  color: readableTextColor(
+                                    contentColor,
+                                    theme.brightness,
+                                  ),
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                fontWeight: FontWeight.bold,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    if (footer != null) ...[const SizedBox(height: 6), footer!],
-                  ],
+                      if (footer != null) ...[
+                        const SizedBox(height: 6),
+                        footer!,
+                      ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -138,12 +161,14 @@ class ActionCard extends ConsumerWidget {
     required this.action,
     required this.languageCode,
     required this.onTap,
+    this.highlighted = false,
     super.key,
   });
 
   final ActionModel action;
   final String languageCode;
   final VoidCallback onTap;
+  final bool highlighted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -169,6 +194,7 @@ class ActionCard extends ConsumerWidget {
           ? null
           : _buildSdgBadges(action.relatedSdgs, goalMap),
       onTap: onTap,
+      highlighted: highlighted,
     );
   }
 

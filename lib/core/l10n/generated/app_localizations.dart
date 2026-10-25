@@ -2260,12 +2260,6 @@ abstract class AppLocalizations {
   /// **'Log Action'**
   String get challengeDialogLogAction;
 
-  /// No description provided for @challengeDialogUnlock.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete to unlock today\'s eco-fact!'**
-  String get challengeDialogUnlock;
-
   /// No description provided for @challengeTabLabel.
   ///
   /// In en, this message translates to:
@@ -2289,6 +2283,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See today\'s eco-fact'**
   String get challengeSeeFact;
+
+  /// No description provided for @challengeOverline.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily action challenge'**
+  String get challengeOverline;
+
+  /// Daily challenge card; action is the library action's name
+  ///
+  /// In en, this message translates to:
+  /// **'Log \'{action}\' to unlock today\'s eco-fact'**
+  String challengeLogAction(String action);
+
+  /// Daily challenge card hint; category is an ActionCategory name
+  ///
+  /// In en, this message translates to:
+  /// **'{category, select, recycling{Any recycling action counts} transport{Any transport action counts} food{Any food action counts} energy{Any energy action counts} consumption{Any consumption action counts} water{Any water action counts} community{Any community action counts} advocacy{Any advocacy action counts} other{Any action in this category counts}}'**
+  String challengeAnyActionCounts(String category);
+
+  /// Daily challenge card fallback; category is an ActionCategory name
+  ///
+  /// In en, this message translates to:
+  /// **'{category, select, recycling{Log any recycling action to unlock today\'s eco-fact} transport{Log any transport action to unlock today\'s eco-fact} food{Log any food action to unlock today\'s eco-fact} energy{Log any energy action to unlock today\'s eco-fact} consumption{Log any consumption action to unlock today\'s eco-fact} water{Log any water action to unlock today\'s eco-fact} community{Log any community action to unlock today\'s eco-fact} advocacy{Log any advocacy action to unlock today\'s eco-fact} other{Log any action to unlock today\'s eco-fact}}'**
+  String challengeLogAnyAction(String category);
 
   /// No description provided for @challengeStreakDays.
   ///

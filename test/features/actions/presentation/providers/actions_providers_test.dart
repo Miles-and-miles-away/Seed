@@ -469,6 +469,71 @@ void main() {
     });
   });
 
+  group('filteredActions (pinned action)', () {
+    Future<ProviderContainer> pinned(String id) async {
+      final c = await libraryContainer();
+      c
+        ..listen(filteredActionsProvider, (_, _) {})
+        ..listen(selectedSortOptionProvider, (_, _) {});
+      c.read(pinnedActionIdProvider.notifier).pin(id);
+      await Future<void>.delayed(Duration.zero);
+      return c;
+    }
+
+    List<String> ids(ProviderContainer c) =>
+        c.read(filteredActionsProvider).value!.map((a) => a.id).toList();
+
+    test('is first under every sort, Shuffle included', () async {
+      for (final sort in ActionSortOption.values) {
+        final c = await pinned('veggies');
+        c.read(selectedSortOptionProvider.notifier).select(sort);
+        await Future<void>.delayed(Duration.zero);
+
+        expect(ids(c).first, 'veggies', reason: sort.name);
+        expect(ids(c), unorderedEquals(['walk', 'bike', 'veggies', 'shower']));
+      }
+    });
+
+    test('is first under fresh shuffles', () async {
+      for (var i = 0; i < 5; i++) {
+        final c = await pinned('shower');
+        c
+            .read(selectedSortOptionProvider.notifier)
+            .select(ActionSortOption.random);
+        await Future<void>.delayed(Duration.zero);
+
+        expect(ids(c).first, 'shower');
+      }
+    });
+
+    test('survives a search that keeps it', () async {
+      final c = await pinned('bike');
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.alphabeticalDesc);
+      c.read(actionSearchQueryProvider.notifier).setQuery('e');
+      await Future<void>.delayed(Duration.zero);
+
+      expect(ids(c), ['bike', 'shower', 'veggies']);
+    });
+
+    test('is not inserted when a filter excludes it', () async {
+      final c = await pinned('veggies');
+      c
+          .read(selectedCategoryProvider.notifier)
+          .select(ActionCategory.transport);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(ids(c), unorderedEquals(['walk', 'bike']));
+    });
+
+    test('nothing is pinned by default', () async {
+      final c = await libraryContainer();
+
+      expect(c.read(pinnedActionIdProvider), isNull);
+    });
+  });
+
   group('log streams', () {
     final now = DateTime(2026, 6, 17, 15, 30);
     late _MockRepository repo;

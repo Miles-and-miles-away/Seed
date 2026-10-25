@@ -1,39 +1,26 @@
 /// Daily and multi-day challenge template definitions.
 library;
 
-/// A single-day challenge targeting one action category.
+/// A single-day challenge naming one library action.
 class DailyChallengeTemplate {
   const DailyChallengeTemplate({
-    required this.id,
+    required this.actionId,
     required this.category,
-    required this.titleEn,
-    required this.titleEs,
-    required this.titleJa,
   });
 
-  factory DailyChallengeTemplate.fromJson(Map<String, dynamic> json) {
-    return DailyChallengeTemplate(
-      id: json['id'] as String,
-      category: json['category'] as String,
-      titleEn: json['titleEn'] as String,
-      titleEs: json['titleEs'] as String,
-      titleJa: json['titleJa'] as String,
-    );
-  }
+  factory DailyChallengeTemplate.fromJson(Map<String, dynamic> json) =>
+      DailyChallengeTemplate(
+        actionId: json['actionId'] as String,
+        category: json['category'] as String,
+      );
 
-  final String id;
+  final String actionId;
+
+  /// Any action in this category completes the challenge.
   final String category;
-  final String titleEn;
-  final String titleEs;
-  final String titleJa;
 
-  String title(String locale) {
-    return switch (locale) {
-      'es' when titleEs.isNotEmpty => titleEs,
-      'ja' when titleJa.isNotEmpty => titleJa,
-      _ => titleEn,
-    };
-  }
+  /// The id stored in `recentChallengeIds`.
+  String get id => actionId;
 }
 
 /// A multi-day challenge spanning several consecutive days.

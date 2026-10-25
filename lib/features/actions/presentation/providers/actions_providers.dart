@@ -171,6 +171,16 @@ class SelectedSortOption extends _$SelectedSortOption {
   }
 }
 
+/// The daily challenge's action, shown first for this Log Action visit.
+@riverpod
+class PinnedActionId extends _$PinnedActionId {
+  @override
+  String? build() => null;
+
+  // ignore: use_setters_to_change_properties
+  void pin(String id) => state = id;
+}
+
 /// Selected SDG for filtering actions.
 /// Null means "All" SDGs.
 @riverpod
@@ -278,10 +288,14 @@ AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
   final lang = ref.watch(userLanguageCodeProvider);
   // Watched unconditionally so the seed lives for the whole visit.
   final rank = ref.watch(actionShuffleRankProvider);
+  final pinned = ref.watch(pinnedActionIdProvider);
 
-  return baseAsync.whenData(
-    (actions) => _sortActions(actions, sortOption, lang, rank),
-  );
+  return baseAsync.whenData((actions) {
+    final sorted = _sortActions(actions, sortOption, lang, rank);
+    final index = sorted.indexWhere((a) => a.id == pinned);
+    if (index > 0) sorted.insert(0, sorted.removeAt(index));
+    return sorted;
+  });
 }
 
 /// Sorts actions by the selected option, using locale-aware

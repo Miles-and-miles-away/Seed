@@ -59,13 +59,31 @@ final _actions = _fields(
   ),
   ['name_ja'],
 );
-final _challenges = () {
-  final data =
-      _json('data/app/challenge_templates.json')! as Map<String, Object?>;
-  return _fields(
-    [..._records(data['daily']), ..._records(data['multiDay'])],
-    ['titleJa', 'descriptionJa'],
-  );
+
+final _challengeData =
+    _json('data/app/challenge_templates.json')! as Map<String, Object?>;
+final _challenges = _fields(_records(_challengeData['multiDay']), [
+  'titleJa',
+  'descriptionJa',
+]);
+
+/// Each daily challenge card's sentence, with the action it names.
+final _dailyCard = () {
+  final names = {
+    for (final action in _records(
+      (_json('data/seed/co2_actions_database.json')!
+          as Map<String, Object?>)['actions'],
+    ))
+      action['action_id']: action['name_ja']! as String,
+  };
+  final sentence =
+      (_json('lib/core/l10n/app_ja.arb')!
+              as Map<String, Object?>)['challengeLogAction']!
+          as String;
+  return [
+    for (final daily in _records(_challengeData['daily']))
+      sentence.replaceFirst('{action}', names[daily['actionId']]!),
+  ];
 }();
 final _ecoDex = _fields(
   _records(
@@ -275,6 +293,7 @@ void main() {
     'facts': _facts,
     'actions': _actions,
     'challenges': _challenges,
+    'dailyCard': _dailyCard,
     'ecodex': _ecoDex,
     'sdg': _sdg,
   };
@@ -283,7 +302,8 @@ void main() {
     'arb': 1.114,
     'facts': 1.179,
     'actions': 1.058,
-    'challenges': 1.157,
+    'challenges': 1.177,
+    'dailyCard': 1.25,
     'ecodex': 1.161,
     'sdg': 1.166,
   };
@@ -333,7 +353,9 @@ void main() {
     expect(_arb.length, greaterThan(600));
     expect(_facts, hasLength(366));
     expect(_actions, hasLength(91));
-    expect(_challenges, contains('今日は近所の人や地域の活動を手伝おう'));
+    expect(_challenges, isNotEmpty);
+    expect(_dailyCard, hasLength(24));
+    expect(_dailyCard, contains('「電気を消す」を記録して、今日のエコファクトを解除しよう'));
     expect(_ecoDex.length, greaterThan(300));
     expect(_sdg.length, greaterThan(169));
   });

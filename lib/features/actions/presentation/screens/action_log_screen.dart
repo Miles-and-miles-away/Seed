@@ -21,7 +21,12 @@ import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
 class ActionLogScreen extends ConsumerStatefulWidget {
-  const ActionLogScreen({super.key, this.initialCategory, this.initialSdg});
+  const ActionLogScreen({
+    super.key,
+    this.initialCategory,
+    this.initialSdg,
+    this.initialActionId,
+  });
 
   /// Category name to pre-select on open (e.g. from the daily challenge
   /// card). Null or unrecognized values show all categories.
@@ -29,6 +34,9 @@ class ActionLogScreen extends ConsumerStatefulWidget {
 
   /// SDG number to pre-select on open (from "View all actions" on an SDG).
   final int? initialSdg;
+
+  /// Action to show first for this visit (the daily challenge's).
+  final String? initialActionId;
 
   /// Accent bar, padding, icon and gaps: the part of a tile that does
   /// not move with the text scale.
@@ -67,7 +75,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     _searchController.addListener(_onSearchChanged);
     final initialCategory = ActionCategory.fromString(widget.initialCategory);
     final initialSdg = widget.initialSdg;
-    if (initialCategory != null || initialSdg != null) {
+    final initialActionId = widget.initialActionId;
+    if (initialCategory != null ||
+        initialSdg != null ||
+        initialActionId != null) {
       // Provider mutations are disallowed during initState, so apply the
       // incoming filter on the first frame (during the route transition).
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -77,6 +88,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         }
         if (initialSdg != null) {
           ref.read(selectedSdgFilterProvider.notifier).select(initialSdg);
+        }
+        if (initialActionId != null) {
+          ref.read(pinnedActionIdProvider.notifier).pin(initialActionId);
         }
       });
     }
@@ -261,6 +275,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     }
 
     final entry = _buildCalculatorEntry(l10n);
+    final pinned = ref.watch(pinnedActionIdProvider);
+    // The challenge's own action leads; the calculator entry follows it.
+    final entryIndex = filteredActions.first.id == pinned ? 1 : 0;
     return GridView.builder(
       padding: const EdgeInsets.all(spacingLg),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -278,11 +295,15 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       ),
       itemCount: filteredActions.length + (entry == null ? 0 : 1),
       itemBuilder: (context, index) {
-        if (entry != null && index == 0) return entry;
-        final action = filteredActions[entry == null ? index : index - 1];
+        if (entry != null && index == entryIndex) return entry;
+        final action =
+            filteredActions[entry == null || index < entryIndex
+                ? index
+                : index - 1];
         return ActionCard(
           action: action,
           languageCode: languageCode,
+          highlighted: action.id == pinned,
           onTap: () => handleActionTap(
             context,
             ref,

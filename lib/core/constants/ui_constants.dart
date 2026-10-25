@@ -29,6 +29,9 @@ final BorderRadius borderRadiusLg = BorderRadius.circular(radiusLg);
 final BorderRadius borderRadiusXl = BorderRadius.circular(radiusXl);
 final BorderRadius borderRadiusXxl = BorderRadius.circular(radiusXxl);
 
+// Width of the ring that marks a highlighted card.
+const double ringWidth = 2;
+
 // Bottom-sheet chrome shared by every modal sheet in the app.
 const sheetShape = RoundedRectangleBorder(
   borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),

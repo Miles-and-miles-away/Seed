@@ -9,7 +9,6 @@ import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const _discRadius = 24.0;
 const _chevronSize = 24.0;
-const _ringWidth = 2.0;
 
 /// Title and subtitle width at 320pt: list and tile padding, the disc, the
 /// chevron and the gap beside each.
@@ -54,7 +53,7 @@ class ExploreTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: borderRadiusLg,
         side: ringed
-            ? const BorderSide(color: AppColors.gold, width: _ringWidth)
+            ? const BorderSide(color: AppColors.gold, width: ringWidth)
             : BorderSide.none,
       ),
       child: AnimatedOpacity(

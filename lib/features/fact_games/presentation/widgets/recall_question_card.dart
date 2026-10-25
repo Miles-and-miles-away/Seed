@@ -4,7 +4,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
-import 'package:seed_app/features/fact_games/presentation/widgets/no_word_break.dart';
+import 'package:seed_app/shared/widgets/no_word_break.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const _bodyLineHeight = 1.5;

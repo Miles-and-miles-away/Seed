@@ -1207,9 +1207,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get challengeDialogLogAction => 'アクションを記録';
 
   @override
-  String get challengeDialogUnlock => '完了して今日のエコファクトを解除しよう！';
-
-  @override
   String get challengeTabLabel => 'チャレンジ';
 
   @override
@@ -1220,6 +1217,46 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get challengeSeeFact => '今日のエコファクトを見る';
+
+  @override
+  String get challengeOverline => 'アクションチャレンジ';
+
+  @override
+  String challengeLogAction(String action) {
+    return '「$action」を記録して、今日のエコファクトを解除しよう';
+  }
+
+  @override
+  String challengeAnyActionCounts(String category) {
+    String _temp0 = intl.Intl.selectLogic(category, {
+      'recycling': 'リサイクルのアクションならどれでもOK',
+      'transport': '移動のアクションならどれでもOK',
+      'food': '食事のアクションならどれでもOK',
+      'energy': 'エネルギーのアクションならどれでもOK',
+      'consumption': '消費のアクションならどれでもOK',
+      'water': '水のアクションならどれでもOK',
+      'community': 'コミュニティのアクションならどれでもOK',
+      'advocacy': 'アドボカシーのアクションならどれでもOK',
+      'other': 'このカテゴリーのアクションならどれでもOK',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String challengeLogAnyAction(String category) {
+    String _temp0 = intl.Intl.selectLogic(category, {
+      'recycling': 'リサイクルのアクションを記録して、今日のエコファクトを解除しよう',
+      'transport': '移動のアクションを記録して、今日のエコファクトを解除しよう',
+      'food': '食事のアクションを記録して、今日のエコファクトを解除しよう',
+      'energy': 'エネルギーのアクションを記録して、今日のエコファクトを解除しよう',
+      'consumption': '消費のアクションを記録して、今日のエコファクトを解除しよう',
+      'water': '水のアクションを記録して、今日のエコファクトを解除しよう',
+      'community': 'コミュニティのアクションを記録して、今日のエコファクトを解除しよう',
+      'advocacy': 'アドボカシーのアクションを記録して、今日のエコファクトを解除しよう',
+      'other': 'アクションを記録して、今日のエコファクトを解除しよう',
+    });
+    return '$_temp0';
+  }
 
   @override
   String challengeStreakDays(int days) {

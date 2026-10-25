@@ -594,11 +594,35 @@
   "challengeDialogTitle": "今日のチャレンジ",
   "challengeDialogLater": "あとで",
   "challengeDialogLogAction": "アクションを記録",
-  "challengeDialogUnlock": "完了して今日のエコファクトを解除しよう！",
   "challengeTabLabel": "チャレンジ",
   "challengeCompleted": "完了！",
   "challengeNotCompleted": "未完了",
   "challengeSeeFact": "今日のエコファクトを見る",
+  "challengeOverline": "アクションチャレンジ",
+  "challengeLogAction": "「{action}」を記録して、今日のエコファクトを解除しよう",
+  "@challengeLogAction": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeAnyActionCounts": "{category, select, recycling{リサイクルのアクションならどれでもOK} transport{移動のアクションならどれでもOK} food{食事のアクションならどれでもOK} energy{エネルギーのアクションならどれでもOK} consumption{消費のアクションならどれでもOK} water{水のアクションならどれでもOK} community{コミュニティのアクションならどれでもOK} advocacy{アドボカシーのアクションならどれでもOK} other{このカテゴリーのアクションならどれでもOK}}",
+  "@challengeAnyActionCounts": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeLogAnyAction": "{category, select, recycling{リサイクルのアクションを記録して、今日のエコファクトを解除しよう} transport{移動のアクションを記録して、今日のエコファクトを解除しよう} food{食事のアクションを記録して、今日のエコファクトを解除しよう} energy{エネルギーのアクションを記録して、今日のエコファクトを解除しよう} consumption{消費のアクションを記録して、今日のエコファクトを解除しよう} water{水のアクションを記録して、今日のエコファクトを解除しよう} community{コミュニティのアクションを記録して、今日のエコファクトを解除しよう} advocacy{アドボカシーのアクションを記録して、今日のエコファクトを解除しよう} other{アクションを記録して、今日のエコファクトを解除しよう}}",
+  "@challengeLogAnyAction": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
   "challengeStreakDays": "チャレンジ{days}日連続",
   "@challengeStreakDays": {
     "placeholders": {
