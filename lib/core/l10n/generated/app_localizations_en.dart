@@ -1552,7 +1552,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exploreEnergyRankedSubtitle => 'Everyday habits ranked by energy';
 
   @override
-  String get exploreQuizSubtitle => 'Which has the bigger footprint?';
+  String get exploreQuizSubtitle => 'Which produces more carbon?';
 
   @override
   String get mascotLinkTitle => 'Your mascot';
@@ -2345,8 +2345,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quizTitle => 'Higher or lower?';
 
   @override
-  String get quizQuestion =>
-      'Drag the one with the bigger footprint to the top';
+  String get quizQuestion => 'Tap or drag up the one that produces more';
+
+  @override
+  String get quizSubtitle => 'Which produces more carbon?';
+
+  @override
+  String get quizChooseHint => 'Choose this one';
+
+  @override
+  String quizAnnounceRight(int count) {
+    return 'Right! Streak: $count';
+  }
+
+  @override
+  String get quizAnnounceWrong => 'Not this time. Streak: 0';
+
+  @override
+  String quizItemLabel(String title, String subtitle) {
+    return '$title, $subtitle';
+  }
+
+  @override
+  String quizItemRevealedLabel(String title, String reveal) {
+    return '$title: $reveal';
+  }
+
+  @override
+  String quizItemInfoTooltip(String item) {
+    return 'About $item';
+  }
+
+  @override
+  String get quizItemInfoType => 'Type';
+
+  @override
+  String get quizItemInfoAmount => 'Amount compared';
+
+  @override
+  String get quizItemInfoScience => 'Where this number comes from';
 
   @override
   String get quizBasisEnergy => 'Home energy, one typical use';
@@ -2590,7 +2627,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughQuiz1 =>
-      'Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.';
+      'Two things, one question: which produces more carbon? Build a streak. No points, just bragging rights.';
 
   @override
   String get walkthroughProgress1 =>

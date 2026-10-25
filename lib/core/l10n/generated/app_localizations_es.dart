@@ -1577,7 +1577,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los hábitos diarios clasificados por energía';
 
   @override
-  String get exploreQuizSubtitle => '¿Cuál tiene la huella más grande?';
+  String get exploreQuizSubtitle => '¿Cuál emite más CO2?';
 
   @override
   String get mascotLinkTitle => 'Tu mascota';
@@ -2377,7 +2377,45 @@ class AppLocalizationsEs extends AppLocalizations {
   String get quizTitle => '¿Más o menos?';
 
   @override
-  String get quizQuestion => 'Arrastra arriba la de mayor huella';
+  String get quizQuestion => 'Toca o arrastra hacia arriba la que emite más';
+
+  @override
+  String get quizSubtitle => '¿Cuál emite más CO2?';
+
+  @override
+  String get quizChooseHint => 'Elegir esta';
+
+  @override
+  String quizAnnounceRight(int count) {
+    return '¡Correcto! Racha: $count';
+  }
+
+  @override
+  String get quizAnnounceWrong => 'Esta vez no. Racha: 0';
+
+  @override
+  String quizItemLabel(String title, String subtitle) {
+    return '$title, $subtitle';
+  }
+
+  @override
+  String quizItemRevealedLabel(String title, String reveal) {
+    return '$title: $reveal';
+  }
+
+  @override
+  String quizItemInfoTooltip(String item) {
+    return 'Acerca de «$item»';
+  }
+
+  @override
+  String get quizItemInfoType => 'Tipo';
+
+  @override
+  String get quizItemInfoAmount => 'Cantidad comparada';
+
+  @override
+  String get quizItemInfoScience => 'De dónde viene este número';
 
   @override
   String get quizBasisEnergy => 'Energía del hogar: un uso típico';
@@ -2626,7 +2664,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughQuiz1 =>
-      'Dos cosas, una pregunta: ¿cuál tiene la huella más grande? Haz una racha. Sin puntos, solo para presumir.';
+      'Dos cosas, una pregunta: ¿cuál emite más CO2? Haz una racha. Sin puntos, solo para presumir.';
 
   @override
   String get walkthroughProgress1 =>

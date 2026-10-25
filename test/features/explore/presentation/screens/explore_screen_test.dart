@@ -95,7 +95,7 @@ void main() {
       final tops = [for (final t in order) tester.getTopLeft(find.text(t)).dy];
       expect(tops, [...tops]..sort());
       expect(find.text('Two routes, any mix of modes'), findsOneWidget);
-      expect(find.text('Which has the bigger footprint?'), findsOneWidget);
+      expect(find.text('Which produces more carbon?'), findsOneWidget);
       for (final subtitle in _factGames.values) {
         expect(find.text(subtitle), findsOneWidget);
       }

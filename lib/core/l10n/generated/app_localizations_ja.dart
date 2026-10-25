@@ -1511,7 +1511,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exploreEnergyRankedSubtitle => '日々の習慣をエネルギーでランキング';
 
   @override
-  String get exploreQuizSubtitle => 'どっちの排出量が多い？';
+  String get exploreQuizSubtitle => 'どちらがCO2を多く出す？';
 
   @override
   String get mascotLinkTitle => 'あなたのマスコット';
@@ -2277,7 +2277,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizTitle => '多い？ 少ない？';
 
   @override
-  String get quizQuestion => '排出量が多いほうを上にドラッグ';
+  String get quizQuestion => '多く出すほうをタップするか、上にドラッグ';
+
+  @override
+  String get quizSubtitle => 'どちらがCO2を多く出す？';
+
+  @override
+  String get quizChooseHint => 'こちらを選ぶ';
+
+  @override
+  String quizAnnounceRight(int count) {
+    return '正解！連続$count';
+  }
+
+  @override
+  String get quizAnnounceWrong => '残念。連続0';
+
+  @override
+  String quizItemLabel(String title, String subtitle) {
+    return '$title、$subtitle';
+  }
+
+  @override
+  String quizItemRevealedLabel(String title, String reveal) {
+    return '$title：$reveal';
+  }
+
+  @override
+  String quizItemInfoTooltip(String item) {
+    return '「$item」について';
+  }
+
+  @override
+  String get quizItemInfoType => '種類';
+
+  @override
+  String get quizItemInfoAmount => '比べる量';
+
+  @override
+  String get quizItemInfoScience => 'この数字の出典';
 
   @override
   String get quizBasisEnergy => '家庭のエネルギー：標準的な1回分';
@@ -2513,7 +2551,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughQuiz1 =>
-      '2つのもの、1つの問い：どっちの排出量が多い？連続正解を伸ばしましょう。ポイントはなし、自慢できるだけです。';
+      '2つのもの、1つの問い：どちらがCO2を多く出す？連続正解を伸ばしましょう。ポイントはなし、自慢できるだけです。';
 
   @override
   String get walkthroughProgress1 => 'カレンダー：記録した日と、1日の目標。';

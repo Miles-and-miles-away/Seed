@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +13,6 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
-import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
@@ -130,74 +127,6 @@ Widget _routerApp(List<Override> overrides, List<RouteBase> routes) =>
         routerConfig: GoRouter(initialLocation: '/', routes: routes),
       ),
     );
-
-String _plainText(RenderObject root) {
-  if (root is RenderParagraph) {
-    return root.text.toPlainText(includeSemanticsLabels: false);
-  }
-  var text = '';
-  root.visitChildren((child) {
-    if (text.isEmpty) text = _plainText(child);
-  });
-  return text;
-}
-
-/// For each card text: its plain text, the scale [NoWordBreak] drew it
-/// at, and the scale its widest unbreakable run needs to fit the line.
-List<(String, double, double)> _textScales(WidgetTester tester) => [
-  for (final box in tester.renderObjectList<RenderFittedBox>(
-    find.descendant(
-      of: find.byType(DailyChallengeCard),
-      matching: find.byType(FittedBox),
-    ),
-  ))
-    (
-      _plainText(box),
-      min(1, box.size.width / box.child!.size.width),
-      min(
-        1,
-        box.constraints.maxWidth /
-            box.child!.getMinIntrinsicWidth(double.infinity),
-      ),
-    ),
-];
-
-/// Line breaks in [lines] that fall inside a word: between two
-/// non-space characters in Latin text, inside a phrase in Japanese.
-List<String> _breaksInsideWords(List<String> lines, String language) {
-  final text = lines.join();
-  final allowed = <int>{};
-  if (language == 'ja') {
-    final wrapped = phraseWrap(
-      text,
-      locale: const Locale('ja'),
-      maxPhrase: text.length,
-    );
-    var offset = 0;
-    var joined = false;
-    for (final unit in wrapped.split('')) {
-      if (unit == wordJoiner) {
-        joined = true;
-        continue;
-      }
-      if (!joined) allowed.add(offset);
-      joined = false;
-      offset++;
-    }
-  }
-  final bad = <String>[];
-  var offset = 0;
-  for (var i = 0; i < lines.length - 1; i++) {
-    offset += lines[i].length;
-    final end = lines[i];
-    final next = lines[i + 1];
-    final ok = language == 'ja'
-        ? allowed.contains(offset)
-        : end.endsWith(' ') || end.endsWith('-') || next.startsWith(' ');
-    if (!ok) bad.add('$end|$next');
-  }
-  return bad;
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -551,7 +480,10 @@ void main() {
               await tester.pumpAndSettle();
               expect(tester.takeException(), isNull, reason: action.id);
 
-              for (final (text, shrink, needed) in _textScales(tester)) {
+              for (final (text, shrink, needed) in noWordBreakScales(
+                tester,
+                find.byType(DailyChallengeCard),
+              )) {
                 if (language == 'ja' ? shrink < 1 : shrink < needed - 0.005) {
                   bad.add('${action.id}: $text shrinks to $shrink');
                 }
@@ -566,7 +498,7 @@ void main() {
                   tester,
                   find.byElementPredicate((e) => e == element),
                 );
-                for (final b in _breaksInsideWords(lines, language)) {
+                for (final b in breaksInsideWords(lines, language)) {
                   bad.add('${action.id}: $b');
                 }
               }

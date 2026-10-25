@@ -2749,7 +2749,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreQuizSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Which has the bigger footprint?'**
+  /// **'Which produces more carbon?'**
   String get exploreQuizSubtitle;
 
   /// No description provided for @mascotLinkTitle.
@@ -4004,8 +4004,68 @@ abstract class AppLocalizations {
   /// No description provided for @quizQuestion.
   ///
   /// In en, this message translates to:
-  /// **'Drag the one with the bigger footprint to the top'**
+  /// **'Tap or drag up the one that produces more'**
   String get quizQuestion;
+
+  /// No description provided for @quizSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which produces more carbon?'**
+  String get quizSubtitle;
+
+  /// No description provided for @quizChooseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose this one'**
+  String get quizChooseHint;
+
+  /// No description provided for @quizAnnounceRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right! Streak: {count}'**
+  String quizAnnounceRight(int count);
+
+  /// No description provided for @quizAnnounceWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this time. Streak: 0'**
+  String get quizAnnounceWrong;
+
+  /// No description provided for @quizItemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {subtitle}'**
+  String quizItemLabel(String title, String subtitle);
+
+  /// No description provided for @quizItemRevealedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}: {reveal}'**
+  String quizItemRevealedLabel(String title, String reveal);
+
+  /// No description provided for @quizItemInfoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'About {item}'**
+  String quizItemInfoTooltip(String item);
+
+  /// No description provided for @quizItemInfoType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get quizItemInfoType;
+
+  /// No description provided for @quizItemInfoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount compared'**
+  String get quizItemInfoAmount;
+
+  /// No description provided for @quizItemInfoScience.
+  ///
+  /// In en, this message translates to:
+  /// **'Where this number comes from'**
+  String get quizItemInfoScience;
 
   /// No description provided for @quizBasisEnergy.
   ///
@@ -4388,7 +4448,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughQuiz1.
   ///
   /// In en, this message translates to:
-  /// **'Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.'**
+  /// **'Two things, one question: which produces more carbon? Build a streak. No points, just bragging rights.'**
   String get walkthroughQuiz1;
 
   /// No description provided for @walkthroughProgress1.

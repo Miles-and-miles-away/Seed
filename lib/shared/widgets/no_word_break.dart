@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -54,9 +52,14 @@ class _RenderNoWordBreak extends RenderProxyBox {
     markNeedsLayout();
   }
 
-  BoxConstraints _childConstraints(RenderBox child) => BoxConstraints.tightFor(
-    width: max(_width, child.getMinIntrinsicWidth(double.infinity)),
-  );
+  /// The box width, or a wider word rounded up so it cannot still break.
+  double _layoutWidth(RenderBox child) {
+    final word = child.getMinIntrinsicWidth(double.infinity);
+    return word > _width ? word.ceilToDouble() : _width;
+  }
+
+  BoxConstraints _childConstraints(RenderBox child) =>
+      BoxConstraints.tightFor(width: _layoutWidth(child));
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {

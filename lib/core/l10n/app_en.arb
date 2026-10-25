@@ -834,7 +834,7 @@
   "exploreFoodSubtitle": "Two meals, ingredient by ingredient",
   "exploreEnergySubtitle": "Two routines, from showers to tumble drying",
   "exploreEnergyRankedSubtitle": "Everyday habits ranked by energy",
-  "exploreQuizSubtitle": "Which has the bigger footprint?",
+  "exploreQuizSubtitle": "Which produces more carbon?",
   "mascotLinkTitle": "Your mascot",
   "transportJourneyEmpty": "Add a leg to build your journey and see its CO2e footprint.",
   "transportAddLeg": "Add leg",
@@ -1598,7 +1598,51 @@
     }
   },
   "quizTitle": "Higher or lower?",
-  "quizQuestion": "Drag the one with the bigger footprint to the top",
+  "quizQuestion": "Tap or drag up the one that produces more",
+  "quizSubtitle": "Which produces more carbon?",
+  "quizChooseHint": "Choose this one",
+  "quizAnnounceRight": "Right! Streak: {count}",
+  "@quizAnnounceRight": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizAnnounceWrong": "Not this time. Streak: 0",
+  "quizItemLabel": "{title}, {subtitle}",
+  "@quizItemLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "subtitle": {
+        "type": "String"
+      }
+    }
+  },
+  "quizItemRevealedLabel": "{title}: {reveal}",
+  "@quizItemRevealedLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "reveal": {
+        "type": "String"
+      }
+    }
+  },
+  "quizItemInfoTooltip": "About {item}",
+  "@quizItemInfoTooltip": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "quizItemInfoType": "Type",
+  "quizItemInfoAmount": "Amount compared",
+  "quizItemInfoScience": "Where this number comes from",
   "quizBasisEnergy": "Home energy, one typical use",
   "quizBasisFood": "Food, one serving",
   "quizBasisTransport": "Transport, one passenger-kilometre",
@@ -1788,7 +1832,7 @@
   "walkthroughCalculators2": "Food: two meals, ingredient by ingredient. Chose the lighter plate? Log that too.",
   "walkthroughCalculators3": "Home energy: two routines, from showers to tumble drying. It teaches but never scores.",
   "walkthroughCalculators4": "Below them, Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.",
-  "walkthroughQuiz1": "Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.",
+  "walkthroughQuiz1": "Two things, one question: which produces more carbon? Build a streak. No points, just bragging rights.",
   "walkthroughProgress1": "Calendar: every day you logged something, and your daily goal.",
   "walkthroughProgress2": "Impact: the carbon you've saved, translated into trees, car kilometres, phone charges and burgers.",
   "walkthroughProgress3": "Eco-Dex: planet facts you discover as you use Seed. Each one is a small piece of knowledge, never points.",

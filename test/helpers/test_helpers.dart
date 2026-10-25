@@ -168,21 +168,155 @@ List<String> renderedLines(WidgetTester tester, Finder finder) {
   return [for (final line in lines) stripWordJoiners(line)];
 }
 
+RenderParagraph? _firstParagraph(RenderObject root) {
+  if (root is RenderParagraph) return root;
+  RenderParagraph? found;
+  root.visitChildren((child) => found ??= _firstParagraph(child));
+  return found;
+}
+
+/// For each [FittedBox] under [of] that holds text, as a NoWordBreak draws
+/// it: its plain text, the scale it is drawn at, and the scale the widest
+/// unbreakable run of its text needs to fit the line, phrase joins aside.
+///
+/// flutter_tester cannot break kana or kanji that carry no joiner, so in
+/// [language] `ja` both scales come from a device's breaks instead:
+/// anywhere but a joined pair, a Latin or digit run, or a no-break space.
+List<(String, double, double)> noWordBreakScales(
+  WidgetTester tester,
+  Finder of, {
+  String? language,
+}) => [
+  for (final box in tester.renderObjectList<RenderFittedBox>(
+    find.descendant(of: of, matching: find.byType(FittedBox)),
+  ))
+    if (_firstParagraph(box) case final paragraph?)
+      _scales(box, paragraph, language),
+];
+
+(String, double, double) _scales(
+  RenderFittedBox box,
+  RenderParagraph paragraph,
+  String? language,
+) {
+  final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
+  final clean = stripWordJoiners(text);
+  double fit(String runs) =>
+      min(1, box.constraints.maxWidth / _widestRun(paragraph, runs));
+  if (language != 'ja') {
+    return (text, min(1, box.size.width / box.child!.size.width), fit(clean));
+  }
+  final kinsoku = phraseWrap(
+    clean,
+    locale: const Locale('ja'),
+    maxPhrase: clean.length,
+    phrases: false,
+  );
+  return (text, fit(_deviceJaBreaks(text)), fit(_deviceJaBreaks(kinsoku)));
+}
+
+final _unbrokenRun = RegExp('[A-Za-z0-9.,%℃°]');
+
+/// Spaces a line never breaks at, so a run continues through them.
+const _noBreakSpaces = {'\u00A0', '\u2007', '\u202F'};
+
+/// [joined] with a zero-width space wherever a device may break the line.
+String _deviceJaBreaks(String joined) {
+  final out = StringBuffer();
+  String? previous;
+  var join = false;
+  for (final unit in joined.characters) {
+    if (unit == wordJoiner) {
+      join = true;
+      continue;
+    }
+    final run =
+        previous == null ||
+        join ||
+        unit == ' ' ||
+        previous == ' ' ||
+        (_unbrokenRun.hasMatch(previous) && _unbrokenRun.hasMatch(unit)) ||
+        _noBreakSpaces.contains(previous) ||
+        _noBreakSpaces.contains(unit);
+    if (!run) out.write('\u200B');
+    out.write(unit);
+    previous = unit;
+    join = false;
+  }
+  return out.toString();
+}
+
+/// The widest unbreakable run of [text] in [paragraph]'s style.
+double _widestRun(RenderParagraph paragraph, String text) {
+  final painter = TextPainter(
+    text: TextSpan(text: text, style: paragraph.text.style),
+    textDirection: paragraph.textDirection,
+    textScaler: paragraph.textScaler,
+    locale: paragraph.locale,
+  )..layout();
+  final width = painter.minIntrinsicWidth.ceilToDouble();
+  painter.dispose();
+  return width;
+}
+
+/// Line breaks in [lines] that fall inside a word: between two
+/// non-space characters in Latin text, inside a phrase in Japanese.
+/// [maxPhrase] is the phrase cap the text was wrapped with, if any.
+List<String> breaksInsideWords(
+  List<String> lines,
+  String language, {
+  int? maxPhrase,
+}) {
+  final text = lines.join();
+  final allowed = <int>{};
+  if (language == 'ja') {
+    final wrapped = phraseWrap(
+      text,
+      locale: const Locale('ja'),
+      maxPhrase: maxPhrase ?? text.length,
+    );
+    var offset = 0;
+    var joined = false;
+    for (final unit in wrapped.split('')) {
+      if (unit == wordJoiner) {
+        joined = true;
+        continue;
+      }
+      if (!joined) allowed.add(offset);
+      joined = false;
+      offset++;
+    }
+  }
+  final bad = <String>[];
+  var offset = 0;
+  for (var i = 0; i < lines.length - 1; i++) {
+    offset += lines[i].length;
+    final end = lines[i];
+    final next = lines[i + 1];
+    final ok = language == 'ja'
+        ? allowed.contains(offset)
+        : end.endsWith(' ') || end.endsWith('-') || next.startsWith(' ');
+    if (!ok) bad.add('$end|$next');
+  }
+  return bad;
+}
+
 /// SF Pro measures 5-8% wider than Roboto for the same Latin text, so
 /// Spanish layout tests run at this fraction of a phone width to stand in
 /// for iOS.
 const robotoToSfWidthFactor = 0.92;
 
-/// Expects no overflow at [widths] in JA and ES at text scale 1 and 2; loads Roboto.
+/// Expects no overflow at [widths] in JA and ES at [scales]; loads Roboto.
 void stressWidthLayoutTests(
   Widget Function(Locale locale, ThemeData? theme) build, {
   List<double> widths = const [320],
+  List<double> scales = const [1.0, 2.0],
   Future<void> Function(WidgetTester tester, Locale locale)? act,
 }) => group('in Japanese and Spanish', () {
   setUpAll(loadTestFonts);
   for (final width in widths) {
     for (final language in ['ja', 'es']) {
-      for (final scale in [1.0, 2.0]) {
+      for (final scale in scales) {
         testWidgets(
           'lays out at ${width.round()}pt in $language at text scale $scale',
           (tester) async {

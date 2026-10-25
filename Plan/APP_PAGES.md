@@ -545,8 +545,8 @@ table is the screen.
 
 ## Higher or Lower (`/quiz`)
 
-Pushed full-screen route (decision E8). Two cards, names only: drag the
-one you think has the bigger footprint to the top.
+Pushed full-screen route (decision E8). Two cards, names only: tap or
+drag up the one you think produces more carbon.
 - Reached from: the Explore tab (Higher or lower? tile,
   `quiz_outlined`).
 - Rounds rotate at random between home energy, food and transport, and
@@ -555,13 +555,36 @@ one you think has the bigger footprint to the top.
   cradle-to-retail lifecycle figure beside an operational one. The line
   above the tokens names the round's dataset and what one card of it
   measures (a use, a serving, a passenger-kilometre).
-- Layout: a streak / session-best row, the round's basis line, then the
+- Layout: a streak / session-best row, the question "Which produces
+  more carbon?" (the same wording as the walkthrough and the Explore
+  tile), the round's basis line, the instruction "Tap or drag up the
+  one that produces more" (above the tokens, so a 320x568 phone shows
+  it in round 1 without a scroll that could land on a token), then the
   two tokens side by side, tinted with their domain's category colour
-  and always the same size (stretched inside an `IntrinsicHeight`, or a
-  wrapped title leaves one token taller). HIGHER and LOWER label the
-  zones above and below. After the answer: the figures, correct/wrong
-  copy, a "Keep going" button, a "Ladder so far" list of the cards
-  revealed in the current run, and the basis plus no-points footnotes.
+  and always the same size (`QuizTokenPair` lays both out and sets them
+  to the taller one's height; an `IntrinsicHeight` mis-measured some
+  titles, because a paragraph's intrinsic sizes depend on the order
+  they are asked in). Each token ends in an info button, at the same
+  height in both tokens. Token text never breaks inside a word: a word
+  too wide for the token shrinks the text instead (`NoWordBreak`), and
+  Japanese phrases are sized to the token's real width, so a wider
+  phone keeps more of them whole. Every multi-line text on the page
+  goes through `PhraseText`, so no Japanese line ends on a lone
+  character. HIGHER and LOWER label the zones above and below. On the
+  first round of each visit an up chevron sits over each token, in the
+  swing room so nothing moves when it goes; it bobs three times then
+  rests (still under reduced motion, and still while the first-visit
+  walkthrough is up, bobbing once it closes) and goes on the first drag
+  or answer, and does not return after "Keep going" or "Start again".
+  After the answer: the figures, correct/wrong copy, a "Keep going"
+  button, a "Ladder so far" list of the cards revealed in the current
+  run, and the basis plus no-points footnotes.
+- Info sheet (`QuizItemSheet`): the item's name, its type (the
+  dataset's group label), the amount compared (the token's subtitle, or
+  the basis line when it has none) and the round's basis note. No
+  figure before the answer, since it would give the round away; after
+  it, the token's figure and a "Where this number comes from" button
+  that swaps to the item's science sheet. Opening it never answers.
 - Interaction: the two tokens ride opposite ends of one wheel. Dragging
   either turns it -- up on the right and down on the left are the same
   motion -- so lifting one lowers the other and both swing inward along
@@ -573,7 +596,14 @@ one you think has the bigger footprint to the top.
   because a true circle of that width would end the turn with the two
   tokens overlapping. The drag is damped below 1:1 so it feels weighted,
   needs 0.3 rad to commit (a nudge is not an answer), and pops into
-  place on `elasticOut` with a medium-impact haptic.
+  place on `elasticOut` with a medium-impact haptic. Or tap a token: it
+  answers the same way, with the same turn and haptic. To a screen
+  reader each token is one button (name and amount, "Choose this one",
+  a tap action, no scroll actions), and after the answer its label
+  carries the figure; the verdict and the streak are announced. The
+  transform is the token's outermost layer and the swing room sits
+  inside the row, so a swung token still takes taps, its info button
+  included. After the answer a drag on a token scrolls the page.
 - No figures until the answer is in: showing one card's multiple up
   front handed over most of the answer.
 - Deck rules: each deck drops the rows it cannot rank honestly -- gas
@@ -584,8 +614,15 @@ one you think has the bigger footprint to the top.
   Consecutive cards must differ by at least each calculator's own bar
   (20%), so a pair that displays identically is never asked; line
   drying's zero is dealable because it holds on any grid. Cards deal
-  without replacement and reshuffle when the pile empties. The deck
-  model (`lib/shared/domain/quiz_deck.dart`) is domain-generic.
+  without replacement and reshuffle when the pile empties, and each
+  pair goes on screen in a random order, since the second card is drawn
+  against the first. The deck model (`lib/shared/domain/quiz_deck.dart`)
+  is domain-generic.
+- Warm-up: while the streak is under 3 (the start of every run,
+  including after a miss), a round's two cards must be at least 3x
+  apart; from a streak of 3 the 20% bar applies. If the deck has no
+  card that far from the first, the round falls back to the 20% bar
+  rather than ending the run.
 - A wrong answer ends the run: the streak and the ladder reset, and the
   session best keeps the maximum. Only that best-streak int survives
   leaving the screen (a keepAlive notifier); it does not survive an app
