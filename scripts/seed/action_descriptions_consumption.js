@@ -287,7 +287,7 @@ const descriptions = {
     es:
       'Comprar una prenda de segunda mano '
       + 'en lugar de nueva evita '
-      + 'aproximadamente **15,000g (15kg) '
+      + 'aproximadamente **15.000g (15kg) '
       + 'de CO2** de la producción de '
       + 'fibras, el teñido y el envío '
       + 'global. Según '
@@ -340,7 +340,7 @@ const descriptions = {
     es:
       'Reparar un artículo roto en lugar '
       + 'de reemplazarlo evita '
-      + 'aproximadamente **7,500g (7.5kg) '
+      + 'aproximadamente **7.500g (7,5kg) '
       + 'de CO2** de nueva fabricación, '
       + 'extracción de materias primas y '
       + 'envío. La organización '
@@ -395,7 +395,7 @@ const descriptions = {
       'Pedir prestada una herramienta, '
       + 'electrodoméstico u otro artículo '
       + 'en lugar de comprar nuevo evita '
-      + 'aproximadamente **8,000g (8kg) de '
+      + 'aproximadamente **8.000g (8kg) de '
       + 'CO2** de fabricación y envío. La '
       + 'mayoría de las herramientas del '
       + 'hogar se usan solo 10-15 minutos '
@@ -453,11 +453,11 @@ const descriptions = {
       + 'champú sólido y cepillos de '
       + 'bambú ahorra aproximadamente '
       + '**15g de CO2 al día** al '
-      + 'eliminar el empaque plástico '
+      + 'eliminar el envase de plástico '
       + 'derivado del petróleo que envuelve '
       + 'la mayoría de productos de baño. '
       + 'Una sola botella de champú '
-      + 'plástica tarda 450-1,000 años en '
+      + 'plástica tarda 450-1.000 años en '
       + 'descomponerse '
       + '([EPA WARM](https://www.epa.gov'
       + '/warm)). Las alternativas en '
@@ -465,7 +465,7 @@ const descriptions = {
       + 'ingredientes más simples y se '
       + 'envían de forma más compacta. '
       + 'Cambiar tu rutina diaria a '
-      + 'opciones sin empaque se acumula '
+      + 'opciones sin envase se acumula '
       + 'en varios kilogramos de CO2 '
       + 'ahorrados al año.',
   },
@@ -503,19 +503,19 @@ const descriptions = {
       + 'hogar a granel ahorra '
       + 'aproximadamente **200g de CO2 por '
       + 'viaje de compras** al reducir el '
-      + 'empaque por unidad de peso. Los '
+      + 'embalaje por unidad de peso. Los '
       + 'productos de porción individual y '
       + 'envueltos por separado tienen una '
-      + 'proporción desproporcionada de '
-      + 'empaque respecto al producto '
+      + 'proporción excesiva de '
+      + 'embalaje respecto al producto '
       + '([WRAP UK](https://wrap.org.uk/)). '
       + 'La compra a granel también reduce '
       + 'la frecuencia de viajes de compras '
       + 'y sus emisiones de transporte '
       + 'asociadas. Llevar tus propios '
       + 'envases elimina aún más la '
-      + 'necesidad de empaque proporcionado '
-      + 'por la tienda.',
+      + 'necesidad de envases de'
+      + ' la tienda.',
   },
 
   donate_items: {
@@ -551,7 +551,7 @@ const descriptions = {
       'Donar una bolsa de artículos '
       + 'utilizables en lugar de '
       + 'desecharlos evita '
-      + 'aproximadamente **12,000g (12kg) '
+      + 'aproximadamente **12.000g (12kg) '
       + 'de CO2** al extender la vida útil '
       + 'de los productos y desplazar '
       + 'nueva fabricación. El modelo de '
@@ -606,7 +606,7 @@ const descriptions = {
       + 'innecesaria ahorra aproximadamente '
       + '**200g de CO2** que se habrían '
       + 'emitido durante la producción, el '
-      + 'empaque y el envío. El '
+      + 'embalaje y el envío. El '
       + '[Carbon Trust]'
       + '(https://www.carbontrust.com/) '
       + 'enfatiza que reducir el consumo '
@@ -654,14 +654,14 @@ const descriptions = {
       + '消費者が簡易包装を求めることは業界'
       + '全体の変革も促します。',
     es:
-      'Elegir productos con empaque '
+      'Elegir productos con embalaje '
       + 'mínimo ahorra aproximadamente '
       + '**50g de CO2** por compra al '
       + 'reducir la producción de '
       + 'materiales, la impresión y el '
       + 'procesamiento de residuos. '
       + '[WRAP UK](https://wrap.org.uk/) '
-      + 'informa que el empaque representa '
+      + 'informa que el embalaje representa '
       + 'una parte significativa de las '
       + 'emisiones de productos minoristas. '
       + 'Seleccionar productos sueltos, '
@@ -670,7 +670,7 @@ const descriptions = {
       + 'impacto '
       + '([Carbon Trust]'
       + '(https://www.carbontrust.com/)). '
-      + 'La demanda de menos empaque también '
+      + 'La demanda de menos embalaje también '
       + 'impulsa cambios en toda la '
       + 'industria.',
   },

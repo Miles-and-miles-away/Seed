@@ -301,7 +301,7 @@ void main() {
   final lineRatioLimit = {
     'arb': 1.114,
     'facts': 1.179,
-    'actions': 1.058,
+    'actions': 1.068,
     'challenges': 1.177,
     'dailyCard': 1.25,
     'ecodex': 1.161,

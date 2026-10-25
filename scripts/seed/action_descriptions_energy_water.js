@@ -58,8 +58,8 @@ const descriptions = {
       + '(https://energysavingtrust.org.uk/)). '
       + 'En un año de cargas semanales, el '
       + 'secado al aire evita casi 90 kg de '
-      + 'CO2. Los tendederos no tienen costo '
-      + 'operativo y además prolongan la vida '
+      + 'CO2. Los tendederos no tienen coste '
+      + 'de uso y además prolongan la vida '
       + 'de la ropa ([DEFRA 2024]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
@@ -377,7 +377,7 @@ const descriptions = {
       + 'verano ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'Los ventiladores de techo pueden '
-      + 'complementar el AC, haciendo sentir '
+      + 'complementar el aire acondicionado, haciendo sentir '
       + '3-4 grados menos con una fracción de '
       + 'la energía. Los termostatos '
       + 'programables mantienen el ajuste '
@@ -541,7 +541,7 @@ const descriptions = {
       + 'aproximadamente **1.200g de CO2**. '
       + 'Un ventilador típico consume solo '
       + '50-75 vatios frente a los 1.000-3.500 '
-      + 'vatios de una unidad de AC '
+      + 'vatios de un aparato de aire acondicionado '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust'
       + '.org.uk/)). En días moderados, los '
@@ -595,11 +595,11 @@ const descriptions = {
       + '部屋ではなく人を暖めるのは、最も安上がりな冬の'
       + '習慣のひとつです。',
     es:
-      'Pasar la noche bajo un kotatsu, una manta electrica '
-      + 'o una alfombra electrica en lugar de encender un '
-      + 'calefactor portatil ahorra unos **1,9kg de CO2**. '
-      + 'Un calefactor portatil consume hasta 1,5kW para '
-      + 'calentar toda la habitacion ([OCWR](https://'
+      'Pasar la noche bajo un kotatsu, una manta eléctrica '
+      + 'o una alfombra eléctrica en lugar de encender un '
+      + 'calefactor portátil ahorra unos **1,9kg de CO2**. '
+      + 'Un calefactor portátil consume hasta 1,5kW para '
+      + 'calentar toda la habitación ([OCWR](https://'
       + 'www.ocwr.gov/publications/fast-facts/'
       + 'portable-space-heaters/)), mientras que un kotatsu '
       + 'promedia unos 150W porque solo calienta el espacio '
@@ -609,8 +609,8 @@ const descriptions = {
       + 'o 1,9kg de CO2 con la intensidad media mundial de '
       + '458g por kWh en 2025 ([Ember](https://ember-energy.'
       + 'org/latest-insights/global-electricity-review-2026/'
-      + ')). Calentar a la persona y no la habitacion es uno '
-      + 'de los habitos de invierno mas baratos de mantener.',
+      + ')). Calentar a la persona y no la habitación es uno '
+      + 'de los hábitos de invierno más baratos de mantener.',
   },
   shorter_shower: {
     en:
@@ -738,7 +738,7 @@ const descriptions = {
       + 'medio vacío ahorra unos **80g de '
       + 'CO2** por ciclo. La máquina usa casi '
       + 'la misma agua y energía sin importar '
-      + 'lo llena que este ([Energy Saving '
+      + 'lo llena que esté ([Energy Saving '
       + 'Trust](https://energysavingtrust'
       + '.org.uk/)). Una carga completa '
       + 'también supera al lavado a mano en '
@@ -887,12 +887,12 @@ const descriptions = {
       + '(https://sdgs.un.org/goals'
       + '/goal6)）。',
     es:
-      'Instalar un barril o sistema de '
-      + 'recolección de agua de lluvia ahorra '
+      'Instalar un depósito o sistema de '
+      + 'recogida de agua de lluvia ahorra '
       + 'aproximadamente **750g de CO2** al '
       + 'reducir la energía necesaria para '
       + 'bombear, tratar y distribuir agua '
-      + 'municipal. Un barril típico captura '
+      + 'municipal. Un depósito típico captura '
       + '200-500 litros por tormenta, '
       + 'proporcionando riego gratuito que '
       + 'evita el ciclo de tratamiento de agua '
@@ -938,7 +938,7 @@ const descriptions = {
       + '(https://energysavingtrust'
       + '.org.uk/)）。',
     es:
-      'Regar las plantas temprano en la '
+      'Regar las plantas a primera hora de la '
       + 'mañana ahorra unos **10g de CO2** '
       + 'por sesión al reducir el desperdicio '
       + 'de agua. El riego matutino reduce la '
@@ -995,8 +995,8 @@ const descriptions = {
       + '(https://www.epa.gov/watersense)). '
       + 'El agua enfriada de pasta o verduras '
       + 'es rica en nutrientes que benefician '
-      + 'el suelo del jardín. Este hábito sin '
-      + 'costo reduce el consumo total de agua '
+      + 'el suelo del jardín. Este hábito gratuito'
+      + ' reduce el consumo total de agua '
       + 'del hogar y da un impulso nutricional '
       + 'a las plantas ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)).',

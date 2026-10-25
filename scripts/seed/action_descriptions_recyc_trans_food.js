@@ -323,7 +323,7 @@ const descriptions = {
       + '/greenhouse-gas-equivalencies-'
       + 'calculator) ayuda a cuantificar '
       + 'estos ahorros. El reciclaje adecuado '
-      + 'de e-waste también evita que plomo y '
+      + 'de residuos electrónicos también evita que plomo y '
       + 'mercurio tóxicos se filtren a las '
       + 'aguas subterráneas.',
   },
@@ -463,12 +463,12 @@ const descriptions = {
       + 'punto de recogida ahorra unos '
       + '**1.500g (1,5kg) de CO2** por entrega '
       + 'doméstica típica de ~0,6L al '
-      + 'convertirlo en biodiesel que desplaza '
-      + 'al diesel fósil. El biodiesel de '
+      + 'convertirlo en biodiésel que desplaza '
+      + 'al diésel fósil. El biodiésel de '
       + 'aceite residual reduce las emisiones '
       + 'de gases de efecto invernadero hasta '
-      + 'un 86% comparado con el diesel de '
-      + 'petróleo — unos 2.460g ahorrados por '
+      + 'un 86% comparado con el diésel de '
+      + 'petróleo, unos 2.460g ahorrados por '
       + 'litro de aceite usado '
       + '([EPA WARM](https://www.epa.gov'
       + '/warm)). '
@@ -515,7 +515,7 @@ const descriptions = {
       'Caminar en vez de conducir un trayecto '
       + 'corto ahorra unos **250g de CO2** al '
       + 'reemplazar un viaje promedio de 1,5km '
-      + 'en auto. Un coche de gasolina típico '
+      + 'en coche. Un coche de gasolina típico '
       + 'emite 164g de CO2 por kilómetro '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
@@ -523,7 +523,7 @@ const descriptions = {
       + '-2024)). Caminar no produce emisiones '
       + 'y además mejora la salud '
       + 'cardiovascular. Reemplazar un viaje '
-      + 'corto en auto al día suma más de 90kg '
+      + 'corto en coche al día suma más de 90kg '
       + 'de CO2 ahorrados al año.',
   },
 
@@ -665,7 +665,7 @@ const descriptions = {
       + '**1.000g de CO2** en un trayecto '
       + 'promedio de 10km. Autobuses y trenes '
       + 'emiten 60-104g/km menos por pasajero '
-      + 'que un auto individual ([DEFRA 2024]'
+      + 'que un coche particular ([DEFRA 2024]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
       + '-conversion-factors-2024)). '
@@ -708,7 +708,7 @@ const descriptions = {
       + '乗ると1人あたりの排出量はほとんどの'
       + 'バス路線を下回ります。',
     es:
-      'Compartir auto reduce las emisiones '
+      'Compartir coche reduce las emisiones '
       + 'por persona a unos 82g/km, ahorrando '
       + 'aproximadamente **800g de CO2** en un '
       + 'viaje de 10km ([DEFRA 2024]'
@@ -718,7 +718,7 @@ const descriptions = {
       + 'viajes reduce el número total de '
       + 'vehículos en la carretera, aliviando '
       + 'la congestión. También reduce los '
-      + 'costos de combustible y estacionamiento '
+      + 'costes de combustible y aparcamiento '
       + 'individuales. Con tres o más pasajeros, '
       + 'la huella por persona cae por debajo de '
       + 'la mayoría de rutas de autobús.',
@@ -771,7 +771,7 @@ const descriptions = {
       + '([IEA Global EV Outlook]'
       + '(https://www.iea.org/reports'
       + '/global-ev-outlook)). Aunque la '
-      + 'fabricación de un VE tiene un costo '
+      + 'fabricación de un VE tiene un coste '
       + 'de carbono inicial mayor, la mayoría '
       + 'de estudios muestran un punto de '
       + 'equilibrio en 1-3 años de uso '
@@ -828,7 +828,7 @@ const descriptions = {
       + '([Our World in Data]'
       + '(https://ourworldindata.org/travel'
       + '-carbon-footprint)). Un solo cambio '
-      + 'equivale a sacar un auto de la '
+      + 'equivale a sacar un coche de la '
       + 'carretera por casi un mes.',
   },
 
@@ -864,7 +864,7 @@ const descriptions = {
       + 'ahorra aproximadamente **500g de CO2** '
       + 'en un trayecto de 8km. Los autobuses '
       + 'emiten unos 104g/km por pasajero '
-      + 'frente a 164g/km de un auto individual '
+      + 'frente a 164g/km de un coche particular '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
@@ -916,7 +916,7 @@ const descriptions = {
       + '-gas-reporting-conversion-factors'
       + '-2024)). Son ideales para el transporte '
       + 'de última milla conectando paradas de '
-      + 'tránsito con destinos finales. Los '
+      + 'transporte público con destinos finales. Los '
       + 'programas compartidos se han expandido '
       + 'rápidamente en ciudades de todo el '
       + 'mundo.',
@@ -970,7 +970,7 @@ const descriptions = {
       + 'efectivamente cero emisiones durante '
       + 'la operación. Paneles solares, tarifas '
       + 'de energía eólica o estaciones '
-      + 'certificadas verdes califican '
+      + 'certificadas verdes cuentan '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)).',
   },
@@ -1006,7 +1006,7 @@ const descriptions = {
       + '改善の一つです。',
     es:
       'Combinar varias tareas en un solo '
-      + 'viaje en auto ahorra unos **300g de '
+      + 'viaje en coche ahorra unos **300g de '
       + 'CO2** al eliminar emisiones de '
       + 'arranque en frío y reducir el '
       + 'kilometraje total. Un motor frío '
@@ -1067,9 +1067,9 @@ const descriptions = {
       + 'つながります。',
     es:
       'Evitar una porción de 100g de carne '
-      + 'de res evita aproximadamente **6.000g '
+      + 'de vacuno evita aproximadamente **6.000g '
       + '(6kg) de CO2 equivalente**. La carne '
-      + 'de res tiene la mayor huella de '
+      + 'de vacuno tiene la mayor huella de '
       + 'carbono entre alimentos comunes: 60kg '
       + 'CO2e/kg en su ciclo de vida '
       + '([Poore & Nemecek 2018]'
@@ -1077,7 +1077,7 @@ const descriptions = {
       + '-vs-eating-local)). Esto incluye '
       + 'metano del ganado, producción de '
       + 'pienso y cambio de uso del suelo. '
-      + 'Reemplazar la res con proteína vegetal '
+      + 'Sustituir la carne de vacuno por proteína vegetal '
       + 'una vez por semana ahorra más de 300kg '
       + 'de CO2 al año ([Our World in Data]'
       + '(https://ourworldindata.org'
@@ -1130,7 +1130,7 @@ const descriptions = {
       + 'ahorra aproximadamente **1.000g de '
       + 'CO2 equivalente**. Aunque estas '
       + 'proteínas tienen menor huella que la '
-      + 'carne de res, aún requieren '
+      + 'carne de vacuno, aún requieren '
       + 'importantes recursos de tierra, agua '
       + 'y pienso ([Our World in Data]'
       + '(https://ourworldindata.org'
@@ -1240,7 +1240,7 @@ const descriptions = {
       + 'informa que el 58% del metano fugitivo '
       + 'de vertederos proviene de residuos '
       + 'alimentarios. Planificar comidas, usar '
-      + 'listas de compras y almacenar '
+      + 'listas de la compra y almacenar '
       + 'correctamente son estrategias '
       + 'efectivas. Globalmente, un tercio de '
       + 'los alimentos producidos se desperdicia.',
@@ -1380,7 +1380,7 @@ const descriptions = {
       + '約140kgのCO2を節約できます。',
     es:
       'Comer completamente vegetal por un día '
-      + 'ahorra aproximadamente **2.700g (2.7kg) '
+      + 'ahorra aproximadamente **2.700g (2,7kg) '
       + 'de CO2 equivalente** comparado con una '
       + 'dieta omnívora estándar (omnívora '
       + '~5,6 kg/día vs vegana ~2,9 kg/día). '
@@ -1427,16 +1427,16 @@ const descriptions = {
       + 'Data](https://ourworldindata.org'
       + '/environmental-impacts-of-food)）。',
     es:
-      'Llevar almuerzo de casa ahorra '
+      'Llevar comida de casa ahorra '
       + 'aproximadamente **300g de CO2** al '
-      + 'evitar empaques de comida para llevar '
+      + 'evitar envases de comida para llevar '
       + 'y emisiones de entrega. Las comidas de '
       + 'restaurante usan envases desechables, '
       + 'cubiertos de plástico y bolsas, cada '
       + 'uno con su propia huella de carbono. '
       + 'Un recipiente reutilizable elimina '
       + 'estos residuos por completo. En un año '
-      + 'laboral (~230 días), llevar almuerzo '
+      + 'laboral (~230 días), llevar comida de casa '
       + 'puede ahorrar casi 70kg de CO2 '
       + '([Our World in Data]'
       + '(https://ourworldindata.org'
