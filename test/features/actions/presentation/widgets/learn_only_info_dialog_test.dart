@@ -8,6 +8,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_science_bo
 import 'package:seed_app/features/actions/presentation/widgets/learn_only_info_dialog.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -121,10 +122,7 @@ void main() {
     expect(node.flagsCollection.isButton, isTrue);
     expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
 
-    for (final target in [
-      find.text(_description),
-      find.byIcon(Icons.info_outline),
-    ]) {
+    for (final target in [find.text(_description), find.byType(InfoGlyph)]) {
       await tester.tap(target);
       await tester.pumpAndSettle();
       expect(find.byType(ActionScienceBottomSheet), findsOneWidget);
@@ -138,7 +136,7 @@ void main() {
     await showLearnOnly(tester);
 
     expect(find.text(_description), findsOneWidget);
-    expect(find.byIcon(Icons.info_outline), findsNothing);
+    expect(find.byType(InfoGlyph), findsNothing);
   });
 
   stressWidthLayoutTests(
@@ -176,7 +174,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byType(InfoGlyph), findsOneWidget);
     },
   );
 }

@@ -43,7 +43,7 @@ void main() {
     expect(
       _uses(
         RegExp(
-          r'deepPurple|DD5EFF|B388FF|221,\s*94,\s*255|179,\s*136,\s*255',
+          r'deepPurple|A258D5|B388FF|162,\s*88,\s*213|179,\s*136,\s*255',
           caseSensitive: false,
         ),
       ),

@@ -133,13 +133,13 @@ void main() {
 
     for (final MapEntry(key: species, value: seed)
         in AppColors.speciesThemeSeeds.entries) {
-      test('infoLight clears the text bar on the light $species surfaces', () {
+      test('infoLight clears the icon bar on the light $species surfaces', () {
         for (final surface in plainSurfaces(
           schemeFor(seed, Brightness.light),
         )) {
           expect(
             contrastRatio(AppColors.infoLight, surface),
-            greaterThanOrEqualTo(_minContrast),
+            greaterThanOrEqualTo(_minIconContrast),
           );
         }
       });

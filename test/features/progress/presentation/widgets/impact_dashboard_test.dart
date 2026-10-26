@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/helpers.dart';
@@ -13,6 +12,7 @@ import 'package:seed_app/features/progress/presentation/providers/progress_provi
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_info_sheet.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_row.dart';
 import 'package:seed_app/features/progress/presentation/widgets/impact_dashboard.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -206,7 +206,7 @@ void main() {
 
     for (final (part, target) in [
       ('term', find.text('Equivalent to')),
-      ('glyph', find.byIcon(Icons.info_outline)),
+      ('glyph', find.byType(InfoGlyph)),
     ]) {
       testWidgets('the header $part opens the equivalency explainer', (
         tester,

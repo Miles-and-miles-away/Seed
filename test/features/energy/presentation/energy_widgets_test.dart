@@ -10,6 +10,7 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_display.dar
 import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../helpers/test_helpers.dart';
 
@@ -148,7 +149,7 @@ void main() {
       expect(picked?.id, 'bath_electric');
       expect(informed, isNull);
 
-      await tester.tap(find.byIcon(Icons.info_outline).first);
+      await tester.tap(find.byType(InfoGlyph).first);
       expect(informed, isNotNull);
     });
 

@@ -94,7 +94,7 @@ Action categories:
 Semantic: `success #4CAF50`, `warning #FFC107`, `error #F44336`,
 `streak #FF9800`.
 
-Info affordance, reserved: `infoLight #6200EA` on light themes and
+Info affordance, reserved: `infoLight #A258D5` on light themes and
 `infoDark #B388FF` on dark, picked by `infoColor(brightness)`. Only the
 shared info widgets (`InfoIconButton`, `TermWithInfo`) use them;
 `test/shared/widgets/info_affordance_reserved_test.dart` enforces it.
