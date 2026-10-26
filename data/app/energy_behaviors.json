@@ -1184,7 +1184,7 @@
       "default_preset_id": "one_charge",
       "calculation_notes": "A 12.98 Wh iPhone 15 battery at 85% charging efficiency. About 7 g CO2e per charge: small loads are never rounded up, because the honest smallness is why this entry ships. RESEARCH_ENERGY section 3.5.",
       "calculation_notes_ja": "12.98 WhのiPhone 15のバッテリーを、充電効率85%で充電した値です。1回の充電あたり約7 g CO2eです。小さな負荷を切り上げることはしません。小さいことを正直に示すことこそ、この項目を載せている理由だからです。RESEARCH_ENERGY 3.5節に基づきます。",
-      "calculation_notes_es": "Una batería de iPhone 15 de 12,98 Wh con un 85% de eficiencia de carga. Unos 7 g de CO2e por carga: las cargas pequeñas nunca se redondean al alza, porque su pequeñez, contada con honestidad, es la razón de que esta entrada exista. Según RESEARCH_ENERGY, sección 3.5.",
+      "calculation_notes_es": "Una batería de iPhone 15 de 12,98 Wh con un 85% de eficiencia de carga. Unos 7 g CO2e por carga: las cargas pequeñas nunca se redondean al alza, porque su pequeñez, contada con honestidad, es la razón de que esta entrada exista. Según RESEARCH_ENERGY, sección 3.5.",
       "calculation_notes_src_sha": "9e26117bbbc4e01f6245d92b4544f12ff43b8c2bdc3dc4d22da72f9eead916ed",
       "sources": [
         {

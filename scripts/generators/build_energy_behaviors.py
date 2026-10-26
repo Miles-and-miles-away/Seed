@@ -904,7 +904,7 @@ BEHAVIORS = [
                 '小さいことを正直に示すことこそ、この項目を載せている理由だからで'
                 'す。RESEARCH_ENERGY 3.5節に基づきます。'),
       notes_es=('Una batería de iPhone 15 de 12,98 Wh con un 85% de eficiencia de '
-                'carga. Unos 7 g de CO2e por carga: las cargas pequeñas nunca se '
+                'carga. Unos 7 g CO2e por carga: las cargas pequeñas nunca se '
                 'redondean al alza, porque su pequeñez, contada con honestidad, es '
                 'la razón de que esta entrada exista. Según RESEARCH_ENERGY, '
                 'sección 3.5.'),

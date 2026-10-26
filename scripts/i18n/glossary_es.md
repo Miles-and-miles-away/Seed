@@ -29,6 +29,8 @@ the calculators' notes.
 - **Units**: keep SI units (kg, km, GW, kWh, m2) with a space between the
   value and the unit (*15 ml*, *0,45 kg*).
 - **CO2**: use "CO2" inline (no subscript).
+- **CO2e quantities**: «7 g CO2e», «2,3 kg CO2e», «{amount} CO2e», never
+  «kg de CO2e». «huella de CO2e» (a footprint, not a quantity) keeps «de».
 - **Source names**: copy sourceEn verbatim -- NEVER translate.
 - **Double dashes**: preserve `--` in the exact same position as English.
 - **Billions/trillions**: use "mil millones" (not "billón"); "billón" =

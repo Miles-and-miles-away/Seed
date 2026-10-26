@@ -1825,7 +1825,7 @@
       "nameEs": "Guerrero semanal",
       "factEn": "Small choices compound: one plant-based meal avoids about 2 kg of CO2e, and swapping one meal per week for a year avoids over 100 kg — roughly the emissions of driving 400 km in a petrol car.",
       "factJa": "小さな選択は積み重なります。植物性の食事を1回選ぶだけで約2 kgのCO2換算排出を回避でき、週に1回を1年間続けると100 kg以上を削減できます。これはガソリン車で約400 km走行する際の排出量に相当します。",
-      "factEs": "Las pequeñas decisiones se acumulan: una comida basada en plantas evita unos 2 kg de CO2e, y sustituir una comida a la semana durante un año evita más de 100 kg, aproximadamente las emisiones de conducir 400 km en un coche de gasolina.",
+      "factEs": "Las pequeñas decisiones se acumulan: una comida basada en plantas evita unos 2 kg CO2e, y sustituir una comida a la semana durante un año evita más de 100 kg, aproximadamente las emisiones de conducir 400 km en un coche de gasolina.",
       "sourceUrl": "https://ourworldindata.org/environmental-impacts-of-food",
       "iconName": "journey_06",
       "artPrompt": "row of seven small bullseye targets, each with a golden arrow. Count 7 targets",
