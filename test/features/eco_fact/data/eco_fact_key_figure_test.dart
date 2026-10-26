@@ -4,47 +4,12 @@ import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/figure_text.dart';
 
+import '../../fact_games/figure_digits.dart';
+
 const _maxFigureLength = 18;
 const _playableFloor = 193;
 const _locales = ['en', 'ja', 'es'];
-const _jaScales = {'兆': 1e12, '億': 1e8, '万': 1e4};
-
 final _digit = RegExp(r'\d');
-
-// A digit after a letter is a unit exponent or a formula: km2, CO2.
-final _number = RegExp(r'(?<![A-Za-z\d.,])\d[\d.,]*');
-final _jaScaled = RegExp(r'(\d[\d.,]*)([兆億万])');
-
-double _value(String token, String locale) {
-  if (locale == 'ja') {
-    var total = 0.0;
-    var rest = token;
-    for (final match in _jaScaled.allMatches(token)) {
-      final piece = double.parse(match[1]!.replaceAll(',', ''));
-      total += piece * _jaScales[match[2]]!;
-      rest = rest.replaceFirst(match[0]!, '');
-    }
-    return rest.isEmpty
-        ? total
-        : total + double.parse(rest.replaceAll(',', ''));
-  }
-  final plain = locale == 'es'
-      ? token.replaceAll('.', '').replaceAll(',', '.')
-      : token.replaceAll(',', '');
-  return double.parse(plain);
-}
-
-/// The significant digits of each number, so "132 million", "1億3200万"
-/// and "132 millones" all read as ['132'].
-List<String> _digits(String figure, String locale) => [
-  for (final match in (locale == 'ja' ? figureNumber : _number).allMatches(
-    figure,
-  ))
-    _value(
-      match[0]!.replaceFirst(RegExp(r'[.,]+$'), ''),
-      locale,
-    ).toStringAsFixed(6).replaceAll('.', '').replaceAll(RegExp(r'^0+|0+$'), ''),
-];
 
 bool _insideLongerNumber(String figure, String text) =>
     figure.allMatches(text).length > wholeNumberMatches(figure, text).length;
@@ -61,13 +26,13 @@ void main() {
   });
 
   test('the digit reader agrees across number formats', () {
-    expect(_digits('132 million', 'en'), ['132']);
-    expect(_digits('1億3,200万', 'ja'), ['132']);
-    expect(_digits('132 millones', 'es'), ['132']);
-    expect(_digits('6万3,000ガロン', 'ja'), ['63']);
-    expect(_digits('3,5 kg', 'es'), ['35']);
-    expect(_digits('3万5,000 km2', 'ja'), ['35']);
-    expect(_digits('8 a 15 toneladas', 'es'), ['8', '15']);
+    expect(figureDigits('132 million', 'en'), ['132']);
+    expect(figureDigits('1億3,200万', 'ja'), ['132']);
+    expect(figureDigits('132 millones', 'es'), ['132']);
+    expect(figureDigits('6万3,000ガロン', 'ja'), ['63']);
+    expect(figureDigits('3,5 kg', 'es'), ['35']);
+    expect(figureDigits('3万5,000 km2', 'ja'), ['35']);
+    expect(figureDigits('8 a 15 toneladas', 'es'), ['8', '15']);
   });
 
   test('key figures are set in all three languages or none', () {
@@ -127,10 +92,10 @@ void main() {
   test('the JA and ES figures carry the same digits as EN', () {
     final mismatched = [
       for (final fact in playable)
-        if (_digits(fact.keyFigureEn, 'en').join(' ') case final en
+        if (figureDigits(fact.keyFigureEn, 'en').join(' ') case final en
             when en.isEmpty ||
-                en != _digits(fact.keyFigureJa, 'ja').join(' ') ||
-                en != _digits(fact.keyFigureEs, 'es').join(' '))
+                en != figureDigits(fact.keyFigureJa, 'ja').join(' ') ||
+                en != figureDigits(fact.keyFigureEs, 'es').join(' '))
           '${fact.dayOfYear}: ${_locales.map(fact.keyFigure).join(' / ')}',
     ];
     expect(mismatched, isEmpty);

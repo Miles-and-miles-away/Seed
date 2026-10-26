@@ -17,6 +17,9 @@ class EcoDexEntry {
     this.sourceUrl = '',
     this.hintJa = '',
     this.hintEs = '',
+    this.keyFigureEn = '',
+    this.keyFigureJa = '',
+    this.keyFigureEs = '',
   });
 
   factory EcoDexEntry.fromJson(Map<String, dynamic> json) {
@@ -37,6 +40,9 @@ class EcoDexEntry {
       hintEn: json['hintEn'] as String,
       hintJa: json['hintJa'] as String? ?? '',
       hintEs: json['hintEs'] as String? ?? '',
+      keyFigureEn: json['keyFigureEn'] as String? ?? '',
+      keyFigureJa: json['keyFigureJa'] as String? ?? '',
+      keyFigureEs: json['keyFigureEs'] as String? ?? '',
     );
   }
 
@@ -55,6 +61,11 @@ class EcoDexEntry {
   final String hintJa;
   final String hintEs;
 
+  /// Headline figure, verbatim in each language's fact; all set or all empty.
+  final String keyFigureEn;
+  final String keyFigureJa;
+  final String keyFigureEs;
+
   String name(String locale) => switch (locale) {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
@@ -72,4 +83,14 @@ class EcoDexEntry {
     'es' when hintEs.isNotEmpty => hintEs,
     _ => hintEn,
   };
+
+  /// A blank figure in JA or ES stays unset rather than falling back to EN.
+  String? keyFigure(String locale) {
+    final figure = switch (locale) {
+      'ja' => keyFigureJa,
+      'es' => keyFigureEs,
+      _ => keyFigureEn,
+    };
+    return figure.isEmpty ? null : figure;
+  }
 }

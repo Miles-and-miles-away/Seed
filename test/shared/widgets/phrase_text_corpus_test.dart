@@ -432,5 +432,5 @@ void main() {
 int _oneCharSlack(double scale) => switch (scale) {
   1.0 => 0,
   1.3 => 1,
-  _ => 10,
+  _ => 11,
 };
