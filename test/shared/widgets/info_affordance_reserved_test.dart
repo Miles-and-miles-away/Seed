@@ -33,8 +33,8 @@ Map<String, int> _uses(RegExp pattern) => {
 void main() {
   test('the info glyph is drawn only by the shared widgets and the Settings '
       'About row', () {
+    expect(_uses(RegExp(r'\bInfoGlyph\b')), {_affordance: 4});
     expect(_uses(_glyph), {
-      _affordance: 2,
       'lib/features/settings/presentation/screens/settings_screen.dart': 1,
     });
   });
@@ -43,7 +43,7 @@ void main() {
     expect(
       _uses(
         RegExp(
-          r'deepPurple|6200EA|B388FF|98,\s*0,\s*234|179,\s*136,\s*255',
+          r'deepPurple|DD5EFF|B388FF|221,\s*94,\s*255|179,\s*136,\s*255',
           caseSensitive: false,
         ),
       ),

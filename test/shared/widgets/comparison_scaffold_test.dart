@@ -323,16 +323,10 @@ void main() {
           });
           expect(colours, {ink});
           expect(decorations.difference({TextDecoration.none}), isEmpty);
-          final glyph = tester.widget<RichText>(
-            find.descendant(
-              of: find.descendant(
-                of: amount,
-                matching: find.byIcon(Icons.info_outline),
-              ),
-              matching: find.byType(RichText),
-            ),
+          final glyph = tester.widget<InfoGlyph>(
+            find.descendant(of: amount, matching: find.byType(InfoGlyph)),
           );
-          expect(glyph.text.style?.color, infoColor(brightness));
+          expect(glyph.color, infoColor(brightness));
 
           final node = tester.getSemantics(figure);
           expect(node.label, '100${unitSpace}g CO2e');
@@ -386,7 +380,7 @@ void main() {
         );
         final glyph = find.descendant(
           of: amount,
-          matching: find.byIcon(Icons.info_outline),
+          matching: find.byType(InfoGlyph),
         );
         expect(
           [

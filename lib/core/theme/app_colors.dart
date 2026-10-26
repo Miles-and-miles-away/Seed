@@ -39,7 +39,7 @@ abstract class AppColors {
   static const streak = Color(0xFFFF9800);
 
   // Reserved for the info affordance; nothing else may use it.
-  static const infoLight = Color(0xFF6200EA);
+  static const infoLight = Color(0xFFDD5EFF);
   static const infoDark = Color(0xFFB388FF);
 
   // Special effect / celebration colors

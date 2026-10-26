@@ -135,7 +135,7 @@ void main() {
       await showDialog(tester);
 
       expect(find.text(_description), findsOneWidget);
-      expect(find.byIcon(Icons.info_outline), findsNothing);
+      expect(find.byType(InfoGlyph), findsNothing);
       expect(
         find.ancestor(
           of: find.text(_description),

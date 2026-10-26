@@ -19,15 +19,10 @@ const _longTerms = {
       'las emisiones de tu plato',
 };
 
-final _glyph = find.byIcon(Icons.info_outline);
+final _glyph = find.byType(InfoGlyph);
 
-Color? _glyphColor(WidgetTester tester) => tester
-    .widget<RichText>(
-      find.descendant(of: _glyph, matching: find.byType(RichText)),
-    )
-    .text
-    .style
-    ?.color;
+Color _glyphColor(WidgetTester tester) =>
+    tester.widget<InfoGlyph>(_glyph).color;
 
 Future<void> _pump(
   WidgetTester tester,
