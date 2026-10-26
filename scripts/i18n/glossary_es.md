@@ -32,7 +32,8 @@ the calculators' notes.
 - **CO2e quantities**: «7 g CO2e», «2,3 kg CO2e», «{amount} CO2e», never
   «kg de CO2e». «huella de CO2e» (a footprint, not a quantity) keeps «de».
 - **Source names**: copy sourceEn verbatim -- NEVER translate.
-- **Double dashes**: preserve `--` in the exact same position as English.
+- **No dash joins**: never join clauses with ` -- ` (English keeps it);
+  use a comma or a full stop instead (a semicolon where natural).
 - **Billions/trillions**: use "mil millones" (not "billón"); "billón" =
   trillion in Spanish.
 
@@ -129,7 +130,7 @@ locked choice.
 
 ### Example 1 (comparison category)
 **English**: If you went fully plant-based for just one month, you would save roughly 124 kg of CO2 -- equivalent to driving 750 km in a petrol car.
-**Spanish**: Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 124 kg de CO2 -- equivalente a conducir 750 km en un coche de gasolina.
+**Spanish**: Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 124 kg de CO2, equivalente a conducir 750 km en un coche de gasolina.
 
 ### Example 2 (positiveNews category)
 **English**: The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.

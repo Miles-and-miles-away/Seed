@@ -10,11 +10,11 @@
 
 ## Style Rules
 - **Register**: ます form (polite conversational), matching app_ja.arb
-- **Numbers**: Arabic numerals; use 億/万 for large Japanese-style groupings
+- **Numbers**: Arabic numerals; use 兆/億/万 for large numbers, with comma grouping on four digits inside a unit (3億5,000万, 1兆8,000億ドル)
 - **Units**: Keep Latin units (kg, km, GW, kWh, m2, etc.)
 - **CO2**: Use "CO2" inline; spell out 二酸化炭素 when used as a noun
 - **Source names**: Copy sourceEn verbatim -- NEVER translate
-- **Double dashes**: Preserve `--` in the exact same position as English
+- **No dash joins**: never join clauses with ` -- ` (English keeps it); use 「、」 or 「。」 instead
 - **Sentence endings**: Always end with ます/です/ません (polite form). Never use である/だ/casual forms
 
 ## Locked Terminology (~60 terms)
@@ -94,11 +94,11 @@
 
 ### Example 1 (comparison category)
 **English**: If you went fully plant-based for just one month, you would save roughly 124 kg of CO2 -- equivalent to driving 750 km in a petrol car.
-**Japanese**: 1か月間完全に植物性の食事に切り替えるだけで、約124 kgのCO2を節約できます -- ガソリン車で750 km走行するのに相当します。
+**Japanese**: 1か月間完全に植物性の食事に切り替えるだけで、約124 kgのCO2を節約できます。これはガソリン車で750 km走行するのに相当します。
 
 ### Example 2 (positiveNews category)
 **English**: The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.
-**Japanese**: 世界的な植林運動により、2020年以降160億本以上の木が植えられました。エチオピアは2019年に1日で3億5000万本の木を植え、世界記録を樹立しました。
+**Japanese**: 世界的な植林運動により、2020年以降160億本以上の木が植えられました。エチオピアは2019年に1日で3億5,000万本の木を植え、世界記録を樹立しました。
 
 ### Example 3 (mythBuster category)
 **English**: Bottled water is not safer than tap water in most developed countries. Tap water is tested far more frequently, and bottled water generates hundreds of times more CO2 per litre.
