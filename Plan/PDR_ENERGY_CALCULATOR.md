@@ -722,9 +722,11 @@ section 9; only the outcomes are recorded here.
 電気カーペット as a deliberate non-entry; split 525 lines of executed
 detail out of RESEARCH_ENERGY.md into the archive; fixed both test
 failures from the E1 grid rebase; corrected the food tier actions
-to bind to the *minimum* covered item (`skip_high_impact_food`
-6800 -> 3700, `skip_medium_impact_food` 1000 -> 780, owner call --
-**do not restore the higher figures**); and swept
+to bind to the *minimum* covered item (`skip_medium_impact_food`
+1000 -> 780, owner call -- **do not restore the higher figure**;
+`skip_high_impact_food` was later narrowed to beef only, so it no
+longer covers lamb and ships the beef swap, 6800 g, per
+PDR_FOOD_CALCULATOR.md section 4); and swept
 `calculation_notes` across all 94 actions then shipping, repairing
 eight notes that described a different action and re-deriving
 seven values from live-fetched primaries. Nothing in the split

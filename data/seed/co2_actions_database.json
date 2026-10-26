@@ -319,7 +319,7 @@
       "description_ja": "車を使わずに目的地まで歩く",
       "description_es": "Caminar hasta tu destino en vez de conducir",
       "co2_grams": 240,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 1.5 km x 162.72 = 244.08 g, rounded down to 240 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 1.5 km x 162.72 = 244.08 g, rounded down to 240 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -334,10 +334,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
+          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
         }
       ]
     },
@@ -351,7 +357,7 @@
       "description_ja": "短距離（3km未満）の移動に車の代わりに自転車を使用",
       "description_es": "Ir en bici en vez de en coche en un trayecto corto (menos de 3 km)",
       "co2_grams": 480,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 3 km x 162.72 = 488.16 g, rounded down to 480 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 3 km x 162.72 = 488.16 g, rounded down to 480 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -366,10 +372,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
+          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
         }
       ]
     },
@@ -379,11 +391,11 @@
       "name_en": "Medium Bike Trip",
       "name_ja": "中距離を自転車で移動",
       "name_es": "Trayecto medio en bici",
-      "description_en": "Bike instead of drive for a medium trip (3-10km)",
-      "description_ja": "中距離（3〜10km）の移動に車の代わりに自転車を使用",
-      "description_es": "Ir en bici en vez de en coche en un trayecto medio (3-10 km)",
+      "description_en": "Bike instead of drive for a medium trip (~6 km)",
+      "description_ja": "中距離（約6km）の移動に車の代わりに自転車を使用",
+      "description_es": "Ir en bici en vez de en coche en un trayecto medio (unos 6 km)",
       "co2_grams": 970,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 6 km x 162.72 = 976.32 g, rounded down to 970 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 6 km x 162.72 = 976.32 g, rounded down to 970 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
       "effort": 3,
       "frequency": 3,
       "impact": 2,
@@ -398,10 +410,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
+          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
+          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
         }
       ]
     },
@@ -632,14 +650,14 @@
     {
       "action_id": "skip_high_impact_food",
       "category": "food",
-      "name_en": "Skip High-Impact Meal",
-      "name_ja": "高インパクトの食事をスキップ",
-      "name_es": "Evitar comida de alto impacto",
-      "description_en": "Choose a plant-based meal instead of beef or lamb today",
-      "description_ja": "今日は牛肉やラム肉の代わりに植物性の食事を選択する",
-      "description_es": "Elegir una comida vegetal en vez de carne de vacuno o cordero hoy",
-      "co2_grams": 3700,
-      "calculation_notes": "Covers beef and lamb, so it binds to the SMALLER implied saving and the reward is honest whichever the user skipped. Lamb 39.72 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Lamb & Mutton,2010,39.72') per 100 g serving = 3972 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 3772 g. Rounded down to 3700 g (savings always round DOWN). Beef implies 6836 g on the same basis; crediting that for a lamb skip would overstate by 80%. Same minimum-of-covered-items rule as plant_milk.",
+      "name_en": "Skip a Beef Meal",
+      "name_ja": "牛肉料理をスキップ",
+      "name_es": "Evitar una comida de vacuno",
+      "description_en": "Choose a plant-based meal instead of beef today",
+      "description_ja": "今日は牛肉の代わりに植物性の食事を選択する",
+      "description_es": "Elegir una comida vegetal en vez de carne de vacuno hoy",
+      "co2_grams": 6800,
+      "calculation_notes": "per meal: a 100 g beef serving swapped for a plant alternative. Beef 70.3608 kg CO2e/kg, the production-weighted blend of the OWID / Poore & Nemecek 2018 means: 0.56 x 99.48 (beef herd) + 0.44 x 33.3 (dairy herd) = 70.36, with OWID's 56/44 beef-herd/dairy-herd production split; the same factor as the `beef` item in data/app/food_items.json. Per 100 g serving = 7036 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 6836 g. Rounded down to 6800 g (savings always round DOWN). These are means including supply-chain losses; the ~60 kg/kg beef figure quoted elsewhere is the beef-herd median without losses (OWID FAQ below).",
       "effort": 2,
       "frequency": 3,
       "impact": 4,
@@ -729,8 +747,8 @@
       "description_en": "Finish all food today with no waste",
       "description_ja": "今日は食べ残しゼロを達成",
       "description_es": "Terminar toda la comida hoy sin desperdiciar nada",
-      "co2_grams": 500,
-      "calculation_notes": "avoidable daily waste ~150g x 3/kg",
+      "co2_grams": 450,
+      "calculation_notes": "per day: ~150 g of avoidable food waste x ~3 kg CO2e per kg of food = 450 g. Both inputs are working assumptions with no primary source found yet, so the long text does not state them; the sources below back only the text's other claims. The previous 500 g did not follow from these inputs.",
       "effort": 2,
       "frequency": 5,
       "impact": 3,
@@ -742,8 +760,21 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA, Quantifying Methane Emissions from Landfilled Food Waste",
+          "url": "https://www.epa.gov/land-research/quantifying-methane-emissions-landfilled-food-waste",
+          "quote": "An estimated 58 percent of the fugitive methane emissions (i.e., those released to the atmosphere) from municipal solid waste landfills are from landfilled food waste.",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "FAO, Global Food Losses and Food Waste: Extent, Causes and Prevention (2011)",
+          "url": "https://www.fao.org/4/mb060e/mb060e00.htm",
+          "quote": "roughly one-third of food produced for human consumption is lost or wasted globally",
+          "accessed": "2026-10-27"
+        }
+      ]
     },
     {
       "action_id": "plant_milk",
@@ -817,8 +848,8 @@
       "description_en": "Eat only plant-based foods for an entire day",
       "description_ja": "一日中植物性食品だけを食べる",
       "description_es": "Comer solo alimentos vegetales durante todo el día",
-      "co2_grams": 3000,
-      "calculation_notes": "omnivore ~5.6 vs vegan ~2.9kg/day",
+      "co2_grams": 2700,
+      "calculation_notes": "per day: medium meat-eater 5.63 kg CO2e/day - vegan 2.89 kg CO2e/day = 2.74 kg = 2740 g, rounded down to 2700 g (savings always round down). Scarborough et al. 2014, EPIC-Oxford (55,504 UK adults), age-and-sex-adjusted means for a standard 2,000 kcal diet. The baseline is the medium meat-eater (50-99 g meat/day); against a high meat-eater (7.19) the gap is 4.30 kg, against a low meat-eater (4.67) 1.78 kg.",
       "effort": 3,
       "frequency": 3,
       "impact": 4,
@@ -831,8 +862,15 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Scarborough et al., 'Dietary greenhouse gas emissions of meat-eaters, fish-eaters, vegetarians and vegans in the UK', Climatic Change 125:179-192 (2014)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4372775/",
+          "quote": "5.63 (5.61, 5.65) for medium meat-eaters (50-99 g/d) ... and 2.89 (2.83, 2.94) for vegans",
+          "accessed": "2026-10-26"
+        }
+      ]
     },
     {
       "action_id": "bring_lunch",
@@ -1017,6 +1055,12 @@
           "url": "https://energyusecalculator.com/electricity_ledlightbulb.htm",
           "quote": "A typical cheap (60 watt equivalent to incandescent) LED light bulb is advertised as providing 800 lumens, lasting up to 10,000 hours at 10 watts.",
           "accessed": "2026-01-31"
+        },
+        {
+          "name": "1000Bulbs, Philips 455576 A19 LED listing",
+          "url": "https://www.1000bulbs.com/product/137759/PLT-10001.html",
+          "quote": "LED - 8.5 Watt - A19 - 60 Watt Equal ... 800 Lumens - 2700K Soft White - 120 Volt - 2 Pack - Philips 455576",
+          "accessed": "2026-10-27"
         }
       ]
     },
@@ -1026,9 +1070,9 @@
       "name_en": "Unplug Unused Devices",
       "name_ja": "使わない家電のプラグを抜く",
       "name_es": "Desenchufar dispositivos sin uso",
-      "description_en": "Unplug electronic devices when not in use",
-      "description_ja": "使用していない電子機器のコンセントを抜く",
-      "description_es": "Desenchufar dispositivos electrónicos cuando no se usen",
+      "description_en": "Unplug five devices left on standby for the day",
+      "description_ja": "待機状態の機器5台のプラグを1日抜いておく",
+      "description_es": "Desenchufar durante el día cinco aparatos en modo de espera",
       "co2_grams": 25,
       "calculation_notes": "5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, rounded down to 25. LBNL: modern standby is 'less than 0.5 watts' per device.",
       "effort": 1,
@@ -1048,8 +1092,14 @@
         {
           "name": "Lawrence Berkeley National Lab",
           "url": "https://standby.lbl.gov/",
-          "quote": "Modern regulations limit standby to ≤1W, down from 5-15W in older devices.",
-          "accessed": "2026-01-31"
+          "quote": "Most products draw relatively little standby power – less than 0.5 watts – but they still add up.",
+          "accessed": "2026-10-26"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
         }
       ]
     },
@@ -1059,9 +1109,9 @@
       "name_en": "Turn Off Lights",
       "name_ja": "電気を消す",
       "name_es": "Apagar las luces",
-      "description_en": "Turn off lights when leaving a room",
-      "description_ja": "部屋を出る時に電気を消す",
-      "description_es": "Apagar las luces al salir de una habitación",
+      "description_en": "Switch off a bulb that would stay on for ~4 h in an empty room",
+      "description_ja": "誰もいない部屋で約4時間点いたままになる電球を1つ消す",
+      "description_es": "Apagar una bombilla que seguiría encendida unas 4 h en una habitación vacía",
       "co2_grams": 15,
       "calculation_notes": "4 h x 8.5 W LED = 0.034 kWh x 458 g CO2e/kWh = 15.6, rounded down to 15. Re-based 2026-08-29 from a 40 W bulb that no RESEARCH_ENERGY entry supports: the shipped lighting entries are the 8.5 W / 800 lm LED and the 60 W incandescent comparator (section 3.5), and the LED is the honest basis because LEDs are now the majority of installed household lamps -- crediting an incandescent would overstate the saving for most users, against the honest-not-generous rule. A user still on incandescents saves ~110 g for the same 4 h; the methodology sheet says so. The 4 h is the behaviour definition (lights left on in an unoccupied room), not a measurement. The 8.5 W primary is the Philips A19 spec quoted verbatim in RESEARCH_ENERGY section 3.5, whose URL that pass did not capture; the sources below corroborate the wattage class at 800 lm.",
       "effort": 1,
@@ -1093,6 +1143,12 @@
           "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
           "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "1000Bulbs, Philips 455576 A19 LED listing",
+          "url": "https://www.1000bulbs.com/product/137759/PLT-10001.html",
+          "quote": "LED - 8.5 Watt - A19 - 60 Watt Equal ... 800 Lumens - 2700K Soft White - 120 Volt - 2 Pack - Philips 455576",
+          "accessed": "2026-10-27"
         }
       ]
     },
@@ -1102,9 +1158,9 @@
       "name_en": "Lower Thermostat 1 Degree",
       "name_ja": "暖房を1度下げる",
       "name_es": "Bajar el termostato 1 grado",
-      "description_en": "Lower your heating thermostat by 1 degree today",
-      "description_ja": "今日は暖房の設定温度を1度下げる",
-      "description_es": "Bajar el termostato de la calefacción 1 grado hoy",
+      "description_en": "Lower your air conditioner's heating setting by 1 degree today",
+      "description_ja": "今日はエアコン暖房の設定温度を1度下げる",
+      "description_es": "Bajar hoy 1 grado la calefacción del aire acondicionado",
       "co2_grams": 140,
       "calculation_notes": "METI measured: 53.08 kWh/yr saved per 1 C at 9 h/day over a 169-day heating season = 0.3141 kWh/day x 458 = 144, rounded down to 140. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
       "effort": 2,
@@ -1281,10 +1337,22 @@
           "accessed": "2026-08-09"
         },
         {
+          "name": "資源エネルギー庁 省エネポータルサイト (計算根拠)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index.html#konkyo",
+          "quote": "※掲載データは、一般財団法人省エネルギーセンターの実測値を使用しています。 ... 暖房期間 5.5か月（10月28日〜4月14日）169日 冷房期間 3.6か月（6月2日〜9月21日）112日 中間期84日",
+          "accessed": "2026-08-03"
+        },
+        {
           "name": "Panasonic F-CV339 仕様",
           "url": "https://panasonic.jp/fan/products/F-CV339/spec.html",
-          "quote": "ノッチ 8(強) 50/60Hz: 22W",
-          "accessed": "2026-08-09"
+          "quote": "消費電力 [ノッチ 8(強)] 50/60Hz:22W",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
         }
       ]
     },
@@ -1428,7 +1496,7 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "Chaudhari et al., 'Life Cycle Assessment of Selected Single-Use Plastic Products', Sustainability 14(21):14170 (2022)",
+          "name": "Kamalakkannan et al., 'Life Cycle Assessment of Selected Single-Use Plastic Products towards Evidence-Based Policy Recommendations in Sri Lanka', Sustainability 14(21):14170 (2022)",
           "url": "https://www.iges.or.jp/system/files/publication_documents/pub/peer/12513/sustainability-14-14170.pdf",
           "quote": "the total GWP impact of PS cutlery is 0.0514 kg CO2 (eq) for 100% incineration",
           "accessed": "2026-08-09"
@@ -2006,9 +2074,9 @@
       "name_en": "Buy Local Produce",
       "name_ja": "地元の農産物を購入",
       "name_es": "Comprar productos locales",
-      "description_en": "Buy locally grown food from a farmers market, farm stand, or local supplier",
-      "description_ja": "ファーマーズマーケット、直売所、地元の業者から地産食材を購入する",
-      "description_es": "Comprar alimentos cultivados localmente en un mercado de agricultores o proveedor local",
+      "description_en": "Buy about 1 kg of local produce instead of produce shipped from another continent",
+      "description_ja": "別の大陸から運ばれた農産物の代わりに地元産の農産物を約1kg購入する",
+      "description_es": "Comprar aproximadamente 1 kg de productos locales en vez de traídos de otro continente",
       "co2_grams": 200,
       "calculation_notes": "Buying local avoids only the transport leg, which is a small share of food's footprint. Our World in Data's worked example is 1 kg of avocados shipped Mexico -> UK = 0.21 kg CO2e of transport. Ships 200 g, rounded down from 210 and conservative because locally grown produce still has transport of its own. The honest framing this action must carry: what you eat matters far more than where it travelled from -- transport is under 10% of most foods' emissions and 0.5% for beef. Air-freighted produce is the exception and is a different action.",
       "effort": 2,

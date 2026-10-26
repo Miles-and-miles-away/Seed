@@ -23,16 +23,15 @@ const _description = 'Choose a plant-based meal instead of beef today';
 
 const _mealAction = ActionModel(
   id: 'skip_high_impact_food',
-  nameEn: 'Skip High-Impact Meal',
-  nameJa: '高インパクトの食事をスキップ',
-  nameEs: 'Evitar comida de alto impacto',
+  nameEn: 'Skip a Beef Meal',
+  nameJa: '牛肉料理をスキップ',
+  nameEs: 'Evitar una comida de vacuno',
   category: 'food',
-  points: 37,
-  co2Grams: 3700,
-  descriptionEn: 'Choose a plant-based meal instead of beef or lamb today',
-  descriptionJa: '今日は牛肉やラム肉の代わりに植物性の食事を選択する',
-  descriptionEs:
-      'Elegir una comida vegetal en vez de carne de res o cordero hoy',
+  points: 39,
+  co2Grams: 6800,
+  descriptionEn: _description,
+  descriptionJa: '今日は牛肉の代わりに植物性の食事を選択する',
+  descriptionEs: 'Elegir una comida vegetal en vez de carne de vacuno hoy',
   descriptionLongEn: 'The science.',
 );
 

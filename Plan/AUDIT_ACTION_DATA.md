@@ -309,7 +309,7 @@ fall in a believable range relative to existing actions.
 | Compost scraps | 200 | 2 | 5 | 3 | ~6 | daily |
 | Skip delivery | 600 | 3 | 4 | 2 | ~17 | instance |
 | Bike medium trip | 900 | 3 | 3 | 3 | ~25 | instance |
-| Skip high-impact food | 6000 | 2 | 3 | 4 | ~57 | instance |
+| Skip a beef meal | 6800 | 2 | 3 | 4 | ~39 | instance |
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
 | Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
@@ -385,8 +385,9 @@ need to change their behavior to log this?"
 If two actions are both <15g CO2 and occur in the same
 context, merge them. Individual actions like "refuse
 straw" (1g), "refuse cutlery" (5g), and "use cloth
-napkin" (5g) were merged into "refuse single-use
-disposables" (15g). The friction of finding and logging
+napkin" (5g) were merged into one disposables action,
+which now credits cutlery alone (51g) because a merged
+action binds to its smallest item. The friction of finding and logging
 three separate 1-5g actions is not worth the
 granularity.
 
@@ -395,11 +396,10 @@ granularity.
 If one action description could mean vastly different
 things, either:
 1. Define a standard unit (per bag, per smartphone)
-2. Split into tiers (high-impact food vs medium-impact)
+2. Split into tiers (beef vs medium-impact meat)
 
-The meat actions were split into high-impact (beef, lamb,
-shrimp: ~6000g) and medium-impact (chicken, pork, eggs:
-~1000g) because lumping them together would either
+The meat actions were split into a beef action (~6800g)
+and a medium-impact tier (chicken, pork: ~780g) because lumping them together would either
 overvalue chicken or undervalue beef.
 
 ### Do not double-count

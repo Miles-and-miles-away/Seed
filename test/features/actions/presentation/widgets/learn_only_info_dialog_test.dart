@@ -160,17 +160,16 @@ void main() {
           tester.element(find.byType(Scaffold)),
           action: const ActionModel(
             id: 'skip_high_impact_food',
-            nameEn: 'Skip High-Impact Meal',
-            nameJa: '高インパクトの食事をスキップ',
-            nameEs: 'Evitar comida de alto impacto',
+            nameEn: 'Skip a Beef Meal',
+            nameJa: '牛肉料理をスキップ',
+            nameEs: 'Evitar una comida de vacuno',
             category: 'food',
             points: 0,
             isLearnOnly: true,
-            descriptionEn:
-                'Choose a plant-based meal instead of beef or lamb today',
-            descriptionJa: '今日は牛肉やラム肉の代わりに植物性の食事を選択する',
+            descriptionEn: 'Choose a plant-based meal instead of beef today',
+            descriptionJa: '今日は牛肉の代わりに植物性の食事を選択する',
             descriptionEs:
-                'Elegir una comida vegetal en vez de carne de res o cordero hoy',
+                'Elegir una comida vegetal en vez de carne de vacuno hoy',
             descriptionLongEn: 'The science.',
           ),
           languageCode: locale.languageCode,
