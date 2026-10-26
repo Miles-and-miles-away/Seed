@@ -129,8 +129,8 @@ locked choice.
 ## Example Translations
 
 ### Example 1 (comparison category)
-**English**: If you went fully plant-based for just one month, you would save roughly 124 kg of CO2 -- equivalent to driving 750 km in a petrol car.
-**Spanish**: Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 124 kg de CO2, equivalente a conducir 750 km en un coche de gasolina.
+**English**: If you went fully plant-based for just one month, you would save roughly 80 kg of CO2 -- equivalent to driving 500 km in a petrol car.
+**Spanish**: Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 80 kg de CO2, equivalente a conducir 500 km en un coche de gasolina.
 
 ### Example 2 (positiveNews category)
 **English**: The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.

@@ -7,27 +7,35 @@
   "figures": [
     {
       "goal": 1,
+      "figureEn": "an estimated 1 in 10",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
+    },
+    {
+      "goal": 1,
       "figureEn": "more than 800 million",
-      "source": "Poverty and Inequality Platform (September 2026 release, 2021 PPP)",
-      "publisher": "World Bank",
-      "url": "https://worldbank.github.io/PIP_data_updates/posts/2026-09-22-pip-data-update/",
-      "referenceYear": 2024
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
     },
     {
       "goal": 1,
       "figureEn": "less than $3 a day",
-      "source": "Poverty and Inequality Platform (September 2026 release, 2021 PPP)",
-      "publisher": "World Bank",
-      "url": "https://worldbank.github.io/PIP_data_updates/posts/2026-09-22-pip-data-update/",
-      "referenceYear": 2024
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
     },
     {
       "goal": 1,
-      "figureEn": "Most of them lived in sub-Saharan Africa",
-      "source": "Poverty and Inequality Platform (September 2026 release, 2021 PPP)",
-      "publisher": "World Bank",
-      "url": "https://worldbank.github.io/PIP_data_updates/posts/2026-09-22-pip-data-update/",
-      "referenceYear": 2024
+      "figureEn": "Most of them live in sub-Saharan Africa",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
     },
     {
       "goal": 2,
@@ -108,6 +116,38 @@
       "publisher": "WHO/UNICEF Joint Monitoring Programme",
       "url": "https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef",
       "referenceYear": 2024
+    },
+    {
+      "goal": 8,
+      "figureEn": "4.9%",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "nearly 58%",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "284 million",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (indicator 1.1.1, ILO data)",
+      "publisher": "UN DESA / International Labour Organization",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "one in five young people",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
     },
     {
       "goal": 10,

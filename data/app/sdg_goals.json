@@ -3,14 +3,14 @@
     "number": 1,
     "title": "No Poverty",
     "shortTitle": "No Poverty",
-    "description": "End poverty in all its forms everywhere. In 2024, more than 800 million people lived in extreme poverty, on less than $3 a day, struggling to fulfil the most basic needs like health, education, and access to water and sanitation. Most of them lived in sub-Saharan Africa. The goal calls for social protection systems, equal rights to economic resources, and support for those affected by climate-related disasters and other shocks.",
+    "description": "End poverty in all its forms everywhere. In 2026, an estimated 1 in 10 people, more than 800 million, still live in extreme poverty on less than $3 a day, struggling to fulfil the most basic needs like health, education, and access to water and sanitation. Most of them live in sub-Saharan Africa. The goal calls for social protection systems, equal rights to economic resources, and support for those affected by climate-related disasters and other shocks.",
     "color": "E5243B",
     "titleJa": "貧困をなくそう",
     "titleEs": "Fin de la pobreza",
     "shortTitleJa": "貧困をなくそう",
     "shortTitleEs": "Fin de la pobreza",
-    "descriptionJa": "あらゆる場所で、あらゆる形態の貧困に終止符を打つ。2024年には8億人以上が極度の貧困の中で暮らし、健康、教育、水と衛生へのアクセスといった最も基本的なニーズを満たすことに苦しんでいました。社会的保護制度、経済的資源への平等な権利、気候関連の災害やその他のショックの影響を受けた人々への支援を求めています。",
-    "descriptionEs": "Poner fin a la pobreza en todas sus formas en todo el mundo. Más de 800 millones de personas vivían en pobreza extrema en 2024 y luchaban por satisfacer las necesidades más básicas como salud, educación y acceso al agua y saneamiento. El objetivo pide sistemas de protección social, igualdad de derechos a recursos económicos y apoyo para los afectados por desastres climáticos."
+    "descriptionJa": "あらゆる場所で、あらゆる形態の貧困に終止符を打つ。2026年には、推定で10人に1人にあたる8億人以上が1日3ドル未満の極度の貧困の中で暮らし、健康、教育、水と衛生へのアクセスといった最も基本的なニーズを満たすことに苦しんでいます。その大半はサハラ以南のアフリカで暮らしています。社会的保護制度、経済的資源への平等な権利、気候関連の災害やその他のショックの影響を受けた人々への支援を求めています。",
+    "descriptionEs": "Poner fin a la pobreza en todas sus formas en todo el mundo. Más de 800 millones de personas, 1 de cada 10, viven en pobreza extrema en 2026 según las estimaciones, con menos de 3 dólares al día, y luchan por satisfacer las necesidades más básicas como salud, educación y acceso al agua y saneamiento. La mayoría vive en el África subsahariana. El objetivo pide sistemas de protección social, igualdad de derechos a recursos económicos y apoyo para los afectados por desastres climáticos."
   },
   {
     "number": 2,
@@ -95,15 +95,15 @@
     "number": 8,
     "title": "Decent Work and Economic Growth",
     "shortTitle": "Decent Work",
-    "description": "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all. Roughly half the world's population still lives on the equivalent of about US$2 a day. In many places, having a job does not guarantee the ability to escape from poverty. This slow and uneven progress requires us to rethink and retool our economic and social policies aimed at eradicating poverty.",
+    "description": "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all. Global unemployment stood at 4.9% in 2025, yet nearly 58% of workers held informal jobs, without contracts, protections or reliable income. Having a job does not guarantee escaping poverty: 284 million workers still lived in extreme poverty in 2025. In 2025, one in five young people was not in employment, education or training.",
     "color": "A21942",
     "isLearnOnly": true,
     "titleJa": "働きがいも経済成長も",
     "titleEs": "Trabajo decente y crecimiento económico",
     "shortTitleJa": "働きがいと成長",
     "shortTitleEs": "Trabajo decente",
-    "descriptionJa": "すべての人のための持続的、包摂的かつ持続可能な経済成長、完全かつ生産的な雇用およびディーセント・ワークを推進する。世界人口の約半数が1日約2ドル相当で暮らしています。多くの場所で、仕事があっても貧困から脱出できる保証はありません。この遅く不均等な進歩は、貧困撲滅を目指す経済・社会政策の再考を求めています。",
-    "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. Aproximadamente la mitad de la población mundial vive con el equivalente a unos 2 dólares al día. En muchos lugares, tener un empleo no garantiza poder escapar de la pobreza. Este progreso lento y desigual nos obliga a replantear nuestras políticas económicas y sociales."
+    "descriptionJa": "すべての人のための持続的、包摂的かつ持続可能な経済成長、完全かつ生産的な雇用およびディーセント・ワークを推進する。2025年の世界の失業率は4.9%でしたが、労働者の約58%は、契約も保護も安定した収入もないインフォーマルな仕事に就いていました。仕事があっても貧困から抜け出せるとは限らず、2025年には2億8,400万人の労働者が極度の貧困の中で暮らしていました。2025年には、若者の5人に1人が就業も就学も職業訓練もしていませんでした。",
+    "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. El desempleo mundial se situó en el 4,9% en 2025, pero casi el 58% de los trabajadores tenía un empleo informal, sin contrato, protección ni ingresos fiables. Tener un empleo no garantiza salir de la pobreza: 284 millones de trabajadores vivían en pobreza extrema en 2025. En 2025, uno de cada cinco jóvenes no estudiaba, no trabajaba ni recibía formación."
   },
   {
     "number": 9,

@@ -2,13 +2,13 @@
   {
     "dayOfYear": 1,
     "category": "comparison",
-    "factEn": "If you went fully plant-based for just one month, you would save roughly 124 kg of CO2 -- equivalent to driving 750 km in a petrol car.",
-    "factEs": "Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 124 kg de CO2, equivalente a conducir 750 km en un coche de gasolina.",
-    "factJa": "1か月間完全に植物性の食事に切り替えるだけで、約124 kgのCO2を節約できます。これはガソリン車で750 km走行するのに相当します。",
-    "sourceEn": "Poore & Nemecek, Science 2018",
-    "sourceEs": "Poore & Nemecek, Science 2018",
-    "sourceJa": "Poore & Nemecek, Science 2018",
-    "sourceUrl": "https://www.science.org/doi/10.1126/science.aaq0216",
+    "factEn": "If you went fully plant-based for just one month, you would save roughly 80 kg of CO2 -- equivalent to driving 500 km in a petrol car.",
+    "factEs": "Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 80 kg de CO2, equivalente a conducir 500 km en un coche de gasolina.",
+    "factJa": "1か月間完全に植物性の食事に切り替えるだけで、約80 kgのCO2を節約できます。これはガソリン車で500 km走行するのに相当します。",
+    "sourceEn": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
+    "sourceEs": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
+    "sourceJa": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
+    "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4372775/",
     "relatedSdgs": [
       2,
       12,
@@ -1947,13 +1947,13 @@
   {
     "dayOfYear": 96,
     "category": "mythBuster",
-    "factEn": "Droughts are not caused by people using too much tap water. Agriculture uses 70% of global freshwater -- household use is typically only 8-12%. Policy change matters more than shorter showers.",
-    "factEs": "Las sequías no son causadas por las personas que usan demasiada agua del grifo. La agricultura utiliza el 70% del agua dulce global. El uso doméstico es típicamente solo del 8-12%. Los cambios en las políticas importan más que las duchas más cortas.",
-    "factJa": "干ばつは家庭での水の使いすぎによって引き起こされるわけではありません。農業は世界の淡水の70%を消費しており、家庭用は通常わずか8〜12%です。短いシャワーよりも政策変更の方が重要です。",
-    "sourceEn": "UN Water / FAO",
-    "sourceEs": "UN Water / FAO",
-    "sourceJa": "UN Water / FAO",
-    "sourceUrl": "https://www.unwater.org/water-facts/water-scarcity",
+    "factEn": "Droughts are not caused by people using too much tap water. Agriculture accounted for 72% of global freshwater withdrawals in 2023 -- homes and public water supplies together took only about 13%. Policy change matters more than shorter showers.",
+    "factEs": "Las sequías no son causadas por las personas que usan demasiada agua del grifo. En 2023, la agricultura representó el 72% de las extracciones mundiales de agua dulce. Los hogares y el abastecimiento público, juntos, solo extrajeron aproximadamente el 13%. Los cambios en las políticas importan más que las duchas más cortas.",
+    "factJa": "干ばつは家庭での水の使いすぎによって引き起こされるわけではありません。2023年、農業は世界の淡水取水量の72%を占め、家庭や公共サービス向けの生活用水はわずか約13%でした。短いシャワーよりも政策変更の方が重要です。",
+    "sourceEn": "UN SDG Extended Report 2026 / FAO AQUASTAT",
+    "sourceEs": "UN SDG Extended Report 2026 / FAO AQUASTAT",
+    "sourceJa": "UN SDG Extended Report 2026 / FAO AQUASTAT",
+    "sourceUrl": "https://unstats.un.org/sdgs/report/2026/extended-report/Extended-Report-2026_Goal-6.pdf",
     "relatedSdgs": [
       6
     ],
@@ -1961,9 +1961,9 @@
     "nameEn": "Farms Use the Water",
     "nameEs": "El agua va al campo",
     "nameJa": "水の大半は農業に",
-    "keyFigureEn": "70%",
-    "keyFigureEs": "70%",
-    "keyFigureJa": "70%"
+    "keyFigureEn": "72%",
+    "keyFigureEs": "72%",
+    "keyFigureJa": "72%"
   },
   {
     "dayOfYear": 97,
@@ -3353,13 +3353,13 @@
   {
     "dayOfYear": 165,
     "category": "positiveNews",
-    "factEn": "Global hunger has declined from 1 billion people in 2009 to 673 million in 2024. While still too high, the long-term trend shows that targeted action and investment work.",
-    "factEs": "El hambre global ha disminuido de 1.000 millones de personas en 2009 a 673 millones en 2024. Aunque sigue siendo demasiado alta, la tendencia a largo plazo demuestra que la acción y la inversión dirigidas funcionan.",
-    "factJa": "世界の飢餓人口は2009年の10億人から2024年には6億7,300万人に減少しました。まだ多すぎる数ですが、長期的な傾向は、的を絞った取り組みと投資が効果をもたらすことを示しています。",
-    "sourceEn": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceEs": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceJa": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceUrl": "https://www.fao.org/publications/sofi",
+    "factEn": "Global hunger has fallen for three years in a row: in 2025, 43 million fewer people faced hunger than at the 2022 peak. Hunger is still too high, but the trend shows that targeted action and investment work.",
+    "factEs": "El hambre en el mundo ha disminuido durante tres años seguidos, y en 2025 hubo 43 millones de personas menos pasando hambre que en el pico de 2022. Sigue siendo demasiado alta, pero la tendencia demuestra que la acción y la inversión dirigidas funcionan.",
+    "factJa": "世界の飢餓は3年連続で減少しており、2025年に飢餓に直面した人は、2022年のピーク時より4,300万人少なくなりました。飢餓はまだ深刻ですが、この傾向は、的を絞った取り組みと投資が効果をもたらすことを示しています。",
+    "sourceEn": "UN Food and Agriculture Organization (SOFI 2026)",
+    "sourceEs": "UN Food and Agriculture Organization (SOFI 2026)",
+    "sourceJa": "UN Food and Agriculture Organization (SOFI 2026)",
+    "sourceUrl": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
     "relatedSdgs": [
       1,
       2
@@ -3368,9 +3368,9 @@
     "nameEn": "Hunger Retreats",
     "nameEs": "El hambre retrocede",
     "nameJa": "飢餓の減少",
-    "keyFigureEn": "673 million",
-    "keyFigureEs": "673 millones",
-    "keyFigureJa": "6億7,300万"
+    "keyFigureEn": "43 million",
+    "keyFigureEs": "43 millones",
+    "keyFigureJa": "4,300万"
   },
   {
     "dayOfYear": 166,
@@ -3924,12 +3924,12 @@
   {
     "dayOfYear": 193,
     "category": "mythBuster",
-    "factEn": "Turning off the tap while brushing your teeth saves about 8 litres per brush. But a single toilet leak can waste up to 400 litres per day -- fixing leaks saves far more water than shorter brushing.",
-    "factEs": "Cerrar el grifo mientras te cepillas los dientes ahorra unos 8 litros por cepillado. Pero una sola fuga en el inodoro puede desperdiciar hasta 400 litros al día. Reparar fugas ahorra mucha más agua que cepillarse más rápido.",
-    "factJa": "歯を磨く際に蛇口を閉めると、1回の歯磨きで約8リットルの水を節約できます。しかし、トイレの水漏れは1日最大400リットルを無駄にすることがあります。水漏れを修理する方が、歯磨きを短くするよりはるかに多くの水を節約できます。",
-    "sourceEn": "WaterWise UK",
-    "sourceEs": "WaterWise UK",
-    "sourceJa": "WaterWise UK",
+    "factEn": "Turning off the tap while brushing your teeth saves up to 15 litres each time you brush. But a single toilet leak can waste up to 400 litres per day -- fixing leaks saves far more water than shorter brushing.",
+    "factEs": "Cerrar el grifo mientras te cepillas los dientes ahorra hasta 15 litros cada vez que te cepillas. Pero una sola fuga en el inodoro puede desperdiciar hasta 400 litros al día. Reparar fugas ahorra mucha más agua que cepillarse más rápido.",
+    "factJa": "歯を磨く際に蛇口を閉めると、1回の歯磨きで最大約15リットルの水を節約できます。しかし、トイレの水漏れは1日最大400リットルを無駄にすることがあります。水漏れを修理する方が、歯磨きを短くするよりはるかに多くの水を節約できます。",
+    "sourceEn": "Waterwise / US EPA WaterSense",
+    "sourceEs": "Waterwise / US EPA WaterSense",
+    "sourceJa": "Waterwise / US EPA WaterSense",
     "sourceUrl": "https://www.waterwise.org.uk/how-to-save-water/",
     "relatedSdgs": [
       6
@@ -3986,13 +3986,13 @@
   {
     "dayOfYear": 196,
     "category": "individual",
-    "factEn": "Turning your thermostat down by just 1 degree C saves roughly 300 kg of CO2 per year and cuts your heating bill by up to 10%. A jumper is cheaper than a heater.",
-    "factEs": "Bajar el termostato solo 1 grado C ahorra aproximadamente 300 kg de CO2 al año y reduce tu factura de calefacción hasta un 10%. Un suéter es más barato que un calentador.",
-    "factJa": "サーモスタットをわずか1度C下げるだけで、年間約300 kgのCO2を節約でき、暖房費を最大10%削減できます。セーターはヒーターより安上がりです。",
+    "factEn": "In a gas-heated home, turning your thermostat down by just 1 degree C saves roughly 300 kg of CO2 over a year. A jumper is cheaper than a heater.",
+    "factEs": "En una vivienda con calefacción de gas, bajar el termostato solo 1 grado C ahorra aproximadamente 300 kg de CO2 al año. Un jersey es más barato que una estufa.",
+    "factJa": "ガス暖房の住宅では、サーモスタットをわずか1度C下げるだけで、年間約300 kgのCO2を節約できます。セーターはヒーターより安上がりです。",
     "sourceEn": "Energy Saving Trust UK",
     "sourceEs": "Energy Saving Trust UK",
     "sourceJa": "Energy Saving Trust UK",
-    "sourceUrl": "https://energysavingtrust.org.uk/hub/quick-tips-to-save-energy/",
+    "sourceUrl": "https://energysavingtrust.org.uk/campaign/energy-saving-week-ni/",
     "relatedSdgs": [
       7,
       13
@@ -4044,18 +4044,18 @@
   {
     "dayOfYear": 199,
     "category": "positiveNews",
-    "factEn": "Since 2000, over 2.7 billion people have gained access to clean drinking water. While 2 billion still lack safely managed water, the trend shows that investment in water infrastructure works.",
-    "factEs": "Desde el año 2000, más de 2.700 millones de personas han obtenido acceso a agua potable limpia. Aunque 2.000 millones aún carecen de agua gestionada de forma segura, la tendencia demuestra que la inversión en infraestructura hídrica funciona.",
-    "factJa": "2000年以降、27億人以上が安全な飲料水へのアクセスを得ました。まだ20億人が安全に管理された水を利用できていませんが、この傾向は水インフラへの投資が効果をあげていることを示しています。",
-    "sourceEn": "WHO / UNICEF Joint Monitoring Programme",
-    "sourceEs": "WHO / UNICEF Joint Monitoring Programme",
-    "sourceJa": "WHO / UNICEF Joint Monitoring Programme",
-    "sourceUrl": "https://washdata.org/",
+    "factEn": "Between 2015 and 2024, 961 million people gained access to safely managed drinking water. While about 1 in 4 people still lacked it in 2024, the trend shows that investment in water infrastructure works.",
+    "factEs": "Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura. Aunque aproximadamente 1 de cada 4 personas aún carecía de ella en 2024, la tendencia demuestra que la inversión en infraestructura hídrica funciona.",
+    "factJa": "2015年から2024年にかけて、9億6,100万人が安全に管理された飲料水を利用できるようになりました。2024年時点でも約4人に1人が利用できていませんが、この傾向は水インフラへの投資が効果をあげていることを示しています。",
+    "sourceEn": "UN Sustainable Development Goals Report 2026",
+    "sourceEs": "UN Sustainable Development Goals Report 2026",
+    "sourceJa": "UN Sustainable Development Goals Report 2026",
+    "sourceUrl": "https://unstats.un.org/sdgs/report/2026/Goal-06/",
     "relatedSdgs": [
       6
     ],
     "unWorldDay": null,
-    "nameEn": "Water for Billions",
+    "nameEn": "Safe Water Spreads",
     "nameEs": "Agua para más",
     "nameJa": "清潔な水の拡大"
   },
@@ -5873,13 +5873,13 @@
   {
     "dayOfYear": 289,
     "category": "comparison",
-    "factEn": "We produce enough food to feed 10 billion people, yet 673 million go hungry. The problem is not production but distribution, waste, and inequality.",
-    "factEs": "Producimos suficiente comida para alimentar a 10 mil millones de personas, pero 673 millones pasan hambre. El problema no es la producción sino la distribución, el desperdicio y la desigualdad.",
-    "factJa": "世界は100億人を養えるだけの食料を生産していますが、6億7,300万人が飢えに苦しんでいます。問題は生産量ではなく、流通、食品ロス、そして不平等にあります。",
-    "sourceEn": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceEs": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceJa": "UN Food and Agriculture Organization (SOFI 2025)",
-    "sourceUrl": "https://www.fao.org/publications/sofi",
+    "factEn": "In 2023, the world's food supply passed 3,000 kcal per person per day, yet an estimated 645 million people went hungry in 2025. The problem is not production but distribution, waste, and inequality.",
+    "factEs": "En 2023, el suministro mundial de alimentos superó las 3.000 kcal por persona y día, pero se estima que 645 millones de personas pasaron hambre en 2025. El problema no es la producción sino la distribución, el desperdicio y la desigualdad.",
+    "factJa": "2023年、世界の食料供給量は1人1日当たり3,000 kcalを超えましたが、2025年には推定6億4,500万人が飢えに苦しみました。問題は生産量ではなく、流通、食品ロス、そして不平等にあります。",
+    "sourceEn": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
+    "sourceEs": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
+    "sourceJa": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
+    "sourceUrl": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
     "relatedSdgs": [
       1,
       2,
@@ -5889,9 +5889,9 @@
     "nameEn": "We Grow Enough",
     "nameEs": "Alimento hay suficiente",
     "nameJa": "食は十分にある",
-    "keyFigureEn": "10 billion",
-    "keyFigureEs": "10 mil millones",
-    "keyFigureJa": "100億"
+    "keyFigureEn": "645 million",
+    "keyFigureEs": "645 millones",
+    "keyFigureJa": "6億4,500万"
   },
   {
     "dayOfYear": 290,
@@ -6571,13 +6571,13 @@
   {
     "dayOfYear": 323,
     "category": "individual",
-    "factEn": "3.6 billion people -- nearly half the world -- lack safely managed sanitation. Proper sanitation systems prevent waterborne diseases and protect aquatic ecosystems from pollution.",
-    "factEs": "3.600 millones de personas, casi la mitad del mundo, carecen de saneamiento gestionado de forma segura. Los sistemas de saneamiento adecuados previenen enfermedades transmitidas por el agua y protegen los ecosistemas acuáticos de la contaminación.",
-    "factJa": "世界の人口のほぼ半数にあたる36億人が、安全に管理された衛生設備を利用できていません。適切な衛生システムは水系感染症を防ぎ、水生生態系を汚染から守ります。",
+    "factEn": "In 2024, 3.4 billion people still lacked safely managed sanitation, including 354 million who practised open defecation. Proper sanitation systems prevent waterborne diseases and protect aquatic ecosystems from pollution.",
+    "factEs": "En 2024, 3.400 millones de personas aún carecían de saneamiento gestionado de forma segura, entre ellas 354 millones que practicaban la defecación al aire libre. Los sistemas de saneamiento adecuados previenen enfermedades transmitidas por el agua y protegen los ecosistemas acuáticos de la contaminación.",
+    "factJa": "2024年時点で、34億人がいまだに安全に管理された衛生設備を利用できておらず、そのうち3億5,400万人は屋外で排泄していました。適切な衛生システムは水系感染症を防ぎ、水生生態系を汚染から守ります。",
     "sourceEn": "WHO / UNICEF Joint Monitoring Programme",
     "sourceEs": "WHO / UNICEF Joint Monitoring Programme",
     "sourceJa": "WHO / UNICEF Joint Monitoring Programme",
-    "sourceUrl": "https://washdata.org/",
+    "sourceUrl": "https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef",
     "relatedSdgs": [
       3,
       6
@@ -7105,13 +7105,13 @@
   {
     "dayOfYear": 349,
     "category": "positiveNews",
-    "factEn": "Global deforestation has slowed by over a third compared to the 1990s, from 16 million hectares per year to 10 million. Countries like Brazil saw an 80% drop in Amazon deforestation between 2004 and 2012, proving that policy works.",
-    "factEs": "La deforestación global se ha reducido en más de un tercio en comparación con la década de 1990, de 16 millones de hectáreas por año a 10 millones. Brasil registró una caída del 80% en la deforestación amazónica entre 2004 y 2012, demostrando que las políticas funcionan.",
-    "factJa": "世界の森林破壊は、1990年代に比べて3分の1以上減速しており、年間1,600万 haから1,000万 haになりました。ブラジルなどの国々では、2004年から2012年の間にアマゾンの森林伐採が80%減少し、政策の効果が実証されています。",
-    "sourceEn": "UN Food and Agriculture Organization",
-    "sourceEs": "UN Food and Agriculture Organization",
-    "sourceJa": "UN Food and Agriculture Organization",
-    "sourceUrl": "https://www.fao.org/state-of-forests/en/",
+    "factEn": "Global deforestation has slowed by over a third since the 1990s, from 17.6 million hectares per year in 1990-2000 to 10.9 million in 2015-2025.",
+    "factEs": "La deforestación global se ha reducido en más de un tercio desde la década de 1990, de 17,6 millones de hectáreas por año en 1990-2000 a 10,9 millones en 2015-2025.",
+    "factJa": "世界の森林破壊は1990年代から3分の1以上減速しており、1990〜2000年の年間1,760万 haから、2015〜2025年には年間1,090万 haになりました。",
+    "sourceEn": "UN Food and Agriculture Organization (FRA 2025)",
+    "sourceEs": "UN Food and Agriculture Organization (FRA 2025)",
+    "sourceJa": "UN Food and Agriculture Organization (FRA 2025)",
+    "sourceUrl": "https://www.fao.org/newsroom/detail/global-deforestation-slows--but-forests-remain-under-pressure--fao-report-shows/en",
     "relatedSdgs": [
       13,
       15
@@ -7120,9 +7120,9 @@
     "nameEn": "Less Deforestation",
     "nameEs": "Menos deforestación",
     "nameJa": "森林減少が鈍化",
-    "keyFigureEn": "80%",
-    "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureEn": "10.9 million",
+    "keyFigureEs": "10,9 millones",
+    "keyFigureJa": "1,090万"
   },
   {
     "dayOfYear": 350,
@@ -7352,12 +7352,12 @@
   {
     "dayOfYear": 361,
     "category": "positiveNews",
-    "factEn": "Global extreme poverty has fallen from 36% in 1990 to under 9% in 2024. While inequality persists, more people have access to clean water, healthcare, and education than ever before.",
-    "factEs": "La pobreza extrema global ha caído del 36% en 1990 a menos del 9% en 2024. Aunque la desigualdad persiste, más personas tienen acceso a agua potable, atención médica y educación que nunca antes.",
-    "factJa": "世界の極度の貧困は1990年の36%から2024年には9%未満に低下しました。格差は依然として存在しますが、かつてないほど多くの人々が清潔な水、医療、教育にアクセスできるようになっています。",
-    "sourceEn": "World Bank / Our World in Data",
-    "sourceEs": "World Bank / Our World in Data",
-    "sourceJa": "World Bank / Our World in Data",
+    "factEn": "The number of people in extreme poverty has fallen from 2.3 billion in 1990 to just over 800 million in 2026, by current estimates. While inequality persists, more people have access to clean water, healthcare, and education than ever before.",
+    "factEs": "El número de personas en pobreza extrema ha caído de 2.300 millones en 1990 a algo más de 800 millones en 2026, según las estimaciones actuales. Aunque la desigualdad persiste, más personas tienen acceso a agua potable, atención médica y educación que nunca antes.",
+    "factJa": "極度の貧困の中で暮らす人の数は、1990年の23億人から、現在の推計では2026年に8億人強へと減少しました。格差は依然として存在しますが、かつてないほど多くの人々が清潔な水、医療、教育にアクセスできるようになっています。",
+    "sourceEn": "World Bank Poverty and Inequality Platform / Our World in Data",
+    "sourceEs": "World Bank Poverty and Inequality Platform / Our World in Data",
+    "sourceJa": "World Bank Poverty and Inequality Platform / Our World in Data",
     "sourceUrl": "https://ourworldindata.org/extreme-poverty",
     "relatedSdgs": [
       1,
@@ -7367,9 +7367,9 @@
     "nameEn": "Poverty in Retreat",
     "nameEs": "Pobreza en retroceso",
     "nameJa": "貧困の後退",
-    "keyFigureEn": "9%",
-    "keyFigureEs": "9%",
-    "keyFigureJa": "9%"
+    "keyFigureEn": "2.3 billion",
+    "keyFigureEs": "2.300 millones",
+    "keyFigureJa": "23億"
   },
   {
     "dayOfYear": 362,
