@@ -16,7 +16,7 @@ const descriptions = {
   reusable_bag: {
     en:
       'Each single-use plastic bag generates '
-      + 'roughly **10g of CO2** across its '
+      + 'roughly **10g** of CO2 across its '
       + 'lifecycle, from petroleum extraction '
       + 'through manufacturing to disposal. '
       + 'A [Danish EPA study]'
@@ -32,8 +32,8 @@ const descriptions = {
       + 'savings over time.',
     ja:
       '使い捨てビニール袋1枚あたり、石油'
-      + '採掘から製造・廃棄まで約**10gの'
-      + 'CO2**が排出されます。'
+      + '採掘から製造・廃棄まで約**10g**の'
+      + 'CO2が排出されます。'
       + '[デンマーク環境保護庁の研究]'
       + '(https://www2.mst.dk/udgiv'
       + '/publications/2018/02'
@@ -46,8 +46,8 @@ const descriptions = {
       + 'つながります。',
     es:
       'Cada bolsa de plástico de un solo '
-      + 'uso genera aproximadamente **10g de '
-      + 'CO2** a lo largo de su ciclo de vida. '
+      + 'uso genera aproximadamente **10g** de '
+      + 'CO2 a lo largo de su ciclo de vida. '
       + 'Un [estudio de la EPA danesa]'
       + '(https://www2.mst.dk/udgiv'
       + '/publications/2018/02'
@@ -66,7 +66,7 @@ const descriptions = {
     en:
       'A single disposable coffee cup with '
       + 'its sleeve and lid produces roughly '
-      + '**60g of CO2** when you factor in '
+      + '**60g** of CO2 when you factor in '
       + 'paper production, plastic lining, '
       + 'and disposal. According to the '
       + '[Carbon Trust]'
@@ -79,7 +79,7 @@ const descriptions = {
       + 'per year.',
     ja:
       '使い捨てコーヒーカップは、スリーブ'
-      + 'と蓋を含めて約**60gのCO2**を'
+      + 'と蓋を含めて約**60g**のCO2を'
       + '排出します。紙の生産、プラスチック'
       + 'コーティング、廃棄処理が要因です。'
       + '[Carbon Trust]'
@@ -92,7 +92,7 @@ const descriptions = {
     es:
       'Un vaso desechable de café con su '
       + 'funda y tapa produce aproximadamente '
-      + '**60g de CO2** considerando la '
+      + '**60g** de CO2 considerando la '
       + 'producción del papel, el '
       + 'recubrimiento plástico y la '
       + 'eliminación. Según el '
@@ -110,8 +110,8 @@ const descriptions = {
     en:
       'Carrying a reusable water bottle '
       + 'instead of buying disposable ones '
-      + 'saves about **160g of CO2 per '
-      + 'day**, assuming two single-use '
+      + 'saves about **160g** of CO2 per '
+      + 'day, assuming two single-use '
       + 'bottles avoided. Each PET bottle '
       + 'generates roughly 80g of CO2 from '
       + 'resin production, molding, and '
@@ -128,7 +128,7 @@ const descriptions = {
     ja:
       'マイボトルを持ち歩くだけで、使い捨て'
       + 'ボトル2本分に相当する1日あたり約'
-      + '**160gのCO2**を削減できます。'
+      + '**160g**のCO2を削減できます。'
       + 'PETボトル1本の製造では、樹脂生産'
       + '・成形・輸送を含め約80gのCO2が'
       + '排出されます。[Carbon Trust]'
@@ -143,7 +143,7 @@ const descriptions = {
     es:
       'Llevar una botella reutilizable en '
       + 'lugar de comprar desechables ahorra '
-      + 'unos **160g de CO2 al día**, '
+      + 'unos **160g** de CO2 al día, '
       + 'suponiendo dos botellas de un solo '
       + 'uso evitadas. Cada botella PET '
       + 'genera aproximadamente 80g de CO2 '
@@ -164,7 +164,7 @@ const descriptions = {
   bring_own_container: {
     en:
       'A single polystyrene takeout container '
-      + 'accounts for roughly **100g of CO2** '
+      + 'accounts for roughly **100g** of CO2 '
       + 'when you include raw material '
       + 'extraction, molding, and landfill '
       + 'decomposition. Bringing your own '
@@ -179,7 +179,7 @@ const descriptions = {
     ja:
       '発泡スチロール製テイクアウト容器は'
       + '1個あたり、原料採掘・成形・埋立'
-      + '分解を含め約**100gのCO2**に相当'
+      + '分解を含め約**100g**のCO2に相当'
       + 'します。マイ容器を持参すれば、'
       + '使用のたびにこの排出を完全に回避'
       + 'できます。[EPA WARMモデル]'
@@ -191,7 +191,7 @@ const descriptions = {
     es:
       'Un envase de poliestireno para '
       + 'comida para llevar representa '
-      + 'aproximadamente **100g de CO2** '
+      + 'aproximadamente **100g** de CO2 '
       + 'incluyendo extracción de materias '
       + 'primas, moldeo y descomposición '
       + 'en vertederos. Traer tu propio '
@@ -209,7 +209,7 @@ const descriptions = {
     en:
       'Refusing disposable straws, cutlery, '
       + 'napkins, and other single-use items '
-      + 'today saves roughly **15g of CO2** '
+      + 'today saves roughly **51g** of CO2 '
       + 'from the petroleum-based '
       + 'manufacturing and disposal of these '
       + 'products. While each item is small, '
@@ -221,12 +221,12 @@ const descriptions = {
       + 'reusable kit with a spork and cloth '
       + 'napkin makes refusing easy. Over a '
       + 'year of daily refusals, this habit '
-      + 'prevents over 5kg of CO2 and keeps '
+      + 'prevents over 18kg of CO2 and keeps '
       + 'hundreds of items out of landfills.',
     ja:
       '使い捨てストロー、カトラリー、'
       + 'ナプキンなどを断ると1日あたり約'
-      + '**15gのCO2**を削減できます。'
+      + '**51g**のCO2を削減できます。'
       + '石油由来の製造・廃棄を回避する'
       + 'ためです。1つ1つは小さくても'
       + '[EPA WARMモデル](https://www.epa'
@@ -235,13 +235,13 @@ const descriptions = {
       + '効果を生みます。スポークと布ナプ'
       + 'キンの簡単なマイセットを持ち歩けば'
       + '断るのも簡単です。毎日続ければ年間'
-      + '5kg以上のCO2を防ぎ数百個のごみを'
+      + '18kg以上のCO2を防ぎ数百個のごみを'
       + '埋立地から守ります。',
     es:
       'Rechazar pajitas, cubiertos, '
       + 'servilletas y otros artículos '
-      + 'desechables ahorra unos **15g de '
-      + 'CO2** al día al evitar la fabricación '
+      + 'desechables ahorra unos **51g** de '
+      + 'CO2 al día al evitar la fabricación '
       + 'y eliminación de productos derivados '
       + 'del petróleo. Aunque cada artículo es '
       + 'pequeño, el [modelo WARM de la EPA]'
@@ -252,15 +252,15 @@ const descriptions = {
       + 'reutilizable con cubiertos y '
       + 'servilleta de tela facilita el '
       + 'rechazo. En un año de hábito diario, '
-      + 'se evitan más de 5kg de CO2 y '
+      + 'se evitan más de 18kg de CO2 y '
       + 'cientos de artículos en vertederos.',
   },
 
   secondhand_clothing: {
     en:
       'Buying a secondhand garment instead '
-      + 'of new avoids roughly **15,000g '
-      + '(15kg) of CO2** from fibre '
+      + 'of new avoids roughly **15,000g** '
+      + 'of CO2 from fibre '
       + 'production, dyeing, and global '
       + 'shipping. According to '
       + '[WRAP UK](https://wrap.org.uk/), '
@@ -275,7 +275,7 @@ const descriptions = {
     ja:
       '新品の代わりに古着を購入すると、繊維'
       + '生産・染色・国際輸送による約'
-      + '**15,000g（15kg）のCO2**を回避'
+      + '**15,000g**のCO2を回避'
       + 'できます。[WRAP UK]'
       + '(https://wrap.org.uk/)によると、'
       + '衣類の寿命をわずか9ヶ月延ばすだけ'
@@ -287,8 +287,8 @@ const descriptions = {
     es:
       'Comprar una prenda de segunda mano '
       + 'en lugar de nueva evita '
-      + 'aproximadamente **15.000g (15kg) '
-      + 'de CO2** de la producción de '
+      + 'aproximadamente **15.000g** '
+      + 'de CO2 de la producción de '
       + 'fibras, el teñido y el envío '
       + 'global. Según '
       + '[WRAP UK](https://wrap.org.uk/), '
@@ -308,7 +308,7 @@ const descriptions = {
     en:
       'Repairing a broken item instead of '
       + 'replacing it avoids roughly '
-      + '**7,500g (7.5kg) of CO2** from '
+      + '**7,500g** of CO2 from '
       + 'new manufacturing, raw material '
       + 'extraction, and shipping. The '
       + '[WRAP UK](https://wrap.org.uk/) '
@@ -325,7 +325,7 @@ const descriptions = {
     ja:
       '壊れた物を買い替えずに修理すること'
       + 'で、新品の製造・原料採掘・輸送に'
-      + 'よる約**7,500g（7.5kg）のCO2**'
+      + 'よる約**7,500g**のCO2'
       + 'を回避できます。[WRAP UK]'
       + '(https://wrap.org.uk/)は修理を'
       + '循環型経済の重要な戦略として推進'
@@ -340,8 +340,8 @@ const descriptions = {
     es:
       'Reparar un artículo roto en lugar '
       + 'de reemplazarlo evita '
-      + 'aproximadamente **7.500g (7,5kg) '
-      + 'de CO2** de nueva fabricación, '
+      + 'aproximadamente **7.500g** '
+      + 'de CO2 de nueva fabricación, '
       + 'extracción de materias primas y '
       + 'envío. La organización '
       + '[WRAP UK](https://wrap.org.uk/) '
@@ -363,8 +363,8 @@ const descriptions = {
     en:
       'Borrowing a tool, appliance, or '
       + 'other item instead of buying new '
-      + 'avoids roughly **8,000g (8kg) of '
-      + 'CO2** from manufacturing and '
+      + 'avoids roughly **8,000g** of '
+      + 'CO2 from manufacturing and '
       + 'shipping. Most household tools are '
       + 'used for only 10-15 minutes across '
       + 'their entire lifetime '
@@ -380,7 +380,7 @@ const descriptions = {
     ja:
       '工具や家電などを新品で買う代わりに'
       + '借りることで、製造・輸送による約'
-      + '**8,000g（8kg）のCO2**を回避'
+      + '**8,000g**のCO2を回避'
       + 'できます。家庭用工具の多くは生涯で'
       + 'わずか10〜15分しか使われません'
       + '（[European Environment Agency]'
@@ -395,8 +395,8 @@ const descriptions = {
       'Pedir prestada una herramienta, '
       + 'electrodoméstico u otro artículo '
       + 'en lugar de comprar nuevo evita '
-      + 'aproximadamente **8.000g (8kg) de '
-      + 'CO2** de fabricación y envío. La '
+      + 'aproximadamente **8.000g** de '
+      + 'CO2 de fabricación y envío. La '
       + 'mayoría de las herramientas del '
       + 'hogar se usan solo 10-15 minutos '
       + 'en toda su vida útil '
@@ -419,8 +419,8 @@ const descriptions = {
       'Choosing plastic-free hygiene '
       + 'products like bar soap, shampoo '
       + 'bars, and bamboo toothbrushes '
-      + 'saves roughly **15g of CO2 per '
-      + 'day** by eliminating the '
+      + 'saves roughly **15g** of CO2 per '
+      + 'day by eliminating the '
       + 'petroleum-based plastic packaging '
       + 'that wraps most bathroom products. '
       + 'A single plastic shampoo bottle '
@@ -437,7 +437,7 @@ const descriptions = {
       '固形石鹸・シャンプーバー・竹歯ブラシ'
       + 'などプラスチックフリーの衛生用品を'
       + '選ぶと、石油由来のプラスチック包装を'
-      + '排除し1日あたり約**15gのCO2**を'
+      + '排除し1日あたり約**15g**のCO2を'
       + '削減できます。プラスチック製シャン'
       + 'プーボトル1本の分解には450〜1,000'
       + '年かかります'
@@ -452,7 +452,7 @@ const descriptions = {
       + 'plástico como jabón en barra, '
       + 'champú sólido y cepillos de '
       + 'bambú ahorra aproximadamente '
-      + '**15g de CO2 al día** al '
+      + '**15g** de CO2 al día al '
       + 'eliminar el envase de plástico '
       + 'derivado del petróleo que envuelve '
       + 'la mayoría de productos de baño. '
@@ -473,8 +473,8 @@ const descriptions = {
   buy_bulk: {
     en:
       'Buying food or household items in '
-      + 'bulk saves roughly **200g of CO2 '
-      + 'per shopping trip** by reducing '
+      + 'bulk saves roughly **200g** of CO2 '
+      + 'per shopping trip by reducing '
       + 'packaging per unit weight. '
       + 'Single-serve and individually '
       + 'wrapped items carry a '
@@ -490,7 +490,7 @@ const descriptions = {
     ja:
       '食品や日用品のまとめ買いで、単位重量'
       + 'あたりの包装を減らし1回の買い物で約'
-      + '**200gのCO2**を節約できます。'
+      + '**200g**のCO2を節約できます。'
       + '個包装や小分け商品は製品に対して不釣'
       + 'り合いな包装比率になっています'
       + '（[WRAP UK](https://wrap.org.uk/)）。'
@@ -500,16 +500,17 @@ const descriptions = {
       + '包装も不要になります。',
     es:
       'Comprar alimentos o artículos del '
-      + 'hogar a granel ahorra '
-      + 'aproximadamente **200g de CO2 por '
-      + 'viaje de compras** al reducir el '
+      + 'hogar en grandes cantidades ahorra '
+      + 'aproximadamente **200g** de CO2 por '
+      + 'viaje de compras al reducir el '
       + 'embalaje por unidad de peso. Los '
       + 'productos de porción individual y '
       + 'envueltos por separado tienen una '
       + 'proporción excesiva de '
       + 'embalaje respecto al producto '
       + '([WRAP UK](https://wrap.org.uk/)). '
-      + 'La compra a granel también reduce '
+      + 'La compra en grandes cantidades '
+      + 'también reduce '
       + 'la frecuencia de viajes de compras '
       + 'y sus emisiones de transporte '
       + 'asociadas. Llevar tus propios '
@@ -522,7 +523,7 @@ const descriptions = {
     en:
       'Donating a bag of usable items '
       + 'instead of discarding them prevents '
-      + 'roughly **12,000g (12kg) of CO2** '
+      + 'roughly **12,000g** of CO2 '
       + 'by extending product lifespans and '
       + 'displacing new manufacturing. The '
       + '[WRAP UK](https://wrap.org.uk/) '
@@ -538,8 +539,8 @@ const descriptions = {
     ja:
       'まだ使える物を捨てずに寄付すると、'
       + '製品寿命の延長と新品製造の代替に'
-      + 'より1袋あたり約**12,000g（12kg）'
-      + 'のCO2**を防げます。[WRAP UK]'
+      + 'より1袋あたり約**12,000g**'
+      + 'のCO2を防げます。[WRAP UK]'
       + '(https://wrap.org.uk/)の循環型経済'
       + 'モデルによると、再利用は代替品の'
       + '生産チェーン全体を回避できます。'
@@ -551,8 +552,8 @@ const descriptions = {
       'Donar una bolsa de artículos '
       + 'utilizables en lugar de '
       + 'desecharlos evita '
-      + 'aproximadamente **12.000g (12kg) '
-      + 'de CO2** al extender la vida útil '
+      + 'aproximadamente **12.000g** '
+      + 'de CO2 al extender la vida útil '
       + 'de los productos y desplazar '
       + 'nueva fabricación. El modelo de '
       + 'economía circular de '
@@ -571,8 +572,8 @@ const descriptions = {
   no_impulse_buy: {
     en:
       'Avoiding an unnecessary impulse '
-      + 'purchase saves roughly **200g of '
-      + 'CO2** that would have been emitted '
+      + 'purchase saves roughly **200g** of '
+      + 'CO2 that would have been emitted '
       + 'during production, packaging, and '
       + 'shipping. The '
       + '[Carbon Trust]'
@@ -590,7 +591,7 @@ const descriptions = {
     ja:
       '不要な衝動買いを避けることで、生産'
       + '・包装・輸送で排出される約**200g'
-      + 'のCO2**を節約できます。'
+      + '**のCO2を節約できます。'
       + '[Carbon Trust]'
       + '(https://www.carbontrust.com/)は、'
       + '全体的な消費の削減が最も効果的な'
@@ -604,7 +605,7 @@ const descriptions = {
     es:
       'Evitar una compra impulsiva '
       + 'innecesaria ahorra aproximadamente '
-      + '**200g de CO2** que se habrían '
+      + '**200g** de CO2 que se habrían '
       + 'emitido durante la producción, el '
       + 'embalaje y el envío. El '
       + '[Carbon Trust]'
@@ -623,8 +624,8 @@ const descriptions = {
   choose_minimal_packaging: {
     en:
       'Choosing products with minimal '
-      + 'packaging saves roughly **50g of '
-      + 'CO2** per purchase by reducing '
+      + 'packaging saves roughly **50g** of '
+      + 'CO2 per purchase by reducing '
       + 'material production, printing, '
       + 'and waste processing. '
       + '[WRAP UK](https://wrap.org.uk/) '
@@ -641,7 +642,7 @@ const descriptions = {
     ja:
       '包装の少ない製品を選ぶことで、材料'
       + '生産・印刷・廃棄処理の削減により'
-      + '1回の購入あたり約**50gのCO2**を'
+      + '1回の購入あたり約**50g**のCO2を'
       + '節約できます。[WRAP UK]'
       + '(https://wrap.org.uk/)によると、'
       + '包装は小売製品の排出量のかなりの'
@@ -656,7 +657,7 @@ const descriptions = {
     es:
       'Elegir productos con embalaje '
       + 'mínimo ahorra aproximadamente '
-      + '**50g de CO2** por compra al '
+      + '**50g** de CO2 por compra al '
       + 'reducir la producción de '
       + 'materiales, la impresión y el '
       + 'procesamiento de residuos. '
@@ -679,7 +680,7 @@ const descriptions = {
     en:
       'Buying a quality used car instead '
       + 'of a new one avoids roughly '
-      + '**3 tonnes of CO2** from vehicle '
+      + '**7.2 tonnes** of CO2 from vehicle '
       + 'manufacturing. Producing a new car '
       + 'generates 6-35 tonnes of CO2 '
       + 'before it ever hits the road, '
@@ -695,8 +696,9 @@ const descriptions = {
       + 'single choice.',
     ja:
       '新車の代わりに良質な中古車を購入'
-      + 'すると車両製造による約**3トンの'
-      + 'CO2**を回避できます。新車は走行前'
+      + 'すると車両製造による約**7.2トン**'
+      + 'の'
+      + 'CO2を回避できます。新車は走行前'
       + 'にモデルにより6〜35トンのCO2を'
       + '排出します（[IEA](https://www.iea'
       + '.org/)）。整備の行き届いた中古車は'
@@ -708,8 +710,8 @@ const descriptions = {
     es:
       'Comprar un coche usado de calidad '
       + 'en lugar de uno nuevo evita '
-      + 'aproximadamente **3 toneladas de '
-      + 'CO2** de la fabricación del vehículo. '
+      + 'aproximadamente **7,2 toneladas** de '
+      + 'CO2 de la fabricación del vehículo. '
       + 'Producir un coche nuevo genera entre '
       + '6 y 35 toneladas de CO2 antes de '
       + 'salir a la carretera, según el modelo '

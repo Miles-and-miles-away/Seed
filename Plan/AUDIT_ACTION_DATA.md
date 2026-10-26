@@ -91,6 +91,17 @@ calculate each, and take a weighted average biased toward
 the most common case. Document all scenarios in the
 ACTION_LOGIC_CHECK or in longer comments.
 
+### Keep the long description in step
+
+Any `co2_grams` revision, in a research or update pass
+as much as for a new action, must update the long
+description in EN, JA and ES in the same change: the
+bold figure, yearly totals derived from it, and stated
+inputs (g/km, kg CO2e/kg, kWh, distance) that multiply
+to it. Then run
+`node scripts/seed/check_description_figures.js` (CI
+runs it too).
+
 ### Zero-CO2 actions are valid
 
 Actions like "attend eco group meeting" or "take on a
@@ -454,8 +465,13 @@ Always state the projection window in the comment.
    name and short description.
 
 9. **Write the long description.** 3-5 sentences with
-   markdown bold for CO2 figures and source links. Add
-   to the appropriate `action_descriptions_*.js` file.
+   source links, in the appropriate
+   `action_descriptions_*.js` file. Bold one figure, the
+   quantity only (`**99g** of CO2`), in the first
+   sentence, equal to `co2_grams` as the app displays it,
+   with no bracketed restatement. Any yearly total or
+   stated input must multiply to that figure. See
+   "Keep the long description in step" (section 2).
 
 10. **Assign relatedSdgs.** Every action should map to
     at least one SDG. SDG 13 (Climate Action) applies to

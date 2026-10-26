@@ -16,7 +16,7 @@ const descriptions = {
   recycle_aluminum_can: {
     en:
       'Recycling a single aluminium can saves '
-      + 'roughly **99g of CO2** compared to '
+      + 'roughly **100g** of CO2 compared to '
       + 'smelting one from raw bauxite ore. '
       + 'The process requires just 5% of the '
       + 'energy needed for primary production '
@@ -34,7 +34,8 @@ const descriptions = {
     ja:
       'アルミ缶1本のリサイクルで、原料の'
       + 'ボーキサイトから精錬する場合に比べ'
-      + '約**99gのCO2**を削減できます。'
+      + '約**100g**のCO2を削減できます'
+      + '。'
       + 'リサイクルに必要なエネルギーは一次'
       + '生産のわずか5%です'
       + '（[国際アルミニウム協会]'
@@ -49,7 +50,8 @@ const descriptions = {
       + '(https://www.aluminum.org/Recycling)）。',
     es:
       'Reciclar una sola lata de aluminio '
-      + 'ahorra aproximadamente **99g de CO2** '
+      + 'ahorra aproximadamente **100g** de '
+      + 'CO2 '
       + 'en comparación con fundir una nueva '
       + 'desde bauxita. El proceso requiere '
       + 'solo el 5% de la energía necesaria '
@@ -70,7 +72,7 @@ const descriptions = {
   recycle_plastic_bottle: {
     en:
       'Recycling a standard 28g PET plastic '
-      + 'bottle prevents roughly **47g of CO2** '
+      + 'bottle prevents roughly **50g** of CO2 '
       + 'from entering the atmosphere. The '
       + '[EPA WARM model](https://www.epa.gov'
       + '/warm) calculates that recycled PET '
@@ -82,7 +84,7 @@ const descriptions = {
       + '450 years to decompose.',
     ja:
       '標準的な28gのPETボトルをリサイクル'
-      + 'すると約**47gのCO2**排出を防げます。'
+      + 'すると約**50g**のCO2排出を防げます。'
       + '[EPA WARMモデル](https://www.epa.gov'
       + '/warm)によると、リサイクルPETは'
       + 'エネルギー集約的なバージン樹脂の'
@@ -92,7 +94,7 @@ const descriptions = {
     es:
       'Reciclar una botella estándar de PET '
       + 'de 28g evita que aproximadamente '
-      + '**47g de CO2** lleguen a la atmósfera. '
+      + '**50g** de CO2 lleguen a la atmósfera. '
       + 'El [modelo WARM de la EPA]'
       + '(https://www.epa.gov/warm) calcula que '
       + 'el PET reciclado desplaza la producción '
@@ -107,7 +109,7 @@ const descriptions = {
   recycle_cardboard: {
     en:
       'Recycling cardboard saves about '
-      + '**500g of CO2** per typical ~230g box. '
+      + '**500g** of CO2 per typical ~230g box. '
       + 'Cardboard recycling prevents roughly '
       + '2,160g of CO2 per kilogram by avoiding '
       + 'virgin pulp production '
@@ -120,7 +122,7 @@ const descriptions = {
       + 'many countries.',
     ja:
       '段ボールのリサイクルは約230gの'
-      + '標準的な1箱あたり約**500gのCO2**'
+      + '標準的な1箱あたり約**500g**のCO2'
       + 'を削減します。段ボールリサイクルは'
       + '1kgあたり約2,160gのCO2を節約し、'
       + 'バージンパルプ生産を回避します'
@@ -132,7 +134,7 @@ const descriptions = {
       + 'います。',
     es:
       'Reciclar cartón ahorra '
-      + 'aproximadamente **500g de CO2** por '
+      + 'aproximadamente **500g** de CO2 por '
       + 'caja típica de ~230g. El reciclaje de '
       + 'cartón evita unas 2.160g de CO2 por '
       + 'kilogramo al no necesitar producción '
@@ -149,7 +151,7 @@ const descriptions = {
   composting: {
     en:
       'Composting food scraps prevents about '
-      + '**200g of CO2 equivalent** per session '
+      + '**200g** of CO2 equivalent per session '
       + 'by diverting organic waste from '
       + 'landfills. The [EPA](https://www.epa'
       + '.gov/land-research/quantifying-methane'
@@ -163,7 +165,7 @@ const descriptions = {
       + 'the need for synthetic fertilizers.',
     ja:
       '生ごみのコンポスト化は1回あたり約'
-      + '**200gのCO2相当**を削減します。'
+      + '**200g**のCO2相当を削減します。'
       + '[EPA](https://www.epa.gov/land-research'
       + '/quantifying-methane-emissions-'
       + 'landfilled-food-waste)によると、'
@@ -175,8 +177,8 @@ const descriptions = {
       + '肥料の使用量も削減できます。',
     es:
       'Compostar restos de comida evita '
-      + 'aproximadamente **200g de CO2 '
-      + 'equivalente** por sesión al desviar '
+      + 'aproximadamente **200g** de CO2 '
+      + 'equivalente por sesión al desviar '
       + 'residuos orgánicos de vertederos. La '
       + '[EPA](https://www.epa.gov/land-research'
       + '/quantifying-methane-emissions-'
@@ -194,7 +196,7 @@ const descriptions = {
   recycle_glass: {
     en:
       'Recycling a typical ~250g glass jar '
-      + 'saves about **167g of CO2** by '
+      + 'saves about **167g** of CO2 by '
       + 'reducing the energy needed to melt '
       + 'raw materials. Glass recycling saves '
       + 'roughly 300g of CO2 per 450g wine '
@@ -208,7 +210,7 @@ const descriptions = {
       + 'by about 3%.',
     ja:
       '標準的な約250gのガラス瓶1本の'
-      + 'リサイクルで約**167gのCO2**を削減'
+      + 'リサイクルで約**167g**のCO2を削減'
       + 'できます。原料を溶かすのに必要な'
       + 'エネルギーが減るためです。'
       + '[EPA WARMモデル](https://www.epa.gov'
@@ -221,7 +223,7 @@ const descriptions = {
       + 'エネルギー消費が約3%削減されます。',
     es:
       'Reciclar un frasco de vidrio típico '
-      + 'de ~250g ahorra unos **167g de CO2** '
+      + 'de ~250g ahorra unos **167g** de CO2 '
       + 'al reducir la energía para fundir '
       + 'materias primas. El reciclaje de '
       + 'vidrio ahorra unos 300g de CO2 por '
@@ -237,37 +239,48 @@ const descriptions = {
 
   recycle_paper: {
     en:
-      'Recycling a batch of paper saves '
-      + 'approximately **50g of CO2** by '
-      + 'displacing virgin pulp manufacturing. '
-      + 'Paper recycling prevents about 2,590g '
-      + 'of CO2 per kilogram according to '
-      + 'the [EPA WARM model]'
-      + '(https://www.epa.gov/warm). '
+      'Recycling a batch of about 100g of '
+      + 'paper saves '
+      + 'approximately **50g** of CO2 by '
+      + 'displacing virgin pulp manufacturing, '
+      + 'at about 500g '
+      + 'of CO2 saved per kilogram. The [EPA '
+      + 'WARM model]'
+      + '(https://www.epa.gov/warm) puts the '
+      + 'saving at about 2,590g per kilogram, '
+      + 'so this figure is conservative. '
       + 'It also conserves water and reduces '
       + 'the pressure on forests that serve as '
       + 'critical carbon sinks. Paper fibers '
       + 'can typically be recycled 5-7 times '
       + 'before they become too short to use.',
     ja:
-      '紙のリサイクルは1回あたり約**50gの'
-      + 'CO2**を削減し、バージンパルプ製造を'
-      + '代替します。[EPA WARMモデル]'
-      + '(https://www.epa.gov/warm)によると、'
-      + '紙のリサイクルは1kgあたり約2,590gの'
-      + 'CO2を防ぎます。水資源の節約や、重要'
+      '約100gの紙をリサイクルすると約'
+      + '**50g**の'
+      + 'CO2を削減でき、バージンパルプ製造を'
+      + '代替します（1kgあたり約500gの削減'
+      + 'で計算）。[EPA WARMモデル]'
+      + '(https://www.epa.gov/warm)では1kg'
+      + 'あたり約2,590gとされており、この'
+      + '数値は控えめな見積もりです。水資源の節約'
+      + 'や、重要'
       + 'な炭素吸収源である森林への負荷軽減'
       + 'にもつながります。紙の繊維は通常'
       + '5〜7回リサイクル可能です。',
     es:
-      'Reciclar un lote de papel ahorra '
-      + 'aproximadamente **50g de CO2** al '
+      'Reciclar un lote de unos 100g de '
+      + 'papel ahorra '
+      + 'aproximadamente **50g** de CO2 al '
       + 'desplazar la fabricación de pulpa '
-      + 'virgen. El reciclaje de papel evita '
-      + 'unas 2.590g de CO2 por kilogramo '
-      + 'según el [modelo WARM de la EPA]'
-      + '(https://www.epa.gov/warm). '
-      + 'También conserva agua y reduce la '
+      + 'virgen, con '
+      + 'unos 500g de CO2 ahorrados por '
+      + 'kilogramo. '
+      + 'El [modelo WARM de la EPA]'
+      + '(https://www.epa.gov/warm) sitúa el '
+      + 'ahorro en unos 2.590g '
+      + 'por kilogramo, así que esta cifra es '
+      + 'conservadora. También conserva agua y '
+      + 'reduce la '
       + 'presión sobre los bosques que sirven '
       + 'como sumideros críticos de carbono. '
       + 'Las fibras de papel se pueden reciclar '
@@ -278,7 +291,7 @@ const descriptions = {
   recycle_ewaste: {
     en:
       'Recycling an old smartphone prevents '
-      + 'roughly **2,000g (2kg) of CO2** by '
+      + 'roughly **2,000g** of CO2 by '
       + 'recovering precious metals and rare '
       + 'earth elements that would otherwise '
       + 'require energy-intensive mining. '
@@ -294,7 +307,7 @@ const descriptions = {
       + 'leaching into groundwater.',
     ja:
       '古いスマートフォンをリサイクルする'
-      + 'と約**2,000g（2kg）のCO2**を削減'
+      + 'と約**2,000g**のCO2を削減'
       + 'でき、貴金属やレアアース元素を回収'
       + 'してエネルギー集約的な採掘を回避'
       + 'します。電子機器には金、銅、パラ'
@@ -309,7 +322,7 @@ const descriptions = {
       + '地下水に浸出するのも防ぎます。',
     es:
       'Reciclar un smartphone antiguo evita '
-      + 'unas **2.000g (2kg) de CO2** al '
+      + 'unas **2.000g** de CO2 al '
       + 'recuperar metales preciosos y '
       + 'elementos de tierras raras que de '
       + 'otro modo requerirían minería '
@@ -331,7 +344,7 @@ const descriptions = {
   recycle_textiles: {
     en:
       'Recycling a bag of textiles prevents '
-      + 'roughly **40,000g (40kg) of CO2** by '
+      + 'roughly **40,000g** of CO2 by '
       + 'diverting fabric from landfills and '
       + 'reducing demand for virgin fibre '
       + 'production. The fashion industry '
@@ -347,7 +360,7 @@ const descriptions = {
       + 'downcycled into insulation or rags.',
     ja:
       '衣類を袋ごとリサイクルすると約'
-      + '**40,000g（40kg）のCO2**を削減'
+      + '**40,000g**のCO2を削減'
       + 'でき、布地の埋立処分を回避し'
       + 'バージン繊維の生産需要を減らせ'
       + 'ます。ファッション産業は世界の'
@@ -362,7 +375,7 @@ const descriptions = {
       + 'ダウンサイクルできます。',
     es:
       'Reciclar una bolsa de textiles evita '
-      + 'unas **40.000g (40kg) de CO2** al '
+      + 'unas **40.000g** de CO2 al '
       + 'desviar telas de los vertederos y '
       + 'reducir la demanda de producción de '
       + 'fibra virgen. La industria de la '
@@ -382,8 +395,9 @@ const descriptions = {
 
   recycle_batteries: {
     en:
-      'Recycling a single AA battery '
-      + 'prevents roughly **95g of CO2** and '
+      'Recycling a batch of about four AA '
+      + 'batteries '
+      + 'prevents roughly **95g** of CO2 and '
       + 'keeps toxic heavy metals out of '
       + 'landfills. Battery recycling recovers '
       + 'valuable zinc, manganese, and steel '
@@ -395,8 +409,10 @@ const descriptions = {
       + 'Many retailers and municipal centers '
       + 'offer free battery drop-off programs.',
     ja:
-      '単三電池1本のリサイクルで約**95gの'
-      + 'CO2**を防ぎ、有害な重金属の埋立地'
+      '単三電池4本ほどをまとめてリサイクルする'
+      + 'と約'
+      + '**95g**の'
+      + 'CO2を防ぎ、有害な重金属の埋立地'
       + 'への流出を防止します。電池リサイクル'
       + 'では亜鉛、マンガン、鉄などの貴重な'
       + '金属を回収し、エネルギー集約的な'
@@ -407,8 +423,9 @@ const descriptions = {
       + '多くの小売店や自治体が無料の電池'
       + '回収プログラムを提供しています。',
     es:
-      'Reciclar una sola pila AA evita '
-      + 'aproximadamente **95g de CO2** y '
+      'Reciclar un lote de unas cuatro pilas '
+      + 'AA evita '
+      + 'aproximadamente **95g** de CO2 y '
       + 'mantiene metales pesados tóxicos fuera '
       + 'de los vertederos. El reciclaje de '
       + 'pilas recupera zinc, manganeso y acero '
@@ -426,13 +443,13 @@ const descriptions = {
     en:
       'Dropping off used cooking oil at a '
       + 'collection point saves about '
-      + '**1,500g (1.5kg) of CO2** per typical '
+      + '**1,500g** of CO2 per typical '
       + '~0.6L household drop-off by converting '
       + 'the oil into biodiesel that displaces '
       + 'fossil diesel. Waste-oil biodiesel '
       + 'reduces lifecycle greenhouse gas '
       + 'emissions by up to 86% versus '
-      + 'petroleum diesel — roughly 2,460g '
+      + 'petroleum diesel, roughly 2,460g '
       + 'saved per litre of used oil '
       + '([EPA WARM](https://www.epa.gov'
       + '/warm)). '
@@ -444,8 +461,8 @@ const descriptions = {
     ja:
       '使用済み食用油をリサイクル回収場所に'
       + '持ち込むと、家庭からの約0.6Lの1回の'
-      + '持ち込みあたり約**1,500g（1.5kg）'
-      + 'のCO2**を削減できます。廃油は'
+      + '持ち込みあたり約**1,500g**'
+      + 'のCO2を削減できます。廃油は'
       + 'バイオディーゼルに変換され化石ディー'
       + 'ゼルを代替します。廃油由来の'
       + 'バイオディーゼルは石油ディーゼルと'
@@ -461,7 +478,7 @@ const descriptions = {
     es:
       'Llevar aceite de cocina usado a un '
       + 'punto de recogida ahorra unos '
-      + '**1.500g (1,5kg) de CO2** por entrega '
+      + '**1.500g** de CO2 por entrega '
       + 'doméstica típica de ~0,6L al '
       + 'convertirlo en biodiésel que desplaza '
       + 'al diésel fósil. El biodiésel de '
@@ -486,92 +503,103 @@ const descriptions = {
   walk_instead_drive: {
     en:
       'Walking instead of driving a short '
-      + 'trip saves about **250g of CO2** by '
+      + 'trip saves about **240g** of CO2 by '
       + 'replacing an average 1.5km car '
-      + 'journey. A typical petrol car emits '
-      + '164g of CO2 per kilometer '
-      + '([DEFRA 2024](https://www.gov.uk'
+      + 'journey. An average petrol car emits '
+      + 'about 163g of CO2 per kilometre '
+      + '([DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)). Walking produces zero '
+      + '-2026)). Walking produces zero '
       + 'tailpipe emissions and also improves '
       + 'cardiovascular health. Even replacing '
       + 'one short car trip per day adds up to '
-      + 'over 90kg of CO2 saved per year.',
+      + 'nearly 90kg of CO2 saved per year.',
     ja:
       '短距離の車移動を徒歩に替えると約'
-      + '**250gのCO2**を削減できます。平均'
+      + '**240g**のCO2を削減できます。平均'
       + '1.5kmの車移動を置き換える計算です。'
-      + '一般的なガソリン車は1kmあたり164gの'
-      + 'CO2を排出します（[DEFRA 2024]'
+      + '平均的なガソリン車は1kmあたり約163g'
+      + 'の'
+      + 'CO2を排出します（[DEFRA 2026]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)）。'
+      + '-conversion-factors-2026)）。'
       + '徒歩は排気ガスゼロで心血管の健康にも'
       + '良い影響があります。1日1回の短距離'
-      + '移動を徒歩に替えるだけで年間90kg以上'
+      + '移動を徒歩に替えるだけで年間90kg近く'
       + 'のCO2削減になります。',
     es:
       'Caminar en vez de conducir un trayecto '
-      + 'corto ahorra unos **250g de CO2** al '
+      + 'corto ahorra unos **240g** de CO2 al '
       + 'reemplazar un viaje promedio de 1,5km '
-      + 'en coche. Un coche de gasolina típico '
-      + 'emite 164g de CO2 por kilómetro '
-      + '([DEFRA 2024](https://www.gov.uk'
+      + 'en coche. Un coche de gasolina medio '
+      + 'emite unos 163g de CO2 por kilómetro '
+      + '([DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)). Caminar no produce emisiones '
+      + '-2026)). Caminar no produce emisiones '
       + 'y además mejora la salud '
       + 'cardiovascular. Reemplazar un viaje '
-      + 'corto en coche al día suma más de 90kg '
+      + 'corto en coche al día suma casi 90kg '
       + 'de CO2 ahorrados al año.',
   },
 
   bike_short_trip: {
     en:
-      'Cycling a short trip under 3km saves '
-      + 'approximately **450g of CO2** compared '
-      + 'to driving. Cars emit about 164g/km '
-      + 'while cycling produces only ~16g/km '
-      + 'from metabolic emissions '
-      + '([DEFRA 2024](https://www.gov.uk'
+      'Cycling instead of driving '
+      + 'on a short trip of up to 3km saves '
+      + 'up to **480g** of CO2. An '
+      + 'average '
+      + 'petrol car emits about 163g/km '
+      + '([DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)). That is a saving of roughly '
-      + '149g per kilometer. Cycling also '
+      + '-2026)). This counts the car\'s '
+      + 'emissions only, not the small '
+      + 'extra emissions from the food a '
+      + 'cyclist burns. Cycling also '
       + 'reduces traffic congestion and '
       + 'improves air quality in urban areas '
       + '([Our World in Data]'
       + '(https://ourworldindata.org/travel'
       + '-carbon-footprint)).',
     ja:
-      '3km未満の短距離を自転車で移動すると'
-      + '車と比べ約**450gのCO2**を削減でき'
-      + 'ます。車は1kmあたり約164gのCO2を'
-      + '排出しますが、自転車は代謝由来の'
-      + '約16g/kmのみです（[DEFRA 2024]'
+      '3km以内の短距離を車ではなく自転車で移'
+      + '動すると'
+      + '、最大で**480g**のCO2を削減で'
+      + 'き'
+      + 'ます。平均的なガ'
+      + 'ソリン車は1kmあたり約'
+      + '163gのCO2を'
+      + '排出します（[DEFRA 2026]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)）。'
-      + '1kmあたり約149gの節約になります。'
+      + '-conversion-factors-2026)）。'
+      + 'この数値は車の排出だけを数えたもので、自'
+      + '転車をこぐためのエネルギー源となる食事由'
+      + '来のわずかな排出は差し引いていません。'
       + '自転車は交通渋滞の緩和や都市部の'
       + '大気質改善にも貢献します'
       + '（[Our World in Data]'
       + '(https://ourworldindata.org/travel'
       + '-carbon-footprint)）。',
     es:
-      'Ir en bicicleta en un trayecto corto '
-      + 'de menos de 3km ahorra '
-      + 'aproximadamente **450g de CO2** '
-      + 'comparado con conducir. Los coches '
-      + 'emiten unos 164g/km mientras que la '
-      + 'bicicleta produce solo ~16g/km por '
-      + 'emisiones metabólicas ([DEFRA 2024]'
+      'Ir en bicicleta en lugar de en coche '
+      + 'en un trayecto '
+      + 'corto de hasta 3km ahorra '
+      + 'como máximo **480g** de CO2. '
+      + 'Un coche '
+      + 'de gasolina medio emite unos 163g/km '
+      + '([DEFRA 2026]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)). '
-      + 'Eso supone un ahorro de unos 149g por '
-      + 'kilómetro. La bicicleta también reduce '
+      + '-conversion-factors-2026)). '
+      + 'La cifra solo cuenta las emisiones '
+      + 'del coche, no las pequeñas emisiones '
+      + 'extra de la comida que necesita el '
+      + 'ciclista para '
+      + 'pedalear. La bicicleta también reduce '
       + 'la congestión y mejora la calidad del '
       + 'aire urbano ([Our World in Data]'
       + '(https://ourworldindata.org/travel'
@@ -581,14 +609,15 @@ const descriptions = {
   bike_medium_trip: {
     en:
       'Cycling a medium trip of 3-10km saves '
-      + 'roughly **1,000g of CO2** versus '
-      + 'driving the same distance. At an '
-      + 'average of 6.5km, the saving is about '
-      + '149g per kilometer, totaling ~970g '
-      + '([DEFRA 2024](https://www.gov.uk'
+      + 'roughly **970g** of CO2 versus '
+      + 'driving the same distance. For an '
+      + 'average 6km trip, a petrol car emits '
+      + 'about '
+      + '163g per kilometre, totalling ~970g '
+      + '([DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)). Medium-distance cycling is '
+      + '-2026)). Medium-distance cycling is '
       + 'feasible for most commutes and errands '
       + '([Our World in Data]'
       + '(https://ourworldindata.org/travel'
@@ -597,13 +626,14 @@ const descriptions = {
       + 'wider range of riders.',
     ja:
       '3〜10kmの中距離を自転車で移動すると'
-      + '車と比べ約**1,000gのCO2**を削減'
-      + 'できます。平均6.5kmで1kmあたり約'
-      + '149gの節約、合計約970gです'
-      + '（[DEFRA 2024](https://www.gov.uk'
+      + '車と比べ約**970g**のCO2を削減'
+      + 'できます。平均6kmの移動で、ガソリン車'
+      + 'は1kmあたり約'
+      + '163gを排出し、合計約970gです'
+      + '（[DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)）。中距離の自転車移動は多くの'
+      + '-2026)）。中距離の自転車移動は多くの'
       + '通勤や用事に実用的です（[Our World '
       + 'in Data](https://ourworldindata.org'
       + '/travel-carbon-footprint)）。'
@@ -612,13 +642,14 @@ const descriptions = {
     es:
       'Ir en bicicleta en un trayecto medio '
       + 'de 3-10km ahorra aproximadamente '
-      + '**1.000g de CO2** frente a conducir. '
-      + 'Con un promedio de 6,5km, el ahorro es '
-      + 'de unos 149g por kilómetro, totalizando '
-      + '~970g ([DEFRA 2024](https://www.gov.uk'
+      + '**970g** de CO2 frente a conducir. '
+      + 'Para un trayecto típico de 6km, un '
+      + 'coche de gasolina emite unos 163g por '
+      + 'kilómetro, en total '
+      + '~970g ([DEFRA 2026](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
-      + '-2024)). El ciclismo de media distancia '
+      + '-2026)). El ciclismo de media distancia '
       + 'es viable para la mayoría de trayectos '
       + '([Our World in Data]'
       + '(https://ourworldindata.org/travel'
@@ -630,8 +661,8 @@ const descriptions = {
   public_transport: {
     en:
       'Taking public transit instead of '
-      + 'driving saves roughly **1,000g of '
-      + 'CO2** on an average 10km commute. '
+      + 'driving saves roughly **1,000g** of '
+      + 'CO2 on an average 10km commute. '
       + 'Buses and trains emit 60-104g/km less '
       + 'per passenger than a solo car trip '
       + '([DEFRA 2024](https://www.gov.uk'
@@ -646,7 +677,7 @@ const descriptions = {
       + 'creating a positive feedback loop.',
     ja:
       '車の代わりに公共交通機関を利用すると'
-      + '平均10kmの通勤で約**1,000gのCO2**を'
+      + '平均10kmの通勤で約**1,000g**のCO2を'
       + '削減できます。バスや電車は1人あたり'
       + 'の排出量が自家用車より60〜104g/km'
       + '少なくなります（[DEFRA 2024]'
@@ -662,7 +693,7 @@ const descriptions = {
     es:
       'Usar transporte público en vez de '
       + 'conducir ahorra aproximadamente '
-      + '**1.000g de CO2** en un trayecto '
+      + '**1.000g** de CO2 en un trayecto '
       + 'promedio de 10km. Autobuses y trenes '
       + 'emiten 60-104g/km menos por pasajero '
       + 'que un coche particular ([DEFRA 2024]'
@@ -682,7 +713,7 @@ const descriptions = {
     en:
       'Carpooling halves per-person emissions '
       + 'to about 82g/km, saving roughly '
-      + '**800g of CO2** on a 10km trip '
+      + '**800g** of CO2 on a 10km trip '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
@@ -697,7 +728,7 @@ const descriptions = {
     ja:
       '相乗りすると1人あたりの排出量が約'
       + '82g/kmに半減し、10kmの移動で約'
-      + '**800gのCO2**を節約できます'
+      + '**800g**のCO2を節約できます'
       + '（[DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
@@ -710,7 +741,7 @@ const descriptions = {
     es:
       'Compartir coche reduce las emisiones '
       + 'por persona a unos 82g/km, ahorrando '
-      + 'aproximadamente **800g de CO2** en un '
+      + 'aproximadamente **800g** de CO2 en un '
       + 'viaje de 10km ([DEFRA 2024]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas-reporting'
@@ -728,7 +759,7 @@ const descriptions = {
     en:
       'Choosing an electric vehicle over a '
       + 'comparable petrol car avoids roughly '
-      + '**3.4 tonnes of CO2 per year** in '
+      + '**3.4 tonnes** of CO2 per year in '
       + 'tailpipe and fuel-cycle emissions. '
       + 'Over a typical 12-year ownership '
       + 'period the cumulative saving exceeds '
@@ -746,7 +777,7 @@ const descriptions = {
     ja:
       '同等のガソリン車の代わりに電気自動車'
       + 'を選ぶと、排気ガスと燃料サイクルの'
-      + '排出を合わせ年間約**3.4トンのCO2**'
+      + '排出を合わせ年間約**3.4トン**のCO2'
       + 'を回避できます。12年間の一般的な'
       + '保有期間で累計40トン以上の削減に'
       + 'なります（[IEA Global EV Outlook]'
@@ -762,8 +793,8 @@ const descriptions = {
     es:
       'Elegir un vehículo eléctrico en vez '
       + 'de un coche de gasolina comparable '
-      + 'evita unas **3,4 toneladas de CO2 '
-      + 'al año** en emisiones del tubo de '
+      + 'evita unas **3,4 toneladas** de CO2 '
+      + 'al año en emisiones del tubo de '
       + 'escape y del ciclo de combustible. '
       + 'A lo largo de un período típico de '
       + 'propiedad de 12 años, el ahorro '
@@ -786,7 +817,7 @@ const descriptions = {
     en:
       'Choosing a train over a domestic flight '
       + 'for a 500km journey saves roughly '
-      + '**110,000g (110kg) of CO2**. Trains '
+      + '**110,000g** of CO2. Trains '
       + 'emit about 37g/km while domestic '
       + 'flights produce ~273g/km per passenger '
       + '([DEFRA 2024](https://www.gov.uk'
@@ -801,7 +832,7 @@ const descriptions = {
       + 'road for nearly a month.',
     ja:
       '500kmの移動で国内線の代わりに鉄道を'
-      + '選ぶと約**110,000g（110kg）のCO2**'
+      + '選ぶと約**110,000g**のCO2'
       + 'を削減できます。鉄道は約37g/km、'
       + '国内線は乗客1人あたり約273g/km排出'
       + 'します（[DEFRA 2024](https://www.gov'
@@ -816,8 +847,8 @@ const descriptions = {
     es:
       'Elegir tren en vez de vuelo doméstico '
       + 'para un viaje de 500km ahorra '
-      + 'aproximadamente **110.000g (110kg) de '
-      + 'CO2**. Los trenes emiten unos 37g/km '
+      + 'aproximadamente **110.000g** de '
+      + 'CO2. Los trenes emiten unos 37g/km '
       + 'mientras que los vuelos domésticos '
       + 'producen ~273g/km por pasajero '
       + '([DEFRA 2024](https://www.gov.uk'
@@ -835,8 +866,8 @@ const descriptions = {
   take_bus: {
     en:
       'Taking the bus instead of driving '
-      + 'saves roughly **500g of CO2** on an '
-      + '8km commute. Buses emit about 104g/km '
+      + 'saves roughly **500g** of CO2 on a '
+      + '7km trip. Buses emit about 89g/km '
       + 'per passenger compared to 164g/km for '
       + 'a solo car ([DEFRA 2024]'
       + '(https://www.gov.uk/government'
@@ -848,9 +879,9 @@ const descriptions = {
       + 'supports route expansion and service '
       + 'improvements for the whole community.',
     ja:
-      '車の代わりにバスを利用すると8kmの'
-      + '通勤で約**500gのCO2**を節約でき'
-      + 'ます。バスは乗客1人あたり約104g/km、'
+      '車の代わりにバスを利用すると7kmの'
+      + '移動で約**500g**のCO2を節約でき'
+      + 'ます。バスは乗客1人あたり約89g/km、'
       + '自家用車は164g/kmの排出です'
       + '（[DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
@@ -861,9 +892,9 @@ const descriptions = {
       + '路線拡充やサービス改善を支えます。',
     es:
       'Tomar el autobús en vez de conducir '
-      + 'ahorra aproximadamente **500g de CO2** '
-      + 'en un trayecto de 8km. Los autobuses '
-      + 'emiten unos 104g/km por pasajero '
+      + 'ahorra aproximadamente **500g** de CO2 '
+      + 'en un trayecto de 7km. Los autobuses '
+      + 'emiten unos 89g/km por pasajero '
       + 'frente a 164g/km de un coche particular '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
@@ -879,7 +910,7 @@ const descriptions = {
   escooter_trip: {
     en:
       'Riding an e-scooter instead of '
-      + 'driving saves roughly **375g of CO2** '
+      + 'driving saves roughly **375g** of CO2 '
       + 'on a short urban trip. E-scooters emit '
       + 'about 27-40g/km compared to 164g/km '
       + 'for a petrol car ([DEFRA 2024]'
@@ -894,8 +925,9 @@ const descriptions = {
       + 'accessible.',
     ja:
       '車の代わりに電動キックボードで移動'
-      + 'すると短距離の都市移動で約**375gの'
-      + 'CO2**を削減できます。電動キック'
+      + 'すると短距離の都市移動で約'
+      + '**375g**の'
+      + 'CO2を削減できます。電動キック'
       + 'ボードは約27〜40g/km、ガソリン車は'
       + '164g/kmの排出です（[DEFRA 2024]'
       + '(https://www.gov.uk/government'
@@ -908,7 +940,7 @@ const descriptions = {
     es:
       'Usar un patinete eléctrico en vez de '
       + 'conducir ahorra aproximadamente '
-      + '**375g de CO2** en un viaje urbano '
+      + '**375g** de CO2 en un viaje urbano '
       + 'corto. Los patinetes emiten unos '
       + '27-40g/km frente a 164g/km de un coche '
       + '([DEFRA 2024](https://www.gov.uk'
@@ -925,14 +957,17 @@ const descriptions = {
   ev_charging_green: {
     en:
       'Charging your electric vehicle with '
-      + 'renewable energy saves about **3,500g '
-      + '(3.5kg) of CO2** per ~10 kWh charge '
+      + 'renewable energy saves about '
+      + '**4,500g** '
+      + 'of CO2 per ~10 kWh charge '
       + 'session by avoiding grid electricity '
-      + 'emissions (global grid average ~386 g '
-      + 'CO2/kWh; [DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)). '
+      + 'emissions (global grid average ~458 g '
+      + 'CO2e/kWh; [Ember 2026]'
+      + '(https://ember-energy.org'
+      + '/latest-insights/global-electricity'
+      + '-review'
+      + '-2026/electricity-demand-and-supply'
+      + '-trends/)). '
       + 'Green-sourced charging makes your EV '
       + 'effectively zero-emission during '
       + 'operation. Solar panels, wind energy '
@@ -942,14 +977,17 @@ const descriptions = {
       + '(https://energysavingtrust.org.uk/)).',
     ja:
       '再生可能エネルギーでEVを充電すると'
-      + '約10 kWhの充電1回あたり約**3,500g'
-      + '（3.5kg）のCO2**を削減でき、送電網'
+      + '約10 kWhの充電1回あたり約**4,500g'
+      + '**のCO2を削減でき、送電網'
       + '由来の排出を回避できます（世界平均'
-      + 'のグリッド係数 約386 g CO2/kWh；'
-      + '[DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)）。グリーンエネルギー充電に'
+      + 'のグリッド係数 約458 g CO2e/kWh'
+      + '；'
+      + '[Ember '
+      + '2026](https://ember-energy.org/late'
+      + 'st-insights/global-electricity-revi'
+      + 'ew-2026/electricity-demand-and-supp'
+      + 'ly-trends'
+      + '/)）。グリーンエネルギー充電に'
       + 'より走行中の実質ゼロエミッションを'
       + '実現できます。太陽光パネルや風力'
       + 'エネルギー、グリーン認証済み充電'
@@ -958,14 +996,17 @@ const descriptions = {
       + 'savingtrust.org.uk/)）。',
     es:
       'Cargar tu vehículo eléctrico con '
-      + 'energía renovable ahorra unos **3.500g '
-      + '(3,5kg) de CO2** por sesión de carga '
+      + 'energía renovable ahorra unos '
+      + '**4.500g** '
+      + 'de CO2 por sesión de carga '
       + 'de ~10 kWh al evitar emisiones de la '
-      + 'red (factor medio global ~386 g '
-      + 'CO2/kWh; [DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)). '
+      + 'red (factor medio global ~458 g '
+      + 'CO2e/kWh; [Ember 2026]'
+      + '(https://ember-energy.org'
+      + '/latest-insights/global-electricity'
+      + '-review'
+      + '-2026/electricity-demand-and-supply'
+      + '-trends/)). '
       + 'La carga verde hace que tu VE sea '
       + 'efectivamente cero emisiones durante '
       + 'la operación. Paneles solares, tarifas '
@@ -978,9 +1019,10 @@ const descriptions = {
   combine_errands: {
     en:
       'Combining multiple errands into a '
-      + 'single car trip saves about **300g '
-      + 'of CO2** by eliminating cold-start '
-      + 'emissions and reducing total mileage. '
+      + 'single car trip saves about **600g** '
+      + 'of CO2 by cutting around '
+      + '4km of driving and avoiding an extra '
+      + 'cold start. '
       + 'A cold engine produces up to 2x more '
       + 'emissions per kilometer during the '
       + 'first few minutes of driving '
@@ -993,8 +1035,8 @@ const descriptions = {
       + 'changes to adopt.',
     ja:
       '複数の用事を1回の車移動にまとめると'
-      + 'コールドスタート時の排出削減と総走行'
-      + '距離の短縮で約**300gのCO2**を節約'
+      + '、約4kmの走行と1回分のコールドスタートを'
+      + '減らせるため約**600g**のCO2を節約'
       + 'できます。冷えたエンジンは走行開始'
       + '数分間、通常の最大2倍のCO2を排出'
       + 'します（[DEFRA 2024](https://www.gov'
@@ -1006,10 +1048,11 @@ const descriptions = {
       + '改善の一つです。',
     es:
       'Combinar varias tareas en un solo '
-      + 'viaje en coche ahorra unos **300g de '
-      + 'CO2** al eliminar emisiones de '
-      + 'arranque en frío y reducir el '
-      + 'kilometraje total. Un motor frío '
+      + 'viaje en coche ahorra unos **600g** '
+      + 'de '
+      + 'CO2 al evitar unos 4km de '
+      + 'conducción y un arranque en frío '
+      + 'adicional. Un motor frío '
       + 'produce hasta 2 veces más emisiones '
       + 'por kilómetro durante los primeros '
       + 'minutos ([DEFRA 2024]'
@@ -1029,8 +1072,8 @@ const descriptions = {
     en:
       'Replacing one beef-based meal with a '
       + 'plant-based alternative avoids '
-      + 'roughly **6,000g (6kg) of CO2 '
-      + 'equivalent**. Beef carries the '
+      + 'roughly **3,700g** of CO2 '
+      + 'equivalent. Beef carries the '
       + 'heaviest climate footprint of any '
       + 'common food, requiring vast land, '
       + 'water, and feed inputs '
@@ -1045,11 +1088,11 @@ const descriptions = {
       + '(https://www.science.org/doi/10.1126'
       + '/science.aaq0216)). Choosing to skip '
       + 'high-impact animal products even '
-      + 'once a week compounds into hundreds '
-      + 'of kilograms of savings per year.',
+      + 'once a week compounds into nearly '
+      + '200kg of savings per year.',
     ja:
       '牛肉の1食分を植物性に替えると約'
-      + '**6,000g（6kg）のCO2相当**を回避'
+      + '**3,700g**のCO2相当を回避'
       + 'できます。牛肉は一般的な食品の中で'
       + '最大の気候フットプリントを持ち、'
       + '膨大な土地、水、飼料を必要とします'
@@ -1063,12 +1106,14 @@ const descriptions = {
       + 'Science 2018](https://www.science'
       + '.org/doi/10.1126/science.aaq0216)）。'
       + '週1回でも高インパクトな動物性食品'
-      + 'を避ければ年間数百kgの削減に'
+      + 'を避ければ年間200kg近くの削減に'
       + 'つながります。',
     es:
-      'Evitar una porción de 100g de carne '
-      + 'de vacuno evita aproximadamente **6.000g '
-      + '(6kg) de CO2 equivalente**. La carne '
+      'Sustituir una comida de carne '
+      + 'de vacuno por una alternativa vegetal '
+      + 'evita aproximadamente '
+      + '**3.700g** '
+      + 'de CO2 equivalente. La carne '
       + 'de vacuno tiene la mayor huella de '
       + 'carbono entre alimentos comunes: 60kg '
       + 'CO2e/kg en su ciclo de vida '
@@ -1078,7 +1123,7 @@ const descriptions = {
       + 'metano del ganado, producción de '
       + 'pienso y cambio de uso del suelo. '
       + 'Sustituir la carne de vacuno por proteína vegetal '
-      + 'una vez por semana ahorra más de 300kg '
+      + 'una vez por semana ahorra casi 200kg '
       + 'de CO2 al año ([Our World in Data]'
       + '(https://ourworldindata.org'
       + '/environmental-impacts-of-food)).',
@@ -1088,16 +1133,16 @@ const descriptions = {
     en:
       'Replacing a meal of chicken or pork '
       + 'with a plant-based option saves '
-      + 'roughly **1,000g of CO2 '
-      + 'equivalent**. While these proteins '
+      + 'roughly **780g** of CO2 '
+      + 'equivalent. While these proteins '
       + 'carry a lighter footprint than beef, '
       + 'they still require significant land, '
       + 'water, and feed resources '
       + '([Our World in Data]'
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)). '
-      + 'Chicken produces about 6kg CO2eq per '
-      + 'kilogram and pork about 7kg, versus '
+      + 'Chicken produces about 10kg CO2eq per '
+      + 'kilogram and pork about 12kg, versus '
       + '1-3kg for most plant proteins '
       + '([Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
@@ -1108,14 +1153,15 @@ const descriptions = {
       + 'vegetarian.',
     ja:
       '鶏肉や豚肉の1食分を植物性の'
-      + '選択肢に替えると約**1,000gのCO2'
-      + '相当**を削減できます。牛肉ほどでは'
+      + '選択肢に替えると約**780g**のCO2'
+      + '相当を削減できます。牛肉ほどでは'
       + 'ないものの相当な土地、水、飼料資源'
       + 'を必要とします（[Our World in Data]'
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)）。'
-      + '鶏肉は約6kg CO2eq/kg、豚肉は約'
-      + '7kgで植物性タンパクの1〜3kgと'
+      + '鶏肉は約10kg CO2eq/kg、豚肉は'
+      + '約'
+      + '12kgで植物性タンパクの1〜3kgと'
       + '比較されます'
       + '（[Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
@@ -1127,16 +1173,16 @@ const descriptions = {
     es:
       'Reemplazar una comida de pollo o '
       + 'cerdo por una opción vegetal '
-      + 'ahorra aproximadamente **1.000g de '
-      + 'CO2 equivalente**. Aunque estas '
+      + 'ahorra aproximadamente **780g** de '
+      + 'CO2 equivalente. Aunque estas '
       + 'proteínas tienen menor huella que la '
       + 'carne de vacuno, aún requieren '
       + 'importantes recursos de tierra, agua '
       + 'y pienso ([Our World in Data]'
       + '(https://ourworldindata.org'
       + '/food-choice-vs-eating-local)). '
-      + 'El pollo produce unos 6kg CO2eq/kg '
-      + 'y el cerdo 7kg, frente a 1-3kg '
+      + 'El pollo produce unos 10kg CO2eq/kg '
+      + 'y el cerdo 12kg, frente a 1-3kg '
       + 'de la mayoría de proteínas vegetales '
       + '([Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
@@ -1152,49 +1198,55 @@ const descriptions = {
     en:
       'Replacing a fish meal with a '
       + 'plant-based option saves roughly '
-      + '**1,200g of CO2 equivalent**. '
-      + 'Wild-caught and white fish average '
-      + 'about 9-10kg CO2eq per kilogram once '
-      + 'fishing fuel and processing are '
-      + 'counted, versus 1-3kg for most plant '
-      + 'proteins ([Poore & Nemecek, Science '
+      + '**560g** of CO2 equivalent. '
+      + 'Wild-caught white fish such as cod '
+      + 'and haddock average '
+      + 'about 5kg CO2eq per kilogram be'
+      + 'fore processing and transport, versus '
+      + '1-3kg for most plant '
+      + 'proteins ([Gephart et al. '
+      + '2021](https://ourworldindata.org'
+      + '/grapher/ghg-emissions-seafood); '
+      + '[Poore & Nemecek, Science '
       + '2018](https://www.science.org/doi'
-      + '/10.1126/science.aaq0216); '
-      + '[Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/carbon-footprint-food-methane)). '
+      + '/10.1126/science.aaq0216)). '
       + 'Small oily fish such as sardines and '
       + 'mackerel are lower still, so this is '
       + 'a conservative estimate.',
     ja:
       '魚の1食分を植物性の選択肢に替えると'
-      + '約**1,200gのCO2相当**を削減'
-      + 'できます。漁業燃料と加工まで含めると'
-      + '天然魚や白身魚は約9〜10kg CO2eq/kg'
+      + '約**560g**のCO2相当を削減'
+      + 'できます。タラなどの'
+      + '天然の白身魚は加工と輸送を除いて約5kg '
+      + 'CO2eq/kg'
       + 'で、植物性タンパクの1〜3kgと'
-      + '比較されます（[Poore & Nemecek, '
+      + '比較されます（[Gephart et al. '
+      + '2021](https://ourworldind'
+      + 'ata.org/grapher/ghg-emiss'
+      + 'ions-seafood)、[Poore & '
+      + 'Nemecek, '
       + 'Science 2018](https://www.science.org'
-      + '/doi/10.1126/science.aaq0216)、'
-      + '[Our World in Data]'
-      + '(https://ourworldindata.org'
-      + '/carbon-footprint-food-methane)）。'
+      + '/doi/10.1126/science.aaq0216)）。'
       + 'イワシやサバなどの小型青魚はさらに'
       + '低いため、これは控えめな見積もり'
       + 'です。',
     es:
       'Reemplazar una comida de pescado por '
       + 'una opción vegetal ahorra '
-      + 'aproximadamente **1.200g de CO2 '
-      + 'equivalente**. El pescado salvaje y '
-      + 'blanco promedia unos 9-10kg CO2eq/kg '
-      + 'contando el combustible de pesca y el '
-      + 'procesado, frente a 1-3kg de la '
+      + 'aproximadamente **560g** de CO2 '
+      + 'equivalente. El pescado blanco '
+      + 'salvaje, como el '
+      + 'bacalao y el eglefino, promedia unos '
+      + '5kg CO2eq/kg '
+      + 'sin contar el procesado ni el '
+      + 'transporte, frente a 1-3kg de la '
       + 'mayoría de proteínas vegetales '
-      + '([Poore & Nemecek, Science 2018]'
+      + '([Gephart et al. '
+      + '2021](https://ourworldindata.org'
+      + '/grapher/ghg-emissions-seafood); '
+      + '[Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
-      + '/science.aaq0216); [Our World in '
-      + 'Data](https://ourworldindata.org'
-      + '/carbon-footprint-food-methane)). '
+      + '/science.aaq0216)). '
       + 'El pescado azul pequeño, como '
       + 'sardinas y caballa, es aún menor, así '
       + 'que es una estimación conservadora.',
@@ -1203,9 +1255,10 @@ const descriptions = {
   no_food_waste: {
     en:
       'Preventing daily food waste avoids '
-      + 'roughly **400g of CO2 equivalent** '
-      + 'by keeping organic matter out of '
-      + 'landfills. The [EPA](https://www.epa'
+      + 'roughly **500g** of CO2 equivalent, '
+      + 'mostly the emissions from producing '
+      + 'food that would otherwise be thrown '
+      + 'away. The [EPA](https://www.epa'
       + '.gov/land-research/quantifying-methane'
       + '-emissions-landfilled-food-waste) '
       + 'reports that 58% of fugitive methane '
@@ -1217,9 +1270,11 @@ const descriptions = {
       + 'wasted, making this a critical area '
       + 'for climate action.',
     ja:
-      '毎日の食品ロスを防ぐと約**400gの'
-      + 'CO2相当**を回避できます。有機物を'
-      + '埋立地から遠ざけるためです。[EPA]'
+      '毎日の食品ロスを防ぐと約**500g**'
+      + 'の'
+      + 'CO2相当を回避できます。その大半は、捨'
+      + 'てられるはずだった食品の生産にかかる排出'
+      + 'です。[EPA]'
       + '(https://www.epa.gov/land-research'
       + '/quantifying-methane-emissions-'
       + 'landfilled-food-waste)によると埋立地'
@@ -1232,9 +1287,11 @@ const descriptions = {
     es:
       'Evitar el desperdicio diario de '
       + 'alimentos previene aproximadamente '
-      + '**400g de CO2 equivalente** al '
-      + 'mantener materia orgánica fuera de '
-      + 'vertederos. La [EPA](https://www.epa'
+      + '**500g** de CO2 equivalente, sobre '
+      + 'todo las '
+      + 'emisiones de producir alimentos que '
+      + 'acabarían en la basura. La '
+      + '[EPA](https://www.epa'
       + '.gov/land-research/quantifying-methane'
       + '-emissions-landfilled-food-waste) '
       + 'informa que el 58% del metano fugitivo '
@@ -1249,7 +1306,7 @@ const descriptions = {
   plant_milk: {
     en:
       'Choosing plant milk over dairy saves '
-      + 'roughly **460g of CO2** per 250ml '
+      + 'roughly **460g** of CO2 per 250ml '
       + 'serving. Dairy milk emits about 3.2kg '
       + 'CO2 per litre versus 0.4-1.0kg for '
       + 'plant alternatives ([Poore & '
@@ -1265,7 +1322,7 @@ const descriptions = {
       + 'plant milks.',
     ja:
       '乳製品の代わりに植物性ミルクを選ぶと'
-      + '250mlあたり約**460gのCO2**を削減'
+      + '250mlあたり約**460g**のCO2を削減'
       + 'できます。牛乳は1リットルあたり約'
       + '3.2kgのCO2を排出するのに対し、'
       + '植物性は0.4〜1.0kgです（[Poore & '
@@ -1280,7 +1337,7 @@ const descriptions = {
       + '2〜3倍必要です。',
     es:
       'Elegir leche vegetal en vez de láctea '
-      + 'ahorra aproximadamente **460g de CO2** '
+      + 'ahorra aproximadamente **460g** de CO2 '
       + 'por porción de 250ml. La leche láctea '
       + 'emite unos 3,2kg de CO2 por litro '
       + 'frente a 0,4-1,0kg para alternativas '
@@ -1299,7 +1356,7 @@ const descriptions = {
   seasonal_produce: {
     en:
       'Buying seasonal produce saves roughly '
-      + '**500g of CO2** per purchase by '
+      + '**500g** of CO2 per purchase by '
       + 'avoiding energy-intensive greenhouse '
       + 'cultivation. Out-of-season fruits and '
       + 'vegetables grown in heated greenhouses '
@@ -1314,7 +1371,7 @@ const descriptions = {
       + 'local agricultural rhythms.',
     ja:
       '旬の農産物を買うと1回の購入で約'
-      + '**500gのCO2**を削減できます。'
+      + '**500g**のCO2を削減できます。'
       + 'エネルギー集約的なハウス栽培を避ける'
       + 'ためです。旬でない果物や野菜を加温'
       + 'ハウスで栽培すると、露地の季節栽培'
@@ -1328,7 +1385,7 @@ const descriptions = {
       + 'の農業リズムとのつながりを生みます。',
     es:
       'Comprar productos de temporada ahorra '
-      + 'aproximadamente **500g de CO2** por '
+      + 'aproximadamente **500g** de CO2 por '
       + 'compra al evitar el cultivo intensivo '
       + 'en invernaderos. Las frutas y verduras '
       + 'fuera de temporada cultivadas en '
@@ -1347,8 +1404,8 @@ const descriptions = {
   vegan_day: {
     en:
       'Eating fully plant-based for a day '
-      + 'saves roughly **2,700g (2.7kg) of CO2 '
-      + 'equivalent** compared to a standard '
+      + 'saves roughly **3,000g** of CO2 '
+      + 'equivalent compared to a standard '
       + 'omnivore diet (omnivore ~5.6 kg/day '
       + 'vs vegan ~2.9 kg/day). This accounts '
       + 'for avoided emissions from meat, '
@@ -1361,12 +1418,12 @@ const descriptions = {
       + '([Poore & Nemecek 2018]'
       + '(https://ourworldindata.org/food-choice'
       + '-vs-eating-local)). Even one vegan day '
-      + 'per week saves about 140kg of CO2 '
+      + 'per week saves over 150kg of CO2 '
       + 'annually.',
     ja:
       '1日完全に植物性の食事にすると標準的な'
-      + '雑食と比べ約**2,700g（2.7kg）のCO2'
-      + '相当**を削減できます（雑食約5.6 kg/日'
+      + '雑食と比べ約**3,000g**のCO2'
+      + '相当を削減できます（雑食約5.6 kg/日'
       + '対ビーガン約2.9 kg/日）。全食事での'
       + '肉、乳製品、卵の回避分を含みます'
       + '（[Our World in Data]'
@@ -1377,11 +1434,11 @@ const descriptions = {
       + '（[Poore & Nemecek 2018]'
       + '(https://ourworldindata.org/food-choice'
       + '-vs-eating-local)）。週1日でも年間'
-      + '約140kgのCO2を節約できます。',
+      + '150kg以上のCO2を節約できます。',
     es:
       'Comer completamente vegetal por un día '
-      + 'ahorra aproximadamente **2.700g (2,7kg) '
-      + 'de CO2 equivalente** comparado con una '
+      + 'ahorra aproximadamente **3.000g** '
+      + 'de CO2 equivalente comparado con una '
       + 'dieta omnívora estándar (omnívora '
       + '~5,6 kg/día vs vegana ~2,9 kg/día). '
       + 'Esto incluye las emisiones evitadas '
@@ -1395,13 +1452,13 @@ const descriptions = {
       + 'Nemecek 2018](https://ourworldindata'
       + '.org/food-choice-vs-eating-local)). '
       + 'Incluso un día vegano por semana '
-      + 'ahorra unos 140kg de CO2 al año.',
+      + 'ahorra más de 150kg de CO2 al año.',
   },
 
   bring_lunch: {
     en:
       'Bringing lunch from home saves '
-      + 'roughly **300g of CO2** by avoiding '
+      + 'roughly **300g** of CO2 by avoiding '
       + 'takeout packaging and delivery '
       + 'emissions. Restaurant and delivery '
       + 'meals use single-use containers, '
@@ -1415,7 +1472,7 @@ const descriptions = {
       + '(https://ourworldindata.org'
       + '/environmental-impacts-of-food)).',
     ja:
-      'お弁当を持参すると約**300gのCO2**を'
+      'お弁当を持参すると約**300g**のCO2を'
       + '削減でき、テイクアウトの包装や配達の'
       + '排出を回避できます。外食やデリバリー'
       + 'は使い捨て容器、プラスチック製カト'
@@ -1428,7 +1485,7 @@ const descriptions = {
       + '/environmental-impacts-of-food)）。',
     es:
       'Llevar comida de casa ahorra '
-      + 'aproximadamente **300g de CO2** al '
+      + 'aproximadamente **300g** de CO2 al '
       + 'evitar envases de comida para llevar '
       + 'y emisiones de entrega. Las comidas de '
       + 'restaurante usan envases desechables, '

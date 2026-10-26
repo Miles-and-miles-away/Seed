@@ -16,7 +16,7 @@ const descriptions = {
   tree_planting: {
     en:
       'A single tree absorbs roughly '
-      + '**15kg of CO2 per year** through '
+      + '**15kg** of CO2 per year through '
       + 'photosynthesis, accumulating '
       + '150-250kg over its first decade '
       + '([EPA GHG Equivalencies]'
@@ -35,7 +35,7 @@ const descriptions = {
       + 'decades to come.',
     ja:
       '1本の木は光合成により年間約'
-      + '**15kgのCO2**を吸収し、最初の'
+      + '**15kg**のCO2を吸収し、最初の'
       + '10年間で150〜250kgを蓄積します'
       + '（[EPA温室効果ガス換算]'
       + '(https://www.epa.gov/energy'
@@ -51,7 +51,7 @@ const descriptions = {
       + '長期的な投資になります。',
     es:
       'Un solo árbol absorbe aproximadamente '
-      + '**15kg de CO2 al año** mediante la '
+      + '**15kg** de CO2 al año mediante la '
       + 'fotosíntesis, acumulando 150-250kg '
       + 'en su primera década '
       + '([EPA Equivalencias GEI]'
@@ -131,7 +131,7 @@ const descriptions = {
       'Buying locally grown food from a '
       + 'farmers market, farm stand, or '
       + 'local supplier saves roughly '
-      + '**300g of CO2 per trip** because '
+      + '**200g** of CO2 per trip because '
       + 'local food travels about 80km '
       + 'versus 2,400km for typical '
       + 'supermarket produce. Shorter '
@@ -151,8 +151,8 @@ const descriptions = {
     ja:
       'ファーマーズマーケットや直売所、'
       + '地元の生産者から地場産の食材を'
-      + '買うと1回の買い物で約**300gの'
-      + 'CO2**を削減できます。地場産食品の'
+      + '買うと1回の買い物で約**200g**の'
+      + 'CO2を削減できます。地場産食品の'
       + '輸送距離は約80kmで一般的なスーパー'
       + 'の約2,400kmと比べ大幅に短いため'
       + 'です。短いサプライチェーンは冷蔵'
@@ -170,8 +170,8 @@ const descriptions = {
       + 'localmente en un mercado de '
       + 'agricultores, puesto de granja o '
       + 'proveedor local ahorra '
-      + 'aproximadamente **300g de CO2 por '
-      + 'visita** porque los alimentos locales '
+      + 'aproximadamente **200g** de CO2 por '
+      + 'visita porque los alimentos locales '
       + 'viajan unos 80km frente a los 2.400km '
       + 'típicos del supermercado. Cadenas de '
       + 'suministro más cortas significan '
@@ -242,7 +242,7 @@ const descriptions = {
   community_garden: {
     en:
       'Participating in a community garden '
-      + 'saves an estimated **200g of CO2** '
+      + 'saves an estimated **200g** of CO2 '
       + 'per session by reducing food miles '
       + 'and supporting local composting. '
       + 'Community gardens also build social '
@@ -264,8 +264,9 @@ const descriptions = {
     ja:
       'コミュニティガーデンへの参加は、'
       + 'フードマイルの削減と地域の堆肥化'
-      + '支援により1回あたり推定**200gの'
-      + 'CO2**を削減します。'
+      + '支援により1回あたり推定**200g**'
+      + 'の'
+      + 'CO2を削減します。'
       + 'コミュニティガーデンは社会的結束を'
       + '築き、食料不安のある地域に新鮮な'
       + '農産物を提供し、都市の緑地を増やし'
@@ -282,7 +283,7 @@ const descriptions = {
       + '超えた環境保全意識を育みます。',
     es:
       'Participar en un huerto comunitario '
-      + 'ahorra unas **200g de CO2** por '
+      + 'ahorra unas **200g** de CO2 por '
       + 'sesión al reducir los kilómetros '
       + 'alimentarios y apoyar el compostaje '
       + 'local. Los huertos comunitarios '
@@ -305,7 +306,7 @@ const descriptions = {
     en:
       'Volunteering for an environmental '
       + 'cause channels hands-on effort into '
-      + 'ecological restoration — planting '
+      + 'ecological restoration: planting '
       + 'trees, restoring wetlands, monitoring '
       + 'wildlife, and educating communities. '
       + 'The carbon benefit is indirect and '
@@ -416,7 +417,7 @@ const descriptions = {
   support_eco_business: {
     en:
       'Supporting an eco-friendly business '
-      + 'saves an estimated **200g of CO2** '
+      + 'saves an estimated **200g** of CO2 '
       + 'per purchase by directing demand '
       + 'toward sustainable production '
       + 'methods. Consumer spending is a '
@@ -435,7 +436,7 @@ const descriptions = {
       'エコフレンドリーなビジネスを支援'
       + 'すると、持続可能な生産方法への需要'
       + 'を向けることで1回の購入あたり推定'
-      + '**200gのCO2**を削減します。'
+      + '**200g**のCO2を削減します。'
       + '消費者支出は企業にグリーンな慣行を'
       + '採用させる強力な市場シグナルです'
       + '（[国連SDG 12]'
@@ -450,7 +451,7 @@ const descriptions = {
       + 'です。',
     es:
       'Apoyar un negocio ecológico ahorra '
-      + 'unas **200g de CO2** por compra al '
+      + 'unas **200g** de CO2 por compra al '
       + 'dirigir la demanda hacia métodos de '
       + 'producción sostenibles. El gasto '
       + 'del consumidor es una señal de '
@@ -469,8 +470,8 @@ const descriptions = {
   organize_swap: {
     en:
       'Organizing a clothing or item swap '
-      + 'prevents an estimated **1,000g of '
-      + 'CO2** by keeping usable goods out '
+      + 'prevents an estimated **1,000g** of '
+      + 'CO2 by keeping usable goods out '
       + 'of landfills. A single new garment '
       + 'generates roughly 14kg of CO2 '
       + 'during production, so each swapped '
@@ -488,7 +489,7 @@ const descriptions = {
     ja:
       '衣類やアイテムのスワップを企画する'
       + 'ことで、使用可能な物を埋立地から'
-      + '守り、推定**1,000gのCO2**を削減'
+      + '守り、推定**1,000g**のCO2を削減'
       + 'します。新しい衣服1着の生産では約'
       + '14kgのCO2が発生するため、交換される'
       + '各アイテムは大幅な排出を回避します'
@@ -503,8 +504,8 @@ const descriptions = {
       + 'を楽しく身近にします。',
     es:
       'Organizar un intercambio de ropa o '
-      + 'artículos evita unas **1.000g de '
-      + 'CO2** al mantener bienes útiles '
+      + 'artículos evita unas **1.000g** de '
+      + 'CO2 al mantener bienes útiles '
       + 'fuera de los vertederos. Una prenda '
       + 'nueva genera unos 14kg de CO2 '
       + 'durante su producción, así que cada '
@@ -526,7 +527,7 @@ const descriptions = {
       'Borrowing a book, movie, or other '
       + 'media from the library instead of '
       + 'buying new saves roughly '
-      + '**1,000g of CO2** per item from '
+      + '**1,000g** of CO2 per item from '
       + 'manufacturing, packaging, and '
       + 'shipping. A single paperback book '
       + 'generates about 1kg of CO2 to '
@@ -545,7 +546,7 @@ const descriptions = {
     ja:
       '新品を買う代わりに図書館で本や映画'
       + 'などを借りると1点あたり約**1,000g'
-      + 'のCO2**を削減できます。製造、梱包、'
+      + '**のCO2を削減できます。製造、梱包、'
       + '配送を回避するためです。ペーパー'
       + 'バック1冊の製造・配送で約1kgのCO2'
       + 'が発生します（[Carbon Trust]'
@@ -561,7 +562,7 @@ const descriptions = {
       'Tomar prestado un libro, película u '
       + 'otro medio de la biblioteca en lugar '
       + 'de comprar nuevo ahorra '
-      + 'aproximadamente **1.000g de CO2** por '
+      + 'aproximadamente **1.000g** de CO2 por '
       + 'artículo de fabricación, empaquetado '
       + 'y envío. Un solo libro de bolsillo '
       + 'genera alrededor de 1kg de CO2 al '

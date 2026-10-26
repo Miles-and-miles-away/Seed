@@ -17,14 +17,14 @@ const descriptions = {
     en:
       'Air drying your laundry instead of '
       + 'using a tumble dryer saves roughly '
-      + '**1,700g of CO2** per load. A typical '
+      + '**2,000g** of CO2 per load. A typical '
       + 'dryer consumes about 4.5 kWh per '
       + 'cycle, making it one of the most '
       + 'energy-hungry household appliances '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'Over a year of weekly loads, air '
-      + 'drying avoids nearly 90 kg of CO2. '
+      + 'drying avoids over 100 kg of CO2. '
       + 'Clotheslines and drying racks cost '
       + 'nothing to operate and also extend '
       + 'the lifespan of your garments '
@@ -34,13 +34,14 @@ const descriptions = {
       + '-2024)).',
     ja:
       '乾燥機の代わりに洗濯物を自然乾燥'
-      + 'すると1回あたり約**1,700gのCO2**を'
+      + 'すると1回あたり約**2,000g**のCO2を'
       + '削減できます。一般的な乾燥機は1回で'
       + '約4.5kWhを消費し、家庭で最も電力を'
       + '使う機器の一つです（[Energy Saving '
       + 'Trust](https://energysavingtrust'
       + '.org.uk/)）。週1回の洗濯を年間通して'
-      + '自然乾燥にすると約90kgのCO2を回避'
+      + '自然乾燥にすると100kg以上のCO2を'
+      + '回避'
       + 'できます。物干しや乾燥ラックは運転'
       + 'コストがゼロで衣類の寿命も延ばします'
       + '（[DEFRA 2024](https://www.gov.uk'
@@ -50,14 +51,14 @@ const descriptions = {
     es:
       'Secar la ropa al aire en vez de usar '
       + 'secadora ahorra aproximadamente '
-      + '**1.700g de CO2** por carga. Una '
+      + '**2.000g** de CO2 por carga. Una '
       + 'secadora típica consume unos 4,5 kWh '
       + 'por ciclo, siendo uno de los '
       + 'electrodomésticos de mayor consumo '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'En un año de cargas semanales, el '
-      + 'secado al aire evita casi 90 kg de '
+      + 'secado al aire evita más de 100 kg de '
       + 'CO2. Los tendederos no tienen coste '
       + 'de uso y además prolongan la vida '
       + 'de la ropa ([DEFRA 2024]'
@@ -69,7 +70,7 @@ const descriptions = {
   cold_wash: {
     en:
       'Washing clothes in cold water saves '
-      + 'about **600g of CO2** per load '
+      + 'about **430g** of CO2 per load '
       + 'because roughly 90% of the energy '
       + 'a washing machine uses goes to '
       + 'heating water ([US DOE]'
@@ -83,11 +84,11 @@ const descriptions = {
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'Over a year of weekly washes, this '
-      + 'simple switch avoids over 30 kg '
+      + 'simple switch avoids over 20 kg '
       + 'of CO2.',
     ja:
       '洗濯を冷水で行うと1回あたり約'
-      + '**600gのCO2**を削減できます。'
+      + '**430g**のCO2を削減できます。'
       + '洗濯機のエネルギーの約90%は水の加熱'
       + 'に使われるためです（[米国エネルギー省]'
       + '(https://www.energy.gov/energysaver'
@@ -97,11 +98,11 @@ const descriptions = {
       + 'は色落ちや縮みも防ぎ衣類を長持ちさせ'
       + 'ます（[Energy Saving Trust]'
       + '(https://energysavingtrust'
-      + '.org.uk/)）。週1回の洗濯で年間30kg'
+      + '.org.uk/)）。週1回の洗濯で年間20kg'
       + '以上のCO2を回避できます。',
     es:
       'Lavar la ropa con agua fría ahorra '
-      + 'unos **600g de CO2** por carga, ya '
+      + 'unos **430g** de CO2 por carga, ya '
       + 'que aproximadamente el 90% de la '
       + 'energía de una lavadora se destina a '
       + 'calentar el agua ([US DOE]'
@@ -114,7 +115,7 @@ const descriptions = {
       + 'el encogimiento ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'En un año de lavados semanales, este '
-      + 'simple cambio evita más de 30 kg '
+      + 'simple cambio evita más de 20 kg '
       + 'de CO2.',
   },
 
@@ -122,7 +123,7 @@ const descriptions = {
     en:
       'Installing an LED bulb to replace an '
       + 'incandescent saves roughly '
-      + '**28,000g (28kg) of CO2** in its '
+      + '**25,000g** of CO2 in its '
       + 'first year alone. LEDs consume 75% '
       + 'less energy than incandescent bulbs '
       + 'and last up to 25 times longer '
@@ -138,8 +139,8 @@ const descriptions = {
       + 'loads.',
     ja:
       'LED電球を白熱電球の代わりに設置する'
-      + 'と初年度だけで約**28,000g（28kg）の'
-      + 'CO2**を削減できます。LEDは白熱電球'
+      + 'と初年度だけで約**25,000g**の'
+      + 'CO2を削減できます。LEDは白熱電球'
       + 'より75%少ないエネルギーで済み寿命は'
       + '最大25倍です（[US DOE]'
       + '(https://www.energy.gov/energysaver'
@@ -152,8 +153,8 @@ const descriptions = {
     es:
       'Instalar una bombilla LED en lugar de '
       + 'una incandescente ahorra '
-      + 'aproximadamente **28.000g (28kg) de '
-      + 'CO2** solo en su primer año. Los LED '
+      + 'aproximadamente **25.000g** de '
+      + 'CO2 solo en su primer año. Los LED '
       + 'consumen un 75% menos de energía que '
       + 'las bombillas incandescentes y duran '
       + 'hasta 25 veces más ([US DOE]'
@@ -172,8 +173,8 @@ const descriptions = {
   unplug_devices: {
     en:
       'Unplugging idle devices across your '
-      + 'home saves about **45g of CO2 per '
-      + 'day**. Standby mode draws 1-5 watts '
+      + 'home saves about **25g** of CO2 per '
+      + 'day. Standby mode draws 1-5 watts '
       + 'per device continuously, and the '
       + 'average home has 20-40 devices on '
       + 'standby ([Lawrence Berkeley National '
@@ -190,7 +191,7 @@ const descriptions = {
       + 'annual savings.',
     ja:
       '家中の待機機器のプラグを抜くと1日'
-      + 'あたり約**45gのCO2**を節約できます。'
+      + 'あたり約**25g**のCO2を節約できます。'
       + '待機モードは1台あたり1〜5Wを常時消費'
       + 'し、一般家庭では20〜40台が待機状態'
       + 'です（[Lawrence Berkeley National '
@@ -204,8 +205,9 @@ const descriptions = {
       + '年間では大きな節約になります。',
     es:
       'Desconectar los dispositivos inactivos '
-      + 'de tu hogar ahorra unos **45g de CO2 '
-      + 'al día**. El modo de espera consume '
+      + 'de tu hogar ahorra unos **25g** de '
+      + 'CO2 '
+      + 'al día. El modo de espera consume '
       + '1-5 vatios por dispositivo de forma '
       + 'continua, y un hogar promedio tiene '
       + '20-40 aparatos en espera ([Lawrence '
@@ -228,7 +230,7 @@ const descriptions = {
     en:
       'Making a habit of turning off lights '
       + 'in empty rooms saves roughly '
-      + '**60g of CO2 per day** across a '
+      + '**15g** of CO2 per day across a '
       + 'typical home. Lights left on in '
       + 'unoccupied rooms are among the most '
       + 'common sources of wasted household '
@@ -246,7 +248,7 @@ const descriptions = {
       + '-2024)).',
     ja:
       '空き部屋の照明を消す習慣をつけると'
-      + '一般家庭で1日あたり約**60gのCO2**を'
+      + '一般家庭で1日あたり約**15g**のCO2を'
       + '削減できます。誰もいない部屋の'
       + '点けっぱなしは家庭のエネルギー浪費'
       + 'で最も多い原因の一つです（[Energy '
@@ -262,7 +264,7 @@ const descriptions = {
     es:
       'Crear el hábito de apagar las luces en '
       + 'habitaciones vacías ahorra '
-      + 'aproximadamente **60g de CO2 al día** '
+      + 'aproximadamente **15g** de CO2 al día '
       + 'en un hogar típico. Las luces '
       + 'encendidas en habitaciones desocupadas '
       + 'son una de las fuentes más comunes de '
@@ -285,13 +287,13 @@ const descriptions = {
     en:
       'Lowering your heating thermostat by '
       + 'just 1 degree Celsius saves roughly '
-      + '**450g of CO2** per day. This single '
+      + '**140g** of CO2 per day. This single '
       + 'adjustment can reduce heating energy '
       + 'consumption by about 10% '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'Over a six-month heating season, '
-      + 'that amounts to over 80 kg of CO2 '
+      + 'that amounts to about 25 kg of CO2 '
       + 'avoided. Wearing an extra layer '
       + 'indoors makes the difference barely '
       + 'noticeable while the planet benefits '
@@ -301,12 +303,12 @@ const descriptions = {
       + '-conversion-factors-2024)).',
     ja:
       '暖房の設定温度を1度下げるだけで1日'
-      + 'あたり約**450gのCO2**を削減できます。'
+      + 'あたり約**140g**のCO2を削減できます。'
       + 'この調整だけで暖房のエネルギー消費を'
       + '約10%減らせます（[Energy Saving '
       + 'Trust](https://energysavingtrust'
       + '.org.uk/)）。6ヶ月の暖房シーズンで'
-      + '80kg以上のCO2を回避できます。室内で'
+      + '約25kgのCO2を回避できます。室内で'
       + '1枚多く着るだけで違いはほとんど感じ'
       + 'ませんが地球への効果は大きいです'
       + '（[DEFRA 2024](https://www.gov.uk'
@@ -316,14 +318,14 @@ const descriptions = {
     es:
       'Bajar el termostato de calefacción '
       + 'solo 1 grado Celsius ahorra '
-      + 'aproximadamente **450g de CO2** por '
+      + 'aproximadamente **140g** de CO2 por '
       + 'día. Este único ajuste puede reducir '
       + 'el consumo energético de calefacción '
       + 'en un 10% ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
       + 'En una temporada de calefacción de '
-      + 'seis meses, eso equivale a más de '
-      + '80 kg de CO2 evitados. Usar una capa '
+      + 'seis meses, eso equivale a unos 25 '
+      + 'kg de CO2 evitados. Usar una capa '
       + 'extra de ropa hace la diferencia '
       + 'apenas perceptible mientras el '
       + 'planeta se beneficia '
@@ -337,7 +339,7 @@ const descriptions = {
     en:
       'Raising your air conditioning '
       + 'thermostat by 1 degree Celsius saves '
-      + 'roughly **350g of CO2** per day. '
+      + 'roughly **120g** of CO2 per day. '
       + 'Each degree higher reduces cooling '
       + 'energy by 3-5%, a significant saving '
       + 'over a full summer ([Energy Saving '
@@ -354,7 +356,7 @@ const descriptions = {
       + '-2024)).',
     ja:
       'エアコンの設定温度を1度上げると1日'
-      + 'あたり約**350gのCO2**を削減できます。'
+      + 'あたり約**120g**のCO2を削減できます。'
       + '1度上げるごとに冷房エネルギーが3〜5%'
       + '減り、夏全体では大きな節約になります'
       + '（[Energy Saving Trust]'
@@ -370,7 +372,7 @@ const descriptions = {
     es:
       'Subir el termostato del aire '
       + 'acondicionado 1 grado Celsius ahorra '
-      + 'aproximadamente **350g de CO2** por '
+      + 'aproximadamente **120g** de CO2 por '
       + 'día. Cada grado más alto reduce la '
       + 'energía de refrigeración en un 3-5%, '
       + 'un ahorro significativo en todo el '
@@ -393,13 +395,15 @@ const descriptions = {
   eco_mode_appliance: {
     en:
       'Using the eco mode on your appliance '
-      + 'saves roughly **200g of CO2** per '
-      + 'cycle. Eco programmes typically '
-      + 'reduce energy consumption by about '
-      + '30% through lower temperatures and '
+      + 'saves roughly **120g** of CO2 per '
+      + 'cycle. Eco programmes '
+      + 'reduce energy consumption through '
+      + 'lower temperatures and '
       + 'optimised water usage ([Energy Saving '
       + 'Trust](https://energysavingtrust'
-      + '.org.uk/)). Dishwashers and washing '
+      + '.org.uk/)); on a typical dishwasher '
+      + 'the saving is about 24% per cycle. '
+      + 'Dishwashers and washing '
       + 'machines both benefit significantly '
       + 'from eco settings. While eco cycles '
       + 'may run slightly longer, they use '
@@ -410,12 +414,14 @@ const descriptions = {
       + '-2024)).',
     ja:
       '家電のエコモードを使うと1サイクル'
-      + 'あたり約**200gのCO2**を削減できます。'
+      + 'あたり約**120g**のCO2を削減できます。'
       + 'エコプログラムは低温運転と最適な水量'
-      + 'で消費エネルギーを約30%削減します'
+      + 'で消費エネルギーを削減し'
       + '（[Energy Saving Trust]'
       + '(https://energysavingtrust'
-      + '.org.uk/)）。食洗機も洗濯機もエコ'
+      + '.org.uk/)）、一般的な食洗機では1'
+      + 'サイクルあたり約24%の削減になります。食'
+      + '洗機も洗濯機もエコ'
       + 'モードの恩恵は大きいです。エコサイクル'
       + 'は少し長くなることがありますが電力と'
       + '水の使用量は大幅に減ります'
@@ -425,13 +431,15 @@ const descriptions = {
       + '-2024)）。',
     es:
       'Usar el modo eco de tu electrodoméstico '
-      + 'ahorra aproximadamente **200g de '
-      + 'CO2** por ciclo. Los programas eco '
-      + 'reducen el consumo energético en un '
-      + '30% mediante temperaturas más bajas y '
+      + 'ahorra aproximadamente **120g** de '
+      + 'CO2 por ciclo. Los programas eco '
+      + 'reducen el consumo energético '
+      + 'mediante temperaturas más bajas y '
       + 'uso optimizado de agua ([Energy '
       + 'Saving Trust](https://energy'
-      + 'savingtrust.org.uk/)). Tanto '
+      + 'savingtrust.org.uk/)); en un '
+      + 'lavavajillas típico el ahorro es de '
+      + 'un 24% por ciclo. Tanto '
       + 'lavavajillas como lavadoras se '
       + 'benefician significativamente del '
       + 'modo eco. Aunque los ciclos eco '
@@ -446,8 +454,11 @@ const descriptions = {
   microwave_vs_oven: {
     en:
       'Using a microwave instead of a '
-      + 'conventional oven saves roughly '
-      + '**150g of CO2** per cooking session. '
+      + 'conventional oven to reheat food '
+      + 'saves roughly '
+      + '**280g** of CO2, comparing one oven '
+      + 'cycle with ten minutes in the '
+      + 'microwave. '
       + 'Microwaves use 70-80% less energy '
       + 'than ovens because they heat food '
       + 'directly rather than warming an '
@@ -462,8 +473,10 @@ const descriptions = {
       + '/energysaver/lighting-choices-save'
       + '-you-money)).',
     ja:
-      'オーブンの代わりに電子レンジを使うと'
-      + '1回の調理で約**150gのCO2**を削減でき'
+      '食べ物の温め直しにオーブンではなく電子レ'
+      + 'ンジを使うと'
+      + '、オーブン1回分と電子レンジ10分を比べて約'
+      + '**280g**のCO2を削減でき'
       + 'ます。電子レンジはオーブンより70〜80%'
       + '少ないエネルギーで済みます。庫内全体'
       + 'を温めるのではなく食品を直接加熱する'
@@ -477,9 +490,12 @@ const descriptions = {
       + '/lighting-choices-save-you-money)）。',
     es:
       'Usar el microondas en vez del horno '
-      + 'convencional ahorra aproximadamente '
-      + '**150g de CO2** por sesión de '
-      + 'cocción. Los microondas usan 70-80% '
+      + 'convencional para recalentar comida '
+      + 'ahorra aproximadamente '
+      + '**280g** de CO2, comparando un ciclo '
+      + 'de horno con diez minutos de '
+      + 'microondas. Los microondas usan '
+      + '70-80% '
       + 'menos energía que los hornos porque '
       + 'calientan la comida directamente en '
       + 'vez de toda la cavidad ([Energy '
@@ -499,8 +515,8 @@ const descriptions = {
     en:
       'Using a ceiling or portable fan '
       + 'instead of air conditioning for a '
-      + 'day saves roughly **1,200g of '
-      + 'CO2**. A typical fan uses only '
+      + 'day saves roughly **600g** of '
+      + 'CO2. A typical fan uses only '
       + '50-75 watts compared to 1,000-3,500 '
       + 'watts for a window or central AC '
       + 'unit ([Energy Saving Trust]'
@@ -510,7 +526,7 @@ const descriptions = {
       + 'maintain comfortable temperatures '
       + 'at a fraction of the energy cost. '
       + 'Over a summer season, choosing fans '
-      + 'on milder days can avoid over 100kg '
+      + 'on milder days can avoid over 50kg '
       + 'of CO2 ([DEFRA 2024]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas'
@@ -518,7 +534,7 @@ const descriptions = {
       + '-2024)).',
     ja:
       'エアコンの代わりに天井扇や携帯型'
-      + 'ファンを1日使うと約**1,200gのCO2**'
+      + 'ファンを1日使うと約**600g**のCO2'
       + 'を削減できます。一般的な扇風機の'
       + '消費電力は50〜75Wで窓型や集中型'
       + 'エアコンの1,000〜3,500Wと比べ'
@@ -528,7 +544,7 @@ const descriptions = {
       + '扇風機と風通しの組み合わせで快適な'
       + '温度を維持でき冷房のほんの一部の'
       + 'エネルギーで済みます。夏の間'
-      + '涼しい日に扇風機を選べば100kg以上'
+      + '涼しい日に扇風機を選べば50kg以上'
       + 'のCO2を回避できます（[DEFRA 2024]'
       + '(https://www.gov.uk/government'
       + '/publications/greenhouse-gas'
@@ -538,7 +554,7 @@ const descriptions = {
       'Usar un ventilador de techo o '
       + 'portátil en lugar del aire '
       + 'acondicionado durante un día ahorra '
-      + 'aproximadamente **1.200g de CO2**. '
+      + 'aproximadamente **600g** de CO2. '
       + 'Un ventilador típico consume solo '
       + '50-75 vatios frente a los 1.000-3.500 '
       + 'vatios de un aparato de aire acondicionado '
@@ -551,7 +567,7 @@ const descriptions = {
       + 'fracción del coste energético. '
       + 'Durante una temporada de verano, '
       + 'elegir ventiladores en días suaves '
-      + 'puede evitar más de 100kg de CO2 '
+      + 'puede evitar más de 50kg de CO2 '
       + '([DEFRA 2024](https://www.gov.uk'
       + '/government/publications/greenhouse'
       + '-gas-reporting-conversion-factors'
@@ -565,15 +581,16 @@ const descriptions = {
     en:
       'Spending an evening under a kotatsu, heated '
       + 'blanket or heated carpet instead of running a '
-      + 'portable electric heater saves about **1.9kg of '
-      + 'CO2**. A portable heater draws up to 1.5kW to warm '
+      + 'portable electric heater saves about **1.9kg** '
+      + 'of '
+      + 'CO2. A portable heater draws up to 1.5kW to warm '
       + 'the whole room ([OCWR](https://www.ocwr.gov/'
       + 'publications/fast-facts/portable-space-heaters/)), '
       + 'while a kotatsu averages about 150W because it only '
       + 'heats the space around your body ([Metro Electric]'
       + '(https://www.kotatsu.metro-co.com/our-kotatsu/)). '
       + 'Over a four-hour evening that gap is roughly 4kWh, '
-      + 'or 1.9kg of CO2 at the 2025 world average grid '
+      + 'counted at the 2025 world average grid '
       + 'intensity of 458g per kWh ([Ember](https://'
       + 'ember-energy.org/latest-insights/'
       + 'global-electricity-review-2026/)). Heating the '
@@ -581,23 +598,24 @@ const descriptions = {
       + 'habits to keep.',
     ja:
       '電気ストーブの代わりにこたつ・電気毛布・電気'
-      + 'カーペットで一晩過ごすと、約**1.9kgのCO2**を'
+      + 'カーペットで一晩過ごすと、約**1.9kg**のCO2を'
       + '削減できます。電気ストーブは部屋全体を暖める'
       + 'ために最大1.5kWを消費しますが（[OCWR](https://'
       + 'www.ocwr.gov/publications/fast-facts/'
       + 'portable-space-heaters/)）、こたつは体の周りだけ'
       + 'を暖めるため平均約150Wで済みます（[メトロ電気'
       + '工業](https://www.kotatsu.metro-co.com/'
-      + 'our-kotatsu/)）。4時間の夜で差は約4kWh、2025年の'
-      + '世界平均排出係数458g/kWhでは約1.9kgのCO2に'
-      + 'なります（[Ember](https://ember-energy.org/'
+      + 'our-kotatsu/)）。4時間の夜で差は約4kWhとなり、'
+      + '2025年の'
+      + '世界平均排出係数458g/kWhで換算しています（'
+      + '[Ember](https://ember-energy.org/'
       + 'latest-insights/global-electricity-review-2026/)）。'
       + '部屋ではなく人を暖めるのは、最も安上がりな冬の'
       + '習慣のひとつです。',
     es:
       'Pasar la noche bajo un kotatsu, una manta eléctrica '
       + 'o una alfombra eléctrica en lugar de encender un '
-      + 'calefactor portátil ahorra unos **1,9kg de CO2**. '
+      + 'calefactor portátil ahorra unos **1,9kg** de CO2. '
       + 'Un calefactor portátil consume hasta 1,5kW para '
       + 'calentar toda la habitación ([OCWR](https://'
       + 'www.ocwr.gov/publications/fast-facts/'
@@ -606,7 +624,7 @@ const descriptions = {
       + 'alrededor de tu cuerpo ([Metro Electric](https://'
       + 'www.kotatsu.metro-co.com/our-kotatsu/)). En una '
       + 'noche de cuatro horas la diferencia es de unos 4kWh, '
-      + 'o 1,9kg de CO2 con la intensidad media mundial de '
+      + 'calculados con la intensidad media mundial de '
       + '458g por kWh en 2025 ([Ember](https://ember-energy.'
       + 'org/latest-insights/global-electricity-review-2026/'
       + ')). Calentar a la persona y no la habitación es uno '
@@ -614,43 +632,45 @@ const descriptions = {
   },
   shorter_shower: {
     en:
-      'Cutting your shower by four minutes '
-      + 'saves roughly **230g of CO2**. A '
+      'Cutting your shower by two minutes '
+      + 'saves roughly **110g** of CO2. A '
       + 'hot shower emits about 55g of CO2 '
       + 'per minute from the energy needed '
       + 'to heat the water ([Energy Saving '
       + 'Trust](https://energysavingtrust'
       + '.org.uk/)). Over a year of daily '
-      + 'showers, four minutes saved each '
-      + 'time avoids over 80 kg of CO2. '
+      + 'showers, two minutes saved each '
+      + 'time avoids about 40 kg of CO2. '
       + 'A shower timer or a favourite short '
       + 'playlist can help keep showers '
       + 'brief ([EPA WaterSense]'
       + '(https://www.epa.gov/watersense)).',
     ja:
-      'シャワーを4分短くすると約**230gの'
-      + 'CO2**を節約できます。温水シャワーは'
+      'シャワーを2分短くすると約'
+      + '**110g**の'
+      + 'CO2を節約できます。温水シャワーは'
       + '水を加熱するエネルギーにより1分あたり'
       + '約55gのCO2を排出します（[Energy '
       + 'Saving Trust](https://energy'
       + 'savingtrust.org.uk/)）。毎日の'
-      + 'シャワーで4分ずつ節約すると年間80kg'
-      + '以上のCO2を回避できます。シャワー'
+      + 'シャワーで2分ずつ節約すると年間約'
+      + '40kg'
+      + 'のCO2を回避できます。シャワー'
       + 'タイマーやお気に入りの短い曲の'
       + 'プレイリストが時間管理に役立ちます'
       + '（[EPA WaterSense]'
       + '(https://www.epa.gov/watersense)）。',
     es:
-      'Reducir la ducha en cuatro minutos '
-      + 'ahorra aproximadamente **230g de '
-      + 'CO2**. Una ducha caliente emite unos '
+      'Reducir la ducha en dos minutos '
+      + 'ahorra aproximadamente **110g** de '
+      + 'CO2. Una ducha caliente emite unos '
       + '55g de CO2 por minuto por la energía '
       + 'necesaria para calentar el agua '
       + '([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
-      + 'En un año de duchas diarias, cuatro '
-      + 'minutos menos cada vez evitan más de '
-      + '80 kg de CO2. Un temporizador o una '
+      + 'En un año de duchas diarias, dos '
+      + 'minutos menos cada vez evitan unos 40 '
+      + 'kg de CO2. Un temporizador o una '
       + 'playlist corta favorita pueden ayudar '
       + 'a mantener duchas breves '
       + '([EPA WaterSense]'
@@ -660,8 +680,8 @@ const descriptions = {
   turn_off_tap: {
     en:
       'Turning off the tap while brushing '
-      + 'your teeth saves roughly **30g of '
-      + 'CO2** per session. A running tap '
+      + 'your teeth saves roughly **20g** of '
+      + 'CO2 per session. A running tap '
       + 'wastes about 15 litres in a typical '
       + 'two-minute brushing session '
       + '([EPA WaterSense]'
@@ -670,13 +690,13 @@ const descriptions = {
       + 'requires energy, which translates '
       + 'directly into carbon emissions. '
       + 'Twice-daily brushing means this '
-      + 'small change saves over 20 kg of '
+      + 'small change saves over 14 kg of '
       + 'CO2 and 10,000 litres of water per '
       + 'year ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)).',
     ja:
       '歯磨き中に蛇口を閉めると1回あたり'
-      + '約**30gのCO2**を節約できます。'
+      + '約**20g**のCO2を節約できます。'
       + '2分間の歯磨き中に流しっぱなしにする'
       + 'と約15リットルの水が無駄になります'
       + '（[EPA WaterSense]'
@@ -684,14 +704,14 @@ const descriptions = {
       + '水の処理とポンプにはエネルギーが必要'
       + 'でそれがCO2排出につながります。1日'
       + '2回の歯磨きでこの小さな変化が年間'
-      + '20kg以上のCO2と10,000リットルの水を'
+      + '14kg以上のCO2と10,000リットルの水を'
       + '節約します（[Energy Saving Trust]'
       + '(https://energysavingtrust'
       + '.org.uk/)）。',
     es:
       'Cerrar el grifo al cepillarte los '
       + 'dientes ahorra aproximadamente '
-      + '**30g de CO2** por sesión. Un grifo '
+      + '**20g** de CO2 por sesión. Un grifo '
       + 'abierto desperdicia unos 15 litros '
       + 'en un cepillado típico de dos '
       + 'minutos ([EPA WaterSense]'
@@ -700,7 +720,7 @@ const descriptions = {
       + 'energía que se traduce directamente '
       + 'en emisiones de carbono. Cepillarse '
       + 'dos veces al día significa que este '
-      + 'pequeño cambio ahorra más de 20 kg '
+      + 'pequeño cambio ahorra más de 14 kg '
       + 'de CO2 y 10.000 litros de agua al '
       + 'año ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)).',
@@ -709,8 +729,8 @@ const descriptions = {
   full_dishwasher: {
     en:
       'Running a full dishwasher instead of '
-      + 'a half-empty one saves about **80g '
-      + 'of CO2** per cycle. The machine uses '
+      + 'a half-empty one saves about **80g** '
+      + 'of CO2 per cycle. The machine uses '
       + 'nearly the same water and energy '
       + 'regardless of how full it is '
       + '([Energy Saving Trust]'
@@ -723,7 +743,7 @@ const descriptions = {
       + '(https://www.epa.gov/watersense)).',
     ja:
       '食洗機を半分ではなく満杯で回すと'
-      + '1サイクルあたり約**80gのCO2**を節約'
+      + '1サイクルあたり約**80g**のCO2を節約'
       + 'できます。食洗機は容量にかかわらず'
       + 'ほぼ同じ水とエネルギーを使います'
       + '（[Energy Saving Trust]'
@@ -735,8 +755,8 @@ const descriptions = {
       + '(https://www.epa.gov/watersense)）。',
     es:
       'Poner el lavavajillas lleno en vez de '
-      + 'medio vacío ahorra unos **80g de '
-      + 'CO2** por ciclo. La máquina usa casi '
+      + 'medio vacío ahorra unos **80g** de '
+      + 'CO2 por ciclo. La máquina usa casi '
       + 'la misma agua y energía sin importar '
       + 'lo llena que esté ([Energy Saving '
       + 'Trust](https://energysavingtrust'
@@ -751,8 +771,8 @@ const descriptions = {
   fix_leak: {
     en:
       'Fixing a leaking faucet or toilet '
-      + 'prevents roughly **100,000g (100kg) '
-      + 'of CO2** over its remaining lifetime '
+      + 'prevents roughly **100,000g** '
+      + 'of CO2 over its remaining lifetime '
       + 'by eliminating the continuous energy '
       + 'waste of treating and pumping water '
       + 'that goes straight down the drain. '
@@ -769,8 +789,8 @@ const descriptions = {
       + 'water bill and the climate.',
     ja:
       '水漏れする蛇口やトイレを修理すると'
-      + '残りの使用期間で約**100,000g（100kg）'
-      + 'のCO2**を防げます。排水に流れるだけ'
+      + '残りの使用期間で約**100,000g**'
+      + 'のCO2を防げます。排水に流れるだけ'
       + 'の水の処理・送水に使われる継続的な'
       + 'エネルギー浪費をなくせるためです。'
       + '1箇所の水漏れで年間10,000リットル'
@@ -784,8 +804,8 @@ const descriptions = {
       + '気候の両方に大きな効果があります。',
     es:
       'Reparar un grifo o inodoro con goteo '
-      + 'evita aproximadamente **100.000g '
-      + '(100 kg) de CO2** durante su vida '
+      + 'evita aproximadamente **100.000g** '
+      + 'de CO2 durante su vida '
       + 'útil restante, al eliminar el gasto '
       + 'continuo de energía en tratar y '
       + 'bombear agua que se va directamente '
@@ -807,7 +827,7 @@ const descriptions = {
   cold_water_rinse: {
     en:
       'Rinsing with cold water instead of '
-      + 'hot saves about **30g of CO2** per '
+      + 'hot saves about **30g** of CO2 per '
       + 'session. Hot water rinsing wastes '
       + 'energy on heating that provides no '
       + 'cleaning benefit for most tasks '
@@ -822,7 +842,7 @@ const descriptions = {
       + '(https://www.epa.gov/watersense)).',
     ja:
       '温水ではなく冷水ですすぐと1回あたり'
-      + '約**30gのCO2**を節約できます。温水'
+      + '約**30g**のCO2を節約できます。温水'
       + 'でのすすぎはほとんどの作業で洗浄効果'
       + 'に差がなく加熱エネルギーの無駄です'
       + '（[Energy Saving Trust]'
@@ -835,7 +855,7 @@ const descriptions = {
       + '(https://www.epa.gov/watersense)）。',
     es:
       'Enjuagar con agua fría en vez de '
-      + 'caliente ahorra unos **30g de CO2** '
+      + 'caliente ahorra unos **30g** de CO2 '
       + 'por sesión. El enjuague con agua '
       + 'caliente desperdicia energía en '
       + 'calentamiento que no aporta beneficio '
@@ -855,7 +875,7 @@ const descriptions = {
     en:
       'Installing a rain barrel or '
       + 'collection system saves roughly '
-      + '**750g of CO2** by reducing the '
+      + '**750g** of CO2 by reducing the '
       + 'energy needed to pump, treat, and '
       + 'distribute municipal water. A '
       + 'typical rain barrel captures '
@@ -874,7 +894,7 @@ const descriptions = {
     ja:
       '雨水タンクや集水システムを設置すると'
       + '水道水の送水・処理・配水に必要な'
-      + 'エネルギーを減らし約**750gのCO2**を'
+      + 'エネルギーを減らし約**750g**のCO2を'
       + '削減できます。一般的な雨水タンクは'
       + '1回の雨で200〜500リットルを貯め、'
       + 'エネルギー集約的な水処理を経ない無料'
@@ -889,7 +909,7 @@ const descriptions = {
     es:
       'Instalar un depósito o sistema de '
       + 'recogida de agua de lluvia ahorra '
-      + 'aproximadamente **750g de CO2** al '
+      + 'aproximadamente **750g** de CO2 al '
       + 'reducir la energía necesaria para '
       + 'bombear, tratar y distribuir agua '
       + 'municipal. Un depósito típico captura '
@@ -911,7 +931,7 @@ const descriptions = {
   water_plants_morning: {
     en:
       'Watering plants in the early morning '
-      + 'saves about **10g of CO2** per '
+      + 'saves about **5g** of CO2 per '
       + 'session by reducing water waste. '
       + 'Morning watering cuts evaporation by '
       + '25-50% compared to midday, meaning '
@@ -926,7 +946,7 @@ const descriptions = {
       + '(https://energysavingtrust.org.uk/)).',
     ja:
       '早朝に水やりをすると1回あたり約'
-      + '**10gのCO2**を節約でき水の無駄を減ら'
+      + '**5g**のCO2を節約でき水の無駄を減ら'
       + 'せます。朝の水やりは日中と比べ蒸発量'
       + 'が25〜50%少なく必要な水の取水量と処理'
       + '量が減ります（[EPA WaterSense]'
@@ -939,7 +959,7 @@ const descriptions = {
       + '.org.uk/)）。',
     es:
       'Regar las plantas a primera hora de la '
-      + 'mañana ahorra unos **10g de CO2** '
+      + 'mañana ahorra unos **5g** de CO2 '
       + 'por sesión al reducir el desperdicio '
       + 'de agua. El riego matutino reduce la '
       + 'evaporación en un 25-50% comparado '
@@ -958,8 +978,8 @@ const descriptions = {
   reuse_cooking_water: {
     en:
       'Reusing cooking water for plants or '
-      + 'other purposes saves about **5g of '
-      + 'CO2** per use. This avoids running '
+      + 'other purposes saves about **5g** of '
+      + 'CO2 per use. This avoids running '
       + 'fresh mains water, which requires '
       + 'energy for treatment and pumping '
       + '([EPA WaterSense]'
@@ -973,7 +993,7 @@ const descriptions = {
       + '(https://energysavingtrust.org.uk/)).',
     ja:
       '料理に使った水を植物などに再利用'
-      + 'すると1回あたり約**5gのCO2**を節約'
+      + 'すると1回あたり約**5g**のCO2を節約'
       + 'できます。水道水を新たに使うのを避け、'
       + '処理やポンプに必要なエネルギーを削減'
       + 'します（[EPA WaterSense]'
@@ -988,7 +1008,7 @@ const descriptions = {
     es:
       'Reutilizar el agua de cocción para '
       + 'plantas u otros usos ahorra unos '
-      + '**5g de CO2** por uso. Esto evita '
+      + '**5g** de CO2 por uso. Esto evita '
       + 'usar agua potable fresca que requiere '
       + 'energía para su tratamiento y bombeo '
       + '([EPA WaterSense]'
@@ -1005,7 +1025,7 @@ const descriptions = {
   turn_off_tap_dishes: {
     en:
       'Turning off the tap between rinsing '
-      + 'dishes saves about **25g of CO2** '
+      + 'dishes saves about **25g** of CO2 '
       + 'per wash session. Leaving the tap '
       + 'running while scrubbing wastes '
       + 'roughly 12 litres of treated water '
@@ -1020,7 +1040,7 @@ const descriptions = {
       + '(https://energysavingtrust.org.uk/)).',
     ja:
       '食器洗い中に蛇口を閉めると1回の洗い'
-      + '物で約**25gのCO2**を節約できます。'
+      + '物で約**25g**のCO2を節約できます。'
       + 'こすり洗いの間に流しっぱなしにすると'
       + '約12リットルの処理済み水が無駄になり'
       + 'ます（[EPA WaterSense]'
@@ -1033,8 +1053,8 @@ const descriptions = {
       + '.org.uk/)）。',
     es:
       'Cerrar el grifo entre enjuagues al '
-      + 'lavar platos ahorra unos **25g de '
-      + 'CO2** por sesión de lavado. Dejar el '
+      + 'lavar platos ahorra unos **25g** de '
+      + 'CO2 por sesión de lavado. Dejar el '
       + 'grifo abierto mientras se friega '
       + 'desperdicia unos 12 litros de agua '
       + 'tratada ([EPA WaterSense]'
@@ -1050,10 +1070,14 @@ const descriptions = {
 
   shorter_bath: {
     en:
-      'Taking a shorter bath or switching to '
-      + 'a quick shower saves roughly **300g '
-      + 'of CO2** per session. A standard bath '
-      + 'uses about 80 litres of hot water '
+      'Taking a ten-minute shower instead of '
+      + 'a full bath saves roughly **770g** '
+      + 'of CO2 each time, based on a deep '
+      + 'gas-heated bath of about 180 litres, '
+      + 'typical in Japan. A smaller standard '
+      + 'bath '
+      + 'still uses about 80 litres of hot '
+      + 'water '
       + 'compared to 40 litres for a five-'
       + 'minute shower ([Energy Saving Trust]'
       + '(https://energysavingtrust.org.uk/)). '
@@ -1067,9 +1091,12 @@ const descriptions = {
       + '-gas-reporting-conversion-factors'
       + '-2024)).',
     ja:
-      '入浴時間を短くするかシャワーに切り'
-      + '替えると1回あたり約**300gのCO2**を'
-      + '削減できます。一般的な入浴は約80'
+      '湯船につかる代わりに10分のシャワーにすると1'
+      + '回あたり約**770g**のCO2を'
+      + '削減できます。これは日本の家庭で一般的な'
+      + '約180リットルの浴槽をガスで沸かした場'
+      + '合の値です。より小さい標準的な浴槽でも約'
+      + '80'
       + 'リットルの温水を使うのに対し5分の'
       + 'シャワーは約40リットルです（[Energy '
       + 'Saving Trust](https://energy'
@@ -1082,10 +1109,15 @@ const descriptions = {
       + '/publications/greenhouse-gas-reporting'
       + '-conversion-factors-2024)）。',
     es:
-      'Tomar un baño más corto o cambiar a '
-      + 'una ducha rápida ahorra '
-      + 'aproximadamente **300g de CO2** por '
-      + 'sesión. Un baño estándar usa unos 80 '
+      'Ducharte diez minutos en lugar de '
+      + 'darte '
+      + 'un baño completo ahorra '
+      + 'aproximadamente **770g** de CO2 cada '
+      + 'vez, con una bañera '
+      + 'honda de unos 180 litros calentada '
+      + 'con gas, habitual en Japón. Un baño '
+      + 'estándar más pequeño usa aun así unos '
+      + '80 '
       + 'litros de agua caliente frente a 40 '
       + 'litros de una ducha de cinco minutos '
       + '([Energy Saving Trust]'

@@ -32,6 +32,7 @@
     "rules": [
       "Every changed value needs a fresh verbatim quote, full URL and access date before it ships (AUDIT_ACTION_DATA.md sections 2 and 8).",
       "Never average two figures on different statistics or boundaries (the D1 defect).",
+      "A co2_grams change also updates that action's long description (scripts/seed/action_descriptions_*.js) in EN, JA and ES: the bold figure, yearly totals and any stated inputs. Run node scripts/seed/check_description_figures.js (AUDIT_ACTION_DATA.md section 2).",
       "Re-derive the sanity-invariant pins after any value change; they are data pins, not truth claims, and several are thin by design.",
       "A figure seen only in a search-engine summary may not enter sources[] -- re-fetch it in a browser first.",
       "Physics-derived values (water heating, boiling) never need refreshing; only the assumptions around them (flow rate, delta-T, efficiency) can age."
