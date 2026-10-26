@@ -114,7 +114,30 @@ void main() {
       final goal = data.goals[0];
       expect(goal.number, 1);
       expect(goal.titleEn, 'No Poverty');
-      expect(goal.color.toARGB32(), const Color(0xFFE5233D).toARGB32());
+      expect(goal.color.toARGB32(), const Color(0xFFE5243B).toARGB32());
+    });
+
+    test('goal colours are the UN guideline palette', () {
+      const palette = [
+        0xFFE5243B,
+        0xFFDDA63A,
+        0xFF4C9F38,
+        0xFFC5192D,
+        0xFFFF3A21,
+        0xFF26BDE2,
+        0xFFFCC30B,
+        0xFFA21942,
+        0xFFFD6925,
+        0xFFDD1367,
+        0xFFFD9D24,
+        0xFFBF8B2E,
+        0xFF3F7E44,
+        0xFF0A97D9,
+        0xFF56C02B,
+        0xFF00689D,
+        0xFF19486A,
+      ];
+      expect(data.goals.map((g) => g.color.toARGB32()), palette);
     });
 
     test('goal 13 is Climate Action', () {

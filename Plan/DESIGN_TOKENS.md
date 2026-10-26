@@ -126,23 +126,23 @@ so the JSON stores bare 6-digit hex with no `#` and no alpha.
 
 | # | Hex | Short title |
 |---|---|---|
-| 1 | `#E5233D` | No Poverty |
-| 2 | `#DDA73A` | Zero Hunger |
-| 3 | `#4CA146` | Good Health |
+| 1 | `#E5243B` | No Poverty |
+| 2 | `#DDA63A` | Zero Hunger |
+| 3 | `#4C9F38` | Good Health |
 | 4 | `#C5192D` | Education |
-| 5 | `#EF402C` | Gender Equality |
-| 6 | `#27BFE6` | Clean Water |
-| 7 | `#FBC412` | Clean Energy |
-| 8 | `#A31C44` | Decent Work |
-| 9 | `#F26A2D` | Innovation |
-| 10 | `#E01483` | Equality |
-| 11 | `#F89D2A` | Sustainable Cities |
-| 12 | `#BF8D2C` | Responsible Consumption |
-| 13 | `#407F46` | Climate Action |
-| 14 | `#1F97D4` | Life Below Water |
-| 15 | `#59BA48` | Life on Land |
-| 16 | `#126A9F` | Peace & Justice |
-| 17 | `#13496B` | Partnerships |
+| 5 | `#FF3A21` | Gender Equality |
+| 6 | `#26BDE2` | Clean Water |
+| 7 | `#FCC30B` | Clean Energy |
+| 8 | `#A21942` | Decent Work |
+| 9 | `#FD6925` | Innovation |
+| 10 | `#DD1367` | Equality |
+| 11 | `#FD9D24` | Sustainable Cities |
+| 12 | `#BF8B2E` | Responsible Consumption |
+| 13 | `#3F7E44` | Climate Action |
+| 14 | `#0A97D9` | Life Below Water |
+| 15 | `#56C02B` | Life on Land |
+| 16 | `#00689D` | Peace & Justice |
+| 17 | `#19486A` | Partnerships |
 
 ### 3.3 Pairs that are perceptually too close
 
@@ -150,21 +150,17 @@ so the JSON stores bare 6-digit hex with no `#` and no alpha.
 panel uses a single goal colour, so collisions cannot arise; skip this.
 It applies to any cross-goal overview, multi-series chart, or legend.
 
-CIELAB deltaE, computed 2026-08-21. Anything under about 20 is hard to
+CIELAB deltaE (CIE76). Anything under about 20 is hard to
 tell apart in adjacent chart elements; under 12 is effectively identical
 at small sizes.
 
 | dE | Pair |
 |---|---|
 | 10.2 | SDG 1 No Poverty vs SDG 4 Education |
-| 11.1 | SDG 2 Zero Hunger vs SDG 12 Responsible Consumption |
-| 13.7 | SDG 3 Good Health vs SDG 15 Life on Land |
-| 16.1 | SDG 1 No Poverty vs SDG 5 Gender Equality |
-| 17.2 | SDG 16 Peace & Justice vs SDG 17 Partnerships |
-| 17.8 | SDG 2 Zero Hunger vs SDG 11 Sustainable Cities |
-| 18.0 | SDG 14 Life Below Water vs SDG 16 Peace & Justice |
-| 18.5 | SDG 5 Gender Equality vs SDG 9 Innovation |
-| 19.3 | SDG 4 Education vs SDG 5 Gender Equality |
+| 11.9 | SDG 2 Zero Hunger vs SDG 12 Responsible Consumption |
+| 17.1 | SDG 16 Peace & Justice vs SDG 17 Partnerships |
+| 19.3 | SDG 14 Life Below Water vs SDG 16 Peace & Justice |
+| 19.3 | SDG 5 Gender Equality vs SDG 9 Innovation |
 
 There are effectively four clusters: reds (1, 4, 5, 8), oranges and golds
 (2, 9, 11, 12), greens (3, 13, 15), and blues (6, 14, 16, 17). A
@@ -186,26 +182,26 @@ a few tenths, and treat anything near the 3:1 line as failing.
 
 | # | Hex | on light | on dark | verdict |
 |---|---|---|---|---|
-| 1 | `#E5233D` | 4.41 | 3.78 | ok both |
-| 2 | `#DDA73A` | 2.12 | 7.88 | weak on light |
-| 3 | `#4CA146` | 3.15 | 5.30 | ok both |
+| 1 | `#E5243B` | 4.41 | 3.79 | ok both |
+| 2 | `#DDA63A` | 2.14 | 7.82 | weak on light |
+| 3 | `#4C9F38` | 3.24 | 5.16 | ok both |
 | 4 | `#C5192D` | 5.77 | 2.90 | weak on dark |
-| 5 | `#EF402C` | 3.77 | 4.44 | ok both |
-| 6 | `#27BFE6` | 2.12 | 7.90 | weak on light |
-| 7 | `#FBC412` | 1.57 | 10.61 | weak on light |
-| 8 | `#A31C44` | 7.30 | 2.29 | weak on dark |
-| 9 | `#F26A2D` | 2.98 | 5.61 | weak on light |
-| 10 | `#E01483` | 4.46 | 3.75 | ok both |
-| 11 | `#F89D2A` | 2.08 | 8.03 | weak on light |
-| 12 | `#BF8D2C` | 2.90 | 5.76 | weak on light |
-| 13 | `#407F46` | 4.72 | 3.54 | ok both |
-| 14 | `#1F97D4` | 3.18 | 5.25 | ok both |
-| 15 | `#59BA48` | 2.40 | 6.97 | weak on light |
-| 16 | `#126A9F` | 5.71 | 2.93 | weak on dark |
-| 17 | `#13496B` | 9.34 | 1.79 | weak on dark |
+| 5 | `#FF3A21` | 3.48 | 4.80 | ok both |
+| 6 | `#26BDE2` | 2.17 | 7.72 | weak on light |
+| 7 | `#FCC30B` | 1.58 | 10.56 | weak on light |
+| 8 | `#A21942` | 7.44 | 2.25 | weak on dark |
+| 9 | `#FD6925` | 2.84 | 5.89 | weak on light |
+| 10 | `#DD1367` | 4.69 | 3.56 | ok both |
+| 11 | `#FD9D24` | 2.04 | 8.18 | weak on light |
+| 12 | `#BF8B2E` | 2.95 | 5.67 | weak on light |
+| 13 | `#3F7E44` | 4.79 | 3.49 | ok both |
+| 14 | `#0A97D9` | 3.18 | 5.25 | ok both |
+| 15 | `#56C02B` | 2.28 | 7.32 | weak on light |
+| 16 | `#00689D` | 5.91 | 2.83 | weak on dark |
+| 17 | `#19486A` | 9.41 | 1.78 | weak on dark |
 
-Only 5 of 17 clear 3:1 on both. **SDG yellow (7) at 1.57 on light and
-SDG dark blue (17) at 1.79 on dark are the worst cases.**
+Only 6 of 17 clear 3:1 on both. **SDG yellow (7) at 1.58 on light and
+SDG dark blue (17) at 1.78 on dark are the worst cases.**
 
 ### 3.5 On a white or off-white background
 
@@ -215,23 +211,23 @@ white, with off-white `#FAFAFA` in brackets:
 
 | # | Hex | on white | large fill | any text |
 |---|---|---|---|---|
-| 7 | `#FBC412` | 1.61 (1.55) | **LOW** | FAIL |
-| 11 | `#F89D2A` | 2.13 (2.04) | **LOW** | FAIL |
-| 2 | `#DDA73A` | 2.17 (2.08) | **LOW** | FAIL |
-| 6 | `#27BFE6` | 2.17 (2.08) | **LOW** | FAIL |
-| 15 | `#59BA48` | 2.46 (2.36) | **LOW** | FAIL |
-| 12 | `#BF8D2C` | 2.97 (2.85) | **LOW** | FAIL |
-| 9 | `#F26A2D` | 3.05 (2.93) | ok | FAIL |
-| 3 | `#4CA146` | 3.23 (3.10) | ok | FAIL |
-| 14 | `#1F97D4` | 3.26 (3.13) | ok | FAIL |
-| 5 | `#EF402C` | 3.86 (3.70) | ok | FAIL |
-| 1 | `#E5233D` | 4.53 (4.34) | ok | ok |
-| 10 | `#E01483` | 4.57 (4.38) | ok | ok |
-| 13 | `#407F46` | 4.84 (4.63) | ok | ok |
-| 16 | `#126A9F` | 5.85 (5.61) | ok | ok |
+| 7 | `#FCC30B` | 1.62 (1.55) | **LOW** | FAIL |
+| 11 | `#FD9D24` | 2.09 (2.01) | **LOW** | FAIL |
+| 2 | `#DDA63A` | 2.19 (2.10) | **LOW** | FAIL |
+| 6 | `#26BDE2` | 2.22 (2.13) | **LOW** | FAIL |
+| 15 | `#56C02B` | 2.34 (2.24) | **LOW** | FAIL |
+| 9 | `#FD6925` | 2.91 (2.79) | **LOW** | FAIL |
+| 12 | `#BF8B2E` | 3.02 (2.90) | ok | FAIL |
+| 14 | `#0A97D9` | 3.26 (3.12) | ok | FAIL |
+| 3 | `#4C9F38` | 3.32 (3.18) | ok | FAIL |
+| 5 | `#FF3A21` | 3.57 (3.42) | ok | FAIL |
+| 1 | `#E5243B` | 4.52 (4.33) | ok | ok |
+| 10 | `#DD1367` | 4.81 (4.61) | ok | ok |
+| 13 | `#3F7E44` | 4.91 (4.70) | ok | ok |
 | 4 | `#C5192D` | 5.91 (5.67) | ok | ok |
-| 8 | `#A31C44` | 7.48 (7.17) | ok | ok |
-| 17 | `#13496B` | 9.58 (9.17) | ok | ok |
+| 16 | `#00689D` | 6.06 (5.80) | ok | ok |
+| 8 | `#A21942` | 7.63 (7.31) | ok | ok |
+| 17 | `#19486A` | 9.65 (9.24) | ok | ok |
 
 6 of 17 fall below 3:1, unsafe even as a large graphic element. 10 of 17
 fall below 4.5:1, unsafe for any text. White is the worst background for

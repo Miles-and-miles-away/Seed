@@ -268,10 +268,10 @@ void main() {
       await tester.pumpAndSettle();
 
       final sdg1 = testData.goals.firstWhere((g) => g.number == 1);
-      expect(sdg1.color, const Color(0xFFE5233D));
+      expect(sdg1.color, const Color(0xFFE5243B));
 
       final sdg13 = testData.goals.firstWhere((g) => g.number == 13);
-      expect(sdg13.color, const Color(0xFF407F46));
+      expect(sdg13.color, const Color(0xFF3F7E44));
     });
   });
 }
