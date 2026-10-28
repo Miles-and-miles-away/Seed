@@ -5519,13 +5519,13 @@
   {
     "dayOfYear": 272,
     "category": "comparison",
-    "factEn": "If food waste were a country, it would be the world's 3rd largest greenhouse gas emitter after China and the US. Reducing food waste is one of the most impactful climate solutions.",
-    "factEs": "Si el desperdicio de alimentos fuera un país, sería el 3er mayor emisor de gases de efecto invernadero del mundo después de China y EE. UU. Reducir el desperdicio de alimentos es una de las soluciones climáticas de mayor impacto.",
-    "factJa": "食品ロスが一国だとすれば、中国とアメリカに次ぐ世界第3位の温室効果ガス排出国になります。食品ロスの削減は最も効果的な気候変動対策の1つです。",
-    "sourceEn": "Project Drawdown",
-    "sourceEs": "Project Drawdown",
-    "sourceJa": "Project Drawdown",
-    "sourceUrl": "https://drawdown.org/solutions/reduced-food-waste",
+    "factEn": "Some 24% of the greenhouse gas emissions from food come from food that is lost in supply chains or wasted by consumers. If food loss and waste were a country, only China and the United States would emit more.",
+    "factEs": "Un 24% de las emisiones de gases de efecto invernadero de los alimentos procede de comida que se pierde en las cadenas de suministro o se desperdicia en el consumo. Si la pérdida y el desperdicio de alimentos fueran un país, solo China y Estados Unidos emitirían más.",
+    "factJa": "食品に由来する温室効果ガス排出量の24%は、サプライチェーンで失われるか消費者が廃棄する食料によるものです。食品のロスと廃棄が一つの国だとすれば、それより多く排出しているのは中国とアメリカだけです。",
+    "sourceEn": "Our World in Data (Ritchie 2020)",
+    "sourceEs": "Our World in Data (Ritchie 2020)",
+    "sourceJa": "Our World in Data (Ritchie 2020)",
+    "sourceUrl": "https://ourworldindata.org/food-waste-emissions",
     "relatedSdgs": [
       2,
       12,
@@ -5534,7 +5534,10 @@
     "unWorldDay": "International Day of Awareness of Food Loss and Waste",
     "nameEn": "Food Waste, Third Nation",
     "nameEs": "Residuos, tercer país",
-    "nameJa": "食ロスは第3の国"
+    "nameJa": "食ロスは第三の国",
+    "keyFigureEn": "24%",
+    "keyFigureEs": "24%",
+    "keyFigureJa": "24%"
   },
   {
     "dayOfYear": 273,
