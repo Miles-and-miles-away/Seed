@@ -161,6 +161,11 @@ Before adding a fact, search existing facts for:
 - Same statistic or claim
 - Same topic with overlapping framing
 
+Search `eco_dex_entries.json` as well: the two files draw
+on the same source pool, and a statistic that already
+carries one entry's `keyFigureEn` must not become another
+entry's key figure.
+
 Two facts on the same broad topic (e.g., cycling) are
 fine if they present distinct angles. Two facts with the
 same statistic from the same source are duplicates --
@@ -474,7 +479,36 @@ changing the year.
 URLs rot over time. Periodically verify that all
 `sourceUrl` values still resolve. Replace broken links
 with archived versions (web.archive.org) or updated
-URLs from the same source.
+URLs from the same source. A 403 or a bot check from a
+fetch tool is not a dead link: open the page in a real
+browser before marking it broken, and never spoof a
+user agent to get past the check.
+
+### Report series that redirect
+
+Agencies that publish a report yearly (IEA is the usual
+case) redirect older edition URLs to the newest edition,
+so a page that once carried the quoted sentence still
+resolves but no longer contains it. Cite the edition page
+that holds the quote or its archived copy, and re-read
+the live page at every audit rather than trusting the
+status code.
+
+### Collapsed pages
+
+Some report pages render their sections collapsed and a
+plain fetch sees only the headings. The IPCC Summary for
+Policymakers pages are the known case. Expand every
+section before concluding a claim is not on the page.
+
+### Live counters
+
+Red List species counts, treaty Party counts, seed vault
+sample totals and the share of seafloor mapped change
+without a new publication. Quote the figure with the
+qualifier the page gives it and re-check it at every
+audit; a fact that reads as a fixed number drifts
+silently.
 
 ### Over-assigning SDG 13
 
