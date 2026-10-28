@@ -23,7 +23,7 @@
     "dayOfYear": 2,
     "category": "positiveNews",
     "factEn": "The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.",
-    "factEs": "El movimiento global de plantación de árboles ha plantado más de 16 mil millones de árboles desde 2020. Etiopía estableció un récord mundial al plantar 350 millones de árboles en un solo día en 2019.",
+    "factEs": "El movimiento global de plantación de árboles ha plantado más de 16.000 millones de árboles desde 2020. Etiopía estableció un récord mundial al plantar 350 millones de árboles en un solo día en 2019.",
     "factJa": "世界的な植林運動により、2020年以降160億本以上の木が植えられました。エチオピアは2019年に1日で3億5,000万本の木を植え、世界記録を樹立しました。",
     "sourceEn": "UNEP / Ethiopian Government",
     "sourceEs": "UNEP / Ethiopian Government",
@@ -35,7 +35,7 @@
     ],
     "unWorldDay": null,
     "nameEn": "16 Billion Trees",
-    "nameEs": "16 mil millones de árboles",
+    "nameEs": "16.000 millones de árboles",
     "nameJa": "160億本の植林"
   },
   {
@@ -906,13 +906,13 @@
   {
     "dayOfYear": 45,
     "category": "natureWonder",
-    "factEn": "The deep ocean below 1,000 metres is the largest habitat on Earth. Only about 27% of the global seafloor has been mapped with modern technology, and scientists estimate it may harbour millions of undiscovered species.",
-    "factEs": "El océano profundo por debajo de los 1.000 metros es el hábitat más grande de la Tierra. Solo alrededor del 27% del fondo marino global ha sido mapeado con tecnología moderna, y los científicos estiman que podría albergar millones de especies no descubiertas.",
-    "factJa": "水深1,000m以下の深海は、地球上で最大の生息地です。現代技術によってマッピングされた海底は全体の約27%に過ぎず、科学者たちは数百万種もの未発見の生物が生息している可能性があると推定しています。",
+    "factEn": "The ocean is the largest livable space on our planet, and more than 90% of it is deep ocean, yet as of April 2026 only 28.7% of the global seafloor had been mapped with modern high-resolution sonar. Scientists estimate the ocean holds 700,000 to 1 million species, roughly two-thirds of them still undiscovered.",
+    "factEs": "El océano es el mayor espacio habitable de nuestro planeta, y más del 90% es océano profundo, pero, en abril de 2026, solo el 28,7% del fondo marino mundial se había cartografiado con sonar moderno de alta resolución. Los científicos estiman que el océano alberga entre 700.000 y 1 millón de especies, de las que aproximadamente dos tercios siguen sin descubrirse.",
+    "factJa": "海洋は地球上で最大の生存可能な空間で、その90%以上は深海ですが、2026年4月時点で、現代の高解像度ソナーでマッピングされた世界の海底は全体の28.7%に過ぎません。科学者たちは海洋に70万〜100万種が生息し、そのおよそ3分の2がまだ未発見だと推定しています。",
     "sourceEn": "NOAA Ocean Exploration",
     "sourceEs": "NOAA Ocean Exploration",
     "sourceJa": "NOAA Ocean Exploration",
-    "sourceUrl": "https://oceanexplorer.noaa.gov/facts/explored.html",
+    "sourceUrl": "https://oceanexplorer.noaa.gov/ocean-fact/explored/",
     "relatedSdgs": [
       14
     ],
@@ -920,9 +920,9 @@
     "nameEn": "The Unmapped Deep",
     "nameEs": "Las profundidades ocultas",
     "nameJa": "未知の深海",
-    "keyFigureEn": "27%",
-    "keyFigureEs": "27%",
-    "keyFigureJa": "27%"
+    "keyFigureEn": "28.7%",
+    "keyFigureEs": "28,7%",
+    "keyFigureJa": "28.7%"
   },
   {
     "dayOfYear": 46,
@@ -1028,13 +1028,13 @@
   {
     "dayOfYear": 51,
     "category": "individual",
-    "factEn": "The richest 10% of the world's population produce 50% of global CO2 emissions, while the poorest 50% produce just 8%. Climate action and social justice are inseparable.",
-    "factEs": "El 10% más rico de la población mundial produce el 50% de las emisiones globales de CO2, mientras que el 50% más pobre produce solo el 8%. La acción climática y la justicia social son inseparables.",
-    "factJa": "世界の富裕層上位10%が世界全体のCO2排出量の50%を占める一方、最貧困層50%の排出量はわずか8%です。気候変動対策と社会正義は切り離せません。",
-    "sourceEn": "Oxfam / Stockholm Environment Institute",
-    "sourceEs": "Oxfam / Stockholm Environment Institute",
-    "sourceJa": "Oxfam / Stockholm Environment Institute",
-    "sourceUrl": "https://www.oxfam.org/en/press-releases/carbon-emissions-richest-1-percent-more-double-emissions-poorest-half-humanity",
+    "factEn": "In 2019 the richest 10% of the world's population emitted 48% of global emissions, while the poorest 50% emitted just 12%. Climate action and social justice are inseparable.",
+    "factEs": "En 2019, el 10% más rico de la población mundial emitió el 48% de las emisiones globales, mientras que el 50% más pobre emitió solo el 12%. La acción climática y la justicia social son inseparables.",
+    "factJa": "2019年、世界の富裕層上位10%が世界全体の排出量の48%を占めた一方、最貧困層50%の排出量はわずか12%でした。気候変動対策と社会正義は切り離せません。",
+    "sourceEn": "Chancel, Nature Sustainability 2022",
+    "sourceEs": "Chancel, Nature Sustainability 2022",
+    "sourceJa": "Chancel, Nature Sustainability 2022",
+    "sourceUrl": "https://www.nature.com/articles/s41893-022-00955-z",
     "relatedSdgs": [
       10,
       13,
@@ -1236,7 +1236,7 @@
     "dayOfYear": 61,
     "category": "individual",
     "factEn": "Bringing your own container for takeaway food is one of the simplest ways to cut waste. The UK alone uses over 10 billion single-use cups and food packaging items per year.",
-    "factEs": "Llevar tu propio recipiente para comida para llevar es una de las formas más sencillas de reducir residuos. Solo el Reino Unido utiliza más de 10 mil millones de vasos y envases de comida de un solo uso al año.",
+    "factEs": "Llevar tu propio recipiente para comida para llevar es una de las formas más sencillas de reducir residuos. Solo el Reino Unido utiliza más de 10.000 millones de vasos y envases de comida de un solo uso al año.",
     "factJa": "テイクアウトに自分の容器を持参することは、ごみを削減する最もシンプルな方法のひとつです。英国だけで年間100億個以上の使い捨てカップや食品包材が使用されています。",
     "sourceEn": "WRAP UK",
     "sourceEs": "WRAP UK",
@@ -1250,7 +1250,7 @@
     "nameEs": "Lleva tu envase",
     "nameJa": "マイ容器を持参",
     "keyFigureEn": "10 billion",
-    "keyFigureEs": "10 mil millones",
+    "keyFigureEs": "10.000 millones",
     "keyFigureJa": "100億"
   },
   {
@@ -2135,13 +2135,13 @@
   {
     "dayOfYear": 105,
     "category": "positiveNews",
-    "factEn": "Electric vehicle sales hit 14 million in 2023, making up 18% of all car sales globally -- up from just 2% in 2019. The transition is accelerating faster than predicted.",
-    "factEs": "Las ventas de vehículos eléctricos alcanzaron los 14 millones en 2023, representando el 18% de todas las ventas de automóviles a nivel mundial, frente a solo el 2% en 2019. La transición se está acelerando más rápido de lo previsto.",
-    "factJa": "2023年の電気自動車（EV）販売台数は1,400万台に達し、世界の自動車販売全体の18%を占めました。2019年のわずか2%から急増しています。移行は予測よりも速いペースで加速しています。",
-    "sourceEn": "International Energy Agency",
-    "sourceEs": "International Energy Agency",
-    "sourceJa": "International Energy Agency",
-    "sourceUrl": "https://www.iea.org/reports/global-ev-outlook-2024",
+    "factEn": "Electric car sales exceeded 20 million worldwide in 2025, meaning one-quarter of all new cars sold were electric. Europe's share reached 28% and China's nearly 55%, and more than 100 countries recorded growth in electric car sales.",
+    "factEs": "Las ventas de coches eléctricos superaron los 20 millones en todo el mundo en 2025, lo que significa que una cuarta parte de todos los coches nuevos vendidos fueron eléctricos. La cuota alcanzó el 28% en Europa y casi el 55% en China, y más de 100 países registraron un aumento de las ventas de coches eléctricos.",
+    "factJa": "2025年の電気自動車（EV）の世界販売台数は2,000万台を超え、新車販売の4分の1が電気自動車になりました。欧州ではシェアが28%、中国では55%近くに達し、100か国以上で電気自動車の販売が伸びました。",
+    "sourceEn": "International Energy Agency, Global EV Outlook 2026",
+    "sourceEs": "International Energy Agency, Global EV Outlook 2026",
+    "sourceJa": "International Energy Agency, Global EV Outlook 2026",
+    "sourceUrl": "https://www.iea.org/reports/global-ev-outlook-2026/executive-summary",
     "relatedSdgs": [
       9,
       11,
@@ -2151,9 +2151,9 @@
     "nameEn": "Electric Cars Take Off",
     "nameEs": "El auge eléctrico",
     "nameJa": "EVが世界で急増",
-    "keyFigureEn": "14 million",
-    "keyFigureEs": "14 millones",
-    "keyFigureJa": "1,400万"
+    "keyFigureEn": "20 million",
+    "keyFigureEs": "20 millones",
+    "keyFigureJa": "2,000万"
   },
   {
     "dayOfYear": 106,
@@ -3208,21 +3208,24 @@
   {
     "dayOfYear": 158,
     "category": "individual",
-    "factEn": "One-third of all food produced globally is lost or wasted -- about 1.3 billion tonnes per year. If food waste were a country, it would be the world's 3rd largest emitter of greenhouse gases.",
-    "factEs": "Un tercio de todos los alimentos producidos a nivel mundial se pierde o desperdicia, unos 1.300 millones de toneladas al año. Si el desperdicio de alimentos fuera un país, sería el tercer mayor emisor de gases de efecto invernadero del mundo.",
-    "factJa": "世界で生産される食料の3分の1、年間約13億トンが失われるか廃棄されています。食品ロスが一つの国だとすれば、世界第3位の温室効果ガス排出国になります。",
-    "sourceEn": "UN Food and Agriculture Organization",
-    "sourceEs": "UN Food and Agriculture Organization",
-    "sourceJa": "UN Food and Agriculture Organization",
-    "sourceUrl": "https://www.fao.org/food-loss-and-food-waste/en/",
+    "factEn": "In 2022 the world wasted 132 kg of food per person, and 60% of it was thrown away at home: households alone binned over 1 billion meals a day. Planning meals and using up leftovers tackles the largest share of the problem.",
+    "factEs": "En 2022, el mundo desperdició 132 kg de alimentos por persona, y el 60% se tiró en los hogares: solo las familias desecharon más de 1.000 millones de comidas al día. Planificar las comidas y aprovechar las sobras ataca la mayor parte del problema.",
+    "factJa": "2022年、世界では一人当たり132 kgの食料が廃棄され、その60%は家庭で捨てられました。家庭だけで1日に10億食以上が無駄になっています。献立を計画し、残り物を使い切ることが、問題の最大の部分への対策になります。",
+    "sourceEn": "UNEP Food Waste Index Report 2024",
+    "sourceEs": "UNEP Food Waste Index Report 2024",
+    "sourceJa": "UNEP Food Waste Index Report 2024",
+    "sourceUrl": "https://www.unep.org/news-and-stories/press-release/world-squanders-over-1-billion-meals-day-un-report",
     "relatedSdgs": [
       2,
       12
     ],
     "unWorldDay": "World Food Safety Day",
     "nameEn": "Waste on a Global Scale",
-    "nameEs": "El tercer país en residuos",
-    "nameJa": "食品ロスは世界3位"
+    "nameEs": "Desperdicio a escala mundial",
+    "nameJa": "世界規模の食品ロス",
+    "keyFigureEn": "132 kg",
+    "keyFigureEs": "132 kg",
+    "keyFigureJa": "132 kg"
   },
   {
     "dayOfYear": 159,
@@ -3289,7 +3292,7 @@
     "dayOfYear": 162,
     "category": "comparison",
     "factEn": "Livestock are responsible for an estimated 12% of global greenhouse gas emissions, equaling 6.2 billion tonnes of CO2 equivalent per year. Cattle alone account for about 62% of all livestock-related greenhouse gases, mostly as methane from digestion.",
-    "factEs": "La ganadería es responsable de aproximadamente el 12% de las emisiones globales de gases de efecto invernadero, equivalente a 6,2 mil millones de toneladas de CO2 equivalente por año. Solo el ganado vacuno representa alrededor del 62% de todos los gases de efecto invernadero relacionados con la ganadería, principalmente como metano de la digestión.",
+    "factEs": "La ganadería es responsable de aproximadamente el 12% de las emisiones globales de gases de efecto invernadero, equivalente a 6.200 millones de toneladas de CO2 equivalente por año. Solo el ganado vacuno representa alrededor del 62% de todos los gases de efecto invernadero relacionados con la ganadería, principalmente como metano de la digestión.",
     "factJa": "家畜は世界の温室効果ガス排出量の推定12%を占め、年間62億トンのCO2換算に相当します。牛だけで家畜関連の温室効果ガスの約62%を排出しており、そのほとんどは消化によるメタンです。",
     "sourceEn": "FAO Pathways towards Lower Emissions, 2023",
     "sourceEs": "FAO Pathways towards Lower Emissions, 2023",
@@ -4163,13 +4166,13 @@
   {
     "dayOfYear": 205,
     "category": "mythBuster",
-    "factEn": "Eating fish is often considered the healthier, greener alternative to meat, but overfishing threatens over 37% of global fish stocks. Choose MSC-certified or lower-food-chain species like sardines and anchovies.",
-    "factEs": "Comer pescado suele considerarse la alternativa más saludable y ecológica a la carne, pero la sobrepesca amenaza a más del 37% de las poblaciones de peces del mundo. Elige especies certificadas por el MSC o de niveles bajos de la cadena alimentaria como sardinas y anchoas.",
-    "factJa": "魚を食べることは肉よりも環境に優しい選択と考えられがちですが、乱獲により世界の魚資源の37%以上が脅かされています。MSC認証を受けた魚や、イワシやアンチョビのような食物連鎖の低い魚種を選ぶようにしましょう。",
-    "sourceEn": "FAO State of World Fisheries and Aquaculture (SOFIA) 2024",
-    "sourceEs": "FAO State of World Fisheries and Aquaculture (SOFIA) 2024",
-    "sourceJa": "FAO State of World Fisheries and Aquaculture (SOFIA) 2024",
-    "sourceUrl": "https://www.fao.org/publications/home/fao-flagship-publications/the-state-of-world-fisheries-and-aquaculture/en",
+    "factEn": "Eating fish is often seen as the greener alternative to meat, but FAO's latest assessment found only 62.4% of marine fish stocks fished within biologically sustainable levels in 2023, with the rest overfished. Choose MSC-certified or lower-food-chain species like sardines and anchovies.",
+    "factEs": "Comer pescado suele considerarse la alternativa más ecológica a la carne, pero la última evaluación de la FAO halló que solo el 62,4% de las poblaciones de peces marinos se explotaba dentro de niveles biológicamente sostenibles en 2023, y el resto estaba sobreexplotado. Elige especies certificadas por el MSC o de niveles bajos de la cadena alimentaria, como sardinas y anchoas.",
+    "factJa": "魚を食べることは肉よりも環境に優しい選択と考えられがちですが、FAOの最新の評価では、2023年に生物学的に持続可能な水準で漁獲されていた海洋魚資源は62.4%に過ぎず、残りは乱獲状態でした。MSC認証を受けた魚や、イワシやアンチョビのような食物連鎖の低い魚種を選ぶようにしましょう。",
+    "sourceEn": "FAO State of World Fisheries and Aquaculture (SOFIA) 2026",
+    "sourceEs": "FAO State of World Fisheries and Aquaculture (SOFIA) 2026",
+    "sourceJa": "FAO State of World Fisheries and Aquaculture (SOFIA) 2026",
+    "sourceUrl": "https://www.fao.org/3/cd8357en/online/sofia-2026/the-status-fishery-resources.html",
     "relatedSdgs": [
       2,
       14
@@ -4178,9 +4181,9 @@
     "nameEn": "Fish the Small Ones",
     "nameEs": "Peces pequeños",
     "nameJa": "小魚で資源を守る",
-    "keyFigureEn": "37%",
-    "keyFigureEs": "37%",
-    "keyFigureJa": "37%"
+    "keyFigureEn": "62.4%",
+    "keyFigureEs": "62,4%",
+    "keyFigureJa": "62.4%"
   },
   {
     "dayOfYear": 206,
@@ -4895,21 +4898,23 @@
   {
     "dayOfYear": 241,
     "category": "natureWonder",
-    "factEn": "Whales are climate heroes. A single great whale sequesters an average of 33 tonnes of CO2 over its lifetime. Whale faeces also fertilize phytoplankton, which produce 50% of the world's oxygen.",
-    "factEs": "Las ballenas son heroínas del clima. Una sola gran ballena secuestra un promedio de 33 toneladas de CO2 a lo largo de su vida. Las heces de las ballenas también fertilizan el fitoplancton, que produce el 50% del oxígeno del mundo.",
-    "factJa": "クジラは気候変動対策の英雄です。大型クジラ1頭は生涯を通じて平均33トンのCO2を固定します。クジラの糞は植物プランクトンの栄養源にもなり、植物プランクトンは世界の酸素の50%を生産しています。",
-    "sourceEn": "IMF Finance & Development",
-    "sourceEs": "IMF Finance & Development",
-    "sourceJa": "IMF Finance & Development",
-    "sourceUrl": "https://www.imf.org/en/Publications/fandd/issues/2019/12/natures-solution-to-climate-change-chami",
+    "factEn": "Before industrial whaling, baleen whales in the Southern Ocean ate about 430 million tonnes of Antarctic krill a year, twice today's entire krill biomass, and recycled ten times more iron into the water than whales do now. Their recovery could restore the ocean productivity lost to 20th-century whaling.",
+    "factEs": "Antes de la caza industrial de ballenas, las ballenas barbadas del océano Austral comían aproximadamente 430 millones de toneladas de kril antártico al año, el doble de toda la biomasa actual de kril, y reciclaban diez veces más hierro en el agua que las ballenas de hoy. Su recuperación podría restaurar la productividad oceánica perdida por la caza del siglo XX.",
+    "factJa": "商業捕鯨が盛んになる前、南極海のヒゲクジラは年間約4億3,000万トン（現在のオキアミ総生物量の2倍）のナンキョクオキアミを食べ、現在のクジラの10倍の鉄を海水中に循環させていました。クジラの回復は、20世紀の捕鯨で失われた海洋の生産力を取り戻す可能性があります。",
+    "sourceEn": "Savoca et al., Nature 2021",
+    "sourceEs": "Savoca et al., Nature 2021",
+    "sourceJa": "Savoca et al., Nature 2021",
+    "sourceUrl": "https://www.nature.com/articles/s41586-021-03991-5",
     "relatedSdgs": [
-      13,
       14
     ],
     "unWorldDay": null,
-    "nameEn": "Whales Store Carbon",
-    "nameEs": "Ballenas capturan CO2",
-    "nameJa": "クジラが炭素吸収"
+    "nameEn": "Whales Fertilise the Sea",
+    "nameEs": "Ballenas que abonan el mar",
+    "nameJa": "クジラが海を肥やす",
+    "keyFigureEn": "430 million",
+    "keyFigureEs": "430 millones",
+    "keyFigureJa": "4億3,000万"
   },
   {
     "dayOfYear": 242,
@@ -5666,7 +5671,7 @@
     "dayOfYear": 279,
     "category": "comparison",
     "factEn": "Microfibre pollution from washing synthetic clothes releases 500,000 tonnes of microfibres into the ocean annually -- equivalent to 50 billion plastic bottles. A washing bag can capture 86% of them.",
-    "factEs": "La contaminación por microfibras al lavar ropa sintética libera 500.000 toneladas de microfibras al océano anualmente, equivalente a 50 mil millones de botellas de plástico. Una bolsa de lavado puede capturar el 86% de ellas.",
+    "factEs": "La contaminación por microfibras al lavar ropa sintética libera 500.000 toneladas de microfibras al océano anualmente, equivalente a 50.000 millones de botellas de plástico. Una bolsa de lavado puede capturar el 86% de ellas.",
     "factJa": "合成繊維の衣類を洗濯することによるマイクロファイバー汚染は、年間50万トンのマイクロファイバーを海洋に放出します。これはプラスチックボトル500億本に相当します。専用の洗濯袋を使えば、その86%を捕集できます。",
     "sourceEn": "Plymouth University / IUCN",
     "sourceEs": "Plymouth University / IUCN",
@@ -5730,7 +5735,7 @@
     "dayOfYear": 282,
     "category": "comparison",
     "factEn": "The global fashion industry uses an estimated 93 billion cubic metres of water each year -- more than enough to meet the basic domestic water needs of every person in Europe. Just dyeing textiles accounts for roughly 20% of industrial water pollution.",
-    "factEs": "La industria global de la moda usa aproximadamente 93 mil millones de metros cúbicos de agua cada año, más que suficiente para cubrir las necesidades básicas de agua doméstica de todas las personas en Europa. Solo el teñido de textiles representa aproximadamente el 20% de la contaminación industrial del agua.",
+    "factEs": "La industria global de la moda usa aproximadamente 93.000 millones de metros cúbicos de agua cada año, más que suficiente para cubrir las necesidades básicas de agua doméstica de todas las personas en Europa. Solo el teñido de textiles representa aproximadamente el 20% de la contaminación industrial del agua.",
     "factJa": "世界のファッション業界は毎年推定930億m3の水を使用しています。これはヨーロッパ全土の人々の基本的な生活用水を賄うのに十分な量を大きく超えています。繊維の染色だけで、工業排水汚染の約20%を占めています。",
     "sourceEn": "UNCTAD / UN News",
     "sourceEs": "UNCTAD / UN News",
@@ -5745,7 +5750,7 @@
     "nameEs": "La moda usa mucha agua",
     "nameJa": "ファッションと水",
     "keyFigureEn": "93 billion",
-    "keyFigureEs": "93 mil millones",
+    "keyFigureEs": "93.000 millones",
     "keyFigureJa": "930億"
   },
   {
@@ -5830,13 +5835,13 @@
   {
     "dayOfYear": 287,
     "category": "comparison",
-    "factEn": "The world produces 62 million tonnes of e-waste per year -- heavier than the Great Wall of China. Less than 20% is formally recycled, yet e-waste contains $62 billion worth of recoverable materials.",
-    "factEs": "El mundo produce 62 millones de toneladas de residuos electrónicos al año, más pesados que la Gran Muralla China. Menos del 20% se recicla formalmente, pero los residuos electrónicos contienen $62 mil millones en materiales recuperables.",
-    "factJa": "世界では毎年6,200万トンの電子廃棄物が発生しています。これは万里の長城より重い量です。正式にリサイクルされているのは20%未満ですが、電子廃棄物には620億ドル相当の回収可能な素材が含まれています。",
-    "sourceEn": "UN Global E-waste Monitor 2024",
-    "sourceEs": "UN Global E-waste Monitor 2024",
-    "sourceJa": "UN Global E-waste Monitor 2024",
-    "sourceUrl": "https://ewastemonitor.info/",
+    "factEn": "The world produced a record 62 million tonnes of e-waste in 2022, enough to fill 1.55 million 40-tonne trucks lined up bumper to bumper around the equator. Only 22.3% of it was documented as properly collected and recycled, and the pile grows by 2.6 million tonnes a year.",
+    "factEs": "El mundo produjo un récord de 62 millones de toneladas de residuos electrónicos en 2022, suficientes para llenar 1,55 millones de camiones de 40 toneladas puestos en fila alrededor del ecuador. Solo el 22,3% se documentó como recogido y reciclado correctamente, y el montón crece 2,6 millones de toneladas al año.",
+    "factJa": "2022年に世界で発生した電子廃棄物は過去最多の6,200万トンで、40トントラック155万台分に相当し、隙間なく並べると赤道を一周する長さになります。正式に回収・リサイクルされたと記録されたのはわずか22.3%で、しかもその量は年間260万トンずつ増えています。",
+    "sourceEn": "ITU / UNITAR Global E-waste Monitor 2024",
+    "sourceEs": "ITU / UNITAR Global E-waste Monitor 2024",
+    "sourceJa": "ITU / UNITAR Global E-waste Monitor 2024",
+    "sourceUrl": "https://ewastemonitor.info/the-global-e-waste-monitor-2024/",
     "relatedSdgs": [
       12
     ],
@@ -5844,9 +5849,9 @@
     "nameEn": "Electronics Mountain",
     "nameEs": "Montaña electrónica",
     "nameJa": "電子ごみの山",
-    "keyFigureEn": "20%",
-    "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureEn": "22.3%",
+    "keyFigureEs": "22,3%",
+    "keyFigureJa": "22.3%"
   },
   {
     "dayOfYear": 288,
@@ -6043,12 +6048,12 @@
   {
     "dayOfYear": 297,
     "category": "positiveNews",
-    "factEn": "The Paris Agreement, adopted by 196 parties in 2015, was the first legally binding international treaty on climate change. The UN coordinates global climate action, biodiversity protection, and sustainable development across 193 member states.",
-    "factEs": "El Acuerdo de París, adoptado por 196 partes en 2015, fue el primer tratado internacional legalmente vinculante sobre el cambio climático. La ONU coordina la acción climática global, la protección de la biodiversidad y el desarrollo sostenible en 193 estados miembros.",
-    "factJa": "2015年に196の当事者によって採択されたパリ協定は、気候変動に関する初の法的拘束力を持つ国際条約です。国連は193の加盟国にわたり、地球規模の気候変動対策、生物多様性保護、持続可能な開発を調整しています。",
-    "sourceEn": "United Nations / UNFCCC",
-    "sourceEs": "United Nations / UNFCCC",
-    "sourceJa": "United Nations / UNFCCC",
+    "factEn": "The Paris Agreement, adopted at COP21 in December 2015, is a legally binding international treaty on climate change. It entered into force on 4 November 2016 and, as of January 2026, has 194 Parties.",
+    "factEs": "El Acuerdo de París, adoptado en la COP21 en diciembre de 2015, es un tratado internacional jurídicamente vinculante sobre el cambio climático. Entró en vigor el 4 de noviembre de 2016 y, a enero de 2026, cuenta con 194 Partes.",
+    "factJa": "2015年12月のCOP21で採択されたパリ協定は、気候変動に関する法的拘束力を持つ国際条約です。2016年11月4日に発効し、2026年1月時点で194の締約国が参加しています。",
+    "sourceEn": "UNFCCC",
+    "sourceEs": "UNFCCC",
+    "sourceJa": "UNFCCC",
     "sourceUrl": "https://unfccc.int/process-and-meetings/the-paris-agreement",
     "relatedSdgs": [
       13,
@@ -6058,9 +6063,9 @@
     "nameEn": "The Paris Pact",
     "nameEs": "El Acuerdo de París",
     "nameJa": "パリ協定の意味",
-    "keyFigureEn": "196",
-    "keyFigureEs": "196",
-    "keyFigureJa": "196"
+    "keyFigureEn": "194",
+    "keyFigureEs": "194",
+    "keyFigureJa": "194"
   },
   {
     "dayOfYear": 298,
@@ -6202,7 +6207,7 @@
     "dayOfYear": 305,
     "category": "comparison",
     "factEn": "The global plant-based food market was valued at $29.4 billion in 2020 and continues to expand, driven by innovation in meat, dairy, and egg alternatives. The sector has created hundreds of thousands of new jobs in food technology, agriculture, and manufacturing.",
-    "factEs": "El mercado global de alimentos de origen vegetal se valoró en $29,4 mil millones en 2020 y continúa expandiéndose, impulsado por la innovación en alternativas a la carne, los lácteos y los huevos. El sector ha creado cientos de miles de nuevos empleos en tecnología alimentaria, agricultura y manufactura.",
+    "factEs": "El mercado global de alimentos de origen vegetal se valoró en $29.400 millones en 2020 y continúa expandiéndose, impulsado por la innovación en alternativas a la carne, los lácteos y los huevos. El sector ha creado cientos de miles de nuevos empleos en tecnología alimentaria, agricultura y manufactura.",
     "factJa": "世界の植物性食品市場は2020年に294億ドル規模に達し、肉・乳製品・卵の代替品における革新に支えられ、拡大を続けています。このセクターは食品技術、農業、製造業において何十万もの新たな雇用を生み出しています。",
     "sourceEn": "Bloomberg Intelligence / Good Food Institute",
     "sourceEs": "Bloomberg Intelligence / Good Food Institute",
@@ -6218,7 +6223,7 @@
     "nameEs": "Auge vegetal",
     "nameJa": "植物代替食の拡大",
     "keyFigureEn": "$29.4 billion",
-    "keyFigureEs": "$29,4 mil millones",
+    "keyFigureEs": "$29.400 millones",
     "keyFigureJa": "294億ドル"
   },
   {
@@ -6266,13 +6271,13 @@
   {
     "dayOfYear": 308,
     "category": "comparison",
-    "factEn": "The circular economy could generate $4.5 trillion in economic output by 2030. Designing products for reuse, repair, and recycling reduces waste while creating new industries and jobs at every stage of the product lifecycle.",
-    "factEs": "La economía circular podría generar $4,5 billones en producción económica para 2030. Diseñar productos para su reutilización, reparación y reciclaje reduce los residuos mientras crea nuevas industrias y empleos en cada etapa del ciclo de vida del producto.",
-    "factJa": "循環型経済は2030年までに4兆5,000億ドルの経済的産出をもたらす可能性があります。再利用・修理・リサイクルを前提とした製品設計は、廃棄物を削減しながら、製品ライフサイクルのあらゆる段階で新たな産業と雇用を生み出します。",
-    "sourceEn": "Accenture, Waste to Wealth (2015)",
-    "sourceEs": "Accenture, Waste to Wealth (2015)",
-    "sourceJa": "Accenture, Waste to Wealth (2015)",
-    "sourceUrl": "https://www.ellenmacarthurfoundation.org/news/the-circular-economy-could-unlock-4-5-trillion-of-economic-growth",
+    "factEn": "Global resource use has grown from 30 billion tonnes in 1970 to 106 billion tonnes a year, and extracting and processing those materials accounts for over 60% of planet-warming emissions. The UN's resource panel projects that circular solutions (refuse, reduce, reuse, repair, recycle) and lower consumption could peak extraction by 2040 while the economy keeps growing.",
+    "factEs": "El uso mundial de recursos ha pasado de 30.000 millones de toneladas en 1970 a 106.000 millones de toneladas al año, y extraer y procesar esos materiales genera más del 60% de las emisiones que calientan el planeta. El panel de recursos de la ONU calcula que las soluciones circulares (rechazar, reducir, reutilizar, reparar y reciclar) y un menor consumo podrían hacer que la extracción toque techo en 2040 mientras la economía sigue creciendo.",
+    "factJa": "世界の資源利用は1970年の300億トンから年間1,060億トンに増え、その採掘と加工が地球温暖化をもたらす排出量の60%以上を占めています。国連の資源パネルは、拒否・削減・再利用・修理・リサイクルという循環型の解決策と消費の抑制によって、経済を成長させながら2040年までに採掘量をピークアウトさせられると予測しています。",
+    "sourceEn": "UNEP International Resource Panel, Global Resources Outlook 2024",
+    "sourceEs": "UNEP International Resource Panel, Global Resources Outlook 2024",
+    "sourceJa": "UNEP International Resource Panel, Global Resources Outlook 2024",
+    "sourceUrl": "https://www.resourcepanel.org/news-events/global-resources-outlook-2024-press-release",
     "relatedSdgs": [
       8,
       12
@@ -6281,9 +6286,9 @@
     "nameEn": "A Circular Economy",
     "nameEs": "Economía circular",
     "nameJa": "循環経済の将来",
-    "keyFigureEn": "$4.5 trillion",
-    "keyFigureEs": "$4,5 billones",
-    "keyFigureJa": "4兆5,000億ドル"
+    "keyFigureEn": "106 billion",
+    "keyFigureEs": "106.000 millones",
+    "keyFigureJa": "1,060億"
   },
   {
     "dayOfYear": 309,
@@ -6330,7 +6335,7 @@
     "dayOfYear": 311,
     "category": "natureWonder",
     "factEn": "A single bat can eat thousands of insects in one night, including moths and beetles that damage crops. Bats provide natural pest control worth an estimated $23 billion to US agriculture annually -- without a single drop of pesticide.",
-    "factEs": "Un solo murciélago puede comer miles de insectos en una noche, incluyendo polillas y escarabajos que dañan los cultivos. Los murciélagos proporcionan un control natural de plagas valorado en unos $23 mil millones para la agricultura estadounidense al año, sin una sola gota de pesticida.",
+    "factEs": "Un solo murciélago puede comer miles de insectos en una noche, incluyendo polillas y escarabajos que dañan los cultivos. Los murciélagos proporcionan un control natural de plagas valorado en unos $23.000 millones para la agricultura estadounidense al año, sin una sola gota de pesticida.",
     "factJa": "コウモリ1匹は1晩に数千もの昆虫を食べることができ、その中には農作物に被害を与えるガや甲虫も含まれます。コウモリは農薬を一滴も使わずに、米国農業に対して年間推定230億ドル相当の自然的害虫駆除を提供しています。",
     "sourceEn": "Bat Conservation International",
     "sourceEs": "Bat Conservation International",
@@ -6345,7 +6350,7 @@
     "nameEs": "Los murciélagos ayudan",
     "nameJa": "コウモリが畑を守る",
     "keyFigureEn": "$23 billion",
-    "keyFigureEs": "$23 mil millones",
+    "keyFigureEs": "$23.000 millones",
     "keyFigureJa": "230億ドル"
   },
   {
@@ -6591,7 +6596,7 @@
     "dayOfYear": 324,
     "category": "individual",
     "factEn": "Choosing digital tickets, boarding passes, and receipts instead of paper saves an estimated 10 billion paper receipts per year in the US alone -- enough to circle the Earth 15 times.",
-    "factEs": "Elegir billetes digitales, tarjetas de embarque y recibos en lugar de papel ahorra aproximadamente 10 mil millones de recibos de papel al año solo en EE. UU., suficiente para rodear la Tierra 15 veces.",
+    "factEs": "Elegir billetes digitales, tarjetas de embarque y recibos en lugar de papel ahorra aproximadamente 10.000 millones de recibos de papel al año solo en EE. UU., suficiente para rodear la Tierra 15 veces.",
     "factJa": "紙の代わりにデジタルチケット・搭乗券・レシートを選ぶことで、米国だけで年間推定100億枚の紙レシートを節約できます。これは地球を15周するのに十分な量です。",
     "sourceEn": "Green America / EPA",
     "sourceEs": "Green America / EPA",
@@ -6606,7 +6611,7 @@
     "nameEs": "Entradas digitales",
     "nameJa": "デジタル切符",
     "keyFigureEn": "10 billion",
-    "keyFigureEs": "10 mil millones",
+    "keyFigureEs": "10.000 millones",
     "keyFigureJa": "100億"
   },
   {
@@ -6885,7 +6890,7 @@
     "dayOfYear": 338,
     "category": "positiveNews",
     "factEn": "Global investment in nature-based solutions reached $200 billion per year as of 2022, up from $154 billion in 2021. But harmful subsidies still outpace nature-positive spending by roughly 35 to 1, showing how much further finance must shift.",
-    "factEs": "La inversión global en soluciones basadas en la naturaleza alcanzó los $200 mil millones anuales en 2022, frente a los $154 mil millones en 2021. Pero los subsidios perjudiciales aún superan el gasto positivo para la naturaleza en una proporción de aproximadamente 35 a 1, mostrando cuánto más debe cambiar el financiamiento.",
+    "factEs": "La inversión global en soluciones basadas en la naturaleza alcanzó los $200.000 millones anuales en 2022, frente a los $154.000 millones en 2021. Pero los subsidios perjudiciales aún superan el gasto positivo para la naturaleza en una proporción de aproximadamente 35 a 1, mostrando cuánto más debe cambiar el financiamiento.",
     "factJa": "自然を基盤とした解決策への世界投資額は2022年時点で年間2,000億ドルに達し、2021年の1,540億ドルから増加しました。しかし、有害な補助金は自然に配慮した支出を約35対1で上回っており、金融がどれほどシフトする必要があるかを示しています。",
     "sourceEn": "UNEP State of Finance for Nature 2023",
     "sourceEs": "UNEP State of Finance for Nature 2023",
@@ -6900,7 +6905,7 @@
     "nameEs": "Invertir en naturaleza",
     "nameJa": "自然に投資する",
     "keyFigureEn": "$200 billion",
-    "keyFigureEs": "$200 mil millones",
+    "keyFigureEs": "$200.000 millones",
     "keyFigureJa": "2,000億ドル"
   },
   {
@@ -7170,7 +7175,7 @@
     "dayOfYear": 352,
     "category": "individual",
     "factEn": "Regifting is not rude -- it is resourceful. An estimated 4 billion gifts are returned or thrown away annually worldwide. Passing along an unwanted gift keeps it in use and out of landfill.",
-    "factEs": "Reregalar no es de mala educación, sino ingenioso. Se estima que 4 mil millones de regalos son devueltos o desechados anualmente en todo el mundo. Pasar un regalo no deseado a alguien más lo mantiene en uso y fuera del vertedero.",
+    "factEs": "Reregalar no es de mala educación, sino ingenioso. Se estima que 4.000 millones de regalos son devueltos o desechados anualmente en todo el mundo. Pasar un regalo no deseado a alguien más lo mantiene en uso y fuera del vertedero.",
     "factJa": "プレゼントの再贈呈は失礼ではなく、機知に富んだ行動です。世界中で毎年推定40億個のギフトが返品または廃棄されています。不要なギフトを引き継ぐことで、使用を続け埋立地行きを防げます。",
     "sourceEn": "Optoro / National Retail Federation",
     "sourceEs": "Optoro / National Retail Federation",
@@ -7184,7 +7189,7 @@
     "nameEs": "Regalar de nuevo",
     "nameJa": "おさがりを活用",
     "keyFigureEn": "4 billion",
-    "keyFigureEs": "4 mil millones",
+    "keyFigureEs": "4.000 millones",
     "keyFigureJa": "40億"
   },
   {
@@ -7332,7 +7337,7 @@
     "dayOfYear": 360,
     "category": "natureWonder",
     "factEn": "The Great Barrier Reef is so large it can be seen from space. It is home to 1,500 species of fish, 400 types of coral, and generates A$6.4 billion per year for Australia's economy.",
-    "factEs": "La Gran Barrera de Coral es tan grande que puede verse desde el espacio. Alberga 1.500 especies de peces, 400 tipos de coral y genera A$6,4 mil millones al año para la economía de Australia.",
+    "factEs": "La Gran Barrera de Coral es tan grande que puede verse desde el espacio. Alberga 1.500 especies de peces, 400 tipos de coral y genera A$6.400 millones al año para la economía de Australia.",
     "factJa": "グレートバリアリーフは宇宙からも見えるほど巨大です。1,500種の魚、400種のサンゴが生息し、オーストラリア経済に年間64億オーストラリアドルをもたらしています。",
     "sourceEn": "Great Barrier Reef Foundation / Deloitte Access Economics",
     "sourceEs": "Great Barrier Reef Foundation / Deloitte Access Economics",
