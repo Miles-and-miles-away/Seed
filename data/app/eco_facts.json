@@ -906,9 +906,9 @@
   {
     "dayOfYear": 45,
     "category": "natureWonder",
-    "factEn": "The ocean is the largest livable space on our planet, and more than 90% of it is deep ocean, yet as of April 2026 only 28.7% of the global seafloor had been mapped with modern high-resolution sonar. Scientists estimate the ocean holds 700,000 to 1 million species, roughly two-thirds of them still undiscovered.",
-    "factEs": "El océano es el mayor espacio habitable de nuestro planeta, y más del 90% es océano profundo, pero, en abril de 2026, solo el 28,7% del fondo marino mundial se había cartografiado con sonar moderno de alta resolución. Los científicos estiman que el océano alberga entre 700.000 y 1 millón de especies, de las que aproximadamente dos tercios siguen sin descubrirse.",
-    "factJa": "海洋は地球上で最大の生存可能な空間で、その90%以上は深海ですが、2026年4月時点で、現代の高解像度ソナーでマッピングされた世界の海底は全体の28.7%に過ぎません。科学者たちは海洋に70万〜100万種が生息し、そのおよそ3分の2がまだ未発見だと推定しています。",
+    "factEn": "The ocean is the largest livable space on our planet, and more than 90% of it is deep ocean, yet as of April 2026 only 28.7% of the global seafloor had been mapped with modern high-resolution sonar. A map cannot identify life, and almost 2,000 new ocean species are accepted by science each year.",
+    "factEs": "El océano es el mayor espacio habitable de nuestro planeta, y más del 90% es océano profundo, pero, en abril de 2026, solo el 28,7% del fondo marino mundial se había cartografiado con sonar moderno de alta resolución. Un mapa no puede identificar la vida, y cada año la ciencia acepta casi 2.000 nuevas especies marinas.",
+    "factJa": "海洋は地球上で最大の生存可能な空間で、その90%以上は深海ですが、2026年4月時点で、現代の高解像度ソナーでマッピングされた世界の海底は全体の28.7%に過ぎません。地図だけでは生物を特定できず、海洋では今も毎年2,000種近い新種が科学的に認められています。",
     "sourceEn": "NOAA Ocean Exploration",
     "sourceEs": "NOAA Ocean Exploration",
     "sourceJa": "NOAA Ocean Exploration",
@@ -2135,9 +2135,9 @@
   {
     "dayOfYear": 105,
     "category": "positiveNews",
-    "factEn": "Electric car sales exceeded 20 million worldwide in 2025, meaning one-quarter of all new cars sold were electric. Europe's share reached 28% and China's nearly 55%, and more than 100 countries recorded growth in electric car sales.",
-    "factEs": "Las ventas de coches eléctricos superaron los 20 millones en todo el mundo en 2025, lo que significa que una cuarta parte de todos los coches nuevos vendidos fueron eléctricos. La cuota alcanzó el 28% en Europa y casi el 55% en China, y más de 100 países registraron un aumento de las ventas de coches eléctricos.",
-    "factJa": "2025年の電気自動車（EV）の世界販売台数は2,000万台を超え、新車販売の4分の1が電気自動車になりました。欧州ではシェアが28%、中国では55%近くに達し、100か国以上で電気自動車の販売が伸びました。",
+    "factEn": "Electric car sales grew by 20% worldwide in 2025, and more than 100 countries recorded growth. Europe saw the strongest rise among the major markets, with electric cars reaching 28% of new car sales after the EU tightened its CO2 standards.",
+    "factEs": "Las ventas de coches eléctricos crecieron un 20% en todo el mundo en 2025, y más de 100 países registraron un aumento. Europa vivió la mayor subida entre los grandes mercados: los coches eléctricos alcanzaron el 28% de las ventas de coches nuevos tras el endurecimiento de las normas de CO2 de la UE.",
+    "factJa": "2025年の電気自動車（EV）の世界販売台数は20%増え、100か国以上で販売が伸びました。主要市場の中では欧州の伸びが最も大きく、EUがCO2規制を強化したことを受けて、電気自動車が新車販売の28%に達しました。",
     "sourceEn": "International Energy Agency, Global EV Outlook 2026",
     "sourceEs": "International Energy Agency, Global EV Outlook 2026",
     "sourceJa": "International Energy Agency, Global EV Outlook 2026",
@@ -2151,9 +2151,9 @@
     "nameEn": "Electric Cars Take Off",
     "nameEs": "El auge eléctrico",
     "nameJa": "EVが世界で急増",
-    "keyFigureEn": "20 million",
-    "keyFigureEs": "20 millones",
-    "keyFigureJa": "2,000万"
+    "keyFigureEn": "20%",
+    "keyFigureEs": "20%",
+    "keyFigureJa": "20%"
   },
   {
     "dayOfYear": 106,
