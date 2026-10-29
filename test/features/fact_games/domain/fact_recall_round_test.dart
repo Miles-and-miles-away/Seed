@@ -25,8 +25,11 @@ FactRecallRound _deal(
   avoidIds: avoidIds,
 );
 
-List<(GameFact, GameFact)> _decoyPairs(List<EcoFact> facts) {
-  final resolved = ecoGameFacts(facts, 'en');
+List<(String, String)> _decoyPairs(
+  List<EcoFact> facts, {
+  String locale = 'en',
+}) {
+  final resolved = ecoGameFacts(facts, locale);
   return decoyPairs(resolved.first, resolved, _blank);
 }
 
@@ -44,8 +47,8 @@ EcoFact _factWithText(int day, String figure, String text) => EcoFact(
   keyFigureEs: figure,
 );
 
-Set<String> _decoyIds(List<(GameFact, GameFact)> pairs) => {
-  for (final (a, b) in pairs) ...[a.id, b.id],
+Set<String> _decoyFigures(List<(String, String)> pairs) => {
+  for (final (a, b) in pairs) ...[a, b],
 };
 
 void main() {
@@ -138,28 +141,83 @@ void main() {
         playableFact(5, figure: '3 tonnes'),
       ];
       final pairs = _decoyPairs(facts);
-      expect(_decoyIds(pairs), {'fact:2', 'fact:3'});
+      expect(_decoyFigures(pairs), {'7 kg', '9 kg'});
     });
 
+    test('then its own numbers scaled, keeping its shape', () {
+      final facts = [
+        playableFact(1, figure: '10-20 years'),
+        playableFact(2, figure: '5 years'),
+        playableFact(3, figure: '8 years'),
+      ];
+      expect(_decoyPairs(facts).toSet(), {
+        ('5-10 years', '20-40 years'),
+        ('20-40 years', '40-80 years'),
+      });
+    });
+
+    test('scaled decoys put the answer low, middle or high', () {
+      final facts = [playableFact(1, figure: '40 kg')];
+      expect(_decoyPairs(facts), [
+        ('10 kg', '20 kg'),
+        ('20 kg', '80 kg'),
+        ('80 kg', '160 kg'),
+      ]);
+    });
+
+    test('scaled decoys keep the locale number style and sensible '
+        'precision', () {
+      final facts = [
+        playableFact(1, figure: '4.2 times', figureEs: '4,2 veces'),
+        playableFact(2, figure: '1,500 tonnes', figureEs: '1.500 toneladas'),
+      ];
+      expect(_decoyPairs(facts, locale: 'es'), [
+        ('1,1 veces', '2,1 veces'),
+        ('2,1 veces', '8,4 veces'),
+        ('8,4 veces', '17 veces'),
+      ]);
+      expect(_decoyPairs(facts.reversed.toList(), locale: 'es'), [
+        ('380 toneladas', '750 toneladas'),
+        ('750 toneladas', '3.000 toneladas'),
+        ('3.000 toneladas', '6.000 toneladas'),
+      ]);
+    });
+
+    test('a lone 1 is never scaled, nor scaled to 1, and cents stay', () {
+      expect(_decoyPairs([playableFact(1, figure: '1 million')]), isEmpty);
+      expect(_decoyPairs([playableFact(1, figure: '2 years')]), [
+        ('4 years', '8 years'),
+      ]);
+      expect(_decoyPairs([playableFact(1, figure: r'$4.30')]), [
+        (r'$1.10', r'$2.10'),
+        (r'$2.10', r'$8.60'),
+        (r'$8.60', r'$17.00'),
+      ]);
+    });
+
+    test('a share never passes 100% when scaled', () {
+      final facts = [playableFact(1, figure: '60%')];
+      expect(_decoyPairs(facts), [('15%', '30%')]);
+    });
+
+    // A Japanese scale compound is never scaled, so the real tiers below
+    // are what it gets.
     test('then the unit key, never a pair sharing a shape the answer '
         'lacks', () {
       final facts = [
-        playableFact(1, figure: '5 kg'),
+        playableFact(1, figure: '5 kg', figureJa: '5万 kg'),
         playableFact(2, figure: '7 kg'),
         playableFact(3, figure: '1-2 kg'),
         playableFact(4, figure: '3-4 kg'),
         playableFact(5, figure: '3 tonnes'),
       ];
-      final pairs = _decoyPairs(facts);
-      expect(
-        {for (final (a, b) in pairs) (a.id, b.id)},
-        {('fact:2', 'fact:3'), ('fact:2', 'fact:4')},
-      );
+      final pairs = _decoyPairs(facts, locale: 'ja');
+      expect(pairs.toSet(), {('7 kg', '1-2 kg'), ('7 kg', '3-4 kg')});
     });
 
     test('then the family, never outside it', () {
       final facts = [
-        playableFact(1, figure: '5 kg'),
+        playableFact(1, figure: '5 kg', figureJa: '5万 kg'),
         playableFact(2, figure: '7 kg'),
         playableFact(3, figure: '3 tonnes'),
         playableFact(4, figure: '4 tonnes'),
@@ -168,23 +226,17 @@ void main() {
         playableFact(7, figure: '6 litres'),
         playableFact(8, figure: '8 hours'),
       ];
-      final pairs = _decoyPairs(facts);
-      expect(
-        {for (final (a, b) in pairs) (a.id, b.id)},
-        {
-          ('fact:2', 'fact:3'),
-          ('fact:2', 'fact:4'),
-          ('fact:2', 'fact:5'),
-          ('fact:3', 'fact:5'),
-          ('fact:4', 'fact:5'),
-        },
-      );
+      final pairs = _decoyPairs(facts, locale: 'ja');
+      expect(pairs.toSet(), {
+        ('7 kg', '3 tonnes'),
+        ('7 kg', '4 tonnes'),
+        ('7 kg', '2 g'),
+        ('3 tonnes', '2 g'),
+        ('4 tonnes', '2 g'),
+      });
       for (final (a, b) in pairs) {
         for (final decoy in [a, b]) {
-          expect(
-            figureFamilies[figureUnitKey(decoy.figureEn)],
-            figureFamilies['kg'],
-          );
+          expect(figureFamilies[figureUnitKey(decoy)], figureFamilies['kg']);
         }
       }
     });
@@ -197,7 +249,7 @@ void main() {
         playableFact(9, figure: '30%'),
       ];
       final pairs = _decoyPairs(facts);
-      expect(_decoyIds(pairs), {'fact:2', 'fact:8', 'fact:9'});
+      expect(_decoyFigures(pairs), {'90%', '40%', '30%'});
       expect(pairs, hasLength(3));
     });
 
@@ -211,16 +263,16 @@ void main() {
       ];
       final pairs = _decoyPairs(facts);
       // 5% sits only inside 85%, so it is still a fair decoy.
-      expect(_decoyIds(pairs), {'fact:3', 'fact:4', 'fact:5'});
+      expect(_decoyFigures(pairs), {'5%', '30%', '40%'});
     });
 
     test('is empty when no pair is valid', () {
       final facts = [
-        playableFact(1, figure: '5 kg'),
+        playableFact(1, figure: '5 kg', figureJa: '5万 kg'),
         playableFact(2, figure: '7 kg'),
         playableFact(3, figure: '9%'),
       ];
-      expect(_decoyPairs(facts), isEmpty);
+      expect(_decoyPairs(facts, locale: 'ja'), isEmpty);
     });
   });
 

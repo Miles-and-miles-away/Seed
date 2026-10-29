@@ -90,9 +90,11 @@ of the text. A fact without one still unlocks and reads as usual.
   other figures of its unit are written in that language.
 - Every figure has two valid Fact recall decoys in each language:
   other facts' figures in its unit or unit family (mass, volume, time,
-  length, temperature, count, species, money, percent, times), not
-  already in its blanked text as a whole number, and not two that share
-  a format the answer lacks. A unit outside the families (`MW`, `km/h`,
+  length, temperature, count, species, money, percent, times), or the
+  figure's own numbers scaled when no other figure shares its format,
+  not already in its blanked text as a whole number, and not two that
+  share a format the answer lacks. A Japanese scale compound
+  (`1億3,200万`) and a lone `1` are never scaled. A unit outside the families (`MW`, `km/h`,
   `volts`) or one with no partner leaves the figure unaskable; drop it
   (or, when a new unit is right, add it to a family in
   `figure_text.dart` on purpose).

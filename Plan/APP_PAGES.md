@@ -688,12 +688,15 @@ question blanks a fact's key figure and offers three figures.
 - Pool and lock: the same as Fact pairs (shared provider and locked
   view). A round asks up to 5 facts with distinct figures; "Play again"
   asks facts the last round left out first.
-- Decoys: two other facts' real key figures, never invented numbers,
-  drawn from every playable fact (locked ones too; a decoy is a bare
-  number with no title). A decoy is never a figure the blanked text
-  already states as a whole number, and is always in the answer's unit
-  or its family (mass, time, money and so on), preferring the answer's
-  exact format; the answer is never the only one written differently.
+- Decoys: two other facts' real key figures in the answer's exact
+  format where there are any, drawn from every playable fact (locked
+  ones too; a decoy is a bare number with no title). Otherwise the
+  answer's own numbers scaled (a quarter, half, double, four times,
+  rounded to two significant figures), so a range gets ranges; the
+  answer then sits low, middle or high. Otherwise real figures in the
+  answer's unit or its family (mass, time, money and so on). A decoy is
+  never a figure the blanked text already states as a whole number,
+  and the answer is never the only one written differently.
 - Layout: the rule line, a wrapping status row (question N of 5,
   score), the question card (title, then the text with a blank; after
   an answer the full text with the figure in bold primary) and the

@@ -16,6 +16,7 @@ class GameFact {
     required this.text,
     required this.figure,
     required this.figureEn,
+    required this.locale,
   });
 
   /// Unique across kinds, such as `fact:12`; two cards pair on it.
@@ -30,6 +31,9 @@ class GameFact {
   /// The figure in English: the canonical value key, since JA and ES can
   /// write one value two ways.
   final String figureEn;
+
+  /// The language [title], [text] and [figure] are written in.
+  final String locale;
 }
 
 /// The playable eco-facts of [facts] in [locale].
@@ -43,5 +47,6 @@ List<GameFact> ecoGameFacts(Iterable<EcoFact> facts, String locale) => [
         text: fact.fact(locale),
         figure: fact.keyFigure(locale)!,
         figureEn: fact.keyFigureEn,
+        locale: locale,
       ),
 ];

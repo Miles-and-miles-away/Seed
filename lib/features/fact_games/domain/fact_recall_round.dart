@@ -37,57 +37,66 @@ class RecallQuestion {
   String get answer => options[answerIndex];
 }
 
-/// Valid decoy pairs for [fact] among [candidates], resolved in the same
-/// locale: the pairs of the first tier that has any. Empty means the fact
-/// cannot be asked, which the data rule forbids.
+/// Valid decoy figures for [fact] among [candidates], resolved in the
+/// same locale: the pairs of the first tier that has any. Empty means the
+/// fact cannot be asked, which the data rule forbids.
 ///
 /// Candidates are other facts' figures, one per value (the first in
-/// [candidates] order), in the answer's
-/// unit or family and not already in the blanked text. Tiers prefer the
-/// answer's shape, then its unit; no pair shares a shape the answer
-/// lacks, so the answer is never the odd one out by format alone.
-List<(GameFact, GameFact)> decoyPairs(
+/// [candidates] order), in the answer's unit or family and not already in
+/// the blanked text. Tiers prefer the answer's shape, then the answer's
+/// own numbers scaled, then its unit, then its family; no pair shares a
+/// shape the answer lacks, so the answer is never the odd one out by
+/// format alone.
+List<(String, String)> decoyPairs(
   GameFact fact,
   List<GameFact> candidates,
   String blank,
 ) {
   final answer = fact.figure;
   final blanked = fact.text.replaceAll(answer, blank);
+  bool fair(String figure) => wholeNumberMatches(figure, blanked).isEmpty;
   final byValue = <String, GameFact>{};
   for (final candidate in candidates) {
-    if (candidate.figureEn == fact.figureEn) continue;
-    if (wholeNumberMatches(candidate.figure, blanked).isNotEmpty) continue;
+    if (candidate.figureEn == fact.figureEn || !fair(candidate.figure)) {
+      continue;
+    }
     byValue.putIfAbsent(candidate.figureEn, () => candidate);
   }
 
   final key = figureUnitKey(fact.figureEn);
   final family = figureFamilies[key];
   final shape = figureShape(answer);
-  String shapeOf(GameFact f) => figureShape(f.figure);
   final related = [
     for (final candidate in byValue.values)
       if (figureUnitKey(candidate.figureEn) case final k
           when k == key || (family != null && figureFamilies[k] == family))
         candidate,
   ];
+  List<(String, String)> pairsOf(List<GameFact> tier) => [
+    for (var i = 0; i < tier.length; i++)
+      for (var j = i + 1; j < tier.length; j++)
+        if (figureShape(tier[i].figure) case final a
+            when a != figureShape(tier[j].figure) || a == shape)
+          (tier[i].figure, tier[j].figure),
+  ];
+  final sameShape = pairsOf([
+    for (final c in related)
+      if (figureShape(c.figure) == shape) c,
+  ]);
+  if (sameShape.isNotEmpty) return sameShape;
+  final scaled = [
+    for (final (a, b) in scaledDecoyPairs(answer, fact.locale, key))
+      if (fair(a) && fair(b)) (a, b),
+  ];
+  if (scaled.isNotEmpty) return scaled;
   for (final tier in [
-    [
-      for (final c in related)
-        if (shapeOf(c) == shape) c,
-    ],
     [
       for (final c in related)
         if (figureUnitKey(c.figureEn) == key) c,
     ],
     related,
   ]) {
-    final pairs = [
-      for (var i = 0; i < tier.length; i++)
-        for (var j = i + 1; j < tier.length; j++)
-          if (shapeOf(tier[i]) case final a
-              when a != shapeOf(tier[j]) || a == shape)
-            (tier[i], tier[j]),
-    ];
+    final pairs = pairsOf(tier);
     if (pairs.isNotEmpty) return pairs;
   }
   return const [];
@@ -127,7 +136,7 @@ class FactRecallRound {
       figures.add(fact.figureEn);
       final (a, b) = pairs[random.nextInt(pairs.length)];
       final answer = fact.figure;
-      final options = [answer, a.figure, b.figure]..shuffle(random);
+      final options = [answer, a, b]..shuffle(random);
       final text = fact.text;
       questions.add(
         RecallQuestion(

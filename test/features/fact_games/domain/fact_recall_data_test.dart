@@ -42,10 +42,10 @@ void main() {
       for (final locale in _locales)
         for (final fact in playable[locale]!)
           for (final (a, b) in decoyPairs(fact, playable[locale]!, _blank))
-            if (figureShape(a.figure) case final shape
-                when shape == figureShape(b.figure) &&
+            if (figureShape(a) case final shape
+                when shape == figureShape(b) &&
                     shape != figureShape(fact.figure))
-              '${fact.id} $locale: ${a.id}, ${b.id}',
+              '${fact.id} $locale: $a, $b',
     ];
     expect(oddOnesOut, isEmpty);
   });
@@ -55,9 +55,25 @@ void main() {
       for (final locale in _locales)
         for (final fact in playable[locale]!)
           for (final (a, b) in decoyPairs(fact, playable[locale]!, _blank))
-            if ({fact.figure, a.figure, b.figure}.length < 3)
-              '${fact.id} $locale: ${a.id}, ${b.id}',
+            if ({fact.figure, a, b}.length < 3) '${fact.id} $locale: $a, $b',
     ];
     expect(clashes, isEmpty);
+  });
+
+  test('range answers get range decoys in each language', () {
+    for (final id in ['fact:125', 'fact:166', 'fact:343']) {
+      for (final locale in _locales) {
+        final fact = playable[locale]!.firstWhere((f) => f.id == id);
+        final pairs = decoyPairs(fact, playable[locale]!, _blank);
+        expect(pairs, isNotEmpty, reason: '$id $locale');
+        for (final (a, b) in pairs) {
+          expect(
+            [figureShape(a), figureShape(b)],
+            everyElement(figureShape(fact.figure)),
+            reason: '$id $locale: $a, $b',
+          );
+        }
+      }
+    }
   });
 }
